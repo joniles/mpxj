@@ -2,7 +2,7 @@
 
 **IMPORTANT**: this is the legacy .Net version of MPXJ. When MPXJ 14 is released
 this package will no longer be published. Please migrate your code to use the
-MPXJ.Net package instead.
+[MPXJ.Net package](https://www.nuget.org/packages/MPXJ.Net) instead.
 
 [MPXJ](http://mpxj.org) is a Java library which allows a variety of project
 file formats and databases to be read and written. This NuGet package uses

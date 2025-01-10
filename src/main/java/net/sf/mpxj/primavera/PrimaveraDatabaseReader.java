@@ -118,6 +118,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          if (m_readSharedData)
          {
             m_readSharedData = false;
+            processCurrencies();
             processLocations();
             processShifts();
             processUnitsOfMeasure();
@@ -126,10 +127,17 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
             processWorkContours();
             processNotebookTopics();
             processUdfDefinitions();
+            processProjectCodeDefinitions();
+            processResourceCodeDefinitions();
+            processRoleCodeDefinitions();
+            processResourceAssignmentCodeDefinitions();
             processActivityCodeDefinitions();
          }
 
          processActivityCodeAssignments();
+         processResourceCodeAssignments();
+         processRoleCodeAssignments();
+         processResourceAssignmentCodeAssignments();
          processUdfValues();
          processCalendars();
          processResources();
@@ -179,7 +187,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    public List<ProjectFile> readAll() throws MPXJException
    {
       Map<Integer, String> projects = listProjects();
-      List<ProjectFile> result = new ArrayList<>(projects.keySet().size());
+      List<ProjectFile> result = new ArrayList<>(projects.size());
       ProjectFileSharedData shared = new ProjectFileSharedData();
       m_readSharedData = true;
       for (Integer id : projects.keySet())
@@ -224,6 +232,9 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       List<Row> rows = getRows("select * from " + m_schema + "project where proj_id=?", m_projectID);
       m_reader.processProjectProperties(m_projectID, rows);
 
+      rows = getRows("select * from " + m_schema + "projpcat where proj_id=?", m_projectID);
+      m_reader.processProjectCodeAssignments(rows);
+
       //
       // Process PMDB-specific attributes
       //
@@ -247,11 +258,21 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    }
 
    /**
+    * Select the currencies from the database.
+    */
+   private void processCurrencies() throws SQLException
+   {
+      if (m_tableNames.contains("CURRTYPE"))
+      {
+         m_reader.processCurrencies(getRows("select * from " + m_schema + "currtype"));
+      }
+   }
+
+   /**
     * Select the locations from the database.
     */
    private void processLocations() throws SQLException
    {
-      // Locations are a relative new feature - check for the presence of the table
       if (m_tableNames.contains("LOCATION"))
       {
          m_reader.processLocations(getRows("select * from " + m_schema + "location"));
@@ -322,9 +343,64 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    private void processActivityCodeDefinitions() throws SQLException
    {
-      List<Row> types = getRows("select * from " + m_schema + "actvtype where actv_code_type_id in (select distinct actv_code_type_id from taskactv where proj_id=?)", m_projectID);
-      List<Row> typeValues = getRows("select * from " + m_schema + "actvcode where actv_code_id in (select distinct actv_code_id from taskactv where proj_id=?)", m_projectID);
-      m_reader.processActivityCodeDefinitions(types, typeValues);
+      if (m_tableNames.contains("ACTVTYPE") && m_tableNames.contains("ACTVCODE"))
+      {
+         List<Row> types = getRows("select * from " + m_schema + "actvtype where actv_code_type_id in (select distinct actv_code_type_id from taskactv where proj_id=?)", m_projectID);
+         List<Row> typeValues = getRows("select * from " + m_schema + "actvcode where actv_code_id in (select distinct actv_code_id from taskactv where proj_id=?)", m_projectID);
+         m_reader.processActivityCodeDefinitions(types, typeValues);
+      }
+   }
+
+   /**
+    * Process project code definitions.
+    */
+   private void processProjectCodeDefinitions() throws SQLException
+   {
+      if (m_tableNames.contains("PCATTYPE") && m_tableNames.contains("PCATVAL"))
+      {
+         List<Row> types = getRows("select * from " + m_schema + "pcattype where proj_catg_type_id in (select distinct proj_catg_type_id from projpcat where proj_id=?)", m_projectID);
+         List<Row> typeValues = getRows("select * from " + m_schema + "pcatval where proj_catg_id in (select distinct proj_catg_id from projpcat where proj_id=?)", m_projectID);
+         m_reader.processProjectCodeDefinitions(types, typeValues);
+      }
+   }
+
+   /**
+    * Process resource code definitions.
+    */
+   private void processResourceCodeDefinitions() throws SQLException
+   {
+      if (m_tableNames.contains("RCATTYPE") && m_tableNames.contains("RCATVAL"))
+      {
+         List<Row> types = getRows("select * from " + m_schema + "rcattype where rsrc_catg_type_id in (select distinct rsrc_catg_type_id from rsrcrcat where rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null))", m_projectID);
+         List<Row> typeValues = getRows("select * from " + m_schema + "rcatval where rsrc_catg_id in (select distinct rsrc_catg_id from rsrcrcat where rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null))", m_projectID);
+         m_reader.processResourceCodeDefinitions(types, typeValues);
+      }
+   }
+
+   /**
+    * Process role code definitions.
+    */
+   private void processRoleCodeDefinitions() throws SQLException
+   {
+      if (m_tableNames.contains("ROLECATTYPE") && m_tableNames.contains("ROLECATVAL"))
+      {
+         List<Row> types = getRows("select * from " + m_schema + "rolecattype where role_catg_type_id in (select distinct role_catg_type_id from rolercat where role_id in (select distinct role_id from " + m_schema + "rsrcrole where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null)))", m_projectID);
+         List<Row> typeValues = getRows("select * from " + m_schema + "rolecatval where role_catg_id in (select distinct role_catg_id from rolercat where role_id in (select distinct role_id from " + m_schema + "rsrcrole where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null)))", m_projectID);
+         m_reader.processRoleCodeDefinitions(types, typeValues);
+      }
+   }
+
+   /**
+    * Process resource assignment code definitions.
+    */
+   private void processResourceAssignmentCodeDefinitions() throws SQLException
+   {
+      if (m_tableNames.contains("ASGNMNTCATTYPE") && m_tableNames.contains("ASGNMNTCATVAL"))
+      {
+         List<Row> types = getRows("select * from " + m_schema + "asgnmntcattype where asgnmnt_catg_type_id in (select distinct asgnmnt_catg_type_id from asgnmntacat where proj_id=?)", m_projectID);
+         List<Row> typeValues = getRows("select * from " + m_schema + "asgnmntcatval where asgnmnt_catg_id in (select distinct asgnmnt_catg_id from asgnmntacat where proj_id=?)", m_projectID);
+         m_reader.processResourceAssignmentCodeDefinitions(types, typeValues);
+      }
    }
 
    /**
@@ -332,8 +408,47 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    private void processActivityCodeAssignments() throws SQLException
    {
-      List<Row> assignments = getRows("select * from " + m_schema + "taskactv where proj_id=?", m_projectID);
-      m_reader.processActivityCodeAssignments(assignments);
+      if (m_tableNames.contains("TASKACTV"))
+      {
+         List<Row> assignments = getRows("select * from " + m_schema + "taskactv where proj_id=?", m_projectID);
+         m_reader.processActivityCodeAssignments(assignments);
+      }
+   }
+
+   /**
+    * Process resource code assignments.
+    */
+   private void processResourceCodeAssignments() throws SQLException
+   {
+      if (m_tableNames.contains("RSRCRCAT"))
+      {
+         List<Row> assignments = getRows("select * from " + m_schema + "rsrcrcat where rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null)", m_projectID);
+         m_reader.processResourceCodeAssignments(assignments);
+      }
+   }
+
+   /**
+    * Process role code assignments.
+    */
+   private void processRoleCodeAssignments() throws SQLException
+   {
+      if (m_tableNames.contains("ROLERCAT"))
+      {
+         List<Row> assignments = getRows("select * from " + m_schema + "rolercat where role_id in (select distinct role_id from " + m_schema + "rsrcrole where delete_date is null and rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null))", m_projectID);
+         m_reader.processRoleCodeAssignments(assignments);
+      }
+   }
+
+   /**
+    * Process resource assignment code assignments.
+    */
+   private void processResourceAssignmentCodeAssignments() throws SQLException
+   {
+      if (m_tableNames.contains("ASGNMNTACAT"))
+      {
+         List<Row> assignments = getRows("select * from " + m_schema + "asgnmntacat where proj_id=?", m_projectID);
+         m_reader.processResourceAssignmentCodeAssignments(assignments);
+      }
    }
 
    /**
@@ -399,7 +514,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private void processRoles() throws SQLException
    {
       // TODO: handle exporting parent roles
-      List<Row> rows = getRows("select * from " + m_schema + "roles where delete_date is null and role_id in (select role_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by seq_num", m_projectID);
+      List<Row> rows = getRows("select * from " + m_schema + "roles where delete_date is null and role_id in (select distinct role_id from " + m_schema + "taskrsrc where proj_id=? and delete_date is null union select distinct role_id from " + m_schema + "rsrc where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc where proj_id=? and delete_date is null)) order by seq_num", m_projectID, m_projectID);
       m_reader.processRoles(rows);
    }
 
@@ -615,10 +730,10 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     * which takes a single parameter.
     *
     * @param sql query statement
-    * @param var bind variable value
+    * @param vars bind variable values
     * @return result set
     */
-   private List<Row> getRows(String sql, Integer var) throws SQLException
+   private List<Row> getRows(String sql, Integer... vars) throws SQLException
    {
       allocateConnection();
 
@@ -626,7 +741,11 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
       try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
-         ps.setInt(1, NumberHelper.getInt(var));
+         for (int loop = 0; loop < vars.length; loop++)
+         {
+            ps.setInt(loop + 1, NumberHelper.getInt(vars[loop]));
+         }
+
          try (ResultSet rs = ps.executeQuery())
          {
             Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);

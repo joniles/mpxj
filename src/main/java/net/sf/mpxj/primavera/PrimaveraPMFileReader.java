@@ -47,7 +47,21 @@ import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.BaselineStrategy;
+import net.sf.mpxj.Currency;
+import net.sf.mpxj.CurrencyContainer;
+import net.sf.mpxj.ProjectCode;
+import net.sf.mpxj.ProjectCodeContainer;
+import net.sf.mpxj.ProjectCodeValue;
 import net.sf.mpxj.ProjectFileSharedData;
+import net.sf.mpxj.ResourceAssignmentCode;
+import net.sf.mpxj.ResourceAssignmentCodeContainer;
+import net.sf.mpxj.ResourceAssignmentCodeValue;
+import net.sf.mpxj.ResourceCode;
+import net.sf.mpxj.ResourceCodeContainer;
+import net.sf.mpxj.ResourceCodeValue;
+import net.sf.mpxj.RoleCode;
+import net.sf.mpxj.RoleCodeContainer;
+import net.sf.mpxj.RoleCodeValue;
 import net.sf.mpxj.Shift;
 import net.sf.mpxj.ShiftContainer;
 import net.sf.mpxj.ShiftPeriod;
@@ -68,8 +82,16 @@ import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.schema.ActivityStepType;
+import net.sf.mpxj.primavera.schema.ProjectCodeType;
+import net.sf.mpxj.primavera.schema.ProjectCodeTypeType;
 import net.sf.mpxj.primavera.schema.ProjectListType;
+import net.sf.mpxj.primavera.schema.ResourceAssignmentCodeType;
+import net.sf.mpxj.primavera.schema.ResourceAssignmentCodeTypeType;
+import net.sf.mpxj.primavera.schema.ResourceCodeType;
+import net.sf.mpxj.primavera.schema.ResourceCodeTypeType;
 import net.sf.mpxj.primavera.schema.ResourceRoleType;
+import net.sf.mpxj.primavera.schema.RoleCodeType;
+import net.sf.mpxj.primavera.schema.RoleCodeTypeType;
 import net.sf.mpxj.primavera.schema.ShiftPeriodType;
 import net.sf.mpxj.primavera.schema.ShiftType;
 import net.sf.mpxj.primavera.schema.UnitOfMeasureType;
@@ -475,6 +497,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          // Process common data
          if (readSharedData)
          {
+            processCurrencies(apibo);
             processLocations(apibo);
             processUnitsOfMeasure(apibo);
             processExpenseCategories(apibo);
@@ -483,6 +506,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             processNotebookTopics(apibo);
             processUdfDefintions(apibo);
             processActivityCodeDefinitions(apibo.getActivityCodeType(), apibo.getActivityCode());
+            processProjectCodeDefinitions(apibo);
+            processResourceCodeDefinitions(apibo);
+            processRoleCodeDefinitions(apibo);
+            processResourceAssignmentCodeDefinitions(apibo);
             processShifts(apibo);
          }
 
@@ -504,6 +531,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          List<ResourceAssignmentType> assignments;
          List<ActivityExpenseType> activityExpenseType;
          List<ActivityStepType> steps;
+         List<CodeAssignmentType> codes;
 
          if (projectObject instanceof ProjectType)
          {
@@ -520,6 +548,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             relationships = project.getRelationship();
             assignments = project.getResourceAssignment();
             activityExpenseType = project.getActivityExpense();
+            codes = project.getCode();
          }
          else
          {
@@ -536,6 +565,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             relationships = project.getRelationship();
             assignments = project.getResourceAssignment();
             activityExpenseType = project.getActivityExpense();
+            codes = project.getCode();
          }
 
          Map<Integer, Notes> wbsNotes = getWbsNotes(projectNotes);
@@ -544,6 +574,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          processGlobalProperties(apibo);
          processActivityCodeDefinitions(activityCodeTypes, activityCodes);
          configureProjectCalendars();
+         processProjectCodeAssignments(codes);
          processTasks(wbs, wbsNotes, activities, getActivityNotes(activityNotes));
          processPredecessors(relationships);
          processAssignments(assignments);
@@ -669,6 +700,103 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Process project code assignments.
+    *
+    * @param codes project code assignments
+    */
+   private void processProjectCodeAssignments(List<CodeAssignmentType> codes)
+   {
+      ProjectProperties props = m_projectFile.getProjectProperties();
+
+      for (CodeAssignmentType assignment : codes)
+      {
+         ProjectCode code = m_projectFile.getProjectCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
+         if (code == null)
+         {
+            continue;
+         }
+
+         ProjectCodeValue codeValue = code.getValueByUniqueID(Integer.valueOf(assignment.getValueObjectId()));
+         if (codeValue != null)
+         {
+            props.addProjectCodeValue(codeValue);
+         }
+      }
+   }
+
+   /**
+    * Process resource code assignments.
+    *
+    * @param resource parent resource
+    * @param codes resource code assignments
+    */
+   private void processResourceCodeAssignments(Resource resource, List<CodeAssignmentType> codes)
+   {
+      for (CodeAssignmentType assignment : codes)
+      {
+         ResourceCode code = m_projectFile.getResourceCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
+         if (code == null)
+         {
+            continue;
+         }
+
+         ResourceCodeValue codeValue = code.getValueByUniqueID(Integer.valueOf(assignment.getValueObjectId()));
+         if (codeValue != null)
+         {
+            resource.addResourceCodeValue(codeValue);
+         }
+      }
+   }
+
+   /**
+    * Process role code assignments.
+    *
+    * @param resource parent resource
+    * @param codes role code assignments
+    */
+   private void processRoleCodeAssignments(Resource resource, List<CodeAssignmentType> codes)
+   {
+      for (CodeAssignmentType assignment : codes)
+      {
+         RoleCode code = m_projectFile.getRoleCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
+         if (code == null)
+         {
+            continue;
+         }
+
+         RoleCodeValue codeValue = code.getValueByUniqueID(Integer.valueOf(assignment.getValueObjectId()));
+         if (codeValue != null)
+         {
+            resource.addRoleCodeValue(codeValue);
+         }
+      }
+   }
+
+   /**
+    * Process resource assignment code assignments.
+    *
+    * @param resourceAssignment parent resource assignment
+    * @param codes resource assignment code assignments
+    */
+   private void processResourceAssignmentCodeAssignments(ResourceAssignment resourceAssignment, List<CodeAssignmentType> codes)
+   {
+      for (CodeAssignmentType assignment : codes)
+      {
+         ResourceAssignmentCode code = m_projectFile.getResourceAssignmentCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
+         if (code == null)
+         {
+            continue;
+         }
+
+         ResourceAssignmentCodeValue codeValue = code.getValueByUniqueID(Integer.valueOf(assignment.getValueObjectId()));
+         if (codeValue != null)
+         {
+            resourceAssignment.addResourceAssignmentCodeValue(codeValue);
+         }
+      }
+   }
+
+   /**
     * Process project properties.
     *
     * @param project xml container
@@ -782,7 +910,175 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                .name(typeValue.getCodeValue())
                .description(typeValue.getDescription())
                .color(ColorHelper.parseHtmlColor(typeValue.getColor()))
-               .parent(code.getValueByUniqueID(typeValue.getParentObjectId()))
+               .parentValue(code.getValueByUniqueID(typeValue.getParentObjectId()))
+               .build();
+            code.addValue(value);
+         }
+      }
+   }
+
+   /**
+    * Process project code definitions.
+    *
+    * @param apibo top level object
+    */
+   private void processProjectCodeDefinitions(APIBusinessObjects apibo)
+   {
+      ProjectCodeContainer container = m_projectFile.getProjectCodes();
+      Map<Integer, ProjectCode> map = new HashMap<>();
+
+      for (ProjectCodeTypeType type : apibo.getProjectCodeType())
+      {
+         ProjectCode code = new ProjectCode.Builder(m_projectFile)
+            .uniqueID(type.getObjectId())
+            .sequenceNumber(type.getSequenceNumber())
+            .name(type.getName())
+            .secure(BooleanHelper.getBoolean(type.isIsSecureCode()))
+            .maxLength(type.getLength())
+            .build();
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      List<ProjectCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getProjectCode(), v -> v.getObjectId(), v -> v.getParentObjectId());
+      for (ProjectCodeType typeValue : typeValues)
+      {
+         ProjectCode code = map.get(typeValue.getCodeTypeObjectId());
+         if (code != null)
+         {
+            ProjectCodeValue value = new ProjectCodeValue.Builder(m_projectFile)
+               .projectCode(code)
+               .uniqueID(typeValue.getObjectId())
+               .sequenceNumber(typeValue.getSequenceNumber())
+               .name(typeValue.getCodeValue())
+               .description(typeValue.getDescription())
+               .parentValue(code.getValueByUniqueID(typeValue.getParentObjectId()))
+               .build();
+            code.addValue(value);
+         }
+      }
+   }
+
+   /**
+    * Process resource code definitions.
+    *
+    * @param apibo top level object
+    */
+   private void processResourceCodeDefinitions(APIBusinessObjects apibo)
+   {
+      ResourceCodeContainer container = m_projectFile.getResourceCodes();
+      Map<Integer, ResourceCode> map = new HashMap<>();
+
+      for (ResourceCodeTypeType type : apibo.getResourceCodeType())
+      {
+         ResourceCode code = new ResourceCode.Builder(m_projectFile)
+            .uniqueID(type.getObjectId())
+            .sequenceNumber(type.getSequenceNumber())
+            .name(type.getName())
+            .secure(BooleanHelper.getBoolean(type.isIsSecureCode()))
+            .maxLength(type.getLength())
+            .build();
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      List<ResourceCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getResourceCode(), v -> v.getObjectId(), v -> v.getParentObjectId());
+      for (ResourceCodeType typeValue : typeValues)
+      {
+         ResourceCode code = map.get(typeValue.getCodeTypeObjectId());
+         if (code != null)
+         {
+            ResourceCodeValue value = new ResourceCodeValue.Builder(m_projectFile)
+               .resourceCode(code)
+               .uniqueID(typeValue.getObjectId())
+               .sequenceNumber(typeValue.getSequenceNumber())
+               .name(typeValue.getCodeValue())
+               .description(typeValue.getDescription())
+               .parentValue(code.getValueByUniqueID(typeValue.getParentObjectId()))
+               .build();
+            code.addValue(value);
+         }
+      }
+   }
+
+   /**
+    * Process role code definitions.
+    *
+    * @param apibo top level object
+    */
+   private void processRoleCodeDefinitions(APIBusinessObjects apibo)
+   {
+      RoleCodeContainer container = m_projectFile.getRoleCodes();
+      Map<Integer, RoleCode> map = new HashMap<>();
+
+      for (RoleCodeTypeType type : apibo.getRoleCodeType())
+      {
+         RoleCode code = new RoleCode.Builder(m_projectFile)
+            .uniqueID(type.getObjectId())
+            .sequenceNumber(type.getSequenceNumber())
+            .name(type.getName())
+            .secure(BooleanHelper.getBoolean(type.isIsSecureCode()))
+            .maxLength(type.getLength())
+            .build();
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      List<RoleCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getRoleCode(), v -> v.getObjectId(), v -> v.getParentObjectId());
+      for (RoleCodeType typeValue : typeValues)
+      {
+         RoleCode code = map.get(typeValue.getCodeTypeObjectId());
+         if (code != null)
+         {
+            RoleCodeValue value = new RoleCodeValue.Builder(m_projectFile)
+               .roleCode(code)
+               .uniqueID(typeValue.getObjectId())
+               .sequenceNumber(typeValue.getSequenceNumber())
+               .name(typeValue.getCodeValue())
+               .description(typeValue.getDescription())
+               .parentValue(code.getValueByUniqueID(typeValue.getParentObjectId()))
+               .build();
+            code.addValue(value);
+         }
+      }
+   }
+
+   /**
+    * Process resource assignment code definitions.
+    *
+    * @param apibo top level object
+    */
+   private void processResourceAssignmentCodeDefinitions(APIBusinessObjects apibo)
+   {
+      ResourceAssignmentCodeContainer container = m_projectFile.getResourceAssignmentCodes();
+      Map<Integer, ResourceAssignmentCode> map = new HashMap<>();
+
+      for (ResourceAssignmentCodeTypeType type : apibo.getResourceAssignmentCodeType())
+      {
+         ResourceAssignmentCode code = new ResourceAssignmentCode.Builder(m_projectFile)
+            .uniqueID(type.getObjectId())
+            .sequenceNumber(type.getSequenceNumber())
+            .name(type.getName())
+            .secure(BooleanHelper.getBoolean(type.isIsSecureCode()))
+            .maxLength(type.getLength())
+            .build();
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      List<ResourceAssignmentCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getResourceAssignmentCode(), v -> v.getObjectId(), v -> v.getParentObjectId());
+      for (ResourceAssignmentCodeType typeValue : typeValues)
+      {
+         ResourceAssignmentCode code = map.get(typeValue.getCodeTypeObjectId());
+         if (code != null)
+         {
+            ResourceAssignmentCodeValue value = new ResourceAssignmentCodeValue.Builder(m_projectFile)
+               .resourceAssignmentCode(code)
+               .uniqueID(typeValue.getObjectId())
+               .sequenceNumber(typeValue.getSequenceNumber())
+               .name(typeValue.getCodeValue())
+               .description(typeValue.getDescription())
+               .parentValue(code.getValueByUniqueID(typeValue.getParentObjectId()))
                .build();
             code.addValue(value);
          }
@@ -812,6 +1108,30 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             .postalCode(c.getPostalCode())
             .latitude(c.getLatitude())
             .longitude(c.getLongitude())
+            .build()));
+   }
+
+   /**
+    * Process currencies.
+    *
+    * @param apibo top level object
+    */
+   private void processCurrencies(APIBusinessObjects apibo)
+   {
+      CurrencyContainer container = m_projectFile.getCurrencies();
+
+      apibo.getCurrency().forEach(c -> container.add(
+         new Currency.Builder(m_projectFile)
+            .uniqueID(c.getObjectId())
+            .currencyID(c.getId())
+            .name(c.getName())
+            .symbol(c.getSymbol())
+            .exchangeRate(c.getExchangeRate())
+            .decimalSymbol("Comma".equals(c.getDecimalSymbol()) ? "," : ".")
+            .numberOfDecimalPlaces(c.getDecimalPlaces())
+            .digitGroupingSymbol("Comma".equals(c.getDigitGroupingSymbol()) ? "," : ".")
+            .positiveCurrencyFormat(c.getPositiveSymbol())
+            .negativeCurrencyFormat(c.getNegativeSymbol())
             .build()));
    }
 
@@ -1201,6 +1521,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setUnitOfMeasureUniqueID(xml.getUnitOfMeasureObjectId());
          resource.setShiftUniqueID(xml.getShiftObjectId());
          resource.setPrimaryRoleUniqueID(xml.getPrimaryRoleObjectId());
+         resource.setCurrencyUniqueID(xml.getCurrencyObjectId());
+
+         processResourceCodeAssignments(resource, xml.getCode());
 
          populateUserDefinedFieldValues(resource, xml.getUDF());
 
@@ -1224,6 +1547,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setResourceID(role.getId());
          resource.setNotesObject(getHtmlNote(role.getResponsibilities()));
          resource.setSequenceNumber(role.getSequenceNumber());
+
+         processRoleCodeAssignments(resource, role.getCode());
       }
    }
 
@@ -1351,9 +1676,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       // Read Task entries and create tasks
       //
 
-      // If the schedule is using longest path to determine critical activities
+      // If the schedule is using longest path to determine critical activities,
       // we currently don't have enough information to correctly set this attribute.
-      // In this case we'll force the critical flag to false to avoid activities
+      // In this case we'll force the critical flag to false, which avoid activities
       // being incorrectly marked as critical.
       boolean forceCriticalToFalse = m_projectFile.getProjectProperties().getCriticalActivityType() == CriticalActivityType.LONGEST_PATH;
 
@@ -1463,8 +1788,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setFinish(row.getFinishDate());
 
          // Note that planned finish is handled in the code below
-         populateField(task, TaskField.START, TaskField.START, TaskField.ACTUAL_START, TaskField.REMAINING_EARLY_START, TaskField.PLANNED_START);
-         populateField(task, TaskField.FINISH, TaskField.FINISH, TaskField.ACTUAL_FINISH, TaskField.REMAINING_EARLY_FINISH);
+         populateField(task, TaskField.START, TaskField.START, TaskField.ACTUAL_START, TaskField.REMAINING_EARLY_START, TaskField.PLANNED_START, TaskField.EARLY_START);
+         populateField(task, TaskField.FINISH, TaskField.FINISH, TaskField.ACTUAL_FINISH, TaskField.REMAINING_EARLY_FINISH, TaskField.EARLY_FINISH);
 
          //
          // We've tried the finish and actual finish fields... but we still have null.
@@ -2033,6 +2358,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             assignment.setTimephasedPlannedWork(timephasedPlannedWork);
             assignment.setTimephasedActualWork(timephasedActualWork);
             assignment.setTimephasedWork(timephasedRemainingWork);
+
+            processResourceAssignmentCodeAssignments(assignment, row.getCode());
 
             m_eventManager.fireAssignmentReadEvent(assignment);
          }

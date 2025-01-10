@@ -2696,6 +2696,86 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
+    * Retrieve the resource code values associated with this resource.
+    *
+    * @return map of resource code values
+    */
+   @SuppressWarnings("unchecked") public Map<ResourceCode, ResourceCodeValue> getResourceCodeValues()
+   {
+      return (Map<ResourceCode, ResourceCodeValue>) get(ResourceField.RESOURCE_CODE_VALUES);
+   }
+
+   /**
+    * Assign a resource code value to this resource.
+    *
+    * @param value resource code value
+    */
+   @SuppressWarnings("unchecked") public void addResourceCodeValue(ResourceCodeValue value)
+   {
+      ((Map<ResourceCode, ResourceCodeValue>) get(ResourceField.RESOURCE_CODE_VALUES)).put(value.getParentCode(), value);
+   }
+
+   /**
+    * Retrieve the role code values associated with this resource.
+    *
+    * @return map of role code values
+    */
+   @SuppressWarnings("unchecked") public Map<RoleCode, RoleCodeValue> getRoleCodeValues()
+   {
+      return (Map<RoleCode, RoleCodeValue>) get(ResourceField.ROLE_CODE_VALUES);
+   }
+
+   /**
+    * Assign a role code value to this resource.
+    *
+    * @param value resoroleurce code value
+    */
+   @SuppressWarnings("unchecked") public void addRoleCodeValue(RoleCodeValue value)
+   {
+      ((Map<RoleCode, RoleCodeValue>) get(ResourceField.ROLE_CODE_VALUES)).put(value.getParentCode(), value);
+   }
+
+   /**
+    * Retrieves the unique ID of the currency associated with this resource.
+    *
+    * @return currency unique ID
+    */
+   public Integer getCurrencyUniqueID()
+   {
+      return (Integer) get(ResourceField.CURRENCY_UNIQUE_ID);
+   }
+
+   /**
+    * Sets the unique ID of the currency associated with this resource.
+    *
+    * @param uniqueID currency unique ID
+    */
+   public void setCurrencyUniqueID(Integer uniqueID)
+   {
+      set(ResourceField.CURRENCY_UNIQUE_ID, uniqueID);
+   }
+
+   /**
+    * Retrieve the currency associated with this resource.
+    *
+    * @return Currency instance
+    */
+   public Currency getCurrency()
+   {
+      return getParentFile().getCurrencies().getByUniqueID(getCurrencyUniqueID());
+   }
+
+   /**
+    * Sets the currency associated with this resource.
+    *
+    * @param currency Currency instance
+    */
+   public void setCurrency(Currency currency)
+   {
+      setCurrencyUniqueID(currency == null ? null : currency.getUniqueID());
+   }
+
+   /**
     * Maps a field index to a ResourceField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
@@ -2842,6 +2922,26 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    private Number defaultDefaultUnits()
    {
       return DEFAULT_DEFAULT_UNITS;
+   }
+
+   /**
+    * Supply a default value for the resource code values.
+    *
+    * @return default value for resource code values
+    */
+   private Map<ResourceCode, ResourceCodeValue> defaultResourceCodeValues()
+   {
+      return new HashMap<>();
+   }
+
+   /**
+    * Supply a default value for the role code values.
+    *
+    * @return default value for role code values
+    */
+   private Map<RoleCode, RoleCodeValue> defaultRoleCodeValues()
+   {
+      return new HashMap<>();
    }
 
    private Double calculateSV()
@@ -2998,6 +3098,8 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       CALCULATED_FIELD_MAP.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, Resource::defaultCalculateCostsFromUnits);
       CALCULATED_FIELD_MAP.put(ResourceField.ACTIVE, Resource::defaultActive);
       CALCULATED_FIELD_MAP.put(ResourceField.DEFAULT_UNITS, Resource::defaultDefaultUnits);
+      CALCULATED_FIELD_MAP.put(ResourceField.RESOURCE_CODE_VALUES, Resource::defaultResourceCodeValues);
+      CALCULATED_FIELD_MAP.put(ResourceField.ROLE_CODE_VALUES, Resource::defaultRoleCodeValues);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();

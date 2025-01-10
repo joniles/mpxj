@@ -49,11 +49,25 @@ import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostAccountContainer;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
+import net.sf.mpxj.Currency;
+import net.sf.mpxj.CurrencyContainer;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
 
+import net.sf.mpxj.ProjectCode;
+import net.sf.mpxj.ProjectCodeContainer;
+import net.sf.mpxj.ProjectCodeValue;
 import net.sf.mpxj.ProjectFileSharedData;
+import net.sf.mpxj.ResourceAssignmentCode;
+import net.sf.mpxj.ResourceAssignmentCodeContainer;
+import net.sf.mpxj.ResourceAssignmentCodeValue;
+import net.sf.mpxj.ResourceCode;
+import net.sf.mpxj.ResourceCodeContainer;
+import net.sf.mpxj.ResourceCodeValue;
+import net.sf.mpxj.RoleCode;
+import net.sf.mpxj.RoleCodeContainer;
+import net.sf.mpxj.RoleCodeValue;
 import net.sf.mpxj.SchedulingProgressedActivities;
 import net.sf.mpxj.Shift;
 import net.sf.mpxj.ShiftContainer;
@@ -232,6 +246,33 @@ final class PrimaveraReader
    }
 
    /**
+    * Process project code assignments.
+    *
+    * @param rows project code assignments
+    */
+   public void processProjectCodeAssignments(List<Row> rows)
+   {
+      ProjectProperties properties = m_project.getProjectProperties();
+
+      for (Row row : rows)
+      {
+         ProjectCode code = m_project.getProjectCodes().getByUniqueID(row.getInteger("proj_catg_type_id"));
+         if (code == null)
+         {
+            continue;
+         }
+
+         ProjectCodeValue value = code.getValueByUniqueID(row.getInteger("proj_catg_id"));
+         if (value == null)
+         {
+            continue;
+         }
+
+         properties.addProjectCodeValue(value);
+      }
+   }
+
+   /**
     * Process locations.
     *
     * @param locations locations data
@@ -256,6 +297,31 @@ final class PrimaveraReader
                .postalCode(row.getString("postal_code"))
                .latitude(row.getDouble("latitude"))
                .longitude(row.getDouble("longitude"))
+               .build()));
+   }
+
+   /**
+    * Process currencies.
+    *
+    * @param currencies currency data
+    */
+   public void processCurrencies(List<Row> currencies)
+   {
+      CurrencyContainer container = m_project.getCurrencies();
+      currencies.forEach(
+         row -> container.add(
+            new Currency.Builder(m_project)
+               .uniqueID(row.getInteger("curr_id"))
+               .numberOfDecimalPlaces(row.getInteger("decimal_digit_cnt"))
+               .symbol(row.getString("curr_symbol"))
+               .decimalSymbol(row.getString("decimal_symbol"))
+               .digitGroupingSymbol(row.getString("digit_group_symbol"))
+               .positiveCurrencyFormat(row.getString("pos_curr_fmt_type"))
+               .negativeCurrencyFormat(row.getString("neg_curr_fmt_type"))
+               .name(row.getString("curr_type"))
+               .currencyID(row.getString("curr_short_name"))
+               // group_digit_cnt
+               .exchangeRate(row.getDouble("base_exch_rate"))
                .build()));
    }
 
@@ -388,7 +454,175 @@ final class PrimaveraReader
                .name(row.getString("short_name"))
                .description(row.getString("actv_code_name"))
                .color(ColorHelper.parseHexColor(row.getString("color")))
-               .parent(code.getValueByUniqueID(row.getInteger("parent_actv_code_id")))
+               .parentValue(code.getValueByUniqueID(row.getInteger("parent_actv_code_id")))
+               .build();
+            code.addValue(value);
+         }
+      }
+   }
+
+   /**
+    * Read project code definitions.
+    *
+    * @param types project code type data
+    * @param typeValues project code value data
+    */
+   public void processProjectCodeDefinitions(List<Row> types, List<Row> typeValues)
+   {
+      ProjectCodeContainer container = m_project.getProjectCodes();
+      Map<Integer, ProjectCode> map = new HashMap<>();
+
+      for (Row row : types)
+      {
+         ProjectCode code = new ProjectCode.Builder(m_project)
+            .uniqueID(row.getInteger("proj_catg_type_id"))
+            .sequenceNumber(row.getInteger("seq_num"))
+            .name(row.getString("proj_catg_type"))
+            .maxLength(row.getInteger("proj_catg_short_len"))
+            .build();
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      typeValues = HierarchyHelper.sortHierarchy(typeValues, v -> v.getInteger("proj_catg_id"), v -> v.getInteger("parent_proj_catg_id"));
+      for (Row row : typeValues)
+      {
+         ProjectCode code = map.get(row.getInteger("proj_catg_type_id"));
+         if (code != null)
+         {
+            ProjectCodeValue value = new ProjectCodeValue.Builder(m_project)
+               .projectCode(code)
+               .uniqueID(row.getInteger("proj_catg_id"))
+               .sequenceNumber(row.getInteger("seq_num"))
+               .name(row.getString("proj_catg_short_name"))
+               .description(row.getString("proj_catg_name"))
+               .parentValue(code.getValueByUniqueID(row.getInteger("parent_proj_catg_id")))
+               .build();
+            code.addValue(value);
+         }
+      }
+   }
+
+   /**
+    * Read resource code definitions.
+    *
+    * @param types resource code type data
+    * @param typeValues resource code value data
+    */
+   public void processResourceCodeDefinitions(List<Row> types, List<Row> typeValues)
+   {
+      ResourceCodeContainer container = m_project.getResourceCodes();
+      Map<Integer, ResourceCode> map = new HashMap<>();
+
+      for (Row row : types)
+      {
+         ResourceCode code = new ResourceCode.Builder(m_project)
+            .uniqueID(row.getInteger("rsrc_catg_type_id"))
+            .sequenceNumber(row.getInteger("seq_num"))
+            .name(row.getString("rsrc_catg_type"))
+            .maxLength(row.getInteger("rsrc_catg_short_len"))
+            .build();
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      typeValues = HierarchyHelper.sortHierarchy(typeValues, v -> v.getInteger("rsrc_catg_id"), v -> v.getInteger("parent_rsrc_catg_id"));
+      for (Row row : typeValues)
+      {
+         ResourceCode code = map.get(row.getInteger("rsrc_catg_type_id"));
+         if (code != null)
+         {
+            ResourceCodeValue value = new ResourceCodeValue.Builder(m_project)
+               .resourceCode(code)
+               .uniqueID(row.getInteger("rsrc_catg_id"))
+               .sequenceNumber(row.getInteger("seq_num"))
+               .name(row.getString("rsrc_catg_short_name"))
+               .description(row.getString("rsrc_catg_name"))
+               .parentValue(code.getValueByUniqueID(row.getInteger("parent_rsrc_catg_id")))
+               .build();
+            code.addValue(value);
+         }
+      }
+   }
+
+   /**
+    * Read role code definitions.
+    *
+    * @param types role code type data
+    * @param typeValues role code value data
+    */
+   public void processRoleCodeDefinitions(List<Row> types, List<Row> typeValues)
+   {
+      RoleCodeContainer container = m_project.getRoleCodes();
+      Map<Integer, RoleCode> map = new HashMap<>();
+
+      for (Row row : types)
+      {
+         RoleCode code = new RoleCode.Builder(m_project)
+            .uniqueID(row.getInteger("role_catg_type_id"))
+            .sequenceNumber(row.getInteger("seq_num"))
+            .name(row.getString("role_catg_type"))
+            .maxLength(row.getInteger("role_catg_short_len"))
+            .build();
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      typeValues = HierarchyHelper.sortHierarchy(typeValues, v -> v.getInteger("role_catg_id"), v -> v.getInteger("parent_role_catg_id"));
+      for (Row row : typeValues)
+      {
+         RoleCode code = map.get(row.getInteger("role_catg_type_id"));
+         if (code != null)
+         {
+            RoleCodeValue value = new RoleCodeValue.Builder(m_project)
+               .roleCode(code)
+               .uniqueID(row.getInteger("role_catg_id"))
+               .sequenceNumber(row.getInteger("seq_num"))
+               .name(row.getString("role_catg_short_name"))
+               .description(row.getString("role_catg_name"))
+               .parentValue(code.getValueByUniqueID(row.getInteger("parent_role_catg_id")))
+               .build();
+            code.addValue(value);
+         }
+      }
+   }
+
+   /**
+    * Read resource assignment code definitions.
+    *
+    * @param types resource assignment code type data
+    * @param typeValues resource assignment code value data
+    */
+   public void processResourceAssignmentCodeDefinitions(List<Row> types, List<Row> typeValues)
+   {
+      ResourceAssignmentCodeContainer container = m_project.getResourceAssignmentCodes();
+      Map<Integer, ResourceAssignmentCode> map = new HashMap<>();
+
+      for (Row row : types)
+      {
+         ResourceAssignmentCode code = new ResourceAssignmentCode.Builder(m_project)
+            .uniqueID(row.getInteger("asgnmnt_catg_type_id"))
+            .sequenceNumber(row.getInteger("seq_num"))
+            .name(row.getString("asgnmnt_catg_type"))
+            .maxLength(row.getInteger("asgnmnt_catg_short_len"))
+            .build();
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      typeValues = HierarchyHelper.sortHierarchy(typeValues, v -> v.getInteger("asgnmnt_catg_id"), v -> v.getInteger("parent_asgnmnt_catg_id"));
+      for (Row row : typeValues)
+      {
+         ResourceAssignmentCode code = map.get(row.getInteger("asgnmnt_catg_type_id"));
+         if (code != null)
+         {
+            ResourceAssignmentCodeValue value = new ResourceAssignmentCodeValue.Builder(m_project)
+               .resourceAssignmentCode(code)
+               .uniqueID(row.getInteger("asgnmnt_catg_id"))
+               .sequenceNumber(row.getInteger("seq_num"))
+               .name(row.getString("asgnmnt_catg_short_name"))
+               .description(row.getString("asgnmnt_catg_name"))
+               .parentValue(code.getValueByUniqueID(row.getInteger("parent_asgnmnt_catg_id")))
                .build();
             code.addValue(value);
          }
@@ -406,6 +640,51 @@ final class PrimaveraReader
       {
          Integer taskID = row.getInteger("task_id");
          List<Row> list = m_activityCodeAssignments.computeIfAbsent(taskID, k -> new ArrayList<>());
+         list.add(row);
+      }
+   }
+
+   /**
+    * Process resource code assignments.
+    *
+    * @param assignments resource code assignments
+    */
+   public void processResourceCodeAssignments(List<Row> assignments)
+   {
+      for (Row row : assignments)
+      {
+         Integer resourceID = row.getInteger("rsrc_id");
+         List<Row> list = m_resourceCodeAssignments.computeIfAbsent(resourceID, k -> new ArrayList<>());
+         list.add(row);
+      }
+   }
+
+   /**
+    * Process role code assignments.
+    *
+    * @param assignments role code assignments
+    */
+   public void processRoleCodeAssignments(List<Row> assignments)
+   {
+      for (Row row : assignments)
+      {
+         Integer resourceID = row.getInteger("role_id");
+         List<Row> list = m_roleCodeAssignments.computeIfAbsent(resourceID, k -> new ArrayList<>());
+         list.add(row);
+      }
+   }
+
+   /**
+    * Process resource assignment code assignments.
+    *
+    * @param assignments resource assignment code assignments
+    */
+   public void processResourceAssignmentCodeAssignments(List<Row> assignments)
+   {
+      for (Row row : assignments)
+      {
+         Integer resourceAssignmentID = row.getInteger("taskrsrc_id");
+         List<Row> list = m_resourceAssignmentCodeAssignments.computeIfAbsent(resourceAssignmentID, k -> new ArrayList<>());
          list.add(row);
       }
    }
@@ -763,6 +1042,8 @@ final class PrimaveraReader
          defaultUnitsPerTime = defaultUnitsPerTime == null ? NumberHelper.DOUBLE_ZERO : Double.valueOf(defaultUnitsPerTime.doubleValue() * 100.0);
          resource.setDefaultUnits(defaultUnitsPerTime);
 
+         populateResourceCodeValues(resource);
+
          m_eventManager.fireResourceReadEvent(resource);
       }
    }
@@ -781,6 +1062,8 @@ final class PrimaveraReader
          resource.setRole(true);
          resource.setUniqueID(m_roleClashMap.addID(resource.getUniqueID()));
          resource.setNotesObject(getNotes(resource.getNotes()));
+
+         populateRoleCodeValues(resource);
       }
    }
 
@@ -1155,8 +1438,8 @@ final class PrimaveraReader
          ProjectCalendar cal = m_project.getCalendarByUniqueID(calId);
          task.setCalendar(cal);
 
-         populateField(task, TaskField.START, TaskField.ACTUAL_START, TaskField.REMAINING_EARLY_START, TaskField.PLANNED_START);
-         populateField(task, TaskField.FINISH, TaskField.ACTUAL_FINISH, TaskField.REMAINING_EARLY_FINISH, TaskField.PLANNED_FINISH);
+         populateField(task, TaskField.START, TaskField.ACTUAL_START, TaskField.REMAINING_EARLY_START, TaskField.PLANNED_START, TaskField.EARLY_START);
+         populateField(task, TaskField.FINISH, TaskField.ACTUAL_FINISH, TaskField.REMAINING_EARLY_FINISH, TaskField.PLANNED_FINISH, TaskField.EARLY_FINISH);
 
          // Calculate actual duration
          LocalDateTime actualStart = task.getActualStart();
@@ -1269,16 +1552,103 @@ final class PrimaveraReader
 
       for (Row row : list)
       {
-         ActivityCode activityCode = m_project.getActivityCodes().getByUniqueID(row.getInteger("actv_code_type_id"));
-         if (activityCode == null)
+         ActivityCode code = m_project.getActivityCodes().getByUniqueID(row.getInteger("actv_code_type_id"));
+         if (code == null)
          {
             continue;
          }
 
-         ActivityCodeValue value = activityCode.getValueByUniqueID(row.getInteger("actv_code_id"));
+         ActivityCodeValue value = code.getValueByUniqueID(row.getInteger("actv_code_id"));
          if (value != null)
          {
             task.addActivityCodeValue(value);
+         }
+      }
+   }
+
+   /**
+    * Read details of any resource codes assigned to this resource.
+    *
+    * @param resource parent resource
+    */
+   private void populateResourceCodeValues(Resource resource)
+   {
+      List<Row> list = m_resourceCodeAssignments.get(resource.getUniqueID());
+      if (list == null)
+      {
+         return;
+      }
+
+      for (Row row : list)
+      {
+         ResourceCode code = m_project.getResourceCodes().getByUniqueID(row.getInteger("rsrc_catg_type_id"));
+         if (code == null)
+         {
+            continue;
+         }
+
+         ResourceCodeValue value = code.getValueByUniqueID(row.getInteger("rsrc_catg_id"));
+         if (value != null)
+         {
+            resource.addResourceCodeValue(value);
+         }
+      }
+   }
+
+   /**
+    * Read details of any role codes assigned to this role.
+    *
+    * @param role parent role
+    */
+   private void populateRoleCodeValues(Resource role)
+   {
+      List<Row> list = m_roleCodeAssignments.get(role.getUniqueID());
+      if (list == null)
+      {
+         return;
+      }
+
+      for (Row row : list)
+      {
+         RoleCode code = m_project.getRoleCodes().getByUniqueID(row.getInteger("role_catg_type_id"));
+         if (code == null)
+         {
+            continue;
+         }
+
+         RoleCodeValue value = code.getValueByUniqueID(row.getInteger("role_catg_id"));
+         if (value != null)
+         {
+            role.addRoleCodeValue(value);
+         }
+      }
+   }
+
+   /**
+    * Read details of any resource assignment codes assigned to this resource assignment.
+    *
+    * @param resourceAssignment parent resource assignment
+    */
+   private void populateResourceAssignmentCodeValues(ResourceAssignment resourceAssignment)
+   {
+      List<Row> list = m_resourceAssignmentCodeAssignments.get(resourceAssignment.getUniqueID());
+      if (list == null)
+      {
+         return;
+      }
+
+      for (Row row : list)
+      {
+         ResourceAssignmentCode code = m_project.getResourceAssignmentCodes().getByUniqueID(row.getInteger("asgnmnt_catg_type_id"));
+         if (code == null)
+         {
+            continue;
+         }
+
+         ResourceAssignmentCodeValue value = code.getValueByUniqueID(row.getInteger("asgnmnt_catg_id"));
+         if (value != null)
+         {
+            resourceAssignment.addResourceAssignmentCodeValue(value);
          }
       }
    }
@@ -1884,6 +2254,8 @@ final class PrimaveraReader
             assignment.setTimephasedActualWork(timephasedActualWork);
             assignment.setTimephasedWork(timephasedRemainingWork);
 
+            populateResourceAssignmentCodeValues(assignment);
+
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
       }
@@ -2326,6 +2698,7 @@ final class PrimaveraReader
       map.put(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID, "unit_id");
       map.put(ResourceField.SHIFT_UNIQUE_ID, "shift_id");
       map.put(ResourceField.PRIMARY_ROLE_UNIQUE_ID, "role_id");
+      map.put(ResourceField.CURRENCY_UNIQUE_ID, "curr_id");
 
       return map;
    }
@@ -2473,6 +2846,9 @@ final class PrimaveraReader
 
    private final Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<>();
    private final Map<Integer, List<Row>> m_activityCodeAssignments = new HashMap<>();
+   private final Map<Integer, List<Row>> m_resourceCodeAssignments = new HashMap<>();
+   private final Map<Integer, List<Row>> m_roleCodeAssignments = new HashMap<>();
+   private final Map<Integer, List<Row>> m_resourceAssignmentCodeAssignments = new HashMap<>();
 
    private final ObjectSequence m_relationObjectID;
 

@@ -148,7 +148,6 @@ Field|MPP8|MPP9|MPP12|MPP14
 % Complete|✓|✓|✓|✓
 % Work Complete|✓|✓|✓|✓
 Active|✓|✓|✓|✓
-Activity Code Values|✓|✓|✓|✓
 Activity Percent Complete|✓|✓|✓|✓
 Actual Cost|✓|✓|✓|✓
 Actual Duration|✓|✓|✓|✓
@@ -181,7 +180,6 @@ Earned Value Method| | |✓|✓
 Effort Driven|✓|✓|✓|✓
 Estimated| |✓|✓|✓
 Expanded|✓|✓|✓|✓
-Expense Items|✓|✓|✓|✓
 External Project| |✓|✓|✓
 External Task| |✓|✓|✓
 Finish|✓|✓|✓|✓
@@ -242,7 +240,6 @@ Sprint ID| | | |✓
 Start|✓|✓|✓|✓
 Start Slack|✓|✓|✓|✓
 Start Variance|✓|✓|✓|✓
-Steps|✓|✓|✓|✓
 Stop|✓|✓|✓|✓
 Subproject File| |✓|✓|✓
 Subproject GUID| | |✓|✓

@@ -335,7 +335,7 @@ final class XerWriter
       FORMAT_MAP.put(RateSource.class, (w, o) -> RateSourceHelper.getXerFromInstance((RateSource) o));
       FORMAT_MAP.put(DataType.class, (w, o) -> UdfHelper.getXerFromDataType((DataType) o));
       FORMAT_MAP.put(MaxUnits.class, (w, o) -> w.m_maxUnitsFormat.format(NumberHelper.getDouble(((MaxUnits) o).toNumber()) / 100.0));
-      FORMAT_MAP.put(Currency.class, (w, o) -> w.m_currencyFormat.format(((Currency) o).toNumber()));
+      FORMAT_MAP.put(CurrencyValue.class, (w, o) -> w.m_currencyFormat.format(((CurrencyValue) o).toNumber()));
       FORMAT_MAP.put(SkillLevel.class, (w, o) -> SkillLevelHelper.getXerFromInstance((SkillLevel) o));
       FORMAT_MAP.put(String.class, (w, o) -> w.formatString((String) o));
    }

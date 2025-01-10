@@ -36,6 +36,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.ChildResourceContainer;
+import net.sf.mpxj.Code;
+import net.sf.mpxj.CodeValue;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeValue;
@@ -96,8 +98,8 @@ public class ProjectTreeController
    private static final Set<String> TASK_EXCLUDED_METHODS = excludedMethods("getChildTasks", "getEffectiveCalendar", "getParentTask", "getResourceAssignments", "getSubprojectObject");
    private static final Set<String> CALENDAR_EXCEPTION_EXCLUDED_METHODS = excludedMethods("get", "getRange");
    private static final Set<String> TABLE_EXCLUDED_METHODS = excludedMethods("getColumns");
-   private static final Set<String> ACTIVITY_CODE_EXCLUDED_METHODS = excludedMethods("getValues");
-   private static final Set<String> ACTIVITY_CODE_VALUE_EXCLUDED_METHODS = excludedMethods("getParent", "getType");
+   private static final Set<String> CODE_EXCLUDED_METHODS = excludedMethods("getValues");
+   private static final Set<String> CODE_VALUE_EXCLUDED_METHODS = excludedMethods("getParent", "getType");
 
    private final ProjectTreeModel m_model;
    private ProjectFile m_projectFile;
@@ -158,6 +160,10 @@ public class ProjectTreeController
       projectNode.add(resourcesFolder);
       addResources(resourcesFolder, m_projectFile);
 
+      MpxjTreeNode rolesFolder = new MpxjTreeNode("Roles");
+      projectNode.add(rolesFolder);
+      addRoles(rolesFolder, m_projectFile);
+
       MpxjTreeNode assignmentsFolder = new MpxjTreeNode("Assignments");
       projectNode.add(assignmentsFolder);
       addAssignments(assignmentsFolder, m_projectFile);
@@ -209,6 +215,22 @@ public class ProjectTreeController
       projectNode.add(activityCodesFolder);
       addActivityCodes(activityCodesFolder);
 
+      MpxjTreeNode projectCodesFolder = new MpxjTreeNode("Project Codes");
+      projectNode.add(projectCodesFolder);
+      addCodes(projectCodesFolder, m_projectFile.getProjectCodes());
+
+      MpxjTreeNode resourceCodesFolder = new MpxjTreeNode("Resource Codes");
+      projectNode.add(resourceCodesFolder);
+      addCodes(resourceCodesFolder, m_projectFile.getResourceCodes());
+
+      MpxjTreeNode roleCodesFolder = new MpxjTreeNode("Role Codes");
+      projectNode.add(roleCodesFolder);
+      addCodes(roleCodesFolder, m_projectFile.getRoleCodes());
+
+      MpxjTreeNode resourceAssignmentCodesFolder = new MpxjTreeNode("Resource Assignment Codes");
+      projectNode.add(resourceAssignmentCodesFolder);
+      addCodes(resourceAssignmentCodesFolder, m_projectFile.getResourceAssignmentCodes());
+
       m_model.setRoot(projectNode);
    }
 
@@ -245,6 +267,11 @@ public class ProjectTreeController
    {
       for (Resource resource : file.getChildResources())
       {
+         if (resource.getRole())
+         {
+            continue;
+
+         }
          final Resource r = resource;
          MpxjTreeNode childNode = new MpxjTreeNode(resource)
          {
@@ -255,6 +282,34 @@ public class ProjectTreeController
          };
          parentNode.add(childNode);
          addResources(childNode, resource);
+      }
+   }
+
+   /**
+    * Add roles to the tree.
+    *
+    * @param parentNode parent tree node
+    * @param file resource container
+    */
+   private void addRoles(MpxjTreeNode parentNode, ChildResourceContainer file)
+   {
+      for (Resource role : file.getChildResources())
+      {
+         if (!role.getRole())
+         {
+            continue;
+
+         }
+         final Resource r = role;
+         MpxjTreeNode childNode = new MpxjTreeNode(role)
+         {
+            @Override public String toString()
+            {
+               return r.getName();
+            }
+         };
+         parentNode.add(childNode);
+         addRoles(childNode, role);
       }
    }
 
@@ -681,7 +736,7 @@ public class ProjectTreeController
       for (ActivityCode code : m_projectFile.getActivityCodes())
       {
          final ActivityCode c = code;
-         MpxjTreeNode childNode = new MpxjTreeNode(code, ACTIVITY_CODE_EXCLUDED_METHODS)
+         MpxjTreeNode childNode = new MpxjTreeNode(code, CODE_EXCLUDED_METHODS)
          {
             @Override public String toString()
             {
@@ -693,16 +748,51 @@ public class ProjectTreeController
       }
    }
 
+   /**
+    * Add codes to the tree.
+    *
+    * @param parentNode parent tree node
+    * @param codes list of codes
+    */
+   private void addCodes(MpxjTreeNode parentNode, List<? extends Code> codes)
+   {
+      for (Code code : codes)
+      {
+         final Code c = code;
+         MpxjTreeNode childNode = new MpxjTreeNode(code, CODE_EXCLUDED_METHODS)
+         {
+            @Override public String toString()
+            {
+               return c.getName();
+            }
+         };
+         parentNode.add(childNode);
+         addCodeValues(childNode, code);
+      }
+   }
+
    private void addActivityCodeValues(MpxjTreeNode parentNode, ActivityCode code)
    {
       code.getChildValues().forEach(v -> addActivityCodeValues(parentNode, v));
    }
 
+   private void addCodeValues(MpxjTreeNode parentNode, Code code)
+   {
+      code.getChildValues().forEach(v -> addCodeValues(parentNode, v));
+   }
+
    private void addActivityCodeValues(MpxjTreeNode parentNode, ActivityCodeValue value)
    {
-      MpxjTreeNode node = new MpxjTreeNode(value, ACTIVITY_CODE_VALUE_EXCLUDED_METHODS);
+      MpxjTreeNode node = new MpxjTreeNode(value, CODE_VALUE_EXCLUDED_METHODS);
       parentNode.add(node);
       value.getChildValues().forEach(v -> addActivityCodeValues(node, v));
+   }
+
+   private void addCodeValues(MpxjTreeNode parentNode, CodeValue value)
+   {
+      MpxjTreeNode node = new MpxjTreeNode(value, CODE_VALUE_EXCLUDED_METHODS);
+      parentNode.add(node);
+      value.getChildValues().forEach(v -> addCodeValues(node, v));
    }
 
    /**

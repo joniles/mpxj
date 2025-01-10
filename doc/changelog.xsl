@@ -2,6 +2,11 @@
 <xsl:stylesheet version="1.0" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:output indent="no" method="text" omit-xml-declaration="yes"/>
 <xsl:template match="/"># Changelog
+
+## NOTE
+From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net.sf.mpxj-for-vb` packages will
+no longer be distributed. Please use the `MPXJ.Net` package instead.
+
 <xsl:for-each select="/document/body/release">
 ## <xsl:value-of select="@version"/> (<xsl:value-of select="@date"/>)
 <xsl:for-each select="action">

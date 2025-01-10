@@ -41,15 +41,26 @@ import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
+import net.sf.mpxj.Code;
+import net.sf.mpxj.CodeValue;
 import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.Currency;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
 
+import net.sf.mpxj.ProjectCode;
+import net.sf.mpxj.ProjectCodeValue;
+import net.sf.mpxj.ResourceAssignmentCode;
+import net.sf.mpxj.ResourceAssignmentCodeValue;
+import net.sf.mpxj.ResourceCode;
+import net.sf.mpxj.ResourceCodeValue;
+import net.sf.mpxj.RoleCode;
+import net.sf.mpxj.RoleCodeValue;
 import net.sf.mpxj.Shift;
 import net.sf.mpxj.ShiftPeriod;
 import net.sf.mpxj.SkillLevel;
@@ -112,15 +123,23 @@ import net.sf.mpxj.primavera.schema.ExpenseCategoryType;
 import net.sf.mpxj.primavera.schema.LocationType;
 import net.sf.mpxj.primavera.schema.NotebookTopicType;
 import net.sf.mpxj.primavera.schema.ObjectFactory;
+import net.sf.mpxj.primavera.schema.ProjectCodeType;
+import net.sf.mpxj.primavera.schema.ProjectCodeTypeType;
 import net.sf.mpxj.primavera.schema.ProjectNoteType;
 import net.sf.mpxj.primavera.schema.ProjectType;
 import net.sf.mpxj.primavera.schema.RelationshipType;
+import net.sf.mpxj.primavera.schema.ResourceAssignmentCodeType;
+import net.sf.mpxj.primavera.schema.ResourceAssignmentCodeTypeType;
 import net.sf.mpxj.primavera.schema.ResourceAssignmentType;
+import net.sf.mpxj.primavera.schema.ResourceCodeType;
+import net.sf.mpxj.primavera.schema.ResourceCodeTypeType;
 import net.sf.mpxj.primavera.schema.ResourceCurveType;
 import net.sf.mpxj.primavera.schema.ResourceCurveValuesType;
 import net.sf.mpxj.primavera.schema.ResourceRateType;
 import net.sf.mpxj.primavera.schema.ResourceRoleType;
 import net.sf.mpxj.primavera.schema.ResourceType;
+import net.sf.mpxj.primavera.schema.RoleCodeType;
+import net.sf.mpxj.primavera.schema.RoleCodeTypeType;
 import net.sf.mpxj.primavera.schema.RoleRateType;
 import net.sf.mpxj.primavera.schema.RoleType;
 import net.sf.mpxj.primavera.schema.ScheduleOptionsType;
@@ -178,7 +197,8 @@ final class PrimaveraPMProjectWriter
             m_udf = project.getUDF();
 
             writeProjectProperties(project);
-            writeActivityCodes(project.getActivityCodeType(), project.getActivityCode());
+            writeCodeAssignments(m_projectFile.getProjectProperties().getProjectCodeValues(), project.getCode());
+            writeActivityCodeDefinitions(project.getActivityCodeType(), project.getActivityCode());
             writeCalendars(project.getCalendar());
             writeTasks();
             writeAssignments();
@@ -200,15 +220,20 @@ final class PrimaveraPMProjectWriter
             m_activityNotes = project.getActivityNote();
             m_udf = project.getUDF();
 
+            writeCurrencies();
             writeLocations();
             writeShifts();
             writeProjectProperties(project);
             writeUnitsOfMeasure();
-            writeActivityCodes(project.getActivityCodeType(), project.getActivityCode());
+            writeProjectCodeDefinitions();
+            writeResourceCodeDefinitions();
+            writeRoleCodeDefinitions();
+            writeResourceAssignmentCodeDefinitions();
+            writeCodeAssignments(m_projectFile.getProjectProperties().getProjectCodeValues(), project.getCode());
+            writeActivityCodeDefinitions(project.getActivityCodeType(), project.getActivityCode());
             writeCalendars(project.getCalendar());
             writeUDF();
-            writeActivityCodes();
-            writeCurrency();
+            writeActivityCodeDefinitions();
             writeUserDefinedFieldDefinitions();
             writeExpenseCategories();
             writeCostAccounts();
@@ -241,27 +266,59 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * Create a handful of default currencies to keep Primavera happy.
+    * Write currencies.
     */
-   private void writeCurrency()
+   private void writeCurrencies()
    {
-      ProjectProperties props = m_projectFile.getProjectProperties();
-      CurrencyType currency = m_factory.createCurrencyType();
-      m_apibo.getCurrency().add(currency);
+      if (m_projectFile.getCurrencies().isEmpty())
+      {
+         // No currencies defined? Write a default currency based on the project properties.
+         ProjectProperties props = m_projectFile.getProjectProperties();
+         CurrencyType currency = m_factory.createCurrencyType();
+         m_apibo.getCurrency().add(currency);
 
-      String positiveSymbol = getCurrencyFormat(props.getSymbolPosition());
-      String negativeSymbol = "(" + positiveSymbol + ")";
+         String positiveSymbol = getCurrencyFormat(props.getSymbolPosition());
+         String negativeSymbol = "(" + positiveSymbol + ")";
 
-      currency.setDecimalPlaces(props.getCurrencyDigits());
-      currency.setDecimalSymbol(getSymbolName(props.getDecimalSeparator()));
-      currency.setDigitGroupingSymbol(getSymbolName(props.getThousandsSeparator()));
-      currency.setExchangeRate(Double.valueOf(1.0));
-      currency.setId("CUR");
-      currency.setName("Default Currency");
-      currency.setNegativeSymbol(negativeSymbol);
-      currency.setObjectId(DEFAULT_CURRENCY_ID);
-      currency.setPositiveSymbol(positiveSymbol);
-      currency.setSymbol(props.getCurrencySymbol());
+         currency.setDecimalPlaces(props.getCurrencyDigits());
+         currency.setDecimalSymbol(getSymbolName(props.getDecimalSeparator()));
+         currency.setDigitGroupingSymbol(getSymbolName(props.getThousandsSeparator()));
+         currency.setExchangeRate(Double.valueOf(1.0));
+         currency.setId("CUR");
+         currency.setName("Default Currency");
+         currency.setNegativeSymbol(negativeSymbol);
+         currency.setObjectId(DEFAULT_CURRENCY_ID);
+         currency.setPositiveSymbol(positiveSymbol);
+         currency.setSymbol(props.getCurrencySymbol());
+         return;
+      }
+
+      for (Currency currency : m_projectFile.getCurrencies())
+      {
+         CurrencyType xml = m_factory.createCurrencyType();
+         xml.setObjectId(currency.getUniqueID());
+         xml.setId(currency.getCurrencyID());
+         xml.setName(currency.getName());
+         xml.setSymbol(currency.getSymbol());
+         xml.setExchangeRate(currency.getExchangeRate());
+         xml.setDecimalSymbol(getSymbolName(currency.getDecimalSymbol()));
+         xml.setDecimalPlaces(currency.getNumberOfDecimalPlaces());
+         xml.setDigitGroupingSymbol(getSymbolName(currency.getDigitGroupingSymbol()));
+         xml.setPositiveSymbol(currency.getPositiveCurrencyFormat());
+         xml.setNegativeSymbol(currency.getNegativeCurrencyFormat());
+         m_apibo.getCurrency().add(xml);
+      }
+   }
+
+   /**
+    * Map the currency separator character to a symbol name.
+    *
+    * @param s currency separator string
+    * @return symbol name
+    */
+   private String getSymbolName(String s)
+   {
+      return s == null || s.isEmpty() ? null : getSymbolName(s.charAt(0));
    }
 
    /**
@@ -884,7 +941,7 @@ final class PrimaveraPMProjectWriter
       xml.setAutoComputeActuals(Boolean.TRUE);
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setCalendarObjectId(mpxj.getCalendarUniqueID());
-      xml.setCurrencyObjectId(DEFAULT_CURRENCY_ID);
+      xml.setCurrencyObjectId(mpxj.getCurrencyUniqueID() == null ? DEFAULT_CURRENCY_ID : mpxj.getCurrencyUniqueID());
       xml.setEmailAddress(mpxj.getEmailAddress());
       xml.setEmployeeId(mpxj.getCode());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
@@ -908,6 +965,8 @@ final class PrimaveraPMProjectWriter
       xml.setMaxUnitsPerTime(defaultUnitsPerTime);
 
       xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.RESOURCE, false, mpxj));
+
+      writeCodeAssignments(mpxj.getResourceCodeValues(), xml.getCode());
    }
 
    /**
@@ -934,6 +993,8 @@ final class PrimaveraPMProjectWriter
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setResponsibilities(getNotes(mpxj.getNotesObject()));
       xml.setSequenceNumber(mpxj.getSequenceNumber());
+
+      writeCodeAssignments(mpxj.getRoleCodeValues(), xml.getCode());
    }
 
    /**
@@ -1156,7 +1217,7 @@ final class PrimaveraPMProjectWriter
 
       writeActivityNote(mpxj);
       writePredecessors(mpxj);
-      writeActivityCodeAssignments(mpxj, xml);
+      writeCodeAssignments(mpxj.getActivityCodeValues(), xml.getCode());
    }
 
    /**
@@ -1260,6 +1321,8 @@ final class PrimaveraPMProjectWriter
          xml.setActualCurve(TimephasedHelper.write(calendar, mpxj.getTimephasedActualWork()));
          xml.setRemainingCurve(TimephasedHelper.write(calendar, mpxj.getTimephasedWork()));
       }
+
+      writeCodeAssignments(mpxj.getResourceAssignmentCodeValues(), xml.getCode());
    }
 
    private Double getResourceAssignmentRemainingDuration(Task task, ResourceAssignment mpxj)
@@ -1775,11 +1838,11 @@ final class PrimaveraPMProjectWriter
    /**
     * Write Global and EPS activity code definitions.
     */
-   private void writeActivityCodes()
+   private void writeActivityCodeDefinitions()
    {
       List<ActivityCodeTypeType> codes = m_apibo.getActivityCodeType();
       List<ActivityCodeType> values = m_apibo.getActivityCode();
-      m_projectFile.getActivityCodes().stream().filter(c -> c.getScope() != ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCode(codes, values, c));
+      m_projectFile.getActivityCodes().stream().filter(c -> c.getScope() != ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCodeDefinition(codes, values, c));
    }
 
    /**
@@ -1788,9 +1851,9 @@ final class PrimaveraPMProjectWriter
     * @param codes activity codes container
     * @param values activity code values container
     */
-   private void writeActivityCodes(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values)
+   private void writeActivityCodeDefinitions(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values)
    {
-      m_projectFile.getActivityCodes().stream().filter(c -> c.getScope() == ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCode(codes, values, c));
+      m_projectFile.getActivityCodes().stream().filter(c -> c.getScope() == ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCodeDefinition(codes, values, c));
    }
 
    /**
@@ -1800,7 +1863,7 @@ final class PrimaveraPMProjectWriter
     * @param values activity code values container
     * @param code activity code
     */
-   private void writeActivityCode(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values, ActivityCode code)
+   private void writeActivityCodeDefinition(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values, ActivityCode code)
    {
       ActivityCodeTypeType xml = m_factory.createActivityCodeTypeType();
       codes.add(xml);
@@ -1817,7 +1880,152 @@ final class PrimaveraPMProjectWriter
       }
 
       Comparator<ActivityCodeValue> comparator = Comparator.comparing(ActivityCodeValue::getSequenceNumber).thenComparing(ActivityCodeValue::getUniqueID);
-      code.getChildValues().stream().sorted(comparator).forEach(v -> writeActivityCodeValue(xml, null, values, v, comparator));
+      code.getChildValues().stream().sorted(comparator).forEach(v -> writeActivityCodeValueDefinition(xml, null, values, v, comparator));
+   }
+
+   /**
+    * Write project code definitions.
+    */
+   private void writeProjectCodeDefinitions()
+   {
+      for (ProjectCode code : m_projectFile.getProjectCodes())
+      {
+         ProjectCodeTypeType xmlCode = m_factory.createProjectCodeTypeType();
+         m_apibo.getProjectCodeType().add(xmlCode);
+         xmlCode.setObjectId(code.getUniqueID());
+         xmlCode.setName(code.getName());
+         xmlCode.setSequenceNumber(code.getSequenceNumber());
+         xmlCode.setIsSecureCode(Boolean.valueOf(code.getSecure()));
+         xmlCode.setLength(code.getMaxLength());
+
+         for (ProjectCodeValue value : code.getValues())
+         {
+            ProjectCodeType xmlValue = m_factory.createProjectCodeType();
+            m_apibo.getProjectCode().add(xmlValue);
+
+            xmlValue.setObjectId(value.getUniqueID());
+            xmlValue.setCodeTypeObjectId(code.getUniqueID());
+            xmlValue.setCodeValue(value.getName());
+            xmlValue.setDescription(value.getDescription());
+            xmlValue.setParentObjectId(value.getParentValueUniqueID());
+            xmlValue.setSequenceNumber(value.getSequenceNumber());
+         }
+      }
+   }
+
+   /**
+    * Write resource code definitions.
+    */
+   private void writeResourceCodeDefinitions()
+   {
+      for (ResourceCode code : m_projectFile.getResourceCodes())
+      {
+         ResourceCodeTypeType xmlCode = m_factory.createResourceCodeTypeType();
+         m_apibo.getResourceCodeType().add(xmlCode);
+         xmlCode.setObjectId(code.getUniqueID());
+         xmlCode.setName(code.getName());
+         xmlCode.setSequenceNumber(code.getSequenceNumber());
+         xmlCode.setIsSecureCode(Boolean.valueOf(code.getSecure()));
+         xmlCode.setLength(code.getMaxLength());
+
+         for (ResourceCodeValue value : code.getValues())
+         {
+            ResourceCodeType xmlValue = m_factory.createResourceCodeType();
+            m_apibo.getResourceCode().add(xmlValue);
+
+            xmlValue.setObjectId(value.getUniqueID());
+            xmlValue.setCodeTypeObjectId(code.getUniqueID());
+            xmlValue.setCodeValue(value.getName());
+            xmlValue.setDescription(value.getDescription());
+            xmlValue.setParentObjectId(value.getParentValueUniqueID());
+            xmlValue.setSequenceNumber(value.getSequenceNumber());
+         }
+      }
+   }
+
+   /**
+    * Write role code definitions.
+    */
+   private void writeRoleCodeDefinitions()
+   {
+      for (RoleCode code : m_projectFile.getRoleCodes())
+      {
+         RoleCodeTypeType xmlCode = m_factory.createRoleCodeTypeType();
+         m_apibo.getRoleCodeType().add(xmlCode);
+         xmlCode.setObjectId(code.getUniqueID());
+         xmlCode.setName(code.getName());
+         xmlCode.setSequenceNumber(code.getSequenceNumber());
+         xmlCode.setIsSecureCode(Boolean.valueOf(code.getSecure()));
+         xmlCode.setLength(code.getMaxLength());
+
+         for (RoleCodeValue value : code.getValues())
+         {
+            RoleCodeType xmlValue = m_factory.createRoleCodeType();
+            m_apibo.getRoleCode().add(xmlValue);
+
+            xmlValue.setObjectId(value.getUniqueID());
+            xmlValue.setCodeTypeObjectId(code.getUniqueID());
+            xmlValue.setCodeValue(value.getName());
+            xmlValue.setDescription(value.getDescription());
+            xmlValue.setParentObjectId(value.getParentValueUniqueID());
+            xmlValue.setSequenceNumber(value.getSequenceNumber());
+         }
+      }
+   }
+
+   /**
+    * Write role code definitions.
+    */
+   private void writeResourceAssignmentCodeDefinitions()
+   {
+      for (ResourceAssignmentCode code : m_projectFile.getResourceAssignmentCodes())
+      {
+         ResourceAssignmentCodeTypeType xmlCode = m_factory.createResourceAssignmentCodeTypeType();
+         m_apibo.getResourceAssignmentCodeType().add(xmlCode);
+         xmlCode.setObjectId(code.getUniqueID());
+         xmlCode.setName(code.getName());
+         xmlCode.setSequenceNumber(code.getSequenceNumber());
+         xmlCode.setIsSecureCode(Boolean.valueOf(code.getSecure()));
+         xmlCode.setLength(code.getMaxLength());
+
+         for (ResourceAssignmentCodeValue value : code.getValues())
+         {
+            ResourceAssignmentCodeType xmlValue = m_factory.createResourceAssignmentCodeType();
+            m_apibo.getResourceAssignmentCode().add(xmlValue);
+
+            xmlValue.setObjectId(value.getUniqueID());
+            xmlValue.setCodeTypeObjectId(code.getUniqueID());
+            xmlValue.setCodeValue(value.getName());
+            xmlValue.setDescription(value.getDescription());
+            xmlValue.setParentObjectId(value.getParentValueUniqueID());
+            xmlValue.setSequenceNumber(value.getSequenceNumber());
+         }
+      }
+   }
+
+   /**
+    * Write code assignments.
+    *
+    * @param map code and value mapping
+    * @param assignments code assignments
+    */
+   private void writeCodeAssignments(Map<? extends Code, ? extends CodeValue> map, List<CodeAssignmentType> assignments)
+   {
+      map.values().stream().sorted(Comparator.comparing(CodeValue::getUniqueID)).forEach(v -> writeCodeAssignment(assignments, v));
+   }
+
+   /**
+    * Write a code assignment.
+    *
+    * @param assignments code assignments
+    * @param value project code value
+    */
+   private void writeCodeAssignment(List<CodeAssignmentType> assignments, CodeValue value)
+   {
+      CodeAssignmentType xml = m_factory.createCodeAssignmentType();
+      assignments.add(xml);
+      xml.setTypeObjectId(NumberHelper.getInt(value.getParentCodeUniqueID()));
+      xml.setValueObjectId(NumberHelper.getInt(value.getUniqueID()));
    }
 
    /**
@@ -1829,7 +2037,7 @@ final class PrimaveraPMProjectWriter
     * @param value value to write
     * @param comparator sort order for values
     */
-   private void writeActivityCodeValue(ActivityCodeTypeType code, ActivityCodeType parentValue, List<ActivityCodeType> values, ActivityCodeValue value, Comparator<ActivityCodeValue> comparator)
+   private void writeActivityCodeValueDefinition(ActivityCodeTypeType code, ActivityCodeType parentValue, List<ActivityCodeType> values, ActivityCodeValue value, Comparator<ActivityCodeValue> comparator)
    {
       ActivityCodeType xml = m_factory.createActivityCodeType();
       values.add(xml);
@@ -1842,32 +2050,7 @@ final class PrimaveraPMProjectWriter
       xml.setDescription(value.getDescription());
       xml.setColor(ColorHelper.getHtmlColor(value.getColor()));
 
-      value.getChildValues().stream().sorted(comparator).forEach(v -> writeActivityCodeValue(code, xml, values, v, comparator));
-   }
-
-   /**
-    * Write activity code assignments for this task.
-    *
-    * @param task MPXJ task
-    * @param xml PMXML activity
-    */
-   private void writeActivityCodeAssignments(Task task, ActivityType xml)
-   {
-      task.getActivityCodeValues().values().stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> writeActivityCodeAssignment(xml, v));
-   }
-
-   /**
-    * Write an individual activity code assignment.
-    *
-    * @param xml PMXML activity
-    * @param value activity code value
-    */
-   private void writeActivityCodeAssignment(ActivityType xml, ActivityCodeValue value)
-   {
-      CodeAssignmentType assignment = m_factory.createCodeAssignmentType();
-      xml.getCode().add(assignment);
-      assignment.setTypeObjectId(NumberHelper.getInt(value.getActivityCode().getUniqueID()));
-      assignment.setValueObjectId(NumberHelper.getInt(value.getUniqueID()));
+      value.getChildValues().stream().sorted(comparator).forEach(v -> writeActivityCodeValueDefinition(code, xml, values, v, comparator));
    }
 
    /**

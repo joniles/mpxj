@@ -984,6 +984,13 @@ module MPXJ
       get_boolean_value(attribute_values['preserve_scheduled_early_and_late_dates'])
     end
 
+    # Retrieve the Project Code Values value
+    #
+    # @return Project Code Values value
+    def project_code_values
+      attribute_values['project_code_values']
+    end
+
     # Retrieve the Project Externally Edited value
     #
     # @return Project Externally Edited value
@@ -1363,6 +1370,7 @@ module MPXJ
       'presentation_format' => :string,
       'preserve_minimum_float_when_leveling' => :duration,
       'preserve_scheduled_early_and_late_dates' => :boolean,
+      'project_code_values' => :code_values,
       'project_externally_edited' => :boolean,
       'project_file_path' => :string,
       'project_id' => :string,

@@ -126,6 +126,46 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    }
 
    /**
+    * Retrieves the project code configuration for this project.
+    *
+    * @return project codes
+    */
+   public ProjectCodeContainer getProjectCodes()
+   {
+      return m_projectCodes;
+   }
+
+   /**
+    * Retrieves the resource code configuration for this project.
+    *
+    * @return resource codes
+    */
+   public ResourceCodeContainer getResourceCodes()
+   {
+      return m_resourceCodes;
+   }
+
+   /**
+    * Retrieves the role code configuration for this project.
+    *
+    * @return role codes
+    */
+   public RoleCodeContainer getRoleCodes()
+   {
+      return m_roleCodes;
+   }
+
+   /**
+    * Retrieves the resource assignment code configuration for this project.
+    *
+    * @return resource assignment codes
+    */
+   public ResourceAssignmentCodeContainer getResourceAssignmentCodes()
+   {
+      return m_resourceAssignmentCodes;
+   }
+
+   /**
     * Retrieves the shifts for this project.
     *
     * @return shifts
@@ -143,6 +183,16 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    public ShiftPeriodContainer getShiftPeriods()
    {
       return m_shiftPeriods;
+   }
+
+   /**
+    * Retrieves the currencies for this project.
+    *
+    * @return currencies
+    */
+   public CurrencyContainer getCurrencies()
+   {
+      return m_currencies;
    }
 
    /**
@@ -176,8 +226,13 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    private final CustomFieldContainer m_customFields = new CustomFieldContainer();
    private final UserDefinedFieldContainer m_userDefinedFields = new UserDefinedFieldContainer(m_customFields);
    private final ActivityCodeContainer m_activityCodes = new ActivityCodeContainer(this);
+   private final ProjectCodeContainer m_projectCodes = new ProjectCodeContainer(this);
+   private final ResourceCodeContainer m_resourceCodes = new ResourceCodeContainer(this);
+   private final RoleCodeContainer m_roleCodes = new RoleCodeContainer(this);
+   private final ResourceAssignmentCodeContainer m_resourceAssignmentCodes = new ResourceAssignmentCodeContainer(this);
    private final ShiftContainer m_shifts = new ShiftContainer(this);
    private final ShiftPeriodContainer m_shiftPeriods = new ShiftPeriodContainer(this);
+   private final CurrencyContainer m_currencies = new CurrencyContainer(this);
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
 
    private static final Set<String> HOSTED_CLASS_NAMES = new HashSet<>(
@@ -190,6 +245,16 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
          NotesTopic.class.getName(),
          UserDefinedField.class.getName(),
          ActivityCode.class.getName(),
+         ActivityCodeValue.class.getName(),
+         ProjectCode.class.getName(),
+         ProjectCodeValue.class.getName(),
+         ResourceCode.class.getName(),
+         ResourceCodeValue.class.getName(),
+         RoleCode.class.getName(),
+         RoleCodeValue.class.getName(),
+         ResourceAssignmentCode.class.getName(),
+         ResourceAssignmentCodeValue.class.getName(),
          Shift.class.getName(),
-         ShiftPeriod.class.getName()));
+         ShiftPeriod.class.getName(),
+         Currency.class.getName()));
 }

@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * Activity code type definition, contains a list of the valid
  * values for this activity code.
  */
-public final class ActivityCode implements ProjectEntityWithUniqueID
+public final class ActivityCode implements Code
 {
    /**
     * Constructor.
@@ -95,7 +95,7 @@ public final class ActivityCode implements ProjectEntityWithUniqueID
     *
     * @return sequence number
     */
-   public Integer getSequenceNumber()
+   @Override public Integer getSequenceNumber()
    {
       return m_sequenceNumber;
    }
@@ -105,7 +105,7 @@ public final class ActivityCode implements ProjectEntityWithUniqueID
     *
     * @return name
     */
-   public String getName()
+   @Override public String getName()
    {
       return m_name;
    }
@@ -115,7 +115,7 @@ public final class ActivityCode implements ProjectEntityWithUniqueID
     *
     * @return secure flag
     */
-   public boolean getSecure()
+   @Override public boolean getSecure()
    {
       return m_secure;
    }
@@ -125,7 +125,7 @@ public final class ActivityCode implements ProjectEntityWithUniqueID
     *
     * @return max length
     */
-   public Integer getMaxLength()
+   @Override public Integer getMaxLength()
    {
       return m_maxLength;
    }
@@ -136,7 +136,7 @@ public final class ActivityCode implements ProjectEntityWithUniqueID
     *
     * @return list of ActivityCodeValue instances
     */
-   public List<ActivityCodeValue> getValues()
+   @Override public List<ActivityCodeValue> getValues()
    {
       return m_values;
    }
@@ -148,9 +148,9 @@ public final class ActivityCode implements ProjectEntityWithUniqueID
     *
     * @return list of ActivityCodeValue instances
     */
-   public List<ActivityCodeValue> getChildValues()
+   @Override public List<ActivityCodeValue> getChildValues()
    {
-      return m_values.stream().filter(v -> v.getParent() == null).collect(Collectors.toList());
+      return m_values.stream().filter(v -> v.getParentValue() == null).collect(Collectors.toList());
    }
 
    /**

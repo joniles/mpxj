@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 /**
  * Represents an individual activity code value.
  */
-public final class ActivityCodeValue
+public final class ActivityCodeValue implements CodeValue
 {
    /**
     * Constructor.
@@ -45,14 +45,14 @@ public final class ActivityCodeValue
       m_name = builder.m_name;
       m_description = builder.m_description;
       m_color = builder.m_color;
-      m_parent = builder.m_parent;
+      m_parentValue = builder.m_parentValue;
    }
 
    /**
     * Retrieves the parent activity code.
     *
     * @return ActivityCode instance
-    * @deprecated use getActivityCode instead
+    * @deprecated use getParentCode instead
     */
    @Deprecated public ActivityCode getType()
    {
@@ -63,10 +63,21 @@ public final class ActivityCodeValue
     * Retrieves the parent activity code.
     *
     * @return ActivityCode instance
+    * @deprecated use getParentCode instead
     */
-   public ActivityCode getActivityCode()
+   @Deprecated public ActivityCode getActivityCode()
    {
       return m_activityCode;
+   }
+
+   @Override public ActivityCode getParentCode()
+   {
+      return m_activityCode;
+   }
+
+   @Override public Integer getParentCodeUniqueID()
+   {
+      return m_activityCode == null ? null : m_activityCode.getUniqueID();
    }
 
    /**
@@ -74,7 +85,7 @@ public final class ActivityCodeValue
     *
     * @return unique ID
     */
-   public Integer getUniqueID()
+   @Override public Integer getUniqueID()
    {
       return m_uniqueID;
    }
@@ -84,7 +95,7 @@ public final class ActivityCodeValue
     *
     * @return sequence number
     */
-   public Integer getSequenceNumber()
+   @Override public Integer getSequenceNumber()
    {
       return m_sequenceNumber;
    }
@@ -94,7 +105,7 @@ public final class ActivityCodeValue
     *
     * @return value name
     */
-   public String getName()
+   @Override public String getName()
    {
       return m_name;
    }
@@ -104,7 +115,7 @@ public final class ActivityCodeValue
     *
     * @return value description
     */
-   public String getDescription()
+   @Override public String getDescription()
    {
       return m_description;
    }
@@ -123,10 +134,32 @@ public final class ActivityCodeValue
     * Retrieve the parent ActivityCodeValue.
     *
     * @return parent ActivityCodeValue
+    * @deprecated use getParentValue
     */
-   public ActivityCodeValue getParent()
+   @Deprecated public ActivityCodeValue getParent()
    {
-      return m_parent;
+      return m_parentValue;
+   }
+
+   /**
+    * Retrieve the parent ActivityCodeValue.
+    *
+    * @return parent ActivityCodeValue
+    */
+   public ActivityCodeValue getParentValue()
+   {
+      return m_parentValue;
+   }
+
+   /**
+    * Retrieve the parent ActivityCodeValue unique ID.
+    *
+    * @return parent ActivityCodeValue unique ID
+    * @deprecated use getParentValueUniqueID
+    */
+   @Deprecated public Integer getParentUniqueID()
+   {
+      return m_parentValue == null ? null : m_parentValue.getUniqueID();
    }
 
    /**
@@ -134,9 +167,9 @@ public final class ActivityCodeValue
     *
     * @return parent ActivityCodeValue unique ID
     */
-   public Integer getParentUniqueID()
+   @Override public Integer getParentValueUniqueID()
    {
-      return m_parent == null ? null : m_parent.getUniqueID();
+      return m_parentValue == null ? null : m_parentValue.getUniqueID();
    }
 
    /**
@@ -144,9 +177,9 @@ public final class ActivityCodeValue
     *
     * @return list of ActivityCodeValue instances
     */
-   public List<ActivityCodeValue> getChildValues()
+   @Override public List<ActivityCodeValue> getChildValues()
    {
-      return m_activityCode.getValues().stream().filter(a -> a.m_parent == this).collect(Collectors.toList());
+      return m_activityCode.getValues().stream().filter(a -> a.m_parentValue == this).collect(Collectors.toList());
    }
 
    @Override public String toString()
@@ -160,7 +193,7 @@ public final class ActivityCodeValue
    private final String m_name;
    private final String m_description;
    private final Color m_color;
-   private final ActivityCodeValue m_parent;
+   private final ActivityCodeValue m_parentValue;
 
    /**
     * ActivityCodeValue builder.
@@ -191,7 +224,7 @@ public final class ActivityCodeValue
          m_name = value.m_name;
          m_description = value.m_description;
          m_color = value.m_color;
-         m_parent = value.m_parent;
+         m_parentValue = value.m_parentValue;
          return this;
       }
 
@@ -285,10 +318,23 @@ public final class ActivityCodeValue
        *
        * @param value parent value
        * @return builder
+       * @deprecated use parentValue
        */
-      public Builder parent(ActivityCodeValue value)
+      @Deprecated public Builder parent(ActivityCodeValue value)
       {
-         m_parent = value;
+         m_parentValue = value;
+         return this;
+      }
+
+      /**
+       * Add parent value.
+       *
+       * @param value parent value
+       * @return builder
+       */
+      public Builder parentValue(ActivityCodeValue value)
+      {
+         m_parentValue = value;
          return this;
       }
 
@@ -309,6 +355,6 @@ public final class ActivityCodeValue
       private String m_name;
       private String m_description;
       private Color m_color;
-      private ActivityCodeValue m_parent;
+      private ActivityCodeValue m_parentValue;
    }
 }

@@ -42,9 +42,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.Availability;
+import net.sf.mpxj.Code;
+import net.sf.mpxj.CodeValue;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.Currency;
 import net.sf.mpxj.CustomFieldLookupTable;
 import net.sf.mpxj.CustomFieldValueMask;
 import net.sf.mpxj.GenericCriteria;
@@ -223,9 +226,14 @@ public final class JsonWriter extends AbstractProjectWriter
 
          m_writer.writeStartObject(null);
          writeProperties();
+         writeCurrencies();
          writeUserDefinedFields();
          writeCustomFields();
          writeWorkContours();
+         writeCodes("project_codes", m_projectFile.getProjectCodes());
+         writeCodes("resource_codes", m_projectFile.getResourceCodes());
+         writeCodes("role_codes", m_projectFile.getRoleCodes());
+         writeCodes("resource_assignment_codes", m_projectFile.getResourceAssignmentCodes());
          writeActivityCodes();
          writeUnitsOfMeasure();
          writeCalendars();
@@ -321,17 +329,42 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeActivityCodes() throws IOException
    {
-      if (!m_projectFile.getActivityCodes().isEmpty())
+      if (m_projectFile.getActivityCodes().isEmpty())
       {
-         List<ActivityCode> sortedActivityCodeList = new ArrayList<>(m_projectFile.getActivityCodes());
-         sortedActivityCodeList.sort(Comparator.comparing(ActivityCode::getName));
-         m_writer.writeStartList("activity_codes");
-         for (ActivityCode code : sortedActivityCodeList)
-         {
-            writeActivityCode(code);
-         }
-         m_writer.writeEndList();
+         return;
       }
+
+      List<ActivityCode> sortedActivityCodeList = new ArrayList<>(m_projectFile.getActivityCodes());
+      sortedActivityCodeList.sort(Comparator.comparing(ActivityCode::getName));
+      m_writer.writeStartList("activity_codes");
+      for (ActivityCode code : sortedActivityCodeList)
+      {
+         writeActivityCode(code);
+      }
+      m_writer.writeEndList();
+   }
+
+   /**
+    * Write a list of codes.
+    *
+    * @param attributeName attribute name
+    * @param codes list of codes
+    */
+   private void writeCodes(String attributeName, List<? extends Code> codes) throws IOException
+   {
+      if (codes.isEmpty())
+      {
+         return;
+      }
+
+      List<? extends Code> sortedCodeList = new ArrayList<>(codes);
+      sortedCodeList.sort(Comparator.comparing(Code::getName));
+      m_writer.writeStartList(attributeName);
+      for (Code code : sortedCodeList)
+      {
+         writeCode(code);
+      }
+      m_writer.writeEndList();
    }
 
    /**
@@ -561,6 +594,45 @@ public final class JsonWriter extends AbstractProjectWriter
       writeStringField("abbreviation", uom.getAbbreviation());
       writeStringField("name", uom.getName());
       writeMandatoryIntegerField("sequence_number", uom.getSequenceNumber());
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Write currencies.
+    */
+   private void writeCurrencies() throws IOException
+   {
+      if (m_projectFile.getCurrencies().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("currencies");
+      for (Currency currency : m_projectFile.getCurrencies())
+      {
+         writeCurrency(currency);
+      }
+      m_writer.writeEndList();
+   }
+
+   /**
+    * Write an individual currency.
+    *
+    * @param currency currency
+    */
+   private void writeCurrency(Currency currency) throws IOException
+   {
+      m_writer.writeStartObject(null);
+      writeMandatoryIntegerField("unique_id", currency.getUniqueID());
+      writeStringField("currency_id", currency.getCurrencyID());
+      writeStringField("name", currency.getName());
+      writeStringField("symbol", currency.getSymbol());
+      writeDoubleField("exchange_rate", currency.getExchangeRate());
+      writeStringField("decimal_symbol", currency.getDecimalSymbol());
+      writeMandatoryIntegerField("number_of_decimal_places", currency.getNumberOfDecimalPlaces());
+      writeStringField("digit_grouping_symbol", currency.getDigitGroupingSymbol());
+      writeStringField("positive_currency_format", currency.getPositiveCurrencyFormat());
+      writeStringField("negative_currency_format", currency.getNegativeCurrencyFormat());
       m_writer.writeEndObject();
    }
 
@@ -1139,8 +1211,9 @@ public final class JsonWriter extends AbstractProjectWriter
          }
 
          case ACTIVITY_CODE_VALUES:
+         case CODE_VALUES:
          {
-            writeActivityCodeValues(fieldName, value);
+            writeCodeValues(fieldName, value);
             break;
          }
 
@@ -1539,6 +1612,30 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
+    * Write a code to the JSON file.
+    *
+    * @param code code
+    */
+   private void writeCode(Code code) throws IOException
+   {
+      m_writer.writeStartObject(null);
+
+      writeMandatoryIntegerField("unique_id", code.getUniqueID());
+      writeMandatoryIntegerField("sequence_number", code.getSequenceNumber());
+      writeStringField("name", code.getName());
+      if (!code.getValues().isEmpty())
+      {
+         m_writer.writeStartList("values");
+         for (CodeValue value : code.getValues().stream().sorted(Comparator.comparing(CodeValue::getUniqueID)).collect(Collectors.toList()))
+         {
+            writeCodeValue(value);
+         }
+         m_writer.writeEndList();
+      }
+      m_writer.writeEndObject();
+   }
+
+   /**
     * Write an activity code value to the JSON file.
     *
     * @param value ActivityCodeValue.
@@ -1551,10 +1648,25 @@ public final class JsonWriter extends AbstractProjectWriter
       writeStringField("name", value.getName());
       writeStringField("description", value.getDescription());
       writeColorField("color", value.getColor());
-      if (value.getParent() != null)
-      {
-         writeIntegerField("parent_unique_id", value.getParent().getUniqueID());
-      }
+      // Deprecated
+      writeIntegerField("parent_unique_id", value.getParentValueUniqueID());
+      writeIntegerField("parent_value_unique_id", value.getParentValueUniqueID());
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Write a code value to the JSON file.
+    *
+    * @param value code value
+    */
+   private void writeCodeValue(CodeValue value) throws IOException
+   {
+      m_writer.writeStartObject(null);
+      writeMandatoryIntegerField("unique_id", value.getUniqueID());
+      writeMandatoryIntegerField("sequence_number", value.getSequenceNumber());
+      writeStringField("name", value.getName());
+      writeStringField("description", value.getDescription());
+      writeIntegerField("parent_value_unique_id", value.getParentValueUniqueID());
       m_writer.writeEndObject();
    }
 
@@ -1717,7 +1829,7 @@ public final class JsonWriter extends AbstractProjectWriter
       }
    }
 
-   private void writeActivityCodeValues(String fieldName, Object value) throws IOException
+   private void writeCodeValues(String fieldName, Object value) throws IOException
    {
       if (!(value instanceof Map))
       {
@@ -1725,10 +1837,10 @@ public final class JsonWriter extends AbstractProjectWriter
       }
 
       @SuppressWarnings("unchecked")
-      Map<ActivityCode, ActivityCodeValue> map = (Map<ActivityCode, ActivityCodeValue>) value;
+      Map<? extends Code, ? extends CodeValue> map = (Map<? extends Code, ? extends CodeValue>) value;
       if (!map.isEmpty())
       {
-         m_writer.writeList(fieldName, map.values().stream().map(ActivityCodeValue::getUniqueID).sorted().collect(Collectors.toList()));
+         m_writer.writeList(fieldName, map.values().stream().map(CodeValue::getUniqueID).sorted().collect(Collectors.toList()));
       }
    }
 

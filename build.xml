@@ -7,7 +7,7 @@
 		<property environment="env"/>
 
 		<!-- Build Configuration -->
-		<property name="current.version" value="13.7.0" />
+		<property name="current.version" value="13.9.0" />
 		<property name="current.version.classifier" value="" />
 		<!-- Environment Configuration-->
 		<property name="maven.cmd" value="mvn.cmd"/>
@@ -255,16 +255,16 @@
 		<!-- Copy in schemas not included with MPXJ -->
 		<copy file="${env.MPXJ_SCHEMA_DIR}/conceptdraw/document-corrected.xsd" toDir="${basedir}/jaxb"/>
 		<copy file="${env.MPXJ_SCHEMA_DIR}/mspdi/mspdi_pj15-corrected.xsd" toDir="${basedir}/jaxb"/>
-		<copy file="${env.MPXJ_SCHEMA_DIR}/pmxml/p6v2312-p6apibo-corrected.xsd" toDir="${basedir}/jaxb"/>
+		<copy file="${env.MPXJ_SCHEMA_DIR}/pmxml/p6v2412-p6apibo-corrected.xsd" toDir="${basedir}/jaxb"/>
 
+		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b pm-binding.xjb -p net.sf.mpxj.primavera.schema p6v2412-p6apibo-corrected.xsd" />
+		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b mspdi-binding.xjb -p net.sf.mpxj.mspdi.schema mspdi_pj15-corrected.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b mrproject.xjb -p net.sf.mpxj.planner.schema mrproject-0.6.xsd" />
-		</exec>
-		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b pm-binding.xjb -p net.sf.mpxj.primavera.schema p6v2312-p6apibo-corrected.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b phoenix-4-binding.xjb -p net.sf.mpxj.phoenix.schema.phoenix4 phoenix-4.xsd" />
@@ -285,7 +285,7 @@
 		<!-- Remove schemas not included with MPXJ -->
 		<delete file="${basedir}/jaxb/document-corrected.xsd"/>
 		<delete file="${basedir}/jaxb/mspdi_pj15-corrected.xsd"/>
-		<delete file="${basedir}/jaxb/p6v2312-p6apibo-corrected.xsd"/>
+		<delete file="${basedir}/jaxb/p6v2412-p6apibo-corrected.xsd"/>
 	</target>
 
 	<target name="ikvm-init" depends="init">

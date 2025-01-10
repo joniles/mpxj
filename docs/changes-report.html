@@ -33,7 +33,7 @@
 
         <div id="breadcrumbs">
           <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2024-11-25</li>
+        <li id="publishDate">Last Published: 2025-01-09</li>
           </ul>
         </div>
       </header>
@@ -68,8 +68,84 @@
 <h2><a name="MPXJ_Changes"></a>MPXJ Changes</h2><section>
 
 <p>Get the RSS feed of the last changes:&#160;<a href="changes.rss"><img src="images/rss.png" alt="rss feed" title="rss feed" /></a></p></section><section>
-<h3 id="a13.7.1">Release 13.7.1 &#x2013; unreleased</h3>
+<h3 id="a13.9.1">Release 13.9.1 &#x2013; unreleased</h3>
 <p>No changes in this release.</p></section><section>
+<h3 id="a13.9.0">Release 13.9.0 &#x2013; 2025-01-09</h3>
+<table border="0" class="table table-striped">
+<tr class="b">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Updated to POI 5.4.0</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Updated PMXML schema to version 24.12.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added support for reading and writing currencies for Primavera P6 schedules.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve recognition of dates displayed as NA in Microsoft Project when reading certain MPP file.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ignore invalid cost rate table entries when reading certain MPP files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
+<h3 id="a13.8.0">Release 13.8.0 &#x2013; 2024-12-17</h3>
+<table border="0" class="table table-striped">
+<tr class="b">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added support for reading and writing Project Codes, Resource Codes, Role Codes and Resource Assignment Codes for Primavera P6 schedules.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>When writing PMXML files, improve handling of P6 schedules where activity code sequence numbers are missing.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added an *experimental* feature to `MSPDIWriter` to allow the writer to generate timephased data when none is present. Disabled by default, call the `setGenerateMissingTimephasedData` and pass `true` to enable.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>To improve consistency, the methods `Task.getPrimaryResourceID()` and `Task.setPrimaryResourceID()` have been marked as deprecated. Use the new `Task.getPrimaryResourceUniqueID()` and `Task.setPrimaryResourceUniqueID()` methods instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added the methods `Task.getPrimaryResource()` and `Task.setPrimaryResource()`.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improved accuracy of retrieving the resource assignment GUID attribute when reading MPP files (Contributed by Fabian Schmidt).</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve population of Task Start and Finish attributes when reading Primavera P6 schedules.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `ActivityCodeValue.getParent()` method as deprecated. Use `ActivityCodeValue.getParentValue()` instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `ActivityCodeValue.getParentUniqueID()` method as deprecated. Use `ActivityCodeValue.getParentValueUniqueID()` instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `ActivityCodeValue.Builder.parent()` method as deprecated. Use `ActivityCodeValue.Builder.parentValue()` instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `ActivityCodeValue.getActivityCode()` method as deprecated. Use `ActivityCodeValue.getParentCode()` instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
 <h3 id="a13.7.0">Release 13.7.0 &#x2013; 2024-11-25</h3>
 <table border="0" class="table table-striped">
 <tr class="b">
@@ -420,7 +496,7 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>NOTE: the [original `net.sf.mpxj` NuGet packages](https://www.nuget.org/packages?q=net.sf.mpxj) are now deprecated and will be replaced by the [MPXJ.Net NuGet Package](https://www.nuget.org/packages/MPXJ.Net) in the next major MPXJ release. The `net.sf.mpxj` packages will continue to be maintained until then, at which point they will no longer be distributed. Please migrate your code to use MPXJ.Net at the earliest opportunity, and open an issue in the GitHUb issue tracker if you encounter problems.</td>
+<td>NOTE: the [original `net.sf.mpxj` NuGet packages](https://www.nuget.org/packages?q=net.sf.mpxj) are now deprecated and will be replaced by the [MPXJ.Net NuGet Package](https://www.nuget.org/packages/MPXJ.Net) in the next major MPXJ release. The `net.sf.mpxj` packages will continue to be maintained until then, at which point they will no longer be distributed. Please migrate your code to use MPXJ.Net at the earliest opportunity, and open an issue in the GitHub issue tracker if you encounter problems.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
@@ -8475,7 +8551,7 @@
     <footer>
       <div class="container-fluid">
         <div class="row-fluid">
-            <p>&#169;      2000&#x2013;2024
+            <p>&#169;      2000&#x2013;2025
 <a href="http://mpxj.org">Packwood Software</a>
 </p>
         </div>

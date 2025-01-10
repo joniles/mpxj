@@ -2881,6 +2881,13 @@ module MPXJ
       get_duration_value(attribute_values['remaining_work'])
     end
 
+    # Retrieve the Resource Assignment Code Values value
+    #
+    # @return Resource Assignment Code Values value
+    def resource_assignment_code_values
+      attribute_values['resource_assignment_code_values']
+    end
+
     # Retrieve the Resource ID value
     #
     # @return Resource ID value
@@ -3944,6 +3951,7 @@ module MPXJ
       'remaining_overtime_cost' => :currency,
       'remaining_overtime_work' => :work,
       'remaining_work' => :work,
+      'resource_assignment_code_values' => :code_values,
       'resource_id' => :integer,
       'resource_name' => :string,
       'resource_request_type' => :resource_request_type,

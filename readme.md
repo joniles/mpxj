@@ -53,8 +53,10 @@ More details of the supported file formats can be found
 
 ## Languages
 MPXJ is written and maintained in Java, however this is no barrier to using
-its functionality in other languages. Thanks to [IKVM](https://github.com/ikvmnet/ikvm), MPXJ is
-[available for .Net](https://www.nuget.org/packages?q=net.sf.mpxj), allowing it to be used from any .Net language.
+its functionality in other languages. Thanks to
+[IKVM](https://github.com/ikvmnet/ikvm), MPXJ is
+[available for .Net](https://www.nuget.org/packages/MPXJ.Net),
+allowing it to be used from any .Net language.
 
 There is also now a [Ruby Gem](https://rubygems.org/gems/mpxj) which provides
 native Ruby access to read from schedule files using MPXJ, and a

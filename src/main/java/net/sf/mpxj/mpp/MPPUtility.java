@@ -377,15 +377,7 @@ public final class MPPUtility
       LocalDateTime result;
 
       long days = getShort(data, offset + 2);
-      if (days < 100)
-      {
-         // We are seeing some files which have very small values for the number of days.
-         // When the relevant field is shown in MS Project it appears as NA.
-         // We try to mimic this behaviour here.
-         days = 0;
-      }
-
-      if (days == 0 || days == 65535)
+      if (days <= 1 || days == 65535)
       {
          result = null;
       }
@@ -398,9 +390,18 @@ public final class MPPUtility
          }
 
          result = EPOCH_DATE.plusDays(days).plusSeconds(time * 6);
+
+         // We are seeing some files which have very small values for the number of days.
+         // When the relevant field is shown in MS Project it appears as NA.
+         // We try to mimic this behaviour here, using the absence of the number of
+         // seconds as a heuristic to differentiate between NA and valid values.
+         if (days < 100 && result.getSecond() != 0)
+         {
+            result = null;
+         }
       }
 
-      return (result);
+      return result;
    }
 
    /**

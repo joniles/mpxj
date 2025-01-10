@@ -506,6 +506,46 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
+    * Retrieves the project code configuration for this project.
+    *
+    * @return project codes
+    */
+   public ProjectCodeContainer getProjectCodes()
+   {
+      return m_shared.getProjectCodes();
+   }
+
+   /**
+    * Retrieves the resource code configuration for this project.
+    *
+    * @return resource codes
+    */
+   public ResourceCodeContainer getResourceCodes()
+   {
+      return m_shared.getResourceCodes();
+   }
+
+   /**
+    * Retrieves the role code configuration for this project.
+    *
+    * @return role codes
+    */
+   public RoleCodeContainer getRoleCodes()
+   {
+      return m_shared.getRoleCodes();
+   }
+
+   /**
+    * Retrieves the resource assignment code configuration for this project.
+    *
+    * @return resource assignment codes
+    */
+   public ResourceAssignmentCodeContainer getResourceAssignmentCodes()
+   {
+      return m_shared.getResourceAssignmentCodes();
+   }
+
+   /**
     * Retrieves the shifts for this project.
     *
     * @return shifts
@@ -523,6 +563,16 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    public ShiftPeriodContainer getShiftPeriods()
    {
       return m_shared.getShiftPeriods();
+   }
+
+   /**
+    * Retrieves the currencies for this project.
+    *
+    * @return currencies
+    */
+   public CurrencyContainer getCurrencies()
+   {
+      return m_shared.getCurrencies();
    }
 
    /**

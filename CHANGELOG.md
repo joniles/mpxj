@@ -1,6 +1,31 @@
 # Changelog
 
-## 13.7.1 (unreleased)
+## NOTE
+From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net.sf.mpxj-for-vb` packages will
+no longer be distributed. Please use the `MPXJ.Net` package instead.
+
+
+## 13.9.1 (unreleased)
+
+## 13.9.0 (2025-01-09)
+* Updated to POI 5.4.0
+* Updated PMXML schema to version 24.12.
+* Added support for reading and writing currencies for Primavera P6 schedules.
+* Improve recognition of dates displayed as NA in Microsoft Project when reading certain MPP file.
+* Ignore invalid cost rate table entries when reading certain MPP files.
+
+## 13.8.0 (2024-12-17)
+* Added support for reading and writing Project Codes, Resource Codes, Role Codes and Resource Assignment Codes for Primavera P6 schedules.
+* When writing PMXML files, improve handling of P6 schedules where activity code sequence numbers are missing.
+* Added an *experimental* feature to `MSPDIWriter` to allow the writer to generate timephased data when none is present. Disabled by default, call the `setGenerateMissingTimephasedData` and pass `true` to enable.
+* To improve consistency, the methods `Task.getPrimaryResourceID()` and `Task.setPrimaryResourceID()` have been marked as deprecated. Use the new `Task.getPrimaryResourceUniqueID()` and `Task.setPrimaryResourceUniqueID()` methods instead.
+* Added the methods `Task.getPrimaryResource()` and `Task.setPrimaryResource()`.
+* Improved accuracy of retrieving the resource assignment GUID attribute when reading MPP files (Contributed by Fabian Schmidt).
+* Improve population of Task Start and Finish attributes when reading Primavera P6 schedules.
+* Marked the `ActivityCodeValue.getParent()` method as deprecated. Use `ActivityCodeValue.getParentValue()` instead.
+* Marked the `ActivityCodeValue.getParentUniqueID()` method as deprecated. Use `ActivityCodeValue.getParentValueUniqueID()` instead.
+* Marked the `ActivityCodeValue.Builder.parent()` method as deprecated. Use `ActivityCodeValue.Builder.parentValue()` instead.
+* Marked the `ActivityCodeValue.getActivityCode()` method as deprecated. Use `ActivityCodeValue.getParentCode()` instead.
 
 ## 13.7.0 (2024-11-25)
 * Update the MPXJ ruby gem to allow access to calendar data.
@@ -96,7 +121,7 @@
 
 ## 13.0.0 (2024-06-20)
 * NOTE: this is a major release containing breaking changes. When updating from a 12.x release it is recommended that you first update to the most recent 12.x release and deal with any deprecation warnings before moving to this release.
-* NOTE: the [original `net.sf.mpxj` NuGet packages](https://www.nuget.org/packages?q=net.sf.mpxj) are now deprecated and will be replaced by the [MPXJ.Net NuGet Package](https://www.nuget.org/packages/MPXJ.Net) in the next major MPXJ release. The `net.sf.mpxj` packages will continue to be maintained until then, at which point they will no longer be distributed. Please migrate your code to use MPXJ.Net at the earliest opportunity, and open an issue in the GitHUb issue tracker if you encounter problems.
+* NOTE: the [original `net.sf.mpxj` NuGet packages](https://www.nuget.org/packages?q=net.sf.mpxj) are now deprecated and will be replaced by the [MPXJ.Net NuGet Package](https://www.nuget.org/packages/MPXJ.Net) in the next major MPXJ release. The `net.sf.mpxj` packages will continue to be maintained until then, at which point they will no longer be distributed. Please migrate your code to use MPXJ.Net at the earliest opportunity, and open an issue in the GitHub issue tracker if you encounter problems.
 * Updated to use JAXB3. Among other things this change ensures compatibility with Spring Boot 3. Note that this may be a breaking change for you if you own application uses JAXB2.
 * When reading P6 schedules, the custom properties (as retrieved using `ProjectProperties.getCustomProperties`) will no longer contain scheduling options. These are now all available as attributes of the `ProjectProperties` class.
 * Removed redundant `setUniqueID` methods from immutable objects. These previously threw `UnsupportedOperationException` when called.
