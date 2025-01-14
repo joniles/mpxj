@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.ActivityType;
+import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
@@ -330,6 +331,18 @@ public class PrimaveraScheduler implements Scheduler
          {
             lateStart = calendar.getNextWorkStart(lateStart);
          }
+         else
+         {
+            if (task.getActivityType() != ActivityType.FINISH_MILESTONE)
+            {
+               LocalDateTime adjustedLateStart = calendar.getNextWorkStart(lateStart);
+               Duration work = calendar.getWork(lateStart, adjustedLateStart, TimeUnit.MINUTES);
+               if (work.getDuration() == 0)
+               {
+                  lateStart = adjustedLateStart;
+               }
+            }
+         }
 
          task.setLateStart(lateStart);
          task.setLateFinish(lateFinish);
@@ -593,7 +606,7 @@ public class PrimaveraScheduler implements Scheduler
       // P6 appears to work to the nearest minute
       if (result.getSecond() != 0)
       {
-         boolean roundUp = duration.getDuration() > 0 && result.getSecond() >= 30;
+         boolean roundUp = result.getSecond() >= 30;
          LocalTime newTime = LocalTime.of(result.getHour(), result.getMinute());
          result = LocalDateTime.of(result.toLocalDate(), newTime);
          if (roundUp)

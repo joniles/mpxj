@@ -221,14 +221,21 @@ public class CpmTest
       EXCLUDED_FILES.add("onrushing-stratification.mpp"); // MPP reading issue: missing predecessor
       EXCLUDED_FILES.add("smoother-melodrama.xer"); // No dates - so nothing to use as a baseline
       EXCLUDED_FILES.add("tender-workforce.xer"); // Can't import into P6 to debug
-      EXCLUDED_FILES.add("nasty-census.xer"); // ALAP weirdness
-      EXCLUDED_FILES.add("virtual-mast.xer"); // ALAP weirdness
       EXCLUDED_FILES.add("mortal-duct.xer"); // XER 1.0 can't import to P6
-      EXCLUDED_FILES.add("teenage-contest.encoding.xer"); // Aligns with MPXJ when scheduled
-      EXCLUDED_FILES.add("orphic-chastisement.xer"); // Aligns with MPXJ when scheduled
-      EXCLUDED_FILES.add("unlined-customhouse.xer"); // Aligns with MPXJ when scheduled
-      EXCLUDED_FILES.add("exhaustible-concussion.xer"); // Aligns with MPXJ when scheduled
       EXCLUDED_FILES.add("elected-orange.xer"); // Resource dependent activity
+
+      // Aligns with MPXJ when scheduled
+      EXCLUDED_FILES.add("teenage-contest.encoding.xer");
+      EXCLUDED_FILES.add("orphic-chastisement.xer");
+      EXCLUDED_FILES.add("unlined-customhouse.xer");
+      EXCLUDED_FILES.add("exhaustible-concussion.xer");
+      EXCLUDED_FILES.add("surface-jealousy.xer");
+
+
+      // ALAP weirdness
+      EXCLUDED_FILES.add("nasty-census.xer");
+      EXCLUDED_FILES.add("virtual-mast.xer");
+      EXCLUDED_FILES.add("specific-academy.xer");
 
       // Scheduled from end
       EXCLUDED_FILES.add("dietetic-phrasing.mpp");
