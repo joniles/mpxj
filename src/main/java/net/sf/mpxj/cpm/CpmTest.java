@@ -220,9 +220,16 @@ public class CpmTest
       EXCLUDED_FILES.add("circulatory-collapse.mpp"); // TODO: needs calculation at assignment level?
       EXCLUDED_FILES.add("onrushing-stratification.mpp"); // MPP reading issue: missing predecessor
       EXCLUDED_FILES.add("smoother-melodrama.xer"); // No dates - so nothing to use as a baseline
-      EXCLUDED_FILES.add("tender-workforce.xer"); // Can't import into P6 to debug
-      EXCLUDED_FILES.add("mortal-duct.xer"); // XER 1.0 can't import to P6
-      EXCLUDED_FILES.add("elected-orange.xer"); // Resource dependent activity
+
+      // Resource dependent activity
+      EXCLUDED_FILES.add("elected-orange.xer");
+      EXCLUDED_FILES.add("role-code-test.xer");
+      EXCLUDED_FILES.add("steps.xer");
+
+      // Can't import into P6 to debug
+      EXCLUDED_FILES.add("tender-workforce.xer");
+      EXCLUDED_FILES.add("mortal-duct.xer");
+      EXCLUDED_FILES.add("narrower-encouragement.xer");
 
       // Aligns with MPXJ when scheduled
       EXCLUDED_FILES.add("teenage-contest.encoding.xer");

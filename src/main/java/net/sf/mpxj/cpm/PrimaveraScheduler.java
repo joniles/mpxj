@@ -36,7 +36,7 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
-      if (projectStartDate.isBefore(dataDate))
+      if (dataDate != null && projectStartDate.isBefore(dataDate))
       {
          projectStartDate = dataDate;
       }
