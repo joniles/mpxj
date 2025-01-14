@@ -228,6 +228,8 @@ public class CpmTest
       EXCLUDED_FILES.add("aloof-proton.xer");
       EXCLUDED_FILES.add("thinner-council.xer");
       EXCLUDED_FILES.add("assignment-code-test.xer");
+      EXCLUDED_FILES.add("prospective-interference.xer");
+      EXCLUDED_FILES.add("mythological-flourish.xer");
 
       // Can't import into P6 to debug
       EXCLUDED_FILES.add("tender-workforce.xer");

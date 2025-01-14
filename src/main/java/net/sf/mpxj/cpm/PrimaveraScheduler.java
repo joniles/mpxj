@@ -328,16 +328,20 @@ public class PrimaveraScheduler implements Scheduler
             }
          }
 
-         // P6 moves the late finish date to the end of the working period on that day.
-         LocalDateTime adjustedLateFinish = LocalTimeHelper.setEndTime(lateFinish, calendar.getFinishTime(lateFinish.toLocalDate()));
-
-         // There is some variability in how P6 represents this, e.g. 16:59 and 17:00 are equivalent
-         // Don't adjust the date if they are 1 minute apart to ensure the dates we produce are aligned with P6.
-         // Also, there also appears to be an upper limit to how much P6 will push the end date forward.
-         long differenceInSeconds = lateFinish.until(adjustedLateFinish, ChronoUnit.SECONDS);
-         if (differenceInSeconds > 60 && differenceInSeconds < 1980)
+         // TODO: maybe the same task duration logic as below?
+         if (task.getDuration().getDuration() != 0)
          {
-            lateFinish = adjustedLateFinish;
+            // P6 moves the late finish date to the end of the working period on that day.
+            LocalDateTime adjustedLateFinish = LocalTimeHelper.setEndTime(lateFinish, calendar.getFinishTime(lateFinish.toLocalDate()));
+
+            // There is some variability in how P6 represents this, e.g. 16:59 and 17:00 are equivalent
+            // Don't adjust the date if they are 1 minute apart to ensure the dates we produce are aligned with P6.
+            // Also, there also appears to be an upper limit to how much P6 will push the end date forward.
+            long differenceInSeconds = lateFinish.until(adjustedLateFinish, ChronoUnit.SECONDS);
+            if (differenceInSeconds > 60 && differenceInSeconds < 1980)
+            {
+               lateFinish = adjustedLateFinish;
+            }
          }
 
          LocalDateTime lateStart;
@@ -349,7 +353,7 @@ public class PrimaveraScheduler implements Scheduler
          }
          else
          {
-            if (task.getActivityType() != ActivityType.FINISH_MILESTONE)
+            if (task.getActivityType() != ActivityType.FINISH_MILESTONE && taskDuration.getDuration() != 0)
             {
                LocalDateTime adjustedLateStart = calendar.getNextWorkStart(lateStart);
                Duration work = calendar.getWork(lateStart, adjustedLateStart, TimeUnit.MINUTES);
