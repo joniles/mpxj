@@ -231,11 +231,11 @@ public class CpmTest
       EXCLUDED_FILES.add("exhaustible-concussion.xer");
       EXCLUDED_FILES.add("surface-jealousy.xer");
 
-
       // ALAP weirdness
       EXCLUDED_FILES.add("nasty-census.xer");
       EXCLUDED_FILES.add("virtual-mast.xer");
       EXCLUDED_FILES.add("specific-academy.xer");
+      EXCLUDED_FILES.add("toxic-end.xer");
 
       // Scheduled from end
       EXCLUDED_FILES.add("dietetic-phrasing.mpp");

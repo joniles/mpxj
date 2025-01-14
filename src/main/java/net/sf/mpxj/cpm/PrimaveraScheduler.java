@@ -35,6 +35,12 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
+      LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
+      if (projectStartDate.isBefore(dataDate))
+      {
+         projectStartDate = dataDate;
+      }
+
       forwardPass(projectStartDate, tasks);
 
       LocalDateTime projectFinishDate = m_file.getProjectProperties().getMustFinishBy();
