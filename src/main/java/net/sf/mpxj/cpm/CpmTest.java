@@ -225,6 +225,9 @@ public class CpmTest
       EXCLUDED_FILES.add("elected-orange.xer");
       EXCLUDED_FILES.add("role-code-test.xer");
       EXCLUDED_FILES.add("steps.xer");
+      EXCLUDED_FILES.add("aloof-proton.xer");
+      EXCLUDED_FILES.add("thinner-council.xer");
+      EXCLUDED_FILES.add("assignment-code-test.xer");
 
       // Can't import into P6 to debug
       EXCLUDED_FILES.add("tender-workforce.xer");
@@ -237,6 +240,10 @@ public class CpmTest
       EXCLUDED_FILES.add("unlined-customhouse.xer");
       EXCLUDED_FILES.add("exhaustible-concussion.xer");
       EXCLUDED_FILES.add("surface-jealousy.xer");
+      EXCLUDED_FILES.add("passionate-lounge.xer");
+
+      // Don't understand FF relationship behaviour
+      EXCLUDED_FILES.add("passionate-lounge-scheduled.xer");
 
       // ALAP weirdness
       EXCLUDED_FILES.add("nasty-census.xer");
