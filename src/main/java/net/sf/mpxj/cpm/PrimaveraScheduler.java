@@ -98,17 +98,7 @@ public class PrimaveraScheduler implements Scheduler
 
                case RESOURCE_DEPENDENT:
                {
-                  // TODO: we need to schedule based on the resource calendars. The code below is not correct.
-                  earlyStart = calendar.getNextWorkStart(earlyStart);
-
-                  if (earlyStart.toLocalTime().isAfter(calendar.getStartTime(earlyStart.toLocalDate())))
-                  {
-                     LocalTime finishTime = calendar.getFinishTime(earlyStart.toLocalDate());
-                     earlyStart = LocalDateTime.of(earlyStart.toLocalDate(), finishTime);
-                     earlyStart = calendar.getNextWorkStart(earlyStart);
-                  }
-
-                  break;
+                  throw new UnsupportedOperationException("Resource Dependent Activities not currently supported");
                }
 
                default:
@@ -328,7 +318,7 @@ public class PrimaveraScheduler implements Scheduler
          // Don't adjust the date if they are 1 minute apart to ensure the dates we produce are aligned with P6.
          // Also, there also appears to be an upper limit to how much P6 will push the end date forward.
          long differenceInSeconds = lateFinish.until(adjustedLateFinish, ChronoUnit.SECONDS);
-         if (differenceInSeconds > 60 && differenceInSeconds < 2580)
+         if (differenceInSeconds > 60 && differenceInSeconds < 1980)
          {
             lateFinish = adjustedLateFinish;
          }
