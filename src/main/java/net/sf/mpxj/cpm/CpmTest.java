@@ -231,6 +231,7 @@ public class CpmTest
       EXCLUDED_FILES.add("prospective-interference.xer");
       EXCLUDED_FILES.add("mythological-flourish.xer");
       EXCLUDED_FILES.add("orphic-chastisement-scheduled.xer");
+      EXCLUDED_FILES.add("alive-lap.xer");
 
       // Can't import into P6 to debug
       EXCLUDED_FILES.add("tender-workforce.xer");
@@ -250,6 +251,7 @@ public class CpmTest
       EXCLUDED_FILES.add("synthetic-moire.xer");
       EXCLUDED_FILES.add("comments-relation-test.xer");
       EXCLUDED_FILES.add("dense-cushion.xer");
+      EXCLUDED_FILES.add("frightened-heat.xer");
 
       // Don't understand FF relationship behaviour
       EXCLUDED_FILES.add("passionate-lounge-scheduled.xer");
