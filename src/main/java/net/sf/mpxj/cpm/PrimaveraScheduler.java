@@ -258,6 +258,15 @@ public class PrimaveraScheduler implements Scheduler
 
                switch (task.getConstraintType())
                {
+                  case START_ON:
+                  {
+                     if (task.getActualStart() == null)
+                     {
+                        lateFinish = getDate(calendar, task.getConstraintDate(), task.getDuration());
+                     }
+                     break;
+                  }
+
                   case MUST_START_ON:
                   {
                      lateFinish = getDate(calendar, task.getConstraintDate(), task.getDuration());
