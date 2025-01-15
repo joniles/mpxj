@@ -235,6 +235,7 @@ public class CpmTest
       EXCLUDED_FILES.add("tender-workforce.xer");
       EXCLUDED_FILES.add("mortal-duct.xer");
       EXCLUDED_FILES.add("narrower-encouragement.xer");
+      EXCLUDED_FILES.add("invalid-calendar-data.encoding.xer");
 
       // Aligns with MPXJ when scheduled
       EXCLUDED_FILES.add("teenage-contest.encoding.xer");

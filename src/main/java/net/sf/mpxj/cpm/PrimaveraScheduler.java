@@ -202,28 +202,16 @@ public class PrimaveraScheduler implements Scheduler
             }
             else
             {
-               if (activityOutOfSequence)
+               if (predecessors.isEmpty())
                {
-                  earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
-                  earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
+                  LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
+                  earlyStart = dataDate;
+                  earlyFinish = dataDate;
                }
                else
                {
-                  LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
-                  if (predecessors.isEmpty())
-                  {
-                     earlyFinish = dataDate;
-                     earlyStart = dataDate;
-                  }
-                  else
-                  {
-                     earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
-                     if (earlyStart.isBefore(dataDate))
-                     {
-                        earlyStart = dataDate;
-                     }
-                     earlyFinish = earlyStart;
-                  }
+                  earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+                  earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
                }
             }
          }
@@ -377,6 +365,10 @@ public class PrimaveraScheduler implements Scheduler
       {
          case FINISH_START:
          {
+            if (predecessor.getActualFinish() != null)
+            {
+               return predecessor.getEarlyFinish();
+            }
             return getDate(getLagCalendar(taskCalendar, relation), predecessor.getEarlyFinish(), relation.getLag());
          }
 
