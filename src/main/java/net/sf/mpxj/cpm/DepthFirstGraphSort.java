@@ -84,6 +84,7 @@ public class DepthFirstGraphSort
 
       if (m_temporaryMark.contains(task))
       {
+         // Break cycle by ignoring relation where cycle detected?
          throw new CycleException();
       }
 

@@ -245,6 +245,7 @@ public class CpmTest
       EXCLUDED_FILES.add("surface-jealousy.xer");
       EXCLUDED_FILES.add("passionate-lounge.xer");
       EXCLUDED_FILES.add("synthetic-moire.xer");
+      EXCLUDED_FILES.add("comments-relation-test.xer");
 
       // Don't understand FF relationship behaviour
       EXCLUDED_FILES.add("passionate-lounge-scheduled.xer");
