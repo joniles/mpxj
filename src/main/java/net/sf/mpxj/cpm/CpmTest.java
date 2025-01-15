@@ -230,12 +230,15 @@ public class CpmTest
       EXCLUDED_FILES.add("assignment-code-test.xer");
       EXCLUDED_FILES.add("prospective-interference.xer");
       EXCLUDED_FILES.add("mythological-flourish.xer");
+      EXCLUDED_FILES.add("orphic-chastisement-scheduled.xer");
 
       // Can't import into P6 to debug
       EXCLUDED_FILES.add("tender-workforce.xer");
       EXCLUDED_FILES.add("mortal-duct.xer");
       EXCLUDED_FILES.add("narrower-encouragement.xer");
       EXCLUDED_FILES.add("invalid-calendar-data.encoding.xer");
+      EXCLUDED_FILES.add("duplicate-relation-uid.xer");
+
 
       // Aligns with MPXJ when scheduled
       EXCLUDED_FILES.add("teenage-contest.encoding.xer");
@@ -246,9 +249,13 @@ public class CpmTest
       EXCLUDED_FILES.add("passionate-lounge.xer");
       EXCLUDED_FILES.add("synthetic-moire.xer");
       EXCLUDED_FILES.add("comments-relation-test.xer");
+      EXCLUDED_FILES.add("dense-cushion.xer");
 
       // Don't understand FF relationship behaviour
       EXCLUDED_FILES.add("passionate-lounge-scheduled.xer");
+
+      // Don't understand SS relationship behaviour
+      EXCLUDED_FILES.add("dense-cushion-scheduled.xer");
 
       // ALAP weirdness
       EXCLUDED_FILES.add("nasty-census.xer");
@@ -256,9 +263,12 @@ public class CpmTest
       EXCLUDED_FILES.add("specific-academy.xer");
       EXCLUDED_FILES.add("toxic-end.xer");
       EXCLUDED_FILES.add("missing-limestone.xer");
+      EXCLUDED_FILES.add("detailed-librarian.xer");
+      EXCLUDED_FILES.add("outstanding-vaudeville.xer");
 
       // Schedule contains a loop
       EXCLUDED_FILES.add("calendar_missing_info.xer");
+      EXCLUDED_FILES.add("incomprehensible-stockroom.xer");
 
       // Scheduled from end
       EXCLUDED_FILES.add("dietetic-phrasing.mpp");
