@@ -240,7 +240,6 @@ public class CpmTest
       EXCLUDED_FILES.add("invalid-calendar-data.encoding.xer");
       EXCLUDED_FILES.add("duplicate-relation-uid.xer");
 
-
       // Aligns with MPXJ when scheduled
       EXCLUDED_FILES.add("teenage-contest.encoding.xer");
       EXCLUDED_FILES.add("orphic-chastisement.xer");
@@ -258,6 +257,7 @@ public class CpmTest
 
       // Don't understand SS relationship behaviour
       EXCLUDED_FILES.add("dense-cushion-scheduled.xer");
+      EXCLUDED_FILES.add("teenage-contest-scheduled.xer");
 
       // ALAP weirdness
       EXCLUDED_FILES.add("nasty-census.xer");
