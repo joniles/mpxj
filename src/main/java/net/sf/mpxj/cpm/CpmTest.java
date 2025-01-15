@@ -244,6 +244,7 @@ public class CpmTest
       EXCLUDED_FILES.add("exhaustible-concussion.xer");
       EXCLUDED_FILES.add("surface-jealousy.xer");
       EXCLUDED_FILES.add("passionate-lounge.xer");
+      EXCLUDED_FILES.add("synthetic-moire.xer");
 
       // Don't understand FF relationship behaviour
       EXCLUDED_FILES.add("passionate-lounge-scheduled.xer");
@@ -253,6 +254,10 @@ public class CpmTest
       EXCLUDED_FILES.add("virtual-mast.xer");
       EXCLUDED_FILES.add("specific-academy.xer");
       EXCLUDED_FILES.add("toxic-end.xer");
+      EXCLUDED_FILES.add("missing-limestone.xer");
+
+      // Schedule contains a loop
+      EXCLUDED_FILES.add("calendar_missing_info.xer");
 
       // Scheduled from end
       EXCLUDED_FILES.add("dietetic-phrasing.mpp");
