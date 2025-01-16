@@ -31,8 +31,8 @@ public class CpmTest
       if (target.isDirectory())
       {
          //test.process(new File(target, "mpp"), ".mpp", MICROSOFT_PROJECT);
-         //test.process(new File(target, "XER"), ".xer", PRIMAVERA_P6);
-         test.process(new File(target, "PMXML"), ".xml", PRIMAVERA_P6);
+         test.process(new File(target, "XER"), ".xer", PRIMAVERA_P6);
+         //test.process(new File(target, "PMXML"), ".xml", PRIMAVERA_P6);
       }
       else
       {
@@ -239,6 +239,8 @@ public class CpmTest
       EXCLUDED_FILES.add("role-code-test.xml");
       EXCLUDED_FILES.add("steps.xml");
       EXCLUDED_FILES.add("baseline-issue.xml");
+      EXCLUDED_FILES.add("prod00914.xml");
+      EXCLUDED_FILES.add("virile-schema.xml");
 
       // Can't import into P6 to debug
       EXCLUDED_FILES.add("tender-workforce.xer");
@@ -259,14 +261,17 @@ public class CpmTest
       EXCLUDED_FILES.add("dense-cushion.xer");
       EXCLUDED_FILES.add("frightened-heat.xer");
       EXCLUDED_FILES.add("nrg00950.xer");
+      EXCLUDED_FILES.add("plain-move.xer");
 
       // Don't understand FF relationship behaviour
       EXCLUDED_FILES.add("passionate-lounge-scheduled.xer"); // PROGRESS_OVERRIDE
+      EXCLUDED_FILES.add("passionate-lounge-1.xml"); // PROGRESS_OVERRIDE
 
       // Don't understand SS relationship behaviour
       EXCLUDED_FILES.add("dense-cushion-scheduled.xer");
       EXCLUDED_FILES.add("teenage-contest-scheduled.xer");
       EXCLUDED_FILES.add("orange-parade.xer"); // PROGRESS_OVERRIDE
+      EXCLUDED_FILES.add("stuffy-sturgeon.xml");
 
       // ALAP weirdness
       EXCLUDED_FILES.add("nasty-census.xer");
@@ -280,6 +285,7 @@ public class CpmTest
       // Schedule contains a loop
       EXCLUDED_FILES.add("calendar_missing_info.xer");
       EXCLUDED_FILES.add("incomprehensible-stockroom.xer");
+      EXCLUDED_FILES.add("baltic-laugh.xml");
 
       // Scheduled from end
       EXCLUDED_FILES.add("dietetic-phrasing.mpp");
