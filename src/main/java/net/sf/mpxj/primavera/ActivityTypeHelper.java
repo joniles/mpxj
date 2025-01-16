@@ -100,6 +100,9 @@ final class ActivityTypeHelper
       XML_TYPE_MAP.put("Start Milestone", net.sf.mpxj.ActivityType.START_MILESTONE);
       XML_TYPE_MAP.put("Finish Milestone", net.sf.mpxj.ActivityType.FINISH_MILESTONE);
       XML_TYPE_MAP.put("WBS Summary", net.sf.mpxj.ActivityType.WBS_SUMMARY);
+
+      // Version 6.1 schema. Need access to prmbo.xsd to confirm other values
+      XML_TYPE_MAP.put("0", net.sf.mpxj.ActivityType.TASK_DEPENDENT);
    }
 
    private static final Map<net.sf.mpxj.ActivityType, String> TYPE_XML_MAP = new HashMap<>();
