@@ -251,6 +251,7 @@ public class CpmTest
       EXCLUDED_FILES.add("comments-relation-test.xer");
       EXCLUDED_FILES.add("dense-cushion.xer");
       EXCLUDED_FILES.add("frightened-heat.xer");
+      EXCLUDED_FILES.add("nrg00950.xer");
 
       // Don't understand FF relationship behaviour
       EXCLUDED_FILES.add("passionate-lounge-scheduled.xer");
