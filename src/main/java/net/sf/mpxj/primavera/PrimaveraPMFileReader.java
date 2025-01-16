@@ -1854,7 +1854,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          // and Finish Date attributes are populated with that date.
          if (task.getMilestone())
          {
-            if ("Start Milestone".equals(row.getType()))
+            if (task.getActivityType() == net.sf.mpxj.ActivityType.START_MILESTONE)
             {
                task.setFinish(task.getStart());
             }
