@@ -31,8 +31,8 @@ public class CpmTest
       if (target.isDirectory())
       {
          //test.process(new File(target, "mpp"), ".mpp", MICROSOFT_PROJECT);
-         test.process(new File(target, "XER"), ".xer", PRIMAVERA_P6);
-         //test.process(new File(target, "PMXML"), ".xml", PRIMAVERA_P6);
+         //test.process(new File(target, "XER"), ".xer", PRIMAVERA_P6);
+         test.process(new File(target, "PMXML"), ".xml", PRIMAVERA_P6);
       }
       else
       {
@@ -241,6 +241,7 @@ public class CpmTest
       EXCLUDED_FILES.add("baseline-issue.xml");
       EXCLUDED_FILES.add("prod00914.xml");
       EXCLUDED_FILES.add("virile-schema.xml");
+      EXCLUDED_FILES.add("restricted-garden.xml");
 
       // Can't import into P6 to debug
       EXCLUDED_FILES.add("tender-workforce.xer");
@@ -248,6 +249,7 @@ public class CpmTest
       EXCLUDED_FILES.add("narrower-encouragement.xer");
       EXCLUDED_FILES.add("invalid-calendar-data.encoding.xer");
       EXCLUDED_FILES.add("duplicate-relation-uid.xer");
+      EXCLUDED_FILES.add("hotter-gunmen.xml");
 
       // Aligns with MPXJ when scheduled
       EXCLUDED_FILES.add("teenage-contest.encoding.xer");
@@ -256,12 +258,18 @@ public class CpmTest
       EXCLUDED_FILES.add("exhaustible-concussion.xer");
       EXCLUDED_FILES.add("surface-jealousy.xer");
       EXCLUDED_FILES.add("passionate-lounge.xer");
+      EXCLUDED_FILES.add("passionate-lounge.xml");
       EXCLUDED_FILES.add("synthetic-moire.xer");
       EXCLUDED_FILES.add("comments-relation-test.xer");
       EXCLUDED_FILES.add("dense-cushion.xer");
       EXCLUDED_FILES.add("frightened-heat.xer");
       EXCLUDED_FILES.add("nrg00950.xer");
       EXCLUDED_FILES.add("plain-move.xer");
+      EXCLUDED_FILES.add("manic-relativity.xml");
+      EXCLUDED_FILES.add("supreme-convention.xml");
+      EXCLUDED_FILES.add("udf-test.xml");
+      EXCLUDED_FILES.add("garish-biophysicist.xml");
+      EXCLUDED_FILES.add("prime-chiropractor.xml");
 
       // Don't understand FF relationship behaviour
       EXCLUDED_FILES.add("passionate-lounge-scheduled.xer"); // PROGRESS_OVERRIDE
@@ -271,6 +279,7 @@ public class CpmTest
       EXCLUDED_FILES.add("dense-cushion-scheduled.xer");
       EXCLUDED_FILES.add("teenage-contest-scheduled.xer");
       EXCLUDED_FILES.add("orange-parade.xer"); // PROGRESS_OVERRIDE
+      EXCLUDED_FILES.add("orange-parade.xml"); // PROGRESS_OVERRIDE
       EXCLUDED_FILES.add("stuffy-sturgeon.xml");
 
       // ALAP weirdness
@@ -281,11 +290,28 @@ public class CpmTest
       EXCLUDED_FILES.add("missing-limestone.xer");
       EXCLUDED_FILES.add("detailed-librarian.xer");
       EXCLUDED_FILES.add("outstanding-vaudeville.xer");
+      EXCLUDED_FILES.add("transcendent-remedy.xml");
+      EXCLUDED_FILES.add("single-supervision.xml");
+      EXCLUDED_FILES.add("keen-knock.xml");
+      EXCLUDED_FILES.add("ideal-tilt.xml");
+      EXCLUDED_FILES.add("barbaric-pat.xml");
+      EXCLUDED_FILES.add("radical-reach.xml");
 
       // Schedule contains a loop
       EXCLUDED_FILES.add("calendar_missing_info.xer");
       EXCLUDED_FILES.add("incomprehensible-stockroom.xer");
       EXCLUDED_FILES.add("baltic-laugh.xml");
+
+      // Time rounding issue
+      EXCLUDED_FILES.add("global-sociology.xml");
+
+      // PMXML contains remaining early/late start/finish dates not
+      // early/late start/finish. There appears to be a difference...
+      EXCLUDED_FILES.add("fleet-salary.xml");
+
+      // Interesting insight - Late Finish w/o successors governed by parent WBS late finish.
+      // Need to investigate - may resolve ALAP weirdness???
+      EXCLUDED_FILES.add("prime-chiropractor-scheduled.xml");
 
       // Scheduled from end
       EXCLUDED_FILES.add("dietetic-phrasing.mpp");
