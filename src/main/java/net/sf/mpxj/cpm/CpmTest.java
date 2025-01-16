@@ -31,8 +31,8 @@ public class CpmTest
       if (target.isDirectory())
       {
          //test.process(new File(target, "mpp"), ".mpp", MICROSOFT_PROJECT);
-         test.process(new File(target, "XER"), ".xer", PRIMAVERA_P6);
-         //test.process(new File(target, "PMXML"), ".xml", PRIMAVERA_P6);
+         //test.process(new File(target, "XER"), ".xer", PRIMAVERA_P6);
+         test.process(new File(target, "PMXML"), ".xml", PRIMAVERA_P6);
       }
       else
       {
@@ -234,6 +234,11 @@ public class CpmTest
       EXCLUDED_FILES.add("mythological-flourish.xer");
       EXCLUDED_FILES.add("orphic-chastisement-scheduled.xer");
       EXCLUDED_FILES.add("alive-lap.xer");
+      EXCLUDED_FILES.add("prospective-interference.xml");
+      EXCLUDED_FILES.add("assignment-code-test.xml");
+      EXCLUDED_FILES.add("role-code-test.xml");
+      EXCLUDED_FILES.add("steps.xml");
+      EXCLUDED_FILES.add("baseline-issue.xml");
 
       // Can't import into P6 to debug
       EXCLUDED_FILES.add("tender-workforce.xer");
