@@ -438,7 +438,7 @@ public class PrimaveraScheduler implements Scheduler
          {
             LocalDateTime lateStart;
 
-            if (successorTask.getActualStart() == null)
+            if (successorTask.getActualStart() == null && predecessorTask.getActualStart() == null)
             {
                lateStart = taskCalendar.getNextWorkStart(getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), relation.getLag().negate()));
             }

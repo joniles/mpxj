@@ -77,6 +77,7 @@ public class CpmTest
       else
       {
          System.out.println("failed.");
+         System.out.println(m_baselineFile.getProjectProperties().getSchedulingProgressedActivities());
          System.out.println("Forward errors: " + m_forwardErrorCount);
          System.out.println("Backward errors: " + m_backwardErrorCount);
          analyseFailures();
@@ -254,11 +255,12 @@ public class CpmTest
       EXCLUDED_FILES.add("nrg00950.xer");
 
       // Don't understand FF relationship behaviour
-      EXCLUDED_FILES.add("passionate-lounge-scheduled.xer");
+      EXCLUDED_FILES.add("passionate-lounge-scheduled.xer"); // PROGRESS_OVERRIDE
 
       // Don't understand SS relationship behaviour
       EXCLUDED_FILES.add("dense-cushion-scheduled.xer");
       EXCLUDED_FILES.add("teenage-contest-scheduled.xer");
+      EXCLUDED_FILES.add("orange-parade.xer"); // PROGRESS_OVERRIDE
 
       // ALAP weirdness
       EXCLUDED_FILES.add("nasty-census.xer");
