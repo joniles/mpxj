@@ -631,7 +631,7 @@ public class PrimaveraScheduler implements Scheduler
             LocalDateTime earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
             task.setEarlyStart(earlyStart);
             task.setEarlyFinish(earlyFinish);
-            System.out.println("ALAP adjusted " + task);
+            //System.out.println("ALAP adjusted " + task);
             break;
          }
 
@@ -641,13 +641,13 @@ public class PrimaveraScheduler implements Scheduler
             LocalDateTime earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
             task.setEarlyStart(earlyStart);
             task.setEarlyFinish(earlyFinish);
-            System.out.println("ALAP adjusted " + task);
+            //System.out.println("ALAP adjusted " + task);
             break;
          }
 
          default:
          {
-            System.out.println("here");
+            //System.out.println("here");
             break;
          }
       }
