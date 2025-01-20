@@ -621,13 +621,23 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       Relation relation  = successors.stream().min((r1, r2) -> r1.getSuccessorTask().getEarlyStart().compareTo(r2.getSuccessorTask().getEarlyStart())).orElseThrow(() -> new CpmException("Missing early start date"));
+      ProjectCalendar calendar = task.getEffectiveCalendar();
 
       switch (relation.getType())
       {
          case START_START:
          {
-            ProjectCalendar calendar = task.getEffectiveCalendar();
             LocalDateTime earlyStart = relation.getSuccessorTask().getEarlyStart();
+            LocalDateTime earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
+            task.setEarlyStart(earlyStart);
+            task.setEarlyFinish(earlyFinish);
+            System.out.println("ALAP adjusted " + task);
+            break;
+         }
+
+         case FINISH_START:
+         {
+            LocalDateTime earlyStart = getDate(calendar, relation.getSuccessorTask().getEarlyStart(), task.getRemainingDuration().negate());
             LocalDateTime earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
             task.setEarlyStart(earlyStart);
             task.setEarlyFinish(earlyFinish);
