@@ -404,7 +404,14 @@ public class PrimaveraScheduler implements Scheduler
             {
                return predecessor.getEarlyStart();
             }
-            return getDate(getLagCalendar(taskCalendar, relation), predecessor.getEarlyStart(), relation.getLag());
+
+            if (relation.getLag().getDuration() != 0)
+            {
+               return getDate(getLagCalendar(taskCalendar, relation), predecessor.getEarlyStart(), relation.getLag());
+            }
+
+            // why adjust the next work strat with the lag calendar? not sure, but it seems to work ;-)
+            return getLagCalendar(taskCalendar, relation).getNextWorkStart(predecessor.getEarlyStart());
          }
 
          case FINISH_FINISH:
