@@ -53,6 +53,8 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       backwardPass(tasks);
+
+      alapAdjust(tasks);
    }
 
    private void forwardPass(List<Task> tasks) throws CpmException
@@ -167,9 +169,17 @@ public class PrimaveraScheduler implements Scheduler
                }
 
                case MUST_START_ON:
-               case START_ON:
                {
                   earlyStart = task.getConstraintDate();
+                  break;
+               }
+
+               case START_ON:
+               {
+                  if (earlyStart.isBefore(task.getConstraintDate()))
+                  {
+                     earlyStart = task.getConstraintDate();
+                  }
                   break;
                }
 
@@ -592,6 +602,47 @@ public class PrimaveraScheduler implements Scheduler
    {
       return task.getSummary() || !task.getActive() || task.getNull() || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getActivityType() == ActivityType.WBS_SUMMARY;
    }
+
+   private void alapAdjust(List<Task> tasks) throws CpmException
+   {
+      // use successor early start/finish on alaps predecessor to set early start/finish???
+      for (Task task : tasks.stream().filter(t -> t.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE).collect(Collectors.toList()))
+      {
+         //alapAdjust(task);
+      }
+   }
+
+   private void alapAdjust(Task task) throws CpmException
+   {
+      List<Relation> successors = task.getSuccessors();
+      if (successors.isEmpty())
+      {
+         return;
+      }
+
+      Relation relation  = successors.stream().min((r1, r2) -> r1.getSuccessorTask().getEarlyStart().compareTo(r2.getSuccessorTask().getEarlyStart())).orElseThrow(() -> new CpmException("Missing early start date"));
+
+      switch (relation.getType())
+      {
+         case START_START:
+         {
+            ProjectCalendar calendar = task.getEffectiveCalendar();
+            LocalDateTime earlyStart = relation.getSuccessorTask().getEarlyStart();
+            LocalDateTime earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
+            task.setEarlyStart(earlyStart);
+            task.setEarlyFinish(earlyFinish);
+            System.out.println("ALAP adjusted " + task);
+            break;
+         }
+
+         default:
+         {
+            System.out.println("here");
+            break;
+         }
+      }
+   }
+
 
    private final ProjectFile m_file;
    private LocalDateTime m_projectStartDate;
