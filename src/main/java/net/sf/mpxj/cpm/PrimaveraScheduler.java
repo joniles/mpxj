@@ -178,7 +178,7 @@ public class PrimaveraScheduler implements Scheduler
                {
                   if (earlyStart.isBefore(task.getConstraintDate()))
                   {
-                     earlyStart = task.getConstraintDate();
+                     earlyStart = calendar.getNextWorkStart(task.getConstraintDate());
                   }
                   break;
                }
@@ -608,7 +608,7 @@ public class PrimaveraScheduler implements Scheduler
       // use successor early start/finish on alaps predecessor to set early start/finish???
       for (Task task : tasks.stream().filter(t -> t.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE).collect(Collectors.toList()))
       {
-         //alapAdjust(task);
+         alapAdjust(task);
       }
    }
 
