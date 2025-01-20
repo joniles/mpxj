@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.ActivityType;
+import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
@@ -42,7 +43,6 @@ public class PrimaveraScheduler implements Scheduler
          m_projectStartDate = dataDate;
       }
 
-      m_backwardPassComplete = false;
       forwardPass(tasks);
 
       m_projectFinishDate = m_file.getProjectProperties().getMustFinishBy();
@@ -53,185 +53,184 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       backwardPass(tasks);
-
-//      m_backwardPassComplete = true;
-//      if (tasks.stream().anyMatch(t -> t.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE))
-//      {
-//         forwardPass(projectStartDate, tasks);
-//      }
    }
 
    private void forwardPass(List<Task> tasks) throws CpmException
    {
       for (Task task : tasks)
       {
-         ProjectCalendar calendar = task.getEffectiveCalendar();
-         LocalDateTime earlyStart;
+         forwardPass(task);
+      }
+   }
 
-         LocalDateTime earlyFinish = null;
-         List<Relation> predecessors = task.getPredecessors().stream().filter(r -> !ignoreTask(r.getPredecessorTask())).collect(Collectors.toList());
-         boolean activityOutOfSequence = predecessors.stream().anyMatch(r -> activityOutOfSequence(r));
+   private void forwardPass(Task task) throws CpmException
+   {
+      ProjectCalendar calendar = task.getEffectiveCalendar();
+      LocalDateTime earlyStart;
 
-         if (task.getActualStart() == null)
+      LocalDateTime earlyFinish = null;
+      List<Relation> predecessors = task.getPredecessors().stream().filter(r -> !ignoreTask(r.getPredecessorTask())).collect(Collectors.toList());
+      //boolean activityOutOfSequence = predecessors.stream().anyMatch(r -> activityOutOfSequence(r));
+
+      if (task.getActualStart() == null)
+      {
+         if (predecessors.isEmpty())
          {
-            if (predecessors.isEmpty())
+            switch (task.getConstraintType())
             {
-               switch (task.getConstraintType())
+               case START_NO_EARLIER_THAN:
                {
-                  case START_NO_EARLIER_THAN:
-                  {
-                     earlyStart = task.getConstraintDate();
-                     break;
-                  }
-
-                  case FINISH_NO_EARLIER_THAN:
-                  {
-                     earlyFinish = task.getConstraintDate();
-                     earlyStart = getDate(calendar, earlyFinish, task.getDuration().negate());
-                     break;
-                  }
-
-                  default:
-                  {
-                     earlyStart = m_projectStartDate;
-                     break;
-                  }
-               }
-            }
-            else
-            {
-               earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
-            }
-
-            switch (task.getActivityType())
-            {
-               case FINISH_MILESTONE:
-               {
-                  // Don't adjust early start
+                  earlyStart = task.getConstraintDate();
                   break;
                }
 
-               case RESOURCE_DEPENDENT:
+               case FINISH_NO_EARLIER_THAN:
                {
-                  throw new UnsupportedOperationException("Resource Dependent Activities not currently supported");
+                  earlyFinish = task.getConstraintDate();
+                  earlyStart = getDate(calendar, earlyFinish, task.getDuration().negate());
+                  break;
                }
 
                default:
                {
-                  // Next work start
-                  earlyStart = calendar.getNextWorkStart(earlyStart);
+                  earlyStart = m_projectStartDate;
                   break;
-               }
-            }
-
-            if (task.getConstraintType() != null)
-            {
-               switch (task.getConstraintType())
-               {
-                  case START_NO_EARLIER_THAN:
-                  {
-                     if (earlyStart.isBefore(task.getConstraintDate()))
-                     {
-                        earlyStart = task.getConstraintDate();
-                     }
-                     break;
-                  }
-
-                  case FINISH_NO_LATER_THAN:
-                  {
-//                     LocalDateTime latestStart = getDate(calendar, task.getConstraintDate(), task.getDuration().negate());
-//                     if (earlyStart.isAfter(latestStart))
-//                     {
-//                        earlyStart = latestStart;
-//                     }
-                     break;
-                  }
-
-                  case FINISH_NO_EARLIER_THAN:
-                  {
-                     LocalDateTime earliestStart = getDate(calendar, task.getConstraintDate(), task.getDuration().negate());
-                     if (earlyStart.isBefore(earliestStart))
-                     {
-                        earlyStart = earliestStart;
-                     }
-                     break;
-                  }
-
-                  case START_NO_LATER_THAN:
-                  {
-                     if (earlyStart.isAfter(task.getConstraintDate()))
-                     {
-                        earlyStart = task.getConstraintDate();
-                     }
-                     break;
-                  }
-
-                  case MUST_START_ON:
-                  case START_ON:
-                  {
-                     earlyStart = task.getConstraintDate();
-                     break;
-                  }
-
-                  case MUST_FINISH_ON:
-                  {
-                     earlyFinish = task.getConstraintDate();
-                     earlyStart = getDate(calendar, earlyFinish, task.getDuration().negate());
-                     break;
-                  }
-
-                  case FINISH_ON:
-                  {
-                     LocalDateTime startOn = getDate(calendar, task.getConstraintDate(), task.getDuration().negate());
-                     if (startOn.isAfter(earlyStart))
-                     {
-                        earlyFinish = task.getConstraintDate();
-                        earlyStart = startOn;
-                     }
-                     break;
-                  }
                }
             }
          }
          else
          {
-            if (task.getActualFinish() == null)
+            earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+         }
+
+         switch (task.getActivityType())
+         {
+            case FINISH_MILESTONE:
             {
-               if (predecessors.isEmpty())
+               // Don't adjust early start
+               break;
+            }
+
+            case RESOURCE_DEPENDENT:
+            {
+               throw new UnsupportedOperationException("Resource Dependent Activities not currently supported");
+            }
+
+            default:
+            {
+               // Next work start
+               earlyStart = calendar.getNextWorkStart(earlyStart);
+               break;
+            }
+         }
+
+         if (task.getConstraintType() != null)
+         {
+            switch (task.getConstraintType())
+            {
+               case START_NO_EARLIER_THAN:
                {
-                  earlyFinish = getDate(calendar, task.getActualStart(), task.getDuration());
-                  earlyStart = getDate(calendar, earlyFinish, task.getRemainingDuration().negate());
+                  if (earlyStart.isBefore(task.getConstraintDate()))
+                  {
+                     earlyStart = task.getConstraintDate();
+                  }
+                  break;
                }
-               else
+
+               case FINISH_NO_LATER_THAN:
                {
-                  earlyStart = calendar.getNextWorkStart(predecessors.stream().map(r -> calculateEarlyStart(calendar, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date")));
-                  earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
+                  //                     LocalDateTime latestStart = getDate(calendar, task.getConstraintDate(), task.getDuration().negate());
+                  //                     if (earlyStart.isAfter(latestStart))
+                  //                     {
+                  //                        earlyStart = latestStart;
+                  //                     }
+                  break;
                }
+
+               case FINISH_NO_EARLIER_THAN:
+               {
+                  LocalDateTime earliestStart = getDate(calendar, task.getConstraintDate(), task.getDuration().negate());
+                  if (earlyStart.isBefore(earliestStart))
+                  {
+                     earlyStart = earliestStart;
+                  }
+                  break;
+               }
+
+               case START_NO_LATER_THAN:
+               {
+                  if (earlyStart.isAfter(task.getConstraintDate()))
+                  {
+                     earlyStart = task.getConstraintDate();
+                  }
+                  break;
+               }
+
+               case MUST_START_ON:
+               case START_ON:
+               {
+                  earlyStart = task.getConstraintDate();
+                  break;
+               }
+
+               case MUST_FINISH_ON:
+               {
+                  earlyFinish = task.getConstraintDate();
+                  earlyStart = getDate(calendar, earlyFinish, task.getDuration().negate());
+                  break;
+               }
+
+               case FINISH_ON:
+               {
+                  LocalDateTime startOn = getDate(calendar, task.getConstraintDate(), task.getDuration().negate());
+                  if (startOn.isAfter(earlyStart))
+                  {
+                     earlyFinish = task.getConstraintDate();
+                     earlyStart = startOn;
+                  }
+                  break;
+               }
+            }
+         }
+      }
+      else
+      {
+         if (task.getActualFinish() == null)
+         {
+            if (predecessors.isEmpty())
+            {
+               earlyFinish = getDate(calendar, task.getActualStart(), task.getDuration());
+               earlyStart = getDate(calendar, earlyFinish, task.getRemainingDuration().negate());
             }
             else
             {
-               if (predecessors.isEmpty())
-               {
-                  LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
-                  earlyStart = dataDate;
-                  earlyFinish = dataDate;
-               }
-               else
-               {
-                  earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
-                  earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
-               }
+               earlyStart = calendar.getNextWorkStart(predecessors.stream().map(r -> calculateEarlyStart(calendar, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date")));
+               earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
             }
          }
-
-         if (earlyFinish == null)
+         else
          {
-            earlyFinish = task.getActualFinish() == null ? getDate(calendar, earlyStart, task.getDuration()) : task.getActualFinish();
+            if (predecessors.isEmpty())
+            {
+               LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
+               earlyStart = dataDate;
+               earlyFinish = dataDate;
+            }
+            else
+            {
+               earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+               earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
+            }
          }
-
-         task.setEarlyStart(earlyStart);
-         task.setEarlyFinish(earlyFinish);
       }
+
+      if (earlyFinish == null)
+      {
+         earlyFinish = task.getActualFinish() == null ? getDate(calendar, earlyStart, task.getDuration()) : task.getActualFinish();
+      }
+
+      task.setEarlyStart(earlyStart);
+      task.setEarlyFinish(earlyFinish);
    }
 
    private void backwardPass(List<Task> forwardPassTasks) throws CpmException
@@ -241,80 +240,23 @@ public class PrimaveraScheduler implements Scheduler
 
       for (Task task : tasks)
       {
-         List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> !ignoreTask(r.getSuccessorTask())).collect(Collectors.toList());
-         ProjectCalendar calendar = task.getEffectiveCalendar();
-         LocalDateTime lateFinish;
+         backwardPass(task);
+      }
+   }
+
+   private void backwardPass(Task task) throws CpmException
+   {
+      List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> !ignoreTask(r.getSuccessorTask())).collect(Collectors.toList());
+      ProjectCalendar calendar = task.getEffectiveCalendar();
+      LocalDateTime lateFinish;
 
 
-         if (task.getActualFinish() == null)
+      if (task.getActualFinish() == null)
+      {
+         // Special case: if we have a milestone with only an actual start set, actual start (and hence late finish) must have the same date
+         if (task.getMilestone() && task.getActualStart() != null)
          {
-            // Special case: if we have a milestone with only an actual start set, actual start (and hence late finish) must have the same date
-            if (task.getMilestone() && task.getActualStart() != null)
-            {
-               lateFinish = task.getActualStart();
-            }
-            else
-            {
-               if (successors.isEmpty())
-               {
-                  lateFinish = m_projectFinishDate;
-               }
-               else
-               {
-                  lateFinish = successors.stream().map(r -> calculateLateFinish(calendar, r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
-               }
-
-               switch (task.getConstraintType())
-               {
-                  case START_ON:
-                  {
-                     if (task.getActualStart() == null)
-                     {
-                        lateFinish = getDate(calendar, task.getConstraintDate(), task.getDuration());
-                     }
-                     break;
-                  }
-
-                  case MUST_START_ON:
-                  {
-                     lateFinish = getDate(calendar, task.getConstraintDate(), task.getDuration());
-                     break;
-                  }
-
-                  case FINISH_ON:
-                  case MUST_FINISH_ON:
-                  {
-                     lateFinish = task.getConstraintDate();
-                     break;
-                  }
-
-                  case START_NO_LATER_THAN:
-                  {
-                     LocalDateTime latestFinish = getDate(calendar, task.getConstraintDate(), task.getDuration());
-                     if (lateFinish.isAfter(latestFinish))
-                     {
-                        lateFinish = latestFinish;
-                     }
-                     break;
-                  }
-
-                  case FINISH_NO_LATER_THAN:
-                  {
-                     if (lateFinish.isAfter(task.getConstraintDate()))
-                     {
-                        lateFinish = task.getConstraintDate();
-                     }
-                  }
-               }
-
-               // If we are at the start of the next period of work, we can move back to the end of the previous period of work
-               LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(lateFinish);
-
-               if (calendar.getWork(previousWorkFinish, lateFinish, TimeUnit.HOURS).getDuration() == 0)
-               {
-                  lateFinish = previousWorkFinish;
-               }
-            }
+            lateFinish = task.getActualStart();
          }
          else
          {
@@ -326,50 +268,112 @@ public class PrimaveraScheduler implements Scheduler
             {
                lateFinish = successors.stream().map(r -> calculateLateFinish(calendar, r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
             }
-         }
 
-         // TODO: maybe the same task duration logic as below?
-         if (task.getDuration().getDuration() != 0)
-         {
-            // P6 moves the late finish date to the end of the working period on that day.
-            LocalDateTime adjustedLateFinish = LocalTimeHelper.setEndTime(lateFinish, calendar.getFinishTime(lateFinish.toLocalDate()));
-
-            // There is some variability in how P6 represents this, e.g. 16:59 and 17:00 are equivalent
-            // Don't adjust the date if they are 1 minute apart to ensure the dates we produce are aligned with P6.
-            // Also, there also appears to be an upper limit to how much P6 will push the end date forward.
-            long differenceInSeconds = lateFinish.until(adjustedLateFinish, ChronoUnit.SECONDS);
-            if (differenceInSeconds > 60 && differenceInSeconds < 180)
+            switch (task.getConstraintType())
             {
-               lateFinish = adjustedLateFinish;
+               case START_ON:
+               {
+                  if (task.getActualStart() == null)
+                  {
+                     lateFinish = getDate(calendar, task.getConstraintDate(), task.getDuration());
+                  }
+                  break;
+               }
+
+               case MUST_START_ON:
+               {
+                  lateFinish = getDate(calendar, task.getConstraintDate(), task.getDuration());
+                  break;
+               }
+
+               case FINISH_ON:
+               case MUST_FINISH_ON:
+               {
+                  lateFinish = task.getConstraintDate();
+                  break;
+               }
+
+               case START_NO_LATER_THAN:
+               {
+                  LocalDateTime latestFinish = getDate(calendar, task.getConstraintDate(), task.getDuration());
+                  if (lateFinish.isAfter(latestFinish))
+                  {
+                     lateFinish = latestFinish;
+                  }
+                  break;
+               }
+
+               case FINISH_NO_LATER_THAN:
+               {
+                  if (lateFinish.isAfter(task.getConstraintDate()))
+                  {
+                     lateFinish = task.getConstraintDate();
+                  }
+               }
+            }
+
+            // If we are at the start of the next period of work, we can move back to the end of the previous period of work
+            LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(lateFinish);
+
+            if (calendar.getWork(previousWorkFinish, lateFinish, TimeUnit.HOURS).getDuration() == 0)
+            {
+               lateFinish = previousWorkFinish;
             }
          }
-
-         LocalDateTime lateStart;
-         Duration taskDuration = task.getActualStart() == null ? task.getDuration() : task.getRemainingDuration();
-         lateStart = getDate(calendar, lateFinish, taskDuration.negate());
-         if (task.getActivityType() == ActivityType.START_MILESTONE)
+      }
+      else
+      {
+         if (successors.isEmpty())
          {
-            lateStart = calendar.getNextWorkStart(lateStart);
+            lateFinish = m_projectFinishDate;
          }
          else
          {
-            if (task.getActivityType() != ActivityType.FINISH_MILESTONE && taskDuration.getDuration() != 0)
+            lateFinish = successors.stream().map(r -> calculateLateFinish(calendar, r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+         }
+      }
+
+      // TODO: maybe the same task duration logic as below?
+      if (task.getDuration().getDuration() != 0)
+      {
+         // P6 moves the late finish date to the end of the working period on that day.
+         LocalDateTime adjustedLateFinish = LocalTimeHelper.setEndTime(lateFinish, calendar.getFinishTime(lateFinish.toLocalDate()));
+
+         // There is some variability in how P6 represents this, e.g. 16:59 and 17:00 are equivalent
+         // Don't adjust the date if they are 1 minute apart to ensure the dates we produce are aligned with P6.
+         // Also, there also appears to be an upper limit to how much P6 will push the end date forward.
+         long differenceInSeconds = lateFinish.until(adjustedLateFinish, ChronoUnit.SECONDS);
+         if (differenceInSeconds > 60 && differenceInSeconds < 180)
+         {
+            lateFinish = adjustedLateFinish;
+         }
+      }
+
+      LocalDateTime lateStart;
+      Duration taskDuration = task.getActualStart() == null ? task.getDuration() : task.getRemainingDuration();
+      lateStart = getDate(calendar, lateFinish, taskDuration.negate());
+      if (task.getActivityType() == ActivityType.START_MILESTONE)
+      {
+         lateStart = calendar.getNextWorkStart(lateStart);
+      }
+      else
+      {
+         if (task.getActivityType() != ActivityType.FINISH_MILESTONE && taskDuration.getDuration() != 0)
+         {
+            LocalDateTime adjustedLateStart = calendar.getNextWorkStart(lateStart);
+            Duration work = calendar.getWork(lateStart, adjustedLateStart, TimeUnit.MINUTES);
+            if (work.getDuration() == 0)
             {
-               LocalDateTime adjustedLateStart = calendar.getNextWorkStart(lateStart);
-               Duration work = calendar.getWork(lateStart, adjustedLateStart, TimeUnit.MINUTES);
-               if (work.getDuration() == 0)
-               {
-                  lateStart = adjustedLateStart;
-               }
+               lateStart = adjustedLateStart;
             }
          }
-
-         task.setLateStart(lateStart);
-         task.setLateFinish(lateFinish);
       }
+
+      task.setLateStart(lateStart);
+      task.setLateFinish(lateFinish);
    }
 
-   private LocalDateTime calculateEarlyStart(ProjectCalendar taskCalendar, boolean activityOutOfSequence, Relation relation)
+   private LocalDateTime calculateEarlyStart(ProjectCalendar taskCalendar, Relation relation)
    {
       Task predecessor = relation.getPredecessorTask();
 
@@ -592,5 +596,4 @@ public class PrimaveraScheduler implements Scheduler
    private final ProjectFile m_file;
    private LocalDateTime m_projectStartDate;
    private LocalDateTime m_projectFinishDate;
-   private boolean m_backwardPassComplete;
 }
