@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.ActivityType;
-import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
@@ -29,6 +28,8 @@ public class PrimaveraScheduler implements Scheduler
 
    public void process(LocalDateTime projectStartDate) throws Exception
    {
+      m_projectStartDate = projectStartDate;
+
       List<Task> tasks = new DepthFirstGraphSort(m_file).sort();
       if (tasks.isEmpty())
       {
@@ -38,20 +39,20 @@ public class PrimaveraScheduler implements Scheduler
       LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
       if (dataDate != null && projectStartDate.isBefore(dataDate))
       {
-         projectStartDate = dataDate;
+         m_projectStartDate = dataDate;
       }
 
       m_backwardPassComplete = false;
-      forwardPass(projectStartDate, tasks);
+      forwardPass(tasks);
 
-      LocalDateTime projectFinishDate = m_file.getProjectProperties().getMustFinishBy();
+      m_projectFinishDate = m_file.getProjectProperties().getMustFinishBy();
 
-      if (projectFinishDate== null)
+      if (m_projectFinishDate== null)
       {
-         projectFinishDate = tasks.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
+         m_projectFinishDate = tasks.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
       }
 
-      backwardPass(projectFinishDate, tasks);
+      backwardPass(tasks);
 
 //      m_backwardPassComplete = true;
 //      if (tasks.stream().anyMatch(t -> t.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE))
@@ -60,7 +61,7 @@ public class PrimaveraScheduler implements Scheduler
 //      }
    }
 
-   private void forwardPass(LocalDateTime projectStartDate, List<Task> tasks) throws CpmException
+   private void forwardPass(List<Task> tasks) throws CpmException
    {
       for (Task task : tasks)
       {
@@ -92,14 +93,14 @@ public class PrimaveraScheduler implements Scheduler
 
                   default:
                   {
-                     earlyStart = projectStartDate;
+                     earlyStart = m_projectStartDate;
                      break;
                   }
                }
             }
             else
             {
-               earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+               earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
             }
 
             switch (task.getActivityType())
@@ -203,7 +204,7 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  earlyStart = calendar.getNextWorkStart(predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date")));
+                  earlyStart = calendar.getNextWorkStart(predecessors.stream().map(r -> calculateEarlyStart(calendar, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date")));
                   earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
                }
             }
@@ -217,7 +218,7 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+                  earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
                   earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
                }
             }
@@ -233,7 +234,7 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
-   private void backwardPass(LocalDateTime projectFinishDate, List<Task> forwardPassTasks) throws CpmException
+   private void backwardPass(List<Task> forwardPassTasks) throws CpmException
    {
       List<Task> tasks = new ArrayList<>(forwardPassTasks);
       Collections.reverse(tasks);
@@ -256,11 +257,11 @@ public class PrimaveraScheduler implements Scheduler
             {
                if (successors.isEmpty())
                {
-                  lateFinish = projectFinishDate;
+                  lateFinish = m_projectFinishDate;
                }
                else
                {
-                  lateFinish = successors.stream().map(r -> calculateLateFinish(calendar, projectFinishDate, r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+                  lateFinish = successors.stream().map(r -> calculateLateFinish(calendar, r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
                }
 
                switch (task.getConstraintType())
@@ -319,11 +320,11 @@ public class PrimaveraScheduler implements Scheduler
          {
             if (successors.isEmpty())
             {
-               lateFinish = projectFinishDate;
+               lateFinish = m_projectFinishDate;
             }
             else
             {
-               lateFinish = successors.stream().map(r -> calculateLateFinish(calendar, projectFinishDate, r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+               lateFinish = successors.stream().map(r -> calculateLateFinish(calendar, r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
             }
          }
 
@@ -368,7 +369,7 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
-   private LocalDateTime calculateEarlyStart(ProjectCalendar taskCalendar, LocalDateTime projectStartDate, boolean activityOutOfSequence, Relation relation)
+   private LocalDateTime calculateEarlyStart(ProjectCalendar taskCalendar, boolean activityOutOfSequence, Relation relation)
    {
       Task predecessor = relation.getPredecessorTask();
 
@@ -414,9 +415,9 @@ public class PrimaveraScheduler implements Scheduler
 
             LocalDateTime earlyStart = getDate(taskCalendar, predecessorEarlyFinish, relation.getSuccessorTask().getRemainingDuration().negate());
             earlyStart = getDate(getLagCalendar(taskCalendar, relation), earlyStart, relation.getLag());
-            if (earlyStart.isBefore(projectStartDate))
+            if (earlyStart.isBefore(m_projectStartDate))
             {
-               earlyStart = projectStartDate;
+               earlyStart = m_projectStartDate;
             }
             return earlyStart;
          }
@@ -433,7 +434,7 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
-   private LocalDateTime calculateLateFinish(ProjectCalendar taskCalendar, LocalDateTime projectFinishDate, Relation relation)
+   private LocalDateTime calculateLateFinish(ProjectCalendar taskCalendar, Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
       Task successorTask = relation.getSuccessorTask();
@@ -492,9 +493,9 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      if (lateFinish.isAfter(projectFinishDate))
+      if (lateFinish.isAfter(m_projectFinishDate))
       {
-         return projectFinishDate;
+         return m_projectFinishDate;
       }
 
       return lateFinish;
@@ -589,5 +590,7 @@ public class PrimaveraScheduler implements Scheduler
    }
 
    private final ProjectFile m_file;
+   private LocalDateTime m_projectStartDate;
+   private LocalDateTime m_projectFinishDate;
    private boolean m_backwardPassComplete;
 }
