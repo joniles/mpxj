@@ -41,6 +41,7 @@ public class PrimaveraScheduler implements Scheduler
          projectStartDate = dataDate;
       }
 
+      m_backwardPassComplete = false;
       forwardPass(projectStartDate, tasks);
 
       LocalDateTime projectFinishDate = m_file.getProjectProperties().getMustFinishBy();
@@ -51,6 +52,12 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       backwardPass(projectFinishDate, tasks);
+
+//      m_backwardPassComplete = true;
+//      if (tasks.stream().anyMatch(t -> t.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE))
+//      {
+//         forwardPass(projectStartDate, tasks);
+//      }
    }
 
    private void forwardPass(LocalDateTime projectStartDate, List<Task> tasks) throws CpmException
@@ -582,4 +589,5 @@ public class PrimaveraScheduler implements Scheduler
    }
 
    private final ProjectFile m_file;
+   private boolean m_backwardPassComplete;
 }
