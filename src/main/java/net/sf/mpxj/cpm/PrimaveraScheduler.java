@@ -326,6 +326,27 @@ public class PrimaveraScheduler implements Scheduler
                }
             }
 
+            if (task.getSecondaryConstraintType() != null)
+            {
+               switch (task.getSecondaryConstraintType())
+               {
+                  case START_NO_LATER_THAN:
+                  {
+                     LocalDateTime latestFinish = getDate(calendar, task.getSecondaryConstraintDate(), task.getDuration());
+                     if (lateFinish.isAfter(latestFinish))
+                     {
+                        lateFinish = latestFinish;
+                     }
+                     break;
+                  }
+
+                  case FINISH_NO_LATER_THAN:
+                  {
+                     break;
+                  }
+               }
+            }
+
             // If we are at the start of the next period of work, we can move back to the end of the previous period of work
             LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(lateFinish);
 

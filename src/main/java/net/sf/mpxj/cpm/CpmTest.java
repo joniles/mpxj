@@ -288,7 +288,6 @@ public class CpmTest
       EXCLUDED_FILES.add("specific-academy.xer");
       EXCLUDED_FILES.add("toxic-end.xer");
       EXCLUDED_FILES.add("missing-limestone.xer");
-      EXCLUDED_FILES.add("detailed-librarian.xer");
       EXCLUDED_FILES.add("outstanding-vaudeville.xer");
       EXCLUDED_FILES.add("transcendent-remedy.xml");
       EXCLUDED_FILES.add("single-supervision.xml");
