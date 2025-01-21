@@ -285,7 +285,11 @@ public class PrimaveraScheduler implements Scheduler
                {
                   if (task.getActualStart() == null)
                   {
-                     lateFinish = getDate(calendar, task.getConstraintDate(), task.getDuration());
+                     LocalDateTime latestFinish = getDate(calendar, task.getConstraintDate(), task.getDuration());
+                     if (lateFinish.isAfter(latestFinish))
+                     {
+                        lateFinish = latestFinish;
+                     }
                   }
                   break;
                }
