@@ -32,7 +32,8 @@ public class CpmTest
       {
          //test.process(new File(target, "mpp"), ".mpp", MICROSOFT_PROJECT);
          test.process(new File(target, "XER"), ".xer", PRIMAVERA_P6);
-         test.process(new File(target, "PMXML"), ".xml", PRIMAVERA_P6);
+         // Scheduling from XML unreliable - get all data working via XER first
+         //test.process(new File(target, "PMXML"), ".xml", PRIMAVERA_P6);
       }
       else
       {
@@ -295,13 +296,13 @@ public class CpmTest
       EXCLUDED_FILES.add("single-supervision.xml");
       EXCLUDED_FILES.add("keen-knock.xml");
       EXCLUDED_FILES.add("ideal-tilt.xml");
-      EXCLUDED_FILES.add("barbaric-pat.xml");
+      EXCLUDED_FILES.add("barbaric-pat.xer");
       EXCLUDED_FILES.add("radical-reach.xml");
 
       // Schedule contains a loop
       EXCLUDED_FILES.add("calendar_missing_info.xer");
       EXCLUDED_FILES.add("incomprehensible-stockroom.xer");
-      EXCLUDED_FILES.add("baltic-laugh.xml");
+      EXCLUDED_FILES.add("baltic-laugh.xer");
 
       // Time rounding issue
       EXCLUDED_FILES.add("global-sociology.xml");

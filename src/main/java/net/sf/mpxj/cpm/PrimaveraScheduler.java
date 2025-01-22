@@ -83,6 +83,10 @@ public class PrimaveraScheduler implements Scheduler
                case START_NO_EARLIER_THAN:
                {
                   earlyStart = task.getConstraintDate();
+                  if (m_dataDate != null && earlyStart.isBefore(m_dataDate))
+                  {
+                     earlyStart = m_dataDate;
+                  }
                   break;
                }
 
