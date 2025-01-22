@@ -292,12 +292,7 @@ public class CpmTest
       EXCLUDED_FILES.add("toxic-end.xer");
       EXCLUDED_FILES.add("missing-limestone.xer");
       EXCLUDED_FILES.add("outstanding-vaudeville.xer");
-      EXCLUDED_FILES.add("transcendent-remedy.xml");
-      EXCLUDED_FILES.add("single-supervision.xml");
-      EXCLUDED_FILES.add("keen-knock.xml");
-      EXCLUDED_FILES.add("ideal-tilt.xml");
       EXCLUDED_FILES.add("barbaric-pat.xer");
-      EXCLUDED_FILES.add("radical-reach.xml");
 
       // Schedule contains a loop
       EXCLUDED_FILES.add("calendar_missing_info.xer");

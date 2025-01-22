@@ -280,7 +280,14 @@ public class PrimaveraScheduler implements Scheduler
          {
             if (successors.isEmpty())
             {
-               lateFinish = m_projectFinishDate;
+               if (m_file.getProjectProperties().getMustFinishBy() != null)
+               {
+                  lateFinish = m_file.getProjectProperties().getMustFinishBy();
+               }
+               else
+               {
+                  lateFinish = m_projectFinishDate;
+               }
             }
             else
             {
@@ -368,7 +375,14 @@ public class PrimaveraScheduler implements Scheduler
       {
          if (successors.isEmpty())
          {
-            lateFinish = m_projectFinishDate;
+            if (m_file.getProjectProperties().getMustFinishBy() != null)
+            {
+               lateFinish = m_file.getProjectProperties().getMustFinishBy();
+            }
+            else
+            {
+               lateFinish = m_projectFinishDate;
+            }
          }
          else
          {
