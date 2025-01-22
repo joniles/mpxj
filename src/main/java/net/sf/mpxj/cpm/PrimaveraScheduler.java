@@ -45,11 +45,16 @@ public class PrimaveraScheduler implements Scheduler
 
       forwardPass(tasks);
 
-      m_projectFinishDate = m_file.getProjectProperties().getMustFinishBy();
+      LocalDateTime mustFinishBy = m_file.getProjectProperties().getMustFinishBy();
+      LocalDateTime earlyFinish = tasks.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
 
-      if (m_projectFinishDate== null)
+      if (mustFinishBy == null || earlyFinish.isAfter(mustFinishBy))
       {
-         m_projectFinishDate = tasks.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
+         m_projectFinishDate = earlyFinish;
+      }
+      else
+      {
+         m_projectFinishDate = mustFinishBy;
       }
 
       backwardPass(tasks);
@@ -664,14 +669,19 @@ public class PrimaveraScheduler implements Scheduler
 
    private void alapAdjust(Task task) throws CpmException
    {
+      ProjectCalendar calendar = task.getEffectiveCalendar();
       List<Relation> successors = task.getSuccessors();
       if (successors.isEmpty())
       {
+         LocalDateTime earlyFinish = m_projectFinishDate;
+         LocalDateTime earlyStart = getDate(calendar, earlyFinish, task.getRemainingDuration().negate());
+         task.setEarlyStart(earlyStart);
+         task.setEarlyFinish(earlyFinish);
          return;
       }
 
       Relation relation  = successors.stream().min((r1, r2) -> r1.getSuccessorTask().getEarlyStart().compareTo(r2.getSuccessorTask().getEarlyStart())).orElseThrow(() -> new CpmException("Missing early start date"));
-      ProjectCalendar calendar = task.getEffectiveCalendar();
+
 
       switch (relation.getType())
       {
