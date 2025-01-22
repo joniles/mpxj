@@ -697,7 +697,16 @@ public class PrimaveraScheduler implements Scheduler
 
          case FINISH_START:
          {
-            LocalDateTime earlyStart = getDate(calendar, relation.getSuccessorTask().getEarlyStart(), task.getRemainingDuration().negate());
+            LocalDateTime earlyStart;
+            if (task.getActualStart() != null)
+            {
+               earlyStart = m_dataDate;
+            }
+            else
+            {
+               earlyStart = getDate(calendar, relation.getSuccessorTask().getEarlyStart(), task.getRemainingDuration().negate());
+            }
+
             LocalDateTime earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
             task.setEarlyStart(earlyStart);
             task.setEarlyFinish(earlyFinish);
