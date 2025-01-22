@@ -418,6 +418,13 @@ public class PrimaveraScheduler implements Scheduler
             if (predecessor.getActualFinish() != null)
             {
                return predecessor.getEarlyFinish();
+               // Works for lovable-bridgehead
+//               LocalDateTime date = getDate(getLagCalendar(taskCalendar, relation), predecessor.getActualFinish(), relation.getLag());
+//               if (date.isBefore(m_dataDate))
+//               {
+//                  return m_dataDate;
+//               }
+//               return date;
             }
             return getDate(getLagCalendar(taskCalendar, relation), predecessor.getEarlyFinish(), relation.getLag());
          }
@@ -434,7 +441,7 @@ public class PrimaveraScheduler implements Scheduler
                return getDate(getLagCalendar(taskCalendar, relation), predecessor.getEarlyStart(), relation.getLag());
             }
 
-            // why adjust the next work strat with the lag calendar? not sure, but it seems to work ;-)
+            // why adjust the next work start with the lag calendar? not sure, but it seems to work ;-)
             return getLagCalendar(taskCalendar, relation).getNextWorkStart(predecessor.getEarlyStart());
          }
 
@@ -469,7 +476,12 @@ public class PrimaveraScheduler implements Scheduler
 
          case START_FINISH:
          {
-            return getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, predecessor.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
+            LocalDateTime date = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, predecessor.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
+            if (date.isAfter(m_dataDate))
+            {
+               return m_dataDate;
+            }
+            return date;
          }
 
          default:
