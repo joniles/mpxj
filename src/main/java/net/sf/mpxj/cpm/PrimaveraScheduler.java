@@ -650,8 +650,11 @@ public class PrimaveraScheduler implements Scheduler
       return task.getSummary() || !task.getActive() || task.getNull() || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getActivityType() == ActivityType.WBS_SUMMARY;
    }
 
-   private void alapAdjust(List<Task> tasks) throws CpmException
+   private void alapAdjust(List<Task> forwardPassTasks) throws CpmException
    {
+      List<Task> tasks = new ArrayList<>(forwardPassTasks);
+      Collections.reverse(tasks);
+
       // use successor early start/finish on alaps predecessor to set early start/finish???
       for (Task task : tasks.stream().filter(t -> t.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE).collect(Collectors.toList()))
       {
