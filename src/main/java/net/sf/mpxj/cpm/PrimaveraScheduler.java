@@ -25,6 +25,7 @@ public class PrimaveraScheduler implements Scheduler
    public PrimaveraScheduler(ProjectFile file)
    {
       m_file = file;
+      m_dataDate = file.getProjectProperties().getStatusDate();
    }
 
    public void process(LocalDateTime projectStartDate) throws Exception
@@ -37,10 +38,9 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
-      LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
-      if (dataDate != null && projectStartDate.isBefore(dataDate))
+      if (m_dataDate != null && projectStartDate.isBefore(m_dataDate))
       {
-         m_projectStartDate = dataDate;
+         m_projectStartDate = m_dataDate;
       }
 
       forwardPass(tasks);
@@ -222,9 +222,8 @@ public class PrimaveraScheduler implements Scheduler
          {
             if (predecessors.isEmpty())
             {
-               LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
-               earlyStart = dataDate;
-               earlyFinish = dataDate;
+               earlyStart = m_dataDate;
+               earlyFinish = m_dataDate;
             }
             else
             {
@@ -687,6 +686,7 @@ public class PrimaveraScheduler implements Scheduler
 
 
    private final ProjectFile m_file;
+   private final LocalDateTime m_dataDate;
    private LocalDateTime m_projectStartDate;
    private LocalDateTime m_projectFinishDate;
 }
