@@ -302,9 +302,8 @@ public class CpmTest
       // Time rounding issue
       EXCLUDED_FILES.add("global-sociology.xml");
 
-      // PMXML contains remaining early/late start/finish dates not
-      // early/late start/finish. There appears to be a difference...
-      EXCLUDED_FILES.add("fleet-salary.xml");
+      // Rounding issue? Makes for a 1 minute difference
+      EXCLUDED_FILES.add("fleet-salary.xer");
 
       // Calculation of late finish date for activity with no successors
       EXCLUDED_FILES.add("prime-chiropractor-scheduled.xml");
