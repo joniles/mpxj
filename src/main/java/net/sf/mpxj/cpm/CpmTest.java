@@ -250,7 +250,6 @@ public class CpmTest
       EXCLUDED_FILES.add("narrower-encouragement.xer");
       EXCLUDED_FILES.add("invalid-calendar-data.encoding.xer");
       EXCLUDED_FILES.add("duplicate-relation-uid.xer");
-      EXCLUDED_FILES.add("hotter-gunmen.xml");
       EXCLUDED_FILES.add("kindly-dissolve.xml");
 
       // Aligns with MPXJ when scheduled
@@ -299,15 +298,13 @@ public class CpmTest
       EXCLUDED_FILES.add("incomprehensible-stockroom.xer");
       EXCLUDED_FILES.add("baltic-laugh.xer");
 
-      // Time rounding issue
-      EXCLUDED_FILES.add("global-sociology.xml");
-
-      // Rounding issue? Makes for a 1 minute difference
+      // Rounding issue? Makes for a 1 minute difference on one activity
       EXCLUDED_FILES.add("fleet-salary.xer");
+      EXCLUDED_FILES.add("global-sociology.xer");
 
       // Calculation of late finish date for activity with no successors
       EXCLUDED_FILES.add("prime-chiropractor-scheduled.xml");
-      EXCLUDED_FILES.add("golden-aperture.xml");
+      EXCLUDED_FILES.add("golden-aperture.xer");
 
       // Forward pass logic differs from other working files - can't see why
       EXCLUDED_FILES.add("naval-cancer.xml");

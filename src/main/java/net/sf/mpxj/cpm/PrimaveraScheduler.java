@@ -441,7 +441,7 @@ public class PrimaveraScheduler implements Scheduler
             if (predecessor.getActualFinish() != null)
             {
                return predecessor.getEarlyFinish();
-               // Works for lovable-bridgehead
+               // Works for lovable-bridgehead and ideal-tilt
 //               LocalDateTime date = getDate(getLagCalendar(taskCalendar, relation), predecessor.getActualFinish(), relation.getLag());
 //               if (date.isBefore(m_dataDate))
 //               {
