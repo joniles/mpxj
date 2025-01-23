@@ -699,17 +699,16 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       Relation relation  = successors.stream().min(Comparator.comparing(r -> r.getSuccessorTask().getEarlyStart())).orElseThrow(() -> new CpmException("Missing early start date"));
-
+      Task successorTask = relation.getSuccessorTask();
 
       switch (relation.getType())
       {
          case START_START:
          {
-            LocalDateTime earlyStart = relation.getSuccessorTask().getEarlyStart();
+            LocalDateTime earlyStart = successorTask.getEarlyStart();
             LocalDateTime earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
             task.setEarlyStart(earlyStart);
             task.setEarlyFinish(earlyFinish);
-            //System.out.println("ALAP adjusted " + task);
             break;
          }
 
@@ -718,17 +717,32 @@ public class PrimaveraScheduler implements Scheduler
             LocalDateTime earlyStart;
             if (task.getActualStart() != null)
             {
-               earlyStart = m_dataDate;
+               if (task.getActualFinish() == null)
+               {
+                  earlyStart = successorTask.getEarlyStart();
+               }
+               else
+               {
+                  earlyStart = m_dataDate;
+               }
             }
             else
             {
-               earlyStart = getDate(calendar, relation.getSuccessorTask().getEarlyStart(), task.getRemainingDuration().negate());
+               earlyStart = getDate(calendar, successorTask.getEarlyStart(), task.getRemainingDuration().negate());
             }
 
             LocalDateTime earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
             task.setEarlyStart(earlyStart);
             task.setEarlyFinish(earlyFinish);
-            //System.out.println("ALAP adjusted " + task);
+            break;
+         }
+
+         case FINISH_FINISH:
+         {
+            LocalDateTime earlyStart = successorTask.getEarlyStart();
+            LocalDateTime earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
+            task.setEarlyStart(earlyStart);
+            task.setEarlyFinish(earlyFinish);
             break;
          }
 
