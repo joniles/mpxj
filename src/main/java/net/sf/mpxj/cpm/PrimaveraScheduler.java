@@ -678,7 +678,7 @@ public class PrimaveraScheduler implements Scheduler
    {
       List<Task> tasks = new ArrayList<>(forwardPassTasks);
       Collections.reverse(tasks);
-      
+
       for (Task task : tasks.stream().filter(t -> t.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE).collect(Collectors.toList()))
       {
          alapAdjust(task);
@@ -698,7 +698,7 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
-      Relation relation  = successors.stream().min((r1, r2) -> r1.getSuccessorTask().getEarlyStart().compareTo(r2.getSuccessorTask().getEarlyStart())).orElseThrow(() -> new CpmException("Missing early start date"));
+      Relation relation  = successors.stream().min(Comparator.comparing(r -> r.getSuccessorTask().getEarlyStart())).orElseThrow(() -> new CpmException("Missing early start date"));
 
 
       switch (relation.getType())
