@@ -524,18 +524,23 @@ public class PrimaveraScheduler implements Scheduler
       {
          case START_START:
          {
-            LocalDateTime lateStart;
-
             if (successorTask.getActualStart() == null && predecessorTask.getActualStart() == null)
             {
-               lateStart = taskCalendar.getNextWorkStart(getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), relation.getLag().negate()));
+               LocalDateTime lateStart = taskCalendar.getNextWorkStart(getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), relation.getLag().negate()));
+               lateFinish = getDate(taskCalendar, lateStart, predecessorTask.getRemainingDuration());
+
+               // Hmmm... dubious logic. Does this just work for indefensible-tedium or is this general?
+               if (successorTask.getSuccessors().isEmpty() && successorTask.getLateFinish().isBefore(lateFinish))
+               {
+                  lateFinish = successorTask.getLateFinish();
+               }
             }
             else
             {
-               lateStart = successorTask.getLateStart();
+               LocalDateTime lateStart = successorTask.getLateStart();
+               lateFinish = getDate(taskCalendar, lateStart, predecessorTask.getRemainingDuration());
             }
 
-            lateFinish = getDate(taskCalendar, lateStart, predecessorTask.getRemainingDuration());
             break;
          }
 
@@ -673,8 +678,7 @@ public class PrimaveraScheduler implements Scheduler
    {
       List<Task> tasks = new ArrayList<>(forwardPassTasks);
       Collections.reverse(tasks);
-
-      // use successor early start/finish on alaps predecessor to set early start/finish???
+      
       for (Task task : tasks.stream().filter(t -> t.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE).collect(Collectors.toList()))
       {
          alapAdjust(task);
