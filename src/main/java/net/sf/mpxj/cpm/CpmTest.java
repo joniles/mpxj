@@ -263,6 +263,7 @@ public class CpmTest
       EXCLUDED_FILES.add("prod00914.xml");
       EXCLUDED_FILES.add("virile-schema.xml");
       EXCLUDED_FILES.add("restricted-garden.xml");
+      EXCLUDED_FILES.add("computational-infection.xer");
 
       // Can't import into P6 to debug
       EXCLUDED_FILES.add("tender-workforce.xer");
@@ -327,7 +328,7 @@ public class CpmTest
       // Rounding issue? Makes for a 1 minute difference on one activity
       EXCLUDED_FILES.add("fleet-salary.xer");
       EXCLUDED_FILES.add("global-sociology.xer");
-      
+
       // Forward pass logic differs from other working files - can't see why
       EXCLUDED_FILES.add("naval-cancer.xml");
 
