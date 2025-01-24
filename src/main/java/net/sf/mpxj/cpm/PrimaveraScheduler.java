@@ -242,6 +242,12 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
+      if (task.getExternalEarlyStart() != null && task.getExternalEarlyStart().isAfter(earlyStart))
+      {
+         earlyStart = task.getExternalEarlyStart();
+         earlyFinish = null;
+      }
+
       if (earlyFinish == null)
       {
          earlyFinish = task.getActualFinish() == null ? getDate(calendar, earlyStart, task.getDuration()) : task.getActualFinish();
@@ -404,6 +410,11 @@ public class PrimaveraScheduler implements Scheduler
          {
             lateFinish = adjustedLateFinish;
          }
+      }
+
+      if (task.getExternalLateFinish() != null && task.getExternalLateFinish().isBefore(lateFinish))
+      {
+         lateFinish = task.getExternalLateFinish();
       }
 
       LocalDateTime lateStart;
