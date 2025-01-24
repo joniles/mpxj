@@ -441,7 +441,7 @@ public class PrimaveraScheduler implements Scheduler
             if (predecessor.getActualFinish() != null)
             {
                return predecessor.getEarlyFinish();
-               // Works for some activities in: lovable-bridgehead, ideal-tilt, keen-knock
+               // Works for some activities in: lovable-bridgehead, ideal-tilt, keen-knock, naval-cancer
                //return getDate(getLagCalendar(taskCalendar, relation), predecessor.getActualFinish(), relation.getLag());
             }
             return getDate(getLagCalendar(taskCalendar, relation), predecessor.getEarlyFinish(), relation.getLag());
