@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="13.9.1">
 			<action dev="joniles" type="update">Improve handling of Activity Type attribute when reading PMXML files written by Primavera P6 6.x.</action>
+			<action dev="joniles" type="update">Ensure that the External Early Start and External Late Finish attributes are written to XER files.</action>
 		</release>
 		<release date="2025-01-09" version="13.9.0">
 			<action dev="joniles" type="update">Updated to POI 5.4.0</action>

@@ -159,23 +159,13 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
 
    @Override public String toString()
    {
-      return ("[Relation lag: " + m_lag + " type: " + m_type + " " + m_targetTask + " -> " + m_sourceTask + "]");
+      return ("[Relation lag: " + m_lag + " type: " + m_type + " " + m_predecessorTask + " -> " + m_successorTask + "]");
    }
 
    private Integer m_uniqueID;
-
-   /**
-    * Parent task file.
-    */
    private final Task m_sourceTask;
-
-   /**
-    * Identifier of task with which this relationship is held.
-    */
    private final Task m_targetTask;
-
    private final Task m_predecessorTask;
-
    private final Task m_successorTask;
 
    /**
