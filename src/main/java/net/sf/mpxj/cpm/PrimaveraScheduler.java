@@ -712,17 +712,24 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       Relation relation  = successors.stream().min(Comparator.comparing(r -> r.getSuccessorTask().getEarlyStart())).orElseThrow(() -> new CpmException("Missing early start date"));
+
+      LocalDateTime earlyStart = getAlapEarlyStart(relation);
+      LocalDateTime earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
+      task.setEarlyStart(earlyStart);
+      task.setEarlyFinish(earlyFinish);
+   }
+
+   private LocalDateTime getAlapEarlyStart(Relation relation)
+   {
+      Task task = relation.getPredecessorTask();
+      ProjectCalendar calendar = task.getEffectiveCalendar();
       Task successorTask = relation.getSuccessorTask();
 
       switch (relation.getType())
       {
          case START_START:
          {
-            LocalDateTime earlyStart = getDate(calendar, successorTask.getEarlyStart(), relation.getLag().negate());
-            LocalDateTime earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
-            task.setEarlyStart(earlyStart);
-            task.setEarlyFinish(earlyFinish);
-            break;
+            return getDate(calendar, successorTask.getEarlyStart(), relation.getLag().negate());
          }
 
          case FINISH_START:
@@ -732,41 +739,28 @@ public class PrimaveraScheduler implements Scheduler
             {
                if (task.getActualFinish() == null)
                {
-                  earlyStart = successorTask.getEarlyStart();
+                  return successorTask.getEarlyStart();
                }
                else
                {
-                  earlyStart = m_dataDate;
+                  return m_dataDate;
                }
             }
-            else
-            {
-               earlyStart = getDate(calendar, getDate(calendar, successorTask.getEarlyStart(), task.getRemainingDuration().negate()), relation.getLag().negate());
-            }
 
-            LocalDateTime earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
-            task.setEarlyStart(earlyStart);
-            task.setEarlyFinish(earlyFinish);
-            break;
+            return getDate(calendar, getDate(calendar, successorTask.getEarlyStart(), task.getRemainingDuration().negate()), relation.getLag().negate());
          }
 
          case FINISH_FINISH:
          {
-            LocalDateTime earlyStart = successorTask.getEarlyStart();
-            LocalDateTime earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
-            task.setEarlyStart(earlyStart);
-            task.setEarlyFinish(earlyFinish);
-            break;
+            return successorTask.getEarlyStart();
          }
 
          default:
          {
-            //System.out.println("here");
-            break;
+            return null;
          }
       }
    }
-
 
    private final ProjectFile m_file;
    private final LocalDateTime m_dataDate;
