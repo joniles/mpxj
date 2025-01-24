@@ -440,27 +440,27 @@ public class PrimaveraScheduler implements Scheduler
          {
             if (predecessor.getActualFinish() != null)
             {
-               return predecessor.getEarlyFinish();
+               return getEarlyFinish(predecessor);
                // Works for some activities in: lovable-bridgehead, ideal-tilt, keen-knock, naval-cancer
                //return getDate(getLagCalendar(taskCalendar, relation), predecessor.getActualFinish(), relation.getLag());
             }
-            return getDate(getLagCalendar(taskCalendar, relation), predecessor.getEarlyFinish(), relation.getLag());
+            return getDate(getLagCalendar(taskCalendar, relation), getEarlyFinish(predecessor), relation.getLag());
          }
 
          case START_START:
          {
             if (predecessor.getActualStart() != null)
             {
-               return predecessor.getEarlyStart();
+               return getEarlyStart(predecessor);
             }
 
             if (relation.getLag().getDuration() != 0)
             {
-               return getDate(getLagCalendar(taskCalendar, relation), predecessor.getEarlyStart(), relation.getLag());
+               return getDate(getLagCalendar(taskCalendar, relation), getEarlyStart(predecessor), relation.getLag());
             }
 
             // why adjust the next work start with the lag calendar? not sure, but it seems to work ;-)
-            return getLagCalendar(taskCalendar, relation).getNextWorkStart(predecessor.getEarlyStart());
+            return getLagCalendar(taskCalendar, relation).getNextWorkStart(getEarlyStart(predecessor));
          }
 
          case FINISH_FINISH:
@@ -469,17 +469,17 @@ public class PrimaveraScheduler implements Scheduler
 
             if (predecessor.getActualFinish() == null)
             {
-               predecessorEarlyFinish = predecessor.getEarlyFinish();
+               predecessorEarlyFinish = getEarlyFinish(predecessor);
             }
             else
             {
-               if (predecessor.getActualFinish().isBefore(predecessor.getEarlyFinish()))
+               if (predecessor.getActualFinish().isBefore(getEarlyFinish(predecessor)))
                {
                   predecessorEarlyFinish = predecessor.getActualFinish();
                }
                else
                {
-                  predecessorEarlyFinish = predecessor.getEarlyFinish();
+                  predecessorEarlyFinish = getEarlyFinish(predecessor);
                }
             }
 
@@ -494,7 +494,7 @@ public class PrimaveraScheduler implements Scheduler
 
          case START_FINISH:
          {
-            LocalDateTime date = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, predecessor.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
+            LocalDateTime date = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, getEarlyStart(predecessor), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
             if (date.isAfter(m_dataDate))
             {
                return m_dataDate;
@@ -521,18 +521,18 @@ public class PrimaveraScheduler implements Scheduler
          {
             if (successorTask.getActualStart() == null && predecessorTask.getActualStart() == null)
             {
-               LocalDateTime lateStart = taskCalendar.getNextWorkStart(getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), relation.getLag().negate()));
+               LocalDateTime lateStart = taskCalendar.getNextWorkStart(getDate(getLagCalendar(taskCalendar, relation), getLateStart(successorTask), relation.getLag().negate()));
                lateFinish = getDate(taskCalendar, lateStart, predecessorTask.getRemainingDuration());
 
                // Hmmm... dubious logic. Does this just work for indefensible-tedium or is this general?
-               if (successorTask.getSuccessors().isEmpty() && successorTask.getLateFinish().isBefore(lateFinish))
+               if (successorTask.getSuccessors().isEmpty() && getLateFinish(successorTask).isBefore(lateFinish))
                {
-                  lateFinish = successorTask.getLateFinish();
+                  lateFinish = getLateFinish(successorTask);
                }
             }
             else
             {
-               LocalDateTime lateStart = successorTask.getLateStart();
+               LocalDateTime lateStart = getLateStart(successorTask);
                lateFinish = getDate(taskCalendar, lateStart, predecessorTask.getRemainingDuration());
             }
 
@@ -543,18 +543,18 @@ public class PrimaveraScheduler implements Scheduler
          {
             if (predecessorTask.getActualFinish() == null)
             {
-               lateFinish = getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateFinish(), relation.getLag().negate());
+               lateFinish = getDate(getLagCalendar(taskCalendar, relation), getLateFinish(successorTask), relation.getLag().negate());
             }
             else
             {
-               lateFinish = successorTask.getLateFinish();
+               lateFinish = getLateFinish(successorTask);
             }
             break;
          }
 
          case START_FINISH:
          {
-            lateFinish = getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration());
+            lateFinish = getDate(taskCalendar, getLateFinish(successorTask), predecessorTask.getDuration());
             lateFinish = getDate(getLagCalendar(taskCalendar, relation), lateFinish, relation.getLag().negate());
             break;
          }
@@ -563,11 +563,11 @@ public class PrimaveraScheduler implements Scheduler
          {
             if (predecessorTask.getActualStart() != null || successorTask.getActualStart() != null)
             {
-               lateFinish = successorTask.getLateStart();
+               lateFinish = getLateStart(successorTask);
             }
             else
             {
-               lateFinish = getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), relation.getLag().negate());
+               lateFinish = getDate(getLagCalendar(taskCalendar, relation), getLateStart(successorTask), relation.getLag().negate());
             }
             break;
          }
@@ -693,14 +693,14 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
-      Relation relation  = successors.stream().min(Comparator.comparing(r -> r.getSuccessorTask().getEarlyStart())).orElseThrow(() -> new CpmException("Missing early start date"));
+      Relation relation  = successors.stream().min(Comparator.comparing(r -> getEarlyStart(r.getSuccessorTask()))).orElseThrow(() -> new CpmException("Missing early start date"));
       Task successorTask = relation.getSuccessorTask();
 
       switch (relation.getType())
       {
          case START_START:
          {
-            LocalDateTime earlyStart = successorTask.getEarlyStart();
+            LocalDateTime earlyStart = getEarlyStart(successorTask);
             LocalDateTime earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
             task.setEarlyStart(earlyStart);
             task.setEarlyFinish(earlyFinish);
@@ -714,7 +714,7 @@ public class PrimaveraScheduler implements Scheduler
             {
                if (task.getActualFinish() == null)
                {
-                  earlyStart = successorTask.getEarlyStart();
+                  earlyStart = getEarlyStart(successorTask);
                }
                else
                {
@@ -723,7 +723,7 @@ public class PrimaveraScheduler implements Scheduler
             }
             else
             {
-               earlyStart = getDate(calendar, successorTask.getEarlyStart(), task.getRemainingDuration().negate());
+               earlyStart = getDate(calendar, getEarlyStart(successorTask), task.getRemainingDuration().negate());
             }
 
             LocalDateTime earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
@@ -734,7 +734,7 @@ public class PrimaveraScheduler implements Scheduler
 
          case FINISH_FINISH:
          {
-            LocalDateTime earlyStart = successorTask.getEarlyStart();
+            LocalDateTime earlyStart = getEarlyStart(successorTask);
             LocalDateTime earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
             task.setEarlyStart(earlyStart);
             task.setEarlyFinish(earlyFinish);
@@ -749,6 +749,25 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
+   private LocalDateTime getEarlyStart(Task task)
+   {
+      return task.getEarlyStart();
+   }
+
+   private LocalDateTime getEarlyFinish(Task task)
+   {
+      return task.getEarlyFinish();
+   }
+
+   private LocalDateTime getLateStart(Task task)
+   {
+      return task.getLateStart();
+   }
+
+   private LocalDateTime getLateFinish(Task task)
+   {
+      return task.getLateFinish();
+   }
 
    private final ProjectFile m_file;
    private final LocalDateTime m_dataDate;
