@@ -752,7 +752,7 @@ public class PrimaveraScheduler implements Scheduler
 
          case FINISH_FINISH:
          {
-            return successorTask.getEarlyStart();
+            return getDate(calendar, successorTask.getEarlyFinish(), task.getRemainingDuration().negate());
          }
 
          default:
