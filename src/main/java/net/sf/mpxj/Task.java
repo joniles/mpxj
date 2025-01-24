@@ -5657,7 +5657,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    @Override public String toString()
    {
-      return ("[Task id=" + getID() + " uniqueID=" + getUniqueID() + " name=" + getName() + (getExternalTask() ? " [EXTERNAL uid=" + getSubprojectTaskUniqueID() + " id=" + getSubprojectTaskID() + "]" : "]"));
+      return ("[Task id=" + getID() + " uniqueID=" + getUniqueID() + (getActivityID() == null ? "" : " activityID=" + getActivityID()) + " name=" + getName() + (getExternalTask() ? " [EXTERNAL uid=" + getSubprojectTaskUniqueID() + " id=" + getSubprojectTaskID() + "]" : "]"));
    }
 
    /**
