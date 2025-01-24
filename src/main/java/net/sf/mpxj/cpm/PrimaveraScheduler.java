@@ -711,7 +711,7 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
-      Relation relation  = successors.stream().min(Comparator.comparing(r -> r.getSuccessorTask().getEarlyStart())).orElseThrow(() -> new CpmException("Missing early start date"));
+      Relation relation  = successors.stream().min(Comparator.comparing(r -> getAlapEarlyStart(r))).orElseThrow(() -> new CpmException("Missing early start date"));
 
       LocalDateTime earlyStart = getAlapEarlyStart(relation);
       LocalDateTime earlyFinish = getDate(calendar, earlyStart, task.getRemainingDuration());
@@ -757,7 +757,8 @@ public class PrimaveraScheduler implements Scheduler
 
          default:
          {
-            return null;
+            // TODO: need example to determine correct behaviour here
+            return LocalDateTime.MAX;
          }
       }
    }
