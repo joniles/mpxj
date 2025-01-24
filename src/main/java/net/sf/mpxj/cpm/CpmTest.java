@@ -327,11 +327,7 @@ public class CpmTest
       // Rounding issue? Makes for a 1 minute difference on one activity
       EXCLUDED_FILES.add("fleet-salary.xer");
       EXCLUDED_FILES.add("global-sociology.xer");
-
-      // Calculation of late finish date for activity with no successors
-      EXCLUDED_FILES.add("prime-chiropractor-scheduled.xml");
-      EXCLUDED_FILES.add("golden-aperture.xer");
-
+      
       // Forward pass logic differs from other working files - can't see why
       EXCLUDED_FILES.add("naval-cancer.xml");
 
