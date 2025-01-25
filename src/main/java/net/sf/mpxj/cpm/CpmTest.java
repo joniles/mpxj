@@ -308,14 +308,11 @@ public class CpmTest
       EXCLUDED_FILES.add("dense-cushion-scheduled.xer");
       EXCLUDED_FILES.add("teenage-contest-scheduled.xer");
       EXCLUDED_FILES.add("orange-parade.xer"); // PROGRESS_OVERRIDE
-      EXCLUDED_FILES.add("orange-parade.xml"); // PROGRESS_OVERRIDE
-      EXCLUDED_FILES.add("stuffy-sturgeon.xml");
 
       // ALAP weirdness
       EXCLUDED_FILES.add("nasty-census.xer");
       EXCLUDED_FILES.add("virtual-mast.xer");
       EXCLUDED_FILES.add("specific-academy.xer");
-      EXCLUDED_FILES.add("toxic-end.xer");
       EXCLUDED_FILES.add("missing-limestone.xer");
       EXCLUDED_FILES.add("outstanding-vaudeville.xer");
       EXCLUDED_FILES.add("barbaric-pat.xer");
