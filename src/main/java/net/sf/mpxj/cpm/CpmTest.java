@@ -329,9 +329,6 @@ public class CpmTest
       EXCLUDED_FILES.add("fleet-salary.xer");
       EXCLUDED_FILES.add("global-sociology.xer");
 
-      // Forward pass logic differs from other working files - can't see why
-      EXCLUDED_FILES.add("naval-cancer.xml");
-
       // Forward pass 1 day out - calendar issue?
       EXCLUDED_FILES.add("radical-reach.xer");
 
