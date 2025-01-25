@@ -869,7 +869,7 @@ public class PrimaveraScheduler implements Scheduler
    private void alapAdjust(Task task) throws CpmException
    {
       ProjectCalendar calendar = task.getEffectiveCalendar();
-      List<Relation> successors = task.getSuccessors();
+      List<Relation> successors = task.getSuccessors().stream().filter(r -> !ignoreTask(r.getSuccessorTask())).collect(Collectors.toList());
       if (successors.isEmpty())
       {
          LocalDateTime earlyFinish = m_projectFinishDate;
