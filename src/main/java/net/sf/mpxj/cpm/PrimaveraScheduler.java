@@ -499,8 +499,8 @@ public class PrimaveraScheduler implements Scheduler
             }
             else
             {
-               // Predecessor Started
-               if (successorTask.getActualFinish() == null)
+               // Predecessor started
+               if (predecessorTask.getActualFinish() != null)
                {
                   // Predecessor finished
                   if (successorTask.getActualStart() == null)
@@ -530,11 +530,16 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  // Predecessor not finish
+                  // Predecessor not finished
                   if (successorTask.getActualStart() == null)
                   {
                      // Successor not started
-                     return predecessorTask.getEarlyStart();
+                     LocalDateTime earlyStart = getDate(getLagCalendar(taskCalendar, relation), predecessorTask.getActualStart(), relation.getLag());
+                     if (earlyStart.isBefore(m_dataDate))
+                     {
+                        return predecessorTask.getEarlyStart();
+                     }
+                     return earlyStart;
                   }
                   else
                   {
