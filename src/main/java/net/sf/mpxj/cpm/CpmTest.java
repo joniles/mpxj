@@ -262,7 +262,7 @@ public class CpmTest
       EXCLUDED_FILES.add("baseline-issue.xml");
       EXCLUDED_FILES.add("prod00914.xml");
       EXCLUDED_FILES.add("virile-schema.xml");
-      EXCLUDED_FILES.add("restricted-garden.xml");
+      EXCLUDED_FILES.add("restricted-garden.xer");
       EXCLUDED_FILES.add("computational-infection.xer");
 
       // Can't import into P6 to debug
