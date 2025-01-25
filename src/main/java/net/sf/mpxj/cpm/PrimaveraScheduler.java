@@ -506,10 +506,12 @@ public class PrimaveraScheduler implements Scheduler
                   if (successorTask.getActualStart() == null)
                   {
                      // Successor not started
-                     return predecessorTask.getEarlyStart();
-
-                     // Works for stuffy-sturgeon
-                     //return getDate(getLagCalendar(taskCalendar, relation), predecessorTask.getActualStart(), relation.getLag());
+                     LocalDateTime earlyStart = getDate(getLagCalendar(taskCalendar, relation), predecessorTask.getActualStart(), relation.getLag());
+                     if (earlyStart.isBefore(m_dataDate))
+                     {
+                        return predecessorTask.getEarlyStart();
+                     }
+                     return earlyStart;
                   }
                   else
                   {
