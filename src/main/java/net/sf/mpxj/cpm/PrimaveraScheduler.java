@@ -889,8 +889,8 @@ public class PrimaveraScheduler implements Scheduler
 
    private LocalDateTime getAlapEarlyStart(Relation relation)
    {
-      Task task = relation.getPredecessorTask();
-      ProjectCalendar calendar = task.getEffectiveCalendar();
+      Task predecessorTask = relation.getPredecessorTask();
+      ProjectCalendar calendar = predecessorTask.getEffectiveCalendar();
       Task successorTask = relation.getSuccessorTask();
 
       switch (relation.getType())
@@ -902,12 +902,13 @@ public class PrimaveraScheduler implements Scheduler
 
          case FINISH_START:
          {
+/*
             LocalDateTime earlyStart;
-            if (task.getActualStart() != null)
+            if (predecessorTask.getActualStart() != null)
             {
-               if (task.getActualFinish() == null)
+               if (predecessorTask.getActualFinish() == null)
                {
-                  return getDate(calendar, getDate(calendar, successorTask.getEarlyStart(), task.getRemainingDuration().negate()), relation.getLag().negate());
+                  return getDate(calendar, getDate(calendar, successorTask.getEarlyStart(), predecessorTask.getRemainingDuration().negate()), relation.getLag().negate());
                }
                else
                {
@@ -915,12 +916,87 @@ public class PrimaveraScheduler implements Scheduler
                }
             }
 
-            return getDate(calendar, getDate(calendar, successorTask.getEarlyStart(), task.getRemainingDuration().negate()), relation.getLag().negate());
+            return getDate(calendar, getDate(calendar, successorTask.getEarlyStart(), predecessorTask.getRemainingDuration().negate()), relation.getLag().negate());
+ */
+
+            if (predecessorTask.getActualStart() == null)
+            {
+               // Predecessor not started
+               if (successorTask.getActualStart() == null)
+               {
+                  // Successor not started
+                  return getDate(calendar, getDate(calendar, successorTask.getEarlyStart(), predecessorTask.getRemainingDuration().negate()), relation.getLag().negate());
+               }
+               else
+               {
+                  // successor started
+                  if (successorTask.getActualFinish() == null)
+                  {
+                     // successor not finished
+                     return getDate(calendar, getDate(calendar, successorTask.getEarlyStart(), predecessorTask.getRemainingDuration().negate()), relation.getLag().negate());
+                  }
+                  else
+                  {
+                     // successor finished
+                     return getDate(calendar, getDate(calendar, successorTask.getEarlyStart(), predecessorTask.getRemainingDuration().negate()), relation.getLag().negate());
+                  }
+               }
+            }
+            else
+            {
+               // Predecessor Started
+               if (successorTask.getActualFinish() == null)
+               {
+                  // Predecessor finished
+                  if (successorTask.getActualStart() == null)
+                  {
+                     // Successor not started
+                     return getDate(calendar, getDate(calendar, successorTask.getEarlyStart(), predecessorTask.getRemainingDuration().negate()), relation.getLag().negate());
+                  }
+                  else
+                  {
+                     // successor started
+                     if (successorTask.getActualFinish() == null)
+                     {
+                        // successor not finished
+                        return m_dataDate;
+                     }
+                     else
+                     {
+                        // successor finished
+                        return getDate(calendar, getDate(calendar, successorTask.getEarlyStart(), predecessorTask.getRemainingDuration().negate()), relation.getLag().negate());
+                     }
+                  }
+               }
+               else
+               {
+                  // Predecessor not finish
+                  if (successorTask.getActualStart() == null)
+                  {
+                     // Successor not started
+                     return getDate(calendar, getDate(calendar, successorTask.getEarlyStart(), predecessorTask.getRemainingDuration().negate()), relation.getLag().negate());
+                  }
+                  else
+                  {
+                     // successor started
+                     if (successorTask.getActualFinish() == null)
+                     {
+                        // successor not finished
+                        return getDate(calendar, getDate(calendar, successorTask.getEarlyStart(), predecessorTask.getRemainingDuration().negate()), relation.getLag().negate());
+                     }
+                     else
+                     {
+                        // successor finished
+                        return m_dataDate;
+                     }
+                  }
+               }
+            }
          }
 
          case FINISH_FINISH:
          {
-            return getDate(calendar, successorTask.getEarlyFinish(), task.getRemainingDuration().negate());
+            return getDate(calendar, successorTask.getEarlyFinish(), predecessorTask.getRemainingDuration().negate());
          }
 
          default:
