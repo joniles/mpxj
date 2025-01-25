@@ -656,26 +656,56 @@ public class PrimaveraScheduler implements Scheduler
                else
                {
                   // Predecessor Started
-                  if (successorTask.getActualStart() == null)
+                  if (predecessorTask.getActualFinish() != null)
                   {
-                     // Successor not started
-                     lateStart = successorTask.getLateStart();
-                  }
-                  else
-                  {
-                     // successor started
-                     if (successorTask.getActualFinish() == null)
+                     // Predecessor finished
+                     if (successorTask.getActualStart() == null)
                      {
-                        // successor not finished
+                        // Successor not started
                         lateStart = successorTask.getLateStart();
                      }
                      else
                      {
-                        // successor finished
-                        lateStart = successorTask.getLateStart();
+                        // successor started
+                        if (successorTask.getActualFinish() == null)
+                        {
+                           // successor not finished
+                           lateStart = successorTask.getLateStart();
+                        }
+                        else
+                        {
+                           // successor finished
+                           lateStart = successorTask.getLateStart();
 
-                        // fixes fails in single-supervision
-                        //lateStart = getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), relation.getLag().negate());
+                           // fixes fails in single-supervision
+                           //lateStart = getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), relation.getLag().negate());
+                        }
+                     }
+                  }
+                  else
+                  {
+                     // Predecessor not finished
+                     if (successorTask.getActualStart() == null)
+                     {
+                        // Successor not started
+                        lateStart = successorTask.getLateStart();
+                     }
+                     else
+                     {
+                        // successor started
+                        if (successorTask.getActualFinish() == null)
+                        {
+                           // successor not finished
+                           lateStart = successorTask.getLateStart();
+                        }
+                        else
+                        {
+                           // successor finished
+                           lateStart = successorTask.getLateStart();
+
+                           // fixes fails in single-supervision
+                           //lateStart = getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), relation.getLag().negate());
+                        }
                      }
                   }
                }
