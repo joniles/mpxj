@@ -973,23 +973,6 @@ public class PrimaveraScheduler implements Scheduler
 
          case FINISH_START:
          {
-/*
-            LocalDateTime earlyStart;
-            if (predecessorTask.getActualStart() != null)
-            {
-               if (predecessorTask.getActualFinish() == null)
-               {
-                  return getDate(calendar, getDate(calendar, successorTask.getEarlyStart(), predecessorTask.getRemainingDuration().negate()), relation.getLag().negate());
-               }
-               else
-               {
-                  return m_dataDate;
-               }
-            }
-
-            return getDate(calendar, getDate(calendar, successorTask.getEarlyStart(), predecessorTask.getRemainingDuration().negate()), relation.getLag().negate());
- */
-
             if (predecessorTask.getActualStart() == null)
             {
                // Predecessor not started
@@ -1016,7 +999,7 @@ public class PrimaveraScheduler implements Scheduler
             else
             {
                // Predecessor Started
-               if (successorTask.getActualFinish() == null)
+               if (predecessorTask.getActualFinish() == null)
                {
                   // Predecessor finished
                   if (successorTask.getActualStart() == null)
@@ -1041,7 +1024,7 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  // Predecessor not finish
+                  // Predecessor not finished
                   if (successorTask.getActualStart() == null)
                   {
                      // Successor not started
@@ -1053,7 +1036,7 @@ public class PrimaveraScheduler implements Scheduler
                      if (successorTask.getActualFinish() == null)
                      {
                         // successor not finished
-                        return getDate(calendar, getDate(calendar, successorTask.getEarlyStart(), predecessorTask.getRemainingDuration().negate()), relation.getLag().negate());
+                        return m_dataDate;
                      }
                      else
                      {
