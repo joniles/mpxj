@@ -329,6 +329,14 @@ public class PrimaveraScheduler implements Scheduler
                }
 
                case FINISH_ON:
+               {
+                  if (lateFinish.isAfter(task.getConstraintDate()))
+                  {
+                     lateFinish = task.getConstraintDate();
+                  }
+                  break;
+               }
+
                case MUST_FINISH_ON:
                {
                   lateFinish = task.getConstraintDate();
