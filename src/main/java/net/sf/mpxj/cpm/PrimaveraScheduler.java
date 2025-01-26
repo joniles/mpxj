@@ -1013,7 +1013,7 @@ public class PrimaveraScheduler implements Scheduler
                      if (successorTask.getActualFinish() == null)
                      {
                         // successor not finished
-                        return m_dataDate;
+                        return getDate(calendar, getDate(calendar, successorTask.getEarlyStart(), predecessorTask.getRemainingDuration().negate()), relation.getLag().negate());
                      }
                      else
                      {
