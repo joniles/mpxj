@@ -493,16 +493,19 @@ public class PrimaveraScheduler implements Scheduler
                   {
                      // Successor not started
                      double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-                     if (lagDurationInHours == 0.0)
+                     double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+
+                     if (actualDurationInHours == 0 || lagDurationInHours <= 0.0)
                      {
+                        // We have a milestone, or we have no positive lag
                         return predecessorTask.getEarlyFinish();
                      }
 
-                     double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-                     if (actualDurationInHours == 0 || actualDurationInHours >= lagDurationInHours)
+                     if (actualDurationInHours >= lagDurationInHours)
                      {
-                        // If we have a milestone (zero duration) or we have progressed more than the lag
-                        return predecessorTask.getEarlyFinish();
+                        // We have progressed more than the lag
+                        LocalDateTime earlyStart = taskCalendar.getNextWorkStart(predecessorTask.getEarlyFinish());
+                        return getDate(getLagCalendar(taskCalendar,relation),earlyStart, relation.getLag());
                      }
                      else
                      {
