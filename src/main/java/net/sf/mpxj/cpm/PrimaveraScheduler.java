@@ -1179,6 +1179,13 @@ public class PrimaveraScheduler implements Scheduler
 
       if (lateFinish.isAfter(m_projectFinishDate))
       {
+         // If we're between working periods, move back to the last work finish
+         LocalDateTime previousWorkFinish = taskCalendar.getPreviousWorkFinish(m_projectFinishDate);
+         if (taskCalendar.getWork(previousWorkFinish, m_projectFinishDate, TimeUnit.HOURS).getDuration() == 0)
+         {
+            return previousWorkFinish;
+         }
+
          return m_projectFinishDate;
       }
 
