@@ -980,8 +980,71 @@ public class PrimaveraScheduler implements Scheduler
 
          case START_FINISH:
          {
-            lateFinish = getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration());
-            lateFinish = getDate(getLagCalendar(taskCalendar, relation), lateFinish, relation.getLag().negate());
+            if (predecessorTask.getActualStart() == null)
+            {
+               // Predecessor not started
+               if (successorTask.getActualStart() == null)
+               {
+                  // Successor not started
+                  lateFinish = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration()), relation.getLag().negate());
+               }
+               else
+               {
+                  // successor started
+                  if (successorTask.getActualFinish() == null)
+                  {
+                     // successor not finished
+                     lateFinish = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration()), relation.getLag().negate());
+                  }
+                  else
+                  {
+                     // successor finished
+                     lateFinish = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration()), relation.getLag().negate());
+                  }
+               }
+            }
+            else
+            {
+               // Predecessor Started
+               if (predecessorTask.getActualFinish() != null)
+               {
+                  // Predecessor finished
+                  if (successorTask.getActualStart() == null)
+                  {
+                     // Successor not started
+                     lateFinish = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration()), relation.getLag().negate());
+                  }
+                  else
+                  {
+                     // successor started
+                     lateFinish = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration()), relation.getLag().negate());
+                  }
+               }
+               else
+               {
+                  // Predecessor not finished
+                  if (successorTask.getActualStart() == null)
+                  {
+                     // Successor not started
+                     lateFinish = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration()), relation.getLag().negate());
+                  }
+                  else
+                  {
+                     // successor started
+                     if (successorTask.getActualFinish() == null)
+                     {
+                        // successor not finished
+                        lateFinish = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration()), relation.getLag().negate());
+                     }
+                     else
+                     {
+                        // successor finished
+                        lateFinish = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration()), relation.getLag().negate());
+                     }
+                  }
+               }
+            }
+
             break;
          }
 
