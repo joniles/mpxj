@@ -281,6 +281,7 @@ public class CpmTest
       USE_SCHEDULED_COPY.add("comments-relation-test.xml");
       USE_SCHEDULED_COPY.add("smoother-melodrama.xer");
       USE_SCHEDULED_COPY.add("nasty-census.xer");
+      USE_SCHEDULED_COPY.add("virtual-mast.xer");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -325,7 +326,7 @@ public class CpmTest
       EXCLUDED_FILES.add("orange-parade.xer"); // PROGRESS_OVERRIDE
 
       // ALAP weirdness
-      EXCLUDED_FILES.add("virtual-mast.xer");
+      EXCLUDED_FILES.add("virtual-mast-scheduled.xer");
       EXCLUDED_FILES.add("specific-academy.xer");
       EXCLUDED_FILES.add("missing-limestone.xer");
       EXCLUDED_FILES.add("outstanding-vaudeville.xer");

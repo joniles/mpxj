@@ -661,19 +661,77 @@ public class PrimaveraScheduler implements Scheduler
          {
             LocalDateTime predecessorEarlyFinish;
 
-            if (predecessorTask.getActualFinish() == null)
+            if (predecessorTask.getActualStart() == null)
             {
-               predecessorEarlyFinish = predecessorTask.getEarlyFinish();
-            }
-            else
-            {
-               if (predecessorTask.getActualFinish().isBefore(predecessorTask.getEarlyFinish()))
+               // Predecessor not started
+               if (successorTask.getActualStart() == null)
                {
-                  predecessorEarlyFinish = predecessorTask.getActualFinish();
+                  // Successor not started
+                  predecessorEarlyFinish = predecessorTask.getEarlyFinish();
                }
                else
                {
-                  predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+                  // successor started
+                  if (successorTask.getActualFinish() == null)
+                  {
+                     // successor not finished
+                     predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+                  }
+                  else
+                  {
+                     // successor finished
+                     predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+                  }
+               }
+            }
+            else
+            {
+               // Predecessor started
+               if (predecessorTask.getActualFinish() != null)
+               {
+                  // Predecessor finished
+                  if (successorTask.getActualStart() == null)
+                  {
+                     // Successor not started
+                     predecessorEarlyFinish = predecessorTask.getActualFinish();
+                  }
+                  else
+                  {
+                     // successor started
+                     if (successorTask.getActualFinish() == null)
+                     {
+                        // successor not finished
+                        predecessorEarlyFinish = predecessorTask.getActualFinish();
+                     }
+                     else
+                     {
+                        // successor finished
+                        predecessorEarlyFinish = predecessorTask.getActualFinish();
+                     }
+                  }
+               }
+               else
+               {
+                  // Predecessor not finished
+                  if (successorTask.getActualStart() == null)
+                  {
+                     // Successor not started
+                     predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+                  }
+                  else
+                  {
+                     // successor started
+                     if (successorTask.getActualFinish() == null)
+                     {
+                        // successor not finished
+                        predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+                     }
+                     else
+                     {
+                        // successor finished
+                        predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+                     }
+                  }
                }
             }
 
