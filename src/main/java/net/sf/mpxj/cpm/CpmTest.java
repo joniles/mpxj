@@ -46,11 +46,24 @@ public class CpmTest
       File[] fileList = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(suffix));
       int failed = 0;
       int skipped = 0;
+      int valid = 0;
       int success = 0;
 
       for(File file : fileList)
       {
          String name = file.getName().toLowerCase();
+         if (UNREADABLE_FILES.contains(name))
+         {
+            continue;
+         }
+
+         if (USE_SCHEDULED_COPY.contains(name))
+         {
+            continue;
+         }
+
+         ++valid;
+
          if (EXCLUDED_FILES.contains(name))
          {
             ++skipped;
@@ -73,7 +86,7 @@ public class CpmTest
       System.out.println("Skipped: " + skipped);
       System.out.println("Success: " + success);
       System.out.println("Failed: " + failed);
-      System.out.println("Success %: " + (success * 100.0 / fileList.length));
+      System.out.println("Success %: " + (success * 100.0 / valid));
    }
 
    public boolean process(File file, Function<ProjectFile, Scheduler> scheduler) throws Exception
@@ -231,19 +244,48 @@ public class CpmTest
    private static final Function<ProjectFile, Scheduler> MICROSOFT_PROJECT = p -> new MicrosoftScheduler(p);
    private static final Function<ProjectFile, Scheduler> PRIMAVERA_P6 = p -> new PrimaveraScheduler(p);
 
+   private static final Set<String> UNREADABLE_FILES = new HashSet<>();
+   static
+   {
+      // Can't import into P6 to debug
+      UNREADABLE_FILES.add("tender-workforce.xer");
+      UNREADABLE_FILES.add("mortal-duct.xer");
+      UNREADABLE_FILES.add("narrower-encouragement.xer");
+      UNREADABLE_FILES.add("invalid-calendar-data.encoding.xer");
+      UNREADABLE_FILES.add("duplicate-relation-uid.xer");
+      UNREADABLE_FILES.add("kindly-dissolve.xml");
+   }
+
+   private static final Set<String> USE_SCHEDULED_COPY = new HashSet<>();
+   static
+   {
+      // Aligns with MPXJ when scheduled
+      USE_SCHEDULED_COPY.add("teenage-contest.encoding.xer");
+      USE_SCHEDULED_COPY.add("orphic-chastisement.xer");
+      USE_SCHEDULED_COPY.add("unlined-customhouse.xer");
+      USE_SCHEDULED_COPY.add("exhaustible-concussion.xer");
+      USE_SCHEDULED_COPY.add("surface-jealousy.xer");
+      USE_SCHEDULED_COPY.add("passionate-lounge.xer");
+      USE_SCHEDULED_COPY.add("passionate-lounge.xml");
+      USE_SCHEDULED_COPY.add("synthetic-moire.xer");
+      USE_SCHEDULED_COPY.add("comments-relation-test.xer");
+      USE_SCHEDULED_COPY.add("dense-cushion.xer");
+      USE_SCHEDULED_COPY.add("frightened-heat.xer");
+      USE_SCHEDULED_COPY.add("nrg00950.xer");
+      USE_SCHEDULED_COPY.add("plain-move.xer");
+      USE_SCHEDULED_COPY.add("manic-relativity.xml");
+      USE_SCHEDULED_COPY.add("supreme-convention.xml");
+      USE_SCHEDULED_COPY.add("udf-test.xml");
+      USE_SCHEDULED_COPY.add("garish-biophysicist.xml");
+      USE_SCHEDULED_COPY.add("prime-chiropractor.xml");
+      USE_SCHEDULED_COPY.add("comments-relation-test.xml");
+      USE_SCHEDULED_COPY.add("smoother-melodrama.xer");
+      USE_SCHEDULED_COPY.add("nasty-census.xer");
+   }
+
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
    static
    {
-      EXCLUDED_FILES.add("photographic-magic.mpp"); // External tasks used but not visible in MSP
-      EXCLUDED_FILES.add("bizarre-doomsday.mpp"); // Manually scheduled task without any explicitly supplied dates
-      EXCLUDED_FILES.add("optimistic-layer.mpp"); // TODO: maybe we're not working with calendars correctly - should be considering the resource calendars and merging?
-      EXCLUDED_FILES.add("adequate-function.mpp"); // TODO: assignment leveling delay
-      EXCLUDED_FILES.add("serene-birthright.mpp"); // TODO: oddity handling one late finish constraint versus end of working time
-      EXCLUDED_FILES.add("microsomal-finisher.mpp"); // TODO: late finish, project end determined by constrained task - use unconstrained early finish as project end?
-      EXCLUDED_FILES.add("circulatory-collapse.mpp"); // TODO: needs calculation at assignment level?
-      EXCLUDED_FILES.add("onrushing-stratification.mpp"); // MPP reading issue: missing predecessor
-      EXCLUDED_FILES.add("smoother-melodrama.xer"); // No dates - so nothing to use as a baseline
-
       // Resource dependent activity
       EXCLUDED_FILES.add("elected-orange.xer");
       EXCLUDED_FILES.add("role-code-test.xer");
@@ -264,35 +306,8 @@ public class CpmTest
       EXCLUDED_FILES.add("virile-schema.xml");
       EXCLUDED_FILES.add("restricted-garden.xer");
       EXCLUDED_FILES.add("computational-infection.xer");
-
-      // Can't import into P6 to debug
-      EXCLUDED_FILES.add("tender-workforce.xer");
-      EXCLUDED_FILES.add("mortal-duct.xer");
-      EXCLUDED_FILES.add("narrower-encouragement.xer");
-      EXCLUDED_FILES.add("invalid-calendar-data.encoding.xer");
-      EXCLUDED_FILES.add("duplicate-relation-uid.xer");
-      EXCLUDED_FILES.add("kindly-dissolve.xml");
-
-      // Aligns with MPXJ when scheduled
-      EXCLUDED_FILES.add("teenage-contest.encoding.xer");
-      EXCLUDED_FILES.add("orphic-chastisement.xer");
-      EXCLUDED_FILES.add("unlined-customhouse.xer");
-      EXCLUDED_FILES.add("exhaustible-concussion.xer");
-      EXCLUDED_FILES.add("surface-jealousy.xer");
-      EXCLUDED_FILES.add("passionate-lounge.xer");
-      EXCLUDED_FILES.add("passionate-lounge.xml");
-      EXCLUDED_FILES.add("synthetic-moire.xer");
-      EXCLUDED_FILES.add("comments-relation-test.xer");
-      EXCLUDED_FILES.add("dense-cushion.xer");
-      EXCLUDED_FILES.add("frightened-heat.xer");
-      EXCLUDED_FILES.add("nrg00950.xer");
-      EXCLUDED_FILES.add("plain-move.xer");
-      EXCLUDED_FILES.add("manic-relativity.xml");
-      EXCLUDED_FILES.add("supreme-convention.xml");
-      EXCLUDED_FILES.add("udf-test.xml");
-      EXCLUDED_FILES.add("garish-biophysicist.xml");
-      EXCLUDED_FILES.add("prime-chiropractor.xml");
-      EXCLUDED_FILES.add("comments-relation-test.xml");
+      EXCLUDED_FILES.add("unmistakable-client.xer");
+      EXCLUDED_FILES.add("virile-schema.xer");
 
       // Don't understand difference in FS relationship behaviour
       EXCLUDED_FILES.add("ideal-tilt.xer");
@@ -310,7 +325,6 @@ public class CpmTest
       EXCLUDED_FILES.add("orange-parade.xer"); // PROGRESS_OVERRIDE
 
       // ALAP weirdness
-      EXCLUDED_FILES.add("nasty-census.xer");
       EXCLUDED_FILES.add("virtual-mast.xer");
       EXCLUDED_FILES.add("specific-academy.xer");
       EXCLUDED_FILES.add("missing-limestone.xer");
@@ -331,6 +345,16 @@ public class CpmTest
 
       // Fix in code... but conditional?
       EXCLUDED_FILES.add("single-supervision.xer");
+
+      // Misc MPP files
+      EXCLUDED_FILES.add("photographic-magic.mpp"); // External tasks used but not visible in MSP
+      EXCLUDED_FILES.add("bizarre-doomsday.mpp"); // Manually scheduled task without any explicitly supplied dates
+      EXCLUDED_FILES.add("optimistic-layer.mpp"); // TODO: maybe we're not working with calendars correctly - should be considering the resource calendars and merging?
+      EXCLUDED_FILES.add("adequate-function.mpp"); // TODO: assignment leveling delay
+      EXCLUDED_FILES.add("serene-birthright.mpp"); // TODO: oddity handling one late finish constraint versus end of working time
+      EXCLUDED_FILES.add("microsomal-finisher.mpp"); // TODO: late finish, project end determined by constrained task - use unconstrained early finish as project end?
+      EXCLUDED_FILES.add("circulatory-collapse.mpp"); // TODO: needs calculation at assignment level?
+      EXCLUDED_FILES.add("onrushing-stratification.mpp"); // MPP reading issue: missing predecessor
 
       // Scheduled from end
       EXCLUDED_FILES.add("dietetic-phrasing.mpp");

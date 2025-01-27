@@ -114,34 +114,13 @@ public class PrimaveraScheduler implements Scheduler
             earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
          }
 
-         switch (task.getActivityType())
-         {
-            case FINISH_MILESTONE:
-            {
-               // Don't adjust early start
-               break;
-            }
-
-            case RESOURCE_DEPENDENT:
-            {
-               throw new UnsupportedOperationException("Resource Dependent Activities not currently supported");
-            }
-
-            default:
-            {
-               // Next work start
-               earlyStart = calendar.getNextWorkStart(earlyStart);
-               break;
-            }
-         }
-
          if (task.getConstraintType() != null)
          {
             switch (task.getConstraintType())
             {
                case START_NO_EARLIER_THAN:
                {
-                  if (earlyStart.isBefore(task.getConstraintDate()))
+                  if (earlyStart.isBefore(task.getConstraintDate()) || earlyStart.toLocalDate().isEqual(task.getConstraintDate().toLocalDate()))
                   {
                      earlyStart = task.getConstraintDate();
                   }
@@ -209,6 +188,27 @@ public class PrimaveraScheduler implements Scheduler
                   }
                   break;
                }
+            }
+         }
+
+         switch (task.getActivityType())
+         {
+            case FINISH_MILESTONE:
+            {
+               // Don't adjust early start
+               break;
+            }
+
+            case RESOURCE_DEPENDENT:
+            {
+               throw new UnsupportedOperationException("Resource Dependent Activities not currently supported");
+            }
+
+            default:
+            {
+               // Next work start
+               earlyStart = calendar.getNextWorkStart(earlyStart);
+               break;
             }
          }
       }
