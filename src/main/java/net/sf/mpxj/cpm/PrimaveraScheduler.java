@@ -746,12 +746,94 @@ public class PrimaveraScheduler implements Scheduler
 
          case START_FINISH:
          {
-            LocalDateTime date = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
-            if (date.isAfter(m_dataDate))
+            LocalDateTime earlyStart;
+//            LocalDateTime date = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
+//            if (date.isAfter(m_dataDate))
+//            {
+//               return m_dataDate;
+//            }
+//            return date;
+            //return getDate(getLagCalendar(taskCalendar, relation), predecessorTask.getEarlyStart(), relation.getLag());
+
+            if (predecessorTask.getActualStart() == null)
             {
-               return m_dataDate;
+               // Predecessor not started
+               if (successorTask.getActualStart() == null)
+               {
+                  // Successor not started
+                  earlyStart = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
+               }
+               else
+               {
+                  // successor started
+                  if (successorTask.getActualFinish() == null)
+                  {
+                     // successor not finished
+                     earlyStart = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
+                  }
+                  else
+                  {
+                     // successor finished
+                     earlyStart = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
+                  }
+               }
             }
-            return date;
+            else
+            {
+               // Predecessor started
+               if (predecessorTask.getActualFinish() != null)
+               {
+                  // Predecessor finished
+                  if (successorTask.getActualStart() == null)
+                  {
+                     // Successor not started
+                     earlyStart = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
+                  }
+                  else
+                  {
+                     // successor started
+                     if (successorTask.getActualFinish() == null)
+                     {
+                        // successor not finished
+                        earlyStart = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
+                     }
+                     else
+                     {
+                        // successor finished
+                        earlyStart = getDate(getLagCalendar(taskCalendar, relation), predecessorTask.getEarlyStart(), relation.getLag());
+                     }
+                  }
+               }
+               else
+               {
+                  // Predecessor not finished
+                  if (successorTask.getActualStart() == null)
+                  {
+                     // Successor not started
+                     earlyStart = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
+                  }
+                  else
+                  {
+                     // successor started
+                     if (successorTask.getActualFinish() == null)
+                     {
+                        // successor not finished
+                        earlyStart = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
+                     }
+                     else
+                     {
+                        // successor finished
+                        earlyStart = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
+                     }
+                  }
+               }
+            }
+
+            if (earlyStart.isAfter(m_dataDate))
+            {
+               earlyStart = m_dataDate;
+            }
+            return earlyStart;
          }
 
          default:
