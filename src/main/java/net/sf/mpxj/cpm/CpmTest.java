@@ -282,6 +282,7 @@ public class CpmTest
       USE_SCHEDULED_COPY.add("smoother-melodrama.xer");
       USE_SCHEDULED_COPY.add("nasty-census.xer");
       USE_SCHEDULED_COPY.add("virtual-mast.xer");
+      USE_SCHEDULED_COPY.add("specific-academy.xer");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -327,7 +328,6 @@ public class CpmTest
 
       // ALAP weirdness
       EXCLUDED_FILES.add("virtual-mast-scheduled.xer");
-      EXCLUDED_FILES.add("specific-academy.xer");
       EXCLUDED_FILES.add("missing-limestone.xer");
       EXCLUDED_FILES.add("outstanding-vaudeville.xer");
       EXCLUDED_FILES.add("barbaric-pat.xer");
