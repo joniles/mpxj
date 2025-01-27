@@ -328,7 +328,6 @@ public class CpmTest
 
       // ALAP weirdness
       EXCLUDED_FILES.add("virtual-mast-scheduled.xer");
-      EXCLUDED_FILES.add("outstanding-vaudeville.xer");
       EXCLUDED_FILES.add("barbaric-pat.xer");
 
       // Schedule contains a loop
