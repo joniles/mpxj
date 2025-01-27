@@ -1175,7 +1175,7 @@ public class PrimaveraScheduler implements Scheduler
                // Predecessor Started
                if (predecessorTask.getActualFinish() == null)
                {
-                  // Predecessor finished
+                  // Predecessor not finished
                   if (successorTask.getActualStart() == null)
                   {
                      // Successor not started
@@ -1198,11 +1198,11 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  // Predecessor not finished
+                  // Predecessor finished
                   if (successorTask.getActualStart() == null)
                   {
                      // Successor not started
-                     return getDate(calendar, getDate(calendar, successorTask.getEarlyStart(), predecessorTask.getRemainingDuration().negate()), relation.getLag().negate());
+                     return m_dataDate;
                   }
                   else
                   {
