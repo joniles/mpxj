@@ -311,8 +311,9 @@ public class CpmTest
       EXCLUDED_FILES.add("unmistakable-client.xer");
       EXCLUDED_FILES.add("virile-schema.xer");
 
-      // Don't understand difference in FS relationship behaviour
+      // Forward pass: chain of ALAP, following by a normal SS, not clear how the SS early dates are calculated
       EXCLUDED_FILES.add("ideal-tilt.xer");
+
       EXCLUDED_FILES.add("keen-knock.xer");
       EXCLUDED_FILES.add("lovable-bridgehead.xer");
       EXCLUDED_FILES.add("naval-cancer.xer");

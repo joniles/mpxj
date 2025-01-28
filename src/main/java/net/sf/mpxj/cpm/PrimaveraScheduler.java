@@ -775,13 +775,6 @@ public class PrimaveraScheduler implements Scheduler
          case START_FINISH:
          {
             LocalDateTime earlyStart;
-//            LocalDateTime date = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
-//            if (date.isAfter(m_dataDate))
-//            {
-//               return m_dataDate;
-//            }
-//            return date;
-            //return getDate(getLagCalendar(taskCalendar, relation), predecessorTask.getEarlyStart(), relation.getLag());
 
             if (predecessorTask.getActualStart() == null)
             {
@@ -829,6 +822,10 @@ public class PrimaveraScheduler implements Scheduler
                      {
                         // successor finished
                         earlyStart = getDate(getLagCalendar(taskCalendar, relation), predecessorTask.getEarlyStart(), relation.getLag());
+                        if (earlyStart.isAfter(m_dataDate))
+                        {
+                           earlyStart = m_dataDate;
+                        }
                      }
                   }
                }
@@ -839,6 +836,10 @@ public class PrimaveraScheduler implements Scheduler
                   {
                      // Successor not started
                      earlyStart = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
+                     if (earlyStart.isAfter(m_dataDate))
+                     {
+                        earlyStart = m_dataDate;
+                     }
                   }
                   else
                   {
@@ -857,10 +858,6 @@ public class PrimaveraScheduler implements Scheduler
                }
             }
 
-            if (earlyStart.isAfter(m_dataDate))
-            {
-               earlyStart = m_dataDate;
-            }
             return earlyStart;
          }
 
