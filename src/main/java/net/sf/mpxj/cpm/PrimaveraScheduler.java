@@ -722,7 +722,23 @@ public class PrimaveraScheduler implements Scheduler
                   if (successorTask.getActualStart() == null)
                   {
                      // Successor not started
-                     predecessorEarlyFinish = predecessorTask.getActualFinish();
+                     if (relation.getLag().getDuration() == 0.0)
+                     {
+                        predecessorEarlyFinish = predecessorTask.getActualFinish();
+                     }
+                     else
+                     {
+                        double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+                        double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+                        if (lagDurationInHours > actualDurationInHours)
+                        {
+                           predecessorEarlyFinish = predecessorTask.getActualFinish();
+                        }
+                        else
+                        {
+                           predecessorEarlyFinish = getDate(getLagCalendar(taskCalendar, relation), predecessorTask.getEarlyFinish(), relation.getLag());
+                        }
+                     }
                   }
                   else
                   {
