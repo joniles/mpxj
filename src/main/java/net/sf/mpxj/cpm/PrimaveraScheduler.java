@@ -512,7 +512,9 @@ public class PrimaveraScheduler implements Scheduler
                      if (actualDurationInHours >= lagDurationInHours)
                      {
                         // We have progressed more than the lag
-                        LocalDateTime earlyStart = taskCalendar.getNextWorkStart(predecessorTask.getEarlyFinish());
+                        LocalDateTime earlyFinish = taskCalendar.getNextWorkStart(predecessorTask.getEarlyFinish());
+                        LocalDateTime actualFinish = taskCalendar.getNextWorkStart(predecessorTask.getActualFinish());
+                        LocalDateTime earlyStart = earlyFinish;
                         return getDate(getLagCalendar(taskCalendar,relation),earlyStart, relation.getLag());
                      }
                      else
@@ -853,6 +855,10 @@ public class PrimaveraScheduler implements Scheduler
                      {
                         // successor finished
                         earlyStart = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
+                        if (earlyStart.isAfter(m_dataDate))
+                        {
+                           earlyStart = m_dataDate;
+                        }
                      }
                   }
                }
@@ -1109,6 +1115,8 @@ public class PrimaveraScheduler implements Scheduler
                      // Successor not started
                      if (predecessorTask.getActualDuration().getDuration() > 0.0 & relation.getLag().getDuration() > 0.0)
                      {
+                        //Duration earlyLag = taskCalendar.getWork(predecessorTask.getEarlyFinish(), successorTask.getEarlyStart(), TimeUnit.HOURS);
+                        //lateFinish = getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), earlyLag.negate());
                         lateFinish = getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), relation.getLag().negate());
                      }
                      else
