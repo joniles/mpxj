@@ -503,7 +503,7 @@ public class PrimaveraScheduler implements Scheduler
                      double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
                      double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
 
-                     if (actualDurationInHours == 0 || lagDurationInHours <= 0.0 || actualDurationInHours == lagDurationInHours)
+                     if ((!predecessorTask.getMilestone() && actualDurationInHours == 0) || lagDurationInHours <= 0.0 || actualDurationInHours == lagDurationInHours)
                      {
                         // We have a milestone, or we have no positive lag
                         return predecessorTask.getEarlyFinish();
@@ -513,13 +513,14 @@ public class PrimaveraScheduler implements Scheduler
                      {
                         // We still need to account for some or all of the lag
                         Duration remainingLag = Duration.getInstance(lagDurationInHours - actualDurationInHours, TimeUnit.HOURS);
-                        return getDate(getLagCalendar(taskCalendar, relation), predecessorTask.getEarlyFinish(), remainingLag);
+                        LocalDateTime finishDate = predecessorTask.getEarlyFinish().isAfter(m_dataDate) ? predecessorTask.getEarlyFinish() : predecessorTask.getActualFinish();
+                        return getDate(getLagCalendar(taskCalendar, relation), finishDate, remainingLag);
                      }
                      else
                      {
                         // We have progressed more than the lag
                         LocalDateTime earlyFinish = taskCalendar.getNextWorkStart(predecessorTask.getEarlyFinish());
-                        return getDate(getLagCalendar(taskCalendar,relation),earlyFinish, relation.getLag());
+                        return getDate(getLagCalendar(taskCalendar,relation), earlyFinish, relation.getLag());
                      }
                   }
                   else
