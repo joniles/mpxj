@@ -1163,6 +1163,7 @@ public class PrimaveraScheduler implements Scheduler
                         // successor finished
                         if (predecessorTask.getMilestone() && successorTask.getMilestone())
                         {
+                           // From naval-cancer: I think we're missing a lag calculation here, but I can't see how the lag is calculated
                            //lateFinish = getDate(getLagCalendar(taskCalendar, relation), successorTask.getEarlyStart(), relation.getLag().negate());
                            lateFinish = successorTask.getLateStart();
                         }
