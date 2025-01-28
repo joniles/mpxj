@@ -1119,11 +1119,24 @@ public class PrimaveraScheduler implements Scheduler
                   if (successorTask.getActualStart() == null)
                   {
                      // Successor not started
-                     if (predecessorTask.getActualDuration().getDuration() > 0.0 & relation.getLag().getDuration() > 0.0)
+                     if (relation.getLag().getDuration() > 0.0)
                      {
-                        // keen-knock: maybe uses this to calculat ethe lag to apply?
-                        //Duration earlyLag = taskCalendar.getWork(predecessorTask.getEarlyFinish(), successorTask.getEarlyStart(), TimeUnit.HOURS);
-                        lateFinish = getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), relation.getLag().negate());
+                        if (predecessorTask.getMilestone())
+                        {
+                           if (successorTask.getMilestone())
+                           {
+                              Duration earlyLag = taskCalendar.getWork(predecessorTask.getEarlyFinish(), successorTask.getEarlyStart(), TimeUnit.HOURS);
+                              lateFinish = getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), earlyLag.negate());
+                           }
+                           else
+                           {
+                              lateFinish = successorTask.getLateStart();
+                           }
+                        }
+                        else
+                        {
+                           lateFinish = getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), relation.getLag().negate());
+                        }
                      }
                      else
                      {
