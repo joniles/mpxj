@@ -509,17 +509,17 @@ public class PrimaveraScheduler implements Scheduler
                         return predecessorTask.getEarlyFinish();
                      }
 
-                     if (actualDurationInHours >= lagDurationInHours)
-                     {
-                        // We have progressed more than the lag
-                        LocalDateTime earlyFinish = taskCalendar.getNextWorkStart(predecessorTask.getEarlyFinish());
-                        return getDate(getLagCalendar(taskCalendar,relation),earlyFinish, relation.getLag());
-                     }
-                     else
+                     if (actualDurationInHours < lagDurationInHours)
                      {
                         // We still need to account for some or all of the lag
                         Duration remainingLag = Duration.getInstance(lagDurationInHours - actualDurationInHours, TimeUnit.HOURS);
                         return getDate(getLagCalendar(taskCalendar, relation), predecessorTask.getEarlyFinish(), remainingLag);
+                     }
+                     else
+                     {
+                        // We have progressed more than the lag
+                        LocalDateTime earlyFinish = taskCalendar.getNextWorkStart(predecessorTask.getEarlyFinish());
+                        return getDate(getLagCalendar(taskCalendar,relation),earlyFinish, relation.getLag());
                      }
                   }
                   else
