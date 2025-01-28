@@ -513,9 +513,7 @@ public class PrimaveraScheduler implements Scheduler
                      {
                         // We have progressed more than the lag
                         LocalDateTime earlyFinish = taskCalendar.getNextWorkStart(predecessorTask.getEarlyFinish());
-                        LocalDateTime actualFinish = taskCalendar.getNextWorkStart(predecessorTask.getActualFinish());
-                        LocalDateTime earlyStart = earlyFinish;
-                        return getDate(getLagCalendar(taskCalendar,relation),earlyStart, relation.getLag());
+                        return getDate(getLagCalendar(taskCalendar,relation),earlyFinish, relation.getLag());
                      }
                      else
                      {
