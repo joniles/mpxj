@@ -1,5 +1,6 @@
 package net.sf.mpxj.cpm;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -12,8 +13,11 @@ import java.util.stream.Collectors;
 import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
@@ -26,6 +30,7 @@ public class PrimaveraScheduler implements Scheduler
    {
       m_file = file;
       m_dataDate = file.getProjectProperties().getStatusDate();
+      m_twentyFourHourCalendar = createTwentyFourHourCalendar();
    }
 
    public void process(LocalDateTime projectStartDate) throws Exception
@@ -966,10 +971,16 @@ public class PrimaveraScheduler implements Scheduler
                         else
                         {
                            // successor finished
-                           lateStart = successorTask.getLateStart();
-
-                           // fixes remaining fails in single-supervision, but breaks others
-                           //lateStart = getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), relation.getLag().negate());
+                           if (relation.getLag().getDuration() == 0.0)
+                           {
+                              lateStart = successorTask.getLateStart();
+                           }
+                           else
+                           {
+                              // fixes remaining fails in single-supervision, almost works in dense-cushion but breaks others
+                              //lateStart = getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), relation.getLag().negate());
+                              lateStart = successorTask.getLateStart();
+                           }
                         }
                      }
                   }
@@ -1263,7 +1274,7 @@ public class PrimaveraScheduler implements Scheduler
          case TWENTY_FOUR_HOUR:
          default:
          {
-            throw new UnsupportedOperationException("TODO: implemenet standard 24 hour calendar");
+            return m_twentyFourHourCalendar;
          }
       }
    }
@@ -1478,8 +1489,21 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
+   private ProjectCalendar createTwentyFourHourCalendar()
+   {
+      ProjectCalendar calendar = new ProjectCalendar(m_file);
+      for (DayOfWeek day : DayOfWeek.values())
+      {
+         calendar.setCalendarDayType(day, DayType.WORKING);
+         ProjectCalendarHours hours = calendar.addCalendarHours(day);
+         hours.add(new LocalTimeRange(LocalTime.MIDNIGHT, LocalTime.MIDNIGHT));
+      }
+      return calendar;
+   }
+
    private final ProjectFile m_file;
    private final LocalDateTime m_dataDate;
+   private final ProjectCalendar m_twentyFourHourCalendar;
    private LocalDateTime m_projectStartDate;
    private LocalDateTime m_projectFinishDate;
 }

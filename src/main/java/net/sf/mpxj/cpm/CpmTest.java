@@ -328,7 +328,7 @@ public class CpmTest
       EXCLUDED_FILES.add("passionate-lounge-1.xml"); // PROGRESS_OVERRIDE
 
       // Don't understand SS relationship behaviour
-      EXCLUDED_FILES.add("dense-cushion-scheduled.xer");
+      EXCLUDED_FILES.add("dense-cushion-scheduled.xer"); // the remaining issue here is a 5h difference - looks like it is down to activities with different calenders
       EXCLUDED_FILES.add("teenage-contest-scheduled.xer");
       EXCLUDED_FILES.add("orange-parade.xer"); // PROGRESS_OVERRIDE
 
