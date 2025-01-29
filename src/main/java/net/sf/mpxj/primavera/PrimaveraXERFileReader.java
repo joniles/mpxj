@@ -158,7 +158,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
          m_numberFormat = new DecimalFormat();
          m_readSharedData = true;
 
-         processFile(is);
+         processFile(READ_REQUIRED_TABLES, is);
 
          List<Row> rows = getRows("project", null, null);
          List<ProjectFile> result = new ArrayList<>(rows.size());
@@ -305,11 +305,13 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    /**
     * Reads the XER file table and row structure ready for processing.
     *
+    * @param requiredTables names of tables which should be read
     * @param is input stream
     */
-   private void processFile(InputStream is) throws MPXJException
+   private void processFile(Set<String> requiredTables, InputStream is) throws MPXJException
    {
       int line = 1;
+      m_requiredTables = requiredTables;
 
       try
       {
@@ -409,7 +411,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       try
       {
          m_tables = new HashMap<>();
-         processFile(is);
+         m_numberFormat = new DecimalFormat();
+
+         processFile(LIST_REQUIRED_TABLES, is);
 
          Map<Integer, String> result = new HashMap<>();
 
@@ -429,6 +433,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
          m_tables = null;
          m_currentTable = null;
          m_currentFieldNames = null;
+         m_numberFormat = null;
       }
    }
 
@@ -828,7 +833,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
          case TABLE:
          {
             m_currentTableName = record.size() > 1 ? record.get(1).toLowerCase() : null;
-            m_skipTable = !REQUIRED_TABLES.contains(m_currentTableName);
+            m_skipTable = !m_requiredTables.contains(m_currentTableName);
             if (m_skipTable)
             {
                m_currentTable = null;
@@ -1239,6 +1244,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    private boolean m_linkCrossProjectRelations;
    private boolean m_ignoreErrors = true;
    private boolean m_readSharedData;
+   private Set<String> m_requiredTables;
 
    /**
     * Represents expected record types.
@@ -1443,51 +1449,57 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       FIELD_TYPE_MAP.put("year_hr_cnt", DataType.NUMERIC);
    }
 
-   private static final Set<String> REQUIRED_TABLES = new HashSet<>();
+   private static final Set<String> LIST_REQUIRED_TABLES = new HashSet<>();
    static
    {
-      REQUIRED_TABLES.add("project");
-      REQUIRED_TABLES.add("calendar");
-      REQUIRED_TABLES.add("rsrc");
-      REQUIRED_TABLES.add("rsrcrate");
-      REQUIRED_TABLES.add("projwbs");
-      REQUIRED_TABLES.add("task");
-      REQUIRED_TABLES.add("taskpred");
-      REQUIRED_TABLES.add("taskrsrc");
-      REQUIRED_TABLES.add("currtype");
-      REQUIRED_TABLES.add("udftype");
-      REQUIRED_TABLES.add("udfvalue");
-      REQUIRED_TABLES.add("schedoptions");
-      REQUIRED_TABLES.add("actvtype");
-      REQUIRED_TABLES.add("actvcode");
-      REQUIRED_TABLES.add("taskactv");
-      REQUIRED_TABLES.add("costtype");
-      REQUIRED_TABLES.add("account");
-      REQUIRED_TABLES.add("projcost");
-      REQUIRED_TABLES.add("memotype");
-      REQUIRED_TABLES.add("wbsmemo");
-      REQUIRED_TABLES.add("taskmemo");
-      REQUIRED_TABLES.add("roles");
-      REQUIRED_TABLES.add("rolerate");
-      REQUIRED_TABLES.add("rsrccurvdata");
-      REQUIRED_TABLES.add("taskproc");
-      REQUIRED_TABLES.add("location");
-      REQUIRED_TABLES.add("umeasure");
-      REQUIRED_TABLES.add("shift");
-      REQUIRED_TABLES.add("shiftper");
-      REQUIRED_TABLES.add("rsrcrole");
-      REQUIRED_TABLES.add("pcattype");
-      REQUIRED_TABLES.add("pcatval");
-      REQUIRED_TABLES.add("projpcat");
-      REQUIRED_TABLES.add("rcattype");
-      REQUIRED_TABLES.add("rcatval");
-      REQUIRED_TABLES.add("rsrcrcat");
-      REQUIRED_TABLES.add("rolecattype");
-      REQUIRED_TABLES.add("rolecatval");
-      REQUIRED_TABLES.add("rolercat");
-      REQUIRED_TABLES.add("asgnmntcattype");
-      REQUIRED_TABLES.add("asgnmntcatval");
-      REQUIRED_TABLES.add("asgnmntacat");
+      LIST_REQUIRED_TABLES.add("project");
+   }
+
+   private static final Set<String> READ_REQUIRED_TABLES = new HashSet<>();
+   static
+   {
+      READ_REQUIRED_TABLES.add("project");
+      READ_REQUIRED_TABLES.add("calendar");
+      READ_REQUIRED_TABLES.add("rsrc");
+      READ_REQUIRED_TABLES.add("rsrcrate");
+      READ_REQUIRED_TABLES.add("projwbs");
+      READ_REQUIRED_TABLES.add("task");
+      READ_REQUIRED_TABLES.add("taskpred");
+      READ_REQUIRED_TABLES.add("taskrsrc");
+      READ_REQUIRED_TABLES.add("currtype");
+      READ_REQUIRED_TABLES.add("udftype");
+      READ_REQUIRED_TABLES.add("udfvalue");
+      READ_REQUIRED_TABLES.add("schedoptions");
+      READ_REQUIRED_TABLES.add("actvtype");
+      READ_REQUIRED_TABLES.add("actvcode");
+      READ_REQUIRED_TABLES.add("taskactv");
+      READ_REQUIRED_TABLES.add("costtype");
+      READ_REQUIRED_TABLES.add("account");
+      READ_REQUIRED_TABLES.add("projcost");
+      READ_REQUIRED_TABLES.add("memotype");
+      READ_REQUIRED_TABLES.add("wbsmemo");
+      READ_REQUIRED_TABLES.add("taskmemo");
+      READ_REQUIRED_TABLES.add("roles");
+      READ_REQUIRED_TABLES.add("rolerate");
+      READ_REQUIRED_TABLES.add("rsrccurvdata");
+      READ_REQUIRED_TABLES.add("taskproc");
+      READ_REQUIRED_TABLES.add("location");
+      READ_REQUIRED_TABLES.add("umeasure");
+      READ_REQUIRED_TABLES.add("shift");
+      READ_REQUIRED_TABLES.add("shiftper");
+      READ_REQUIRED_TABLES.add("rsrcrole");
+      READ_REQUIRED_TABLES.add("pcattype");
+      READ_REQUIRED_TABLES.add("pcatval");
+      READ_REQUIRED_TABLES.add("projpcat");
+      READ_REQUIRED_TABLES.add("rcattype");
+      READ_REQUIRED_TABLES.add("rcatval");
+      READ_REQUIRED_TABLES.add("rsrcrcat");
+      READ_REQUIRED_TABLES.add("rolecattype");
+      READ_REQUIRED_TABLES.add("rolecatval");
+      READ_REQUIRED_TABLES.add("rolercat");
+      READ_REQUIRED_TABLES.add("asgnmntcattype");
+      READ_REQUIRED_TABLES.add("asgnmntcatval");
+      READ_REQUIRED_TABLES.add("asgnmntacat");
    }
 
    private static final WbsRowComparatorXER WBS_ROW_COMPARATOR = new WbsRowComparatorXER();
