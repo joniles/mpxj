@@ -2352,12 +2352,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             populateUserDefinedFieldValues(assignment, row.getUDF());
 
             // Read timephased data
-            TimephasedWorkContainer timephasedPlannedWork = TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getPlannedCurve());
-            TimephasedWorkContainer timephasedActualWork = TimephasedHelper.read(effectiveCalendar, assignment.getActualStart(), row.getActualCurve());
-            TimephasedWorkContainer timephasedRemainingWork = TimephasedHelper.read(effectiveCalendar, assignment.getRemainingEarlyStart(), row.getRemainingCurve());
-            assignment.setTimephasedPlannedWork(timephasedPlannedWork);
-            assignment.setTimephasedActualWork(timephasedActualWork);
-            assignment.setTimephasedWork(timephasedRemainingWork);
+            assignment.setTimephasedPlannedWork(TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getPlannedCurve()));
+            assignment.setTimephasedActualWork(TimephasedHelper.read(effectiveCalendar, assignment.getActualStart(), row.getActualCurve()));
+            assignment.setTimephasedWork(TimephasedHelper.read(effectiveCalendar, assignment.getRemainingEarlyStart(), row.getRemainingCurve()));
 
             processResourceAssignmentCodeAssignments(assignment, row.getCode());
 
