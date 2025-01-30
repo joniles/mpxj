@@ -1387,6 +1387,18 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    }
 
    /**
+    * Set timephased baseline cost. Note that index 0 represents "Baseline",
+    * index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @param data timephased data
+    */
+   public void setTimephasedBaselineCost(int index, List<TimephasedCost> data)
+   {
+      m_timephasedBaselineCost[index] = createTimephasedCostContainer(data);
+   }
+
+   /**
     * Retrieve timephased baseline work. Note that index 0 represents "Baseline",
     * index 1 represents "Baseline1" and so on.
     *
@@ -3351,6 +3363,33 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
          @Override public TimephasedWorkContainer applyFactor(double perDayFactor, double totalFactor)
          {
             throw new UnsupportedOperationException();
+         }
+      };
+   }
+
+   /**
+    * Wrap a list of TimephasedCost instances in a TimephasedCostContainer.
+    *
+    * @param data timephased cost data
+    * @return TimephasedCostContainer instance
+    */
+   private TimephasedCostContainer createTimephasedCostContainer(List<TimephasedCost> data)
+   {
+      if (data == null)
+      {
+         return null;
+      }
+
+      return new TimephasedCostContainer()
+      {
+         @Override public List<TimephasedCost> getData()
+         {
+            return data;
+         }
+
+         @Override public boolean hasData()
+         {
+            return true;
          }
       };
    }
