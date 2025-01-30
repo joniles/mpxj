@@ -25,7 +25,6 @@ package net.sf.mpxj.sample;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.List;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
@@ -36,7 +35,6 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
-import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 
 /**
@@ -142,32 +140,18 @@ public class MpxjCreateTimephased
       //
       // Add the timephased data to the assignment
       //
-      assignment3.setTimephasedWork(new TimephasedWorkContainer()
-      {
-         @Override public boolean hasData()
-         {
-            return true;
-         }
-
-         @Override public List<TimephasedWork> getData()
-         {
-            return Arrays.asList(day1, day2, day3);
-         }
-
-         @Override public TimephasedWorkContainer applyFactor(double perDayFactor, double totalFactor)
-         {
-            // You'd need to implement this to handle timephased overtime work
-            return null;
-         }
-      });
+      assignment3.setTimephasedWork(Arrays.asList(day1, day2, day3));
 
       //
       // Write the file
       //
       MSPDIWriter writer = new MSPDIWriter();
 
-      // By default timephased data is not written so we need to enable it here
+      // By default, timephased data is not written so we need to enable it here
       writer.setWriteTimephasedData(true);
+
+      // Also, tell the writer not to get clever with our timephased data, just write it as it is...
+      writer.setSplitTimephasedAsDays(false);
 
       //
       // If you look at the resulting project in the Resource Usage view in MS Project

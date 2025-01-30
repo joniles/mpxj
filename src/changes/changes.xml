@@ -5,11 +5,12 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="13.9.1">
+		<release date="unreleased" version="13.10.0">
 			<action dev="joniles" type="update">Improve handling of Activity Type attribute when reading PMXML files written by Primavera P6 6.x.</action>
 			<action dev="joniles" type="update">Ensure that the External Early Start and External Late Finish attributes are written to XER files.</action>
 			<action dev="joniles" type="update">Fix a NPE when calling `PrimaveraXERFileReader.listProjects()`.</action>
 			<action dev="joniles" type="update">Avoid unnecessary data storage and type conversion to improve efficiency when calling `PrimaveraXERFileReader.listProjects()`.</action>
+			<action dev="joniles" type="update">Provide additional `ResourceAssignment` methods to allow `List&lt;TimephasedWork&gt;` to be used to add timephased work, rather than requiring a `TimephasedWorkContainer`.</action>
 		</release>
 		<release date="2025-01-09" version="13.9.0">
 			<action dev="joniles" type="update">Updated to POI 5.4.0</action>

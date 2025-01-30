@@ -678,6 +678,17 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    }
 
    /**
+    * Sets the timephased breakdown of the planned work for this
+    * resource assignment.
+    *
+    * @param data timephased data
+    */
+   public void setTimephasedPlannedWork(List<TimephasedWork> data)
+   {
+      m_timephasedPlannedWork = createTimephasedWorkContainer(data);
+   }
+
+   /**
     * Retrieves the timephased breakdown of the completed work for this
     * resource assignment.
     *
@@ -700,6 +711,17 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    }
 
    /**
+    * Sets the timephased breakdown of the completed work for this
+    * resource assignment.
+    *
+    * @param data timephased data
+    */
+   public void setTimephasedActualWork(List<TimephasedWork> data)
+   {
+      m_timephasedActualWork = createTimephasedWorkContainer(data);
+   }
+
+   /**
     * Retrieves the timephased breakdown of the planned work for this
     * resource assignment.
     *
@@ -719,6 +741,17 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    public void setTimephasedWork(TimephasedWorkContainer data)
    {
       m_timephasedWork = data;
+   }
+
+   /**
+    * Sets the timephased breakdown of the planned work for this
+    * resource assignment.
+    *
+    * @param data timephased data
+    */
+   public void setTimephasedWork(List<TimephasedWork> data)
+   {
+      m_timephasedWork = createTimephasedWorkContainer(data);
    }
 
    /**
@@ -751,6 +784,17 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    public void setTimephasedActualOvertimeWork(TimephasedWorkContainer data)
    {
       m_timephasedActualOvertimeWork = data;
+   }
+
+   /**
+    * Sets the timephased breakdown of the actual overtime work
+    * for this assignment.
+    *
+    * @param data timephased work
+    */
+   public void setTimephasedActualOvertimeWork(List<TimephasedWork> data)
+   {
+      m_timephasedActualOvertimeWork = createTimephasedWorkContainer(data);
    }
 
    /**
@@ -1316,6 +1360,18 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    public void setTimephasedBaselineWork(int index, TimephasedWorkContainer data)
    {
       m_timephasedBaselineWork[index] = data;
+   }
+
+   /**
+    * Set timephased baseline work. Note that index 0 represents "Baseline",
+    * index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @param data timephased data
+    */
+   public void setTimephasedBaselineWork(int index, List<TimephasedWork> data)
+   {
+      m_timephasedBaselineWork[index] = createTimephasedWorkContainer(data);
    }
 
    /**
@@ -3265,6 +3321,38 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    private Map<ResourceAssignmentCode, ResourceAssignmentCodeValue> defaultResourceAssignmentCodeValues()
    {
       return new HashMap<>();
+   }
+
+   /**
+    * Wrap a list of TimephasedWork instances in a TimephasedWorkContainer.
+    *
+    * @param data timephased work data
+    * @return TimephasedWorkContainer instance
+    */
+   private TimephasedWorkContainer createTimephasedWorkContainer(List<TimephasedWork> data)
+   {
+      if (data == null)
+      {
+         return null;
+      }
+
+      return new TimephasedWorkContainer()
+      {
+         @Override public List<TimephasedWork> getData()
+         {
+            return data;
+         }
+
+         @Override public boolean hasData()
+         {
+            return true;
+         }
+
+         @Override public TimephasedWorkContainer applyFactor(double perDayFactor, double totalFactor)
+         {
+            throw new UnsupportedOperationException();
+         }
+      };
    }
 
    private TimephasedWorkContainer m_timephasedPlannedWork;

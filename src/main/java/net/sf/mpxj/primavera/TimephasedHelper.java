@@ -46,7 +46,7 @@ final class TimephasedHelper
     * @param values values to parse
     * @return collection of TimephasedWork instances
     */
-   public static TimephasedWorkContainer read(ProjectCalendar calendar, LocalDateTime start, String values)
+   public static List<TimephasedWork> read(ProjectCalendar calendar, LocalDateTime start, String values)
    {
       if (start == null || values == null || values.isEmpty())
       {
@@ -84,23 +84,7 @@ final class TimephasedHelper
          currentStart = calendar.getNextWorkStart(currentFinish);
       }
 
-      return new TimephasedWorkContainer()
-      {
-         @Override public List<TimephasedWork> getData()
-         {
-            return list;
-         }
-
-         @Override public boolean hasData()
-         {
-            return true;
-         }
-
-         @Override public TimephasedWorkContainer applyFactor(double perDayFactor, double totalFactor)
-         {
-            throw new UnsupportedOperationException();
-         }
-      };
+      return list;
    }
 
    /**
