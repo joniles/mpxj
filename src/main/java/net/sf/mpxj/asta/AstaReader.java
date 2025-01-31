@@ -548,7 +548,7 @@ final class AstaReader
       task.setName(row.getString("NAME"));
       task.setNotes(getNotes(row));
       task.setActivityID(row.getString("UNIQUE_TASK_ID"));
-      task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
+      task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAR")));
       //EFFORT_TIMI_UNIT
       //WORL_UNIT
       //LATEST_ALLOC_PROGRESS_PERIOD
@@ -668,12 +668,12 @@ final class AstaReader
     */
    private void populateBar(Row row, Task task)
    {
-      Integer calendarID = row.getInteger("_CALENDAU");
+      Integer calendarID = row.getInteger("_CALENDAR");
       if (calendarID == null)
       {
          if (!row.getChildRows().isEmpty())
          {
-            calendarID = row.getChildRows().get(0).getInteger("CALENDAU");
+            calendarID = row.getChildRows().get(0).getInteger("CALENDAR");
          }
       }
 
@@ -786,7 +786,7 @@ final class AstaReader
       task.setName(row.getString("NAME"));
       //NOTET
       task.setActivityID(row.getString("UNIQUE_TASK_ID"));
-      task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
+      task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAR")));
       //EFFORT_TIMI_UNIT
       //WORL_UNIT
       //LATEST_ALLOC_PROGRESS_PERIOD

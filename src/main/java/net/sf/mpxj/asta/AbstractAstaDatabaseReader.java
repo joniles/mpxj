@@ -400,6 +400,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       TASK_NAME_MAP.put("NARE", "NAME");
       TASK_NAME_MAP.put("OVERALL_PERCENV_COMPLETE", "OVERALL_PERCENT_COMPLETE");
       TASK_NAME_MAP.put("CONSTRAINU", "CONSTRAINT_FLAG");
+      TASK_NAME_MAP.put("CALENDAU", "CALENDAR");
       TASK_NAME_MAP.put("GIVEN_DURATIONHOURS", "GIVEN_DURATION");
    }
 
@@ -409,6 +410,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       EXPANDED_TASK_NAME_MAP.put("NARE", "NAME");
       EXPANDED_TASK_NAME_MAP.put("OVERALL_PERCENV_COMPLETE", "OVERALL_PERCENT_COMPLETE");
       EXPANDED_TASK_NAME_MAP.put("CONSTRAINU", "CONSTRAINT_FLAG");
+      EXPANDED_TASK_NAME_MAP.put("CALENDAU", "CALENDAR");
    }
 
    private static final Map<String,String> MILESTONE_NAME_MAP = new HashMap<>();
@@ -417,6 +419,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       MILESTONE_NAME_MAP.put("NARE", "NAME");
       MILESTONE_NAME_MAP.put("OVERALL_PERCENV_COMPLETE", "OVERALL_PERCENT_COMPLETE");
       MILESTONE_NAME_MAP.put("CONSTRAINU", "CONSTRAINT_FLAG");
+      MILESTONE_NAME_MAP.put("CALENDAU", "CALENDAR");
    }
 
    private static final Map<String,String> WORK_PATTERN_NAME_MAP = new HashMap<>();
