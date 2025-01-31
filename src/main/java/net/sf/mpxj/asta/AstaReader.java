@@ -517,7 +517,7 @@ final class AstaReader
       //GIVEN_DURATIONELA_MONTHS
 
       // This does not appear to be accurate
-      //task.setDuration(row.getDuration("GIVEN_DURATIONHOURS"));
+      //task.setDuration(row.getDuration("GIVEN_DURATION"));
 
       task.setResume(row.getDate("RESUME"));
       //task.setStart(row.getDate("GIVEN_START"));

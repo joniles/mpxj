@@ -779,7 +779,7 @@ class FileFormat9006 extends AbstractFileFormat
       "TASKID",
       "GIVEN_DURATIONTYPF",
       "GIVEN_DURATIONELA_MONTHS",
-      "GIVEN_DURATIONHOURS",
+      "GIVEN_DURATION",
       "RESUME",
       "GIVEN_START",
       "LATEST_PROGRESS_PERIOD",

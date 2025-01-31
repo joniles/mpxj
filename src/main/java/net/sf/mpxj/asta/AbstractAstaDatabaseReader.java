@@ -400,6 +400,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       TASK_NAME_MAP.put("NARE", "NAME");
       TASK_NAME_MAP.put("OVERALL_PERCENV_COMPLETE", "OVERALL_PERCENT_COMPLETE");
       TASK_NAME_MAP.put("CONSTRAINU", "CONSTRAINT_FLAG");
+      TASK_NAME_MAP.put("GIVEN_DURATIONHOURS", "GIVEN_DURATION");
    }
 
    private static final Map<String,String> EXPANDED_TASK_NAME_MAP = new HashMap<>();

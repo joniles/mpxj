@@ -401,7 +401,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("TASKID", Types.INTEGER),
       new ColumnDefinition("GIVEN_DURATIONTYPF", Types.INTEGER),
       new ColumnDefinition("GIVEN_DURATIONELA_MONTHS", Types.INTEGER),
-      new ColumnDefinition("GIVEN_DURATIONHOURS", Types.DOUBLE),
+      new ColumnDefinition("GIVEN_DURATION", Types.DOUBLE),
       new ColumnDefinition("RESUME", Types.TIMESTAMP),
       new ColumnDefinition("GIVEN_START", Types.TIMESTAMP),
       new ColumnDefinition("LATEST_PROGRESS_PERIOD", Types.INTEGER),
