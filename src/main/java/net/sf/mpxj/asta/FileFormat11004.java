@@ -130,7 +130,7 @@ class FileFormat11004 extends AbstractFileFormat
       "ENF",
       "NATURAL_ORDER",
       "SPARI_INTEGER",
-      "NAMH",
+      "NAME",
       "EXPANDED_TASK",
       "PRIORITY",
       "UNSCHEDULABLE",

@@ -130,7 +130,7 @@ class FileFormat9006 extends AbstractFileFormat
       "ENF",
       "NATURAL_ORDER",
       "SPARI_INTEGER",
-      "NAMH",
+      "NAME",
       "EXPANDED_TASK",
       "PRIORITY",
       "UNSCHEDULABLE",

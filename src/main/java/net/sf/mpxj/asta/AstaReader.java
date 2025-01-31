@@ -355,7 +355,7 @@ final class AstaReader
       while (iter.hasNext())
       {
          Row bar = iter.next();
-         String barName = bar.getString("NAMH");
+         String barName = bar.getString("NAME");
          if (barName == null || barName.isEmpty() || barName.equals("Displaced Items"))
          {
             iter.remove();
@@ -411,7 +411,7 @@ final class AstaReader
             //
             if (skipBar(row))
             {
-               populateLeaf(row.getString("NAMH"), row.getChildRows().get(0), task);
+               populateLeaf(row.getString("NAME"), row.getChildRows().get(0), task);
             }
             else
             {
@@ -491,7 +491,7 @@ final class AstaReader
          {
             // Bar with no linked row
             task.setUniqueID(row.getInteger("BARID"));
-            task.setName(row.getString("NAMH"));
+            task.setName(row.getString("NAME"));
          }
       }
 
@@ -677,7 +677,7 @@ final class AstaReader
          }
       }
 
-      String name = row.getString("NAMH");
+      String name = row.getString("NAME");
       if (name == null || name.isEmpty())
       {
          String extendedTaskName = row.getString("_NAME");

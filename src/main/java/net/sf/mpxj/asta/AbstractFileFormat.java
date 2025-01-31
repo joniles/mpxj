@@ -302,7 +302,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("ENF", Types.TIMESTAMP),
       new ColumnDefinition("NATURAL_ORDER", Types.INTEGER),
       new ColumnDefinition("SPARI_INTEGER", Types.INTEGER),
-      new ColumnDefinition("NAMH", Types.VARCHAR),
+      new ColumnDefinition("NAME", Types.VARCHAR),
       new ColumnDefinition("EXPANDED_TASK", Types.INTEGER),
       new ColumnDefinition("PRIORITY", Types.INTEGER),
       new ColumnDefinition("UNSCHEDULABLE", Types.BIT),

@@ -170,7 +170,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processTasks() throws AstaDatabaseException
    {
-      List<Row> bars = getRows("bar", m_projectKey);
+      List<Row> bars = getRows("bar", m_projectKey, BAR_NAME_MAP);
       List<Row> expandedTasks = getRows("expanded_task", m_projectKey, EXPANDED_TASK_NAME_MAP);
       List<Row> tasks = getRows("task", m_projectKey, TASK_NAME_MAP);
       List<Row> milestones = getRows("milestone", m_projectKey, MILESTONE_NAME_MAP);
@@ -386,6 +386,12 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       PROJECT_SUMMARY_NAME_MAP.put("STARU", "PROJECT_START");
       PROJECT_SUMMARY_NAME_MAP.put("ENE", "PROJECT_END");
       PROJECT_SUMMARY_NAME_MAP.put("DURATIONHOURS", "DURATION");
+   }
+
+   private static final Map<String,String> BAR_NAME_MAP = new HashMap<>();
+   static
+   {
+      BAR_NAME_MAP.put("NAMH", "NAME");
    }
 
    private static final Map<String,String> TASK_NAME_MAP = new HashMap<>();
