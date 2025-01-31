@@ -171,9 +171,9 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    private void processTasks() throws AstaDatabaseException
    {
       List<Row> bars = getRows("bar", m_projectKey);
-      List<Row> expandedTasks = getRows("expanded_task", m_projectKey);
-      List<Row> tasks = getRows("task", m_projectKey);
-      List<Row> milestones = getRows("milestone", m_projectKey);
+      List<Row> expandedTasks = getRows("expanded_task", m_projectKey, EXPANDED_TASK_NAME_MAP);
+      List<Row> tasks = getRows("task", m_projectKey, TASK_NAME_MAP);
+      List<Row> milestones = getRows("milestone", m_projectKey, MILESTONE_NAME_MAP);
       List<Row> hammocks = getRows("hammock_task", m_projectKey);
       m_reader.processTasks(bars, expandedTasks, tasks, milestones, hammocks);
    }
@@ -263,6 +263,15 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
     * @return list of rows
     */
    protected abstract List<Row> getRows(String table, Map<String, Integer> keys) throws AstaDatabaseException;
+
+   /**
+    * Retrieve a set of rows from a named table matching the supplied keys.
+    *
+    * @param table table to retrieve rows from
+    * @param keys name and integer value keys
+    * @return list of rows
+    */
+   protected abstract List<Row> getRows(String table, Map<String, Integer> keys, Map<String, String> nameMap) throws AstaDatabaseException;
 
    /**
     * Allocate any resources necessary to work with the database before we start reading.
@@ -370,4 +379,23 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
 
    private AstaReader m_reader;
    private Map<String, Integer> m_projectKey;
+
+
+   private static final Map<String,String> TASK_NAME_MAP = new HashMap<>();
+   static
+   {
+      TASK_NAME_MAP.put("NARE", "NAME");
+   }
+
+   private static final Map<String,String> EXPANDED_TASK_NAME_MAP = new HashMap<>();
+   static
+   {
+      EXPANDED_TASK_NAME_MAP.put("NARE", "NAME");
+   }
+
+   private static final Map<String,String> MILESTONE_NAME_MAP = new HashMap<>();
+   static
+   {
+      MILESTONE_NAME_MAP.put("NARE", "NAME");
+   }
 }

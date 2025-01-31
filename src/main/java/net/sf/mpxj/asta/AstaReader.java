@@ -545,7 +545,7 @@ final class AstaReader
       //SWIM_LANE
       //USER_PERCENT_COMPLETE
       //OVERALL_PERCENT_COMPL_WEIGHT
-      task.setName(row.getString("NARE"));
+      task.setName(row.getString("NAME"));
       task.setNotes(getNotes(row));
       task.setActivityID(row.getString("UNIQUE_TASK_ID"));
       task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
@@ -783,7 +783,7 @@ final class AstaReader
       //USER_PERCENT_COMPLETE
       //OVERALL_PERCENV_COMPLETE
       //OVERALL_PERCENT_COMPL_WEIGHT
-      task.setName(row.getString("NARE"));
+      task.setName(row.getString("NAME"));
       //NOTET
       task.setActivityID(row.getString("UNIQUE_TASK_ID"));
       task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));

@@ -45,7 +45,7 @@ final class MdbResultSetRow extends MapRow
     * @param rs result set from which data is drawn
     * @param meta result set meta data
     */
-   public MdbResultSetRow(ResultSet rs, Map<String, Integer> meta)
+   public MdbResultSetRow(Map<String, String> nameMap, ResultSet rs, Map<String, Integer> meta)
       throws SQLException
    {
       super(new HashMap<>());
@@ -138,7 +138,7 @@ final class MdbResultSetRow extends MapRow
             value = null;
          }
 
-         m_map.put(name, value);
+         m_map.put(nameMap.getOrDefault(name, name), value);
       }
    }
 }
