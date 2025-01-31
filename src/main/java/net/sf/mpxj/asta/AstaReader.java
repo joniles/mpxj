@@ -578,7 +578,7 @@ final class AstaReader
       //
       // Overall Percent Complete
       //
-      Double overallPercentComplete = row.getPercent("OVERALL_PERCENV_COMPLETE");
+      Double overallPercentComplete = row.getPercent("OVERALL_PERCENT_COMPLETE");
       task.setOverallPercentComplete(overallPercentComplete);
       m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
       boolean taskIsComplete = overallPercentComplete != null && overallPercentComplete.doubleValue() > 99.0;
@@ -781,7 +781,7 @@ final class AstaReader
       //SPAVE_INTEGER
       //SWIM_LANE
       //USER_PERCENT_COMPLETE
-      //OVERALL_PERCENV_COMPLETE
+      //OVERALL_PERCENT_COMPLETE
       //OVERALL_PERCENT_COMPL_WEIGHT
       task.setName(row.getString("NAME"));
       //NOTET

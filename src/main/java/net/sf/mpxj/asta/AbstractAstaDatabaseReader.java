@@ -385,17 +385,20 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    static
    {
       TASK_NAME_MAP.put("NARE", "NAME");
+      TASK_NAME_MAP.put("OVERALL_PERCENV_COMPLETE", "OVERALL_PERCENT_COMPLETE");
    }
 
    private static final Map<String,String> EXPANDED_TASK_NAME_MAP = new HashMap<>();
    static
    {
       EXPANDED_TASK_NAME_MAP.put("NARE", "NAME");
+      EXPANDED_TASK_NAME_MAP.put("OVERALL_PERCENV_COMPLETE", "OVERALL_PERCENT_COMPLETE");
    }
 
    private static final Map<String,String> MILESTONE_NAME_MAP = new HashMap<>();
    static
    {
       MILESTONE_NAME_MAP.put("NARE", "NAME");
+      MILESTONE_NAME_MAP.put("OVERALL_PERCENV_COMPLETE", "OVERALL_PERCENT_COMPLETE");
    }
 }
