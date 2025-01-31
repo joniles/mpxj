@@ -232,7 +232,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("PROJECT_SUMMARYID", Types.INTEGER),
       new ColumnDefinition("DURATIONTYPF", Types.INTEGER),
       new ColumnDefinition("DURATIONELA_MONTHS", Types.INTEGER),
-      new ColumnDefinition("DURATIONHOURS", Types.DOUBLE),
+      new ColumnDefinition("DURATION", Types.DOUBLE),
       new ColumnDefinition("PROJECT_START", Types.TIMESTAMP),
       new ColumnDefinition("PROJECT_END", Types.TIMESTAMP),
       new ColumnDefinition("FISCAL_YEAR_START", Types.TIMESTAMP),

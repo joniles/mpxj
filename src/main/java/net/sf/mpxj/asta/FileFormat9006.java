@@ -723,7 +723,7 @@ class FileFormat9006 extends AbstractFileFormat
       "PROJECT_SUMMARYID",
       "DURATIONTYPF",
       "DURATIONELA_MONTHS",
-      "DURATIONHOURS",
+      "DURATION",
       "PROJECT_START",
       "PROJECT_END",
       "FISCAL_YEAR_START",
