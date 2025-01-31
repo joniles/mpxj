@@ -1782,7 +1782,7 @@ final class AstaReader
       // Don't apply the name to the top level calendar
       if (!(week instanceof ProjectCalendar))
       {
-         week.setName(workPatternRow.getString("NAMN"));
+         week.setName(workPatternRow.getString("NAME"));
       }
 
       List<Row> timeEntryRows = timeEntryMap.get(workPatternID);

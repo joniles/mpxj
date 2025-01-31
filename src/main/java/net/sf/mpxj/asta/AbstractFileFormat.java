@@ -388,7 +388,7 @@ abstract class AbstractFileFormat
    {
       new ColumnDefinition("WORK_PATTERNID", Types.INTEGER),
       new ColumnDefinition("DEFAULT_OFFSET", Types.INTEGER),
-      new ColumnDefinition("NAMN", Types.VARCHAR),
+      new ColumnDefinition("NAME", Types.VARCHAR),
       new ColumnDefinition("DEFAULT_ALIGNMENT_DATE", Types.TIMESTAMP),
       new ColumnDefinition("CREATED_AS_FOLDER", Types.BIT),
       new ColumnDefinition("ALT_ID", Types.INTEGER),

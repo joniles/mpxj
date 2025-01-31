@@ -135,7 +135,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       List<Row> rows = getRows("exceptionn", Collections.emptyMap());
       Map<Integer, DayType> exceptionMap = m_reader.createExceptionTypeMap(rows);
 
-      rows = getRows("work_pattern", Collections.emptyMap());
+      rows = getRows("work_pattern", Collections.emptyMap(), WORK_PATTERN_NAME_MAP);
       Map<Integer, Row> workPatternMap = m_reader.createWorkPatternMap(rows);
 
       rows = getRows("work_pattern_assignment", Collections.emptyMap());
@@ -406,5 +406,11 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    {
       MILESTONE_NAME_MAP.put("NARE", "NAME");
       MILESTONE_NAME_MAP.put("OVERALL_PERCENV_COMPLETE", "OVERALL_PERCENT_COMPLETE");
+   }
+
+   private static final Map<String,String> WORK_PATTERN_NAME_MAP = new HashMap<>();
+   static
+   {
+      WORK_PATTERN_NAME_MAP.put("NAMN", "NAME");
    }
 }

@@ -811,7 +811,7 @@ class FileFormat12005 extends AbstractFileFormat
    {
       "WORK_PATTERNID",
       "DEFAULT_OFFSET",
-      "NAMN",
+      "NAME",
       "DEFAULT_ALIGNMENT_DATE",
       "CREATED_AS_FOLDER",
       "ALT_ID",

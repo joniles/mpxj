@@ -135,7 +135,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       List<Row> rows = getRows("select id as exceptionnid, * from exceptionn");
       Map<Integer, DayType> exceptionTypeMap = m_reader.createExceptionTypeMap(rows);
 
-      rows = getRows("select id as work_patternid, name as namn, * from work_pattern");
+      rows = getRows("select id as work_patternid, * from work_pattern");
       Map<Integer, Row> workPatternMap = m_reader.createWorkPatternMap(rows);
 
       rows = getRows("select id, work_patterns from calendar");
