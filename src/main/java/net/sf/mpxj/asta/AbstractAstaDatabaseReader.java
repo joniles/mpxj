@@ -56,7 +56,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       {
          Map<Integer, String> result = new HashMap<>();
 
-         List<Row> rows = getRows("project_summary", Collections.emptyMap());
+         List<Row> rows = getRows("project_summary", Collections.emptyMap(), PROJECT_SUMMARY_NAME_MAP);
          for (Row row : rows)
          {
             Integer id = row.getInteger("PROJID");
@@ -117,7 +117,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    private void processProjectProperties() throws AstaDatabaseException
    {
       List<Row> schemaVersionRows = getRows("dodschem", Collections.emptyMap());
-      List<Row> projectSummaryRows = getRows("project_summary", m_projectKey);
+      List<Row> projectSummaryRows = getRows("project_summary", m_projectKey, PROJECT_SUMMARY_NAME_MAP);
       List<Row> progressPeriodRows = getRows("progress_period", m_projectKey);
       List<Row> userSettingsRows = getRows("userr", m_projectKey);
       Integer schemaVersion = schemaVersionRows.isEmpty() ? null : schemaVersionRows.get(0).getInteger("SCHVER");
@@ -380,6 +380,12 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    private AstaReader m_reader;
    private Map<String, Integer> m_projectKey;
 
+   private static final Map<String,String> PROJECT_SUMMARY_NAME_MAP = new HashMap<>();
+   static
+   {
+      PROJECT_SUMMARY_NAME_MAP.put("STARU", "PROJECT_START");
+      PROJECT_SUMMARY_NAME_MAP.put("ENE", "PROJECT_END");
+   }
 
    private static final Map<String,String> TASK_NAME_MAP = new HashMap<>();
    static

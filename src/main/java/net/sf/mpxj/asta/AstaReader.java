@@ -137,8 +137,8 @@ final class AstaReader
       if (projectSummary != null)
       {
          ph.setDuration(projectSummary.getDuration("DURATIONHOURS"));
-         ph.setStartDate(projectSummary.getDate("STARU"));
-         ph.setFinishDate(projectSummary.getDate("ENE"));
+         ph.setStartDate(projectSummary.getDate("PROJECT_START"));
+         ph.setFinishDate(projectSummary.getDate("PROJECT_END"));
          ph.setName(projectSummary.getString("SHORT_NAME"));
          ph.setAuthor(projectSummary.getString("PROJECT_BY"));
          //DURATION_TIME_UNIT
