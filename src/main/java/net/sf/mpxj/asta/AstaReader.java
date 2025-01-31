@@ -554,7 +554,7 @@ final class AstaReader
       //LATEST_ALLOC_PROGRESS_PERIOD
       //WORN
       //BAR
-      //CONSTRAINU
+      //CONSTRAINT_FLAG
       //PRIORITB
       //CRITICAM
       //USE_PARENU_CALENDAR
@@ -791,7 +791,7 @@ final class AstaReader
       //WORL_UNIT
       //LATEST_ALLOC_PROGRESS_PERIOD
       //WORN
-      //CONSTRAINU
+      //CONSTRAINT_FLAG
       //PRIORITB
       //CRITICAM
       //USE_PARENU_CALENDAR
@@ -1470,7 +1470,7 @@ final class AstaReader
       ConstraintType constraintType = ConstraintType.AS_SOON_AS_POSSIBLE;
       LocalDateTime constraintDate = null;
 
-      switch (row.getInt("CONSTRAINU"))
+      switch (row.getInt("CONSTRAINT_FLAG"))
       {
          case 0:
          {
