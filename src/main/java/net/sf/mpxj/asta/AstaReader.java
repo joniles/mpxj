@@ -194,7 +194,7 @@ final class AstaReader
          resource.setEmailAddress(row.getString("EMAIL_ADDRESS"));
          // EFFORT_TIME_UNIT
          resource.setName(row.getString("NAME"));
-         resource.setCalendar(m_project.getCalendars().getByUniqueID(row.getInteger("CALENDAV")));
+         resource.setCalendar(m_project.getCalendars().getByUniqueID(row.getInteger("CALENDAR")));
          resource.setGeneric(row.getBoolean("CREATED_AS_FOLDER"));
          resource.setInitials(getInitials(resource.getName()));
 
@@ -225,7 +225,7 @@ final class AstaReader
          resource.setType(ResourceType.MATERIAL);
          resource.setUniqueID(row.getInteger("CONSUMABLE_RESOURCEID"));
          resource.setName(row.getString("NAME"));
-         resource.setCalendar(m_project.getCalendars().getByUniqueID(row.getInteger("CALENDAV")));
+         resource.setCalendar(m_project.getCalendars().getByUniqueID(row.getInteger("CALENDAR")));
          resource.setGeneric(row.getBoolean("CREATED_AS_FOLDER"));
          resource.setUnitOfMeasure(uom.getOrCreateByAbbreviation(row.getString("MEASUREMENT")));
          resource.setInitials(getInitials(resource.getName()));

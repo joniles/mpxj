@@ -425,11 +425,13 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    static
    {
       PERMANENT_RESOURCE_NAME_MAP.put("NASE", "NAME");
+      PERMANENT_RESOURCE_NAME_MAP.put("CALENDAV", "CALENDAR");
    }
 
    private static final Map<String,String> CONSUMABLE_RESOURCE_RESOURCE_NAME_MAP = new HashMap<>();
    static
    {
       CONSUMABLE_RESOURCE_RESOURCE_NAME_MAP.put("NASE", "NAME");
+      CONSUMABLE_RESOURCE_RESOURCE_NAME_MAP.put("CALENDAV", "CALENDAR");
    }
 }
