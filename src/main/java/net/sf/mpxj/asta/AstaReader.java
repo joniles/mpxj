@@ -1112,10 +1112,10 @@ final class AstaReader
 
          if (startTask != null && endTask != null)
          {
-            RelationType type = getRelationType(row.getInt("TYPI"));
+            RelationType type = getRelationType(row.getInt("LINK_KIND"));
 
-            Duration startLag = row.getDuration("START_LAG_TIMEHOURS");
-            Duration endLag = row.getDuration("END_LAG_TIMEHOURS");
+            Duration startLag = row.getDuration("START_LAG_TIME");
+            Duration endLag = row.getDuration("END_LAG_TIME");
             Duration lag;
 
             double startLagDuration = startLag.getDuration();
@@ -1164,10 +1164,10 @@ final class AstaReader
          //LINKID
          //START_LAG_TIMETYPF
          //START_LAG_TIMEELA_MONTHS
-         //START_LAG_TIMEHOURS
+         //START_LAG_TIME
          //END_LAG_TIMETYPF
          //END_LAG_TIMEELA_MONTHS
-         //END_LAG_TIMEHOURS
+         //END_LAG_TIME
          //MAXIMUM_LAGTYPF
          //MAXIMUM_LAGELA_MONTHS
          //MAXIMUM_LAGHOURS
@@ -1183,7 +1183,7 @@ final class AstaReader
          //MAXIMUM_LAG_TIME_UNIT
          //START_TASK
          //END_TASK
-         //TYPI
+         //LINK_KIND
          //START_LAG_TYPE
          //END_LAG_TYPE
          //MAINTAIN_TASK_OFFSETS

@@ -185,7 +185,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     */
    private void processPredecessors() throws SQLException
    {
-      List<Row> rows = getRows("select id as linkid, start_lag_time as start_lag_timehours, end_lag_time as end_lag_timehours, link_kind as typi, * from link where projid=? order by id", m_projectID);
+      List<Row> rows = getRows("select id as linkid, * from link where projid=? order by id", m_projectID);
       List<Row> completedSections = getRows("select id as task_completed_sectionid, * from task_completed_section where projid=? order by id", m_projectID);
       m_reader.processPredecessors(rows, completedSections);
    }
