@@ -1675,7 +1675,7 @@ final class AstaReader
       ProjectCalendar calendar = m_project.addCalendar();
       Integer dominantWorkPatternID = calendarRow.getInteger("DOMINANT_WORK_PATTERN");
       calendar.setUniqueID(calendarRow.getInteger("CALENDARID"));
-      calendar.setName(calendarRow.getString("NAMK"));
+      calendar.setName(calendarRow.getString("NAME"));
 
       boolean defaultWeekSet = workPatternMap.get(dominantWorkPatternID) != null;
       if (defaultWeekSet)

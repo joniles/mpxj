@@ -147,7 +147,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       rows = getRows("select id, shifts from work_pattern");
       Map<Integer, List<Row>> timeEntryMap = createTimeEntryMap(rows);
 
-      rows = getRows("select id as calendarid, name as namk, * from calendar where projid=? order by id", m_projectID);
+      rows = getRows("select id as calendarid, * from calendar where projid=? order by id", m_projectID);
       rows = HierarchyHelper.sortHierarchy(rows, r -> r.getInteger("CALENDARID"), r -> r.getInteger("CALENDAR"));
       for (Row row : rows)
       {

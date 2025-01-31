@@ -319,7 +319,7 @@ abstract class AbstractFileFormat
    {
       new ColumnDefinition("CALENDARID", Types.INTEGER),
       new ColumnDefinition("SPARL_INTEGER", Types.INTEGER),
-      new ColumnDefinition("NAMK", Types.VARCHAR),
+      new ColumnDefinition("NAME", Types.VARCHAR),
       new ColumnDefinition("DOMINANT_WORK_PATTERN", Types.INTEGER),
       new ColumnDefinition("CALENDAR", Types.INTEGER),
       new ColumnDefinition("DISPLAY_THRESHOLD", Types.INTEGER),

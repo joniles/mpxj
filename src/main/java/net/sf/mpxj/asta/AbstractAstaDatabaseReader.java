@@ -147,7 +147,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       rows = sortRows(getRows("time_entry", Collections.emptyMap()), "TIME_ENTRYID", "ORDF");
       Map<Integer, List<Row>> timeEntryMap = m_reader.createTimeEntryMap(rows);
 
-      rows = getRows("calendar", m_projectKey);
+      rows = getRows("calendar", m_projectKey, CALENDAR_NAME_MAP);
       rows = HierarchyHelper.sortHierarchy(rows, r -> r.getInteger("CALENDARID"), r -> r.getInteger("CALENDAR"));
       for (Row row : rows)
       {
@@ -413,5 +413,11 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    static
    {
       WORK_PATTERN_NAME_MAP.put("NAMN", "NAME");
+   }
+
+   private static final Map<String,String> CALENDAR_NAME_MAP = new HashMap<>();
+   static
+   {
+      CALENDAR_NAME_MAP.put("NAMK", "NAME");
    }
 }

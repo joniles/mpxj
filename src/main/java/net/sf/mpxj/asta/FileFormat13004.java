@@ -146,7 +146,7 @@ class FileFormat13004 extends AbstractFileFormat
    {
       "CALENDARID",
       "SPARL_INTEGER",
-      "NAMK",
+      "NAME",
       "DOMINANT_WORK_PATTERN",
       "CALENDAR",
       "DISPLAY_THRESHOLD",
