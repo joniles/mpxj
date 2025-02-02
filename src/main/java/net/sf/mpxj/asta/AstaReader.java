@@ -539,7 +539,7 @@ final class AstaReader
       //START_CONSTRAINT_DATE
       //END_CONSTRAINT_DATE
       //task.setBaselineWork(row.getDuration("EFFORT_BUDGET"));
-      //NATURAO_ORDER
+      //NATURAL_ORDER
       //LOGICAL_PRECEDENCE
       //SPAVE_INTEGER
       //SWIM_LANE
@@ -776,7 +776,7 @@ final class AstaReader
       //START_CONSTRAINT_DATE
       //END_CONSTRAINT_DATE
       //EFFORT_BUDGET
-      //NATURAO_ORDER
+      //NATURAL_ORDER
       //LOGICAL_PRECEDENCE
       //SPAVE_INTEGER
       //SWIM_LANE
@@ -2323,7 +2323,7 @@ final class AstaReader
    private static final Double COMPLETE = Double.valueOf(100);
    private static final Double INCOMPLETE = Double.valueOf(0);
    private static final String LINE_BREAK = "|@|||";
-   private static final RowComparator LEAF_COMPARATOR = new RowComparator("NATURAL_ORDER", "NATURAO_ORDER");
+   private static final RowComparator LEAF_COMPARATOR = new RowComparator("NATURAL_ORDER", "NATURAL_ORDER");
    private static final RowComparator BAR_COMPARATOR = new RowComparator("EXPANDED_TASK", "NATURAL_ORDER");
 
    private static final RelationType[] RELATION_TYPES =
