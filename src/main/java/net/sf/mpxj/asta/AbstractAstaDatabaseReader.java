@@ -406,6 +406,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       TASK_NAME_MAP.put("GIVEN_DURATIONHOURS", "GIVEN_DURATION");
       TASK_NAME_MAP.put("WBT", "WBS");
       TASK_NAME_MAP.put("STARZ", "LINKABLE_START");
+      TASK_NAME_MAP.put("ENJ", "LINKABLE_FINISH");
       TASK_NAME_MAP.put("ACTUAL_DURATIONHOURS", "ACTUAL_DURATION");
    }
 
@@ -466,5 +467,6 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    static
    {
       ALLOCATION_NAME_MAP.put("STARZ", "LINKABLE_START");
+      ALLOCATION_NAME_MAP.put("ENJ", "LINKABLE_FINISH");
    }
 }

@@ -173,7 +173,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       List<Row> bars = getRows("select id as barid, * from bar where projid=?", m_projectID);
 
       List<Row> expandedTasks = getRows("select id as expanded_taskid, * from expanded_task where projid=?", m_projectID);
-      List<Row> tasks = getRows("select id as taskid, linkable_finish as enj, notes as notet, natural_order as naturao_order, duration_time_unit as duration_timj_unit, * from task where projid=?", m_projectID);
+      List<Row> tasks = getRows("select id as taskid, notes as notet, natural_order as naturao_order, duration_time_unit as duration_timj_unit, * from task where projid=?", m_projectID);
       List<Row> milestones = getRows("select id as milestoneid, natural_order as naturao_order, * from milestone where projid=?", m_projectID);
       List<Row> hammocks = getRows("select id as hammock_taskid, * from hammock_task where projid=?", m_projectID);
 
@@ -195,7 +195,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     */
    private void processAssignments() throws SQLException
    {
-      List<Row> permanentAssignments = getRows("select allocated_to as allocatee_to, player, percent_complete, effort as efforw, permanent_schedul_allocation.id as permanent_schedul_allocationid, linkable_start, linkable_finish as enj, given_allocation, delay as delaahours from permanent_schedul_allocation inner join perm_resource_skill on perm_resource_skill.id = permanent_schedul_allocation.allocation_of and perm_resource_skill.projid=permanent_schedul_allocation.projid where permanent_schedul_allocation.projid=? order by permanent_schedul_allocation.id", m_projectID);
+      List<Row> permanentAssignments = getRows("select allocated_to as allocatee_to, player, percent_complete, effort as efforw, permanent_schedul_allocation.id as permanent_schedul_allocationid, linkable_start, linkable_finish, given_allocation, delay as delaahours from permanent_schedul_allocation inner join perm_resource_skill on perm_resource_skill.id = permanent_schedul_allocation.allocation_of and perm_resource_skill.projid=permanent_schedul_allocation.projid where permanent_schedul_allocation.projid=? order by permanent_schedul_allocation.id", m_projectID);
       m_reader.processAssignments(permanentAssignments);
    }
 
