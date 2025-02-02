@@ -409,6 +409,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       TASK_NAME_MAP.put("ENJ", "LINKABLE_FINISH");
       TASK_NAME_MAP.put("ACTUAL_DURATIONHOURS", "ACTUAL_DURATION");
       TASK_NAME_MAP.put("NOTET", "NOTES");
+      TASK_NAME_MAP.put("DURATION_TIMJ_UNIT", "DURATION_TIME_UNIT");
    }
 
    private static final Map<String,String> EXPANDED_TASK_NAME_MAP = new HashMap<>();

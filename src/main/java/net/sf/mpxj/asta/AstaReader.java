@@ -568,7 +568,7 @@ final class AstaReader
       //DURATIOTHOURS
       task.setStart(row.getDate("LINKABLE_START"));
       task.setFinish(row.getDate("LINKABLE_FINISH"));
-      //DURATION_TIMJ_UNIT
+      //DURATION_TIME_UNIT
       //UNSCHEDULABLG
       //SUBPROJECT_ID
       //ALT_ID
@@ -597,7 +597,7 @@ final class AstaReader
             startDate = task.getStart();
          }
 
-         if (timeUnitIsElapsed(row.getInt("DURATION_TIMJ_UNIT")))
+         if (timeUnitIsElapsed(row.getInt("DURATION_TIME_UNIT")))
          {
             remainingDuration = Duration.getInstance(startDate.until(task.getFinish(), ChronoUnit.HOURS), TimeUnit.HOURS);
          }
@@ -805,7 +805,7 @@ final class AstaReader
       //DURATIOTHOURS
       //LINKABLE_START
       //LINKABLE_FINISH
-      //DURATION_TIMJ_UNIT
+      //DURATION_TIME_UNIT
       //UNSCHEDULABLG
       //SUBPROJECT_ID
       //ALT_ID
@@ -1278,7 +1278,7 @@ final class AstaReader
          //DURATIOTTYPF
          //DURATIOTELA_MONTHS
          //DURATIOTHOURS
-         //DURATION_TIMJ_UNIT
+         //DURATION_TIME_UNIT
          //UNSCHEDULABLG
          //SUBPROJECT_ID
          //permanent_schedul_allocation_ALT_ID
