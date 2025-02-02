@@ -193,7 +193,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processAssignments() throws AstaDatabaseException
    {
-      List<Row> allocationRows = getRows("permanent_schedul_allocation", m_projectKey);
+      List<Row> allocationRows = getRows("permanent_schedul_allocation", m_projectKey, ALLOCATION_NAME_MAP);
       List<Row> skillRows = getRows("perm_resource_skill", m_projectKey);
       List<Row> permanentAssignments = sortRows(joinRows(allocationRows, "ALLOCATIOP_OF", "PERM_RESOURCE_SKILL", skillRows, "PERM_RESOURCE_SKILLID"), "PERMANENT_SCHEDUL_ALLOCATIONID");
       m_reader.processAssignments(permanentAssignments);
@@ -403,6 +403,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       TASK_NAME_MAP.put("CALENDAU", "CALENDAR");
       TASK_NAME_MAP.put("GIVEN_DURATIONHOURS", "GIVEN_DURATION");
       TASK_NAME_MAP.put("WBT", "WBS");
+      TASK_NAME_MAP.put("STARZ", "LINKABLE_START");
    }
 
    private static final Map<String,String> EXPANDED_TASK_NAME_MAP = new HashMap<>();
@@ -456,5 +457,11 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       LINK_NAME_MAP.put("START_LAG_TIMEHOURS", "START_LAG_TIME");
       LINK_NAME_MAP.put("END_LAG_TIMEHOURS", "END_LAG_TIME");
       LINK_NAME_MAP.put("TYPI", "LINK_KIND");
+   }
+
+   private static final Map<String,String> ALLOCATION_NAME_MAP = new HashMap<>();
+   static
+   {
+      ALLOCATION_NAME_MAP.put("STARZ", "LINKABLE_START");
    }
 }

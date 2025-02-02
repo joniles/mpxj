@@ -566,7 +566,7 @@ final class AstaReader
       //DURATIOTTYPF
       //DURATIOTELA_MONTHS
       //DURATIOTHOURS
-      task.setStart(row.getDate("STARZ"));
+      task.setStart(row.getDate("LINKABLE_START"));
       task.setFinish(row.getDate("ENJ"));
       //DURATION_TIMJ_UNIT
       //UNSCHEDULABLG
@@ -803,7 +803,7 @@ final class AstaReader
       //DURATIOTTYPF
       //DURATIOTELA_MONTHS
       //DURATIOTHOURS
-      //STARZ
+      //LINKABLE_START
       //ENJ
       //DURATION_TIMJ_UNIT
       //UNSCHEDULABLG
@@ -1226,7 +1226,7 @@ final class AstaReader
 
             ResourceAssignment assignment = task.addResourceAssignment(resource);
             assignment.setUniqueID(row.getInteger("PERMANENT_SCHEDUL_ALLOCATIONID"));
-            assignment.setStart(row.getDate("STARZ"));
+            assignment.setStart(row.getDate("LINKABLE_START"));
             assignment.setFinish(row.getDate("ENJ"));
             assignment.setUnits(Double.valueOf(row.getDouble("GIVEN_ALLOCATION").doubleValue() * 100));
             assignment.setDelay(row.getDuration("DELAAHOURS"));
