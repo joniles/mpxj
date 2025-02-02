@@ -299,7 +299,7 @@ abstract class AbstractFileFormat
    {
       new ColumnDefinition("BARID", Types.INTEGER),
       new ColumnDefinition("BAR_START", Types.TIMESTAMP),
-      new ColumnDefinition("ENF", Types.TIMESTAMP),
+      new ColumnDefinition("BAR_FINISH", Types.TIMESTAMP),
       new ColumnDefinition("NATURAL_ORDER", Types.INTEGER),
       new ColumnDefinition("SPARI_INTEGER", Types.INTEGER),
       new ColumnDefinition("NAME", Types.VARCHAR),

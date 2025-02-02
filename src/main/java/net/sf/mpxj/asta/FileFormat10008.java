@@ -127,7 +127,7 @@ class FileFormat10008 extends AbstractFileFormat
    {
       "BARID",
       "BAR_START",
-      "ENF",
+      "BAR_FINISH",
       "NATURAL_ORDER",
       "SPARI_INTEGER",
       "NAME",

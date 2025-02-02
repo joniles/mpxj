@@ -393,6 +393,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    {
       BAR_NAME_MAP.put("NAMH", "NAME");
       BAR_NAME_MAP.put("STARV", "BAR_START");
+      BAR_NAME_MAP.put("ENF", "BAR_FINISH");
    }
 
    private static final Map<String,String> TASK_NAME_MAP = new HashMap<>();
