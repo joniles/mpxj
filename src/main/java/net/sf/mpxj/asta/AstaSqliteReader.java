@@ -170,7 +170,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     */
    private void processTasks() throws SQLException
    {
-      List<Row> bars = getRows("select id as barid, bar_start as starv, bar_finish as enf, * from bar where projid=?", m_projectID);
+      List<Row> bars = getRows("select id as barid, bar_finish as enf, * from bar where projid=?", m_projectID);
 
       List<Row> expandedTasks = getRows("select id as expanded_taskid, * from expanded_task where projid=?", m_projectID);
       List<Row> tasks = getRows("select id as taskid, actual_duration as actual_durationhours, linkable_finish as enj, notes as notet, natural_order as naturao_order, duration_time_unit as duration_timj_unit, * from task where projid=?", m_projectID);

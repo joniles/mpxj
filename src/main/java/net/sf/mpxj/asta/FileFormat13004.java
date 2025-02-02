@@ -126,7 +126,7 @@ class FileFormat13004 extends AbstractFileFormat
    private static final String[] BAR_COLUMNS_ORDER =
    {
       "BARID",
-      "STARV",
+      "BAR_START",
       "ENF",
       "NATURAL_ORDER",
       "SPARI_INTEGER",

@@ -298,7 +298,7 @@ abstract class AbstractFileFormat
    private static final ColumnDefinition[] BAR_COLUMNS = new ColumnDefinition[]
    {
       new ColumnDefinition("BARID", Types.INTEGER),
-      new ColumnDefinition("STARV", Types.TIMESTAMP),
+      new ColumnDefinition("BAR_START", Types.TIMESTAMP),
       new ColumnDefinition("ENF", Types.TIMESTAMP),
       new ColumnDefinition("NATURAL_ORDER", Types.INTEGER),
       new ColumnDefinition("SPARI_INTEGER", Types.INTEGER),
