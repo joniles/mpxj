@@ -918,7 +918,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("PERCENT_COMPLETE", Types.DOUBLE),
       new ColumnDefinition("USER_PERCENU_COMPLETE", Types.DOUBLE),
       new ColumnDefinition("ALLOCATIOR_GROUP", Types.INTEGER),
-      new ColumnDefinition("ALLOCATEE_TO", Types.INTEGER),
+      new ColumnDefinition("ALLOCATED_TO", Types.INTEGER),
       new ColumnDefinition("PRIORITC", Types.INTEGER),
       new ColumnDefinition("ACCOUNTED_FOR_ELSEWHERE", Types.BIT),
       new ColumnDefinition("DURATIOTTYPF", Types.INTEGER),

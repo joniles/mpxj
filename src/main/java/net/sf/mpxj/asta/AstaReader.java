@@ -1215,7 +1215,7 @@ final class AstaReader
       // TODO: add support for consumable resource assignments
       for (Row row : permanentAssignments)
       {
-         Task task = m_project.getTaskByUniqueID(row.getInteger("ALLOCATEE_TO"));
+         Task task = m_project.getTaskByUniqueID(row.getInteger("ALLOCATED_TO"));
          Resource resource = m_project.getResourceByUniqueID(row.getInteger("PLAYER"));
          if (task != null && resource != null)
          {

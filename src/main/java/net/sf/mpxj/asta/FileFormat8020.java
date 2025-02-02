@@ -691,7 +691,7 @@ class FileFormat8020 extends AbstractFileFormat
       "PERCENT_COMPLETE",
       "USER_PERCENU_COMPLETE",
       "ALLOCATIOR_GROUP",
-      "ALLOCATEE_TO",
+      "ALLOCATED_TO",
       "PRIORITC",
       "ACCOUNTED_FOR_ELSEWHERE",
       "DURATIOTTYPF",

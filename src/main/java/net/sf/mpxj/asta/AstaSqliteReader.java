@@ -195,7 +195,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     */
    private void processAssignments() throws SQLException
    {
-      List<Row> permanentAssignments = getRows("select allocated_to as allocatee_to, player, percent_complete, effort as efforw, permanent_schedul_allocation.id as permanent_schedul_allocationid, linkable_start, linkable_finish, given_allocation, delay as delaahours from permanent_schedul_allocation inner join perm_resource_skill on perm_resource_skill.id = permanent_schedul_allocation.allocation_of and perm_resource_skill.projid=permanent_schedul_allocation.projid where permanent_schedul_allocation.projid=? order by permanent_schedul_allocation.id", m_projectID);
+      List<Row> permanentAssignments = getRows("select allocated_to, player, percent_complete, effort as efforw, permanent_schedul_allocation.id as permanent_schedul_allocationid, linkable_start, linkable_finish, given_allocation, delay as delaahours from permanent_schedul_allocation inner join perm_resource_skill on perm_resource_skill.id = permanent_schedul_allocation.allocation_of and perm_resource_skill.projid=permanent_schedul_allocation.projid where permanent_schedul_allocation.projid=? order by permanent_schedul_allocation.id", m_projectID);
       m_reader.processAssignments(permanentAssignments);
    }
 

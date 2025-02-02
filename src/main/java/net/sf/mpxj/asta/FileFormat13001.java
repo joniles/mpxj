@@ -672,7 +672,7 @@ class FileFormat13001 extends AbstractFileFormat
       "ALLOCATION_PROFILE",
       "ALLOCATIOR_GROUP",
       "RESOURCE_CURVE",
-      "ALLOCATEE_TO",
+      "ALLOCATED_TO",
       "PRIORITC",
       "NONLINEAR_TYPE",
       "ACCOUNTED_FOR_ELSEWHERE",
