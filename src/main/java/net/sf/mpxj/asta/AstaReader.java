@@ -784,7 +784,7 @@ final class AstaReader
       //OVERALL_PERCENT_COMPLETE
       //OVERALL_PERCENT_COMPL_WEIGHT
       task.setName(row.getString("NAME"));
-      //NOTET
+      //NOTES
       task.setActivityID(row.getString("UNIQUE_TASK_ID"));
       task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAR")));
       //EFFORT_TIMI_UNIT
@@ -1833,7 +1833,7 @@ final class AstaReader
     */
    private String getNotes(Row row)
    {
-      String notes = row.getString("NOTET");
+      String notes = row.getString("NOTES");
       if (notes != null)
       {
          if (notes.isEmpty())
