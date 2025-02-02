@@ -173,7 +173,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       List<Row> bars = getRows("select id as barid, * from bar where projid=?", m_projectID);
 
       List<Row> expandedTasks = getRows("select id as expanded_taskid, * from expanded_task where projid=?", m_projectID);
-      List<Row> tasks = getRows("select id as taskid, actual_duration as actual_durationhours, linkable_finish as enj, notes as notet, natural_order as naturao_order, duration_time_unit as duration_timj_unit, * from task where projid=?", m_projectID);
+      List<Row> tasks = getRows("select id as taskid, linkable_finish as enj, notes as notet, natural_order as naturao_order, duration_time_unit as duration_timj_unit, * from task where projid=?", m_projectID);
       List<Row> milestones = getRows("select id as milestoneid, natural_order as naturao_order, * from milestone where projid=?", m_projectID);
       List<Row> hammocks = getRows("select id as hammock_taskid, * from hammock_task where projid=?", m_projectID);
 

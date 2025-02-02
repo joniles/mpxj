@@ -530,7 +530,7 @@ final class AstaReader
       //HOLDING_PIN
       //ACTUAL_DURATIONTYPF
       //ACTUAL_DURATIONELA_MONTHS
-      task.setActualDuration(row.getDuration("ACTUAL_DURATIONHOURS"));
+      task.setActualDuration(row.getDuration("ACTUAL_DURATION"));
       task.setEarlyStart(row.getDate("EARLY_START_DATE"));
       task.setLateStart(row.getDate("LATE_START_DATE"));
       task.setEarlyFinish(row.getDate("EARLY_END_DATE_RS"));
@@ -767,7 +767,7 @@ final class AstaReader
       //INTERRUPTIBLE_X
       //ACTUAL_DURATIONTYPF
       //ACTUAL_DURATIONELA_MONTHS
-      //ACTUAL_DURATIONHOURS
+      //ACTUAL_DURATION
       task.setEarlyStart(row.getDate("EARLY_START_DATE"));
       task.setLateStart(row.getDate("LATE_START_DATE"));
       task.setEarlyFinish(row.getDate("EARLY_END_DATE_RS"));
