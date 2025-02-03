@@ -1216,138 +1216,32 @@ final class AstaReader
       for (Row row : permanentAssignments)
       {
          Task task = m_project.getTaskByUniqueID(row.getInteger("ALLOCATED_TO"));
-         Resource resource = m_project.getResourceByUniqueID(row.getInteger("PLAYER"));
-         if (task != null && resource != null)
+         if (task == null)
          {
-            Double percentComplete = row.getPercent("PERCENT_COMPLETE");
-            Duration work = row.getWork("EFFORT");
-            double actualWork = (work.getDuration() * percentComplete.doubleValue()) / 100.0;
-            double remainingWork = work.getDuration() - actualWork;
-
-            ResourceAssignment assignment = task.addResourceAssignment(resource);
-            assignment.setUniqueID(row.getInteger("PERMANENT_SCHEDUL_ALLOCATIONID"));
-            assignment.setStart(row.getDate("LINKABLE_START"));
-            assignment.setFinish(row.getDate("LINKABLE_FINISH"));
-            assignment.setUnits(Double.valueOf(row.getDouble("GIVEN_ALLOCATION").doubleValue() * 100));
-            assignment.setDelay(row.getDuration("DELAY"));
-            assignment.setWork(work);
-            assignment.setActualWork(Duration.getInstance(actualWork, work.getUnits()));
-            assignment.setRemainingWork(Duration.getInstance(remainingWork, work.getUnits()));
-            assignment.setPercentageWorkComplete(percentComplete);
+            continue;
          }
 
-         //PROJID
-         //REQUIREE_BY
-         //OWNED_BY_TIMESHEET_X
-         //EFFORT
-         //GIVEN_EFFORT
-         //WORK_FROM_TASK_FACTOR
-         //ALLOCATIOO
-         //GIVEN_ALLOCATION
-         //ALLOCATION_OF
-         //WORM_UNIT
-         //WORK_RATE_TIMF_UNIT
-         //EFFORT_TIMJ_UNIT
-         //WORO
-         //GIVEN_WORK
-         //WORL_RATE
-         //GIVEN_WORK_RATE
-         //TYPV
-         //CALCULATEG_PARAMETER
-         //BALANCINJ_PARAMETER
-         //SHAREE_EFFORT
-         //CONTRIBUTES_TO_ACTIVI_EFFORT
-         //DELAATYPF
-         //DELAAELA_MONTHS
-         //DELAY
-         //GIVEO_DURATIONTYPF
-         //GIVEO_DURATIONELA_MONTHS
-         //GIVEO_DURATIONHOURS
-         //DELAY_TIMI_UNIT
-         //RATE_TYPE
-         //USE_TASM_CALENDAR
-         //IGNORF
-         //ELAPSEE
-         //MAY_BE_SHORTER_THAN_TASK
-         //RESUMF
-         //SPAXE_INTEGER
-         //USER_PERCENU_COMPLETE
-         //ALLOCATIOR_GROUP
-         //PRIORITC
-         //ACCOUNTED_FOR_ELSEWHERE
-         //DURATIOTTYPF
-         //DURATIOTELA_MONTHS
-         //DURATIOTHOURS
-         //DURATION_TIME_UNIT
-         //UNSCHEDULABLG
-         //SUBPROJECT_ID
-         //permanent_schedul_allocation_ALT_ID
-         //permanent_schedul_allocation_LAST_EDITED_DATE
-         //permanent_schedul_allocation_LAST_EDITED_BY
-         //perm_resource_skill_PROJID
-         //PERM_RESOURCE_SKILLID
-         //ARR_STOUT_STSKI_APARROW_TYPE
-         //ARR_STOUT_STSKI_APLENGTH
-         //ARR_STOUT_STSKI_APEDGE
-         //ARR_STOUT_STSKI_APBORDET_COL
-         //ARR_STOUT_STSKI_APINSIDG_COL
-         //ARR_STOUT_STSKI_APPLACEMENW
-         //BLI_STOUT_STSKI_APBLIP_TYPE
-         //BLI_STOUT_STSKI_APSCALEY
-         //BLI_STOUT_STSKI_APSCALEZ
-         //BLI_STOUT_STSKI_APGAP
-         //BLI_STOUT_STSKI_APBORDES_COL
-         //BLI_STOUT_STSKI_APINSIDF_COL
-         //BLI_STOUT_STSKI_APPLACEMENV
-         //LIN_STOUT_STSKI_APSCALEX
-         //LIN_STOUT_STSKI_APWIDTH
-         //LIN_STOUT_STSKI_APBORDER_COL
-         //LIN_STOUT_STSKI_APINSIDE_COL
-         //LIN_STOUT_STSKI_APLINE_TYPE
-         //SKI_APFOREGROUND_FILL_COLOUR
-         //SKI_APBACKGROUND_FILL_COLOUR
-         //SKI_APPATTERN
-         //DURATIOODEFAULTTTYPF
-         //DURATIOODEFAULTTELA_MONTHS
-         //DURATIOODEFAULTTHOURS
-         //DELAYDEFAULTTTYPF
-         //DELAYDEFAULTTELA_MONTHS
-         //DELAYDEFAULTTHOURS
-         //DEFAULTTALLOCATION
-         //DEFAULTTWORK_FROM_ACT_FACTOR
-         //DEFAULTTEFFORT
-         //DEFAULTTWORL
-         //DEFAULTTWORK_RATE
-         //DEFAULTTWORK_UNIT
-         //DEFAULTTWORK_RATE_TIME_UNIT
-         //DEFAULTTEFFORT_TIMG_UNIT
-         //DEFAULTTDURATION_TIMF_UNIT
-         //DEFAULTTDELAY_TIME_UNIT
-         //DEFAULTTTYPL
-         //DEFAULTTCALCULATED_PARAMETER
-         //DEFAULTTBALANCING_PARAMETER
-         //DEFAULTTWORK_RATE_TYPE
-         //DEFAULTTUSE_TASK_CALENDAR
-         //DEFAULTTALLOC_PROPORTIONALLY
-         //DEFAULTTCAN_BE_SPLIT
-         //DEFAULTTCAN_BE_DELAYED
-         //DEFAULTTCAN_BE_STRETCHED
-         //DEFAULTTACCOUNTED__ELSEWHERE
-         //DEFAULTTCONTRIBUTES_T_EFFORT
-         //DEFAULTTMAY_BE_SHORTER__TASK
-         //DEFAULTTSHARED_EFFORT
-         //ABILITY
-         //EFFECTIVENESS
-         //AVAILABLF_FROM
-         //AVAILABLF_TO
-         //SPARO_INTEGER
-         //EFFORT_TIMF_UNIT
-         //ROLE
-         //CREATED_AS_FOLDER
-         //perm_resource_skill_ALT_ID
-         //perm_resource_skill_LAST_EDITED_DATE
-         //perm_resource_skill_LAST_EDITED_BY
+         Resource resource = m_project.getResourceByUniqueID(row.getInteger("PLAYER"));
+         if (resource == null)
+         {
+            continue;
+         }
 
+         Double percentComplete = row.getPercent("PERCENT_COMPLETE");
+         Duration work = row.getWork("EFFORT");
+         double actualWork = (work.getDuration() * percentComplete.doubleValue()) / 100.0;
+         double remainingWork = work.getDuration() - actualWork;
+
+         ResourceAssignment assignment = task.addResourceAssignment(resource);
+         assignment.setUniqueID(row.getInteger("PERMANENT_SCHEDUL_ALLOCATIONID"));
+         assignment.setStart(row.getDate("LINKABLE_START"));
+         assignment.setFinish(row.getDate("LINKABLE_FINISH"));
+         assignment.setUnits(Double.valueOf(row.getDouble("GIVEN_ALLOCATION").doubleValue() * 100));
+         assignment.setDelay(row.getDuration("DELAY"));
+         assignment.setWork(work);
+         assignment.setActualWork(Duration.getInstance(actualWork, work.getUnits()));
+         assignment.setRemainingWork(Duration.getInstance(remainingWork, work.getUnits()));
+         assignment.setPercentageWorkComplete(percentComplete);
       }
    }
 
