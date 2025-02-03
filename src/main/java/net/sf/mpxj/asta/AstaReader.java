@@ -1243,7 +1243,7 @@ final class AstaReader
          double remainingWork = work.getDuration() - actualWork;
 
          ResourceAssignment assignment = task.addResourceAssignment(resource);
-         assignment.setUniqueID(row.getInteger("PERMANENT_SCHEDUL_ALLOCATIONID"));
+         assignment.setUniqueID(row.getInteger("ID"));
          assignment.setStart(row.getDate("LINKABLE_START"));
          assignment.setFinish(row.getDate("LINKABLE_FINISH"));
          assignment.setUnits(Double.valueOf(row.getDouble("GIVEN_ALLOCATION").doubleValue() * 100));
@@ -2229,7 +2229,7 @@ final class AstaReader
    private static final String LINE_BREAK = "|@|||";
    private static final RowComparator LEAF_COMPARATOR = new RowComparator("NATURAL_ORDER", "NATURAL_ORDER");
    private static final RowComparator BAR_COMPARATOR = new RowComparator("EXPANDED_TASK", "NATURAL_ORDER");
-   private static final RowComparator ALLOCATION_COMPARATOR = new RowComparator("PERMANENT_SCHEDUL_ALLOCATIONID");
+   private static final RowComparator ALLOCATION_COMPARATOR = new RowComparator("ID");
 
    private static final RelationType[] RELATION_TYPES =
    {

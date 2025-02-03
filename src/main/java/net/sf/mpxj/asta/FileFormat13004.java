@@ -628,7 +628,7 @@ class FileFormat13004 extends AbstractFileFormat
 
    private static final String[] PERMANENT_SCHEDULE_ALLOCATION_COLUMNS_ORDER =
    {
-      "PERMANENT_SCHEDUL_ALLOCATIONID",
+      "ID",
       "REQUIREE_BY",
       "OWNED_BY_TIMESHEET_X",
       "EFFORT",

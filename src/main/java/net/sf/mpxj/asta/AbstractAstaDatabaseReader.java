@@ -310,7 +310,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    private AstaReader m_reader;
    private Map<String, Integer> m_projectKey;
 
-   private static final RowComparator ALLOCATION_COMPARATOR = new RowComparator("PERMANENT_SCHEDUL_ALLOCATIONID");
+   private static final RowComparator ALLOCATION_COMPARATOR = new RowComparator("ID");
 
    private static final Map<String,String> PROJECT_SUMMARY_NAME_MAP = new HashMap<>();
    static
@@ -407,6 +407,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    private static final Map<String,String> ALLOCATION_NAME_MAP = new HashMap<>();
    static
    {
+      ALLOCATION_NAME_MAP.put("PERMANENT_SCHEDUL_ALLOCATIONID", "ID");
       ALLOCATION_NAME_MAP.put("STARZ", "LINKABLE_START");
       ALLOCATION_NAME_MAP.put("ENJ", "LINKABLE_FINISH");
       ALLOCATION_NAME_MAP.put("ALLOCATEE_TO", "ALLOCATED_TO");

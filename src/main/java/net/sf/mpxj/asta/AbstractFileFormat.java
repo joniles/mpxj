@@ -880,7 +880,7 @@ abstract class AbstractFileFormat
 
    private static final ColumnDefinition[] PERMANENT_SCHEDULE_ALLOCATION_COLUMNS = new ColumnDefinition[]
    {
-      new ColumnDefinition("PERMANENT_SCHEDUL_ALLOCATIONID", Types.INTEGER),
+      new ColumnDefinition("ID", Types.INTEGER),
       new ColumnDefinition("REQUIREE_BY", Types.INTEGER),
       new ColumnDefinition("OWNED_BY_TIMESHEET_X", Types.BIT),
       new ColumnDefinition("EFFORT", Types.DOUBLE),
