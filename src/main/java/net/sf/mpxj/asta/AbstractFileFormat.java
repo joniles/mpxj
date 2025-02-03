@@ -883,7 +883,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("PERMANENT_SCHEDUL_ALLOCATIONID", Types.INTEGER),
       new ColumnDefinition("REQUIREE_BY", Types.INTEGER),
       new ColumnDefinition("OWNED_BY_TIMESHEET_X", Types.BIT),
-      new ColumnDefinition("EFFORW", Types.DOUBLE),
+      new ColumnDefinition("EFFORT", Types.DOUBLE),
       new ColumnDefinition("GIVEN_EFFORT", Types.DOUBLE),
       new ColumnDefinition("WORK_FROM_TASK_FACTOR", Types.DOUBLE),
       new ColumnDefinition("ALLOCATIOO", Types.DOUBLE),

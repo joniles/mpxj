@@ -612,7 +612,7 @@ class FileFormat12002 extends AbstractFileFormat
       "PERMANENT_SCHEDUL_ALLOCATIONID",
       "REQUIREE_BY",
       "OWNED_BY_TIMESHEET_X",
-      "EFFORW",
+      "EFFORT",
       "GIVEN_EFFORT",
       "WORK_FROM_TASK_FACTOR",
       "ALLOCATIOO",

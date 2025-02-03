@@ -1220,7 +1220,7 @@ final class AstaReader
          if (task != null && resource != null)
          {
             Double percentComplete = row.getPercent("PERCENT_COMPLETE");
-            Duration work = row.getWork("EFFORW");
+            Duration work = row.getWork("EFFORT");
             double actualWork = (work.getDuration() * percentComplete.doubleValue()) / 100.0;
             double remainingWork = work.getDuration() - actualWork;
 
@@ -1239,7 +1239,7 @@ final class AstaReader
          //PROJID
          //REQUIREE_BY
          //OWNED_BY_TIMESHEET_X
-         //EFFORW
+         //EFFORT
          //GIVEN_EFFORT
          //WORK_FROM_TASK_FACTOR
          //ALLOCATIOO

@@ -654,7 +654,7 @@ class FileFormat9006 extends AbstractFileFormat
    {
       "PERMANENT_SCHEDUL_ALLOCATIONID",
       "REQUIREE_BY",
-      "EFFORW",
+      "EFFORT",
       "GIVEN_EFFORT",
       "UNKNOWN",
       "WORK_FROM_TASK_FACTOR",

@@ -473,5 +473,6 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       ALLOCATION_NAME_MAP.put("STARZ", "LINKABLE_START");
       ALLOCATION_NAME_MAP.put("ENJ", "LINKABLE_FINISH");
       ALLOCATION_NAME_MAP.put("ALLOCATEE_TO", "ALLOCATED_TO");
+      ALLOCATION_NAME_MAP.put("EFFORW", "EFFORT");
    }
 }
