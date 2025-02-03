@@ -336,7 +336,7 @@ abstract class AbstractFileFormat
 
    private static final ColumnDefinition[] EXCEPTIONN_COLUMNS = new ColumnDefinition[]
    {
-      new ColumnDefinition("EXCEPTIONNID", Types.INTEGER),
+      new ColumnDefinition("ID", Types.INTEGER),
       new ColumnDefinition("ARR_STOUT_STAPPANDARROW_TYPE", Types.INTEGER),
       new ColumnDefinition("ARR_STOUT_STAPPANDLENGTH", Types.INTEGER),
       new ColumnDefinition("ARR_STOUT_STAPPANDEDGE", Types.INTEGER),

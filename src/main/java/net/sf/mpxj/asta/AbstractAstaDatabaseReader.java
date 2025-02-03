@@ -118,7 +118,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    {
       List<Row> schemaVersionRows = getRows("dodschem", Collections.emptyMap());
       List<Row> projectSummaryRows = getRows("project_summary", m_projectKey, PROJECT_SUMMARY_NAME_MAP);
-      List<Row> progressPeriodRows = getRows("progress_period", m_projectKey);
+      List<Row> progressPeriodRows = getRows("progress_period", m_projectKey, PROGRESS_PERIOD_NAME_MAP);
       List<Row> userSettingsRows = getRows("userr", m_projectKey);
       Integer schemaVersion = schemaVersionRows.isEmpty() ? null : schemaVersionRows.get(0).getInteger("SCHVER");
       Row projectSummary = projectSummaryRows.isEmpty() ? null : projectSummaryRows.get(0);
@@ -132,7 +132,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processCalendars() throws AstaDatabaseException
    {
-      List<Row> rows = getRows("exceptionn", Collections.emptyMap());
+      List<Row> rows = getRows("exceptionn", Collections.emptyMap(), EXCEPTION_NAME_MAP);
       Map<Integer, DayType> exceptionMap = m_reader.createExceptionTypeMap(rows);
 
       rows = getRows("work_pattern", Collections.emptyMap(), WORK_PATTERN_NAME_MAP);
@@ -475,5 +475,17 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       ALLOCATION_NAME_MAP.put("ALLOCATEE_TO", "ALLOCATED_TO");
       ALLOCATION_NAME_MAP.put("EFFORW", "EFFORT");
       ALLOCATION_NAME_MAP.put("DELAAHOURS", "DELAY");
+   }
+
+   private static final Map<String,String> PROGRESS_PERIOD_NAME_MAP = new HashMap<>();
+   static
+   {
+      PROGRESS_PERIOD_NAME_MAP.put("PROGRESS_PERIODID", "ID");
+   }
+
+   private static final Map<String,String> EXCEPTION_NAME_MAP = new HashMap<>();
+   static
+   {
+      EXCEPTION_NAME_MAP.put("EXCEPTIONNID", "ID");
    }
 }

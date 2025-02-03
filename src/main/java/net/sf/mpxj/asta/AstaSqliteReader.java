@@ -118,7 +118,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
    {
       List<Row> schemaVersionRows = getRows("select * from dodschem");
       List<Row> projectSummaryRows = getRows("select * from project_summary where projid=?", m_projectID);
-      List<Row> progressPeriodRows = getRows("select id as progress_periodid, * from progress_period where projid=?", m_projectID);
+      List<Row> progressPeriodRows = getRows("select * from progress_period where projid=?", m_projectID);
       List<Row> userSettingsRows = getRows("select * from userr where projid=?", m_projectID);
       Integer schemaVersion = schemaVersionRows.isEmpty() ? null : schemaVersionRows.get(0).getInteger("SCHVER");
       Row projectSummary = projectSummaryRows.isEmpty() ? null : projectSummaryRows.get(0);
@@ -132,7 +132,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     */
    private void processCalendars() throws SQLException
    {
-      List<Row> rows = getRows("select id as exceptionnid, * from exceptionn");
+      List<Row> rows = getRows("select * from exceptionn");
       Map<Integer, DayType> exceptionTypeMap = m_reader.createExceptionTypeMap(rows);
 
       rows = getRows("select id as work_patternid, * from work_pattern");

@@ -237,7 +237,7 @@ class FileFormat12002 extends AbstractFileFormat
 
    private static final String[] EXCEPTIONN_COLUMNS_ORDER =
    {
-      "EXCEPTIONNID",
+      "ID",
       "ARR_STOUT_STAPPANDARROW_TYPE",
       "ARR_STOUT_STAPPANDLENGTH",
       "ARR_STOUT_STAPPANDEDGE",

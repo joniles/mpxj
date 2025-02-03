@@ -159,13 +159,13 @@ final class AstaReader
          Row progressPeriod;
          if (currentProgressPeriodID == null)
          {
-            progressPeriods.sort(Comparator.comparing(o -> o.getInteger("PROGRESS_PERIODID")));
+            progressPeriods.sort(Comparator.comparing(o -> o.getInteger("ID")));
 
             progressPeriod = progressPeriods.get(progressPeriods.size() - 1);
          }
          else
          {
-            progressPeriod = progressPeriods.stream().filter(r -> NumberHelper.equals(currentProgressPeriodID, r.getInteger("PROGRESS_PERIODID"))).findFirst().orElse(null);
+            progressPeriod = progressPeriods.stream().filter(r -> NumberHelper.equals(currentProgressPeriodID, r.getInteger("ID"))).findFirst().orElse(null);
          }
 
          if (progressPeriod != null)
@@ -1557,7 +1557,7 @@ final class AstaReader
       Map<Integer, DayType> map = new HashMap<>();
       for (Row row : rows)
       {
-         Integer id = row.getInteger("EXCEPTIONNID");
+         Integer id = row.getInteger("ID");
          DayType result;
 
          switch (row.getInt("UNIQUE_BIT_FIELD"))
