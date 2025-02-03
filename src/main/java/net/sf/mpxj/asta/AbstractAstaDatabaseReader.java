@@ -194,7 +194,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    private void processAssignments() throws AstaDatabaseException
    {
       List<Row> allocationRows = getRows("permanent_schedul_allocation", m_projectKey, ALLOCATION_NAME_MAP);
-      List<Row> skillRows = getRows("perm_resource_skill", m_projectKey);
+      List<Row> skillRows = getRows("perm_resource_skill", m_projectKey, SKILL_NAME_MAP);
       allocationRows.sort(ALLOCATION_COMPARATOR);
       m_reader.processAssignments(allocationRows, skillRows);
    }
@@ -432,5 +432,11 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    static
    {
       COMPLETED_SECTION_NAME_MAP.put("TASK_COMPLETED_SECTIONID", "ID");
+   }
+
+   private static final Map<String,String> SKILL_NAME_MAP = new HashMap<>();
+   static
+   {
+      SKILL_NAME_MAP.put("PERM_RESOURCE_SKILLID", "ID");
    }
 }

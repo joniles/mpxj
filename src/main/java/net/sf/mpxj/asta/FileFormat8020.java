@@ -511,7 +511,7 @@ class FileFormat8020 extends AbstractFileFormat
 
    private static final String[] PERMANENT_RESOURCE_SKILL_COLUMNS_ORDER =
    {
-      "PERM_RESOURCE_SKILLID",
+      "ID",
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",

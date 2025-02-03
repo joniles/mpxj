@@ -499,7 +499,7 @@ class FileFormat10008 extends AbstractFileFormat
 
    private static final String[] PERMANENT_RESOURCE_SKILL_COLUMNS_ORDER =
    {
-      "PERM_RESOURCE_SKILLID",
+      "ID",
       "ARR_STOUT_STSKI_APARROW_TYPE",
       "ARR_STOUT_STSKI_APLENGTH",
       "ARR_STOUT_STSKI_APEDGE",

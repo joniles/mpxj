@@ -1216,7 +1216,7 @@ final class AstaReader
    public void processAssignments(List<Row> allocationRows, List<Row> skillRows)
    {
       // TODO: add support for consumable resource assignments
-      Map<Integer, Row> skillMap = skillRows.stream().collect(Collectors.toMap(t -> t.getInteger("PERM_RESOURCE_SKILLID"), t -> t));
+      Map<Integer, Row> skillMap = skillRows.stream().collect(Collectors.toMap(t -> t.getInteger("ID"), t -> t));
       for (Row row : allocationRows)
       {
          Task task = m_project.getTaskByUniqueID(row.getInteger("ALLOCATED_TO"));
