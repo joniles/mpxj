@@ -395,7 +395,7 @@ class FileFormat11004 extends AbstractFileFormat
 
    private static final String[] LINK_COLUMNS_ORDER =
    {
-      "LINKID",
+      "ID",
       "START_LAG_TIMETYPF",
       "START_LAG_TIMEELA_MONTHS",
       "START_LAG_TIME",

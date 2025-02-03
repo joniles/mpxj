@@ -183,7 +183,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processPredecessors() throws AstaDatabaseException
    {
-      List<Row> rows = sortRows(getRows("link", m_projectKey, LINK_NAME_MAP), "LINKID");
+      List<Row> rows = sortRows(getRows("link", m_projectKey, LINK_NAME_MAP), "ID");
       List<Row> completedSections = getRows("task_completed_section", m_projectKey);
       m_reader.processPredecessors(rows, completedSections);
    }
@@ -466,6 +466,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    private static final Map<String,String> LINK_NAME_MAP = new HashMap<>();
    static
    {
+      LINK_NAME_MAP.put("LINKID", "ID");
       LINK_NAME_MAP.put("START_LAG_TIMEHOURS", "START_LAG_TIME");
       LINK_NAME_MAP.put("END_LAG_TIMEHOURS", "END_LAG_TIME");
       LINK_NAME_MAP.put("TYPI", "LINK_KIND");

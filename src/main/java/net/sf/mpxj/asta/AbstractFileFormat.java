@@ -647,7 +647,7 @@ abstract class AbstractFileFormat
 
    private static final ColumnDefinition[] LINK_COLUMNS = new ColumnDefinition[]
    {
-      new ColumnDefinition("LINKID", Types.INTEGER),
+      new ColumnDefinition("ID", Types.INTEGER),
       new ColumnDefinition("START_LAG_TIMETYPF", Types.INTEGER),
       new ColumnDefinition("START_LAG_TIMEELA_MONTHS", Types.INTEGER),
       new ColumnDefinition("START_LAG_TIME", Types.DOUBLE),
