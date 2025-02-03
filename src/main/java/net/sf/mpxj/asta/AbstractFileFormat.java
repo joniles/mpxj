@@ -888,7 +888,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("WORK_FROM_TASK_FACTOR", Types.DOUBLE),
       new ColumnDefinition("ALLOCATIOO", Types.DOUBLE),
       new ColumnDefinition("GIVEN_ALLOCATION", Types.DOUBLE),
-      new ColumnDefinition("ALLOCATIOP_OF", Types.INTEGER),
+      new ColumnDefinition("ALLOCATION_OF", Types.INTEGER),
       new ColumnDefinition("WORM_UNIT", Types.INTEGER),
       new ColumnDefinition("WORK_RATE_TIMF_UNIT", Types.INTEGER),
       new ColumnDefinition("EFFORT_TIMJ_UNIT", Types.INTEGER),

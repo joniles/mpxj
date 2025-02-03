@@ -621,7 +621,7 @@ class FileFormat12005 extends AbstractFileFormat
       "WORK_FROM_TASK_FACTOR",
       "ALLOCATIOO",
       "GIVEN_ALLOCATION",
-      "ALLOCATIOP_OF",
+      "ALLOCATION_OF",
       "WORM_UNIT",
       "WORK_RATE_TIMF_UNIT",
       "EFFORT_TIMJ_UNIT",

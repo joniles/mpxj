@@ -195,7 +195,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    {
       List<Row> allocationRows = getRows("permanent_schedul_allocation", m_projectKey, ALLOCATION_NAME_MAP);
       List<Row> skillRows = getRows("perm_resource_skill", m_projectKey);
-      List<Row> permanentAssignments = sortRows(joinRows(allocationRows, "ALLOCATIOP_OF", "PERM_RESOURCE_SKILL", skillRows, "PERM_RESOURCE_SKILLID"), "PERMANENT_SCHEDUL_ALLOCATIONID");
+      List<Row> permanentAssignments = sortRows(joinRows(allocationRows, "ALLOCATION_OF", "PERM_RESOURCE_SKILL", skillRows, "PERM_RESOURCE_SKILLID"), "PERMANENT_SCHEDUL_ALLOCATIONID");
       m_reader.processAssignments(permanentAssignments);
    }
 
@@ -480,6 +480,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       ALLOCATION_NAME_MAP.put("ALLOCATEE_TO", "ALLOCATED_TO");
       ALLOCATION_NAME_MAP.put("EFFORW", "EFFORT");
       ALLOCATION_NAME_MAP.put("DELAAHOURS", "DELAY");
+      ALLOCATION_NAME_MAP.put("ALLOCATIOP_OF", "ALLOCATION_OF");
    }
 
    private static final Map<String,String> PROGRESS_PERIOD_NAME_MAP = new HashMap<>();

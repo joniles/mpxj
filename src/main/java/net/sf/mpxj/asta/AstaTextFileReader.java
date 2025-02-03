@@ -299,7 +299,7 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
    {
       List<Row> allocationRows = getTable("PERMANENT_SCHEDUL_ALLOCATION");
       List<Row> skillRows = getTable("PERM_RESOURCE_SKILL");
-      List<Row> permanentAssignments = join(allocationRows, "ALLOCATIOP_OF", "PERM_RESOURCE_SKILL", skillRows, "PERM_RESOURCE_SKILLID");
+      List<Row> permanentAssignments = join(allocationRows, "ALLOCATION_OF", "PERM_RESOURCE_SKILL", skillRows, "PERM_RESOURCE_SKILLID");
       permanentAssignments.sort(ALLOCATION_COMPARATOR);
       m_reader.processAssignments(permanentAssignments);
    }
