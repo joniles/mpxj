@@ -302,77 +302,7 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
       allocationRows.sort(ALLOCATION_COMPARATOR);
       m_reader.processAssignments(allocationRows, skillRows);
    }
-
-   /**
-    * Very basic implementation of an inner join between two result sets.
-    *
-    * @param leftRows left result set
-    * @param leftColumn left foreign key column
-    * @param rightTable right table name
-    * @param rightRows right result set
-    * @param rightColumn right primary key column
-    * @return joined result set
-    */
-   private List<Row> join(List<Row> leftRows, String leftColumn, String rightTable, List<Row> rightRows, String rightColumn)
-   {
-      List<Row> result = new ArrayList<>();
-
-      RowComparator leftComparator = new RowComparator(leftColumn);
-      RowComparator rightComparator = new RowComparator(rightColumn);
-      leftRows.sort(leftComparator);
-      rightRows.sort(rightComparator);
-
-      ListIterator<Row> rightIterator = rightRows.listIterator();
-      Row rightRow = rightIterator.hasNext() ? rightIterator.next() : null;
-
-      for (Row leftRow : leftRows)
-      {
-         Integer leftValue = leftRow.getInteger(leftColumn);
-         boolean match = false;
-
-         while (rightRow != null)
-         {
-            Integer rightValue = rightRow.getInteger(rightColumn);
-            int comparison = leftValue.compareTo(rightValue);
-            if (comparison == 0)
-            {
-               match = true;
-               break;
-            }
-
-            if (comparison < 0)
-            {
-               if (rightIterator.hasPrevious())
-               {
-                  rightRow = rightIterator.previous();
-               }
-               break;
-            }
-
-            rightRow = rightIterator.next();
-         }
-
-         if (match && rightRow != null)
-         {
-            Map<String, Object> newMap = new HashMap<>(((MapRow) leftRow).getMap());
-
-            for (Entry<String, Object> entry : ((MapRow) rightRow).getMap().entrySet())
-            {
-               String key = entry.getKey();
-               if (newMap.containsKey(key))
-               {
-                  key = rightTable + "." + key;
-               }
-               newMap.put(key, entry.getValue());
-            }
-
-            result.add(new MapRow(newMap));
-         }
-      }
-
-      return result;
-   }
-
+   
    /**
     * Retrieve table data, return an empty result set if no table data is present.
     *
