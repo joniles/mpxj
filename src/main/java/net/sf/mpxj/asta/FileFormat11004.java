@@ -144,7 +144,7 @@ class FileFormat11004 extends AbstractFileFormat
 
    private static final String[] CALENDAR_COLUMNS_ORDER =
    {
-      "CALENDARID",
+      "ID",
       "SPARL_INTEGER",
       "NAME",
       "DOMINANT_WORK_PATTERN",
@@ -800,7 +800,7 @@ class FileFormat11004 extends AbstractFileFormat
 
    private static final String[] WORK_PATTERN_COLUMNS_ORDER =
    {
-      "WORK_PATTERNID",
+      "ID",
       "DEFAULT_OFFSET",
       "NAME",
       "DEFAULT_ALIGNMENT_DATE",

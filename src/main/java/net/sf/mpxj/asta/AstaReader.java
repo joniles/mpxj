@@ -1597,7 +1597,7 @@ final class AstaReader
       Map<Integer, Row> map = new HashMap<>();
       for (Row row : rows)
       {
-         map.put(row.getInteger("WORK_PATTERNID"), row);
+         map.put(row.getInteger("ID"), row);
       }
       return map;
    }
@@ -1674,7 +1674,7 @@ final class AstaReader
       //
       ProjectCalendar calendar = m_project.addCalendar();
       Integer dominantWorkPatternID = calendarRow.getInteger("DOMINANT_WORK_PATTERN");
-      calendar.setUniqueID(calendarRow.getInteger("CALENDARID"));
+      calendar.setUniqueID(calendarRow.getInteger("ID"));
       calendar.setName(calendarRow.getString("NAME"));
 
       boolean defaultWeekSet = workPatternMap.get(dominantWorkPatternID) != null;

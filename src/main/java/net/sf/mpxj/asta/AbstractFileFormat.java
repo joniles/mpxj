@@ -317,7 +317,7 @@ abstract class AbstractFileFormat
 
    private static final ColumnDefinition[] CALENDAR_COLUMNS = new ColumnDefinition[]
    {
-      new ColumnDefinition("CALENDARID", Types.INTEGER),
+      new ColumnDefinition("ID", Types.INTEGER),
       new ColumnDefinition("SPARL_INTEGER", Types.INTEGER),
       new ColumnDefinition("NAME", Types.VARCHAR),
       new ColumnDefinition("DOMINANT_WORK_PATTERN", Types.INTEGER),
@@ -386,7 +386,7 @@ abstract class AbstractFileFormat
 
    private static final ColumnDefinition[] WORK_PATTERN_COLUMNS = new ColumnDefinition[]
    {
-      new ColumnDefinition("WORK_PATTERNID", Types.INTEGER),
+      new ColumnDefinition("ID", Types.INTEGER),
       new ColumnDefinition("DEFAULT_OFFSET", Types.INTEGER),
       new ColumnDefinition("NAME", Types.VARCHAR),
       new ColumnDefinition("DEFAULT_ALIGNMENT_DATE", Types.TIMESTAMP),

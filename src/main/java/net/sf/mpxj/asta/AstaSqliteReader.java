@@ -135,7 +135,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       List<Row> rows = getRows("select * from exceptionn");
       Map<Integer, DayType> exceptionTypeMap = m_reader.createExceptionTypeMap(rows);
 
-      rows = getRows("select id as work_patternid, * from work_pattern");
+      rows = getRows("select * from work_pattern");
       Map<Integer, Row> workPatternMap = m_reader.createWorkPatternMap(rows);
 
       rows = getRows("select id, work_patterns from calendar");
@@ -147,8 +147,8 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       rows = getRows("select id, shifts from work_pattern");
       Map<Integer, List<Row>> timeEntryMap = createTimeEntryMap(rows);
 
-      rows = getRows("select id as calendarid, * from calendar where projid=? order by id", m_projectID);
-      rows = HierarchyHelper.sortHierarchy(rows, r -> r.getInteger("CALENDARID"), r -> r.getInteger("CALENDAR"));
+      rows = getRows("select * from calendar where projid=? order by id", m_projectID);
+      rows = HierarchyHelper.sortHierarchy(rows, r -> r.getInteger("ID"), r -> r.getInteger("CALENDAR"));
       for (Row row : rows)
       {
          m_reader.processCalendar(row, workPatternMap, workPatternAssignmentMap, exceptionAssignmentMap, timeEntryMap, exceptionTypeMap);
