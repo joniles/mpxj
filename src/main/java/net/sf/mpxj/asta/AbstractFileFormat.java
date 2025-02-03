@@ -903,7 +903,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("CONTRIBUTES_TO_ACTIVI_EFFORT", Types.BIT),
       new ColumnDefinition("DELAATYPF", Types.INTEGER),
       new ColumnDefinition("DELAAELA_MONTHS", Types.INTEGER),
-      new ColumnDefinition("DELAAHOURS", Types.DOUBLE),
+      new ColumnDefinition("DELAY", Types.DOUBLE),
       new ColumnDefinition("GIVEO_DURATIONTYPF", Types.INTEGER),
       new ColumnDefinition("GIVEO_DURATIONELA_MONTHS", Types.INTEGER),
       new ColumnDefinition("GIVEO_DURATIONHOURS", Types.DOUBLE),

@@ -652,7 +652,7 @@ class FileFormat13001 extends AbstractFileFormat
       "TIMESHEET_CAP_IF_OVER",
       "DELAATYPF",
       "DELAAELA_MONTHS",
-      "DELAAHOURS",
+      "DELAY",
       "GIVEO_DURATIONTYPF",
       "GIVEO_DURATIONELA_MONTHS",
       "GIVEO_DURATIONHOURS",

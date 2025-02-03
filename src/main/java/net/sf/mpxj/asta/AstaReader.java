@@ -1229,7 +1229,7 @@ final class AstaReader
             assignment.setStart(row.getDate("LINKABLE_START"));
             assignment.setFinish(row.getDate("LINKABLE_FINISH"));
             assignment.setUnits(Double.valueOf(row.getDouble("GIVEN_ALLOCATION").doubleValue() * 100));
-            assignment.setDelay(row.getDuration("DELAAHOURS"));
+            assignment.setDelay(row.getDuration("DELAY"));
             assignment.setWork(work);
             assignment.setActualWork(Duration.getInstance(actualWork, work.getUnits()));
             assignment.setRemainingWork(Duration.getInstance(remainingWork, work.getUnits()));
@@ -1259,7 +1259,7 @@ final class AstaReader
          //CONTRIBUTES_TO_ACTIVI_EFFORT
          //DELAATYPF
          //DELAAELA_MONTHS
-         //DELAAHOURS
+         //DELAY
          //GIVEO_DURATIONTYPF
          //GIVEO_DURATIONELA_MONTHS
          //GIVEO_DURATIONHOURS

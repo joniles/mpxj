@@ -632,7 +632,7 @@ class FileFormat11004 extends AbstractFileFormat
       "CONTRIBUTES_TO_ACTIVI_EFFORT",
       "DELAATYPF",
       "DELAAELA_MONTHS",
-      "DELAAHOURS",
+      "DELAY",
       "GIVEO_DURATIONTYPF",
       "GIVEO_DURATIONELA_MONTHS",
       "GIVEO_DURATIONHOURS",

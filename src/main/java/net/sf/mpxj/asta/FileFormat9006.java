@@ -681,7 +681,7 @@ class FileFormat9006 extends AbstractFileFormat
       "CONTRIBUTES_TO_ACTIVI_EFFORT",
       "DELAATYPF",
       "DELAAELA_MONTHS",
-      "DELAAHOURS",
+      "DELAY",
       "GIVEO_DURATIONTYPF",
       "UNKNOWN",
       "GIVEO_DURATIONHOURS",
