@@ -50,6 +50,8 @@ import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
+import java.util.stream.Collectors;
+
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -1208,12 +1210,14 @@ final class AstaReader
    /**
     * Process assignment data.
     *
-    * @param permanentAssignments assignment data
+    * @param allocationRows assignment data
+    * @param skillRows skill data
     */
-   public void processAssignments(List<Row> permanentAssignments)
+   public void processAssignments(List<Row> allocationRows, List<Row> skillRows)
    {
       // TODO: add support for consumable resource assignments
-      for (Row row : permanentAssignments)
+      Map<Integer, Row> skillMap = skillRows.stream().collect(Collectors.toMap(t -> t.getInteger("PERM_RESOURCE_SKILLID"), t -> t));
+      for (Row row : allocationRows)
       {
          Task task = m_project.getTaskByUniqueID(row.getInteger("ALLOCATED_TO"));
          if (task == null)
@@ -1221,7 +1225,13 @@ final class AstaReader
             continue;
          }
 
-         Resource resource = m_project.getResourceByUniqueID(row.getInteger("PLAYER"));
+         Row skill = skillMap.get(row.getInteger("ALLOCATION_OF"));
+         if (skill == null)
+         {
+            continue;
+         }
+
+         Resource resource = m_project.getResourceByUniqueID(skill.getInteger("PLAYER"));
          if (resource == null)
          {
             continue;
@@ -2219,6 +2229,7 @@ final class AstaReader
    private static final String LINE_BREAK = "|@|||";
    private static final RowComparator LEAF_COMPARATOR = new RowComparator("NATURAL_ORDER", "NATURAL_ORDER");
    private static final RowComparator BAR_COMPARATOR = new RowComparator("EXPANDED_TASK", "NATURAL_ORDER");
+   private static final RowComparator ALLOCATION_COMPARATOR = new RowComparator("PERMANENT_SCHEDUL_ALLOCATIONID");
 
    private static final RelationType[] RELATION_TYPES =
    {

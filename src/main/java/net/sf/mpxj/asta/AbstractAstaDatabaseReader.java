@@ -195,8 +195,8 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    {
       List<Row> allocationRows = getRows("permanent_schedul_allocation", m_projectKey, ALLOCATION_NAME_MAP);
       List<Row> skillRows = getRows("perm_resource_skill", m_projectKey);
-      List<Row> permanentAssignments = sortRows(joinRows(allocationRows, "ALLOCATION_OF", "PERM_RESOURCE_SKILL", skillRows, "PERM_RESOURCE_SKILLID"), "PERMANENT_SCHEDUL_ALLOCATIONID");
-      m_reader.processAssignments(permanentAssignments);
+      allocationRows.sort(ALLOCATION_COMPARATOR);
+      m_reader.processAssignments(allocationRows, skillRows);
    }
 
    /**
@@ -379,6 +379,8 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
 
    private AstaReader m_reader;
    private Map<String, Integer> m_projectKey;
+
+   private static final RowComparator ALLOCATION_COMPARATOR = new RowComparator("PERMANENT_SCHEDUL_ALLOCATIONID");
 
    private static final Map<String,String> PROJECT_SUMMARY_NAME_MAP = new HashMap<>();
    static
