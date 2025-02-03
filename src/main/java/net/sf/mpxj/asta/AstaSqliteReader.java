@@ -160,8 +160,8 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     */
    private void processResources() throws SQLException
    {
-      List<Row> permanentRows = getRows("select id as permanent_resourceid, * from permanent_resource where projid=? order by id", m_projectID);
-      List<Row> consumableRows = getRows("select id as consumable_resourceid, * from consumable_resource where projid=? order by id", m_projectID);
+      List<Row> permanentRows = getRows("select * from permanent_resource where projid=? order by id", m_projectID);
+      List<Row> consumableRows = getRows("select * from consumable_resource where projid=? order by id", m_projectID);
       m_reader.processResources(permanentRows, consumableRows);
    }
 

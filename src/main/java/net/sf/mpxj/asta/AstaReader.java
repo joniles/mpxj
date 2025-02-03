@@ -190,7 +190,7 @@ final class AstaReader
       {
          Resource resource = m_project.addResource();
          resource.setType(ResourceType.WORK);
-         resource.setUniqueID(row.getInteger("PERMANENT_RESOURCEID"));
+         resource.setUniqueID(row.getInteger("ID"));
          resource.setEmailAddress(row.getString("EMAIL_ADDRESS"));
          // EFFORT_TIME_UNIT
          resource.setName(row.getString("NAME"));
@@ -207,7 +207,7 @@ final class AstaReader
       /*
             for (Row row : permanentRows)
             {
-               Resource resource = m_project.getResourceByUniqueID(row.getInteger("PERMANENT_RESOURCEID"));
+               Resource resource = m_project.getResourceByUniqueID(row.getInteger("ID"));
                Resource group = m_project.getResourceByUniqueID(row.getInteger("ROLE"));
                if (resource != null && group != null)
                {
@@ -223,7 +223,7 @@ final class AstaReader
       {
          Resource resource = m_project.addResource();
          resource.setType(ResourceType.MATERIAL);
-         resource.setUniqueID(row.getInteger("CONSUMABLE_RESOURCEID"));
+         resource.setUniqueID(row.getInteger("ID"));
          resource.setName(row.getString("NAME"));
          resource.setCalendar(m_project.getCalendars().getByUniqueID(row.getInteger("CALENDAR")));
          resource.setGeneric(row.getBoolean("CREATED_AS_FOLDER"));

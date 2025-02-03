@@ -163,7 +163,7 @@ class FileFormat13004 extends AbstractFileFormat
 
    private static final String[] CONSUMABLE_RESOURCE_COLUMNS_ORDER =
    {
-      "CONSUMABLE_RESOURCEID",
+      "ID",
       "COST_PER_UNITCURRENCZ",
       "COST_PER_UNITAMOUNT",
       "INCOME_PER_UNITCURRENCZ",
@@ -584,7 +584,7 @@ class FileFormat13004 extends AbstractFileFormat
 
    private static final String[] PERMANENT_RESOURCE_COLUMNS_ORDER =
    {
-      "PERMANENT_RESOURCEID",
+      "ID",
       "EMAIL_ADDRESS",
       "EFFORT_TIME_UNIT",
       "PURE_TREE",

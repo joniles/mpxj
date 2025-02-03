@@ -160,8 +160,8 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processResources() throws AstaDatabaseException
    {
-      List<Row> permanentRows = sortRows(getRows("permanent_resource", m_projectKey, PERMANENT_RESOURCE_NAME_MAP), "PERMANENT_RESOURCEID");
-      List<Row> consumableRows = sortRows(getRows("consumable_resource", m_projectKey, CONSUMABLE_RESOURCE_RESOURCE_NAME_MAP), "CONSUMABLE_RESOURCEID");
+      List<Row> permanentRows = sortRows(getRows("permanent_resource", m_projectKey, PERMANENT_RESOURCE_NAME_MAP), "ID");
+      List<Row> consumableRows = sortRows(getRows("consumable_resource", m_projectKey, CONSUMABLE_RESOURCE_RESOURCE_NAME_MAP), "ID");
       m_reader.processResources(permanentRows, consumableRows);
    }
 
@@ -450,6 +450,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    private static final Map<String,String> PERMANENT_RESOURCE_NAME_MAP = new HashMap<>();
    static
    {
+      PERMANENT_RESOURCE_NAME_MAP.put("PERMANENT_RESOURCEID", "ID");
       PERMANENT_RESOURCE_NAME_MAP.put("NASE", "NAME");
       PERMANENT_RESOURCE_NAME_MAP.put("CALENDAV", "CALENDAR");
    }
@@ -457,6 +458,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    private static final Map<String,String> CONSUMABLE_RESOURCE_RESOURCE_NAME_MAP = new HashMap<>();
    static
    {
+      CONSUMABLE_RESOURCE_RESOURCE_NAME_MAP.put("CONSUMABLE_RESOURCEID", "ID");
       CONSUMABLE_RESOURCE_RESOURCE_NAME_MAP.put("NASE", "NAME");
       CONSUMABLE_RESOURCE_RESOURCE_NAME_MAP.put("CALENDAV", "CALENDAR");
    }

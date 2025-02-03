@@ -160,7 +160,7 @@ class FileFormat8020 extends AbstractFileFormat
 
    private static final String[] CONSUMABLE_RESOURCE_COLUMNS_ORDER =
    {
-      "CONSUMABLE_RESOURCEID",
+      "ID",
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",
@@ -587,7 +587,7 @@ class FileFormat8020 extends AbstractFileFormat
 
    private static final String[] PERMANENT_RESOURCE_COLUMNS_ORDER =
    {
-      "PERMANENT_RESOURCEID",
+      "ID",
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",

@@ -692,7 +692,7 @@ abstract class AbstractFileFormat
 
    private static final ColumnDefinition[] CONSUMABLE_RESOURCE_COLUMNS = new ColumnDefinition[]
    {
-      new ColumnDefinition("CONSUMABLE_RESOURCEID", Types.INTEGER),
+      new ColumnDefinition("ID", Types.INTEGER),
       new ColumnDefinition("COST_PER_UNITCURRENCZ", Types.INTEGER),
       new ColumnDefinition("COST_PER_UNITAMOUNT", Types.DOUBLE),
       new ColumnDefinition("INCOME_PER_UNITCURRENCZ", Types.INTEGER),
@@ -767,7 +767,7 @@ abstract class AbstractFileFormat
 
    private static final ColumnDefinition[] PERMANENT_RESOURCE_COLUMNS = new ColumnDefinition[]
    {
-      new ColumnDefinition("PERMANENT_RESOURCEID", Types.INTEGER),
+      new ColumnDefinition("ID", Types.INTEGER),
       new ColumnDefinition("EMAIL_ADDRESS", Types.VARCHAR),
       new ColumnDefinition("EFFORT_TIME_UNIT", Types.INTEGER),
       new ColumnDefinition("PURE_TREE", Types.BIT),
