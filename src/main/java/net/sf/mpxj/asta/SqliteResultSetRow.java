@@ -48,11 +48,10 @@ final class SqliteResultSetRow extends MapRow
     * @param rs result set from which data is drawn
     * @param meta result set meta data
     */
-   public SqliteResultSetRow(ResultSet rs, Map<String, Integer> meta, String sourceTable)
+   public SqliteResultSetRow(ResultSet rs, Map<String, Integer> meta)
       throws SQLException
    {
       super(new HashMap<>());
-      m_map.put("SOURCE_TABLE", sourceTable.toUpperCase());
 
       for (Entry<String, Integer> entry : meta.entrySet())
       {

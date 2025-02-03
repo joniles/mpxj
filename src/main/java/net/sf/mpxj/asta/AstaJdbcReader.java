@@ -105,7 +105,7 @@ public class AstaJdbcReader extends AbstractAstaDatabaseReader
                Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
                while (rs.next())
                {
-                  result.add(new MdbResultSetRow(nameMap, rs, table, meta));
+                  result.add(new MdbResultSetRow(nameMap, rs, meta));
                }
                return result;
             }

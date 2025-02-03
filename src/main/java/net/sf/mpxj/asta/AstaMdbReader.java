@@ -64,7 +64,7 @@ public final class AstaMdbReader extends AbstractAstaDatabaseReader
          {
             for (com.healthmarketscience.jackcess.Row row : table)
             {
-               result.add(new JackcessResultSetRow(tableName, nameMap, row, columns));
+               result.add(new JackcessResultSetRow(nameMap, row, columns));
             }
          }
          else
@@ -74,7 +74,7 @@ public final class AstaMdbReader extends AbstractAstaDatabaseReader
             {
                do
                {
-                  result.add(new JackcessResultSetRow(tableName, nameMap, cursor.getCurrentRow(), columns));
+                  result.add(new JackcessResultSetRow(nameMap, cursor.getCurrentRow(), columns));
                }
                while (cursor.findNextRow(keys));
             }
