@@ -42,9 +42,10 @@ final class JackcessResultSetRow extends MapRow
     * @param row row from which data is drawn
     * @param columns column meta data
     */
-   public JackcessResultSetRow(Map<String, String> nameMap, com.healthmarketscience.jackcess.Row row, List<? extends Column> columns)
+   public JackcessResultSetRow(String sourceTable, Map<String, String> nameMap, com.healthmarketscience.jackcess.Row row, List<? extends Column> columns)
    {
       super(new HashMap<>());
+      m_map.put("SOURCE_TABLE", sourceTable.toUpperCase());
 
       for (Column column : columns)
       {

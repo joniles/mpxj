@@ -45,10 +45,11 @@ final class MdbResultSetRow extends MapRow
     * @param rs result set from which data is drawn
     * @param meta result set meta data
     */
-   public MdbResultSetRow(Map<String, String> nameMap, ResultSet rs, Map<String, Integer> meta)
+   public MdbResultSetRow(Map<String, String> nameMap, ResultSet rs, String sourceTable, Map<String, Integer> meta)
       throws SQLException
    {
       super(new HashMap<>());
+      m_map.put("SOURCE_TABLE", sourceTable.toUpperCase());
 
       for (Entry<String, Integer> entry : meta.entrySet())
       {

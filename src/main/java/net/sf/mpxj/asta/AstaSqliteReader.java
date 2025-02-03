@@ -171,12 +171,10 @@ public class AstaSqliteReader extends AbstractProjectFileReader
    private void processTasks() throws SQLException
    {
       List<Row> bars = getRows("select id as barid, * from bar where projid=?", m_projectID);
-
       List<Row> expandedTasks = getRows("select id as expanded_taskid, * from expanded_task where projid=?", m_projectID);
       List<Row> tasks = getRows("select id as taskid, * from task where projid=?", m_projectID);
       List<Row> milestones = getRows("select id as milestoneid, * from milestone where projid=?", m_projectID);
       List<Row> hammocks = getRows("select id as hammock_taskid, * from hammock_task where projid=?", m_projectID);
-
       m_reader.processTasks(bars, expandedTasks, tasks, milestones, hammocks);
    }
 
@@ -220,16 +218,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
    {
       try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
-         try (ResultSet rs = ps.executeQuery())
-         {
-            List<Row> result = new ArrayList<>();
-            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
-            while (rs.next())
-            {
-               result.add(new SqliteResultSetRow(rs, meta));
-            }
-            return result;
-         }
+         return getRows(ps);
       }
    }
 
@@ -246,16 +235,28 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
          ps.setInt(1, NumberHelper.getInt(var));
-         try (ResultSet rs = ps.executeQuery())
+         return getRows(ps);
+      }
+   }
+
+   /**
+    * Retrieve a number of rows matching the query in the supplied prepared statement.
+    *
+    * @param ps prepared statement
+    * @return result set
+    */
+   private List<Row> getRows(PreparedStatement ps) throws SQLException
+   {
+      try (ResultSet rs = ps.executeQuery())
+      {
+         List<Row> result = new ArrayList<>();
+         Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+         String sourceTable = rs.getMetaData().getTableName(1).toUpperCase();
+         while (rs.next())
          {
-            List<Row> result = new ArrayList<>();
-            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
-            while (rs.next())
-            {
-               result.add(new SqliteResultSetRow(rs, meta));
-            }
-            return (result);
+            result.add(new SqliteResultSetRow(rs, meta, sourceTable));
          }
+         return (result);
       }
    }
 

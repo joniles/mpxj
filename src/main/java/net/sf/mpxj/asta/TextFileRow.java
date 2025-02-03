@@ -45,6 +45,7 @@ class TextFileRow extends MapRow
       throws MPXJException
    {
       super(new HashMap<>());
+      m_map.put("SOURCE_TABLE", table.getName().toUpperCase());
 
       ColumnDefinition[] columns = table.getColumns();
       for (int index = 0; index < columns.length; index++)

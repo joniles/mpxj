@@ -386,7 +386,12 @@ final class AstaReader
    {
       for (Row row : rows)
       {
-         boolean rowIsBar = (row.getInteger("BARID") != null);
+         boolean oldRowIsBar = (row.getInteger("BARID") != null);
+         boolean rowIsBar = "BAR".equals(row.getString("SOURCE_TABLE"));
+         if(oldRowIsBar != rowIsBar)
+         {
+            System.out.println("here");
+         }
 
          //
          // Don't export hammock tasks.
