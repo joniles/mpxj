@@ -957,7 +957,7 @@ abstract class AbstractFileFormat
 
    private static final ColumnDefinition[] TASK_COMPLETED_SECTION_COLUMNS = new ColumnDefinition[]
    {
-      new ColumnDefinition("TASK_COMPLETED_SECTIONID", Types.INTEGER),
+      new ColumnDefinition("ID", Types.INTEGER),
       new ColumnDefinition("NATURAM_ORDER", Types.INTEGER),
       new ColumnDefinition("OVERALL_PERCENT_COMPLETE", Types.DOUBLE),
       new ColumnDefinition("ACTUAL_TASK_WORK", Types.DOUBLE),

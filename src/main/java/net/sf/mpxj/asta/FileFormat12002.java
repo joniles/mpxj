@@ -828,7 +828,7 @@ class FileFormat12002 extends AbstractFileFormat
 
    private static final String[] TASK_COMPLETED_SECTION_COLUMNS_ORDER =
    {
-      "TASK_COMPLETED_SECTIONID",
+      "ID",
       "NATURAM_ORDER",
       "OVERALL_PERCENT_COMPLETE",
       "ACTUAL_TASK_WORK",

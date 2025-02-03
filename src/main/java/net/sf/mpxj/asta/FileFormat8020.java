@@ -862,7 +862,7 @@ class FileFormat8020 extends AbstractFileFormat
 
    private static final String[] TASK_COMPLETED_SECTION_COLUMNS_ORDER =
    {
-      "TASK_COMPLETED_SECTIONID",
+      "ID",
       "UNKNOWN",
       "UNKNOWN",
       "UNKNOWN",

@@ -1083,7 +1083,7 @@ final class AstaReader
       Map<Integer, Integer> completedSectionMap = new HashMap<>();
       for (Row section : completedSections)
       {
-         completedSectionMap.put(section.getInteger("TASK_COMPLETED_SECTIONID"), section.getInteger("TASK"));
+         completedSectionMap.put(section.getInteger("ID"), section.getInteger("TASK"));
       }
 
       for (Row row : rows)

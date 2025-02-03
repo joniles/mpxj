@@ -184,7 +184,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    private void processPredecessors() throws AstaDatabaseException
    {
       List<Row> rows = sortRows(getRows("link", m_projectKey, LINK_NAME_MAP), "ID");
-      List<Row> completedSections = getRows("task_completed_section", m_projectKey);
+      List<Row> completedSections = getRows("task_completed_section", m_projectKey, COMPLETED_SECTION_NAME_MAP);
       m_reader.processPredecessors(rows, completedSections);
    }
 
@@ -492,5 +492,11 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    static
    {
       EXCEPTION_NAME_MAP.put("EXCEPTIONNID", "ID");
+   }
+
+   private static final Map<String,String> COMPLETED_SECTION_NAME_MAP = new HashMap<>();
+   static
+   {
+      COMPLETED_SECTION_NAME_MAP.put("TASK_COMPLETED_SECTIONID", "ID");
    }
 }
