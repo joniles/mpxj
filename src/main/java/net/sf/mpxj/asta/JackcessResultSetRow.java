@@ -25,6 +25,8 @@ package net.sf.mpxj.asta;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import com.healthmarketscience.jackcess.Column;
 import com.healthmarketscience.jackcess.DataType;
 import net.sf.mpxj.common.NumberHelper;
@@ -40,7 +42,7 @@ final class JackcessResultSetRow extends MapRow
     * @param row row from which data is drawn
     * @param columns column meta data
     */
-   public JackcessResultSetRow(com.healthmarketscience.jackcess.Row row, List<? extends Column> columns)
+   public JackcessResultSetRow(Map<String, String> nameMap, com.healthmarketscience.jackcess.Row row, List<? extends Column> columns)
    {
       super(new HashMap<>());
 
@@ -109,7 +111,7 @@ final class JackcessResultSetRow extends MapRow
             }
          }
 
-         m_map.put(name, value);
+         m_map.put(nameMap.getOrDefault(name, name), value);
       }
    }
 }

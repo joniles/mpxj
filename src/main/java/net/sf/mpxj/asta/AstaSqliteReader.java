@@ -116,9 +116,9 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     */
    private void processProjectProperties() throws SQLException
    {
-      List<Row> schemaVersionRows = getRows("select* from dodschem");
-      List<Row> projectSummaryRows = getRows("select duration as durationhours, project_start as staru, project_end as ene, * from project_summary where projid=?", m_projectID);
-      List<Row> progressPeriodRows = getRows("select id as progress_periodid, * from progress_period where projid=?", m_projectID);
+      List<Row> schemaVersionRows = getRows("select * from dodschem");
+      List<Row> projectSummaryRows = getRows("select * from project_summary where projid=?", m_projectID);
+      List<Row> progressPeriodRows = getRows("select * from progress_period where projid=?", m_projectID);
       List<Row> userSettingsRows = getRows("select * from userr where projid=?", m_projectID);
       Integer schemaVersion = schemaVersionRows.isEmpty() ? null : schemaVersionRows.get(0).getInteger("SCHVER");
       Row projectSummary = projectSummaryRows.isEmpty() ? null : projectSummaryRows.get(0);
@@ -132,10 +132,10 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     */
    private void processCalendars() throws SQLException
    {
-      List<Row> rows = getRows("select id as exceptionnid, * from exceptionn");
+      List<Row> rows = getRows("select * from exceptionn");
       Map<Integer, DayType> exceptionTypeMap = m_reader.createExceptionTypeMap(rows);
 
-      rows = getRows("select id as work_patternid, name as namn, * from work_pattern");
+      rows = getRows("select * from work_pattern");
       Map<Integer, Row> workPatternMap = m_reader.createWorkPatternMap(rows);
 
       rows = getRows("select id, work_patterns from calendar");
@@ -147,8 +147,8 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       rows = getRows("select id, shifts from work_pattern");
       Map<Integer, List<Row>> timeEntryMap = createTimeEntryMap(rows);
 
-      rows = getRows("select id as calendarid, name as namk, * from calendar where projid=? order by id", m_projectID);
-      rows = HierarchyHelper.sortHierarchy(rows, r -> r.getInteger("CALENDARID"), r -> r.getInteger("CALENDAR"));
+      rows = getRows("select * from calendar where projid=? order by id", m_projectID);
+      rows = HierarchyHelper.sortHierarchy(rows, r -> r.getInteger("ID"), r -> r.getInteger("CALENDAR"));
       for (Row row : rows)
       {
          m_reader.processCalendar(row, workPatternMap, workPatternAssignmentMap, exceptionAssignmentMap, timeEntryMap, exceptionTypeMap);
@@ -160,8 +160,8 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     */
    private void processResources() throws SQLException
    {
-      List<Row> permanentRows = getRows("select id as permanent_resourceid, name as nase, calendar as calendav, * from permanent_resource where projid=? order by id", m_projectID);
-      List<Row> consumableRows = getRows("select id as consumable_resourceid, name as nase, calendar as calendav, * from consumable_resource where projid=? order by id", m_projectID);
+      List<Row> permanentRows = getRows("select * from permanent_resource where projid=? order by id", m_projectID);
+      List<Row> consumableRows = getRows("select * from consumable_resource where projid=? order by id", m_projectID);
       m_reader.processResources(permanentRows, consumableRows);
    }
 
@@ -170,11 +170,11 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     */
    private void processTasks() throws SQLException
    {
-      List<Row> bars = getRows("select id as barid, bar_start as starv, bar_finish as enf, name as namh, * from bar where projid=?", m_projectID);
+      List<Row> bars = getRows("select id as barid, * from bar where projid=?", m_projectID);
 
-      List<Row> expandedTasks = getRows("select id as expanded_taskid, constraint_flag as constrainu, calendar as calendau, * from expanded_task where projid=?", m_projectID);
-      List<Row> tasks = getRows("select id as taskid, given_duration as given_durationhours, actual_duration as actual_durationhours, overall_percent_complete as overall_percenv_complete, name as nare, calendar as calendau, linkable_start as starz, linkable_finish as enj, notes as notet, wbs as wbt, natural_order as naturao_order, constraint_flag as constrainu, duration_time_unit as duration_timj_unit, * from task where projid=?", m_projectID);
-      List<Row> milestones = getRows("select id as milestoneid, name as nare, calendar as calendau, wbs as wbt, natural_order as naturao_order, constraint_flag as constrainu, * from milestone where projid=?", m_projectID);
+      List<Row> expandedTasks = getRows("select id as expanded_taskid, * from expanded_task where projid=?", m_projectID);
+      List<Row> tasks = getRows("select id as taskid, * from task where projid=?", m_projectID);
+      List<Row> milestones = getRows("select id as milestoneid, * from milestone where projid=?", m_projectID);
       List<Row> hammocks = getRows("select id as hammock_taskid, * from hammock_task where projid=?", m_projectID);
 
       m_reader.processTasks(bars, expandedTasks, tasks, milestones, hammocks);
@@ -185,8 +185,8 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     */
    private void processPredecessors() throws SQLException
    {
-      List<Row> rows = getRows("select id as linkid, start_lag_time as start_lag_timehours, end_lag_time as end_lag_timehours, link_kind as typi, * from link where projid=? order by id", m_projectID);
-      List<Row> completedSections = getRows("select id as task_completed_sectionid, * from task_completed_section where projid=? order by id", m_projectID);
+      List<Row> rows = getRows("select * from link where projid=? order by id", m_projectID);
+      List<Row> completedSections = getRows("select * from task_completed_section where projid=? order by id", m_projectID);
       m_reader.processPredecessors(rows, completedSections);
    }
 
@@ -195,8 +195,9 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     */
    private void processAssignments() throws SQLException
    {
-      List<Row> permanentAssignments = getRows("select allocated_to as allocatee_to, player, percent_complete, effort as efforw, permanent_schedul_allocation.id as permanent_schedul_allocationid, linkable_start as starz, linkable_finish as enj, given_allocation, delay as delaahours from permanent_schedul_allocation inner join perm_resource_skill on perm_resource_skill.id = permanent_schedul_allocation.allocation_of and perm_resource_skill.projid=permanent_schedul_allocation.projid where permanent_schedul_allocation.projid=? order by permanent_schedul_allocation.id", m_projectID);
-      m_reader.processAssignments(permanentAssignments);
+      List<Row> allocationRows = getRows("select * from permanent_schedul_allocation where projid=? order by id", m_projectID);
+      List<Row> skillRows = getRows("select * from perm_resource_skill where projid=?", m_projectID);
+      m_reader.processAssignments(allocationRows, skillRows);
    }
 
    /**
@@ -342,8 +343,8 @@ public class AstaSqliteReader extends AbstractProjectFileReader
          //Integer exceptionTypeID = Integer.valueOf(exceptions[index + 2]);
 
          Map<String, Object> map = new HashMap<>();
-         map.put("STARU_DATE", startDate);
-         map.put("ENE_DATE", endDate);
+         map.put("START_DATE", startDate);
+         map.put("END_DATE", endDate);
 
          list.add(new MapRow(map));
 
@@ -397,7 +398,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
             Map<String, Object> map = new HashMap<>();
             map.put("START_TIME", startTime);
             map.put("END_TIME", endTime);
-            map.put("EXCEPTIOP", exceptionTypeID);
+            map.put("EXCEPTION", exceptionTypeID);
 
             list.add(new MapRow(map));
 

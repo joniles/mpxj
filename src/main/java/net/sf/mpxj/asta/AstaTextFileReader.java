@@ -246,7 +246,7 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
       Map<Integer, List<Row>> timeEntryMap = m_reader.createTimeEntryMap(rows);
 
       rows = getTable("CALENDAR");
-      rows = HierarchyHelper.sortHierarchy(rows, r -> r.getInteger("CALENDARID"), r -> r.getInteger("CALENDAR"));
+      rows = HierarchyHelper.sortHierarchy(rows, r -> r.getInteger("ID"), r -> r.getInteger("CALENDAR"));
       for (Row row : rows)
       {
          m_reader.processCalendar(row, workPatternMap, workPatternAssignmentMap, exceptionAssignmentMap, timeEntryMap, exceptionMap);
@@ -299,81 +299,10 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
    {
       List<Row> allocationRows = getTable("PERMANENT_SCHEDUL_ALLOCATION");
       List<Row> skillRows = getTable("PERM_RESOURCE_SKILL");
-      List<Row> permanentAssignments = join(allocationRows, "ALLOCATIOP_OF", "PERM_RESOURCE_SKILL", skillRows, "PERM_RESOURCE_SKILLID");
-      permanentAssignments.sort(ALLOCATION_COMPARATOR);
-      m_reader.processAssignments(permanentAssignments);
+      allocationRows.sort(ALLOCATION_COMPARATOR);
+      m_reader.processAssignments(allocationRows, skillRows);
    }
-
-   /**
-    * Very basic implementation of an inner join between two result sets.
-    *
-    * @param leftRows left result set
-    * @param leftColumn left foreign key column
-    * @param rightTable right table name
-    * @param rightRows right result set
-    * @param rightColumn right primary key column
-    * @return joined result set
-    */
-   private List<Row> join(List<Row> leftRows, String leftColumn, String rightTable, List<Row> rightRows, String rightColumn)
-   {
-      List<Row> result = new ArrayList<>();
-
-      RowComparator leftComparator = new RowComparator(leftColumn);
-      RowComparator rightComparator = new RowComparator(rightColumn);
-      leftRows.sort(leftComparator);
-      rightRows.sort(rightComparator);
-
-      ListIterator<Row> rightIterator = rightRows.listIterator();
-      Row rightRow = rightIterator.hasNext() ? rightIterator.next() : null;
-
-      for (Row leftRow : leftRows)
-      {
-         Integer leftValue = leftRow.getInteger(leftColumn);
-         boolean match = false;
-
-         while (rightRow != null)
-         {
-            Integer rightValue = rightRow.getInteger(rightColumn);
-            int comparison = leftValue.compareTo(rightValue);
-            if (comparison == 0)
-            {
-               match = true;
-               break;
-            }
-
-            if (comparison < 0)
-            {
-               if (rightIterator.hasPrevious())
-               {
-                  rightRow = rightIterator.previous();
-               }
-               break;
-            }
-
-            rightRow = rightIterator.next();
-         }
-
-         if (match && rightRow != null)
-         {
-            Map<String, Object> newMap = new HashMap<>(((MapRow) leftRow).getMap());
-
-            for (Entry<String, Object> entry : ((MapRow) rightRow).getMap().entrySet())
-            {
-               String key = entry.getKey();
-               if (newMap.containsKey(key))
-               {
-                  key = rightTable + "." + key;
-               }
-               newMap.put(key, entry.getValue());
-            }
-
-            result.add(new MapRow(newMap));
-         }
-      }
-
-      return result;
-   }
-
+   
    /**
     * Retrieve table data, return an empty result set if no table data is present.
     *
@@ -393,10 +322,10 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
 
    private static final char DELIMITER = ',';
 
-   private static final RowComparator PERMANENT_RESOURCE_COMPARATOR = new RowComparator("PERMANENT_RESOURCEID");
-   private static final RowComparator CONSUMABLE_RESOURCE_COMPARATOR = new RowComparator("CONSUMABLE_RESOURCEID");
-   private static final RowComparator LINK_COMPARATOR = new RowComparator("LINKID");
-   private static final RowComparator ALLOCATION_COMPARATOR = new RowComparator("PERMANENT_SCHEDUL_ALLOCATIONID");
+   private static final RowComparator PERMANENT_RESOURCE_COMPARATOR = new RowComparator("ID");
+   private static final RowComparator CONSUMABLE_RESOURCE_COMPARATOR = new RowComparator("ID");
+   private static final RowComparator LINK_COMPARATOR = new RowComparator("ID");
+   private static final RowComparator ALLOCATION_COMPARATOR = new RowComparator("ID");
 
    private static final Map<Integer, Class<? extends AbstractFileFormat>> FILE_VERSION_MAP = new HashMap<>();
    static

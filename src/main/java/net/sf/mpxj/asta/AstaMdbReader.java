@@ -26,6 +26,7 @@ package net.sf.mpxj.asta;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import com.healthmarketscience.jackcess.Column;
@@ -43,6 +44,11 @@ public final class AstaMdbReader extends AbstractAstaDatabaseReader
 {
    @Override protected List<Row> getRows(String tableName, Map<String, Integer> keys) throws AstaDatabaseException
    {
+      return getRows(tableName, keys, Collections.emptyMap());
+   }
+
+   @Override protected List<Row> getRows(String tableName, Map<String, Integer> keys, Map<String, String> nameMap) throws AstaDatabaseException
+   {
       try
       {
          if (m_database == null)
@@ -58,7 +64,7 @@ public final class AstaMdbReader extends AbstractAstaDatabaseReader
          {
             for (com.healthmarketscience.jackcess.Row row : table)
             {
-               result.add(new JackcessResultSetRow(row, columns));
+               result.add(new JackcessResultSetRow(nameMap, row, columns));
             }
          }
          else
@@ -68,7 +74,7 @@ public final class AstaMdbReader extends AbstractAstaDatabaseReader
             {
                do
                {
-                  result.add(new JackcessResultSetRow(cursor.getCurrentRow(), columns));
+                  result.add(new JackcessResultSetRow(nameMap, cursor.getCurrentRow(), columns));
                }
                while (cursor.findNextRow(keys));
             }
