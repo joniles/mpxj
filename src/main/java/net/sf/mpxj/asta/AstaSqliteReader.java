@@ -343,8 +343,8 @@ public class AstaSqliteReader extends AbstractProjectFileReader
          //Integer exceptionTypeID = Integer.valueOf(exceptions[index + 2]);
 
          Map<String, Object> map = new HashMap<>();
-         map.put("STARU_DATE", startDate);
-         map.put("ENE_DATE", endDate);
+         map.put("START_DATE", startDate);
+         map.put("END_DATE", endDate);
 
          list.add(new MapRow(map));
 

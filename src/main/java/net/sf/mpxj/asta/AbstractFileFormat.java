@@ -371,8 +371,8 @@ abstract class AbstractFileFormat
    {
       new ColumnDefinition("EXCEPTION_ASSIGNMENTID", Types.INTEGER),
       //new ColumnDefinition("ORDF", Types.INTEGER),
-      new ColumnDefinition("STARU_DATE", Types.TIMESTAMP),
-      new ColumnDefinition("ENE_DATE", Types.TIMESTAMP),
+      new ColumnDefinition("START_DATE", Types.TIMESTAMP),
+      new ColumnDefinition("END_DATE", Types.TIMESTAMP),
       new ColumnDefinition("EXCEPTIOO", Types.INTEGER)
    };
 

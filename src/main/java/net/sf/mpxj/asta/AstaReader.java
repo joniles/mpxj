@@ -1626,8 +1626,8 @@ final class AstaReader
 
          for (Row row : rows)
          {
-            LocalDateTime startDate = row.getDate("STARU_DATE");
-            LocalDateTime endDate = row.getDate("ENE_DATE");
+            LocalDateTime startDate = row.getDate("START_DATE");
+            LocalDateTime endDate = row.getDate("END_DATE");
 
             // special case - when the exception end time is midnight, it really finishes at the end of the previous day
             if (endDate.equals(LocalDateTimeHelper.getDayStartDate(endDate)))

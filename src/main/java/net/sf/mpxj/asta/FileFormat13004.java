@@ -275,8 +275,8 @@ class FileFormat13004 extends AbstractFileFormat
    private static final String[] EXCEPTION_ASSIGNMENT_COLUMNS_ORDER =
    {
       "EXCEPTION_ASSIGNMENTID",
-      "STARU_DATE",
-      "ENE_DATE",
+      "START_DATE",
+      "END_DATE",
       "EXCEPTIOO",
    };
 
