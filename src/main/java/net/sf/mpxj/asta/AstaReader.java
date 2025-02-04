@@ -1720,7 +1720,7 @@ final class AstaReader
             hours = week.addCalendarHours(currentDay);
          }
 
-         DayType type = exceptionTypeMap.get(row.getInteger("EXCEPTIOP"));
+         DayType type = exceptionTypeMap.get(row.getInteger("EXCEPTION"));
          if (hours != null && type == DayType.WORKING)
          {
             hours.add(new LocalTimeRange(startTime, endTime));

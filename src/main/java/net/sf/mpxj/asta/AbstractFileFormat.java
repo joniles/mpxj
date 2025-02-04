@@ -379,7 +379,7 @@ abstract class AbstractFileFormat
    private static final ColumnDefinition[] TIME_ENTRY_COLUMNS = new ColumnDefinition[]
    {
       new ColumnDefinition("TIME_ENTRYID", Types.INTEGER),
-      new ColumnDefinition("EXCEPTIOP", Types.INTEGER),
+      new ColumnDefinition("EXCEPTION", Types.INTEGER),
       new ColumnDefinition("START_TIME", Types.TIME),
       new ColumnDefinition("END_TIME", Types.TIME)
    };

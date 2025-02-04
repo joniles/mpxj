@@ -398,7 +398,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
             Map<String, Object> map = new HashMap<>();
             map.put("START_TIME", startTime);
             map.put("END_TIME", endTime);
-            map.put("EXCEPTIOP", exceptionTypeID);
+            map.put("EXCEPTION", exceptionTypeID);
 
             list.add(new MapRow(map));
 

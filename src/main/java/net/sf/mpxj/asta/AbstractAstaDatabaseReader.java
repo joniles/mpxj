@@ -144,7 +144,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       rows = sortRows(getRows("exception_assignment", Collections.emptyMap(), EXCEPTION_ASSIGNMENT_MAP), "EXCEPTION_ASSIGNMENT_ID", "ORDF");
       Map<Integer, List<Row>> exceptionAssignmentMap = m_reader.createExceptionAssignmentMap(rows);
 
-      rows = sortRows(getRows("time_entry", Collections.emptyMap()), "TIME_ENTRYID", "ORDF");
+      rows = sortRows(getRows("time_entry", Collections.emptyMap(), TIME_ENTRY_NAME_MAP), "TIME_ENTRYID", "ORDF");
       Map<Integer, List<Row>> timeEntryMap = m_reader.createTimeEntryMap(rows);
 
       rows = getRows("calendar", m_projectKey, CALENDAR_NAME_MAP);
@@ -445,5 +445,11 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    {
       EXCEPTION_ASSIGNMENT_MAP.put("STARU_DATE", "START_DATE");
       EXCEPTION_ASSIGNMENT_MAP.put("ENE_DATE", "END_DATE");
+   }
+
+   private static final Map<String,String> TIME_ENTRY_NAME_MAP = new HashMap<>();
+   static
+   {
+      TIME_ENTRY_NAME_MAP.put("EXCEPTIOP", "EXCEPTION");
    }
 }

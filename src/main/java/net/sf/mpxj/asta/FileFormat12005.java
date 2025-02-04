@@ -802,7 +802,7 @@ class FileFormat12005 extends AbstractFileFormat
    private static final String[] TIME_ENTRY_COLUMNS_ORDER =
    {
       "TIME_ENTRYID",
-      "EXCEPTIOP",
+      "EXCEPTION",
       "START_TIME",
       "END_TIME",
    };
