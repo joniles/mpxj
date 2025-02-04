@@ -865,15 +865,7 @@ final class AstaReader
     */
    private void updateUniqueIDs()
    {
-      int maxUniqueID = m_project.getTasks().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().orElse(0);
-      int uniqueID = (((maxUniqueID + 1000) / 1000) + 1) * 1000;
-      for (Task task : m_project.getTasks())
-      {
-         if (task.getUniqueID() == null)
-         {
-            task.setUniqueID(Integer.valueOf(uniqueID++));
-         }
-      }
+      m_project.getTasks().stream().filter(t -> t.getUniqueID() == null).forEach(t -> t.setUniqueID(m_project.getUniqueIdObjectSequence(Task.class).getNext()));
    }
 
    /**
