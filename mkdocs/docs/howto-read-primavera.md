@@ -206,6 +206,17 @@ public class P6JDBC
 }
 ```
 
+## EPS
+The samples in the previous sections demonstrate use of the `listProjects()`
+method to retrieve a `Map` containing the unique IDs and names for the projects
+in the P6 database. An alternative to this, providing access to more detail,
+is to retrieve the Enterprise Project Structure (EPS) from the database.
+
+The EPS allows P6 users to create a hierarchy of "folders", or EPS nodes,
+which are used to organise a portfolio of projects into a logical structure.
+The projects in P6 form the leaf nodes of this hierarchy.
+
+
 ## Options
 This section documents the additional options provided by the
 PrimaveraDatabaseReader.
