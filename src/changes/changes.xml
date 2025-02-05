@@ -6,7 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="13.10.0">
-			<action dev="joniles" type="update">Add support for reading the P^ EPS using the `listEps()` method provided by the `PrimaveraDatabaseReader` and `PrimaveraDatabaseFileReader` classes.</action>
+			<action dev="joniles" type="update">Add support for reading the P6 EPS using the `listEps()` method provided by the `PrimaveraDatabaseReader` and `PrimaveraDatabaseFileReader` classes.</action>
 			<action dev="joniles" type="update">Improve handling of Activity Type attribute when reading PMXML files written by Primavera P6 6.x.</action>
 			<action dev="joniles" type="update">Ensure that the External Early Start and External Late Finish attributes are written to XER files.</action>
 			<action dev="joniles" type="update">Fix a NPE when calling `PrimaveraXERFileReader.listProjects()`.</action>
