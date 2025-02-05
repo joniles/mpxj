@@ -2,10 +2,10 @@ package net.sf.mpxj;
 
 public class EpsProjectNode
 {
-   public EpsProjectNode(Integer uniqueID, Integer epsUniqueID, String shortName, String name)
+   public EpsProjectNode(Integer uniqueID, Integer parentEpsUniqueID, String shortName, String name)
    {
       m_uniqueID = uniqueID;
-      m_epsUniqueID = epsUniqueID;
+      m_parentEpsUniqueID = parentEpsUniqueID;
       m_shortName = shortName;
       m_name = name;
    }
@@ -15,9 +15,9 @@ public class EpsProjectNode
       return m_uniqueID;
    }
 
-   public Integer getEpsUniqueID()
+   public Integer getParentEpsUniqueID()
    {
-      return m_epsUniqueID;
+      return m_parentEpsUniqueID;
    }
 
    public String getShortName()
@@ -31,7 +31,7 @@ public class EpsProjectNode
    }
 
    private final Integer m_uniqueID;
-   private final Integer m_epsUniqueID;
+   private final Integer m_parentEpsUniqueID;
    private final String m_shortName;
    private final String m_name;
 }

@@ -38,6 +38,9 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
+import net.sf.mpxj.EPS;
+import net.sf.mpxj.EpsNode;
+import net.sf.mpxj.EpsProjectNode;
 import net.sf.mpxj.ProjectFileSharedData;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.FieldType;
@@ -59,6 +62,20 @@ import net.sf.mpxj.reader.AbstractProjectReader;
  */
 public final class PrimaveraDatabaseReader extends AbstractProjectReader
 {
+   public EPS listEps() throws MPXJException
+   {
+      try
+      {
+         List<Row> rows = getRows("select project.project_flag, projwbs.* from " + m_schema + "projwbs join " + m_schema + "project on project.proj_id = projwbs.proj_id where proj_node_flag='Y' order by seq_num");
+         return processEps(rows);
+      }
+
+      catch (SQLException ex)
+      {
+         throw new MPXJException(MPXJException.READ_ERROR, ex);
+      }
+   }
+
    /**
     * Populates a Map instance representing the IDs and names of
     * projects available in the current database.
@@ -917,6 +934,47 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    public boolean getIgnoreErrors()
    {
       return m_ignoreErrors;
+   }
+
+   private EPS processEps(List<Row> rows)
+   {
+      EPS eps = new EPS();
+      rows.forEach(r -> addEpsNode(eps, r));
+      return eps;
+   }
+
+   private void addEpsNode(EPS eps, Row row)
+   {
+      if (row.getBoolean("project_flag"))
+      {
+         addEpsProjectNode(eps, row);
+      }
+      else
+      {
+         addEpsChildNode(eps, row);
+      }
+   }
+
+   private void addEpsChildNode(EPS eps, Row row)
+   {
+      eps.addEpsChildNode(
+         new EpsNode(eps,
+            row.getInteger("wbs_id"),
+            row.getInteger("parent_wbs_id"),
+            row.getString("wbs_name"),
+            row.getString("wbs_short_name")));
+   }
+
+   private void addEpsProjectNode(EPS eps, Row row)
+   {
+      eps.addEpsProjectNode(
+         new EpsProjectNode(
+            row.getInteger("proj_id"),
+            row.getInteger("parent_wbs_id"),
+            row.getString("wbs_short_name"),
+            row.getString("wbs_name")
+         )
+      );
    }
 
    private PrimaveraReader m_reader;

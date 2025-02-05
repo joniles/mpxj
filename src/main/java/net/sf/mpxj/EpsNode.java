@@ -36,12 +36,12 @@ public class EpsNode implements ChildEpsNodeContainer
 
    public List<EpsNode> getChildEpsNodes()
    {
-      return m_eps.getEpsNodes().stream().filter(n -> n.getParentUniqueID().equals(m_uniqueID)).collect(Collectors.toList());
+      return m_eps.getEpsNodes().stream().filter(n -> m_uniqueID.equals(n.getParentUniqueID())).collect(Collectors.toList());
    }
 
    public List<EpsProjectNode> getEpsProjectNodes()
    {
-      return m_eps.getEpsProjectNodes().stream().filter(n -> n.getEpsUniqueID().equals(m_uniqueID)).collect(Collectors.toList());
+      return m_eps.getEpsProjectNodes().stream().filter(n -> n.getParentEpsUniqueID().equals(m_uniqueID)).collect(Collectors.toList());
    }
 
    private final EPS m_eps;
