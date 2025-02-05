@@ -119,7 +119,6 @@ import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ObjectSequence;
 import net.sf.mpxj.common.SlackHelper;
-import net.sf.mpxj.TimephasedWorkContainer;
 
 /**
  * This class provides a generic front end to read project data from

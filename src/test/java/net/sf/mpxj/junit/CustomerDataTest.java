@@ -39,6 +39,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import net.sf.mpxj.EPS;
+import net.sf.mpxj.EpsNode;
+import net.sf.mpxj.EpsProjectNode;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileWriter;
@@ -175,12 +178,7 @@ public class CustomerDataTest
          return;
       }
 
-      // Accessing the database directly from (new) Google Drive is too slow.
-      // Make a temporary local copy instead.
-      File file = Files.createTempFile("primavera", "db").toFile();
-      file.deleteOnExit();
-      Files.copy(new File(m_primaveraFile).toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
+      File file = new File(m_primaveraFile);
       Map<Integer, String> projects = new PrimaveraDatabaseFileReader().listProjects(file);
       long failures = projects.entrySet().stream().map(entry -> testPrimaveraProject(file, entry.getKey().intValue(), entry.getValue())).filter(x -> !x.booleanValue()).count();
 
@@ -192,6 +190,47 @@ public class CustomerDataTest
       }
 
       assertEquals("Failed to read " + failures + " Primavera database projects", 0, failures);
+   }
+
+   /**
+    * Test extracting the EPS from a sample SQLite P6 database.
+    */
+   @Test public void testPrimaveraDatabaseEps() throws Exception
+   {
+      if (m_primaveraFile == null)
+      {
+         return;
+      }
+
+      File file = new File(m_primaveraFile);
+      EPS eps = new PrimaveraDatabaseFileReader().listEps(file);
+      assertEquals(13, eps.getEpsNodes().size());
+      assertEquals(82, eps.getEpsProjectNodes().size());
+
+      EpsNode rootNode = eps.getRootEpsNode();
+      assertEquals("All  Initiatives", rootNode.getName());
+      assertEquals("Enterprise", rootNode.getShortName());
+
+      List<EpsNode> childNodes = rootNode.getChildEpsNodes();
+      assertEquals(6, childNodes.size());
+
+      EpsNode ecNode = childNodes.get(0);
+      assertEquals("E&C", ecNode.getShortName());
+      assertEquals("Engineering & Construction", ecNode.getName());
+      assertEquals(Integer.valueOf(22417), ecNode.getUniqueID());
+      assertEquals(Integer.valueOf(3063), ecNode.getParentUniqueID());
+      assertEquals(0, ecNode.getChildEpsNodes().size());
+
+      List<EpsProjectNode> projects = ecNode.getEpsProjectNodes();
+      assertEquals(15, projects.size());
+
+      EpsProjectNode project = projects.get(0);
+      assertEquals("EC00515", project.getShortName());
+      assertEquals("City Center Office Building Addition", project.getName());
+      assertEquals(Integer.valueOf(3940), project.getUniqueID());
+
+      assertEquals(ecNode, eps.getEpsNodeByUniqueID(22417));
+      assertEquals(project, eps.getProjectNodeByUniqueID(3940));
    }
 
    /**
