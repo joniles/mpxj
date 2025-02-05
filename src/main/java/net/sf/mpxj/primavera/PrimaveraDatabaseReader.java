@@ -62,20 +62,6 @@ import net.sf.mpxj.reader.AbstractProjectReader;
  */
 public final class PrimaveraDatabaseReader extends AbstractProjectReader
 {
-   public EPS listEps() throws MPXJException
-   {
-      try
-      {
-         List<Row> rows = getRows("select project.project_flag, projwbs.* from " + m_schema + "projwbs join " + m_schema + "project on project.proj_id = projwbs.proj_id where proj_node_flag='Y' order by seq_num");
-         return processEps(rows);
-      }
-
-      catch (SQLException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
-      }
-   }
-
    /**
     * Populates a Map instance representing the IDs and names of
     * projects available in the current database.
@@ -97,6 +83,26 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          }
 
          return result;
+      }
+
+      catch (SQLException ex)
+      {
+         throw new MPXJException(MPXJException.READ_ERROR, ex);
+      }
+   }
+
+   /**
+    * Retrieve an instance of the EPS class, allowing the hierarchy of EpsNode
+    * and EpsProjectNodes to be traversed.
+    *
+    * @return EPS instance
+    */
+   public EPS listEps() throws MPXJException
+   {
+      try
+      {
+         List<Row> rows = getRows("select project.project_flag, projwbs.* from " + m_schema + "projwbs join " + m_schema + "project on project.proj_id = projwbs.proj_id where proj_node_flag='Y' order by seq_num");
+         return processEps(rows);
       }
 
       catch (SQLException ex)

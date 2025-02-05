@@ -72,6 +72,13 @@ public final class PrimaveraDatabaseFileReader extends AbstractProjectFileReader
       }
    }
 
+   /**
+    * Retrieve an instance of the EPS class, allowing the hierarchy of EpsNode
+    * and EpsProjectNodes to be traversed.
+    *
+    * @param file database file
+    * @return EPS instance
+    */
    public EPS listEps(File file) throws MPXJException
    {
       Connection connection = null;
