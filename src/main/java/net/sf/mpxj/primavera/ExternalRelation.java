@@ -32,7 +32,7 @@ import net.sf.mpxj.TimeUnit;
  * This class represents the relationship between two tasks in Primavera when the predecessor
  * task is not contained in the same project.
  */
-public final class ExternalRelation
+final class ExternalRelation
 {
    /**
     * Default constructor.
