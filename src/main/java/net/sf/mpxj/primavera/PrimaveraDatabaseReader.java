@@ -942,6 +942,13 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       return m_ignoreErrors;
    }
 
+   /**
+    * Create an EPS instance and add nodes to it
+    * using the supplied rows.
+    *
+    * @param rows EPS data
+    * @return EPS instance
+    */
    private EPS processEps(List<Row> rows)
    {
       EPS eps = new EPS();
@@ -949,6 +956,13 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       return eps;
    }
 
+   /**
+    * Determine if we have a project on an EPS node and add the
+    * appropriate node type to the EPS.
+    *
+    * @param eps EPS instance
+    * @param row EPS data
+    */
    private void addEpsNode(EPS eps, Row row)
    {
       if (row.getBoolean("project_flag"))
@@ -961,6 +975,12 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Add an EPS node to the EPS.
+    *
+    * @param eps EPS instance
+    * @param row node data
+    */
    private void addEpsChildNode(EPS eps, Row row)
    {
       new EpsNode(eps,
@@ -970,6 +990,12 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          row.getString("wbs_short_name"));
    }
 
+   /**
+    * Add an EPS project node to the EPS.
+    *
+    * @param eps EPS instance
+    * @param row node data
+    */
    private void addEpsProjectNode(EPS eps, Row row)
    {
       new EpsProjectNode(eps,
