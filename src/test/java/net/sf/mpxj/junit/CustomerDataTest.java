@@ -204,11 +204,10 @@ public class CustomerDataTest
 
       File file = new File(m_primaveraFile);
       EPS eps = new PrimaveraDatabaseFileReader().listEps(file);
-      assertEquals(1, eps.getChildEpsNodes().size());
       assertEquals(13, eps.getEpsNodes().size());
       assertEquals(82, eps.getEpsProjectNodes().size());
 
-      EpsNode rootNode = eps.getChildEpsNodes().get(0);
+      EpsNode rootNode = eps.getRootEpsNode();
       assertEquals("All  Initiatives", rootNode.getName());
       assertEquals("Enterprise", rootNode.getShortName());
 

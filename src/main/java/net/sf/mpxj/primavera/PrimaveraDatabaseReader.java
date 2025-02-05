@@ -957,23 +957,20 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
    private void addEpsChildNode(EPS eps, Row row)
    {
-      eps.addEpsChildNode(
-         new EpsNode(eps,
-            row.getInteger("wbs_id"),
-            row.getInteger("parent_wbs_id"),
-            row.getString("wbs_name"),
-            row.getString("wbs_short_name")));
+      new EpsNode(eps,
+         row.getInteger("wbs_id"),
+         row.getInteger("parent_wbs_id"),
+         row.getString("wbs_name"),
+         row.getString("wbs_short_name"));
    }
 
    private void addEpsProjectNode(EPS eps, Row row)
    {
-      eps.addEpsProjectNode(
-         new EpsProjectNode(
-            row.getInteger("proj_id"),
-            row.getInteger("parent_wbs_id"),
-            row.getString("wbs_short_name"),
-            row.getString("wbs_name")
-         )
+      new EpsProjectNode(eps,
+         row.getInteger("proj_id"),
+         row.getInteger("parent_wbs_id"),
+         row.getString("wbs_short_name"),
+         row.getString("wbs_name")
       );
    }
 
