@@ -174,7 +174,9 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       List<Row> tasks = getRows("task", m_projectKey, TASK_NAME_MAP);
       List<Row> milestones = getRows("milestone", m_projectKey, MILESTONE_NAME_MAP);
       List<Row> hammocks = getRows("hammock_task", m_projectKey);
-      m_reader.processTasks(bars, expandedTasks, tasks, milestones, hammocks);
+      List<Row> completedSections = getRows("task_completed_section", m_projectKey, COMPLETED_SECTION_NAME_MAP);
+
+      m_reader.processTasks(bars, expandedTasks, tasks, milestones, hammocks, completedSections);
    }
 
    /**
@@ -183,8 +185,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    private void processPredecessors() throws AstaDatabaseException
    {
       List<Row> rows = sortRows(getRows("link", m_projectKey, LINK_NAME_MAP), "ID");
-      List<Row> completedSections = getRows("task_completed_section", m_projectKey, COMPLETED_SECTION_NAME_MAP);
-      m_reader.processPredecessors(rows, completedSections);
+      m_reader.processPredecessors(rows);
    }
 
    /**

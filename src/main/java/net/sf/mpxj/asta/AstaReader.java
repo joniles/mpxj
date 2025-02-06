@@ -252,11 +252,13 @@ final class AstaReader
     * @param tasks task data
     * @param milestones milestone data
     * @param hammocks hammock data
+    * @param completedSections completed section data
     */
-   public void processTasks(List<Row> bars, List<Row> expandedTasks, List<Row> tasks, List<Row> milestones, List<Row> hammocks)
+   public void processTasks(List<Row> bars, List<Row> expandedTasks, List<Row> tasks, List<Row> milestones, List<Row> hammocks, List<Row> completedSections)
    {
       List<Row> parentBars = buildRowHierarchy(bars, expandedTasks, tasks, milestones, hammocks);
       createTasks(m_project, "", parentBars);
+      populateCompletedSections(completedSections);
       deriveProjectCalendar();
       updateUniqueIDs();
       updateStructure();
@@ -429,6 +431,19 @@ final class AstaReader
          }
 
          m_eventManager.fireTaskReadEvent(task);
+      }
+   }
+
+   private void populateCompletedSections(List<Row> rows)
+   {
+      for (Row section : rows)
+      {
+         Task task = getTaskByAstaID(section.getInteger("TASK"));
+         if (task == null)
+         {
+            continue;
+         }
+         m_completedSectionMap.put(section.getInteger("ID"), task);
       }
    }
 
@@ -1070,132 +1085,68 @@ final class AstaReader
     * Processes predecessor data.
     *
     * @param rows predecessor data
-    * @param completedSections completed section data
     */
-   public void processPredecessors(List<Row> rows, List<Row> completedSections)
+   public void processPredecessors(List<Row> rows)
    {
-      Map<Integer, Integer> completedSectionMap = new HashMap<>();
-      for (Row section : completedSections)
-      {
-         completedSectionMap.put(section.getInteger("ID"), section.getInteger("TASK"));
-      }
-
       for (Row row : rows)
       {
-         Integer startTaskID = row.getInteger("START_TASK");
-         Task startTask = getTaskByAstaID(startTaskID);
+         Task startTask = getTaskByAstaID(row.getInteger("START_TASK"));
          if (startTask == null)
          {
-            startTaskID = completedSectionMap.get(startTaskID);
-            if (startTaskID != null)
-            {
-               startTask = getTaskByAstaID(startTaskID);
-            }
+            continue;
          }
 
-         Integer endTaskID = row.getInteger("END_TASK");
-         Task endTask = getTaskByAstaID(endTaskID);
+         Task endTask = getTaskByAstaID(row.getInteger("END_TASK"));
          if (endTask == null)
          {
-            endTaskID = completedSectionMap.get(endTaskID);
-            if (endTaskID != null)
-            {
-               endTask = getTaskByAstaID(endTaskID);
-            }
+            continue;
          }
 
-         if (startTask != null && endTask != null)
+         RelationType type = getRelationType(row.getInt("LINK_KIND"));
+         Duration startLag = row.getDuration("START_LAG_TIME");
+         Duration endLag = row.getDuration("END_LAG_TIME");
+         Duration lag;
+
+         double startLagDuration = startLag.getDuration();
+         double endLagDuration = endLag.getDuration();
+
+         if (startLagDuration == 0.0 && endLagDuration == 0.0)
          {
-            RelationType type = getRelationType(row.getInt("LINK_KIND"));
-
-            Duration startLag = row.getDuration("START_LAG_TIME");
-            Duration endLag = row.getDuration("END_LAG_TIME");
-            Duration lag;
-
-            double startLagDuration = startLag.getDuration();
-            double endLagDuration = endLag.getDuration();
-
-            if (startLagDuration == 0.0 && endLagDuration == 0.0)
+            lag = Duration.getInstance(0, TimeUnit.HOURS);
+         }
+         else
+         {
+            if (startLagDuration != 0.0 && endLagDuration == 0.0)
             {
-               lag = Duration.getInstance(0, TimeUnit.HOURS);
+               lag = startLag;
             }
             else
             {
-               if (startLagDuration != 0.0 && endLagDuration == 0.0)
+               if (startLagDuration == 0.0 && endLagDuration != 0.0)
                {
-                  lag = startLag;
+                  lag = Duration.getInstance(startLagDuration - endLagDuration, endLag.getUnits());
                }
                else
                {
-                  if (startLagDuration == 0.0 && endLagDuration != 0.0)
-                  {
-                     lag = Duration.getInstance(startLagDuration - endLagDuration, endLag.getUnits());
-                  }
-                  else
-                  {
-                     // For the moment we're assuming if both a start lag and an end lag are supplied, they both use the same units.
-                     // If I'm given an example where they are different I'll revisit this code.
-                     lag = Duration.getInstance(startLagDuration - endLagDuration, startLag.getUnits());
-                  }
+                  // For the moment we're assuming if both a start lag and an end lag are supplied, they both use the same units.
+                  // If I'm given an example where they are different I'll revisit this code.
+                  lag = Duration.getInstance(startLagDuration - endLagDuration, startLag.getUnits());
                }
-            }
-
-            endTask.addPredecessor(new Relation.Builder()
-               .predecessorTask(startTask)
-               .type(type)
-               .lag(lag)
-               .uniqueID(row.getInteger("ID")));
-
-            // resolve indeterminate constraint for successor tasks
-            if (m_deferredConstraintType.contains(endTask.getUniqueID()))
-            {
-               endTask.setConstraintType(ConstraintType.AS_LATE_AS_POSSIBLE);
-               endTask.setConstraintDate(null);
             }
          }
 
-         //PROJID
-         //ID
-         //START_LAG_TIMETYPF
-         //START_LAG_TIMEELA_MONTHS
-         //START_LAG_TIME
-         //END_LAG_TIMETYPF
-         //END_LAG_TIMEELA_MONTHS
-         //END_LAG_TIME
-         //MAXIMUM_LAGTYPF
-         //MAXIMUM_LAGELA_MONTHS
-         //MAXIMUM_LAGHOURS
-         //STARV_DATE
-         //ENF_DATE
-         //CURVATURE_PERCENTAGE
-         //START_LAG_PERCENT_FLOAT
-         //END_LAG_PERCENT_FLOAT
-         //COMMENTS
-         //LINK_CATEGORY
-         //START_LAG_TIME_UNIT
-         //END_LAG_TIME_UNIT
-         //MAXIMUM_LAG_TIME_UNIT
-         //START_TASK
-         //END_TASK
-         //LINK_KIND
-         //START_LAG_TYPE
-         //END_LAG_TYPE
-         //MAINTAIN_TASK_OFFSETS
-         //UNSCHEDULABLF
-         //CRITICAL
-         //ON_LOOP
-         //MAXIMUM_LAG_MODE
-         //ANNOTATE_LEAD_LAG
-         //START_REPOSITION_ON_TAS_MOVE
-         //END_REPOSITION_ON_TASK_MOVE
-         //DRAW_CURVED_IF_VERTICAL
-         //AUTOMATIC_CURVED_LI_SETTINGS
-         //DRAW_CURVED_LINK_TO_LEFT
-         //LOCAL_LINK
-         //DRIVING
-         //ALT_ID
-         //LAST_EDITED_DATE
-         //LAST_EDITED_BY
+         endTask.addPredecessor(new Relation.Builder()
+            .predecessorTask(startTask)
+            .type(type)
+            .lag(lag)
+            .uniqueID(row.getInteger("ID")));
+
+         // resolve indeterminate constraint for successor tasks
+         if (m_deferredConstraintType.contains(endTask.getUniqueID()))
+         {
+            endTask.setConstraintType(ConstraintType.AS_LATE_AS_POSSIBLE);
+            endTask.setConstraintDate(null);
+         }
       }
    }
 
@@ -2192,7 +2143,13 @@ final class AstaReader
           return task;
        }
 
-      return m_expandedTaskMap.get(id);
+       task = m_expandedTaskMap.get(id);
+       if (task != null)
+       {
+          return task;
+       }
+
+       return m_completedSectionMap.get(id);
    }
 
    /**
@@ -2233,6 +2190,7 @@ final class AstaReader
    private final Map<Integer, Task> m_taskMap = new HashMap<>();
    private final Map<Integer, Task> m_milestoneMap = new HashMap<>();
    private final Map<Integer, Task> m_expandedTaskMap = new HashMap<>();
+   private final Map<Integer, Task> m_completedSectionMap = new HashMap<>();
 
    private static final Double COMPLETE = Double.valueOf(100);
    private static final Double INCOMPLETE = Double.valueOf(0);
