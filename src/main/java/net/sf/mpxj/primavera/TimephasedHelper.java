@@ -31,7 +31,6 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
-import net.sf.mpxj.TimephasedWorkContainer;
 
 /**
  * Methods for parsing and formatting timephased data in P6 schedule files.

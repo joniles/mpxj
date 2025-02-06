@@ -66,7 +66,6 @@ import net.sf.mpxj.Shift;
 import net.sf.mpxj.ShiftContainer;
 import net.sf.mpxj.ShiftPeriod;
 import net.sf.mpxj.ShiftPeriodContainer;
-import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.DayOfWeekHelper;
