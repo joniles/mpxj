@@ -1083,24 +1083,24 @@ final class AstaReader
       for (Row row : rows)
       {
          Integer startTaskID = row.getInteger("START_TASK");
-         Task startTask = m_project.getTaskByUniqueID(startTaskID);
+         Task startTask = getTaskByAstaID(startTaskID);
          if (startTask == null)
          {
             startTaskID = completedSectionMap.get(startTaskID);
             if (startTaskID != null)
             {
-               startTask = m_project.getTaskByUniqueID(startTaskID);
+               startTask = getTaskByAstaID(startTaskID);
             }
          }
 
          Integer endTaskID = row.getInteger("END_TASK");
-         Task endTask = m_project.getTaskByUniqueID(endTaskID);
+         Task endTask = getTaskByAstaID(endTaskID);
          if (endTask == null)
          {
             endTaskID = completedSectionMap.get(endTaskID);
             if (endTaskID != null)
             {
-               endTask = m_project.getTaskByUniqueID(endTaskID);
+               endTask = getTaskByAstaID(endTaskID);
             }
          }
 
@@ -1211,7 +1211,7 @@ final class AstaReader
       Map<Integer, Row> skillMap = skillRows.stream().collect(Collectors.toMap(t -> t.getInteger("ID"), t -> t));
       for (Row row : allocationRows)
       {
-         Task task = m_project.getTaskByUniqueID(row.getInteger("ALLOCATED_TO"));
+         Task task = getTaskByAstaID(row.getInteger("ALLOCATED_TO"));
          if (task == null)
          {
             continue;
@@ -2154,27 +2154,45 @@ final class AstaReader
             continue;
          }
 
-         Integer id = row.getInteger("CODES");
-         Task task = m_taskMap.get(id);
+         Task task = getTaskByAstaID(row.getInteger("CODES"));
          if (task == null)
          {
-            task = m_milestoneMap.get(id);
-            if (task == null)
-            {
-               task = m_barMap.get(id);
-               if (task == null)
-               {
-                  task = m_expandedTaskMap.get(id);
-               }
-            }
+            // Task will be null here for hammock tasks
+            continue;
          }
 
-         // Task will be null here for hammock tasks
-         if (task != null)
-         {
-            task.addActivityCodeValue(value);
-         }
+         task.addActivityCodeValue(value);
       }
+   }
+
+   /**
+    * Given an Asta unique identifier, try to identify the Asta entity this relates to
+    * and retrieve the equivalent MPXJ Task instance.
+    *
+    * @param id Asta unique ID
+    * @return Task instance or null
+    */
+   private Task getTaskByAstaID(Integer id)
+   {
+      Task task = m_taskMap.get(id);
+      if (task != null)
+      {
+         return task;
+      }
+
+      task = m_milestoneMap.get(id);
+       if (task != null)
+       {
+          return task;
+       }
+
+       task = m_barMap.get(id);
+       if (task != null)
+       {
+          return task;
+       }
+
+      return m_expandedTaskMap.get(id);
    }
 
    /**
