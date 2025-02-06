@@ -277,8 +277,9 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
       List<Row> tasks = getTable("TASK");
       List<Row> milestones = getTable("MILESTONE");
       List<Row> hammocks = getTable("HAMMOCK_TASK");
+      List<Row> completedSections = getTable("TASK_COMPLETED_SECTION");
 
-      m_reader.processTasks(bars, expandedTasks, tasks, milestones, hammocks);
+      m_reader.processTasks(bars, expandedTasks, tasks, milestones, hammocks, completedSections);
    }
 
    /**
@@ -287,9 +288,8 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
    private void processPredecessors()
    {
       List<Row> rows = getTable("LINK");
-      List<Row> completedSections = getTable("TASK_COMPLETED_SECTION");
       rows.sort(LINK_COMPARATOR);
-      m_reader.processPredecessors(rows, completedSections);
+      m_reader.processPredecessors(rows);
    }
 
    /**

@@ -171,13 +171,13 @@ public class AstaSqliteReader extends AbstractProjectFileReader
    private void processTasks() throws SQLException
    {
       List<Row> bars = getRows("select id as barid, * from bar where projid=?", m_projectID);
-
       List<Row> expandedTasks = getRows("select id as expanded_taskid, * from expanded_task where projid=?", m_projectID);
       List<Row> tasks = getRows("select id as taskid, * from task where projid=?", m_projectID);
       List<Row> milestones = getRows("select id as milestoneid, * from milestone where projid=?", m_projectID);
       List<Row> hammocks = getRows("select id as hammock_taskid, * from hammock_task where projid=?", m_projectID);
+      List<Row> completedSections = getRows("select * from task_completed_section where projid=? order by id", m_projectID);
 
-      m_reader.processTasks(bars, expandedTasks, tasks, milestones, hammocks);
+      m_reader.processTasks(bars, expandedTasks, tasks, milestones, hammocks, completedSections);
    }
 
    /**
@@ -186,8 +186,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
    private void processPredecessors() throws SQLException
    {
       List<Row> rows = getRows("select * from link where projid=? order by id", m_projectID);
-      List<Row> completedSections = getRows("select * from task_completed_section where projid=? order by id", m_projectID);
-      m_reader.processPredecessors(rows, completedSections);
+      m_reader.processPredecessors(rows);
    }
 
    /**
