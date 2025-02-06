@@ -434,6 +434,11 @@ final class AstaReader
       }
    }
 
+   /**
+    * Populate completed sections map.
+    *
+    * @param rows completed section rows
+    */
    private void populateCompletedSections(List<Row> rows)
    {
       for (Row section : rows)
