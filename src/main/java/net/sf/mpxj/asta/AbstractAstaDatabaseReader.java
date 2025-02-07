@@ -313,7 +313,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
 
    private static final RowComparator ALLOCATION_COMPARATOR = new RowComparator("ID");
 
-   private static final Map<String,String> PROJECT_SUMMARY_NAME_MAP = new HashMap<>();
+   private static final Map<String, String> PROJECT_SUMMARY_NAME_MAP = new HashMap<>();
    static
    {
       PROJECT_SUMMARY_NAME_MAP.put("STARU", "PROJECT_START");
@@ -321,7 +321,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       PROJECT_SUMMARY_NAME_MAP.put("DURATIONHOURS", "DURATION");
    }
 
-   private static final Map<String,String> BAR_NAME_MAP = new HashMap<>();
+   private static final Map<String, String> BAR_NAME_MAP = new HashMap<>();
    static
    {
       BAR_NAME_MAP.put("NAMH", "NAME");
@@ -329,7 +329,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       BAR_NAME_MAP.put("ENF", "BAR_FINISH");
    }
 
-   private static final Map<String,String> TASK_NAME_MAP = new HashMap<>();
+   private static final Map<String, String> TASK_NAME_MAP = new HashMap<>();
    static
    {
       TASK_NAME_MAP.put("NARE", "NAME");
@@ -346,7 +346,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       TASK_NAME_MAP.put("NATURAO_ORDER", "NATURAL_ORDER");
    }
 
-   private static final Map<String,String> EXPANDED_TASK_NAME_MAP = new HashMap<>();
+   private static final Map<String, String> EXPANDED_TASK_NAME_MAP = new HashMap<>();
    static
    {
       EXPANDED_TASK_NAME_MAP.put("NARE", "NAME");
@@ -355,7 +355,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       EXPANDED_TASK_NAME_MAP.put("CALENDAU", "CALENDAR");
    }
 
-   private static final Map<String,String> MILESTONE_NAME_MAP = new HashMap<>();
+   private static final Map<String, String> MILESTONE_NAME_MAP = new HashMap<>();
    static
    {
       MILESTONE_NAME_MAP.put("NARE", "NAME");
@@ -366,21 +366,21 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       MILESTONE_NAME_MAP.put("NATURAO_ORDER", "NATURAL_ORDER");
    }
 
-   private static final Map<String,String> WORK_PATTERN_NAME_MAP = new HashMap<>();
+   private static final Map<String, String> WORK_PATTERN_NAME_MAP = new HashMap<>();
    static
    {
       WORK_PATTERN_NAME_MAP.put("WORK_PATTERNID", "ID");
       WORK_PATTERN_NAME_MAP.put("NAMN", "NAME");
    }
 
-   private static final Map<String,String> CALENDAR_NAME_MAP = new HashMap<>();
+   private static final Map<String, String> CALENDAR_NAME_MAP = new HashMap<>();
    static
    {
       CALENDAR_NAME_MAP.put("CALENDARID", "ID");
       CALENDAR_NAME_MAP.put("NAMK", "NAME");
    }
 
-   private static final Map<String,String> PERMANENT_RESOURCE_NAME_MAP = new HashMap<>();
+   private static final Map<String, String> PERMANENT_RESOURCE_NAME_MAP = new HashMap<>();
    static
    {
       PERMANENT_RESOURCE_NAME_MAP.put("PERMANENT_RESOURCEID", "ID");
@@ -388,7 +388,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       PERMANENT_RESOURCE_NAME_MAP.put("CALENDAV", "CALENDAR");
    }
 
-   private static final Map<String,String> CONSUMABLE_RESOURCE_RESOURCE_NAME_MAP = new HashMap<>();
+   private static final Map<String, String> CONSUMABLE_RESOURCE_RESOURCE_NAME_MAP = new HashMap<>();
    static
    {
       CONSUMABLE_RESOURCE_RESOURCE_NAME_MAP.put("CONSUMABLE_RESOURCEID", "ID");
@@ -396,7 +396,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       CONSUMABLE_RESOURCE_RESOURCE_NAME_MAP.put("CALENDAV", "CALENDAR");
    }
 
-   private static final Map<String,String> LINK_NAME_MAP = new HashMap<>();
+   private static final Map<String, String> LINK_NAME_MAP = new HashMap<>();
    static
    {
       LINK_NAME_MAP.put("LINKID", "ID");
@@ -405,7 +405,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       LINK_NAME_MAP.put("TYPI", "LINK_KIND");
    }
 
-   private static final Map<String,String> ALLOCATION_NAME_MAP = new HashMap<>();
+   private static final Map<String, String> ALLOCATION_NAME_MAP = new HashMap<>();
    static
    {
       ALLOCATION_NAME_MAP.put("PERMANENT_SCHEDUL_ALLOCATIONID", "ID");
@@ -417,38 +417,38 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       ALLOCATION_NAME_MAP.put("ALLOCATIOP_OF", "ALLOCATION_OF");
    }
 
-   private static final Map<String,String> PROGRESS_PERIOD_NAME_MAP = new HashMap<>();
+   private static final Map<String, String> PROGRESS_PERIOD_NAME_MAP = new HashMap<>();
    static
    {
       PROGRESS_PERIOD_NAME_MAP.put("PROGRESS_PERIODID", "ID");
    }
 
-   private static final Map<String,String> EXCEPTION_NAME_MAP = new HashMap<>();
+   private static final Map<String, String> EXCEPTION_NAME_MAP = new HashMap<>();
    static
    {
       EXCEPTION_NAME_MAP.put("EXCEPTIONNID", "ID");
    }
 
-   private static final Map<String,String> COMPLETED_SECTION_NAME_MAP = new HashMap<>();
+   private static final Map<String, String> COMPLETED_SECTION_NAME_MAP = new HashMap<>();
    static
    {
       COMPLETED_SECTION_NAME_MAP.put("TASK_COMPLETED_SECTIONID", "ID");
    }
 
-   private static final Map<String,String> SKILL_NAME_MAP = new HashMap<>();
+   private static final Map<String, String> SKILL_NAME_MAP = new HashMap<>();
    static
    {
       SKILL_NAME_MAP.put("PERM_RESOURCE_SKILLID", "ID");
    }
 
-   private static final Map<String,String> EXCEPTION_ASSIGNMENT_MAP = new HashMap<>();
+   private static final Map<String, String> EXCEPTION_ASSIGNMENT_MAP = new HashMap<>();
    static
    {
       EXCEPTION_ASSIGNMENT_MAP.put("STARU_DATE", "START_DATE");
       EXCEPTION_ASSIGNMENT_MAP.put("ENE_DATE", "END_DATE");
    }
 
-   private static final Map<String,String> TIME_ENTRY_NAME_MAP = new HashMap<>();
+   private static final Map<String, String> TIME_ENTRY_NAME_MAP = new HashMap<>();
    static
    {
       TIME_ENTRY_NAME_MAP.put("EXCEPTIOP", "EXCEPTION");

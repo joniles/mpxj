@@ -41,7 +41,7 @@ final class JackcessResultSetRow extends MapRow
     *
     * @param nameMap column name map
     * @param row row from which data is drawn
-    * @param columns column meta data 
+    * @param columns column meta data
     */
    public JackcessResultSetRow(Map<String, String> nameMap, com.healthmarketscience.jackcess.Row row, List<? extends Column> columns)
    {

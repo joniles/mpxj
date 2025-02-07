@@ -1002,8 +1002,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          row.getInteger("proj_id"),
          row.getInteger("parent_wbs_id"),
          row.getString("wbs_short_name"),
-         row.getString("wbs_name")
-      );
+         row.getString("wbs_name"));
    }
 
    private PrimaveraReader m_reader;

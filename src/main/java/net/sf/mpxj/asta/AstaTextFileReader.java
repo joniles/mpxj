@@ -300,7 +300,7 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
       allocationRows.sort(ALLOCATION_COMPARATOR);
       m_reader.processAssignments(allocationRows, skillRows);
    }
-   
+
    /**
     * Retrieve table data, return an empty result set if no table data is present.
     *

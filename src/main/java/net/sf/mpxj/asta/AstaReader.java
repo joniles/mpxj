@@ -2137,24 +2137,24 @@ final class AstaReader
       }
 
       task = m_milestoneMap.get(id);
-       if (task != null)
-       {
-          return task;
-       }
+      if (task != null)
+      {
+         return task;
+      }
 
-       task = m_barMap.get(id);
-       if (task != null)
-       {
-          return task;
-       }
+      task = m_barMap.get(id);
+      if (task != null)
+      {
+         return task;
+      }
 
-       task = m_expandedTaskMap.get(id);
-       if (task != null)
-       {
-          return task;
-       }
+      task = m_expandedTaskMap.get(id);
+      if (task != null)
+      {
+         return task;
+      }
 
-       return m_completedSectionMap.get(id);
+      return m_completedSectionMap.get(id);
    }
 
    /**
