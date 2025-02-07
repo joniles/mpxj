@@ -269,6 +269,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
     *
     * @param table table to retrieve rows from
     * @param keys name and integer value keys
+    * @param nameMap column name map
     * @return list of rows
     */
    protected abstract List<Row> getRows(String table, Map<String, Integer> keys, Map<String, String> nameMap) throws AstaDatabaseException;

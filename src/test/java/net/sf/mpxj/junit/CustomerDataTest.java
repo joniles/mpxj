@@ -229,8 +229,8 @@ public class CustomerDataTest
       assertEquals("City Center Office Building Addition", project.getName());
       assertEquals(Integer.valueOf(3940), project.getUniqueID());
 
-      assertEquals(ecNode, eps.getEpsNodeByUniqueID(22417));
-      assertEquals(project, eps.getProjectNodeByUniqueID(3940));
+      assertEquals(ecNode, eps.getEpsNodeByUniqueID(Integer.valueOf(22417)));
+      assertEquals(project, eps.getProjectNodeByUniqueID(Integer.valueOf(3940)));
    }
 
    /**

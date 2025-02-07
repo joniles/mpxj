@@ -2202,7 +2202,6 @@ final class AstaReader
    private static final String LINE_BREAK = "|@|||";
    private static final RowComparator LEAF_COMPARATOR = new RowComparator("NATURAL_ORDER", "NATURAL_ORDER");
    private static final RowComparator BAR_COMPARATOR = new RowComparator("EXPANDED_TASK", "NATURAL_ORDER");
-   private static final RowComparator ALLOCATION_COMPARATOR = new RowComparator("ID");
 
    private static final RelationType[] RELATION_TYPES =
    {

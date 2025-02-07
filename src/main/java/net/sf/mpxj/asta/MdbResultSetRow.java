@@ -42,6 +42,7 @@ final class MdbResultSetRow extends MapRow
    /**
     * Constructor.
     *
+    * @param nameMap column name map
     * @param rs result set from which data is drawn
     * @param meta result set meta data
     */
