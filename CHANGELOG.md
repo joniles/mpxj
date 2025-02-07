@@ -5,7 +5,16 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer be distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 13.9.1 (unreleased)
+## 13.10.1 (unreleased)
+
+## 13.10.0 (2025-02-07)
+* Add support for reading the P6 EPS using the `listEps()` method provided by the `PrimaveraDatabaseReader` and `PrimaveraDatabaseFileReader` classes.
+* Improve handling of Activity Type attribute when reading PMXML files written by Primavera P6 6.x.
+* Ensure that the External Early Start and External Late Finish attributes are written to XER files.
+* Fix a NPE when calling `PrimaveraXERFileReader.listProjects()`.
+* Avoid unnecessary data storage and type conversion to improve efficiency when calling `PrimaveraXERFileReader.listProjects()`.
+* Provide additional `ResourceAssignment` methods to allow `List<TimephasedWork>` to be used to add timephased work, rather than requiring a `TimephasedWorkContainer`.
+* Improve identification of tasks when reading certain Asta Powerproject PP files.
 
 ## 13.9.0 (2025-01-09)
 * Updated to POI 5.4.0
