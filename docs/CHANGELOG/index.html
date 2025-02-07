@@ -300,9 +300,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1391-unreleased" class="md-nav__link">
+  <a href="#13101-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      13.9.1 (unreleased)
+      13.10.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13100-2025-02-07" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.10.0 (2025-02-07)
     </span>
   </a>
   
@@ -4038,9 +4047,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1391-unreleased" class="md-nav__link">
+  <a href="#13101-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      13.9.1 (unreleased)
+      13.10.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13100-2025-02-07" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.10.0 (2025-02-07)
     </span>
   </a>
   
@@ -6414,7 +6432,17 @@
 <h2 id="note">NOTE</h2>
 <p>From version 14.0.0 onwards the <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code> and <code>net.sf.mpxj-for-vb</code> packages will
 no longer be distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
-<h2 id="1391-unreleased">13.9.1 (unreleased)</h2>
+<h2 id="13101-unreleased">13.10.1 (unreleased)</h2>
+<h2 id="13100-2025-02-07">13.10.0 (2025-02-07)</h2>
+<ul>
+<li>Add support for reading the P6 EPS using the <code>listEps()</code> method provided by the <code>PrimaveraDatabaseReader</code> and <code>PrimaveraDatabaseFileReader</code> classes.</li>
+<li>Improve handling of Activity Type attribute when reading PMXML files written by Primavera P6 6.x.</li>
+<li>Ensure that the External Early Start and External Late Finish attributes are written to XER files.</li>
+<li>Fix a NPE when calling <code>PrimaveraXERFileReader.listProjects()</code>.</li>
+<li>Avoid unnecessary data storage and type conversion to improve efficiency when calling <code>PrimaveraXERFileReader.listProjects()</code>.</li>
+<li>Provide additional <code>ResourceAssignment</code> methods to allow <code>List&lt;TimephasedWork&gt;</code> to be used to add timephased work, rather than requiring a <code>TimephasedWorkContainer</code>.</li>
+<li>Improve identification of tasks when reading certain Asta Powerproject PP files.</li>
+</ul>
 <h2 id="1390-2025-01-09">13.9.0 (2025-01-09)</h2>
 <ul>
 <li>Updated to POI 5.4.0</li>
