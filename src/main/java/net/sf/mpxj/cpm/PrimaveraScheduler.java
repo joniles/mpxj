@@ -470,9 +470,6 @@ public class PrimaveraScheduler implements Scheduler
       {
          case FINISH_START:
          {
-            // Works for some activities in: lovable-bridgehead
-            //return getDate(getLagCalendar(taskCalendar, relation), predecessor.getActualFinish(), relation.getLag());
-
             if (predecessorTask.getActualStart() == null)
             {
                // Predecessor not started
