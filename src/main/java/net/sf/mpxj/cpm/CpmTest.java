@@ -319,7 +319,7 @@ public class CpmTest
 
       // Forward pass: chain of ALAP, following by a normal SS, not clear how the SS early dates are calculated
       EXCLUDED_FILES.add("ideal-tilt.xer");
-      
+
       // Forward pass: non-obvious adjustment to lag being used in FS relationship
       EXCLUDED_FILES.add("lovable-bridgehead.xer");
 
