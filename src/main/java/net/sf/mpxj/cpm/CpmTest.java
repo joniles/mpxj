@@ -326,9 +326,6 @@ public class CpmTest
       // Forward pass: non-obvious adjustment to lag being used in FS relationship
       EXCLUDED_FILES.add("lovable-bridgehead.xer");
 
-      // Backward pass: non-obvious adjustment to lag being used in FS relationship
-      EXCLUDED_FILES.add("naval-cancer.xer");
-
       // Don't understand FF relationship behaviour
       EXCLUDED_FILES.add("passionate-lounge-scheduled.xer"); // PROGRESS_OVERRIDE
       EXCLUDED_FILES.add("passionate-lounge-1.xml"); // PROGRESS_OVERRIDE
