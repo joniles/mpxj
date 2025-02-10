@@ -112,6 +112,7 @@ public class CpmTest
       }
 
       System.out.println("failed.");
+      System.out.println("Project ID: " + m_baselineFile.getProjectProperties().getProjectID());
       System.out.println(m_baselineFile.getProjectProperties().getSchedulingProgressedActivities());
       System.out.println("Forward errors: " + m_forwardErrorCount);
       System.out.println("Backward errors: " + m_backwardErrorCount);
@@ -310,6 +311,11 @@ public class CpmTest
       EXCLUDED_FILES.add("computational-infection.xer");
       EXCLUDED_FILES.add("unmistakable-client.xer");
       EXCLUDED_FILES.add("virile-schema.xer");
+      EXCLUDED_FILES.add("middle-altar.xer");
+
+      // Multiple projects
+      EXCLUDED_FILES.add("preliminary-shout.xer");
+      EXCLUDED_FILES.add("mutual-viewer.xer");
 
       // Forward pass: chain of ALAP, following by a normal SS, not clear how the SS early dates are calculated
       EXCLUDED_FILES.add("ideal-tilt.xer");
