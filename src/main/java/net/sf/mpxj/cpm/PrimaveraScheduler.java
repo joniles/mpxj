@@ -470,7 +470,7 @@ public class PrimaveraScheduler implements Scheduler
       {
          case FINISH_START:
          {
-            // Works for some activities in: lovable-bridgehead, ideal-tilt
+            // Works for some activities in: lovable-bridgehead
             //return getDate(getLagCalendar(taskCalendar, relation), predecessor.getActualFinish(), relation.getLag());
 
             if (predecessorTask.getActualStart() == null)
@@ -946,7 +946,18 @@ public class PrimaveraScheduler implements Scheduler
                      if (successorTask.getActualStart() == null)
                      {
                         // Successor not started
-                        lateStart = successorTask.getLateStart();
+                        double actualLagDurationInHours = predecessorTask.getActualStart().isAfter(m_dataDate) ? 0 : getLagCalendar(taskCalendar, relation).getWork(predecessorTask.getActualStart(), m_dataDate, TimeUnit.HOURS).getDuration();
+                        double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+
+                        if (lagDurationInHours > actualLagDurationInHours)
+                        {
+                           Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
+                           lateStart =  getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), remainingLag.negate());
+                        }
+                        else
+                        {
+                           lateStart = successorTask.getLateStart();
+                        }
                      }
                      else
                      {
