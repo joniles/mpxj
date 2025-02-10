@@ -340,9 +340,6 @@ public class CpmTest
       // Forward pass 1 day out - calendar issue?
       EXCLUDED_FILES.add("radical-reach.xer");
 
-      // Fix noted in code... but conditional?
-      EXCLUDED_FILES.add("single-supervision.xer");
-
       // Misc MPP files
       EXCLUDED_FILES.add("photographic-magic.mpp"); // External tasks used but not visible in MSP
       EXCLUDED_FILES.add("bizarre-doomsday.mpp"); // Manually scheduled task without any explicitly supplied dates

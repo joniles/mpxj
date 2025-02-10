@@ -973,9 +973,18 @@ public class PrimaveraScheduler implements Scheduler
                            }
                            else
                            {
-                              // fixes remaining fails in single-supervision, almost works in dense-cushion but breaks others
-                              //lateStart = getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), relation.getLag().negate());
-                              lateStart = successorTask.getLateStart();
+                              double actualLagDurationInHours = predecessorTask.getActualStart().isAfter(m_dataDate) ? 0 : getLagCalendar(taskCalendar, relation).getWork(predecessorTask.getActualStart(), m_dataDate, TimeUnit.HOURS).getDuration();
+                              double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+
+                              if (lagDurationInHours > actualLagDurationInHours)
+                              {
+                                 Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
+                                 lateStart = getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), remainingLag.negate());
+                              }
+                              else
+                              {
+                                 lateStart = successorTask.getLateStart();
+                              }
                            }
                         }
                      }
