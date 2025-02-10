@@ -1137,7 +1137,16 @@ public class PrimaveraScheduler implements Scheduler
                   else
                   {
                      // successor started
-                     lateFinish = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration()), relation.getLag().negate());
+                     if (successorTask.getActualFinish() == null)
+                     {
+                        // successor not finished
+                        lateFinish = getDate(getLagCalendar(taskCalendar, relation), getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration()), relation.getLag().negate());
+                     }
+                     else
+                     {
+                        // successor finished
+                        lateFinish = successorTask.getLateFinish();
+                     }
                   }
                }
                else

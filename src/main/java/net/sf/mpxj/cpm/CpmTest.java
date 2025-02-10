@@ -255,6 +255,10 @@ public class CpmTest
       UNREADABLE_FILES.add("invalid-calendar-data.encoding.xer");
       UNREADABLE_FILES.add("duplicate-relation-uid.xer");
       UNREADABLE_FILES.add("kindly-dissolve.xml");
+
+      // Not actually unreadable, but contains multiple projects
+      UNREADABLE_FILES.add("preliminary-shout.xer");
+      UNREADABLE_FILES.add("mutual-viewer.xer");
    }
 
    private static final Set<String> USE_SCHEDULED_COPY = new HashSet<>();
@@ -312,13 +316,6 @@ public class CpmTest
       EXCLUDED_FILES.add("unmistakable-client.xer");
       EXCLUDED_FILES.add("virile-schema.xer");
       EXCLUDED_FILES.add("middle-altar.xer");
-
-      // Multiple projects
-      EXCLUDED_FILES.add("preliminary-shout.xer");
-      EXCLUDED_FILES.add("mutual-viewer.xer");
-
-      // Forward pass: non-obvious adjustment to lag being used in FS relationship
-      EXCLUDED_FILES.add("lovable-bridgehead.xer");
 
       // Progress Override
       EXCLUDED_FILES.add("passionate-lounge-scheduled.xer");
