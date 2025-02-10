@@ -470,7 +470,7 @@ public class PrimaveraScheduler implements Scheduler
       {
          case FINISH_START:
          {
-            // Works for some activities in: lovable-bridgehead, ideal-tilt, keen-knock
+            // Works for some activities in: lovable-bridgehead, ideal-tilt
             //return getDate(getLagCalendar(taskCalendar, relation), predecessor.getActualFinish(), relation.getLag());
 
             if (predecessorTask.getActualStart() == null)
