@@ -119,7 +119,6 @@ import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ObjectSequence;
 import net.sf.mpxj.common.SlackHelper;
-import net.sf.mpxj.TimephasedWorkContainer;
 
 /**
  * This class provides a generic front end to read project data from
@@ -2247,12 +2246,9 @@ final class PrimaveraReader
             populateUserDefinedFieldValues("TASKRSRC", FieldTypeClass.ASSIGNMENT, assignment, assignment.getUniqueID());
 
             // Read timephased data
-            TimephasedWorkContainer timephasedPlannedWork = TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getString("target_crv"));
-            TimephasedWorkContainer timephasedActualWork = TimephasedHelper.read(effectiveCalendar, assignment.getActualStart(), row.getString("actual_crv"));
-            TimephasedWorkContainer timephasedRemainingWork = TimephasedHelper.read(effectiveCalendar, assignment.getRemainingEarlyStart(), row.getString("remain_crv"));
-            assignment.setTimephasedPlannedWork(timephasedPlannedWork);
-            assignment.setTimephasedActualWork(timephasedActualWork);
-            assignment.setTimephasedWork(timephasedRemainingWork);
+            assignment.setTimephasedPlannedWork(TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getString("target_crv")));
+            assignment.setTimephasedActualWork(TimephasedHelper.read(effectiveCalendar, assignment.getActualStart(), row.getString("actual_crv")));
+            assignment.setTimephasedWork(TimephasedHelper.read(effectiveCalendar, assignment.getRemainingEarlyStart(), row.getString("remain_crv")));
 
             populateResourceAssignmentCodeValues(assignment);
 

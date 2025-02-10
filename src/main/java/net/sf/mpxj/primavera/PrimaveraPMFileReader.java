@@ -66,7 +66,6 @@ import net.sf.mpxj.Shift;
 import net.sf.mpxj.ShiftContainer;
 import net.sf.mpxj.ShiftPeriod;
 import net.sf.mpxj.ShiftPeriodContainer;
-import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.DayOfWeekHelper;
@@ -2352,12 +2351,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             populateUserDefinedFieldValues(assignment, row.getUDF());
 
             // Read timephased data
-            TimephasedWorkContainer timephasedPlannedWork = TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getPlannedCurve());
-            TimephasedWorkContainer timephasedActualWork = TimephasedHelper.read(effectiveCalendar, assignment.getActualStart(), row.getActualCurve());
-            TimephasedWorkContainer timephasedRemainingWork = TimephasedHelper.read(effectiveCalendar, assignment.getRemainingEarlyStart(), row.getRemainingCurve());
-            assignment.setTimephasedPlannedWork(timephasedPlannedWork);
-            assignment.setTimephasedActualWork(timephasedActualWork);
-            assignment.setTimephasedWork(timephasedRemainingWork);
+            assignment.setTimephasedPlannedWork(TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getPlannedCurve()));
+            assignment.setTimephasedActualWork(TimephasedHelper.read(effectiveCalendar, assignment.getActualStart(), row.getActualCurve()));
+            assignment.setTimephasedWork(TimephasedHelper.read(effectiveCalendar, assignment.getRemainingEarlyStart(), row.getRemainingCurve()));
 
             processResourceAssignmentCodeAssignments(assignment, row.getCode());
 

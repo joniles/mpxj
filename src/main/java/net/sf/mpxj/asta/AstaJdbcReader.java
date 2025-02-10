@@ -30,6 +30,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -70,7 +71,12 @@ public class AstaJdbcReader extends AbstractAstaDatabaseReader
       m_connection = connection;
    }
 
-   @Override protected List<Row> getRows(String table, Map<String, Integer> keys) throws AstaDatabaseException
+   @Override protected List<Row> getRows(String tableName, Map<String, Integer> keys) throws AstaDatabaseException
+   {
+      return getRows(tableName, keys, Collections.emptyMap());
+   }
+
+   @Override protected List<Row> getRows(String table, Map<String, Integer> keys, Map<String, String> nameMap) throws AstaDatabaseException
    {
       // Copy entries to a list to ensure order is consistent when iterating
       List<Map.Entry<String, Integer>> keyList = new ArrayList<>(keys.entrySet());
@@ -99,7 +105,7 @@ public class AstaJdbcReader extends AbstractAstaDatabaseReader
                Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
                while (rs.next())
                {
-                  result.add(new MdbResultSetRow(rs, meta));
+                  result.add(new MdbResultSetRow(nameMap, rs, meta));
                }
                return result;
             }

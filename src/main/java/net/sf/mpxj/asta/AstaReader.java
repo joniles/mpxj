@@ -50,6 +50,8 @@ import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
+import java.util.stream.Collectors;
+
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -136,9 +138,9 @@ final class AstaReader
 
       if (projectSummary != null)
       {
-         ph.setDuration(projectSummary.getDuration("DURATIONHOURS"));
-         ph.setStartDate(projectSummary.getDate("STARU"));
-         ph.setFinishDate(projectSummary.getDate("ENE"));
+         ph.setDuration(projectSummary.getDuration("DURATION"));
+         ph.setStartDate(projectSummary.getDate("PROJECT_START"));
+         ph.setFinishDate(projectSummary.getDate("PROJECT_END"));
          ph.setName(projectSummary.getString("SHORT_NAME"));
          ph.setAuthor(projectSummary.getString("PROJECT_BY"));
          //DURATION_TIME_UNIT
@@ -159,13 +161,13 @@ final class AstaReader
          Row progressPeriod;
          if (currentProgressPeriodID == null)
          {
-            progressPeriods.sort(Comparator.comparing(o -> o.getInteger("PROGRESS_PERIODID")));
+            progressPeriods.sort(Comparator.comparing(o -> o.getInteger("ID")));
 
             progressPeriod = progressPeriods.get(progressPeriods.size() - 1);
          }
          else
          {
-            progressPeriod = progressPeriods.stream().filter(r -> NumberHelper.equals(currentProgressPeriodID, r.getInteger("PROGRESS_PERIODID"))).findFirst().orElse(null);
+            progressPeriod = progressPeriods.stream().filter(r -> NumberHelper.equals(currentProgressPeriodID, r.getInteger("ID"))).findFirst().orElse(null);
          }
 
          if (progressPeriod != null)
@@ -190,11 +192,11 @@ final class AstaReader
       {
          Resource resource = m_project.addResource();
          resource.setType(ResourceType.WORK);
-         resource.setUniqueID(row.getInteger("PERMANENT_RESOURCEID"));
+         resource.setUniqueID(row.getInteger("ID"));
          resource.setEmailAddress(row.getString("EMAIL_ADDRESS"));
          // EFFORT_TIME_UNIT
-         resource.setName(row.getString("NASE"));
-         resource.setCalendar(m_project.getCalendars().getByUniqueID(row.getInteger("CALENDAV")));
+         resource.setName(row.getString("NAME"));
+         resource.setCalendar(m_project.getCalendars().getByUniqueID(row.getInteger("CALENDAR")));
          resource.setGeneric(row.getBoolean("CREATED_AS_FOLDER"));
          resource.setInitials(getInitials(resource.getName()));
 
@@ -207,7 +209,7 @@ final class AstaReader
       /*
             for (Row row : permanentRows)
             {
-               Resource resource = m_project.getResourceByUniqueID(row.getInteger("PERMANENT_RESOURCEID"));
+               Resource resource = m_project.getResourceByUniqueID(row.getInteger("ID"));
                Resource group = m_project.getResourceByUniqueID(row.getInteger("ROLE"));
                if (resource != null && group != null)
                {
@@ -223,9 +225,9 @@ final class AstaReader
       {
          Resource resource = m_project.addResource();
          resource.setType(ResourceType.MATERIAL);
-         resource.setUniqueID(row.getInteger("CONSUMABLE_RESOURCEID"));
-         resource.setName(row.getString("NASE"));
-         resource.setCalendar(m_project.getCalendars().getByUniqueID(row.getInteger("CALENDAV")));
+         resource.setUniqueID(row.getInteger("ID"));
+         resource.setName(row.getString("NAME"));
+         resource.setCalendar(m_project.getCalendars().getByUniqueID(row.getInteger("CALENDAR")));
          resource.setGeneric(row.getBoolean("CREATED_AS_FOLDER"));
          resource.setUnitOfMeasure(uom.getOrCreateByAbbreviation(row.getString("MEASUREMENT")));
          resource.setInitials(getInitials(resource.getName()));
@@ -250,11 +252,13 @@ final class AstaReader
     * @param tasks task data
     * @param milestones milestone data
     * @param hammocks hammock data
+    * @param completedSections completed section data
     */
-   public void processTasks(List<Row> bars, List<Row> expandedTasks, List<Row> tasks, List<Row> milestones, List<Row> hammocks)
+   public void processTasks(List<Row> bars, List<Row> expandedTasks, List<Row> tasks, List<Row> milestones, List<Row> hammocks, List<Row> completedSections)
    {
       List<Row> parentBars = buildRowHierarchy(bars, expandedTasks, tasks, milestones, hammocks);
       createTasks(m_project, "", parentBars);
+      populateCompletedSections(completedSections);
       deriveProjectCalendar();
       updateUniqueIDs();
       updateStructure();
@@ -355,7 +359,7 @@ final class AstaReader
       while (iter.hasNext())
       {
          Row bar = iter.next();
-         String barName = bar.getString("NAMH");
+         String barName = bar.getString("NAME");
          if (barName == null || barName.isEmpty() || barName.equals("Displaced Items"))
          {
             iter.remove();
@@ -411,7 +415,7 @@ final class AstaReader
             //
             if (skipBar(row))
             {
-               populateLeaf(row.getString("NAMH"), row.getChildRows().get(0), task);
+               populateLeaf(row.getString("NAME"), row.getChildRows().get(0), task);
             }
             else
             {
@@ -427,6 +431,24 @@ final class AstaReader
          }
 
          m_eventManager.fireTaskReadEvent(task);
+      }
+   }
+
+   /**
+    * Populate completed sections map.
+    *
+    * @param rows completed section rows
+    */
+   private void populateCompletedSections(List<Row> rows)
+   {
+      for (Row section : rows)
+      {
+         Task task = getTaskByAstaID(section.getInteger("TASK"));
+         if (task == null)
+         {
+            continue;
+         }
+         m_completedSectionMap.put(section.getInteger("ID"), task);
       }
    }
 
@@ -491,7 +513,7 @@ final class AstaReader
          {
             // Bar with no linked row
             task.setUniqueID(row.getInteger("BARID"));
-            task.setName(row.getString("NAMH"));
+            task.setName(row.getString("NAME"));
          }
       }
 
@@ -517,7 +539,7 @@ final class AstaReader
       //GIVEN_DURATIONELA_MONTHS
 
       // This does not appear to be accurate
-      //task.setDuration(row.getDuration("GIVEN_DURATIONHOURS"));
+      //task.setDuration(row.getDuration("GIVEN_DURATION"));
 
       task.setResume(row.getDate("RESUME"));
       //task.setStart(row.getDate("GIVEN_START"));
@@ -530,7 +552,7 @@ final class AstaReader
       //HOLDING_PIN
       //ACTUAL_DURATIONTYPF
       //ACTUAL_DURATIONELA_MONTHS
-      task.setActualDuration(row.getDuration("ACTUAL_DURATIONHOURS"));
+      task.setActualDuration(row.getDuration("ACTUAL_DURATION"));
       task.setEarlyStart(row.getDate("EARLY_START_DATE"));
       task.setLateStart(row.getDate("LATE_START_DATE"));
       task.setEarlyFinish(row.getDate("EARLY_END_DATE_RS"));
@@ -539,22 +561,22 @@ final class AstaReader
       //START_CONSTRAINT_DATE
       //END_CONSTRAINT_DATE
       //task.setBaselineWork(row.getDuration("EFFORT_BUDGET"));
-      //NATURAO_ORDER
+      //NATURAL_ORDER
       //LOGICAL_PRECEDENCE
       //SPAVE_INTEGER
       //SWIM_LANE
       //USER_PERCENT_COMPLETE
       //OVERALL_PERCENT_COMPL_WEIGHT
-      task.setName(row.getString("NARE"));
+      task.setName(row.getString("NAME"));
       task.setNotes(getNotes(row));
       task.setActivityID(row.getString("UNIQUE_TASK_ID"));
-      task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
+      task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAR")));
       //EFFORT_TIMI_UNIT
       //WORL_UNIT
       //LATEST_ALLOC_PROGRESS_PERIOD
       //WORN
       //BAR
-      //CONSTRAINU
+      //CONSTRAINT_FLAG
       //PRIORITB
       //CRITICAM
       //USE_PARENU_CALENDAR
@@ -566,9 +588,9 @@ final class AstaReader
       //DURATIOTTYPF
       //DURATIOTELA_MONTHS
       //DURATIOTHOURS
-      task.setStart(row.getDate("STARZ"));
-      task.setFinish(row.getDate("ENJ"));
-      //DURATION_TIMJ_UNIT
+      task.setStart(row.getDate("LINKABLE_START"));
+      task.setFinish(row.getDate("LINKABLE_FINISH"));
+      //DURATION_TIME_UNIT
       //UNSCHEDULABLG
       //SUBPROJECT_ID
       //ALT_ID
@@ -578,7 +600,7 @@ final class AstaReader
       //
       // Overall Percent Complete
       //
-      Double overallPercentComplete = row.getPercent("OVERALL_PERCENV_COMPLETE");
+      Double overallPercentComplete = row.getPercent("OVERALL_PERCENT_COMPLETE");
       task.setOverallPercentComplete(overallPercentComplete);
       m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
       boolean taskIsComplete = overallPercentComplete != null && overallPercentComplete.doubleValue() > 99.0;
@@ -597,7 +619,7 @@ final class AstaReader
             startDate = task.getStart();
          }
 
-         if (timeUnitIsElapsed(row.getInt("DURATION_TIMJ_UNIT")))
+         if (timeUnitIsElapsed(row.getInt("DURATION_TIME_UNIT")))
          {
             remainingDuration = Duration.getInstance(startDate.until(task.getFinish(), ChronoUnit.HOURS), TimeUnit.HOURS);
          }
@@ -668,16 +690,16 @@ final class AstaReader
     */
    private void populateBar(Row row, Task task)
    {
-      Integer calendarID = row.getInteger("_CALENDAU");
+      Integer calendarID = row.getInteger("_CALENDAR");
       if (calendarID == null)
       {
          if (!row.getChildRows().isEmpty())
          {
-            calendarID = row.getChildRows().get(0).getInteger("CALENDAU");
+            calendarID = row.getChildRows().get(0).getInteger("CALENDAR");
          }
       }
 
-      String name = row.getString("NAMH");
+      String name = row.getString("NAME");
       if (name == null || name.isEmpty())
       {
          String extendedTaskName = row.getString("_NAME");
@@ -691,8 +713,8 @@ final class AstaReader
 
       //PROJID
       task.setUniqueID(row.getInteger("BARID"));
-      task.setStart(row.getDate("STARV"));
-      task.setFinish(row.getDate("ENF"));
+      task.setStart(row.getDate("BAR_START"));
+      task.setFinish(row.getDate("BAR_FINISH"));
       //NATURAL_ORDER
       //SPARI_INTEGER
       task.setName(name);
@@ -767,7 +789,7 @@ final class AstaReader
       //INTERRUPTIBLE_X
       //ACTUAL_DURATIONTYPF
       //ACTUAL_DURATIONELA_MONTHS
-      //ACTUAL_DURATIONHOURS
+      //ACTUAL_DURATION
       task.setEarlyStart(row.getDate("EARLY_START_DATE"));
       task.setLateStart(row.getDate("LATE_START_DATE"));
       task.setEarlyFinish(row.getDate("EARLY_END_DATE_RS"));
@@ -776,22 +798,22 @@ final class AstaReader
       //START_CONSTRAINT_DATE
       //END_CONSTRAINT_DATE
       //EFFORT_BUDGET
-      //NATURAO_ORDER
+      //NATURAL_ORDER
       //LOGICAL_PRECEDENCE
       //SPAVE_INTEGER
       //SWIM_LANE
       //USER_PERCENT_COMPLETE
-      //OVERALL_PERCENV_COMPLETE
+      //OVERALL_PERCENT_COMPLETE
       //OVERALL_PERCENT_COMPL_WEIGHT
-      task.setName(row.getString("NARE"));
-      //NOTET
+      task.setName(row.getString("NAME"));
+      //NOTES
       task.setActivityID(row.getString("UNIQUE_TASK_ID"));
-      task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAU")));
+      task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAR")));
       //EFFORT_TIMI_UNIT
       //WORL_UNIT
       //LATEST_ALLOC_PROGRESS_PERIOD
       //WORN
-      //CONSTRAINU
+      //CONSTRAINT_FLAG
       //PRIORITB
       //CRITICAM
       //USE_PARENU_CALENDAR
@@ -803,9 +825,9 @@ final class AstaReader
       //DURATIOTTYPF
       //DURATIOTELA_MONTHS
       //DURATIOTHOURS
-      //STARZ
-      //ENJ
-      //DURATION_TIMJ_UNIT
+      //LINKABLE_START
+      //LINKABLE_FINISH
+      //DURATION_TIME_UNIT
       //UNSCHEDULABLG
       //SUBPROJECT_ID
       //ALT_ID
@@ -863,15 +885,7 @@ final class AstaReader
     */
    private void updateUniqueIDs()
    {
-      int maxUniqueID = m_project.getTasks().stream().mapToInt(task -> NumberHelper.getInt(task.getUniqueID())).max().orElse(0);
-      int uniqueID = (((maxUniqueID + 1000) / 1000) + 1) * 1000;
-      for (Task task : m_project.getTasks())
-      {
-         if (task.getUniqueID() == null)
-         {
-            task.setUniqueID(Integer.valueOf(uniqueID++));
-         }
-      }
+      m_project.getTasks().stream().filter(t -> t.getUniqueID() == null).forEach(t -> t.setUniqueID(m_project.getUniqueIdObjectSequence(Task.class).getNext()));
    }
 
    /**
@@ -1076,278 +1090,116 @@ final class AstaReader
     * Processes predecessor data.
     *
     * @param rows predecessor data
-    * @param completedSections completed section data
     */
-   public void processPredecessors(List<Row> rows, List<Row> completedSections)
+   public void processPredecessors(List<Row> rows)
    {
-      Map<Integer, Integer> completedSectionMap = new HashMap<>();
-      for (Row section : completedSections)
-      {
-         completedSectionMap.put(section.getInteger("TASK_COMPLETED_SECTIONID"), section.getInteger("TASK"));
-      }
-
       for (Row row : rows)
       {
-         Integer startTaskID = row.getInteger("START_TASK");
-         Task startTask = m_project.getTaskByUniqueID(startTaskID);
+         Task startTask = getTaskByAstaID(row.getInteger("START_TASK"));
          if (startTask == null)
          {
-            startTaskID = completedSectionMap.get(startTaskID);
-            if (startTaskID != null)
-            {
-               startTask = m_project.getTaskByUniqueID(startTaskID);
-            }
+            continue;
          }
 
-         Integer endTaskID = row.getInteger("END_TASK");
-         Task endTask = m_project.getTaskByUniqueID(endTaskID);
+         Task endTask = getTaskByAstaID(row.getInteger("END_TASK"));
          if (endTask == null)
          {
-            endTaskID = completedSectionMap.get(endTaskID);
-            if (endTaskID != null)
-            {
-               endTask = m_project.getTaskByUniqueID(endTaskID);
-            }
+            continue;
          }
 
-         if (startTask != null && endTask != null)
+         RelationType type = getRelationType(row.getInt("LINK_KIND"));
+         Duration startLag = row.getDuration("START_LAG_TIME");
+         Duration endLag = row.getDuration("END_LAG_TIME");
+         Duration lag;
+
+         double startLagDuration = startLag.getDuration();
+         double endLagDuration = endLag.getDuration();
+
+         if (startLagDuration == 0.0 && endLagDuration == 0.0)
          {
-            RelationType type = getRelationType(row.getInt("TYPI"));
-
-            Duration startLag = row.getDuration("START_LAG_TIMEHOURS");
-            Duration endLag = row.getDuration("END_LAG_TIMEHOURS");
-            Duration lag;
-
-            double startLagDuration = startLag.getDuration();
-            double endLagDuration = endLag.getDuration();
-
-            if (startLagDuration == 0.0 && endLagDuration == 0.0)
+            lag = Duration.getInstance(0, TimeUnit.HOURS);
+         }
+         else
+         {
+            if (startLagDuration != 0.0 && endLagDuration == 0.0)
             {
-               lag = Duration.getInstance(0, TimeUnit.HOURS);
+               lag = startLag;
             }
             else
             {
-               if (startLagDuration != 0.0 && endLagDuration == 0.0)
+               if (startLagDuration == 0.0 && endLagDuration != 0.0)
                {
-                  lag = startLag;
+                  lag = Duration.getInstance(startLagDuration - endLagDuration, endLag.getUnits());
                }
                else
                {
-                  if (startLagDuration == 0.0 && endLagDuration != 0.0)
-                  {
-                     lag = Duration.getInstance(startLagDuration - endLagDuration, endLag.getUnits());
-                  }
-                  else
-                  {
-                     // For the moment we're assuming if both a start lag and an end lag are supplied, they both use the same units.
-                     // If I'm given an example where they are different I'll revisit this code.
-                     lag = Duration.getInstance(startLagDuration - endLagDuration, startLag.getUnits());
-                  }
+                  // For the moment we're assuming if both a start lag and an end lag are supplied, they both use the same units.
+                  // If I'm given an example where they are different I'll revisit this code.
+                  lag = Duration.getInstance(startLagDuration - endLagDuration, startLag.getUnits());
                }
-            }
-
-            endTask.addPredecessor(new Relation.Builder()
-               .predecessorTask(startTask)
-               .type(type)
-               .lag(lag)
-               .uniqueID(row.getInteger("LINKID")));
-
-            // resolve indeterminate constraint for successor tasks
-            if (m_deferredConstraintType.contains(endTask.getUniqueID()))
-            {
-               endTask.setConstraintType(ConstraintType.AS_LATE_AS_POSSIBLE);
-               endTask.setConstraintDate(null);
             }
          }
 
-         //PROJID
-         //LINKID
-         //START_LAG_TIMETYPF
-         //START_LAG_TIMEELA_MONTHS
-         //START_LAG_TIMEHOURS
-         //END_LAG_TIMETYPF
-         //END_LAG_TIMEELA_MONTHS
-         //END_LAG_TIMEHOURS
-         //MAXIMUM_LAGTYPF
-         //MAXIMUM_LAGELA_MONTHS
-         //MAXIMUM_LAGHOURS
-         //STARV_DATE
-         //ENF_DATE
-         //CURVATURE_PERCENTAGE
-         //START_LAG_PERCENT_FLOAT
-         //END_LAG_PERCENT_FLOAT
-         //COMMENTS
-         //LINK_CATEGORY
-         //START_LAG_TIME_UNIT
-         //END_LAG_TIME_UNIT
-         //MAXIMUM_LAG_TIME_UNIT
-         //START_TASK
-         //END_TASK
-         //TYPI
-         //START_LAG_TYPE
-         //END_LAG_TYPE
-         //MAINTAIN_TASK_OFFSETS
-         //UNSCHEDULABLF
-         //CRITICAL
-         //ON_LOOP
-         //MAXIMUM_LAG_MODE
-         //ANNOTATE_LEAD_LAG
-         //START_REPOSITION_ON_TAS_MOVE
-         //END_REPOSITION_ON_TASK_MOVE
-         //DRAW_CURVED_IF_VERTICAL
-         //AUTOMATIC_CURVED_LI_SETTINGS
-         //DRAW_CURVED_LINK_TO_LEFT
-         //LOCAL_LINK
-         //DRIVING
-         //ALT_ID
-         //LAST_EDITED_DATE
-         //LAST_EDITED_BY
+         endTask.addPredecessor(new Relation.Builder()
+            .predecessorTask(startTask)
+            .type(type)
+            .lag(lag)
+            .uniqueID(row.getInteger("ID")));
+
+         // resolve indeterminate constraint for successor tasks
+         if (m_deferredConstraintType.contains(endTask.getUniqueID()))
+         {
+            endTask.setConstraintType(ConstraintType.AS_LATE_AS_POSSIBLE);
+            endTask.setConstraintDate(null);
+         }
       }
    }
 
    /**
     * Process assignment data.
     *
-    * @param permanentAssignments assignment data
+    * @param allocationRows assignment data
+    * @param skillRows skill data
     */
-   public void processAssignments(List<Row> permanentAssignments)
+   public void processAssignments(List<Row> allocationRows, List<Row> skillRows)
    {
       // TODO: add support for consumable resource assignments
-      for (Row row : permanentAssignments)
+      Map<Integer, Row> skillMap = skillRows.stream().collect(Collectors.toMap(t -> t.getInteger("ID"), t -> t));
+      for (Row row : allocationRows)
       {
-         Task task = m_project.getTaskByUniqueID(row.getInteger("ALLOCATEE_TO"));
-         Resource resource = m_project.getResourceByUniqueID(row.getInteger("PLAYER"));
-         if (task != null && resource != null)
+         Task task = getTaskByAstaID(row.getInteger("ALLOCATED_TO"));
+         if (task == null)
          {
-            Double percentComplete = row.getPercent("PERCENT_COMPLETE");
-            Duration work = row.getWork("EFFORW");
-            double actualWork = (work.getDuration() * percentComplete.doubleValue()) / 100.0;
-            double remainingWork = work.getDuration() - actualWork;
-
-            ResourceAssignment assignment = task.addResourceAssignment(resource);
-            assignment.setUniqueID(row.getInteger("PERMANENT_SCHEDUL_ALLOCATIONID"));
-            assignment.setStart(row.getDate("STARZ"));
-            assignment.setFinish(row.getDate("ENJ"));
-            assignment.setUnits(Double.valueOf(row.getDouble("GIVEN_ALLOCATION").doubleValue() * 100));
-            assignment.setDelay(row.getDuration("DELAAHOURS"));
-            assignment.setWork(work);
-            assignment.setActualWork(Duration.getInstance(actualWork, work.getUnits()));
-            assignment.setRemainingWork(Duration.getInstance(remainingWork, work.getUnits()));
-            assignment.setPercentageWorkComplete(percentComplete);
+            continue;
          }
 
-         //PROJID
-         //REQUIREE_BY
-         //OWNED_BY_TIMESHEET_X
-         //EFFORW
-         //GIVEN_EFFORT
-         //WORK_FROM_TASK_FACTOR
-         //ALLOCATIOO
-         //GIVEN_ALLOCATION
-         //ALLOCATIOP_OF
-         //WORM_UNIT
-         //WORK_RATE_TIMF_UNIT
-         //EFFORT_TIMJ_UNIT
-         //WORO
-         //GIVEN_WORK
-         //WORL_RATE
-         //GIVEN_WORK_RATE
-         //TYPV
-         //CALCULATEG_PARAMETER
-         //BALANCINJ_PARAMETER
-         //SHAREE_EFFORT
-         //CONTRIBUTES_TO_ACTIVI_EFFORT
-         //DELAATYPF
-         //DELAAELA_MONTHS
-         //DELAAHOURS
-         //GIVEO_DURATIONTYPF
-         //GIVEO_DURATIONELA_MONTHS
-         //GIVEO_DURATIONHOURS
-         //DELAY_TIMI_UNIT
-         //RATE_TYPE
-         //USE_TASM_CALENDAR
-         //IGNORF
-         //ELAPSEE
-         //MAY_BE_SHORTER_THAN_TASK
-         //RESUMF
-         //SPAXE_INTEGER
-         //USER_PERCENU_COMPLETE
-         //ALLOCATIOR_GROUP
-         //PRIORITC
-         //ACCOUNTED_FOR_ELSEWHERE
-         //DURATIOTTYPF
-         //DURATIOTELA_MONTHS
-         //DURATIOTHOURS
-         //DURATION_TIMJ_UNIT
-         //UNSCHEDULABLG
-         //SUBPROJECT_ID
-         //permanent_schedul_allocation_ALT_ID
-         //permanent_schedul_allocation_LAST_EDITED_DATE
-         //permanent_schedul_allocation_LAST_EDITED_BY
-         //perm_resource_skill_PROJID
-         //PERM_RESOURCE_SKILLID
-         //ARR_STOUT_STSKI_APARROW_TYPE
-         //ARR_STOUT_STSKI_APLENGTH
-         //ARR_STOUT_STSKI_APEDGE
-         //ARR_STOUT_STSKI_APBORDET_COL
-         //ARR_STOUT_STSKI_APINSIDG_COL
-         //ARR_STOUT_STSKI_APPLACEMENW
-         //BLI_STOUT_STSKI_APBLIP_TYPE
-         //BLI_STOUT_STSKI_APSCALEY
-         //BLI_STOUT_STSKI_APSCALEZ
-         //BLI_STOUT_STSKI_APGAP
-         //BLI_STOUT_STSKI_APBORDES_COL
-         //BLI_STOUT_STSKI_APINSIDF_COL
-         //BLI_STOUT_STSKI_APPLACEMENV
-         //LIN_STOUT_STSKI_APSCALEX
-         //LIN_STOUT_STSKI_APWIDTH
-         //LIN_STOUT_STSKI_APBORDER_COL
-         //LIN_STOUT_STSKI_APINSIDE_COL
-         //LIN_STOUT_STSKI_APLINE_TYPE
-         //SKI_APFOREGROUND_FILL_COLOUR
-         //SKI_APBACKGROUND_FILL_COLOUR
-         //SKI_APPATTERN
-         //DURATIOODEFAULTTTYPF
-         //DURATIOODEFAULTTELA_MONTHS
-         //DURATIOODEFAULTTHOURS
-         //DELAYDEFAULTTTYPF
-         //DELAYDEFAULTTELA_MONTHS
-         //DELAYDEFAULTTHOURS
-         //DEFAULTTALLOCATION
-         //DEFAULTTWORK_FROM_ACT_FACTOR
-         //DEFAULTTEFFORT
-         //DEFAULTTWORL
-         //DEFAULTTWORK_RATE
-         //DEFAULTTWORK_UNIT
-         //DEFAULTTWORK_RATE_TIME_UNIT
-         //DEFAULTTEFFORT_TIMG_UNIT
-         //DEFAULTTDURATION_TIMF_UNIT
-         //DEFAULTTDELAY_TIME_UNIT
-         //DEFAULTTTYPL
-         //DEFAULTTCALCULATED_PARAMETER
-         //DEFAULTTBALANCING_PARAMETER
-         //DEFAULTTWORK_RATE_TYPE
-         //DEFAULTTUSE_TASK_CALENDAR
-         //DEFAULTTALLOC_PROPORTIONALLY
-         //DEFAULTTCAN_BE_SPLIT
-         //DEFAULTTCAN_BE_DELAYED
-         //DEFAULTTCAN_BE_STRETCHED
-         //DEFAULTTACCOUNTED__ELSEWHERE
-         //DEFAULTTCONTRIBUTES_T_EFFORT
-         //DEFAULTTMAY_BE_SHORTER__TASK
-         //DEFAULTTSHARED_EFFORT
-         //ABILITY
-         //EFFECTIVENESS
-         //AVAILABLF_FROM
-         //AVAILABLF_TO
-         //SPARO_INTEGER
-         //EFFORT_TIMF_UNIT
-         //ROLE
-         //CREATED_AS_FOLDER
-         //perm_resource_skill_ALT_ID
-         //perm_resource_skill_LAST_EDITED_DATE
-         //perm_resource_skill_LAST_EDITED_BY
+         Row skill = skillMap.get(row.getInteger("ALLOCATION_OF"));
+         if (skill == null)
+         {
+            continue;
+         }
 
+         Resource resource = m_project.getResourceByUniqueID(skill.getInteger("PLAYER"));
+         if (resource == null)
+         {
+            continue;
+         }
+
+         Double percentComplete = row.getPercent("PERCENT_COMPLETE");
+         Duration work = row.getWork("EFFORT");
+         double actualWork = (work.getDuration() * percentComplete.doubleValue()) / 100.0;
+         double remainingWork = work.getDuration() - actualWork;
+
+         ResourceAssignment assignment = task.addResourceAssignment(resource);
+         assignment.setUniqueID(row.getInteger("ID"));
+         assignment.setStart(row.getDate("LINKABLE_START"));
+         assignment.setFinish(row.getDate("LINKABLE_FINISH"));
+         assignment.setUnits(Double.valueOf(row.getDouble("GIVEN_ALLOCATION").doubleValue() * 100));
+         assignment.setDelay(row.getDuration("DELAY"));
+         assignment.setWork(work);
+         assignment.setActualWork(Duration.getInstance(actualWork, work.getUnits()));
+         assignment.setRemainingWork(Duration.getInstance(remainingWork, work.getUnits()));
+         assignment.setPercentageWorkComplete(percentComplete);
       }
    }
 
@@ -1470,7 +1322,7 @@ final class AstaReader
       ConstraintType constraintType = ConstraintType.AS_SOON_AS_POSSIBLE;
       LocalDateTime constraintDate = null;
 
-      switch (row.getInt("CONSTRAINU"))
+      switch (row.getInt("CONSTRAINT_FLAG"))
       {
          case 0:
          {
@@ -1557,7 +1409,7 @@ final class AstaReader
       Map<Integer, DayType> map = new HashMap<>();
       for (Row row : rows)
       {
-         Integer id = row.getInteger("EXCEPTIONNID");
+         Integer id = row.getInteger("ID");
          DayType result;
 
          switch (row.getInt("UNIQUE_BIT_FIELD"))
@@ -1597,7 +1449,7 @@ final class AstaReader
       Map<Integer, Row> map = new HashMap<>();
       for (Row row : rows)
       {
-         map.put(row.getInteger("WORK_PATTERNID"), row);
+         map.put(row.getInteger("ID"), row);
       }
       return map;
    }
@@ -1674,8 +1526,8 @@ final class AstaReader
       //
       ProjectCalendar calendar = m_project.addCalendar();
       Integer dominantWorkPatternID = calendarRow.getInteger("DOMINANT_WORK_PATTERN");
-      calendar.setUniqueID(calendarRow.getInteger("CALENDARID"));
-      calendar.setName(calendarRow.getString("NAMK"));
+      calendar.setUniqueID(calendarRow.getInteger("ID"));
+      calendar.setName(calendarRow.getString("NAME"));
 
       boolean defaultWeekSet = workPatternMap.get(dominantWorkPatternID) != null;
       if (defaultWeekSet)
@@ -1722,8 +1574,8 @@ final class AstaReader
 
          for (Row row : rows)
          {
-            LocalDateTime startDate = row.getDate("STARU_DATE");
-            LocalDateTime endDate = row.getDate("ENE_DATE");
+            LocalDateTime startDate = row.getDate("START_DATE");
+            LocalDateTime endDate = row.getDate("END_DATE");
 
             // special case - when the exception end time is midnight, it really finishes at the end of the previous day
             if (endDate.equals(LocalDateTimeHelper.getDayStartDate(endDate)))
@@ -1782,7 +1634,7 @@ final class AstaReader
       // Don't apply the name to the top level calendar
       if (!(week instanceof ProjectCalendar))
       {
-         week.setName(workPatternRow.getString("NAMN"));
+         week.setName(workPatternRow.getString("NAME"));
       }
 
       List<Row> timeEntryRows = timeEntryMap.get(workPatternID);
@@ -1816,7 +1668,7 @@ final class AstaReader
             hours = week.addCalendarHours(currentDay);
          }
 
-         DayType type = exceptionTypeMap.get(row.getInteger("EXCEPTIOP"));
+         DayType type = exceptionTypeMap.get(row.getInteger("EXCEPTION"));
          if (hours != null && type == DayType.WORKING)
          {
             hours.add(new LocalTimeRange(startTime, endTime));
@@ -1833,7 +1685,7 @@ final class AstaReader
     */
    private String getNotes(Row row)
    {
-      String notes = row.getString("NOTET");
+      String notes = row.getString("NOTES");
       if (notes != null)
       {
          if (notes.isEmpty())
@@ -2258,27 +2110,51 @@ final class AstaReader
             continue;
          }
 
-         Integer id = row.getInteger("CODES");
-         Task task = m_taskMap.get(id);
+         Task task = getTaskByAstaID(row.getInteger("CODES"));
          if (task == null)
          {
-            task = m_milestoneMap.get(id);
-            if (task == null)
-            {
-               task = m_barMap.get(id);
-               if (task == null)
-               {
-                  task = m_expandedTaskMap.get(id);
-               }
-            }
+            // Task will be null here for hammock tasks
+            continue;
          }
 
-         // Task will be null here for hammock tasks
-         if (task != null)
-         {
-            task.addActivityCodeValue(value);
-         }
+         task.addActivityCodeValue(value);
       }
+   }
+
+   /**
+    * Given an Asta unique identifier, try to identify the Asta entity this relates to
+    * and retrieve the equivalent MPXJ Task instance.
+    *
+    * @param id Asta unique ID
+    * @return Task instance or null
+    */
+   private Task getTaskByAstaID(Integer id)
+   {
+      Task task = m_taskMap.get(id);
+      if (task != null)
+      {
+         return task;
+      }
+
+      task = m_milestoneMap.get(id);
+      if (task != null)
+      {
+         return task;
+      }
+
+      task = m_barMap.get(id);
+      if (task != null)
+      {
+         return task;
+      }
+
+      task = m_expandedTaskMap.get(id);
+      if (task != null)
+      {
+         return task;
+      }
+
+      return m_completedSectionMap.get(id);
    }
 
    /**
@@ -2319,11 +2195,12 @@ final class AstaReader
    private final Map<Integer, Task> m_taskMap = new HashMap<>();
    private final Map<Integer, Task> m_milestoneMap = new HashMap<>();
    private final Map<Integer, Task> m_expandedTaskMap = new HashMap<>();
+   private final Map<Integer, Task> m_completedSectionMap = new HashMap<>();
 
    private static final Double COMPLETE = Double.valueOf(100);
    private static final Double INCOMPLETE = Double.valueOf(0);
    private static final String LINE_BREAK = "|@|||";
-   private static final RowComparator LEAF_COMPARATOR = new RowComparator("NATURAL_ORDER", "NATURAO_ORDER");
+   private static final RowComparator LEAF_COMPARATOR = new RowComparator("NATURAL_ORDER", "NATURAL_ORDER");
    private static final RowComparator BAR_COMPARATOR = new RowComparator("EXPANDED_TASK", "NATURAL_ORDER");
 
    private static final RelationType[] RELATION_TYPES =

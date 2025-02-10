@@ -29,6 +29,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.mpxj.EPS;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.AutoCloseableHelper;
@@ -58,6 +59,36 @@ public final class PrimaveraDatabaseFileReader extends AbstractProjectFileReader
          PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
          reader.setConnection(connection);
          return reader.listProjects();
+      }
+
+      catch (SQLException ex)
+      {
+         throw new MPXJException("Failed to create connection", ex);
+      }
+
+      finally
+      {
+         AutoCloseableHelper.closeQuietly(connection);
+      }
+   }
+
+   /**
+    * Retrieve an instance of the EPS class, allowing the hierarchy of EpsNode
+    * and EpsProjectNodes to be traversed.
+    *
+    * @param file database file
+    * @return EPS instance
+    */
+   public EPS listEps(File file) throws MPXJException
+   {
+      Connection connection = null;
+
+      try
+      {
+         connection = getDatabaseConnection(file);
+         PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+         reader.setConnection(connection);
+         return reader.listEps();
       }
 
       catch (SQLException ex)
