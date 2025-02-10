@@ -339,7 +339,6 @@ public class CpmTest
       EXCLUDED_FILES.add("orange-parade.xer"); // PROGRESS_OVERRIDE
 
       // ALAP weirdness
-      EXCLUDED_FILES.add("virtual-mast-scheduled.xer");
       EXCLUDED_FILES.add("barbaric-pat.xer");
 
       // Schedule contains a loop
