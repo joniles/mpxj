@@ -756,7 +756,7 @@ public class PrimaveraScheduler implements Scheduler
                      else
                      {
                         // successor finished
-                        predecessorEarlyFinish = predecessorTask.getActualFinish();
+                        return m_dataDate; // return directly as we don't need to adjust further
                      }
                   }
                }
