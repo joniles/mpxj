@@ -320,11 +320,7 @@ public class CpmTest
       // Progress Override
       EXCLUDED_FILES.add("passionate-lounge-scheduled.xer");
       EXCLUDED_FILES.add("orange-parade.xer");
-
-      // Don't understand SS relationship behaviour
-      EXCLUDED_FILES.add("dense-cushion-scheduled.xer"); // the remaining issue here is a 5h difference - looks like it is down to activities with different calenders
-      EXCLUDED_FILES.add("teenage-contest-scheduled.xer");
-
+      
       // ALAP weirdness
       EXCLUDED_FILES.add("barbaric-pat.xer");
 
