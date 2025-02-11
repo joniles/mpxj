@@ -878,7 +878,6 @@ public class PrimaveraScheduler implements Scheduler
    {
       Task predecessorTask = relation.getPredecessorTask();
       Task successorTask = relation.getSuccessorTask();
-      ProjectCalendar taskCalendar = predecessorTask.getEffectiveCalendar();
 
       LocalDateTime lateFinish;
 
@@ -888,7 +887,7 @@ public class PrimaveraScheduler implements Scheduler
          {
             if (successorTask.getActualStart() == null && predecessorTask.getActualStart() == null)
             {
-               LocalDateTime lateStart = taskCalendar.getNextWorkStart(getDate(getLagCalendar(relation), successorTask.getLateStart(), relation.getLag().negate()));
+               LocalDateTime lateStart = predecessorTask.getEffectiveCalendar().getNextWorkStart(getDate(getLagCalendar(relation), successorTask.getLateStart(), relation.getLag().negate()));
                lateFinish = getDateFromStartAndRemainingDuration(predecessorTask, lateStart);
 
                // Hmmm... dubious logic. Does this just work for indefensible-tedium or is this general?
@@ -1102,7 +1101,7 @@ public class PrimaveraScheduler implements Scheduler
                if (successorTask.getActualStart() == null)
                {
                   // Successor not started
-                  lateFinish = getDate(getLagCalendar(relation), getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration()), relation.getLag().negate());
+                  lateFinish = getDate(getLagCalendar(relation), getDateFromStart(predecessorTask, successorTask.getLateFinish()), relation.getLag().negate());
                }
                else
                {
@@ -1110,12 +1109,12 @@ public class PrimaveraScheduler implements Scheduler
                   if (successorTask.getActualFinish() == null)
                   {
                      // successor not finished
-                     lateFinish = getDate(getLagCalendar(relation), getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration()), relation.getLag().negate());
+                     lateFinish = getDate(getLagCalendar(relation), getDateFromStart(predecessorTask, successorTask.getLateFinish()), relation.getLag().negate());
                   }
                   else
                   {
                      // successor finished
-                     lateFinish = getDate(getLagCalendar(relation), getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration()), relation.getLag().negate());
+                     lateFinish = getDate(getLagCalendar(relation), getDateFromStart(predecessorTask, successorTask.getLateFinish()), relation.getLag().negate());
                   }
                }
             }
@@ -1128,7 +1127,7 @@ public class PrimaveraScheduler implements Scheduler
                   if (successorTask.getActualStart() == null)
                   {
                      // Successor not started
-                     lateFinish = getDate(getLagCalendar(relation), getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration()), relation.getLag().negate());
+                     lateFinish = getDate(getLagCalendar(relation), getDateFromStart(predecessorTask, successorTask.getLateFinish()), relation.getLag().negate());
                   }
                   else
                   {
@@ -1136,7 +1135,7 @@ public class PrimaveraScheduler implements Scheduler
                      if (successorTask.getActualFinish() == null)
                      {
                         // successor not finished
-                        lateFinish = getDate(getLagCalendar(relation), getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration()), relation.getLag().negate());
+                        lateFinish = getDate(getLagCalendar(relation), getDateFromStart(predecessorTask, successorTask.getLateFinish()), relation.getLag().negate());
                      }
                      else
                      {
@@ -1159,7 +1158,7 @@ public class PrimaveraScheduler implements Scheduler
                      if (successorTask.getActualFinish() == null)
                      {
                         // successor not finished
-                        lateFinish = getDate(getLagCalendar(relation), getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration()), relation.getLag().negate());
+                        lateFinish = getDate(getLagCalendar(relation), getDateFromStart(predecessorTask, successorTask.getLateFinish()), relation.getLag().negate());
                      }
                      else
                      {
@@ -1170,7 +1169,7 @@ public class PrimaveraScheduler implements Scheduler
                         if (lagDurationInHours > actualLagDurationInHours)
                         {
                            Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
-                           lateFinish = getDate(getLagCalendar(relation), getDate(taskCalendar, successorTask.getLateFinish(), predecessorTask.getDuration()), remainingLag.negate());
+                           lateFinish = getDate(getLagCalendar(relation), getDateFromStart(predecessorTask, successorTask.getLateFinish()), remainingLag.negate());
                         }
                         else
                         {
@@ -1325,8 +1324,8 @@ public class PrimaveraScheduler implements Scheduler
       if (lateFinish.isAfter(m_projectFinishDate))
       {
          // If we're between working periods, move back to the last work finish
-         LocalDateTime previousWorkFinish = taskCalendar.getPreviousWorkFinish(m_projectFinishDate);
-         if (taskCalendar.getWork(previousWorkFinish, m_projectFinishDate, TimeUnit.HOURS).getDuration() == 0)
+         LocalDateTime previousWorkFinish = predecessorTask.getEffectiveCalendar().getPreviousWorkFinish(m_projectFinishDate);
+         if (predecessorTask.getEffectiveCalendar().getWork(previousWorkFinish, m_projectFinishDate, TimeUnit.HOURS).getDuration() == 0)
          {
             return previousWorkFinish;
          }
