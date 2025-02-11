@@ -321,9 +321,6 @@ public class CpmTest
       EXCLUDED_FILES.add("passionate-lounge-scheduled.xer");
       EXCLUDED_FILES.add("orange-parade.xer");
       
-      // ALAP weirdness
-      EXCLUDED_FILES.add("barbaric-pat.xer");
-
       // Schedule contains a loop
       EXCLUDED_FILES.add("calendar_missing_info.xer");
       EXCLUDED_FILES.add("incomprehensible-stockroom.xer");
