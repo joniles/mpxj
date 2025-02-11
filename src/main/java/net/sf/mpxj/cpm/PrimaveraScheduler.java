@@ -63,8 +63,6 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       backwardPass(tasks);
-
-      alapAdjust(tasks);
    }
 
    private void forwardPass(List<Task> tasks) throws CpmException
@@ -459,6 +457,11 @@ public class PrimaveraScheduler implements Scheduler
 
       task.setLateStart(lateStart);
       task.setLateFinish(lateFinish);
+
+      if (task.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE)
+      {
+         alapAdjust(task);
+      }
    }
 
    private LocalDateTime calculateEarlyStart(ProjectCalendar taskCalendar, Relation relation)
@@ -1433,17 +1436,6 @@ public class PrimaveraScheduler implements Scheduler
    public static boolean ignoreTask(Task task)
    {
       return task.getSummary() || !task.getActive() || task.getNull() || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getActivityType() == ActivityType.WBS_SUMMARY;
-   }
-
-   private void alapAdjust(List<Task> forwardPassTasks) throws CpmException
-   {
-      List<Task> tasks = new ArrayList<>(forwardPassTasks);
-      Collections.reverse(tasks);
-
-      for (Task task : tasks.stream().filter(t -> t.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE).collect(Collectors.toList()))
-      {
-         alapAdjust(task);
-      }
    }
 
    private void alapAdjust(Task task) throws CpmException

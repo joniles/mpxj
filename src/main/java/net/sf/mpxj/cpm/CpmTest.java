@@ -320,7 +320,7 @@ public class CpmTest
       // Progress Override
       EXCLUDED_FILES.add("passionate-lounge-scheduled.xer");
       EXCLUDED_FILES.add("orange-parade.xer");
-      
+
       // Schedule contains a loop
       EXCLUDED_FILES.add("calendar_missing_info.xer");
       EXCLUDED_FILES.add("incomprehensible-stockroom.xer");
