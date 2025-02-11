@@ -762,7 +762,7 @@ public class PrimaveraScheduler implements Scheduler
             }
 
             LocalDateTime earlyFinish = getDate(getLagCalendar(relation), predecessorEarlyFinish, relation.getLag());
-            LocalDateTime earlyStart = getDate(taskCalendar, earlyFinish, successorTask.getRemainingDuration().negate());
+            LocalDateTime earlyStart = getDate(successorTask.getEffectiveCalendar(), earlyFinish, successorTask.getRemainingDuration().negate());
             if (earlyStart.isBefore(m_projectStartDate))
             {
                earlyStart = m_projectStartDate;
@@ -780,7 +780,7 @@ public class PrimaveraScheduler implements Scheduler
                if (successorTask.getActualStart() == null)
                {
                   // Successor not started
-                  earlyStart = getDate(getLagCalendar(relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), successorTask.getDuration().negate()), relation.getLag());
+                  earlyStart = getDate(getLagCalendar(relation), getDate(successorTask.getEffectiveCalendar(), predecessorTask.getEarlyStart(), successorTask.getDuration().negate()), relation.getLag());
                }
                else
                {
@@ -788,12 +788,12 @@ public class PrimaveraScheduler implements Scheduler
                   if (successorTask.getActualFinish() == null)
                   {
                      // successor not finished
-                     earlyStart = getDate(getLagCalendar(relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), successorTask.getDuration().negate()), relation.getLag());
+                     earlyStart = getDate(getLagCalendar(relation), getDate(successorTask.getEffectiveCalendar(), predecessorTask.getEarlyStart(), successorTask.getDuration().negate()), relation.getLag());
                   }
                   else
                   {
                      // successor finished
-                     earlyStart = getDate(getLagCalendar(relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), successorTask.getDuration().negate()), relation.getLag());
+                     earlyStart = getDate(getLagCalendar(relation), getDate(successorTask.getEffectiveCalendar(), predecessorTask.getEarlyStart(), successorTask.getDuration().negate()), relation.getLag());
                   }
                }
             }
@@ -806,7 +806,7 @@ public class PrimaveraScheduler implements Scheduler
                   if (successorTask.getActualStart() == null)
                   {
                      // Successor not started
-                     earlyStart = getDate(getLagCalendar(relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), successorTask.getDuration().negate()), relation.getLag());
+                     earlyStart = getDate(getLagCalendar(relation), getDate(successorTask.getEffectiveCalendar(), predecessorTask.getEarlyStart(), successorTask.getDuration().negate()), relation.getLag());
                   }
                   else
                   {
@@ -814,7 +814,7 @@ public class PrimaveraScheduler implements Scheduler
                      if (successorTask.getActualFinish() == null)
                      {
                         // successor not finished
-                        earlyStart = getDate(getLagCalendar(relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), successorTask.getDuration().negate()), relation.getLag());
+                        earlyStart = getDate(getLagCalendar(relation), getDate(successorTask.getEffectiveCalendar(), predecessorTask.getEarlyStart(), successorTask.getDuration().negate()), relation.getLag());
                      }
                      else
                      {
@@ -833,7 +833,7 @@ public class PrimaveraScheduler implements Scheduler
                   if (successorTask.getActualStart() == null)
                   {
                      // Successor not started
-                     earlyStart = getDate(getLagCalendar(relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), successorTask.getDuration().negate()), relation.getLag());
+                     earlyStart = getDate(getLagCalendar(relation), getDate(successorTask.getEffectiveCalendar(), predecessorTask.getEarlyStart(), successorTask.getDuration().negate()), relation.getLag());
                      if (earlyStart.isAfter(m_dataDate))
                      {
                         earlyStart = m_dataDate;
@@ -845,18 +845,18 @@ public class PrimaveraScheduler implements Scheduler
                      if (successorTask.getActualFinish() == null)
                      {
                         // successor not finished
-                        earlyStart = getDate(getLagCalendar(relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), successorTask.getDuration().negate()), relation.getLag());
+                        earlyStart = getDate(getLagCalendar(relation), getDate(successorTask.getEffectiveCalendar(), predecessorTask.getEarlyStart(), successorTask.getDuration().negate()), relation.getLag());
                      }
                      else
                      {
                         // successor finished
-                        earlyStart = getDate(getLagCalendar(relation), getDate(taskCalendar, predecessorTask.getEarlyStart(), successorTask.getDuration().negate()), relation.getLag());
+                        earlyStart = getDate(getLagCalendar(relation), getDate(successorTask.getEffectiveCalendar(), predecessorTask.getEarlyStart(), successorTask.getDuration().negate()), relation.getLag());
                         if (earlyStart.isAfter(m_dataDate))
                         {
                            earlyStart = m_dataDate;
 
-                           LocalDateTime adjustedEarlyStart = taskCalendar.getNextWorkStart(earlyStart);
-                           Duration work = taskCalendar.getWork(earlyStart, adjustedEarlyStart, TimeUnit.MINUTES);
+                           LocalDateTime adjustedEarlyStart = successorTask.getEffectiveCalendar().getNextWorkStart(earlyStart);
+                           Duration work = successorTask.getEffectiveCalendar().getWork(earlyStart, adjustedEarlyStart, TimeUnit.MINUTES);
                            if (work.getDuration() == 0)
                            {
                               earlyStart = adjustedEarlyStart;
