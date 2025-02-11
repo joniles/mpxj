@@ -422,17 +422,15 @@ public class PrimaveraScheduler implements Scheduler
       {
          lateFinish = task.getExternalLateFinish();
       }
-
-      LocalDateTime lateStart;
-      Duration taskDuration = task.getRemainingDuration();
-      lateStart = getDate(calendar, lateFinish, taskDuration.negate());
+      
+      LocalDateTime lateStart = getDate(calendar, lateFinish, task.getRemainingDuration().negate());
       if (task.getActivityType() == ActivityType.START_MILESTONE)
       {
          lateStart = calendar.getNextWorkStart(lateStart);
       }
       else
       {
-         if (task.getActivityType() != ActivityType.FINISH_MILESTONE && taskDuration.getDuration() != 0)
+         if (task.getActivityType() != ActivityType.FINISH_MILESTONE && task.getRemainingDuration().getDuration() != 0)
          {
             LocalDateTime adjustedLateStart = calendar.getNextWorkStart(lateStart);
             Duration work = calendar.getWork(lateStart, adjustedLateStart, TimeUnit.MINUTES);
