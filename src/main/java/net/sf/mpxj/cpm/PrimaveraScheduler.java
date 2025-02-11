@@ -401,8 +401,7 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      // TODO: maybe the same task duration logic as below?
-      if (task.getDuration().getDuration() != 0)
+      if (!task.getMilestone())
       {
          // P6 moves the late finish date to the end of the working period on that day.
          LocalDateTime adjustedLateFinish = LocalTimeHelper.setEndTime(lateFinish, calendar.getFinishTime(lateFinish.toLocalDate()));
