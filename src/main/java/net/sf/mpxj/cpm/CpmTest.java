@@ -329,7 +329,7 @@ public class CpmTest
       // Rounding issue? Makes for a 1 minute difference on one activity
       EXCLUDED_FILES.add("fleet-salary.xer");
       EXCLUDED_FILES.add("global-sociology.xer");
-      
+
       // Misc MPP files
       EXCLUDED_FILES.add("photographic-magic.mpp"); // External tasks used but not visible in MSP
       EXCLUDED_FILES.add("bizarre-doomsday.mpp"); // Manually scheduled task without any explicitly supplied dates
