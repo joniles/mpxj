@@ -75,6 +75,11 @@ public class PrimaveraScheduler implements Scheduler
 
    private void forwardPass(Task task) throws CpmException
    {
+      if (task.getActivityType() == ActivityType.RESOURCE_DEPENDENT)
+      {
+         throw new UnsupportedOperationException("Resource Dependent Activities not currently supported");
+      }
+
       LocalDateTime earlyStart;
 
       LocalDateTime earlyFinish = null;
@@ -196,25 +201,10 @@ public class PrimaveraScheduler implements Scheduler
             }
          }
 
-         switch (task.getActivityType())
+         // Don't adjust for finish milestones
+         if (task.getActivityType() != ActivityType.FINISH_MILESTONE)
          {
-            case FINISH_MILESTONE:
-            {
-               // Don't adjust early start
-               break;
-            }
-
-            case RESOURCE_DEPENDENT:
-            {
-               throw new UnsupportedOperationException("Resource Dependent Activities not currently supported");
-            }
-
-            default:
-            {
-               // Next work start
-               earlyStart = task.getEffectiveCalendar().getNextWorkStart(earlyStart);
-               break;
-            }
+            earlyStart = task.getEffectiveCalendar().getNextWorkStart(earlyStart);
          }
       }
       else
