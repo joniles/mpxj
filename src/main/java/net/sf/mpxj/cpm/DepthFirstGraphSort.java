@@ -6,6 +6,7 @@ import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.ProjectFile;
@@ -14,9 +15,10 @@ import net.sf.mpxj.Task;
 
 public class DepthFirstGraphSort
 {
-   public DepthFirstGraphSort(ProjectFile file)
+   public DepthFirstGraphSort(ProjectFile file, Function<Task, Boolean> ignoreTask)
    {
       m_file = file;
+      m_ignoreTask = ignoreTask;
    }
 
    public List<Task> sort() throws CycleException
@@ -25,38 +27,7 @@ public class DepthFirstGraphSort
       {
          for (Task task : m_file.getTasks())
          {
-            // TODO: consider how MS Project schedules summary tasks with dependencies
-            if (task.getSummary())
-            {
-               continue;
-            }
-
-            // Ignore inactive tasks
-            if (!task.getActive())
-            {
-               continue;
-            }
-
-            // Ignore null tasks
-            if (task.getNull())
-            {
-               continue;
-            }
-
-            // Ignore probably null tasks
-            if (task.getName() == null)
-            {
-               continue;
-            }
-
-            // Ignore level of effort tasks - TODO: determine how Early/Late values are calculated from dependent activities
-            if (task.getActivityType() == ActivityType.LEVEL_OF_EFFORT)
-            {
-               continue;
-            }
-
-            // Ignore WBS Summary activities
-            if (task.getActivityType() == ActivityType.WBS_SUMMARY)
+            if (m_ignoreTask.apply(task))
             {
                continue;
             }
@@ -92,7 +63,12 @@ public class DepthFirstGraphSort
 
       for (Relation relation : m_file.getRelations().getRawSuccessors(task))
       {
-         visit(relation.getSourceTask());
+         Task successorTask = relation.getSuccessorTask();
+         if (m_ignoreTask.apply(successorTask))
+         {
+            continue;
+         }
+         visit(successorTask);
       }
 
       m_temporaryMark.remove(task);
@@ -101,6 +77,7 @@ public class DepthFirstGraphSort
    }
 
    private final ProjectFile m_file;
+   private final Function<Task, Boolean> m_ignoreTask;
    private final Deque<Task> m_tasks = new ArrayDeque<>();
    private final Set<Task> m_temporaryMark = new HashSet<>();
    private final Set<Task> m_permanentMark = new HashSet<>();

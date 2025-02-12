@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.ActivityType;
@@ -36,7 +37,7 @@ public class PrimaveraScheduler implements Scheduler
    {
       m_projectStartDate = projectStartDate;
 
-      List<Task> tasks = new DepthFirstGraphSort(m_file).sort();
+      List<Task> tasks = new DepthFirstGraphSort(m_file, this::ignoreTask).sort();
       if (tasks.isEmpty())
       {
          return;
@@ -1400,7 +1401,7 @@ public class PrimaveraScheduler implements Scheduler
       return getDate(task.getEffectiveCalendar(), date, task.getRemainingDuration().negate());
    }
 
-   public static boolean ignoreTask(Task task)
+   public boolean ignoreTask(Task task)
    {
       return task.getSummary() || !task.getActive() || task.getNull() || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getActivityType() == ActivityType.WBS_SUMMARY;
    }

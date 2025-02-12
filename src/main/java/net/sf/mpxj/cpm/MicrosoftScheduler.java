@@ -26,7 +26,7 @@ public class MicrosoftScheduler implements Scheduler
 
    public void process(LocalDateTime projectStartDate) throws Exception
    {
-      List<Task> tasks = new DepthFirstGraphSort(m_file).sort();
+      List<Task> tasks = new DepthFirstGraphSort(m_file, this::ignoreTask).sort();
       if (tasks.isEmpty())
       {
          return;
@@ -432,7 +432,7 @@ public class MicrosoftScheduler implements Scheduler
       return taskCalendar;
    }
 
-   public static boolean ignoreTask(Task task)
+   public boolean ignoreTask(Task task)
    {
       return task.getSummary() || !task.getActive() || task.getNull() || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getActivityType() == ActivityType.WBS_SUMMARY;
    }

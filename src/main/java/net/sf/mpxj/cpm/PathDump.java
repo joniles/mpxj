@@ -23,11 +23,10 @@ public class PathDump
          return;
       }
 
-      ProjectFile file = new UniversalProjectReader().read(argv[0]);
-
-      List<List<Task>> paths = new PathHelper(file).getAllPaths();
-      System.out.println(writeHeader());
-      paths.forEach(PathDump::writePath);
+//      ProjectFile file = new UniversalProjectReader().read(argv[0]);
+//      List<List<Task>> paths = new PathHelper(file).getAllPaths();
+//      System.out.println(writeHeader());
+//      paths.forEach(PathDump::writePath);
    }
 
    private static void writePath(List<Task> path)

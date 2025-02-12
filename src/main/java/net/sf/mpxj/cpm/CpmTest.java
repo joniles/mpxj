@@ -49,7 +49,7 @@ public class CpmTest
       int valid = 0;
       int success = 0;
 
-      for(File file : fileList)
+      for (File file : fileList)
       {
          String name = file.getName().toLowerCase();
          if (UNREADABLE_FILES.contains(name))
@@ -89,7 +89,7 @@ public class CpmTest
       System.out.println("Success %: " + (success * 100.0 / valid));
    }
 
-   public boolean process(File file, Function<ProjectFile, Scheduler> scheduler) throws Exception
+   public boolean process(File file, Function<ProjectFile, Scheduler> schedulerFactory) throws Exception
    {
       System.out.print("Processing " + file + " ... ");
       m_forwardErrorCount = 0;
@@ -98,11 +98,17 @@ public class CpmTest
       m_baselineFile = new UniversalProjectReader().read(file);
       m_workingFile = new UniversalProjectReader().read(file);
 
-      scheduler.apply(m_workingFile).process(m_workingFile.getProjectProperties().getStartDate());
+      Scheduler scheduler = schedulerFactory.apply(m_workingFile);
+      scheduler.process(m_workingFile.getProjectProperties().getStartDate());
 
       for (Task baselineTask : m_baselineFile.getTasks())
       {
-         compare(baselineTask, m_workingFile.getTaskByUniqueID(baselineTask.getUniqueID()));
+         Task workingTask = m_workingFile.getTaskByUniqueID(baselineTask.getUniqueID());
+         if (scheduler.ignoreTask(workingTask))
+         {
+            continue;
+         }
+         compare(baselineTask, workingTask);
       }
 
       if (m_forwardErrorCount == 0&& m_backwardErrorCount == 0)
@@ -116,18 +122,13 @@ public class CpmTest
       System.out.println(m_baselineFile.getProjectProperties().getSchedulingProgressedActivities());
       System.out.println("Forward errors: " + m_forwardErrorCount);
       System.out.println("Backward errors: " + m_backwardErrorCount);
-      analyseFailures();
+      analyseFailures(scheduler);
       System.out.println("DONE");
       return false;
    }
 
    private void compare(Task baseline, Task working)
    {
-      if (MicrosoftScheduler.ignoreTask(baseline))
-      {
-         return;
-      }
-
       boolean earlyStartFailed = !compare(baseline, working, TaskField.EARLY_START);
       boolean earlyFinishFailed = !compare(baseline, working, TaskField.EARLY_FINISH);
       if (earlyStartFailed || earlyFinishFailed)
@@ -190,15 +191,15 @@ public class CpmTest
       return calendar.getNextWorkStart(workingDate).isEqual(baselineDate) || calendar.getNextWorkStart(baselineDate).isEqual(workingDate);
    }
 
-   private void analyseFailures() throws CycleException
+   private void analyseFailures(Scheduler scheduler) throws CycleException
    {
-      List<Task> tasks = new DepthFirstGraphSort(m_workingFile).sort();
+      List<Task> tasks = new DepthFirstGraphSort(m_workingFile, scheduler::ignoreTask).sort();
 
       if (m_forwardErrorCount != 0)
       {
          for (Task working : tasks)
          {
-            if (MicrosoftScheduler.ignoreTask(working))
+            if (scheduler.ignoreTask(working))
             {
                continue;
             }
@@ -220,7 +221,7 @@ public class CpmTest
 
          for (Task working : tasks)
          {
-            if (MicrosoftScheduler.ignoreTask(working))
+            if (scheduler.ignoreTask(working))
             {
                continue;
             }

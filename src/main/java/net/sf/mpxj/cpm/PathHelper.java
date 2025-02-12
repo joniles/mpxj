@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.Duration;
@@ -19,11 +20,11 @@ public class PathHelper
       m_file = file;
    }
 
-   public List<List<Task>> getAllPaths() throws CycleException
+   public List<List<Task>> getAllPaths(Function<Task, Boolean> ignoreTasks) throws CycleException
    {
       m_paths.clear();
 
-      List<Task> tasks = new DepthFirstGraphSort(m_file).sort();
+      List<Task> tasks = new DepthFirstGraphSort(m_file, ignoreTasks).sort();
       if (tasks.isEmpty())
       {
          return m_paths;
