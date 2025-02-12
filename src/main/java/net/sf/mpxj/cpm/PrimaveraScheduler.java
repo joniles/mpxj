@@ -1398,7 +1398,7 @@ public class PrimaveraScheduler implements Scheduler
 
    private LocalDateTime addLag(Relation relation, LocalDateTime date)
    {
-      return getDate(getLagCalendar(relation), date, relation.getLag());
+      return addLag(relation, date, relation.getLag());
    }
 
    private LocalDateTime addLag(Relation relation, LocalDateTime date, Duration lag)
@@ -1408,7 +1408,7 @@ public class PrimaveraScheduler implements Scheduler
 
    private LocalDateTime removeLag(Relation relation, LocalDateTime date)
    {
-      return getDate(getLagCalendar(relation), date, relation.getLag().negate());
+      return removeLag(relation, date, relation.getLag());
    }
 
    private LocalDateTime removeLag(Relation relation, LocalDateTime date, Duration lag)
