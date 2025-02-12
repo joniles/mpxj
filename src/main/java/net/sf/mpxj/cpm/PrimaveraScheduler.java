@@ -123,7 +123,21 @@ public class PrimaveraScheduler implements Scheduler
                {
                   if (earlyStart.isBefore(task.getConstraintDate()) || earlyStart.toLocalDate().isEqual(task.getConstraintDate().toLocalDate()))
                   {
-                     earlyStart = task.getConstraintDate();
+                     LocalDateTime constraintDate = task.getConstraintDate();
+
+                     // I have an example where the applied constraint date seems to inherit the
+                     // time component of the early start date it is replacing.
+                     // Need more samples to determine if the logic here is anything like correct!
+                     if (constraintDate.toLocalTime() == LocalTime.MIDNIGHT && earlyStart.toLocalTime() != LocalTime.MIDNIGHT)
+                     {
+                        LocalDateTime adjustedConstraintDate = LocalDateTime.of(constraintDate.toLocalDate(), earlyStart.toLocalTime());
+                        if (adjustedConstraintDate.toLocalDate().isEqual(task.getEffectiveCalendar().getNextWorkStart(adjustedConstraintDate).toLocalDate()))
+                        {
+                           constraintDate = adjustedConstraintDate;
+                        }
+                     }
+
+                     earlyStart = constraintDate;
                   }
                   break;
                }
