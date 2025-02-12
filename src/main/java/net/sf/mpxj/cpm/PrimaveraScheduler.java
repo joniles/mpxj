@@ -120,6 +120,12 @@ public class PrimaveraScheduler implements Scheduler
             earlyStart = predecessors.stream().map(r -> calculateEarlyStart(r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
          }
 
+         // Don't adjust for finish milestones
+         if (task.getActivityType() != ActivityType.FINISH_MILESTONE)
+         {
+            earlyStart = task.getEffectiveCalendar().getNextWorkStart(earlyStart);
+         }
+
          if (task.getConstraintType() != null)
          {
             switch (task.getConstraintType())
@@ -199,12 +205,6 @@ public class PrimaveraScheduler implements Scheduler
                   break;
                }
             }
-         }
-
-         // Don't adjust for finish milestones
-         if (task.getActivityType() != ActivityType.FINISH_MILESTONE)
-         {
-            earlyStart = task.getEffectiveCalendar().getNextWorkStart(earlyStart);
          }
       }
       else
