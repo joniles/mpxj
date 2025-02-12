@@ -317,7 +317,6 @@ public class CpmTest
       EXCLUDED_FILES.add("unmistakable-client.xer");
       EXCLUDED_FILES.add("virile-schema.xer");
       EXCLUDED_FILES.add("middle-altar.xer");
-      EXCLUDED_FILES.add("missing-limestone.xer");
 
       // Progress Override
       EXCLUDED_FILES.add("passionate-lounge-scheduled.xer");
@@ -331,10 +330,6 @@ public class CpmTest
       // Rounding issue? Makes for a 1 minute difference on one activity
       EXCLUDED_FILES.add("fleet-salary.xer");
       EXCLUDED_FILES.add("global-sociology.xer");
-
-      // WIP
-      EXCLUDED_FILES.add("thinner-council-task-dependent.xer");
-      EXCLUDED_FILES.add("thinner-council-task-dependent-no-alap.xer");
 
       // Misc MPP files
       EXCLUDED_FILES.add("photographic-magic.mpp"); // External tasks used but not visible in MSP
