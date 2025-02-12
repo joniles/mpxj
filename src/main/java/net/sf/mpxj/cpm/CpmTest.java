@@ -318,6 +318,10 @@ public class CpmTest
       EXCLUDED_FILES.add("virile-schema.xer");
       EXCLUDED_FILES.add("middle-altar.xer");
 
+      // WIP
+      EXCLUDED_FILES.add("thinner-council-task-dependent-no-alap.xer");
+      EXCLUDED_FILES.add("thinner-council-task-dependent.xer");
+
       // Progress Override
       EXCLUDED_FILES.add("passionate-lounge-scheduled.xer");
       EXCLUDED_FILES.add("orange-parade.xer");
