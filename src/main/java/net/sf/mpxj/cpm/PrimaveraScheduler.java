@@ -3,7 +3,6 @@ package net.sf.mpxj.cpm;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -114,75 +113,72 @@ public class PrimaveraScheduler implements Scheduler
             earlyStart = predecessors.stream().map(r -> calculateEarlyStart(r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
          }
 
-         if (task.getConstraintType() != null)
+         switch (task.getConstraintType())
          {
-            switch (task.getConstraintType())
+            case START_NO_EARLIER_THAN:
             {
-               case START_NO_EARLIER_THAN:
+               if (earlyStart.isBefore(task.getConstraintDate()) || earlyStart.toLocalDate().isEqual(task.getConstraintDate().toLocalDate()))
                {
-                  if (earlyStart.isBefore(task.getConstraintDate()) || earlyStart.toLocalDate().isEqual(task.getConstraintDate().toLocalDate()))
-                  {
-                     LocalDateTime constraintDate = task.getConstraintDate();
+                  LocalDateTime constraintDate = task.getConstraintDate();
 
-                     // I have an example where the applied constraint date seems to inherit the
-                     // time component of the early start date it is replacing.
-                     // Need more samples to determine if the logic here is anything like correct!
-                     if (constraintDate.toLocalTime() == LocalTime.MIDNIGHT && earlyStart.toLocalTime() != LocalTime.MIDNIGHT)
+                  // I have an example where the applied constraint date seems to inherit the
+                  // time component of the early start date it is replacing.
+                  // Need more samples to determine if the logic here is anything like correct!
+                  if (constraintDate.toLocalTime() == LocalTime.MIDNIGHT && earlyStart.toLocalTime() != LocalTime.MIDNIGHT)
+                  {
+                     LocalDateTime adjustedConstraintDate = LocalDateTime.of(constraintDate.toLocalDate(), earlyStart.toLocalTime());
+                     if (adjustedConstraintDate.toLocalDate().isEqual(task.getEffectiveCalendar().getNextWorkStart(adjustedConstraintDate).toLocalDate()))
                      {
-                        LocalDateTime adjustedConstraintDate = LocalDateTime.of(constraintDate.toLocalDate(), earlyStart.toLocalTime());
-                        if (adjustedConstraintDate.toLocalDate().isEqual(task.getEffectiveCalendar().getNextWorkStart(adjustedConstraintDate).toLocalDate()))
-                        {
-                           constraintDate = adjustedConstraintDate;
-                        }
+                        constraintDate = adjustedConstraintDate;
                      }
-
-                     earlyStart = constraintDate;
                   }
-                  break;
-               }
 
-               case FINISH_NO_EARLIER_THAN:
+                  earlyStart = constraintDate;
+               }
+               break;
+            }
+
+            case FINISH_NO_EARLIER_THAN:
+            {
+               LocalDateTime earliestStart = getDateFromEnd(task, task.getConstraintDate());
+               if (earlyStart.isBefore(earliestStart))
                {
-                  LocalDateTime earliestStart = getDateFromEnd(task, task.getConstraintDate());
-                  if (earlyStart.isBefore(earliestStart))
-                  {
-                     earlyStart = earliestStart;
-                  }
-                  break;
+                  earlyStart = earliestStart;
                }
+               break;
+            }
 
-               case MUST_START_ON:
+            case MUST_START_ON:
+            {
+               earlyStart = task.getConstraintDate();
+               break;
+            }
+
+            case START_ON:
+            {
+               if (earlyStart.isBefore(task.getConstraintDate()))
                {
-                  earlyStart = task.getConstraintDate();
-                  break;
+                  earlyStart = task.getEffectiveCalendar().getNextWorkStart(task.getConstraintDate());
                }
+               break;
+            }
 
-               case START_ON:
-               {
-                  if (earlyStart.isBefore(task.getConstraintDate()))
-                  {
-                     earlyStart = task.getEffectiveCalendar().getNextWorkStart(task.getConstraintDate());
-                  }
-                  break;
-               }
+            case MUST_FINISH_ON:
+            {
+               earlyFinish = task.getConstraintDate();
+               earlyStart = getDateFromEnd(task, earlyFinish);
+               break;
+            }
 
-               case MUST_FINISH_ON:
+            case FINISH_ON:
+            {
+               LocalDateTime startOn = getDateFromEnd(task, task.getConstraintDate());
+               if (startOn.isAfter(earlyStart))
                {
                   earlyFinish = task.getConstraintDate();
-                  earlyStart = getDateFromEnd(task, earlyFinish);
-                  break;
+                  earlyStart = startOn;
                }
-
-               case FINISH_ON:
-               {
-                  LocalDateTime startOn = getDateFromEnd(task, task.getConstraintDate());
-                  if (startOn.isAfter(earlyStart))
-                  {
-                     earlyFinish = task.getConstraintDate();
-                     earlyStart = startOn;
-                  }
-                  break;
-               }
+               break;
             }
          }
 
@@ -272,75 +268,91 @@ public class PrimaveraScheduler implements Scheduler
 
       if (task.getActualFinish() == null)
       {
-         // Special case: if we have a milestone with only an actual start set, actual start (and hence late finish) must have the same date
-         if (task.getMilestone() && task.getActualStart() != null)
+         if (successors.isEmpty())
          {
-            lateFinish = task.getActualStart();
-         }
-         else
-         {
-            if (successors.isEmpty())
+            if (task.getExternalLateFinish() == null)
             {
-               if (task.getExternalLateFinish() == null)
+               if (m_file.getProjectProperties().getMustFinishBy() != null)
                {
-                  if (m_file.getProjectProperties().getMustFinishBy() != null)
-                  {
-                     lateFinish = m_file.getProjectProperties().getMustFinishBy();
-                  }
-                  else
-                  {
-                     lateFinish = m_projectFinishDate;
-                  }
+                  lateFinish = m_file.getProjectProperties().getMustFinishBy();
                }
                else
                {
-                  lateFinish = task.getExternalLateFinish();
+                  lateFinish = m_projectFinishDate;
                }
             }
             else
             {
-               lateFinish = successors.stream().map(r -> calculateLateFinish(r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+               lateFinish = task.getExternalLateFinish();
             }
+         }
+         else
+         {
+            lateFinish = successors.stream().map(r -> calculateLateFinish(r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+         }
 
-            switch (task.getConstraintType())
+         switch (task.getConstraintType())
+         {
+            case START_ON:
             {
-               case START_ON:
-               {
-                  if (task.getActualStart() == null)
-                  {
-                     LocalDateTime latestFinish = getDateFromStart(task, task.getConstraintDate());
-                     if (lateFinish.isAfter(latestFinish))
-                     {
-                        lateFinish = latestFinish;
-                     }
-                  }
-                  break;
-               }
-
-               case MUST_START_ON:
-               {
-                  lateFinish = getDateFromStart(task, task.getConstraintDate());
-                  break;
-               }
-
-               case FINISH_ON:
-               {
-                  if (lateFinish.isAfter(task.getConstraintDate()))
-                  {
-                     lateFinish = task.getConstraintDate();
-                  }
-                  break;
-               }
-
-               case MUST_FINISH_ON:
-               {
-                  lateFinish = task.getConstraintDate();
-                  break;
-               }
-
-               case START_NO_LATER_THAN:
+               if (task.getActualStart() == null)
                {
                   LocalDateTime latestFinish = getDateFromStart(task, task.getConstraintDate());
+                  if (lateFinish.isAfter(latestFinish))
+                  {
+                     lateFinish = latestFinish;
+                  }
+               }
+               break;
+            }
+
+            case MUST_START_ON:
+            {
+               lateFinish = getDateFromStart(task, task.getConstraintDate());
+               break;
+            }
+
+            case FINISH_ON:
+            {
+               if (lateFinish.isAfter(task.getConstraintDate()))
+               {
+                  lateFinish = task.getConstraintDate();
+               }
+               break;
+            }
+
+            case MUST_FINISH_ON:
+            {
+               lateFinish = task.getConstraintDate();
+               break;
+            }
+
+            case START_NO_LATER_THAN:
+            {
+               LocalDateTime latestFinish = getDateFromStart(task, task.getConstraintDate());
+               if (lateFinish.isAfter(latestFinish))
+               {
+                  lateFinish = latestFinish;
+               }
+               break;
+            }
+
+            case FINISH_NO_LATER_THAN:
+            {
+               if (lateFinish.isAfter(task.getConstraintDate()))
+               {
+                  lateFinish = task.getConstraintDate();
+               }
+            }
+         }
+
+         if (task.getSecondaryConstraintType() != null)
+         {
+            switch (task.getSecondaryConstraintType())
+            {
+               case START_NO_LATER_THAN:
+               {
+                  LocalDateTime latestFinish = getDateFromStart(task, task.getSecondaryConstraintDate());
                   if (lateFinish.isAfter(latestFinish))
                   {
                      lateFinish = latestFinish;
@@ -350,41 +362,17 @@ public class PrimaveraScheduler implements Scheduler
 
                case FINISH_NO_LATER_THAN:
                {
-                  if (lateFinish.isAfter(task.getConstraintDate()))
-                  {
-                     lateFinish = task.getConstraintDate();
-                  }
+                  break;
                }
             }
+         }
 
-            if (task.getSecondaryConstraintType() != null)
-            {
-               switch (task.getSecondaryConstraintType())
-               {
-                  case START_NO_LATER_THAN:
-                  {
-                     LocalDateTime latestFinish = getDateFromStart(task, task.getSecondaryConstraintDate());
-                     if (lateFinish.isAfter(latestFinish))
-                     {
-                        lateFinish = latestFinish;
-                     }
-                     break;
-                  }
+         // If we are at the start of the next period of work, we can move back to the end of the previous period of work
+         LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(lateFinish);
 
-                  case FINISH_NO_LATER_THAN:
-                  {
-                     break;
-                  }
-               }
-            }
-
-            // If we are at the start of the next period of work, we can move back to the end of the previous period of work
-            LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(lateFinish);
-
-            if (calendar.getWork(previousWorkFinish, lateFinish, TimeUnit.HOURS).getDuration() == 0)
-            {
-               lateFinish = previousWorkFinish;
-            }
+         if (calendar.getWork(previousWorkFinish, lateFinish, TimeUnit.HOURS).getDuration() == 0)
+         {
+            lateFinish = previousWorkFinish;
          }
       }
       else
@@ -406,21 +394,6 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      if (!task.getMilestone())
-      {
-         // P6 moves the late finish date to the end of the working period on that day.
-         LocalDateTime adjustedLateFinish = LocalTimeHelper.setEndTime(lateFinish, calendar.getFinishTime(lateFinish.toLocalDate()));
-
-         // There is some variability in how P6 represents this, e.g. 16:59 and 17:00 are equivalent
-         // Don't adjust the date if they are 1 minute apart to ensure the dates we produce are aligned with P6.
-         // Also, there also appears to be an upper limit to how much P6 will push the end date forward.
-         long differenceInSeconds = lateFinish.until(adjustedLateFinish, ChronoUnit.SECONDS);
-         if (differenceInSeconds > 60 && differenceInSeconds < 180)
-         {
-            lateFinish = adjustedLateFinish;
-         }
-      }
-
       if (task.getExternalLateFinish() != null && task.getExternalLateFinish().isBefore(lateFinish))
       {
          lateFinish = task.getExternalLateFinish();
@@ -435,12 +408,7 @@ public class PrimaveraScheduler implements Scheduler
       {
          if (task.getActivityType() != ActivityType.FINISH_MILESTONE && task.getRemainingDuration().getDuration() != 0)
          {
-            LocalDateTime adjustedLateStart = calendar.getNextWorkStart(lateStart);
-            Duration work = calendar.getWork(lateStart, adjustedLateStart, TimeUnit.MINUTES);
-            if (work.getDuration() == 0)
-            {
-               lateStart = adjustedLateStart;
-            }
+            lateStart = calendar.getNextWorkStart(lateStart);
          }
       }
 
@@ -640,14 +608,13 @@ public class PrimaveraScheduler implements Scheduler
                      {
                         // successor not finished
                         double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-                        double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-
-                        if (actualDurationInHours == 0 || lagDurationInHours <= 0.0)
+                        if (lagDurationInHours <= 0.0)
                         {
-                           // We have a milestone, or we have no positive lag
+                           // We have no positive lag
                            return predecessorTask.getEarlyStart();
                         }
 
+                        double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
                         if (actualDurationInHours >= lagDurationInHours)
                         {
                            // We have progressed more than the lag
