@@ -305,18 +305,17 @@ public class CpmTest
       EXCLUDED_FILES.add("mythological-flourish.xer");
       EXCLUDED_FILES.add("orphic-chastisement-scheduled.xer");
       EXCLUDED_FILES.add("alive-lap.xer");
-      EXCLUDED_FILES.add("prospective-interference.xml");
-      EXCLUDED_FILES.add("assignment-code-test.xml");
-      EXCLUDED_FILES.add("role-code-test.xml");
-      EXCLUDED_FILES.add("steps.xml");
-      EXCLUDED_FILES.add("baseline-issue.xml");
-      EXCLUDED_FILES.add("prod00914.xml");
-      EXCLUDED_FILES.add("virile-schema.xml");
+
       EXCLUDED_FILES.add("restricted-garden.xer");
       EXCLUDED_FILES.add("computational-infection.xer");
       EXCLUDED_FILES.add("unmistakable-client.xer");
       EXCLUDED_FILES.add("virile-schema.xer");
       EXCLUDED_FILES.add("middle-altar.xer");
+
+      // Create XER versions?
+      EXCLUDED_FILES.add("baseline-issue.xml");
+      EXCLUDED_FILES.add("prod00914.xml");
+      EXCLUDED_FILES.add("virile-schema.xml");
 
       // Milestone early finish lands on a non-working time in lag calendar
       // but working time in task calendar. Correct next work start from lag calendar?

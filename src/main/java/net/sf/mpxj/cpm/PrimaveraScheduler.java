@@ -1063,7 +1063,27 @@ public class PrimaveraScheduler implements Scheduler
                   else
                   {
                      // successor started
-                     lateFinish = successorTask.getLateFinish();
+                     if (successorTask.getActualFinish() == null)
+                     {
+                        // successor not finished
+                        lateFinish = successorTask.getLateFinish();
+                     }
+                     else
+                     {
+                        // successor finished
+                        double actualLagDurationInHours = predecessorTask.getActualFinish().isAfter(m_dataDate) ? 0 : getLagCalendar(relation).getWork(predecessorTask.getActualFinish(), m_dataDate, TimeUnit.HOURS).getDuration();
+                        double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+
+                        if (lagDurationInHours > actualLagDurationInHours)
+                        {
+                           Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
+                           lateFinish = removeLag(relation, successorTask.getLateFinish(), remainingLag);
+                        }
+                        else
+                        {
+                           lateFinish = successorTask.getLateFinish();
+                        }
+                     }
                   }
                }
                else
