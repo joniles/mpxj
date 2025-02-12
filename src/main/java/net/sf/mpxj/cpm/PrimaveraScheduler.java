@@ -151,15 +151,6 @@ public class PrimaveraScheduler implements Scheduler
                   break;
                }
 
-               case START_NO_LATER_THAN:
-               {
-                  if (earlyStart.isAfter(task.getConstraintDate()))
-                  {
-                     earlyStart = task.getConstraintDate();
-                  }
-                  break;
-               }
-
                case MUST_START_ON:
                {
                   earlyStart = task.getConstraintDate();

@@ -318,9 +318,9 @@ public class CpmTest
       EXCLUDED_FILES.add("virile-schema.xer");
       EXCLUDED_FILES.add("middle-altar.xer");
 
-      // WIP
+      // Milestone early finish lands on a non-working time in lag calendar
+      // but working time in task calendar. Correct next work start from lag calendar?
       EXCLUDED_FILES.add("thinner-council-task-dependent-no-alap.xer");
-      EXCLUDED_FILES.add("thinner-council-task-dependent.xer");
 
       // Progress Override
       EXCLUDED_FILES.add("passionate-lounge-scheduled.xer");
