@@ -1356,7 +1356,8 @@ public class PrimaveraScheduler implements Scheduler
       // P6 appears to work to the nearest minute
       if (result.getSecond() != 0)
       {
-         boolean roundUp = result.getSecond() >= 30;
+         boolean negativeDuration = duration.getDuration() < 0;
+         boolean roundUp = (negativeDuration && result.getSecond() > 30) || (!negativeDuration && result.getSecond() >= 30);
          LocalTime newTime = LocalTime.of(result.getHour(), result.getMinute());
          result = LocalDateTime.of(result.toLocalDate(), newTime);
          if (roundUp)
