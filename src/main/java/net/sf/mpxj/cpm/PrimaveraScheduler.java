@@ -362,6 +362,10 @@ public class PrimaveraScheduler implements Scheduler
 
                case FINISH_NO_LATER_THAN:
                {
+                  if (lateFinish.isAfter(task.getSecondaryConstraintDate()))
+                  {
+                     lateFinish = task.getSecondaryConstraintDate();
+                  }
                   break;
                }
             }
