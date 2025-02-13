@@ -774,6 +774,9 @@ public class PrimaveraScheduler implements Scheduler
                      {
                         // successor finished
                         return m_dataDate; // return directly as we don't need to adjust further
+                        // but sometimes it is
+                        // getLagCalendar(relation).getNextWorkStart(m_dataDate)
+                        // why? remaining lag maybe?
                      }
                   }
                }
