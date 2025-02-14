@@ -749,7 +749,14 @@ public class PrimaveraScheduler implements Scheduler
          if (successorTask.getActualStart() == null)
          {
             // Successor not started
-            predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+            if (relation.getLag().getDuration() == 0)
+            {
+               predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+            }
+            else
+            {
+               predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+            }
          }
          else
          {
@@ -757,12 +764,26 @@ public class PrimaveraScheduler implements Scheduler
             if (successorTask.getActualFinish() == null)
             {
                // successor not finished
-               predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+               if (relation.getLag().getDuration() == 0)
+               {
+                  predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+               }
+               else
+               {
+                  predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+               }
             }
             else
             {
                // successor finished
-               predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+               if (relation.getLag().getDuration() == 0)
+               {
+                  predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+               }
+               else
+               {
+                  predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+               }
             }
          }
       }
@@ -799,15 +820,32 @@ public class PrimaveraScheduler implements Scheduler
                if (successorTask.getActualFinish() == null)
                {
                   // successor not finished
-                  predecessorEarlyFinish = predecessorTask.getActualFinish();
+                  if (relation.getLag().getDuration() == 0.0)
+                  {
+                     predecessorEarlyFinish = predecessorTask.getActualFinish();
+                  }
+                  else
+                  {
+                     predecessorEarlyFinish = predecessorTask.getActualFinish();
+                  }
                }
                else
                {
                   // successor finished
-                  return m_dataDate; // return directly as we don't need to adjust further
-                  // but sometimes it is
-                  // getLagCalendar(relation).getNextWorkStart(m_dataDate)
-                  // why? remaining lag maybe?
+                  if (relation.getLag().getDuration() == 0.0)
+                  {
+                     return m_dataDate; // return directly as we don't need to adjust further
+                     // but sometimes it is
+                     // getLagCalendar(relation).getNextWorkStart(m_dataDate)
+                     // why? remaining lag maybe?
+                  }
+                  else
+                  {
+                     return m_dataDate; // return directly as we don't need to adjust further
+                     // but sometimes it is
+                     // getLagCalendar(relation).getNextWorkStart(m_dataDate)
+                     // why? remaining lag maybe?
+                  }
                }
             }
          }
@@ -817,7 +855,14 @@ public class PrimaveraScheduler implements Scheduler
             if (successorTask.getActualStart() == null)
             {
                // Successor not started
-               predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+               if (relation.getLag().getDuration() == 0.0)
+               {
+                  predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+               }
+               else
+               {
+                  predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+               }
             }
             else
             {
@@ -825,12 +870,26 @@ public class PrimaveraScheduler implements Scheduler
                if (successorTask.getActualFinish() == null)
                {
                   // successor not finished
-                  predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+                  if (relation.getLag().getDuration() == 0.0)
+                  {
+                     predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+                  }
+                  else
+                  {
+                     predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+                  }
                }
                else
                {
                   // successor finished
-                  predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+                  if (relation.getLag().getDuration() == 0.0)
+                  {
+                     predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+                  }
+                  else
+                  {
+                     predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+                  }
                }
             }
          }
