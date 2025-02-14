@@ -950,7 +950,11 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  earlyStart = predecessorTask.getEarlyStart();
+                  earlyStart = addLag(relation, predecessorTask.getEarlyStart());
+                  if (earlyStart.isBefore(m_dataDate))
+                  {
+                     earlyStart = m_dataDate;
+                  }
                }
             }
          }
