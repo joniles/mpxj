@@ -20,7 +20,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.LocalTimeHelper;
 
 public class PrimaveraScheduler implements Scheduler
 {
@@ -427,19 +426,139 @@ public class PrimaveraScheduler implements Scheduler
 
    private LocalDateTime calculateEarlyStart(Relation relation)
    {
-      Task predecessorTask = relation.getPredecessorTask();
-      Task successorTask = relation.getSuccessorTask();
-
       switch (relation.getType())
       {
          case FINISH_START:
          {
-            if (predecessorTask.getActualStart() == null)
+            return calculateEarlyStartForFinishStart(relation);
+         }
+
+         case START_START:
+         {
+            return calculateEarlyStartForStartStart(relation);
+         }
+
+         case FINISH_FINISH:
+         {
+            return calculateEarlyStartForFinishFinish(relation);
+         }
+
+         case START_FINISH:
+         {
+            return calculateEarlyStartForStartFinish(relation);
+         }
+
+         default:
+         {
+            throw new UnsupportedOperationException();
+         }
+      }
+   }
+
+   private LocalDateTime calculateEarlyStartForFinishStart(Relation relation)
+   {
+      Task predecessorTask = relation.getPredecessorTask();
+      Task successorTask = relation.getSuccessorTask();
+
+      if (predecessorTask.getActualStart() == null)
+      {
+         // Predecessor not started
+         if (successorTask.getActualStart() == null)
+         {
+            // Successor not started
+            if (relation.getLag().getDuration() == 0)
             {
-               // Predecessor not started
-               if (successorTask.getActualStart() == null)
+               return addLag(relation, predecessorTask.getEarlyFinish());
+            }
+
+            return addLag(relation, predecessorTask.getEarlyFinish());
+         }
+         else
+         {
+            // successor started
+            if (successorTask.getActualFinish() == null)
+            {
+               // successor not finished
+               if (relation.getLag().getDuration() == 0)
                {
-                  // Successor not started
+                  return addLag(relation, predecessorTask.getEarlyFinish());
+               }
+
+               return addLag(relation, predecessorTask.getEarlyFinish());
+            }
+            else
+            {
+               // successor finished
+               if (relation.getLag().getDuration() == 0)
+               {
+                  return addLag(relation, predecessorTask.getEarlyFinish());
+               }
+
+               return addLag(relation, predecessorTask.getEarlyFinish());
+            }
+         }
+      }
+      else
+      {
+         // Predecessor started
+         if (predecessorTask.getActualFinish() != null)
+         {
+            // Predecessor finished
+            if (successorTask.getActualStart() == null)
+            {
+               // Successor not started
+               double actualLagDurationInHours = predecessorTask.getActualFinish().isAfter(m_dataDate) ? 0 : getLagCalendar(relation).getWork(predecessorTask.getActualFinish(), m_dataDate, TimeUnit.HOURS).getDuration();
+               double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+
+               if (lagDurationInHours > actualLagDurationInHours)
+               {
+                  Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
+                  return addLag(relation, predecessorTask.getEarlyFinish(), remainingLag);
+               }
+
+               return predecessorTask.getEarlyFinish();
+            }
+            else
+            {
+               // successor started
+               if (successorTask.getActualFinish() == null)
+               {
+                  // successor not finished
+                  if (relation.getLag().getDuration() == 0)
+                  {
+                     return predecessorTask.getEarlyFinish();
+                  }
+                  return predecessorTask.getEarlyFinish();
+               }
+               else
+               {
+                  // successor finished
+                  if (relation.getLag().getDuration() == 0)
+                  {
+                     return predecessorTask.getEarlyFinish();
+                  }
+                  return predecessorTask.getEarlyFinish();
+               }
+            }
+         }
+         else
+         {
+            // Predecessor not finished
+            if (successorTask.getActualStart() == null)
+            {
+               // Successor not started
+               if (relation.getLag().getDuration() == 0)
+               {
+                  return addLag(relation, predecessorTask.getEarlyFinish());
+               }
+               return addLag(relation, predecessorTask.getEarlyFinish());
+            }
+            else
+            {
+               // successor started
+               if (successorTask.getActualFinish() == null)
+               {
+                  // successor not finished
                   if (relation.getLag().getDuration() == 0)
                   {
                      return addLag(relation, predecessorTask.getEarlyFinish());
@@ -449,500 +568,407 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  // successor started
-                  if (successorTask.getActualFinish() == null)
+                  // successor finished
+                  if (relation.getLag().getDuration() == 0)
                   {
-                     // successor not finished
-                     if (relation.getLag().getDuration() == 0)
-                     {
-                        return addLag(relation, predecessorTask.getEarlyFinish());
-                     }
-
                      return addLag(relation, predecessorTask.getEarlyFinish());
+                  }
+
+                  return addLag(relation, predecessorTask.getEarlyFinish());
+               }
+            }
+         }
+      }
+   }
+
+   private LocalDateTime calculateEarlyStartForStartStart(Relation relation)
+   {
+      Task predecessorTask = relation.getPredecessorTask();
+      Task successorTask = relation.getSuccessorTask();
+
+      if (predecessorTask.getActualStart() == null)
+      {
+         // Predecessor not started
+         if (successorTask.getActualStart() == null)
+         {
+            // Successor not started
+            if (relation.getLag().getDuration() != 0)
+            {
+               return addLag(relation, predecessorTask.getEarlyStart());
+            }
+
+            // why adjust the next work start with the lag calendar? not sure, but it seems to work ;-)
+            return getLagCalendar(relation).getNextWorkStart(predecessorTask.getEarlyStart());
+         }
+         else
+         {
+            // successor started
+            if (successorTask.getActualFinish() == null)
+            {
+               // successor not finished
+               if (relation.getLag().getDuration() == 0)
+               {
+                  return addLag(relation, predecessorTask.getEarlyStart());
+               }
+
+               return addLag(relation, predecessorTask.getEarlyStart());
+            }
+            else
+            {
+               // successor finished
+               if (relation.getLag().getDuration() == 0)
+               {
+                  return addLag(relation, predecessorTask.getEarlyStart());
+               }
+
+               return addLag(relation, predecessorTask.getEarlyStart());
+            }
+         }
+      }
+      else
+      {
+         // Predecessor started
+         if (predecessorTask.getActualFinish() != null)
+         {
+            // Predecessor finished
+            if (successorTask.getActualStart() == null)
+            {
+               // Successor not started
+               if (relation.getLag().getDuration() == 0)
+               {
+                  LocalDateTime earlyStart = addLag(relation, predecessorTask.getActualStart());
+                  if (earlyStart.isBefore(m_dataDate))
+                  {
+                     return predecessorTask.getEarlyStart();
+                  }
+                  return earlyStart;
+               }
+
+               LocalDateTime earlyStart = addLag(relation, predecessorTask.getActualStart());
+               if (earlyStart.isBefore(m_dataDate))
+               {
+                  return predecessorTask.getEarlyStart();
+               }
+               return earlyStart;
+            }
+            else
+            {
+               // successor started
+               if (successorTask.getActualFinish() == null)
+               {
+                  // successor not finished
+                  if (relation.getLag().getDuration() == 0)
+                  {
+                     return predecessorTask.getEarlyStart();
+                  }
+                  return predecessorTask.getEarlyStart();
+               }
+               else
+               {
+                  // successor finished
+                  if (relation.getLag().getDuration() == 0)
+                  {
+                     return predecessorTask.getEarlyStart();
+                  }
+                  return predecessorTask.getEarlyStart();
+               }
+            }
+         }
+         else
+         {
+            // Predecessor not finished
+            if (successorTask.getActualStart() == null)
+            {
+               // Successor not started
+               double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+               double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+
+               if (actualDurationInHours == 0 || lagDurationInHours <= 0.0)
+               {
+                  // We have a milestone, or we have no positive lag
+                  return predecessorTask.getEarlyStart();
+               }
+
+               if (actualDurationInHours >= lagDurationInHours)
+               {
+                  // We have progressed more than the lag
+                  return predecessorTask.getEarlyStart();
+               }
+
+               // We still need to account for some or all of the lag
+               Duration remainingLag = Duration.getInstance(lagDurationInHours - actualDurationInHours, TimeUnit.HOURS);
+               return addLag(relation, predecessorTask.getEarlyStart(), remainingLag);
+            }
+            else
+            {
+               // successor started
+               if (successorTask.getActualFinish() == null)
+               {
+                  // successor not finished
+                  double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+                  if (lagDurationInHours <= 0.0)
+                  {
+                     // We have no positive lag
+                     return predecessorTask.getEarlyStart();
+                  }
+
+                  double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+                  if (actualDurationInHours >= lagDurationInHours)
+                  {
+                     // We have progressed more than the lag
+                     return predecessorTask.getEarlyStart();
+                  }
+
+                  // We still need to account for some or all of the lag
+                  Duration remainingLag = Duration.getInstance(lagDurationInHours - actualDurationInHours, TimeUnit.HOURS);
+                  return addLag(relation, predecessorTask.getEarlyStart(), remainingLag);
+               }
+               else
+               {
+                  // successor finished
+                  if (relation.getLag().getDuration() == 0)
+                  {
+                     return predecessorTask.getEarlyStart();
+                  }
+                  return predecessorTask.getEarlyStart();
+               }
+            }
+         }
+      }
+   }
+
+   private LocalDateTime calculateEarlyStartForFinishFinish(Relation relation)
+   {
+      Task predecessorTask = relation.getPredecessorTask();
+      Task successorTask = relation.getSuccessorTask();
+      LocalDateTime predecessorEarlyFinish;
+
+      if (predecessorTask.getActualStart() == null)
+      {
+         // Predecessor not started
+         if (successorTask.getActualStart() == null)
+         {
+            // Successor not started
+            predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+         }
+         else
+         {
+            // successor started
+            if (successorTask.getActualFinish() == null)
+            {
+               // successor not finished
+               predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+            }
+            else
+            {
+               // successor finished
+               predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+            }
+         }
+      }
+      else
+      {
+         // Predecessor started
+         if (predecessorTask.getActualFinish() != null)
+         {
+            // Predecessor finished
+            if (successorTask.getActualStart() == null)
+            {
+               // Successor not started
+               if (relation.getLag().getDuration() == 0.0)
+               {
+                  predecessorEarlyFinish = predecessorTask.getActualFinish();
+               }
+               else
+               {
+                  double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+                  double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+                  if (lagDurationInHours > actualDurationInHours)
+                  {
+                     predecessorEarlyFinish = predecessorTask.getActualFinish();
                   }
                   else
                   {
-                     // successor finished
-                     if (relation.getLag().getDuration() == 0)
-                     {
-                        return addLag(relation, predecessorTask.getEarlyFinish());
-                     }
-
-                     return addLag(relation, predecessorTask.getEarlyFinish());
+                     predecessorEarlyFinish = addLag(relation, predecessorTask.getEarlyFinish());
                   }
                }
             }
             else
             {
-               // Predecessor started
-               if (predecessorTask.getActualFinish() != null)
+               // successor started
+               if (successorTask.getActualFinish() == null)
                {
-                  // Predecessor finished
-                  if (successorTask.getActualStart() == null)
-                  {
-                     // Successor not started
-                     double actualLagDurationInHours = predecessorTask.getActualFinish().isAfter(m_dataDate) ? 0 : getLagCalendar(relation).getWork(predecessorTask.getActualFinish(), m_dataDate, TimeUnit.HOURS).getDuration();
-                     double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-
-                     if (lagDurationInHours > actualLagDurationInHours)
-                     {
-                        Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
-                        return addLag(relation, predecessorTask.getEarlyFinish(), remainingLag);
-                     }
-
-                     return predecessorTask.getEarlyFinish();
-                  }
-                  else
-                  {
-                     // successor started
-                     if (successorTask.getActualFinish() == null)
-                     {
-                        // successor not finished
-                        if (relation.getLag().getDuration() == 0)
-                        {
-                           return predecessorTask.getEarlyFinish();
-                        }
-                        return predecessorTask.getEarlyFinish();
-                     }
-                     else
-                     {
-                        // successor finished
-                        if (relation.getLag().getDuration() == 0)
-                        {
-                           return predecessorTask.getEarlyFinish();
-                        }
-                        return predecessorTask.getEarlyFinish();
-                     }
-                  }
+                  // successor not finished
+                  predecessorEarlyFinish = predecessorTask.getActualFinish();
                }
                else
                {
-                  // Predecessor not finished
-                  if (successorTask.getActualStart() == null)
-                  {
-                     // Successor not started
-                     if (relation.getLag().getDuration() == 0)
-                     {
-                        return addLag(relation, predecessorTask.getEarlyFinish());
-                     }
-                     return addLag(relation, predecessorTask.getEarlyFinish());
-                  }
-                  else
-                  {
-                     // successor started
-                     if (successorTask.getActualFinish() == null)
-                     {
-                        // successor not finished
-                        if (relation.getLag().getDuration() == 0)
-                        {
-                           return addLag(relation, predecessorTask.getEarlyFinish());
-                        }
-
-                        return addLag(relation, predecessorTask.getEarlyFinish());
-                     }
-                     else
-                     {
-                        // successor finished
-                        if (relation.getLag().getDuration() == 0)
-                        {
-                           return addLag(relation, predecessorTask.getEarlyFinish());
-                        }
-
-                        return addLag(relation, predecessorTask.getEarlyFinish());
-                     }
-                  }
+                  // successor finished
+                  return m_dataDate; // return directly as we don't need to adjust further
+                  // but sometimes it is
+                  // getLagCalendar(relation).getNextWorkStart(m_dataDate)
+                  // why? remaining lag maybe?
                }
             }
          }
-
-         case START_START:
+         else
          {
-            if (predecessorTask.getActualStart() == null)
+            // Predecessor not finished
+            if (successorTask.getActualStart() == null)
             {
-               // Predecessor not started
-               if (successorTask.getActualStart() == null)
-               {
-                  // Successor not started
-                  if (relation.getLag().getDuration() != 0)
-                  {
-                     return addLag(relation, predecessorTask.getEarlyStart());
-                  }
-
-                  // why adjust the next work start with the lag calendar? not sure, but it seems to work ;-)
-                  return getLagCalendar(relation).getNextWorkStart(predecessorTask.getEarlyStart());
-               }
-               else
-               {
-                  // successor started
-                  if (successorTask.getActualFinish() == null)
-                  {
-                     // successor not finished
-                     if (relation.getLag().getDuration() == 0)
-                     {
-                        return addLag(relation, predecessorTask.getEarlyStart());
-                     }
-
-                     return addLag(relation, predecessorTask.getEarlyStart());
-                  }
-                  else
-                  {
-                     // successor finished
-                     if (relation.getLag().getDuration() == 0)
-                     {
-                        return addLag(relation, predecessorTask.getEarlyStart());
-                     }
-
-                     return addLag(relation, predecessorTask.getEarlyStart());
-                  }
-               }
+               // Successor not started
+               predecessorEarlyFinish = predecessorTask.getEarlyFinish();
             }
             else
             {
-               // Predecessor started
-               if (predecessorTask.getActualFinish() != null)
+               // successor started
+               if (successorTask.getActualFinish() == null)
                {
-                  // Predecessor finished
-                  if (successorTask.getActualStart() == null)
-                  {
-                     // Successor not started
-                     if (relation.getLag().getDuration() == 0)
-                     {
-                        LocalDateTime earlyStart = addLag(relation, predecessorTask.getActualStart());
-                        if (earlyStart.isBefore(m_dataDate))
-                        {
-                           return predecessorTask.getEarlyStart();
-                        }
-                        return earlyStart;
-                     }
-
-                     LocalDateTime earlyStart = addLag(relation, predecessorTask.getActualStart());
-                     if (earlyStart.isBefore(m_dataDate))
-                     {
-                        return predecessorTask.getEarlyStart();
-                     }
-                     return earlyStart;
-                  }
-                  else
-                  {
-                     // successor started
-                     if (successorTask.getActualFinish() == null)
-                     {
-                        // successor not finished
-                        if (relation.getLag().getDuration() == 0)
-                        {
-                           return predecessorTask.getEarlyStart();
-                        }
-                        return predecessorTask.getEarlyStart();
-                     }
-                     else
-                     {
-                        // successor finished
-                        if (relation.getLag().getDuration() == 0)
-                        {
-                           return predecessorTask.getEarlyStart();
-                        }
-                        return predecessorTask.getEarlyStart();
-                     }
-                  }
-               }
-               else
-               {
-                  // Predecessor not finished
-                  if (successorTask.getActualStart() == null)
-                  {
-                     // Successor not started
-                     double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-                     double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-
-                     if (actualDurationInHours == 0 || lagDurationInHours <= 0.0)
-                     {
-                        // We have a milestone, or we have no positive lag
-                        return predecessorTask.getEarlyStart();
-                     }
-
-                     if (actualDurationInHours >= lagDurationInHours)
-                     {
-                        // We have progressed more than the lag
-                        return predecessorTask.getEarlyStart();
-                     }
-
-                     // We still need to account for some or all of the lag
-                     Duration remainingLag = Duration.getInstance(lagDurationInHours - actualDurationInHours, TimeUnit.HOURS);
-                     return addLag(relation, predecessorTask.getEarlyStart(), remainingLag);
-                  }
-                  else
-                  {
-                     // successor started
-                     if (successorTask.getActualFinish() == null)
-                     {
-                        // successor not finished
-                        double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-                        if (lagDurationInHours <= 0.0)
-                        {
-                           // We have no positive lag
-                           return predecessorTask.getEarlyStart();
-                        }
-
-                        double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-                        if (actualDurationInHours >= lagDurationInHours)
-                        {
-                           // We have progressed more than the lag
-                           return predecessorTask.getEarlyStart();
-                        }
-
-                        // We still need to account for some or all of the lag
-                        Duration remainingLag = Duration.getInstance(lagDurationInHours - actualDurationInHours, TimeUnit.HOURS);
-                        return addLag(relation, predecessorTask.getEarlyStart(), remainingLag);
-                     }
-                     else
-                     {
-                        // successor finished
-                        if (relation.getLag().getDuration() == 0)
-                        {
-                           return predecessorTask.getEarlyStart();
-                        }
-                        return predecessorTask.getEarlyStart();
-                     }
-                  }
-               }
-            }
-         }
-
-         case FINISH_FINISH:
-         {
-            LocalDateTime predecessorEarlyFinish;
-
-            if (predecessorTask.getActualStart() == null)
-            {
-               // Predecessor not started
-               if (successorTask.getActualStart() == null)
-               {
-                  // Successor not started
+                  // successor not finished
                   predecessorEarlyFinish = predecessorTask.getEarlyFinish();
                }
                else
                {
-                  // successor started
-                  if (successorTask.getActualFinish() == null)
-                  {
-                     // successor not finished
-                     predecessorEarlyFinish = predecessorTask.getEarlyFinish();
-                  }
-                  else
-                  {
-                     // successor finished
-                     predecessorEarlyFinish = predecessorTask.getEarlyFinish();
-                  }
+                  // successor finished
+                  predecessorEarlyFinish = predecessorTask.getEarlyFinish();
                }
+            }
+         }
+      }
+
+      LocalDateTime earlyFinish = addLag(relation, predecessorEarlyFinish);
+      LocalDateTime earlyStart = getDateFromEndAndRemainingDuration(successorTask, earlyFinish);
+      if (earlyStart.isBefore(m_projectStartDate))
+      {
+         earlyStart = m_projectStartDate;
+      }
+      return earlyStart;
+   }
+
+   private LocalDateTime calculateEarlyStartForStartFinish(Relation relation)
+   {
+      Task predecessorTask = relation.getPredecessorTask();
+      Task successorTask = relation.getSuccessorTask();
+      LocalDateTime earlyStart;
+
+      if (predecessorTask.getActualStart() == null)
+      {
+         // Predecessor not started
+         if (successorTask.getActualStart() == null)
+         {
+            // Successor not started
+            earlyStart = addLag(relation, getDateFromEnd(successorTask, predecessorTask.getEarlyStart()));
+         }
+         else
+         {
+            // successor started
+            if (successorTask.getActualFinish() == null)
+            {
+               // successor not finished
+               earlyStart = addLag(relation, getDateFromEnd(successorTask, predecessorTask.getEarlyStart()));
             }
             else
             {
-               // Predecessor started
-               if (predecessorTask.getActualFinish() != null)
-               {
-                  // Predecessor finished
-                  if (successorTask.getActualStart() == null)
-                  {
-                     // Successor not started
-                     if (relation.getLag().getDuration() == 0.0)
-                     {
-                        predecessorEarlyFinish = predecessorTask.getActualFinish();
-                     }
-                     else
-                     {
-                        double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-                        double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-                        if (lagDurationInHours > actualDurationInHours)
-                        {
-                           predecessorEarlyFinish = predecessorTask.getActualFinish();
-                        }
-                        else
-                        {
-                           predecessorEarlyFinish = addLag(relation, predecessorTask.getEarlyFinish());
-                        }
-                     }
-                  }
-                  else
-                  {
-                     // successor started
-                     if (successorTask.getActualFinish() == null)
-                     {
-                        // successor not finished
-                        predecessorEarlyFinish = predecessorTask.getActualFinish();
-                     }
-                     else
-                     {
-                        // successor finished
-                        return m_dataDate; // return directly as we don't need to adjust further
-                        // but sometimes it is
-                        // getLagCalendar(relation).getNextWorkStart(m_dataDate)
-                        // why? remaining lag maybe?
-                     }
-                  }
-               }
-               else
-               {
-                  // Predecessor not finished
-                  if (successorTask.getActualStart() == null)
-                  {
-                     // Successor not started
-                     predecessorEarlyFinish = predecessorTask.getEarlyFinish();
-                  }
-                  else
-                  {
-                     // successor started
-                     if (successorTask.getActualFinish() == null)
-                     {
-                        // successor not finished
-                        predecessorEarlyFinish = predecessorTask.getEarlyFinish();
-                     }
-                     else
-                     {
-                        // successor finished
-                        predecessorEarlyFinish = predecessorTask.getEarlyFinish();
-                     }
-                  }
-               }
+               // successor finished
+               earlyStart = predecessorTask.getEarlyStart();
             }
-
-            LocalDateTime earlyFinish = addLag(relation, predecessorEarlyFinish);
-            LocalDateTime earlyStart = getDateFromEndAndRemainingDuration(successorTask, earlyFinish);
-            if (earlyStart.isBefore(m_projectStartDate))
-            {
-               earlyStart = m_projectStartDate;
-            }
-            return earlyStart;
          }
-
-         case START_FINISH:
+      }
+      else
+      {
+         // Predecessor started
+         if (predecessorTask.getActualFinish() != null)
          {
-            LocalDateTime earlyStart;
-
-            if (predecessorTask.getActualStart() == null)
+            // Predecessor finished
+            if (successorTask.getActualStart() == null)
             {
-               // Predecessor not started
-               if (successorTask.getActualStart() == null)
+               // Successor not started
+               earlyStart = addLag(relation, getDateFromEnd(successorTask, predecessorTask.getEarlyStart()));
+            }
+            else
+            {
+               // successor started
+               if (successorTask.getActualFinish() == null)
                {
-                  // Successor not started
-                  earlyStart = addLag(relation, getDateFromEnd(successorTask, predecessorTask.getEarlyStart()));
-               }
-               else
-               {
-                  // successor started
-                  if (successorTask.getActualFinish() == null)
+                  // successor not finished
+                  double actualLagDurationInHours = predecessorTask.getActualStart().isAfter(m_dataDate) ? 0 : getLagCalendar(relation).getWork(predecessorTask.getActualStart(), m_dataDate, TimeUnit.HOURS).getDuration();
+                  double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+
+                  if (lagDurationInHours > actualLagDurationInHours)
                   {
-                     // successor not finished
-                     earlyStart = addLag(relation, getDateFromEnd(successorTask, predecessorTask.getEarlyStart()));
+                     Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
+                     LocalDateTime earlyFinish = addLag(relation, predecessorTask.getEarlyStart(), remainingLag);
+                     earlyStart = getDateFromEndAndRemainingDuration(successorTask, earlyFinish);
                   }
                   else
                   {
-                     // successor finished
                      earlyStart = predecessorTask.getEarlyStart();
                   }
                }
+               else
+               {
+                  // successor finished
+                  earlyStart = addLag(relation, predecessorTask.getEarlyStart());
+                  if (earlyStart.isAfter(m_dataDate))
+                  {
+                     earlyStart = m_dataDate;
+                  }
+               }
+            }
+         }
+         else
+         {
+            // Predecessor not finished
+            if (successorTask.getActualStart() == null)
+            {
+               // Successor not started
+               earlyStart = addLag(relation, getDateFromEnd(successorTask, predecessorTask.getEarlyStart()));
+               if (earlyStart.isAfter(m_dataDate))
+               {
+                  earlyStart = m_dataDate;
+               }
             }
             else
             {
-               // Predecessor started
-               if (predecessorTask.getActualFinish() != null)
+               // successor started
+               if (successorTask.getActualFinish() == null)
                {
-                  // Predecessor finished
-                  if (successorTask.getActualStart() == null)
+                  // successor not finished
+                  double actualLagDurationInHours = predecessorTask.getActualStart().isAfter(m_dataDate) ? 0 : getLagCalendar(relation).getWork(predecessorTask.getActualStart(), m_dataDate, TimeUnit.HOURS).getDuration();
+                  double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+
+                  if (lagDurationInHours > actualLagDurationInHours)
                   {
-                     // Successor not started
-                     earlyStart = addLag(relation, getDateFromEnd(successorTask, predecessorTask.getEarlyStart()));
+                     Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
+                     LocalDateTime earlyFinish = addLag(relation, predecessorTask.getEarlyStart(), remainingLag);
+                     earlyStart = getDateFromEndAndRemainingDuration(successorTask, earlyFinish);
                   }
                   else
                   {
-                     // successor started
-                     if (successorTask.getActualFinish() == null)
-                     {
-                        // successor not finished
-                        double actualLagDurationInHours = predecessorTask.getActualStart().isAfter(m_dataDate) ? 0 : getLagCalendar(relation).getWork(predecessorTask.getActualStart(), m_dataDate, TimeUnit.HOURS).getDuration();
-                        double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-
-                        if (lagDurationInHours > actualLagDurationInHours)
-                        {
-                           Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
-                           LocalDateTime earlyFinish = addLag(relation, predecessorTask.getEarlyStart(), remainingLag);
-                           earlyStart = getDateFromEndAndRemainingDuration(successorTask, earlyFinish);
-                        }
-                        else
-                        {
-                           earlyStart = predecessorTask.getEarlyStart();
-                        }
-                     }
-                     else
-                     {
-                        // successor finished
-                        earlyStart = addLag(relation, predecessorTask.getEarlyStart());
-                        if (earlyStart.isAfter(m_dataDate))
-                        {
-                           earlyStart = m_dataDate;
-                        }
-                     }
+                     earlyStart = predecessorTask.getEarlyStart();
                   }
                }
                else
                {
-                  // Predecessor not finished
-                  if (successorTask.getActualStart() == null)
+                  // successor finished
+                  earlyStart = addLag(relation, getDateFromEnd(successorTask, predecessorTask.getEarlyStart()));
+                  if (earlyStart.isAfter(m_dataDate))
                   {
-                     // Successor not started
-                     earlyStart = addLag(relation, getDateFromEnd(successorTask, predecessorTask.getEarlyStart()));
-                     if (earlyStart.isAfter(m_dataDate))
-                     {
-                        earlyStart = m_dataDate;
-                     }
-                  }
-                  else
-                  {
-                     // successor started
-                     if (successorTask.getActualFinish() == null)
-                     {
-                        // successor not finished
-                        double actualLagDurationInHours = predecessorTask.getActualStart().isAfter(m_dataDate) ? 0 : getLagCalendar(relation).getWork(predecessorTask.getActualStart(), m_dataDate, TimeUnit.HOURS).getDuration();
-                        double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+                     earlyStart = m_dataDate;
 
-                        if (lagDurationInHours > actualLagDurationInHours)
-                        {
-                           Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
-                           LocalDateTime earlyFinish = addLag(relation, predecessorTask.getEarlyStart(), remainingLag);
-                           earlyStart = getDateFromEndAndRemainingDuration(successorTask, earlyFinish);
-                        }
-                        else
-                        {
-                           earlyStart = predecessorTask.getEarlyStart();
-                        }
-                     }
-                     else
+                     LocalDateTime adjustedEarlyStart = successorTask.getEffectiveCalendar().getNextWorkStart(earlyStart);
+                     Duration work = successorTask.getEffectiveCalendar().getWork(earlyStart, adjustedEarlyStart, TimeUnit.MINUTES);
+                     if (work.getDuration() == 0)
                      {
-                        // successor finished
-                        earlyStart = addLag(relation, getDateFromEnd(successorTask, predecessorTask.getEarlyStart()));
-                        if (earlyStart.isAfter(m_dataDate))
-                        {
-                           earlyStart = m_dataDate;
-
-                           LocalDateTime adjustedEarlyStart = successorTask.getEffectiveCalendar().getNextWorkStart(earlyStart);
-                           Duration work = successorTask.getEffectiveCalendar().getWork(earlyStart, adjustedEarlyStart, TimeUnit.MINUTES);
-                           if (work.getDuration() == 0)
-                           {
-                              earlyStart = adjustedEarlyStart;
-                           }
-                        }
+                        earlyStart = adjustedEarlyStart;
                      }
                   }
                }
             }
-
-            return earlyStart;
-         }
-
-         default:
-         {
-            throw new UnsupportedOperationException();
          }
       }
+
+      return earlyStart;
    }
 
    private LocalDateTime calculateLateFinish(Relation relation)
