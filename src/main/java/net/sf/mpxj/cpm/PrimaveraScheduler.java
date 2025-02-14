@@ -1024,30 +1024,61 @@ public class PrimaveraScheduler implements Scheduler
    {
       Task predecessorTask = relation.getPredecessorTask();
       Task successorTask = relation.getSuccessorTask();
-      LocalDateTime lateFinish;
+      LocalDateTime lateFinish = null;
 
-      if (successorTask.getActualStart() == null && predecessorTask.getActualStart() == null)
+      LocalDateTime lateStart;
+
+      if (predecessorTask.getActualStart() == null)
       {
-         LocalDateTime lateStart = predecessorTask.getEffectiveCalendar().getNextWorkStart(removeLag(relation, successorTask.getLateStart()));
-         lateFinish = getDateFromStartAndRemainingDuration(predecessorTask, lateStart);
-
-         // Hmmm... dubious logic. Does this just work for indefensible-tedium or is this general?
-         if (successorTask.getSuccessors().isEmpty() && successorTask.getLateFinish().isBefore(lateFinish))
+         // Predecessor not started
+         if (successorTask.getActualStart() == null)
          {
-            lateFinish = successorTask.getLateFinish();
+            // Successor not started
+            lateStart = predecessorTask.getEffectiveCalendar().getNextWorkStart(removeLag(relation, successorTask.getLateStart()));
+            lateFinish = getDateFromStartAndRemainingDuration(predecessorTask, lateStart);
+
+            // Hmmm... dubious logic. Does this just work for indefensible-tedium or is this general?
+            if (successorTask.getSuccessors().isEmpty() && successorTask.getLateFinish().isBefore(lateFinish))
+            {
+               lateFinish = successorTask.getLateFinish();
+            }
+         }
+         else
+         {
+            // successor started
+            if (successorTask.getActualFinish() == null)
+            {
+               // successor not finished
+               lateStart = removeLag(relation, successorTask.getLateStart());
+            }
+            else
+            {
+               // successor finished
+               lateStart = removeLag(relation, successorTask.getLateStart());
+            }
          }
       }
       else
       {
-         LocalDateTime lateStart;
-
-         if (predecessorTask.getActualStart() == null)
+         // Predecessor Started
+         if (predecessorTask.getActualFinish() != null)
          {
-            // Predecessor not started
+            // Predecessor finished
             if (successorTask.getActualStart() == null)
             {
                // Successor not started
-               lateStart = removeLag(relation, successorTask.getLateStart());
+               double actualLagDurationInHours = predecessorTask.getActualStart().isAfter(m_dataDate) ? 0 : getLagCalendar(relation).getWork(predecessorTask.getActualStart(), m_dataDate, TimeUnit.HOURS).getDuration();
+               double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+
+               if (lagDurationInHours > actualLagDurationInHours)
+               {
+                  Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
+                  lateStart =  removeLag(relation, successorTask.getLateStart(), remainingLag);
+               }
+               else
+               {
+                  lateStart = successorTask.getLateStart();
+               }
             }
             else
             {
@@ -1055,106 +1086,71 @@ public class PrimaveraScheduler implements Scheduler
                if (successorTask.getActualFinish() == null)
                {
                   // successor not finished
-                  lateStart = removeLag(relation, successorTask.getLateStart());
+                  lateStart = successorTask.getLateStart();
                }
                else
                {
                   // successor finished
-                  lateStart = removeLag(relation, successorTask.getLateStart());
+                  if (relation.getLag().getDuration() == 0.0)
+                  {
+                     lateStart = successorTask.getLateStart();
+                  }
+                  else
+                  {
+                     double actualLagDurationInHours = predecessorTask.getActualStart().isAfter(m_dataDate) ? 0 : getLagCalendar(relation).getWork(predecessorTask.getActualStart(), m_dataDate, TimeUnit.HOURS).getDuration();
+                     double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+
+                     if (lagDurationInHours > actualLagDurationInHours)
+                     {
+                        Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
+                        lateStart = removeLag(relation, successorTask.getLateStart(), remainingLag);
+                     }
+                     else
+                     {
+                        lateStart = successorTask.getLateStart();
+                     }
+                  }
                }
             }
          }
          else
          {
-            // Predecessor Started
-            if (predecessorTask.getActualFinish() != null)
+            // Predecessor not finished
+            if (successorTask.getActualStart() == null)
             {
-               // Predecessor finished
-               if (successorTask.getActualStart() == null)
-               {
-                  // Successor not started
-                  double actualLagDurationInHours = predecessorTask.getActualStart().isAfter(m_dataDate) ? 0 : getLagCalendar(relation).getWork(predecessorTask.getActualStart(), m_dataDate, TimeUnit.HOURS).getDuration();
-                  double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+               // Successor not started
+               double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+               double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
 
-                  if (lagDurationInHours > actualLagDurationInHours)
-                  {
-                     Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
-                     lateStart =  removeLag(relation, successorTask.getLateStart(), remainingLag);
-                  }
-                  else
-                  {
-                     lateStart = successorTask.getLateStart();
-                  }
+               if (actualDurationInHours >= lagDurationInHours)
+               {
+                  lateStart = successorTask.getLateStart();
                }
                else
                {
-                  // successor started
-                  if (successorTask.getActualFinish() == null)
-                  {
-                     // successor not finished
-                     lateStart = successorTask.getLateStart();
-                  }
-                  else
-                  {
-                     // successor finished
-                     if (relation.getLag().getDuration() == 0.0)
-                     {
-                        lateStart = successorTask.getLateStart();
-                     }
-                     else
-                     {
-                        double actualLagDurationInHours = predecessorTask.getActualStart().isAfter(m_dataDate) ? 0 : getLagCalendar(relation).getWork(predecessorTask.getActualStart(), m_dataDate, TimeUnit.HOURS).getDuration();
-                        double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-
-                        if (lagDurationInHours > actualLagDurationInHours)
-                        {
-                           Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
-                           lateStart = removeLag(relation, successorTask.getLateStart(), remainingLag);
-                        }
-                        else
-                        {
-                           lateStart = successorTask.getLateStart();
-                        }
-                     }
-                  }
+                  Duration remainingLag = Duration.getInstance(lagDurationInHours - actualDurationInHours, TimeUnit.HOURS);
+                  lateStart = removeLag(relation, successorTask.getLateStart(), remainingLag);
                }
             }
             else
             {
-               // Predecessor not finished
-               if (successorTask.getActualStart() == null)
+               // successor started
+               if (successorTask.getActualFinish() == null)
                {
-                  // Successor not started
-                  double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-                  double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-
-                  if (actualDurationInHours >= lagDurationInHours)
-                  {
-                     lateStart = successorTask.getLateStart();
-                  }
-                  else
-                  {
-                     Duration remainingLag = Duration.getInstance(lagDurationInHours - actualDurationInHours, TimeUnit.HOURS);
-                     lateStart = removeLag(relation, successorTask.getLateStart(), remainingLag);
-                  }
+                  // successor not finished
+                  lateStart = successorTask.getLateStart();
                }
                else
                {
-                  // successor started
-                  if (successorTask.getActualFinish() == null)
-                  {
-                     // successor not finished
-                     lateStart = successorTask.getLateStart();
-                  }
-                  else
-                  {
-                     // successor finished
-                     lateStart = successorTask.getLateStart();
-                  }
+                  // successor finished
+                  lateStart = successorTask.getLateStart();
                }
             }
          }
+      }
 
+      if (lateFinish == null)
+      {
          lateFinish = getDateFromStartAndRemainingDuration(predecessorTask, lateStart);
       }
 
