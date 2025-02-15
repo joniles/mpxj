@@ -840,7 +840,7 @@ public class PrimaveraScheduler implements Scheduler
             // Successor not started
             if (relation.getLag().getDuration() == 0)
             {
-               earlyFinish = addLag(relation, predecessorTask.getEarlyFinish());
+               earlyFinish = predecessorTask.getEarlyFinish();
             }
             else
             {
@@ -855,7 +855,7 @@ public class PrimaveraScheduler implements Scheduler
                // successor not finished
                if (relation.getLag().getDuration() == 0)
                {
-                  earlyFinish = addLag(relation, predecessorTask.getEarlyFinish());
+                  earlyFinish = predecessorTask.getEarlyFinish();
                }
                else
                {
@@ -867,7 +867,7 @@ public class PrimaveraScheduler implements Scheduler
                // successor finished
                if (relation.getLag().getDuration() == 0)
                {
-                  earlyFinish = addLag(relation, predecessorTask.getEarlyFinish());
+                  earlyFinish = predecessorTask.getEarlyFinish();
                }
                else
                {
@@ -887,7 +887,7 @@ public class PrimaveraScheduler implements Scheduler
                // Successor not started
                if (relation.getLag().getDuration() == 0.0)
                {
-                  earlyFinish = addLag(relation, predecessorTask.getActualFinish());
+                  earlyFinish = predecessorTask.getActualFinish();
                }
                else
                {
@@ -911,7 +911,7 @@ public class PrimaveraScheduler implements Scheduler
                   // successor not finished
                   if (relation.getLag().getDuration() == 0.0)
                   {
-                     earlyFinish = addLag(relation, predecessorTask.getActualFinish());
+                     earlyFinish = predecessorTask.getActualFinish();
                   }
                   else
                   {
@@ -946,7 +946,7 @@ public class PrimaveraScheduler implements Scheduler
                // Successor not started
                if (relation.getLag().getDuration() == 0.0)
                {
-                  earlyFinish = addLag(relation,  predecessorTask.getEarlyFinish());
+                  earlyFinish = predecessorTask.getEarlyFinish();
                }
                else
                {
@@ -961,7 +961,7 @@ public class PrimaveraScheduler implements Scheduler
                   // successor not finished
                   if (relation.getLag().getDuration() == 0.0)
                   {
-                     earlyFinish = addLag(relation, predecessorTask.getEarlyFinish());
+                     earlyFinish = predecessorTask.getEarlyFinish();
                   }
                   else
                   {
@@ -973,7 +973,7 @@ public class PrimaveraScheduler implements Scheduler
                   // successor finished
                   if (relation.getLag().getDuration() == 0.0)
                   {
-                     earlyFinish = addLag(relation, predecessorTask.getEarlyFinish());
+                     earlyFinish = predecessorTask.getEarlyFinish();
                   }
                   else
                   {
