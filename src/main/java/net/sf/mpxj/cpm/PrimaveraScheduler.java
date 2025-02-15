@@ -509,13 +509,7 @@ public class PrimaveraScheduler implements Scheduler
                   return addLag(relation, predecessorTask.getEarlyFinish());
                }
 
-               LocalDateTime earlyStart = addLag(relation, predecessorTask.getEarlyFinish());
-               if (earlyStart.isBefore(m_dataDate))
-               {
-                  return m_dataDate;
-               }
-
-               return earlyStart;
+               return addLag(relation, predecessorTask.getEarlyFinish());
             }
          }
       }
@@ -631,12 +625,7 @@ public class PrimaveraScheduler implements Scheduler
                      return addLag(relation, predecessorTask.getEarlyFinish());
                   }
 
-                  LocalDateTime earlyStart = addLag(relation, predecessorTask.getEarlyFinish());
-                  if (earlyStart.isBefore(m_dataDate))
-                  {
-                     return m_dataDate;
-                  }
-                  return earlyStart;
+                  return addLag(relation, predecessorTask.getEarlyFinish());
                }
             }
          }
@@ -1013,10 +1002,6 @@ public class PrimaveraScheduler implements Scheduler
                else
                {
                   earlyStart = addLag(relation, predecessorTask.getEarlyStart());
-                  if (earlyStart.isBefore(m_dataDate))
-                  {
-                     earlyStart = m_dataDate;
-                  }
                }
             }
          }
@@ -1738,7 +1723,12 @@ public class PrimaveraScheduler implements Scheduler
 
    private LocalDateTime addLag(Relation relation, LocalDateTime date, Duration lag)
    {
-      return getDate(getLagCalendar(relation), date, lag);
+      LocalDateTime result =  getDate(getLagCalendar(relation), date, lag);
+      if (lag.getDuration() < 0 && m_dataDate != null && result.isBefore(m_dataDate))
+      {
+         result = m_dataDate;
+      }
+      return result;
    }
 
    private LocalDateTime removeLag(Relation relation, LocalDateTime date)
