@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="13.10.1">
 			<action dev="joniles" type="update">Improve accuracy of resource assignment start and finsh dates when reading XER files and P6 databases.</action>
+			<action dev="joniles" type="update">Add support for reading an activity's Methodology GUID from XER files and P6 databases, and for writing the Methodology GUID to XER files.</action>
 		</release>
 		<release date="2025-02-07" version="13.10.0">
 			<action dev="joniles" type="update">Add support for reading the P6 EPS using the `listEps()` method provided by the `PrimaveraDatabaseReader` and `PrimaveraDatabaseFileReader` classes.</action>

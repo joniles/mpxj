@@ -1433,6 +1433,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       FIELD_TYPE_MAP.put("task_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("task_pred_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("taskrsrc_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("tmpl_guid", DataType.GUID);
       FIELD_TYPE_MAP.put("total_float_hr_cnt", DataType.DURATION);
       FIELD_TYPE_MAP.put("udf_code_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("udf_date", DataType.DATE);
