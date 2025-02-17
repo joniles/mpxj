@@ -1445,18 +1445,7 @@ public class PrimaveraScheduler implements Scheduler
                   }
                   else
                   {
-                     double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-                     double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-
-                     if (actualDurationInHours >= lagDurationInHours)
-                     {
-                        lateStart = successorTask.getLateStart();
-                     }
-                     else
-                     {
-                        Duration remainingLag = Duration.getInstance(lagDurationInHours - actualDurationInHours, TimeUnit.HOURS);
-                        lateStart = removeLag(relation, successorTask.getLateStart(), remainingLag);
-                     }
+                     lateStart = successorTask.getLateStart();
                   }
                }
             }
