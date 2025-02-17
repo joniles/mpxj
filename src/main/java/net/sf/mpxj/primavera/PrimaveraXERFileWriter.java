@@ -1652,7 +1652,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       WBS_COLUMNS.put("ev_compute_type", t -> "EC_Cmp_pct");
       WBS_COLUMNS.put("ev_etc_compute_type", t -> "EE_PF_cpi");
       WBS_COLUMNS.put("guid", t -> t.getGUID());
-      WBS_COLUMNS.put("tmpl_guid", t -> "");
+      WBS_COLUMNS.put("tmpl_guid", t -> t.getMethodologyGUID());
       WBS_COLUMNS.put("plan_open_state", t -> "");
    }
 
