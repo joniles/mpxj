@@ -111,7 +111,7 @@ public class CpmTest
          compare(baselineTask, workingTask);
       }
 
-      if (m_forwardErrorCount == 0&& m_backwardErrorCount == 0)
+      if (m_forwardErrorCount == 0 && m_backwardErrorCount == 0)
       {
          System.out.println("done.");
          return true;
@@ -131,7 +131,10 @@ public class CpmTest
    {
       boolean earlyStartFailed = !compare(baseline, working, TaskField.EARLY_START);
       boolean earlyFinishFailed = !compare(baseline, working, TaskField.EARLY_FINISH);
-      if (earlyStartFailed || earlyFinishFailed)
+      boolean startFailed = !compare(baseline, working, TaskField.START);
+      boolean finishFailed = !compare(baseline, working, TaskField.FINISH);
+
+      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed)
       {
          ++m_forwardErrorCount;
       }
@@ -207,10 +210,14 @@ public class CpmTest
             Task baseline = m_baselineFile.getTaskByUniqueID(working.getUniqueID());
             boolean earlyStartFail = !compareDates(baseline, working, TaskField.EARLY_START);
             boolean earlyFinishFail = !compareDates(baseline, working, TaskField.EARLY_FINISH);
+            boolean startFail = !compareDates(baseline, working, TaskField.START);
+            boolean finishFail = !compareDates(baseline, working, TaskField.FINISH);
 
             System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
             System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
             System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
+            System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (earlyStartFail ? " FAIL" : ""));
+            System.out.println("Finish: " + baseline.getFinish() + " " + working.getFinish() + (earlyFinishFail ? " FAIL" : ""));
             System.out.println();
          }
       }
@@ -289,6 +296,8 @@ public class CpmTest
       USE_SCHEDULED_COPY.add("nasty-census.xer");
       USE_SCHEDULED_COPY.add("virtual-mast.xer");
       USE_SCHEDULED_COPY.add("specific-academy.xer");
+      USE_SCHEDULED_COPY.add("supreme-nurse.xer");
+      USE_SCHEDULED_COPY.add("multicolor-nonconformist.xer");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();

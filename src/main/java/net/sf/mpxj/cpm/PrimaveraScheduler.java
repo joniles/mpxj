@@ -40,6 +40,16 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
+      for (Task task : m_file.getTasks())
+      {
+         task.setStart(null);
+         task.setFinish(null);
+         task.setEarlyStart(null);
+         task.setEarlyFinish(null);
+         task.setLateStart(null);
+         task.setLateFinish(null);
+      }
+
       if (m_dataDate != null && projectStartDate.isBefore(m_dataDate))
       {
          m_projectStartDate = m_dataDate;
@@ -60,6 +70,12 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       backwardPass(tasks);
+
+      for (Task task : tasks)
+      {
+         task.setStart(task.getActualStart() == null ? task.getEarlyStart() : task.getActualStart());
+         task.setFinish(task.getActualFinish() == null ? task.getEarlyFinish() : task.getActualFinish());
+      }
    }
 
    private void forwardPass(List<Task> tasks) throws CpmException
@@ -1051,6 +1067,7 @@ public class PrimaveraScheduler implements Scheduler
             if (successorTask.getActualFinish() == null)
             {
                // successor not finished
+               LocalDateTime test = successorTask.getEffectiveCalendar().getDate(successorTask.getActualStart(), successorTask.getDuration());
                if (relation.getLag().getDuration() == 0)
                {
                   LocalDateTime earlyFinish = successorTask.getEffectiveCalendar().getDate(successorTask.getActualStart(), successorTask.getDuration());
