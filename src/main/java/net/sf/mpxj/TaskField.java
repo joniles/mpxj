@@ -1041,7 +1041,8 @@ public enum TaskField implements FieldType
    SHOW_START_TEXT(DataType.BOOLEAN),
    SHOW_FINISH_TEXT(DataType.BOOLEAN),
    SHOW_DURATION_TEXT(DataType.BOOLEAN),
-   ACTIVITY_PERCENT_COMPLETE(DataType.PERCENTAGE);
+   ACTIVITY_PERCENT_COMPLETE(DataType.PERCENTAGE),
+   METHODOLOGY_GUID(DataType.GUID);
 
    /**
     * Constructor.

@@ -2789,6 +2789,7 @@ final class PrimaveraReader
       map.put(TaskField.LONGEST_PATH, "driving_path_flag");
       map.put(TaskField.LOCATION_UNIQUE_ID, "location_id");
       map.put(TaskField.EXPECTED_FINISH, "expect_end_date");
+      map.put(TaskField.METHODOLOGY_GUID, "tmpl_guid");
 
       return map;
    }
