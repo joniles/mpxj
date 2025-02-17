@@ -1060,6 +1060,7 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.SHOW_FINISH_TEXT.getValue()] = "Show Finish Text";
       TASK_COLUMNS_ARRAY[TaskField.SHOW_DURATION_TEXT.getValue()] = "Show Duration Text";
       TASK_COLUMNS_ARRAY[TaskField.ACTIVITY_PERCENT_COMPLETE.getValue()] = "Activity Percent Complete";
+      TASK_COLUMNS_ARRAY[TaskField.METHODOLOGY_GUID.getValue()] = "Methodology GUID";
 
       RESOURCE_COLUMNS_ARRAY[ResourceField.ID.getValue()] = "ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.NAME.getValue()] = "Name";

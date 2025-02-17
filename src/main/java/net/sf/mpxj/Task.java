@@ -5561,6 +5561,26 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Retrieve the methodology GUID for this task.
+    *
+    * @return methodology GUID
+    */
+   public UUID getMethodologyGUID()
+   {
+      return (UUID)get(TaskField.METHODOLOGY_GUID);
+   }
+
+   /**
+    * Set the methodology GUID for this task.
+    *
+    * @param value methodology GUID
+    */
+   public void setMethodologyGUID(UUID value)
+   {
+      set(TaskField.METHODOLOGY_GUID, value);
+   }
+
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.

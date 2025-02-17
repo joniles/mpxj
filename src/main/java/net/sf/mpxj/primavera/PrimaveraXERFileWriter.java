@@ -1652,7 +1652,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       WBS_COLUMNS.put("ev_compute_type", t -> "EC_Cmp_pct");
       WBS_COLUMNS.put("ev_etc_compute_type", t -> "EE_PF_cpi");
       WBS_COLUMNS.put("guid", t -> t.getGUID());
-      WBS_COLUMNS.put("tmpl_guid", t -> "");
+      WBS_COLUMNS.put("tmpl_guid", t -> t.getMethodologyGUID());
       WBS_COLUMNS.put("plan_open_state", t -> "");
    }
 
@@ -1706,7 +1706,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("float_path", t -> null);
       ACTIVITY_COLUMNS.put("float_path_order", t -> null);
       ACTIVITY_COLUMNS.put("guid", t -> t.getGUID());
-      ACTIVITY_COLUMNS.put("tmpl_guid", t -> null);
+      ACTIVITY_COLUMNS.put("tmpl_guid", t -> t.getMethodologyGUID());
       ACTIVITY_COLUMNS.put("cstr_date2", t -> t.getSecondaryConstraintDate());
       ACTIVITY_COLUMNS.put("cstr_type2", t -> t.getSecondaryConstraintType());
       ACTIVITY_COLUMNS.put("driving_path_flag", t -> Boolean.FALSE);
