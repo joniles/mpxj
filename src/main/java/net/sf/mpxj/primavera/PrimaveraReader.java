@@ -2736,6 +2736,7 @@ final class PrimaveraReader
       map.put(TaskField.DEADLINE, "anticip_end_date");
       map.put(TaskField.WBS, "wbs_short_name");
       map.put(TaskField.SEQUENCE_NUMBER, "seq_num");
+      map.put(TaskField.METHODOLOGY_GUID, "tmpl_guid");
 
       return map;
    }
