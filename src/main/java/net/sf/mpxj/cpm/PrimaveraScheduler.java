@@ -277,37 +277,6 @@ public class PrimaveraScheduler implements Scheduler
       setRemainingEarlyDates(task);
    }
 
-   private void setRemainingEarlyDates(Task task)
-   {
-      LocalDateTime remainingEarlyStart;
-
-      if (task.getActualStart() == null)
-      {
-         remainingEarlyStart = task.getEarlyStart();
-      }
-      else
-      {
-         if (task.getActualDuration().getDuration() != 0)
-         {
-            remainingEarlyStart = task.getEarlyStart();
-         }
-         else
-         {
-            if (task.getActualStart().isAfter(m_dataDate))
-            {
-               remainingEarlyStart = task.getEarlyStart();
-            }
-            else
-            {
-               remainingEarlyStart = task.getCalendar().getNextWorkStart(m_dataDate);
-            }
-         }
-      }
-
-      task.setRemainingEarlyStart(remainingEarlyStart);
-      task.setRemainingEarlyFinish(getDateFromStartAndRemainingDuration(task, remainingEarlyStart));
-   }
-
    private void backwardPass(List<Task> forwardPassTasks) throws CpmException
    {
       List<Task> tasks = new ArrayList<>(forwardPassTasks);
@@ -478,6 +447,7 @@ public class PrimaveraScheduler implements Scheduler
 
       task.setLateStart(lateStart);
       task.setLateFinish(lateFinish);
+      setRemainingLateDates(task);
 
       if (task.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE)
       {
@@ -2398,6 +2368,43 @@ public class PrimaveraScheduler implements Scheduler
             return LocalDateTime.MAX;
          }
       }
+   }
+
+   private void setRemainingEarlyDates(Task task)
+   {
+      LocalDateTime remainingEarlyStart;
+
+      if (task.getActualStart() == null)
+      {
+         remainingEarlyStart = task.getEarlyStart();
+      }
+      else
+      {
+         if (task.getActualDuration().getDuration() != 0)
+         {
+            remainingEarlyStart = task.getEarlyStart();
+         }
+         else
+         {
+            if (task.getActualStart().isAfter(m_dataDate))
+            {
+               remainingEarlyStart = task.getEarlyStart();
+            }
+            else
+            {
+               remainingEarlyStart = task.getCalendar().getNextWorkStart(m_dataDate);
+            }
+         }
+      }
+
+      task.setRemainingEarlyStart(remainingEarlyStart);
+      task.setRemainingEarlyFinish(getDateFromStartAndRemainingDuration(task, remainingEarlyStart));
+   }
+
+   private void setRemainingLateDates(Task task)
+   {
+      task.setRemainingLateStart(task.getLateStart());
+      task.setRemainingLateFinish(task.getLateFinish());
    }
 
    private ProjectCalendar createTwentyFourHourCalendar()

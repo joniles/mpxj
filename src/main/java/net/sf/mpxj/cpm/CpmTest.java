@@ -135,7 +135,6 @@ public class CpmTest
       boolean finishFailed = !compare(baseline, working, TaskField.FINISH);
       boolean remainingEarlyStartFailed = !compare(baseline, working, TaskField.REMAINING_EARLY_START);
       boolean remainingEarlyFinishFailed = !compare(baseline, working, TaskField.REMAINING_EARLY_FINISH);
-
       if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || remainingEarlyStartFailed || remainingEarlyFinishFailed)
       {
          ++m_forwardErrorCount;
@@ -143,7 +142,9 @@ public class CpmTest
 
       boolean lateStartFailed = !compare(baseline, working, TaskField.LATE_START);
       boolean lateFinishFailed = !compare(baseline, working, TaskField.LATE_FINISH);
-      if (lateStartFailed || lateFinishFailed)
+      boolean remainingLateStartFailed = !compare(baseline, working, TaskField.REMAINING_LATE_START);
+      boolean remainingLateFinishFailed = !compare(baseline, working, TaskField.REMAINING_LATE_FINISH);
+      if (lateStartFailed || lateFinishFailed || remainingLateStartFailed || remainingLateFinishFailed)
       {
          ++m_backwardErrorCount;
       }
@@ -242,10 +243,14 @@ public class CpmTest
             Task baseline = m_baselineFile.getTaskByUniqueID(working.getUniqueID());
             boolean lateStartFail = !compareDates(baseline, working, TaskField.LATE_START);
             boolean lateFinishFail = !compareDates(baseline, working, TaskField.LATE_FINISH);
+            boolean remainingLateStartFail = !compareDates(baseline, working, TaskField.REMAINING_LATE_START);
+            boolean remainingLateFinishFail = !compareDates(baseline, working, TaskField.REMAINING_LATE_FINISH);
 
             System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
             System.out.println("Late Start: " + baseline.getLateStart() + " " + working.getLateStart() + (lateStartFail ? " FAIL" : ""));
             System.out.println("Late Finish: " + baseline.getLateFinish() + " " + working.getLateFinish() + (lateFinishFail ? " FAIL" : ""));
+            System.out.println("Remaining Late Start: " + baseline.getRemainingLateStart() + " " + working.getRemainingLateStart() + (remainingLateStartFail ? " FAIL" : ""));
+            System.out.println("Remaining Late Finish: " + baseline.getRemainingLateFinish() + " " + working.getRemainingLateFinish() + (remainingLateFinishFail ? " FAIL" : ""));
             System.out.println();
          }
       }
@@ -308,6 +313,7 @@ public class CpmTest
       USE_SCHEDULED_COPY.add("waspish-grant.xer");
       USE_SCHEDULED_COPY.add("dramatic-male.xer");
       USE_SCHEDULED_COPY.add("sacrosanct-ozone.xer");
+      USE_SCHEDULED_COPY.add("doubtful-contractor.xer");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
