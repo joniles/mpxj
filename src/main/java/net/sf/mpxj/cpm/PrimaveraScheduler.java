@@ -305,7 +305,7 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       task.setRemainingEarlyStart(remainingEarlyStart);
-
+      task.setRemainingEarlyFinish(getDateFromStartAndRemainingDuration(task, remainingEarlyStart));
    }
 
    private void backwardPass(List<Task> forwardPassTasks) throws CpmException

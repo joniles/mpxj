@@ -134,8 +134,9 @@ public class CpmTest
       boolean startFailed = !compare(baseline, working, TaskField.START);
       boolean finishFailed = !compare(baseline, working, TaskField.FINISH);
       boolean remainingEarlyStartFailed = !compare(baseline, working, TaskField.REMAINING_EARLY_START);
+      boolean remainingEarlyFinishFailed = !compare(baseline, working, TaskField.REMAINING_EARLY_FINISH);
 
-      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || remainingEarlyStartFailed)
+      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || remainingEarlyStartFailed || remainingEarlyFinishFailed)
       {
          ++m_forwardErrorCount;
       }
@@ -214,6 +215,7 @@ public class CpmTest
             boolean startFail = !compareDates(baseline, working, TaskField.START);
             boolean finishFail = !compareDates(baseline, working, TaskField.FINISH);
             boolean remainingEarlyStartFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
+            boolean remainingEarlyFinishFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
 
             System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
             System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
@@ -221,6 +223,7 @@ public class CpmTest
             System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (earlyStartFail ? " FAIL" : ""));
             System.out.println("Finish: " + baseline.getFinish() + " " + working.getFinish() + (earlyFinishFail ? " FAIL" : ""));
             System.out.println("Remaining Early Start: " + baseline.getRemainingEarlyStart() + " " + working.getRemainingEarlyStart() + (remainingEarlyStartFail ? " FAIL" : ""));
+            System.out.println("Remaining Early Finish: " + baseline.getRemainingEarlyFinish() + " " + working.getRemainingEarlyFinish() + (remainingEarlyFinishFail ? " FAIL" : ""));
             System.out.println();
          }
       }
