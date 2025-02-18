@@ -2233,7 +2233,7 @@ public class PrimaveraScheduler implements Scheduler
 
    public boolean ignoreTask(Task task)
    {
-      return task.getSummary() || !task.getActive() || task.getNull() || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getActivityType() == ActivityType.WBS_SUMMARY;
+      return task.getSummary() || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getActivityType() == ActivityType.WBS_SUMMARY;
    }
 
    private void alapAdjust(Task task) throws CpmException
