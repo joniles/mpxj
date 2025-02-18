@@ -73,6 +73,8 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       m_file.getChildTasks().forEach(t -> rollupDates(t));
+
+      m_file.getTasks().stream().filter(t -> t.getActivityType() == ActivityType.WBS_SUMMARY).forEach(t -> processWbsSummaryTask(t));
    }
 
    private void forwardPass(List<Task> tasks) throws CpmException
@@ -2607,6 +2609,41 @@ public class PrimaveraScheduler implements Scheduler
       // Force total slack calculation to avoid overwriting the critical flag
       parentTask.getTotalSlack();
       parentTask.setCritical(critical);
+   }
+   
+   private void processWbsSummaryTask(Task task)
+   {
+      Task wbs = task.getParentTask();
+      if (wbs == null)
+      {
+         return;
+      }
+
+      task.setStart(wbs.getStart());
+      task.setFinish(wbs.getFinish());
+      task.setPlannedStart(wbs.getPlannedStart());
+      task.setPlannedFinish(wbs.getPlannedFinish());
+      task.setPlannedDuration(wbs.getPlannedDuration());
+      task.setActualStart(wbs.getActualStart());
+      task.setActualFinish(wbs.getActualFinish());
+      task.setEarlyStart(wbs.getEarlyStart());
+      task.setEarlyFinish(wbs.getEarlyFinish());
+      task.setLateStart(wbs.getLateStart());
+      task.setLateFinish(wbs.getLateFinish());
+      task.setRemainingEarlyStart(wbs.getRemainingEarlyStart());
+      task.setRemainingEarlyFinish(wbs.getRemainingEarlyFinish());
+      task.setRemainingLateStart(wbs.getRemainingLateStart());
+      task.setRemainingLateFinish(wbs.getRemainingLateFinish());
+      task.setBaselineStart(wbs.getBaselineStart());
+      task.setBaselineFinish(wbs.getBaselineFinish());
+      task.setActualDuration(wbs.getActualDuration());
+      task.setRemainingDuration(wbs.getRemainingDuration());
+      task.setDuration(wbs.getDuration());
+      task.setPercentageComplete(wbs.getPercentageComplete());
+      task.setPercentCompleteType(wbs.getPercentCompleteType());
+      // Force total slack calculation to avoid overwriting the critical flag
+      task.getTotalSlack();
+      task.setCritical(wbs.getCritical());
    }
 
    private final ProjectFile m_file;
