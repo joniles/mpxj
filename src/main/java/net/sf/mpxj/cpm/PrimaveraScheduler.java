@@ -224,8 +224,16 @@ public class PrimaveraScheduler implements Scheduler
          {
             if (predecessors.isEmpty())
             {
-               earlyFinish = getDateFromStart(task, task.getActualStart());
-               earlyStart = getDateFromEndAndRemainingDuration(task, earlyFinish);
+               if (task.getActualDuration().getDuration() == 0)
+               {
+                  earlyStart = task.getEffectiveCalendar().getNextWorkStart(m_dataDate);
+                  earlyFinish = getDateFromStart(task, earlyStart);
+               }
+               else
+               {
+                  earlyFinish = getDateFromStart(task, task.getActualStart());
+                  earlyStart = getDateFromEndAndRemainingDuration(task, earlyFinish);
+               }
             }
             else
             {

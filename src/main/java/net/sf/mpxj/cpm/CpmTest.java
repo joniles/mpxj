@@ -298,6 +298,10 @@ public class CpmTest
       USE_SCHEDULED_COPY.add("specific-academy.xer");
       USE_SCHEDULED_COPY.add("supreme-nurse.xer");
       USE_SCHEDULED_COPY.add("multicolor-nonconformist.xer");
+      USE_SCHEDULED_COPY.add("supreme-convention.xer");
+      USE_SCHEDULED_COPY.add("waspish-grant.xer");
+      USE_SCHEDULED_COPY.add("dramatic-male.xer");
+      USE_SCHEDULED_COPY.add("sacrosanct-ozone.xer");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
