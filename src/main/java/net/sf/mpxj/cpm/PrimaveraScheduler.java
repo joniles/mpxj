@@ -14,12 +14,15 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.LocalTimeRange;
+
+import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 
 public class PrimaveraScheduler implements Scheduler
 {
@@ -40,19 +43,7 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
-      for (Task task : m_file.getTasks())
-      {
-         task.setStart(null);
-         task.setFinish(null);
-         task.setEarlyStart(null);
-         task.setEarlyFinish(null);
-         task.setLateStart(null);
-         task.setLateFinish(null);
-         task.setRemainingEarlyStart(null);
-         task.setRemainingEarlyFinish(null);
-         task.setRemainingLateStart(null);
-         task.setRemainingLateFinish(null);
-      }
+      clearDates();
 
       if (m_dataDate != null && projectStartDate.isBefore(m_dataDate))
       {
@@ -80,6 +71,8 @@ public class PrimaveraScheduler implements Scheduler
          task.setStart(task.getActualStart() == null ? task.getEarlyStart() : task.getActualStart());
          task.setFinish(task.getActualFinish() == null ? task.getEarlyFinish() : task.getActualFinish());
       }
+
+      m_file.getChildTasks().forEach(t -> rollupDates(t));
    }
 
    private void forwardPass(List<Task> tasks) throws CpmException
@@ -2372,6 +2365,11 @@ public class PrimaveraScheduler implements Scheduler
 
    private void setRemainingEarlyDates(Task task)
    {
+      if (task.getActualFinish() != null)
+      {
+         return;
+      }
+
       LocalDateTime remainingEarlyStart;
 
       if (task.getActualStart() == null)
@@ -2403,6 +2401,11 @@ public class PrimaveraScheduler implements Scheduler
 
    private void setRemainingLateDates(Task task)
    {
+      if (task.getActualFinish() != null)
+      {
+         return;
+      }
+
       task.setRemainingLateStart(task.getLateStart());
       task.setRemainingLateFinish(task.getLateFinish());
    }
@@ -2417,6 +2420,193 @@ public class PrimaveraScheduler implements Scheduler
          hours.add(new LocalTimeRange(LocalTime.MIDNIGHT, LocalTime.MIDNIGHT));
       }
       return calendar;
+   }
+
+   private void clearDates()
+   {
+      for (Task task : m_file.getTasks())
+      {
+         task.setStart(null);
+         task.setFinish(null);
+         task.setEarlyStart(null);
+         task.setEarlyFinish(null);
+         task.setLateStart(null);
+         task.setLateFinish(null);
+         task.setRemainingEarlyStart(null);
+         task.setRemainingEarlyFinish(null);
+         task.setRemainingLateStart(null);
+         task.setRemainingLateFinish(null);
+      }
+   }
+
+   private void rollupDates(Task parentTask)
+   {
+      if (!parentTask.hasChildTasks())
+      {
+         return;
+      }
+
+      int finished = 0;
+      LocalDateTime startDate = parentTask.getStart();
+      LocalDateTime finishDate = parentTask.getFinish();
+      LocalDateTime plannedStartDate = parentTask.getPlannedStart();
+      LocalDateTime plannedFinishDate = parentTask.getPlannedFinish();
+      LocalDateTime actualStartDate = parentTask.getActualStart();
+      LocalDateTime actualFinishDate = parentTask.getActualFinish();
+      LocalDateTime earlyStartDate = parentTask.getEarlyStart();
+      LocalDateTime earlyFinishDate = parentTask.getEarlyFinish();
+      LocalDateTime lateStartDate = parentTask.getLateStart();
+      LocalDateTime lateFinishDate = parentTask.getLateFinish();
+      LocalDateTime baselineStartDate = parentTask.getBaselineStart();
+      LocalDateTime baselineFinishDate = parentTask.getBaselineFinish();
+      LocalDateTime remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
+      LocalDateTime remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
+      LocalDateTime remainingLateStartDate = parentTask.getRemainingLateStart();
+      LocalDateTime remainingLateFinishDate = parentTask.getRemainingLateFinish();
+      boolean critical = false;
+
+      for (Task task : parentTask.getChildTasks())
+      {
+         rollupDates(task);
+
+         // the child tasks can have null dates (e.g. for nested wbs elements with no task children) so we
+         // still must protect against some children having null dates
+
+         startDate = LocalDateTimeHelper.min(startDate, task.getStart());
+         finishDate = LocalDateTimeHelper.max(finishDate, task.getFinish());
+         plannedStartDate = LocalDateTimeHelper.min(plannedStartDate, task.getPlannedStart());
+         plannedFinishDate = LocalDateTimeHelper.max(plannedFinishDate, task.getPlannedFinish());
+         actualStartDate = LocalDateTimeHelper.min(actualStartDate, task.getActualStart());
+         actualFinishDate = LocalDateTimeHelper.max(actualFinishDate, task.getActualFinish());
+         earlyStartDate = LocalDateTimeHelper.min(earlyStartDate, task.getEarlyStart());
+         earlyFinishDate = LocalDateTimeHelper.max(earlyFinishDate, task.getEarlyFinish());
+         remainingEarlyStartDate = LocalDateTimeHelper.min(remainingEarlyStartDate, task.getRemainingEarlyStart());
+         remainingEarlyFinishDate = LocalDateTimeHelper.max(remainingEarlyFinishDate, task.getRemainingEarlyFinish());
+         lateStartDate = LocalDateTimeHelper.min(lateStartDate, task.getLateStart());
+         lateFinishDate = LocalDateTimeHelper.max(lateFinishDate, task.getLateFinish());
+         remainingLateStartDate = LocalDateTimeHelper.min(remainingLateStartDate, task.getRemainingLateStart());
+         remainingLateFinishDate = LocalDateTimeHelper.max(remainingLateFinishDate, task.getRemainingLateFinish());
+         baselineStartDate = LocalDateTimeHelper.min(baselineStartDate, task.getBaselineStart());
+         baselineFinishDate = LocalDateTimeHelper.max(baselineFinishDate, task.getBaselineFinish());
+
+         if (task.getActualFinish() != null)
+         {
+            ++finished;
+         }
+
+         critical = critical || task.getCritical();
+      }
+
+      parentTask.setStart(startDate);
+      parentTask.setFinish(finishDate);
+      parentTask.setPlannedStart(plannedStartDate);
+      parentTask.setPlannedFinish(plannedFinishDate);
+      parentTask.setActualStart(actualStartDate);
+      parentTask.setEarlyStart(earlyStartDate);
+      parentTask.setEarlyFinish(earlyFinishDate);
+      parentTask.setRemainingEarlyStart(remainingEarlyStartDate);
+      parentTask.setRemainingEarlyFinish(remainingEarlyFinishDate);
+      parentTask.setLateStart(lateStartDate);
+      parentTask.setLateFinish(lateFinishDate);
+      parentTask.setRemainingLateStart(remainingLateStartDate);
+      parentTask.setRemainingLateFinish(remainingLateFinishDate);
+      parentTask.setBaselineStart(baselineStartDate);
+      parentTask.setBaselineFinish(baselineFinishDate);
+
+      //
+      // Only if all child tasks have actual finish dates do we
+      // set the actual finish date on the parent task.
+      //
+      if (finished == parentTask.getChildTasks().size())
+      {
+         parentTask.setActualFinish(actualFinishDate);
+      }
+
+      Duration plannedDuration = null;
+      if (plannedStartDate != null && plannedFinishDate != null)
+      {
+         plannedDuration = parentTask.getEffectiveCalendar().getWork(plannedStartDate, plannedFinishDate, TimeUnit.HOURS);
+         parentTask.setPlannedDuration(plannedDuration);
+      }
+
+      Duration actualDuration = null;
+      Duration remainingDuration = null;
+      if (parentTask.getActualFinish() == null)
+      {
+         LocalDateTime taskStartDate = parentTask.getRemainingEarlyStart();
+         if (taskStartDate == null)
+         {
+            taskStartDate = parentTask.getEarlyStart();
+            if (taskStartDate == null)
+            {
+               taskStartDate = plannedStartDate;
+            }
+         }
+
+         LocalDateTime taskFinishDate = parentTask.getRemainingEarlyFinish();
+         if (taskFinishDate == null)
+         {
+            taskFinishDate = parentTask.getEarlyFinish();
+            if (taskFinishDate == null)
+            {
+               taskFinishDate = plannedFinishDate;
+            }
+         }
+
+         if (taskStartDate != null)
+         {
+            if (parentTask.getActualStart() != null)
+            {
+               actualDuration = parentTask.getEffectiveCalendar().getWork(parentTask.getActualStart(), taskStartDate, TimeUnit.HOURS);
+            }
+
+            if (taskFinishDate != null)
+            {
+               remainingDuration = parentTask.getEffectiveCalendar().getWork(taskStartDate, taskFinishDate, TimeUnit.HOURS);
+            }
+         }
+      }
+      else
+      {
+         actualDuration = parentTask.getEffectiveCalendar().getWork(parentTask.getActualStart(), parentTask.getActualFinish(), TimeUnit.HOURS);
+         remainingDuration = Duration.getInstance(0, TimeUnit.HOURS);
+      }
+
+      if (actualDuration != null && actualDuration.getDuration() < 0)
+      {
+         actualDuration = null;
+      }
+
+      if (remainingDuration != null && remainingDuration.getDuration() < 0)
+      {
+         remainingDuration = null;
+      }
+
+      parentTask.setActualDuration(actualDuration);
+      parentTask.setRemainingDuration(remainingDuration);
+      parentTask.setDuration(Duration.add(actualDuration, remainingDuration, parentTask.getEffectiveCalendar()));
+
+      if (plannedDuration != null && remainingDuration != null && plannedDuration.getDuration() != 0)
+      {
+         double durationPercentComplete = ((plannedDuration.getDuration() - remainingDuration.getDuration()) / plannedDuration.getDuration()) * 100.0;
+         if (durationPercentComplete < 0)
+         {
+            durationPercentComplete = 0;
+         }
+         else
+         {
+            if (durationPercentComplete > 100)
+            {
+               durationPercentComplete = 100;
+            }
+         }
+         parentTask.setPercentageComplete(Double.valueOf(durationPercentComplete));
+         parentTask.setPercentCompleteType(PercentCompleteType.DURATION);
+      }
+
+      // Force total slack calculation to avoid overwriting the critical flag
+      parentTask.getTotalSlack();
+      parentTask.setCritical(critical);
    }
 
    private final ProjectFile m_file;
