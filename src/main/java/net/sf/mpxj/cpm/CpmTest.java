@@ -133,8 +133,9 @@ public class CpmTest
       boolean earlyFinishFailed = !compare(baseline, working, TaskField.EARLY_FINISH);
       boolean startFailed = !compare(baseline, working, TaskField.START);
       boolean finishFailed = !compare(baseline, working, TaskField.FINISH);
+      boolean remainingEarlyStartFailed = !compare(baseline, working, TaskField.REMAINING_EARLY_START);
 
-      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed)
+      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || remainingEarlyStartFailed)
       {
          ++m_forwardErrorCount;
       }
@@ -212,12 +213,14 @@ public class CpmTest
             boolean earlyFinishFail = !compareDates(baseline, working, TaskField.EARLY_FINISH);
             boolean startFail = !compareDates(baseline, working, TaskField.START);
             boolean finishFail = !compareDates(baseline, working, TaskField.FINISH);
+            boolean remainingEarlyStartFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
 
             System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
             System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
             System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
             System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (earlyStartFail ? " FAIL" : ""));
             System.out.println("Finish: " + baseline.getFinish() + " " + working.getFinish() + (earlyFinishFail ? " FAIL" : ""));
+            System.out.println("Remaining Early Start: " + baseline.getRemainingEarlyStart() + " " + working.getRemainingEarlyStart() + (remainingEarlyStartFail ? " FAIL" : ""));
             System.out.println();
          }
       }

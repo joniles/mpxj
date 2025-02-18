@@ -48,6 +48,10 @@ public class PrimaveraScheduler implements Scheduler
          task.setEarlyFinish(null);
          task.setLateStart(null);
          task.setLateFinish(null);
+         task.setRemainingEarlyStart(null);
+         task.setRemainingEarlyFinish(null);
+         task.setRemainingLateStart(null);
+         task.setRemainingLateFinish(null);
       }
 
       if (m_dataDate != null && projectStartDate.isBefore(m_dataDate))
@@ -269,6 +273,39 @@ public class PrimaveraScheduler implements Scheduler
 
       task.setEarlyStart(earlyStart);
       task.setEarlyFinish(earlyFinish);
+
+      setRemainingEarlyDates(task);
+   }
+
+   private void setRemainingEarlyDates(Task task)
+   {
+      LocalDateTime remainingEarlyStart;
+
+      if (task.getActualStart() == null)
+      {
+         remainingEarlyStart = task.getEarlyStart();
+      }
+      else
+      {
+         if (task.getActualDuration().getDuration() != 0)
+         {
+            remainingEarlyStart = task.getEarlyStart();
+         }
+         else
+         {
+            if (task.getActualStart().isAfter(m_dataDate))
+            {
+               remainingEarlyStart = task.getEarlyStart();
+            }
+            else
+            {
+               remainingEarlyStart = task.getCalendar().getNextWorkStart(m_dataDate);
+            }
+         }
+      }
+
+      task.setRemainingEarlyStart(remainingEarlyStart);
+
    }
 
    private void backwardPass(List<Task> forwardPassTasks) throws CpmException
@@ -2238,22 +2275,25 @@ public class PrimaveraScheduler implements Scheduler
 
    private void alapAdjust(Task task) throws CpmException
    {
+      LocalDateTime earlyStart;
+      LocalDateTime earlyFinish;
+
       List<Relation> successors = task.getSuccessors().stream().filter(r -> !ignoreTask(r.getSuccessorTask())).collect(Collectors.toList());
       if (successors.isEmpty())
       {
-         LocalDateTime earlyFinish = m_projectFinishDate;
-         LocalDateTime earlyStart = getDateFromEndAndRemainingDuration(task, earlyFinish);
-         task.setEarlyStart(earlyStart);
-         task.setEarlyFinish(earlyFinish);
-         return;
+         earlyFinish = m_projectFinishDate;
+         earlyStart = getDateFromEndAndRemainingDuration(task, earlyFinish);
+      }
+      else
+      {
+         Relation relation = successors.stream().min(Comparator.comparing(r -> getAlapEarlyStart(r))).orElseThrow(() -> new CpmException("Missing early start date"));
+         earlyStart = getAlapEarlyStart(relation);
+         earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
       }
 
-      Relation relation  = successors.stream().min(Comparator.comparing(r -> getAlapEarlyStart(r))).orElseThrow(() -> new CpmException("Missing early start date"));
-
-      LocalDateTime earlyStart = getAlapEarlyStart(relation);
-      LocalDateTime earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
       task.setEarlyStart(earlyStart);
       task.setEarlyFinish(earlyFinish);
+      setRemainingEarlyDates(task);
    }
 
    private LocalDateTime getAlapEarlyStart(Relation relation)
