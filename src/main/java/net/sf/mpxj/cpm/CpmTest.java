@@ -129,7 +129,7 @@ public class CpmTest
             continue;
          }
 
-         if (baselineTask.getChildTasks().stream().allMatch(t -> t.getActivityType() == ActivityType.LEVEL_OF_EFFORT))
+         if (wbsHasOnlyLevelOfEffort(workingTask))
          {
             continue;
          }
