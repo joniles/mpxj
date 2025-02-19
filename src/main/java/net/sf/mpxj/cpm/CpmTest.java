@@ -2,6 +2,7 @@ package net.sf.mpxj.cpm;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -95,6 +96,7 @@ public class CpmTest
       System.out.print("Processing " + file + " ... ");
       m_forwardErrorCount = 0;
       m_backwardErrorCount = 0;
+      boolean analyseWbs = true;
 
       m_baselineFile = new UniversalProjectReader().read(file);
       m_workingFile = new UniversalProjectReader().read(file);
@@ -127,12 +129,18 @@ public class CpmTest
             continue;
          }
 
-         if (workingTask.getSummary())
+         if (baselineTask.getChildTasks().stream().allMatch(t -> t.getActivityType() == ActivityType.LEVEL_OF_EFFORT))
          {
-            m_analyseWbs = false;
             continue;
          }
-         
+
+         if (workingTask.getSummary() /*&& NO_WBS_TEST.contains(file.getName().toLowerCase())*/)
+         {
+            analyseWbs = false;
+            continue;
+         }
+
+
          compare(baselineTask, workingTask);
       }
 
@@ -147,7 +155,7 @@ public class CpmTest
       System.out.println(m_baselineFile.getProjectProperties().getSchedulingProgressedActivities());
       System.out.println("Forward errors: " + m_forwardErrorCount);
       System.out.println("Backward errors: " + m_backwardErrorCount);
-      analyseFailures(scheduler);
+      analyseFailures(scheduler, analyseWbs);
       System.out.println("DONE");
       return false;
    }
@@ -206,11 +214,12 @@ public class CpmTest
       // This doesn't have its own calendar so we need to look at the child calendars.
       // Yes, it's hacky. The real solution is to understand the logic P6 is
       // applying when it chooses between end of day or start of next day.
-      result = working.getChildTasks().stream().map(t -> t.getEffectiveCalendar()).anyMatch(c -> c.getNextWorkStart(workingDate).isEqual(baselineDate) || c.getNextWorkStart(baselineDate).isEqual(workingDate));
+      //result = working.getChildTasks().stream().map(t -> t.getEffectiveCalendar()).anyMatch(c -> c.getNextWorkStart(workingDate).isEqual(baselineDate) || c.getNextWorkStart(baselineDate).isEqual(workingDate));
+      result = allChildTasks(working).stream().map(t -> t.getEffectiveCalendar()).anyMatch(c -> c.getNextWorkStart(workingDate).isEqual(baselineDate) || c.getNextWorkStart(baselineDate).isEqual(workingDate));
       return result;
    }
 
-   private void analyseFailures(Scheduler scheduler) throws CycleException
+   private void analyseFailures(Scheduler scheduler, boolean analyseWbs) throws CycleException
    {
       List<Task> tasks = new DepthFirstGraphSort(m_workingFile, scheduler::ignoreTask).sort();
 
@@ -221,7 +230,7 @@ public class CpmTest
       if (m_forwardErrorCount != 0)
       {
          tasks.forEach(t -> analyseForwardError(t));
-         if (m_analyseWbs)
+         if (analyseWbs)
          {
             wbs.forEach(t -> analyseForwardError(t));
          }
@@ -231,7 +240,7 @@ public class CpmTest
       {
          Collections.reverse(tasks);
          tasks.forEach(t -> analyseBackwardError(t));
-         if (m_analyseWbs)
+         if (analyseWbs)
          {
             wbs.forEach(t -> analyseBackwardError(t));
          }
@@ -251,8 +260,8 @@ public class CpmTest
       System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
       System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
       System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
-      System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (earlyStartFail ? " FAIL" : ""));
-      System.out.println("Finish: " + baseline.getFinish() + " " + working.getFinish() + (earlyFinishFail ? " FAIL" : ""));
+      System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (startFail ? " FAIL" : ""));
+      System.out.println("Finish: " + baseline.getFinish() + " " + working.getFinish() + (finishFail ? " FAIL" : ""));
       System.out.println("Remaining Early Start: " + baseline.getRemainingEarlyStart() + " " + working.getRemainingEarlyStart() + (remainingEarlyStartFail ? " FAIL" : ""));
       System.out.println("Remaining Early Finish: " + baseline.getRemainingEarlyFinish() + " " + working.getRemainingEarlyFinish() + (remainingEarlyFinishFail ? " FAIL" : ""));
       System.out.println();
@@ -274,9 +283,24 @@ public class CpmTest
       System.out.println();
    }
 
+   private boolean wbsHasOnlyLevelOfEffort(Task task)
+   {
+      return task.getChildTasks().stream().allMatch(t -> t.getActivityType() == ActivityType.LEVEL_OF_EFFORT);
+   }
+
+   private List<Task> allChildTasks(Task parent)
+   {
+      List<Task> result = new ArrayList<>();
+      result.addAll(parent.getChildTasks());
+      for (Task task : parent.getChildTasks())
+      {
+         result.addAll(allChildTasks(task));
+      }
+      return result;
+   }
+
    private ProjectFile m_baselineFile;
    private ProjectFile m_workingFile;
-   private boolean m_analyseWbs = true;
    private int m_forwardErrorCount;
    private int m_backwardErrorCount;
 
@@ -334,6 +358,22 @@ public class CpmTest
       USE_SCHEDULED_COPY.add("sacrosanct-ozone.xer");
       USE_SCHEDULED_COPY.add("doubtful-contractor.xer");
       USE_SCHEDULED_COPY.add("aloof-proton.xer");
+   }
+
+   private static final Set<String> NO_WBS_TEST = new HashSet<>();
+   static
+   {
+      // LOE activities affect WBS roll up
+      NO_WBS_TEST.add("elected-orange-task-dependent.xer");
+      NO_WBS_TEST.add("neutralist-gym.xer");
+      NO_WBS_TEST.add("sadder-withdrawal.xer");
+      NO_WBS_TEST.add("raised-walker-working.xer");
+      NO_WBS_TEST.add("raised-walker-coverage.xer");
+      NO_WBS_TEST.add("garish-biophysicist.xer");
+      NO_WBS_TEST.add("role-code-test-task-dependent.xer");
+
+      // Date disagreement with P6 affects rollup
+      NO_WBS_TEST.add("aloof-proton-task-dependent.xer");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();

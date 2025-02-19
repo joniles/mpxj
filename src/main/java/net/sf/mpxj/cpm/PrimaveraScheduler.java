@@ -230,9 +230,18 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  earlyFinish = getDateFromStart(task, task.getActualStart());
-                  //earlyFinish = task.getEffectiveCalendar().getNextWorkStart(getDateFromStart(task, task.getActualStart()));
-                  earlyStart = getDateFromEndAndRemainingDuration(task, earlyFinish);
+                  if (task.getRemainingDuration().getDuration() == 0)
+                  {
+                     earlyStart = task.getEffectiveCalendar().getNextWorkStart(m_dataDate);
+                     earlyFinish = earlyStart;
+                  }
+                  else
+                  {
+                     earlyFinish = getDateFromStart(task, task.getActualStart());
+                     // Sometimes this instead... not sure why?
+                     //earlyFinish = task.getEffectiveCalendar().getNextWorkStart(getDateFromStart(task, task.getActualStart()));
+                     earlyStart = getDateFromEndAndRemainingDuration(task, earlyFinish);
+                  }
                }
             }
             else
@@ -610,7 +619,7 @@ public class PrimaveraScheduler implements Scheduler
                // Successor not started
                if (relation.getLag().getDuration() == 0)
                {
-                  return addLag(relation, predecessorTask.getEarlyFinish());
+                  successorTask.getEffectiveCalendar().getNextWorkStart(predecessorTask.getEarlyFinish());
                }
 
                if (relation.getLag().getDuration() > 0)
