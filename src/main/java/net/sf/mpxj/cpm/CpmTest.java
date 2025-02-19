@@ -7,7 +7,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
@@ -161,6 +163,11 @@ public class CpmTest
       }
 
       LocalDateTime workingDate = (LocalDateTime)working.get(field);
+      if (workingDate == null)
+      {
+         return false;
+      }
+
       if (LocalDateTimeHelper.compare(baselineDate, workingDate) != 0)
       {
          ProjectCalendar calendar = baseline.getEffectiveCalendar();
@@ -187,6 +194,10 @@ public class CpmTest
       }
 
       LocalDateTime workingDate = (LocalDateTime)working.get(field);
+      if (workingDate == null)
+      {
+         return false;
+      }
 
       if (baselineDate.isEqual(workingDate))
       {
@@ -203,57 +214,50 @@ public class CpmTest
 
       if (m_forwardErrorCount != 0)
       {
-         for (Task working : tasks)
-         {
-            if (scheduler.ignoreTask(working))
-            {
-               continue;
-            }
-
-            Task baseline = m_baselineFile.getTaskByUniqueID(working.getUniqueID());
-            boolean earlyStartFail = !compareDates(baseline, working, TaskField.EARLY_START);
-            boolean earlyFinishFail = !compareDates(baseline, working, TaskField.EARLY_FINISH);
-            boolean startFail = !compareDates(baseline, working, TaskField.START);
-            boolean finishFail = !compareDates(baseline, working, TaskField.FINISH);
-            boolean remainingEarlyStartFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
-            boolean remainingEarlyFinishFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
-
-            System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
-            System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
-            System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
-            System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (earlyStartFail ? " FAIL" : ""));
-            System.out.println("Finish: " + baseline.getFinish() + " " + working.getFinish() + (earlyFinishFail ? " FAIL" : ""));
-            System.out.println("Remaining Early Start: " + baseline.getRemainingEarlyStart() + " " + working.getRemainingEarlyStart() + (remainingEarlyStartFail ? " FAIL" : ""));
-            System.out.println("Remaining Early Finish: " + baseline.getRemainingEarlyFinish() + " " + working.getRemainingEarlyFinish() + (remainingEarlyFinishFail ? " FAIL" : ""));
-            System.out.println();
-         }
+         tasks.forEach(t -> analyseForwardError(t));
       }
 
       if (m_backwardErrorCount != 0)
       {
          Collections.reverse(tasks);
-
-         for (Task working : tasks)
-         {
-            if (scheduler.ignoreTask(working))
-            {
-               continue;
-            }
-
-            Task baseline = m_baselineFile.getTaskByUniqueID(working.getUniqueID());
-            boolean lateStartFail = !compareDates(baseline, working, TaskField.LATE_START);
-            boolean lateFinishFail = !compareDates(baseline, working, TaskField.LATE_FINISH);
-            boolean remainingLateStartFail = !compareDates(baseline, working, TaskField.REMAINING_LATE_START);
-            boolean remainingLateFinishFail = !compareDates(baseline, working, TaskField.REMAINING_LATE_FINISH);
-
-            System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
-            System.out.println("Late Start: " + baseline.getLateStart() + " " + working.getLateStart() + (lateStartFail ? " FAIL" : ""));
-            System.out.println("Late Finish: " + baseline.getLateFinish() + " " + working.getLateFinish() + (lateFinishFail ? " FAIL" : ""));
-            System.out.println("Remaining Late Start: " + baseline.getRemainingLateStart() + " " + working.getRemainingLateStart() + (remainingLateStartFail ? " FAIL" : ""));
-            System.out.println("Remaining Late Finish: " + baseline.getRemainingLateFinish() + " " + working.getRemainingLateFinish() + (remainingLateFinishFail ? " FAIL" : ""));
-            System.out.println();
-         }
+         tasks.forEach(t -> analyseBackwardError(t));
       }
+   }
+
+   private void analyseForwardError(Task working)
+   {
+      Task baseline = m_baselineFile.getTaskByUniqueID(working.getUniqueID());
+      boolean earlyStartFail = !compareDates(baseline, working, TaskField.EARLY_START);
+      boolean earlyFinishFail = !compareDates(baseline, working, TaskField.EARLY_FINISH);
+      boolean startFail = !compareDates(baseline, working, TaskField.START);
+      boolean finishFail = !compareDates(baseline, working, TaskField.FINISH);
+      boolean remainingEarlyStartFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
+      boolean remainingEarlyFinishFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
+
+      System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
+      System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
+      System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
+      System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (earlyStartFail ? " FAIL" : ""));
+      System.out.println("Finish: " + baseline.getFinish() + " " + working.getFinish() + (earlyFinishFail ? " FAIL" : ""));
+      System.out.println("Remaining Early Start: " + baseline.getRemainingEarlyStart() + " " + working.getRemainingEarlyStart() + (remainingEarlyStartFail ? " FAIL" : ""));
+      System.out.println("Remaining Early Finish: " + baseline.getRemainingEarlyFinish() + " " + working.getRemainingEarlyFinish() + (remainingEarlyFinishFail ? " FAIL" : ""));
+      System.out.println();
+   }
+
+   private void analyseBackwardError(Task working)
+   {
+      Task baseline = m_baselineFile.getTaskByUniqueID(working.getUniqueID());
+      boolean lateStartFail = !compareDates(baseline, working, TaskField.LATE_START);
+      boolean lateFinishFail = !compareDates(baseline, working, TaskField.LATE_FINISH);
+      boolean remainingLateStartFail = !compareDates(baseline, working, TaskField.REMAINING_LATE_START);
+      boolean remainingLateFinishFail = !compareDates(baseline, working, TaskField.REMAINING_LATE_FINISH);
+
+      System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
+      System.out.println("Late Start: " + baseline.getLateStart() + " " + working.getLateStart() + (lateStartFail ? " FAIL" : ""));
+      System.out.println("Late Finish: " + baseline.getLateFinish() + " " + working.getLateFinish() + (lateFinishFail ? " FAIL" : ""));
+      System.out.println("Remaining Late Start: " + baseline.getRemainingLateStart() + " " + working.getRemainingLateStart() + (remainingLateStartFail ? " FAIL" : ""));
+      System.out.println("Remaining Late Finish: " + baseline.getRemainingLateFinish() + " " + working.getRemainingLateFinish() + (remainingLateFinishFail ? " FAIL" : ""));
+      System.out.println();
    }
 
    private ProjectFile m_baselineFile;
