@@ -358,6 +358,7 @@ public class CpmTest
       USE_SCHEDULED_COPY.add("sacrosanct-ozone.xer");
       USE_SCHEDULED_COPY.add("doubtful-contractor.xer");
       USE_SCHEDULED_COPY.add("aloof-proton.xer");
+      USE_SCHEDULED_COPY.add("outstanding-vaudeville.xer");
    }
 
    private static final Set<String> NO_WBS_TEST = new HashSet<>();
@@ -369,12 +370,16 @@ public class CpmTest
       NO_WBS_TEST.add("sadder-withdrawal.xer");
       NO_WBS_TEST.add("raised-walker-working.xer");
       NO_WBS_TEST.add("raised-walker-coverage.xer");
+      NO_WBS_TEST.add("raised-walker-baseline.xer");
       NO_WBS_TEST.add("garish-biophysicist.xer");
       NO_WBS_TEST.add("role-code-test-task-dependent.xer");
+      NO_WBS_TEST.add("assignment-code-test-task-dependent.xer");
       NO_WBS_TEST.add("toxic-end.xer");
+      NO_WBS_TEST.add("toxic-end-coverage.xer");
 
       // Date disagreement with P6 affects rollup
       NO_WBS_TEST.add("aloof-proton-task-dependent.xer");
+      NO_WBS_TEST.add("aloof-proton-coverage.xer");
       NO_WBS_TEST.add("detailed-librarian.xer");
    }
 
