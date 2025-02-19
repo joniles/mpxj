@@ -37,13 +37,6 @@ public class PrimaveraScheduler implements Scheduler
 
    public void process(LocalDateTime projectStartDate) throws Exception
    {
-      Set<ActivityType> activityTypes = m_file.getTasks().stream().map(t -> t.getActivityType()).collect(Collectors.toSet());
-      activityTypes.retainAll(UNSUPPORTED_ACTIVITY_TYPES);
-      if (!activityTypes.isEmpty())
-      {
-         throw new CpmException("Schedule contains unsupported activity types: " + activityTypes.stream().map(t -> t.toString()).collect(Collectors.joining(", ")));
-      }
-
       if (m_file.getTasks().stream().anyMatch(t -> t.getActivityType() == ActivityType.RESOURCE_DEPENDENT && !t.getResourceAssignments().isEmpty()))
       {
          throw new CpmException("Schedule contains Resource Dependent activities with resource assignments");
@@ -87,8 +80,6 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       m_file.getChildTasks().forEach(t -> rollupDates(t));
-
-      m_file.getTasks().stream().filter(t -> t.getActivityType() == ActivityType.WBS_SUMMARY).forEach(t -> processWbsSummaryTask(t));
    }
 
    private void forwardPass(List<Task> tasks) throws CpmException
@@ -240,6 +231,7 @@ public class PrimaveraScheduler implements Scheduler
                else
                {
                   earlyFinish = getDateFromStart(task, task.getActualStart());
+                  //earlyFinish = task.getEffectiveCalendar().getNextWorkStart(getDateFromStart(task, task.getActualStart()));
                   earlyStart = getDateFromEndAndRemainingDuration(task, earlyFinish);
                }
             }
@@ -502,7 +494,7 @@ public class PrimaveraScheduler implements Scheduler
             // Successor not started
             if (relation.getLag().getDuration() == 0)
             {
-               return addLag(relation, predecessorTask.getEarlyFinish());
+               return predecessorTask.getEarlyFinish();
             }
 
             if (relation.getLag().getDuration() > 0)
@@ -1295,6 +1287,7 @@ public class PrimaveraScheduler implements Scheduler
 
             if (relation.getLag().getDuration() == 0)
             {
+               // predecessorTask.getEffectiveCalendar().getPreviousWorkFinish(successorTask.getLateStart())
                lateStart = predecessorTask.getEffectiveCalendar().getNextWorkStart(removeLag(relation, successorTask.getLateStart()));
                lateFinish = getDateFromStartAndRemainingDuration(predecessorTask, lateStart);
 
@@ -2449,6 +2442,7 @@ public class PrimaveraScheduler implements Scheduler
 
    private void rollupDates(Task parentTask)
    {
+      // NOTE: LOE and WBS Summary are ignore at this point as they have null dates
       if (!parentTask.hasChildTasks())
       {
          return;
@@ -2617,48 +2611,9 @@ public class PrimaveraScheduler implements Scheduler
       parentTask.setCritical(critical);
    }
 
-   private void processWbsSummaryTask(Task task)
-   {
-      Task wbs = task.getParentTask();
-      if (wbs == null)
-      {
-         return;
-      }
-
-      task.setStart(wbs.getStart());
-      task.setFinish(wbs.getFinish());
-      task.setPlannedStart(wbs.getPlannedStart());
-      task.setPlannedFinish(wbs.getPlannedFinish());
-      task.setPlannedDuration(wbs.getPlannedDuration());
-      task.setActualStart(wbs.getActualStart());
-      task.setActualFinish(wbs.getActualFinish());
-      task.setEarlyStart(wbs.getEarlyStart());
-      task.setEarlyFinish(wbs.getEarlyFinish());
-      task.setLateStart(wbs.getLateStart());
-      task.setLateFinish(wbs.getLateFinish());
-      task.setRemainingEarlyStart(wbs.getRemainingEarlyStart());
-      task.setRemainingEarlyFinish(wbs.getRemainingEarlyFinish());
-      task.setRemainingLateStart(wbs.getRemainingLateStart());
-      task.setRemainingLateFinish(wbs.getRemainingLateFinish());
-      task.setBaselineStart(wbs.getBaselineStart());
-      task.setBaselineFinish(wbs.getBaselineFinish());
-      task.setActualDuration(wbs.getActualDuration());
-      task.setRemainingDuration(wbs.getRemainingDuration());
-      task.setDuration(wbs.getDuration());
-      task.setPercentageComplete(wbs.getPercentageComplete());
-      task.setPercentCompleteType(wbs.getPercentCompleteType());
-      // Force total slack calculation to avoid overwriting the critical flag
-      task.getTotalSlack();
-      task.setCritical(wbs.getCritical());
-   }
-
    private final ProjectFile m_file;
    private final LocalDateTime m_dataDate;
    private final ProjectCalendar m_twentyFourHourCalendar;
    private LocalDateTime m_projectStartDate;
    private LocalDateTime m_projectFinishDate;
-
-   private static final Set<ActivityType> UNSUPPORTED_ACTIVITY_TYPES = EnumSet.of(
-      ActivityType.WBS_SUMMARY,
-      ActivityType.LEVEL_OF_EFFORT);
 }

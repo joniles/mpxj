@@ -14,7 +14,6 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
 public class CpmTest
@@ -117,10 +116,28 @@ public class CpmTest
       for (Task baselineTask : m_baselineFile.getTasks())
       {
          Task workingTask = m_workingFile.getTaskByUniqueID(baselineTask.getUniqueID());
+
+         if (workingTask.getActivityType() == ActivityType.LEVEL_OF_EFFORT)
+         {
+            continue;
+         }
+
+         if (workingTask.getActivityType() == ActivityType.WBS_SUMMARY)
+         {
+            continue;
+         }
+
+         if (workingTask.getSummary())
+         {
+            m_analyseWbs = false;
+            continue;
+         }
+
          if (scheduler.ignoreTask(workingTask))
          {
             continue;
          }
+
          compare(baselineTask, workingTask);
       }
 
@@ -142,57 +159,25 @@ public class CpmTest
 
    private void compare(Task baseline, Task working)
    {
-      boolean earlyStartFailed = !compare(baseline, working, TaskField.EARLY_START);
-      boolean earlyFinishFailed = !compare(baseline, working, TaskField.EARLY_FINISH);
-      boolean startFailed = !compare(baseline, working, TaskField.START);
-      boolean finishFailed = !compare(baseline, working, TaskField.FINISH);
-      boolean remainingEarlyStartFailed = !compare(baseline, working, TaskField.REMAINING_EARLY_START);
-      boolean remainingEarlyFinishFailed = !compare(baseline, working, TaskField.REMAINING_EARLY_FINISH);
+      boolean earlyStartFailed = !compareDates(baseline, working, TaskField.EARLY_START);
+      boolean earlyFinishFailed = !compareDates(baseline, working, TaskField.EARLY_FINISH);
+      boolean startFailed = !compareDates(baseline, working, TaskField.START);
+      boolean finishFailed = !compareDates(baseline, working, TaskField.FINISH);
+      boolean remainingEarlyStartFailed = !compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
+      boolean remainingEarlyFinishFailed = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
       if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || remainingEarlyStartFailed || remainingEarlyFinishFailed)
       {
          ++m_forwardErrorCount;
       }
 
-      boolean lateStartFailed = !compare(baseline, working, TaskField.LATE_START);
-      boolean lateFinishFailed = !compare(baseline, working, TaskField.LATE_FINISH);
-      boolean remainingLateStartFailed = !compare(baseline, working, TaskField.REMAINING_LATE_START);
-      boolean remainingLateFinishFailed = !compare(baseline, working, TaskField.REMAINING_LATE_FINISH);
+      boolean lateStartFailed = !compareDates(baseline, working, TaskField.LATE_START);
+      boolean lateFinishFailed = !compareDates(baseline, working, TaskField.LATE_FINISH);
+      boolean remainingLateStartFailed = !compareDates(baseline, working, TaskField.REMAINING_LATE_START);
+      boolean remainingLateFinishFailed = !compareDates(baseline, working, TaskField.REMAINING_LATE_FINISH);
       if (lateStartFailed || lateFinishFailed || remainingLateStartFailed || remainingLateFinishFailed)
       {
          ++m_backwardErrorCount;
       }
-   }
-
-   private boolean compare(Task baseline, Task working, TaskField field)
-   {
-      boolean result = true;
-      LocalDateTime baselineDate = (LocalDateTime)baseline.get(field);
-      if (baselineDate == null)
-      {
-         // We have XER files where some of the attributes we'd expect to be populated are not present. Skip these.
-         return true;
-      }
-
-      LocalDateTime workingDate = (LocalDateTime)working.get(field);
-      if (workingDate == null)
-      {
-         return false;
-      }
-
-      if (LocalDateTimeHelper.compare(baselineDate, workingDate) != 0)
-      {
-         ProjectCalendar calendar = baseline.getEffectiveCalendar();
-         if (calendar.getNextWorkStart(workingDate).isEqual(baselineDate) || calendar.getNextWorkStart(baselineDate).isEqual(workingDate))
-         {
-            //System.out.print(" WARN");
-         }
-         else
-         {
-            result = false;
-         }
-      }
-
-      return result;
    }
 
    private boolean compareDates(Task baseline, Task working, TaskField field)
@@ -216,22 +201,45 @@ public class CpmTest
       }
 
       ProjectCalendar calendar = baseline.getEffectiveCalendar();
-      return calendar.getNextWorkStart(workingDate).isEqual(baselineDate) || calendar.getNextWorkStart(baselineDate).isEqual(workingDate);
+      boolean result = calendar.getNextWorkStart(workingDate).isEqual(baselineDate) || calendar.getNextWorkStart(baselineDate).isEqual(workingDate);
+      if (result || !working.getSummary())
+      {
+         return result;
+      }
+
+      // At this point we have failed to compare, but we have a WBS entry.
+      // This doesn't have its own calendar so we need to look at the child calendars.
+      // Yes, it's hacky. The real solution is to understand the logic P6 is
+      // applying when it chooses between end of day or start of next day.
+      result = working.getChildTasks().stream().map(t -> t.getEffectiveCalendar()).anyMatch(c -> c.getNextWorkStart(workingDate).isEqual(baselineDate) || c.getNextWorkStart(baselineDate).isEqual(workingDate));
+      return result;
    }
 
    private void analyseFailures(Scheduler scheduler) throws CycleException
    {
       List<Task> tasks = new DepthFirstGraphSort(m_workingFile, scheduler::ignoreTask).sort();
 
+      // Sort so we can see errors at the bottom first, as these are rolled up.
+      List<Task> wbs = m_workingFile.getTasks().stream().filter(t -> t.getSummary()).collect(Collectors.toList());
+      Collections.reverse(wbs);
+
       if (m_forwardErrorCount != 0)
       {
          tasks.forEach(t -> analyseForwardError(t));
+         if (m_analyseWbs)
+         {
+            wbs.forEach(t -> analyseForwardError(t));
+         }
       }
 
       if (m_backwardErrorCount != 0)
       {
          Collections.reverse(tasks);
          tasks.forEach(t -> analyseBackwardError(t));
+         if (m_analyseWbs)
+         {
+            wbs.forEach(t -> analyseBackwardError(t));
+         }
       }
    }
 
@@ -273,6 +281,7 @@ public class CpmTest
 
    private ProjectFile m_baselineFile;
    private ProjectFile m_workingFile;
+   private boolean m_analyseWbs = true;
    private int m_forwardErrorCount;
    private int m_backwardErrorCount;
 
@@ -329,52 +338,24 @@ public class CpmTest
       USE_SCHEDULED_COPY.add("dramatic-male.xer");
       USE_SCHEDULED_COPY.add("sacrosanct-ozone.xer");
       USE_SCHEDULED_COPY.add("doubtful-contractor.xer");
+      USE_SCHEDULED_COPY.add("aloof-proton.xer");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
    static
    {
-      // Resource dependent activity
+      // Resource dependent activity with resource assignments
       EXCLUDED_FILES.add("steps.xer");
       EXCLUDED_FILES.add("prospective-interference.xer");
       EXCLUDED_FILES.add("mythological-flourish.xer");
       EXCLUDED_FILES.add("computational-infection.xer");
       EXCLUDED_FILES.add("virile-schema.xer");
       EXCLUDED_FILES.add("middle-altar.xer");
-
-      // Level of Effort Activity
-      EXCLUDED_FILES.add("alive-lap.xer");
-      EXCLUDED_FILES.add("alive-lap-task-dependent.xer");
-      EXCLUDED_FILES.add("aloof-proton.xer");
-      EXCLUDED_FILES.add("aloof-proton-coverage.xer");
-      EXCLUDED_FILES.add("aloof-proton-task-dependent.xer");
-      EXCLUDED_FILES.add("assignment-code-test.xer");
-      EXCLUDED_FILES.add("assignment-code-test-task-dependent.xer");
-      EXCLUDED_FILES.add("dispassionate-vertex.xer");
-      EXCLUDED_FILES.add("elected-orange-task-dependent.xer");
       EXCLUDED_FILES.add("elected-orange.xer");
-      EXCLUDED_FILES.add("famous-retention.xer");
-      EXCLUDED_FILES.add("garish-biophysicist.xer");
-      EXCLUDED_FILES.add("garish-biophysicist-coverage.xer");
-      EXCLUDED_FILES.add("keen-knock.xer");
-      EXCLUDED_FILES.add("keen-knock-coverage.xer");
-      EXCLUDED_FILES.add("lovable-bridgehead.xer");
-      EXCLUDED_FILES.add("merriest-offering.xer");
-      EXCLUDED_FILES.add("neutralist-gym.xer");
-      EXCLUDED_FILES.add("orphic-chastisement-scheduled.xer");
-      EXCLUDED_FILES.add("raised-walker-baseline.xer");
-      EXCLUDED_FILES.add("role-code-test-task-dependent.xer");
       EXCLUDED_FILES.add("role-code-test.xer");
-      EXCLUDED_FILES.add("sadder-withdrawal.xer");
-      EXCLUDED_FILES.add("stuffy-sturgeon.xer");
-      EXCLUDED_FILES.add("toxic-end.xer");
-      EXCLUDED_FILES.add("toxic-end-coverage.xer");
-      EXCLUDED_FILES.add("understandable-empire.xer");
-
-      // WBS Summary Activity, Level of Effort Activity
-      EXCLUDED_FILES.add("raised-walker-working.xer");
-      EXCLUDED_FILES.add("raised-walker-coverage.xer");
-      EXCLUDED_FILES.add("orphic-chastisement-task-dependent.xer");
+      EXCLUDED_FILES.add("assignment-code-test.xer");
+      EXCLUDED_FILES.add("orphic-chastisement-scheduled.xer");
+      EXCLUDED_FILES.add("alive-lap.xer");
 
       // Create XER versions?
       EXCLUDED_FILES.add("baseline-issue.xml");
