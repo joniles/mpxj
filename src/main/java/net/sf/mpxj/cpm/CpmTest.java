@@ -132,12 +132,7 @@ public class CpmTest
             m_analyseWbs = false;
             continue;
          }
-
-         if (scheduler.ignoreTask(workingTask))
-         {
-            continue;
-         }
-
+         
          compare(baselineTask, workingTask);
       }
 
