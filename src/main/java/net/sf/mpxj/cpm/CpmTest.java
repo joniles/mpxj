@@ -371,6 +371,7 @@ public class CpmTest
       NO_WBS_TEST.add("raised-walker-coverage.xer");
       NO_WBS_TEST.add("garish-biophysicist.xer");
       NO_WBS_TEST.add("role-code-test-task-dependent.xer");
+      NO_WBS_TEST.add("toxic-end.xer");
 
       // Date disagreement with P6 affects rollup
       NO_WBS_TEST.add("aloof-proton-task-dependent.xer");

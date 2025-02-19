@@ -1296,8 +1296,8 @@ public class PrimaveraScheduler implements Scheduler
 
             if (relation.getLag().getDuration() == 0)
             {
-               // predecessorTask.getEffectiveCalendar().getPreviousWorkFinish(successorTask.getLateStart())
-               lateStart = predecessorTask.getEffectiveCalendar().getNextWorkStart(removeLag(relation, successorTask.getLateStart()));
+               //lateStart = predecessorTask.getEffectiveCalendar().getNextWorkStart(removeLag(relation, successorTask.getLateStart()));
+               lateStart = predecessorTask.getEffectiveCalendar().getPreviousWorkFinish(successorTask.getLateStart());
                lateFinish = getDateFromStartAndRemainingDuration(predecessorTask, lateStart);
 
                // Hmmm... dubious logic. Does this just work for indefensible-tedium or is this general?
