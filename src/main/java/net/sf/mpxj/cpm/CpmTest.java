@@ -134,7 +134,7 @@ public class CpmTest
             continue;
          }
 
-         if (workingTask.getSummary() /*&& NO_WBS_TEST.contains(file.getName().toLowerCase())*/)
+         if (workingTask.getSummary() && NO_WBS_TEST.contains(file.getName().toLowerCase()))
          {
             analyseWbs = false;
             continue;
@@ -375,6 +375,7 @@ public class CpmTest
 
       // Date disagreement with P6 affects rollup
       NO_WBS_TEST.add("aloof-proton-task-dependent.xer");
+      NO_WBS_TEST.add("detailed-librarian.xer");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
