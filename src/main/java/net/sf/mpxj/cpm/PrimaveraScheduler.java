@@ -6,7 +6,9 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.ActivityType;
@@ -35,6 +37,18 @@ public class PrimaveraScheduler implements Scheduler
 
    public void process(LocalDateTime projectStartDate) throws Exception
    {
+      Set<ActivityType> activityTypes = m_file.getTasks().stream().map(t -> t.getActivityType()).collect(Collectors.toSet());
+      activityTypes.retainAll(UNSUPPORTED_ACTIVITY_TYPES);
+      if (!activityTypes.isEmpty())
+      {
+         throw new CpmException("Schedule contains unsupported activity types: " + activityTypes.stream().map(t -> t.toString()).collect(Collectors.joining(", ")));
+      }
+
+      if (m_file.getTasks().stream().anyMatch(t -> t.getActivityType() == ActivityType.RESOURCE_DEPENDENT && !t.getResourceAssignments().isEmpty()))
+      {
+         throw new CpmException("Schedule contains Resource Dependent activities with resource assignments");
+      }
+
       m_projectStartDate = projectStartDate;
 
       List<Task> tasks = new DepthFirstGraphSort(m_file, this::ignoreTask).sort();
@@ -204,11 +218,6 @@ public class PrimaveraScheduler implements Scheduler
                break;
             }
 
-            case RESOURCE_DEPENDENT:
-            {
-               throw new UnsupportedOperationException("Resource Dependent Activities not currently supported");
-            }
-
             default:
             {
                // Next work start
@@ -288,7 +297,6 @@ public class PrimaveraScheduler implements Scheduler
       List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> !ignoreTask(r.getSuccessorTask())).collect(Collectors.toList());
       ProjectCalendar calendar = task.getEffectiveCalendar();
       LocalDateTime lateFinish;
-
 
       if (task.getActualFinish() == null)
       {
@@ -2167,8 +2175,6 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
-
-
    private LocalDateTime getDate(ProjectCalendar calendar, LocalDateTime date, Duration duration)
    {
       LocalDateTime result = calendar.getDate(date, duration);
@@ -2215,7 +2221,7 @@ public class PrimaveraScheduler implements Scheduler
 
    private LocalDateTime addLag(Relation relation, LocalDateTime date, Duration lag)
    {
-      LocalDateTime result =  getDate(getLagCalendar(relation), date, lag);
+      LocalDateTime result = getDate(getLagCalendar(relation), date, lag);
       if (lag.getDuration() < 0 && m_dataDate != null && result.isBefore(m_dataDate))
       {
          result = m_dataDate;
@@ -2610,7 +2616,7 @@ public class PrimaveraScheduler implements Scheduler
       parentTask.getTotalSlack();
       parentTask.setCritical(critical);
    }
-   
+
    private void processWbsSummaryTask(Task task)
    {
       Task wbs = task.getParentTask();
@@ -2651,4 +2657,8 @@ public class PrimaveraScheduler implements Scheduler
    private final ProjectCalendar m_twentyFourHourCalendar;
    private LocalDateTime m_projectStartDate;
    private LocalDateTime m_projectFinishDate;
+
+   private static final Set<ActivityType> UNSUPPORTED_ACTIVITY_TYPES = EnumSet.of(
+      ActivityType.WBS_SUMMARY,
+      ActivityType.LEVEL_OF_EFFORT);
 }

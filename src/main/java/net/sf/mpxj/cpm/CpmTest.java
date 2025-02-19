@@ -101,7 +101,18 @@ public class CpmTest
       m_workingFile = new UniversalProjectReader().read(file);
 
       Scheduler scheduler = schedulerFactory.apply(m_workingFile);
-      scheduler.process(m_workingFile.getProjectProperties().getStartDate());
+
+      try
+      {
+         scheduler.process(m_workingFile.getProjectProperties().getStartDate());
+      }
+
+      catch(CpmException ex)
+      {
+         System.out.println("failed.");
+         System.out.println(ex.getMessage());
+         return false;
+      }
 
       for (Task baselineTask : m_baselineFile.getTasks())
       {
@@ -324,21 +335,46 @@ public class CpmTest
    static
    {
       // Resource dependent activity
-      EXCLUDED_FILES.add("elected-orange.xer");
-      EXCLUDED_FILES.add("role-code-test.xer");
       EXCLUDED_FILES.add("steps.xer");
-      EXCLUDED_FILES.add("aloof-proton.xer");
-      EXCLUDED_FILES.add("thinner-council.xer");
-      EXCLUDED_FILES.add("assignment-code-test.xer");
       EXCLUDED_FILES.add("prospective-interference.xer");
       EXCLUDED_FILES.add("mythological-flourish.xer");
-      EXCLUDED_FILES.add("orphic-chastisement-scheduled.xer");
-      EXCLUDED_FILES.add("alive-lap.xer");
-      EXCLUDED_FILES.add("restricted-garden.xer");
       EXCLUDED_FILES.add("computational-infection.xer");
-      EXCLUDED_FILES.add("unmistakable-client.xer");
       EXCLUDED_FILES.add("virile-schema.xer");
       EXCLUDED_FILES.add("middle-altar.xer");
+
+      // Level of Effort Activity
+      EXCLUDED_FILES.add("alive-lap.xer");
+      EXCLUDED_FILES.add("alive-lap-task-dependent.xer");
+      EXCLUDED_FILES.add("aloof-proton.xer");
+      EXCLUDED_FILES.add("aloof-proton-coverage.xer");
+      EXCLUDED_FILES.add("aloof-proton-task-dependent.xer");
+      EXCLUDED_FILES.add("assignment-code-test.xer");
+      EXCLUDED_FILES.add("assignment-code-test-task-dependent.xer");
+      EXCLUDED_FILES.add("dispassionate-vertex.xer");
+      EXCLUDED_FILES.add("elected-orange-task-dependent.xer");
+      EXCLUDED_FILES.add("elected-orange.xer");
+      EXCLUDED_FILES.add("famous-retention.xer");
+      EXCLUDED_FILES.add("garish-biophysicist.xer");
+      EXCLUDED_FILES.add("garish-biophysicist-coverage.xer");
+      EXCLUDED_FILES.add("keen-knock.xer");
+      EXCLUDED_FILES.add("keen-knock-coverage.xer");
+      EXCLUDED_FILES.add("lovable-bridgehead.xer");
+      EXCLUDED_FILES.add("merriest-offering.xer");
+      EXCLUDED_FILES.add("neutralist-gym.xer");
+      EXCLUDED_FILES.add("orphic-chastisement-scheduled.xer");
+      EXCLUDED_FILES.add("raised-walker-baseline.xer");
+      EXCLUDED_FILES.add("role-code-test-task-dependent.xer");
+      EXCLUDED_FILES.add("role-code-test.xer");
+      EXCLUDED_FILES.add("sadder-withdrawal.xer");
+      EXCLUDED_FILES.add("stuffy-sturgeon.xer");
+      EXCLUDED_FILES.add("toxic-end.xer");
+      EXCLUDED_FILES.add("toxic-end-coverage.xer");
+      EXCLUDED_FILES.add("understandable-empire.xer");
+
+      // WBS Summary Activity, Level of Effort Activity
+      EXCLUDED_FILES.add("raised-walker-working.xer");
+      EXCLUDED_FILES.add("raised-walker-coverage.xer");
+      EXCLUDED_FILES.add("orphic-chastisement-task-dependent.xer");
 
       // Create XER versions?
       EXCLUDED_FILES.add("baseline-issue.xml");
@@ -371,6 +407,9 @@ public class CpmTest
       // Rounding issue? Makes for a 1 minute difference on one activity
       EXCLUDED_FILES.add("fleet-salary.xer");
       EXCLUDED_FILES.add("global-sociology.xer");
+
+      // TODO: to investigate
+      EXCLUDED_FILES.add("thinner-council.xer");
 
       // Misc MPP files
       EXCLUDED_FILES.add("photographic-magic.mpp"); // External tasks used but not visible in MSP
