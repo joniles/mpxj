@@ -10,6 +10,9 @@
 			<action dev="joniles" type="update">Improve accuracy of resource assignment start and finsh dates when reading XER files and P6 databases.</action>
 			<action dev="joniles" type="update">Fixed an issue reading resource code value hierarchy from XER files.</action>
 			<action dev="joniles" type="update">Improve retrieval of Gantt Bar Styles from certain MPP files.</action>
+			<action dev="joniles" type="update">Added the `GanttBarStyleException` methods `getGanttBarStyleID()` and `setGanttBarStyleID()`.</action>
+			<action dev="joniles" type="update">Added the `GanttChartView` method `getGanttBarStyleByID()`.</action>
+			<action dev="joniles" type="update">Marked the `GanttBarStyleException#getBarStyleIndex()` method as deprecated. Use the `GanttBarStyleException#getGanttBarStyleID()` method to retrieve the Gantt Bar Style ID, then use the view's `getGanttBarStyleByID()` method to retrieve a list of matching styles.</action>
 		</release>
 		<release date="2025-02-07" version="13.10.0">
 			<action dev="joniles" type="update">Add support for reading the P6 EPS using the `listEps()` method provided by the `PrimaveraDatabaseReader` and `PrimaveraDatabaseFileReader` classes.</action>

@@ -30,6 +30,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 import java.time.DayOfWeek;
+
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
@@ -50,8 +51,7 @@ public final class GanttChartView14 extends GanttChartView
 
    @Override protected void processDefaultBarStyles(Props props)
    {
-      GanttBarStyleFactory f = new GanttBarStyleFactory14();
-      m_barStyles = f.processDefaultStyles(m_file, props);
+      populateBarStyles(new GanttBarStyleFactory14().processDefaultStyles(m_file, props));
    }
 
    @Override protected void processExceptionBarStyles(Props props)
