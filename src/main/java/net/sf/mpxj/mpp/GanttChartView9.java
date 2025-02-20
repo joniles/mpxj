@@ -28,12 +28,10 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import java.time.DayOfWeek;
-import java.util.stream.Collectors;
 
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.FieldType;
@@ -54,9 +52,7 @@ public final class GanttChartView9 extends GanttChartView
 
    @Override protected void processDefaultBarStyles(Props props)
    {
-      GanttBarStyleFactory f = new GanttBarStyleFactoryCommon();
-      m_barStyles = f.processDefaultStyles(m_file, props);
-      m_barStylesMap = Arrays.stream(m_barStyles).filter(s -> s.getID() != null).collect(Collectors.toMap(s -> s.getID(), s -> s));
+      populateBarStyles(new GanttBarStyleFactoryCommon().processDefaultStyles(m_file, props));
    }
 
    @Override protected void processExceptionBarStyles(Props props)

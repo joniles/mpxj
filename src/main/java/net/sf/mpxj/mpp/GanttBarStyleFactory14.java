@@ -26,7 +26,6 @@ package net.sf.mpxj.mpp;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 
 /**
@@ -51,8 +50,7 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
                GanttBarStyle style = new GanttBarStyle();
                barStyles[loop] = style;
 
-               int styleID = MPPUtility.getShort(barStyleData,styleOffset+89);
-               style.setID(styleID == 65535 ? null : Integer.valueOf(styleID));
+               style.setID(Integer.valueOf(MPPUtility.getShort(barStyleData,styleOffset+89)));
                style.setName(MPPUtility.getUnicodeString(barStyleData, styleOffset + 91));
 
                style.setLeftText(getTaskField(file, MPPUtility.getInt(barStyleData, styleOffset + 67)));

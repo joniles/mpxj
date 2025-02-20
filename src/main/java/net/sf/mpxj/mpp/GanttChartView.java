@@ -31,6 +31,7 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -501,12 +502,12 @@ public abstract class GanttChartView extends GenericView
    }
 
    /**
-    * Retrieve a Gantt Bar Style for this view by its ID.
+    * Retrieve a list of Gantt Bar Styles for this view which match the supplied  ID.
     *
     * @param id Gantt Bar Style ID
     * @return GanttBarStyle or null
     */
-   public GanttBarStyle getGanttBarStyleByID(Integer id)
+   public List<GanttBarStyle> getGanttBarStyleByID(Integer id)
    {
       return m_barStylesMap.get(id);
    }
@@ -1216,6 +1217,16 @@ public abstract class GanttChartView extends GenericView
       return m_autoFiltersByType.get(type);
    }
 
+   protected void populateBarStyles(GanttBarStyle[] barStyles)
+   {
+      m_barStyles = barStyles;
+      m_barStylesMap = new HashMap<>();
+      if (m_barStyles != null)
+      {
+         Arrays.stream(m_barStyles).forEach(style -> m_barStylesMap.computeIfAbsent(style.getID(), k -> new ArrayList<>()).add(style));
+      }
+   }
+
    /**
     * Generate a string representation of this instance.
     *
@@ -1414,7 +1425,7 @@ public abstract class GanttChartView extends GenericView
    protected LinkStyle m_linkStyle;
 
    protected GanttBarStyle[] m_barStyles;
-   protected Map<Integer, GanttBarStyle> m_barStylesMap;
+   protected Map<Integer, List<GanttBarStyle>> m_barStylesMap;
    protected GanttBarStyleException[] m_barStyleExceptions;
 
    private int m_tableWidth;
