@@ -33,96 +33,107 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
 {
    @Override public GanttBarStyle[] processDefaultStyles(ProjectFile file, Props props)
    {
-      GanttBarStyle[] barStyles = null;
-      byte[] barStyleData = props.getByteArray(DEFAULT_PROPERTIES);
-      if (barStyleData != null)
+      int countOffset = 812;
+      byte[] barStyleData = props.getByteArray(DEFAULT_PROPERTIES1);
+      if (barStyleData == null)
       {
-         barStyles = new GanttBarStyle[barStyleData[812]];
-         int styleOffset = 840;
-         int nameOffset = styleOffset + (barStyles.length * 58);
-
-         for (int loop = 0; loop < barStyles.length; loop++)
-         {
-            String styleName = MPPUtility.getUnicodeString(barStyleData, nameOffset);
-            nameOffset += (styleName.length() + 1) * 2;
-            GanttBarStyle style = new GanttBarStyle();
-            barStyles[loop] = style;
-
-            style.setName(styleName);
-
-            style.setMiddleShape(GanttBarMiddleShape.getInstance(barStyleData[styleOffset]));
-            style.setMiddlePattern(ChartPattern.getInstance(barStyleData[styleOffset + 1]));
-            style.setMiddleColor(ColorType.getInstance(barStyleData[styleOffset + 2]).getColor());
-
-            style.setStartShape(GanttBarStartEndShape.getInstance(barStyleData[styleOffset + 4] % 21));
-            style.setStartType(GanttBarStartEndType.getInstance(barStyleData[styleOffset + 4] / 21));
-            style.setStartColor(ColorType.getInstance(barStyleData[styleOffset + 5]).getColor());
-
-            style.setEndShape(GanttBarStartEndShape.getInstance(barStyleData[styleOffset + 6] % 21));
-            style.setEndType(GanttBarStartEndType.getInstance(barStyleData[styleOffset + 6] / 21));
-            style.setEndColor(ColorType.getInstance(barStyleData[styleOffset + 7]).getColor());
-
-            style.setFromField(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 8)));
-            style.setToField(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 12)));
-
-            extractFlags(style, GanttBarShowForTasks.NORMAL, MPPUtility.getLong6(barStyleData, styleOffset + 16));
-            extractFlags(style, GanttBarShowForTasks.NOT_NORMAL, MPPUtility.getLong6(barStyleData, styleOffset + 24));
-
-            style.setRow(barStyleData[styleOffset + 32] + 1);
-
-            style.setLeftText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 34)));
-            style.setRightText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 38)));
-            style.setTopText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 42)));
-            style.setBottomText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 46)));
-            style.setInsideText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 50)));
-
-            styleOffset += 58;
-         }
+         barStyleData = props.getByteArray(DEFAULT_PROPERTIES2);
+         countOffset = 1162;
       }
+
+      if (barStyleData == null)
+      {
+         return null;
+      }
+
+      GanttBarStyle[] barStyles = new GanttBarStyle[barStyleData[countOffset]];
+      int styleOffset = countOffset + 28;
+      int nameOffset = styleOffset + (barStyles.length * 58);
+
+      for (int loop = 0; loop < barStyles.length; loop++)
+      {
+         String styleName = MPPUtility.getUnicodeString(barStyleData, nameOffset);
+         nameOffset += (styleName.length() + 1) * 2;
+         GanttBarStyle style = new GanttBarStyle();
+         barStyles[loop] = style;
+
+         style.setName(styleName);
+
+         style.setMiddleShape(GanttBarMiddleShape.getInstance(barStyleData[styleOffset]));
+         style.setMiddlePattern(ChartPattern.getInstance(barStyleData[styleOffset + 1]));
+         style.setMiddleColor(ColorType.getInstance(barStyleData[styleOffset + 2]).getColor());
+
+         style.setStartShape(GanttBarStartEndShape.getInstance(barStyleData[styleOffset + 4] % 21));
+         style.setStartType(GanttBarStartEndType.getInstance(barStyleData[styleOffset + 4] / 21));
+         style.setStartColor(ColorType.getInstance(barStyleData[styleOffset + 5]).getColor());
+
+         style.setEndShape(GanttBarStartEndShape.getInstance(barStyleData[styleOffset + 6] % 21));
+         style.setEndType(GanttBarStartEndType.getInstance(barStyleData[styleOffset + 6] / 21));
+         style.setEndColor(ColorType.getInstance(barStyleData[styleOffset + 7]).getColor());
+
+         style.setFromField(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 8)));
+         style.setToField(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 12)));
+
+         extractFlags(style, GanttBarShowForTasks.NORMAL, MPPUtility.getLong6(barStyleData, styleOffset + 16));
+         extractFlags(style, GanttBarShowForTasks.NOT_NORMAL, MPPUtility.getLong6(barStyleData, styleOffset + 24));
+
+         style.setRow(barStyleData[styleOffset + 32] + 1);
+
+         style.setLeftText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 34)));
+         style.setRightText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 38)));
+         style.setTopText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 42)));
+         style.setBottomText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 46)));
+         style.setInsideText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 50)));
+
+         styleOffset += 58;
+      }
+
       return barStyles;
    }
 
    @Override public GanttBarStyleException[] processExceptionStyles(ProjectFile file, Props props)
    {
-      GanttBarStyleException[] barStyle = null;
       byte[] barData = props.getByteArray(EXCEPTION_PROPERTIES);
-      if (barData != null)
+      if (barData == null)
       {
-         barStyle = new GanttBarStyleException[barData.length / 38];
-         int offset = 0;
-         for (int loop = 0; loop < barStyle.length; loop++)
-         {
-            GanttBarStyleException style = new GanttBarStyleException();
-            barStyle[loop] = style;
-
-            //System.out.println("GanttBarStyleException");
-            //System.out.println(ByteArrayHelper.hexdump(data, offset, 38, false));
-
-            style.setTaskUniqueID(MPPUtility.getInt(barData, offset));
-            style.setBarStyleIndex(MPPUtility.getShort(barData, offset + 4) - 1);
-
-            style.setStartShape(GanttBarStartEndShape.getInstance(barData[offset + 9] % 21));
-            style.setStartType(GanttBarStartEndType.getInstance(barData[offset + 9] / 21));
-            style.setStartColor(ColorType.getInstance(barData[offset + 10]).getColor());
-
-            style.setMiddleShape(GanttBarMiddleShape.getInstance(barData[offset + 6]));
-            style.setMiddlePattern(ChartPattern.getInstance(barData[offset + 7]));
-
-            style.setMiddleColor(ColorType.getInstance(barData[offset + 8]).getColor());
-
-            style.setEndShape(GanttBarStartEndShape.getInstance(barData[offset + 11] % 21));
-            style.setEndType(GanttBarStartEndType.getInstance(barData[offset + 11] / 21));
-            style.setEndColor(ColorType.getInstance(barData[offset + 12]).getColor());
-
-            style.setLeftText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 16)));
-            style.setRightText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 20)));
-            style.setTopText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 24)));
-            style.setBottomText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 28)));
-            style.setInsideText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 32)));
-
-            offset += 38;
-         }
+         return null;
       }
+
+      GanttBarStyleException[] barStyle = new GanttBarStyleException[barData.length / 38];
+      int offset = 0;
+      for (int loop = 0; loop < barStyle.length; loop++)
+      {
+         GanttBarStyleException style = new GanttBarStyleException();
+         barStyle[loop] = style;
+
+         //System.out.println("GanttBarStyleException");
+         //System.out.println(ByteArrayHelper.hexdump(data, offset, 38, false));
+
+         style.setTaskUniqueID(MPPUtility.getInt(barData, offset));
+         style.setBarStyleIndex(MPPUtility.getShort(barData, offset + 4) - 1);
+
+         style.setStartShape(GanttBarStartEndShape.getInstance(barData[offset + 9] % 21));
+         style.setStartType(GanttBarStartEndType.getInstance(barData[offset + 9] / 21));
+         style.setStartColor(ColorType.getInstance(barData[offset + 10]).getColor());
+
+         style.setMiddleShape(GanttBarMiddleShape.getInstance(barData[offset + 6]));
+         style.setMiddlePattern(ChartPattern.getInstance(barData[offset + 7]));
+
+         style.setMiddleColor(ColorType.getInstance(barData[offset + 8]).getColor());
+
+         style.setEndShape(GanttBarStartEndShape.getInstance(barData[offset + 11] % 21));
+         style.setEndType(GanttBarStartEndType.getInstance(barData[offset + 11] / 21));
+         style.setEndColor(ColorType.getInstance(barData[offset + 12]).getColor());
+
+         style.setLeftText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 16)));
+         style.setRightText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 20)));
+         style.setTopText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 24)));
+         style.setBottomText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 28)));
+         style.setInsideText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 32)));
+
+         offset += 38;
+      }
+
       return barStyle;
    }
 
@@ -156,6 +167,7 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
       }
    }
 
-   private static final Integer DEFAULT_PROPERTIES = Integer.valueOf(574619686);
+   private static final Integer DEFAULT_PROPERTIES1 = Integer.valueOf(574619686);
+   private static final Integer DEFAULT_PROPERTIES2 = Integer.valueOf(574619656);
    private static final Integer EXCEPTION_PROPERTIES = Integer.valueOf(574619661);
 }
