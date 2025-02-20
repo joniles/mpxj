@@ -1217,6 +1217,11 @@ public abstract class GanttChartView extends GenericView
       return m_autoFiltersByType.get(type);
    }
 
+   /**
+    * Set the array of Gantt Bar Styles, and populate the ID map for these styles.
+    *
+    * @param barStyles Gantt Bar Styles array
+    */
    protected void populateBarStyles(GanttBarStyle[] barStyles)
    {
       m_barStyles = barStyles;
