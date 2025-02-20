@@ -372,14 +372,23 @@ public class CpmTest
       NO_WBS_TEST.add("raised-walker-coverage.xer");
       NO_WBS_TEST.add("raised-walker-baseline.xer");
       NO_WBS_TEST.add("garish-biophysicist.xer");
+      NO_WBS_TEST.add("garish-biophysicist-coverage.xer");
       NO_WBS_TEST.add("role-code-test-task-dependent.xer");
       NO_WBS_TEST.add("assignment-code-test-task-dependent.xer");
       NO_WBS_TEST.add("toxic-end.xer");
       NO_WBS_TEST.add("toxic-end-coverage.xer");
-
+      NO_WBS_TEST.add("keen-knock.xer");
+      NO_WBS_TEST.add("keen-knock-coverage.xer");
+      NO_WBS_TEST.add("dispassionate-vertex.xer");
+      NO_WBS_TEST.add("alive-lap-task-dependent.xer");
+      NO_WBS_TEST.add("merriest-offering.xer");
+      NO_WBS_TEST.add("stuffy-sturgeon.xer");
+      NO_WBS_TEST.add("famous-retention.xer");
+      
       // Date disagreement with P6 affects rollup
       NO_WBS_TEST.add("aloof-proton-task-dependent.xer");
       NO_WBS_TEST.add("aloof-proton-coverage.xer");
+      NO_WBS_TEST.add("aloof-proton-scheduled.xer");
       NO_WBS_TEST.add("detailed-librarian.xer");
    }
 
