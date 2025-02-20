@@ -56,11 +56,21 @@ public final class GanttBarStyle extends GanttBarCommonStyle
       m_fromField = field;
    }
 
+   /**
+    * Retrieve the ID of this Gantt Bar Style.
+    *
+    * @return Gantt Bar Style ID
+    */
    public Integer getID()
    {
       return m_id;
    }
 
+   /**
+    * Set the ID of this Gantt Bar Style.
+    *
+    * @param value Gantt Bar Style ID
+    */
    public void setID(Integer value)
    {
       m_id = value;
