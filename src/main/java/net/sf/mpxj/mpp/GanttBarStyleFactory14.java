@@ -102,7 +102,7 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
             barStyle[loop] = style;
 
             style.setTaskUniqueID(MPPUtility.getInt(barData, offset));
-            style.setBarStyleID(Integer.valueOf(MPPUtility.getShort(barData, offset + 4)));
+            style.setGanttBarStyleID(Integer.valueOf(MPPUtility.getShort(barData, offset + 4)));
             style.setBarStyleIndex(MPPUtility.getShort(barData, offset + 4) - 1);
 
             style.setStartShape(GanttBarStartEndShape.getInstance(barData[offset + 20] % 25));

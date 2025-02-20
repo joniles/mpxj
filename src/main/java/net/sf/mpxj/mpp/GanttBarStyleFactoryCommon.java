@@ -111,7 +111,7 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
          //System.out.println(ByteArrayHelper.hexdump(data, offset, 38, false));
 
          style.setTaskUniqueID(MPPUtility.getInt(barData, offset));
-         style.setBarStyleID(Integer.valueOf(MPPUtility.getShort(barData, offset + 4)));
+         style.setGanttBarStyleID(Integer.valueOf(MPPUtility.getShort(barData, offset + 4)));
          style.setBarStyleIndex(MPPUtility.getShort(barData, offset + 4) - 1);
 
          style.setStartShape(GanttBarStartEndShape.getInstance(barData[offset + 9] % 21));

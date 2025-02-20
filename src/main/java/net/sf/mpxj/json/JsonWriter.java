@@ -2054,7 +2054,7 @@ public final class JsonWriter extends AbstractProjectWriter
       {
          m_writer.writeStartObject(null);
          writeIntegerField("task_unique_id", Integer.valueOf(style.getTaskUniqueID()));
-         writeIntegerField("bar_style_id", Integer.valueOf(style.getBarStyleID()));
+         writeIntegerField("bar_style_id", Integer.valueOf(style.getGanttBarStyleID()));
          writeIntegerField("bar_style_index", Integer.valueOf(style.getBarStyleIndex()));
          writeFieldType("top_", style.getTopText());
          writeFieldType("bottom_", style.getBottomText());
