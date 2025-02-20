@@ -52,11 +52,13 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
 
       for (int loop = 0; loop < barStyles.length; loop++)
       {
+         int styleID = MPPUtility.getShort(barStyleData,styleOffset+56);
          String styleName = MPPUtility.getUnicodeString(barStyleData, nameOffset);
          nameOffset += (styleName.length() + 1) * 2;
          GanttBarStyle style = new GanttBarStyle();
          barStyles[loop] = style;
 
+         style.setID(styleID == 65535 ? null : Integer.valueOf(styleID));
          style.setName(styleName);
 
          style.setMiddleShape(GanttBarMiddleShape.getInstance(barStyleData[styleOffset]));
@@ -110,6 +112,7 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
          //System.out.println(ByteArrayHelper.hexdump(data, offset, 38, false));
 
          style.setTaskUniqueID(MPPUtility.getInt(barData, offset));
+         style.setBarStyleID(Integer.valueOf(MPPUtility.getShort(barData, offset + 4)));
          style.setBarStyleIndex(MPPUtility.getShort(barData, offset + 4) - 1);
 
          style.setStartShape(GanttBarStartEndShape.getInstance(barData[offset + 9] % 21));

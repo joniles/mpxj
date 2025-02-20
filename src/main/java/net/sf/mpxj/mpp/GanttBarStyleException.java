@@ -53,6 +53,26 @@ public final class GanttBarStyleException extends GanttBarCommonStyle
    }
 
    /**
+    * Set the ID of the Gantt Bar Style to which this exception is applied.
+    *
+    * @return bar style ID
+    */
+   public Integer getBarStyleID()
+   {
+      return m_barStyleID;
+   }
+
+   /**
+    * Set the ID of the Gantt Bar Style to which this exception is applied.
+    *
+    * @param value bar style ID
+    */
+   public void setBarStyleID(Integer value)
+   {
+      m_barStyleID = value;
+   }
+
+   /**
     * Retrieves the index of the bar style to which this exception applies.
     * The standard bar styles are held in an array, retrieved using the
     * GanttChartView.getBarStyles() method. The index returned by this method
@@ -63,8 +83,9 @@ public final class GanttBarStyleException extends GanttBarCommonStyle
     * in the style exception.
     *
     * @return bar style index
+    * @deprecated use getBarStyleID() to retrieve the bar style ID and getGanttBarStyleByID on the view to retrieve the style
     */
-   public int getBarStyleIndex()
+   @Deprecated public int getBarStyleIndex()
    {
       return (m_barStyleIndex);
    }
@@ -90,6 +111,7 @@ public final class GanttBarStyleException extends GanttBarCommonStyle
       PrintWriter pw = new PrintWriter(os);
       pw.println("   [GanttBarStyleException");
       pw.println("      TaskID=" + m_taskUniqueID);
+      pw.println("      BarStyleID=" + m_barStyleID);
       pw.println("      BarStyleIndex=" + m_barStyleIndex);
       pw.println(super.toString());
       pw.println("   ]");
@@ -99,4 +121,5 @@ public final class GanttBarStyleException extends GanttBarCommonStyle
 
    private int m_taskUniqueID;
    private int m_barStyleIndex;
+   private Integer m_barStyleID;
 }

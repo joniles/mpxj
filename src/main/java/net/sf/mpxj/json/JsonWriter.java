@@ -2021,8 +2021,9 @@ public final class JsonWriter extends AbstractProjectWriter
       for (GanttBarStyle style : ((GanttChartView) view).getBarStyles())
       {
          m_writer.writeStartObject(null);
-         writeIntegerField("row", Integer.valueOf(style.getRow()));
+         writeIntegerField("id", style.getID());
          writeStringField("name", style.getName());
+         writeIntegerField("row", Integer.valueOf(style.getRow()));
          writeFieldType("from_", style.getFromField());
          writeFieldType("to_", style.getToField());
          writeFieldType("top_", style.getTopText());
@@ -2053,6 +2054,7 @@ public final class JsonWriter extends AbstractProjectWriter
       {
          m_writer.writeStartObject(null);
          writeIntegerField("task_unique_id", Integer.valueOf(style.getTaskUniqueID()));
+         writeIntegerField("bar_style_id", Integer.valueOf(style.getBarStyleID()));
          writeIntegerField("bar_style_index", Integer.valueOf(style.getBarStyleIndex()));
          writeFieldType("top_", style.getTopText());
          writeFieldType("bottom_", style.getBottomText());

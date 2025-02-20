@@ -56,6 +56,16 @@ public final class GanttBarStyle extends GanttBarCommonStyle
       m_fromField = field;
    }
 
+   public Integer getID()
+   {
+      return m_id;
+   }
+
+   public void setID(Integer value)
+   {
+      m_id = value;
+   }
+
    /**
     * Retrieve the name of this style.
     *
@@ -146,6 +156,7 @@ public final class GanttBarStyle extends GanttBarCommonStyle
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       PrintWriter pw = new PrintWriter(os);
       pw.println("   [GanttBarStyle");
+      pw.println("      ID=" + m_id);
       pw.println("      Name=" + m_name);
       pw.println("      FromField=" + m_fromField);
       pw.println("      ToField=" + m_toField);
@@ -157,6 +168,7 @@ public final class GanttBarStyle extends GanttBarCommonStyle
       return (os.toString());
    }
 
+   private Integer m_id;
    private String m_name;
    private FieldType m_fromField;
    private FieldType m_toField;

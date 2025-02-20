@@ -501,6 +501,17 @@ public abstract class GanttChartView extends GenericView
    }
 
    /**
+    * Retrieve a Gantt Bar Style for this view by its ID.
+    *
+    * @param id Gantt Bar Style ID
+    * @return GanttBarStyle or null
+    */
+   public GanttBarStyle getGanttBarStyleByID(Integer id)
+   {
+      return m_barStylesMap.get(id);
+   }
+
+   /**
     * Retrieve an array of bar styles which are applied to all Gantt
     * chart bars, unless an exception has been defined.
     *
@@ -1403,6 +1414,7 @@ public abstract class GanttChartView extends GenericView
    protected LinkStyle m_linkStyle;
 
    protected GanttBarStyle[] m_barStyles;
+   protected Map<Integer, GanttBarStyle> m_barStylesMap;
    protected GanttBarStyleException[] m_barStyleExceptions;
 
    private int m_tableWidth;
