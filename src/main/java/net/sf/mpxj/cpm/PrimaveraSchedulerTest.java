@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.ActivityType;
@@ -218,7 +217,7 @@ public class PrimaveraSchedulerTest
 
    private void analyseFailures(PrimaveraScheduler scheduler, boolean analyseWbs) throws CycleException
    {
-      List<Task> tasks = new DepthFirstGraphSort(m_workingFile, scheduler::ignoreTask).sort();
+      List<Task> tasks = new DepthFirstGraphSort(m_workingFile, scheduler::isActivity).sort();
 
       // Sort so we can see errors at the bottom first, as these are rolled up.
       List<Task> wbs = m_workingFile.getTasks().stream().filter(t -> t.getSummary()).collect(Collectors.toList());

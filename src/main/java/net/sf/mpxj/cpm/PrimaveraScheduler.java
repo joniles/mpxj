@@ -6,9 +6,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.ActivityType;
@@ -44,7 +42,7 @@ public class PrimaveraScheduler implements Scheduler
 
       m_projectStartDate = projectStartDate;
 
-      List<Task> tasks = new DepthFirstGraphSort(m_file, this::ignoreTask).sort();
+      List<Task> tasks = new DepthFirstGraphSort(m_file, this::isActivity).sort();
       if (tasks.isEmpty())
       {
          return;
@@ -95,7 +93,7 @@ public class PrimaveraScheduler implements Scheduler
       LocalDateTime earlyStart;
 
       LocalDateTime earlyFinish = null;
-      List<Relation> predecessors = task.getPredecessors().stream().filter(r -> !ignoreTask(r.getPredecessorTask())).collect(Collectors.toList());
+      List<Relation> predecessors = task.getPredecessors().stream().filter(r -> isActivity(r.getPredecessorTask())).collect(Collectors.toList());
 
       if (task.getActualStart() == null)
       {
@@ -295,7 +293,7 @@ public class PrimaveraScheduler implements Scheduler
 
    private void backwardPass(Task task) throws CpmException
    {
-      List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> !ignoreTask(r.getSuccessorTask())).collect(Collectors.toList());
+      List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> isActivity(r.getSuccessorTask())).collect(Collectors.toList());
       ProjectCalendar calendar = task.getEffectiveCalendar();
       LocalDateTime lateFinish;
 
@@ -2242,9 +2240,9 @@ public class PrimaveraScheduler implements Scheduler
       return getDate(getLagCalendar(relation), date, lag.negate());
    }
 
-   public boolean ignoreTask(Task task)
+   public boolean isActivity(Task task)
    {
-      return task.getSummary() || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getActivityType() == ActivityType.WBS_SUMMARY;
+      return !(task.getSummary() || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getActivityType() == ActivityType.WBS_SUMMARY);
    }
 
    private void alapAdjust(Task task) throws CpmException
@@ -2252,7 +2250,7 @@ public class PrimaveraScheduler implements Scheduler
       LocalDateTime earlyStart;
       LocalDateTime earlyFinish;
 
-      List<Relation> successors = task.getSuccessors().stream().filter(r -> !ignoreTask(r.getSuccessorTask())).collect(Collectors.toList());
+      List<Relation> successors = task.getSuccessors().stream().filter(r -> isActivity(r.getSuccessorTask())).collect(Collectors.toList());
       if (successors.isEmpty())
       {
          earlyFinish = m_projectFinishDate;

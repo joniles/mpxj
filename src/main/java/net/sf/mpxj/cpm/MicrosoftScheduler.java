@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
@@ -26,7 +25,7 @@ public class MicrosoftScheduler implements Scheduler
 
    public void process(LocalDateTime projectStartDate) throws Exception
    {
-      List<Task> tasks = new DepthFirstGraphSort(m_file, this::ignoreTask).sort();
+      List<Task> tasks = new DepthFirstGraphSort(m_file, this::isTask).sort();
       if (tasks.isEmpty())
       {
          return;
@@ -59,7 +58,7 @@ public class MicrosoftScheduler implements Scheduler
          LocalDateTime earlyStart;
 
          LocalDateTime earlyFinish = null;
-         List<Relation> predecessors = task.getPredecessors().stream().filter(r -> !ignoreTask(r.getPredecessorTask())).collect(Collectors.toList());
+         List<Relation> predecessors = task.getPredecessors().stream().filter(r -> isTask(r.getPredecessorTask())).collect(Collectors.toList());
 
          if (task.getActualStart() == null)
          {
@@ -184,7 +183,7 @@ public class MicrosoftScheduler implements Scheduler
 
       for (Task task : tasks)
       {
-         List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> !ignoreTask(r.getSuccessorTask())).collect(Collectors.toList());
+         List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> isTask(r.getSuccessorTask())).collect(Collectors.toList());
          ProjectCalendar calendar = task.getEffectiveCalendar();
          LocalDateTime lateFinish;
 
@@ -432,9 +431,9 @@ public class MicrosoftScheduler implements Scheduler
       return taskCalendar;
    }
 
-   public boolean ignoreTask(Task task)
+   public boolean isTask(Task task)
    {
-      return task.getSummary() || !task.getActive() || task.getNull() || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getActivityType() == ActivityType.WBS_SUMMARY;
+      return !(task.getSummary() || !task.getActive() || task.getNull());
    }
 
    private final ProjectFile m_file;

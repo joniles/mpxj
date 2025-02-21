@@ -8,17 +8,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
-import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 
 public class DepthFirstGraphSort
 {
-   public DepthFirstGraphSort(ProjectFile file, Function<Task, Boolean> ignoreTask)
+   public DepthFirstGraphSort(ProjectFile file, Function<Task, Boolean> includeTask)
    {
       m_file = file;
-      m_ignoreTask = ignoreTask;
+      m_includeTask = includeTask;
    }
 
    public List<Task> sort() throws CycleException
@@ -27,12 +26,10 @@ public class DepthFirstGraphSort
       {
          for (Task task : m_file.getTasks())
          {
-            if (m_ignoreTask.apply(task))
+            if (m_includeTask.apply(task))
             {
-               continue;
+               visit(task);
             }
-
-            visit(task);
          }
 
          return new ArrayList<>(m_tasks);
@@ -64,11 +61,10 @@ public class DepthFirstGraphSort
       for (Relation relation : m_file.getRelations().getRawSuccessors(task))
       {
          Task successorTask = relation.getSuccessorTask();
-         if (m_ignoreTask.apply(successorTask))
+         if (m_includeTask.apply(successorTask))
          {
-            continue;
+            visit(successorTask);
          }
-         visit(successorTask);
       }
 
       m_temporaryMark.remove(task);
@@ -77,7 +73,7 @@ public class DepthFirstGraphSort
    }
 
    private final ProjectFile m_file;
-   private final Function<Task, Boolean> m_ignoreTask;
+   private final Function<Task, Boolean> m_includeTask;
    private final Deque<Task> m_tasks = new ArrayDeque<>();
    private final Set<Task> m_temporaryMark = new HashSet<>();
    private final Set<Task> m_permanentMark = new HashSet<>();

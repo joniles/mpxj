@@ -218,7 +218,7 @@ public class MicrosoftSchedulerTest
 
    private void analyseFailures(MicrosoftScheduler scheduler, boolean analyseWbs) throws CycleException
    {
-      List<Task> tasks = new DepthFirstGraphSort(m_workingFile, scheduler::ignoreTask).sort();
+      List<Task> tasks = new DepthFirstGraphSort(m_workingFile, scheduler::isTask).sort();
 
       // Sort so we can see errors at the bottom first, as these are rolled up.
       List<Task> wbs = m_workingFile.getTasks().stream().filter(t -> t.getSummary()).collect(Collectors.toList());
