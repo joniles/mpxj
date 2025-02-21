@@ -49,7 +49,7 @@ class ProgressRecord extends AbstractSDEFRecord
       Duration totalFloat = getDuration(12);
       if ("-".equals(getString(11)))
       {
-         totalFloat = Duration.getInstance(-totalFloat.getDuration(), TimeUnit.DAYS);
+         totalFloat = totalFloat.negate();
       }
 
       Task task = context.getTask(getString(0));

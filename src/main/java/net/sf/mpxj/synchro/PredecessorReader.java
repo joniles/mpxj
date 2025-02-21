@@ -79,8 +79,7 @@ class PredecessorReader extends TableReader
 
          if (lagIsNegative)
          {
-            Duration lag = (Duration) map.get("LAG");
-            map.put("LAG", Duration.getInstance(-lag.getDuration(), lag.getUnits()));
+            map.put("LAG", ((Duration) map.get("LAG")).negate());
          }
       }
    }

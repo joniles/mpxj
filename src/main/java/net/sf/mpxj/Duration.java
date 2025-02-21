@@ -426,6 +426,16 @@ public final class Duration implements Comparable<Duration>
       return Duration.getInstance(a.getDuration() + b.getDuration(), unit);
    }
 
+   /**
+    * Negate this duration.
+    *
+    * @return negated duration
+    */
+   public Duration negate()
+   {
+      return m_duration == 0 ? this : Duration.getInstance(-m_duration, m_units);
+   }
+
    @Override public String toString()
    {
       return (m_duration + m_units.toString());
