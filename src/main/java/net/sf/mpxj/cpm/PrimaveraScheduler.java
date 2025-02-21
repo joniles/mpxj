@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.ActivityType;
@@ -42,23 +43,30 @@ public class PrimaveraScheduler implements Scheduler
 
       m_projectStartDate = projectStartDate;
 
-      List<Task> tasks = new DepthFirstGraphSort(m_file, this::isActivity).sort();
-      if (tasks.isEmpty())
+      List<Task> activities = new DepthFirstGraphSort(m_file, PrimaveraScheduler::isActivity).sort();
+      if (activities.isEmpty())
       {
          return;
       }
 
       clearDates();
 
-      if (m_dataDate != null && projectStartDate.isBefore(m_dataDate))
+      if (m_dataDate == null)
       {
-         m_projectStartDate = m_dataDate;
+         m_dataDate = m_projectStartDate;
+      }
+      else
+      {
+         if (projectStartDate.isBefore(m_dataDate))
+         {
+            m_projectStartDate = m_dataDate;
+         }
       }
 
-      forwardPass(tasks);
+      forwardPass(activities);
 
       LocalDateTime mustFinishBy = m_file.getProjectProperties().getMustFinishBy();
-      LocalDateTime earlyFinish = tasks.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
+      LocalDateTime earlyFinish = activities.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
 
       if (mustFinishBy == null || earlyFinish.isAfter(mustFinishBy))
       {
@@ -69,13 +77,15 @@ public class PrimaveraScheduler implements Scheduler
          m_projectFinishDate = mustFinishBy;
       }
 
-      backwardPass(tasks);
+      backwardPass(activities);
 
-      for (Task task : tasks)
+      for (Task activity : activities)
       {
-         task.setStart(task.getActualStart() == null ? task.getEarlyStart() : task.getActualStart());
-         task.setFinish(task.getActualFinish() == null ? task.getEarlyFinish() : task.getActualFinish());
+         activity.setStart(activity.getActualStart() == null ? activity.getEarlyStart() : activity.getActualStart());
+         activity.setFinish(activity.getActualFinish() == null ? activity.getEarlyFinish() : activity.getActualFinish());
       }
+
+      levelOfEffortPass();
 
       m_file.getChildTasks().forEach(t -> rollupDates(t));
    }
@@ -104,7 +114,7 @@ public class PrimaveraScheduler implements Scheduler
                case START_NO_EARLIER_THAN:
                {
                   earlyStart = task.getConstraintDate();
-                  if (m_dataDate != null && earlyStart.isBefore(m_dataDate))
+                  if (earlyStart.isBefore(m_dataDate))
                   {
                      earlyStart = m_dataDate;
                   }
@@ -2223,7 +2233,7 @@ public class PrimaveraScheduler implements Scheduler
    private LocalDateTime addLag(Relation relation, LocalDateTime date, Duration lag)
    {
       LocalDateTime result = getDate(getLagCalendar(relation), date, lag);
-      if (lag.getDuration() < 0 && m_dataDate != null && result.isBefore(m_dataDate))
+      if (lag.getDuration() < 0 && result.isBefore(m_dataDate))
       {
          result = m_dataDate;
       }
@@ -2240,9 +2250,14 @@ public class PrimaveraScheduler implements Scheduler
       return getDate(getLagCalendar(relation), date, lag.negate());
    }
 
-   public boolean isActivity(Task task)
+   static boolean isActivity(Task task)
    {
       return !(task.getSummary() || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getActivityType() == ActivityType.WBS_SUMMARY);
+   }
+
+   static boolean isLevelOfEffortActivity(Task task)
+   {
+      return task.getActivityType() == ActivityType.LEVEL_OF_EFFORT;
    }
 
    private void alapAdjust(Task task) throws CpmException
@@ -2387,7 +2402,7 @@ public class PrimaveraScheduler implements Scheduler
       }
       else
       {
-         if (task.getActualDuration().getDuration() != 0)
+         if (task.getActualDuration() != null && task.getActualDuration().getDuration() != 0)
          {
             remainingEarlyStart = task.getEarlyStart();
          }
@@ -2619,9 +2634,217 @@ public class PrimaveraScheduler implements Scheduler
       parentTask.setCritical(critical);
    }
 
+   private void levelOfEffortPass() throws CpmException
+   {
+      List<Task> activities = new DepthFirstGraphSort(m_file, t -> t.getActivityType() == ActivityType.LEVEL_OF_EFFORT).sort();
+      if (activities.isEmpty())
+      {
+         return;
+      }
+
+      for (Task activity : activities)
+      {
+         levelOfEffortPass(activity);
+      }
+   }
+
+   private void levelOfEffortPass(Task activity) throws CpmException
+   {
+      List<Relation> predecessors = activity.getPredecessors();
+      List<Relation> successors = activity.getSuccessors();
+
+      LocalDateTime earlyStart;
+      if (predecessors.isEmpty())
+      {
+         earlyStart = activity.getEffectiveCalendar().getNextWorkStart(m_dataDate);
+      }
+      else
+      {
+         earlyStart = predecessors.stream().map(r -> calculateLevelOfEffortEarlyStart(r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+      }
+
+      LocalDateTime earlyFinish;
+      if (successors.isEmpty())
+      {
+         earlyFinish = earlyStart;
+      }
+      else
+      {
+         earlyFinish = successors.stream().map(r -> calculateLevelOfEffortEarlyFinish(r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
+      }
+
+
+      LocalDateTime lateFinish;
+      if (successors.isEmpty())
+      {
+         lateFinish = m_projectFinishDate;
+      }
+      else
+      {
+         lateFinish = successors.stream().map(r -> calculateLevelOfEffortLateFinish(r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late finish date"));
+      }
+
+
+      LocalDateTime lateStart;
+      if (predecessors.isEmpty())
+      {
+         lateStart = lateFinish;
+      }
+      else
+      {
+         lateStart = predecessors.stream().map(r -> calculateLevelOfEffortLateStart(r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+      }
+
+      LocalDateTime start = predecessors.stream().map(r -> r.getPredecessorTask().getActualStart()).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(earlyStart);
+      // guesswork!
+      LocalDateTime finish = successors.stream().map(r -> r.getSuccessorTask().getActualFinish() == null ? r.getSuccessorTask().getEarlyFinish() : r.getSuccessorTask().getActualFinish()).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(earlyFinish);
+
+
+      activity.setEarlyStart(earlyStart);
+      activity.setEarlyFinish(earlyFinish);
+      activity.setLateStart(lateStart);
+      activity.setLateFinish(lateFinish);
+      activity.setRemainingEarlyStart(earlyStart);
+      activity.setRemainingEarlyFinish(earlyFinish);
+      activity.setRemainingLateStart(lateStart);
+      activity.setRemainingLateFinish(lateFinish);
+      activity.setStart(start);
+      activity.setFinish(finish);
+   }
+
+   private LocalDateTime calculateLevelOfEffortEarlyStart(Relation relation)
+   {
+      LocalDateTime result = null;
+
+      switch (relation.getType())
+      {
+         case START_START:
+         {
+            result = relation.getPredecessorTask().getEarlyStart();
+            break;
+         }
+
+         case START_FINISH:
+         {
+            break;
+         }
+
+         case FINISH_START:
+         {
+            break;
+         }
+
+         case FINISH_FINISH:
+         {
+            result = relation.getPredecessorTask().getEarlyFinish();
+            break;
+         }
+      }
+
+      if (result != null && result.isBefore(m_dataDate))
+      {
+         result = m_dataDate;
+      }
+
+      return result;
+   }
+
+   private LocalDateTime calculateLevelOfEffortEarlyFinish(Relation relation)
+   {
+      switch (relation.getType())
+      {
+         case START_START:
+         {
+            return relation.getSuccessorTask().getEarlyStart();
+         }
+
+         case START_FINISH:
+         {
+            return null;
+         }
+
+         case FINISH_START:
+         {
+            return null;
+         }
+
+         case FINISH_FINISH:
+         {
+            return relation.getSuccessorTask().getEarlyFinish();
+         }
+
+         default:
+         {
+            throw new UnsupportedOperationException();
+         }
+      }
+   }
+
+   private LocalDateTime calculateLevelOfEffortLateFinish(Relation relation)
+   {
+      switch (relation.getType())
+      {
+         case START_START:
+         {
+            return relation.getSuccessorTask().getLateStart();
+         }
+
+         case START_FINISH:
+         {
+            return null;
+         }
+
+         case FINISH_START:
+         {
+            return null;
+         }
+
+         case FINISH_FINISH:
+         {
+            return relation.getSuccessorTask().getLateFinish();
+         }
+
+         default:
+         {
+            throw new UnsupportedOperationException();
+         }
+      }
+   }
+
+   private LocalDateTime calculateLevelOfEffortLateStart(Relation relation)
+   {
+      switch (relation.getType())
+      {
+         case START_START:
+         {
+            return relation.getPredecessorTask().getLateStart();
+         }
+
+         case START_FINISH:
+         {
+            return null;
+         }
+
+         case FINISH_START:
+         {
+            return null;
+         }
+
+         case FINISH_FINISH:
+         {
+            return relation.getPredecessorTask().getLateFinish();
+         }
+
+         default:
+         {
+            throw new UnsupportedOperationException();
+         }
+      }
+   }
+
    private final ProjectFile m_file;
-   private final LocalDateTime m_dataDate;
    private final ProjectCalendar m_twentyFourHourCalendar;
+   private LocalDateTime m_dataDate;
    private LocalDateTime m_projectStartDate;
    private LocalDateTime m_projectFinishDate;
 }

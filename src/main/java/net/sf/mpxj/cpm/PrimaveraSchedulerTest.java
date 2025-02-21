@@ -115,17 +115,7 @@ public class PrimaveraSchedulerTest
       {
          Task workingTask = m_workingFile.getTaskByUniqueID(baselineTask.getUniqueID());
 
-         if (workingTask.getActivityType() == ActivityType.LEVEL_OF_EFFORT)
-         {
-            continue;
-         }
-
          if (workingTask.getActivityType() == ActivityType.WBS_SUMMARY)
-         {
-            continue;
-         }
-
-         if (wbsHasOnlyLevelOfEffort(workingTask))
          {
             continue;
          }
@@ -135,7 +125,6 @@ public class PrimaveraSchedulerTest
             analyseWbs = false;
             continue;
          }
-
 
          compare(baselineTask, workingTask);
       }
@@ -151,7 +140,7 @@ public class PrimaveraSchedulerTest
       System.out.println(m_baselineFile.getProjectProperties().getSchedulingProgressedActivities());
       System.out.println("Forward errors: " + m_forwardErrorCount);
       System.out.println("Backward errors: " + m_backwardErrorCount);
-      analyseFailures(scheduler, analyseWbs);
+      analyseFailures(analyseWbs);
       System.out.println("DONE");
       return false;
    }
@@ -215,17 +204,19 @@ public class PrimaveraSchedulerTest
       return result;
    }
 
-   private void analyseFailures(PrimaveraScheduler scheduler, boolean analyseWbs) throws CycleException
+   private void analyseFailures(boolean analyseWbs) throws CycleException
    {
-      List<Task> tasks = new DepthFirstGraphSort(m_workingFile, scheduler::isActivity).sort();
+      List<Task> activities = new DepthFirstGraphSort(m_workingFile, PrimaveraScheduler::isActivity).sort();
+      List<Task> levelOfEffortActivities = new DepthFirstGraphSort(m_workingFile, PrimaveraScheduler::isLevelOfEffortActivity).sort();
+      List<Task> wbs = m_workingFile.getTasks().stream().filter(t -> t.getSummary()).collect(Collectors.toList());
 
       // Sort so we can see errors at the bottom first, as these are rolled up.
-      List<Task> wbs = m_workingFile.getTasks().stream().filter(t -> t.getSummary()).collect(Collectors.toList());
       Collections.reverse(wbs);
 
       if (m_forwardErrorCount != 0)
       {
-         tasks.forEach(t -> analyseForwardError(t));
+         activities.forEach(t -> analyseForwardError(t));
+         levelOfEffortActivities.forEach(t -> analyseForwardError(t));
          if (analyseWbs)
          {
             wbs.forEach(t -> analyseForwardError(t));
@@ -234,8 +225,10 @@ public class PrimaveraSchedulerTest
 
       if (m_backwardErrorCount != 0)
       {
-         Collections.reverse(tasks);
-         tasks.forEach(t -> analyseBackwardError(t));
+         Collections.reverse(activities);
+         Collections.reverse(levelOfEffortActivities);
+         activities.forEach(t -> analyseBackwardError(t));
+         levelOfEffortActivities.forEach(t -> analyseBackwardError(t));
          if (analyseWbs)
          {
             wbs.forEach(t -> analyseBackwardError(t));
@@ -277,11 +270,6 @@ public class PrimaveraSchedulerTest
       System.out.println("Remaining Late Start: " + baseline.getRemainingLateStart() + " " + working.getRemainingLateStart() + (remainingLateStartFail ? " FAIL" : ""));
       System.out.println("Remaining Late Finish: " + baseline.getRemainingLateFinish() + " " + working.getRemainingLateFinish() + (remainingLateFinishFail ? " FAIL" : ""));
       System.out.println();
-   }
-
-   private boolean wbsHasOnlyLevelOfEffort(Task task)
-   {
-      return task.getChildTasks().stream().allMatch(t -> t.getActivityType() == ActivityType.LEVEL_OF_EFFORT);
    }
 
    private List<Task> allChildTasks(Task parent)
