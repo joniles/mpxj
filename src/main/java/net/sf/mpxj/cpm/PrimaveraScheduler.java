@@ -50,9 +50,16 @@ public class PrimaveraScheduler implements Scheduler
 
       clearDates();
 
-      if (m_dataDate != null && projectStartDate.isBefore(m_dataDate))
+      if (m_dataDate == null)
       {
-         m_projectStartDate = m_dataDate;
+         m_dataDate = m_projectStartDate;
+      }
+      else
+      {
+         if (projectStartDate.isBefore(m_dataDate))
+         {
+            m_projectStartDate = m_dataDate;
+         }
       }
 
       forwardPass(tasks);
@@ -104,7 +111,7 @@ public class PrimaveraScheduler implements Scheduler
                case START_NO_EARLIER_THAN:
                {
                   earlyStart = task.getConstraintDate();
-                  if (m_dataDate != null && earlyStart.isBefore(m_dataDate))
+                  if (earlyStart.isBefore(m_dataDate))
                   {
                      earlyStart = m_dataDate;
                   }
@@ -2223,7 +2230,7 @@ public class PrimaveraScheduler implements Scheduler
    private LocalDateTime addLag(Relation relation, LocalDateTime date, Duration lag)
    {
       LocalDateTime result = getDate(getLagCalendar(relation), date, lag);
-      if (lag.getDuration() < 0 && m_dataDate != null && result.isBefore(m_dataDate))
+      if (lag.getDuration() < 0 && result.isBefore(m_dataDate))
       {
          result = m_dataDate;
       }
@@ -2620,7 +2627,7 @@ public class PrimaveraScheduler implements Scheduler
    }
 
    private final ProjectFile m_file;
-   private final LocalDateTime m_dataDate;
+   private LocalDateTime m_dataDate;
    private final ProjectCalendar m_twentyFourHourCalendar;
    private LocalDateTime m_projectStartDate;
    private LocalDateTime m_projectFinishDate;
