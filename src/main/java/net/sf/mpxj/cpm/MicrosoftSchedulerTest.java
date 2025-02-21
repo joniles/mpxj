@@ -17,33 +17,30 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-public class CpmTest
+public class MicrosoftSchedulerTest
 {
    public static void main(String[] argv) throws Exception
    {
       if (argv.length != 1)
       {
-         System.out.println("Usage: CpmTest <file or base folder>");
+         System.out.println("Usage: MicrosoftSchedulerTest <file or base folder>");
          return;
       }
 
       File target = new File(argv[0]);
-      CpmTest test = new CpmTest();
+      MicrosoftSchedulerTest test = new MicrosoftSchedulerTest();
 
       if (target.isDirectory())
       {
-         //test.process(new File(target, "mpp"), ".mpp", MICROSOFT_PROJECT);
-         test.process(new File(target, "XER"), ".xer", PRIMAVERA_P6);
-         // Scheduling from XML unreliable - get all data working via XER first
-         //test.process(new File(target, "PMXML"), ".xml", PRIMAVERA_P6);
+         test.process(new File(target, "mpp"), ".mpp");
       }
       else
       {
-         test.process(target, target.getName().toLowerCase().endsWith(".mpp") ? MICROSOFT_PROJECT : PRIMAVERA_P6);
+         test.process(target);
       }
    }
 
-   public void process(File directory, String suffix, Function<ProjectFile, Scheduler> scheduler) throws Exception
+   public void process(File directory, String suffix) throws Exception
    {
       File[] fileList = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(suffix));
       int failed = 0;
@@ -72,7 +69,7 @@ public class CpmTest
             continue;
          }
 
-         if (process(file, scheduler))
+         if (process(file))
          {
             ++success;
          }
@@ -91,7 +88,7 @@ public class CpmTest
       System.out.println("Success %: " + (success * 100.0 / valid));
    }
 
-   public boolean process(File file, Function<ProjectFile, Scheduler> schedulerFactory) throws Exception
+   public boolean process(File file) throws Exception
    {
       System.out.print("Processing " + file + " ... ");
       m_forwardErrorCount = 0;
@@ -101,7 +98,7 @@ public class CpmTest
       m_baselineFile = new UniversalProjectReader().read(file);
       m_workingFile = new UniversalProjectReader().read(file);
 
-      Scheduler scheduler = schedulerFactory.apply(m_workingFile);
+      MicrosoftScheduler scheduler = new MicrosoftScheduler(m_workingFile);
 
       try
       {
@@ -219,7 +216,7 @@ public class CpmTest
       return result;
    }
 
-   private void analyseFailures(Scheduler scheduler, boolean analyseWbs) throws CycleException
+   private void analyseFailures(MicrosoftScheduler scheduler, boolean analyseWbs) throws CycleException
    {
       List<Task> tasks = new DepthFirstGraphSort(m_workingFile, scheduler::ignoreTask).sort();
 
