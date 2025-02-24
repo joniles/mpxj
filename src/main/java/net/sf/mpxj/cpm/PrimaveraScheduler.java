@@ -2722,6 +2722,59 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
+      if (predecessors.isEmpty() && !successors.isEmpty())
+      {
+         Relation relation = successors.get(0);
+         Task successor = successors.get(0).getSuccessorTask();
+
+         switch (relation.getType())
+         {
+            case START_START:
+            {
+               activity.setEarlyStart(successor.getActualStart() == null ? successor.getEarlyStart() : successor.getActualStart());
+               activity.setEarlyFinish(activity.getEarlyStart());
+               activity.setLateStart(successor.getActualStart() == null ? successor.getLateStart() : successor.getActualStart());
+               activity.setLateFinish(m_projectFinishDate);
+               break;
+            }
+
+            case FINISH_FINISH:
+            {
+               activity.setEarlyStart(activity.getEffectiveCalendar().getNextWorkStart(m_dataDate));
+               activity.setEarlyFinish(successor.getActualFinish() == null ? successor.getEarlyFinish() : successor.getActualFinish());
+               activity.setLateStart(successor.getActualFinish() == null ? successor.getLateFinish() : successor.getActualFinish());
+               activity.setLateFinish(activity.getLateStart());
+               break;
+            }
+
+            case START_FINISH:
+            {
+               activity.setEarlyStart(successor.getActualFinish() == null ? activity.getEffectiveCalendar().getNextWorkStart(successor.getEarlyFinish()) : successor.getActualFinish());
+               activity.setEarlyFinish(activity.getEarlyStart());
+               activity.setLateStart(successor.getActualFinish() == null ? successor.getLateFinish() : successor.getActualFinish());
+               activity.setLateFinish(m_projectFinishDate);
+               break;
+            }
+
+            case FINISH_START:
+            {
+               activity.setEarlyStart(activity.getEffectiveCalendar().getNextWorkStart(m_dataDate));
+               activity.setEarlyFinish(successor.getActualStart() == null ? successor.getEarlyStart() : successor.getActualStart());
+               activity.setLateStart(successor.getActualStart() == null ? successor.getLateStart() : successor.getActualStart());
+               activity.setLateFinish(activity.getLateStart());
+               break;
+            }
+         }
+
+         activity.setRemainingEarlyStart(activity.getEarlyStart());
+         activity.setRemainingEarlyFinish(activity.getEarlyFinish());
+         activity.setRemainingLateStart(activity.getLateStart());
+         activity.setRemainingLateFinish(activity.getLateFinish());
+         activity.setStart(activity.getEarlyStart());
+         activity.setFinish(activity.getEarlyFinish());
+         return;
+      }
+
       LocalDateTime start;
       LocalDateTime finish;
       LocalDateTime earlyStart;
