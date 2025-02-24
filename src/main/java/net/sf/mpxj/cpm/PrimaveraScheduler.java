@@ -2668,6 +2668,7 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
+
       if (!predecessors.isEmpty() && successors.isEmpty())
       {
          Relation relation = predecessors.get(0);
@@ -2774,17 +2775,7 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
-
-      Relation predecessorRelation = predecessors.get(0);
-      Relation successorRelation = successors.get(0);
-      Task predecessor = predecessorRelation.getPredecessorTask();
-      Task successor = successorRelation.getSuccessorTask();
-
-      // are predecessors and successor actually deteremine by relationship typw, e.g.
-      // SS = Predecessor
-      // FF = Successor
-      // SF = Successor
-      // FS = Predecessor
+      
       List<Relation> predecessorRelations = new ArrayList<>();
       List<Relation> successorRelations = new ArrayList<>();
 
