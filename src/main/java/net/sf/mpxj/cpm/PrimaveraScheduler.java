@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.ActivityType;
@@ -2827,8 +2826,27 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      LocalDateTime earlyStart = predecessorRelations.stream().map(r -> calculateLevelOfEffortEarlyStart(activity, r)).min(Comparator.naturalOrder()).orElse(null);
-      LocalDateTime earlyFinish = successorRelations.stream().map(r -> calculateLevelOfEffortEarlyFinish(activity, r)).max(Comparator.naturalOrder()).orElse(null);
+      LocalDateTime earlyStart;
+
+      if (predecessorRelations.isEmpty())
+      {
+         earlyStart = successorRelations.stream().map(r -> calculateLevelOfEffortEarlyStartFromSuccessor(activity, r)).min(Comparator.naturalOrder()).orElse(null);
+      }
+      else
+      {
+         earlyStart = predecessorRelations.stream().map(r -> calculateLevelOfEffortEarlyStart(activity, r)).min(Comparator.naturalOrder()).orElse(null);
+      }
+
+      LocalDateTime earlyFinish;
+      if (successorRelations.isEmpty())
+      {
+         earlyFinish = predecessorRelations.stream().map(r -> calculateLevelOfEffortEarlyFinishFromPredecessor(activity, r)).max(Comparator.naturalOrder()).orElse(null);
+      }
+      else
+      {
+         earlyFinish = successorRelations.stream().map(r -> calculateLevelOfEffortEarlyFinish(activity, r)).max(Comparator.naturalOrder()).orElse(null);
+      }
+
       LocalDateTime lateStart = predecessorRelations.stream().map(r -> calculateLevelOfEffortLateStart(activity, r)).min(Comparator.naturalOrder()).orElse(null);
       LocalDateTime lateFinish = successorRelations.stream().map(r -> calculateLevelOfEffortLateFinish(activity, r)).max(Comparator.naturalOrder()).orElse(null);
 
@@ -2873,11 +2891,61 @@ public class PrimaveraScheduler implements Scheduler
       return earlyStart;
    }
 
+   private LocalDateTime calculateLevelOfEffortEarlyStartFromSuccessor(Task activity, Relation relation)
+   {
+      Task task = getTaskFromRelation(activity, relation);
+
+      if (task == relation.getSuccessorTask())
+      {
+         switch(relation.getType())
+         {
+            case START_FINISH:
+            {
+               return task.getEarlyFinish();
+            }
+
+            case FINISH_FINISH:
+            {
+               return activity.getEffectiveCalendar().getNextWorkStart(m_dataDate);
+            }
+
+            default:
+            {
+               return LocalDateTime.of(2050, 1, 1, 0, 0);
+            }
+         }
+      }
+
+      return LocalDateTime.of(2050, 1, 1, 0, 0);
+   }
+
    private LocalDateTime calculateLevelOfEffortEarlyFinish(Task activity, Relation relation)
    {
       Task task = getTaskFromRelation(activity, relation);
       LocalDateTime earlyFinish = task.getEarlyFinish();
       return earlyFinish;
+   }
+
+   private LocalDateTime calculateLevelOfEffortEarlyFinishFromPredecessor(Task activity, Relation relation)
+   {
+      Task task = getTaskFromRelation(activity, relation);
+      if (task == relation.getPredecessorTask())
+      {
+         switch (relation.getType())
+         {
+            case START_START:
+            {
+               return task.getEarlyStart();
+            }
+
+            default:
+            {
+               return task.getEarlyFinish();
+            }
+         }
+      }
+
+      return LocalDateTime.MIN;
    }
 
    private LocalDateTime calculateLevelOfEffortLateStart(Task activity, Relation relation)
