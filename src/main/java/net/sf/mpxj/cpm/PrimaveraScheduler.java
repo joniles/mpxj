@@ -2653,52 +2653,122 @@ public class PrimaveraScheduler implements Scheduler
       List<Relation> predecessors = activity.getPredecessors();
       List<Relation> successors = activity.getSuccessors();
 
+      if (predecessors.isEmpty() && successors.isEmpty())
+      {
+         activity.setEarlyStart(activity.getEffectiveCalendar().getNextWorkStart(m_dataDate));
+         activity.setEarlyFinish(activity.getEarlyStart());
+         activity.setLateStart(m_projectFinishDate);
+         activity.setLateFinish(activity.getLateStart());
+
+         activity.setRemainingEarlyStart(activity.getEarlyStart());
+         activity.setRemainingEarlyFinish(activity.getEarlyFinish());
+         activity.setRemainingLateStart(activity.getLateStart());
+         activity.setRemainingLateFinish(activity.getLateFinish());
+         activity.setStart(activity.getEarlyStart());
+         activity.setFinish(activity.getEarlyFinish());
+         return;
+      }
+
+      if (!predecessors.isEmpty() && successors.isEmpty())
+      {
+         Relation relation = predecessors.get(0);
+         Task predecessor = predecessors.get(0).getPredecessorTask();
+
+         switch (relation.getType())
+         {
+            case START_START:
+            {
+               activity.setEarlyStart(predecessor.getActualStart() == null ? predecessor.getEarlyStart() : predecessor.getActualStart());
+               activity.setEarlyFinish(activity.getEarlyStart());
+               activity.setLateStart(predecessor.getLateStart());
+               activity.setLateFinish(m_projectFinishDate);
+               break;
+            }
+
+            case FINISH_FINISH:
+            {
+               activity.setEarlyStart(activity.getEffectiveCalendar().getNextWorkStart(m_dataDate));
+               activity.setEarlyFinish(predecessor.getActualFinish() == null ? predecessor.getEarlyFinish() : predecessor.getActualFinish());
+               activity.setLateStart(predecessor.getActualFinish() == null ? predecessor.getLateFinish() : predecessor.getActualFinish());
+               activity.setLateFinish(activity.getLateStart());
+               break;
+            }
+
+            case FINISH_START:
+            {
+               activity.setEarlyStart(predecessor.getActualFinish() == null ? predecessor.getEarlyFinish() : predecessor.getActualFinish());
+               activity.setEarlyFinish(activity.getEarlyStart());
+               activity.setLateStart(predecessor.getActualFinish() == null ? predecessor.getLateFinish() : predecessor.getActualFinish());
+               activity.setLateFinish(m_projectFinishDate);
+               break;
+            }
+
+            case START_FINISH:
+            {
+               activity.setEarlyStart(activity.getEffectiveCalendar().getNextWorkStart(m_dataDate));
+               activity.setEarlyFinish(predecessor.getActualStart() == null ? predecessor.getEarlyStart() : predecessor.getActualStart());
+               activity.setLateStart(predecessor.getActualStart() == null ? predecessor.getLateStart() : predecessor.getActualStart());
+               activity.setLateFinish(activity.getLateStart());
+               break;
+            }
+         }
+
+         activity.setRemainingEarlyStart(activity.getEarlyStart());
+         activity.setRemainingEarlyFinish(activity.getEarlyFinish());
+         activity.setRemainingLateStart(activity.getLateStart());
+         activity.setRemainingLateFinish(activity.getLateFinish());
+         activity.setStart(activity.getEarlyStart());
+         activity.setFinish(activity.getEarlyFinish());
+         return;
+      }
+
+      LocalDateTime start;
+      LocalDateTime finish;
       LocalDateTime earlyStart;
+      LocalDateTime earlyFinish;
+      LocalDateTime lateStart;
+      LocalDateTime lateFinish;
+
+
       if (predecessors.isEmpty())
       {
          earlyStart = activity.getEffectiveCalendar().getNextWorkStart(m_dataDate);
       }
       else
       {
-         earlyStart = predecessors.stream().map(r -> calculateLevelOfEffortEarlyStart(r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+         earlyStart = calculateLevelOfEffortEarlyStart(predecessors.get(0));
       }
 
-      LocalDateTime earlyFinish;
       if (successors.isEmpty())
       {
          earlyFinish = earlyStart;
       }
       else
       {
-         earlyFinish = successors.stream().map(r -> calculateLevelOfEffortEarlyFinish(r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
+         earlyFinish = calculateLevelOfEffortEarlyFinish(successors.get(0));
       }
 
-
-      LocalDateTime lateFinish;
       if (successors.isEmpty())
       {
          lateFinish = m_projectFinishDate;
       }
       else
       {
-         lateFinish = successors.stream().map(r -> calculateLevelOfEffortLateFinish(r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late finish date"));
+         lateFinish = calculateLevelOfEffortLateFinish(successors.get(0));
       }
 
-
-      LocalDateTime lateStart;
       if (predecessors.isEmpty())
       {
          lateStart = lateFinish;
       }
       else
       {
-         lateStart = predecessors.stream().map(r -> calculateLevelOfEffortLateStart(r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+         lateStart = calculateLevelOfEffortLateStart(predecessors.get(0));
       }
 
-      LocalDateTime start = predecessors.stream().map(r -> r.getPredecessorTask().getActualStart()).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(earlyStart);
+      start = predecessors.stream().map(r -> r.getPredecessorTask().getActualStart()).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(earlyStart);
       // guesswork!
-      LocalDateTime finish = successors.stream().map(r -> r.getSuccessorTask().getActualFinish() == null ? r.getSuccessorTask().getEarlyFinish() : r.getSuccessorTask().getActualFinish()).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(earlyFinish);
-
+      finish = successors.stream().map(r -> r.getSuccessorTask().getActualFinish() == null ? r.getSuccessorTask().getEarlyFinish() : r.getSuccessorTask().getActualFinish()).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(earlyFinish);
 
       activity.setEarlyStart(earlyStart);
       activity.setEarlyFinish(earlyFinish);
