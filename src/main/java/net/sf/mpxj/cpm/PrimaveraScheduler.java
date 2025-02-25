@@ -2838,8 +2838,28 @@ public class PrimaveraScheduler implements Scheduler
          earlyFinish = successorRelations.stream().map(r -> calculateLevelOfEffortEarlyFinish(activity, r)).max(Comparator.naturalOrder()).orElse(null);
       }
 
-      LocalDateTime lateStart = predecessorRelations.stream().map(r -> calculateLevelOfEffortLateStart(activity, r)).min(Comparator.naturalOrder()).orElse(null);
-      LocalDateTime lateFinish = successorRelations.stream().map(r -> calculateLevelOfEffortLateFinish(activity, r)).max(Comparator.naturalOrder()).orElse(null);
+      LocalDateTime lateStart;
+
+      if  (predecessorRelations.isEmpty())
+      {
+         lateStart = successorRelations.stream().map(r -> calculateLevelOfEffortLateStartFromSuccessor(activity, r)).min(Comparator.naturalOrder()).orElse(null);
+      }
+      else
+      {
+         lateStart = predecessorRelations.stream().map(r -> calculateLevelOfEffortLateStart(activity, r)).min(Comparator.naturalOrder()).orElse(null);
+      }
+
+      LocalDateTime lateFinish;
+
+
+      if (successorRelations.isEmpty())
+      {
+         lateFinish = predecessorRelations.stream().map(r -> calculateLevelOfEffortLateFinishFromPredecessor(activity, r)).max(Comparator.naturalOrder()).orElse(null);
+      }
+      else
+      {
+         lateFinish = successorRelations.stream().map(r -> calculateLevelOfEffortLateFinish(activity, r)).max(Comparator.naturalOrder()).orElse(null);
+      }
 
       activity.setEarlyStart(earlyStart);
       activity.setEarlyFinish(earlyFinish);
@@ -2946,6 +2966,28 @@ public class PrimaveraScheduler implements Scheduler
       return lateStart;
    }
 
+   private LocalDateTime calculateLevelOfEffortLateStartFromSuccessor(Task activity, Relation relation)
+   {
+      Task task = getTaskFromRelation(activity, relation);
+      if (task == relation.getSuccessorTask())
+      {
+         switch(relation.getType())
+         {
+            case FINISH_FINISH:
+            {
+               return task.getLateFinish();
+            }
+
+            default:
+            {
+               return task.getLateStart();
+            }
+         }
+      }
+
+      return LocalDateTime.of(2050, 1, 1, 0, 0);
+   }
+
    private LocalDateTime calculateLevelOfEffortLateFinish(Task activity, Relation relation)
    {
       Task task = getTaskFromRelation(activity, relation);
@@ -2967,6 +3009,13 @@ public class PrimaveraScheduler implements Scheduler
 
       LocalDateTime lateFinish = task.getLateFinish();
       return lateFinish;
+   }
+
+   private LocalDateTime calculateLevelOfEffortLateFinishFromPredecessor(Task activity, Relation relation)
+   {
+      //Task task = getTaskFromRelation(activity, relation);
+      //LocalDateTime lateFinish = task.getLateFinish();
+      return m_projectFinishDate;
    }
 
    private final ProjectFile m_file;
