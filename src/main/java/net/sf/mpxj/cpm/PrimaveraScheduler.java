@@ -2647,375 +2647,347 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
-   private void levelOfEffortPass(Task activity) throws CpmException
+   private void levelOfEffortPass(Task task)
    {
-      List<Relation> predecessors = activity.getPredecessors();
-      List<Relation> successors = activity.getSuccessors();
+      LocalDateTime earlyStartFromPredecessor = null;
+      LocalDateTime earlyFinishFromPredecessor = null;
+      LocalDateTime lateStartFromPredecessor = null;
+      LocalDateTime lateFinishFromPredecessor = null;
 
-      if (predecessors.isEmpty() && successors.isEmpty())
+      for (Relation relation : task.getPredecessors())
       {
-         activity.setEarlyStart(activity.getEffectiveCalendar().getNextWorkStart(m_dataDate));
-         activity.setEarlyFinish(activity.getEarlyStart());
-         activity.setLateStart(m_projectFinishDate);
-         activity.setLateFinish(activity.getLateStart());
-
-         activity.setRemainingEarlyStart(activity.getEarlyStart());
-         activity.setRemainingEarlyFinish(activity.getEarlyFinish());
-         activity.setRemainingLateStart(activity.getLateStart());
-         activity.setRemainingLateFinish(activity.getLateFinish());
-         activity.setStart(activity.getEarlyStart());
-         activity.setFinish(activity.getEarlyFinish());
-         return;
-      }
-
-
-      if (!predecessors.isEmpty() && successors.isEmpty())
-      {
-         Relation relation = predecessors.get(0);
-         Task predecessor = predecessors.get(0).getPredecessorTask();
+         Task predecessor = relation.getPredecessorTask();
 
          switch (relation.getType())
          {
-            case START_START:
+            case  START_START:
             {
-               activity.setEarlyStart(predecessor.getActualStart() == null ? predecessor.getEarlyStart() : predecessor.getActualStart());
-               activity.setEarlyFinish(activity.getEarlyStart());
-               activity.setLateStart(predecessor.getLateStart());
-               activity.setLateFinish(m_projectFinishDate);
-               break;
-            }
+               if (predecessor.getActualStart() == null)
+               {
+                  if (earlyStartFromPredecessor == null)
+                  {
+                     earlyStartFromPredecessor = predecessor.getEarlyStart();
+                  }
 
-            case FINISH_FINISH:
-            {
-               activity.setEarlyStart(activity.getEffectiveCalendar().getNextWorkStart(m_dataDate));
-               activity.setEarlyFinish(predecessor.getActualFinish() == null ? predecessor.getEarlyFinish() : predecessor.getActualFinish());
-               activity.setLateStart(predecessor.getActualFinish() == null ? predecessor.getLateFinish() : predecessor.getActualFinish());
-               activity.setLateFinish(activity.getLateStart());
+                  if (lateStartFromPredecessor == null)
+                  {
+                     lateStartFromPredecessor = predecessor.getLateStart();
+                  }
+               }
+               else
+               {
+                  if (earlyStartFromPredecessor == null)
+                  {
+                     earlyStartFromPredecessor = predecessor.getActualStart();
+                  }
+
+                  if (lateStartFromPredecessor == null)
+                  {
+                     lateStartFromPredecessor = predecessor.getLateStart();
+                  }
+               }
                break;
             }
 
             case FINISH_START:
             {
-               activity.setEarlyStart(predecessor.getActualFinish() == null ? predecessor.getEarlyFinish() : predecessor.getActualFinish());
-               activity.setEarlyFinish(activity.getEarlyStart());
-               activity.setLateStart(predecessor.getActualFinish() == null ? predecessor.getLateFinish() : predecessor.getActualFinish());
-               activity.setLateFinish(m_projectFinishDate);
+               if (predecessor.getActualFinish() == null)
+               {
+                  if (earlyStartFromPredecessor == null)
+                  {
+                     earlyStartFromPredecessor = predecessor.getEarlyFinish();
+                  }
+
+                  if (lateStartFromPredecessor == null)
+                  {
+                     lateStartFromPredecessor = predecessor.getLateFinish();
+                  }
+               }
+               else
+               {
+                  if (earlyStartFromPredecessor == null)
+                  {
+                     earlyStartFromPredecessor = predecessor.getActualFinish();
+                  }
+
+                  if (lateStartFromPredecessor == null)
+                  {
+                     lateStartFromPredecessor = predecessor.getActualFinish();
+                  }
+               }
                break;
             }
 
             case START_FINISH:
             {
-               activity.setEarlyStart(activity.getEffectiveCalendar().getNextWorkStart(m_dataDate));
-               activity.setEarlyFinish(predecessor.getActualStart() == null ? predecessor.getEarlyStart() : predecessor.getActualStart());
-               activity.setLateStart(predecessor.getActualStart() == null ? predecessor.getLateStart() : predecessor.getActualStart());
-               activity.setLateFinish(activity.getLateStart());
-               break;
-            }
-         }
+               if (predecessor.getActualStart() == null)
+               {
+                  if (earlyFinishFromPredecessor == null)
+                  {
+                     earlyFinishFromPredecessor = predecessor.getEarlyStart();
+                  }
 
-         activity.setRemainingEarlyStart(activity.getEarlyStart());
-         activity.setRemainingEarlyFinish(activity.getEarlyFinish());
-         activity.setRemainingLateStart(activity.getLateStart());
-         activity.setRemainingLateFinish(activity.getLateFinish());
-         activity.setStart(activity.getEarlyStart());
-         activity.setFinish(activity.getEarlyFinish());
-         return;
-      }
+                  if (lateFinishFromPredecessor == null)
+                  {
+                     lateFinishFromPredecessor = predecessor.getLateStart();
+                  }
+               }
+               else
+               {
+                  if (earlyFinishFromPredecessor == null)
+                  {
+                     earlyFinishFromPredecessor = predecessor.getActualStart();
+                  }
 
-      if (predecessors.isEmpty() && !successors.isEmpty())
-      {
-         Relation relation = successors.get(0);
-         Task successor = successors.get(0).getSuccessorTask();
-
-         switch (relation.getType())
-         {
-            case START_START:
-            {
-               activity.setEarlyStart(successor.getActualStart() == null ? successor.getEarlyStart() : successor.getActualStart());
-               activity.setEarlyFinish(activity.getEarlyStart());
-               activity.setLateStart(successor.getActualStart() == null ? successor.getLateStart() : successor.getActualStart());
-               activity.setLateFinish(m_projectFinishDate);
+                  if (lateFinishFromPredecessor == null)
+                  {
+                     lateFinishFromPredecessor = predecessor.getActualStart();
+                  }
+               }
                break;
             }
 
             case FINISH_FINISH:
             {
-               activity.setEarlyStart(activity.getEffectiveCalendar().getNextWorkStart(m_dataDate));
-               activity.setEarlyFinish(successor.getActualFinish() == null ? successor.getEarlyFinish() : successor.getActualFinish());
-               activity.setLateStart(successor.getActualFinish() == null ? successor.getLateFinish() : successor.getActualFinish());
-               activity.setLateFinish(activity.getLateStart());
+               if (predecessor.getActualFinish() == null)
+               {
+                  if (earlyFinishFromPredecessor == null)
+                  {
+                     earlyFinishFromPredecessor = predecessor.getEarlyFinish();
+                  }
+
+                  if (lateFinishFromPredecessor == null)
+                  {
+                     lateFinishFromPredecessor = predecessor.getLateFinish();
+                  }
+               }
+               else
+               {
+                  if (earlyFinishFromPredecessor == null)
+                  {
+                     earlyFinishFromPredecessor = predecessor.getActualFinish();
+                  }
+
+                  if (lateFinishFromPredecessor == null)
+                  {
+                     lateFinishFromPredecessor = predecessor.getActualFinish();
+                  }
+               }
+               break;
+            }
+         }
+      }
+
+      LocalDateTime earlyStartFromSuccessor = null;
+      LocalDateTime earlyFinishFromSuccessor = null;
+      LocalDateTime lateStartFromSuccessor = null;
+      LocalDateTime lateFinishFromSuccessor = null;
+
+      for (Relation relation : task.getSuccessors())
+      {
+         Task successor = relation.getSuccessorTask();
+
+         switch (relation.getType())
+         {
+            case START_START:
+            {
+               if (successor.getActualStart() == null)
+               {
+                  if (earlyStartFromSuccessor == null)
+                  {
+                     earlyStartFromSuccessor = successor.getEarlyStart();
+                  }
+
+                  if (lateStartFromSuccessor == null)
+                  {
+                     lateStartFromSuccessor = successor.getLateStart();
+                  }
+               }
+               else
+               {
+                  if (earlyStartFromSuccessor == null)
+                  {
+                     earlyStartFromSuccessor = successor.getActualStart();
+                  }
+
+                  if (lateStartFromSuccessor == null)
+                  {
+                     lateStartFromSuccessor = successor.getActualStart();
+                  }
+               }
+               break;
+            }
+
+            case FINISH_START:
+            {
+               if (successor.getActualStart() == null)
+               {
+                  if (earlyFinishFromSuccessor == null)
+                  {
+                     earlyFinishFromSuccessor = successor.getEarlyStart();
+                  }
+
+                  if (lateFinishFromSuccessor == null)
+                  {
+                     lateFinishFromSuccessor = successor.getLateStart();
+                  }
+               }
+               else
+               {
+                  if (earlyFinishFromSuccessor == null)
+                  {
+                     earlyFinishFromSuccessor = successor.getActualStart();
+                  }
+
+                  if (lateFinishFromSuccessor == null)
+                  {
+                     lateFinishFromSuccessor = successor.getActualStart();
+                  }
+               }
                break;
             }
 
             case START_FINISH:
             {
-               activity.setEarlyStart(successor.getActualFinish() == null ? activity.getEffectiveCalendar().getNextWorkStart(successor.getEarlyFinish()) : successor.getActualFinish());
-               activity.setEarlyFinish(activity.getEarlyStart());
-               activity.setLateStart(successor.getActualFinish() == null ? successor.getLateFinish() : successor.getActualFinish());
-               activity.setLateFinish(m_projectFinishDate);
+               if (successor.getActualFinish() == null)
+               {
+                  if (earlyStartFromSuccessor == null)
+                  {
+                     earlyStartFromSuccessor = successor.getEarlyFinish();
+                  }
+
+                  if (lateStartFromSuccessor == null)
+                  {
+                     lateStartFromSuccessor = successor.getLateFinish();
+                  }
+               }
+               else
+               {
+                  if (earlyStartFromSuccessor == null)
+                  {
+                     earlyStartFromSuccessor = successor.getActualFinish();
+                  }
+
+                  if (lateStartFromSuccessor == null)
+                  {
+                     lateStartFromSuccessor = successor.getActualFinish();
+                  }
+               }
                break;
             }
 
-            case FINISH_START:
+            case FINISH_FINISH:
             {
-               activity.setEarlyStart(activity.getEffectiveCalendar().getNextWorkStart(m_dataDate));
-               activity.setEarlyFinish(successor.getActualStart() == null ? successor.getEarlyStart() : successor.getActualStart());
-               activity.setLateStart(successor.getActualStart() == null ? successor.getLateStart() : successor.getActualStart());
-               activity.setLateFinish(activity.getLateStart());
-               break;
-            }
-         }
+               if (successor.getActualFinish() == null)
+               {
+                  if (earlyFinishFromSuccessor == null)
+                  {
+                     earlyFinishFromSuccessor = successor.getEarlyFinish();
+                  }
 
-         activity.setRemainingEarlyStart(activity.getEarlyStart());
-         activity.setRemainingEarlyFinish(activity.getEarlyFinish());
-         activity.setRemainingLateStart(activity.getLateStart());
-         activity.setRemainingLateFinish(activity.getLateFinish());
-         activity.setStart(activity.getEarlyStart());
-         activity.setFinish(activity.getEarlyFinish());
-         return;
-      }
+                  if (lateFinishFromSuccessor == null)
+                  {
+                     lateFinishFromSuccessor = successor.getLateFinish();
+                  }
+               }
+               else
+               {
+                  if (earlyFinishFromSuccessor == null)
+                  {
+                     earlyFinishFromSuccessor = successor.getActualFinish();
+                  }
 
-      
-      List<Relation> predecessorRelations = new ArrayList<>();
-      List<Relation> successorRelations = new ArrayList<>();
-
-      for(Relation relation : predecessors)
-      {
-         switch(relation.getType())
-         {
-            case START_START:
-            case FINISH_START:
-            {
-               predecessorRelations.add(relation);
-               break;
-            }
-
-            default:
-            {
-               successorRelations.add(relation);
-               break;
-            }
-         }
-      }
-
-      for(Relation relation : successors)
-      {
-         switch(relation.getType())
-         {
-            case START_START:
-            case FINISH_START:
-            {
-               predecessorRelations.add(relation);
-               break;
-            }
-
-            default:
-            {
-               successorRelations.add(relation);
+                  if (lateFinishFromSuccessor == null)
+                  {
+                     lateFinishFromSuccessor = successor.getActualFinish();
+                  }
+               }
                break;
             }
          }
       }
 
       LocalDateTime earlyStart;
-
-      if (predecessorRelations.isEmpty())
+      if (earlyStartFromPredecessor == null && earlyStartFromSuccessor == null)
       {
-         earlyStart = successorRelations.stream().map(r -> calculateLevelOfEffortEarlyStartFromSuccessor(activity, r)).min(Comparator.naturalOrder()).orElse(null);
+         earlyStart = task.getEffectiveCalendar().getNextWorkStart(m_dataDate);
       }
       else
       {
-         earlyStart = predecessorRelations.stream().map(r -> calculateLevelOfEffortEarlyStart(activity, r)).min(Comparator.naturalOrder()).orElse(null);
+         if (earlyStartFromPredecessor != null && earlyStartFromSuccessor != null)
+         {
+            earlyStart = earlyStartFromPredecessor.isBefore(earlyStartFromSuccessor) ? earlyStartFromPredecessor : earlyStartFromSuccessor;
+         }
+         else
+         {
+            earlyStart = earlyStartFromPredecessor == null ? earlyStartFromSuccessor : earlyStartFromPredecessor;
+         }
       }
 
       LocalDateTime earlyFinish;
-      if (successorRelations.isEmpty())
+      if (earlyFinishFromPredecessor == null && earlyFinishFromSuccessor == null)
       {
-         earlyFinish = predecessorRelations.stream().map(r -> calculateLevelOfEffortEarlyFinishFromPredecessor(activity, r)).max(Comparator.naturalOrder()).orElse(null);
+         earlyFinish = earlyStart;
       }
       else
       {
-         earlyFinish = successorRelations.stream().map(r -> calculateLevelOfEffortEarlyFinish(activity, r)).max(Comparator.naturalOrder()).orElse(null);
-      }
-
-      LocalDateTime lateStart;
-
-      if  (predecessorRelations.isEmpty())
-      {
-         lateStart = successorRelations.stream().map(r -> calculateLevelOfEffortLateStartFromSuccessor(activity, r)).min(Comparator.naturalOrder()).orElse(null);
-      }
-      else
-      {
-         lateStart = predecessorRelations.stream().map(r -> calculateLevelOfEffortLateStart(activity, r)).min(Comparator.naturalOrder()).orElse(null);
+         if (earlyFinishFromPredecessor != null && earlyFinishFromSuccessor != null)
+         {
+            // Not correct: how do we deteremine which date to use?
+            earlyFinish = earlyFinishFromSuccessor.isAfter(earlyFinishFromPredecessor) ? earlyFinishFromSuccessor : earlyFinishFromPredecessor;
+         }
+         else
+         {
+            earlyFinish = earlyFinishFromPredecessor == null ? earlyFinishFromSuccessor : earlyFinishFromPredecessor;
+         }
       }
 
       LocalDateTime lateFinish;
-
-
-      if (successorRelations.isEmpty())
+      if (lateFinishFromPredecessor == null && lateFinishFromSuccessor == null)
       {
-         lateFinish = predecessorRelations.stream().map(r -> calculateLevelOfEffortLateFinishFromPredecessor(activity, r)).max(Comparator.naturalOrder()).orElse(null);
+         lateFinish = m_projectFinishDate;
       }
       else
       {
-         lateFinish = successorRelations.stream().map(r -> calculateLevelOfEffortLateFinish(activity, r)).max(Comparator.naturalOrder()).orElse(null);
-      }
-
-      activity.setEarlyStart(earlyStart);
-      activity.setEarlyFinish(earlyFinish);
-      activity.setLateStart(lateStart);
-      activity.setLateFinish(lateFinish);
-
-      activity.setRemainingEarlyStart(activity.getEarlyStart());
-      activity.setRemainingEarlyFinish(activity.getEarlyFinish());
-      activity.setRemainingLateStart(activity.getLateStart());
-      activity.setRemainingLateFinish(activity.getLateFinish());
-      activity.setStart(activity.getEarlyStart());
-      activity.setFinish(activity.getEarlyFinish());
-   }
-
-   private Task getTaskFromRelation(Task task, Relation relation)
-   {
-      return relation.getPredecessorTask() == task ? relation.getSuccessorTask() : relation.getPredecessorTask();
-   }
-
-
-   private LocalDateTime calculateLevelOfEffortEarlyStart(Task activity, Relation relation)
-   {
-      Task task = getTaskFromRelation(activity, relation);
-      if (task == relation.getSuccessorTask())
-      {
-         switch (relation.getType())
+         if (lateFinishFromPredecessor != null && lateFinishFromSuccessor != null)
          {
-            case FINISH_START:
-            {
-               return activity.getEffectiveCalendar().getNextWorkStart(m_dataDate);
-            }
-
-            default:
-            {
-               return task.getEarlyStart();
-            }
+            lateFinish = lateFinishFromSuccessor.isAfter(lateFinishFromPredecessor) ? lateFinishFromSuccessor : lateFinishFromPredecessor;
          }
-      }
-      LocalDateTime earlyStart = task.getEarlyStart();
-      return earlyStart;
-   }
-
-   private LocalDateTime calculateLevelOfEffortEarlyStartFromSuccessor(Task activity, Relation relation)
-   {
-      Task task = getTaskFromRelation(activity, relation);
-
-      if (task == relation.getSuccessorTask())
-      {
-         switch(relation.getType())
+         else
          {
-            case START_FINISH:
-            {
-               return task.getEarlyFinish();
-            }
-
-            case FINISH_FINISH:
-            {
-               return activity.getEffectiveCalendar().getNextWorkStart(m_dataDate);
-            }
-
-            default:
-            {
-               return LocalDateTime.of(2050, 1, 1, 0, 0);
-            }
+            lateFinish = lateFinishFromPredecessor == null ? lateFinishFromSuccessor : lateFinishFromPredecessor;
          }
       }
 
-      return LocalDateTime.of(2050, 1, 1, 0, 0);
-   }
 
-   private LocalDateTime calculateLevelOfEffortEarlyFinish(Task activity, Relation relation)
-   {
-      Task task = getTaskFromRelation(activity, relation);
-      LocalDateTime earlyFinish = task.getEarlyFinish();
-      return earlyFinish;
-   }
-
-   private LocalDateTime calculateLevelOfEffortEarlyFinishFromPredecessor(Task activity, Relation relation)
-   {
-      Task task = getTaskFromRelation(activity, relation);
-      if (task == relation.getPredecessorTask())
+      LocalDateTime lateStart;
+      if (lateStartFromPredecessor == null && lateStartFromSuccessor == null)
       {
-         switch (relation.getType())
+         lateStart = lateFinish;
+      }
+      else
+      {
+         if (lateStartFromPredecessor != null && lateStartFromSuccessor != null)
          {
-            case START_START:
-            {
-               return task.getEarlyStart();
-            }
-
-            default:
-            {
-               return task.getEarlyFinish();
-            }
+            lateStart = lateStartFromPredecessor.isBefore(lateStartFromPredecessor) ? lateStartFromPredecessor : lateStartFromSuccessor;
+         }
+         else
+         {
+            lateStart = lateStartFromPredecessor == null ? lateStartFromSuccessor : lateStartFromPredecessor;
          }
       }
 
-      return LocalDateTime.MIN;
-   }
+      task.setEarlyStart(earlyStart);
+      task.setEarlyFinish(earlyFinish);
+      task.setLateStart(lateStart);
+      task.setLateFinish(lateFinish);
 
-   private LocalDateTime calculateLevelOfEffortLateStart(Task activity, Relation relation)
-   {
-      Task task = getTaskFromRelation(activity, relation);
-      LocalDateTime lateStart = task.getLateStart();
-      return lateStart;
-   }
-
-   private LocalDateTime calculateLevelOfEffortLateStartFromSuccessor(Task activity, Relation relation)
-   {
-      Task task = getTaskFromRelation(activity, relation);
-      if (task == relation.getSuccessorTask())
-      {
-         switch(relation.getType())
-         {
-            case FINISH_FINISH:
-            {
-               return task.getLateFinish();
-            }
-
-            default:
-            {
-               return task.getLateStart();
-            }
-         }
-      }
-
-      return LocalDateTime.of(2050, 1, 1, 0, 0);
-   }
-
-   private LocalDateTime calculateLevelOfEffortLateFinish(Task activity, Relation relation)
-   {
-      Task task = getTaskFromRelation(activity, relation);
-      if (task == relation.getSuccessorTask())
-      {
-         switch (relation.getType())
-         {
-            case FINISH_FINISH:
-            {
-               return task.getLateFinish();
-            }
-
-            default:
-            {
-               return task.getLateStart();
-            }
-         }
-      }
-
-      LocalDateTime lateFinish = task.getLateFinish();
-      return lateFinish;
-   }
-
-   private LocalDateTime calculateLevelOfEffortLateFinishFromPredecessor(Task activity, Relation relation)
-   {
-      //Task task = getTaskFromRelation(activity, relation);
-      //LocalDateTime lateFinish = task.getLateFinish();
-      return m_projectFinishDate;
+      task.setRemainingEarlyStart(task.getEarlyStart());
+      task.setRemainingEarlyFinish(task.getEarlyFinish());
+      task.setRemainingLateStart(task.getLateStart());
+      task.setRemainingLateFinish(task.getLateFinish());
+      task.setStart(task.getEarlyStart());
+      task.setFinish(task.getEarlyFinish());
    }
 
    private final ProjectFile m_file;
