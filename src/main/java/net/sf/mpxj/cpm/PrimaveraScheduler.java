@@ -2969,7 +2969,8 @@ public class PrimaveraScheduler implements Scheduler
       {
          if (lateStartFromPredecessor != null && lateStartFromSuccessor != null)
          {
-            lateStart = lateStartFromPredecessor.isBefore(lateStartFromPredecessor) ? lateStartFromPredecessor : lateStartFromSuccessor;
+            //lateStart = lateStartFromPredecessor.isBefore(lateStartFromPredecessor) ? lateStartFromPredecessor : lateStartFromSuccessor;
+            lateStart = lateStartFromPredecessor;
          }
          else
          {
