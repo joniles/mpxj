@@ -749,7 +749,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
       List<Map<String, Object>> result = new ArrayList<>();
       Integer resourceUniqueID = resource.getUniqueID();
-      String resourceShortName = getResourceShortName(resource);
+      String resourceShortName = WriterHelper.getResourceID(resource);
       String resourceName = StringHelper.stripControlCharacters(resource.getName());
       ResourceType resourceType = resource.getType();
       Integer resourcePrimaryRoleID = resource.getPrimaryRoleUniqueID();
@@ -762,7 +762,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          map.put("rsrc_id", resourceUniqueID);
          map.put("role_id", role.getUniqueID());
          map.put("skill_level", entry.getValue());
-         map.put("role_short_name", getRoleShortName(role));
+         map.put("role_short_name", WriterHelper.getRoleID(role));
          map.put("role_name", StringHelper.stripControlCharacters(role.getName()));
          map.put("rsrc_short_name", resourceShortName);
          map.put("rsrc_name", resourceName);
@@ -1234,22 +1234,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private Stream<ResourceAssignment> getSortedResourceAssignmentStream()
    {
-      return m_file.getResourceAssignments().stream().filter(t -> isValidAssignment(t)).sorted(Comparator.comparing(ResourceAssignment::getUniqueID));
-   }
-
-   /**
-    * Determine if a resource assignment is valid to appear in the XER file.
-    * This avoids writing assignments which do not have a task or a resource
-    * and also avoids writing assignments for the "unknown" resource
-    * used by Microsoft Project.
-    *
-    * @param assignment assignment to test
-    * @return true if this assignment can be written to an XER file
-    */
-   private boolean isValidAssignment(ResourceAssignment assignment)
-   {
-      Task task = assignment.getTask();
-      return assignment.getResource() != null && task != null && task.getUniqueID().intValue() != 0 && !task.getSummary();
+      return m_file.getResourceAssignments().stream().filter(t -> WriterHelper.isValidAssignment(t)).sorted(Comparator.comparing(ResourceAssignment::getUniqueID));
    }
 
    /**
@@ -1354,11 +1339,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return id == null ? DEFAULT_PROJECT_ID : id;
    }
 
-   private static String getActivityID(Task task)
-   {
-      return task.getActivityID() == null ? task.getWBS() : task.getActivityID();
-   }
-
    private static ActivityType getActivityType(Task task)
    {
       ActivityType type = task.getActivityType();
@@ -1393,16 +1373,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return type == null ? PercentCompleteType.DURATION : type;
    }
 
-   private static String getResourceShortName(Resource resource)
-   {
-      return resource.getResourceID() == null || resource.getResourceID().isEmpty() ? RESOURCE_ID_PREFIX + resource.getUniqueID() : resource.getResourceID();
-   }
-
-   private static String getRoleShortName(Resource role)
-   {
-      return role.getResourceID() == null || role.getResourceID().isEmpty() ? ROLE_ID_PREFIX + role.getUniqueID() : role.getResourceID();
-   }
-
    private Charset m_charset = CharsetHelper.CP1252;
    private ProjectFile m_file;
    private XerWriter m_writer;
@@ -1415,8 +1385,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private boolean m_projectFromPrimavera;
 
    private static final Integer DEFAULT_PROJECT_ID = Integer.valueOf(1);
-   private static final String RESOURCE_ID_PREFIX = "RESOURCE-";
-   private static final String ROLE_ID_PREFIX = "ROLE-";
 
    interface ExportFunction<T>
    {
@@ -1459,7 +1427,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ROLE_COLUMNS.put("parent_role_id", r -> r.getParentResourceUniqueID());
       ROLE_COLUMNS.put("seq_num", r -> r.getSequenceNumber());
       ROLE_COLUMNS.put("role_name", r -> StringHelper.stripControlCharacters(r.getName()));
-      ROLE_COLUMNS.put("role_short_name", r -> getRoleShortName(r));
+      ROLE_COLUMNS.put("role_short_name", r -> WriterHelper.getRoleID(r));
       ROLE_COLUMNS.put("pobs_id", r -> "");
       ROLE_COLUMNS.put("def_cost_qty_link_flag", r -> Boolean.valueOf(r.getCalculateCostsFromUnits()));
       ROLE_COLUMNS.put("cost_qty_type", r -> "QT_Hour");
@@ -1513,7 +1481,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("office_phone", r -> "");
       RESOURCE_COLUMNS.put("other_phone", r -> "");
       RESOURCE_COLUMNS.put("rsrc_name", r -> StringHelper.stripControlCharacters(r.getName()));
-      RESOURCE_COLUMNS.put("rsrc_short_name", r -> getResourceShortName(r));
+      RESOURCE_COLUMNS.put("rsrc_short_name", r -> WriterHelper.getResourceID(r));
       RESOURCE_COLUMNS.put("rsrc_title_name", r -> "");
       RESOURCE_COLUMNS.put("def_qty_per_hr", r -> r.getDefaultUnits() == null || r.getDefaultUnits().doubleValue() == 0.0 ? null : Double.valueOf(r.getDefaultUnits().doubleValue() / 100.0));
       RESOURCE_COLUMNS.put("cost_qty_type", r -> "QT_Hour");
@@ -1563,7 +1531,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("critical_drtn_hr_cnt", p -> Double.valueOf(p.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, p).getDuration()));
       PROJECT_COLUMNS.put("def_cost_per_qty", p -> new CurrencyValue(Double.valueOf(100.0)));
       PROJECT_COLUMNS.put("last_recalc_date", p -> p.getStatusDate());
-      PROJECT_COLUMNS.put("plan_start_date", p -> p.getPlannedStart());
+      PROJECT_COLUMNS.put("plan_start_date", p -> WriterHelper.getProjectPlannedStart(p));
       PROJECT_COLUMNS.put("plan_end_date", p -> p.getMustFinishBy());
       PROJECT_COLUMNS.put("scd_end_date", p -> p.getScheduledFinish());
       PROJECT_COLUMNS.put("add_date", p -> p.getCreationDate());
@@ -1672,7 +1640,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("task_type", t -> getActivityType(t));
       ACTIVITY_COLUMNS.put("duration_type", t -> t.getType());
       ACTIVITY_COLUMNS.put("status_code", t -> ActivityStatusHelper.getActivityStatus(t));
-      ACTIVITY_COLUMNS.put("task_code", t -> getActivityID(t));
+      ACTIVITY_COLUMNS.put("task_code", t -> WriterHelper.getActivityID(t));
       ACTIVITY_COLUMNS.put("task_name", t -> StringHelper.stripControlCharacters(t.getName()));
       ACTIVITY_COLUMNS.put("rsrc_id", t -> t.getPrimaryResourceUniqueID());
       ACTIVITY_COLUMNS.put("total_float_hr_cnt", t -> t.getActivityStatus() == ActivityStatus.COMPLETED ? null : t.getTotalSlack());
@@ -1681,7 +1649,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("act_work_qty", t -> WorkHelper.getActualWorkLabor(t));
       ACTIVITY_COLUMNS.put("remain_work_qty", t -> WorkHelper.getRemainingWorkLabor(t));
       ACTIVITY_COLUMNS.put("target_work_qty", t -> WorkHelper.getPlannedWorkLabor(t));
-      ACTIVITY_COLUMNS.put("target_drtn_hr_cnt", t -> t.getPlannedDuration() == null ? Duration.getInstance(0, TimeUnit.HOURS) : t.getPlannedDuration());
+      ACTIVITY_COLUMNS.put("target_drtn_hr_cnt", t -> WriterHelper.getActivityPlannedDuration(t));
       ACTIVITY_COLUMNS.put("target_equip_qty", t -> WorkHelper.zeroIfNull(t.getPlannedWorkNonlabor()));
       ACTIVITY_COLUMNS.put("act_equip_qty", t -> WorkHelper.zeroIfNull(t.getActualWorkNonlabor()));
       ACTIVITY_COLUMNS.put("remain_equip_qty", t -> WorkHelper.zeroIfNull(t.getRemainingWorkNonlabor()));
