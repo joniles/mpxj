@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -1365,6 +1366,20 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return type == null ? ActivityTypeHelper.EXISTING_ACTIVITY_DEFAULT_TYPE : type;
    }
 
+   private static Duration getActivityPlannedDuration(Task task)
+   {
+      Duration duration = task.getPlannedDuration();
+      if (duration == null)
+      {
+         duration = task.getDuration();
+         if (duration == null)
+         {
+            duration = Duration.getInstance(0, TimeUnit.HOURS);
+         }
+      }
+      return duration;
+   }
+
    private static String getProjectShortName(ProjectProperties props)
    {
       String shortName = props.getProjectID();
@@ -1373,6 +1388,16 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          shortName = "PROJECT";
       }
       return shortName;
+   }
+
+   private static LocalDateTime getProjectPlannedStart(ProjectProperties props)
+   {
+      LocalDateTime date = props.getPlannedStart();
+      if (props.getPlannedStart() == null)
+      {
+         date = props.getParentFile().getEarliestStartDate();
+      }
+      return date;
    }
 
    private static Integer getSequenceNumber(Task task)
@@ -1563,7 +1588,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("critical_drtn_hr_cnt", p -> Double.valueOf(p.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, p).getDuration()));
       PROJECT_COLUMNS.put("def_cost_per_qty", p -> new CurrencyValue(Double.valueOf(100.0)));
       PROJECT_COLUMNS.put("last_recalc_date", p -> p.getStatusDate());
-      PROJECT_COLUMNS.put("plan_start_date", p -> p.getPlannedStart());
+      PROJECT_COLUMNS.put("plan_start_date", p -> getProjectPlannedStart(p));
       PROJECT_COLUMNS.put("plan_end_date", p -> p.getMustFinishBy());
       PROJECT_COLUMNS.put("scd_end_date", p -> p.getScheduledFinish());
       PROJECT_COLUMNS.put("add_date", p -> p.getCreationDate());
@@ -1681,7 +1706,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("act_work_qty", t -> WorkHelper.getActualWorkLabor(t));
       ACTIVITY_COLUMNS.put("remain_work_qty", t -> WorkHelper.getRemainingWorkLabor(t));
       ACTIVITY_COLUMNS.put("target_work_qty", t -> WorkHelper.getPlannedWorkLabor(t));
-      ACTIVITY_COLUMNS.put("target_drtn_hr_cnt", t -> t.getPlannedDuration() == null ? Duration.getInstance(0, TimeUnit.HOURS) : t.getPlannedDuration());
+      ACTIVITY_COLUMNS.put("target_drtn_hr_cnt", t -> getActivityPlannedDuration(t));
       ACTIVITY_COLUMNS.put("target_equip_qty", t -> WorkHelper.zeroIfNull(t.getPlannedWorkNonlabor()));
       ACTIVITY_COLUMNS.put("act_equip_qty", t -> WorkHelper.zeroIfNull(t.getActualWorkNonlabor()));
       ACTIVITY_COLUMNS.put("remain_equip_qty", t -> WorkHelper.zeroIfNull(t.getRemainingWorkNonlabor()));
