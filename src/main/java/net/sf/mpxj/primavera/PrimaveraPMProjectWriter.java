@@ -580,11 +580,6 @@ final class PrimaveraPMProjectWriter
       ProjectProperties mpxj = m_projectFile.getProjectProperties();
       String projectID = getProjectID(mpxj);
 
-      //
-      // P6 import may fail if planned start is not populated
-      //
-      LocalDateTime plannedStart = Optional.ofNullable(Optional.ofNullable(mpxj.getPlannedStart()).orElseGet(mpxj::getStartDate)).orElseGet(mpxj::getCurrentDate);
-
       project.setActivityDefaultActivityType(ActivityTypeHelper.getXmlFromInstance(ActivityTypeHelper.NEW_ACTIVITY_DEFAULT_TYPE));
       project.setActivityDefaultCalendarObjectId(mpxj.getDefaultCalendarUniqueID());
       project.setActivityDefaultDurationType(TaskTypeHelper.getXmlFromInstance(TaskType.FIXED_DURATION_AND_UNITS));
@@ -626,7 +621,7 @@ final class PrimaveraPMProjectWriter
       project.setMustFinishByDate(mpxj.getMustFinishBy());
       project.setName(mpxj.getName() == null ? projectID : mpxj.getName());
       project.setObjectId(m_projectObjectID);
-      project.setPlannedStartDate(plannedStart);
+      project.setPlannedStartDate(WriterHelper.getProjectPlannedStart(mpxj));
       project.setPrimaryResourcesCanMarkActivitiesAsCompleted(Boolean.TRUE);
       project.setRelationshipLagCalendar(RelationshipLagCalendarHelper.getXmlFromInstance(mpxj.getRelationshipLagCalendar()));
       project.setResetPlannedToRemainingFlag(Boolean.FALSE);
@@ -656,11 +651,6 @@ final class PrimaveraPMProjectWriter
    {
       ProjectProperties mpxj = m_projectFile.getProjectProperties();
       String projectID = getProjectID(mpxj);
-
-      //
-      // P6 import may fail if planned start is not populated
-      //
-      LocalDateTime plannedStart = Optional.ofNullable(mpxj.getPlannedStart()).orElseGet(mpxj::getStartDate);
 
       project.setActivityDefaultActivityType(ActivityTypeHelper.getXmlFromInstance(ActivityTypeHelper.NEW_ACTIVITY_DEFAULT_TYPE));
       project.setActivityDefaultCalendarObjectId(mpxj.getDefaultCalendarUniqueID());
@@ -697,7 +687,7 @@ final class PrimaveraPMProjectWriter
       project.setMustFinishByDate(mpxj.getMustFinishBy());
       project.setName(mpxj.getName() == null ? projectID : mpxj.getName());
       project.setObjectId(m_projectObjectID);
-      project.setPlannedStartDate(plannedStart);
+      project.setPlannedStartDate(WriterHelper.getProjectPlannedStart(mpxj));
       project.setPrimaryResourcesCanMarkActivitiesAsCompleted(Boolean.TRUE);
       project.setResetPlannedToRemainingFlag(Boolean.FALSE);
       project.setResourceCanBeAssignedToSameActivityMoreThanOnce(Boolean.TRUE);
@@ -945,7 +935,7 @@ final class PrimaveraPMProjectWriter
       xml.setEmailAddress(mpxj.getEmailAddress());
       xml.setEmployeeId(mpxj.getCode());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
-      xml.setId(getResourceID(mpxj));
+      xml.setId(WriterHelper.getResourceID(mpxj));
       xml.setIsActive(Boolean.valueOf(mpxj.getActive()));
       xml.setName(name);
       xml.setObjectId(mpxj.getUniqueID());
@@ -989,7 +979,7 @@ final class PrimaveraPMProjectWriter
 
       xml.setObjectId(mpxj.getUniqueID());
       xml.setName(mpxj.getName());
-      xml.setId(getRoleID(mpxj));
+      xml.setId(WriterHelper.getRoleID(mpxj));
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setResponsibilities(getNotes(mpxj.getNotesObject()));
       xml.setSequenceNumber(mpxj.getSequenceNumber());
@@ -1168,7 +1158,7 @@ final class PrimaveraPMProjectWriter
       xml.setExternalLateFinishDate(mpxj.getExternalLateFinish());
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
-      xml.setId(mpxj.getActivityID() == null ? mpxj.getWBS() : mpxj.getActivityID());
+      xml.setId(WriterHelper.getActivityID(mpxj));
       // Note that P6 doesn't write this attribute to PMXML, but appears to read it
       xml.setIsLongestPath(mpxj.getLongestPath() ? Boolean.TRUE : null);
       xml.setLevelingPriority(PriorityHelper.getXmlFromInstance(mpxj.getPriority()));
@@ -1227,19 +1217,7 @@ final class PrimaveraPMProjectWriter
    {
       List<ResourceAssignment> assignments = new ArrayList<>();
       m_projectFile.getTasks().forEach(t -> assignments.addAll(t.getResourceAssignments()));
-
-      for (ResourceAssignment assignment : assignments)
-      {
-         Resource resource = assignment.getResource();
-         if (resource != null)
-         {
-            Task task = assignment.getTask();
-            if (task != null && task.getUniqueID().intValue() != 0 && !task.getSummary())
-            {
-               writeAssignment(assignment);
-            }
-         }
-      }
+      assignments.stream().filter(a -> WriterHelper.isValidAssignment(a)).forEach(a -> writeAssignment(a));
    }
 
    /**
@@ -2276,30 +2254,6 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * Generate a default Resource ID for a resource.
-    *
-    * @param resource Resource instance
-    * @return generated Resource ID
-    */
-   private String getResourceID(Resource resource)
-   {
-      String id = resource.getResourceID();
-      return id == null || id.isEmpty() ? RESOURCE_ID_PREFIX + resource.getUniqueID() : id;
-   }
-
-   /**
-    * Generate a default Role ID for a role.
-    *
-    * @param role Resource instance
-    * @return generated Role ID
-    */
-   private String getRoleID(Resource role)
-   {
-      String id = role.getResourceID();
-      return id == null || id.isEmpty() ? ROLE_ID_PREFIX + role.getResourceID() : id;
-   }
-
-   /**
     * Package-private accessor method used to retrieve the project file
     * currently being processed by this writer.
     *
@@ -2311,8 +2265,6 @@ final class PrimaveraPMProjectWriter
    }
 
    private static final String DEFAULT_PROJECT_ID = "PROJECT";
-   private static final String RESOURCE_ID_PREFIX = "RESOURCE-";
-   private static final String ROLE_ID_PREFIX = "ROLE-";
    private static final Integer DEFAULT_CURRENCY_ID = Integer.valueOf(1);
 
    private static final String[] DAY_NAMES =

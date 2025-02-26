@@ -14,6 +14,7 @@
 			<action dev="joniles" type="update">Added the `GanttChartView` method `getGanttBarStyleByID()`.</action>
 			<action dev="joniles" type="update">Marked the `GanttBarStyleException#getBarStyleIndex()` method as deprecated. Use the `GanttBarStyleException#getGanttBarStyleID()` method to retrieve the Gantt Bar Style ID, then use the view's `getGanttBarStyleByID()` method to retrieve a list of matching styles.</action>
 			<action dev="joniles" type="update">Added the `Duration#negate()` method to simplify negating a duration.</action>
+			<action dev="joniles" type="update">Improve provision of default values for Project Planned Start date and Activity Planned Duration when writing XER files.</action>
 		</release>
 		<release date="2025-02-07" version="13.10.0">
 			<action dev="joniles" type="update">Add support for reading the P6 EPS using the `listEps()` method provided by the `PrimaveraDatabaseReader` and `PrimaveraDatabaseFileReader` classes.</action>
