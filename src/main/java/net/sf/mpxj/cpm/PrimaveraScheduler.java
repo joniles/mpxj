@@ -2660,7 +2660,7 @@ public class PrimaveraScheduler implements Scheduler
 
          switch (relation.getType())
          {
-            case  START_START:
+            case START_START:
             {
                if (predecessor.getActualStart() == null)
                {
@@ -2753,24 +2753,24 @@ public class PrimaveraScheduler implements Scheduler
                {
                   if (earlyFinishFromPredecessor == null)
                   {
-                     earlyFinishFromPredecessor = predecessor.getEarlyFinish();
+                     earlyFinishFromPredecessor = addLag(relation, predecessor.getEarlyFinish());
                   }
 
                   if (lateFinishFromPredecessor == null)
                   {
-                     lateFinishFromPredecessor = predecessor.getLateFinish();
+                     lateFinishFromPredecessor = addLag(relation, predecessor.getLateFinish());
                   }
                }
                else
                {
                   if (earlyFinishFromPredecessor == null)
                   {
-                     earlyFinishFromPredecessor = predecessor.getActualFinish();
+                     earlyFinishFromPredecessor = addLag(relation, predecessor.getActualFinish());
                   }
 
                   if (lateFinishFromPredecessor == null)
                   {
-                     lateFinishFromPredecessor = predecessor.getActualFinish();
+                     lateFinishFromPredecessor = addLag(relation, predecessor.getActualFinish());
                   }
                }
                break;
