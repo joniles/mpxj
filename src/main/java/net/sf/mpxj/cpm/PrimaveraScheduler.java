@@ -2695,24 +2695,24 @@ public class PrimaveraScheduler implements Scheduler
                {
                   if (earlyStartFromPredecessor == null)
                   {
-                     earlyStartFromPredecessor = predecessor.getEarlyFinish();
+                     earlyStartFromPredecessor = addLag(relation, predecessor.getEarlyFinish());
                   }
 
                   if (lateStartFromPredecessor == null)
                   {
-                     lateStartFromPredecessor = predecessor.getLateFinish();
+                     lateStartFromPredecessor = addLag(relation, predecessor.getLateFinish());
                   }
                }
                else
                {
                   if (earlyStartFromPredecessor == null)
                   {
-                     earlyStartFromPredecessor = predecessor.getActualFinish();
+                     earlyStartFromPredecessor = addLag(relation, predecessor.getActualFinish());
                   }
 
                   if (lateStartFromPredecessor == null)
                   {
-                     lateStartFromPredecessor = predecessor.getActualFinish();
+                     lateStartFromPredecessor = addLag(relation, predecessor.getActualFinish());
                   }
                }
                break;
