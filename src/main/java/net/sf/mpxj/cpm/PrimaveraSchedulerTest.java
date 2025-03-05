@@ -101,7 +101,12 @@ public class PrimaveraSchedulerTest
 
       try
       {
-         scheduler.process(m_workingFile.getProjectProperties().getStartDate());
+         LocalDateTime start = m_workingFile.getProjectProperties().getPlannedStart();
+         if (start == null)
+         {
+            start = m_workingFile.getProjectProperties().getStartDate();
+         }
+         scheduler.process(start);
       }
 
       catch(CpmException ex)
@@ -352,6 +357,7 @@ public class PrimaveraSchedulerTest
       USE_SCHEDULED_COPY.add("doubtful-contractor.xer");
       USE_SCHEDULED_COPY.add("aloof-proton.xer");
       USE_SCHEDULED_COPY.add("outstanding-vaudeville.xer");
+      USE_SCHEDULED_COPY.add("warm-bastion.encoding.xer");
    }
 
    private static final Set<String> NO_WBS_TEST = new HashSet<>();
