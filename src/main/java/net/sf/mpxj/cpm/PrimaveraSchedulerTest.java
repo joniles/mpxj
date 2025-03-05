@@ -101,7 +101,7 @@ public class PrimaveraSchedulerTest
 
       try
       {
-         scheduler.process(m_workingFile.getProjectProperties().getStartDate());
+         scheduler.process(m_workingFile.getProjectProperties().getPlannedStart());
       }
 
       catch(CpmException ex)
