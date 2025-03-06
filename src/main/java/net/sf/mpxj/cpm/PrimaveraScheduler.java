@@ -2654,6 +2654,11 @@ public class PrimaveraScheduler implements Scheduler
       LocalDateTime lateStartFromPredecessor = null;
       LocalDateTime lateFinishFromPredecessor = null;
 
+      boolean earlyStartFromPredecessorIsActual = false;
+      boolean earlyFinishFromPredecessorIsActual = false;
+      boolean lateStartFromPredecessorIsActual = false;
+      boolean lateFinishFromPredecessorIsActual = false;
+
       for (Relation relation : task.getPredecessors())
       {
          Task predecessor = relation.getPredecessorTask();
@@ -2679,6 +2684,7 @@ public class PrimaveraScheduler implements Scheduler
                   if (earlyStartFromPredecessor == null)
                   {
                      earlyStartFromPredecessor = addLag(relation, predecessor.getActualStart());
+                     earlyStartFromPredecessorIsActual = true;
                   }
 
                   if (lateStartFromPredecessor == null)
@@ -2708,11 +2714,13 @@ public class PrimaveraScheduler implements Scheduler
                   if (earlyStartFromPredecessor == null)
                   {
                      earlyStartFromPredecessor = addLag(relation, predecessor.getActualFinish());
+                     earlyStartFromPredecessorIsActual = true;
                   }
 
                   if (lateStartFromPredecessor == null)
                   {
                      lateStartFromPredecessor = addLag(relation, predecessor.getActualFinish());
+                     lateStartFromPredecessorIsActual = true;
                   }
                }
                break;
@@ -2737,11 +2745,13 @@ public class PrimaveraScheduler implements Scheduler
                   if (earlyFinishFromPredecessor == null)
                   {
                      earlyFinishFromPredecessor = addLag(relation, predecessor.getActualStart());
+                     earlyFinishFromPredecessorIsActual = true;
                   }
 
                   if (lateFinishFromPredecessor == null)
                   {
                      lateFinishFromPredecessor = addLag(relation, predecessor.getActualStart());
+                     lateFinishFromPredecessorIsActual = true;
                   }
                }
                break;
@@ -2766,11 +2776,13 @@ public class PrimaveraScheduler implements Scheduler
                   if (earlyFinishFromPredecessor == null)
                   {
                      earlyFinishFromPredecessor = addLag(relation, predecessor.getActualFinish());
+                     earlyFinishFromPredecessorIsActual = true;
                   }
 
                   if (lateFinishFromPredecessor == null)
                   {
                      lateFinishFromPredecessor = addLag(relation, predecessor.getActualFinish());
+                     lateStartFromPredecessorIsActual = true;
                   }
                }
                break;
@@ -2782,6 +2794,11 @@ public class PrimaveraScheduler implements Scheduler
       LocalDateTime earlyFinishFromSuccessor = null;
       LocalDateTime lateStartFromSuccessor = null;
       LocalDateTime lateFinishFromSuccessor = null;
+
+      boolean earlyStartFromSuccessorIsActual = false;
+      boolean earlyFinishFromSuccessorIsActual = false;
+      boolean lateStartFromSuccessorIsActual = false;
+      boolean lateFinishFromSuccessorIsActual = false;
 
       for (Relation relation : task.getSuccessors())
       {
@@ -2808,11 +2825,13 @@ public class PrimaveraScheduler implements Scheduler
                   if (earlyStartFromSuccessor == null)
                   {
                      earlyStartFromSuccessor = removeLag(relation, successor.getActualStart());
+                     earlyStartFromSuccessorIsActual = true;
                   }
 
                   if (lateStartFromSuccessor == null)
                   {
                      lateStartFromSuccessor = removeLag(relation, successor.getActualStart());
+                     lateStartFromSuccessorIsActual = true;
                   }
                }
                break;
@@ -2837,11 +2856,13 @@ public class PrimaveraScheduler implements Scheduler
                   if (earlyFinishFromSuccessor == null)
                   {
                      earlyFinishFromSuccessor = successor.getActualStart();
+                     earlyFinishFromSuccessorIsActual = true;
                   }
 
                   if (lateFinishFromSuccessor == null)
                   {
                      lateFinishFromSuccessor = successor.getActualStart();
+                     lateFinishFromSuccessorIsActual = true;
                   }
                }
                break;
@@ -2866,11 +2887,13 @@ public class PrimaveraScheduler implements Scheduler
                   if (earlyStartFromSuccessor == null)
                   {
                      earlyStartFromSuccessor = successor.getActualFinish();
+                     earlyStartFromSuccessorIsActual = true;
                   }
 
                   if (lateStartFromSuccessor == null)
                   {
                      lateStartFromSuccessor = successor.getActualFinish();
+                     lateStartFromSuccessorIsActual = true;
                   }
                }
                break;
@@ -2895,11 +2918,13 @@ public class PrimaveraScheduler implements Scheduler
                   if (earlyFinishFromSuccessor == null)
                   {
                      earlyFinishFromSuccessor = successor.getActualFinish();
+                     earlyFinishFromSuccessorIsActual = true;
                   }
 
                   if (lateFinishFromSuccessor == null)
                   {
                      lateFinishFromSuccessor = successor.getActualFinish();
+                     lateFinishFromSuccessorIsActual = true;
                   }
                }
                break;
@@ -2933,7 +2958,7 @@ public class PrimaveraScheduler implements Scheduler
       {
          if (earlyFinishFromPredecessor != null && earlyFinishFromSuccessor != null)
          {
-            // Not correct: how do we deteremine which date to use?
+            // Not correct: how do we determine which date to use?
             earlyFinish = earlyFinishFromSuccessor.isAfter(earlyFinishFromPredecessor) ? earlyFinishFromSuccessor : earlyFinishFromPredecessor;
          }
          else
@@ -2969,7 +2994,6 @@ public class PrimaveraScheduler implements Scheduler
       {
          if (lateStartFromPredecessor != null && lateStartFromSuccessor != null)
          {
-            //lateStart = lateStartFromPredecessor.isBefore(lateStartFromPredecessor) ? lateStartFromPredecessor : lateStartFromSuccessor;
             lateStart = lateStartFromPredecessor;
          }
          else
@@ -2978,17 +3002,32 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
+      task.setStart(earlyStart);
+
+      if (earlyStart.isBefore(m_dataDate))
+      {
+         earlyStart = m_dataDate;
+      }
+
+      if (earlyFinish.isBefore(m_dataDate))
+      {
+         earlyFinish = m_dataDate;
+      }
+
+      // This logic is wrong, we need to replace the calculated early dates with the datadate based on whether
+      // the date is an actual date.
+
+      task.setFinish(earlyFinish);
+
       task.setEarlyStart(earlyStart);
       task.setEarlyFinish(earlyFinish);
       task.setLateStart(lateStart);
       task.setLateFinish(lateFinish);
 
-      task.setRemainingEarlyStart(task.getEarlyStart());
-      task.setRemainingEarlyFinish(task.getEarlyFinish());
-      task.setRemainingLateStart(task.getLateStart());
-      task.setRemainingLateFinish(task.getLateFinish());
-      task.setStart(task.getEarlyStart());
-      task.setFinish(task.getEarlyFinish());
+      task.setRemainingEarlyStart(earlyStart);
+      task.setRemainingEarlyFinish(earlyFinish);
+      task.setRemainingLateStart(lateStart);
+      task.setRemainingLateFinish(lateFinish);
    }
 
    private final ProjectFile m_file;
