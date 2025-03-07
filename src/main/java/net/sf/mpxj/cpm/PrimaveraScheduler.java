@@ -23,6 +23,7 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.LocalDateTimeHelper;
+import org.glassfish.jaxb.runtime.v2.schemagen.xmlschema.Annotated;
 
 public class PrimaveraScheduler implements Scheduler
 {
@@ -2649,15 +2650,10 @@ public class PrimaveraScheduler implements Scheduler
 
    private void levelOfEffortPass(Task task)
    {
-      LocalDateTime earlyStartFromPredecessor = null;
-      LocalDateTime earlyFinishFromPredecessor = null;
-      LocalDateTime lateStartFromPredecessor = null;
-      LocalDateTime lateFinishFromPredecessor = null;
-
-      boolean earlyStartFromPredecessorIsActual = false;
-      boolean earlyFinishFromPredecessorIsActual = false;
-      boolean lateStartFromPredecessorIsActual = false;
-      boolean lateFinishFromPredecessorIsActual = false;
+      AnnotatedDateTime earlyStartFromPredecessor = null;
+      AnnotatedDateTime earlyFinishFromPredecessor = null;
+      AnnotatedDateTime lateStartFromPredecessor = null;
+      AnnotatedDateTime lateFinishFromPredecessor = null;
 
       for (Relation relation : task.getPredecessors())
       {
@@ -2671,25 +2667,24 @@ public class PrimaveraScheduler implements Scheduler
                {
                   if (earlyStartFromPredecessor == null)
                   {
-                     earlyStartFromPredecessor = addLag(relation, predecessor.getEarlyStart());
+                     earlyStartFromPredecessor = AnnotatedDateTime.from(addLag(relation, predecessor.getEarlyStart()));
                   }
 
                   if (lateStartFromPredecessor == null)
                   {
-                     lateStartFromPredecessor = addLag(relation, predecessor.getLateStart());
+                     lateStartFromPredecessor = AnnotatedDateTime.from(addLag(relation, predecessor.getLateStart()));
                   }
                }
                else
                {
                   if (earlyStartFromPredecessor == null)
                   {
-                     earlyStartFromPredecessor = addLag(relation, predecessor.getActualStart());
-                     earlyStartFromPredecessorIsActual = true;
+                     earlyStartFromPredecessor = AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualStart()));
                   }
 
                   if (lateStartFromPredecessor == null)
                   {
-                     lateStartFromPredecessor = addLag(relation, predecessor.getLateStart());
+                     lateStartFromPredecessor = AnnotatedDateTime.from(addLag(relation, predecessor.getLateStart()));
                   }
                }
                break;
@@ -2701,26 +2696,24 @@ public class PrimaveraScheduler implements Scheduler
                {
                   if (earlyStartFromPredecessor == null)
                   {
-                     earlyStartFromPredecessor = addLag(relation, predecessor.getEarlyFinish());
+                     earlyStartFromPredecessor = AnnotatedDateTime.from(addLag(relation, predecessor.getEarlyFinish()));
                   }
 
                   if (lateStartFromPredecessor == null)
                   {
-                     lateStartFromPredecessor = addLag(relation, predecessor.getLateFinish());
+                     lateStartFromPredecessor = AnnotatedDateTime.from(addLag(relation, predecessor.getLateFinish()));
                   }
                }
                else
                {
                   if (earlyStartFromPredecessor == null)
                   {
-                     earlyStartFromPredecessor = addLag(relation, predecessor.getActualFinish());
-                     earlyStartFromPredecessorIsActual = true;
+                     earlyStartFromPredecessor = AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualFinish()));
                   }
 
                   if (lateStartFromPredecessor == null)
                   {
-                     lateStartFromPredecessor = addLag(relation, predecessor.getActualFinish());
-                     lateStartFromPredecessorIsActual = true;
+                     lateStartFromPredecessor = AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualFinish()));
                   }
                }
                break;
@@ -2732,26 +2725,24 @@ public class PrimaveraScheduler implements Scheduler
                {
                   if (earlyFinishFromPredecessor == null)
                   {
-                     earlyFinishFromPredecessor = addLag(relation, predecessor.getEarlyStart());
+                     earlyFinishFromPredecessor = AnnotatedDateTime.from(addLag(relation, predecessor.getEarlyStart()));
                   }
 
                   if (lateFinishFromPredecessor == null)
                   {
-                     lateFinishFromPredecessor = addLag(relation, predecessor.getLateStart());
+                     lateFinishFromPredecessor = AnnotatedDateTime.from(addLag(relation, predecessor.getLateStart()));
                   }
                }
                else
                {
                   if (earlyFinishFromPredecessor == null)
                   {
-                     earlyFinishFromPredecessor = addLag(relation, predecessor.getActualStart());
-                     earlyFinishFromPredecessorIsActual = true;
+                     earlyFinishFromPredecessor = AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualStart()));
                   }
 
                   if (lateFinishFromPredecessor == null)
                   {
-                     lateFinishFromPredecessor = addLag(relation, predecessor.getActualStart());
-                     lateFinishFromPredecessorIsActual = true;
+                     lateFinishFromPredecessor = AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualStart()));
                   }
                }
                break;
@@ -2763,26 +2754,24 @@ public class PrimaveraScheduler implements Scheduler
                {
                   if (earlyFinishFromPredecessor == null)
                   {
-                     earlyFinishFromPredecessor = addLag(relation, predecessor.getEarlyFinish());
+                     earlyFinishFromPredecessor = AnnotatedDateTime.from(addLag(relation, predecessor.getEarlyFinish()));
                   }
 
                   if (lateFinishFromPredecessor == null)
                   {
-                     lateFinishFromPredecessor = addLag(relation, predecessor.getLateFinish());
+                     lateFinishFromPredecessor = AnnotatedDateTime.from(addLag(relation, predecessor.getLateFinish()));
                   }
                }
                else
                {
                   if (earlyFinishFromPredecessor == null)
                   {
-                     earlyFinishFromPredecessor = addLag(relation, predecessor.getActualFinish());
-                     earlyFinishFromPredecessorIsActual = true;
+                     earlyFinishFromPredecessor = AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualFinish()));
                   }
 
                   if (lateFinishFromPredecessor == null)
                   {
-                     lateFinishFromPredecessor = addLag(relation, predecessor.getActualFinish());
-                     lateStartFromPredecessorIsActual = true;
+                     lateFinishFromPredecessor = AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualFinish()));
                   }
                }
                break;
@@ -2790,15 +2779,10 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      LocalDateTime earlyStartFromSuccessor = null;
-      LocalDateTime earlyFinishFromSuccessor = null;
-      LocalDateTime lateStartFromSuccessor = null;
-      LocalDateTime lateFinishFromSuccessor = null;
-
-      boolean earlyStartFromSuccessorIsActual = false;
-      boolean earlyFinishFromSuccessorIsActual = false;
-      boolean lateStartFromSuccessorIsActual = false;
-      boolean lateFinishFromSuccessorIsActual = false;
+      AnnotatedDateTime earlyStartFromSuccessor = null;
+      AnnotatedDateTime earlyFinishFromSuccessor = null;
+      AnnotatedDateTime lateStartFromSuccessor = null;
+      AnnotatedDateTime lateFinishFromSuccessor = null;
 
       for (Relation relation : task.getSuccessors())
       {
@@ -2812,26 +2796,24 @@ public class PrimaveraScheduler implements Scheduler
                {
                   if (earlyStartFromSuccessor == null)
                   {
-                     earlyStartFromSuccessor = removeLag(relation, successor.getEarlyStart());
+                     earlyStartFromSuccessor = AnnotatedDateTime.from(removeLag(relation, successor.getEarlyStart()));
                   }
 
                   if (lateStartFromSuccessor == null)
                   {
-                     lateStartFromSuccessor = removeLag(relation, successor.getLateStart());
+                     lateStartFromSuccessor = AnnotatedDateTime.from(removeLag(relation, successor.getLateStart()));
                   }
                }
                else
                {
                   if (earlyStartFromSuccessor == null)
                   {
-                     earlyStartFromSuccessor = removeLag(relation, successor.getActualStart());
-                     earlyStartFromSuccessorIsActual = true;
+                     earlyStartFromSuccessor = AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualStart()));
                   }
 
                   if (lateStartFromSuccessor == null)
                   {
-                     lateStartFromSuccessor = removeLag(relation, successor.getActualStart());
-                     lateStartFromSuccessorIsActual = true;
+                     lateStartFromSuccessor = AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualStart()));
                   }
                }
                break;
@@ -2843,26 +2825,24 @@ public class PrimaveraScheduler implements Scheduler
                {
                   if (earlyFinishFromSuccessor == null)
                   {
-                     earlyFinishFromSuccessor = successor.getEarlyStart();
+                     earlyFinishFromSuccessor = AnnotatedDateTime.from(successor.getEarlyStart());
                   }
 
                   if (lateFinishFromSuccessor == null)
                   {
-                     lateFinishFromSuccessor = successor.getLateStart();
+                     lateFinishFromSuccessor = AnnotatedDateTime.from(successor.getLateStart());
                   }
                }
                else
                {
                   if (earlyFinishFromSuccessor == null)
                   {
-                     earlyFinishFromSuccessor = successor.getActualStart();
-                     earlyFinishFromSuccessorIsActual = true;
+                     earlyFinishFromSuccessor = AnnotatedDateTime.fromActual(successor.getActualStart());
                   }
 
                   if (lateFinishFromSuccessor == null)
                   {
-                     lateFinishFromSuccessor = successor.getActualStart();
-                     lateFinishFromSuccessorIsActual = true;
+                     lateFinishFromSuccessor = AnnotatedDateTime.fromActual(successor.getActualStart());
                   }
                }
                break;
@@ -2874,26 +2854,24 @@ public class PrimaveraScheduler implements Scheduler
                {
                   if (earlyStartFromSuccessor == null)
                   {
-                     earlyStartFromSuccessor = successor.getEarlyFinish();
+                     earlyStartFromSuccessor = AnnotatedDateTime.from(successor.getEarlyFinish());
                   }
 
                   if (lateStartFromSuccessor == null)
                   {
-                     lateStartFromSuccessor = successor.getLateFinish();
+                     lateStartFromSuccessor = AnnotatedDateTime.from(successor.getLateFinish());
                   }
                }
                else
                {
                   if (earlyStartFromSuccessor == null)
                   {
-                     earlyStartFromSuccessor = successor.getActualFinish();
-                     earlyStartFromSuccessorIsActual = true;
+                     earlyStartFromSuccessor = AnnotatedDateTime.fromActual(successor.getActualFinish());
                   }
 
                   if (lateStartFromSuccessor == null)
                   {
-                     lateStartFromSuccessor = successor.getActualFinish();
-                     lateStartFromSuccessorIsActual = true;
+                     lateStartFromSuccessor = AnnotatedDateTime.fromActual(successor.getActualFinish());
                   }
                }
                break;
@@ -2905,26 +2883,24 @@ public class PrimaveraScheduler implements Scheduler
                {
                   if (earlyFinishFromSuccessor == null)
                   {
-                     earlyFinishFromSuccessor = successor.getEarlyFinish();
+                     earlyFinishFromSuccessor = AnnotatedDateTime.from(successor.getEarlyFinish());
                   }
 
                   if (lateFinishFromSuccessor == null)
                   {
-                     lateFinishFromSuccessor = successor.getLateFinish();
+                     lateFinishFromSuccessor = AnnotatedDateTime.from(successor.getLateFinish());
                   }
                }
                else
                {
                   if (earlyFinishFromSuccessor == null)
                   {
-                     earlyFinishFromSuccessor = successor.getActualFinish();
-                     earlyFinishFromSuccessorIsActual = true;
+                     earlyFinishFromSuccessor = AnnotatedDateTime.fromActual(successor.getActualFinish());
                   }
 
                   if (lateFinishFromSuccessor == null)
                   {
-                     lateFinishFromSuccessor = successor.getActualFinish();
-                     lateFinishFromSuccessorIsActual = true;
+                     lateFinishFromSuccessor = AnnotatedDateTime.fromActual(successor.getActualFinish());
                   }
                }
                break;
@@ -2932,10 +2908,10 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      LocalDateTime earlyStart;
+      AnnotatedDateTime earlyStart;
       if (earlyStartFromPredecessor == null && earlyStartFromSuccessor == null)
       {
-         earlyStart = task.getEffectiveCalendar().getNextWorkStart(m_dataDate);
+         earlyStart = AnnotatedDateTime.from(task.getEffectiveCalendar().getNextWorkStart(m_dataDate));
       }
       else
       {
@@ -2949,7 +2925,7 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      LocalDateTime earlyFinish;
+      AnnotatedDateTime earlyFinish;
       if (earlyFinishFromPredecessor == null && earlyFinishFromSuccessor == null)
       {
          earlyFinish = earlyStart;
@@ -2967,10 +2943,10 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      LocalDateTime lateFinish;
+      AnnotatedDateTime lateFinish;
       if (lateFinishFromPredecessor == null && lateFinishFromSuccessor == null)
       {
-         lateFinish = m_projectFinishDate;
+         lateFinish = AnnotatedDateTime.from(m_projectFinishDate);
       }
       else
       {
@@ -2985,7 +2961,7 @@ public class PrimaveraScheduler implements Scheduler
       }
 
 
-      LocalDateTime lateStart;
+      AnnotatedDateTime lateStart;
       if (lateStartFromPredecessor == null && lateStartFromSuccessor == null)
       {
          lateStart = lateFinish;
@@ -3002,32 +2978,32 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      task.setStart(earlyStart);
+      task.setStart(earlyStart.getValue());
 
       if (earlyStart.isBefore(m_dataDate))
       {
-         earlyStart = m_dataDate;
+         earlyStart = AnnotatedDateTime.from(m_dataDate);
       }
 
       if (earlyFinish.isBefore(m_dataDate))
       {
-         earlyFinish = m_dataDate;
+         earlyFinish = AnnotatedDateTime.from(m_dataDate);
       }
 
       // This logic is wrong, we need to replace the calculated early dates with the datadate based on whether
       // the date is an actual date.
 
-      task.setFinish(earlyFinish);
+      task.setFinish(earlyFinish.getValue());
 
-      task.setEarlyStart(earlyStart);
-      task.setEarlyFinish(earlyFinish);
-      task.setLateStart(lateStart);
-      task.setLateFinish(lateFinish);
+      task.setEarlyStart(earlyStart.getValue());
+      task.setEarlyFinish(earlyFinish.getValue());
+      task.setLateStart(lateStart.getValue());
+      task.setLateFinish(lateFinish.getValue());
 
-      task.setRemainingEarlyStart(earlyStart);
-      task.setRemainingEarlyFinish(earlyFinish);
-      task.setRemainingLateStart(lateStart);
-      task.setRemainingLateFinish(lateFinish);
+      task.setRemainingEarlyStart(earlyStart.getValue());
+      task.setRemainingEarlyFinish(earlyFinish.getValue());
+      task.setRemainingLateStart(lateStart.getValue());
+      task.setRemainingLateFinish(lateFinish.getValue());
    }
 
    private final ProjectFile m_file;
