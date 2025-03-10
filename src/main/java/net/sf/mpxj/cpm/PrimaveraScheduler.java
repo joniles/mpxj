@@ -2824,24 +2824,24 @@ public class PrimaveraScheduler implements Scheduler
                {
                   if (earlyFinishFromSuccessor == null)
                   {
-                     earlyFinishFromSuccessor = AnnotatedDateTime.from(successor.getEarlyStart());
+                     earlyFinishFromSuccessor = AnnotatedDateTime.from(removeLag(relation, successor.getEarlyStart()));
                   }
 
                   if (lateFinishFromSuccessor == null)
                   {
-                     lateFinishFromSuccessor = AnnotatedDateTime.from(successor.getLateStart());
+                     lateFinishFromSuccessor = AnnotatedDateTime.from(removeLag(relation, successor.getLateStart()));
                   }
                }
                else
                {
                   if (earlyFinishFromSuccessor == null)
                   {
-                     earlyFinishFromSuccessor = AnnotatedDateTime.fromActual(successor.getActualStart());
+                     earlyFinishFromSuccessor = AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualStart()));
                   }
 
                   if (lateFinishFromSuccessor == null)
                   {
-                     lateFinishFromSuccessor = AnnotatedDateTime.fromActual(successor.getActualStart());
+                     lateFinishFromSuccessor = AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualStart()));
                   }
                }
                break;
