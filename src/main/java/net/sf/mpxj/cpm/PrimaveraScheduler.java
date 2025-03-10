@@ -2991,6 +2991,16 @@ public class PrimaveraScheduler implements Scheduler
          earlyFinish = AnnotatedDateTime.from(m_dataDate);
       }
 
+      if (earlyFinish.isBefore(earlyStart))
+      {
+         earlyFinish = earlyStart;
+      }
+
+      if (lateStart.isAfter(lateFinish))
+      {
+         lateStart = lateFinish;
+      }
+
       task.setStart(start.isActual() ? start.getValue() : earlyStart.getValue());
       task.setFinish(earlyFinish.getValue());
 
