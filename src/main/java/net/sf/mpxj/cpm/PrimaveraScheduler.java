@@ -23,7 +23,6 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.LocalDateTimeHelper;
-import org.glassfish.jaxb.runtime.v2.schemagen.xmlschema.Annotated;
 
 public class PrimaveraScheduler implements Scheduler
 {
@@ -2883,24 +2882,24 @@ public class PrimaveraScheduler implements Scheduler
                {
                   if (earlyFinishFromSuccessor == null)
                   {
-                     earlyFinishFromSuccessor = AnnotatedDateTime.from(successor.getEarlyFinish());
+                     earlyFinishFromSuccessor = AnnotatedDateTime.from(removeLag(relation, successor.getEarlyFinish()));
                   }
 
                   if (lateFinishFromSuccessor == null)
                   {
-                     lateFinishFromSuccessor = AnnotatedDateTime.from(successor.getLateFinish());
+                     lateFinishFromSuccessor = AnnotatedDateTime.from(removeLag(relation, successor.getLateFinish()));
                   }
                }
                else
                {
                   if (earlyFinishFromSuccessor == null)
                   {
-                     earlyFinishFromSuccessor = AnnotatedDateTime.fromActual(successor.getActualFinish());
+                     earlyFinishFromSuccessor = AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualFinish()));
                   }
 
                   if (lateFinishFromSuccessor == null)
                   {
-                     lateFinishFromSuccessor = AnnotatedDateTime.fromActual(successor.getActualFinish());
+                     lateFinishFromSuccessor = AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualFinish()));
                   }
                }
                break;
