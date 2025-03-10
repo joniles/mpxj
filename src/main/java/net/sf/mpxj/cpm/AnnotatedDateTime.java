@@ -50,6 +50,11 @@ class AnnotatedDateTime
       return m_value.isAfter(value);
    }
 
+   public String toString()
+   {
+      return m_value + (m_actual ? "A" : "");
+   }
+
    private final LocalDateTime m_value;
    private final boolean m_actual;
 }
