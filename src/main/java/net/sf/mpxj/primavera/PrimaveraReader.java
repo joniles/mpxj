@@ -2791,6 +2791,8 @@ final class PrimaveraReader
       map.put(TaskField.LOCATION_UNIQUE_ID, "location_id");
       map.put(TaskField.EXPECTED_FINISH, "expect_end_date");
       map.put(TaskField.METHODOLOGY_GUID, "tmpl_guid");
+      map.put(TaskField.FLOAT_PATH, "float_path");
+      map.put(TaskField.FLOAT_PATH_ORDER, "float_path_order");
 
       return map;
    }
