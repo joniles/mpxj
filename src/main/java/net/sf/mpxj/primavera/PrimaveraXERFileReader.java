@@ -1328,6 +1328,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       FIELD_TYPE_MAP.put("external_early_start_date", DataType.DATE);
       FIELD_TYPE_MAP.put("external_late_end_date", DataType.DATE);
       FIELD_TYPE_MAP.put("fk_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("float_path", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("float_path_order", DataType.INTEGER);
       FIELD_TYPE_MAP.put("free_float_hr_cnt", DataType.DURATION);
       FIELD_TYPE_MAP.put("fy_start_month_num", DataType.INTEGER);
       FIELD_TYPE_MAP.put("group_digit_cnt", DataType.INTEGER);

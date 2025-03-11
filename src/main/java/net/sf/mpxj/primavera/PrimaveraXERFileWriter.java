@@ -1671,8 +1671,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("priority_type", t -> t.getPriority());
       ACTIVITY_COLUMNS.put("suspend_date", t -> t.getSuspendDate());
       ACTIVITY_COLUMNS.put("resume_date", t -> t.getResume());
-      ACTIVITY_COLUMNS.put("float_path", t -> null);
-      ACTIVITY_COLUMNS.put("float_path_order", t -> null);
+      ACTIVITY_COLUMNS.put("float_path", t -> t.getFloatPath());
+      ACTIVITY_COLUMNS.put("float_path_order", t -> t.getFloatPathOrder());
       ACTIVITY_COLUMNS.put("guid", t -> t.getGUID());
       ACTIVITY_COLUMNS.put("tmpl_guid", t -> t.getMethodologyGUID());
       ACTIVITY_COLUMNS.put("cstr_date2", t -> t.getSecondaryConstraintDate());
