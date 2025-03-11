@@ -5580,21 +5580,41 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       set(TaskField.METHODOLOGY_GUID, value);
    }
 
+   /**
+    * Retrieve the float path number.
+    *
+    * @return float path number
+    */
    public Integer getFloatPath()
    {
       return (Integer) get(TaskField.FLOAT_PATH);
    }
 
+   /**
+    * Set the float path number.
+    *
+    * @param value float path number
+    */
    public void setFloatPath(Integer value)
    {
       set(TaskField.FLOAT_PATH, value);
    }
 
+   /**
+    * Retrieve teh float path order.
+    *
+    * @return float path order
+    */
    public Integer getFloatPathOrder()
    {
       return (Integer) get(TaskField.FLOAT_PATH_ORDER);
    }
 
+   /**
+    * Set the float path order.
+    *
+    * @param value float path order
+    */
    public void setFloatPathOrder(Integer value)
    {
       set(TaskField.FLOAT_PATH_ORDER, value);
