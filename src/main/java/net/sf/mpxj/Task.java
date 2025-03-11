@@ -5601,7 +5601,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Retrieve teh float path order.
+    * Retrieve the float path order.
     *
     * @return float path order
     */
