@@ -6,6 +6,8 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="13.11.1">
+			<action dev="joniles" type="update">Added support for reading Float Path and Float Path Order from XER files and P6 databases.</action>
+			<action dev="joniles" type="update">Added support for writing Float Path and Float Path Order frtoom XER files.</action>
 		</release>
 		<release date="2025-03-10" version="13.11.0">
 			<action dev="joniles" type="update">Add support for reading the WBS and Activity Methodology GUID attribute from XER files and P6 databases, and for writing this to XER files.</action>
