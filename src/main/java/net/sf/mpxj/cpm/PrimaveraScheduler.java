@@ -2649,6 +2649,10 @@ public class PrimaveraScheduler implements Scheduler
 
    private void levelOfEffortPass(Task task)
    {
+      // Foe LOE these are generated values, so we need to clear them
+      task.setActualStart(null);
+      task.setActualFinish(null);
+
       AnnotatedDateTime earlyStartFromPredecessor = null;
       AnnotatedDateTime earlyFinishFromPredecessor = null;
       AnnotatedDateTime lateStartFromPredecessor = null;
@@ -2988,12 +2992,19 @@ public class PrimaveraScheduler implements Scheduler
 
       if (earlyFinish.isBefore(m_dataDate))
       {
-         earlyFinish = AnnotatedDateTime.from(m_dataDate);
+         earlyFinish = AnnotatedDateTime.fromActual(m_dataDate);
       }
 
       if (earlyFinish.isBefore(earlyStart))
       {
-         earlyFinish = earlyStart;
+         if (earlyFinish.isActual())
+         {
+            earlyFinish = AnnotatedDateTime.fromActual(earlyStart.getValue());
+         }
+         else
+         {
+            earlyFinish = earlyStart;
+         }
       }
 
       if (lateStart.isAfter(lateFinish))
@@ -3003,6 +3014,17 @@ public class PrimaveraScheduler implements Scheduler
 
       task.setStart(start.isActual() ? start.getValue() : earlyStart.getValue());
       task.setFinish(earlyFinish.getValue());
+
+      if (earlyStart.isActual() || lateStart.isActual())
+      {
+         task.setActualStart(task.getStart());
+      }
+
+      if (earlyFinish.isActual() || lateFinish.isActual())
+      {
+         task.setActualStart(task.getStart());
+         task.setActualFinish(task.getFinish());
+      }
 
       task.setEarlyStart(earlyStart.getValue());
       task.setEarlyFinish(earlyFinish.getValue());
