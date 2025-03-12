@@ -2993,7 +2993,10 @@ public class PrimaveraScheduler implements Scheduler
          }
          else
          {
-            earlyStart = AnnotatedDateTime.from(m_dataDate);
+            // very dubious logic here
+            earlyStart = AnnotatedDateTime.from(task.getEffectiveCalendar().getNextWorkStart(m_dataDate));
+            start = AnnotatedDateTime.fromActual(start.getValue());
+            task.setActualStart(start.getValue());
          }
       }
 
