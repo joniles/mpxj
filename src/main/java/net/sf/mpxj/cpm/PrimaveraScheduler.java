@@ -2987,12 +2987,19 @@ public class PrimaveraScheduler implements Scheduler
 
       if (earlyStart.isBefore(m_dataDate))
       {
-         earlyStart = AnnotatedDateTime.from(m_dataDate);
+         if (earlyStart.isActual())
+         {
+            earlyStart = AnnotatedDateTime.fromActual(m_dataDate);
+         }
+         else
+         {
+            earlyStart = AnnotatedDateTime.from(m_dataDate);
+         }
       }
 
       if (earlyFinish.isBefore(m_dataDate))
       {
-         earlyFinish = AnnotatedDateTime.fromActual(m_dataDate);
+         earlyFinish = AnnotatedDateTime.from(m_dataDate);
       }
 
       if (earlyFinish.isBefore(earlyStart))
@@ -3017,13 +3024,19 @@ public class PrimaveraScheduler implements Scheduler
 
       if (earlyStart.isActual() || lateStart.isActual())
       {
-         task.setActualStart(task.getStart());
+         if (task.getCalendar().getWork(m_dataDate, task.getStart(), TimeUnit.HOURS).getDuration() <= 0)
+         {
+            task.setActualStart(task.getStart());
+         }
       }
 
-      if (earlyFinish.isActual() || lateFinish.isActual())
+      if (earlyFinish.isActual()  || lateFinish.isActual())
       {
-         task.setActualStart(task.getStart());
-         task.setActualFinish(task.getFinish());
+         if (task.getCalendar().getWork(m_dataDate, task.getFinish(), TimeUnit.HOURS).getDuration() <= 0)
+         {
+            task.setActualStart(task.getStart());
+            task.setActualFinish(task.getFinish());
+         }
       }
 
       task.setEarlyStart(earlyStart.getValue());
@@ -3031,10 +3044,13 @@ public class PrimaveraScheduler implements Scheduler
       task.setLateStart(lateStart.getValue());
       task.setLateFinish(lateFinish.getValue());
 
-      task.setRemainingEarlyStart(earlyStart.getValue());
-      task.setRemainingEarlyFinish(earlyFinish.getValue());
-      task.setRemainingLateStart(lateStart.getValue());
-      task.setRemainingLateFinish(lateFinish.getValue());
+      if (task.getActualStart() == null || task.getActualFinish() == null)
+      {
+         task.setRemainingEarlyStart(earlyStart.getValue());
+         task.setRemainingEarlyFinish(earlyFinish.getValue());
+         task.setRemainingLateStart(lateStart.getValue());
+         task.setRemainingLateFinish(lateFinish.getValue());
+      }
    }
 
    private final ProjectFile m_file;
