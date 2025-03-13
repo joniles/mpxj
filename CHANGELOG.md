@@ -5,7 +5,18 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer be distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 13.10.1 (unreleased)
+## 13.11.1 (unreleased)
+
+## 13.11.0 (2025-03-10)
+* Add support for reading the WBS and Activity Methodology GUID attribute from XER files and P6 databases, and for writing this to XER files.
+* Improve accuracy of resource assignment start and finsh dates when reading XER files and P6 databases.
+* Fixed an issue reading resource code value hierarchy from XER files.
+* Improve retrieval of Gantt Bar Styles from certain MPP files.
+* Added the `GanttBarStyleException` methods `getGanttBarStyleID()` and `setGanttBarStyleID()`.
+* Added the `GanttChartView` method `getGanttBarStyleByID()`.
+* Marked the `GanttBarStyleException#getBarStyleIndex()` method as deprecated. Use the `GanttBarStyleException#getGanttBarStyleID()` method to retrieve the Gantt Bar Style ID, then use the view's `getGanttBarStyleByID()` method to retrieve a list of matching styles.
+* Added the `Duration#negate()` method to simplify negating a duration.
+* Improve provision of default values for Project Planned Start date and Activity Planned Duration when writing XER files.
 
 ## 13.10.0 (2025-02-07)
 * Add support for reading the P6 EPS using the `listEps()` method provided by the `PrimaveraDatabaseReader` and `PrimaveraDatabaseFileReader` classes.

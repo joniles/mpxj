@@ -300,9 +300,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#13101-unreleased" class="md-nav__link">
+  <a href="#13111-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      13.10.1 (unreleased)
+      13.11.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13110-2025-03-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.11.0 (2025-03-10)
     </span>
   </a>
   
@@ -4047,9 +4056,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#13101-unreleased" class="md-nav__link">
+  <a href="#13111-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      13.10.1 (unreleased)
+      13.11.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13110-2025-03-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.11.0 (2025-03-10)
     </span>
   </a>
   
@@ -6432,7 +6450,19 @@
 <h2 id="note">NOTE</h2>
 <p>From version 14.0.0 onwards the <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code> and <code>net.sf.mpxj-for-vb</code> packages will
 no longer be distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
-<h2 id="13101-unreleased">13.10.1 (unreleased)</h2>
+<h2 id="13111-unreleased">13.11.1 (unreleased)</h2>
+<h2 id="13110-2025-03-10">13.11.0 (2025-03-10)</h2>
+<ul>
+<li>Add support for reading the WBS and Activity Methodology GUID attribute from XER files and P6 databases, and for writing this to XER files.</li>
+<li>Improve accuracy of resource assignment start and finsh dates when reading XER files and P6 databases.</li>
+<li>Fixed an issue reading resource code value hierarchy from XER files.</li>
+<li>Improve retrieval of Gantt Bar Styles from certain MPP files.</li>
+<li>Added the <code>GanttBarStyleException</code> methods <code>getGanttBarStyleID()</code> and <code>setGanttBarStyleID()</code>.</li>
+<li>Added the <code>GanttChartView</code> method <code>getGanttBarStyleByID()</code>.</li>
+<li>Marked the <code>GanttBarStyleException#getBarStyleIndex()</code> method as deprecated. Use the <code>GanttBarStyleException#getGanttBarStyleID()</code> method to retrieve the Gantt Bar Style ID, then use the view's <code>getGanttBarStyleByID()</code> method to retrieve a list of matching styles.</li>
+<li>Added the <code>Duration#negate()</code> method to simplify negating a duration.</li>
+<li>Improve provision of default values for Project Planned Start date and Activity Planned Duration when writing XER files.</li>
+</ul>
 <h2 id="13100-2025-02-07">13.10.0 (2025-02-07)</h2>
 <ul>
 <li>Add support for reading the P6 EPS using the <code>listEps()</code> method provided by the <code>PrimaveraDatabaseReader</code> and <code>PrimaveraDatabaseFileReader</code> classes.</li>

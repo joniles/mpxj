@@ -319,12 +319,18 @@ public class CustomerDataTest
          reader.setProjectID(projectID);
          ProjectFile project = reader.read(file);
 
+         project.getProjectProperties().setCurrentDate(BASELINE_CURRENT_DATE);
+
          Integer baselineProjectID = project.getProjectProperties().getBaselineProjectUniqueID();
          if (baselineProjectID != null)
          {
             PrimaveraDatabaseFileReader baselineReader = new PrimaveraDatabaseFileReader();
             baselineReader.setProjectID(baselineProjectID.intValue());
-            project.setBaseline(baselineReader.read(file));
+
+            ProjectFile baselineProject = baselineReader.read(file);
+            baselineProject.getProjectProperties().setCurrentDate(BASELINE_CURRENT_DATE);
+
+            project.setBaseline(baselineProject);
          }
 
          if (!testBaseline(projectName, project, m_primaveraBaselineDir))
