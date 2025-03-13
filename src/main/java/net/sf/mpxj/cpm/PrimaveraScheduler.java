@@ -2983,7 +2983,6 @@ public class PrimaveraScheduler implements Scheduler
 
       AnnotatedDateTime start = earlyStart;
       AnnotatedDateTime finish = earlyFinish;
-      boolean validActual = true;
 
 
       if (earlyStart.isBefore(m_dataDate))
@@ -2991,7 +2990,6 @@ public class PrimaveraScheduler implements Scheduler
          if (earlyStart.isActual())
          {
             earlyStart = AnnotatedDateTime.fromActual(m_dataDate);
-            validActual = false;
          }
          else
          {
@@ -3000,11 +2998,6 @@ public class PrimaveraScheduler implements Scheduler
             start = AnnotatedDateTime.fromActual(start.getValue());
             task.setActualStart(start.getValue());
          }
-      }
-
-      if (earlyFinish.isActual() && earlyFinish.isAfter(m_dataDate))
-      {
-         validActual = false;
       }
 
       if (earlyFinish.isBefore(m_dataDate))
@@ -3032,7 +3025,7 @@ public class PrimaveraScheduler implements Scheduler
       task.setStart(start.isActual() ? start.getValue() : earlyStart.getValue());
       task.setFinish(earlyFinish.getValue());
 
-      if (validActual && (earlyStart.isActual() || lateStart.isActual()))
+      if (earlyStart.isActual() || lateStart.isActual())
       {
          if (task.getCalendar().getWork(m_dataDate, task.getStart(), TimeUnit.HOURS).getDuration() <= 0)
          {
@@ -3040,7 +3033,7 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      if (validActual && (earlyFinish.isActual() || lateFinish.isActual()))
+      if (earlyFinish.isActual()  || lateFinish.isActual())
       {
          if (task.getCalendar().getWork(m_dataDate, task.getFinish(), TimeUnit.HOURS).getDuration() <= 0)
          {
