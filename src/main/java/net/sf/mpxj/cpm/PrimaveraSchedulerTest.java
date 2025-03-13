@@ -31,7 +31,7 @@ public class PrimaveraSchedulerTest
 
       if (target.isDirectory())
       {
-         test.process(new File(target, "XER"), ".xer");
+         test.process(target, ".xer");
       }
       else
       {
