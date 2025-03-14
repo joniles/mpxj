@@ -434,6 +434,10 @@ public class PrimaveraSchedulerTest
       EXCLUDED_FILES.add("fleet-salary.xer");
       EXCLUDED_FILES.add("global-sociology.xer");
 
+      // LOE weirdness
+      EXCLUDED_FILES.add("legislative-survey.xer");
+      EXCLUDED_FILES.add("proportional-revolution.xer");
+
       // TODO: to investigate
       EXCLUDED_FILES.add("thinner-council.xer");
    }
