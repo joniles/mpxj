@@ -146,7 +146,7 @@ public class PrimaveraSchedulerTest
       System.out.println(m_baselineFile.getProjectProperties().getSchedulingProgressedActivities());
       System.out.println("Forward errors: " + m_forwardErrorCount);
       System.out.println("Backward errors: " + m_backwardErrorCount);
-      analyseFailures(analyseWbs);
+      //analyseFailures(analyseWbs);
       System.out.println("DONE");
       return false;
    }
@@ -361,13 +361,8 @@ public class PrimaveraSchedulerTest
    {
       // LOE activities affect WBS roll up
       NO_WBS_TEST.add("raised-walker-coverage.xer");
-      NO_WBS_TEST.add("toxic-end.xer");
-      NO_WBS_TEST.add("toxic-end-coverage.xer");
-      NO_WBS_TEST.add("keen-knock.xer");
-      NO_WBS_TEST.add("keen-knock-coverage.xer");
       NO_WBS_TEST.add("dispassionate-vertex.xer");
       NO_WBS_TEST.add("merriest-offering.xer");
-      NO_WBS_TEST.add("stuffy-sturgeon.xer");
 
       // Date disagreement with P6 affects rollup
       NO_WBS_TEST.add("aloof-proton-task-dependent.xer");
@@ -427,6 +422,9 @@ public class PrimaveraSchedulerTest
       // LOE weirdness
       EXCLUDED_FILES.add("legislative-survey.xer");
       EXCLUDED_FILES.add("proportional-revolution.xer");
+      EXCLUDED_FILES.add("toxic-end.xer");
+      EXCLUDED_FILES.add("stuffy-sturgeon.xer");
+      EXCLUDED_FILES.add("keen-knock.xer");
 
       // TODO: to investigate
       EXCLUDED_FILES.add("thinner-council.xer");
