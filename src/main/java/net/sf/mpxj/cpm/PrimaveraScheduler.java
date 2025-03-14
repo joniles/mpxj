@@ -2761,15 +2761,8 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  if (earlyFinishFromSuccessor == null)
-                  {
-                     earlyFinishFromSuccessor = AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualStart()));
-                  }
-
-                  if (lateFinishFromSuccessor == null)
-                  {
-                     lateFinishFromSuccessor = AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualStart()));
-                  }
+                  earlyFinishFromSuccessor = updateIfAfter(earlyFinishFromSuccessor, AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualStart())));
+                  lateFinishFromSuccessor = updateIfAfter(lateFinishFromSuccessor, AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualStart())));
                }
                break;
             }
