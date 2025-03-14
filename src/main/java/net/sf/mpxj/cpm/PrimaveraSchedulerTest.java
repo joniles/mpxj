@@ -146,7 +146,7 @@ public class PrimaveraSchedulerTest
       System.out.println(m_baselineFile.getProjectProperties().getSchedulingProgressedActivities());
       System.out.println("Forward errors: " + m_forwardErrorCount);
       System.out.println("Backward errors: " + m_backwardErrorCount);
-      //analyseFailures(analyseWbs);
+      analyseFailures(analyseWbs);
       System.out.println("DONE");
       return false;
    }
@@ -360,8 +360,6 @@ public class PrimaveraSchedulerTest
    static
    {
       // LOE activities affect WBS roll up
-      NO_WBS_TEST.add("raised-walker-coverage.xer");
-      NO_WBS_TEST.add("dispassionate-vertex.xer");
       NO_WBS_TEST.add("merriest-offering.xer");
 
       // Date disagreement with P6 affects rollup
@@ -419,12 +417,13 @@ public class PrimaveraSchedulerTest
       EXCLUDED_FILES.add("fleet-salary.xer");
       EXCLUDED_FILES.add("global-sociology.xer");
 
-      // LOE weirdness
+      // LOE issues
       EXCLUDED_FILES.add("legislative-survey.xer");
       EXCLUDED_FILES.add("proportional-revolution.xer");
       EXCLUDED_FILES.add("toxic-end.xer");
       EXCLUDED_FILES.add("stuffy-sturgeon.xer");
       EXCLUDED_FILES.add("keen-knock.xer");
+      EXCLUDED_FILES.add("dispassionate-vertex.xer");
 
       // TODO: to investigate
       EXCLUDED_FILES.add("thinner-council.xer");
