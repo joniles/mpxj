@@ -2513,6 +2513,7 @@ public class PrimaveraScheduler implements Scheduler
          plannedFinishDate = LocalDateTimeHelper.max(plannedFinishDate, task.getPlannedFinish());
          actualStartDate = LocalDateTimeHelper.min(actualStartDate, task.getActualStart());
          actualFinishDate = LocalDateTimeHelper.max(actualFinishDate, task.getActualFinish());
+
          earlyStartDate = LocalDateTimeHelper.min(earlyStartDate, task.getEarlyStart());
          earlyFinishDate = LocalDateTimeHelper.max(earlyFinishDate, task.getEarlyFinish());
          remainingEarlyStartDate = LocalDateTimeHelper.min(remainingEarlyStartDate, task.getRemainingEarlyStart());
@@ -2521,6 +2522,7 @@ public class PrimaveraScheduler implements Scheduler
          lateFinishDate = LocalDateTimeHelper.max(lateFinishDate, task.getLateFinish());
          remainingLateStartDate = LocalDateTimeHelper.min(remainingLateStartDate, task.getRemainingLateStart());
          remainingLateFinishDate = LocalDateTimeHelper.max(remainingLateFinishDate, task.getRemainingLateFinish());
+
          baselineStartDate = LocalDateTimeHelper.min(baselineStartDate, task.getBaselineStart());
          baselineFinishDate = LocalDateTimeHelper.max(baselineFinishDate, task.getBaselineFinish());
 
