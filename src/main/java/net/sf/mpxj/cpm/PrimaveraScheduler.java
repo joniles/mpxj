@@ -2714,8 +2714,8 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  earlyFinishFromPredecessor = updateIfAfter(earlyFinishFromPredecessor, AnnotatedDateTime.fromActual(adjustFinish(task, addLag(relation, predecessor.getActualStart()))));
-                  lateFinishFromPredecessor = updateIfAfter(lateFinishFromPredecessor, AnnotatedDateTime.fromActual(adjustFinish(task, addLag(relation, predecessor.getActualStart()))));
+                  earlyFinishFromPredecessor = updateIfAfter(earlyFinishFromPredecessor, AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualStart())));
+                  lateFinishFromPredecessor = updateIfAfter(lateFinishFromPredecessor, AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualStart())));
                }
                break;
             }
@@ -2729,8 +2729,8 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  earlyFinishFromPredecessor = updateIfAfter(earlyFinishFromPredecessor, AnnotatedDateTime.fromActual(adjustFinish(task, addLag(relation, predecessor.getActualFinish()))));
-                  lateFinishFromPredecessor = updateIfAfter(lateFinishFromPredecessor, AnnotatedDateTime.fromActual(adjustFinish(task, addLag(relation, predecessor.getActualFinish()))));
+                  earlyFinishFromPredecessor = updateIfAfter(earlyFinishFromPredecessor, AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualFinish())));
+                  lateFinishFromPredecessor = updateIfAfter(lateFinishFromPredecessor, AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualFinish())));
                }
                break;
             }
@@ -2772,8 +2772,8 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  earlyFinishFromSuccessor = updateIfAfter(earlyFinishFromSuccessor, AnnotatedDateTime.fromActual(adjustFinish(task, removeLag(relation, successor.getActualStart()))));
-                  lateFinishFromSuccessor = updateIfAfter(lateFinishFromSuccessor, AnnotatedDateTime.fromActual(adjustFinish(task, removeLag(relation, successor.getActualStart()))));
+                  earlyFinishFromSuccessor = updateIfAfter(earlyFinishFromSuccessor, AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualStart())));
+                  lateFinishFromSuccessor = updateIfAfter(lateFinishFromSuccessor, AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualStart())));
                }
                break;
             }
@@ -2802,8 +2802,8 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  earlyFinishFromSuccessor = updateIfAfter(earlyFinishFromSuccessor, AnnotatedDateTime.fromActual(adjustFinish(task, removeLag(relation, successor.getActualFinish()))));
-                  lateFinishFromSuccessor = updateIfAfter(lateFinishFromSuccessor, AnnotatedDateTime.fromActual(adjustFinish(task, removeLag(relation, successor.getActualFinish()))));
+                  earlyFinishFromSuccessor = updateIfAfter(earlyFinishFromSuccessor, AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualFinish())));
+                  lateFinishFromSuccessor = updateIfAfter(lateFinishFromSuccessor, AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualFinish())));
                }
                break;
             }
@@ -2899,20 +2899,23 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      if (earlyFinish.isBefore(m_dataDate))
+      if (!earlyFinish.isActual())
       {
-         earlyFinish = AnnotatedDateTime.from(m_dataDate);
-      }
-
-      if (earlyFinish.isBefore(earlyStart))
-      {
-         if (earlyFinish.isActual())
+         if (earlyFinish.isBefore(m_dataDate))
          {
-            earlyFinish = AnnotatedDateTime.fromActual(earlyStart.getValue());
+            earlyFinish = AnnotatedDateTime.from(m_dataDate);
          }
-         else
+
+         if (earlyFinish.isBefore(earlyStart))
          {
-            earlyFinish = earlyStart;
+            if (earlyFinish.isActual())
+            {
+               earlyFinish = AnnotatedDateTime.fromActual(earlyStart.getValue());
+            }
+            else
+            {
+               earlyFinish = earlyStart;
+            }
          }
       }
 
