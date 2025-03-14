@@ -6,11 +6,21 @@ class AnnotatedDateTime
 {
    public static AnnotatedDateTime from(LocalDateTime value)
    {
+      if (value == null)
+      {
+         return null;
+      }
+
       return new AnnotatedDateTime(value, false);
    }
 
    public static AnnotatedDateTime fromActual(LocalDateTime value)
    {
+      if (value == null)
+      {
+         return null;
+      }
+
       return new AnnotatedDateTime(value, true);
    }
 

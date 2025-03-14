@@ -353,6 +353,7 @@ public class PrimaveraSchedulerTest
       USE_SCHEDULED_COPY.add("aloof-proton.xer");
       USE_SCHEDULED_COPY.add("outstanding-vaudeville.xer");
       USE_SCHEDULED_COPY.add("warm-bastion.encoding.xer");
+      USE_SCHEDULED_COPY.add("sadder-withdrawal.xer");
    }
 
    private static final Set<String> NO_WBS_TEST = new HashSet<>();
