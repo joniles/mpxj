@@ -2513,18 +2513,20 @@ public class PrimaveraScheduler implements Scheduler
          plannedFinishDate = LocalDateTimeHelper.max(plannedFinishDate, task.getPlannedFinish());
          actualStartDate = LocalDateTimeHelper.min(actualStartDate, task.getActualStart());
          actualFinishDate = LocalDateTimeHelper.max(actualFinishDate, task.getActualFinish());
-
-         earlyStartDate = LocalDateTimeHelper.min(earlyStartDate, task.getEarlyStart());
-         earlyFinishDate = LocalDateTimeHelper.max(earlyFinishDate, task.getEarlyFinish());
-         remainingEarlyStartDate = LocalDateTimeHelper.min(remainingEarlyStartDate, task.getRemainingEarlyStart());
-         remainingEarlyFinishDate = LocalDateTimeHelper.max(remainingEarlyFinishDate, task.getRemainingEarlyFinish());
-         lateStartDate = LocalDateTimeHelper.min(lateStartDate, task.getLateStart());
-         lateFinishDate = LocalDateTimeHelper.max(lateFinishDate, task.getLateFinish());
-         remainingLateStartDate = LocalDateTimeHelper.min(remainingLateStartDate, task.getRemainingLateStart());
-         remainingLateFinishDate = LocalDateTimeHelper.max(remainingLateFinishDate, task.getRemainingLateFinish());
-
          baselineStartDate = LocalDateTimeHelper.min(baselineStartDate, task.getBaselineStart());
          baselineFinishDate = LocalDateTimeHelper.max(baselineFinishDate, task.getBaselineFinish());
+
+         if (task.getActivityType() != ActivityType.LEVEL_OF_EFFORT || task.getActualFinish() == null)
+         {
+            earlyStartDate = LocalDateTimeHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = LocalDateTimeHelper.max(earlyFinishDate, task.getEarlyFinish());
+            remainingEarlyStartDate = LocalDateTimeHelper.min(remainingEarlyStartDate, task.getRemainingEarlyStart());
+            remainingEarlyFinishDate = LocalDateTimeHelper.max(remainingEarlyFinishDate, task.getRemainingEarlyFinish());
+            lateStartDate = LocalDateTimeHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = LocalDateTimeHelper.max(lateFinishDate, task.getLateFinish());
+            remainingLateStartDate = LocalDateTimeHelper.min(remainingLateStartDate, task.getRemainingLateStart());
+            remainingLateFinishDate = LocalDateTimeHelper.max(remainingLateFinishDate, task.getRemainingLateFinish());
+         }
 
          if (task.getActualFinish() != null)
          {

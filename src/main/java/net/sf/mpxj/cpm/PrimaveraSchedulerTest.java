@@ -146,7 +146,7 @@ public class PrimaveraSchedulerTest
       System.out.println(m_baselineFile.getProjectProperties().getSchedulingProgressedActivities());
       System.out.println("Forward errors: " + m_forwardErrorCount);
       System.out.println("Backward errors: " + m_backwardErrorCount);
-      //analyseFailures(analyseWbs);
+      analyseFailures(analyseWbs);
       System.out.println("DONE");
       return false;
    }
@@ -360,7 +360,6 @@ public class PrimaveraSchedulerTest
    static
    {
       // LOE activities affect WBS roll up
-      NO_WBS_TEST.add("neutralist-gym.xer");
       NO_WBS_TEST.add("raised-walker-coverage.xer");
       NO_WBS_TEST.add("toxic-end.xer");
       NO_WBS_TEST.add("toxic-end-coverage.xer");
