@@ -2980,6 +2980,11 @@ public class PrimaveraScheduler implements Scheduler
 
    private LocalDateTime adjustFinish(Task task, LocalDateTime finish)
    {
+      if (finish == null)
+      {
+         return null;
+      }
+      
       ProjectCalendar calendar = task.getEffectiveCalendar();
       LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(finish);
 

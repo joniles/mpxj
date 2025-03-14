@@ -146,7 +146,7 @@ public class PrimaveraSchedulerTest
       System.out.println(m_baselineFile.getProjectProperties().getSchedulingProgressedActivities());
       System.out.println("Forward errors: " + m_forwardErrorCount);
       System.out.println("Backward errors: " + m_backwardErrorCount);
-      analyseFailures(analyseWbs);
+      //analyseFailures(analyseWbs);
       System.out.println("DONE");
       return false;
    }
