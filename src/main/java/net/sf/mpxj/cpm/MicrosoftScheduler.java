@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
@@ -25,6 +26,11 @@ public class MicrosoftScheduler implements Scheduler
 
    public void process(LocalDateTime projectStartDate) throws Exception
    {
+      if (m_file.getTasks().stream().anyMatch(t -> t.getSummary() && (!t.getPredecessors().isEmpty() || !t.getSuccessors().isEmpty())))
+      {
+         throw new CpmException("Schedule contains summary tasks with predecessors or successors");
+      }
+
       List<Task> tasks = new DepthFirstGraphSort(m_file, this::isTask).sort();
       if (tasks.isEmpty())
       {

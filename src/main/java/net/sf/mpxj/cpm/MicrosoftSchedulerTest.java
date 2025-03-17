@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.ProjectCalendar;
@@ -116,8 +115,6 @@ public class MicrosoftSchedulerTest
       }
 
       System.out.println("failed.");
-      System.out.println("Project ID: " + m_baselineFile.getProjectProperties().getProjectID());
-      System.out.println(m_baselineFile.getProjectProperties().getSchedulingProgressedActivities());
       System.out.println("Forward errors: " + m_forwardErrorCount);
       System.out.println("Backward errors: " + m_backwardErrorCount);
 
