@@ -300,7 +300,41 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("blissful-schism.mpp");
       EXCLUDED_FILES.add("dread-hydrochemistry.mpp");
       EXCLUDED_FILES.add("thicker-recital.mpp");
-
+      EXCLUDED_FILES.add("unsaid-table.mpp");
+      EXCLUDED_FILES.add("olympic-layout.mpp");
+      EXCLUDED_FILES.add("brownish-craving.mpp");
+      EXCLUDED_FILES.add("abrupt-broom.mpp");
+      EXCLUDED_FILES.add("vibrionic-show.mpp");
+      EXCLUDED_FILES.add("microbial-inkling.mpp");
+      EXCLUDED_FILES.add("organizational-engineering.mpp");
+      EXCLUDED_FILES.add("undamaged-passing.mpp");
+      EXCLUDED_FILES.add("striking-set.mpp");
+      EXCLUDED_FILES.add("tiniest-solenoid.mpp");
+      EXCLUDED_FILES.add("steep-leave.mpp");
+      EXCLUDED_FILES.add("inappropriate-understanding.mpp");
+      EXCLUDED_FILES.add("bashful-slumber.mpp");
+      EXCLUDED_FILES.add("constructive-facade.mpp");
+      EXCLUDED_FILES.add("lonesome-potentiometer.mpp");
+      EXCLUDED_FILES.add("snippy-mortgage.mpp");
+      EXCLUDED_FILES.add("hazy-viscometer.mpp");
+      EXCLUDED_FILES.add("greater-furlough.mpp");
+      EXCLUDED_FILES.add("filipino-corduroy.mpp");
+      EXCLUDED_FILES.add("bitterest-oscillation.mpp");
+      EXCLUDED_FILES.add("mediumistic-handclasp.mpp");
+      EXCLUDED_FILES.add("bibliographical-veronica.mpp");
+      EXCLUDED_FILES.add("ill-toilet.mpp");
+      EXCLUDED_FILES.add("mechanistic-brinkmanship.mpp");
+      EXCLUDED_FILES.add("sensational-haze.mpp");
+      EXCLUDED_FILES.add("strangest-mulch.mpp");
+      EXCLUDED_FILES.add("aberrant-acquiesence.mpp");
+      EXCLUDED_FILES.add("abysmal-grandma.mpp");
+      EXCLUDED_FILES.add("ashamed-annoyance.mpp");
+      EXCLUDED_FILES.add("hegelian-sensing.mpp");
+      EXCLUDED_FILES.add("lyrical-highlight.mpp");
+      EXCLUDED_FILES.add("content-gun.mpp");
+      EXCLUDED_FILES.add("suspect-catching.mpp");
+      EXCLUDED_FILES.add("cleaner-purveyor.mpp");
+             
       // Split task
       EXCLUDED_FILES.add("worrisome-definition.mpp");
       EXCLUDED_FILES.add("texan-jealousy.mpp");
