@@ -297,8 +297,7 @@ public class PrimaveraSchedulerTest
 
    private List<Task> allChildTasks(Task parent)
    {
-      List<Task> result = new ArrayList<>();
-      result.addAll(parent.getChildTasks());
+      List<Task> result = new ArrayList<>(parent.getChildTasks());
       for (Task task : parent.getChildTasks())
       {
          result.addAll(allChildTasks(task));
