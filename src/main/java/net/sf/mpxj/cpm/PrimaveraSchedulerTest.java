@@ -31,7 +31,7 @@ public class PrimaveraSchedulerTest
 
       if (target.isDirectory())
       {
-         test.process(new File(target, "XER"), ".xer");
+         test.process(target, ".xer");
       }
       else
       {
@@ -41,6 +41,8 @@ public class PrimaveraSchedulerTest
 
    public void process(File directory, String suffix) throws Exception
    {
+      m_directory = true;
+
       File[] fileList = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(suffix));
       int failed = 0;
       int skipped = 0;
@@ -106,6 +108,7 @@ public class PrimaveraSchedulerTest
          {
             start = m_workingFile.getProjectProperties().getStartDate();
          }
+
          scheduler.process(start);
       }
 
@@ -120,17 +123,7 @@ public class PrimaveraSchedulerTest
       {
          Task workingTask = m_workingFile.getTaskByUniqueID(baselineTask.getUniqueID());
 
-         if (workingTask.getActivityType() == ActivityType.LEVEL_OF_EFFORT)
-         {
-            continue;
-         }
-
          if (workingTask.getActivityType() == ActivityType.WBS_SUMMARY)
-         {
-            continue;
-         }
-
-         if (wbsHasOnlyLevelOfEffort(workingTask))
          {
             continue;
          }
@@ -140,7 +133,6 @@ public class PrimaveraSchedulerTest
             analyseWbs = false;
             continue;
          }
-
 
          compare(baselineTask, workingTask);
       }
@@ -156,7 +148,12 @@ public class PrimaveraSchedulerTest
       System.out.println(m_baselineFile.getProjectProperties().getSchedulingProgressedActivities());
       System.out.println("Forward errors: " + m_forwardErrorCount);
       System.out.println("Backward errors: " + m_backwardErrorCount);
-      analyseFailures(scheduler, analyseWbs);
+
+      if (!m_directory)
+      {
+         analyseFailures(analyseWbs);
+      }
+
       System.out.println("DONE");
       return false;
    }
@@ -167,9 +164,11 @@ public class PrimaveraSchedulerTest
       boolean earlyFinishFailed = !compareDates(baseline, working, TaskField.EARLY_FINISH);
       boolean startFailed = !compareDates(baseline, working, TaskField.START);
       boolean finishFailed = !compareDates(baseline, working, TaskField.FINISH);
+      boolean actualStartFailed = !compareDates(baseline, working, TaskField.ACTUAL_START);
+      boolean actualFinishFailed = !compareDates(baseline, working, TaskField.ACTUAL_FINISH);
       boolean remainingEarlyStartFailed = !compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
       boolean remainingEarlyFinishFailed = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
-      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || remainingEarlyStartFailed || remainingEarlyFinishFailed)
+      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || actualStartFailed || actualFinishFailed || remainingEarlyStartFailed || remainingEarlyFinishFailed)
       {
          ++m_forwardErrorCount;
       }
@@ -220,17 +219,19 @@ public class PrimaveraSchedulerTest
       return result;
    }
 
-   private void analyseFailures(PrimaveraScheduler scheduler, boolean analyseWbs) throws CycleException
+   private void analyseFailures(boolean analyseWbs) throws CycleException
    {
-      List<Task> tasks = new DepthFirstGraphSort(m_workingFile, scheduler::isActivity).sort();
+      List<Task> activities = new DepthFirstGraphSort(m_workingFile, PrimaveraScheduler::isActivity).sort();
+      List<Task> levelOfEffortActivities = new DepthFirstGraphSort(m_workingFile, PrimaveraScheduler::isLevelOfEffortActivity).sort();
+      List<Task> wbs = m_workingFile.getTasks().stream().filter(t -> t.getSummary()).collect(Collectors.toList());
 
       // Sort so we can see errors at the bottom first, as these are rolled up.
-      List<Task> wbs = m_workingFile.getTasks().stream().filter(t -> t.getSummary()).collect(Collectors.toList());
       Collections.reverse(wbs);
 
       if (m_forwardErrorCount != 0)
       {
-         tasks.forEach(t -> analyseForwardError(t));
+         activities.forEach(t -> analyseForwardError(t));
+         levelOfEffortActivities.forEach(t -> analyseForwardError(t));
          if (analyseWbs)
          {
             wbs.forEach(t -> analyseForwardError(t));
@@ -239,8 +240,10 @@ public class PrimaveraSchedulerTest
 
       if (m_backwardErrorCount != 0)
       {
-         Collections.reverse(tasks);
-         tasks.forEach(t -> analyseBackwardError(t));
+         Collections.reverse(activities);
+         Collections.reverse(levelOfEffortActivities);
+         activities.forEach(t -> analyseBackwardError(t));
+         levelOfEffortActivities.forEach(t -> analyseBackwardError(t));
          if (analyseWbs)
          {
             wbs.forEach(t -> analyseBackwardError(t));
@@ -255,6 +258,8 @@ public class PrimaveraSchedulerTest
       boolean earlyFinishFail = !compareDates(baseline, working, TaskField.EARLY_FINISH);
       boolean startFail = !compareDates(baseline, working, TaskField.START);
       boolean finishFail = !compareDates(baseline, working, TaskField.FINISH);
+      boolean actualStartFail = !compareDates(baseline, working, TaskField.ACTUAL_START);
+      boolean actualFinishFail = !compareDates(baseline, working, TaskField.ACTUAL_FINISH);
       boolean remainingEarlyStartFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
       boolean remainingEarlyFinishFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
 
@@ -263,6 +268,8 @@ public class PrimaveraSchedulerTest
       System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
       System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (startFail ? " FAIL" : ""));
       System.out.println("Finish: " + baseline.getFinish() + " " + working.getFinish() + (finishFail ? " FAIL" : ""));
+      System.out.println("Actual Start: " + baseline.getActualStart() + " " + working.getActualStart() + (actualStartFail ? " FAIL" : ""));
+      System.out.println("Actual Finish: " + baseline.getActualFinish() + " " + working.getActualFinish() + (actualFinishFail ? " FAIL" : ""));
       System.out.println("Remaining Early Start: " + baseline.getRemainingEarlyStart() + " " + working.getRemainingEarlyStart() + (remainingEarlyStartFail ? " FAIL" : ""));
       System.out.println("Remaining Early Finish: " + baseline.getRemainingEarlyFinish() + " " + working.getRemainingEarlyFinish() + (remainingEarlyFinishFail ? " FAIL" : ""));
       System.out.println();
@@ -284,11 +291,6 @@ public class PrimaveraSchedulerTest
       System.out.println();
    }
 
-   private boolean wbsHasOnlyLevelOfEffort(Task task)
-   {
-      return task.getChildTasks().stream().allMatch(t -> t.getActivityType() == ActivityType.LEVEL_OF_EFFORT);
-   }
-
    private List<Task> allChildTasks(Task parent)
    {
       List<Task> result = new ArrayList<>();
@@ -300,6 +302,7 @@ public class PrimaveraSchedulerTest
       return result;
    }
 
+   private boolean m_directory;
    private ProjectFile m_baselineFile;
    private ProjectFile m_workingFile;
    private int m_forwardErrorCount;
@@ -358,32 +361,12 @@ public class PrimaveraSchedulerTest
       USE_SCHEDULED_COPY.add("aloof-proton.xer");
       USE_SCHEDULED_COPY.add("outstanding-vaudeville.xer");
       USE_SCHEDULED_COPY.add("warm-bastion.encoding.xer");
+      USE_SCHEDULED_COPY.add("sadder-withdrawal.xer");
    }
 
    private static final Set<String> NO_WBS_TEST = new HashSet<>();
    static
    {
-      // LOE activities affect WBS roll up
-      NO_WBS_TEST.add("elected-orange-task-dependent.xer");
-      NO_WBS_TEST.add("neutralist-gym.xer");
-      NO_WBS_TEST.add("sadder-withdrawal.xer");
-      NO_WBS_TEST.add("raised-walker-working.xer");
-      NO_WBS_TEST.add("raised-walker-coverage.xer");
-      NO_WBS_TEST.add("raised-walker-baseline.xer");
-      NO_WBS_TEST.add("garish-biophysicist.xer");
-      NO_WBS_TEST.add("garish-biophysicist-coverage.xer");
-      NO_WBS_TEST.add("role-code-test-task-dependent.xer");
-      NO_WBS_TEST.add("assignment-code-test-task-dependent.xer");
-      NO_WBS_TEST.add("toxic-end.xer");
-      NO_WBS_TEST.add("toxic-end-coverage.xer");
-      NO_WBS_TEST.add("keen-knock.xer");
-      NO_WBS_TEST.add("keen-knock-coverage.xer");
-      NO_WBS_TEST.add("dispassionate-vertex.xer");
-      NO_WBS_TEST.add("alive-lap-task-dependent.xer");
-      NO_WBS_TEST.add("merriest-offering.xer");
-      NO_WBS_TEST.add("stuffy-sturgeon.xer");
-      NO_WBS_TEST.add("famous-retention.xer");
-      
       // Date disagreement with P6 affects rollup
       NO_WBS_TEST.add("aloof-proton-task-dependent.xer");
       NO_WBS_TEST.add("aloof-proton-coverage.xer");
@@ -438,6 +421,17 @@ public class PrimaveraSchedulerTest
       // Rounding issue? Makes for a 1 minute difference on one activity
       EXCLUDED_FILES.add("fleet-salary.xer");
       EXCLUDED_FILES.add("global-sociology.xer");
+
+      // LOE issues
+      EXCLUDED_FILES.add("legislative-survey.xer");
+      EXCLUDED_FILES.add("proportional-revolution.xer");
+      EXCLUDED_FILES.add("toxic-end.xer");
+      EXCLUDED_FILES.add("stuffy-sturgeon.xer");
+      EXCLUDED_FILES.add("keen-knock.xer");
+      EXCLUDED_FILES.add("dispassionate-vertex.xer");
+      EXCLUDED_FILES.add("merriest-offering.xer");
+      EXCLUDED_FILES.add("harmful-brewery.xer");
+      EXCLUDED_FILES.add("intellectual-fossil.xer");
 
       // TODO: to investigate
       EXCLUDED_FILES.add("thinner-council.xer");

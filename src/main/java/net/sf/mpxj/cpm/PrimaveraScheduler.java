@@ -42,8 +42,8 @@ public class PrimaveraScheduler implements Scheduler
 
       m_projectStartDate = projectStartDate;
 
-      List<Task> tasks = new DepthFirstGraphSort(m_file, this::isActivity).sort();
-      if (tasks.isEmpty())
+      List<Task> activities = new DepthFirstGraphSort(m_file, PrimaveraScheduler::isActivity).sort();
+      if (activities.isEmpty())
       {
          return;
       }
@@ -62,10 +62,10 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      forwardPass(tasks);
+      forwardPass(activities);
 
       LocalDateTime mustFinishBy = m_file.getProjectProperties().getMustFinishBy();
-      LocalDateTime earlyFinish = tasks.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
+      LocalDateTime earlyFinish = activities.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
 
       if (mustFinishBy == null || earlyFinish.isAfter(mustFinishBy))
       {
@@ -76,13 +76,15 @@ public class PrimaveraScheduler implements Scheduler
          m_projectFinishDate = mustFinishBy;
       }
 
-      backwardPass(tasks);
+      backwardPass(activities);
 
-      for (Task task : tasks)
+      for (Task activity : activities)
       {
-         task.setStart(task.getActualStart() == null ? task.getEarlyStart() : task.getActualStart());
-         task.setFinish(task.getActualFinish() == null ? task.getEarlyFinish() : task.getActualFinish());
+         activity.setStart(activity.getActualStart() == null ? activity.getEarlyStart() : activity.getActualStart());
+         activity.setFinish(activity.getActualFinish() == null ? activity.getEarlyFinish() : activity.getActualFinish());
       }
+
+      levelOfEffortPass();
 
       m_file.getChildTasks().forEach(t -> rollupDates(t));
    }
@@ -2229,11 +2231,17 @@ public class PrimaveraScheduler implements Scheduler
 
    private LocalDateTime addLag(Relation relation, LocalDateTime date, Duration lag)
    {
+      if (date == null)
+      {
+         return null;
+      }
+
       LocalDateTime result = getDate(getLagCalendar(relation), date, lag);
       if (lag.getDuration() < 0 && result.isBefore(m_dataDate))
       {
          result = m_dataDate;
       }
+
       return result;
    }
 
@@ -2244,12 +2252,22 @@ public class PrimaveraScheduler implements Scheduler
 
    private LocalDateTime removeLag(Relation relation, LocalDateTime date, Duration lag)
    {
+      if (date == null)
+      {
+         return null;
+      }
+
       return getDate(getLagCalendar(relation), date, lag.negate());
    }
 
-   public boolean isActivity(Task task)
+   static boolean isActivity(Task task)
    {
       return !(task.getSummary() || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getActivityType() == ActivityType.WBS_SUMMARY);
+   }
+
+   static boolean isLevelOfEffortActivity(Task task)
+   {
+      return task.getActivityType() == ActivityType.LEVEL_OF_EFFORT;
    }
 
    private void alapAdjust(Task task) throws CpmException
@@ -2394,7 +2412,7 @@ public class PrimaveraScheduler implements Scheduler
       }
       else
       {
-         if (task.getActualDuration().getDuration() != 0)
+         if (task.getActualDuration() != null && task.getActualDuration().getDuration() != 0)
          {
             remainingEarlyStart = task.getEarlyStart();
          }
@@ -2495,16 +2513,20 @@ public class PrimaveraScheduler implements Scheduler
          plannedFinishDate = LocalDateTimeHelper.max(plannedFinishDate, task.getPlannedFinish());
          actualStartDate = LocalDateTimeHelper.min(actualStartDate, task.getActualStart());
          actualFinishDate = LocalDateTimeHelper.max(actualFinishDate, task.getActualFinish());
-         earlyStartDate = LocalDateTimeHelper.min(earlyStartDate, task.getEarlyStart());
-         earlyFinishDate = LocalDateTimeHelper.max(earlyFinishDate, task.getEarlyFinish());
-         remainingEarlyStartDate = LocalDateTimeHelper.min(remainingEarlyStartDate, task.getRemainingEarlyStart());
-         remainingEarlyFinishDate = LocalDateTimeHelper.max(remainingEarlyFinishDate, task.getRemainingEarlyFinish());
-         lateStartDate = LocalDateTimeHelper.min(lateStartDate, task.getLateStart());
-         lateFinishDate = LocalDateTimeHelper.max(lateFinishDate, task.getLateFinish());
-         remainingLateStartDate = LocalDateTimeHelper.min(remainingLateStartDate, task.getRemainingLateStart());
-         remainingLateFinishDate = LocalDateTimeHelper.max(remainingLateFinishDate, task.getRemainingLateFinish());
          baselineStartDate = LocalDateTimeHelper.min(baselineStartDate, task.getBaselineStart());
          baselineFinishDate = LocalDateTimeHelper.max(baselineFinishDate, task.getBaselineFinish());
+
+         if (task.getActivityType() != ActivityType.LEVEL_OF_EFFORT || task.getActualFinish() == null)
+         {
+            earlyStartDate = LocalDateTimeHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = LocalDateTimeHelper.max(earlyFinishDate, task.getEarlyFinish());
+            remainingEarlyStartDate = LocalDateTimeHelper.min(remainingEarlyStartDate, task.getRemainingEarlyStart());
+            remainingEarlyFinishDate = LocalDateTimeHelper.max(remainingEarlyFinishDate, task.getRemainingEarlyFinish());
+            lateStartDate = LocalDateTimeHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = LocalDateTimeHelper.max(lateFinishDate, task.getLateFinish());
+            remainingLateStartDate = LocalDateTimeHelper.min(remainingLateStartDate, task.getRemainingLateStart());
+            remainingLateFinishDate = LocalDateTimeHelper.max(remainingLateFinishDate, task.getRemainingLateFinish());
+         }
 
          if (task.getActualFinish() != null)
          {
@@ -2626,9 +2648,360 @@ public class PrimaveraScheduler implements Scheduler
       parentTask.setCritical(critical);
    }
 
+   private void levelOfEffortPass() throws CpmException
+   {
+      List<Task> activities = new DepthFirstGraphSort(m_file, t -> t.getActivityType() == ActivityType.LEVEL_OF_EFFORT).sort();
+      if (activities.isEmpty())
+      {
+         return;
+      }
+
+      for (Task activity : activities)
+      {
+         levelOfEffortPass(activity);
+      }
+   }
+
+   private void levelOfEffortPass(Task task)
+   {
+      // Foe LOE these are generated values, so we need to clear them
+      task.setActualStart(null);
+      task.setActualFinish(null);
+
+      AnnotatedDateTime earlyStartFromPredecessor = null;
+      AnnotatedDateTime earlyFinishFromPredecessor = null;
+      AnnotatedDateTime lateStartFromPredecessor = null;
+      AnnotatedDateTime lateFinishFromPredecessor = null;
+
+      for (Relation relation : task.getPredecessors())
+      {
+         Task predecessor = relation.getPredecessorTask();
+
+         switch (relation.getType())
+         {
+            case START_START:
+            {
+               if (predecessor.getActualStart() == null)
+               {
+                  earlyStartFromPredecessor = updateIfBefore(earlyStartFromPredecessor, AnnotatedDateTime.from(addLag(relation, predecessor.getEarlyStart())));
+                  lateStartFromPredecessor = updateIfBefore(lateStartFromPredecessor, AnnotatedDateTime.from(addLag(relation, predecessor.getLateStart())));
+               }
+               else
+               {
+                  earlyStartFromPredecessor = updateIfBefore(earlyStartFromPredecessor, AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualStart())));
+                  lateStartFromPredecessor = updateIfBefore(lateStartFromPredecessor, AnnotatedDateTime.from(addLag(relation, predecessor.getLateStart())));
+               }
+               break;
+            }
+
+            case FINISH_START:
+            {
+               if (predecessor.getActualFinish() == null)
+               {
+                  earlyStartFromPredecessor = updateIfBefore(earlyStartFromPredecessor, AnnotatedDateTime.from(addLag(relation, predecessor.getEarlyFinish())));
+                  lateStartFromPredecessor = updateIfBefore(lateStartFromPredecessor, AnnotatedDateTime.from(addLag(relation, predecessor.getLateFinish())));
+               }
+               else
+               {
+                  earlyStartFromPredecessor = updateIfBefore(earlyStartFromPredecessor, AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualFinish())));
+                  lateStartFromPredecessor = updateIfBefore(lateStartFromPredecessor, AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualFinish())));
+               }
+               break;
+            }
+
+            case START_FINISH:
+            {
+               if (predecessor.getActualStart() == null)
+               {
+                  earlyFinishFromPredecessor = updateIfAfter(earlyFinishFromPredecessor, AnnotatedDateTime.from(adjustFinish(task, addLag(relation, predecessor.getEarlyStart()))));
+                  lateFinishFromPredecessor = updateIfAfter(lateFinishFromPredecessor, AnnotatedDateTime.from(adjustFinish(task, addLag(relation, predecessor.getLateStart()))));
+               }
+               else
+               {
+                  earlyFinishFromPredecessor = updateIfAfter(earlyFinishFromPredecessor, AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualStart())));
+                  lateFinishFromPredecessor = updateIfAfter(lateFinishFromPredecessor, AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualStart())));
+               }
+               break;
+            }
+
+            case FINISH_FINISH:
+            {
+               if (predecessor.getActualFinish() == null)
+               {
+                  earlyFinishFromPredecessor = updateIfAfter(earlyFinishFromPredecessor, AnnotatedDateTime.from(adjustFinish(task, addLag(relation, predecessor.getEarlyFinish()))));
+                  lateFinishFromPredecessor = updateIfAfter(lateFinishFromPredecessor, AnnotatedDateTime.from(adjustFinish(task, addLag(relation, predecessor.getLateFinish()))));
+               }
+               else
+               {
+                  earlyFinishFromPredecessor = updateIfAfter(earlyFinishFromPredecessor, AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualFinish())));
+                  lateFinishFromPredecessor = updateIfAfter(lateFinishFromPredecessor, AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualFinish())));
+               }
+               break;
+            }
+         }
+      }
+
+      AnnotatedDateTime earlyStartFromSuccessor = null;
+      AnnotatedDateTime earlyFinishFromSuccessor = null;
+      AnnotatedDateTime lateStartFromSuccessor = null;
+      AnnotatedDateTime lateFinishFromSuccessor = null;
+
+      for (Relation relation : task.getSuccessors())
+      {
+         Task successor = relation.getSuccessorTask();
+
+         switch (relation.getType())
+         {
+            case START_START:
+            {
+               if (successor.getActualStart() == null)
+               {
+                  earlyStartFromSuccessor = updateIfBefore(earlyStartFromSuccessor, AnnotatedDateTime.from(removeLag(relation, successor.getEarlyStart())));
+                  lateStartFromSuccessor = updateIfBefore(lateStartFromSuccessor, AnnotatedDateTime.from(removeLag(relation, successor.getLateStart())));
+               }
+               else
+               {
+                  earlyStartFromSuccessor = updateIfBefore(earlyStartFromSuccessor, AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualStart())));
+                  lateStartFromSuccessor = updateIfBefore(lateStartFromSuccessor, AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualStart())));
+               }
+               break;
+            }
+
+            case FINISH_START:
+            {
+               if (successor.getActualStart() == null)
+               {
+                  earlyFinishFromSuccessor = updateIfAfter(earlyFinishFromSuccessor, AnnotatedDateTime.from(adjustFinish(task, removeLag(relation, successor.getEarlyStart()))));
+                  lateFinishFromSuccessor = updateIfAfter(lateFinishFromSuccessor, AnnotatedDateTime.from(adjustFinish(task, removeLag(relation, successor.getLateStart()))));
+               }
+               else
+               {
+                  earlyFinishFromSuccessor = updateIfAfter(earlyFinishFromSuccessor, AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualStart())));
+                  lateFinishFromSuccessor = updateIfAfter(lateFinishFromSuccessor, AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualStart())));
+               }
+               break;
+            }
+
+            case START_FINISH:
+            {
+               if (successor.getActualFinish() == null)
+               {
+                  earlyStartFromSuccessor = updateIfBefore(earlyStartFromSuccessor, AnnotatedDateTime.from(removeLag(relation, successor.getEarlyFinish())));
+                  lateStartFromSuccessor = updateIfBefore(lateStartFromSuccessor, AnnotatedDateTime.from(removeLag(relation, successor.getLateFinish())));
+               }
+               else
+               {
+                  earlyStartFromSuccessor = updateIfBefore(earlyStartFromSuccessor, AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualFinish())));
+                  lateStartFromSuccessor = updateIfBefore(lateStartFromSuccessor, AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualFinish())));
+               }
+               break;
+            }
+
+            case FINISH_FINISH:
+            {
+               if (successor.getActualFinish() == null)
+               {
+                  earlyFinishFromSuccessor = updateIfAfter(earlyFinishFromSuccessor, AnnotatedDateTime.from(adjustFinish(task, removeLag(relation, successor.getEarlyFinish()))));
+                  lateFinishFromSuccessor = updateIfAfter(lateFinishFromSuccessor, AnnotatedDateTime.from(adjustFinish(task, removeLag(relation, successor.getLateFinish()))));
+               }
+               else
+               {
+                  earlyFinishFromSuccessor = updateIfAfter(earlyFinishFromSuccessor, AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualFinish())));
+                  lateFinishFromSuccessor = updateIfAfter(lateFinishFromSuccessor, AnnotatedDateTime.fromActual(removeLag(relation, successor.getActualFinish())));
+               }
+               break;
+            }
+         }
+      }
+
+      AnnotatedDateTime earlyStart;
+      if (earlyStartFromPredecessor == null && earlyStartFromSuccessor == null)
+      {
+         earlyStart = AnnotatedDateTime.from(task.getEffectiveCalendar().getNextWorkStart(m_dataDate));
+      }
+      else
+      {
+         if (earlyStartFromPredecessor != null && earlyStartFromSuccessor != null)
+         {
+            earlyStart = earlyStartFromPredecessor.isBefore(earlyStartFromSuccessor) ? earlyStartFromPredecessor : earlyStartFromSuccessor;
+         }
+         else
+         {
+            earlyStart = earlyStartFromPredecessor == null ? earlyStartFromSuccessor : earlyStartFromPredecessor;
+         }
+      }
+
+      AnnotatedDateTime earlyFinish;
+      if (earlyFinishFromPredecessor == null && earlyFinishFromSuccessor == null)
+      {
+         earlyFinish = earlyStart;
+      }
+      else
+      {
+         if (earlyFinishFromPredecessor != null && earlyFinishFromSuccessor != null)
+         {
+            // Not correct: how do we determine which date to use?
+            earlyFinish = earlyFinishFromSuccessor.isAfter(earlyFinishFromPredecessor) ? earlyFinishFromSuccessor : earlyFinishFromPredecessor;
+         }
+         else
+         {
+            earlyFinish = earlyFinishFromPredecessor == null ? earlyFinishFromSuccessor : earlyFinishFromPredecessor;
+         }
+      }
+
+      AnnotatedDateTime lateFinish;
+      if (lateFinishFromPredecessor == null && lateFinishFromSuccessor == null)
+      {
+         lateFinish = AnnotatedDateTime.from(m_projectFinishDate);
+      }
+      else
+      {
+         if (lateFinishFromPredecessor != null && lateFinishFromSuccessor != null)
+         {
+            lateFinish = lateFinishFromSuccessor.isAfter(lateFinishFromPredecessor) ? lateFinishFromSuccessor : lateFinishFromPredecessor;
+         }
+         else
+         {
+            lateFinish = lateFinishFromPredecessor == null ? lateFinishFromSuccessor : lateFinishFromPredecessor;
+         }
+      }
+
+
+      AnnotatedDateTime lateStart;
+      if (lateStartFromPredecessor == null && lateStartFromSuccessor == null)
+      {
+         lateStart = lateFinish;
+      }
+      else
+      {
+         if (lateStartFromPredecessor != null && lateStartFromSuccessor != null)
+         {
+            lateStart = lateStartFromPredecessor.isBefore(lateStartFromSuccessor) ? lateStartFromPredecessor : lateStartFromSuccessor;
+         }
+         else
+         {
+            lateStart = lateStartFromPredecessor == null ? lateStartFromSuccessor : lateStartFromPredecessor;
+         }
+      }
+
+      AnnotatedDateTime start = earlyStart;
+      AnnotatedDateTime finish = earlyFinish;
+
+      if (earlyStart.isBefore(m_dataDate))
+      {
+         if (earlyStart.isActual())
+         {
+            earlyStart = AnnotatedDateTime.fromActual(m_dataDate);
+         }
+         else
+         {
+            // very dubious logic here
+            earlyStart = AnnotatedDateTime.from(task.getEffectiveCalendar().getNextWorkStart(m_dataDate));
+            start = AnnotatedDateTime.fromActual(start.getValue());
+            task.setActualStart(start.getValue());
+         }
+      }
+
+      if (!earlyFinish.isActual())
+      {
+         if (earlyFinish.isBefore(m_dataDate))
+         {
+            earlyFinish = AnnotatedDateTime.from(m_dataDate);
+         }
+
+         if (earlyFinish.isBefore(earlyStart))
+         {
+            if (earlyFinish.isActual())
+            {
+               earlyFinish = AnnotatedDateTime.fromActual(earlyStart.getValue());
+            }
+            else
+            {
+               earlyFinish = earlyStart;
+            }
+         }
+      }
+
+      if (lateStart.isAfter(lateFinish))
+      {
+         lateStart = lateFinish;
+      }
+
+      task.setStart(start.isActual() ? start.getValue() : earlyStart.getValue());
+      task.setFinish(earlyFinish.getValue());
+
+      if (earlyStart.isActual())
+      {
+         if (task.getCalendar().getWork(m_dataDate, task.getStart(), TimeUnit.HOURS).getDuration() <= 0)
+         {
+            task.setActualStart(task.getStart());
+         }
+      }
+
+      if (earlyFinish.isActual()  || lateFinish.isActual())
+      {
+         if (task.getCalendar().getWork(m_dataDate, task.getFinish(), TimeUnit.HOURS).getDuration() <= 0)
+         {
+            task.setActualStart(task.getStart());
+            task.setActualFinish(task.getFinish());
+         }
+      }
+
+      task.setEarlyStart(earlyStart.getValue());
+      task.setEarlyFinish(earlyFinish.getValue());
+      task.setLateStart(lateStart.getValue());
+      task.setLateFinish(lateFinish.getValue());
+
+      if (task.getActualStart() == null || task.getActualFinish() == null)
+      {
+         task.setRemainingEarlyStart(earlyStart.getValue());
+         task.setRemainingEarlyFinish(earlyFinish.getValue());
+         task.setRemainingLateStart(lateStart.getValue());
+         task.setRemainingLateFinish(lateFinish.getValue());
+      }
+   }
+
+   private AnnotatedDateTime updateIfBefore(AnnotatedDateTime currentDate, AnnotatedDateTime newDate)
+   {
+      if (currentDate == null)
+      {
+         return newDate;
+      }
+
+      return newDate.isBefore(currentDate) ? newDate : currentDate;
+   }
+
+   private AnnotatedDateTime updateIfAfter(AnnotatedDateTime currentDate, AnnotatedDateTime newDate)
+   {
+      if (currentDate == null)
+      {
+         return newDate;
+      }
+
+      return newDate.isAfter(currentDate) ? newDate : currentDate;
+   }
+
+   private LocalDateTime adjustFinish(Task task, LocalDateTime finish)
+   {
+      if (finish == null)
+      {
+         return null;
+      }
+      
+      ProjectCalendar calendar = task.getEffectiveCalendar();
+      LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(finish);
+
+      if (calendar.getWork(previousWorkFinish, finish, TimeUnit.HOURS).getDuration() == 0)
+      {
+         return previousWorkFinish;
+      }
+
+      return finish;
+   }
+
    private final ProjectFile m_file;
-   private LocalDateTime m_dataDate;
    private final ProjectCalendar m_twentyFourHourCalendar;
+   private LocalDateTime m_dataDate;
    private LocalDateTime m_projectStartDate;
    private LocalDateTime m_projectFinishDate;
 }
