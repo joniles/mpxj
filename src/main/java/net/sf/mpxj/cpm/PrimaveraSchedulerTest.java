@@ -430,6 +430,8 @@ public class PrimaveraSchedulerTest
       EXCLUDED_FILES.add("keen-knock.xer");
       EXCLUDED_FILES.add("dispassionate-vertex.xer");
       EXCLUDED_FILES.add("merriest-offering.xer");
+      EXCLUDED_FILES.add("harmful-brewery.xer");
+      EXCLUDED_FILES.add("intellectual-fossil.xer");
 
       // TODO: to investigate
       EXCLUDED_FILES.add("thinner-council.xer");

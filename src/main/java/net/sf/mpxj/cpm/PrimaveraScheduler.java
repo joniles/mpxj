@@ -2887,7 +2887,6 @@ public class PrimaveraScheduler implements Scheduler
       AnnotatedDateTime start = earlyStart;
       AnnotatedDateTime finish = earlyFinish;
 
-
       if (earlyStart.isBefore(m_dataDate))
       {
          if (earlyStart.isActual())
@@ -2931,7 +2930,7 @@ public class PrimaveraScheduler implements Scheduler
       task.setStart(start.isActual() ? start.getValue() : earlyStart.getValue());
       task.setFinish(earlyFinish.getValue());
 
-      if (earlyStart.isActual() || lateStart.isActual())
+      if (earlyStart.isActual())
       {
          if (task.getCalendar().getWork(m_dataDate, task.getStart(), TimeUnit.HOURS).getDuration() <= 0)
          {
