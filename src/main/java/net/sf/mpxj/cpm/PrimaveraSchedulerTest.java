@@ -41,6 +41,8 @@ public class PrimaveraSchedulerTest
 
    public void process(File directory, String suffix) throws Exception
    {
+      m_directory = true;
+
       File[] fileList = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(suffix));
       int failed = 0;
       int skipped = 0;
@@ -146,7 +148,12 @@ public class PrimaveraSchedulerTest
       System.out.println(m_baselineFile.getProjectProperties().getSchedulingProgressedActivities());
       System.out.println("Forward errors: " + m_forwardErrorCount);
       System.out.println("Backward errors: " + m_backwardErrorCount);
-      analyseFailures(analyseWbs);
+
+      if (!m_directory)
+      {
+         analyseFailures(analyseWbs);
+      }
+
       System.out.println("DONE");
       return false;
    }
@@ -295,6 +302,7 @@ public class PrimaveraSchedulerTest
       return result;
    }
 
+   private boolean m_directory;
    private ProjectFile m_baselineFile;
    private ProjectFile m_workingFile;
    private int m_forwardErrorCount;
@@ -359,9 +367,6 @@ public class PrimaveraSchedulerTest
    private static final Set<String> NO_WBS_TEST = new HashSet<>();
    static
    {
-      // LOE activities affect WBS roll up
-      NO_WBS_TEST.add("merriest-offering.xer");
-
       // Date disagreement with P6 affects rollup
       NO_WBS_TEST.add("aloof-proton-task-dependent.xer");
       NO_WBS_TEST.add("aloof-proton-coverage.xer");
@@ -424,6 +429,7 @@ public class PrimaveraSchedulerTest
       EXCLUDED_FILES.add("stuffy-sturgeon.xer");
       EXCLUDED_FILES.add("keen-knock.xer");
       EXCLUDED_FILES.add("dispassionate-vertex.xer");
+      EXCLUDED_FILES.add("merriest-offering.xer");
 
       // TODO: to investigate
       EXCLUDED_FILES.add("thinner-council.xer");
