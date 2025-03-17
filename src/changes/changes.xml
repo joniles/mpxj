@@ -5,7 +5,11 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="13.11.0">
+		<release date="unreleased" version="13.11.1">
+			<action dev="joniles" type="update">Added support for reading Float Path and Float Path Order from XER files and P6 databases.</action>
+			<action dev="joniles" type="update">Added support for writing Float Path and Float Path Order to XER files.</action>
+		</release>
+		<release date="2025-03-10" version="13.11.0">
 			<action dev="joniles" type="update">Add support for reading the WBS and Activity Methodology GUID attribute from XER files and P6 databases, and for writing this to XER files.</action>
 			<action dev="joniles" type="update">Improve accuracy of resource assignment start and finsh dates when reading XER files and P6 databases.</action>
 			<action dev="joniles" type="update">Fixed an issue reading resource code value hierarchy from XER files.</action>
@@ -14,6 +18,7 @@
 			<action dev="joniles" type="update">Added the `GanttChartView` method `getGanttBarStyleByID()`.</action>
 			<action dev="joniles" type="update">Marked the `GanttBarStyleException#getBarStyleIndex()` method as deprecated. Use the `GanttBarStyleException#getGanttBarStyleID()` method to retrieve the Gantt Bar Style ID, then use the view's `getGanttBarStyleByID()` method to retrieve a list of matching styles.</action>
 			<action dev="joniles" type="update">Added the `Duration#negate()` method to simplify negating a duration.</action>
+			<action dev="joniles" type="update">Improve provision of default values for Project Planned Start date and Activity Planned Duration when writing XER files.</action>
 		</release>
 		<release date="2025-02-07" version="13.10.0">
 			<action dev="joniles" type="update">Add support for reading the P6 EPS using the `listEps()` method provided by the `PrimaveraDatabaseReader` and `PrimaveraDatabaseFileReader` classes.</action>

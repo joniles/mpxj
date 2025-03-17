@@ -5581,6 +5581,46 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Retrieve the float path number.
+    *
+    * @return float path number
+    */
+   public Integer getFloatPath()
+   {
+      return (Integer) get(TaskField.FLOAT_PATH);
+   }
+
+   /**
+    * Set the float path number.
+    *
+    * @param value float path number
+    */
+   public void setFloatPath(Integer value)
+   {
+      set(TaskField.FLOAT_PATH, value);
+   }
+
+   /**
+    * Retrieve the float path order.
+    *
+    * @return float path order
+    */
+   public Integer getFloatPathOrder()
+   {
+      return (Integer) get(TaskField.FLOAT_PATH_ORDER);
+   }
+
+   /**
+    * Set the float path order.
+    *
+    * @param value float path order
+    */
+   public void setFloatPathOrder(Integer value)
+   {
+      set(TaskField.FLOAT_PATH_ORDER, value);
+   }
+
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.

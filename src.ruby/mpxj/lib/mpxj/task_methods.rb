@@ -5184,6 +5184,13 @@ module MPXJ
       get_boolean_value(attribute_values['marked'])
     end
 
+    # Retrieve the Methodology GUID value
+    #
+    # @return Methodology GUID value
+    def methodology_guid
+      attribute_values['methodology_guid']
+    end
+
     # Retrieve the Milestone value
     #
     # @return Milestone value
@@ -7654,6 +7661,7 @@ module MPXJ
       'manual_duration' => :duration,
       'manual_duration_units' => :time_units,
       'marked' => :boolean,
+      'methodology_guid' => :guid,
       'milestone' => :boolean,
       'mod_or_claim_number' => :string,
       'name' => :string,
