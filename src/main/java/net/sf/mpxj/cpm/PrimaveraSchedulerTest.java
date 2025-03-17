@@ -21,7 +21,7 @@ public class PrimaveraSchedulerTest
    {
       if (argv.length != 1)
       {
-         System.out.println("Usage: PrimaveraSchedulerTest <file or base folder>");
+         System.out.println("Usage: PrimaveraSchedulerTest <file or folder>");
          return;
       }
 
