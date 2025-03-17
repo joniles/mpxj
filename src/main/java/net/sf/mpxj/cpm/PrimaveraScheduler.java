@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.ActivityType;
@@ -3006,7 +3007,7 @@ public class PrimaveraScheduler implements Scheduler
       return finish;
    }
 
-   private void wbsSummaryPass() throws CpmException
+   private void wbsSummaryPass()
    {
       List<Task> activities = m_file.getTasks().stream().filter(PrimaveraScheduler::isWbsSummary).collect(Collectors.toList());
       if (activities.isEmpty())
@@ -3028,18 +3029,30 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
+      // These values can be used directly from the parent WBS
       task.setStart(wbs.getStart());
       task.setFinish(wbs.getFinish());
       task.setActualStart(wbs.getActualStart());
       task.setActualFinish(wbs.getActualFinish());
-      task.setEarlyStart(wbs.getEarlyStart());
-      task.setEarlyFinish(wbs.getEarlyFinish());
-      task.setLateStart(wbs.getLateStart());
-      task.setLateFinish(wbs.getLateFinish());
-      task.setRemainingEarlyStart(wbs.getRemainingEarlyStart());
-      task.setRemainingEarlyFinish(wbs.getRemainingEarlyFinish());
-      task.setRemainingLateStart(wbs.getRemainingLateStart());
-      task.setRemainingLateFinish(wbs.getRemainingLateFinish());
+
+      // These values can only be rolled up from not started or in progress child activities of the WBS
+      // so we need to descend the wbs hierarchy find all child activities which match these criteria.
+      List<Task> childTasks = allWbsChildTasks(wbs, new ArrayList<>());
+      task.setEarlyStart(childTasks.stream().map(Task::getEarlyStart).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(null));
+      task.setEarlyFinish(childTasks.stream().map(Task::getEarlyFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null));
+      task.setRemainingEarlyStart(childTasks.stream().map(Task::getRemainingEarlyStart).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(null));
+      task.setRemainingEarlyFinish(childTasks.stream().map(Task::getRemainingEarlyFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null));
+      task.setLateStart(childTasks.stream().map(Task::getLateStart).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(null));
+      task.setLateFinish(childTasks.stream().map(Task::getLateFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null));
+      task.setRemainingLateStart(childTasks.stream().map(Task::getRemainingLateStart).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(null));
+      task.setRemainingLateFinish(childTasks.stream().map(Task::getRemainingLateFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null));
+   }
+
+   private List<Task> allWbsChildTasks(Task wbs, List<Task> childTasks)
+   {
+     childTasks.addAll(wbs.getChildTasks().stream().filter(t -> !t.getSummary() && t.getActivityType() != ActivityType.WBS_SUMMARY && t.getActualFinish() == null).collect(Collectors.toList()));
+     wbs.getChildTasks().stream().filter(Task::getSummary).forEach(t -> allWbsChildTasks(t, childTasks));
+     return childTasks;
    }
 
    private final ProjectFile m_file;
