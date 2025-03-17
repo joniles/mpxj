@@ -87,6 +87,8 @@ public class PrimaveraScheduler implements Scheduler
       levelOfEffortPass();
 
       m_file.getChildTasks().forEach(t -> rollupDates(t));
+
+      wbsSummaryPass();
    }
 
    private void forwardPass(List<Task> tasks) throws CpmException
@@ -2270,6 +2272,11 @@ public class PrimaveraScheduler implements Scheduler
       return task.getActivityType() == ActivityType.LEVEL_OF_EFFORT;
    }
 
+   static boolean isWbsSummary(Task task)
+   {
+      return task.getActivityType() == ActivityType.WBS_SUMMARY;
+   }
+
    private void alapAdjust(Task task) throws CpmException
    {
       LocalDateTime earlyStart;
@@ -2997,6 +3004,42 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       return finish;
+   }
+
+   private void wbsSummaryPass() throws CpmException
+   {
+      List<Task> activities = m_file.getTasks().stream().filter(PrimaveraScheduler::isWbsSummary).collect(Collectors.toList());
+      if (activities.isEmpty())
+      {
+         return;
+      }
+
+      for (Task activity : activities)
+      {
+         wbsSummaryPass(activity);
+      }
+   }
+
+   private void wbsSummaryPass(Task task)
+   {
+      Task wbs = task.getParentTask();
+      if (wbs == null)
+      {
+         return;
+      }
+
+      task.setStart(wbs.getStart());
+      task.setFinish(wbs.getFinish());
+      task.setActualStart(wbs.getActualStart());
+      task.setActualFinish(wbs.getActualFinish());
+      task.setEarlyStart(wbs.getEarlyStart());
+      task.setEarlyFinish(wbs.getEarlyFinish());
+      task.setLateStart(wbs.getLateStart());
+      task.setLateFinish(wbs.getLateFinish());
+      task.setRemainingEarlyStart(wbs.getRemainingEarlyStart());
+      task.setRemainingEarlyFinish(wbs.getRemainingEarlyFinish());
+      task.setRemainingLateStart(wbs.getRemainingLateStart());
+      task.setRemainingLateFinish(wbs.getRemainingLateFinish());
    }
 
    private final ProjectFile m_file;

@@ -123,10 +123,10 @@ public class PrimaveraSchedulerTest
       {
          Task workingTask = m_workingFile.getTaskByUniqueID(baselineTask.getUniqueID());
 
-         if (workingTask.getActivityType() == ActivityType.WBS_SUMMARY)
-         {
-            continue;
-         }
+//         if (workingTask.getActivityType() == ActivityType.WBS_SUMMARY)
+//         {
+//            continue;
+//         }
 
          if (workingTask.getSummary() && NO_WBS_TEST.contains(file.getName().toLowerCase()))
          {
@@ -223,6 +223,7 @@ public class PrimaveraSchedulerTest
    {
       List<Task> activities = new DepthFirstGraphSort(m_workingFile, PrimaveraScheduler::isActivity).sort();
       List<Task> levelOfEffortActivities = new DepthFirstGraphSort(m_workingFile, PrimaveraScheduler::isLevelOfEffortActivity).sort();
+      List<Task> wbsSummaryActivities = new DepthFirstGraphSort(m_workingFile, PrimaveraScheduler::isWbsSummary).sort();
       List<Task> wbs = m_workingFile.getTasks().stream().filter(t -> t.getSummary()).collect(Collectors.toList());
 
       // Sort so we can see errors at the bottom first, as these are rolled up.
@@ -232,6 +233,8 @@ public class PrimaveraSchedulerTest
       {
          activities.forEach(t -> analyseForwardError(t));
          levelOfEffortActivities.forEach(t -> analyseForwardError(t));
+         wbsSummaryActivities.forEach(t -> analyseForwardError(t));
+
          if (analyseWbs)
          {
             wbs.forEach(t -> analyseForwardError(t));
@@ -244,6 +247,8 @@ public class PrimaveraSchedulerTest
          Collections.reverse(levelOfEffortActivities);
          activities.forEach(t -> analyseBackwardError(t));
          levelOfEffortActivities.forEach(t -> analyseBackwardError(t));
+         wbsSummaryActivities.forEach(t -> analyseBackwardError(t));
+
          if (analyseWbs)
          {
             wbs.forEach(t -> analyseBackwardError(t));
