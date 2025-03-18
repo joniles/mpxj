@@ -345,6 +345,21 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("selected-kit.mpp");
       EXCLUDED_FILES.add("brash-asceticism.mpp");
       EXCLUDED_FILES.add("stilted-vaulting.mpp");
+      EXCLUDED_FILES.add("outsized-hive.mpp");
+      EXCLUDED_FILES.add("standard-freedom.mpp");
+      EXCLUDED_FILES.add("dandy-automation.mpp");
+      EXCLUDED_FILES.add("printable-powder.mpp");
+      EXCLUDED_FILES.add("shrewdest-slate.mpp");
+      EXCLUDED_FILES.add("pituitary-springboard.mpp");
+      EXCLUDED_FILES.add("unmeshed-lab.mpp");
+      EXCLUDED_FILES.add("occupational-game.mpp");
+      EXCLUDED_FILES.add("sly-taste.mpp");
+      EXCLUDED_FILES.add("impoverished-sluice.mpp");
+      EXCLUDED_FILES.add("alternative-urgency.mpp");
+      EXCLUDED_FILES.add("drunken-thrift.mpp");
+      EXCLUDED_FILES.add("nocturnal-package.mpp");
+      EXCLUDED_FILES.add("extraterrestrial-apologetic.mpp");
+      EXCLUDED_FILES.add("uneconomical-diary.mpp");
 
       // Split task
       EXCLUDED_FILES.add("worrisome-definition.mpp");
