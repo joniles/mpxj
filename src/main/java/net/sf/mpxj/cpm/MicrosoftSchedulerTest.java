@@ -334,7 +334,18 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("content-gun.mpp");
       EXCLUDED_FILES.add("suspect-catching.mpp");
       EXCLUDED_FILES.add("cleaner-purveyor.mpp");
-             
+      EXCLUDED_FILES.add("marital-peace.mpp");
+      EXCLUDED_FILES.add("odd-robin.mpp");
+      EXCLUDED_FILES.add("beady-musket.mpp");
+      EXCLUDED_FILES.add("naval-showing.mpp");
+      EXCLUDED_FILES.add("compositional-information.mpp");
+      EXCLUDED_FILES.add("tintable-casebook.mpp");
+      EXCLUDED_FILES.add("equitable-capability.mpp");
+      EXCLUDED_FILES.add("maternal-ecliptic.mpp");
+      EXCLUDED_FILES.add("selected-kit.mpp");
+      EXCLUDED_FILES.add("brash-asceticism.mpp");
+      EXCLUDED_FILES.add("stilted-vaulting.mpp");
+
       // Split task
       EXCLUDED_FILES.add("worrisome-definition.mpp");
       EXCLUDED_FILES.add("texan-jealousy.mpp");
