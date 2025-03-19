@@ -109,7 +109,7 @@ public class MicrosoftScheduler implements Scheduler
             }
             else
             {
-               earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, m_projectStartDate, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+               earlyStart = predecessors.stream().map(r -> calculateEarlyStart(r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
             }
             earlyStart = calendar.getNextWorkStart(earlyStart);
          }
@@ -282,8 +282,9 @@ public class MicrosoftScheduler implements Scheduler
       }
    }
 
-   private LocalDateTime calculateEarlyStart(ProjectCalendar taskCalendar, LocalDateTime projectStartDate, Relation relation)
+   private LocalDateTime calculateEarlyStart(Relation relation)
    {
+      ProjectCalendar taskCalendar = relation.getSuccessorTask().getEffectiveCalendar();
       Task predecessor = relation.getPredecessorTask();
 
       switch (relation.getType())
@@ -319,9 +320,9 @@ public class MicrosoftScheduler implements Scheduler
             LocalDateTime predecessorEarlyFinish = predecessor.getActualFinish() == null ? predecessor.getEarlyFinish() : predecessor.getActualFinish();
             LocalDateTime earlyStart = taskCalendar.getDate(predecessorEarlyFinish, relation.getSuccessorTask().getRemainingDuration().negate());
             earlyStart = getLagCalendar(taskCalendar, relation).getDate(earlyStart, relation.getLag());
-            if (earlyStart.isBefore(projectStartDate))
+            if (earlyStart.isBefore(m_projectStartDate))
             {
-               earlyStart = projectStartDate;
+               earlyStart = m_projectStartDate;
             }
             return earlyStart;
          }
