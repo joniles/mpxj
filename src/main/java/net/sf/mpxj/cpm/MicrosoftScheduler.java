@@ -214,7 +214,7 @@ public class MicrosoftScheduler implements Scheduler
                }
                else
                {
-                  lateFinish = successors.stream().map(r -> calculateLateFinish(calendar, r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+                  lateFinish = successors.stream().map(r -> calculateLateFinish(r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
                }
 
                switch (task.getConstraintType())
@@ -339,8 +339,9 @@ public class MicrosoftScheduler implements Scheduler
       }
    }
 
-   private LocalDateTime calculateLateFinish(ProjectCalendar taskCalendar, Relation relation)
+   private LocalDateTime calculateLateFinish(Relation relation)
    {
+      ProjectCalendar taskCalendar = relation.getPredecessorTask().getEffectiveCalendar();
       Task predecessorTask = relation.getPredecessorTask();
       Task successorTask = relation.getSuccessorTask();
       LocalDateTime lateFinish;
