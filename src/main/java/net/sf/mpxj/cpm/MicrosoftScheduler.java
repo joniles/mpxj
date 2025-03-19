@@ -30,6 +30,8 @@ public class MicrosoftScheduler implements Scheduler
          throw new CpmException("Schedule contains summary tasks with predecessors or successors");
       }
 
+      m_projectStartDate = projectStartDate;
+
       List<Task> tasks = new DepthFirstGraphSort(m_file, this::isTask).sort();
       if (tasks.isEmpty())
       {
@@ -40,33 +42,29 @@ public class MicrosoftScheduler implements Scheduler
       // clearDates();
 
       m_backwardPass = false;
-      forwardPass(projectStartDate, tasks);
+      forwardPass(tasks);
 
-      LocalDateTime projectFinishDate = null;
+      m_projectFinishDate = tasks.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
 
-      if (projectFinishDate== null)
-      {
-         projectFinishDate = tasks.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
-      }
 
-      backwardPass(projectFinishDate, tasks);
+      backwardPass(tasks);
       m_backwardPass = true;
 
       if (tasks.stream().anyMatch(t -> t.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE))
       {
-         forwardPass(projectStartDate, tasks);
+         forwardPass(tasks);
       }
    }
 
-   private void forwardPass(LocalDateTime projectStartDate, List<Task> tasks) throws CpmException
+   private void forwardPass(List<Task> tasks) throws CpmException
    {
       for (Task task : tasks)
       {
-         forwardPass(projectStartDate, task);
+         forwardPass(task);
       }
    }
 
-   private void forwardPass(LocalDateTime projectStartDate, Task task) throws CpmException
+   private void forwardPass(Task task) throws CpmException
    {
       ProjectCalendar calendar = task.getEffectiveCalendar();
       LocalDateTime earlyStart;
@@ -104,14 +102,14 @@ public class MicrosoftScheduler implements Scheduler
 
                   default:
                   {
-                     earlyStart = projectStartDate;
+                     earlyStart = m_projectStartDate;
                      break;
                   }
                }
             }
             else
             {
-               earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+               earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, m_projectStartDate, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
             }
             earlyStart = calendar.getNextWorkStart(earlyStart);
          }
@@ -189,7 +187,7 @@ public class MicrosoftScheduler implements Scheduler
       task.setEarlyFinish(earlyFinish);
    }
 
-   private void backwardPass(LocalDateTime projectFinishDate, List<Task> forwardPassTasks) throws CpmException
+   private void backwardPass(List<Task> forwardPassTasks) throws CpmException
    {
       List<Task> tasks = new ArrayList<>(forwardPassTasks);
       Collections.reverse(tasks);
@@ -212,11 +210,11 @@ public class MicrosoftScheduler implements Scheduler
             {
                if (successors.isEmpty())
                {
-                  lateFinish = projectFinishDate;
+                  lateFinish = m_projectFinishDate;
                }
                else
                {
-                  lateFinish = successors.stream().map(r -> calculateLateFinish(calendar, projectFinishDate, r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+                  lateFinish = successors.stream().map(r -> calculateLateFinish(calendar, r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
                }
 
                switch (task.getConstraintType())
@@ -340,7 +338,7 @@ public class MicrosoftScheduler implements Scheduler
       }
    }
 
-   private LocalDateTime calculateLateFinish(ProjectCalendar taskCalendar, LocalDateTime projectFinishDate, Relation relation)
+   private LocalDateTime calculateLateFinish(ProjectCalendar taskCalendar, Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
       Task successorTask = relation.getSuccessorTask();
@@ -350,7 +348,7 @@ public class MicrosoftScheduler implements Scheduler
       {
          case START_START:
          {
-            lateFinish = projectFinishDate;
+            lateFinish = m_projectFinishDate;
             break;
          }
 
@@ -374,9 +372,9 @@ public class MicrosoftScheduler implements Scheduler
          }
       }
 
-      if (lateFinish.isAfter(projectFinishDate))
+      if (lateFinish.isAfter(m_projectFinishDate))
       {
-         return projectFinishDate;
+         return m_projectFinishDate;
       }
 
       return lateFinish;
@@ -451,4 +449,6 @@ public class MicrosoftScheduler implements Scheduler
 
    private final ProjectFile m_file;
    private boolean m_backwardPass;
+   private LocalDateTime m_projectStartDate;
+   private LocalDateTime m_projectFinishDate;
 }
