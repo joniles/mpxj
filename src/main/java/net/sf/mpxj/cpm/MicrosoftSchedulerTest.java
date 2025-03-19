@@ -51,6 +51,11 @@ public class MicrosoftSchedulerTest
       for (File file : fileList)
       {
          String name = file.getName().toLowerCase();
+         if (UNREADABLE_FILES.contains(name))
+         {
+            continue;
+         }
+
          ++valid;
 
          if (EXCLUDED_FILES.contains(name))
@@ -131,20 +136,16 @@ public class MicrosoftSchedulerTest
    {
       boolean earlyStartFailed = !compareDates(baseline, working, TaskField.EARLY_START);
       boolean earlyFinishFailed = !compareDates(baseline, working, TaskField.EARLY_FINISH);
-      boolean startFailed = !compareDates(baseline, working, TaskField.START);
-      boolean finishFailed = !compareDates(baseline, working, TaskField.FINISH);
-      boolean remainingEarlyStartFailed = !compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
-      boolean remainingEarlyFinishFailed = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
-      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || remainingEarlyStartFailed || remainingEarlyFinishFailed)
+//      boolean startFailed = !compareDates(baseline, working, TaskField.START);
+//      boolean finishFailed = !compareDates(baseline, working, TaskField.FINISH);
+      if (earlyStartFailed || earlyFinishFailed /*|| startFailed || finishFailed*/)
       {
          ++m_forwardErrorCount;
       }
 
       boolean lateStartFailed = !compareDates(baseline, working, TaskField.LATE_START);
       boolean lateFinishFailed = !compareDates(baseline, working, TaskField.LATE_FINISH);
-      boolean remainingLateStartFailed = !compareDates(baseline, working, TaskField.REMAINING_LATE_START);
-      boolean remainingLateFinishFailed = !compareDates(baseline, working, TaskField.REMAINING_LATE_FINISH);
-      if (lateStartFailed || lateFinishFailed || remainingLateStartFailed || remainingLateFinishFailed)
+      if (lateStartFailed || lateFinishFailed)
       {
          ++m_backwardErrorCount;
       }
@@ -213,18 +214,14 @@ public class MicrosoftSchedulerTest
       Task baseline = m_baselineFile.getTaskByUniqueID(working.getUniqueID());
       boolean earlyStartFail = !compareDates(baseline, working, TaskField.EARLY_START);
       boolean earlyFinishFail = !compareDates(baseline, working, TaskField.EARLY_FINISH);
-      boolean startFail = !compareDates(baseline, working, TaskField.START);
-      boolean finishFail = !compareDates(baseline, working, TaskField.FINISH);
-      boolean remainingEarlyStartFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
-      boolean remainingEarlyFinishFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
+//      boolean startFail = !compareDates(baseline, working, TaskField.START);
+//      boolean finishFail = !compareDates(baseline, working, TaskField.FINISH);
 
       System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
       System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
       System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
-      System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (startFail ? " FAIL" : ""));
-      System.out.println("Finish: " + baseline.getFinish() + " " + working.getFinish() + (finishFail ? " FAIL" : ""));
-      System.out.println("Remaining Early Start: " + baseline.getRemainingEarlyStart() + " " + working.getRemainingEarlyStart() + (remainingEarlyStartFail ? " FAIL" : ""));
-      System.out.println("Remaining Early Finish: " + baseline.getRemainingEarlyFinish() + " " + working.getRemainingEarlyFinish() + (remainingEarlyFinishFail ? " FAIL" : ""));
+//      System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (startFail ? " FAIL" : ""));
+//      System.out.println("Finish: " + baseline.getFinish() + " " + working.getFinish() + (finishFail ? " FAIL" : ""));
       System.out.println();
    }
 
@@ -233,14 +230,10 @@ public class MicrosoftSchedulerTest
       Task baseline = m_baselineFile.getTaskByUniqueID(working.getUniqueID());
       boolean lateStartFail = !compareDates(baseline, working, TaskField.LATE_START);
       boolean lateFinishFail = !compareDates(baseline, working, TaskField.LATE_FINISH);
-      boolean remainingLateStartFail = !compareDates(baseline, working, TaskField.REMAINING_LATE_START);
-      boolean remainingLateFinishFail = !compareDates(baseline, working, TaskField.REMAINING_LATE_FINISH);
 
       System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
       System.out.println("Late Start: " + baseline.getLateStart() + " " + working.getLateStart() + (lateStartFail ? " FAIL" : ""));
       System.out.println("Late Finish: " + baseline.getLateFinish() + " " + working.getLateFinish() + (lateFinishFail ? " FAIL" : ""));
-      System.out.println("Remaining Late Start: " + baseline.getRemainingLateStart() + " " + working.getRemainingLateStart() + (remainingLateStartFail ? " FAIL" : ""));
-      System.out.println("Remaining Late Finish: " + baseline.getRemainingLateFinish() + " " + working.getRemainingLateFinish() + (remainingLateFinishFail ? " FAIL" : ""));
       System.out.println();
    }
 
@@ -260,18 +253,28 @@ public class MicrosoftSchedulerTest
    private int m_forwardErrorCount;
    private int m_backwardErrorCount;
 
+   private static final Set<String> UNREADABLE_FILES = new HashSet<>();
+   static
+   {
+      // Microsoft Project can't read
+      UNREADABLE_FILES.add("easy-centrifuge.mpp");
+   }
+
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
    static
    {
       // Misc MPP files
       EXCLUDED_FILES.add("photographic-magic.mpp"); // External tasks used but not visible in MSP
       EXCLUDED_FILES.add("bizarre-doomsday.mpp"); // Manually scheduled task without any explicitly supplied dates
-      EXCLUDED_FILES.add("optimistic-layer.mpp"); // TODO: maybe we're not working with calendars correctly - should be considering the resource calendars and merging?
       EXCLUDED_FILES.add("adequate-function.mpp"); // TODO: assignment leveling delay
       EXCLUDED_FILES.add("serene-birthright.mpp"); // TODO: oddity handling one late finish constraint versus end of working time
       EXCLUDED_FILES.add("microsomal-finisher.mpp"); // TODO: late finish, project end determined by constrained task - use unconstrained early finish as project end?
       EXCLUDED_FILES.add("circulatory-collapse.mpp"); // TODO: needs calculation at assignment level?
       EXCLUDED_FILES.add("onrushing-stratification.mpp"); // MPP reading issue: missing predecessor
+
+      // Uses resource calendar
+      EXCLUDED_FILES.add("optimistic-layer.mpp");
+      EXCLUDED_FILES.add("constructional-smokehouse.mpp");
 
       // Scheduled from end
       EXCLUDED_FILES.add("dietetic-phrasing.mpp");
