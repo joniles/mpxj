@@ -356,20 +356,20 @@ public class MicrosoftScheduler implements Scheduler
 
          case FINISH_FINISH:
          {
-            lateFinish = getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateFinish(), relation.getLag().negate());
+            lateFinish = removeLag(relation, successorTask.getLateFinish());
             break;
          }
 
          case START_FINISH:
          {
             lateFinish = taskCalendar.getDate(successorTask.getLateFinish(), predecessorTask.getDuration());
-            lateFinish = getLagCalendar(taskCalendar, relation).getDate(lateFinish, relation.getLag().negate());
+            lateFinish = removeLag(relation, lateFinish);
             break;
          }
 
          default:
          {
-            lateFinish = getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateStart(), relation.getLag().negate());
+            lateFinish = removeLag(relation, successorTask.getLateStart());
             break;
          }
       }
@@ -439,11 +439,6 @@ public class MicrosoftScheduler implements Scheduler
       return date.plusMinutes((long)duration);
    }
 
-   private ProjectCalendar getLagCalendar(ProjectCalendar taskCalendar, Relation relation)
-   {
-      return taskCalendar;
-   }
-
    public boolean isTask(Task task)
    {
       return !(task.getSummary() || !task.getActive() || task.getNull());
@@ -453,6 +448,12 @@ public class MicrosoftScheduler implements Scheduler
    {
       ProjectCalendar calendar = relation.getSuccessorTask().getEffectiveCalendar();
       return calendar.getDate(date, relation.getLag());
+   }
+
+   private LocalDateTime removeLag(Relation relation, LocalDateTime date)
+   {
+      ProjectCalendar calendar = relation.getPredecessorTask().getEffectiveCalendar();
+      return calendar.getDate(date, relation.getLag().negate());
    }
 
    private final ProjectFile m_file;
