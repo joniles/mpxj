@@ -294,11 +294,11 @@ public class MicrosoftScheduler implements Scheduler
             // MS Project only: If predecessor is ALAP task and backward pass has been run then use predecessor late finish
             if (predecessor.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE && relation.getSuccessorTask().getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && m_backwardPass)
             {
-               return getLagCalendar(taskCalendar, relation).getDate(predecessor.getLateFinish(), relation.getLag());
+               return addLag(relation, predecessor.getLateFinish());
             }
             else
             {
-               return getLagCalendar(taskCalendar, relation).getDate(predecessor.getEarlyFinish(), relation.getLag());
+               return addLag(relation, predecessor.getEarlyFinish());
             }
          }
 
@@ -308,7 +308,7 @@ public class MicrosoftScheduler implements Scheduler
             {
                return predecessor.getEarlyStart();
             }
-            return getLagCalendar(taskCalendar, relation).getDate(predecessor.getEarlyStart(), relation.getLag());
+            return addLag(relation, predecessor.getEarlyStart());
          }
 
          case FINISH_FINISH:
@@ -319,7 +319,7 @@ public class MicrosoftScheduler implements Scheduler
             // seem to be unaffected.
             LocalDateTime predecessorEarlyFinish = predecessor.getActualFinish() == null ? predecessor.getEarlyFinish() : predecessor.getActualFinish();
             LocalDateTime earlyStart = taskCalendar.getDate(predecessorEarlyFinish, relation.getSuccessorTask().getRemainingDuration().negate());
-            earlyStart = getLagCalendar(taskCalendar, relation).getDate(earlyStart, relation.getLag());
+            earlyStart = addLag(relation, earlyStart);
             if (earlyStart.isBefore(m_projectStartDate))
             {
                earlyStart = m_projectStartDate;
@@ -329,7 +329,7 @@ public class MicrosoftScheduler implements Scheduler
 
          case START_FINISH:
          {
-            return getLagCalendar(taskCalendar, relation).getDate(taskCalendar.getDate(predecessor.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
+            return addLag(relation, taskCalendar.getDate(predecessor.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()));
          }
 
          default:
@@ -447,6 +447,12 @@ public class MicrosoftScheduler implements Scheduler
    public boolean isTask(Task task)
    {
       return !(task.getSummary() || !task.getActive() || task.getNull());
+   }
+
+   private LocalDateTime addLag(Relation relation, LocalDateTime date)
+   {
+      ProjectCalendar calendar = relation.getSuccessorTask().getEffectiveCalendar();
+      return calendar.getDate(date, relation.getLag());
    }
 
    private final ProjectFile m_file;
