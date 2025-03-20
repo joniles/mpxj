@@ -610,6 +610,13 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public LocalDateTime getDate(LocalDateTime date, Duration duration)
    {
+      if (duration.getUnits().isElapsed())
+      {
+         ProjectProperties properties = getParentFile().getProjectProperties();
+         double elapsedMinutes = duration.convertUnits(TimeUnit.ELAPSED_MINUTES, properties).getDuration();
+         return date.plusMinutes((long)elapsedMinutes);
+      }
+
       return duration.getDuration() < 0 ? getDateFromNegativeDuration(date, duration) : getDateFromPositiveDuration(date, duration);
    }
 

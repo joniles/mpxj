@@ -25,4 +25,5 @@ classpath in order to use all of the MPXJ functionality. The `script` directory
 in the zip file contains a batch file and a shell script which show how this
 can be done.
 
-You'll find a general introduction to MPXJ's functionality [here](howto-start.md).
+You'll find a general introduction to MPXJ's functionality [here](howto-start.md),
+and sample Java code using MPXJ [here](https://github.com/joniles/mpxj-java-samples).

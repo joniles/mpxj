@@ -73,6 +73,6 @@ are available from NuGet as the following packages:
 * [net.sf.mpxj-for-vb](https://www.nuget.org/packages/net.sf.mpxj-for-vb) translation of MPXJ with properties and methods following C# naming conventions with some adjustments to accommodate VB's lack of case sensitivity
 
 ## Sample Code
-There is a repository containing sample .Net
-code for MPXJ covering use of the library in more depth. This repository 
-can be found [here](https://github.com/joniles/mpxj-dotnet-samples).
+You'll find a general introduction to MPXJ's functionality
+[here](howto-start.md),
+and sample .Net code using MPXJ [here](https://github.com/joniles/mpxj-dotnet-samples).
