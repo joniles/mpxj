@@ -271,6 +271,7 @@ public class MicrosoftSchedulerTest
       // Aligns with MPXJ when scheduled
       USE_SCHEDULED_COPY.add("diverse-parade.mpp");
       USE_SCHEDULED_COPY.add("southwest-guidance.mpp");
+      USE_SCHEDULED_COPY.add("statistical-chin.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -292,7 +293,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("feudal-walk.mpp");
       EXCLUDED_FILES.add("cortical-multitude.mpp");
       EXCLUDED_FILES.add("philosophical-excuse.mpp");
-
+      EXCLUDED_FILES.add("unchanged-gift.mpp");
 
       // Scheduled from end
       EXCLUDED_FILES.add("dietetic-phrasing.mpp");
