@@ -1,10 +1,13 @@
 package net.sf.mpxj.cpm;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.ConstraintType;
@@ -482,55 +485,18 @@ public class MicrosoftScheduler implements Scheduler
       {
          return date;
       }
-
-      // Original duration
-      double duration = delay.getDuration();
-
-      // Convert to minutes
-      switch (delay.getUnits())
+      
+      if (!delay.getUnits().isElapsed())
       {
-         case HOURS:
-         case ELAPSED_HOURS:
-         {
-            duration = duration * 60.0;
-            break;
-         }
-
-         case DAYS:
-         case ELAPSED_DAYS:
-         {
-            duration = duration * 1440.0;
-            break;
-         }
-
-         case WEEKS:
-         case ELAPSED_WEEKS:
-         {
-            duration = duration * 1440.0 * 7.0;
-            break;
-         }
-
-         case MONTHS:
-         case ELAPSED_MONTHS:
-         {
-            duration = duration * 1440.0 * 30;
-            break;
-         }
-
-         case YEARS:
-         case ELAPSED_YEARS:
-         {
-            duration = duration * 1440.0 * 365.0;
-            break;
-         }
-
-         default:
+         TimeUnit newTimeUnit = DURATION_UNITS_MAP.get(delay.getUnits());
+         if (newTimeUnit == null)
          {
             throw new UnsupportedOperationException("Unsupported TimeUnit " + delay.getUnits());
          }
+         delay = Duration.getInstance(delay.getDuration() , newTimeUnit);
       }
 
-      return date.plusMinutes((long)duration);
+      return calendar.getDate(date, delay);
    }
 
    public boolean isTask(Task task)
@@ -554,4 +520,15 @@ public class MicrosoftScheduler implements Scheduler
    private boolean m_backwardPass;
    private LocalDateTime m_projectStartDate;
    private LocalDateTime m_projectFinishDate;
+
+   private static final Map<TimeUnit, TimeUnit> DURATION_UNITS_MAP = new HashMap<>();
+   static
+   {
+      DURATION_UNITS_MAP.put(TimeUnit.MINUTES, TimeUnit.ELAPSED_MINUTES);
+      DURATION_UNITS_MAP.put(TimeUnit.HOURS, TimeUnit.ELAPSED_HOURS);
+      DURATION_UNITS_MAP.put(TimeUnit.DAYS, TimeUnit.ELAPSED_DAYS);
+      DURATION_UNITS_MAP.put(TimeUnit.WEEKS, TimeUnit.ELAPSED_WEEKS);
+      DURATION_UNITS_MAP.put(TimeUnit.MONTHS, TimeUnit.ELAPSED_MONTHS);
+      DURATION_UNITS_MAP.put(TimeUnit.YEARS, TimeUnit.ELAPSED_YEARS);
+   }
 }
