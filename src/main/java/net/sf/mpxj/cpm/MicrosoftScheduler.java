@@ -198,75 +198,73 @@ public class MicrosoftScheduler implements Scheduler
          ProjectCalendar calendar = task.getEffectiveCalendar();
          LocalDateTime lateFinish;
 
-
          if (task.getActualFinish() == null)
          {
-            // Special case: if we have a milestone with only an actual start set, actual start (and hence late finish) must have the same date
-            if (task.getMilestone() && task.getActualStart() != null)
+            if (successors.isEmpty())
             {
-               lateFinish = task.getActualStart();
+               lateFinish = m_projectFinishDate;
             }
             else
             {
-               if (successors.isEmpty())
+               if (task.getMilestone() && task.getDuration().getDuration() == 0 && task.getActualStart() != null)
                {
-                  lateFinish = m_projectFinishDate;
+                  lateFinish = task.getActualStart();
                }
                else
                {
                   lateFinish = successors.stream().map(r -> calculateLateFinish(r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
                }
+            }
 
-               switch (task.getConstraintType())
+            switch (task.getConstraintType())
+            {
+               case MUST_START_ON:
                {
-                  case MUST_START_ON:
-                  {
-                     lateFinish = calendar.getDate(task.getConstraintDate(), task.getDuration());
-                     break;
-                  }
+                  lateFinish = calendar.getDate(task.getConstraintDate(), task.getDuration());
+                  break;
+               }
 
-                  case FINISH_ON:
-                  case MUST_FINISH_ON:
+               case FINISH_ON:
+               case MUST_FINISH_ON:
+               {
+                  lateFinish = task.getConstraintDate();
+                  break;
+               }
+
+               case START_NO_LATER_THAN:
+               {
+                  LocalDateTime latestFinish = calendar.getDate(task.getConstraintDate(), task.getDuration());
+                  if (lateFinish.isAfter(latestFinish))
+                  {
+                     lateFinish = latestFinish;
+                  }
+                  break;
+               }
+
+               case FINISH_NO_LATER_THAN:
+               {
+                  if (lateFinish.isAfter(task.getConstraintDate()))
                   {
                      lateFinish = task.getConstraintDate();
-                     break;
-                  }
-
-                  case START_NO_LATER_THAN:
-                  {
-                     LocalDateTime latestFinish = calendar.getDate(task.getConstraintDate(), task.getDuration());
-                     if (lateFinish.isAfter(latestFinish))
-                     {
-                        lateFinish = latestFinish;
-                     }
-                     break;
-                  }
-
-                  case FINISH_NO_LATER_THAN:
-                  {
-                     if (lateFinish.isAfter(task.getConstraintDate()))
-                     {
-                        lateFinish = task.getConstraintDate();
-                     }
                   }
                }
+            }
 
-               if (task.getDeadline() != null && lateFinish.isAfter(task.getDeadline()))
+            if (task.getDeadline() != null && lateFinish.isAfter(task.getDeadline()))
+            {
+               lateFinish = task.getDeadline();
+            }
+
+            // If we are at the start of the next period of work, we can move back to the end of the previous period of work
+            LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(lateFinish);
+
+            if (calendar.getWork(previousWorkFinish, lateFinish, TimeUnit.HOURS).getDuration() == 0)
+            {
+               // TODO: this condition may need work for MS Project.
+               // In some/many cases it allows late finish to be at the start of the next working day.
+               if (!previousWorkFinish.isBefore(lateFinish))
                {
-                  lateFinish = task.getDeadline();
-               }
-
-               // If we are at the start of the next period of work, we can move back to the end of the previous period of work
-               LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(lateFinish);
-
-               if (calendar.getWork(previousWorkFinish, lateFinish, TimeUnit.HOURS).getDuration() == 0)
-               {
-                  // TODO: this condition may need work for MS Project.
-                  // In some/many cases it allows late finish to be at the start of the next working day.
-                  if (!previousWorkFinish.isBefore(lateFinish))
-                  {
-                     lateFinish = previousWorkFinish;
-                  }
+                  lateFinish = previousWorkFinish;
                }
             }
          }
