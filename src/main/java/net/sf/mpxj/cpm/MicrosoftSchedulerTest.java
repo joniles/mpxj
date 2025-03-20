@@ -275,6 +275,7 @@ public class MicrosoftSchedulerTest
       // Uses resource calendar
       EXCLUDED_FILES.add("optimistic-layer.mpp");
       EXCLUDED_FILES.add("constructional-smokehouse.mpp");
+      EXCLUDED_FILES.add("feudal-walk.mpp");
 
       // Scheduled from end
       EXCLUDED_FILES.add("dietetic-phrasing.mpp");
