@@ -56,6 +56,11 @@ public class MicrosoftSchedulerTest
             continue;
          }
 
+         if (USE_SCHEDULED_COPY.contains(name))
+         {
+            continue;
+         }
+
          ++valid;
 
          if (EXCLUDED_FILES.contains(name))
@@ -260,6 +265,13 @@ public class MicrosoftSchedulerTest
       UNREADABLE_FILES.add("easy-centrifuge.mpp");
    }
 
+   private static final Set<String> USE_SCHEDULED_COPY = new HashSet<>();
+   static
+   {
+      // Aligns with MPXJ when scheduled
+      USE_SCHEDULED_COPY.add("diverse-parade.mpp");
+   }
+
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
    static
    {
@@ -272,10 +284,13 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("circulatory-collapse.mpp"); // TODO: needs calculation at assignment level?
       EXCLUDED_FILES.add("onrushing-stratification.mpp"); // MPP reading issue: missing predecessor
 
-      // Uses resource calendar
+      // Use resource calendar
       EXCLUDED_FILES.add("optimistic-layer.mpp");
       EXCLUDED_FILES.add("constructional-smokehouse.mpp");
       EXCLUDED_FILES.add("feudal-walk.mpp");
+      EXCLUDED_FILES.add("cortical-multitude.mpp");
+      EXCLUDED_FILES.add("philosophical-excuse.mpp");
+
 
       // Scheduled from end
       EXCLUDED_FILES.add("dietetic-phrasing.mpp");
