@@ -350,7 +350,7 @@ public class MicrosoftScheduler implements Scheduler
       {
          case START_START:
          {
-            lateFinish = m_projectFinishDate;
+            lateFinish = calculateLateFinishForStartStart(relation);
             break;
          }
 
@@ -377,6 +377,102 @@ public class MicrosoftScheduler implements Scheduler
       if (lateFinish.isAfter(m_projectFinishDate))
       {
          return m_projectFinishDate;
+      }
+
+      return lateFinish;
+   }
+
+
+   private LocalDateTime calculateLateFinishForStartStart(Relation relation)
+   {
+      Task predecessorTask = relation.getPredecessorTask();
+      Task successorTask = relation.getSuccessorTask();
+      ProjectCalendar calendar = predecessorTask.getEffectiveCalendar();
+
+      LocalDateTime lateStart;
+      LocalDateTime lateFinish;
+
+      if (predecessorTask.getActualStart() == null)
+      {
+         // Predecessor not started
+         if (successorTask.getActualStart() == null)
+         {
+            // Successor not started
+            lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
+            lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
+         }
+         else
+         {
+            // successor started
+            if (successorTask.getActualFinish() == null)
+            {
+               // successor not finished
+               lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
+               lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
+            }
+            else
+            {
+               // successor finished
+               lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
+               lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
+            }
+         }
+      }
+      else
+      {
+         // Predecessor Started
+         if (predecessorTask.getActualFinish() != null)
+         {
+            // Predecessor finished
+            if (successorTask.getActualStart() == null)
+            {
+               // Successor not started
+               lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
+               lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
+            }
+            else
+            {
+               // successor started
+               if (successorTask.getActualFinish() == null)
+               {
+                  // successor not finished
+                  lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
+                  lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
+               }
+               else
+               {
+                  // successor finished
+                  lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
+                  lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
+               }
+            }
+         }
+         else
+         {
+            // Predecessor not finished
+            if (successorTask.getActualStart() == null)
+            {
+               // Successor not started
+               lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
+               lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
+            }
+            else
+            {
+               // successor started
+               if (successorTask.getActualFinish() == null)
+               {
+                  // successor not finished
+                  lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
+                  lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
+               }
+               else
+               {
+                  // successor finished
+                  lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
+                  lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
+               }
+            }
+         }
       }
 
       return lateFinish;
