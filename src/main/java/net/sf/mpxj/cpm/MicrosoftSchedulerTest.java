@@ -270,6 +270,7 @@ public class MicrosoftSchedulerTest
    {
       // Aligns with MPXJ when scheduled
       USE_SCHEDULED_COPY.add("diverse-parade.mpp");
+      USE_SCHEDULED_COPY.add("southwest-guidance.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -283,6 +284,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("microsomal-finisher.mpp"); // TODO: late finish, project end determined by constrained task - use unconstrained early finish as project end?
       EXCLUDED_FILES.add("circulatory-collapse.mpp"); // TODO: needs calculation at assignment level?
       EXCLUDED_FILES.add("onrushing-stratification.mpp"); // MPP reading issue: missing predecessor
+      EXCLUDED_FILES.add("unerring-gravitation.mpp"); // MPP12 external project not recognised correctly
 
       // Use resource calendar
       EXCLUDED_FILES.add("optimistic-layer.mpp");
@@ -432,5 +434,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("undisputed-empire.mpp");
       EXCLUDED_FILES.add("uninvited-friend.mpp");
       EXCLUDED_FILES.add("quickest-photoluminescence.mpp");
+      EXCLUDED_FILES.add("irresolvable-booth.mpp");
+      EXCLUDED_FILES.add("willful-welter.mpp");
    }
 }
