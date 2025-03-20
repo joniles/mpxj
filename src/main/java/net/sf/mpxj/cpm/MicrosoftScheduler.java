@@ -1,6 +1,5 @@
 package net.sf.mpxj.cpm;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -105,7 +104,7 @@ public class MicrosoftScheduler implements Scheduler
 
                   default:
                   {
-                     earlyStart = m_projectStartDate;
+                     earlyStart = addLevelingDelay(task,  m_projectStartDate);
                      break;
                   }
                }
@@ -183,7 +182,7 @@ public class MicrosoftScheduler implements Scheduler
 
       if (earlyFinish == null)
       {
-         earlyFinish = task.getActualFinish() == null ? calendar.getDate(addLevelingDelay(calendar, earlyStart, task.getLevelingDelay()), task.getDuration()) : task.getActualFinish();
+         earlyFinish = task.getActualFinish() == null ? calendar.getDate(earlyStart, task.getDuration()) : task.getActualFinish();
       }
 
       task.setEarlyStart(earlyStart);
@@ -479,13 +478,14 @@ public class MicrosoftScheduler implements Scheduler
       return lateFinish;
    }
 
-   private LocalDateTime addLevelingDelay(ProjectCalendar calendar, LocalDateTime date, Duration delay)
+   private LocalDateTime addLevelingDelay(Task task, LocalDateTime date)
    {
+      Duration delay = task.getLevelingDelay();
       if (delay == null || delay.getDuration() == 0)
       {
          return date;
       }
-      
+
       if (!delay.getUnits().isElapsed())
       {
          TimeUnit newTimeUnit = DURATION_UNITS_MAP.get(delay.getUnits());
@@ -496,6 +496,9 @@ public class MicrosoftScheduler implements Scheduler
          delay = Duration.getInstance(delay.getDuration() , newTimeUnit);
       }
 
+      ProjectCalendar calendar = task.getEffectiveCalendar();
+      // ensure we are in a working period
+      date = calendar.getNextWorkStart(date);
       return calendar.getDate(date, delay);
    }
 
