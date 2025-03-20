@@ -11,4 +11,5 @@ You can find some documentation for the Package
 You'll need Java installed to make use of this package.
 
 You'll find a general introduction to MPXJ's functionality
-[here](howto-start.md).
+[here](howto-start.md),
+and sample Python code using MPXJ [here](https://github.com/joniles/mpxj-python-samples).

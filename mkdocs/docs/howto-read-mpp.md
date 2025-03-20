@@ -1,9 +1,10 @@
 # How To: Read MPP files
 The native Microsoft Project file format is typically has the extension MPP
-(or MPT for a template file). Although a common file extension uis used,
-there are actually a number if different variants of the file format.
-The list below shows the different variants, and the versions of 
-Microsoft Project which produce them:
+(or MPT for a template file). Although a common file extension is used,
+there are actually a number of different variants of the file format.
+MPXJ can read all MPP file versions. For reference, the list below shows the
+different MPP file types, and the versions of Microsoft Project which produce
+them:
 
 * MPP8 - Project 98
 * MPP9 - Project 2000 and Project 2002
