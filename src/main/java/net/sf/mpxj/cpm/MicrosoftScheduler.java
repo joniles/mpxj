@@ -589,12 +589,22 @@ public class MicrosoftScheduler implements Scheduler
 
    private LocalDateTime addLag(Relation relation, LocalDateTime date)
    {
+      if (relation.getLag().getDuration() == 0)
+      {
+         return date;
+      }
+
       ProjectCalendar calendar = relation.getSuccessorTask().getEffectiveCalendar();
       return calendar.getDate(date, relation.getLag());
    }
 
    private LocalDateTime removeLag(Relation relation, LocalDateTime date)
    {
+      if (relation.getLag().getDuration() == 0)
+      {
+         return date;
+      }
+
       ProjectCalendar calendar = relation.getPredecessorTask().getEffectiveCalendar();
       return calendar.getDate(date, relation.getLag().negate());
    }
