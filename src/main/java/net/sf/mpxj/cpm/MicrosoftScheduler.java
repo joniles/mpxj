@@ -304,11 +304,12 @@ public class MicrosoftScheduler implements Scheduler
 
          case START_START:
          {
-            if (predecessor.getActualStart() != null)
-            {
-               return predecessor.getEarlyStart();
-            }
-            return addLag(relation, predecessor.getEarlyStart());
+            return calculateEarlyStartForStartStart(relation);
+//            if (predecessor.getActualStart() != null)
+//            {
+//               return predecessor.getEarlyStart();
+//            }
+//            return addLag(relation, predecessor.getEarlyStart());
          }
 
          case FINISH_FINISH:
@@ -335,6 +336,85 @@ public class MicrosoftScheduler implements Scheduler
          default:
          {
             throw new UnsupportedOperationException();
+         }
+      }
+   }
+
+   private LocalDateTime calculateEarlyStartForStartStart(Relation relation)
+   {
+      Task predecessorTask = relation.getPredecessorTask();
+      Task successorTask = relation.getSuccessorTask();
+
+      if (predecessorTask.getActualStart() == null)
+      {
+         // Predecessor not started
+         if (successorTask.getActualStart() == null)
+         {
+            // Successor not started
+            return addLag(relation, predecessorTask.getEarlyStart());
+         }
+         else
+         {
+            // successor started
+            if (successorTask.getActualFinish() == null)
+            {
+               // successor not finished
+               return addLag(relation, predecessorTask.getEarlyStart());
+            }
+            else
+            {
+               // successor finished
+               return addLag(relation, predecessorTask.getEarlyStart());
+            }
+         }
+      }
+      else
+      {
+         // Predecessor started
+         if (predecessorTask.getActualFinish() != null)
+         {
+            // Predecessor finished
+            if (successorTask.getActualStart() == null)
+            {
+               // Successor not started
+               return addLag(relation, predecessorTask.getActualStart());
+            }
+            else
+            {
+               // successor started
+               if (successorTask.getActualFinish() == null)
+               {
+                  return predecessorTask.getEarlyStart();
+               }
+               else
+               {
+                  // successor finished
+                  return predecessorTask.getEarlyStart();
+               }
+            }
+         }
+         else
+         {
+            // Predecessor not finished
+            if (successorTask.getActualStart() == null)
+            {
+               // Successor not started
+               return addLag(relation, predecessorTask.getEarlyStart());
+            }
+            else
+            {
+               // successor started
+               if (successorTask.getActualFinish() == null)
+               {
+                  // successor not finished
+                  return addLag(relation, predecessorTask.getEarlyStart());
+               }
+               else
+               {
+                  // successor finished
+                  return predecessorTask.getEarlyStart();
+               }
+            }
          }
       }
    }

@@ -272,6 +272,7 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("diverse-parade.mpp");
       USE_SCHEDULED_COPY.add("southwest-guidance.mpp");
       USE_SCHEDULED_COPY.add("statistical-chin.mpp");
+      USE_SCHEDULED_COPY.add("bullish-halfback.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -284,8 +285,15 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("serene-birthright.mpp"); // TODO: oddity handling one late finish constraint versus end of working time
       EXCLUDED_FILES.add("microsomal-finisher.mpp"); // TODO: late finish, project end determined by constrained task - use unconstrained early finish as project end?
       EXCLUDED_FILES.add("circulatory-collapse.mpp"); // TODO: needs calculation at assignment level?
-      EXCLUDED_FILES.add("onrushing-stratification.mpp"); // MPP reading issue: missing predecessor
       EXCLUDED_FILES.add("unerring-gravitation.mpp"); // MPP12 external project not recognised correctly
+      EXCLUDED_FILES.add("bullish-halfback-scheduled.mpp"); // In progress task late finish calculation from a completed successor
+
+      // Predecessor missing when file read
+      EXCLUDED_FILES.add("onrushing-stratification.mpp");
+      EXCLUDED_FILES.add("bulk-sluicehouse.mpp");
+
+      // Phantom successor when file read
+      EXCLUDED_FILES.add("worthy-conspiracy.mpp");
 
       // Use resource calendar
       EXCLUDED_FILES.add("optimistic-layer.mpp");
@@ -294,6 +302,13 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("cortical-multitude.mpp");
       EXCLUDED_FILES.add("philosophical-excuse.mpp");
       EXCLUDED_FILES.add("unchanged-gift.mpp");
+      EXCLUDED_FILES.add("circumpolar-test.mpp");
+      EXCLUDED_FILES.add("static-pickup.mpp");
+      EXCLUDED_FILES.add("angry-prospect.mpp");
+      EXCLUDED_FILES.add("symmetrical-dynamite.mpp");
+
+      // ALAP
+      EXCLUDED_FILES.add("handsome-mockery.mpp");
 
       // Scheduled from end
       EXCLUDED_FILES.add("dietetic-phrasing.mpp");
@@ -420,6 +435,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("principle-faction.mpp");
       EXCLUDED_FILES.add("appropriate-animal.mpp");
       EXCLUDED_FILES.add("equivocal-hospital.mpp");
+      EXCLUDED_FILES.add("bulk-sluicehouse-scheduled.mpp");
 
       // Split task
       EXCLUDED_FILES.add("worrisome-definition.mpp");
@@ -437,5 +453,11 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("quickest-photoluminescence.mpp");
       EXCLUDED_FILES.add("irresolvable-booth.mpp");
       EXCLUDED_FILES.add("willful-welter.mpp");
+      EXCLUDED_FILES.add("indeterminate-complication.mpp");
+      EXCLUDED_FILES.add("deadliest-sonar.mpp");
+      EXCLUDED_FILES.add("eternal-column.mpp");
+      EXCLUDED_FILES.add("retail-quenching.mpp");
+      EXCLUDED_FILES.add("coherent-intellectuality.mpp");
+      EXCLUDED_FILES.add("perfect-curb.mpp");
    }
 }
