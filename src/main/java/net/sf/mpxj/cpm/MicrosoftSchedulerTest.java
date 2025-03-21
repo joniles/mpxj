@@ -281,15 +281,15 @@ public class MicrosoftSchedulerTest
       // Misc MPP files
       EXCLUDED_FILES.add("photographic-magic.mpp"); // External tasks used but not visible in MSP
       EXCLUDED_FILES.add("bizarre-doomsday.mpp"); // Manually scheduled task without any explicitly supplied dates
-      EXCLUDED_FILES.add("adequate-function.mpp"); // TODO: assignment leveling delay
       EXCLUDED_FILES.add("serene-birthright.mpp"); // TODO: oddity handling one late finish constraint versus end of working time
       EXCLUDED_FILES.add("microsomal-finisher.mpp"); // TODO: late finish, project end determined by constrained task - use unconstrained early finish as project end?
       EXCLUDED_FILES.add("circulatory-collapse.mpp"); // TODO: needs calculation at assignment level?
       EXCLUDED_FILES.add("unerring-gravitation.mpp"); // MPP12 external project not recognised correctly
       EXCLUDED_FILES.add("bullish-halfback-scheduled.mpp"); // In progress task late finish calculation from a completed successor
+      EXCLUDED_FILES.add("gallant-trolley.mpp"); // FS relation doesn't make sense
 
       // Predecessor missing when file read
-      EXCLUDED_FILES.add("onrushing-stratification.mpp");
+      EXCLUDED_FILES.add("onrushing-stratification.mpp"); // has multiple problems even when save-as and rescheduled
       EXCLUDED_FILES.add("bulk-sluicehouse.mpp");
 
       // Phantom successor when file read
@@ -459,5 +459,8 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("retail-quenching.mpp");
       EXCLUDED_FILES.add("coherent-intellectuality.mpp");
       EXCLUDED_FILES.add("perfect-curb.mpp");
+      EXCLUDED_FILES.add("imminent-paymaster.mpp");
+      EXCLUDED_FILES.add("moving-sledding.mpp");
+      EXCLUDED_FILES.add("adequate-function.mpp");
    }
 }
