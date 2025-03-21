@@ -604,8 +604,8 @@ public class MicrosoftScheduler implements Scheduler
       {
          return date;
       }
-
-      ProjectCalendar calendar = relation.getPredecessorTask().getEffectiveCalendar();
+      
+      ProjectCalendar calendar = relation.getSuccessorTask().getEffectiveCalendar();
       return calendar.getDate(date, relation.getLag().negate());
    }
 
