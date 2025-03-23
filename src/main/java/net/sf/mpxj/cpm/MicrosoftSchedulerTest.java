@@ -176,21 +176,8 @@ public class MicrosoftSchedulerTest
       {
          return true;
       }
-
-      ProjectCalendar calendar = baseline.getEffectiveCalendar();
-      boolean result = calendar.getWork(baselineDate, workingDate, TimeUnit.MINUTES).getDuration() == 0.0;
-      if (result || !working.getSummary())
-      {
-         return result;
-      }
-
-      // At this point we have failed to compare, but we have a WBS entry.
-      // This doesn't have its own calendar so we need to look at the child calendars.
-      // Yes, it's hacky. The real solution is to understand the logic P6 is
-      // applying when it chooses between end of day or start of next day.
-      //result = working.getChildTasks().stream().map(t -> t.getEffectiveCalendar()).anyMatch(c -> c.getNextWorkStart(workingDate).isEqual(baselineDate) || c.getNextWorkStart(baselineDate).isEqual(workingDate));
-      result = allChildTasks(working).stream().map(t -> t.getEffectiveCalendar()).anyMatch(c -> c.getNextWorkStart(workingDate).isEqual(baselineDate) || c.getNextWorkStart(baselineDate).isEqual(workingDate));
-      return result;
+      
+      return baseline.getEffectiveCalendar().getWork(baselineDate, workingDate, TimeUnit.MINUTES).getDuration() == 0.0;
    }
 
    private void analyseFailures(MicrosoftScheduler scheduler) throws CycleException
