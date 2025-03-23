@@ -13,6 +13,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
 public class MicrosoftSchedulerTest
@@ -177,7 +178,7 @@ public class MicrosoftSchedulerTest
       }
 
       ProjectCalendar calendar = baseline.getEffectiveCalendar();
-      boolean result = calendar.getNextWorkStart(workingDate).isEqual(baselineDate) || calendar.getNextWorkStart(baselineDate).isEqual(workingDate);
+      boolean result = calendar.getWork(baselineDate, workingDate, TimeUnit.MINUTES).getDuration() == 0.0;
       if (result || !working.getSummary())
       {
          return result;
