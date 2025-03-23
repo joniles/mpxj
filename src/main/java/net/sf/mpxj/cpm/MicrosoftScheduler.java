@@ -197,7 +197,7 @@ public class MicrosoftScheduler implements Scheduler
 
       for (Task task : tasks)
       {
-         List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> isTask(r.getSuccessorTask())).collect(Collectors.toList());
+         List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> isTask(r.getSuccessorTask()) && r.getSuccessorTask().getActualFinish() == null).collect(Collectors.toList());
          ProjectCalendar calendar = task.getEffectiveCalendar();
          LocalDateTime lateFinish;
 

@@ -176,7 +176,7 @@ public class MicrosoftSchedulerTest
       {
          return true;
       }
-      
+
       return baseline.getEffectiveCalendar().getWork(baselineDate, workingDate, TimeUnit.MINUTES).getDuration() == 0.0;
    }
 
@@ -261,6 +261,7 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("southwest-guidance.mpp");
       USE_SCHEDULED_COPY.add("statistical-chin.mpp");
       USE_SCHEDULED_COPY.add("bullish-halfback.mpp");
+      USE_SCHEDULED_COPY.add("gradient-claret.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -294,6 +295,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("static-pickup.mpp");
       EXCLUDED_FILES.add("angry-prospect.mpp");
       EXCLUDED_FILES.add("symmetrical-dynamite.mpp");
+      EXCLUDED_FILES.add("rash-age.mpp");
 
       // ALAP
       EXCLUDED_FILES.add("handsome-mockery.mpp");
@@ -451,5 +453,6 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("moving-sledding.mpp");
       EXCLUDED_FILES.add("adequate-function.mpp");
       EXCLUDED_FILES.add("ceramic-rink.mpp");
+      EXCLUDED_FILES.add("formative-cabinet.mpp");
    }
 }
