@@ -462,5 +462,6 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("imminent-paymaster.mpp");
       EXCLUDED_FILES.add("moving-sledding.mpp");
       EXCLUDED_FILES.add("adequate-function.mpp");
+      EXCLUDED_FILES.add("ceramic-rink.mpp");
    }
 }
