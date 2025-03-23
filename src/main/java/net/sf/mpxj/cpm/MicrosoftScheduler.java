@@ -33,6 +33,7 @@ public class MicrosoftScheduler implements Scheduler
       }
 
       m_projectStartDate = projectStartDate;
+      m_calculatedLateStart.clear();
 
       List<Task> tasks = new DepthFirstGraphSort(m_file, this::isTask).sort();
       if (tasks.isEmpty())
@@ -275,9 +276,10 @@ public class MicrosoftScheduler implements Scheduler
             lateFinish = task.getActualFinish();
          }
 
-         LocalDateTime lateStart = task.getActualStart() == null ? calendar.getDate(lateFinish, task.getDuration().negate()) : task.getActualStart();
+         LocalDateTime lateStart = calendar.getDate(lateFinish, task.getRemainingDuration().negate());
+         m_calculatedLateStart.put(task, lateStart);
 
-         task.setLateStart(lateStart);
+         task.setLateStart(task.getActualStart() == null ? lateStart : task.getActualStart());
          task.setLateFinish(lateFinish);
       }
    }
@@ -449,7 +451,7 @@ public class MicrosoftScheduler implements Scheduler
 
          default:
          {
-            lateFinish = removeLag(relation, successorTask.getLateStart());
+            lateFinish = removeLag(relation, m_calculatedLateStart.get(successorTask));
             break;
          }
       }
@@ -620,6 +622,8 @@ public class MicrosoftScheduler implements Scheduler
    private boolean m_backwardPass;
    private LocalDateTime m_projectStartDate;
    private LocalDateTime m_projectFinishDate;
+
+   private final Map<Task, LocalDateTime> m_calculatedLateStart = new HashMap<>();
 
    private static final Map<TimeUnit, TimeUnit> DURATION_UNITS_MAP = new HashMap<>();
    static
