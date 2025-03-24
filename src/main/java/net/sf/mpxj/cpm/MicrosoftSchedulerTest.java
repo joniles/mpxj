@@ -262,6 +262,9 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("statistical-chin.mpp");
       USE_SCHEDULED_COPY.add("bullish-halfback.mpp");
       USE_SCHEDULED_COPY.add("gradient-claret.mpp");
+      USE_SCHEDULED_COPY.add("sandy-wizard.mpp");
+      USE_SCHEDULED_COPY.add("copper-yeast.mpp");
+      USE_SCHEDULED_COPY.add("capable-banana.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -280,6 +283,7 @@ public class MicrosoftSchedulerTest
       // Predecessor missing when file read
       EXCLUDED_FILES.add("onrushing-stratification.mpp"); // has multiple problems even when save-as and rescheduled
       EXCLUDED_FILES.add("bulk-sluicehouse.mpp");
+      EXCLUDED_FILES.add("woeful-drizzle.mpp"); // save as fixes
 
       // Phantom successor when file read
       EXCLUDED_FILES.add("worthy-conspiracy.mpp");
@@ -296,6 +300,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("angry-prospect.mpp");
       EXCLUDED_FILES.add("symmetrical-dynamite.mpp");
       EXCLUDED_FILES.add("rash-age.mpp");
+      EXCLUDED_FILES.add("copper-yeast-scheduled.mpp"); // ?
 
       // ALAP
       EXCLUDED_FILES.add("handsome-mockery.mpp");
@@ -305,6 +310,8 @@ public class MicrosoftSchedulerTest
 
       // Manually contoured task
       EXCLUDED_FILES.add("undeveloped-slice.mpp");
+      EXCLUDED_FILES.add("nice-machinery.mpp");
+      EXCLUDED_FILES.add("adjacent-documentation.mpp");
 
       // Calculated correctly, but incorrect late dates read from MPP by MPXJ
       EXCLUDED_FILES.add("scatterbrained-tambourine.mpp");
@@ -426,6 +433,8 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("appropriate-animal.mpp");
       EXCLUDED_FILES.add("equivocal-hospital.mpp");
       EXCLUDED_FILES.add("bulk-sluicehouse-scheduled.mpp");
+      EXCLUDED_FILES.add("woeful-drizzle-scheduled.mpp");
+
 
       // Split task
       EXCLUDED_FILES.add("worrisome-definition.mpp");
