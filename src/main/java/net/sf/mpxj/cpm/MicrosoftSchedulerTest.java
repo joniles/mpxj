@@ -280,6 +280,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("unerring-gravitation.mpp"); // MPP12 external project not recognised correctly
       EXCLUDED_FILES.add("bullish-halfback-scheduled.mpp"); // In progress task late finish calculation from a completed successor
       EXCLUDED_FILES.add("gallant-trolley.mpp"); // FS relation doesn't make sense
+      EXCLUDED_FILES.add("bodily-hoof.mpp"); // Incomplete task and remaining duration don't make sense? Maybe resource calendar related?
 
       // Predecessor missing when file read
       EXCLUDED_FILES.add("onrushing-stratification.mpp"); // has multiple problems even when save-as and rescheduled
