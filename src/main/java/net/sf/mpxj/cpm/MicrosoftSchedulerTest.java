@@ -266,6 +266,7 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("copper-yeast.mpp");
       USE_SCHEDULED_COPY.add("capable-banana.mpp");
       USE_SCHEDULED_COPY.add("defensive-monday.mpp");
+      USE_SCHEDULED_COPY.add("indelible-reward.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -468,5 +469,6 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("formative-cabinet.mpp");
       EXCLUDED_FILES.add("serious-passion.mpp");
       EXCLUDED_FILES.add("nervous-banker.mpp");
+      EXCLUDED_FILES.add("wellknown-ginger.mpp");
    }
 }
