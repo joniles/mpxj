@@ -276,11 +276,30 @@ public class MicrosoftScheduler implements Scheduler
             lateFinish = task.getActualFinish();
          }
 
-         LocalDateTime lateStart = calendar.getDate(lateFinish, task.getRemainingDuration().negate());
-         m_calculatedLateStart.put(task, lateStart);
+         if (task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
+         {
+            LocalDateTime lateStart = calendar.getDate(lateFinish, task.getDuration().negate());
+            m_calculatedLateStart.put(task, lateStart);
 
-         task.setLateStart(task.getActualStart() == null ? lateStart : task.getActualStart());
-         task.setLateFinish(lateFinish);
+            if (task.getActualFinish() == null)
+            {
+               task.setLateStart(lateStart);
+               task.setLateFinish(lateFinish);
+            }
+            else
+            {
+               task.setLateStart(task.getActualStart());
+               task.setLateFinish(task.getLateFinish());
+            }
+         }
+         else
+         {
+            LocalDateTime lateStart = calendar.getDate(lateFinish, task.getRemainingDuration().negate());
+            m_calculatedLateStart.put(task, lateStart);
+
+            task.setLateStart(task.getActualStart() == null ? lateStart : task.getActualStart());
+            task.setLateFinish(lateFinish);
+         }
       }
    }
 
