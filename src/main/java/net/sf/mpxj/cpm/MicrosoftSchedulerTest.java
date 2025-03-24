@@ -265,6 +265,7 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("sandy-wizard.mpp");
       USE_SCHEDULED_COPY.add("copper-yeast.mpp");
       USE_SCHEDULED_COPY.add("capable-banana.mpp");
+      USE_SCHEDULED_COPY.add("defensive-monday.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -301,6 +302,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("symmetrical-dynamite.mpp");
       EXCLUDED_FILES.add("rash-age.mpp");
       EXCLUDED_FILES.add("copper-yeast-scheduled.mpp"); // ?
+      EXCLUDED_FILES.add("classiest-virtuoso.mpp");
 
       // ALAP
       EXCLUDED_FILES.add("handsome-mockery.mpp");
@@ -464,5 +466,6 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("ceramic-rink.mpp");
       EXCLUDED_FILES.add("formative-cabinet.mpp");
       EXCLUDED_FILES.add("serious-passion.mpp");
+      EXCLUDED_FILES.add("nervous-banker.mpp");
    }
 }

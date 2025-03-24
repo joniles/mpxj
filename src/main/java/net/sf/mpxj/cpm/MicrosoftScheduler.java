@@ -33,6 +33,7 @@ public class MicrosoftScheduler implements Scheduler
       }
 
       m_projectStartDate = projectStartDate;
+      m_calculatedEarlyStart.clear();
       m_calculatedLateStart.clear();
 
       List<Task> tasks = new DepthFirstGraphSort(m_file, this::isTask).sort();
@@ -69,53 +70,52 @@ public class MicrosoftScheduler implements Scheduler
 
    private void forwardPass(Task task) throws CpmException
    {
+      if (task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
+      {
+         // TODO: we need to be able to identify where NO start date has been supplied, which appears to trigger using ScheduledStart rather than Start
+         task.setEarlyStart(task.getStart());
+         task.setEarlyFinish(task.getFinish());
+         return;
+      }
+
       ProjectCalendar calendar = task.getEffectiveCalendar();
       LocalDateTime earlyStart;
 
       LocalDateTime earlyFinish = null;
       List<Relation> predecessors = task.getPredecessors().stream().filter(r -> isTask(r.getPredecessorTask())).collect(Collectors.toList());
 
+
       if (task.getActualStart() == null)
       {
-         if (task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
+         if (predecessors.isEmpty())
          {
-            // TODO: we need to be able to identify where NO start date has been supplied, which appears to trigger using ScheduledStart rather than Start
-            task.setEarlyStart(task.getStart());
-            task.setEarlyFinish(task.getFinish());
-            return;
+            switch (task.getConstraintType())
+            {
+               case START_NO_EARLIER_THAN:
+               {
+                  earlyStart = task.getConstraintDate();
+                  break;
+               }
+
+               case FINISH_NO_EARLIER_THAN:
+               {
+                  earlyFinish = task.getConstraintDate();
+                  earlyStart = calendar.getDate(earlyFinish, task.getDuration().negate());
+                  break;
+               }
+
+               default:
+               {
+                  earlyStart = addLevelingDelay(task,  m_projectStartDate);
+                  break;
+               }
+            }
          }
          else
          {
-            if (predecessors.isEmpty())
-            {
-               switch (task.getConstraintType())
-               {
-                  case START_NO_EARLIER_THAN:
-                  {
-                     earlyStart = task.getConstraintDate();
-                     break;
-                  }
-
-                  case FINISH_NO_EARLIER_THAN:
-                  {
-                     earlyFinish = task.getConstraintDate();
-                     earlyStart = calendar.getDate(earlyFinish, task.getDuration().negate());
-                     break;
-                  }
-
-                  default:
-                  {
-                     earlyStart = addLevelingDelay(task,  m_projectStartDate);
-                     break;
-                  }
-               }
-            }
-            else
-            {
-               earlyStart = predecessors.stream().map(r -> calculateEarlyStart(r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
-            }
-            earlyStart = calendar.getNextWorkStart(earlyStart);
+            earlyStart = predecessors.stream().map(r -> calculateEarlyStart(r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
          }
+         earlyStart = calendar.getNextWorkStart(earlyStart);
 
          if (task.getConstraintType() != null)
          {
@@ -637,6 +637,7 @@ public class MicrosoftScheduler implements Scheduler
    private LocalDateTime m_projectStartDate;
    private LocalDateTime m_projectFinishDate;
 
+   private final Map<Task, LocalDateTime> m_calculatedEarlyStart = new HashMap<>();
    private final Map<Task, LocalDateTime> m_calculatedLateStart = new HashMap<>();
 
    private static final Map<TimeUnit, TimeUnit> DURATION_UNITS_MAP = new HashMap<>();
