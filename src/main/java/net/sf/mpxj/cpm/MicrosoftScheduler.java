@@ -603,8 +603,15 @@ public class MicrosoftScheduler implements Scheduler
          return date;
       }
 
+      Duration lag = relation.getLag();
+      if (lag.getUnits() == TimeUnit.PERCENT)
+      {
+         Duration predecessorDuration = relation.getPredecessorTask().getDuration();
+         lag = Duration.getInstance((predecessorDuration.getDuration() * lag.getDuration())/100.0, predecessorDuration.getUnits());
+      }
+
       ProjectCalendar calendar = relation.getSuccessorTask().getEffectiveCalendar();
-      return calendar.getDate(date, relation.getLag());
+      return calendar.getDate(date, lag);
    }
 
    private LocalDateTime removeLag(Relation relation, LocalDateTime date)
@@ -613,9 +620,16 @@ public class MicrosoftScheduler implements Scheduler
       {
          return date;
       }
-      
+
+      Duration lag = relation.getLag();
+      if (lag.getUnits() == TimeUnit.PERCENT)
+      {
+         Duration predecessorDuration = relation.getPredecessorTask().getDuration();
+         lag = Duration.getInstance((predecessorDuration.getDuration() * lag.getDuration())/100.0, predecessorDuration.getUnits());
+      }
+
       ProjectCalendar calendar = relation.getSuccessorTask().getEffectiveCalendar();
-      return calendar.getDate(date, relation.getLag().negate());
+      return calendar.getDate(date, lag.negate());
    }
 
    private final ProjectFile m_file;

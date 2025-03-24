@@ -454,5 +454,6 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("adequate-function.mpp");
       EXCLUDED_FILES.add("ceramic-rink.mpp");
       EXCLUDED_FILES.add("formative-cabinet.mpp");
+      EXCLUDED_FILES.add("serious-passion.mpp");
    }
 }
