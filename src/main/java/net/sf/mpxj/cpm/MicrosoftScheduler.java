@@ -78,6 +78,12 @@ public class MicrosoftScheduler implements Scheduler
          return;
       }
 
+      // We'll use external tasks as predecessors when scheduling, but we'll leave their early dates unchanged.
+      if (task.getExternalTask())
+      {
+         return;
+      }
+
       ProjectCalendar calendar = task.getEffectiveCalendar();
       LocalDateTime earlyStart;
 
@@ -197,6 +203,12 @@ public class MicrosoftScheduler implements Scheduler
 
       for (Task task : tasks)
       {
+         // We'll use external tasks as successors when scheduling, but we'll leave their late dates unchanged.
+         if (task.getExternalTask())
+         {
+            continue;
+         }
+
          List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> isTask(r.getSuccessorTask()) && r.getSuccessorTask().getActualFinish() == null).collect(Collectors.toList());
          ProjectCalendar calendar = task.getEffectiveCalendar();
          LocalDateTime lateFinish;
