@@ -251,6 +251,7 @@ public class MicrosoftSchedulerTest
    {
       // Microsoft Project can't read
       UNREADABLE_FILES.add("easy-centrifuge.mpp");
+      UNREADABLE_FILES.add("farfetched-hairshirt.mpp");
    }
 
    private static final Set<String> USE_SCHEDULED_COPY = new HashSet<>();
@@ -267,6 +268,11 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("capable-banana.mpp");
       USE_SCHEDULED_COPY.add("defensive-monday.mpp");
       USE_SCHEDULED_COPY.add("indelible-reward.mpp");
+      USE_SCHEDULED_COPY.add("unmanageable-acquiesence.mpp");
+      USE_SCHEDULED_COPY.add("idealistic-motorist.mpp");
+      USE_SCHEDULED_COPY.add("literary-chouise.mpp");
+      USE_SCHEDULED_COPY.add("unskilled-stint.mpp");
+      USE_SCHEDULED_COPY.add("uncooperative-puzzle.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -282,6 +288,8 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("bullish-halfback-scheduled.mpp"); // In progress task late finish calculation from a completed successor
       EXCLUDED_FILES.add("gallant-trolley.mpp"); // FS relation doesn't make sense
       EXCLUDED_FILES.add("bodily-hoof.mpp"); // Incomplete task and remaining duration don't make sense? Maybe resource calendar related?
+      EXCLUDED_FILES.add("idealistic-motorist-scheduled.mpp"); // Manually schedules tasks, LF to LS oddity, plus resources with no resource calendars
+      EXCLUDED_FILES.add("urban-dig.mpp"); // Task marked as milestone with 0d duration shown in Project, but is scheduled with a 10d duration
 
       // Predecessor missing when file read
       EXCLUDED_FILES.add("onrushing-stratification.mpp"); // has multiple problems even when save-as and rescheduled
@@ -305,6 +313,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("rash-age.mpp");
       EXCLUDED_FILES.add("copper-yeast-scheduled.mpp"); // ?
       EXCLUDED_FILES.add("classiest-virtuoso.mpp");
+      EXCLUDED_FILES.add("fitting-politician.mpp");
 
       // ALAP
       EXCLUDED_FILES.add("handsome-mockery.mpp");
@@ -439,7 +448,6 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("bulk-sluicehouse-scheduled.mpp");
       EXCLUDED_FILES.add("woeful-drizzle-scheduled.mpp");
 
-
       // Split task
       EXCLUDED_FILES.add("worrisome-definition.mpp");
       EXCLUDED_FILES.add("texan-jealousy.mpp");
@@ -470,5 +478,6 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("serious-passion.mpp");
       EXCLUDED_FILES.add("nervous-banker.mpp");
       EXCLUDED_FILES.add("wellknown-ginger.mpp");
+      EXCLUDED_FILES.add("unpremeditated-payoff.mpp");
    }
 }
