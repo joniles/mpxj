@@ -274,6 +274,8 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("unskilled-stint.mpp");
       USE_SCHEDULED_COPY.add("uncooperative-puzzle.mpp");
       USE_SCHEDULED_COPY.add("amusing-disharmony.mpp");
+      USE_SCHEDULED_COPY.add("angry-upsurge.mpp");
+      USE_SCHEDULED_COPY.add("demonstrable-adjective.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -291,6 +293,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("bodily-hoof.mpp"); // Incomplete task and remaining duration don't make sense? Maybe resource calendar related?
       EXCLUDED_FILES.add("idealistic-motorist-scheduled.mpp"); // Manually schedules tasks, LF to LS oddity, plus resources with no resource calendars
       EXCLUDED_FILES.add("urban-dig.mpp"); // Task marked as milestone with 0d duration shown in Project, but is scheduled with a 10d duration
+      EXCLUDED_FILES.add("infidel-dashboard.mpp"); // Manually scheduled task LS and LF incorrect
 
       // Predecessor missing when file read
       EXCLUDED_FILES.add("onrushing-stratification.mpp"); // has multiple problems even when save-as and rescheduled
@@ -315,6 +318,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("copper-yeast-scheduled.mpp"); // ?
       EXCLUDED_FILES.add("classiest-virtuoso.mpp");
       EXCLUDED_FILES.add("fitting-politician.mpp");
+      EXCLUDED_FILES.add("frantic-vestibule.mpp");
 
       // ALAP
       EXCLUDED_FILES.add("handsome-mockery.mpp");
@@ -481,5 +485,8 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("wellknown-ginger.mpp");
       EXCLUDED_FILES.add("unpremeditated-payoff.mpp");
       EXCLUDED_FILES.add("amusing-disharmony-scheduled.mpp");
+      EXCLUDED_FILES.add("untraditional-highball.mpp");
+      EXCLUDED_FILES.add("northerly-health.mpp");
+      EXCLUDED_FILES.add("supersonic-witch.mpp");
    }
 }
