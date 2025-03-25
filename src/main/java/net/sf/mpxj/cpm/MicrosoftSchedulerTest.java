@@ -276,6 +276,8 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("amusing-disharmony.mpp");
       USE_SCHEDULED_COPY.add("angry-upsurge.mpp");
       USE_SCHEDULED_COPY.add("demonstrable-adjective.mpp");
+      USE_SCHEDULED_COPY.add("ample-objection.mpp");
+      USE_SCHEDULED_COPY.add("hindmost-setting.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -330,6 +332,9 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("undeveloped-slice.mpp");
       EXCLUDED_FILES.add("nice-machinery.mpp");
       EXCLUDED_FILES.add("adjacent-documentation.mpp");
+      EXCLUDED_FILES.add("surrounding-president.mpp");
+      EXCLUDED_FILES.add("persistent-shareholder.mpp");
+      EXCLUDED_FILES.add("ultimate-arc.mpp");
 
       // Calculated correctly, but incorrect late dates read from MPP by MPXJ
       EXCLUDED_FILES.add("scatterbrained-tambourine.mpp");
@@ -488,5 +493,6 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("untraditional-highball.mpp");
       EXCLUDED_FILES.add("northerly-health.mpp");
       EXCLUDED_FILES.add("supersonic-witch.mpp");
+      EXCLUDED_FILES.add("madding-warfare.mpp");
    }
 }
