@@ -182,7 +182,8 @@ public class MicrosoftSchedulerTest
 
    private void analyseFailures(MicrosoftScheduler scheduler) throws CycleException
    {
-      List<Task> tasks = new DepthFirstGraphSort(m_workingFile, scheduler::isTask).sort();
+      //List<Task> tasks = new DepthFirstGraphSort(m_workingFile, scheduler::isTask).sort();
+      List<Task> tasks = scheduler.getSortedTasks();
 
       // Sort so we can see errors at the bottom first, as these are rolled up.
       List<Task> wbs = m_workingFile.getTasks().stream().filter(t -> t.getSummary()).collect(Collectors.toList());
@@ -321,6 +322,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("classiest-virtuoso.mpp");
       EXCLUDED_FILES.add("fitting-politician.mpp");
       EXCLUDED_FILES.add("frantic-vestibule.mpp");
+      EXCLUDED_FILES.add("pulmonary-dove.mpp");
 
       // ALAP
       EXCLUDED_FILES.add("handsome-mockery.mpp");
@@ -342,9 +344,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("harpy-gully.mpp");
 
       // Summary task logic
-      EXCLUDED_FILES.add("oppressive-pitfall.mpp");
-      EXCLUDED_FILES.add("scarlet-throughput.mpp");
-      EXCLUDED_FILES.add("pulmonary-dove.mpp");
+      EXCLUDED_FILES.add("scarlet-throughput.mpp"); // LF oddity
       EXCLUDED_FILES.add("topical-mamma.mpp");
       EXCLUDED_FILES.add("idle-niche.mpp");
       EXCLUDED_FILES.add("madding-portrayal.mpp");

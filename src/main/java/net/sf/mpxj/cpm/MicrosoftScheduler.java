@@ -14,6 +14,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
+import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
@@ -27,16 +28,18 @@ public class MicrosoftScheduler implements Scheduler
 
    public void process(LocalDateTime projectStartDate) throws Exception
    {
-      if (m_file.getTasks().stream().anyMatch(t -> t.getSummary() && (!t.getPredecessors().isEmpty() || !t.getSuccessors().isEmpty())))
-      {
-         throw new CpmException("Schedule contains summary tasks with predecessors or successors");
-      }
+      boolean summaryTasksHaveLogic = m_file.getTasks().stream().anyMatch(t -> t.getSummary() && (!t.getPredecessors().isEmpty() || !t.getSuccessors().isEmpty()));
+//      if (summaryTasksHaveLogic)
+//      {
+//         throw new CpmException("Schedule contains summary tasks with predecessors or successors");
+//      }
 
       m_projectStartDate = projectStartDate;
       m_calculatedEarlyStart.clear();
       m_calculatedLateStart.clear();
 
       List<Task> tasks = new DepthFirstGraphSort(m_file, this::isTask).sort();
+      m_sortedTasks = tasks;
       if (tasks.isEmpty())
       {
          return;
@@ -48,8 +51,30 @@ public class MicrosoftScheduler implements Scheduler
       m_backwardPass = false;
       forwardPass(tasks);
 
-      m_projectFinishDate = tasks.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
+      if (summaryTasksHaveLogic)
+      {
+         createSummaryTaskRelationships();
 
+         tasks = new DepthFirstGraphSort(m_file, this::isTask) {
+            @Override public List<Relation> getSuccessors(Task task)
+            {
+               List<Relation> successors = task.getSuccessors();
+               List<Relation> summaryTaskSuccessors = m_summaryTaskSuccessors.get(task);
+               if (summaryTaskSuccessors != null)
+               {
+                  successors = new ArrayList<>(successors);
+                  successors.addAll(summaryTaskSuccessors);
+               }
+               return successors;
+            }
+         }.sort();
+
+         m_sortedTasks = tasks;
+
+         forwardPass(tasks);
+      }
+
+      m_projectFinishDate = tasks.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
 
       backwardPass(tasks);
       m_backwardPass = true;
@@ -89,7 +114,12 @@ public class MicrosoftScheduler implements Scheduler
 
       LocalDateTime earlyFinish = null;
       List<Relation> predecessors = task.getPredecessors().stream().filter(r -> isTask(r.getPredecessorTask())).collect(Collectors.toList());
-
+      List<Relation> summaryTaskPredecessors = m_summaryTaskPredecessors.get(task);
+      if (summaryTaskPredecessors != null)
+      {
+         predecessors = new ArrayList<>(predecessors);
+         predecessors.addAll(summaryTaskPredecessors);
+      }
 
       if (task.getActualStart() == null)
       {
@@ -210,6 +240,13 @@ public class MicrosoftScheduler implements Scheduler
          }
 
          List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> isTask(r.getSuccessorTask()) && r.getSuccessorTask().getActualFinish() == null).collect(Collectors.toList());
+         List<Relation> summaryTaskSuccessors = m_summaryTaskSuccessors.get(task);
+         if (summaryTaskSuccessors != null)
+         {
+            successors = new ArrayList<>(successors);
+            successors.addAll(summaryTaskSuccessors);
+         }
+
          ProjectCalendar calendar = task.getEffectiveCalendar();
          LocalDateTime lateFinish;
 
@@ -662,10 +699,86 @@ public class MicrosoftScheduler implements Scheduler
       return calendar.getDate(date, lag.negate());
    }
 
+   private void createSummaryTaskRelationships()
+   {
+      m_file.getRelations().stream().filter(r -> r.getPredecessorTask().getSummary() || r.getSuccessorTask().getSummary()).forEach(r -> createSummaryTaskRelationship(r));
+   }
+
+   private void createSummaryTaskRelationship(Relation relation)
+   {
+      Task predecessor = relation.getPredecessorTask();
+      if (predecessor.getSummary())
+      {
+         switch (relation.getType())
+         {
+            case START_START:
+            case START_FINISH:
+            {
+               predecessor = findEarliestSubtask(predecessor);
+               break;
+            }
+
+            default:
+            {
+               predecessor = findLatestSubtask(predecessor);
+               break;
+            }
+         }
+      }
+
+      Task successor = relation.getSuccessorTask();
+      if (successor.getSummary())
+      {
+         List<Task> childTasks = allChildTasks(successor);
+         for (Task childTask : childTasks)
+         {
+            Relation newRelation = new Relation.Builder().from(relation).predecessorTask(predecessor).successorTask(childTask).build();
+            m_summaryTaskPredecessors.computeIfAbsent(childTask, k -> new ArrayList<>()).add(newRelation);
+            m_summaryTaskSuccessors.computeIfAbsent(predecessor, k -> new ArrayList<>()).add(newRelation);
+         }
+      }
+      else
+      {
+         Relation newRelation = new Relation.Builder().from(relation).predecessorTask(predecessor).successorTask(successor).build();
+         m_summaryTaskPredecessors.computeIfAbsent(successor, k -> new ArrayList<>()).add(newRelation);
+         m_summaryTaskSuccessors.computeIfAbsent(predecessor, k -> new ArrayList<>()).add(newRelation);
+      }
+   }
+
+   private Task findEarliestSubtask(Task summaryTask)
+   {
+      return allChildTasks(summaryTask).stream().min(Comparator.comparing(Task::getEarlyStart)).orElse(null);
+   }
+
+   private Task findLatestSubtask(Task summaryTask)
+   {
+      return allChildTasks(summaryTask).stream().max(Comparator.comparing(Task::getEarlyFinish)).orElse(null);
+   }
+
+   private List<Task> allChildTasks(Task summaryTask)
+   {
+      return allChildTasks(summaryTask, new ArrayList<>());
+   }
+
+   private List<Task> allChildTasks(Task summaryTask, List<Task> childTasks)
+   {
+      childTasks.addAll(summaryTask.getChildTasks().stream().filter(t -> !t.getSummary()).collect(Collectors.toList()));
+      summaryTask.getChildTasks().stream().filter(Task::getSummary).forEach(t -> allChildTasks(t, childTasks));
+      return childTasks;
+   }
+
+   public List<Task> getSortedTasks()
+   {
+      return m_sortedTasks;
+   }
+
    private final ProjectFile m_file;
+   private List<Task> m_sortedTasks;
    private boolean m_backwardPass;
    private LocalDateTime m_projectStartDate;
    private LocalDateTime m_projectFinishDate;
+   private final Map<Task, List<Relation>> m_summaryTaskPredecessors = new HashMap<>();
+   private final Map<Task, List<Relation>> m_summaryTaskSuccessors = new HashMap<>();
 
    private final Map<Task, LocalDateTime> m_calculatedEarlyStart = new HashMap<>();
    private final Map<Task, LocalDateTime> m_calculatedLateStart = new HashMap<>();

@@ -43,6 +43,11 @@ public class DepthFirstGraphSort
       }
    }
 
+   public List<Relation> getSuccessors(Task task)
+   {
+      return task.getSuccessors();
+   }
+
    private void visit(Task task) throws CycleException
    {
       if (m_permanentMark.contains(task))
@@ -52,13 +57,13 @@ public class DepthFirstGraphSort
 
       if (m_temporaryMark.contains(task))
       {
-         // Break cycle by ignoring relation where cycle detected?
+         // TODO: Break cycle by ignoring relation where cycle detected?
          throw new CycleException();
       }
 
       m_temporaryMark.add(task);
 
-      for (Relation relation : m_file.getRelations().getRawSuccessors(task))
+      for (Relation relation : getSuccessors(task))
       {
          Task successorTask = relation.getSuccessorTask();
          if (m_includeTask.apply(successorTask))
