@@ -355,10 +355,8 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("topical-mamma.mpp"); // ES, EF != Start, Finish oddity
       EXCLUDED_FILES.add("false-rustler.mpp"); // Constraint on summary task
       EXCLUDED_FILES.add("dread-hydrochemistry.mpp"); // ES, EF == LS, LF, why?
-      
-      EXCLUDED_FILES.add("abrupt-broom.mpp");
-      EXCLUDED_FILES.add("vibrionic-show.mpp");
-      EXCLUDED_FILES.add("microbial-inkling.mpp");
+
+
       EXCLUDED_FILES.add("organizational-engineering.mpp");
       EXCLUDED_FILES.add("undamaged-passing.mpp");
       EXCLUDED_FILES.add("striking-set.mpp");
@@ -492,5 +490,6 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("madding-warfare.mpp");
       EXCLUDED_FILES.add("idle-niche.mpp");
       EXCLUDED_FILES.add("emaciated-subjectivist.mpp");
+      EXCLUDED_FILES.add("microbial-inkling.mpp");
    }
 }

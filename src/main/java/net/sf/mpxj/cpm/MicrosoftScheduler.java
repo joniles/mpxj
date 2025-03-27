@@ -14,7 +14,6 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
-import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
@@ -215,6 +214,28 @@ public class MicrosoftScheduler implements Scheduler
       else
       {
          earlyStart = task.getActualStart();
+         if (task.getConstraintType() != null && task.getActualFinish() == null)
+         {
+            earlyFinish = calendar.getDate(earlyStart, task.getDuration());
+
+            switch (task.getConstraintType())
+            {
+               case FINISH_NO_EARLIER_THAN:
+               {
+                  if (earlyFinish.isBefore(task.getConstraintDate()))
+                  {
+                     earlyFinish = task.getConstraintDate();
+                     break;
+                  }
+               }
+
+               default:
+               {
+                  // TODO: construct samples for other constraints and test
+                  break;
+               }
+            }
+         }
       }
 
       if (earlyFinish == null)
