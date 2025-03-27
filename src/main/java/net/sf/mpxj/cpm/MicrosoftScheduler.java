@@ -789,7 +789,7 @@ public class MicrosoftScheduler implements Scheduler
 
    private List<Task> allChildTasks(Task summaryTask, List<Task> childTasks)
    {
-      childTasks.addAll(summaryTask.getChildTasks().stream().filter(t -> !t.getSummary()).collect(Collectors.toList()));
+      childTasks.addAll(summaryTask.getChildTasks().stream().filter(t -> !t.getSummary() && t.getActive()).collect(Collectors.toList()));
       summaryTask.getChildTasks().stream().filter(Task::getSummary).forEach(t -> allChildTasks(t, childTasks));
       return childTasks;
    }
