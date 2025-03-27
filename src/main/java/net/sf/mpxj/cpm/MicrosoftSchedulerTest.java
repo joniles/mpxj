@@ -282,6 +282,9 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("apparent-canyon.mpp");
       USE_SCHEDULED_COPY.add("blissful-schism.mpp");
       USE_SCHEDULED_COPY.add("olympic-layout.mpp");
+      USE_SCHEDULED_COPY.add("organizational-engineering.mpp");
+      USE_SCHEDULED_COPY.add("steep-leave.mpp");
+      USE_SCHEDULED_COPY.add("snippy-mortgage.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -355,18 +358,8 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("topical-mamma.mpp"); // ES, EF != Start, Finish oddity
       EXCLUDED_FILES.add("false-rustler.mpp"); // Constraint on summary task
       EXCLUDED_FILES.add("dread-hydrochemistry.mpp"); // ES, EF == LS, LF, why?
+      EXCLUDED_FILES.add("lonesome-potentiometer.mpp"); // Summary task relation issue
 
-
-      EXCLUDED_FILES.add("organizational-engineering.mpp");
-      EXCLUDED_FILES.add("undamaged-passing.mpp");
-      EXCLUDED_FILES.add("striking-set.mpp");
-      EXCLUDED_FILES.add("tiniest-solenoid.mpp");
-      EXCLUDED_FILES.add("steep-leave.mpp");
-      EXCLUDED_FILES.add("inappropriate-understanding.mpp");
-      EXCLUDED_FILES.add("bashful-slumber.mpp");
-      EXCLUDED_FILES.add("constructive-facade.mpp");
-      EXCLUDED_FILES.add("lonesome-potentiometer.mpp");
-      EXCLUDED_FILES.add("snippy-mortgage.mpp");
       EXCLUDED_FILES.add("hazy-viscometer.mpp");
       EXCLUDED_FILES.add("greater-furlough.mpp");
       EXCLUDED_FILES.add("filipino-corduroy.mpp");
@@ -451,6 +444,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("equivocal-hospital.mpp");
       EXCLUDED_FILES.add("bulk-sluicehouse-scheduled.mpp");
       EXCLUDED_FILES.add("woeful-drizzle-scheduled.mpp");
+      EXCLUDED_FILES.add("striking-set.mpp");
 
       // Split task
       EXCLUDED_FILES.add("worrisome-definition.mpp");
@@ -491,5 +485,9 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("idle-niche.mpp");
       EXCLUDED_FILES.add("emaciated-subjectivist.mpp");
       EXCLUDED_FILES.add("microbial-inkling.mpp");
+      EXCLUDED_FILES.add("undamaged-passing.mpp");
+      EXCLUDED_FILES.add("tiniest-solenoid.mpp");
+      EXCLUDED_FILES.add("bashful-slumber.mpp");
+      EXCLUDED_FILES.add("constructive-facade.mpp");
    }
 }
