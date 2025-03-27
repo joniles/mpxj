@@ -279,6 +279,8 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("demonstrable-adjective.mpp");
       USE_SCHEDULED_COPY.add("ample-objection.mpp");
       USE_SCHEDULED_COPY.add("hindmost-setting.mpp");
+      USE_SCHEDULED_COPY.add("apparent-canyon.mpp");
+      USE_SCHEDULED_COPY.add("blissful-schism.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -323,6 +325,10 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("fitting-politician.mpp");
       EXCLUDED_FILES.add("frantic-vestibule.mpp");
       EXCLUDED_FILES.add("pulmonary-dove.mpp");
+      EXCLUDED_FILES.add("madding-portrayal.mpp");
+      EXCLUDED_FILES.add("photosensitive-bluebook.mpp");
+      EXCLUDED_FILES.add("bluff-shoelace.mpp");
+      EXCLUDED_FILES.add("thicker-recital.mpp");
 
       // ALAP
       EXCLUDED_FILES.add("handsome-mockery.mpp");
@@ -345,19 +351,11 @@ public class MicrosoftSchedulerTest
 
       // Summary task logic
       EXCLUDED_FILES.add("scarlet-throughput.mpp"); // LF oddity
-      EXCLUDED_FILES.add("topical-mamma.mpp");
-      EXCLUDED_FILES.add("idle-niche.mpp");
-      EXCLUDED_FILES.add("madding-portrayal.mpp");
-      EXCLUDED_FILES.add("apparent-canyon.mpp");
-      EXCLUDED_FILES.add("photosensitive-bluebook.mpp");
-      EXCLUDED_FILES.add("orange-fur.mpp");
-      EXCLUDED_FILES.add("false-rustler.mpp");
-      EXCLUDED_FILES.add("bluff-shoelace.mpp");
-      EXCLUDED_FILES.add("emaciated-subjectivist.mpp");
-      EXCLUDED_FILES.add("blissful-schism.mpp");
-      EXCLUDED_FILES.add("dread-hydrochemistry.mpp");
-      EXCLUDED_FILES.add("thicker-recital.mpp");
-      EXCLUDED_FILES.add("unsaid-table.mpp");
+      EXCLUDED_FILES.add("topical-mamma.mpp"); // ES, EF != Start, Finish oddity
+      EXCLUDED_FILES.add("false-rustler.mpp"); // Constraint on summary task
+      EXCLUDED_FILES.add("dread-hydrochemistry.mpp"); // ES, EF == LS, LF, why?
+
+
       EXCLUDED_FILES.add("olympic-layout.mpp");
       EXCLUDED_FILES.add("brownish-craving.mpp");
       EXCLUDED_FILES.add("abrupt-broom.mpp");
@@ -494,5 +492,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("northerly-health.mpp");
       EXCLUDED_FILES.add("supersonic-witch.mpp");
       EXCLUDED_FILES.add("madding-warfare.mpp");
+      EXCLUDED_FILES.add("idle-niche.mpp");
+      EXCLUDED_FILES.add("emaciated-subjectivist.mpp");
    }
 }

@@ -104,7 +104,7 @@ public class MicrosoftScheduler implements Scheduler
       }
 
       // We'll use external tasks as predecessors when scheduling, but we'll leave their early dates unchanged.
-      if (task.getExternalTask())
+      if (task.getExternalTask() || task.getExternalProject())
       {
          return;
       }
@@ -234,7 +234,7 @@ public class MicrosoftScheduler implements Scheduler
       for (Task task : tasks)
       {
          // We'll use external tasks as successors when scheduling, but we'll leave their late dates unchanged.
-         if (task.getExternalTask())
+         if (task.getExternalTask() || task.getExternalProject())
          {
             continue;
          }
@@ -660,7 +660,7 @@ public class MicrosoftScheduler implements Scheduler
 
    public boolean isTask(Task task)
    {
-      return !(task.getSummary() || !task.getActive() || task.getNull());
+      return !((task.getSummary() && !task.getExternalProject()) || !task.getActive() || task.getNull());
    }
 
    private LocalDateTime addLag(Relation relation, LocalDateTime date)
@@ -706,42 +706,41 @@ public class MicrosoftScheduler implements Scheduler
 
    private void createSummaryTaskRelationship(Relation relation)
    {
-      Task predecessor = relation.getPredecessorTask();
-      if (predecessor.getSummary())
+      List<Task> predecessors = Collections.singletonList(relation.getPredecessorTask());
+      if (predecessors.get(0).getSummary())
       {
          switch (relation.getType())
          {
             case START_START:
             case START_FINISH:
             {
-               predecessor = findEarliestSubtask(predecessor);
+               predecessors = Collections.singletonList(findEarliestSubtask(predecessors.get(0)));
                break;
             }
 
             default:
             {
-               predecessor = findLatestSubtask(predecessor);
+               predecessors = allChildTasks(predecessors.get(0));
                break;
             }
          }
       }
 
-      Task successor = relation.getSuccessorTask();
-      if (successor.getSummary())
+      List<Task> successors = Collections.singletonList(relation.getSuccessorTask());
+      if (successors.get(0).getSummary())
       {
-         List<Task> childTasks = allChildTasks(successor);
-         for (Task childTask : childTasks)
+         successors = allChildTasks(successors.get(0));
+      }
+
+      for (Task predecessor : predecessors)
+      {
+         for (Task successor : successors)
          {
-            Relation newRelation = new Relation.Builder().from(relation).predecessorTask(predecessor).successorTask(childTask).build();
-            m_summaryTaskPredecessors.computeIfAbsent(childTask, k -> new ArrayList<>()).add(newRelation);
+            Relation newRelation = new Relation.Builder().from(relation).predecessorTask(predecessor).successorTask(successor).build();
+
+            m_summaryTaskPredecessors.computeIfAbsent(successor, k -> new ArrayList<>()).add(newRelation);
             m_summaryTaskSuccessors.computeIfAbsent(predecessor, k -> new ArrayList<>()).add(newRelation);
          }
-      }
-      else
-      {
-         Relation newRelation = new Relation.Builder().from(relation).predecessorTask(predecessor).successorTask(successor).build();
-         m_summaryTaskPredecessors.computeIfAbsent(successor, k -> new ArrayList<>()).add(newRelation);
-         m_summaryTaskSuccessors.computeIfAbsent(predecessor, k -> new ArrayList<>()).add(newRelation);
       }
    }
 
