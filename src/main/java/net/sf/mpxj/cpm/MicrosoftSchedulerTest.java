@@ -290,6 +290,8 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("ill-toilet.mpp");
       USE_SCHEDULED_COPY.add("strangest-mulch.mpp");
       USE_SCHEDULED_COPY.add("aberrant-acquiesence.mpp");
+      USE_SCHEDULED_COPY.add("marital-peace.mpp");
+      USE_SCHEDULED_COPY.add("compositional-information.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -374,10 +376,10 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("suspect-catching.mpp"); // Unclear EF difference after scheduling
 
 
-      EXCLUDED_FILES.add("marital-peace.mpp");
-      EXCLUDED_FILES.add("odd-robin.mpp");
-      EXCLUDED_FILES.add("beady-musket.mpp");
-      EXCLUDED_FILES.add("compositional-information.mpp");
+
+
+
+
       EXCLUDED_FILES.add("tintable-casebook.mpp");
       EXCLUDED_FILES.add("equitable-capability.mpp");
       EXCLUDED_FILES.add("maternal-ecliptic.mpp");
@@ -468,5 +470,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("abysmal-grandma.mpp");
       EXCLUDED_FILES.add("ashamed-annoyance.mpp");
       EXCLUDED_FILES.add("cleaner-purveyor.mpp");
+      EXCLUDED_FILES.add("odd-robin.mpp");
+      EXCLUDED_FILES.add("beady-musket.mpp");
    }
 }
