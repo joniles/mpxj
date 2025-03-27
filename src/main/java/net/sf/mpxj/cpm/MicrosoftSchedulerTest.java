@@ -333,6 +333,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("photosensitive-bluebook.mpp");
       EXCLUDED_FILES.add("bluff-shoelace.mpp");
       EXCLUDED_FILES.add("thicker-recital.mpp");
+      EXCLUDED_FILES.add("greater-furlough.mpp");
 
       // ALAP
       EXCLUDED_FILES.add("handsome-mockery.mpp");
@@ -358,10 +359,10 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("topical-mamma.mpp"); // ES, EF != Start, Finish oddity
       EXCLUDED_FILES.add("false-rustler.mpp"); // Constraint on summary task
       EXCLUDED_FILES.add("dread-hydrochemistry.mpp"); // ES, EF == LS, LF, why?
-      EXCLUDED_FILES.add("lonesome-potentiometer.mpp"); // Summary task relation issue
+      EXCLUDED_FILES.add("lonesome-potentiometer.mpp"); // Summary task relation backward pass issue
+      EXCLUDED_FILES.add("hazy-viscometer.mpp"); // Summary task relation backward pass issue - lag throws off calculation?
 
-      EXCLUDED_FILES.add("hazy-viscometer.mpp");
-      EXCLUDED_FILES.add("greater-furlough.mpp");
+
       EXCLUDED_FILES.add("filipino-corduroy.mpp");
       EXCLUDED_FILES.add("bitterest-oscillation.mpp");
       EXCLUDED_FILES.add("mediumistic-handclasp.mpp");
