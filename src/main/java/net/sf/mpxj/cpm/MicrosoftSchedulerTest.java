@@ -288,6 +288,8 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("filipino-corduroy.mpp");
       USE_SCHEDULED_COPY.add("bitterest-oscillation.mpp");
       USE_SCHEDULED_COPY.add("ill-toilet.mpp");
+      USE_SCHEDULED_COPY.add("strangest-mulch.mpp");
+      USE_SCHEDULED_COPY.add("aberrant-acquiesence.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -338,6 +340,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("thicker-recital.mpp");
       EXCLUDED_FILES.add("greater-furlough.mpp");
       EXCLUDED_FILES.add("ill-toilet-scheduled.mpp");
+      EXCLUDED_FILES.add("hegelian-sensing.mpp");
 
       // ALAP
       EXCLUDED_FILES.add("handsome-mockery.mpp");
@@ -366,17 +369,11 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("lonesome-potentiometer.mpp"); // Summary task relation backward pass issue
       EXCLUDED_FILES.add("hazy-viscometer.mpp"); // Summary task relation backward pass issue - lag throws off calculation?
       EXCLUDED_FILES.add("bitterest-oscillation-scheduled.mpp"); // Summary task relation backward pass issue
+      EXCLUDED_FILES.add("aberrant-acquiesence-scheduled.mpp"); // MS Project reports scheduling conflict
+      EXCLUDED_FILES.add("lyrical-highlight.mpp"); // MS Project reports scheduling conflict
+      EXCLUDED_FILES.add("suspect-catching.mpp"); // Unclear EF difference after scheduling
 
 
-
-      EXCLUDED_FILES.add("strangest-mulch.mpp");
-      EXCLUDED_FILES.add("aberrant-acquiesence.mpp");
-      EXCLUDED_FILES.add("abysmal-grandma.mpp");
-      EXCLUDED_FILES.add("ashamed-annoyance.mpp");
-      EXCLUDED_FILES.add("hegelian-sensing.mpp");
-      EXCLUDED_FILES.add("lyrical-highlight.mpp");
-      EXCLUDED_FILES.add("suspect-catching.mpp");
-      EXCLUDED_FILES.add("cleaner-purveyor.mpp");
       EXCLUDED_FILES.add("marital-peace.mpp");
       EXCLUDED_FILES.add("odd-robin.mpp");
       EXCLUDED_FILES.add("beady-musket.mpp");
@@ -468,5 +465,8 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("mediumistic-handclasp.mpp");
       EXCLUDED_FILES.add("bibliographical-veronica.mpp");
       EXCLUDED_FILES.add("mechanistic-brinkmanship.mpp");
+      EXCLUDED_FILES.add("abysmal-grandma.mpp");
+      EXCLUDED_FILES.add("ashamed-annoyance.mpp");
+      EXCLUDED_FILES.add("cleaner-purveyor.mpp");
    }
 }
