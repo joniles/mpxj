@@ -285,6 +285,9 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("organizational-engineering.mpp");
       USE_SCHEDULED_COPY.add("steep-leave.mpp");
       USE_SCHEDULED_COPY.add("snippy-mortgage.mpp");
+      USE_SCHEDULED_COPY.add("filipino-corduroy.mpp");
+      USE_SCHEDULED_COPY.add("bitterest-oscillation.mpp");
+      USE_SCHEDULED_COPY.add("ill-toilet.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -334,6 +337,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("bluff-shoelace.mpp");
       EXCLUDED_FILES.add("thicker-recital.mpp");
       EXCLUDED_FILES.add("greater-furlough.mpp");
+      EXCLUDED_FILES.add("ill-toilet-scheduled.mpp");
 
       // ALAP
       EXCLUDED_FILES.add("handsome-mockery.mpp");
@@ -361,13 +365,9 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("dread-hydrochemistry.mpp"); // ES, EF == LS, LF, why?
       EXCLUDED_FILES.add("lonesome-potentiometer.mpp"); // Summary task relation backward pass issue
       EXCLUDED_FILES.add("hazy-viscometer.mpp"); // Summary task relation backward pass issue - lag throws off calculation?
+      EXCLUDED_FILES.add("bitterest-oscillation-scheduled.mpp"); // Summary task relation backward pass issue
 
 
-      EXCLUDED_FILES.add("filipino-corduroy.mpp");
-      EXCLUDED_FILES.add("bitterest-oscillation.mpp");
-      EXCLUDED_FILES.add("mediumistic-handclasp.mpp");
-      EXCLUDED_FILES.add("bibliographical-veronica.mpp");
-      EXCLUDED_FILES.add("ill-toilet.mpp");
       EXCLUDED_FILES.add("mechanistic-brinkmanship.mpp");
       EXCLUDED_FILES.add("sensational-haze.mpp");
       EXCLUDED_FILES.add("strangest-mulch.mpp");
@@ -490,5 +490,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("tiniest-solenoid.mpp");
       EXCLUDED_FILES.add("bashful-slumber.mpp");
       EXCLUDED_FILES.add("constructive-facade.mpp");
+      EXCLUDED_FILES.add("mediumistic-handclasp.mpp");
+      EXCLUDED_FILES.add("bibliographical-veronica.mpp");
    }
 }
