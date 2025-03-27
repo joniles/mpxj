@@ -554,8 +554,15 @@ public class MicrosoftScheduler implements Scheduler
             }
             else
             {
-               lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
-               lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
+               if (predecessorTask.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
+               {
+                  lateFinish = m_projectFinishDate;
+               }
+               else
+               {
+                  lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
+                  lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
+               }
             }
          }
          else

@@ -281,6 +281,7 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("hindmost-setting.mpp");
       USE_SCHEDULED_COPY.add("apparent-canyon.mpp");
       USE_SCHEDULED_COPY.add("blissful-schism.mpp");
+      USE_SCHEDULED_COPY.add("olympic-layout.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -354,10 +355,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("topical-mamma.mpp"); // ES, EF != Start, Finish oddity
       EXCLUDED_FILES.add("false-rustler.mpp"); // Constraint on summary task
       EXCLUDED_FILES.add("dread-hydrochemistry.mpp"); // ES, EF == LS, LF, why?
-
-
-      EXCLUDED_FILES.add("olympic-layout.mpp");
-      EXCLUDED_FILES.add("brownish-craving.mpp");
+      
       EXCLUDED_FILES.add("abrupt-broom.mpp");
       EXCLUDED_FILES.add("vibrionic-show.mpp");
       EXCLUDED_FILES.add("microbial-inkling.mpp");
