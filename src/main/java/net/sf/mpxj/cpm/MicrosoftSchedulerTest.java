@@ -292,6 +292,7 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("aberrant-acquiesence.mpp");
       USE_SCHEDULED_COPY.add("marital-peace.mpp");
       USE_SCHEDULED_COPY.add("compositional-information.mpp");
+      USE_SCHEDULED_COPY.add("stilted-vaulting.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -343,6 +344,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("greater-furlough.mpp");
       EXCLUDED_FILES.add("ill-toilet-scheduled.mpp");
       EXCLUDED_FILES.add("hegelian-sensing.mpp");
+      EXCLUDED_FILES.add("equitable-capability.mpp");
 
       // ALAP
       EXCLUDED_FILES.add("handsome-mockery.mpp");
@@ -363,32 +365,25 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("valid-wartime.mpp");
       EXCLUDED_FILES.add("harpy-gully.mpp");
 
+      // ES, EF == LS, LF, why?
+      EXCLUDED_FILES.add("dread-hydrochemistry.mpp");
+      EXCLUDED_FILES.add("brash-asceticism.mpp");
+      EXCLUDED_FILES.add("standard-freedom.mpp");
+
       // Summary task logic
       EXCLUDED_FILES.add("scarlet-throughput.mpp"); // LF oddity
       EXCLUDED_FILES.add("topical-mamma.mpp"); // ES, EF != Start, Finish oddity
       EXCLUDED_FILES.add("false-rustler.mpp"); // Constraint on summary task
-      EXCLUDED_FILES.add("dread-hydrochemistry.mpp"); // ES, EF == LS, LF, why?
       EXCLUDED_FILES.add("lonesome-potentiometer.mpp"); // Summary task relation backward pass issue
       EXCLUDED_FILES.add("hazy-viscometer.mpp"); // Summary task relation backward pass issue - lag throws off calculation?
       EXCLUDED_FILES.add("bitterest-oscillation-scheduled.mpp"); // Summary task relation backward pass issue
       EXCLUDED_FILES.add("aberrant-acquiesence-scheduled.mpp"); // MS Project reports scheduling conflict
       EXCLUDED_FILES.add("lyrical-highlight.mpp"); // MS Project reports scheduling conflict
       EXCLUDED_FILES.add("suspect-catching.mpp"); // Unclear EF difference after scheduling
-
-
-
-
-
-
-      EXCLUDED_FILES.add("tintable-casebook.mpp");
-      EXCLUDED_FILES.add("equitable-capability.mpp");
-      EXCLUDED_FILES.add("maternal-ecliptic.mpp");
-      EXCLUDED_FILES.add("brash-asceticism.mpp");
-      EXCLUDED_FILES.add("stilted-vaulting.mpp");
-      EXCLUDED_FILES.add("outsized-hive.mpp");
-      EXCLUDED_FILES.add("standard-freedom.mpp");
-      EXCLUDED_FILES.add("printable-powder.mpp");
-      EXCLUDED_FILES.add("shrewdest-slate.mpp");
+      EXCLUDED_FILES.add("tintable-casebook.mpp"); // ALAP vs ES, EF rollup
+      EXCLUDED_FILES.add("outsized-hive.mpp"); // EF at next work start versus elapsed weeks duration - inaccurate ES
+      EXCLUDED_FILES.add("shrewdest-slate.mpp"); // ES with no predecessor in summary task
+      
       EXCLUDED_FILES.add("unmeshed-lab.mpp");
       EXCLUDED_FILES.add("sly-taste.mpp");
       EXCLUDED_FILES.add("alternative-urgency.mpp");
@@ -472,5 +467,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("cleaner-purveyor.mpp");
       EXCLUDED_FILES.add("odd-robin.mpp");
       EXCLUDED_FILES.add("beady-musket.mpp");
+      EXCLUDED_FILES.add("maternal-ecliptic.mpp");
+      EXCLUDED_FILES.add("printable-powder.mpp");
    }
 }
