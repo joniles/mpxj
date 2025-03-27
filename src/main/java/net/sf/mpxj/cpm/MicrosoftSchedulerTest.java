@@ -368,84 +368,59 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("bitterest-oscillation-scheduled.mpp"); // Summary task relation backward pass issue
 
 
-      EXCLUDED_FILES.add("mechanistic-brinkmanship.mpp");
-      EXCLUDED_FILES.add("sensational-haze.mpp");
+
       EXCLUDED_FILES.add("strangest-mulch.mpp");
       EXCLUDED_FILES.add("aberrant-acquiesence.mpp");
       EXCLUDED_FILES.add("abysmal-grandma.mpp");
       EXCLUDED_FILES.add("ashamed-annoyance.mpp");
       EXCLUDED_FILES.add("hegelian-sensing.mpp");
       EXCLUDED_FILES.add("lyrical-highlight.mpp");
-      EXCLUDED_FILES.add("content-gun.mpp");
       EXCLUDED_FILES.add("suspect-catching.mpp");
       EXCLUDED_FILES.add("cleaner-purveyor.mpp");
       EXCLUDED_FILES.add("marital-peace.mpp");
       EXCLUDED_FILES.add("odd-robin.mpp");
       EXCLUDED_FILES.add("beady-musket.mpp");
-      EXCLUDED_FILES.add("naval-showing.mpp");
       EXCLUDED_FILES.add("compositional-information.mpp");
       EXCLUDED_FILES.add("tintable-casebook.mpp");
       EXCLUDED_FILES.add("equitable-capability.mpp");
       EXCLUDED_FILES.add("maternal-ecliptic.mpp");
-      EXCLUDED_FILES.add("selected-kit.mpp");
       EXCLUDED_FILES.add("brash-asceticism.mpp");
       EXCLUDED_FILES.add("stilted-vaulting.mpp");
       EXCLUDED_FILES.add("outsized-hive.mpp");
       EXCLUDED_FILES.add("standard-freedom.mpp");
-      EXCLUDED_FILES.add("dandy-automation.mpp");
       EXCLUDED_FILES.add("printable-powder.mpp");
       EXCLUDED_FILES.add("shrewdest-slate.mpp");
-      EXCLUDED_FILES.add("pituitary-springboard.mpp");
       EXCLUDED_FILES.add("unmeshed-lab.mpp");
-      EXCLUDED_FILES.add("occupational-game.mpp");
       EXCLUDED_FILES.add("sly-taste.mpp");
-      EXCLUDED_FILES.add("impoverished-sluice.mpp");
       EXCLUDED_FILES.add("alternative-urgency.mpp");
-      EXCLUDED_FILES.add("drunken-thrift.mpp");
-      EXCLUDED_FILES.add("nocturnal-package.mpp");
       EXCLUDED_FILES.add("extraterrestrial-apologetic.mpp");
-      EXCLUDED_FILES.add("uneconomical-diary.mpp");
       EXCLUDED_FILES.add("further-slate.mpp");
       EXCLUDED_FILES.add("ordinary-sect.mpp");
       EXCLUDED_FILES.add("unerring-cosmopolitan.mpp");
       EXCLUDED_FILES.add("uneconomic-onion.mpp");
       EXCLUDED_FILES.add("doric-understructure.mpp");
-      EXCLUDED_FILES.add("choosy-epilogue.mpp");
-      EXCLUDED_FILES.add("catastrophic-acceleration.mpp");
-      EXCLUDED_FILES.add("unhappiest-complication.mpp");
       EXCLUDED_FILES.add("talkative-gilt.mpp");
-      EXCLUDED_FILES.add("thicker-assertion.mpp");
       EXCLUDED_FILES.add("awry-requisition.mpp");
       EXCLUDED_FILES.add("false-suntan.mpp");
-      EXCLUDED_FILES.add("morose-engine.mpp");
       EXCLUDED_FILES.add("panicky-competitor.mpp");
       EXCLUDED_FILES.add("proximal-milligram.mpp");
       EXCLUDED_FILES.add("shylockian-subroutine.mpp");
       EXCLUDED_FILES.add("undecorated-hick.mpp");
       EXCLUDED_FILES.add("vaguest-brigade.mpp");
       EXCLUDED_FILES.add("timid-tribune.mpp");
-      EXCLUDED_FILES.add("mythological-tantrum.mpp");
       EXCLUDED_FILES.add("symphonic-turkey.mpp");
       EXCLUDED_FILES.add("unwelcome-ritiuality.mpp");
       EXCLUDED_FILES.add("blind-moisture.mpp");
       EXCLUDED_FILES.add("intact-sentinel.mpp");
-      EXCLUDED_FILES.add("unable-childhood.mpp");
       EXCLUDED_FILES.add("palatable-conceptuality.mpp");
-      EXCLUDED_FILES.add("stubborn-stove.mpp");
-      EXCLUDED_FILES.add("personal-cellist.mpp");
       EXCLUDED_FILES.add("responsive-extrapolation.mpp");
-      EXCLUDED_FILES.add("antique-loom.mpp");
-      EXCLUDED_FILES.add("foreseeable-subcommittee.mpp");
       EXCLUDED_FILES.add("unresponsive-monarch.mpp");
       EXCLUDED_FILES.add("commercial-litterbug.mpp");
       EXCLUDED_FILES.add("seismic-piston.mpp");
-      EXCLUDED_FILES.add("silly-chronology.mpp");
-      EXCLUDED_FILES.add("principle-faction.mpp");
-      EXCLUDED_FILES.add("appropriate-animal.mpp");
-      EXCLUDED_FILES.add("equivocal-hospital.mpp");
       EXCLUDED_FILES.add("bulk-sluicehouse-scheduled.mpp");
       EXCLUDED_FILES.add("woeful-drizzle-scheduled.mpp");
       EXCLUDED_FILES.add("striking-set.mpp");
+
 
       // Split task
       EXCLUDED_FILES.add("worrisome-definition.mpp");
@@ -492,5 +467,6 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("constructive-facade.mpp");
       EXCLUDED_FILES.add("mediumistic-handclasp.mpp");
       EXCLUDED_FILES.add("bibliographical-veronica.mpp");
+      EXCLUDED_FILES.add("mechanistic-brinkmanship.mpp");
    }
 }
