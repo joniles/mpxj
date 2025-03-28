@@ -293,6 +293,8 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("marital-peace.mpp");
       USE_SCHEDULED_COPY.add("compositional-information.mpp");
       USE_SCHEDULED_COPY.add("stilted-vaulting.mpp");
+      USE_SCHEDULED_COPY.add("unerring-cosmopolitan.mpp");
+      USE_SCHEDULED_COPY.add("awry-requisition.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -345,9 +347,12 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("ill-toilet-scheduled.mpp");
       EXCLUDED_FILES.add("hegelian-sensing.mpp");
       EXCLUDED_FILES.add("equitable-capability.mpp");
+      EXCLUDED_FILES.add("alternative-urgency.mpp");
+      EXCLUDED_FILES.add("further-slate.mpp");
 
       // ALAP
       EXCLUDED_FILES.add("handsome-mockery.mpp");
+      EXCLUDED_FILES.add("false-suntan.mpp"); // ALAP ES to Start issue
 
       // Scheduled from end
       EXCLUDED_FILES.add("dietetic-phrasing.mpp");
@@ -383,23 +388,15 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("tintable-casebook.mpp"); // ALAP vs ES, EF rollup
       EXCLUDED_FILES.add("outsized-hive.mpp"); // EF at next work start versus elapsed weeks duration - inaccurate ES
       EXCLUDED_FILES.add("shrewdest-slate.mpp"); // ES with no predecessor in summary task
-      
-      EXCLUDED_FILES.add("unmeshed-lab.mpp");
-      EXCLUDED_FILES.add("sly-taste.mpp");
-      EXCLUDED_FILES.add("alternative-urgency.mpp");
-      EXCLUDED_FILES.add("extraterrestrial-apologetic.mpp");
-      EXCLUDED_FILES.add("further-slate.mpp");
-      EXCLUDED_FILES.add("ordinary-sect.mpp");
-      EXCLUDED_FILES.add("unerring-cosmopolitan.mpp");
-      EXCLUDED_FILES.add("uneconomic-onion.mpp");
-      EXCLUDED_FILES.add("doric-understructure.mpp");
-      EXCLUDED_FILES.add("talkative-gilt.mpp");
-      EXCLUDED_FILES.add("awry-requisition.mpp");
-      EXCLUDED_FILES.add("false-suntan.mpp");
-      EXCLUDED_FILES.add("panicky-competitor.mpp");
-      EXCLUDED_FILES.add("proximal-milligram.mpp");
-      EXCLUDED_FILES.add("shylockian-subroutine.mpp");
-      EXCLUDED_FILES.add("undecorated-hick.mpp");
+      EXCLUDED_FILES.add("unmeshed-lab.mpp"); // Manually scheduled task with no dates - not clear how MS Project is selecting ES, EF
+      EXCLUDED_FILES.add("extraterrestrial-apologetic.mpp"); // Summary task related EF issue?
+      EXCLUDED_FILES.add("ordinary-sect.mpp"); // Duration calculation slightly out for EF
+      EXCLUDED_FILES.add("uneconomic-onion.mpp"); // MS Project reports scheduling conflict
+      EXCLUDED_FILES.add("doric-understructure.mpp"); // LS, LF issue summary task successor
+      EXCLUDED_FILES.add("talkative-gilt.mpp"); // EF date calculation oddity
+      EXCLUDED_FILES.add("shylockian-subroutine.mpp"); // Don't understand EF calculation
+
+
       EXCLUDED_FILES.add("vaguest-brigade.mpp");
       EXCLUDED_FILES.add("timid-tribune.mpp");
       EXCLUDED_FILES.add("symphonic-turkey.mpp");
@@ -469,5 +466,9 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("beady-musket.mpp");
       EXCLUDED_FILES.add("maternal-ecliptic.mpp");
       EXCLUDED_FILES.add("printable-powder.mpp");
+      EXCLUDED_FILES.add("sly-taste.mpp");
+      EXCLUDED_FILES.add("panicky-competitor.mpp");
+      EXCLUDED_FILES.add("proximal-milligram.mpp");
+      EXCLUDED_FILES.add("undecorated-hick.mpp");
    }
 }
