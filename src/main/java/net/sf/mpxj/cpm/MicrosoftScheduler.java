@@ -14,8 +14,11 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
+import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskMode;
+import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 
 public class MicrosoftScheduler implements Scheduler
@@ -800,22 +803,62 @@ public class MicrosoftScheduler implements Scheduler
 
    private LocalDateTime getDateFromStartAndDuration(Task task, LocalDateTime date)
    {
-      return getDate(task, date, task.getDuration());
+      if (calculateDateFromDuration(task))
+      {
+         return task.getEffectiveCalendar().getDate(date, task.getDuration());
+      }
+
+      return getDateFromStartAndWork(task, date);
    }
 
    private LocalDateTime getDateFromFinishAndDuration(Task task, LocalDateTime date)
    {
-      return getDate(task, date, task.getDuration().negate());
+      if (calculateDateFromDuration(task))
+      {
+         return task.getEffectiveCalendar().getDate(date, task.getDuration().negate());
+      }
+
+      return getDateFromFinishAndWork(task, date);
    }
 
    private LocalDateTime getDateFromFinishAndRemainingDuration(Task task, LocalDateTime date)
    {
-      return getDate(task, date, task.getRemainingDuration().negate());
+      if (calculateDateFromDuration(task))
+      {
+         return task.getEffectiveCalendar().getDate(date, task.getRemainingDuration().negate());
+      }
+      return getDateFromFinishAndRemainingWork(task, date);
    }
 
-   private LocalDateTime getDate(Task task, LocalDateTime date, Duration duration)
+   private boolean calculateDateFromDuration(Task task)
    {
-      return task.getEffectiveCalendar().getDate(date, duration);
+      return task.getType() == TaskType.FIXED_DURATION || task.getResourceAssignments().stream().noneMatch(r -> r.getResource() != null && r.getResource().getType() == ResourceType.WORK && r.getUnits().doubleValue() > 0.0);
+   }
+
+   private LocalDateTime getDateFromStartAndWork(Task task, LocalDateTime date)
+   {
+      return task.getResourceAssignments().stream().map(r -> getDateFromWork(r, date, r.getWork())).max(Comparator.naturalOrder()).orElseGet(null);
+   }
+
+   private LocalDateTime getDateFromFinishAndWork(Task task, LocalDateTime date)
+   {
+      return task.getResourceAssignments().stream().map(r -> getDateFromWork(r, date, r.getWork().negate())).min(Comparator.naturalOrder()).orElseGet(null);
+   }
+
+   private LocalDateTime getDateFromFinishAndRemainingWork(Task task, LocalDateTime date)
+   {
+      return task.getResourceAssignments().stream().map(r -> getDateFromWork(r, date, r.getRemainingWork().negate())).min(Comparator.naturalOrder()).orElseGet(null);
+   }
+
+   private LocalDateTime getDateFromWork(ResourceAssignment assignment, LocalDateTime date, Duration work)
+   {
+      double units = assignment.getUnits().doubleValue();
+      if (units != 100.0)
+      {
+         work = Duration.getInstance((work.getDuration() * 100.0) / units, work.getUnits());
+      }
+
+      return assignment.getEffectiveCalendar().getDate(date, work);
    }
 
    private final ProjectFile m_file;
