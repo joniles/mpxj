@@ -800,17 +800,22 @@ public class MicrosoftScheduler implements Scheduler
 
    private LocalDateTime getDateFromStartAndDuration(Task task, LocalDateTime date)
    {
-      return task.getEffectiveCalendar().getDate(date, task.getDuration());
+      return getDate(task, date, task.getDuration());
    }
 
    private LocalDateTime getDateFromFinishAndDuration(Task task, LocalDateTime date)
    {
-      return task.getEffectiveCalendar().getDate(date, task.getDuration().negate());
+      return getDate(task, date, task.getDuration().negate());
    }
 
    private LocalDateTime getDateFromFinishAndRemainingDuration(Task task, LocalDateTime date)
    {
-      return task.getEffectiveCalendar().getDate(date, task.getRemainingDuration().negate());
+      return getDate(task, date, task.getRemainingDuration().negate());
+   }
+
+   private LocalDateTime getDate(Task task, LocalDateTime date, Duration duration)
+   {
+      return task.getEffectiveCalendar().getDate(date, duration);
    }
 
    private final ProjectFile m_file;
