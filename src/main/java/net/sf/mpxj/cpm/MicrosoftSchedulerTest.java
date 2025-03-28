@@ -296,6 +296,7 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("unerring-cosmopolitan.mpp");
       USE_SCHEDULED_COPY.add("awry-requisition.mpp");
       USE_SCHEDULED_COPY.add("timid-tribune.mpp");
+      USE_SCHEDULED_COPY.add("seismic-piston.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -377,10 +378,14 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("brash-asceticism.mpp");
       EXCLUDED_FILES.add("standard-freedom.mpp");
 
+      // Constraint on summary task
+      EXCLUDED_FILES.add("false-rustler.mpp");
+      EXCLUDED_FILES.add("intact-sentinel.mpp");
+      EXCLUDED_FILES.add("woeful-drizzle-scheduled.mpp");
+
       // Summary task logic
       EXCLUDED_FILES.add("scarlet-throughput.mpp"); // LF oddity
       EXCLUDED_FILES.add("topical-mamma.mpp"); // ES, EF != Start, Finish oddity
-      EXCLUDED_FILES.add("false-rustler.mpp"); // Constraint on summary task
       EXCLUDED_FILES.add("lonesome-potentiometer.mpp"); // Summary task relation backward pass issue
       EXCLUDED_FILES.add("hazy-viscometer.mpp"); // Summary task relation backward pass issue - lag throws off calculation?
       EXCLUDED_FILES.add("bitterest-oscillation-scheduled.mpp"); // Summary task relation backward pass issue
@@ -397,18 +402,9 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("doric-understructure.mpp"); // LS, LF issue summary task successor
       EXCLUDED_FILES.add("talkative-gilt.mpp"); // EF date calculation oddity
       EXCLUDED_FILES.add("shylockian-subroutine.mpp"); // Don't understand EF calculation
-
-      
-      EXCLUDED_FILES.add("blind-moisture.mpp");
-      EXCLUDED_FILES.add("intact-sentinel.mpp");
-      EXCLUDED_FILES.add("palatable-conceptuality.mpp");
-      EXCLUDED_FILES.add("responsive-extrapolation.mpp");
-      EXCLUDED_FILES.add("unresponsive-monarch.mpp");
-      EXCLUDED_FILES.add("commercial-litterbug.mpp");
-      EXCLUDED_FILES.add("seismic-piston.mpp");
-      EXCLUDED_FILES.add("bulk-sluicehouse-scheduled.mpp");
-      EXCLUDED_FILES.add("woeful-drizzle-scheduled.mpp");
-      EXCLUDED_FILES.add("striking-set.mpp");
+      EXCLUDED_FILES.add("responsive-extrapolation.mpp"); // LF calculation issue
+      EXCLUDED_FILES.add("bulk-sluicehouse-scheduled.mpp"); // SF relations issue?
+      EXCLUDED_FILES.add("striking-set.mpp"); // Summary task to ES calc issue
 
 
       // Split task
@@ -469,5 +465,9 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("proximal-milligram.mpp");
       EXCLUDED_FILES.add("undecorated-hick.mpp");
       EXCLUDED_FILES.add("vaguest-brigade.mpp");
+      EXCLUDED_FILES.add("blind-moisture.mpp");
+      EXCLUDED_FILES.add("palatable-conceptuality.mpp");
+      EXCLUDED_FILES.add("unresponsive-monarch.mpp");
+      EXCLUDED_FILES.add("commercial-litterbug.mpp");
    }
 }
