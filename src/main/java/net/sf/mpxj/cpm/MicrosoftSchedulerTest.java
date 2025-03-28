@@ -328,20 +328,13 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("semipublic-tweed.mpp");
 
       // Use resource calendar
-      EXCLUDED_FILES.add("optimistic-layer.mpp");
-      EXCLUDED_FILES.add("constructional-smokehouse.mpp");
-      EXCLUDED_FILES.add("feudal-walk.mpp");
       EXCLUDED_FILES.add("cortical-multitude.mpp");
-      EXCLUDED_FILES.add("philosophical-excuse.mpp");
-      EXCLUDED_FILES.add("unchanged-gift.mpp");
       EXCLUDED_FILES.add("circumpolar-test.mpp");
       EXCLUDED_FILES.add("static-pickup.mpp");
       EXCLUDED_FILES.add("angry-prospect.mpp");
       EXCLUDED_FILES.add("symmetrical-dynamite.mpp");
       EXCLUDED_FILES.add("rash-age.mpp");
       EXCLUDED_FILES.add("copper-yeast-scheduled.mpp"); // ?
-      EXCLUDED_FILES.add("classiest-virtuoso.mpp");
-      EXCLUDED_FILES.add("fitting-politician.mpp");
       EXCLUDED_FILES.add("frantic-vestibule.mpp");
       EXCLUDED_FILES.add("pulmonary-dove.mpp");
       EXCLUDED_FILES.add("madding-portrayal.mpp");
@@ -352,7 +345,6 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("ill-toilet-scheduled.mpp");
       EXCLUDED_FILES.add("hegelian-sensing.mpp");
       EXCLUDED_FILES.add("equitable-capability.mpp");
-      EXCLUDED_FILES.add("alternative-urgency.mpp");
       EXCLUDED_FILES.add("further-slate.mpp");
       EXCLUDED_FILES.add("symphonic-turkey.mpp");
 
