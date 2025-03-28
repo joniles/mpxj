@@ -295,6 +295,7 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("stilted-vaulting.mpp");
       USE_SCHEDULED_COPY.add("unerring-cosmopolitan.mpp");
       USE_SCHEDULED_COPY.add("awry-requisition.mpp");
+      USE_SCHEDULED_COPY.add("timid-tribune.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -349,6 +350,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("equitable-capability.mpp");
       EXCLUDED_FILES.add("alternative-urgency.mpp");
       EXCLUDED_FILES.add("further-slate.mpp");
+      EXCLUDED_FILES.add("symphonic-turkey.mpp");
 
       // ALAP
       EXCLUDED_FILES.add("handsome-mockery.mpp");
@@ -396,11 +398,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("talkative-gilt.mpp"); // EF date calculation oddity
       EXCLUDED_FILES.add("shylockian-subroutine.mpp"); // Don't understand EF calculation
 
-
-      EXCLUDED_FILES.add("vaguest-brigade.mpp");
-      EXCLUDED_FILES.add("timid-tribune.mpp");
-      EXCLUDED_FILES.add("symphonic-turkey.mpp");
-      EXCLUDED_FILES.add("unwelcome-ritiuality.mpp");
+      
       EXCLUDED_FILES.add("blind-moisture.mpp");
       EXCLUDED_FILES.add("intact-sentinel.mpp");
       EXCLUDED_FILES.add("palatable-conceptuality.mpp");
@@ -470,5 +468,6 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("panicky-competitor.mpp");
       EXCLUDED_FILES.add("proximal-milligram.mpp");
       EXCLUDED_FILES.add("undecorated-hick.mpp");
+      EXCLUDED_FILES.add("vaguest-brigade.mpp");
    }
 }

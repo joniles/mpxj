@@ -540,7 +540,7 @@ public class MicrosoftScheduler implements Scheduler
 
          default:
          {
-            lateFinish = removeLag(relation, m_calculatedLateStart.get(successorTask));
+            lateFinish = removeLag(relation, m_calculatedLateStart.getOrDefault(successorTask, successorTask.getLateStart()));
             break;
          }
       }
