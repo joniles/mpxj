@@ -135,7 +135,7 @@ public class MicrosoftScheduler implements Scheduler
                case FINISH_NO_EARLIER_THAN:
                {
                   earlyFinish = task.getConstraintDate();
-                  earlyStart = calendar.getDate(earlyFinish, task.getDuration().negate());
+                  earlyStart = getDateFromFinishAndDuration(task, earlyFinish);
                   break;
                }
 
@@ -167,7 +167,7 @@ public class MicrosoftScheduler implements Scheduler
 
                case FINISH_NO_LATER_THAN:
                {
-                  LocalDateTime latestStart = calendar.getDate(task.getConstraintDate(), task.getDuration().negate());
+                  LocalDateTime latestStart = getDateFromFinishAndDuration(task, task.getConstraintDate());
                   if (earlyStart.isAfter(latestStart))
                   {
                      earlyStart = latestStart;
@@ -177,7 +177,7 @@ public class MicrosoftScheduler implements Scheduler
 
                case FINISH_NO_EARLIER_THAN:
                {
-                  LocalDateTime earliestStart = calendar.getDate(task.getConstraintDate(), task.getDuration().negate());
+                  LocalDateTime earliestStart = getDateFromFinishAndDuration(task, task.getConstraintDate());
                   if (earlyStart.isBefore(earliestStart))
                   {
                      earlyStart = earliestStart;
@@ -205,7 +205,7 @@ public class MicrosoftScheduler implements Scheduler
                case FINISH_ON:
                {
                   earlyFinish = task.getConstraintDate();
-                  earlyStart = calendar.getDate(earlyFinish, task.getDuration().negate());
+                  earlyStart = getDateFromFinishAndDuration(task, earlyFinish);
                   break;
                }
             }
@@ -216,7 +216,7 @@ public class MicrosoftScheduler implements Scheduler
          earlyStart = task.getActualStart();
          if (task.getConstraintType() != null && task.getActualFinish() == null)
          {
-            earlyFinish = calendar.getDate(earlyStart, task.getDuration());
+            earlyFinish = getDateFromStartAndDuration(task, earlyStart);
 
             switch (task.getConstraintType())
             {
@@ -240,7 +240,7 @@ public class MicrosoftScheduler implements Scheduler
 
       if (earlyFinish == null)
       {
-         earlyFinish = task.getActualFinish() == null ? calendar.getDate(earlyStart, task.getDuration()) : task.getActualFinish();
+         earlyFinish = task.getActualFinish() == null ? getDateFromStartAndDuration(task, earlyStart) : task.getActualFinish();
       }
 
       task.setEarlyStart(earlyStart);
@@ -293,7 +293,7 @@ public class MicrosoftScheduler implements Scheduler
             {
                case MUST_START_ON:
                {
-                  lateFinish = calendar.getDate(task.getConstraintDate(), task.getDuration());
+                  lateFinish = getDateFromStartAndDuration(task, task.getConstraintDate());
                   break;
                }
 
@@ -306,7 +306,7 @@ public class MicrosoftScheduler implements Scheduler
 
                case START_NO_LATER_THAN:
                {
-                  LocalDateTime latestFinish = calendar.getDate(task.getConstraintDate(), task.getDuration());
+                  LocalDateTime latestFinish = getDateFromStartAndDuration(task, task.getConstraintDate());
                   if (lateFinish.isAfter(latestFinish))
                   {
                      lateFinish = latestFinish;
@@ -348,7 +348,7 @@ public class MicrosoftScheduler implements Scheduler
 
          if (task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
          {
-            LocalDateTime lateStart = calendar.getDate(lateFinish, task.getDuration().negate());
+            LocalDateTime lateStart = getDateFromFinishAndDuration(task, lateFinish);
             m_calculatedLateStart.put(task, lateStart);
 
             if (task.getActualFinish() == null)
@@ -364,7 +364,7 @@ public class MicrosoftScheduler implements Scheduler
          }
          else
          {
-            LocalDateTime lateStart = calendar.getDate(lateFinish, task.getRemainingDuration().negate());
+            LocalDateTime lateStart = getDateFromFinishAndRemainingDuration(task, lateFinish);
             m_calculatedLateStart.put(task, lateStart);
 
             task.setLateStart(task.getActualStart() == null ? lateStart : task.getActualStart());
@@ -410,7 +410,7 @@ public class MicrosoftScheduler implements Scheduler
             // but when the file is saved and reopened, the incorrect dates are shown again. Current versions of MS Project (2024?)
             // seem to be unaffected.
             LocalDateTime predecessorEarlyFinish = predecessor.getActualFinish() == null ? predecessor.getEarlyFinish() : predecessor.getActualFinish();
-            LocalDateTime earlyStart = taskCalendar.getDate(predecessorEarlyFinish, relation.getSuccessorTask().getRemainingDuration().negate());
+            LocalDateTime earlyStart = getDateFromFinishAndRemainingDuration(relation.getSuccessorTask(), predecessorEarlyFinish);
             earlyStart = addLag(relation, earlyStart);
             if (earlyStart.isBefore(m_projectStartDate))
             {
@@ -421,7 +421,7 @@ public class MicrosoftScheduler implements Scheduler
 
          case START_FINISH:
          {
-            return addLag(relation, taskCalendar.getDate(predecessor.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()));
+            return addLag(relation, getDateFromFinishAndDuration(relation.getSuccessorTask(),predecessor.getEarlyStart()));
          }
 
          default:
@@ -533,7 +533,7 @@ public class MicrosoftScheduler implements Scheduler
 
          case START_FINISH:
          {
-            lateFinish = taskCalendar.getDate(successorTask.getLateFinish(), predecessorTask.getDuration());
+            lateFinish = getDateFromStartAndDuration(predecessorTask, successorTask.getLateFinish());
             lateFinish = removeLag(relation, lateFinish);
             break;
          }
@@ -582,7 +582,7 @@ public class MicrosoftScheduler implements Scheduler
                else
                {
                   lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
-                  lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
+                  lateFinish = getDateFromStartAndDuration(predecessorTask, lateStart);
                }
             }
          }
@@ -592,16 +592,13 @@ public class MicrosoftScheduler implements Scheduler
             if (successorTask.getActualFinish() == null)
             {
                // successor not finished
-               //lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
-               //lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
-
                lateFinish = m_projectFinishDate;
             }
             else
             {
                // successor finished
                lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
-               lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
+               lateFinish = getDateFromStartAndDuration(predecessorTask, lateStart);
             }
          }
       }
@@ -615,7 +612,7 @@ public class MicrosoftScheduler implements Scheduler
             {
                // Successor not started
                lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
-               lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
+               lateFinish = getDateFromStartAndDuration(predecessorTask, lateStart);
             }
             else
             {
@@ -624,13 +621,13 @@ public class MicrosoftScheduler implements Scheduler
                {
                   // successor not finished
                   lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
-                  lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
+                  lateFinish = getDateFromStartAndDuration(predecessorTask, lateStart);
                }
                else
                {
                   // successor finished
                   lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
-                  lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
+                  lateFinish = getDateFromStartAndDuration(predecessorTask, lateStart);
                }
             }
          }
@@ -641,7 +638,7 @@ public class MicrosoftScheduler implements Scheduler
             {
                // Successor not started
                lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
-               lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
+               lateFinish = getDateFromStartAndDuration(predecessorTask, lateStart);
             }
             else
             {
@@ -655,7 +652,7 @@ public class MicrosoftScheduler implements Scheduler
                {
                   // successor finished
                   lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
-                  lateFinish = calendar.getDate(lateStart, predecessorTask.getDuration());
+                  lateFinish = getDateFromStartAndDuration(predecessorTask, lateStart);
                }
             }
          }
@@ -799,6 +796,21 @@ public class MicrosoftScheduler implements Scheduler
    public List<Task> getSortedTasks()
    {
       return m_sortedTasks;
+   }
+
+   private LocalDateTime getDateFromStartAndDuration(Task task, LocalDateTime date)
+   {
+      return task.getEffectiveCalendar().getDate(date, task.getDuration());
+   }
+
+   private LocalDateTime getDateFromFinishAndDuration(Task task, LocalDateTime date)
+   {
+      return task.getEffectiveCalendar().getDate(date, task.getDuration().negate());
+   }
+
+   private LocalDateTime getDateFromFinishAndRemainingDuration(Task task, LocalDateTime date)
+   {
+      return task.getEffectiveCalendar().getDate(date, task.getRemainingDuration().negate());
    }
 
    private final ProjectFile m_file;
