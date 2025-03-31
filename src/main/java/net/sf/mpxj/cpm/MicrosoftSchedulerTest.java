@@ -303,6 +303,7 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("circumpolar-test.mpp");
       USE_SCHEDULED_COPY.add("symmetrical-dynamite.mpp");
       USE_SCHEDULED_COPY.add("frantic-vestibule.mpp");
+      USE_SCHEDULED_COPY.add("equitable-capability.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -343,6 +344,12 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("bulk-sluicehouse-scheduled.mpp"); // SF relations issue?
       EXCLUDED_FILES.add("striking-set.mpp"); // Summary task to ES calc issue
       EXCLUDED_FILES.add("bluff-shoelace.mpp"); // Summary task logic issue
+      EXCLUDED_FILES.add("thicker-recital.mpp"); // LF not project end when no successors
+      EXCLUDED_FILES.add("hegelian-sensing.mpp"); // LF not project end when no successors
+      EXCLUDED_FILES.add("greater-furlough.mpp"); // Calendar issue: EF from constraint date but -1 hour
+      EXCLUDED_FILES.add("ill-toilet-scheduled.mpp"); // EF doesn't folow from successor as expected
+      EXCLUDED_FILES.add("further-slate.mpp"); // Resource overallocation causing schedule issues?
+      EXCLUDED_FILES.add("symphonic-turkey.mpp"); // Resource overallocation causing schedule issues?
 
       // Predecessor missing when file read
       EXCLUDED_FILES.add("onrushing-stratification.mpp"); // has multiple problems even when save-as and rescheduled
@@ -354,16 +361,6 @@ public class MicrosoftSchedulerTest
 
       // Manually scheduled task - assignment work doesn't calculate correctly
       EXCLUDED_FILES.add("semipublic-tweed.mpp");
-
-      // Use resource calendar
-
-      EXCLUDED_FILES.add("thicker-recital.mpp");
-      EXCLUDED_FILES.add("greater-furlough.mpp");
-      EXCLUDED_FILES.add("ill-toilet-scheduled.mpp");
-      EXCLUDED_FILES.add("hegelian-sensing.mpp");
-      EXCLUDED_FILES.add("equitable-capability.mpp");
-      EXCLUDED_FILES.add("further-slate.mpp");
-      EXCLUDED_FILES.add("symphonic-turkey.mpp");
 
       // ALAP
       EXCLUDED_FILES.add("handsome-mockery.mpp");
