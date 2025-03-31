@@ -864,7 +864,12 @@ public class MicrosoftScheduler implements Scheduler
 
    private LocalDateTime getNextWorkStart(Task task, LocalDateTime date)
    {
-      return task.getEffectiveCalendar().getNextWorkStart(date);
+      if (useTaskEffectiveCalendar(task))
+      {
+         return task.getEffectiveCalendar().getNextWorkStart(date);
+      }
+
+      return getResourceAssignmentStream(task).map(r -> r.getEffectiveCalendar().getNextWorkStart(date)).min(Comparator.naturalOrder()).orElse(null);
    }
 
    private boolean datesAreEquivalent(Task task, LocalDateTime date1, LocalDateTime date2)

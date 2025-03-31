@@ -351,7 +351,6 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("semipublic-tweed.mpp");
 
       // Use resource calendar
-      EXCLUDED_FILES.add("static-pickup.mpp");
       EXCLUDED_FILES.add("angry-prospect.mpp");
       EXCLUDED_FILES.add("symmetrical-dynamite.mpp");
       EXCLUDED_FILES.add("rash-age.mpp");
