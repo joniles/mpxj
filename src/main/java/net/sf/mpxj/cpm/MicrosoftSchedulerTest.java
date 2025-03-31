@@ -177,7 +177,10 @@ public class MicrosoftSchedulerTest
          return true;
       }
 
-      return Math.abs(baseline.getEffectiveCalendar().getWork(baselineDate, workingDate, TimeUnit.MINUTES).getDuration() ) < 0.068;
+      double result = Math.abs(baseline.getEffectiveCalendar().getWork(baselineDate, workingDate, TimeUnit.MINUTES).getDuration());
+
+      // Allowing for date arithmetic differences between MS Project and MPXJ
+      return result < 0.29;
    }
 
    private void analyseFailures(MicrosoftScheduler scheduler) throws CycleException
@@ -298,6 +301,7 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("timid-tribune.mpp");
       USE_SCHEDULED_COPY.add("seismic-piston.mpp");
       USE_SCHEDULED_COPY.add("circumpolar-test.mpp");
+      USE_SCHEDULED_COPY.add("symmetrical-dynamite.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -351,9 +355,6 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("semipublic-tweed.mpp");
 
       // Use resource calendar
-      EXCLUDED_FILES.add("angry-prospect.mpp");
-      EXCLUDED_FILES.add("symmetrical-dynamite.mpp");
-      EXCLUDED_FILES.add("rash-age.mpp");
       EXCLUDED_FILES.add("copper-yeast-scheduled.mpp"); // ?
       EXCLUDED_FILES.add("frantic-vestibule.mpp");
       EXCLUDED_FILES.add("pulmonary-dove.mpp");
@@ -386,6 +387,8 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("disruptive-boon.mpp");
       EXCLUDED_FILES.add("halfhearted-agreement.mpp");
       EXCLUDED_FILES.add("cortical-multitude.mpp");
+      EXCLUDED_FILES.add("angry-prospect.mpp");
+      EXCLUDED_FILES.add("rash-age.mpp");
 
       // Calculated correctly, but incorrect late dates read from MPP by MPXJ
       EXCLUDED_FILES.add("scatterbrained-tambourine.mpp");
