@@ -333,17 +333,7 @@ public class MicrosoftScheduler implements Scheduler
             }
 
             // If we are at the start of the next period of work, we can move back to the end of the previous period of work
-            LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(lateFinish);
-
-            if (datesAreEquivalent(task, previousWorkFinish, lateFinish))
-            {
-               // TODO: this condition may need work for MS Project.
-               // In some/many cases it allows late finish to be at the start of the next working day.
-               if (!previousWorkFinish.isBefore(lateFinish))
-               {
-                  lateFinish = previousWorkFinish;
-               }
-            }
+            lateFinish = getEquivalentPreviousWorkFinish(task, lateFinish);
          }
          else
          {
@@ -862,19 +852,45 @@ public class MicrosoftScheduler implements Scheduler
       return assignment.getEffectiveCalendar().getDate(date, work);
    }
 
+   private LocalDateTime getEquivalentPreviousWorkFinish(Task task, LocalDateTime date)
+   {
+      if (useTaskEffectiveCalendar(task))
+      {
+         return getEquivalentPreviousWorkFinish(task.getEffectiveCalendar(), date);
+      }
+
+      return getResourceAssignmentStream(task).map(r -> getEquivalentPreviousWorkFinish(r.getEffectiveCalendar(), date)).max(Comparator.naturalOrder()).orElse(null);
+   }
+
+   private LocalDateTime getEquivalentPreviousWorkFinish(ProjectCalendar calendar, LocalDateTime date)
+   {
+      LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(date);
+      if (calendar.getWork(previousWorkFinish, date, TimeUnit.HOURS).getDuration() == 0)
+      {
+         return previousWorkFinish;
+      }
+      return date;
+   }
+
    private LocalDateTime getNextWorkStart(Task task, LocalDateTime date)
    {
       if (useTaskEffectiveCalendar(task))
       {
-         return task.getEffectiveCalendar().getNextWorkStart(date);
+         return  getNextWorkStart(task, task.getEffectiveCalendar(), date);
       }
 
-      if (task.getResourceAssignments().size() == 1)
+      return getResourceAssignmentStream(task).map(r -> getNextWorkStart(task, r.getEffectiveCalendar(), date)).min(Comparator.naturalOrder()).orElse(null);
+   }
+
+   private LocalDateTime getNextWorkStart(Task task, ProjectCalendar calendar, LocalDateTime date)
+   {
+      LocalDateTime nextWorkStart = calendar.getNextWorkStart(date);
+      if (nextWorkStart.isAfter(date) && task.getMilestone() && calendar.getPreviousWorkFinish(date).isEqual(date))
       {
-         return task.getResourceAssignments().get(0).getEffectiveCalendar().getNextWorkStart(date);
+         // A milestone can sit at  the end of a working period.
+         return date;
       }
-
-      return getResourceAssignmentStream(task).map(r -> r.getEffectiveCalendar().getNextWorkStart(date)).min(Comparator.naturalOrder()).orElse(null);
+      return nextWorkStart;
    }
 
    private boolean datesAreEquivalent(Task task, LocalDateTime date1, LocalDateTime date2)

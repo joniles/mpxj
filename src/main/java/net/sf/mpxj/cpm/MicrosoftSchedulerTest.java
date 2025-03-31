@@ -302,6 +302,7 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("seismic-piston.mpp");
       USE_SCHEDULED_COPY.add("circumpolar-test.mpp");
       USE_SCHEDULED_COPY.add("symmetrical-dynamite.mpp");
+      USE_SCHEDULED_COPY.add("frantic-vestibule.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -355,7 +356,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("semipublic-tweed.mpp");
 
       // Use resource calendar
-      EXCLUDED_FILES.add("frantic-vestibule.mpp");
+
       EXCLUDED_FILES.add("pulmonary-dove.mpp");
       EXCLUDED_FILES.add("madding-portrayal.mpp");
       EXCLUDED_FILES.add("photosensitive-bluebook.mpp");
