@@ -356,10 +356,6 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("semipublic-tweed.mpp");
 
       // Use resource calendar
-
-      EXCLUDED_FILES.add("pulmonary-dove.mpp");
-      EXCLUDED_FILES.add("madding-portrayal.mpp");
-      EXCLUDED_FILES.add("photosensitive-bluebook.mpp");
       EXCLUDED_FILES.add("bluff-shoelace.mpp");
       EXCLUDED_FILES.add("thicker-recital.mpp");
       EXCLUDED_FILES.add("greater-furlough.mpp");
@@ -468,5 +464,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("unresponsive-monarch.mpp");
       EXCLUDED_FILES.add("commercial-litterbug.mpp");
       EXCLUDED_FILES.add("copper-yeast-scheduled.mpp");
+      EXCLUDED_FILES.add("pulmonary-dove.mpp");
+      EXCLUDED_FILES.add("photosensitive-bluebook.mpp");
    }
 }
