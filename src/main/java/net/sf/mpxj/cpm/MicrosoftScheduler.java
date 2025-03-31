@@ -252,112 +252,117 @@ public class MicrosoftScheduler implements Scheduler
 
       for (Task task : tasks)
       {
-         // We'll use external tasks as successors when scheduling, but we'll leave their late dates unchanged.
-         if (task.getExternalTask() || task.getExternalProject())
+         backwardPass(task);
+      }
+   }
+
+   private void backwardPass(Task task) throws CpmException
+   {
+      // We'll use external tasks as successors when scheduling, but we'll leave their late dates unchanged.
+      if (task.getExternalTask() || task.getExternalProject())
+      {
+         return;
+      }
+
+      List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> isTask(r.getSuccessorTask()) && r.getSuccessorTask().getActualFinish() == null).collect(Collectors.toList());
+      List<Relation> summaryTaskSuccessors = m_summaryTaskSuccessors.get(task);
+      if (summaryTaskSuccessors != null)
+      {
+         successors = new ArrayList<>(successors);
+         successors.addAll(summaryTaskSuccessors);
+      }
+
+      ProjectCalendar calendar = task.getEffectiveCalendar();
+      LocalDateTime lateFinish;
+
+      if (task.getActualFinish() == null)
+      {
+         if (successors.isEmpty())
          {
-            continue;
+            lateFinish = m_projectFinishDate;
+         }
+         else
+         {
+            if (task.getMilestone() && task.getDuration().getDuration() == 0 && task.getActualStart() != null)
+            {
+               lateFinish = task.getActualStart();
+            }
+            else
+            {
+               lateFinish = successors.stream().map(r -> calculateLateFinish(r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+            }
          }
 
-         List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> isTask(r.getSuccessorTask()) && r.getSuccessorTask().getActualFinish() == null).collect(Collectors.toList());
-         List<Relation> summaryTaskSuccessors = m_summaryTaskSuccessors.get(task);
-         if (summaryTaskSuccessors != null)
+         switch (task.getConstraintType())
          {
-            successors = new ArrayList<>(successors);
-            successors.addAll(summaryTaskSuccessors);
+            case MUST_START_ON:
+            {
+               lateFinish = getDateFromStartAndDuration(task, task.getConstraintDate());
+               break;
+            }
+
+            case FINISH_ON:
+            case MUST_FINISH_ON:
+            {
+               lateFinish = task.getConstraintDate();
+               break;
+            }
+
+            case START_NO_LATER_THAN:
+            {
+               LocalDateTime latestFinish = getDateFromStartAndDuration(task, task.getConstraintDate());
+               if (lateFinish.isAfter(latestFinish))
+               {
+                  lateFinish = latestFinish;
+               }
+               break;
+            }
+
+            case FINISH_NO_LATER_THAN:
+            {
+               if (lateFinish.isAfter(task.getConstraintDate()))
+               {
+                  lateFinish = task.getConstraintDate();
+               }
+            }
          }
 
-         ProjectCalendar calendar = task.getEffectiveCalendar();
-         LocalDateTime lateFinish;
+         if (task.getDeadline() != null && lateFinish.isAfter(task.getDeadline()))
+         {
+            lateFinish = task.getDeadline();
+         }
+
+         // If we are at the start of the next period of work, we can move back to the end of the previous period of work
+         lateFinish = getEquivalentPreviousWorkFinish(task, lateFinish);
+      }
+      else
+      {
+         lateFinish = task.getActualFinish();
+      }
+
+      if (task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
+      {
+         LocalDateTime lateStart = getDateFromFinishAndDuration(task, lateFinish);
+         m_calculatedLateStart.put(task, lateStart);
 
          if (task.getActualFinish() == null)
          {
-            if (successors.isEmpty())
-            {
-               lateFinish = m_projectFinishDate;
-            }
-            else
-            {
-               if (task.getMilestone() && task.getDuration().getDuration() == 0 && task.getActualStart() != null)
-               {
-                  lateFinish = task.getActualStart();
-               }
-               else
-               {
-                  lateFinish = successors.stream().map(r -> calculateLateFinish(r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
-               }
-            }
-
-            switch (task.getConstraintType())
-            {
-               case MUST_START_ON:
-               {
-                  lateFinish = getDateFromStartAndDuration(task, task.getConstraintDate());
-                  break;
-               }
-
-               case FINISH_ON:
-               case MUST_FINISH_ON:
-               {
-                  lateFinish = task.getConstraintDate();
-                  break;
-               }
-
-               case START_NO_LATER_THAN:
-               {
-                  LocalDateTime latestFinish = getDateFromStartAndDuration(task, task.getConstraintDate());
-                  if (lateFinish.isAfter(latestFinish))
-                  {
-                     lateFinish = latestFinish;
-                  }
-                  break;
-               }
-
-               case FINISH_NO_LATER_THAN:
-               {
-                  if (lateFinish.isAfter(task.getConstraintDate()))
-                  {
-                     lateFinish = task.getConstraintDate();
-                  }
-               }
-            }
-
-            if (task.getDeadline() != null && lateFinish.isAfter(task.getDeadline()))
-            {
-               lateFinish = task.getDeadline();
-            }
-
-            // If we are at the start of the next period of work, we can move back to the end of the previous period of work
-            lateFinish = getEquivalentPreviousWorkFinish(task, lateFinish);
-         }
-         else
-         {
-            lateFinish = task.getActualFinish();
-         }
-
-         if (task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
-         {
-            LocalDateTime lateStart = getDateFromFinishAndDuration(task, lateFinish);
-            m_calculatedLateStart.put(task, lateStart);
-
-            if (task.getActualFinish() == null)
-            {
-               task.setLateStart(lateStart);
-               task.setLateFinish(lateFinish);
-            }
-            else
-            {
-               task.setLateStart(task.getActualStart());
-               task.setLateFinish(task.getLateFinish());
-            }
-         }
-         else
-         {
-            LocalDateTime lateStart = getDateFromFinishAndRemainingDuration(task, lateFinish);
-            m_calculatedLateStart.put(task, lateStart);
-
-            task.setLateStart(task.getActualStart() == null ? lateStart : task.getActualStart());
+            task.setLateStart(lateStart);
             task.setLateFinish(lateFinish);
          }
+         else
+         {
+            task.setLateStart(task.getActualStart());
+            task.setLateFinish(task.getLateFinish());
+         }
+      }
+      else
+      {
+         LocalDateTime lateStart = getDateFromFinishAndRemainingDuration(task, lateFinish);
+         m_calculatedLateStart.put(task, lateStart);
+
+         task.setLateStart(task.getActualStart() == null ? lateStart : task.getActualStart());
+         task.setLateFinish(lateFinish);
       }
    }
 
@@ -515,7 +520,8 @@ public class MicrosoftScheduler implements Scheduler
 
          case FINISH_FINISH:
          {
-            lateFinish = removeLag(relation, successorTask.getLateFinish());
+            //lateFinish = removeLag(relation, successorTask.getLateFinish());
+            lateFinish = calculateLateFinishForFinishFinish(relation);
             break;
          }
 
@@ -607,6 +613,11 @@ public class MicrosoftScheduler implements Scheduler
       }
 
       return lateFinish;
+   }
+
+   private LocalDateTime calculateLateFinishForFinishFinish(Relation relation)
+   {
+      return removeLag(relation, relation.getSuccessorTask().getLateFinish());
    }
 
    private LocalDateTime addLevelingDelay(Task task, LocalDateTime date)
