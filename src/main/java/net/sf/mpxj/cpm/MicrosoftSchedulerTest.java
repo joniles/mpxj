@@ -342,7 +342,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("responsive-extrapolation.mpp"); // LF calculation issue
       EXCLUDED_FILES.add("bulk-sluicehouse-scheduled.mpp"); // SF relations issue?
       EXCLUDED_FILES.add("striking-set.mpp"); // Summary task to ES calc issue
-      EXCLUDED_FILES.add("circumpolar-test-scheduled.mpp"); // Choice of calendar for next work start, previous work finish?
+      EXCLUDED_FILES.add("bluff-shoelace.mpp"); // Summary task logic issue
 
       // Predecessor missing when file read
       EXCLUDED_FILES.add("onrushing-stratification.mpp"); // has multiple problems even when save-as and rescheduled
@@ -356,7 +356,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("semipublic-tweed.mpp");
 
       // Use resource calendar
-      EXCLUDED_FILES.add("bluff-shoelace.mpp");
+
       EXCLUDED_FILES.add("thicker-recital.mpp");
       EXCLUDED_FILES.add("greater-furlough.mpp");
       EXCLUDED_FILES.add("ill-toilet-scheduled.mpp");
