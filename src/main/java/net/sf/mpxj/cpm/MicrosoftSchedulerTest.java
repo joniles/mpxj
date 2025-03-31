@@ -297,6 +297,7 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("awry-requisition.mpp");
       USE_SCHEDULED_COPY.add("timid-tribune.mpp");
       USE_SCHEDULED_COPY.add("seismic-piston.mpp");
+      USE_SCHEDULED_COPY.add("circumpolar-test.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
@@ -315,6 +316,28 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("idealistic-motorist-scheduled.mpp"); // Manually schedules tasks, LF to LS oddity, plus resources with no resource calendars
       EXCLUDED_FILES.add("urban-dig.mpp"); // Task marked as milestone with 0d duration shown in Project, but is scheduled with a 10d duration
       EXCLUDED_FILES.add("infidel-dashboard.mpp"); // Manually scheduled task LS and LF incorrect
+      EXCLUDED_FILES.add("scarlet-throughput.mpp"); // LF oddity
+      EXCLUDED_FILES.add("topical-mamma.mpp"); // ES, EF != Start, Finish oddity
+      EXCLUDED_FILES.add("lonesome-potentiometer.mpp"); // Summary task relation backward pass issue
+      EXCLUDED_FILES.add("hazy-viscometer.mpp"); // Summary task relation backward pass issue - lag throws off calculation?
+      EXCLUDED_FILES.add("bitterest-oscillation-scheduled.mpp"); // Summary task relation backward pass issue
+      EXCLUDED_FILES.add("aberrant-acquiesence-scheduled.mpp"); // MS Project reports scheduling conflict
+      EXCLUDED_FILES.add("lyrical-highlight.mpp"); // MS Project reports scheduling conflict
+      EXCLUDED_FILES.add("suspect-catching.mpp"); // Unclear EF difference after scheduling
+      EXCLUDED_FILES.add("tintable-casebook.mpp"); // ALAP vs ES, EF rollup
+      EXCLUDED_FILES.add("outsized-hive.mpp"); // EF at next work start versus elapsed weeks duration - inaccurate ES
+      EXCLUDED_FILES.add("shrewdest-slate.mpp"); // ES with no predecessor in summary task
+      EXCLUDED_FILES.add("unmeshed-lab.mpp"); // Manually scheduled task with no dates - not clear how MS Project is selecting ES, EF
+      EXCLUDED_FILES.add("extraterrestrial-apologetic.mpp"); // Summary task related EF issue?
+      EXCLUDED_FILES.add("ordinary-sect.mpp"); // Duration calculation slightly out for EF
+      EXCLUDED_FILES.add("uneconomic-onion.mpp"); // MS Project reports scheduling conflict
+      EXCLUDED_FILES.add("doric-understructure.mpp"); // LS, LF issue summary task successor
+      EXCLUDED_FILES.add("talkative-gilt.mpp"); // EF date calculation oddity
+      EXCLUDED_FILES.add("shylockian-subroutine.mpp"); // Don't understand EF calculation
+      EXCLUDED_FILES.add("responsive-extrapolation.mpp"); // LF calculation issue
+      EXCLUDED_FILES.add("bulk-sluicehouse-scheduled.mpp"); // SF relations issue?
+      EXCLUDED_FILES.add("striking-set.mpp"); // Summary task to ES calc issue
+      EXCLUDED_FILES.add("circumpolar-test-scheduled.mpp"); // Choice of calendar for next work start, previous work finish?
 
       // Predecessor missing when file read
       EXCLUDED_FILES.add("onrushing-stratification.mpp"); // has multiple problems even when save-as and rescheduled
@@ -328,8 +351,6 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("semipublic-tweed.mpp");
 
       // Use resource calendar
-      EXCLUDED_FILES.add("cortical-multitude.mpp");
-      EXCLUDED_FILES.add("circumpolar-test.mpp");
       EXCLUDED_FILES.add("static-pickup.mpp");
       EXCLUDED_FILES.add("angry-prospect.mpp");
       EXCLUDED_FILES.add("symmetrical-dynamite.mpp");
@@ -365,6 +386,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("moderate-facility.mpp");
       EXCLUDED_FILES.add("disruptive-boon.mpp");
       EXCLUDED_FILES.add("halfhearted-agreement.mpp");
+      EXCLUDED_FILES.add("cortical-multitude.mpp");
 
       // Calculated correctly, but incorrect late dates read from MPP by MPXJ
       EXCLUDED_FILES.add("scatterbrained-tambourine.mpp");
@@ -380,30 +402,6 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("false-rustler.mpp");
       EXCLUDED_FILES.add("intact-sentinel.mpp");
       EXCLUDED_FILES.add("woeful-drizzle-scheduled.mpp");
-
-      // Summary task logic
-      EXCLUDED_FILES.add("scarlet-throughput.mpp"); // LF oddity
-      EXCLUDED_FILES.add("topical-mamma.mpp"); // ES, EF != Start, Finish oddity
-      EXCLUDED_FILES.add("lonesome-potentiometer.mpp"); // Summary task relation backward pass issue
-      EXCLUDED_FILES.add("hazy-viscometer.mpp"); // Summary task relation backward pass issue - lag throws off calculation?
-      EXCLUDED_FILES.add("bitterest-oscillation-scheduled.mpp"); // Summary task relation backward pass issue
-      EXCLUDED_FILES.add("aberrant-acquiesence-scheduled.mpp"); // MS Project reports scheduling conflict
-      EXCLUDED_FILES.add("lyrical-highlight.mpp"); // MS Project reports scheduling conflict
-      EXCLUDED_FILES.add("suspect-catching.mpp"); // Unclear EF difference after scheduling
-      EXCLUDED_FILES.add("tintable-casebook.mpp"); // ALAP vs ES, EF rollup
-      EXCLUDED_FILES.add("outsized-hive.mpp"); // EF at next work start versus elapsed weeks duration - inaccurate ES
-      EXCLUDED_FILES.add("shrewdest-slate.mpp"); // ES with no predecessor in summary task
-      EXCLUDED_FILES.add("unmeshed-lab.mpp"); // Manually scheduled task with no dates - not clear how MS Project is selecting ES, EF
-      EXCLUDED_FILES.add("extraterrestrial-apologetic.mpp"); // Summary task related EF issue?
-      EXCLUDED_FILES.add("ordinary-sect.mpp"); // Duration calculation slightly out for EF
-      EXCLUDED_FILES.add("uneconomic-onion.mpp"); // MS Project reports scheduling conflict
-      EXCLUDED_FILES.add("doric-understructure.mpp"); // LS, LF issue summary task successor
-      EXCLUDED_FILES.add("talkative-gilt.mpp"); // EF date calculation oddity
-      EXCLUDED_FILES.add("shylockian-subroutine.mpp"); // Don't understand EF calculation
-      EXCLUDED_FILES.add("responsive-extrapolation.mpp"); // LF calculation issue
-      EXCLUDED_FILES.add("bulk-sluicehouse-scheduled.mpp"); // SF relations issue?
-      EXCLUDED_FILES.add("striking-set.mpp"); // Summary task to ES calc issue
-
 
       // Split task
       EXCLUDED_FILES.add("worrisome-definition.mpp");

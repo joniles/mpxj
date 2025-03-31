@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
@@ -153,7 +154,7 @@ public class MicrosoftScheduler implements Scheduler
          {
             earlyStart = predecessors.stream().map(r -> calculateEarlyStart(r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
          }
-         earlyStart = calendar.getNextWorkStart(earlyStart);
+         earlyStart = getNextWorkStart(task, earlyStart);
 
          if (task.getConstraintType() != null)
          {
@@ -334,7 +335,7 @@ public class MicrosoftScheduler implements Scheduler
             // If we are at the start of the next period of work, we can move back to the end of the previous period of work
             LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(lateFinish);
 
-            if (calendar.getWork(previousWorkFinish, lateFinish, TimeUnit.HOURS).getDuration() == 0)
+            if (datesAreEquivalent(task, previousWorkFinish, lateFinish))
             {
                // TODO: this condition may need work for MS Project.
                // In some/many cases it allows late finish to be at the start of the next working day.
@@ -803,7 +804,7 @@ public class MicrosoftScheduler implements Scheduler
 
    private LocalDateTime getDateFromStartAndDuration(Task task, LocalDateTime date)
    {
-      if (calculateDateFromDuration(task))
+      if (useTaskEffectiveCalendar(task))
       {
          return task.getEffectiveCalendar().getDate(date, task.getDuration());
       }
@@ -813,7 +814,7 @@ public class MicrosoftScheduler implements Scheduler
 
    private LocalDateTime getDateFromFinishAndDuration(Task task, LocalDateTime date)
    {
-      if (calculateDateFromDuration(task))
+      if (useTaskEffectiveCalendar(task))
       {
          return task.getEffectiveCalendar().getDate(date, task.getDuration().negate());
       }
@@ -823,31 +824,31 @@ public class MicrosoftScheduler implements Scheduler
 
    private LocalDateTime getDateFromFinishAndRemainingDuration(Task task, LocalDateTime date)
    {
-      if (calculateDateFromDuration(task))
+      if (useTaskEffectiveCalendar(task))
       {
          return task.getEffectiveCalendar().getDate(date, task.getRemainingDuration().negate());
       }
       return getDateFromFinishAndRemainingWork(task, date);
    }
 
-   private boolean calculateDateFromDuration(Task task)
+   private boolean useTaskEffectiveCalendar(Task task)
    {
-      return task.getType() == TaskType.FIXED_DURATION || task.getResourceAssignments().stream().noneMatch(r -> r.getResource() != null && r.getResource().getType() == ResourceType.WORK && r.getUnits().doubleValue() > 0.0);
+      return task.getType() == TaskType.FIXED_DURATION || !getResourceAssignmentStream(task).findAny().isPresent();
    }
 
    private LocalDateTime getDateFromStartAndWork(Task task, LocalDateTime date)
    {
-      return task.getResourceAssignments().stream().map(r -> getDateFromWork(r, date, r.getWork())).max(Comparator.naturalOrder()).orElseGet(null);
+      return getResourceAssignmentStream(task).map(r -> getDateFromWork(r, date, r.getWork())).max(Comparator.naturalOrder()).orElseGet(null);
    }
 
    private LocalDateTime getDateFromFinishAndWork(Task task, LocalDateTime date)
    {
-      return task.getResourceAssignments().stream().map(r -> getDateFromWork(r, date, r.getWork().negate())).min(Comparator.naturalOrder()).orElseGet(null);
+      return getResourceAssignmentStream(task).map(r -> getDateFromWork(r, date, r.getWork().negate())).min(Comparator.naturalOrder()).orElseGet(null);
    }
 
    private LocalDateTime getDateFromFinishAndRemainingWork(Task task, LocalDateTime date)
    {
-      return task.getResourceAssignments().stream().map(r -> getDateFromWork(r, date, r.getRemainingWork().negate())).min(Comparator.naturalOrder()).orElseGet(null);
+      return getResourceAssignmentStream(task).map(r -> getDateFromWork(r, date, r.getRemainingWork().negate())).min(Comparator.naturalOrder()).orElseGet(null);
    }
 
    private LocalDateTime getDateFromWork(ResourceAssignment assignment, LocalDateTime date, Duration work)
@@ -859,6 +860,21 @@ public class MicrosoftScheduler implements Scheduler
       }
 
       return assignment.getEffectiveCalendar().getDate(date, work);
+   }
+
+   private LocalDateTime getNextWorkStart(Task task, LocalDateTime date)
+   {
+      return task.getEffectiveCalendar().getNextWorkStart(date);
+   }
+
+   private boolean datesAreEquivalent(Task task, LocalDateTime date1, LocalDateTime date2)
+   {
+      return task.getEffectiveCalendar().getWork(date1, date2, TimeUnit.HOURS).getDuration() == 0;
+   }
+
+   private Stream<ResourceAssignment> getResourceAssignmentStream(Task task)
+   {
+      return task.getResourceAssignments().stream().filter(r -> r.getResource() != null && r.getResource().getType() == ResourceType.WORK && r.getUnits().doubleValue() > 0.0);
    }
 
    private final ProjectFile m_file;
