@@ -145,7 +145,7 @@ public class MicrosoftScheduler implements Scheduler
 
                default:
                {
-                  earlyStart = addLevelingDelay(task,  calendar.getNextWorkStart(m_projectStartDate));
+                  earlyStart = addLevelingDelay(task,  getNextWorkStart(task, m_projectStartDate));
                   break;
                }
             }
