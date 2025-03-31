@@ -31,14 +31,7 @@ public class MicrosoftScheduler implements Scheduler
 
    public void process(LocalDateTime projectStartDate) throws Exception
    {
-      boolean summaryTasksHaveLogic = m_file.getTasks().stream().anyMatch(t -> t.getSummary() && (!t.getPredecessors().isEmpty() || !t.getSuccessors().isEmpty()));
-//      if (summaryTasksHaveLogic)
-//      {
-//         throw new CpmException("Schedule contains summary tasks with predecessors or successors");
-//      }
-
       m_projectStartDate = projectStartDate;
-      m_calculatedEarlyStart.clear();
       m_calculatedLateStart.clear();
 
       List<Task> tasks = new DepthFirstGraphSort(m_file, this::isTask).sort();
@@ -54,6 +47,7 @@ public class MicrosoftScheduler implements Scheduler
       m_backwardPass = false;
       forwardPass(tasks);
 
+      boolean summaryTasksHaveLogic = m_file.getTasks().stream().anyMatch(t -> t.getSummary() && (!t.getPredecessors().isEmpty() || !t.getSuccessors().isEmpty()));
       if (summaryTasksHaveLogic)
       {
          createSummaryTaskRelationships();
@@ -583,15 +577,14 @@ public class MicrosoftScheduler implements Scheduler
          else
          {
             // successor started
-            if (successorTask.getActualFinish() == null)
+            // successor not finished
+            if (successorTask.getSuccessors().isEmpty())
             {
-               // successor not finished
                lateFinish = m_projectFinishDate;
             }
             else
             {
-               // successor finished
-               lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
+               lateStart = getDateFromStartAndActualDuration(successorTask, successorTask.getActualStart());
                lateFinish = getDateFromStartAndDuration(predecessorTask, lateStart);
             }
          }
@@ -599,56 +592,17 @@ public class MicrosoftScheduler implements Scheduler
       else
       {
          // Predecessor Started
-         if (predecessorTask.getActualFinish() != null)
+         // Predecessor not finished
+         if (successorTask.getActualStart() == null)
          {
-            // Predecessor finished
-            if (successorTask.getActualStart() == null)
-            {
-               // Successor not started
-               lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
-               lateFinish = getDateFromStartAndDuration(predecessorTask, lateStart);
-            }
-            else
-            {
-               // successor started
-               if (successorTask.getActualFinish() == null)
-               {
-                  // successor not finished
-                  lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
-                  lateFinish = getDateFromStartAndDuration(predecessorTask, lateStart);
-               }
-               else
-               {
-                  // successor finished
-                  lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
-                  lateFinish = getDateFromStartAndDuration(predecessorTask, lateStart);
-               }
-            }
+            // Successor not started
+            lateFinish = m_projectFinishDate;
          }
          else
          {
-            // Predecessor not finished
-            if (successorTask.getActualStart() == null)
-            {
-               // Successor not started
-               lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
-               lateFinish = getDateFromStartAndDuration(predecessorTask, lateStart);
-            }
-            else
-            {
-               // successor started
-               if (successorTask.getActualFinish() == null)
-               {
-                  // successor not finished
-                  lateFinish = m_projectFinishDate;
-               }
-               else
-               {
-                  // successor finished
-                  lateStart = removeLag(relation, calendar.getNextWorkStart(successorTask.getLateStart()));
-                  lateFinish = getDateFromStartAndDuration(predecessorTask, lateStart);
-               }
-            }
+            // successor started
+            // successor not finished
+            lateFinish = m_projectFinishDate;
          }
       }
 
@@ -802,6 +756,16 @@ public class MicrosoftScheduler implements Scheduler
       return getDateFromStartAndWork(task, date);
    }
 
+   private LocalDateTime getDateFromStartAndActualDuration(Task task, LocalDateTime date)
+   {
+      if (useTaskEffectiveCalendar(task))
+      {
+         return task.getEffectiveCalendar().getDate(date, task.getActualDuration());
+      }
+
+      return getDateFromStartAndActualWork(task, date);
+   }
+
    private LocalDateTime getDateFromFinishAndDuration(Task task, LocalDateTime date)
    {
       if (useTaskEffectiveCalendar(task))
@@ -829,6 +793,11 @@ public class MicrosoftScheduler implements Scheduler
    private LocalDateTime getDateFromStartAndWork(Task task, LocalDateTime date)
    {
       return getResourceAssignmentStream(task).map(r -> getDateFromWork(r, date, r.getWork())).max(Comparator.naturalOrder()).orElseGet(null);
+   }
+
+   private LocalDateTime getDateFromStartAndActualWork(Task task, LocalDateTime date)
+   {
+      return getResourceAssignmentStream(task).map(r -> getDateFromWork(r, date, r.getActualWork())).max(Comparator.naturalOrder()).orElseGet(null);
    }
 
    private LocalDateTime getDateFromFinishAndWork(Task task, LocalDateTime date)
@@ -911,7 +880,6 @@ public class MicrosoftScheduler implements Scheduler
    private final Map<Task, List<Relation>> m_summaryTaskPredecessors = new HashMap<>();
    private final Map<Task, List<Relation>> m_summaryTaskSuccessors = new HashMap<>();
 
-   private final Map<Task, LocalDateTime> m_calculatedEarlyStart = new HashMap<>();
    private final Map<Task, LocalDateTime> m_calculatedLateStart = new HashMap<>();
 
    private static final Map<TimeUnit, TimeUnit> DURATION_UNITS_MAP = new HashMap<>();
