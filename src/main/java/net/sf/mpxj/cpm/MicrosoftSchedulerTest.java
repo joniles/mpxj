@@ -388,6 +388,11 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("valid-wartime.mpp");
       EXCLUDED_FILES.add("harpy-gully.mpp");
 
+      // MS Project 2010 save and loads different LS, LF dates than shown when calculated, MPXJ aligns with calculated dates
+      EXCLUDED_FILES.add("depending-whale.mpp");
+      EXCLUDED_FILES.add("ancient-boom.mpp");
+      EXCLUDED_FILES.add("automotive-contour.mpp");
+
       // ES, EF == LS, LF, why?
       EXCLUDED_FILES.add("dread-hydrochemistry.mpp");
       EXCLUDED_FILES.add("brash-asceticism.mpp");
