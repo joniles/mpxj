@@ -41,8 +41,7 @@ public class MicrosoftScheduler implements Scheduler
          return;
       }
 
-      // TODO
-      // clearDates();
+      //clearDates();
 
       m_backwardPass = false;
       forwardPass(tasks);
@@ -79,6 +78,24 @@ public class MicrosoftScheduler implements Scheduler
       if (tasks.stream().anyMatch(t -> t.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE))
       {
          forwardPass(tasks);
+      }
+   }
+
+   private void clearDates()
+   {
+      for (Task task : m_file.getTasks())
+      {
+         if (task.getExternalTask() || task.getExternalProject() || !task.getActive())
+         {
+            continue;
+         }
+
+//         task.setStart(null);
+//         task.setFinish(null);
+         task.setEarlyStart(null);
+         task.setEarlyFinish(null);
+         task.setLateStart(null);
+         task.setLateFinish(null);
       }
    }
 

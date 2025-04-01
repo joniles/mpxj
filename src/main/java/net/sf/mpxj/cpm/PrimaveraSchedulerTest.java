@@ -122,11 +122,6 @@ public class PrimaveraSchedulerTest
       {
          Task workingTask = m_workingFile.getTaskByUniqueID(baselineTask.getUniqueID());
 
-//         if (workingTask.getActivityType() == ActivityType.WBS_SUMMARY)
-//         {
-//            continue;
-//         }
-
          if (workingTask.getSummary() && NO_WBS_TEST.contains(file.getName().toLowerCase()))
          {
             analyseWbs = false;

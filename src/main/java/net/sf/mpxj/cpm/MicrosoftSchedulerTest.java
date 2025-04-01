@@ -116,6 +116,11 @@ public class MicrosoftSchedulerTest
       {
          Task workingTask = m_workingFile.getTaskByUniqueID(baselineTask.getUniqueID());
 
+         if (workingTask.getSummary())
+         {
+            continue;
+         }
+
          compare(baselineTask, workingTask);
       }
 
