@@ -375,15 +375,7 @@ public class MicrosoftScheduler implements Scheduler
       {
          case FINISH_START:
          {
-            // MS Project only: If predecessor is ALAP task and backward pass has been run then use predecessor late finish
-            if (predecessor.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE && relation.getSuccessorTask().getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && m_backwardPass)
-            {
-               return addLag(relation, predecessor.getLateFinish());
-            }
-            else
-            {
-               return addLag(relation, predecessor.getEarlyFinish());
-            }
+            return calculateEarlyStartForFinishStart(relation);
          }
 
          case START_START:
@@ -393,28 +385,70 @@ public class MicrosoftScheduler implements Scheduler
 
          case FINISH_FINISH:
          {
-            // There is an interesting bug in Project 2010, and possibly other versions, where the ES, and EF dates
-            // for the predecessor of an FF task are not set correctly. Calculating the project shows the correct dates,
-            // but when the file is saved and reopened, the incorrect dates are shown again. Current versions of MS Project (2024?)
-            // seem to be unaffected.
-            LocalDateTime predecessorEarlyFinish = predecessor.getActualFinish() == null ? predecessor.getEarlyFinish() : predecessor.getActualFinish();
-            LocalDateTime earlyStart = getDateFromFinishAndRemainingDuration(relation.getSuccessorTask(), predecessorEarlyFinish);
-            earlyStart = addLag(relation, earlyStart);
-            if (earlyStart.isBefore(m_projectStartDate))
-            {
-               earlyStart = m_projectStartDate;
-            }
-            return earlyStart;
+            return calculateEarlyStartForFinishFinish(relation);
          }
 
          case START_FINISH:
          {
-            return addLag(relation, getDateFromFinishAndDuration(relation.getSuccessorTask(),predecessor.getEarlyStart()));
+            return calculateEarlyStartForStartFinish(relation);
          }
 
          default:
          {
             throw new UnsupportedOperationException();
+         }
+      }
+   }
+
+   private LocalDateTime calculateEarlyStartForFinishStart(Relation relation)
+   {
+      Task predecessorTask = relation.getPredecessorTask();
+      Task successorTask = relation.getSuccessorTask();
+
+      if (predecessorTask.getActualStart() == null)
+      {
+         // Predecessor not started
+         // Successor not started
+         // If predecessor is ALAP task and backward pass has been run then use predecessor late finish
+         if (predecessorTask.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE && relation.getSuccessorTask().getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && m_backwardPass)
+         {
+            return addLag(relation, predecessorTask.getLateFinish());
+         }
+         else
+         {
+            return addLag(relation, predecessorTask.getEarlyFinish());
+         }
+      }
+      else
+      {
+         // Predecessor started
+         if (predecessorTask.getActualFinish() != null)
+         {
+            // Predecessor finished
+            // Successor not started
+            // If predecessor is ALAP task and backward pass has been run then use predecessor late finish
+            if (predecessorTask.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE && relation.getSuccessorTask().getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && m_backwardPass)
+            {
+               return addLag(relation, predecessorTask.getLateFinish());
+            }
+            else
+            {
+               return addLag(relation, predecessorTask.getEarlyFinish());
+            }
+         }
+         else
+         {
+            // Predecessor not finished
+            // Successor not started
+            // If predecessor is ALAP task and backward pass has been run then use predecessor late finish
+            if (predecessorTask.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE && relation.getSuccessorTask().getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && m_backwardPass)
+            {
+               return addLag(relation, predecessorTask.getLateFinish());
+            }
+            else
+            {
+               return addLag(relation, predecessorTask.getEarlyFinish());
+            }
          }
       }
    }
@@ -427,25 +461,8 @@ public class MicrosoftScheduler implements Scheduler
       if (predecessorTask.getActualStart() == null)
       {
          // Predecessor not started
-         if (successorTask.getActualStart() == null)
-         {
-            // Successor not started
-            return addLag(relation, predecessorTask.getEarlyStart());
-         }
-         else
-         {
-            // successor started
-            if (successorTask.getActualFinish() == null)
-            {
-               // successor not finished
-               return addLag(relation, predecessorTask.getEarlyStart());
-            }
-            else
-            {
-               // successor finished
-               return addLag(relation, predecessorTask.getEarlyStart());
-            }
-         }
+         // Successor not started
+         return addLag(relation, predecessorTask.getEarlyStart());
       }
       else
       {
@@ -453,47 +470,86 @@ public class MicrosoftScheduler implements Scheduler
          if (predecessorTask.getActualFinish() != null)
          {
             // Predecessor finished
-            if (successorTask.getActualStart() == null)
-            {
-               // Successor not started
-               return addLag(relation, predecessorTask.getActualStart());
-            }
-            else
-            {
-               // successor started
-               if (successorTask.getActualFinish() == null)
-               {
-                  return predecessorTask.getEarlyStart();
-               }
-               else
-               {
-                  // successor finished
-                  return predecessorTask.getEarlyStart();
-               }
-            }
+            // Successor not started
+            return addLag(relation, predecessorTask.getActualStart());
          }
          else
          {
             // Predecessor not finished
-            if (successorTask.getActualStart() == null)
-            {
-               // Successor not started
-               return addLag(relation, predecessorTask.getEarlyStart());
-            }
-            else
-            {
-               // successor started
-               if (successorTask.getActualFinish() == null)
-               {
-                  // successor not finished
-                  return addLag(relation, predecessorTask.getEarlyStart());
-               }
-               else
-               {
-                  // successor finished
-                  return predecessorTask.getEarlyStart();
-               }
-            }
+            // Successor not started
+            return addLag(relation, predecessorTask.getEarlyStart());
+         }
+      }
+   }
+
+   private LocalDateTime calculateEarlyStartForStartFinish(Relation relation)
+   {
+      Task predecessorTask = relation.getPredecessorTask();
+      Task successorTask = relation.getSuccessorTask();
+
+      if (predecessorTask.getActualStart() == null)
+      {
+         // Predecessor not started
+         // Successor not started
+         return addLag(relation, getDateFromFinishAndDuration(relation.getSuccessorTask(),predecessorTask.getEarlyStart()));
+      }
+      else
+      {
+         // Predecessor started
+         if (predecessorTask.getActualFinish() != null)
+         {
+            // Predecessor finished
+            // Successor not started
+            return addLag(relation, getDateFromFinishAndDuration(relation.getSuccessorTask(),predecessorTask.getEarlyStart()));
+         }
+         else
+         {
+            // Predecessor not finished
+            // Successor not started
+            return addLag(relation, getDateFromFinishAndDuration(relation.getSuccessorTask(),predecessorTask.getEarlyStart()));
+         }
+      }
+   }
+
+   private LocalDateTime calculateEarlyStartForFinishFinish(Relation relation)
+   {
+      // There is an interesting bug in Project 2010, and possibly other versions, where the ES, and EF dates
+      // for the predecessor of an FF task are not set correctly. Calculating the project shows the correct dates,
+      // but when the file is saved and reopened, the incorrect dates are shown again. Current versions of MS Project (2024?)
+      // seem to be unaffected.
+
+      Task predecessorTask = relation.getPredecessorTask();
+      Task successorTask = relation.getSuccessorTask();
+
+      if (predecessorTask.getActualStart() == null)
+      {
+         // Predecessor not started
+         // Successor not started
+         LocalDateTime predecessorEarlyFinish = predecessorTask.getActualFinish() == null ? predecessorTask.getEarlyFinish() : predecessorTask.getActualFinish();
+         LocalDateTime earlyStart = getDateFromFinishAndRemainingDuration(relation.getSuccessorTask(), predecessorEarlyFinish);
+         earlyStart = addLag(relation, earlyStart);
+         return earlyStart.isBefore(m_projectStartDate) ? m_projectStartDate : earlyStart;
+      }
+      else
+      {
+         // Predecessor started
+         if (predecessorTask.getActualFinish() != null)
+         {
+            // Predecessor finished
+            // Successor not started
+            LocalDateTime predecessorEarlyFinish = predecessorTask.getActualFinish() == null ? predecessorTask.getEarlyFinish() : predecessorTask.getActualFinish();
+            LocalDateTime earlyStart = getDateFromFinishAndRemainingDuration(relation.getSuccessorTask(), predecessorEarlyFinish);
+            earlyStart = addLag(relation, earlyStart);
+            return earlyStart.isBefore(m_projectStartDate) ? m_projectStartDate : earlyStart;
+         }
+         else
+         {
+            // Predecessor not finished
+            // Successor not started
+            LocalDateTime predecessorEarlyFinish = predecessorTask.getActualFinish() == null ? predecessorTask.getEarlyFinish() : predecessorTask.getActualFinish();
+            LocalDateTime earlyStart = getDateFromFinishAndRemainingDuration(relation.getSuccessorTask(), predecessorEarlyFinish);
+            earlyStart = addLag(relation, earlyStart);
+            return earlyStart.isBefore(m_projectStartDate) ? m_projectStartDate : earlyStart;
          }
       }
    }
