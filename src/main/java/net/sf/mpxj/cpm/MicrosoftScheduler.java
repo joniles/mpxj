@@ -462,7 +462,14 @@ public class MicrosoftScheduler implements Scheduler
       {
          // Predecessor not started
          // Successor not started
-         return addLag(relation, predecessorTask.getEarlyStart());
+         if (predecessorTask.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE && relation.getSuccessorTask().getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && m_backwardPass)
+         {
+            return addLag(relation, predecessorTask.getLateStart());
+         }
+         else
+         {
+            return addLag(relation, predecessorTask.getEarlyStart());
+         }
       }
       else
       {
@@ -477,7 +484,14 @@ public class MicrosoftScheduler implements Scheduler
          {
             // Predecessor not finished
             // Successor not started
-            return addLag(relation, predecessorTask.getEarlyStart());
+            if (predecessorTask.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE && relation.getSuccessorTask().getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && m_backwardPass)
+            {
+               return addLag(relation, predecessorTask.getLateStart());
+            }
+            else
+            {
+               return addLag(relation, predecessorTask.getEarlyStart());
+            }
          }
       }
    }
@@ -491,7 +505,14 @@ public class MicrosoftScheduler implements Scheduler
       {
          // Predecessor not started
          // Successor not started
-         return addLag(relation, getDateFromFinishAndDuration(relation.getSuccessorTask(),predecessorTask.getEarlyStart()));
+         if (predecessorTask.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE && relation.getSuccessorTask().getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && m_backwardPass)
+         {
+            return addLag(relation, getDateFromFinishAndDuration(relation.getSuccessorTask(), predecessorTask.getLateStart()));
+         }
+         else
+         {
+            return addLag(relation, getDateFromFinishAndDuration(relation.getSuccessorTask(), predecessorTask.getEarlyStart()));
+         }
       }
       else
       {
@@ -500,13 +521,27 @@ public class MicrosoftScheduler implements Scheduler
          {
             // Predecessor finished
             // Successor not started
-            return addLag(relation, getDateFromFinishAndDuration(relation.getSuccessorTask(),predecessorTask.getEarlyStart()));
+            if (predecessorTask.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE && relation.getSuccessorTask().getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && m_backwardPass)
+            {
+               return addLag(relation, getDateFromFinishAndDuration(relation.getSuccessorTask(), predecessorTask.getLateStart()));
+            }
+            else
+            {
+               return addLag(relation, getDateFromFinishAndDuration(relation.getSuccessorTask(), predecessorTask.getEarlyStart()));
+            }
          }
          else
          {
             // Predecessor not finished
             // Successor not started
-            return addLag(relation, getDateFromFinishAndDuration(relation.getSuccessorTask(),predecessorTask.getEarlyStart()));
+            if (predecessorTask.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE && relation.getSuccessorTask().getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && m_backwardPass)
+            {
+               return addLag(relation, getDateFromFinishAndDuration(relation.getSuccessorTask(), predecessorTask.getLateStart()));
+            }
+            else
+            {
+               return addLag(relation, getDateFromFinishAndDuration(relation.getSuccessorTask(), predecessorTask.getEarlyStart()));
+            }
          }
       }
    }
@@ -525,7 +560,15 @@ public class MicrosoftScheduler implements Scheduler
       {
          // Predecessor not started
          // Successor not started
-         LocalDateTime earlyStart = getDateFromFinishAndRemainingDuration(relation.getSuccessorTask(), predecessorTask.getEarlyFinish());
+         LocalDateTime earlyStart;
+         if (predecessorTask.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE && relation.getSuccessorTask().getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && m_backwardPass)
+         {
+            earlyStart = getDateFromFinishAndRemainingDuration(relation.getSuccessorTask(), predecessorTask.getLateFinish());
+         }
+         else
+         {
+            earlyStart = getDateFromFinishAndRemainingDuration(relation.getSuccessorTask(), predecessorTask.getEarlyFinish());
+         }
          earlyStart = addLag(relation, earlyStart);
          return earlyStart.isBefore(m_projectStartDate) ? m_projectStartDate : earlyStart;
       }
@@ -544,7 +587,15 @@ public class MicrosoftScheduler implements Scheduler
          {
             // Predecessor not finished
             // Successor not started
-            LocalDateTime earlyStart = getDateFromFinishAndRemainingDuration(relation.getSuccessorTask(), predecessorTask.getEarlyFinish());
+            LocalDateTime earlyStart;
+            if (predecessorTask.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE && relation.getSuccessorTask().getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && m_backwardPass)
+            {
+               earlyStart = getDateFromFinishAndRemainingDuration(relation.getSuccessorTask(), predecessorTask.getLateFinish());
+            }
+            else
+            {
+               earlyStart = getDateFromFinishAndRemainingDuration(relation.getSuccessorTask(), predecessorTask.getEarlyFinish());
+            }
             earlyStart = addLag(relation, earlyStart);
             return earlyStart.isBefore(m_projectStartDate) ? m_projectStartDate : earlyStart;
          }
