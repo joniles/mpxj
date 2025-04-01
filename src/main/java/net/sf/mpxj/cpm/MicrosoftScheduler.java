@@ -41,7 +41,7 @@ public class MicrosoftScheduler implements Scheduler
          return;
       }
 
-      //clearDates();
+      clearDates();
 
       m_backwardPass = false;
       forwardPass(tasks);
