@@ -10,8 +10,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
@@ -21,6 +23,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 
 public class MicrosoftScheduler implements Scheduler
 {
@@ -79,6 +82,8 @@ public class MicrosoftScheduler implements Scheduler
       {
          forwardPass(tasks);
       }
+
+      m_file.getChildTasks().forEach(t -> rollupDates(t));
    }
 
    private void clearDates()
@@ -885,6 +890,72 @@ public class MicrosoftScheduler implements Scheduler
             m_summaryTaskSuccessors.computeIfAbsent(predecessor, k -> new ArrayList<>()).add(newRelation);
          }
       }
+   }
+
+   private void rollupDates(Task parentTask)
+   {
+      if (!parentTask.hasChildTasks())
+      {
+         return;
+      }
+
+      int finished = 0;
+      LocalDateTime startDate = parentTask.getStart();
+      LocalDateTime finishDate = parentTask.getFinish();
+      LocalDateTime actualStartDate = parentTask.getActualStart();
+      LocalDateTime actualFinishDate = parentTask.getActualFinish();
+      LocalDateTime earlyStartDate = parentTask.getEarlyStart();
+      LocalDateTime earlyFinishDate = parentTask.getEarlyFinish();
+      LocalDateTime lateStartDate = parentTask.getLateStart();
+      LocalDateTime lateFinishDate = parentTask.getLateFinish();
+      boolean critical = false;
+
+      for (Task task : parentTask.getChildTasks())
+      {
+         rollupDates(task);
+
+         // the child tasks can have null dates (e.g. for nested wbs elements with no task children) so we
+         // still must protect against some children having null dates
+
+         startDate = LocalDateTimeHelper.min(startDate, task.getStart());
+         finishDate = LocalDateTimeHelper.max(finishDate, task.getFinish());
+         actualStartDate = LocalDateTimeHelper.min(actualStartDate, task.getActualStart());
+         actualFinishDate = LocalDateTimeHelper.max(actualFinishDate, task.getActualFinish());
+
+         if (task.getActivityType() != ActivityType.LEVEL_OF_EFFORT || task.getActualFinish() == null)
+         {
+            earlyStartDate = LocalDateTimeHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = LocalDateTimeHelper.max(earlyFinishDate, task.getEarlyFinish());
+            lateStartDate = LocalDateTimeHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = LocalDateTimeHelper.max(lateFinishDate, task.getLateFinish());
+         }
+
+         if (task.getActualFinish() != null)
+         {
+            ++finished;
+         }
+
+         critical = critical || task.getCritical();
+      }
+
+      parentTask.setStart(startDate);
+      parentTask.setFinish(finishDate);
+      parentTask.setActualStart(actualStartDate);
+      parentTask.setEarlyStart(earlyStartDate);
+      parentTask.setEarlyFinish(earlyFinishDate);
+      parentTask.setLateStart(lateStartDate);
+      parentTask.setLateFinish(lateFinishDate);
+
+      //
+      // Only if all child tasks have actual finish dates do we
+      // set the actual finish date on the parent task.
+      //
+      if (finished == parentTask.getChildTasks().size())
+      {
+         parentTask.setActualFinish(actualFinishDate);
+      }
+
+      parentTask.setCritical(critical);
    }
 
    private Task findEarliestSubtask(Task summaryTask)
