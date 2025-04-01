@@ -7,13 +7,13 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
@@ -73,7 +73,7 @@ public class MicrosoftScheduler implements Scheduler
          forwardPass(tasks);
       }
 
-      m_projectFinishDate = tasks.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
+      m_projectFinishDate = tasks.stream().map(Task::getEarlyFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
 
       backwardPass(tasks);
       m_backwardPass = true;
@@ -90,13 +90,13 @@ public class MicrosoftScheduler implements Scheduler
    {
       for (Task task : m_file.getTasks())
       {
-         if (task.getExternalTask() || task.getExternalProject() || !task.getActive())
+         if (task.getExternalTask() || task.getExternalProject() || !task.getActive() || task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
          {
             continue;
          }
 
-//         task.setStart(null);
-//         task.setFinish(null);
+         task.setStart(null);
+         task.setFinish(null);
          task.setEarlyStart(null);
          task.setEarlyFinish(null);
          task.setLateStart(null);
@@ -894,6 +894,7 @@ public class MicrosoftScheduler implements Scheduler
 
    private void rollupDates(Task parentTask)
    {
+      // NOTE: summary tasks can be manually scheduled. We're currently ignoring this...
       if (!parentTask.hasChildTasks())
       {
          return;
@@ -912,6 +913,11 @@ public class MicrosoftScheduler implements Scheduler
 
       for (Task task : parentTask.getChildTasks())
       {
+         if (task.getExternalTask())
+         {
+            continue;
+         }
+
          rollupDates(task);
 
          // the child tasks can have null dates (e.g. for nested wbs elements with no task children) so we
@@ -922,10 +928,24 @@ public class MicrosoftScheduler implements Scheduler
          actualStartDate = LocalDateTimeHelper.min(actualStartDate, task.getActualStart());
          actualFinishDate = LocalDateTimeHelper.max(actualFinishDate, task.getActualFinish());
 
-         if (task.getActivityType() != ActivityType.LEVEL_OF_EFFORT || task.getActualFinish() == null)
+         if (task.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE)
+         {
+            earlyStartDate = LocalDateTimeHelper.min(earlyStartDate, task.getLateStart());
+            earlyFinishDate = LocalDateTimeHelper.max(earlyFinishDate, task.getLateFinish());
+         }
+         else
          {
             earlyStartDate = LocalDateTimeHelper.min(earlyStartDate, task.getEarlyStart());
             earlyFinishDate = LocalDateTimeHelper.max(earlyFinishDate, task.getEarlyFinish());
+         }
+
+         if (task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
+         {
+            lateStartDate = LocalDateTimeHelper.min(lateStartDate, task.getEarlyStart());
+            lateFinishDate = LocalDateTimeHelper.max(lateFinishDate, task.getEarlyFinish());
+         }
+         else
+         {
             lateStartDate = LocalDateTimeHelper.min(lateStartDate, task.getLateStart());
             lateFinishDate = LocalDateTimeHelper.max(lateFinishDate, task.getLateFinish());
          }

@@ -116,7 +116,8 @@ public class MicrosoftSchedulerTest
       {
          Task workingTask = m_workingFile.getTaskByUniqueID(baselineTask.getUniqueID());
 
-         if (workingTask.getSummary())
+         // TODO: investigate rollup logic for project summary task
+         if (baselineTask.getID() == 0)
          {
             continue;
          }
@@ -309,6 +310,7 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("symmetrical-dynamite.mpp");
       USE_SCHEDULED_COPY.add("frantic-vestibule.mpp");
       USE_SCHEDULED_COPY.add("equitable-capability.mpp");
+      USE_SCHEDULED_COPY.add("feudal-walk.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
