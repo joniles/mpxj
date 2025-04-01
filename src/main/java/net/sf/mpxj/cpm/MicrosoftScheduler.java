@@ -370,7 +370,7 @@ public class MicrosoftScheduler implements Scheduler
          else
          {
             task.setLateStart(task.getActualStart());
-            task.setLateFinish(task.getLateFinish());
+            task.setLateFinish(lateFinish);
          }
       }
       else
