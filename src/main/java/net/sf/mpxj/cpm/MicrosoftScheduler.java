@@ -525,8 +525,7 @@ public class MicrosoftScheduler implements Scheduler
       {
          // Predecessor not started
          // Successor not started
-         LocalDateTime predecessorEarlyFinish = predecessorTask.getActualFinish() == null ? predecessorTask.getEarlyFinish() : predecessorTask.getActualFinish();
-         LocalDateTime earlyStart = getDateFromFinishAndRemainingDuration(relation.getSuccessorTask(), predecessorEarlyFinish);
+         LocalDateTime earlyStart = getDateFromFinishAndRemainingDuration(relation.getSuccessorTask(), predecessorTask.getEarlyFinish());
          earlyStart = addLag(relation, earlyStart);
          return earlyStart.isBefore(m_projectStartDate) ? m_projectStartDate : earlyStart;
       }
@@ -537,8 +536,7 @@ public class MicrosoftScheduler implements Scheduler
          {
             // Predecessor finished
             // Successor not started
-            LocalDateTime predecessorEarlyFinish = predecessorTask.getActualFinish() == null ? predecessorTask.getEarlyFinish() : predecessorTask.getActualFinish();
-            LocalDateTime earlyStart = getDateFromFinishAndRemainingDuration(relation.getSuccessorTask(), predecessorEarlyFinish);
+            LocalDateTime earlyStart = getDateFromFinishAndRemainingDuration(relation.getSuccessorTask(), predecessorTask.getActualFinish());
             earlyStart = addLag(relation, earlyStart);
             return earlyStart.isBefore(m_projectStartDate) ? m_projectStartDate : earlyStart;
          }
@@ -546,8 +544,7 @@ public class MicrosoftScheduler implements Scheduler
          {
             // Predecessor not finished
             // Successor not started
-            LocalDateTime predecessorEarlyFinish = predecessorTask.getActualFinish() == null ? predecessorTask.getEarlyFinish() : predecessorTask.getActualFinish();
-            LocalDateTime earlyStart = getDateFromFinishAndRemainingDuration(relation.getSuccessorTask(), predecessorEarlyFinish);
+            LocalDateTime earlyStart = getDateFromFinishAndRemainingDuration(relation.getSuccessorTask(), predecessorTask.getEarlyFinish());
             earlyStart = addLag(relation, earlyStart);
             return earlyStart.isBefore(m_projectStartDate) ? m_projectStartDate : earlyStart;
          }
