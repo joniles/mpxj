@@ -389,11 +389,6 @@ public class MicrosoftScheduler implements Scheduler
          case START_START:
          {
             return calculateEarlyStartForStartStart(relation);
-//            if (predecessor.getActualStart() != null)
-//            {
-//               return predecessor.getEarlyStart();
-//            }
-//            return addLag(relation, predecessor.getEarlyStart());
          }
 
          case FINISH_FINISH:
@@ -505,9 +500,6 @@ public class MicrosoftScheduler implements Scheduler
 
    private LocalDateTime calculateLateFinish(Relation relation)
    {
-      ProjectCalendar taskCalendar = relation.getPredecessorTask().getEffectiveCalendar();
-      Task predecessorTask = relation.getPredecessorTask();
-      Task successorTask = relation.getSuccessorTask();
       LocalDateTime lateFinish;
 
       switch (relation.getType())
@@ -520,22 +512,25 @@ public class MicrosoftScheduler implements Scheduler
 
          case FINISH_FINISH:
          {
-            //lateFinish = removeLag(relation, successorTask.getLateFinish());
             lateFinish = calculateLateFinishForFinishFinish(relation);
             break;
          }
 
          case START_FINISH:
          {
-            lateFinish = getDateFromStartAndDuration(predecessorTask, successorTask.getLateFinish());
-            lateFinish = removeLag(relation, lateFinish);
+            lateFinish = calculateLateFinishForStartFinish(relation);
+            break;
+         }
+
+         case FINISH_START:
+         {
+            lateFinish = calculateLateFinishForFinishStart(relation);
             break;
          }
 
          default:
          {
-            lateFinish = removeLag(relation, m_calculatedLateStart.getOrDefault(successorTask, successorTask.getLateStart()));
-            break;
+            throw new UnsupportedOperationException();
          }
       }
 
@@ -617,7 +612,116 @@ public class MicrosoftScheduler implements Scheduler
 
    private LocalDateTime calculateLateFinishForFinishFinish(Relation relation)
    {
-      return removeLag(relation, relation.getSuccessorTask().getLateFinish());
+      Task predecessorTask = relation.getPredecessorTask();
+      Task successorTask = relation.getSuccessorTask();
+
+      if (predecessorTask.getActualStart() == null)
+      {
+         // Predecessor not started
+         if (successorTask.getActualStart() == null)
+         {
+            // Successor not started
+            return removeLag(relation, relation.getSuccessorTask().getLateFinish());
+         }
+         else
+         {
+            // Successor started
+            // Successor not finished
+            return removeLag(relation, relation.getSuccessorTask().getLateFinish());
+         }
+      }
+      else
+      {
+         // Predecessor Started
+         // Predecessor not finished
+         if (successorTask.getActualStart() == null)
+         {
+            // Successor not started
+            return removeLag(relation, relation.getSuccessorTask().getLateFinish());
+         }
+         else
+         {
+            // Successor started
+            // Successor not finished
+            return removeLag(relation, relation.getSuccessorTask().getLateFinish());
+         }
+      }
+   }
+
+   private LocalDateTime calculateLateFinishForFinishStart(Relation relation)
+   {
+      Task predecessorTask = relation.getPredecessorTask();
+      Task successorTask = relation.getSuccessorTask();
+
+      if (predecessorTask.getActualStart() == null)
+      {
+         // Predecessor not started
+         if (successorTask.getActualStart() == null)
+         {
+            // Successor not started
+            return removeLag(relation, m_calculatedLateStart.getOrDefault(successorTask, successorTask.getLateStart()));
+         }
+         else
+         {
+            // successor started
+            // successor not finished
+            return removeLag(relation, m_calculatedLateStart.getOrDefault(successorTask, successorTask.getLateStart()));
+         }
+      }
+      else
+      {
+         // Predecessor Started
+         // Predecessor not finished
+         if (successorTask.getActualStart() == null)
+         {
+            // Successor not started
+            return removeLag(relation, m_calculatedLateStart.getOrDefault(successorTask, successorTask.getLateStart()));
+         }
+         else
+         {
+            // successor started
+            // successor not finished
+            return removeLag(relation, m_calculatedLateStart.getOrDefault(successorTask, successorTask.getLateStart()));
+         }
+      }
+   }
+
+   private LocalDateTime calculateLateFinishForStartFinish(Relation relation)
+   {
+      Task predecessorTask = relation.getPredecessorTask();
+      Task successorTask = relation.getSuccessorTask();
+
+      if (predecessorTask.getActualStart() == null)
+      {
+         // Predecessor not started
+         if (successorTask.getActualStart() == null)
+         {
+            // Successor not started
+            return removeLag(relation, getDateFromStartAndDuration(predecessorTask, successorTask.getLateFinish()));
+         }
+         else
+         {
+            // successor started
+            // successor not finished
+            return removeLag(relation, getDateFromStartAndDuration(predecessorTask, successorTask.getLateFinish()));
+         }
+      }
+      else
+      {
+         // Predecessor Started
+         // Predecessor not finished
+         if (successorTask.getActualStart() == null)
+         {
+            // Successor not started
+            return removeLag(relation, getDateFromStartAndDuration(predecessorTask, successorTask.getLateFinish()));
+         }
+         else
+         {
+            // successor started
+            // successor not finished
+            return removeLag(relation, getDateFromStartAndDuration(predecessorTask, successorTask.getLateFinish()));
+         }
+      }
    }
 
    private LocalDateTime addLevelingDelay(Task task, LocalDateTime date)
@@ -733,11 +837,6 @@ public class MicrosoftScheduler implements Scheduler
    private Task findEarliestSubtask(Task summaryTask)
    {
       return allChildTasks(summaryTask).stream().min(Comparator.comparing(Task::getEarlyStart)).orElse(null);
-   }
-
-   private Task findLatestSubtask(Task summaryTask)
-   {
-      return allChildTasks(summaryTask).stream().max(Comparator.comparing(Task::getEarlyFinish)).orElse(null);
    }
 
    private List<Task> allChildTasks(Task summaryTask)
@@ -871,11 +970,6 @@ public class MicrosoftScheduler implements Scheduler
          return date;
       }
       return nextWorkStart;
-   }
-
-   private boolean datesAreEquivalent(Task task, LocalDateTime date1, LocalDateTime date2)
-   {
-      return task.getEffectiveCalendar().getWork(date1, date2, TimeUnit.HOURS).getDuration() == 0;
    }
 
    private Stream<ResourceAssignment> getResourceAssignmentStream(Task task)
