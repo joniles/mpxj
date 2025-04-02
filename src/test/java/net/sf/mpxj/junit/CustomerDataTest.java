@@ -25,10 +25,12 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -37,11 +39,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import net.sf.mpxj.EPS;
 import net.sf.mpxj.EpsNode;
 import net.sf.mpxj.EpsProjectNode;
+import net.sf.mpxj.cpm.CpmException;
+import net.sf.mpxj.cpm.MicrosoftSchedulerComparator;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileWriter;
@@ -262,6 +269,51 @@ public class CustomerDataTest
             FIELD_REPORTER.process(project);
          }
       }
+   }
+
+   /**
+    * Validate the output from the Microsoft Project scheduler.
+    */
+   @Test public void testMicrosoftScheduler() throws Exception
+   {
+      if (m_privateDirectory == null)
+      {
+         return;
+      }
+
+      Set<String> unreadable = readFile(new File(m_privateDirectory, "microsoft-scheduler-unreadable.txt"));
+      Set<String> useScheduled = readFile(new File(m_privateDirectory, "microsoft-scheduler-use-scheduled.txt"));
+      Set<String> excluded = readFile(new File(m_privateDirectory, "microsoft-scheduler-excluded.txt"));
+
+      MicrosoftSchedulerComparator comparator = new MicrosoftSchedulerComparator();
+      comparator.setUnreadableFiles(unreadable);
+      comparator.setUseScheduled(useScheduled);
+      comparator.setExcluded(excluded);
+
+      assertTrue(comparator.process(new File(m_privateDirectory, "MPP"), ".mpp"));
+   }
+
+   private Set<String> readFile(File file) throws IOException
+   {
+      try (Stream<String> stream = Files.lines(Paths.get(file.getPath()))) {
+         return stream.map(t -> removeComments(t.trim())).filter(t -> !t.isEmpty()).collect(Collectors.toSet());
+      }
+   }
+
+   private String removeComments(String text)
+   {
+      int index = text.indexOf("//");
+      if (index == -1)
+      {
+         return text;
+      }
+
+      if (index == 0)
+      {
+         return "";
+      }
+
+      return text.substring(0, index).trim();
    }
 
    /**
