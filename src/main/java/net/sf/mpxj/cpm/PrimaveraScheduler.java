@@ -27,7 +27,7 @@ import net.sf.mpxj.common.LocalDateTimeHelper;
 
 public class PrimaveraScheduler implements Scheduler
 {
-   public void process(ProjectFile file, LocalDateTime projectStartDate) throws Exception
+   @Override public void process(ProjectFile file, LocalDateTime startDate) throws CpmException
    {
       m_file = file;
       m_dataDate = file.getProjectProperties().getStatusDate();
@@ -38,7 +38,7 @@ public class PrimaveraScheduler implements Scheduler
          throw new CpmException("Schedule contains Resource Dependent activities with resource assignments");
       }
 
-      m_projectStartDate = projectStartDate;
+      m_projectStartDate = startDate;
 
       List<Task> activities = new DepthFirstGraphSort(m_file, PrimaveraScheduler::isActivity).sort();
       if (activities.isEmpty())
@@ -54,7 +54,7 @@ public class PrimaveraScheduler implements Scheduler
       }
       else
       {
-         if (projectStartDate.isBefore(m_dataDate))
+         if (startDate.isBefore(m_dataDate))
          {
             m_projectStartDate = m_dataDate;
          }

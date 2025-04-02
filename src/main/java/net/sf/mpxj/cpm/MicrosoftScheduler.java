@@ -47,12 +47,17 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 
+/**
+ * Implements the Critical Path Method to schedule a project so
+ * that the resulting schedule matches closely the results you'd see if
+ * you scheduled the same project in Microsoft Project.
+ */
 public class MicrosoftScheduler implements Scheduler
 {
-   public void process(ProjectFile file, LocalDateTime projectStartDate) throws Exception
+   @Override public void process(ProjectFile file, LocalDateTime startDate) throws CpmException
    {
       m_file = file;
-      m_projectStartDate = projectStartDate;
+      m_projectStartDate = startDate;
       m_calculatedLateStart.clear();
 
       List<Task> tasks = new DepthFirstGraphSort(m_file, this::isTask).sort();
@@ -115,6 +120,9 @@ public class MicrosoftScheduler implements Scheduler
       m_file.getChildTasks().forEach(t -> rollupDates(t));
    }
 
+   /**
+    * Clear dates ready to be repopulated.
+    */
    private void clearDates()
    {
       for (Task task : m_file.getTasks())
@@ -130,10 +138,17 @@ public class MicrosoftScheduler implements Scheduler
          task.setEarlyFinish(null);
          task.setLateStart(null);
          task.setLateFinish(null);
+
+         // Clear the critical flag to force it to be recalculated
          task.set(TaskField.CRITICAL, null);
       }
    }
 
+   /**
+    * Perform the CPM forward pass.
+    *
+    * @param tasks tasks in order for forward pass
+    */
    private void forwardPass(List<Task> tasks) throws CpmException
    {
       for (Task task : tasks)
@@ -142,6 +157,11 @@ public class MicrosoftScheduler implements Scheduler
       }
    }
 
+   /**
+    * Perform the CPM forward pass for this task.
+    *
+    * @param task task to schedule
+    */
    private void forwardPass(Task task) throws CpmException
    {
       if (task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
@@ -297,6 +317,11 @@ public class MicrosoftScheduler implements Scheduler
       task.setEarlyFinish(earlyFinish);
    }
 
+   /**
+    * Perform the CPM backward pass/
+    *
+    * @param forwardPassTasks tasks in order for forward pass
+    */
    private void backwardPass(List<Task> forwardPassTasks) throws CpmException
    {
       List<Task> tasks = new ArrayList<>(forwardPassTasks);
@@ -308,6 +333,11 @@ public class MicrosoftScheduler implements Scheduler
       }
    }
 
+   /**
+    * Perform the CPM backward pass for this task.
+    *
+    * @param task task to schedule
+    */
    private void backwardPass(Task task) throws CpmException
    {
       // We'll use external tasks as successors when scheduling, but we'll leave their late dates unchanged.
@@ -418,6 +448,12 @@ public class MicrosoftScheduler implements Scheduler
       }
    }
 
+   /**
+    * Calculate the early start for the successor task in this relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated early start date
+    */
    private LocalDateTime calculateEarlyStart(Relation relation)
    {
       ProjectCalendar taskCalendar = relation.getSuccessorTask().getEffectiveCalendar();
@@ -452,6 +488,12 @@ public class MicrosoftScheduler implements Scheduler
       }
    }
 
+   /**
+    * Calculate the early start for the successor task in a finish-start relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated early start date
+    */
    private LocalDateTime calculateEarlyStartForFinishStart(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -484,6 +526,12 @@ public class MicrosoftScheduler implements Scheduler
       }
    }
 
+   /**
+    * Calculate the early start for the successor task in a start-start relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated early start date
+    */
    private LocalDateTime calculateEarlyStartForStartStart(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -515,6 +563,12 @@ public class MicrosoftScheduler implements Scheduler
       }
    }
 
+   /**
+    * Calculate the early start for the successor task in a start-finish relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated early start date
+    */
    private LocalDateTime calculateEarlyStartForStartFinish(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -547,6 +601,12 @@ public class MicrosoftScheduler implements Scheduler
       }
    }
 
+   /**
+    * Calculate the early start for the successor task in a finish-finish relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated early start date
+    */
    private LocalDateTime calculateEarlyStartForFinishFinish(Relation relation)
    {
       // There is an interesting bug in Project 2010, and possibly other versions, where the ES, and EF dates
@@ -586,6 +646,12 @@ public class MicrosoftScheduler implements Scheduler
       }
    }
 
+   /**
+    * Calculate the late finish for the predecessor task in this relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated late finish date
+    */
    private LocalDateTime calculateLateFinish(Relation relation)
    {
       LocalDateTime lateFinish;
@@ -630,7 +696,12 @@ public class MicrosoftScheduler implements Scheduler
       return lateFinish;
    }
 
-
+   /**
+    * Calculate the late finish for the predecessor task in a start-start relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated late finish date
+    */
    private LocalDateTime calculateLateFinishForStartStart(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -698,6 +769,12 @@ public class MicrosoftScheduler implements Scheduler
       return lateFinish;
    }
 
+   /**
+    * Calculate the late finish for the predecessor task in a finish-finish relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated late finish date
+    */
    private LocalDateTime calculateLateFinishForFinishFinish(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -736,6 +813,12 @@ public class MicrosoftScheduler implements Scheduler
       }
    }
 
+   /**
+    * Calculate the late finish for the predecessor task in a finish-start relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated late finish date
+    */
    private LocalDateTime calculateLateFinishForFinishStart(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -774,6 +857,12 @@ public class MicrosoftScheduler implements Scheduler
       }
    }
 
+   /**
+    * Calculate the late finish for the predecessor task in a start-finish relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated late finish date
+    */
    private LocalDateTime calculateLateFinishForStartFinish(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -812,6 +901,13 @@ public class MicrosoftScheduler implements Scheduler
       }
    }
 
+   /**
+    * Add leveling delay to a start date.
+    *
+    * @param task parent task
+    * @param date start date
+    * @return date with leveling delay
+    */
    private LocalDateTime addLevelingDelay(Task task, LocalDateTime date)
    {
       Duration delay = task.getLevelingDelay();
@@ -836,11 +932,24 @@ public class MicrosoftScheduler implements Scheduler
       return calendar.getDate(date, delay);
    }
 
+   /**
+    * Method returns true if task should be processed as part of forward and backward pass.
+    *
+    * @param task task to test
+    * @return true of task should be scheduled
+    */
    public boolean isTask(Task task)
    {
       return !((task.getSummary() && !task.getExternalProject()) || !task.getActive() || task.getNull());
    }
 
+   /**
+    * Add lag to a date.
+    *
+    * @param relation relation between tasks
+    * @param date date
+    * @return date with lag
+    */
    private LocalDateTime addLag(Relation relation, LocalDateTime date)
    {
       if (relation.getLag().getDuration() == 0)
@@ -859,6 +968,13 @@ public class MicrosoftScheduler implements Scheduler
       return calendar.getDate(date, lag);
    }
 
+   /**
+    * Remove lag from a date.
+    *
+    * @param relation relation between tasks
+    * @param date date with lag
+    * @return date without lag
+    */
    private LocalDateTime removeLag(Relation relation, LocalDateTime date)
    {
       if (relation.getLag().getDuration() == 0)
@@ -877,11 +993,19 @@ public class MicrosoftScheduler implements Scheduler
       return calendar.getDate(date, lag.negate());
    }
 
+   /**
+    * Create temporary relationships between tasks to represent summary task logic.
+    */
    private void createSummaryTaskRelationships()
    {
       m_file.getRelations().stream().filter(r -> r.getPredecessorTask().getSummary() || r.getSuccessorTask().getSummary()).forEach(r -> createSummaryTaskRelationship(r));
    }
 
+   /**
+    * Create a temporary relationship to represent summary task logic.
+    *
+    * @param relation relationship representing summary task logic
+    */
    private void createSummaryTaskRelationship(Relation relation)
    {
       List<Task> predecessors = Collections.singletonList(relation.getPredecessorTask());
@@ -922,6 +1046,11 @@ public class MicrosoftScheduler implements Scheduler
       }
    }
 
+   /**
+    * Roll up dates to a summary task.
+    *
+    * @param parentTask parent summary task
+    */
    private void rollupDates(Task parentTask)
    {
       // NOTE: summary tasks can be manually scheduled. We're currently ignoring this...
@@ -1008,16 +1137,36 @@ public class MicrosoftScheduler implements Scheduler
       parentTask.setCritical(critical);
    }
 
+   /**
+    * Find the earliest child tasks from entire child task hierarchy.
+    *
+    * @param summaryTask parent summary task
+    * @return earliest child task
+    */
    private Task findEarliestSubtask(Task summaryTask)
    {
       return allChildTasks(summaryTask).stream().min(Comparator.comparing(Task::getEarlyStart)).orElse(null);
    }
 
+   /**
+    * Find all child tasks from the entire child task hierarchy.
+    *
+    * @param summaryTask parent summary task
+    * @return all child tasks
+    */
    private List<Task> allChildTasks(Task summaryTask)
    {
       return allChildTasks(summaryTask, new ArrayList<>());
    }
 
+   /**
+    * Find all child tasks from the entire child task hierarchy,
+    * populating the childTasks list.
+    *
+    * @param summaryTask parent summary task
+    * @param childTasks task list to populate
+    * @return task list
+    */
    private List<Task> allChildTasks(Task summaryTask, List<Task> childTasks)
    {
       childTasks.addAll(summaryTask.getChildTasks().stream().filter(t -> !t.getSummary() && t.getActive()).collect(Collectors.toList()));
@@ -1025,11 +1174,23 @@ public class MicrosoftScheduler implements Scheduler
       return childTasks;
    }
 
-   public List<Task> getSortedTasks()
+   /**
+    * Convenience method to allow sorted task list to be retrieved for testing.
+    *
+    * @return sorted task list
+    */
+   List<Task> getSortedTasks()
    {
       return m_sortedTasks;
    }
 
+   /**
+    * Add task duration to a date.
+    *
+    * @param task parent task
+    * @param date date
+    * @return date plus duration
+    */
    private LocalDateTime getDateFromStartAndDuration(Task task, LocalDateTime date)
    {
       if (useTaskEffectiveCalendar(task))
@@ -1040,6 +1201,13 @@ public class MicrosoftScheduler implements Scheduler
       return getDateFromStartAndWork(task, date);
    }
 
+   /**
+    * Add task actual duration to a date.
+    *
+    * @param task parent task
+    * @param date date
+    * @return date plus duration
+    */
    private LocalDateTime getDateFromStartAndActualDuration(Task task, LocalDateTime date)
    {
       if (useTaskEffectiveCalendar(task))
@@ -1050,6 +1218,13 @@ public class MicrosoftScheduler implements Scheduler
       return getDateFromStartAndActualWork(task, date);
    }
 
+   /**
+    * Subtract task duration from a date.
+    *
+    * @param task parent task
+    * @param date date
+    * @return date minus duration
+    */
    private LocalDateTime getDateFromFinishAndDuration(Task task, LocalDateTime date)
    {
       if (useTaskEffectiveCalendar(task))
@@ -1060,6 +1235,13 @@ public class MicrosoftScheduler implements Scheduler
       return getDateFromFinishAndWork(task, date);
    }
 
+   /**
+    * Subtract task remaining duration from a date.
+    *
+    * @param task parent task
+    * @param date date
+    * @return date minus remaining duration
+    */
    private LocalDateTime getDateFromFinishAndRemainingDuration(Task task, LocalDateTime date)
    {
       if (useTaskEffectiveCalendar(task))
@@ -1069,31 +1251,73 @@ public class MicrosoftScheduler implements Scheduler
       return getDateFromFinishAndRemainingWork(task, date);
    }
 
+   /**
+    * Determine if the tasks effective  calendar should be used when scheduling.
+    *
+    * @param task task
+    * @return true if effective calendar should be used
+    */
    private boolean useTaskEffectiveCalendar(Task task)
    {
       return task.getType() == TaskType.FIXED_DURATION || !getResourceAssignmentStream(task).findAny().isPresent();
    }
 
+   /**
+    * Find latest date by adding resource assignment work to a date.
+    *
+    * @param task parent task
+    * @param date date
+    * @return date plus work
+    */
    private LocalDateTime getDateFromStartAndWork(Task task, LocalDateTime date)
    {
       return getResourceAssignmentStream(task).map(r -> getDateFromWork(r, date, r.getWork())).max(Comparator.naturalOrder()).orElseGet(null);
    }
 
+   /**
+    * Find latest date by adding resource assignment actual work to a date.
+    *
+    * @param task parent task
+    * @param date date
+    * @return date plus work
+    */
    private LocalDateTime getDateFromStartAndActualWork(Task task, LocalDateTime date)
    {
       return getResourceAssignmentStream(task).map(r -> getDateFromWork(r, date, r.getActualWork())).max(Comparator.naturalOrder()).orElseGet(null);
    }
 
+   /**
+    * Find the earliest date by subtracting resource assignment work from a date.
+    *
+    * @param task parent task
+    * @param date date
+    * @return date less work
+    */
    private LocalDateTime getDateFromFinishAndWork(Task task, LocalDateTime date)
    {
       return getResourceAssignmentStream(task).map(r -> getDateFromWork(r, date, r.getWork().negate())).min(Comparator.naturalOrder()).orElseGet(null);
    }
 
+   /**
+    * Find the earliest date by subtracting resource assignment remaining work from a date.
+    *
+    * @param task parent task
+    * @param date date
+    * @return date less work
+    */
    private LocalDateTime getDateFromFinishAndRemainingWork(Task task, LocalDateTime date)
    {
       return getResourceAssignmentStream(task).map(r -> getDateFromWork(r, date, r.getRemainingWork().negate())).min(Comparator.naturalOrder()).orElseGet(null);
    }
 
+   /**
+    * Add work to a date using the effective calendar from a resource assignment.
+    *
+    * @param assignment resource assignment
+    * @param date date
+    * @param work amount of work to add
+    * @return date plus work
+    */
    private LocalDateTime getDateFromWork(ResourceAssignment assignment, LocalDateTime date, Duration work)
    {
       double units = assignment.getUnits().doubleValue();
@@ -1105,6 +1329,15 @@ public class MicrosoftScheduler implements Scheduler
       return assignment.getEffectiveCalendar().getDate(date, work);
    }
 
+   /**
+    * Given a task and a finish date potentially at the start of a working period,
+    * determine if there is an earlier equivalent finish date at the end of working
+    * period which can be used instead.
+    *
+    * @param task parent task
+    * @param date potential finish date
+    * @return finish date
+    */
    private LocalDateTime getEquivalentPreviousWorkFinish(Task task, LocalDateTime date)
    {
       if (useTaskEffectiveCalendar(task))
@@ -1115,6 +1348,15 @@ public class MicrosoftScheduler implements Scheduler
       return getResourceAssignmentStream(task).map(r -> getEquivalentPreviousWorkFinish(r.getEffectiveCalendar(), date)).max(Comparator.naturalOrder()).orElse(null);
    }
 
+   /**
+    * Given a calendar and a finish date potentially at the start of a working period,
+    * determine if there is an earlier equivalent finish date at the end of working
+    * period which can be used instead.
+    *
+    * @param calendar target calendar
+    * @param date potential finish date
+    * @return finish date
+    */
    private LocalDateTime getEquivalentPreviousWorkFinish(ProjectCalendar calendar, LocalDateTime date)
    {
       LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(date);
@@ -1125,6 +1367,15 @@ public class MicrosoftScheduler implements Scheduler
       return date;
    }
 
+   /**
+    * Given a task and a start date potentially at the end of a working period,
+    * determine if there is a later equivalent start date at the start of the
+    * next working period.
+    *
+    * @param task parent task
+    * @param date potential start date
+    * @return start date
+    */
    private LocalDateTime getNextWorkStart(Task task, LocalDateTime date)
    {
       if (useTaskEffectiveCalendar(task))
@@ -1135,22 +1386,44 @@ public class MicrosoftScheduler implements Scheduler
       return getResourceAssignmentStream(task).map(r -> getNextWorkStart(task, r.getEffectiveCalendar(), date)).min(Comparator.naturalOrder()).orElse(null);
    }
 
+   /**
+    * Given a task, a calendar, and a start date potentially at the end of a working period,
+    * determine if there is a later equivalent start date at the start of the
+    * next working period.
+    *
+    * @param task parent task
+    * @param calendar target calendar
+    * @param date potential start date
+    * @return start date
+    */
    private LocalDateTime getNextWorkStart(Task task, ProjectCalendar calendar, LocalDateTime date)
    {
       LocalDateTime nextWorkStart = calendar.getNextWorkStart(date);
       if (nextWorkStart.isAfter(date) && task.getMilestone() && calendar.getPreviousWorkFinish(date).isEqual(date))
       {
-         // A milestone can sit at  the end of a working period.
+         // A milestone can sit at the end of a working period.
          return date;
       }
       return nextWorkStart;
    }
 
+   /**
+    * Retrieve a stream of resource assignments which can be used when scheduling the parent task.
+    *
+    * @param task parent task
+    * @return resource assignment stream
+    */
    private Stream<ResourceAssignment> getResourceAssignmentStream(Task task)
    {
       return task.getResourceAssignments().stream().filter(r -> r.getResource() != null && r.getResource().getType() == ResourceType.WORK && r.getUnits().doubleValue() > 0.0);
    }
 
+   /**
+    * Determine if this relation should have ALAP logic applied.
+    *
+    * @param relation target relation
+    * @return true if ALAP logic should be applied
+    */
    private boolean isAlap(Relation relation)
    {
       return relation.getPredecessorTask().getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE && relation.getSuccessorTask().getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && m_backwardPass;
@@ -1163,7 +1436,6 @@ public class MicrosoftScheduler implements Scheduler
    private LocalDateTime m_projectFinishDate;
    private final Map<Task, List<Relation>> m_summaryTaskPredecessors = new HashMap<>();
    private final Map<Task, List<Relation>> m_summaryTaskSuccessors = new HashMap<>();
-
    private final Map<Task, LocalDateTime> m_calculatedLateStart = new HashMap<>();
 
    private static final Map<TimeUnit, TimeUnit> DURATION_UNITS_MAP = new HashMap<>();
