@@ -318,7 +318,7 @@ public class MicrosoftScheduler implements Scheduler
    }
 
    /**
-    * Perform the CPM backward pass/
+    * Perform the CPM backward pass.
     *
     * @param forwardPassTasks tasks in order for forward pass
     */

@@ -1,3 +1,25 @@
+/*
+ * file:       PrimaveraScheduler.java
+ * author:     Jon Iles
+ * date:       2025-04-02
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 package net.sf.mpxj.cpm;
 
 import java.time.DayOfWeek;
@@ -22,9 +44,15 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 
+/**
+ * Implements the Critical Path Method to schedule a project so
+ * that the resulting schedule matches closely the results you'd see if
+ * you scheduled the same project in Primavera P6.
+ */
 public class PrimaveraScheduler implements Scheduler
 {
    @Override public void process(ProjectFile file, LocalDateTime startDate) throws CpmException
@@ -89,6 +117,11 @@ public class PrimaveraScheduler implements Scheduler
       wbsSummaryPass();
    }
 
+   /**
+    * Perform the CPM forward pass.
+    *
+    * @param tasks tasks in order for forward pass
+    */
    private void forwardPass(List<Task> tasks) throws CpmException
    {
       for (Task task : tasks)
@@ -97,6 +130,11 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
+   /**
+    * Perform the CPM forward pass for this task.
+    *
+    * @param task task to schedule
+    */
    private void forwardPass(Task task) throws CpmException
    {
       LocalDateTime earlyStart;
@@ -289,6 +327,11 @@ public class PrimaveraScheduler implements Scheduler
       setRemainingEarlyDates(task);
    }
 
+   /**
+    * Perform the CPM backward pass.
+    *
+    * @param forwardPassTasks tasks in order for forward pass
+    */
    private void backwardPass(List<Task> forwardPassTasks) throws CpmException
    {
       List<Task> tasks = new ArrayList<>(forwardPassTasks);
@@ -300,6 +343,11 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
+   /**
+    * Perform the CPM backward pass for this task.
+    *
+    * @param task task to schedule
+    */
    private void backwardPass(Task task) throws CpmException
    {
       List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> isActivity(r.getSuccessorTask())).collect(Collectors.toList());
@@ -466,6 +514,12 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
+   /**
+    * Calculate the early start for the successor task in this relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated early start date
+    */
    private LocalDateTime calculateEarlyStart(Relation relation)
    {
       switch (relation.getType())
@@ -497,6 +551,12 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
+   /**
+    * Calculate the early start for the successor task in a finish-start relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated early start date
+    */
    private LocalDateTime calculateEarlyStartForFinishStart(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -674,6 +734,12 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
+   /**
+    * Calculate the early start for the successor task in a start-start relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated early start date
+    */
    private LocalDateTime calculateEarlyStartForStartStart(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -868,6 +934,12 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
+   /**
+    * Calculate the early start for the successor task in a finish-finish relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated early start date
+    */
    private LocalDateTime calculateEarlyStartForFinishFinish(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -1056,16 +1128,12 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
-   private LocalDateTime getEarlyStartFromEarlyFinish(Task successorTask, LocalDateTime earlyFinish)
-   {
-      LocalDateTime earlyStart = getDateFromEndAndRemainingDuration(successorTask, earlyFinish);
-      if (earlyStart.isBefore(m_projectStartDate))
-      {
-         return m_projectStartDate;
-      }
-      return earlyStart;
-   }
-
+   /**
+    * Calculate the early start for the successor task in a start-finish relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated early start date
+    */
    private LocalDateTime calculateEarlyStartForStartFinish(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -1237,6 +1305,30 @@ public class PrimaveraScheduler implements Scheduler
       return earlyStart;
    }
 
+   /**
+    * Calculate the early start date from an early finish date and ensure this is at
+    * or after the project start date.
+    *
+    * @param successorTask successor task
+    * @param earlyFinish early finish date
+    * @return early start date
+    */
+   private LocalDateTime getEarlyStartFromEarlyFinish(Task successorTask, LocalDateTime earlyFinish)
+   {
+      LocalDateTime earlyStart = getDateFromEndAndRemainingDuration(successorTask, earlyFinish);
+      if (earlyStart.isBefore(m_projectStartDate))
+      {
+         return m_projectStartDate;
+      }
+      return earlyStart;
+   }
+
+   /**
+    * Calculate the late finish for the predecessor task in this relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated late finish date
+    */
    private LocalDateTime calculateLateFinish(Relation relation)
    {
       switch (relation.getType())
@@ -1268,6 +1360,13 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
+   /**
+    * Ensure a late finish date is before the project finish date, and adjust if required.
+    *
+    * @param relation parent relation
+    * @param lateFinish late finish date
+    * @return late finish
+    */
    private LocalDateTime adjustLateFinish(Relation relation, LocalDateTime lateFinish)
    {
       if (lateFinish.isAfter(m_projectFinishDate))
@@ -1286,6 +1385,12 @@ public class PrimaveraScheduler implements Scheduler
       return lateFinish;
    }
 
+   /**
+    * Calculate the late finish for the predecessor task in a start-start relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated late finish date
+    */
    private LocalDateTime calculateLateFinishForStartStart(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -1547,6 +1652,12 @@ public class PrimaveraScheduler implements Scheduler
       return lateFinish;
    }
 
+   /**
+    * Calculate the late finish for the predecessor task in a finish-finish relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated late finish date
+    */
    private LocalDateTime calculateLateFinishForFinishFinish(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -1739,6 +1850,12 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
+   /**
+    * Calculate the late finish for the predecessor task in a start-finish relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated late finish date
+    */
    private LocalDateTime calculateLateFinishForStartFinish(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -1920,6 +2037,12 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
+   /**
+    * Calculate the late finish for the predecessor task in a finish-start relationship.
+    *
+    * @param relation relationship between two tasks
+    * @return calculated late finish date
+    */
    private LocalDateTime calculateLateFinishForFinishStart(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -2147,6 +2270,14 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
+   /**
+    * Adjust a start date which sits on or after a working period to the
+    * start of the next working period.
+    *
+    * @param task parent task
+    * @param date date
+    * @return adjusted date
+    */
    private LocalDateTime adjustToNextWorkStart(Task task, LocalDateTime date)
    {
       LocalDateTime adjustedDate = task.getEffectiveCalendar().getNextWorkStart(date);
@@ -2158,6 +2289,12 @@ public class PrimaveraScheduler implements Scheduler
       return date;
    }
 
+   /**
+    * Retrive the lag calendar to use when adding/removing lag.
+    *
+    * @param relation parent relation
+    * @return lag calendar
+    */
    private ProjectCalendar getLagCalendar(Relation relation)
    {
       switch (m_file.getProjectProperties().getRelationshipLagCalendar())
@@ -2185,6 +2322,14 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
+   /**
+    * Using the supplied calendar, add a duration to the supplied date.
+    *
+    * @param calendar parent calendar
+    * @param date date
+    * @param duration duration
+    * @return date plus duration
+    */
    private LocalDateTime getDate(ProjectCalendar calendar, LocalDateTime date, Duration duration)
    {
       LocalDateTime result = calendar.getDate(date, duration);
@@ -2204,31 +2349,74 @@ public class PrimaveraScheduler implements Scheduler
       return result;
    }
 
+   /**
+    * Calculate a date from a start date plus the task duration.
+    *
+    * @param task parent task
+    * @param date start date
+    * @return start date plus task duration
+    */
    private LocalDateTime getDateFromStart(Task task, LocalDateTime date)
    {
       return getDate(task.getEffectiveCalendar(), date, task.getDuration());
    }
 
+   /**
+    * Calculate a date from a finish date minus the task duration.
+    *
+    * @param task parent task
+    * @param date finish date
+    * @return finish date minus task duration
+    */
    private LocalDateTime getDateFromEnd(Task task, LocalDateTime date)
    {
       return getDate(task.getEffectiveCalendar(), date, task.getDuration().negate());
    }
 
+   /**
+    * Calculate a date from a start date plus the task remaining duration.
+    *
+    * @param task parent task
+    * @param date start date
+    * @return start date plus task remaining duration
+    */
    private LocalDateTime getDateFromStartAndRemainingDuration(Task task, LocalDateTime date)
    {
       return getDate(task.getEffectiveCalendar(), date, task.getRemainingDuration());
    }
 
+   /**
+    * Calculate a date from a finish date minus the task remaining duration.
+    *
+    * @param task parent task
+    * @param date finish date
+    * @return finish date minus task remaining duration
+    */
    private LocalDateTime getDateFromEndAndRemainingDuration(Task task, LocalDateTime date)
    {
       return getDate(task.getEffectiveCalendar(), date, task.getRemainingDuration().negate());
    }
 
+   /**
+    * Add relation lag to a date.
+    *
+    * @param relation parent relation
+    * @param date date
+    * @return date plus lag
+    */
    private LocalDateTime addLag(Relation relation, LocalDateTime date)
    {
       return addLag(relation, date, relation.getLag());
    }
 
+   /**
+    * Add lag to a date.
+    *
+    * @param relation parent relation
+    * @param date date
+    * @param lag lag
+    * @return date plus lag
+    */
    private LocalDateTime addLag(Relation relation, LocalDateTime date, Duration lag)
    {
       if (date == null)
@@ -2245,11 +2433,26 @@ public class PrimaveraScheduler implements Scheduler
       return result;
    }
 
+   /**
+    * Remove lag from a date.
+    *
+    * @param relation parent relation
+    * @param date date
+    * @return date minus relation lag
+    */
    private LocalDateTime removeLag(Relation relation, LocalDateTime date)
    {
       return removeLag(relation, date, relation.getLag());
    }
 
+   /**
+    * Remove lag from a date.
+    *
+    * @param relation parent relation
+    * @param date date
+    * @param lag lag
+    * @return date minus lag
+    */
    private LocalDateTime removeLag(Relation relation, LocalDateTime date, Duration lag)
    {
       if (date == null)
@@ -2260,21 +2463,45 @@ public class PrimaveraScheduler implements Scheduler
       return getDate(getLagCalendar(relation), date, lag.negate());
    }
 
+   /**
+    * Determine if the given MPXJ Task is a P6 Activity.
+    *
+    * @param task Task instance
+    * @return true if this is a P6 Activity
+    */
    static boolean isActivity(Task task)
    {
       return !(task.getSummary() || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getActivityType() == ActivityType.WBS_SUMMARY);
    }
 
+   /**
+    * Determine if the given MPXJ Task is a P6 Level of Effort Activity.
+    *
+    * @param task Task instance
+    * @return true if this is a P6 Level of Effort Activity
+    */
    static boolean isLevelOfEffortActivity(Task task)
    {
       return task.getActivityType() == ActivityType.LEVEL_OF_EFFORT;
    }
 
+   /**
+    * Determine if the given MPXJ Task is a P6 WBS Summary Activity.
+    *
+    * @param task Task instance
+    * @return true if this is a P6 WBS Summary Activity
+    */
    static boolean isWbsSummary(Task task)
    {
       return task.getActivityType() == ActivityType.WBS_SUMMARY;
    }
 
+   /**
+    * Adjust Early Start and Early Finish dates for an activity with
+    * an "As Late As Possible" constraint.
+    *
+    * @param task ALAP constrained task
+    */
    private void alapAdjust(Task task) throws CpmException
    {
       LocalDateTime earlyStart;
@@ -2298,6 +2525,12 @@ public class PrimaveraScheduler implements Scheduler
       setRemainingEarlyDates(task);
    }
 
+   /**
+    * Calculate the ALAP Early Start from a relation's successor task.
+    *
+    * @param relation target relation
+    * @return early start date
+    */
    private LocalDateTime getAlapEarlyStart(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -2402,6 +2635,11 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
+   /**
+    * Populate the remaining early dates.
+    *
+    * @param task target task
+    */
    private void setRemainingEarlyDates(Task task)
    {
       if (task.getActualFinish() != null)
@@ -2438,6 +2676,11 @@ public class PrimaveraScheduler implements Scheduler
       task.setRemainingEarlyFinish(getDateFromStartAndRemainingDuration(task, remainingEarlyStart));
    }
 
+   /**
+    * Populat ethe remaining late dates.
+    *
+    * @param task target task
+    */
    private void setRemainingLateDates(Task task)
    {
       if (task.getActualFinish() != null)
@@ -2449,6 +2692,11 @@ public class PrimaveraScheduler implements Scheduler
       task.setRemainingLateFinish(task.getLateFinish());
    }
 
+   /**
+    * Create a temporary 24-hour calendar for this project.
+    *
+    * @return 24-hour calendar
+    */
    private ProjectCalendar createTwentyFourHourCalendar()
    {
       ProjectCalendar calendar = new ProjectCalendar(m_file);
@@ -2461,6 +2709,9 @@ public class PrimaveraScheduler implements Scheduler
       return calendar;
    }
 
+   /**
+    * Clear dates ready to be repopulated.
+    */
    private void clearDates()
    {
       for (Task task : m_file.getTasks())
@@ -2475,9 +2726,17 @@ public class PrimaveraScheduler implements Scheduler
          task.setRemainingEarlyFinish(null);
          task.setRemainingLateStart(null);
          task.setRemainingLateFinish(null);
+
+         // Clear the critical flag to force it to be recalculated
+         task.set(TaskField.CRITICAL, null);
       }
    }
 
+   /**
+    * Roll up dates to a WBS entity.
+    *
+    * @param parentTask parent WBS
+    */
    private void rollupDates(Task parentTask)
    {
       // NOTE: LOE and WBS Summary are ignore at this point as they have null dates
@@ -2667,6 +2926,11 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
+   /**
+    * Schedule a Level of Effort activity.
+    *
+    * @param task target activity
+    */
    private void levelOfEffortPass(Task task)
    {
       // Foe LOE these are generated values, so we need to clear them
@@ -2966,6 +3230,13 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
+   /**
+    * Return the earliest of the current date and the new date.
+    *
+    * @param currentDate current date
+    * @param newDate new date
+    * @return earliest date
+    */
    private AnnotatedDateTime updateIfBefore(AnnotatedDateTime currentDate, AnnotatedDateTime newDate)
    {
       if (currentDate == null)
@@ -2976,6 +3247,13 @@ public class PrimaveraScheduler implements Scheduler
       return newDate.isBefore(currentDate) ? newDate : currentDate;
    }
 
+   /**
+    * Return the latest of the current date and the new date.
+    *
+    * @param currentDate current date
+    * @param newDate new date
+    * @return latest date
+    */
    private AnnotatedDateTime updateIfAfter(AnnotatedDateTime currentDate, AnnotatedDateTime newDate)
    {
       if (currentDate == null)
@@ -2986,6 +3264,13 @@ public class PrimaveraScheduler implements Scheduler
       return newDate.isAfter(currentDate) ? newDate : currentDate;
    }
 
+   /**
+    * Adjust a Level of Effort activity finish date back to the end of the last working period.
+    *
+    * @param task parent task
+    * @param finish finish date
+    * @return adjusted date
+    */
    private LocalDateTime adjustFinish(Task task, LocalDateTime finish)
    {
       if (finish == null)
@@ -3004,6 +3289,9 @@ public class PrimaveraScheduler implements Scheduler
       return finish;
    }
 
+   /**
+    * Schedule WBS Summary activities.
+    */
    private void wbsSummaryPass()
    {
       List<Task> activities = m_file.getTasks().stream().filter(PrimaveraScheduler::isWbsSummary).collect(Collectors.toList());
@@ -3018,6 +3306,11 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
+   /**
+    * Schedule a WBS Summary activity.
+    *
+    * @param task target task
+    */
    private void wbsSummaryPass(Task task)
    {
       Task wbs = task.getParentTask();
@@ -3045,6 +3338,13 @@ public class PrimaveraScheduler implements Scheduler
       task.setRemainingLateFinish(childTasks.stream().map(Task::getRemainingLateFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null));
    }
 
+   /**
+    * Descend through the entire hierarchy beneath a WBS entry collecting all child tasks.
+    *
+    * @param wbs WBS entry
+    * @param childTasks list to populated with child tasks
+    * @return list of child tasks
+    */
    private List<Task> allWbsChildTasks(Task wbs, List<Task> childTasks)
    {
      childTasks.addAll(wbs.getChildTasks().stream().filter(t -> !t.getSummary() && t.getActivityType() != ActivityType.WBS_SUMMARY && t.getActualFinish() == null).collect(Collectors.toList()));
