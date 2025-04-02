@@ -311,6 +311,7 @@ public class MicrosoftSchedulerTest
       USE_SCHEDULED_COPY.add("frantic-vestibule.mpp");
       USE_SCHEDULED_COPY.add("equitable-capability.mpp");
       USE_SCHEDULED_COPY.add("feudal-walk.mpp");
+      USE_SCHEDULED_COPY.add("super-smokescreen.mpp");
    }
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
