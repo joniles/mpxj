@@ -9,8 +9,8 @@ The version of IKVM used to build the legacy version of MPXJ for .Net Framework 
 
 ## .Net Core
 The version of IKVM used to build the legacy version of MPXJ for .Net Core is from
-[this branch](https://github.com/ikvm-revived/ikvm/pull/38) of
-[ikvm-revived/ikvm](https://github.com/ikvm-revived/ikvm).
+[this branch](https://github.com/ikvmnet/ikvm/pull/38) of
+[ikvmnet/ikvm](https://github.com/ikvmnet/ikvm).
 
 Build instructions:
 1. Clone the repo and ensure the correct branch is checked out
