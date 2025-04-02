@@ -19,6 +19,7 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
@@ -111,6 +112,7 @@ public class MicrosoftScheduler implements Scheduler
          task.setEarlyFinish(null);
          task.setLateStart(null);
          task.setLateFinish(null);
+         task.set(TaskField.CRITICAL, null);
       }
    }
 

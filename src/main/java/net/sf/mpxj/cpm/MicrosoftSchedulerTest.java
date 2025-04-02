@@ -150,7 +150,8 @@ public class MicrosoftSchedulerTest
       boolean earlyFinishFailed = !compareDates(baseline, working, TaskField.EARLY_FINISH);
       boolean startFailed = !compareDates(baseline, working, TaskField.START);
       boolean finishFailed = !compareDates(baseline, working, TaskField.FINISH);
-      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed)
+      //boolean criticalFailed = baseline.getCritical() != working.getCritical();
+      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed /*|| criticalFailed*/)
       {
          ++m_forwardErrorCount;
       }
@@ -219,12 +220,14 @@ public class MicrosoftSchedulerTest
       boolean earlyFinishFail = !compareDates(baseline, working, TaskField.EARLY_FINISH);
       boolean startFail = !compareDates(baseline, working, TaskField.START);
       boolean finishFail = !compareDates(baseline, working, TaskField.FINISH);
+      //boolean criticalFail = baseline.getCritical() != working.getCritical();
 
       System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
       System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
       System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
       System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (startFail ? " FAIL" : ""));
       System.out.println("Finish: " + baseline.getFinish() + " " + working.getFinish() + (finishFail ? " FAIL" : ""));
+      //System.out.println("Critical: " + baseline.getCritical() + " " + working.getCritical() + (criticalFail ? " FAIL" : ""));
       System.out.println();
    }
 
