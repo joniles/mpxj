@@ -98,11 +98,11 @@ public class MicrosoftSchedulerTest
       m_baselineFile = new UniversalProjectReader().read(file);
       m_workingFile = new UniversalProjectReader().read(file);
 
-      MicrosoftScheduler scheduler = new MicrosoftScheduler(m_workingFile);
+      MicrosoftScheduler scheduler = new MicrosoftScheduler();
 
       try
       {
-         scheduler.process(m_workingFile.getProjectProperties().getStartDate());
+         scheduler.process(m_workingFile, m_workingFile.getProjectProperties().getStartDate());
       }
 
       catch(CpmException ex)

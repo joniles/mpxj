@@ -49,13 +49,9 @@ import net.sf.mpxj.common.LocalDateTimeHelper;
 
 public class MicrosoftScheduler implements Scheduler
 {
-   public MicrosoftScheduler(ProjectFile file)
+   public void process(ProjectFile file, LocalDateTime projectStartDate) throws Exception
    {
       m_file = file;
-   }
-
-   public void process(LocalDateTime projectStartDate) throws Exception
-   {
       m_projectStartDate = projectStartDate;
       m_calculatedLateStart.clear();
 
@@ -1160,7 +1156,7 @@ public class MicrosoftScheduler implements Scheduler
       return relation.getPredecessorTask().getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE && relation.getSuccessorTask().getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && m_backwardPass;
    }
 
-   private final ProjectFile m_file;
+   private ProjectFile m_file;
    private List<Task> m_sortedTasks;
    private boolean m_backwardPass;
    private LocalDateTime m_projectStartDate;

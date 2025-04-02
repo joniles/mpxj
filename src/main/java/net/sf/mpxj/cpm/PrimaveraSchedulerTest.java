@@ -98,7 +98,7 @@ public class PrimaveraSchedulerTest
       m_baselineFile = new UniversalProjectReader().read(file);
       m_workingFile = new UniversalProjectReader().read(file);
 
-      PrimaveraScheduler scheduler = new PrimaveraScheduler(m_workingFile);
+      PrimaveraScheduler scheduler = new PrimaveraScheduler();
 
       try
       {
@@ -108,7 +108,7 @@ public class PrimaveraSchedulerTest
             start = m_workingFile.getProjectProperties().getStartDate();
          }
 
-         scheduler.process(start);
+         scheduler.process(m_workingFile, start);
       }
 
       catch(CpmException ex)

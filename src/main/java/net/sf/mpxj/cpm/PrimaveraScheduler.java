@@ -27,15 +27,12 @@ import net.sf.mpxj.common.LocalDateTimeHelper;
 
 public class PrimaveraScheduler implements Scheduler
 {
-   public PrimaveraScheduler(ProjectFile file)
+   public void process(ProjectFile file, LocalDateTime projectStartDate) throws Exception
    {
       m_file = file;
       m_dataDate = file.getProjectProperties().getStatusDate();
       m_twentyFourHourCalendar = createTwentyFourHourCalendar();
-   }
 
-   public void process(LocalDateTime projectStartDate) throws Exception
-   {
       if (m_file.getTasks().stream().anyMatch(t -> t.getActivityType() == ActivityType.RESOURCE_DEPENDENT && !t.getResourceAssignments().isEmpty()))
       {
          throw new CpmException("Schedule contains Resource Dependent activities with resource assignments");
@@ -3055,8 +3052,8 @@ public class PrimaveraScheduler implements Scheduler
      return childTasks;
    }
 
-   private final ProjectFile m_file;
-   private final ProjectCalendar m_twentyFourHourCalendar;
+   private ProjectFile m_file;
+   private ProjectCalendar m_twentyFourHourCalendar;
    private LocalDateTime m_dataDate;
    private LocalDateTime m_projectStartDate;
    private LocalDateTime m_projectFinishDate;
