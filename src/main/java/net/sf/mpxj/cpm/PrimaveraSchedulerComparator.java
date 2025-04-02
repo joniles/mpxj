@@ -15,7 +15,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-public class PrimaveraSchedulerTest
+public class PrimaveraSchedulerComparator
 {
    public static void main(String[] argv) throws Exception
    {
@@ -26,7 +26,8 @@ public class PrimaveraSchedulerTest
       }
 
       File target = new File(argv[0]);
-      PrimaveraSchedulerTest test = new PrimaveraSchedulerTest();
+      PrimaveraSchedulerComparator test = new PrimaveraSchedulerComparator();
+      test.setDebug(true);
 
       if (target.isDirectory())
       {
@@ -38,7 +39,59 @@ public class PrimaveraSchedulerTest
       }
    }
 
-   public void process(File directory, String suffix) throws Exception
+   /**
+    * Enable or disable debug output.
+    *
+    * @param value pass true to enable debug output
+    */
+   public void setDebug(boolean value)
+   {
+      m_debug = value;
+   }
+
+   /**
+    * Tell the comparator to ignore files which Microsoft Project can't read.
+    *
+    * @param value set of unreadable files
+    */
+   public void setUnreadableFiles(Set<String> value)
+   {
+      m_unreadableFiles = value;
+   }
+
+   /**
+    * Tell the comparator to ignore files which have had new copied created
+    * following "Calculate Project" and "Save As".
+    *
+    * @param value set of scheduled files
+    */
+   public void setUseScheduled(Set<String> value)
+   {
+      m_useScheduled = value;
+   }
+
+   /**
+    * Tell the comparator to ignore files which MicrosoftScheduler doesn't
+    * currently process to match Microsoft Project.
+    *
+    * @param value set of excluded files
+    */
+   public void setExcluded(Set<String> value)
+   {
+      m_excluded = value;
+   }
+
+   /**
+    * Tell the comparator not to test the WBS in these file.
+    *
+    * @param value set of excluded files
+    */
+   public void setNoWbsTest(Set<String> value)
+   {
+      m_noWbsTest = value;
+   }
+
+   public boolean process(File directory, String suffix) throws Exception
    {
       m_directory = true;
 
@@ -51,19 +104,19 @@ public class PrimaveraSchedulerTest
       for (File file : fileList)
       {
          String name = file.getName().toLowerCase();
-         if (UNREADABLE_FILES.contains(name))
+         if (m_unreadableFiles.contains(name))
          {
             continue;
          }
 
-         if (USE_SCHEDULED_COPY.contains(name))
+         if (m_useScheduled.contains(name))
          {
             continue;
          }
 
          ++valid;
 
-         if (EXCLUDED_FILES.contains(name))
+         if (m_excluded.contains(name))
          {
             ++skipped;
             continue;
@@ -79,18 +132,25 @@ public class PrimaveraSchedulerTest
          }
       }
 
+      if (m_debug)
+      {
+         System.out.println();
+         System.out.println("Files: " + fileList.length);
+         System.out.println("Skipped: " + skipped);
+         System.out.println("Success: " + success);
+         System.out.println("Failed: " + failed);
+         System.out.println("Success %: " + (success * 100.0 / valid));
+      }
 
-      System.out.println();
-      System.out.println("Files: " + fileList.length);
-      System.out.println("Skipped: " + skipped);
-      System.out.println("Success: " + success);
-      System.out.println("Failed: " + failed);
-      System.out.println("Success %: " + (success * 100.0 / valid));
+      return failed == 0;
    }
 
    public boolean process(File file) throws Exception
    {
-      System.out.print("Processing " + file + " ... ");
+      if (m_debug)
+      {
+         System.out.print("Processing " + file + " ... ");
+      }
       m_forwardErrorCount = 0;
       m_backwardErrorCount = 0;
       boolean analyseWbs = true;
@@ -113,8 +173,11 @@ public class PrimaveraSchedulerTest
 
       catch(CpmException ex)
       {
-         System.out.println("failed.");
-         System.out.println(ex.getMessage());
+         if (m_debug)
+         {
+            System.out.println("failed.");
+            System.out.println(ex.getMessage());
+         }
          return false;
       }
 
@@ -122,7 +185,7 @@ public class PrimaveraSchedulerTest
       {
          Task workingTask = m_workingFile.getTaskByUniqueID(baselineTask.getUniqueID());
 
-         if (workingTask.getSummary() && NO_WBS_TEST.contains(file.getName().toLowerCase()))
+         if (workingTask.getSummary() && m_noWbsTest.contains(file.getName().toLowerCase()))
          {
             analyseWbs = false;
             continue;
@@ -133,22 +196,28 @@ public class PrimaveraSchedulerTest
 
       if (m_forwardErrorCount == 0 && m_backwardErrorCount == 0)
       {
-         System.out.println("done.");
+         if (m_debug)
+         {
+            System.out.println("done.");
+         }
          return true;
       }
 
-      System.out.println("failed.");
-      System.out.println("Project ID: " + m_baselineFile.getProjectProperties().getProjectID());
-      System.out.println(m_baselineFile.getProjectProperties().getSchedulingProgressedActivities());
-      System.out.println("Forward errors: " + m_forwardErrorCount);
-      System.out.println("Backward errors: " + m_backwardErrorCount);
-
-      if (!m_directory)
+      if (m_debug)
       {
-         analyseFailures(analyseWbs);
+         System.out.println("failed.");
+         System.out.println("Project ID: " + m_baselineFile.getProjectProperties().getProjectID());
+         System.out.println(m_baselineFile.getProjectProperties().getSchedulingProgressedActivities());
+         System.out.println("Forward errors: " + m_forwardErrorCount);
+         System.out.println("Backward errors: " + m_backwardErrorCount);
       }
 
-      System.out.println("DONE");
+      if (!m_directory && m_debug)
+      {
+         analyseFailures(analyseWbs);
+         System.out.println("DONE");
+      }
+
       return false;
    }
 
@@ -300,138 +369,14 @@ public class PrimaveraSchedulerTest
       return result;
    }
 
+   private boolean m_debug;
    private boolean m_directory;
    private ProjectFile m_baselineFile;
    private ProjectFile m_workingFile;
    private int m_forwardErrorCount;
    private int m_backwardErrorCount;
-
-   private static final Set<String> UNREADABLE_FILES = new HashSet<>();
-   static
-   {
-      // Can't import into P6 to debug
-      UNREADABLE_FILES.add("tender-workforce.xer");
-      UNREADABLE_FILES.add("mortal-duct.xer");
-      UNREADABLE_FILES.add("narrower-encouragement.xer");
-      UNREADABLE_FILES.add("invalid-calendar-data.encoding.xer");
-      UNREADABLE_FILES.add("duplicate-relation-uid.xer");
-      UNREADABLE_FILES.add("kindly-dissolve.xml");
-
-      // Not actually unreadable, but contains multiple projects
-      UNREADABLE_FILES.add("preliminary-shout.xer");
-      UNREADABLE_FILES.add("mutual-viewer.xer");
-   }
-
-   private static final Set<String> USE_SCHEDULED_COPY = new HashSet<>();
-   static
-   {
-      // Aligns with MPXJ when scheduled
-      USE_SCHEDULED_COPY.add("teenage-contest.encoding.xer");
-      USE_SCHEDULED_COPY.add("orphic-chastisement.xer");
-      USE_SCHEDULED_COPY.add("unlined-customhouse.xer");
-      USE_SCHEDULED_COPY.add("exhaustible-concussion.xer");
-      USE_SCHEDULED_COPY.add("surface-jealousy.xer");
-      USE_SCHEDULED_COPY.add("passionate-lounge.xer");
-      USE_SCHEDULED_COPY.add("passionate-lounge.xml");
-      USE_SCHEDULED_COPY.add("synthetic-moire.xer");
-      USE_SCHEDULED_COPY.add("comments-relation-test.xer");
-      USE_SCHEDULED_COPY.add("dense-cushion.xer");
-      USE_SCHEDULED_COPY.add("frightened-heat.xer");
-      USE_SCHEDULED_COPY.add("nrg00950.xer");
-      USE_SCHEDULED_COPY.add("plain-move.xer");
-      USE_SCHEDULED_COPY.add("manic-relativity.xml");
-      USE_SCHEDULED_COPY.add("supreme-convention.xml");
-      USE_SCHEDULED_COPY.add("udf-test.xml");
-      USE_SCHEDULED_COPY.add("garish-biophysicist.xml");
-      USE_SCHEDULED_COPY.add("prime-chiropractor.xml");
-      USE_SCHEDULED_COPY.add("comments-relation-test.xml");
-      USE_SCHEDULED_COPY.add("smoother-melodrama.xer");
-      USE_SCHEDULED_COPY.add("nasty-census.xer");
-      USE_SCHEDULED_COPY.add("virtual-mast.xer");
-      USE_SCHEDULED_COPY.add("specific-academy.xer");
-      USE_SCHEDULED_COPY.add("supreme-nurse.xer");
-      USE_SCHEDULED_COPY.add("multicolor-nonconformist.xer");
-      USE_SCHEDULED_COPY.add("supreme-convention.xer");
-      USE_SCHEDULED_COPY.add("waspish-grant.xer");
-      USE_SCHEDULED_COPY.add("dramatic-male.xer");
-      USE_SCHEDULED_COPY.add("sacrosanct-ozone.xer");
-      USE_SCHEDULED_COPY.add("doubtful-contractor.xer");
-      USE_SCHEDULED_COPY.add("aloof-proton.xer");
-      USE_SCHEDULED_COPY.add("outstanding-vaudeville.xer");
-      USE_SCHEDULED_COPY.add("warm-bastion.encoding.xer");
-      USE_SCHEDULED_COPY.add("sadder-withdrawal.xer");
-   }
-
-   private static final Set<String> NO_WBS_TEST = new HashSet<>();
-   static
-   {
-      // Date disagreement with P6 affects rollup
-      NO_WBS_TEST.add("aloof-proton-task-dependent.xer");
-      NO_WBS_TEST.add("aloof-proton-coverage.xer");
-      NO_WBS_TEST.add("aloof-proton-scheduled.xer");
-      NO_WBS_TEST.add("detailed-librarian.xer");
-   }
-
-   private static final Set<String> EXCLUDED_FILES = new HashSet<>();
-   static
-   {
-      // Resource dependent activity with resource assignments
-      EXCLUDED_FILES.add("steps.xer");
-      EXCLUDED_FILES.add("prospective-interference.xer");
-      EXCLUDED_FILES.add("mythological-flourish.xer");
-      EXCLUDED_FILES.add("computational-infection.xer");
-      EXCLUDED_FILES.add("virile-schema.xer");
-      EXCLUDED_FILES.add("middle-altar.xer");
-      EXCLUDED_FILES.add("elected-orange.xer");
-      EXCLUDED_FILES.add("role-code-test.xer");
-      EXCLUDED_FILES.add("assignment-code-test.xer");
-      EXCLUDED_FILES.add("orphic-chastisement-scheduled.xer");
-      EXCLUDED_FILES.add("alive-lap.xer");
-
-      // Create XER versions?
-      EXCLUDED_FILES.add("baseline-issue.xml");
-      EXCLUDED_FILES.add("prod00914.xml");
-
-      // Resource dependent activity - for coverage testing only
-      EXCLUDED_FILES.add("prospective-interference.xml");
-      EXCLUDED_FILES.add("assignment-code-test.xml");
-      EXCLUDED_FILES.add("role-code-test.xml");
-      EXCLUDED_FILES.add("steps.xml");
-      EXCLUDED_FILES.add("comments-relation-test-scheduled.xml");
-      EXCLUDED_FILES.add("computational-infection.xml");
-      EXCLUDED_FILES.add("restricted-garden.xml");
-      EXCLUDED_FILES.add("unmistakable-client.xml");
-      EXCLUDED_FILES.add("virile-schema.xml");
-
-      // Milestone early finish lands on a non-working time in lag calendar
-      // but working time in task calendar. Correct next work start from lag calendar?
-      EXCLUDED_FILES.add("thinner-council-task-dependent-no-alap.xer");
-
-      // Progress Override
-      EXCLUDED_FILES.add("passionate-lounge-scheduled.xer");
-      EXCLUDED_FILES.add("orange-parade.xer");
-
-      // Schedule contains a loop
-      EXCLUDED_FILES.add("calendar_missing_info.xer");
-      EXCLUDED_FILES.add("incomprehensible-stockroom.xer");
-      EXCLUDED_FILES.add("baltic-laugh.xer");
-
-      // Rounding issue? Makes for a 1 minute difference on one activity
-      EXCLUDED_FILES.add("fleet-salary.xer");
-      EXCLUDED_FILES.add("global-sociology.xer");
-
-      // LOE issues
-      EXCLUDED_FILES.add("legislative-survey.xer");
-      EXCLUDED_FILES.add("proportional-revolution.xer");
-      EXCLUDED_FILES.add("toxic-end.xer");
-      EXCLUDED_FILES.add("stuffy-sturgeon.xer");
-      EXCLUDED_FILES.add("keen-knock.xer");
-      EXCLUDED_FILES.add("dispassionate-vertex.xer");
-      EXCLUDED_FILES.add("merriest-offering.xer");
-      EXCLUDED_FILES.add("harmful-brewery.xer");
-      EXCLUDED_FILES.add("intellectual-fossil.xer");
-
-      // TODO: to investigate
-      EXCLUDED_FILES.add("thinner-council.xer");
-   }
+   private Set<String> m_unreadableFiles = Collections.emptySet();
+   private Set<String> m_useScheduled = Collections.emptySet();
+   private Set<String> m_excluded = Collections.emptySet();
+   private Set<String> m_noWbsTest = Collections.emptySet();
 }

@@ -49,6 +49,7 @@ import net.sf.mpxj.EpsNode;
 import net.sf.mpxj.EpsProjectNode;
 import net.sf.mpxj.cpm.CpmException;
 import net.sf.mpxj.cpm.MicrosoftSchedulerComparator;
+import net.sf.mpxj.cpm.PrimaveraSchedulerComparator;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileWriter;
@@ -272,7 +273,7 @@ public class CustomerDataTest
    }
 
    /**
-    * Validate the output from the Microsoft Project scheduler.
+    * Validate the output from the Microsoft scheduler.
     */
    @Test public void testMicrosoftScheduler() throws Exception
    {
@@ -291,6 +292,30 @@ public class CustomerDataTest
       comparator.setExcluded(excluded);
 
       assertTrue(comparator.process(new File(m_privateDirectory, "MPP"), ".mpp"));
+   }
+
+   /**
+    * Validate the output from the Primavera scheduler.
+    */
+   @Test public void testPrimaveraScheduler() throws Exception
+   {
+      if (m_privateDirectory == null)
+      {
+         return;
+      }
+
+      Set<String> unreadable = readFile(new File(m_privateDirectory, "primavera-scheduler-unreadable.txt"));
+      Set<String> useScheduled = readFile(new File(m_privateDirectory, "primavera-scheduler-use-scheduled.txt"));
+      Set<String> excluded = readFile(new File(m_privateDirectory, "primavera-scheduler-excluded.txt"));
+      Set<String> noWbsTest = readFile(new File(m_privateDirectory, "primavera-scheduler-no-wbs-test.txt"));
+
+      PrimaveraSchedulerComparator comparator = new PrimaveraSchedulerComparator();
+      comparator.setUnreadableFiles(unreadable);
+      comparator.setUseScheduled(useScheduled);
+      comparator.setExcluded(excluded);
+      comparator.setNoWbsTest(noWbsTest);
+
+      assertTrue(comparator.process(new File(m_privateDirectory, "XER"), ".xer"));
    }
 
    private Set<String> readFile(File file) throws IOException
