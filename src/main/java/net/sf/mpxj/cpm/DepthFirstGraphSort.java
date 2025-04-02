@@ -1,3 +1,25 @@
+/*
+ * file:       DepthFirstGraphSort.java
+ * author:     Jon Iles
+ * date:       2025-04-02
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 package net.sf.mpxj.cpm;
 
 import java.util.ArrayList;
@@ -12,14 +34,29 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 
-public class DepthFirstGraphSort
+/**
+ * Sort tasks based on successor relationship ready for CPM forward pass.
+ */
+class DepthFirstGraphSort
 {
-   public DepthFirstGraphSort(ProjectFile file, Function<Task, Boolean> includeTask)
+   /**
+    * Constructor.
+    *
+    * @param file parent project file
+    * @param filter filter to apply to tasks
+    */
+   public DepthFirstGraphSort(ProjectFile file, Function<Task, Boolean> filter)
    {
       m_file = file;
-      m_includeTask = includeTask;
+      m_includeTask = filter;
    }
 
+   /**
+    * Perform the sort.
+    * Note that if a cycle is encountered a CycleException will be thrown.
+    *
+    * @return sorted tasks
+    */
    public List<Task> sort() throws CycleException
    {
       try
@@ -43,11 +80,23 @@ public class DepthFirstGraphSort
       }
    }
 
+   /**
+    * Retrieve the successors for the given task.
+    * Note this method is intended to be overridden to augment the original functionality.
+    *
+    * @param task task from which to generate list of successors
+    * @return list of successors
+    */
    public List<Relation> getSuccessors(Task task)
    {
       return task.getSuccessors();
    }
 
+   /**
+    * Recursively build the sorted list of tasks.
+    *
+    * @param task curent task
+    */
    private void visit(Task task) throws CycleException
    {
       if (m_permanentMark.contains(task))
@@ -57,7 +106,7 @@ public class DepthFirstGraphSort
 
       if (m_temporaryMark.contains(task))
       {
-         // TODO: Break cycle by ignoring relation where cycle detected?
+         // TODO: Can we break a cycle by ignoring relation where cycle detected?
          throw new CycleException();
       }
 

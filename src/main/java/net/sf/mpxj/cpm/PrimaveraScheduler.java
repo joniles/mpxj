@@ -2658,7 +2658,7 @@ public class PrimaveraScheduler implements Scheduler
 
    private void levelOfEffortPass() throws CpmException
    {
-      List<Task> activities = new DepthFirstGraphSort(m_file, t -> t.getActivityType() == ActivityType.LEVEL_OF_EFFORT).sort();
+      List<Task> activities = new DepthFirstGraphSort(m_file, PrimaveraScheduler::isLevelOfEffortActivity).sort();
       if (activities.isEmpty())
       {
          return;
