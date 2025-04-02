@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
@@ -39,7 +38,17 @@ public class MicrosoftSchedulerTest
       }
    }
 
-   public void process(File directory, String suffix) throws Exception
+   public void setDebug(boolean value)
+   {
+      m_debug = value;
+   }
+
+   public boolean getDebug()
+   {
+      return m_debug;
+   }
+
+   public boolean process(File directory, String suffix) throws Exception
    {
       m_directory = true;
 
@@ -81,17 +90,26 @@ public class MicrosoftSchedulerTest
       }
 
 
-      System.out.println();
-      System.out.println("Files: " + fileList.length);
-      System.out.println("Skipped: " + skipped);
-      System.out.println("Success: " + success);
-      System.out.println("Failed: " + failed);
-      System.out.println("Success %: " + (success * 100.0 / valid));
+      if (m_debug)
+      {
+         System.out.println();
+         System.out.println("Files: " + fileList.length);
+         System.out.println("Skipped: " + skipped);
+         System.out.println("Success: " + success);
+         System.out.println("Failed: " + failed);
+         System.out.println("Success %: " + (success * 100.0 / valid));
+      }
+
+      return failed == 0;
    }
 
    public boolean process(File file) throws Exception
    {
-      System.out.print("Processing " + file + " ... ");
+      if (m_debug)
+      {
+         System.out.print("Processing " + file + " ... ");
+      }
+
       m_forwardErrorCount = 0;
       m_backwardErrorCount = 0;
 
@@ -107,8 +125,11 @@ public class MicrosoftSchedulerTest
 
       catch(CpmException ex)
       {
-         System.out.println("failed.");
-         System.out.println(ex.getMessage());
+         if (m_debug)
+         {
+            System.out.println("failed.");
+            System.out.println(ex.getMessage());
+         }
          return false;
       }
 
@@ -127,15 +148,21 @@ public class MicrosoftSchedulerTest
 
       if (m_forwardErrorCount == 0 && m_backwardErrorCount == 0)
       {
-         System.out.println("done.");
+         if (m_debug)
+         {
+            System.out.println("done.");
+         }
          return true;
       }
 
-      System.out.println("failed.");
-      System.out.println("Forward errors: " + m_forwardErrorCount);
-      System.out.println("Backward errors: " + m_backwardErrorCount);
+      if (m_debug)
+      {
+         System.out.println("failed.");
+         System.out.println("Forward errors: " + m_forwardErrorCount);
+         System.out.println("Backward errors: " + m_backwardErrorCount);
+      }
 
-      if (!m_directory)
+      if (!m_directory && m_debug)
       {
          analyseFailures(scheduler);
       }
@@ -190,7 +217,7 @@ public class MicrosoftSchedulerTest
       return result < 0.29;
    }
 
-   private void analyseFailures(MicrosoftScheduler scheduler) throws CycleException
+   private void analyseFailures(MicrosoftScheduler scheduler)
    {
       //List<Task> tasks = new DepthFirstGraphSort(m_workingFile, scheduler::isTask).sort();
       List<Task> tasks = scheduler.getSortedTasks();
@@ -253,6 +280,7 @@ public class MicrosoftSchedulerTest
       return result;
    }
 
+   private boolean m_debug;
    private boolean m_directory;
    private ProjectFile m_baselineFile;
    private ProjectFile m_workingFile;
@@ -358,7 +386,7 @@ public class MicrosoftSchedulerTest
       EXCLUDED_FILES.add("thicker-recital.mpp"); // LF not project end when no successors
       EXCLUDED_FILES.add("hegelian-sensing.mpp"); // LF not project end when no successors
       EXCLUDED_FILES.add("greater-furlough.mpp"); // Calendar issue: EF from constraint date but -1 hour
-      EXCLUDED_FILES.add("ill-toilet-scheduled.mpp"); // EF doesn't folow from successor as expected
+      EXCLUDED_FILES.add("ill-toilet-scheduled.mpp"); // EF doesn't follow from successor as expected
       EXCLUDED_FILES.add("further-slate.mpp"); // Resource overallocation causing schedule issues?
       EXCLUDED_FILES.add("symphonic-turkey.mpp"); // Resource overallocation causing schedule issues?
 
