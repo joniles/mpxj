@@ -148,9 +148,9 @@ public class MicrosoftSchedulerTest
    {
       boolean earlyStartFailed = !compareDates(baseline, working, TaskField.EARLY_START);
       boolean earlyFinishFailed = !compareDates(baseline, working, TaskField.EARLY_FINISH);
-//      boolean startFailed = !compareDates(baseline, working, TaskField.START);
-//      boolean finishFailed = !compareDates(baseline, working, TaskField.FINISH);
-      if (earlyStartFailed || earlyFinishFailed /*|| startFailed || finishFailed*/)
+      boolean startFailed = !compareDates(baseline, working, TaskField.START);
+      boolean finishFailed = !compareDates(baseline, working, TaskField.FINISH);
+      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed)
       {
          ++m_forwardErrorCount;
       }
@@ -217,14 +217,14 @@ public class MicrosoftSchedulerTest
       Task baseline = m_baselineFile.getTaskByUniqueID(working.getUniqueID());
       boolean earlyStartFail = !compareDates(baseline, working, TaskField.EARLY_START);
       boolean earlyFinishFail = !compareDates(baseline, working, TaskField.EARLY_FINISH);
-//      boolean startFail = !compareDates(baseline, working, TaskField.START);
-//      boolean finishFail = !compareDates(baseline, working, TaskField.FINISH);
+      boolean startFail = !compareDates(baseline, working, TaskField.START);
+      boolean finishFail = !compareDates(baseline, working, TaskField.FINISH);
 
       System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
       System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
       System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
-//      System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (startFail ? " FAIL" : ""));
-//      System.out.println("Finish: " + baseline.getFinish() + " " + working.getFinish() + (finishFail ? " FAIL" : ""));
+      System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (startFail ? " FAIL" : ""));
+      System.out.println("Finish: " + baseline.getFinish() + " " + working.getFinish() + (finishFail ? " FAIL" : ""));
       System.out.println();
    }
 

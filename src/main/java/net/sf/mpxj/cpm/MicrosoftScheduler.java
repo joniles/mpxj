@@ -82,6 +82,17 @@ public class MicrosoftScheduler implements Scheduler
          forwardPass(tasks);
       }
 
+      for (Task task : tasks)
+      {
+         if (task.getExternalTask() || task.getExternalProject() || !task.getActive() || task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
+         {
+            continue;
+         }
+
+         task.setStart(task.getActualStart() == null ? (task.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE ? task.getLateStart() : task.getEarlyStart()) : task.getActualStart());
+         task.setFinish(task.getActualFinish() == null ? (task.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE ? task.getLateFinish() : task.getEarlyFinish()) : task.getActualFinish());
+      }
+
       m_file.getChildTasks().forEach(t -> rollupDates(t));
    }
 
