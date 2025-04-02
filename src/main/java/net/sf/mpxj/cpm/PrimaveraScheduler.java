@@ -2290,7 +2290,7 @@ public class PrimaveraScheduler implements Scheduler
    }
 
    /**
-    * Retrive the lag calendar to use when adding/removing lag.
+    * Retrieve the lag calendar to use when adding/removing lag.
     *
     * @param relation parent relation
     * @return lag calendar
@@ -2677,7 +2677,7 @@ public class PrimaveraScheduler implements Scheduler
    }
 
    /**
-    * Populat ethe remaining late dates.
+    * Populate the remaining late dates.
     *
     * @param task target task
     */
