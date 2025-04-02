@@ -247,7 +247,7 @@ public class MppBarStyleTest
    private void assertStyleExceptionEquals(Object[] expected, GanttBarStyleException actual)
    {
       assertEquals(expected[14], Integer.valueOf(actual.getTaskUniqueID()));
-      assertEquals(expected[15], Integer.valueOf(actual.getBarStyleIndex()));
+      assertEquals(expected[15], actual.getGanttBarStyleID());
       assertEqualsCommon(expected, actual);
    }
 
@@ -1063,7 +1063,7 @@ public class MppBarStyleTest
          GanttBarStartEndType.FRAMED,
          ColorType.RED,
          Integer.valueOf(1),
-         Integer.valueOf(0)
+         Integer.valueOf(1)
       },
 
       {
@@ -1082,7 +1082,7 @@ public class MppBarStyleTest
          GanttBarStartEndType.SOLID,
          ColorType.BLACK,
          Integer.valueOf(2),
-         Integer.valueOf(0)
+         Integer.valueOf(1)
       },
 
       {
@@ -1101,7 +1101,7 @@ public class MppBarStyleTest
          GanttBarStartEndType.SOLID,
          ColorType.BLACK,
          Integer.valueOf(3),
-         Integer.valueOf(0)
+         Integer.valueOf(1)
       },
 
       {
@@ -1120,7 +1120,7 @@ public class MppBarStyleTest
          GanttBarStartEndType.SOLID,
          ColorType.BLACK,
          Integer.valueOf(4),
-         Integer.valueOf(0)
+         Integer.valueOf(1)
       },
 
       {
@@ -1139,7 +1139,7 @@ public class MppBarStyleTest
          GanttBarStartEndType.SOLID,
          ColorType.BLACK,
          Integer.valueOf(5),
-         Integer.valueOf(0)
+         Integer.valueOf(1)
       },
 
       {
@@ -1158,7 +1158,7 @@ public class MppBarStyleTest
          GanttBarStartEndType.SOLID,
          ColorType.BLACK,
          Integer.valueOf(6),
-         Integer.valueOf(0)
+         Integer.valueOf(1)
       },
 
       {
@@ -1177,7 +1177,7 @@ public class MppBarStyleTest
          GanttBarStartEndType.FRAMED,
          ColorType.AQUA,
          Integer.valueOf(7),
-         Integer.valueOf(33)
+         Integer.valueOf(34)
       },
 
    };

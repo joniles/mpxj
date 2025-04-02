@@ -78,7 +78,7 @@ public final class GanttBarStyleException extends GanttBarCommonStyle
     * GanttChartView.getBarStyles() method. The index returned by this method
     * is an index into the array of bar styles. The significance of this is
     * that a single bar on a Gantt chart could have one or more exceptions
-    * associated wit it, but the exceptions will only be applied if the style
+    * associated with it, but the exceptions will only be applied if the style
     * of the bar currently being displayed matches the style recorded here
     * in the style exception.
     *
