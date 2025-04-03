@@ -1380,7 +1380,7 @@ public class MicrosoftScheduler implements Scheduler
    {
       if (useTaskEffectiveCalendar(task))
       {
-         return  getNextWorkStart(task, task.getEffectiveCalendar(), date);
+         return getNextWorkStart(task, task.getEffectiveCalendar(), date);
       }
 
       return getResourceAssignmentStream(task).map(r -> getNextWorkStart(task, r.getEffectiveCalendar(), date)).min(Comparator.naturalOrder()).orElse(null);
