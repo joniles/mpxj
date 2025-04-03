@@ -31,6 +31,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.ConstraintType;
@@ -43,6 +44,8 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
+import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
@@ -61,10 +64,10 @@ public class PrimaveraScheduler implements Scheduler
       m_dataDate = file.getProjectProperties().getStatusDate();
       m_twentyFourHourCalendar = createTwentyFourHourCalendar();
 
-      if (m_file.getTasks().stream().anyMatch(t -> t.getActivityType() == ActivityType.RESOURCE_DEPENDENT && !t.getResourceAssignments().isEmpty()))
-      {
-         throw new CpmException("Schedule contains Resource Dependent activities with resource assignments");
-      }
+//      if (m_file.getTasks().stream().anyMatch(t -> t.getActivityType() == ActivityType.RESOURCE_DEPENDENT && !t.getResourceAssignments().isEmpty()))
+//      {
+//         throw new CpmException("Schedule contains Resource Dependent activities with resource assignments");
+//      }
 
       m_projectStartDate = startDate;
 
@@ -191,7 +194,7 @@ public class PrimaveraScheduler implements Scheduler
                   if (constraintDate.toLocalTime() == LocalTime.MIDNIGHT && earlyStart.toLocalTime() != LocalTime.MIDNIGHT)
                   {
                      LocalDateTime adjustedConstraintDate = LocalDateTime.of(constraintDate.toLocalDate(), earlyStart.toLocalTime());
-                     if (adjustedConstraintDate.toLocalDate().isEqual(task.getEffectiveCalendar().getNextWorkStart(adjustedConstraintDate).toLocalDate()))
+                     if (adjustedConstraintDate.toLocalDate().isEqual(getNextWorkStart(task, adjustedConstraintDate).toLocalDate()))
                      {
                         constraintDate = adjustedConstraintDate;
                      }
@@ -222,7 +225,7 @@ public class PrimaveraScheduler implements Scheduler
             {
                if (earlyStart.isBefore(task.getConstraintDate()))
                {
-                  earlyStart = task.getEffectiveCalendar().getNextWorkStart(task.getConstraintDate());
+                  earlyStart = getNextWorkStart(task, task.getConstraintDate());
                }
                break;
             }
@@ -257,7 +260,7 @@ public class PrimaveraScheduler implements Scheduler
             default:
             {
                // Next work start
-               earlyStart = task.getEffectiveCalendar().getNextWorkStart(earlyStart);
+               earlyStart = getNextWorkStart(task, earlyStart);
                break;
             }
          }
@@ -270,28 +273,28 @@ public class PrimaveraScheduler implements Scheduler
             {
                if (task.getActualDuration().getDuration() == 0)
                {
-                  earlyStart = task.getEffectiveCalendar().getNextWorkStart(m_dataDate);
+                  earlyStart = getNextWorkStart(task, m_dataDate);
                   earlyFinish = getDateFromStartAndDuration(task, earlyStart);
                }
                else
                {
                   if (task.getRemainingDuration().getDuration() == 0)
                   {
-                     earlyStart = task.getEffectiveCalendar().getNextWorkStart(m_dataDate);
+                     earlyStart = getNextWorkStart(task, m_dataDate);
                      earlyFinish = earlyStart;
                   }
                   else
                   {
                      earlyFinish = getDateFromStartAndDuration(task, task.getActualStart());
                      // Sometimes this instead... not sure why?
-                     //earlyFinish = task.getEffectiveCalendar().getNextWorkStart(getDateFromStart(task, task.getActualStart()));
+                     //earlyFinish = getNextWorkStart(task, getDateFromStart(task, task.getActualStart()));
                      earlyStart = getDateFromFinishAndRemainingDuration(task, earlyFinish);
                   }
                }
             }
             else
             {
-               earlyStart = task.getEffectiveCalendar().getNextWorkStart(predecessors.stream().map(r -> calculateEarlyStart(r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date")));
+               earlyStart = getNextWorkStart(task, predecessors.stream().map(r -> calculateEarlyStart(r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date")));
                earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
             }
          }
@@ -489,13 +492,13 @@ public class PrimaveraScheduler implements Scheduler
       LocalDateTime lateStart = getDateFromFinishAndRemainingDuration(task, lateFinish);
       if (task.getActivityType() == ActivityType.START_MILESTONE)
       {
-         lateStart = calendar.getNextWorkStart(lateStart);
+         lateStart = getNextWorkStart(task, lateStart);
       }
       else
       {
          if (task.getActivityType() != ActivityType.FINISH_MILESTONE && task.getRemainingDuration().getDuration() != 0)
          {
-            lateStart = calendar.getNextWorkStart(lateStart);
+            lateStart = getNextWorkStart(task, lateStart);
          }
       }
 
@@ -681,7 +684,7 @@ public class PrimaveraScheduler implements Scheduler
                // Successor not started
                if (relation.getLag().getDuration() == 0)
                {
-                  successorTask.getEffectiveCalendar().getNextWorkStart(predecessorTask.getEarlyFinish());
+                  getNextWorkStart(successorTask, predecessorTask.getEarlyFinish());
                }
 
                if (relation.getLag().getDuration() > 0)
@@ -1290,7 +1293,7 @@ public class PrimaveraScheduler implements Scheduler
                   else
                   {
                      // successor finished
-                     earlyStart = adjustToNextWorkStart(successorTask, m_dataDate);
+                     earlyStart = getEquivalentNextWorkStart(successorTask, m_dataDate);
                   }
                }
             }
@@ -1396,7 +1399,7 @@ public class PrimaveraScheduler implements Scheduler
 
             if (relation.getLag().getDuration() == 0)
             {
-               lateStart = predecessorTask.getEffectiveCalendar().getNextWorkStart(successorTask.getLateStart());
+               lateStart = getNextWorkStart(predecessorTask, successorTask.getLateStart());
                // Sometimes this - why?
                //lateStart = predecessorTask.getEffectiveCalendar().getPreviousWorkFinish(successorTask.getLateStart());
                lateFinish = getDateFromStartAndRemainingDuration(predecessorTask, lateStart);
@@ -1411,12 +1414,12 @@ public class PrimaveraScheduler implements Scheduler
             {
                if (relation.getLag().getDuration() > 0)
                {
-                  lateStart = predecessorTask.getEffectiveCalendar().getNextWorkStart(removeLag(relation, successorTask.getLateStart()));
+                  lateStart = getNextWorkStart(predecessorTask, removeLag(relation, successorTask.getLateStart()));
                   lateFinish = getDateFromStartAndRemainingDuration(predecessorTask, lateStart);
                }
                else
                {
-                  lateStart = predecessorTask.getEffectiveCalendar().getNextWorkStart(removeLag(relation, successorTask.getLateStart()));
+                  lateStart = getNextWorkStart(predecessorTask, removeLag(relation, successorTask.getLateStart()));
                   lateFinish = getDateFromStartAndRemainingDuration(predecessorTask, lateStart);
                }
             }
@@ -2259,25 +2262,6 @@ public class PrimaveraScheduler implements Scheduler
    }
 
    /**
-    * Adjust a start date which sits on or after a working period to the
-    * start of the next working period.
-    *
-    * @param task parent task
-    * @param date date
-    * @return adjusted date
-    */
-   private LocalDateTime adjustToNextWorkStart(Task task, LocalDateTime date)
-   {
-      LocalDateTime adjustedDate = task.getEffectiveCalendar().getNextWorkStart(date);
-      Duration work = task.getEffectiveCalendar().getWork(date, adjustedDate, TimeUnit.MINUTES);
-      if (work.getDuration() == 0)
-      {
-         return adjustedDate;
-      }
-      return date;
-   }
-
-   /**
     * Retrieve the lag calendar to use when adding/removing lag.
     *
     * @param relation parent relation
@@ -2338,6 +2322,17 @@ public class PrimaveraScheduler implements Scheduler
    }
 
    /**
+    * Determine if the task's effective calendar should be used when scheduling.
+    *
+    * @param task task
+    * @return true if effective calendar should be used
+    */
+   private boolean useTaskEffectiveCalendar(Task task)
+   {
+      return task.getActivityType() != ActivityType.RESOURCE_DEPENDENT || task.getResourceAssignments().stream().noneMatch(r -> r.getResource().getType() == ResourceType.WORK);
+   }
+
+   /**
     * Calculate a date from a start date plus the task duration.
     *
     * @param task parent task
@@ -2346,7 +2341,24 @@ public class PrimaveraScheduler implements Scheduler
     */
    private LocalDateTime getDateFromStartAndDuration(Task task, LocalDateTime date)
    {
-      return getDate(task.getEffectiveCalendar(), date, task.getDuration());
+      if (useTaskEffectiveCalendar(task))
+      {
+         return getDate(task.getEffectiveCalendar(), date, task.getDuration());
+      }
+
+      return getDateFromStartAndWork(task, date);
+   }
+
+   /**
+    * Find latest date by adding resource assignment work to a date.
+    *
+    * @param task parent task
+    * @param date date
+    * @return date plus work
+    */
+   private LocalDateTime getDateFromStartAndWork(Task task, LocalDateTime date)
+   {
+      return getResourceAssignmentStream(task).map(r -> getDateFromWork(r, date, r.getWork())).max(Comparator.naturalOrder()).orElseGet(null);
    }
 
    /**
@@ -2358,7 +2370,24 @@ public class PrimaveraScheduler implements Scheduler
     */
    private LocalDateTime getDateFromFinishAndDuration(Task task, LocalDateTime date)
    {
-      return getDate(task.getEffectiveCalendar(), date, task.getDuration().negate());
+      if (useTaskEffectiveCalendar(task))
+      {
+         return getDate(task.getEffectiveCalendar(), date, task.getDuration().negate());
+      }
+
+      return getDateFromFinishAndWork(task, date);
+   }
+
+   /**
+    * Find the earliest date by subtracting resource assignment work from a date.
+    *
+    * @param task parent task
+    * @param date date
+    * @return date less work
+    */
+   private LocalDateTime getDateFromFinishAndWork(Task task, LocalDateTime date)
+   {
+      return getResourceAssignmentStream(task).map(r -> getDateFromWork(r, date, r.getWork().negate())).min(Comparator.naturalOrder()).orElseGet(null);
    }
 
    /**
@@ -2370,7 +2399,24 @@ public class PrimaveraScheduler implements Scheduler
     */
    private LocalDateTime getDateFromStartAndRemainingDuration(Task task, LocalDateTime date)
    {
-      return getDate(task.getEffectiveCalendar(), date, task.getRemainingDuration());
+      if (useTaskEffectiveCalendar(task))
+      {
+         return getDate(task.getEffectiveCalendar(), date, task.getRemainingDuration());
+      }
+
+      return getDateFromStartAndRemainingWork(task, date);
+   }
+
+   /**
+    * Find latest date by adding resource assignment work to a date.
+    *
+    * @param task parent task
+    * @param date date
+    * @return date plus work
+    */
+   private LocalDateTime getDateFromStartAndRemainingWork(Task task, LocalDateTime date)
+   {
+      return getResourceAssignmentStream(task).map(r -> getDateFromWork(r, date, r.getRemainingWork())).max(Comparator.naturalOrder()).orElseGet(null);
    }
 
    /**
@@ -2382,7 +2428,24 @@ public class PrimaveraScheduler implements Scheduler
     */
    private LocalDateTime getDateFromFinishAndRemainingDuration(Task task, LocalDateTime date)
    {
-      return getDate(task.getEffectiveCalendar(), date, task.getRemainingDuration().negate());
+      if (useTaskEffectiveCalendar(task))
+      {
+         return getDate(task.getEffectiveCalendar(), date, task.getRemainingDuration().negate());
+      }
+
+      return getDateFromFinishAndRemainingWork(task, date);
+   }
+
+   /**
+    * Find the earliest date by subtracting resource assignment work from a date.
+    *
+    * @param task parent task
+    * @param date date
+    * @return date less work
+    */
+   private LocalDateTime getDateFromFinishAndRemainingWork(Task task, LocalDateTime date)
+   {
+      return getResourceAssignmentStream(task).map(r -> getDateFromWork(r, date, r.getRemainingWork().negate())).min(Comparator.naturalOrder()).orElseGet(null);
    }
 
    /**
@@ -2589,7 +2652,7 @@ public class PrimaveraScheduler implements Scheduler
                   if (successorTask.getActualStart() == null)
                   {
                      // Successor not started
-                     return adjustToNextWorkStart(predecessorTask, m_dataDate);
+                     return getEquivalentNextWorkStart(predecessorTask, m_dataDate);
                   }
                   else
                   {
@@ -2597,7 +2660,7 @@ public class PrimaveraScheduler implements Scheduler
                      if (successorTask.getActualFinish() == null)
                      {
                         // successor not finished
-                        return adjustToNextWorkStart(predecessorTask, m_dataDate);
+                        return getEquivalentNextWorkStart(predecessorTask, m_dataDate);
                      }
                      else
                      {
@@ -2655,7 +2718,7 @@ public class PrimaveraScheduler implements Scheduler
             }
             else
             {
-               remainingEarlyStart = task.getCalendar().getNextWorkStart(m_dataDate);
+               remainingEarlyStart = getNextWorkStart(task, m_dataDate);
             }
          }
       }
@@ -3074,7 +3137,7 @@ public class PrimaveraScheduler implements Scheduler
       AnnotatedDateTime earlyStart;
       if (earlyStartFromPredecessor == null && earlyStartFromSuccessor == null)
       {
-         earlyStart = AnnotatedDateTime.from(task.getEffectiveCalendar().getNextWorkStart(m_dataDate));
+         earlyStart = AnnotatedDateTime.from(getNextWorkStart(task, m_dataDate));
       }
       else
       {
@@ -3153,7 +3216,7 @@ public class PrimaveraScheduler implements Scheduler
          else
          {
             // very dubious logic here
-            earlyStart = AnnotatedDateTime.from(task.getEffectiveCalendar().getNextWorkStart(m_dataDate));
+            earlyStart = AnnotatedDateTime.from(getNextWorkStart(task, m_dataDate));
             start = AnnotatedDateTime.fromActual(start.getValue());
             task.setActualStart(start.getValue());
          }
@@ -3351,15 +3414,111 @@ public class PrimaveraScheduler implements Scheduler
     */
    private LocalDateTime getEquivalentPreviousWorkFinish(Task task, LocalDateTime date)
    {
-      ProjectCalendar calendar = task.getEffectiveCalendar();
-      LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(date);
+      if (useTaskEffectiveCalendar(task))
+      {
+         return getEquivalentPreviousWorkFinish(task.getEffectiveCalendar(), date);
+      }
 
+      return getResourceAssignmentStream(task).map(r -> getEquivalentPreviousWorkFinish(r.getEffectiveCalendar(), date)).max(Comparator.naturalOrder()).orElse(null);
+   }
+
+   /**
+    * Given a calendar and a finish date potentially at the start of a working period,
+    * determine if there is an earlier equivalent finish date at the end of working
+    * period which can be used instead.
+    *
+    * @param calendar target calendar
+    * @param date potential finish date
+    * @return finish date
+    */
+   private LocalDateTime getEquivalentPreviousWorkFinish(ProjectCalendar calendar, LocalDateTime date)
+   {
+      LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(date);
       if (calendar.getWork(previousWorkFinish, date, TimeUnit.HOURS).getDuration() == 0)
       {
          return previousWorkFinish;
       }
-
       return date;
+   }
+
+   /**
+    * Adjust a start date which sits on or after a working period to the
+    * start of the next working period.
+    *
+    * @param task parent task
+    * @param date date
+    * @return adjusted date
+    */
+   private LocalDateTime getEquivalentNextWorkStart(Task task, LocalDateTime date)
+   {
+//      LocalDateTime adjustedDate = task.getEffectiveCalendar().getNextWorkStart(date);
+//      Duration work = task.getEffectiveCalendar().getWork(date, adjustedDate, TimeUnit.MINUTES);
+//      if (work.getDuration() == 0)
+//      {
+//         return adjustedDate;
+//      }
+//      return date;
+
+      return getEquivalentNextWorkStart(task.getEffectiveCalendar(), date);
+   }
+
+   private LocalDateTime getEquivalentNextWorkStart(ProjectCalendar calendar, LocalDateTime date)
+   {
+      LocalDateTime adjustedDate = calendar.getNextWorkStart(date);
+      if (calendar.getWork(date, adjustedDate, TimeUnit.MINUTES).getDuration() == 0)
+      {
+         return adjustedDate;
+      }
+      return date;
+   }
+
+   /**
+    * Retrieve a stream of resource assignments which can be used when scheduling the parent task.
+    *
+    * @param task parent task
+    * @return resource assignment stream
+    */
+   private Stream<ResourceAssignment> getResourceAssignmentStream(Task task)
+   {
+      return task.getResourceAssignments().stream().filter(r -> r.getResource() != null && r.getResource().getType() == ResourceType.WORK && r.getUnits().doubleValue() > 0.0);
+   }
+
+   /**
+    * Add work to a date using the effective calendar from a resource assignment.
+    *
+    * @param assignment resource assignment
+    * @param date date
+    * @param work amount of work to add
+    * @return date plus work
+    */
+   private LocalDateTime getDateFromWork(ResourceAssignment assignment, LocalDateTime date, Duration work)
+   {
+      double units = assignment.getUnits().doubleValue();
+      if (units != 100.0)
+      {
+         work = Duration.getInstance((work.getDuration() * 100.0) / units, work.getUnits());
+      }
+
+      return assignment.getEffectiveCalendar().getDate(date, work);
+   }
+
+   /**
+    * Given a task and a start date potentially at the end of a working period,
+    * determine if there is a later equivalent start date at the start of the
+    * next working period.
+    *
+    * @param task parent task
+    * @param date potential start date
+    * @return start date
+    */
+   private LocalDateTime getNextWorkStart(Task task, LocalDateTime date)
+   {
+      if (useTaskEffectiveCalendar(task))
+      {
+         return task.getEffectiveCalendar().getNextWorkStart(date);
+      }
+
+      return getResourceAssignmentStream(task).map(r -> r.getEffectiveCalendar().getNextWorkStart(date)).min(Comparator.naturalOrder()).orElse(null);
    }
 
    private ProjectFile m_file;
