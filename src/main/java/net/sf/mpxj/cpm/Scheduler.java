@@ -38,5 +38,5 @@ public interface Scheduler
     * @param file project to schedule
     * @param startDate start date
     */
-   public void process(ProjectFile file, LocalDateTime startDate) throws CpmException;
+   public void schedule(ProjectFile file, LocalDateTime startDate) throws CpmException;
 }

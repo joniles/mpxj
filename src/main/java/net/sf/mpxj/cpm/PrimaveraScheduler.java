@@ -58,7 +58,7 @@ import net.sf.mpxj.common.LocalDateTimeHelper;
  */
 public class PrimaveraScheduler implements Scheduler
 {
-   @Override public void process(ProjectFile file, LocalDateTime startDate) throws CpmException
+   @Override public void schedule(ProjectFile file, LocalDateTime startDate) throws CpmException
    {
       m_file = file;
       m_dataDate = file.getProjectProperties().getStatusDate();

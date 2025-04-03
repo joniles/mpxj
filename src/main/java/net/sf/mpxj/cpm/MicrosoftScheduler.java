@@ -46,6 +46,7 @@ import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.LocalDateTimeHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * Implements the Critical Path Method to schedule a project so
@@ -54,7 +55,7 @@ import net.sf.mpxj.common.LocalDateTimeHelper;
  */
 public class MicrosoftScheduler implements Scheduler
 {
-   @Override public void process(ProjectFile file, LocalDateTime startDate) throws CpmException
+   @Override public void schedule(ProjectFile file, LocalDateTime startDate) throws CpmException
    {
       m_file = file;
       m_projectStartDate = startDate;
@@ -66,6 +67,10 @@ public class MicrosoftScheduler implements Scheduler
       {
          return;
       }
+
+      validateTasks(tasks);
+
+      tasks.forEach(t -> populateMissingAttributes(t));
 
       clearDates();
 
@@ -118,6 +123,50 @@ public class MicrosoftScheduler implements Scheduler
       }
 
       m_file.getChildTasks().forEach(t -> rollupDates(t));
+   }
+
+   private void validateTasks(List<Task> tasks) throws CpmException
+   {
+      for (Task task : tasks)
+      {
+         if (task.getDuration() == null && (!getResourceAssignmentStream(task).findAny().isPresent() || getResourceAssignmentStream(task).noneMatch(r -> r.getWork() != null)))
+         {
+            throw new CpmException("Task has no duration and no resource assignments with work: " + task);
+         }
+
+         double percentComplete = NumberHelper.getDouble(task.getPercentageComplete());
+         if (percentComplete > 0)
+         {
+            if (task.getActualStart() == null)
+            {
+               throw new CpmException("Task has a percent complete value, but no actual start date: " + task);
+            }
+
+            if (percentComplete == 100.0 && task.getActualFinish() == null)
+            {
+               throw new CpmException("Task is 100% complete, but has no actual finish date: " + task);
+            }
+         }
+      }
+   }
+
+   private void populateMissingAttributes(Task task)
+   {
+      if (useTaskEffectiveCalendar(task))
+      {
+         if (task.getActualDuration() == null && task.getRemainingDuration() == null)
+         {
+            double durationValue = task.getDuration().getDuration();
+            TimeUnit durationUnits = task.getDuration().getUnits();
+            double percentComplete = NumberHelper.getDouble(task.getPercentageComplete());
+            task.setActualDuration(Duration.getInstance((percentComplete * durationValue) / 100.0, durationUnits));
+            task.setRemainingDuration(Duration.getInstance(((100.0 - percentComplete) * durationValue) / 100.0, durationUnits));
+         }
+      }
+      else
+      {
+         // TODO: populate missing resource assignment work attributes
+      }
    }
 
    /**

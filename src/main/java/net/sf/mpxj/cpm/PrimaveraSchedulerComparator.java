@@ -212,7 +212,7 @@ public class PrimaveraSchedulerComparator
             start = m_workingFile.getProjectProperties().getStartDate();
          }
 
-         scheduler.process(m_workingFile, start);
+         scheduler.schedule(m_workingFile, start);
       }
 
       catch(CpmException ex)

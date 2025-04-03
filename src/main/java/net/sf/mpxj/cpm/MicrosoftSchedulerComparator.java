@@ -195,7 +195,7 @@ public class MicrosoftSchedulerComparator
 
       try
       {
-         scheduler.process(m_workingFile, m_workingFile.getProjectProperties().getStartDate());
+         scheduler.schedule(m_workingFile, m_workingFile.getProjectProperties().getStartDate());
       }
 
       catch(CpmException ex)
