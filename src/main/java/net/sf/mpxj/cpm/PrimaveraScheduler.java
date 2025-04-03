@@ -1159,7 +1159,7 @@ public class PrimaveraScheduler implements Scheduler
                if (relation.getLag().getDuration() <= 0)
                {
                   LocalDateTime earlyFinish = getDateFromStartAndDuration(successorTask, successorTask.getActualStart());
-                  earlyStart = successorTask.getEffectiveCalendar().getDate(earlyFinish, successorTask.getRemainingDuration().negate());
+                  earlyStart = getDateFromFinishAndRemainingDuration(successorTask, earlyFinish);
                }
                else
                {
