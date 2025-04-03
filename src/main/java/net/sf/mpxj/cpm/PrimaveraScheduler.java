@@ -3496,7 +3496,7 @@ public class PrimaveraScheduler implements Scheduler
          work = Duration.getInstance((work.getDuration() * 100.0) / units, work.getUnits());
       }
 
-      return assignment.getEffectiveCalendar().getDate(date, work);
+      return assignment.getResource().getCalendar().getDate(date, work);
    }
 
    /**
