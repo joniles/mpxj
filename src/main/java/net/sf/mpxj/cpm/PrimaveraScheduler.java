@@ -3451,15 +3451,12 @@ public class PrimaveraScheduler implements Scheduler
     */
    private LocalDateTime getEquivalentNextWorkStart(Task task, LocalDateTime date)
    {
-//      LocalDateTime adjustedDate = task.getEffectiveCalendar().getNextWorkStart(date);
-//      Duration work = task.getEffectiveCalendar().getWork(date, adjustedDate, TimeUnit.MINUTES);
-//      if (work.getDuration() == 0)
-//      {
-//         return adjustedDate;
-//      }
-//      return date;
+      if (useTaskEffectiveCalendar(task))
+      {
+         return getEquivalentNextWorkStart(task.getEffectiveCalendar(), date);
+      }
 
-      return getEquivalentNextWorkStart(task.getEffectiveCalendar(), date);
+      return getResourceAssignmentStream(task).map(r -> getEquivalentNextWorkStart(r.getEffectiveCalendar(), date)).min(Comparator.naturalOrder()).orElse(null);
    }
 
    private LocalDateTime getEquivalentNextWorkStart(ProjectCalendar calendar, LocalDateTime date)
