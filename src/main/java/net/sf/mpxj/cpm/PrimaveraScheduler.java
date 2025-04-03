@@ -1158,7 +1158,7 @@ public class PrimaveraScheduler implements Scheduler
                // successor not finished
                if (relation.getLag().getDuration() <= 0)
                {
-                  LocalDateTime earlyFinish = successorTask.getEffectiveCalendar().getDate(successorTask.getActualStart(), successorTask.getDuration());
+                  LocalDateTime earlyFinish = getDateFromStartAndDuration(successorTask, successorTask.getActualStart());
                   earlyStart = successorTask.getEffectiveCalendar().getDate(earlyFinish, successorTask.getRemainingDuration().negate());
                }
                else
@@ -3349,17 +3349,17 @@ public class PrimaveraScheduler implements Scheduler
     * @param date potential finish date
     * @return finish date
     */
-   private LocalDateTime getEquivalentPreviousWorkFinish(Task task, LocalDateTime lateFinish)
+   private LocalDateTime getEquivalentPreviousWorkFinish(Task task, LocalDateTime date)
    {
       ProjectCalendar calendar = task.getEffectiveCalendar();
-      LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(lateFinish);
+      LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(date);
 
-      if (calendar.getWork(previousWorkFinish, lateFinish, TimeUnit.HOURS).getDuration() == 0)
+      if (calendar.getWork(previousWorkFinish, date, TimeUnit.HOURS).getDuration() == 0)
       {
          return previousWorkFinish;
       }
 
-      return lateFinish;
+      return date;
    }
 
    private ProjectFile m_file;
