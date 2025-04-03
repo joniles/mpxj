@@ -1,10 +1,31 @@
+/*
+ * file:       PrimaveraSchedulerComparator.java
+ * author:     Jon Iles
+ * date:       2025-04-02
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 package net.sf.mpxj.cpm;
 
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -15,13 +36,22 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
+/**
+ * Utility class allowing the contents of an existing project to be compared
+ * with the output from the PrimaveraScheduler.
+ */
 public class PrimaveraSchedulerComparator
 {
+   /**
+    * Main entry point when run as a command line tool.
+    *
+    * @param argv command line arguments
+    */
    public static void main(String[] argv) throws Exception
    {
       if (argv.length != 1)
       {
-         System.out.println("Usage: PrimaveraSchedulerTest <file or folder>");
+         System.out.println("Usage: PrimaveraSchedulerComparator <file or folder>");
          return;
       }
 
@@ -91,6 +121,13 @@ public class PrimaveraSchedulerComparator
       m_noWbsTest = value;
    }
 
+   /**
+    * Compare all the files in a directory with a matching suffix.
+    *
+    * @param directory directory
+    * @param suffix file suffix
+    * @return true if all files compare successfully
+    */
    public boolean process(File directory, String suffix) throws Exception
    {
       m_directory = true;
@@ -145,12 +182,19 @@ public class PrimaveraSchedulerComparator
       return failed == 0;
    }
 
+   /**
+    * Compare an individual file.
+    *
+    * @param file file to compare
+    * @return true if the files compare successfully
+    */
    public boolean process(File file) throws Exception
    {
       if (m_debug)
       {
          System.out.print("Processing " + file + " ... ");
       }
+
       m_forwardErrorCount = 0;
       m_backwardErrorCount = 0;
       boolean analyseWbs = true;
@@ -221,6 +265,12 @@ public class PrimaveraSchedulerComparator
       return false;
    }
 
+   /**
+    * Compare two tasks.
+    *
+    * @param baseline baseline task
+    * @param working scheduled task
+    */
    private void compare(Task baseline, Task working)
    {
       boolean earlyStartFailed = !compareDates(baseline, working, TaskField.EARLY_START);
@@ -246,6 +296,14 @@ public class PrimaveraSchedulerComparator
       }
    }
 
+   /**
+    * Compare two dates from a task.
+    *
+    * @param baseline baseline task
+    * @param working scheduled task
+    * @param field field containing the dates to compare
+    * @return true if the comparison is successful
+    */
    private boolean compareDates(Task baseline, Task working, TaskField field)
    {
       LocalDateTime baselineDate = (LocalDateTime)baseline.get(field);
@@ -282,6 +340,11 @@ public class PrimaveraSchedulerComparator
       return result;
    }
 
+   /**
+    * Write debug output to show where the two project differ.
+    *
+    * @param analyseWbs true if the WBS should be compared
+    */
    private void analyseFailures(boolean analyseWbs) throws CycleException
    {
       List<Task> activities = new DepthFirstGraphSort(m_workingFile, PrimaveraScheduler::isActivity).sort();
@@ -319,6 +382,11 @@ public class PrimaveraSchedulerComparator
       }
    }
 
+   /**
+    * Write debug information for a forward pass error.
+    *
+    * @param working scheduled task
+    */
    private void analyseForwardError(Task working)
    {
       Task baseline = m_baselineFile.getTaskByUniqueID(working.getUniqueID());
@@ -343,6 +411,11 @@ public class PrimaveraSchedulerComparator
       System.out.println();
    }
 
+   /**
+    * Write debug information for a backward pass error.
+    *
+    * @param working scheduled task
+    */
    private void analyseBackwardError(Task working)
    {
       Task baseline = m_baselineFile.getTaskByUniqueID(working.getUniqueID());
@@ -359,6 +432,12 @@ public class PrimaveraSchedulerComparator
       System.out.println();
    }
 
+   /**
+    * Return a list of all child tasks in the hierarchy beneath a WBS entry.
+    *
+    * @param parent WBS entry
+    * @return all child tasks
+    */
    private List<Task> allChildTasks(Task parent)
    {
       List<Task> result = new ArrayList<>(parent.getChildTasks());
