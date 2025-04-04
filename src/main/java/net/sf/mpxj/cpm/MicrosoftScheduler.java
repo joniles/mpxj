@@ -70,8 +70,6 @@ public class MicrosoftScheduler implements Scheduler
 
       validateTasks(tasks);
 
-      tasks.forEach(t -> populateMissingAttributes(t));
-
       clearDates();
 
       m_backwardPass = false;
@@ -147,27 +145,22 @@ public class MicrosoftScheduler implements Scheduler
                throw new CpmException("Task is 100% complete, but has no actual finish date: " + task);
             }
          }
+
+         if (task.getActualStart() != null)
+         {
+            if (task.getActualDuration() == null && getResourceAssignmentStream(task).allMatch(r -> r.getActualWork() == null))
+            {
+               throw new CpmException("Task has an actual start date but no actual duration or resource assignments with actual work: " + task);
+            }
+
+            if (task.getRemainingDuration() == null && getResourceAssignmentStream(task).allMatch(r -> r.getRemainingWork() == null))
+            {
+               throw new CpmException("Task has an actual start date but no remaining duration or resource assignments with remaining work: " + task);
+            }
+         }
       }
    }
 
-   private void populateMissingAttributes(Task task)
-   {
-      if (useTaskEffectiveCalendar(task))
-      {
-         if (task.getActualDuration() == null && task.getRemainingDuration() == null)
-         {
-            double durationValue = task.getDuration().getDuration();
-            TimeUnit durationUnits = task.getDuration().getUnits();
-            double percentComplete = NumberHelper.getDouble(task.getPercentageComplete());
-            task.setActualDuration(Duration.getInstance((percentComplete * durationValue) / 100.0, durationUnits));
-            task.setRemainingDuration(Duration.getInstance(((100.0 - percentComplete) * durationValue) / 100.0, durationUnits));
-         }
-      }
-      else
-      {
-         // TODO: populate missing resource assignment work attributes
-      }
-   }
 
    /**
     * Clear dates ready to be repopulated.
