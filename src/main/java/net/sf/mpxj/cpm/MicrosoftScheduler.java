@@ -1290,7 +1290,11 @@ public class MicrosoftScheduler implements Scheduler
    {
       if (useTaskEffectiveCalendar(task))
       {
-         return task.getEffectiveCalendar().getDate(date, task.getRemainingDuration().negate());
+         // We've already validated that if we have a progressed task then we should have a remaining duration.
+         // In this case we have a planned task, so we can use the Duration attribute if a Remaining Duration hasn't been supplied
+         // This is useful when building schedules from scratch.
+         Duration remainingDuration = task.getRemainingDuration() == null ? task.getDuration() : task.getRemainingDuration();
+         return task.getEffectiveCalendar().getDate(date, remainingDuration.negate());
       }
       return getDateFromFinishAndRemainingWork(task, date);
    }
