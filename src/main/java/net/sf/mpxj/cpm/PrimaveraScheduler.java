@@ -64,11 +64,6 @@ public class PrimaveraScheduler implements Scheduler
       m_dataDate = file.getProjectProperties().getStatusDate();
       m_twentyFourHourCalendar = createTwentyFourHourCalendar();
 
-//      if (m_file.getTasks().stream().anyMatch(t -> t.getActivityType() == ActivityType.RESOURCE_DEPENDENT && !t.getResourceAssignments().isEmpty()))
-//      {
-//         throw new CpmException("Schedule contains Resource Dependent activities with resource assignments");
-//      }
-
       m_projectStartDate = startDate;
 
       List<Task> activities = new DepthFirstGraphSort(m_file, PrimaveraScheduler::isActivity).sort();
@@ -249,20 +244,11 @@ public class PrimaveraScheduler implements Scheduler
             }
          }
 
-         switch (task.getActivityType())
+         // Don't adjust early start for a finish milestone
+         if (task.getActivityType() != ActivityType.FINISH_MILESTONE)
          {
-            case FINISH_MILESTONE:
-            {
-               // Don't adjust early start
-               break;
-            }
-
-            default:
-            {
-               // Next work start
-               earlyStart = getNextWorkStart(task, earlyStart);
-               break;
-            }
+            // Next work start
+            earlyStart = getNextWorkStart(task, earlyStart);
          }
       }
       else
