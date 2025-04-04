@@ -295,7 +295,7 @@ public class PrimaveraScheduler implements Scheduler
          {
             if (predecessors.isEmpty())
             {
-               if (task.getActualDuration().getDuration() == 0)
+               if (!hasActualDuration(task))
                {
                   earlyStart = getNextWorkStart(task, m_dataDate);
                   earlyFinish = getDateFromStartAndDuration(task, earlyStart);
@@ -3555,6 +3555,21 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       return remaining.getDuration() != 0.0;
+   }
+
+   private boolean hasActualDuration(Task task)
+   {
+      Duration actual;
+      if (useTaskEffectiveCalendar(task))
+      {
+         actual = task.getActualDuration();
+      }
+      else
+      {
+         actual = getResourceAssignmentStream(task).map(r -> r.getActualWork()).max(Comparator.naturalOrder()).orElse(null);
+      }
+
+      return actual.getDuration() != 0.0;
    }
 
    private ProjectFile m_file;
