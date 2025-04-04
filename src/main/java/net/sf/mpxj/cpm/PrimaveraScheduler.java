@@ -50,6 +50,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.LocalDateTimeHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 /**
  * Implements the Critical Path Method to schedule a project so
@@ -71,6 +72,8 @@ public class PrimaveraScheduler implements Scheduler
       {
          return;
       }
+
+      validateActivities(activities);
 
       clearDates();
 
@@ -113,6 +116,39 @@ public class PrimaveraScheduler implements Scheduler
       m_file.getChildTasks().forEach(t -> rollupDates(t));
 
       wbsSummaryPass();
+   }
+
+   private void validateActivities(List<Task> tasks) throws CpmException
+   {
+      for (Task task : tasks)
+      {
+         if (task.getDuration() == null && (!getResourceAssignmentStream(task).findAny().isPresent() || getResourceAssignmentStream(task).noneMatch(r -> r.getWork() != null)))
+         {
+            throw new CpmException("Task has no duration and no resource assignments with work: " + task);
+         }
+
+         double percentComplete = NumberHelper.getDouble(task.getPercentageComplete());
+         if (percentComplete > 0)
+         {
+            if (task.getActualStart() == null)
+            {
+               throw new CpmException("Task has a percent complete value, but no actual start date: " + task);
+            }
+         }
+
+         if (task.getActualStart() != null)
+         {
+            if (task.getActualDuration() == null && getResourceAssignmentStream(task).allMatch(r -> r.getActualWork() == null))
+            {
+               throw new CpmException("Task has an actual start date but no actual duration or resource assignments with actual work: " + task);
+            }
+
+            if (task.getRemainingDuration() == null && getResourceAssignmentStream(task).allMatch(r -> r.getRemainingWork() == null))
+            {
+               throw new CpmException("Task has an actual start date but no remaining duration or resource assignments with remaining work: " + task);
+            }
+         }
+      }
    }
 
    /**
