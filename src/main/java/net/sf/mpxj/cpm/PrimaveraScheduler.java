@@ -50,7 +50,6 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.LocalDateTimeHelper;
-import net.sf.mpxj.common.NumberHelper;
 
 /**
  * Implements the Critical Path Method to schedule a project so
@@ -303,17 +302,17 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  if (task.getRemainingDuration().getDuration() == 0)
-                  {
-                     earlyStart = getNextWorkStart(task, m_dataDate);
-                     earlyFinish = earlyStart;
-                  }
-                  else
+                  if (hasRemainingDuration(task))
                   {
                      earlyFinish = getDateFromStartAndDuration(task, task.getActualStart());
                      // Sometimes this instead... not sure why?
                      //earlyFinish = getNextWorkStart(task, getDateFromStart(task, task.getActualStart()));
                      earlyStart = getDateFromFinishAndRemainingDuration(task, earlyFinish);
+                  }
+                  else
+                  {
+                     earlyStart = getNextWorkStart(task, m_dataDate);
+                     earlyFinish = earlyStart;
                   }
                }
             }
@@ -521,7 +520,7 @@ public class PrimaveraScheduler implements Scheduler
       }
       else
       {
-         if (task.getActivityType() != ActivityType.FINISH_MILESTONE && task.getRemainingDuration().getDuration() != 0)
+         if (task.getActivityType() != ActivityType.FINISH_MILESTONE && hasRemainingDuration(task))
          {
             lateStart = getNextWorkStart(task, lateStart);
          }
@@ -3541,6 +3540,21 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       return getResourceAssignmentStream(task).map(r -> r.getEffectiveCalendar().getNextWorkStart(date)).min(Comparator.naturalOrder()).orElse(null);
+   }
+
+   private boolean hasRemainingDuration(Task task)
+   {
+      Duration remaining;
+      if (useTaskEffectiveCalendar(task))
+      {
+         remaining = task.getRemainingDuration();
+      }
+      else
+      {
+         remaining = getResourceAssignmentStream(task).map(r -> r.getRemainingWork()).max(Comparator.naturalOrder()).orElse(null);
+      }
+
+      return remaining.getDuration() != 0.0;
    }
 
    private ProjectFile m_file;
