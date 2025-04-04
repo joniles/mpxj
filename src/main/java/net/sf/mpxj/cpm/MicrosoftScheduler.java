@@ -135,38 +135,20 @@ public class MicrosoftScheduler implements Scheduler
       {
          if (task.getDuration() == null && (!getResourceAssignmentStream(task).findAny().isPresent() || getResourceAssignmentStream(task).noneMatch(r -> r.getWork() != null)))
          {
-            throw new CpmException("Task has no duration and no resource assignments with work: " + task);
+            throw new CpmException("Task has no duration value and no resource assignments with a work value: " + task);
          }
 
-         double percentComplete = NumberHelper.getDouble(task.getPercentageComplete());
-         if (percentComplete > 0)
+         if (task.getActualDuration() == null && (!getResourceAssignmentStream(task).findAny().isPresent() || getResourceAssignmentStream(task).noneMatch(r -> r.getActualWork() != null)))
          {
-            if (task.getActualStart() == null)
-            {
-               throw new CpmException("Task has a percent complete value, but no actual start date: " + task);
-            }
-
-            if (percentComplete == 100.0 && task.getActualFinish() == null)
-            {
-               throw new CpmException("Task is 100% complete, but has no actual finish date: " + task);
-            }
+            throw new CpmException("Task has no actual duration value and no resource assignments with an actual work value: " + task);
          }
 
-         if (task.getActualStart() != null)
+         if (task.getRemainingDuration() == null && (!getResourceAssignmentStream(task).findAny().isPresent() || getResourceAssignmentStream(task).noneMatch(r -> r.getRemainingWork() != null)))
          {
-            if (task.getActualDuration() == null && getResourceAssignmentStream(task).allMatch(r -> r.getActualWork() == null))
-            {
-               throw new CpmException("Task has an actual start date but no actual duration or resource assignments with actual work: " + task);
-            }
-
-            if (task.getRemainingDuration() == null && getResourceAssignmentStream(task).allMatch(r -> r.getRemainingWork() == null))
-            {
-               throw new CpmException("Task has an actual start date but no remaining duration or resource assignments with remaining work: " + task);
-            }
+            throw new CpmException("Task has no remaining duration value and no resource assignments with a remaining work value: " + task);
          }
       }
    }
-
 
    /**
     * Clear dates ready to be repopulated.
@@ -1296,11 +1278,7 @@ public class MicrosoftScheduler implements Scheduler
    {
       if (useTaskEffectiveCalendar(task))
       {
-         // We've already validated that if we have a progressed task then we should have a remaining duration.
-         // In this case we have a planned task, so we can use the Duration attribute if a Remaining Duration hasn't been supplied
-         // This is useful when building schedules from scratch.
-         Duration remainingDuration = task.getRemainingDuration() == null ? task.getDuration() : task.getRemainingDuration();
-         return task.getEffectiveCalendar().getDate(date, remainingDuration.negate());
+         return task.getEffectiveCalendar().getDate(date, task.getRemainingDuration().negate());
       }
       return getDateFromFinishAndRemainingWork(task, date);
    }
@@ -1361,10 +1339,7 @@ public class MicrosoftScheduler implements Scheduler
     */
    private LocalDateTime getDateFromFinishAndRemainingWork(Task task, LocalDateTime date)
    {
-      // We've already validated that if we have a progressed task then we should have a remaining work.
-      // In this case we have a planned task, so we can use the Work attribute if a Remaining Work hasn't been supplied
-      // This is useful when building schedules from scratch.
-      return getResourceAssignmentStream(task).map(r -> getDateFromWork(r, date, (r.getRemainingWork() == null ? r.getWork() : r.getRemainingWork()).negate())).min(Comparator.naturalOrder()).orElseGet(null);
+      return getResourceAssignmentStream(task).map(r -> getDateFromWork(r, date, r.getRemainingWork().negate())).min(Comparator.naturalOrder()).orElseGet(null);
    }
 
    /**
