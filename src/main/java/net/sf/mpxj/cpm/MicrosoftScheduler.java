@@ -118,6 +118,12 @@ public class MicrosoftScheduler implements Scheduler
 
          task.setStart(task.getActualStart() == null ? (task.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE ? task.getLateStart() : task.getEarlyStart()) : task.getActualStart());
          task.setFinish(task.getActualFinish() == null ? (task.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE ? task.getLateFinish() : task.getEarlyFinish()) : task.getActualFinish());
+
+         if (!useTaskEffectiveCalendar(task))
+         {
+            // TODO: should be using union of resource calendars?
+            task.setDuration(task.getEffectiveCalendar().getWork(task.getStart(), task.getFinish(), TimeUnit.DAYS));
+         }
       }
 
       m_file.getChildTasks().forEach(t -> rollupDates(t));
@@ -1355,7 +1361,10 @@ public class MicrosoftScheduler implements Scheduler
     */
    private LocalDateTime getDateFromFinishAndRemainingWork(Task task, LocalDateTime date)
    {
-      return getResourceAssignmentStream(task).map(r -> getDateFromWork(r, date, r.getRemainingWork().negate())).min(Comparator.naturalOrder()).orElseGet(null);
+      // We've already validated that if we have a progressed task then we should have a remaining work.
+      // In this case we have a planned task, so we can use the Work attribute if a Remaining Work hasn't been supplied
+      // This is useful when building schedules from scratch.
+      return getResourceAssignmentStream(task).map(r -> getDateFromWork(r, date, (r.getRemainingWork() == null ? r.getWork() : r.getRemainingWork()).negate())).min(Comparator.naturalOrder()).orElseGet(null);
    }
 
    /**
