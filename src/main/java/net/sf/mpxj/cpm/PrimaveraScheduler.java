@@ -122,30 +122,33 @@ public class PrimaveraScheduler implements Scheduler
    {
       for (Task task : tasks)
       {
-         if (task.getDuration() == null && (!getResourceAssignmentStream(task).findAny().isPresent() || getResourceAssignmentStream(task).noneMatch(r -> r.getWork() != null)))
+         if (task.getActivityType() == null)
          {
-            throw new CpmException("Task has no duration and no resource assignments with work: " + task);
+            throw new CpmException("Task has no activity type: " + task);
          }
 
-         double percentComplete = NumberHelper.getDouble(task.getPercentageComplete());
-         if (percentComplete > 0)
+         if (task.getActivityType() == ActivityType.RESOURCE_DEPENDENT && getResourceAssignmentStream(task).findAny().isPresent())
          {
-            if (task.getActualStart() == null)
+            if (getResourceAssignmentStream(task).anyMatch(r -> r.getWork() == null))
             {
-               throw new CpmException("Task has a percent complete value, but no actual start date: " + task);
+               throw new CpmException("Task has resource assignments without a work value: " + task);
+            }
+
+            if (getResourceAssignmentStream(task).anyMatch(r -> r.getRemainingWork() == null))
+            {
+               throw new CpmException("Task has resource assignments without a remaining work value: " + task);
             }
          }
-
-         if (task.getActualStart() != null)
+         else
          {
-            if (task.getActualDuration() == null && getResourceAssignmentStream(task).allMatch(r -> r.getActualWork() == null))
+            if (task.getDuration() == null)
             {
-               throw new CpmException("Task has an actual start date but no actual duration or resource assignments with actual work: " + task);
+               throw new CpmException("Task has no duration value: " + task);
             }
 
-            if (task.getRemainingDuration() == null && getResourceAssignmentStream(task).allMatch(r -> r.getRemainingWork() == null))
+            if (task.getRemainingDuration() == null)
             {
-               throw new CpmException("Task has an actual start date but no remaining duration or resource assignments with remaining work: " + task);
+               throw new CpmException("Task has no remaining duration value: " + task);
             }
          }
       }
