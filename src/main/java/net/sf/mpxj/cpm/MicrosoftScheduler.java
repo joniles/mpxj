@@ -1184,6 +1184,8 @@ public class MicrosoftScheduler implements Scheduler
       }
 
       parentTask.setCritical(critical);
+
+      parentTask.setDuration(parentTask.getEffectiveCalendar().getWork(startDate, finishDate, TimeUnit.DAYS));
    }
 
    /**
