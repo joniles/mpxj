@@ -3143,7 +3143,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    {
       String taskName = getTask() == null ? "null" : getTask().getName();
       String resourceName = getResource() == null ? "Unassigned" : getResource().getName();
-      return ("[Resource Assignment task=" + taskName + " resource=" + resourceName + " start=" + getStart() + " finish=" + getFinish() + " duration=" + getWork() + " workContour=" + getWorkContour() + "]");
+      return ("[Resource Assignment task=" + taskName + " resource=" + resourceName + " start=" + getStart() + " finish=" + getFinish() + " work=" + getWork() + " units=" + getUnits() + " workContour=" + getWorkContour() + "]");
    }
 
    /**
