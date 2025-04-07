@@ -5,11 +5,12 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="13.11.1">
+		<release date="unreleased" version="13.12.0">
 			<action dev="joniles" type="update">Added support for reading Float Path and Float Path Order from XER files and P6 databases.</action>
 			<action dev="joniles" type="update">Added support for writing Float Path and Float Path Order to XER files.</action>
 			<action dev="joniles" type="update">Improve date arithmetic when using the `ProjectCalendar#getDate()` method with elapsed durations.</action>
 			<action dev="joniles" type="update">Include units percent complete when writing resource assignments to PMXML files.</action>
+			<action dev="joniles" type="update">When writing MSPDI files, calculate resource assignment remaining work if not present.</action>
 		</release>
 		<release date="2025-03-10" version="13.11.0">
 			<action dev="joniles" type="update">Add support for reading the WBS and Activity Methodology GUID attribute from XER files and P6 databases, and for writing this to XER files.</action>
