@@ -430,7 +430,7 @@ public class CustomerDataTest
          else
          {
             String name = file.getName().toLowerCase();
-            if (name.endsWith(".ds_store"))
+            if (name.endsWith(".ds_store") || name.endsWith(".txt"))
             {
                continue;
             }

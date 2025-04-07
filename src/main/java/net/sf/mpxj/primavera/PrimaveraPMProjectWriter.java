@@ -1243,6 +1243,10 @@ final class PrimaveraPMProjectWriter
       plannedFinish = Optional.ofNullable(plannedFinish).orElseGet(task::getFinish);
       plannedFinish = Optional.ofNullable(plannedFinish).orElse(plannedStart);
 
+      Double actualWork = getDurationInHours(mpxj.getActualWork());
+      Double atCompletionWork = getDurationInHours(Duration.add(mpxj.getActualWork(), mpxj.getRemainingWork(), mpxj.getEffectiveCalendar()));
+      Double unitsPercentComplete = NumberHelper.getDouble(atCompletionWork) == 0.0  || NumberHelper.getDouble(actualWork) == 0.0? null : actualWork.doubleValue() / atCompletionWork.doubleValue();
+
       if (mpxj.getResource().getRole())
       {
          xml.setRoleObjectId(mpxj.getResourceUniqueID());
@@ -1260,9 +1264,9 @@ final class PrimaveraPMProjectWriter
       xml.setActualOvertimeUnits(actualOvertimeUnits);
       xml.setActualRegularUnits(getDurationInHours(mpxj.getActualWork()));
       xml.setActualStartDate(mpxj.getActualStart());
-      xml.setActualUnits(getDurationInHours(mpxj.getActualWork()));
+      xml.setActualUnits(actualWork);
       xml.setAtCompletionCost(getCurrency(NumberHelper.sumAsDouble(mpxj.getActualCost(), mpxj.getRemainingCost())));
-      xml.setAtCompletionUnits(getDurationInHours(Duration.add(mpxj.getActualWork(), mpxj.getRemainingWork(), mpxj.getEffectiveCalendar())));
+      xml.setAtCompletionUnits(atCompletionWork);
       xml.setResourceCurveObjectId(CurveHelper.getCurveID(mpxj.getWorkContour()));
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
@@ -1291,6 +1295,7 @@ final class PrimaveraPMProjectWriter
       xml.setRemainingUnits(unitsHelper.getRemainingUnits());
       xml.setRemainingUnitsPerTime(unitsHelper.getRemainingUnitsPerTime());
       xml.setRemainingDuration(getResourceAssignmentRemainingDuration(task, mpxj));
+      xml.setUnitsPercentComplete(unitsPercentComplete);
 
       if (m_projectFromPrimavera)
       {
