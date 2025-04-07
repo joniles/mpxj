@@ -10,6 +10,7 @@
 			<action dev="joniles" type="update">Added support for writing Float Path and Float Path Order to XER files.</action>
 			<action dev="joniles" type="update">Improve date arithmetic when using the `ProjectCalendar#getDate()` method with elapsed durations.</action>
 			<action dev="joniles" type="update">Include units percent complete when writing resource assignments to PMXML files.</action>
+			<action dev="joniles" type="update">Improve accuracy of resource assignment remaining units when writing XER and PMXML files.</action>
 			<action dev="joniles" type="update">When writing MSPDI files, calculate resource assignment remaining work if not present.</action>
 		</release>
 		<release date="2025-03-10" version="13.11.0">

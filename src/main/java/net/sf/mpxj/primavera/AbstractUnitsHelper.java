@@ -44,14 +44,16 @@ abstract class AbstractUnitsHelper
       m_remainingUnitsPerTime = getPercentage(assignment.getRemainingUnits());
 
       // Remaining
-      if (assignment.getActualStart() == null)
+      if (assignment.getActualStart() == null && (assignment.getActualWork() == null || assignment.getActualWork().getDuration() == 0))
       {
          // The assignment has not started
          m_remainingUnits = m_plannedUnits;
       }
       else
       {
-         if (assignment.getActualFinish() == null)
+         Double actualUnits = getDurationInHours(file, assignment.getActualWork());
+         Double atCompletionUnits = getDurationInHours(file, assignment.getWork());
+         if (assignment.getActualFinish() == null && NumberHelper.getDouble(actualUnits) < NumberHelper.getDouble(atCompletionUnits))
          {
             // The assignment is in progress
             m_remainingUnits = getDurationInHours(file, assignment.getRemainingWork());
