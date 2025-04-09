@@ -57,7 +57,7 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
          GanttBarStyle style = new GanttBarStyle();
          barStyles[loop] = style;
 
-         style.setID(Integer.valueOf(MPPUtility.getShort(barStyleData,styleOffset+56)));
+         style.setID(Integer.valueOf(MPPUtility.getShort(barStyleData, styleOffset + 56)));
          style.setName(styleName);
 
          style.setMiddleShape(GanttBarMiddleShape.getInstance(barStyleData[styleOffset]));

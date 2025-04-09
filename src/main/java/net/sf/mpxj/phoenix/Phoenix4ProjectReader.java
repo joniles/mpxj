@@ -1,3 +1,4 @@
+
 package net.sf.mpxj.phoenix;
 
 import java.io.InputStream;
@@ -30,7 +31,6 @@ import net.sf.mpxj.ChildTaskContainer;
 import java.time.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
-import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -422,6 +422,7 @@ class Phoenix4ProjectReader extends AbstractProjectStreamReader
     * Read phases and activities from the Phoenix file to create the task hierarchy.
     *
     * @param phoenixProject all project data
+    * @param activeLayout active layout
     * @param storepoint storepoint containing current project data
     */
    private void readTasks(Project phoenixProject, Layout activeLayout, Storepoint storepoint)

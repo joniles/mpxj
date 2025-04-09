@@ -50,7 +50,7 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
                GanttBarStyle style = new GanttBarStyle();
                barStyles[loop] = style;
 
-               style.setID(Integer.valueOf(MPPUtility.getShort(barStyleData,styleOffset+89)));
+               style.setID(Integer.valueOf(MPPUtility.getShort(barStyleData, styleOffset + 89)));
                style.setName(MPPUtility.getUnicodeString(barStyleData, styleOffset + 91));
 
                style.setLeftText(getTaskField(file, MPPUtility.getInt(barStyleData, styleOffset + 67)));

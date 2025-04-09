@@ -5567,7 +5567,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public UUID getMethodologyGUID()
    {
-      return (UUID)get(TaskField.METHODOLOGY_GUID);
+      return (UUID) get(TaskField.METHODOLOGY_GUID);
    }
 
    /**

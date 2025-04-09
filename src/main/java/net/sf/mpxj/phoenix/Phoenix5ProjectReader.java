@@ -1,3 +1,4 @@
+
 package net.sf.mpxj.phoenix;
 
 import java.io.InputStream;
@@ -22,7 +23,6 @@ import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
-import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ProjectCalendarHours;

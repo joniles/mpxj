@@ -1245,7 +1245,7 @@ final class PrimaveraPMProjectWriter
 
       Double actualWork = getDurationInHours(mpxj.getActualWork());
       Double atCompletionWork = getDurationInHours(Duration.add(mpxj.getActualWork(), mpxj.getRemainingWork(), mpxj.getEffectiveCalendar()));
-      Double unitsPercentComplete = NumberHelper.getDouble(atCompletionWork) == 0.0  || NumberHelper.getDouble(actualWork) == 0.0? null : actualWork.doubleValue() / atCompletionWork.doubleValue();
+      Double unitsPercentComplete = NumberHelper.getDouble(atCompletionWork) == 0.0 || NumberHelper.getDouble(actualWork) == 0.0 ? null : Double.valueOf(actualWork.doubleValue() / atCompletionWork.doubleValue());
 
       if (mpxj.getResource().getRole())
       {
