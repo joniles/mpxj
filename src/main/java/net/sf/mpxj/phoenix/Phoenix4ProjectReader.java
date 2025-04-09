@@ -44,7 +44,6 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.common.DebugLogPrintWriter;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.UnmarshalHelper;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Layouts.Layout;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Layouts.Layout.CodeOptions;
@@ -80,7 +79,7 @@ class Phoenix4ProjectReader extends AbstractProjectStreamReader
       throw new UnsupportedOperationException();
    }
 
-   public ProjectFile read(Project phoenixProject, Storepoint storepoint) throws MPXJException
+   public ProjectFile read(Project phoenixProject, Layout activeLayout, Storepoint storepoint) throws MPXJException
    {
       openLogFile();
 
@@ -104,10 +103,10 @@ class Phoenix4ProjectReader extends AbstractProjectStreamReader
 
          addListenersToProject(m_projectFile);
 
-         readProjectProperties(phoenixProject, storepoint);
+         readProjectProperties(phoenixProject, activeLayout, storepoint);
          readCalendars(storepoint);
          readActivityCodes(storepoint);
-         readTasks(phoenixProject, storepoint);
+         readTasks(phoenixProject, activeLayout, storepoint);
          readResources(storepoint);
          readRelationships(storepoint);
          m_projectFile.readComplete();
@@ -131,13 +130,12 @@ class Phoenix4ProjectReader extends AbstractProjectStreamReader
     * This method extracts project properties from a Phoenix file.
     *
     * @param phoenixProject Phoenix project
+    * @param activeLayout active layout
     * @param storepoint Current storepoint
     */
-   private void readProjectProperties(Project phoenixProject, Storepoint storepoint)
+   private void readProjectProperties(Project phoenixProject, Layout activeLayout, Storepoint storepoint)
    {
       Settings phoenixSettings = phoenixProject.getSettings();
-      Layout activeLayout = getActiveLayout(phoenixProject);
-
       ProjectProperties mpxjProperties = m_projectFile.getProjectProperties();
       mpxjProperties.setCreationDate(storepoint.getCreationTime());
       mpxjProperties.setName(phoenixSettings.getTitle());
@@ -425,9 +423,9 @@ class Phoenix4ProjectReader extends AbstractProjectStreamReader
     * @param phoenixProject all project data
     * @param storepoint storepoint containing current project data
     */
-   private void readTasks(Project phoenixProject, Storepoint storepoint)
+   private void readTasks(Project phoenixProject, Layout activeLayout, Storepoint storepoint)
    {
-      processLayouts(phoenixProject);
+      processLayouts(phoenixProject, activeLayout);
       processActivities(storepoint);
       updateDates();
    }
@@ -436,14 +434,10 @@ class Phoenix4ProjectReader extends AbstractProjectStreamReader
     * Find the current layout and extract the activity code order and visibility.
     *
     * @param phoenixProject phoenix project data
+    * @param activeLayout active layout
     */
-   private void processLayouts(Project phoenixProject)
+   private void processLayouts(Project phoenixProject, Layout activeLayout)
    {
-      //
-      // Find the active layout
-      //
-      Layout activeLayout = getActiveLayout(phoenixProject);
-
       //
       // Create a list of the visible codes in the correct order
       //
@@ -458,38 +452,6 @@ class Phoenix4ProjectReader extends AbstractProjectStreamReader
             }
          }
       }
-   }
-
-   /**
-    * Find the current active layout.
-    *
-    * @param phoenixProject phoenix project data
-    * @return current active layout
-    */
-   private Layout getActiveLayout(Project phoenixProject)
-   {
-      //
-      // Start with the first layout we find
-      //
-      Layout activeLayout = phoenixProject.getLayouts().getLayout().get(0);
-
-      //
-      // If this isn't active, find one which is... and if none are,
-      // we'll just use the first.
-      //
-      if (!activeLayout.isActive().booleanValue())
-      {
-         for (Layout layout : phoenixProject.getLayouts().getLayout())
-         {
-            if (layout.isActive().booleanValue())
-            {
-               activeLayout = layout;
-               break;
-            }
-         }
-      }
-
-      return activeLayout;
    }
 
    /**

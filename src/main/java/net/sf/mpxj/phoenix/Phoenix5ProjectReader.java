@@ -59,7 +59,7 @@ class Phoenix5ProjectReader extends AbstractProjectStreamReader
       throw new UnsupportedOperationException();
    }
 
-   public ProjectFile read(Project phoenixProject, Project.Storepoints.Storepoint storepoint) throws MPXJException
+   public ProjectFile read(Project phoenixProject, Project.Layouts.GanttLayout activeLayout, Project.Storepoints.Storepoint storepoint) throws MPXJException
    {
       openLogFile();
 
@@ -86,7 +86,7 @@ class Phoenix5ProjectReader extends AbstractProjectStreamReader
          readProjectProperties(phoenixProject, storepoint);
          readCalendars(storepoint);
          readActivityCodes(storepoint);
-         readTasks(phoenixProject, storepoint);
+         readTasks(phoenixProject, activeLayout, storepoint);
          readResources(storepoint);
          readRelationships(storepoint);
          m_projectFile.readComplete();
@@ -402,11 +402,12 @@ class Phoenix5ProjectReader extends AbstractProjectStreamReader
     * Read phases and activities from the Phoenix file to create the task hierarchy.
     *
     * @param phoenixProject all project data
+    * @param activeLayout active layout
     * @param storepoint storepoint containing current project data
     */
-   private void readTasks(Project phoenixProject, Project.Storepoints.Storepoint storepoint)
+   private void readTasks(Project phoenixProject, Project.Layouts.GanttLayout activeLayout, Project.Storepoints.Storepoint storepoint)
    {
-      processLayouts(phoenixProject);
+      processLayouts(phoenixProject, activeLayout);
       processActivities(storepoint);
       updateDates();
    }
@@ -415,14 +416,10 @@ class Phoenix5ProjectReader extends AbstractProjectStreamReader
     * Find the current layout and extract the activity code order and visibility.
     *
     * @param phoenixProject phoenix project data
+    * @param activeLayout active layout
     */
-   private void processLayouts(Project phoenixProject)
+   private void processLayouts(Project phoenixProject, Project.Layouts.GanttLayout activeLayout)
    {
-      //
-      // Find the active layout
-      //
-      Project.Layouts.GanttLayout activeLayout = getActiveLayout(phoenixProject);
-
       //
       // Create a list of the visible codes in the correct order
       //
@@ -437,17 +434,6 @@ class Phoenix5ProjectReader extends AbstractProjectStreamReader
             }
          }
       }
-   }
-
-   /**
-    * Find the current active layout.
-    *
-    * @param phoenixProject phoenix project data
-    * @return current active layout
-    */
-   private Project.Layouts.GanttLayout getActiveLayout(Project phoenixProject)
-   {
-      return phoenixProject.getLayouts().getGanttLayout().get(0);
    }
 
    /**
