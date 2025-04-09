@@ -573,7 +573,7 @@
                            </xs:sequence>
                            <xs:attribute name="active_storepoint" type="xs:string"/>
                            <xs:attribute name="auto_row_sizing" type="xs:string"/>
-                           <xs:attribute name="baseline" type="xs:string"/>
+                           <xs:attribute name="baseline" type="phoenixUuid"/>
                            <xs:attribute name="critical_bar_outlines" type="xs:string"/>
                            <xs:attribute name="critical_bars" type="xs:string"/>
                            <xs:attribute name="critical_color" type="xs:string"/>

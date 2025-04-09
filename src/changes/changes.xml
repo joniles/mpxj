@@ -8,6 +8,7 @@
 		<release date="unreleased" version="13.12.0">
 			<action dev="joniles" type="update">Added support for reading Float Path and Float Path Order from XER files and P6 databases.</action>
 			<action dev="joniles" type="update">Added support for writing Float Path and Float Path Order to XER files.</action>
+			<action dev="joniles" type="update">Added support for reading baselines from Phoenix schedules.</action>
 			<action dev="joniles" type="update">Improve date arithmetic when using the `ProjectCalendar#getDate()` method with elapsed durations.</action>
 			<action dev="joniles" type="update">Include units percent complete when writing resource assignments to PMXML files.</action>
 			<action dev="joniles" type="update">Improve accuracy of resource assignment remaining units when writing XER and PMXML files.</action>
