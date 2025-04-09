@@ -139,6 +139,7 @@ class Phoenix4ProjectReader extends AbstractProjectStreamReader
       Layout activeLayout = getActiveLayout(phoenixProject);
 
       ProjectProperties mpxjProperties = m_projectFile.getProjectProperties();
+      mpxjProperties.setCreationDate(storepoint.getCreationTime());
       mpxjProperties.setName(phoenixSettings.getTitle());
       mpxjProperties.setDefaultDurationUnits(phoenixSettings.getBaseunit());
       mpxjProperties.setStatusDate(storepoint.getDataDate());

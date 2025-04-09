@@ -116,6 +116,7 @@ class Phoenix5ProjectReader extends AbstractProjectStreamReader
    {
       Project.Settings phoenixSettings = phoenixProject.getSettings();
       ProjectProperties mpxjProperties = m_projectFile.getProjectProperties();
+      mpxjProperties.setCreationDate(storepoint.getCreationTime());
       mpxjProperties.setName(phoenixSettings.getTitle());
       mpxjProperties.setDefaultDurationUnits(phoenixSettings.getBaseunit());
       mpxjProperties.setStatusDate(storepoint.getDataDate());

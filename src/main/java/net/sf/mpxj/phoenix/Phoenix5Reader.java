@@ -133,7 +133,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
     */
    private Project.Storepoints.Storepoint getCurrentStorepoint(Project phoenixProject)
    {
-      List<Project.Storepoints.Storepoint> storepoints = phoenixProject.getStorepoints() == null ? Collections.emptyList() : phoenixProject.getStorepoints().getStorepoint();
+      List<Project.Storepoints.Storepoint> storepoints = phoenixProject.getStorepoints().getStorepoint();
       storepoints.sort((o1, o2) -> LocalDateTimeHelper.compare(o2.getCreationTime(), o1.getCreationTime()));
       return storepoints.get(0);
    }
