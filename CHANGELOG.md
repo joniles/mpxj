@@ -5,7 +5,16 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer be distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 13.11.1 (unreleased)
+## 13.12.1 (unreleased)
+
+## 13.12.0 (2025-04-09)
+* Added support for reading Float Path and Float Path Order from XER files and P6 databases.
+* Added support for writing Float Path and Float Path Order to XER files.
+* Added support for reading baselines from Phoenix schedules.
+* Improve date arithmetic when using the `ProjectCalendar#getDate()` method with elapsed durations.
+* Include units percent complete when writing resource assignments to PMXML files.
+* Improve accuracy of resource assignment remaining units when writing XER and PMXML files.
+* When writing MSPDI files, calculate resource assignment remaining work if not present.
 
 ## 13.11.0 (2025-03-10)
 * Add support for reading the WBS and Activity Methodology GUID attribute from XER files and P6 databases, and for writing this to XER files.

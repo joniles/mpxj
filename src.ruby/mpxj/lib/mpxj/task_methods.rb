@@ -4953,6 +4953,20 @@ module MPXJ
       get_boolean_value(attribute_values['flag9'])
     end
 
+    # Retrieve the Float Path value
+    #
+    # @return Float Path value
+    def float_path
+      get_integer_value(attribute_values['float_path'])
+    end
+
+    # Retrieve the Float Path Order value
+    #
+    # @return Float Path Order value
+    def float_path_order
+      get_integer_value(attribute_values['float_path_order'])
+    end
+
     # Retrieve the Free Slack value
     #
     # @return Free Slack value
@@ -7628,6 +7642,8 @@ module MPXJ
       'flag7' => :boolean,
       'flag8' => :boolean,
       'flag9' => :boolean,
+      'float_path' => :integer,
+      'float_path_order' => :integer,
       'free_slack' => :duration,
       'group_by_summary' => :string,
       'guid' => :guid,
