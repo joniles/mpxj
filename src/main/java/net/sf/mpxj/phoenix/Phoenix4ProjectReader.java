@@ -74,12 +74,12 @@ class Phoenix4ProjectReader extends AbstractProjectStreamReader
       m_useActivityCodesForTaskHierarchy = useActivityCodesForTaskHierarchy;
    }
 
-   @Override public ProjectFile read(InputStream stream) throws MPXJException
+   @Override public ProjectFile read(InputStream stream)
    {
       throw new UnsupportedOperationException();
    }
 
-   public ProjectFile read(Project phoenixProject, Layout activeLayout, Storepoint storepoint) throws MPXJException
+   public ProjectFile read(Project phoenixProject, Layout activeLayout, Storepoint storepoint)
    {
       openLogFile();
 
