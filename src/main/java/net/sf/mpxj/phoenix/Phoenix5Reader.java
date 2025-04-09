@@ -62,9 +62,17 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
 
          Project phoenixProject = (Project) UnmarshalHelper.unmarshal(CONTEXT, new SkipNulInputStream(stream));
          Project.Layouts.GanttLayout activeLayout = getActiveLayout(phoenixProject);
-         Storepoint storepoint = getCurrentStorepoint(phoenixProject);
+         Storepoint projectStorepoint = getCurrentStorepoint(phoenixProject);
+         ProjectFile project = new Phoenix5ProjectReader(m_useActivityCodesForTaskHierarchy).read(phoenixProject, activeLayout, projectStorepoint);
 
-         return new Phoenix5ProjectReader(m_useActivityCodesForTaskHierarchy).read(phoenixProject, activeLayout, storepoint);
+         Storepoint baselineStorepoint = phoenixProject.getStorepoints().getStorepoint().stream().filter(s -> s.getUuid().equals(activeLayout.getBaseline())).findFirst().orElse(null);
+         if (baselineStorepoint != null)
+         {
+            ProjectFile baseline = new Phoenix5ProjectReader(m_useActivityCodesForTaskHierarchy).read(phoenixProject, activeLayout, baselineStorepoint);
+            project.setBaseline(baseline);
+         }
+
+         return project;
       }
 
       catch (ParserConfigurationException | SAXException | JAXBException ex)

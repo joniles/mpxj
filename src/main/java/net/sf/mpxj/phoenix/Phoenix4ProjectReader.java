@@ -577,7 +577,7 @@ class Phoenix4ProjectReader extends AbstractProjectStreamReader
       task.setLateFinish(activity.getLateFinish());
       task.setLateStart(activity.getLateStart());
       task.setNotes(activity.getNotes());
-      task.setBaselineDuration(activity.getOriginalDuration());
+      task.setPlannedDuration(activity.getOriginalDuration());
       //activity.getPathFloat()
       task.setPhysicalPercentComplete(activity.getPhysicalPercentComplete());
       task.setRemainingDuration(activity.getRemainingDuration());
