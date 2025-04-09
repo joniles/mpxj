@@ -27,7 +27,6 @@ import java.time.LocalDateTime;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.SlackHelper;
 
