@@ -376,7 +376,7 @@ public class MicrosoftScheduler implements Scheduler
          return;
       }
 
-      List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> isTask(r.getSuccessorTask()) && r.getSuccessorTask().getActualFinish() == null).collect(Collectors.toList());
+      List<Relation> successors = m_file.getRelations().getSuccessors(task).stream().filter(r -> isTask(r.getSuccessorTask()) && r.getSuccessorTask().getActualFinish() == null).collect(Collectors.toList());
       List<Relation> summaryTaskSuccessors = m_summaryTaskSuccessors.get(task);
       if (summaryTaskSuccessors != null)
       {

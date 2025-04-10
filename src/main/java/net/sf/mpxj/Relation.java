@@ -35,8 +35,6 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
     */
    private Relation(Builder builder)
    {
-      m_sourceTask = builder.m_sourceTask;
-      m_targetTask = builder.m_targetTask;
       m_predecessorTask = builder.m_predecessorTask;
       m_successorTask = builder.m_successorTask;
       m_type = builder.m_type == null ? RelationType.FINISH_START : builder.m_type;
@@ -47,7 +45,7 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
 
       if (uniqueID == null)
       {
-         ProjectFile project = m_sourceTask.getParentFile();
+         ProjectFile project = m_successorTask.getParentFile();
          ProjectConfig projectConfig = project.getProjectConfig();
          if (projectConfig.getAutoRelationUniqueID())
          {
@@ -57,7 +55,7 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
 
       if (uniqueID != null)
       {
-         m_sourceTask.getParentFile().getRelations().updateUniqueID(this, m_uniqueID, uniqueID);
+         m_successorTask.getParentFile().getRelations().updateUniqueID(this, m_uniqueID, uniqueID);
          m_uniqueID = uniqueID;
       }
    }
@@ -82,28 +80,6 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
    public Duration getLag()
    {
       return m_lag;
-   }
-
-   /**
-    * Retrieve the source task of this relationship.
-    *
-    * @return source task
-    * @deprecated use getPredecessorTask() and getSuccessorTask()
-    */
-   @Deprecated public Task getSourceTask()
-   {
-      return m_sourceTask;
-   }
-
-   /**
-    * Retrieve the target task of this relationship.
-    *
-    * @return target task
-    * @deprecated use getPredecessorTask() and getSuccessorTask()
-    */
-   @Deprecated public Task getTargetTask()
-   {
-      return m_targetTask;
    }
 
    /**
@@ -143,7 +119,7 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
     */
    @Override public void setUniqueID(Integer uniqueID)
    {
-      m_sourceTask.getParentFile().getRelations().updateUniqueID(this, m_uniqueID, uniqueID);
+      m_successorTask.getParentFile().getRelations().updateUniqueID(this, m_uniqueID, uniqueID);
       m_uniqueID = uniqueID;
    }
 
@@ -163,8 +139,6 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
    }
 
    private Integer m_uniqueID;
-   private final Task m_sourceTask;
-   private final Task m_targetTask;
    private final Task m_predecessorTask;
    private final Task m_successorTask;
 
@@ -194,8 +168,6 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
       public Builder from(Relation value)
       {
          m_uniqueID = value.m_uniqueID;
-         m_sourceTask = value.m_sourceTask;
-         m_targetTask = value.m_targetTask;
          m_predecessorTask = value.m_predecessorTask;
          m_successorTask = value.m_successorTask;
          m_type = value.m_type;
@@ -213,32 +185,6 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
       public Builder uniqueID(Integer value)
       {
          m_uniqueID = value;
-         return this;
-      }
-
-      /**
-       * Add the source task.
-       *
-       * @param value source task
-       * @return builder
-       * @deprecated use predecessorTask() or successorTask()
-       */
-      @Deprecated public Builder sourceTask(Task value)
-      {
-         m_sourceTask = value;
-         return this;
-      }
-
-      /**
-       * Add the target task.
-       *
-       * @param value target task
-       * @return builder
-       * @deprecated use predecessorTask() or successorTask()
-       */
-      @Deprecated public Builder targetTask(Task value)
-      {
-         m_targetTask = value;
          return this;
       }
 
@@ -309,32 +255,10 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
        */
       public Relation build()
       {
-         if (m_targetTask == null)
-         {
-            m_targetTask = m_predecessorTask;
-         }
-
-         if (m_predecessorTask == null)
-         {
-            m_predecessorTask = m_targetTask;
-         }
-
-         if (m_sourceTask == null)
-         {
-            m_sourceTask = m_successorTask;
-         }
-
-         if (m_successorTask == null)
-         {
-            m_successorTask = m_sourceTask;
-         }
-
          return new Relation(this);
       }
 
       Integer m_uniqueID;
-      Task m_sourceTask;
-      Task m_targetTask;
       Task m_predecessorTask;
       Task m_successorTask;
       RelationType m_type = RelationType.FINISH_START;

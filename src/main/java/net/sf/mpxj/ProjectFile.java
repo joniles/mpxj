@@ -964,7 +964,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       RelationContainer relations = externalTask.getParentFile().getRelations();
 
       // create copies to avoid concurrent modification
-      List<Relation> successors = new ArrayList<>(relations.getRawSuccessors(externalTask));
+      List<Relation> successors = new ArrayList<>(relations.getSuccessors(externalTask));
       List<Relation> predecessors = new ArrayList<>(relations.getPredecessors(externalTask));
 
       for (Relation originalRelation : successors)

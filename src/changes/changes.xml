@@ -13,8 +13,10 @@
 			<action dev="joniles" type="update">Remove deprecated `UserDefinedField` constructors, use `UserDefinedField.Builder` instead.</action>
 			<action dev="joniles" type="update">Remove deprecated `UserDefinedField#setDataType` method, use `UserDefinedField.Builder` instead.</action>
 			<action dev="joniles" type="update">Remove deprecated `StructuredNotes` constructor, use `StructuredNotes` constructor taking a `ProjectFile` instance instead.</action>
-			<action dev="joniles" type="update">The `RelationContainer#getRawSuccessors` method has been removed. Use the `RelationContainer#getSuccessors` method instead. This now returns what `getRawSuccessors` returned previously.</action>
 			<action dev="joniles" type="update">Remove deprecated Ruby attribute `Relation#task_unique_id`, use `Relation#predecessor_task_unique_id` and `Relation#successor_task_unique_id` instead.</action>
+			<action dev="joniles" type="update">Remove deprecated `Relation#getSourceTask` and `Relation#getTargetTask` methods, use `Relation#getPredecessorTask` and `Relation#getSuccessorTask` methods instead.</action>
+			<action dev="joniles" type="update">Remove deprecated `Relation.Builder#sourceTask` and `Relation.Builder#targetTask` methods, use `Relation.Builder#predecessorTask` and `Relation.Builder#successorTask` methods instead.</action>
+			<action dev="joniles" type="update">The `RelationContainer#getRawSuccessors` method has been removed. Use the `RelationContainer#getSuccessors` method instead. This method now returns the same data `getRawSuccessors` returned previously.</action>
 		</release>
 		<release date="2025-04-09" version="13.12.0">
 			<action dev="joniles" type="update">Added support for reading Float Path and Float Path Order from XER files and P6 databases.</action>

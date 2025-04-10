@@ -377,7 +377,7 @@ public class PrimaveraScheduler implements Scheduler
     */
    private void backwardPass(Task task) throws CpmException
    {
-      List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> isActivity(r.getSuccessorTask())).collect(Collectors.toList());
+      List<Relation> successors = m_file.getRelations().getSuccessors(task).stream().filter(r -> isActivity(r.getSuccessorTask())).collect(Collectors.toList());
       ProjectCalendar calendar = task.getEffectiveCalendar();
       LocalDateTime lateFinish;
 
