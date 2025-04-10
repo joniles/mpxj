@@ -77,6 +77,7 @@ nav:
   - 'How to Use...':
     - 'Baselines': 'howto-use-baselines.md'
     - 'Calendars': 'howto-use-calendars.md'
+    - 'CPM Schedulers': 'howto-use-cpm.md'
     - 'External Projects': 'howto-use-external-projects.md'
     - 'Fields': 'howto-use-fields.md'
     - 'Universal Project Reader': 'howto-use-universal.md'
