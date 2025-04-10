@@ -5,7 +5,11 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer be distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 13.12.1 (unreleased)
+## 14.0.0 (unreleased)
+* NEW FEATURE
+* MPXJ can now schedule projects using CPM (Critical Path Method)
+* Two new classes (`MicrosoftScheduler` and `PrimaveraScheduler`) allow MPXJ to schedule a project in a way which follows the approach of either Microsoft Project or Primavera P6.
+* BREAKING CHANGES
 
 ## 13.12.0 (2025-04-09)
 * Added support for reading Float Path and Float Path Order from XER files and P6 databases.
