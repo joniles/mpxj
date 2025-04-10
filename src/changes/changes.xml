@@ -17,6 +17,13 @@
 			<action dev="joniles" type="update">Remove deprecated `Relation#getSourceTask` and `Relation#getTargetTask` methods, use `Relation#getPredecessorTask` and `Relation#getSuccessorTask` methods instead.</action>
 			<action dev="joniles" type="update">Remove deprecated `Relation.Builder#sourceTask` and `Relation.Builder#targetTask` methods, use `Relation.Builder#predecessorTask` and `Relation.Builder#successorTask` methods instead.</action>
 			<action dev="joniles" type="update">The `RelationContainer#getRawSuccessors` method has been removed. Use the `RelationContainer#getSuccessors` method instead. This method now returns the same data `getRawSuccessors` returned previously.</action>
+			<action dev="joniles" type="update">The deprecated `ActivityCodeValue#getType` method has been removed. Use the `ActivityCodeValue#getParentCode` method instead.</action>
+			<action dev="joniles" type="update">The deprecated `ActivityCodeValue#getActivityCode` method has been removed. Use the `ActivityCodeValue#getParentCode` method instead.</action>
+			<action dev="joniles" type="update">The deprecated `ActivityCodeValue#getParent` method has been removed. Use the `ActivityCodeValue#getParentValue` method instead.</action>
+			<action dev="joniles" type="update">The deprecated `ActivityCodeValue#getParentUniqueID` method has been removed. Use the `ActivityCodeValue#getParentValueUniqueID` method instead.</action>
+			<action dev="joniles" type="update">The deprecated `ActivityCodeValue.Builder#type` method has been removed. Use the `ActivityCodeValue.Builder#activityCode` method instead.</action>
+			<action dev="joniles" type="update">The deprecated `ActivityCodeValue.Builder#parent` method has been removed. Use the `ActivityCodeValue.Builder#parentValue` method instead.</action>
+			<action dev="joniles" type="update">The deprecated `Task#addActivityCode` method has been removed. Use the `Task#addActivityCodeValue` method instead.</action>
 		</release>
 		<release date="2025-04-09" version="13.12.0">
 			<action dev="joniles" type="update">Added support for reading Float Path and Float Path Order from XER files and P6 databases.</action>

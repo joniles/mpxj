@@ -48,28 +48,6 @@ public final class ActivityCodeValue implements CodeValue
       m_parentValue = builder.m_parentValue;
    }
 
-   /**
-    * Retrieves the parent activity code.
-    *
-    * @return ActivityCode instance
-    * @deprecated use getParentCode instead
-    */
-   @Deprecated public ActivityCode getType()
-   {
-      return m_activityCode;
-   }
-
-   /**
-    * Retrieves the parent activity code.
-    *
-    * @return ActivityCode instance
-    * @deprecated use getParentCode instead
-    */
-   @Deprecated public ActivityCode getActivityCode()
-   {
-      return m_activityCode;
-   }
-
    @Override public ActivityCode getParentCode()
    {
       return m_activityCode;
@@ -134,32 +112,10 @@ public final class ActivityCodeValue implements CodeValue
     * Retrieve the parent ActivityCodeValue.
     *
     * @return parent ActivityCodeValue
-    * @deprecated use getParentValue
-    */
-   @Deprecated public ActivityCodeValue getParent()
-   {
-      return m_parentValue;
-   }
-
-   /**
-    * Retrieve the parent ActivityCodeValue.
-    *
-    * @return parent ActivityCodeValue
     */
    public ActivityCodeValue getParentValue()
    {
       return m_parentValue;
-   }
-
-   /**
-    * Retrieve the parent ActivityCodeValue unique ID.
-    *
-    * @return parent ActivityCodeValue unique ID
-    * @deprecated use getParentValueUniqueID
-    */
-   @Deprecated public Integer getParentUniqueID()
-   {
-      return m_parentValue == null ? null : m_parentValue.getUniqueID();
    }
 
    /**
@@ -233,19 +189,6 @@ public final class ActivityCodeValue implements CodeValue
        *
        * @param value activity code
        * @return builder
-       * @deprecated use activityCode instead
-       */
-      @Deprecated public Builder type(ActivityCode value)
-      {
-         m_activityCode = value;
-         return this;
-      }
-
-      /**
-       * Add parent activity code.
-       *
-       * @param value activity code
-       * @return builder
        */
       public Builder activityCode(ActivityCode value)
       {
@@ -310,19 +253,6 @@ public final class ActivityCodeValue implements CodeValue
       public Builder color(Color value)
       {
          m_color = value;
-         return this;
-      }
-
-      /**
-       * Add parent value.
-       *
-       * @param value parent value
-       * @return builder
-       * @deprecated use parentValue
-       */
-      @Deprecated public Builder parent(ActivityCodeValue value)
-      {
-         m_parentValue = value;
          return this;
       }
 

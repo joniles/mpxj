@@ -385,17 +385,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Assign an activity code to this task.
-    *
-    * @param value activity code value
-    * @deprecated use addActivityCodeValue()
-    */
-   @Deprecated @SuppressWarnings("unchecked") public void addActivityCode(ActivityCodeValue value)
-   {
-      ((Map<ActivityCode, ActivityCodeValue>) get(TaskField.ACTIVITY_CODE_VALUES)).put(value.getActivityCode(), value);
-   }
-
-   /**
     * Assign an activity code value to this task.
     *
     * @param value activity code value
