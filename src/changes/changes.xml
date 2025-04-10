@@ -14,6 +14,7 @@
 			<action dev="joniles" type="update">Remove deprecated `UserDefinedField#setDataType` method, use `UserDefinedField.Builder` instead.</action>
 			<action dev="joniles" type="update">Remove deprecated `StructuredNotes` constructor, use `StructuredNotes` constructor taking a `ProjectFile` instance instead.</action>
 			<action dev="joniles" type="update">The `RelationContainer#getRawSuccessors` method has been removed. Use the `RelationContainer#getSuccessors` method instead. This now returns what `getRawSuccessors` returned previously.</action>
+			<action dev="joniles" type="update">Remove deprecated Ruby attribute `Relation#task_unique_id`, use `Relation#predecessor_task_unique_id` and `Relation#successor_task_unique_id` instead.</action>
 		</release>
 		<release date="2025-04-09" version="13.12.0">
 			<action dev="joniles" type="update">Added support for reading Float Path and Float Path Order from XER files and P6 databases.</action>
