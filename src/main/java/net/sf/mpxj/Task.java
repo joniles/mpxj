@@ -4802,7 +4802,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    @Deprecated public void setPrimaryResourceID(Integer value)
    {
-      set(TaskField.PRIMARY_RESOURCE_ID, value);
+      set(TaskField.PRIMARY_RESOURCE_UNIQUE_ID, value);
    }
 
    /**
@@ -4813,7 +4813,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    @Deprecated public Integer getPrimaryResourceID()
    {
-      return (Integer) get(TaskField.PRIMARY_RESOURCE_ID);
+      return (Integer) get(TaskField.PRIMARY_RESOURCE_UNIQUE_ID);
    }
 
    /**
@@ -4823,7 +4823,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public void setPrimaryResourceUniqueID(Integer value)
    {
-      set(TaskField.PRIMARY_RESOURCE_ID, value);
+      set(TaskField.PRIMARY_RESOURCE_UNIQUE_ID, value);
    }
 
    /**
@@ -4833,7 +4833,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Integer getPrimaryResourceUniqueID()
    {
-      return (Integer) get(TaskField.PRIMARY_RESOURCE_ID);
+      return (Integer) get(TaskField.PRIMARY_RESOURCE_UNIQUE_ID);
    }
 
    /**

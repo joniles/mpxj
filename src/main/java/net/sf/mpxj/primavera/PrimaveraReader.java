@@ -2782,7 +2782,7 @@ final class PrimaveraReader
       map.put(TaskField.FREE_SLACK, "free_float_hr_cnt");
       map.put(TaskField.TOTAL_SLACK, "total_float_hr_cnt");
       map.put(TaskField.ACTIVITY_ID, "task_code");
-      map.put(TaskField.PRIMARY_RESOURCE_ID, "rsrc_id");
+      map.put(TaskField.PRIMARY_RESOURCE_UNIQUE_ID, "rsrc_id");
       map.put(TaskField.SUSPEND_DATE, "suspend_date");
       map.put(TaskField.RESUME, "resume_date");
       map.put(TaskField.EXTERNAL_EARLY_START, "external_early_start_date");
