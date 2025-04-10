@@ -31,22 +31,6 @@ public class StructuredNotes extends Notes
    /**
     * Constructor.
     *
-    * @param uniqueID unique ID
-    * @param topic notes topic
-    * @param notes Notes instance
-    * @deprecated use the new version of the constructor
-    */
-   @Deprecated public StructuredNotes(Integer uniqueID, NotesTopic topic, Notes notes)
-   {
-      super(null);
-      m_uniqueID = uniqueID;
-      m_topic = topic;
-      m_notes = notes;
-   }
-
-   /**
-    * Constructor.
-    *
     * @param file parent file
     * @param uniqueID unique ID
     * @param topic notes topic
