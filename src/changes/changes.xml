@@ -9,14 +9,15 @@
 			<action dev="joniles" type="update">NEW FEATURE</action>
 			<action dev="joniles" type="update">MPXJ can now schedule projects using CPM (Critical Path Method)</action>
 			<action dev="joniles" type="update">Two new classes (`MicrosoftScheduler` and `PrimaveraScheduler`) allow MPXJ to schedule a project in a way which follows the approach of either Microsoft Project or Primavera P6.</action>
-			<action dev="joniles" type="update">BREAKING CHANGES: DEPRECATED CODE</action>
-			<action dev="joniles" type="update">Remove deprecated `UserDefinedField` constructors, use `UserDefinedField.Builder` instead.</action>
-			<action dev="joniles" type="update">Remove deprecated `UserDefinedField#setDataType` method, use `UserDefinedField.Builder` instead.</action>
-			<action dev="joniles" type="update">Remove deprecated `StructuredNotes` constructor, use `StructuredNotes` constructor taking a `ProjectFile` instance instead.</action>
-			<action dev="joniles" type="update">Remove deprecated Ruby attribute `Relation#task_unique_id`, use `Relation#predecessor_task_unique_id` and `Relation#successor_task_unique_id` instead.</action>
-			<action dev="joniles" type="update">Remove deprecated `Relation#getSourceTask` and `Relation#getTargetTask` methods, use `Relation#getPredecessorTask` and `Relation#getSuccessorTask` methods instead.</action>
-			<action dev="joniles" type="update">Remove deprecated `Relation.Builder#sourceTask` and `Relation.Builder#targetTask` methods, use `Relation.Builder#predecessorTask` and `Relation.Builder#successorTask` methods instead.</action>
+			<action dev="joniles" type="update">BREAKING CHANGES: CODE REMOVED</action>
+			<action dev="joniles" type="update">The constant `TaskField.PRIMARY_RESOURCE_ID` has been renamed to `TaskField.PRIMARY_RESOURCE_UNIQUE_ID`.</action>
 			<action dev="joniles" type="update">The `RelationContainer#getRawSuccessors` method has been removed. Use the `RelationContainer#getSuccessors` method instead. This method now returns the same data `getRawSuccessors` returned previously.</action>
+			<action dev="joniles" type="update">The deprecated Ruby attribute `Relation#task_unique_id` has been removed, use `Relation#predecessor_task_unique_id` and `Relation#successor_task_unique_id` instead.</action>
+			<action dev="joniles" type="update">The deprecated `UserDefinedField` constructors have been removed, use `UserDefinedField.Builder` instead.</action>
+			<action dev="joniles" type="update">The deprecated `UserDefinedField#setDataType` method has been removed, use the `UserDefinedField.Builder#dataType` method instead.</action>
+			<action dev="joniles" type="update">The deprecated `StructuredNotes` constructor has been removed, use the `StructuredNotes` constructor taking a `ProjectFile` instance instead.</action>
+			<action dev="joniles" type="update">The deprecated `Relation#getSourceTask` and `Relation#getTargetTask` methods have been removed, use `Relation#getPredecessorTask` and `Relation#getSuccessorTask` methods instead.</action>
+			<action dev="joniles" type="update">The deprecated `Relation.Builder#sourceTask` and `Relation.Builder#targetTask` methods have been removed, use `Relation.Builder#predecessorTask` and `Relation.Builder#successorTask` methods instead.</action>
 			<action dev="joniles" type="update">The deprecated `ActivityCodeValue#getType` method has been removed. Use the `ActivityCodeValue#getParentCode` method instead.</action>
 			<action dev="joniles" type="update">The deprecated `ActivityCodeValue#getActivityCode` method has been removed. Use the `ActivityCodeValue#getParentCode` method instead.</action>
 			<action dev="joniles" type="update">The deprecated `ActivityCodeValue#getParent` method has been removed. Use the `ActivityCodeValue#getParentValue` method instead.</action>
@@ -25,11 +26,11 @@
 			<action dev="joniles" type="update">The deprecated `ActivityCodeValue.Builder#parent` method has been removed. Use the `ActivityCodeValue.Builder#parentValue` method instead.</action>
 			<action dev="joniles" type="update">The deprecated `Task#addActivityCode` method has been removed. Use the `Task#addActivityCodeValue` method instead.</action>
 			<action dev="joniles" type="update">The deprecated `GanttBarStyleException#getBarStyleIndex` method has been removed. Use `GanttBarStyleException#getGanttBarStyleID` to retrieve the bar style ID, and `GanttChartView#getGanttBarStyleByID` to retrieve the style</action>
-			<action dev="joniles" type="update">The constant `TaskField.PRIMARY_RESOURCE_ID` has been renamed to `TaskField.PRIMARY_RESOURCE_UNIQUE_ID`.</action>
 			<action dev="joniles" type="update">The deprecated constant `TaskField.ACTIVITY_CODE_LIST` has been removed. Use `TaskField.ACTIVITY_CODE_VALUES` instead.</action>
-
-
 			<action dev="joniles" type="update">The deprecated `Task#getActivityCodes` method has been removed. Use the `Task#getActivityCodeValues` method instead.</action>
+			<action dev="joniles" type="update">The deprecated `Task#setPrimaryResourceID` method has been removed. Use the `Task#setPrimaryResourceUniqueID` method instead.</action>
+			<action dev="joniles" type="update">The deprecated `Task#getPrimaryResourceID` method has been removed. Use the `Task#getPrimaryResourceUniqueID` method instead.</action>
+			<action dev="joniles" type="update">The deprecated `Task#isSucessor` method has been removed. Use the `Task#isSuccessor` method instead.</action>
 		</release>
 		<release date="2025-04-09" version="13.12.0">
 			<action dev="joniles" type="update">Added support for reading Float Path and Float Path Order from XER files and P6 databases.</action>

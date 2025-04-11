@@ -4784,28 +4784,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Set the primary resource ID.
-    *
-    * @param value primary resource ID
-    * @deprecated use the setPrimaryResourceUniqueID method
-    */
-   @Deprecated public void setPrimaryResourceID(Integer value)
-   {
-      set(TaskField.PRIMARY_RESOURCE_UNIQUE_ID, value);
-   }
-
-   /**
-    * Retrieve the primary resource ID.
-    *
-    * @return primary resource ID
-    * @deprecated use the getPrimaryResourceUniqueID method
-    */
-   @Deprecated public Integer getPrimaryResourceID()
-   {
-      return (Integer) get(TaskField.PRIMARY_RESOURCE_UNIQUE_ID);
-   }
-
-   /**
     * Set the primary resource unique ID.
     *
     * @param value primary resource unique ID
@@ -5708,19 +5686,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    public boolean isPredecessor(Task task)
    {
       return task != null && getPredecessors().stream().anyMatch(p -> p.getPredecessorTask().getUniqueID().intValue() == task.getUniqueID().intValue());
-   }
-
-   /**
-    * Utility method used to determine if the supplied task
-    * is a successor of the current task.
-    *
-    * @param task potential successor task
-    * @return Boolean flag
-    * @deprecated use isSuccessor
-    */
-   @Deprecated public boolean isSucessor(Task task)
-   {
-      return task != null && task.isPredecessor(this);
    }
 
    /**
