@@ -9,7 +9,28 @@ no longer be distributed. Please use the `MPXJ.Net` package instead.
 * NEW FEATURE
 * MPXJ can now schedule projects using CPM (Critical Path Method)
 * Two new classes (`MicrosoftScheduler` and `PrimaveraScheduler`) allow MPXJ to schedule a project in a way which follows the approach of either Microsoft Project or Primavera P6.
-* BREAKING CHANGES
+* BREAKING CHANGES: CODE REMOVED
+* The constant `TaskField.PRIMARY_RESOURCE_ID` has been renamed to `TaskField.PRIMARY_RESOURCE_UNIQUE_ID`.
+* The `RelationContainer#getRawSuccessors` method has been removed. Use the `RelationContainer#getSuccessors` method instead. This method now returns the same data `getRawSuccessors` returned previously.
+* The deprecated Ruby attribute `Relation#task_unique_id` has been removed, use `Relation#predecessor_task_unique_id` and `Relation#successor_task_unique_id` instead.
+* The deprecated `UserDefinedField` constructors have been removed, use `UserDefinedField.Builder` instead.
+* The deprecated `UserDefinedField#setDataType` method has been removed, use the `UserDefinedField.Builder#dataType` method instead.
+* The deprecated `StructuredNotes` constructor has been removed, use the `StructuredNotes` constructor taking a `ProjectFile` instance instead.
+* The deprecated `Relation#getSourceTask` and `Relation#getTargetTask` methods have been removed, use `Relation#getPredecessorTask` and `Relation#getSuccessorTask` methods instead.
+* The deprecated `Relation.Builder#sourceTask` and `Relation.Builder#targetTask` methods have been removed, use `Relation.Builder#predecessorTask` and `Relation.Builder#successorTask` methods instead.
+* The deprecated `ActivityCodeValue#getType` method has been removed. Use the `ActivityCodeValue#getParentCode` method instead.
+* The deprecated `ActivityCodeValue#getActivityCode` method has been removed. Use the `ActivityCodeValue#getParentCode` method instead.
+* The deprecated `ActivityCodeValue#getParent` method has been removed. Use the `ActivityCodeValue#getParentValue` method instead.
+* The deprecated `ActivityCodeValue#getParentUniqueID` method has been removed. Use the `ActivityCodeValue#getParentValueUniqueID` method instead.
+* The deprecated `ActivityCodeValue.Builder#type` method has been removed. Use the `ActivityCodeValue.Builder#activityCode` method instead.
+* The deprecated `ActivityCodeValue.Builder#parent` method has been removed. Use the `ActivityCodeValue.Builder#parentValue` method instead.
+* The deprecated `Task#addActivityCode` method has been removed. Use the `Task#addActivityCodeValue` method instead.
+* The deprecated `GanttBarStyleException#getBarStyleIndex` method has been removed. Use `GanttBarStyleException#getGanttBarStyleID` to retrieve the bar style ID, and `GanttChartView#getGanttBarStyleByID` to retrieve the style
+* The deprecated constant `TaskField.ACTIVITY_CODE_LIST` has been removed. Use `TaskField.ACTIVITY_CODE_VALUES` instead.
+* The deprecated `Task#getActivityCodes` method has been removed. Use the `Task#getActivityCodeValues` method instead.
+* The deprecated `Task#setPrimaryResourceID` method has been removed. Use the `Task#setPrimaryResourceUniqueID` method instead.
+* The deprecated `Task#getPrimaryResourceID` method has been removed. Use the `Task#getPrimaryResourceUniqueID` method instead.
+* The deprecated `Task#isSucessor` method has been removed. Use the `Task#isSuccessor` method instead.
 
 ## 13.12.0 (2025-04-09)
 * Added support for reading Float Path and Float Path Order from XER files and P6 databases.
