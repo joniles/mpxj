@@ -11,13 +11,6 @@ module MPXJ
       get_boolean_value(attribute_values['active'])
     end
 
-    # Retrieve the Activity Codes value
-    #
-    # @return Activity Codes value
-    def activity_codes
-      attribute_values['activity_codes']
-    end
-
     # Retrieve the Activity Code Values value
     #
     # @return Activity Code Values value
@@ -5726,8 +5719,8 @@ module MPXJ
     # Retrieve the Primary Resource Unique ID value
     #
     # @return Primary Resource Unique ID value
-    def primary_resource_id
-      get_integer_value(attribute_values['primary_resource_id'])
+    def primary_resource_unique_id
+      get_integer_value(attribute_values['primary_resource_unique_id'])
     end
 
     # Retrieve the Priority value
@@ -6936,7 +6929,6 @@ module MPXJ
 
     ATTRIBUTE_TYPES = {
       'active' => :boolean,
-      'activity_codes' => :activity_code_list,
       'activity_code_values' => :activity_code_values,
       'activity_id' => :string,
       'activity_percent_complete' => :percentage,
@@ -7752,7 +7744,7 @@ module MPXJ
       'predecessors' => :relation_list,
       'preleveled_finish' => :date,
       'preleveled_start' => :date,
-      'primary_resource_id' => :integer,
+      'primary_resource_unique_id' => :integer,
       'priority' => :priority,
       'project' => :string,
       'publish' => :boolean,

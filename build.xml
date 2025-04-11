@@ -102,26 +102,6 @@
 			<arg line="versions:commit -f ${basedir}/pom.tests.xml"/>
 		</exec>
 
-		<replaceregexp
-		               match='(\[assembly: (AssemblyVersion|AssemblyFileVersion)\(").+("\)\])'
-		               replace='\1${current.version}.0\3'
-		               byline="true">
-			<fileset dir="${basedir}/src.net/samples" includes="**/*.cs" />
-		</replaceregexp>
-
-		<replaceregexp
-		               match='(\[assembly: (AssemblyVersion|AssemblyFileVersion)\(").+("\)\])'
-		               replace='\1${current.version}.0\3'
-		               byline="true">
-			<fileset dir="${basedir}/src.net/utilities" includes="**/*.cs" />
-		</replaceregexp>
-
-		<replaceregexp file="${basedir}/src.net/utilities/MpxjUtilities.nca31.csproj"
-		               match="&lt;Version&gt;.*&lt;/Version&gt;"
-		               replace="&lt;Version&gt;${current.version}.0&lt;/Version&gt;"
-		               byline="true"
-		/>
-
 		<replaceregexp file="${basedir}/src/main/java/net/sf/mpxj/MPXJ.java"
 					   match='VERSION = ".*"'
 					   replace='VERSION = "${current.version}"'
