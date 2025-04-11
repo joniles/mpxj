@@ -26,6 +26,10 @@
 			<action dev="joniles" type="update">The deprecated `Task#addActivityCode` method has been removed. Use the `Task#addActivityCodeValue` method instead.</action>
 			<action dev="joniles" type="update">The deprecated `GanttBarStyleException#getBarStyleIndex` method has been removed. Use `GanttBarStyleException#getGanttBarStyleID` to retrieve the bar style ID, and `GanttChartView#getGanttBarStyleByID` to retrieve the style</action>
 			<action dev="joniles" type="update">The constant `TaskField.PRIMARY_RESOURCE_ID` has been renamed to `TaskField.PRIMARY_RESOURCE_UNIQUE_ID`.</action>
+			<action dev="joniles" type="update">The deprecated constant `TaskField.ACTIVITY_CODE_LIST` has been removed. Use `TaskField.ACTIVITY_CODE_VALUES` instead.</action>
+
+
+			<action dev="joniles" type="update">The deprecated `Task#getActivityCodes` method has been removed. Use the `Task#getActivityCodeValues` method instead.</action>
 		</release>
 		<release date="2025-04-09" version="13.12.0">
 			<action dev="joniles" type="update">Added support for reading Float Path and Float Path Order from XER files and P6 databases.</action>

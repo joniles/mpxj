@@ -1040,7 +1040,6 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.EXTERNAL_EARLY_START.getValue()] = "External Early Start";
       TASK_COLUMNS_ARRAY[TaskField.EXTERNAL_LATE_FINISH.getValue()] = "External Late Finish";
       TASK_COLUMNS_ARRAY[TaskField.LONGEST_PATH.getValue()] = "Longest Path";
-      TASK_COLUMNS_ARRAY[TaskField.ACTIVITY_CODES.getValue()] = "Activity Codes";
       TASK_COLUMNS_ARRAY[TaskField.SEQUENCE_NUMBER.getValue()] = "Sequence Number";
       TASK_COLUMNS_ARRAY[TaskField.STEPS.getValue()] = "Steps";
       TASK_COLUMNS_ARRAY[TaskField.LOCATION_UNIQUE_ID.getValue()] = "Location Unique ID";
