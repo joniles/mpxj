@@ -1203,13 +1203,6 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
-         case ACTIVITY_CODE_LIST:
-         {
-            // deprecated
-            writeActivityCodeList(fieldName, value);
-            break;
-         }
-
          case ACTIVITY_CODE_VALUES:
          case CODE_VALUES:
          {
@@ -1648,8 +1641,6 @@ public final class JsonWriter extends AbstractProjectWriter
       writeStringField("name", value.getName());
       writeStringField("description", value.getDescription());
       writeColorField("color", value.getColor());
-      // Deprecated
-      writeIntegerField("parent_unique_id", value.getParentValueUniqueID());
       writeIntegerField("parent_value_unique_id", value.getParentValueUniqueID());
       m_writer.writeEndObject();
    }
@@ -1710,9 +1701,6 @@ public final class JsonWriter extends AbstractProjectWriter
          {
             m_writer.writeStartObject(null);
             writeIntegerField("unique_id", relation.getUniqueID());
-            // DEPRECATION: remember to update Ruby code when removing this attribute
-            //noinspection deprecation
-            writeIntegerField("task_unique_id", relation.getTargetTask().getUniqueID());
             writeIntegerField("predecessor_task_unique_id", relation.getPredecessorTask().getUniqueID());
             writeIntegerField("successor_task_unique_id", relation.getSuccessorTask().getUniqueID());
             writeDurationField(m_projectFile.getProjectProperties(), "lag", relation.getLag());
@@ -1811,21 +1799,6 @@ public final class JsonWriter extends AbstractProjectWriter
       if (value != null)
       {
          m_writer.writeNameValuePair(name, ColorHelper.getHtmlColor(value));
-      }
-   }
-
-   private void writeActivityCodeList(String fieldName, Object value) throws IOException
-   {
-      if (!(value instanceof List))
-      {
-         return;
-      }
-
-      @SuppressWarnings("unchecked")
-      List<ActivityCodeValue> list = (List<ActivityCodeValue>) value;
-      if (!list.isEmpty())
-      {
-         m_writer.writeList(fieldName, list.stream().map(ActivityCodeValue::getUniqueID).sorted().collect(Collectors.toList()));
       }
    }
 
@@ -2055,7 +2028,6 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.writeStartObject(null);
          writeIntegerField("task_unique_id", Integer.valueOf(style.getTaskUniqueID()));
          writeIntegerField("bar_style_id", style.getGanttBarStyleID());
-         writeIntegerField("bar_style_index", Integer.valueOf(style.getBarStyleIndex()));
          writeFieldType("top_", style.getTopText());
          writeFieldType("bottom_", style.getBottomText());
          writeFieldType("left_", style.getLeftText());

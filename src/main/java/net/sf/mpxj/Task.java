@@ -364,17 +364,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Retrieve the activity codes associated with this task.
-    *
-    * @return list of activity codes
-    * @deprecated use getActivityCodeValues()
-    */
-   @Deprecated @SuppressWarnings("unchecked") public List<ActivityCodeValue> getActivityCodes()
-   {
-      return (List<ActivityCodeValue>) get(TaskField.ACTIVITY_CODES);
-   }
-
-   /**
     * Retrieve the activity code values associated with this task.
     *
     * @return map of activity code values
@@ -382,17 +371,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    @SuppressWarnings("unchecked") public Map<ActivityCode, ActivityCodeValue> getActivityCodeValues()
    {
       return (Map<ActivityCode, ActivityCodeValue>) get(TaskField.ACTIVITY_CODE_VALUES);
-   }
-
-   /**
-    * Assign an activity code to this task.
-    *
-    * @param value activity code value
-    * @deprecated use addActivityCodeValue()
-    */
-   @Deprecated @SuppressWarnings("unchecked") public void addActivityCode(ActivityCodeValue value)
-   {
-      ((Map<ActivityCode, ActivityCodeValue>) get(TaskField.ACTIVITY_CODE_VALUES)).put(value.getActivityCode(), value);
    }
 
    /**
@@ -4806,35 +4784,13 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Set the primary resource ID.
-    *
-    * @param value primary resource ID
-    * @deprecated use the setPrimaryResourceUniqueID method
-    */
-   @Deprecated public void setPrimaryResourceID(Integer value)
-   {
-      set(TaskField.PRIMARY_RESOURCE_ID, value);
-   }
-
-   /**
-    * Retrieve the primary resource ID.
-    *
-    * @return primary resource ID
-    * @deprecated use the getPrimaryResourceUniqueID method
-    */
-   @Deprecated public Integer getPrimaryResourceID()
-   {
-      return (Integer) get(TaskField.PRIMARY_RESOURCE_ID);
-   }
-
-   /**
     * Set the primary resource unique ID.
     *
     * @param value primary resource unique ID
     */
    public void setPrimaryResourceUniqueID(Integer value)
    {
-      set(TaskField.PRIMARY_RESOURCE_ID, value);
+      set(TaskField.PRIMARY_RESOURCE_UNIQUE_ID, value);
    }
 
    /**
@@ -4844,7 +4800,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Integer getPrimaryResourceUniqueID()
    {
-      return (Integer) get(TaskField.PRIMARY_RESOURCE_ID);
+      return (Integer) get(TaskField.PRIMARY_RESOURCE_UNIQUE_ID);
    }
 
    /**
@@ -5738,19 +5694,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param task potential successor task
     * @return Boolean flag
-    * @deprecated use isSuccessor
-    */
-   @Deprecated public boolean isSucessor(Task task)
-   {
-      return task != null && task.isPredecessor(this);
-   }
-
-   /**
-    * Utility method used to determine if the supplied task
-    * is a successor of the current task.
-    *
-    * @param task potential successor task
-    * @return Boolean flag
     */
    public boolean isSuccessor(Task task)
    {
@@ -6121,7 +6064,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    private RecurringTask m_recurringTask;
 
-   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(TaskField.PARENT_TASK_UNIQUE_ID, TaskField.PREDECESSORS, TaskField.SUCCESSORS, TaskField.ACTIVITY_CODES));
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(TaskField.PARENT_TASK_UNIQUE_ID, TaskField.PREDECESSORS, TaskField.SUCCESSORS));
 
    private static final Map<FieldType, Function<Task, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
@@ -6143,7 +6086,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.PREDECESSORS, Task::calculatePredecessors);
       CALCULATED_FIELD_MAP.put(TaskField.SUCCESSORS, Task::calculateSuccessors);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_PERCENT_COMPLETE, Task::calculateActivityPercentComplete);
-      CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_CODES, Task::calculateActivityCodes);
       CALCULATED_FIELD_MAP.put(TaskField.CONSTRAINT_TYPE, Task::defaultConstraintType);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);
       CALCULATED_FIELD_MAP.put(TaskField.TYPE, Task::defaultType);

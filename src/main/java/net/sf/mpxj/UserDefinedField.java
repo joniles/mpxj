@@ -31,59 +31,6 @@ import java.util.Locale;
 public class UserDefinedField implements FieldType
 {
    /**
-    * Constructor.
-    *
-    * @param uniqueID unique ID
-    * @param internalName internal name for this field
-    * @param externalName user-visible name for this field
-    * @param fieldTypeClass type of entity on which this field can be used
-    * @param summaryTaskOnly flag is true if this UDF can only be applied to summary tasks (WBS)
-    * @param dataType data type of this field
-    * @deprecated use the new version of this constructor
-    */
-   @Deprecated public UserDefinedField(Integer uniqueID, String internalName, String externalName, FieldTypeClass fieldTypeClass, boolean summaryTaskOnly, DataType dataType)
-   {
-      if (internalName == null || internalName.isEmpty())
-      {
-         internalName = "user_field_" + uniqueID;
-      }
-
-      m_uniqueID = uniqueID;
-      m_internalName = internalName;
-      m_externalName = externalName;
-      m_fieldTypeClass = fieldTypeClass;
-      m_summaryTaskOnly = summaryTaskOnly;
-      m_dataType = dataType;
-   }
-
-   /**
-    * Constructor.
-    *
-    * @param file parent file
-    * @param uniqueID unique ID
-    * @param internalName internal name for this field
-    * @param externalName user-visible name for this field
-    * @param fieldTypeClass type of entity on which this field can be used
-    * @param summaryTaskOnly flag is true if this UDF can only be applied to summary tasks (WBS)
-    * @param dataType data type of this field
-    * @deprecated use the Builder class
-    */
-   @Deprecated public UserDefinedField(UniqueIdObjectSequenceProvider file, Integer uniqueID, String internalName, String externalName, FieldTypeClass fieldTypeClass, boolean summaryTaskOnly, DataType dataType)
-   {
-      if (internalName == null || internalName.isEmpty())
-      {
-         internalName = "user_field_" + uniqueID;
-      }
-
-      m_uniqueID = file.getUniqueIdObjectSequence(UserDefinedField.class).syncOrGetNext(uniqueID);
-      m_internalName = internalName;
-      m_externalName = externalName;
-      m_fieldTypeClass = fieldTypeClass;
-      m_summaryTaskOnly = summaryTaskOnly;
-      m_dataType = dataType;
-   }
-
-   /**
     * Private constructor.
     *
     * @param builder Builder instance
@@ -150,17 +97,6 @@ public class UserDefinedField implements FieldType
       return m_dataType;
    }
 
-   /**
-    * Set the data type of this field.
-    *
-    * @param dataType data  type
-    * @deprecated use the Builder class
-    */
-   @Deprecated public void setDataType(DataType dataType)
-   {
-      m_dataType = dataType;
-   }
-
    @Override public FieldType getUnitsType()
    {
       return null;
@@ -176,7 +112,7 @@ public class UserDefinedField implements FieldType
    private final boolean m_summaryTaskOnly;
    private final String m_externalName;
    private final String m_internalName;
-   private DataType m_dataType;
+   private final DataType m_dataType;
 
    /**
     * User defined field builder.

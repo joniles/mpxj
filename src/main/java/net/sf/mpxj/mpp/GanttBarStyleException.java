@@ -73,24 +73,6 @@ public final class GanttBarStyleException extends GanttBarCommonStyle
    }
 
    /**
-    * Retrieves the index of the bar style to which this exception applies.
-    * The standard bar styles are held in an array, retrieved using the
-    * GanttChartView.getBarStyles() method. The index returned by this method
-    * is an index into the array of bar styles. The significance of this is
-    * that a single bar on a Gantt chart could have one or more exceptions
-    * associated with it, but the exceptions will only be applied if the style
-    * of the bar currently being displayed matches the style recorded here
-    * in the style exception.
-    *
-    * @return bar style index
-    * @deprecated use getGanttBarStyleID() to retrieve the bar style ID and getGanttBarStyleByID on the view to retrieve the style
-    */
-   @Deprecated public int getBarStyleIndex()
-   {
-      return (m_barStyleIndex);
-   }
-
-   /**
     * Sets the bar style index.
     *
     * @param index bar style index

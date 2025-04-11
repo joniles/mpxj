@@ -27,7 +27,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Represents Relation instances from the current project.
@@ -75,31 +74,11 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
 
    /**
     * Retrieve the successors of a given task.
-    * Note that the convention currently used by MPXJ is that the source task in the relation
-    * object is the current task, and the target task is the predecessor or successor.
-    * As we're only storing Relation instances representing predecessors, in order to
-    * conform to the convention for successors we need create a new list of Relation instances with
-    * transposed source and target tasks.
-    * DEPRECATED: when we reach version 14.0.0 this method will return what getRawSuccessors does now
     *
     * @param task task
     * @return task successors
     */
    public List<Relation> getSuccessors(Task task)
-   {
-      //noinspection deprecation
-      return getRawSuccessors(task).stream().map(r -> new Relation.Builder().from(r).sourceTask(r.getTargetTask()).targetTask(r.getSourceTask()).build()).collect(Collectors.toList());
-   }
-
-   /**
-    * Retrieve the successors for a task in their "raw" form where each
-    * Relation instance lists the successor as the source task attribute and
-    * the predecessor as the target task attribute.
-    *
-    * @param task task
-    * @return raw task successors
-    */
-   public List<Relation> getRawSuccessors(Task task)
    {
       return m_successors.getOrDefault(task, EMPTY_LIST);
    }

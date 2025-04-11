@@ -78,7 +78,7 @@ public enum DataType implements MpxjEnum
    ACTIVITY_STATUS(45),
    ACTIVITY_TYPE(46),
    CRITICAL_ACTIVITY_TYPE(47),
-   ACTIVITY_CODE_LIST(48),
+   ACTIVITY_CODE_LIST(48), // TODO: No longer used
    TIME(49),
    CUSTOM(50),
    RATE_SOURCE(51),
