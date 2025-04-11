@@ -321,7 +321,7 @@
 		<mkdir dir="${basedir}/src.python/mpxj/mpxj/lib" />
 	</target>
 
-	<target name="clean" depends="init, temp-clean, dotnet-clean, gem-clean, python-clean, maven-clean" description="Clean up all files">
+	<target name="clean" depends="init, temp-clean, gem-clean, python-clean, maven-clean" description="Clean up all files">
 		<delete file="${basedir}/mpxj.jar" />
 		<delete file="${basedir}/mpxj-test.jar" />
 
