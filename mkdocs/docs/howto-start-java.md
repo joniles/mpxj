@@ -9,7 +9,7 @@ project:
 <dependency>
   <groupId>net.sf.mpxj</groupId>
   <artifactId>mpxj</artifactId>
-  <version>13.0.0</version>
+  <version>14.0.0</version>
 </dependency>
 ```
 

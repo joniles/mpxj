@@ -149,7 +149,7 @@ just after the reference to the `MPXJ.Net` package:
 
 ```xml
 <ItemGroup>
-	<PackageReference Include="MPXJ.Net" Version="13.0.0" />
+	<PackageReference Include="MPXJ.Net" Version="14.0.0" />
 	<MavenReference Include="com.microsoft.sqlserver:mssql-jdbc" Version="12.6.2.jre8" />
 </ItemGroup>
 ```
