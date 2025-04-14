@@ -5,11 +5,11 @@
     <envs>
       <env name="JAVA_TOOL_OPTIONS" value="" />
     </envs>
-    <option name="MAIN_CLASS_NAME" value="net.sf.mpxj.explorer.ProjectExplorer" />
+    <option name="MAIN_CLASS_NAME" value="org.mpxj.explorer.ProjectExplorer" />
     <module name="mpxj" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="net.sf.mpxj.explorer.*" />
+        <option name="PATTERN" value="org.mpxj.explorer.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

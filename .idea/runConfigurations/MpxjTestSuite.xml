@@ -6,12 +6,12 @@
     <module name="mpxj" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="net.sf.mpxj.mpp.*" />
+        <option name="PATTERN" value="org.mpxj.mpp.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
-    <option name="PACKAGE_NAME" value="net.sf.mpxj.junit" />
-    <option name="MAIN_CLASS_NAME" value="net.sf.mpxj.junit.MpxjTestSuite" />
+    <option name="PACKAGE_NAME" value="org.mpxj.junit" />
+    <option name="MAIN_CLASS_NAME" value="org.mpxj.junit.MpxjTestSuite" />
     <option name="METHOD_NAME" value="" />
     <option name="TEST_OBJECT" value="class" />
     <option name="VM_PARAMETERS" value="-ea -Xmx1g -Djava.library.path=${JDBC_ODBC_DIR} -Duser.timezone=&quot;Europe/London&quot; -Dlog4j2.loggerContextFactory=org.apache.logging.log4j.simple.SimpleLoggerContextFactory -Dmpxj.junit.privatedir=&quot;${MPXJ_PRIVATE}/data&quot; -Dmpxj.junit.baselinedir=&quot;${MPXJ_PRIVATE}/baseline&quot; -Dmpxj.junit.primavera.file=&quot;${MPXJ_PRIVATE}/primavera/PPMDBSQLite.db&quot; -Dmpxj.junit.primavera.baselinedir=&quot;${MPXJ_PRIVATE}/primavera/baseline&quot;" />

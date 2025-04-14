@@ -36,7 +36,8 @@ this case we read each project in the file in turn.
 ```java
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.mpd.MPDDatabaseReader;
+import org.mpxj.mpd.MPDDatabaseReader;
+
 import java.sql.Connection;
 import java.util.Map;
 

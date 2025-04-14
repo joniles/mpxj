@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="net.sf.mpxj" default="archive" basedir=".">
+<project name="org.mpxj" default="archive" basedir=".">
 
 	<target name="init" description="Initialize properties">
 		<tstamp />
@@ -143,7 +143,7 @@
 	</target>
 
 	<target name="gem-source" description="Generate source required by Ruby gem">
-		<java classname="net.sf.mpxj.ruby.MethodGenerator" failonerror="true">
+		<java classname="org.mpxj.ruby.MethodGenerator" failonerror="true">
 			<arg value="${basedir}/src.ruby/mpxj/lib/mpxj" />
 			<classpath>
 				<pathelement path="${classpath}" />
@@ -230,28 +230,28 @@
 		<copy file="${env.MPXJ_SCHEMA_DIR}/pmxml/p6v2412-p6apibo-corrected.xsd" toDir="${basedir}/jaxb"/>
 
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b pm-binding.xjb -p net.sf.mpxj.primavera.schema p6v2412-p6apibo-corrected.xsd" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b pm-binding.xjb -p org.mpxj.primavera.schema p6v2412-p6apibo-corrected.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b mspdi-binding.xjb -p net.sf.mpxj.mspdi.schema mspdi_pj15-corrected.xsd" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b mspdi-binding.xjb -p org.mpxj.mspdi.schema mspdi_pj15-corrected.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b mrproject.xjb -p net.sf.mpxj.planner.schema mrproject-0.6.xsd" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b mrproject.xjb -p org.mpxj.planner.schema mrproject-0.6.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b phoenix-4-binding.xjb -p net.sf.mpxj.phoenix.schema.phoenix4 phoenix-4.xsd" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b phoenix-4-binding.xjb -p org.mpxj.phoenix.schema.phoenix4 phoenix-4.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b phoenix-5-binding.xjb -p net.sf.mpxj.phoenix.schema.phoenix5 phoenix-5.xsd" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b phoenix-5-binding.xjb -p org.mpxj.phoenix.schema.phoenix5 phoenix-5.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ganttproject-binding.xjb -p net.sf.mpxj.ganttproject.schema ganttproject-2.8.xsd" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ganttproject-binding.xjb -p org.mpxj.ganttproject.schema ganttproject-2.8.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b conceptdraw-binding.xjb -p net.sf.mpxj.conceptdraw.schema document-corrected.xsd" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b conceptdraw-binding.xjb -p org.mpxj.conceptdraw.schema document-corrected.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b gantt-designer-binding.xjb -p net.sf.mpxj.ganttdesigner.schema gantt-designer.xsd" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b gantt-designer-binding.xjb -p org.mpxj.ganttdesigner.schema gantt-designer.xsd" />
 		</exec>
 
 		<!-- Remove schemas not included with MPXJ -->

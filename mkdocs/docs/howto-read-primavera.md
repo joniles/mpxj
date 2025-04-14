@@ -93,8 +93,8 @@ the JDBC driver as a dependency to your Java project.
 ```java
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.primavera.PrimaveraDatabaseReader;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -102,40 +102,40 @@ import java.util.Map;
 
 public class P6JDBC
 {
-	public void read() throws Exception
-	{
-		//
-		// Load the JDBC driver
-		//
-		String driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver";
-		Class.forName(driverClass);
+   public void read() throws Exception
+   {
+      //
+      // Load the JDBC driver
+      //
+      String driverClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+      Class.forName(driverClass);
 
-		//
-		// Open a database connection. You will need to change
-		// these details to match the name of your server, database, user and password.
-		//
-		String connectionString="jdbc:sqlserver://localhost:1433;databaseName=my-database-name;user=my-user-name;password=my-password;";
-		Connection c = DriverManager.getConnection(connectionString);
-		PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-		reader.setConnection(c);
+      //
+      // Open a database connection. You will need to change
+      // these details to match the name of your server, database, user and password.
+      //
+      String connectionString = "jdbc:sqlserver://localhost:1433;databaseName=my-database-name;user=my-user-name;password=my-password;";
+      Connection c = DriverManager.getConnection(connectionString);
+      PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+      reader.setConnection(c);
 
-		//
-		// Retrieve a list of the projects available in the database
-		//
-		Map<Integer,String> projects = reader.listProjects();
+      //
+      // Retrieve a list of the projects available in the database
+      //
+      Map<Integer, String> projects = reader.listProjects();
 
-		//
-		// At this point you'll select the project
-		// you want to work with.
-		//
+      //
+      // At this point you'll select the project
+      // you want to work with.
+      //
 
-		//
-		// Now open the selected project using its ID
-		//
-		int selectedProjectID = 1;
-		reader.setProjectID(selectedProjectID);
-		ProjectFile projectFile = reader.read();
-	}
+      //
+      // Now open the selected project using its ID
+      //
+      int selectedProjectID = 1;
+      reader.setProjectID(selectedProjectID);
+      ProjectFile projectFile = reader.read();
+   }
 }
 ```
 
@@ -356,21 +356,21 @@ to store which columns from the database:
 ```java
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.FieldType;
-import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+import org.mpxj.FieldType;
+import org.mpxj.primavera.PrimaveraDatabaseReader;
 
 import java.util.Map;
 
 public class P6AttributeMaps
 {
-	public void read() throws Exception
-	{
-		PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-		Map<FieldType, String> resourceFieldMap = reader.getResourceFieldMap();
-		Map<FieldType, String> wbsFieldMap = reader.getWbsFieldMap();
-		Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
-		Map<FieldType, String> assignmentFieldMap = reader.getAssignmentFieldMap();
-	}
+   public void read() throws Exception
+   {
+      PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+      Map<FieldType, String> resourceFieldMap = reader.getResourceFieldMap();
+      Map<FieldType, String> wbsFieldMap = reader.getWbsFieldMap();
+      Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
+      Map<FieldType, String> assignmentFieldMap = reader.getAssignmentFieldMap();
+   }
 }
 ```
 
@@ -380,29 +380,29 @@ You can modify these existing mappings, or add new ones, for example:
 ```java
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.FieldType;
-import net.sf.mpxj.TaskField;
-import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+import org.mpxj.FieldType;
+import org.mpxj.TaskField;
+import org.mpxj.primavera.PrimaveraDatabaseReader;
 
 import java.util.Map;
 
 public class P6AttributeConfig
 {
-	public void read() throws Exception
-	{
-		PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-		Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
+   public void read() throws Exception
+   {
+      PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+      Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
 
-		//
-		// Store rsrc_id in NUMBER1
-		//
-		activityFieldMap.put(TaskField.NUMBER1, "rsrc_id");
+      //
+      // Store rsrc_id in NUMBER1
+      //
+      activityFieldMap.put(TaskField.NUMBER1, "rsrc_id");
 
-		//
-		// Read an Activity column called an_example_field and store it in TEXT10
-		//
-		activityFieldMap.put(TaskField.TEXT10, "an_example_field");
-	}
+      //
+      // Read an Activity column called an_example_field and store it in TEXT10
+      //
+      activityFieldMap.put(TaskField.TEXT10, "an_example_field");
+   }
 }
 ```
 

@@ -11,8 +11,8 @@ A PLF file contains "structured text" and can be read using
 ```java
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.primavera.StructuredTextParser;
-import net.sf.mpxj.primavera.StructuredTextRecord;
+import org.mpxj.primavera.StructuredTextParser;
+import org.mpxj.primavera.StructuredTextRecord;
 
 import java.io.FileInputStream;
 
