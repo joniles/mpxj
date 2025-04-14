@@ -300,9 +300,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#13121-unreleased" class="md-nav__link">
+  <a href="#1400-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      13.12.1 (unreleased)
+      14.0.0 (unreleased)
     </span>
   </a>
   
@@ -3802,6 +3802,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../howto-use-cpm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPM Schedulers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../howto-use-external-projects/" class="md-nav__link">
         
   
@@ -4065,9 +4086,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#13121-unreleased" class="md-nav__link">
+  <a href="#1400-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      13.12.1 (unreleased)
+      14.0.0 (unreleased)
     </span>
   </a>
   
@@ -6468,7 +6489,34 @@
 <h2 id="note">NOTE</h2>
 <p>From version 14.0.0 onwards the <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code> and <code>net.sf.mpxj-for-vb</code> packages will
 no longer be distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
-<h2 id="13121-unreleased">13.12.1 (unreleased)</h2>
+<h2 id="1400-unreleased">14.0.0 (unreleased)</h2>
+<ul>
+<li>NEW FEATURE</li>
+<li>MPXJ can now schedule projects using CPM (Critical Path Method)</li>
+<li>Two new classes (<code>MicrosoftScheduler</code> and <code>PrimaveraScheduler</code>) allow MPXJ to schedule a project in a way which follows the approach of either Microsoft Project or Primavera P6.</li>
+<li>BREAKING CHANGES: CODE REMOVED</li>
+<li>The constant <code>TaskField.PRIMARY_RESOURCE_ID</code> has been renamed to <code>TaskField.PRIMARY_RESOURCE_UNIQUE_ID</code>.</li>
+<li>The <code>RelationContainer#getRawSuccessors</code> method has been removed. Use the <code>RelationContainer#getSuccessors</code> method instead. This method now returns the same data <code>getRawSuccessors</code> returned previously.</li>
+<li>The deprecated Ruby attribute <code>Relation#task_unique_id</code> has been removed, use <code>Relation#predecessor_task_unique_id</code> and <code>Relation#successor_task_unique_id</code> instead.</li>
+<li>The deprecated <code>UserDefinedField</code> constructors have been removed, use <code>UserDefinedField.Builder</code> instead.</li>
+<li>The deprecated <code>UserDefinedField#setDataType</code> method has been removed, use the <code>UserDefinedField.Builder#dataType</code> method instead.</li>
+<li>The deprecated <code>StructuredNotes</code> constructor has been removed, use the <code>StructuredNotes</code> constructor taking a <code>ProjectFile</code> instance instead.</li>
+<li>The deprecated <code>Relation#getSourceTask</code> and <code>Relation#getTargetTask</code> methods have been removed, use <code>Relation#getPredecessorTask</code> and <code>Relation#getSuccessorTask</code> methods instead.</li>
+<li>The deprecated <code>Relation.Builder#sourceTask</code> and <code>Relation.Builder#targetTask</code> methods have been removed, use <code>Relation.Builder#predecessorTask</code> and <code>Relation.Builder#successorTask</code> methods instead.</li>
+<li>The deprecated <code>ActivityCodeValue#getType</code> method has been removed. Use the <code>ActivityCodeValue#getParentCode</code> method instead.</li>
+<li>The deprecated <code>ActivityCodeValue#getActivityCode</code> method has been removed. Use the <code>ActivityCodeValue#getParentCode</code> method instead.</li>
+<li>The deprecated <code>ActivityCodeValue#getParent</code> method has been removed. Use the <code>ActivityCodeValue#getParentValue</code> method instead.</li>
+<li>The deprecated <code>ActivityCodeValue#getParentUniqueID</code> method has been removed. Use the <code>ActivityCodeValue#getParentValueUniqueID</code> method instead.</li>
+<li>The deprecated <code>ActivityCodeValue.Builder#type</code> method has been removed. Use the <code>ActivityCodeValue.Builder#activityCode</code> method instead.</li>
+<li>The deprecated <code>ActivityCodeValue.Builder#parent</code> method has been removed. Use the <code>ActivityCodeValue.Builder#parentValue</code> method instead.</li>
+<li>The deprecated <code>Task#addActivityCode</code> method has been removed. Use the <code>Task#addActivityCodeValue</code> method instead.</li>
+<li>The deprecated <code>GanttBarStyleException#getBarStyleIndex</code> method has been removed. Use <code>GanttBarStyleException#getGanttBarStyleID</code> to retrieve the bar style ID, and <code>GanttChartView#getGanttBarStyleByID</code> to retrieve the style</li>
+<li>The deprecated constant <code>TaskField.ACTIVITY_CODE_LIST</code> has been removed. Use <code>TaskField.ACTIVITY_CODE_VALUES</code> instead.</li>
+<li>The deprecated <code>Task#getActivityCodes</code> method has been removed. Use the <code>Task#getActivityCodeValues</code> method instead.</li>
+<li>The deprecated <code>Task#setPrimaryResourceID</code> method has been removed. Use the <code>Task#setPrimaryResourceUniqueID</code> method instead.</li>
+<li>The deprecated <code>Task#getPrimaryResourceID</code> method has been removed. Use the <code>Task#getPrimaryResourceUniqueID</code> method instead.</li>
+<li>The deprecated <code>Task#isSucessor</code> method has been removed. Use the <code>Task#isSuccessor</code> method instead.</li>
+</ul>
 <h2 id="13120-2025-04-09">13.12.0 (2025-04-09)</h2>
 <ul>
 <li>Added support for reading Float Path and Float Path Order from XER files and P6 databases.</li>
@@ -8167,7 +8215,7 @@ no longer be distributed. Please use the <code>MPXJ.Net</code> package instead.<
 <ul>
 <li>Add support for resource assignment Stop and Resume attributes for MPP and MSPDI files</li>
 <li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/291">Issue 291</a>: PrimaveraPMFileWriter.write fails with java.lang.IllegalArgumentException</li>
-<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/292">Issue 292</a>: Microsoft Project 2016 : Need to set 'Stop' and 'Resume'  properties for net.sf.mpxj.ResourceAssignment</li>
+<li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/292">Issue 292</a>: Microsoft Project 2016 : Need to set 'Stop' and 'Resume' properties for org.mpxj.ResourceAssignment</li>
 </ul>
 <h2 id="521-2016-02-11">5.2.1 (2016-02-11)</h2>
 <ul>

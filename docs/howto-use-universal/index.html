@@ -1370,6 +1370,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../howto-use-cpm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPM Schedulers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../howto-use-external-projects/" class="md-nav__link">
         
   
@@ -1692,7 +1713,7 @@ The example code below illustrates both these situations.</p>
 
 <span class="w">      </span><span class="c1">// Retrieve the proxy</span>
 <span class="w">      </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">UniversalProjectReader</span><span class="p">.</span><span class="na">ProjectReaderProxy</span><span class="w"> </span><span class="n">proxy</span>
-<span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="n">upr</span><span class="p">.</span><span class="na">getProjectReaderProxy</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">upr</span><span class="p">.</span><span class="na">getProjectReaderProxy</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
 <span class="w">      </span><span class="p">{</span>
 <span class="w">         </span><span class="c1">// Retrieve the reader class</span>
 <span class="w">         </span><span class="n">ProjectReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proxy</span><span class="p">.</span><span class="na">getProjectReader</span><span class="p">();</span>
@@ -1708,7 +1729,7 @@ The example code below illustrates both these situations.</p>
 <span class="w">         </span><span class="c1">// In this example we are changing the behavior of the Phoenix reader.</span>
 <span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">reader</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">PhoenixReader</span><span class="p">)</span>
 <span class="w">         </span><span class="p">{</span>
-<span class="w">            </span><span class="p">((</span><span class="n">PhoenixReader</span><span class="p">)</span><span class="n">reader</span><span class="p">).</span><span class="na">setUseActivityCodesForTaskHierarchy</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="w">            </span><span class="p">((</span><span class="n">PhoenixReader</span><span class="p">)</span><span class="w"> </span><span class="n">reader</span><span class="p">).</span><span class="na">setUseActivityCodesForTaskHierarchy</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
 <span class="w">         </span><span class="p">}</span>
 
 <span class="w">         </span><span class="c1">// Finally, we read the schedule</span>
