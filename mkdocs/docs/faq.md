@@ -134,6 +134,15 @@ As part of the MPXJ 14 release, the package name for MPXJ changed from
 name in your code with the new package name, and your code should compile
 again.
 
+## Python
+**I've just updated MPXJ and when I try to run my code I get the error
+`java.lang.ClassNotFoundException: java.lang.ClassNotFoundException: net.sf.mpxj`**
+
+As part of the MPXJ 14 release, the package name for MPXJ changed from
+`net.sf.mpxj` to `org.mpxj`. Find and replace references to the old package
+name in your code with the new package name, and your code should run
+again.
+
 ## .NET
 **When using MPXJ from .NET Core I get an error similar to `No data is available
   for encoding 437. For information on defining a custom encoding, see the
