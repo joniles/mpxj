@@ -1,8 +1,8 @@
 # Changelog
 
 ## NOTE
-From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net.sf.mpxj-for-vb` packages will
-no longer be distributed. Please use the `MPXJ.Net` package instead.
+From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net.sf.mpxj-for-vb` packages are
+no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
 ## 14.0.0 (unreleased)
