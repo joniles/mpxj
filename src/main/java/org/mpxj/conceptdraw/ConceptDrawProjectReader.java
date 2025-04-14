@@ -562,7 +562,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
          //
          // Construct the context
          //
-         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.conceptdraw.schema", ConceptDrawProjectReader.class.getClassLoader());
+         CONTEXT = JAXBContext.newInstance("org.mpxj.conceptdraw.schema", ConceptDrawProjectReader.class.getClassLoader());
       }
 
       catch (JAXBException ex)

@@ -850,7 +850,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
          //
          // Construct the context
          //
-         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.planner.schema", PlannerReader.class.getClassLoader());
+         CONTEXT = JAXBContext.newInstance("org.mpxj.planner.schema", PlannerReader.class.getClassLoader());
       }
 
       catch (JAXBException ex)

@@ -15,7 +15,7 @@ import jpype
 import mpxj
 
 jpype.startJVM()
-from net.sf.mpxj.sample import MpxjConvert
+from org.mpxj.sample import MpxjConvert
 MpxjConvert().process('example.mpp', 'example.mpx')
 jpype.shutdownJVM()
 ```
@@ -27,7 +27,7 @@ import jpype
 import mpxj
 
 jpype.startJVM()
-from net.sf.mpxj.reader import UniversalProjectReader
+from org.mpxj.reader import UniversalProjectReader
 project = UniversalProjectReader().read('example.mpp')
 
 print("Tasks")
@@ -47,9 +47,9 @@ jpype.startJVM()
 
 from java.lang import Double
 from java.time import LocalDate, LocalDateTime
-from net.sf.mpxj import ProjectFile, TaskField, Duration, TimeUnit, RelationType, Availability, Relation
-from net.sf.mpxj.common import LocalDateTimeHelper
-from net.sf.mpxj.writer import UniversalProjectWriter, FileFormat
+from org.mpxj import ProjectFile, TaskField, Duration, TimeUnit, RelationType, Availability, Relation
+from org.mpxj.common import LocalDateTimeHelper
+from org.mpxj.writer import UniversalProjectWriter, FileFormat
 
 # The helper class we use later to actually write the file
 # uses an enumeration to determine the output format.

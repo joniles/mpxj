@@ -73,7 +73,7 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
    }
 
    /* (non-Javadoc)
-    * @see net.sf.mpxj.TimephasedWorkContainer#getData()
+    * @see org.mpxj.TimephasedWorkContainer#getData()
     */
    @Override public List<TimephasedWork> getData()
    {

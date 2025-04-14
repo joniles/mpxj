@@ -12,8 +12,8 @@ The simplest way to read an STX file is to use the `UniversalProjectReader`:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.reader.UniversalProjectReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.reader.UniversalProjectReader;
 	
 	public class SureTrak
 	{
@@ -55,8 +55,8 @@ can use the `UniversalProjectReader`:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.reader.UniversalProjectReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.reader.UniversalProjectReader;
 	
 	public class SureTrakDirectory
 	{
@@ -95,8 +95,8 @@ you will need to use the `SureTrakDatabaseReader` class.
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.primavera.suretrak.SureTrakDatabaseReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.primavera.suretrak.SureTrakDatabaseReader;
 	
 	import java.util.List;
 	

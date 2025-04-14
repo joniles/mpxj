@@ -12,9 +12,9 @@ The sample code below illustrates how to write data to an MPX file.
 	```java
 	package org.mpxj.howto.write;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.writer.FileFormat;
-	import net.sf.mpxj.writer.UniversalProjectWriter;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.writer.FileFormat;
+	import org.mpxj.writer.UniversalProjectWriter;
 	
 	public class MPX
 	{
@@ -54,8 +54,8 @@ with a localized German version of Microsoft Project.
 	```java
 	package org.mpxj.howto.write;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.mpx.MPXWriter;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.mpx.MPXWriter;
 	
 	import java.util.Locale;
 	
@@ -112,8 +112,8 @@ of the locale defaults. This is illustrated in the sample code below:
 	```java
 	package org.mpxj.howto.write;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.mpx.MPXWriter;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.mpx.MPXWriter;
 	
 	import java.util.Locale;
 	

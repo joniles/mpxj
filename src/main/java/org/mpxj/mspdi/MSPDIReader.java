@@ -2275,7 +2275,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
          //
          // Construct the context
          //
-         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.mspdi.schema", MSPDIReader.class.getClassLoader());
+         CONTEXT = JAXBContext.newInstance("org.mpxj.mspdi.schema", MSPDIReader.class.getClassLoader());
       }
 
       catch (JAXBException ex)

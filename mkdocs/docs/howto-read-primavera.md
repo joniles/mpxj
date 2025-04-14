@@ -17,8 +17,8 @@ those schedules using it ID.
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.primavera.PrimaveraDatabaseFileReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.primavera.PrimaveraDatabaseFileReader;
 	
 	import java.io.File;
 	import java.util.Map;
@@ -234,7 +234,7 @@ to the original behaviour by calling the `setMatchPrimaveraWBS` as shown below.
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+	import org.mpxj.primavera.PrimaveraDatabaseReader;
 	
 	public class P6ActivityWbs
 	{
@@ -274,7 +274,7 @@ the code for the current WBS entry (in the example above `wbs2`) call the
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+	import org.mpxj.primavera.PrimaveraDatabaseReader;
 	
 	public class P6WbsFullPath
 	{
@@ -313,7 +313,7 @@ report errors encountered when reading from a Primavera database:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+	import org.mpxj.primavera.PrimaveraDatabaseReader;
 	
 	public class P6IgnoreErrors
 	{

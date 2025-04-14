@@ -17,7 +17,7 @@ import org.mpxj.Priority;
 /**
  * This object contains factory methods for each
  * Java content interface and Java element interface
- * generated in the net.sf.mpxj.conceptdraw.schema package.
+ * generated in the org.mpxj.conceptdraw.schema package.
  * <p>An ObjectFactory allows you to programatically
  * construct new instances of the Java representation
  * for XML content. The Java representation of XML
@@ -35,7 +35,7 @@ import org.mpxj.Priority;
    private final static QName _Priority_QNAME = new QName("http://www.schemas.conceptdraw.com/cdprj/document.xsd", "Priority");
 
    /**
-    * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: net.sf.mpxj.conceptdraw.schema
+    * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.mpxj.conceptdraw.schema
     *
     */
    public ObjectFactory()

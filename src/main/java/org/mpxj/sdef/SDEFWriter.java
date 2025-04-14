@@ -4,7 +4,7 @@
  * copyright:  (c) GeoComputer 2011
  * date:       05/14/2012
  *
- * started with net.sf.mpxj.mpx MPXWriter.java as template for writing all of below
+ * started with MPXWriter.java as template for writing all of below
  * so it follows the logic and style of other MPXJ classes
  *
  * SDEF is the Standard Data Exchange Format, as defined by the USACE (United States

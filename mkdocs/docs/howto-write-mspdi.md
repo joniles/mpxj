@@ -9,9 +9,9 @@ The sample code below illustrates how to write data to an MSPDI file.
 	```java
 	package org.mpxj.howto.write;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.writer.FileFormat;
-	import net.sf.mpxj.writer.UniversalProjectWriter;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.writer.FileFormat;
+	import org.mpxj.writer.UniversalProjectWriter;
 	
 	public class MSPDI
 	{
@@ -64,8 +64,8 @@ Project you can set this flag to `false`:
 	```java
 	package org.mpxj.howto.write;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.mspdi.MSPDIWriter;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.mspdi.MSPDIWriter;
 	
 	public class MSPDICompatibleOutput
 	{
@@ -98,7 +98,7 @@ Project you can set this flag to `false`:
 ### Save Version
 The MSPDI file contains a `SaveVersion` attribute which indicates the version of
 Microsoft Project used to save the file. The value of `SaveVersion` is defined
-by the `net.sf.mpxj.mspdi.SaveVersion` enum,  which provides the following
+by the `org.mpxj.mspdi.SaveVersion` enum,  which provides the following
 values:
 
 ```
@@ -124,9 +124,9 @@ the older style of calendar exceptions is written to the MSPDI file:
 	```java
 	package org.mpxj.howto.write;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.mspdi.MSPDIWriter;
-	import net.sf.mpxj.mspdi.SaveVersion;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.mspdi.MSPDIWriter;
+	import org.mpxj.mspdi.SaveVersion;
 	
 	public class MSPDISaveVersion
 	{
@@ -181,8 +181,8 @@ day-by-dat breakdown:
 	```java
 	package org.mpxj.howto.write;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.mspdi.MSPDIWriter;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.mspdi.MSPDIWriter;
 	
 	public class MSPDITimephased
 	{
@@ -219,8 +219,8 @@ write an aggregated form of the timephased data:
 	```java
 	package org.mpxj.howto.write;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.mspdi.MSPDIWriter;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.mspdi.MSPDIWriter;
 	
 	public class MSPDITimephasedAggregate
 	{

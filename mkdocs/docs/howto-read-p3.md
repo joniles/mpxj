@@ -12,8 +12,8 @@ The simplest way to read a PRX file is to use the `UniversalProjectReader`:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.reader.UniversalProjectReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.reader.UniversalProjectReader;
 	
 	public class P3
 	{
@@ -55,8 +55,8 @@ use the `UniversalProjectReader`:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.reader.UniversalProjectReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.reader.UniversalProjectReader;
 	
 	public class P3Directory
 	{
@@ -95,8 +95,8 @@ you will need to use the `P3DatabaseReader` class.
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.primavera.p3.P3DatabaseReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.primavera.p3.P3DatabaseReader;
 	
 	import java.util.List;
 	

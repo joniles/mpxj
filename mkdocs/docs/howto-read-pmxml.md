@@ -8,8 +8,8 @@ The simplest way to read a PMXML file is to use the `UniversalProjectReader`:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.reader.UniversalProjectReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.reader.UniversalProjectReader;
 	
 	public class PMXML
 	{
@@ -52,7 +52,7 @@ PMXML file, as shown below:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+	import org.mpxj.primavera.PrimaveraPMFileReader;
 	
 	import java.io.FileInputStream;
 	import java.util.Map;
@@ -125,8 +125,8 @@ Alternatively you can ask MPXJ to read all the projects contained in the file:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.primavera.PrimaveraPMFileReader;
 	
 	import java.util.List;
 	
@@ -175,8 +175,8 @@ MPXJ will attempt to link these relations across projects:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.primavera.PrimaveraPMFileReader;
 	
 	import java.util.List;
 	

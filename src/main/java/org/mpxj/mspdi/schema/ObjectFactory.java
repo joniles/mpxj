@@ -15,7 +15,7 @@ import jakarta.xml.bind.annotation.XmlRegistry;
 /**
  * This object contains factory methods for each
  * Java content interface and Java element interface
- * generated in the net.sf.mpxj.mspdi.schema package.
+ * generated in the org.mpxj.mspdi.schema package.
  * <p>An ObjectFactory allows you to programatically
  * construct new instances of the Java representation
  * for XML content. The Java representation of XML
@@ -32,7 +32,7 @@ import jakarta.xml.bind.annotation.XmlRegistry;
    private final static QName _Project_QNAME = new QName("http://schemas.microsoft.com/project", "Project");
 
    /**
-    * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: net.sf.mpxj.mspdi.schema
+    * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.mpxj.mspdi.schema
     *
     */
    public ObjectFactory()

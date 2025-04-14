@@ -2787,7 +2787,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          //
          // Construct the context
          //
-         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.mspdi.schema", MSPDIWriter.class.getClassLoader());
+         CONTEXT = JAXBContext.newInstance("org.mpxj.mspdi.schema", MSPDIWriter.class.getClassLoader());
       }
 
       catch (JAXBException ex)

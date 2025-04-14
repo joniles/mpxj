@@ -9,9 +9,9 @@ The sample code below illustrates how to write data to a PMXML file.
 	```java
 	package org.mpxj.howto.write;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.writer.FileFormat;
-	import net.sf.mpxj.writer.UniversalProjectWriter;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.writer.FileFormat;
+	import org.mpxj.writer.UniversalProjectWriter;
 	
 	public class PMXML
 	{
@@ -50,8 +50,8 @@ file by calling the `setWriteBaselines` method as shown below.
 	```java
 	package org.mpxj.howto.write;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.primavera.PrimaveraPMFileWriter;
 	
 	public class PMXMLBaselines
 	{

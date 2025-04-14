@@ -142,7 +142,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
          //
          // Construct the context
          //
-         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.phoenix.schema.phoenix4", Phoenix4Reader.class.getClassLoader());
+         CONTEXT = JAXBContext.newInstance("org.mpxj.phoenix.schema.phoenix4", Phoenix4Reader.class.getClassLoader());
       }
 
       catch (JAXBException ex)

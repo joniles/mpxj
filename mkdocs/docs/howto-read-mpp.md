@@ -18,8 +18,8 @@ The simplest way to read an MPP file is to use the `UniversalProjectReader`:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.reader.UniversalProjectReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.reader.UniversalProjectReader;
 	
 	public class MPP
 	{
@@ -65,8 +65,8 @@ illustrates how you would supply the password:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.mpp.MPPReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.mpp.MPPReader;
 	
 	public class MPPWithPassword
 	{
@@ -104,8 +104,8 @@ MPP9 password protection.
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.mpp.MPPReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.mpp.MPPReader;
 	
 	public class MPPIgnorePassword
 	{
@@ -146,8 +146,8 @@ To do this you will use the `setReadPresentationData` method, as shown below:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.mpp.MPPReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.mpp.MPPReader;
 	
 	public class MPPPresentationData
 	{
@@ -186,8 +186,8 @@ as shown below:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.mpp.MPPReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.mpp.MPPReader;
 	
 	public class MPPPropertiesOnly
 	{
@@ -233,8 +233,8 @@ work with the raw data directly from the MPP file, you can use the
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.mpp.MPPReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.mpp.MPPReader;
 	
 	public class MPPRawTimephased
 	{

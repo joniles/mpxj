@@ -994,7 +994,7 @@ public final class PlannerWriter extends AbstractProjectWriter
          //
          // Construct the context
          //
-         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.planner.schema", PlannerWriter.class.getClassLoader());
+         CONTEXT = JAXBContext.newInstance("org.mpxj.planner.schema", PlannerWriter.class.getClassLoader());
       }
 
       catch (JAXBException ex)

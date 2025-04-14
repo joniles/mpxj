@@ -2958,7 +2958,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          //
          // Construct the context
          //
-         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.primavera.schema", PrimaveraPMFileReader.class.getClassLoader());
+         CONTEXT = JAXBContext.newInstance("org.mpxj.primavera.schema", PrimaveraPMFileReader.class.getClassLoader());
       }
 
       catch (JAXBException ex)

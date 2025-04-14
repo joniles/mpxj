@@ -162,7 +162,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          //
          // Construct the context
          //
-         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.primavera.schema", PrimaveraPMFileWriter.class.getClassLoader());
+         CONTEXT = JAXBContext.newInstance("org.mpxj.primavera.schema", PrimaveraPMFileWriter.class.getClassLoader());
       }
 
       catch (JAXBException ex)

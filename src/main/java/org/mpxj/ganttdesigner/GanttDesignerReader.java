@@ -341,7 +341,7 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
          //
          // Construct the context
          //
-         CONTEXT = JAXBContext.newInstance("net.sf.mpxj.ganttdesigner.schema", GanttDesignerReader.class.getClassLoader());
+         CONTEXT = JAXBContext.newInstance("org.mpxj.ganttdesigner.schema", GanttDesignerReader.class.getClassLoader());
       }
 
       catch (JAXBException ex)

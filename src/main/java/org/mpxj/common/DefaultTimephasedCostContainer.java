@@ -51,7 +51,7 @@ public class DefaultTimephasedCostContainer implements TimephasedCostContainer
    }
 
    /* (non-Javadoc)
-    * @see net.sf.mpxj.TimephasedCostContainer#getData()
+    * @see org.mpxj.TimephasedCostContainer#getData()
     */
    @Override public List<TimephasedCost> getData()
    {

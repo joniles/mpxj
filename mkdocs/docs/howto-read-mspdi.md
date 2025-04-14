@@ -9,8 +9,8 @@ The simplest way to read an MSPDI file is to use the `UniversalProjectReader`:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.reader.UniversalProjectReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.reader.UniversalProjectReader;
 	
 	public class MSDPI
 	{
@@ -54,8 +54,8 @@ as illustrated below.
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.mspdi.MSPDIReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.mspdi.MSPDIReader;
 	
 	import java.nio.charset.Charset;
 	
@@ -100,8 +100,8 @@ below.
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.mspdi.MSPDIReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.mspdi.MSPDIReader;
 	
 	public class MSPDICompatibleInput
 	{
@@ -141,8 +141,8 @@ errors encountered when reading a file:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.mspdi.MSPDIReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.mspdi.MSPDIReader;
 	
 	public class MSPDIIgnoreErrors
 	{
