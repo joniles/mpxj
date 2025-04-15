@@ -9,6 +9,7 @@
 		<!-- Build Configuration -->
 		<property name="current.version" value="13.12.0" />
 		<property name="current.version.classifier" value="" />
+
 		<!-- Environment Configuration-->
 		<property name="maven.cmd" value="mvn.cmd"/>
 		<property name="ruby.cmd" value="bundle.bat"/>
@@ -19,56 +20,6 @@
 		<property name="dist.dir" value="${basedir}/dist" />
 		<property name="lib.dir" value="${basedir}/lib" />
 		<property name="distribution" value="${dist.dir}/mpxj-${current.version}.zip" />
-
-		<!-- Runtime Dependencies -->
-		<property name="log4j-api.jar" value="log4j-api-2.17.2" />
-		<property name="rtfparserkit.jar" value="rtfparserkit-1.16.0" />
-		<property name="sqlite-jdbc.jar" value="sqlite-jdbc-3.42.0.0" />
-		<property name="jsoup.jar" value="jsoup-1.15.3" />
-		<property name="commons-lang3.jar" value="commons-lang3-3.10" />
-		<property name="commons-logging.jar" value="commons-logging-1.2" />
-		<property name="jackcess.jar" value="jackcess-4.0.1" />
-		<property name="jakarta.activation.jar" value="jakarta.activation-2.0.1" />
-		<property name="jakarta.xml.bind-api.jar" value="jakarta.xml.bind-api-3.0.1" />
-		<property name="istack-commons-runtime.jar" value="istack-commons-runtime-4.0.1" />
-		<property name="txw2.jar" value="txw2-3.0.2" />
-		<property name="jaxb-core.jar" value="jaxb-core-3.0.2" />
-		<property name="jaxb-runtime.jar" value="jaxb-runtime-3.0.2" />
-
-		<!-- Test Dependencies -->
-		<property name="junit.jar" value="junit-4.13.1"/>
-		<property name="hamcrest.jar" value="hamcrest-core-1.3"/>
-
-		<!-- Dependency Paths -->
-		<path id="rtfparserkit.path"><pathelement location="${lib.dir}/${rtfparserkit.jar}.jar" /></path>
-		<path id="sqlite-jdbc.path"><pathelement location="${lib.dir}/${sqlite-jdbc.jar}.jar" /></path>
-		<path id="jsoup.path"><pathelement location="${lib.dir}/${jsoup.jar}.jar" /></path>
-		<path id="commons-lang3.path"><pathelement location="${lib.dir}/${commons-lang3.jar}.jar" /></path>
-		<path id="commons-logging.path"><pathelement location="${lib.dir}/${commons-logging.jar}.jar" /></path>
-		<path id="jackcess.path"><pathelement location="${lib.dir}/${jackcess.jar}.jar" /></path>
-		<path id="jakarta.activation.path"><pathelement location="${lib.dir}/${jakarta.activation.jar}.jar" /></path>
-		<path id="jakarta.xml.bind-api.path"><pathelement location="${lib.dir}/${jakarta.xml.bind-api.jar}.jar" /></path>
-		<path id="istack-commons-runtime.path"><pathelement location="${lib.dir}/${istack-commons-runtime.jar}.jar" /></path>
-		<path id="txw2.path"><pathelement location="${lib.dir}/${txw2.jar}.jar" /></path>
-		<path id="jaxb-core.path"><pathelement location="${lib.dir}/${jaxb-core.jar}.jar" /></path>
-		<path id="jaxb-runtime.path"><pathelement location="${lib.dir}/${jaxb-runtime.jar}.jar" /></path>
-		<path id="junit.path"><pathelement location="${lib.dir}/${junit.jar}.jar" /></path>
-
-		<!-- Dependency Classpaths -->
-		<property name="log4j-api.classpath" refid="log4j-api.path" />
-		<property name="rtfparserkit.classpath" refid="rtfparserkit.path" />
-		<property name="sqlite-jdbc.classpath" refid="sqlite-jdbc.path" />
-		<property name="jsoup.classpath" refid="jsoup.path" />
-		<property name="commons-lang3.classpath" refid="commons-lang3.path" />
-		<property name="commons-logging.classpath" refid="commons-logging.path" />
-		<property name="jackcess.classpath" refid="jackcess.path" />
-		<property name="jaxb-core.classpath" refid="jaxb-core.path" />
-		<property name="jakarta.activation.classpath" refid="jakarta.activation.path" />
-		<property name="jakarta.xml.bind-api.classpath" refid="jakarta.xml.bind-api.path" />
-		<property name="istack-commons-runtime.classpath" refid="istack-commons-runtime.path" />
-		<property name="txw2.classpath" refid="txw2.path" />
-		<property name="jaxb-runtime.classpath" refid="jaxb-runtime.path" />
-		<property name="junit.classpath" refid="junit.path" />
 
 		<mkdir dir="${lib.dir}" />
 	</target>
@@ -373,23 +324,4 @@
 			<arg line='release create -F ${dist.dir}/readme.md -t "Version ${current.version}" v${current.version} ${distribution}'/>
 		</exec>
 	</target>
-
-	<!-- Run this after xjc to fix incorrectly escaped XML in javadoc comments -->
-	<target name="fix-jaxb-comments" depends="init" description="Fix JAXB generated comments">
-		<replaceregexp
-		               match="( \*[ ]+&amp;lt;.+)&gt;"
-		               replace="\1&amp;gt;"
-		               byline="true">
-			<fileset dir="${basedir}/src/main/java" includes="**/schema/*.java" />
-		</replaceregexp>
-
-		<replaceregexp
-		               match='(base="&amp;lt;.+)&gt;'
-		               replace="\1&amp;gt;"
-		               byline="true">
-			<fileset dir="${basedir}/src/main/java" includes="**/schema/*.java" />
-		</replaceregexp>
-
-	</target>
-
 </project>
