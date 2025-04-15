@@ -33,7 +33,7 @@
 
         <div id="breadcrumbs">
           <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2025-04-14</li>
+        <li id="publishDate">Last Published: 2025-04-15</li>
           </ul>
         </div>
       </header>
@@ -76,7 +76,7 @@
 <th>By</th></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>NEW FEATURE</td>
+<td>**NEW FEATURE**</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
@@ -88,19 +88,27 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>BREAKING CHANGES: CODE REMOVED</td>
+<td>**BREAKING CHANGES - .Net**</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>The constant `TaskField.PRIMARY_RESOURCE_ID` has been renamed to `TaskField.PRIMARY_RESOURCE_UNIQUE_ID`.</td>
+<td>The `net.sf.mpxj`, `net.sf.mpxj-for-csharp`, and `net.sf.mpxj-for-vb` NuGet packages are no longer being distributed. You must migrate your code to use the `MPXJ.Net` NuGet package instead.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>The `RelationContainer#getRawSuccessors` method has been removed. Use the `RelationContainer#getSuccessors` method instead. This method now returns the same data `getRawSuccessors` returned previously.</td>
+<td>**BREAKING CHANGES - Java, Python**</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>The deprecated Ruby attribute `Relation#task_unique_id` has been removed, use `Relation#predecessor_task_unique_id` and `Relation#successor_task_unique_id` instead.</td>
+<td>The name of the package containing MPXJ's Java classes has changed from `net.sf.mpxj` to `org.mpxj`. You will need to update your code by searching for `net.sf.mpxj` and replace this with `org.mpxj`. NOTE: for Java applications using Maven, the Maven Group ID **has not changed**, you will still retrieve MPXJ using the Group ID `net.sf.mpxj`.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The constant `TaskField.PRIMARY_RESOURCE_ID` has been renamed to `TaskField.PRIMARY_RESOURCE_UNIQUE_ID`.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The `RelationContainer#getRawSuccessors` method has been removed. Use the `RelationContainer#getSuccessors` method instead. This method now returns the same data `getRawSuccessors` returned previously.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
@@ -173,6 +181,14 @@
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>The deprecated `Task#isSucessor` method has been removed. Use the `Task#isSuccessor` method instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>**BREAKING CHANGES - Ruby**</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The deprecated Ruby attribute `Relation#task_unique_id` has been removed, use `Relation#predecessor_task_unique_id` and `Relation#successor_task_unique_id` instead.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
 <h3 id="a13.12.0">Release 13.12.0 &#x2013; 2025-04-09</h3>
 <table border="0" class="table table-striped">
@@ -8766,7 +8782,7 @@
       <div class="container-fluid">
         <div class="row-fluid">
             <p>&#169;      2000&#x2013;2025
-<a href="http://mpxj.org">Packwood Software</a>
+<a href="http://mpxj.org">MPXJ</a>
 </p>
         </div>
       </div>

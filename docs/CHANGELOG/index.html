@@ -2878,27 +2878,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../howto-com/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Getting Started with COM
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../howto-start/" class="md-nav__link">
         
   
@@ -6487,17 +6466,19 @@
 
 <h1 id="changelog">Changelog</h1>
 <h2 id="note">NOTE</h2>
-<p>From version 14.0.0 onwards the <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code> and <code>net.sf.mpxj-for-vb</code> packages will
-no longer be distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
+<p>From version 14.0.0 onwards the <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code> and <code>net.sf.mpxj-for-vb</code> packages are
+no longer distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
 <h2 id="1400-unreleased">14.0.0 (unreleased)</h2>
 <ul>
-<li>NEW FEATURE</li>
+<li><strong>NEW FEATURE</strong></li>
 <li>MPXJ can now schedule projects using CPM (Critical Path Method)</li>
 <li>Two new classes (<code>MicrosoftScheduler</code> and <code>PrimaveraScheduler</code>) allow MPXJ to schedule a project in a way which follows the approach of either Microsoft Project or Primavera P6.</li>
-<li>BREAKING CHANGES: CODE REMOVED</li>
+<li><strong>BREAKING CHANGES - .Net</strong></li>
+<li>The <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code>, and <code>net.sf.mpxj-for-vb</code> NuGet packages are no longer being distributed. You must migrate your code to use the <code>MPXJ.Net</code> NuGet package instead.</li>
+<li><strong>BREAKING CHANGES - Java, Python</strong></li>
+<li>The name of the package containing MPXJ's Java classes has changed from <code>net.sf.mpxj</code> to <code>org.mpxj</code>. You will need to update your code by searching for <code>net.sf.mpxj</code> and replace this with <code>org.mpxj</code>. NOTE: for Java applications using Maven, the Maven Group ID <strong>has not changed</strong>, you will still retrieve MPXJ using the Group ID <code>net.sf.mpxj</code>.</li>
 <li>The constant <code>TaskField.PRIMARY_RESOURCE_ID</code> has been renamed to <code>TaskField.PRIMARY_RESOURCE_UNIQUE_ID</code>.</li>
 <li>The <code>RelationContainer#getRawSuccessors</code> method has been removed. Use the <code>RelationContainer#getSuccessors</code> method instead. This method now returns the same data <code>getRawSuccessors</code> returned previously.</li>
-<li>The deprecated Ruby attribute <code>Relation#task_unique_id</code> has been removed, use <code>Relation#predecessor_task_unique_id</code> and <code>Relation#successor_task_unique_id</code> instead.</li>
 <li>The deprecated <code>UserDefinedField</code> constructors have been removed, use <code>UserDefinedField.Builder</code> instead.</li>
 <li>The deprecated <code>UserDefinedField#setDataType</code> method has been removed, use the <code>UserDefinedField.Builder#dataType</code> method instead.</li>
 <li>The deprecated <code>StructuredNotes</code> constructor has been removed, use the <code>StructuredNotes</code> constructor taking a <code>ProjectFile</code> instance instead.</li>
@@ -6516,6 +6497,8 @@ no longer be distributed. Please use the <code>MPXJ.Net</code> package instead.<
 <li>The deprecated <code>Task#setPrimaryResourceID</code> method has been removed. Use the <code>Task#setPrimaryResourceUniqueID</code> method instead.</li>
 <li>The deprecated <code>Task#getPrimaryResourceID</code> method has been removed. Use the <code>Task#getPrimaryResourceUniqueID</code> method instead.</li>
 <li>The deprecated <code>Task#isSucessor</code> method has been removed. Use the <code>Task#isSuccessor</code> method instead.</li>
+<li><strong>BREAKING CHANGES - Ruby</strong></li>
+<li>The deprecated Ruby attribute <code>Relation#task_unique_id</code> has been removed, use <code>Relation#predecessor_task_unique_id</code> and <code>Relation#successor_task_unique_id</code> instead.</li>
 </ul>
 <h2 id="13120-2025-04-09">13.12.0 (2025-04-09)</h2>
 <ul>
