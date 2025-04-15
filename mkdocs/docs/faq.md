@@ -132,7 +132,9 @@ is not believed to affect the more recent version of JAXB now used by MPXJ.
 As part of the MPXJ 14 release, the package name for MPXJ changed from
 `net.sf.mpxj` to `org.mpxj`. Find and replace references to the old package
 name in your code with the new package name, and your code should compile
-again.
+again. NOTE: the Maven Group ID for MPXJ has nit changed, and is still
+`net.sf.mpxj` - you don't need to update your POM file, just any references to
+`net.sf.mpxj` in your code.
 
 ## Python
 **I've just updated MPXJ and when I try to run my code I get the error

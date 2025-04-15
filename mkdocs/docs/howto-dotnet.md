@@ -10,7 +10,7 @@ is being used to convert the original Java version of MPXJ into .Net assemblies.
 > something like this: `<Project Sdk="Microsoft.NET.Sdk">`. If the first line of
 > your `csproj` file looks something like this:
 > `<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">`
-> you will need to update to the new SDK project format.
+> you will need to update to the new SDK project format in order to use MPXJ.
 
 ## MPXJ.Net
 **This is the recommended approach.**
