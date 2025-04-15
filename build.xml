@@ -11,10 +11,16 @@
 		<property name="current.version.classifier" value="" />
 
 		<!-- Environment Configuration-->
-		<property name="maven.cmd" value="mvn.cmd"/>
-		<property name="ruby.cmd" value="bundle.bat"/>
-		<property name="python.cmd" value="py.exe" />
-		<property name="xjc.cmd" value="${basedir}/../jaxb-ri-3.0.2/bin/xjc.bat" />
+		<property name="jaxb.name" value = "jaxb-ri-3.0.2"/>
+
+		<condition property="os.family.name" value="windows">
+			<os family="windows" />
+		</condition>
+		<condition property="os.family.name" value="unix">
+			<os family="unix" />
+		</condition>
+
+		<property file="build.${os.family.name}.properties"/>
 
 		<!-- Common properties -->
 		<property name="dist.dir" value="${basedir}/dist" />
