@@ -44,7 +44,7 @@
 			<arg line="versions:commit -f ${basedir}/pom.tests.xml"/>
 		</exec>
 
-		<replaceregexp file="${basedir}/src/main/java/net/sf/mpxj/MPXJ.java"
+		<replaceregexp file="${basedir}/src/main/java/org/mpxj/MPXJ.java"
 					   match='VERSION = ".*"'
 					   replace='VERSION = "${current.version}"'
 					   byline="true"
