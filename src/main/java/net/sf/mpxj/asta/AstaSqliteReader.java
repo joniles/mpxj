@@ -27,6 +27,7 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -222,7 +223,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
          try (ResultSet rs = ps.executeQuery())
          {
             List<Row> result = new ArrayList<>();
-            Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+            Map<String, Integer> meta = populateMetaData(rs);
             while (rs.next())
             {
                result.add(new SqliteResultSetRow(rs, meta));
@@ -230,6 +231,30 @@ public class AstaSqliteReader extends AbstractProjectFileReader
             return result;
          }
       }
+   }
+
+   /**
+    * Normally we'd be calling ResultSetHelper.populateMetaData, but we have come
+    * across some Asta SQLite databases which use the NTEXT type. These are not
+    * recognised by the JDBC driver, so here we're providing an explicit mapping
+    * to allow these columns to be treated correctly as text.
+    *
+    * @param rs ResultSet instance
+    * @return map containing column names and types
+    */
+   private Map<String, Integer> populateMetaData(ResultSet rs) throws SQLException
+   {
+      Map<String, Integer> map = new HashMap<>();
+      ResultSetMetaData meta = rs.getMetaData();
+      int columnCount = meta.getColumnCount() + 1;
+      for (int loop = 1; loop < columnCount; loop++)
+      {
+         String name = meta.getColumnName(loop);
+         String typeName  = meta.getColumnTypeName(loop);
+         Integer type = "NTEXT".equals(typeName) ? Integer.valueOf(1) : Integer.valueOf(meta.getColumnType(loop));
+         map.put(name, type);
+      }
+      return map;
    }
 
    /**
