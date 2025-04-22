@@ -1397,7 +1397,18 @@ public final class JsonWriter extends AbstractProjectWriter
          }
          else
          {
-            Duration duration = val.convertUnits(m_timeUnits, defaults);
+            TimeUnit targetUnits = m_timeUnits;
+            if (val.getUnits().isElapsed())
+            {
+               // We have an elapsed time unit value. It doesn't make sense
+               // to convert this to a "working" units (e.g. elapsed days to days).
+               // Instead, we'll select the appropriate elapsed units, so
+               // if the caller asks for days, we'll convert the value to elapsed days.
+               // TODO: we need to make the original units available as part of the JSON output, and an elapsed flag?
+               targetUnits = ELAPSED_TIME_UNIT_MAP.getOrDefault(targetUnits, targetUnits);
+            }
+
+            Duration duration = val.convertUnits(targetUnits, defaults);
             m_writer.writeNameValuePair(fieldName, duration.getDuration());
          }
       }
@@ -2085,6 +2096,16 @@ public final class JsonWriter extends AbstractProjectWriter
       TYPE_MAP.put(Double.class.getName(), DataType.NUMERIC);
       TYPE_MAP.put(Duration.class.getName(), DataType.DURATION);
       TYPE_MAP.put(Integer.class.getName(), DataType.INTEGER);
+   }
+
+   private static final Map<TimeUnit, TimeUnit> ELAPSED_TIME_UNIT_MAP = new HashMap<>();
+   static
+   {
+      ELAPSED_TIME_UNIT_MAP.put(TimeUnit.MINUTES, TimeUnit.ELAPSED_MINUTES);
+      ELAPSED_TIME_UNIT_MAP.put(TimeUnit.HOURS, TimeUnit.ELAPSED_HOURS);
+      ELAPSED_TIME_UNIT_MAP.put(TimeUnit.DAYS, TimeUnit.ELAPSED_DAYS);
+      ELAPSED_TIME_UNIT_MAP.put(TimeUnit.WEEKS, TimeUnit.ELAPSED_WEEKS);
+      ELAPSED_TIME_UNIT_MAP.put(TimeUnit.MONTHS, TimeUnit.ELAPSED_MONTHS);
    }
 
    private static final Set<FieldType> IGNORED_FIELDS = new HashSet<>(Arrays.asList(AssignmentField.ASSIGNMENT_TASK_GUID, AssignmentField.ASSIGNMENT_RESOURCE_GUID, ResourceField.CALENDAR_GUID, ResourceField.STANDARD_RATE_UNITS, ResourceField.OVERTIME_RATE_UNITS));
