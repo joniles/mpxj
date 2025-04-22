@@ -12,6 +12,7 @@
 			<action dev="joniles" type="update">**CHANGES**</action>
 			<action dev="joniles" type="update">Improvements to accuracy of reading text UDF values from Powerproject PP files.</action>
 			<action dev="joniles" type="update">Corrected conversion of elapsed durations when writing JSON files.</action>
+			<action dev="joniles" type="update">Added the `Relation#lag_units` method to the ruby gem.</action>
 			<action dev="joniles" type="update">**BREAKING CHANGES - .Net**</action>
 			<action dev="joniles" type="update">The `net.sf.mpxj`, `net.sf.mpxj-for-csharp`, and `net.sf.mpxj-for-vb` NuGet packages are no longer being distributed. You must migrate your code to use the `MPXJ.Net` NuGet package instead.</action>
 			<action dev="joniles" type="update">**BREAKING CHANGES - Java, Python**</action>

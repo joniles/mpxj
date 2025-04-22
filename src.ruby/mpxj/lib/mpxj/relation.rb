@@ -22,6 +22,13 @@ module MPXJ
   		get_duration_value(attribute_values['lag'])
   	end
 
+    # Retrieve the Lag Units value
+    #
+    # @return Lag Units value
+    def lag_units
+      attribute_values['lag_units']
+    end
+
     # Retrieve the Type value
     #
     # @return Type value
