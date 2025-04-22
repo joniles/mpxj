@@ -9,6 +9,10 @@ no longer distributed. Please use the `MPXJ.Net` package instead.
 * **NEW FEATURE**
 * MPXJ can now schedule projects using CPM (Critical Path Method)
 * Two new classes (`MicrosoftScheduler` and `PrimaveraScheduler`) allow MPXJ to schedule a project in a way which follows the approach of either Microsoft Project or Primavera P6.
+* **CHANGES**
+* Improvements to accuracy of reading text UDF values from Powerproject PP files.
+* Corrected conversion of elapsed durations when writing JSON files.
+* Added the `Relation#lag_units` method to the ruby gem.
 * **BREAKING CHANGES - .Net**
 * The `net.sf.mpxj`, `net.sf.mpxj-for-csharp`, and `net.sf.mpxj-for-vb` NuGet packages are no longer being distributed. You must migrate your code to use the `MPXJ.Net` NuGet package instead.
 * **BREAKING CHANGES - Java, Python**
