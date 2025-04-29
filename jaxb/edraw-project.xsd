@@ -340,10 +340,10 @@
                                                          <xs:attribute name="ParentID" type="xs:int"></xs:attribute>
                                                          <xs:attribute name="LateSlack" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="DateFinish" type="xs:dateTime"></xs:attribute>
-                                                         <xs:attribute name="Wbs" type="xs:int"></xs:attribute>
+                                                         <xs:attribute name="Wbs" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="Notes" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="BaseLineNumber" type="xs:int"></xs:attribute>
-                                                         <xs:attribute name="HideID" type="xs:int"></xs:attribute>
+                                                         <xs:attribute name="HideID" type="xs:boolean"></xs:attribute>
                                                          <xs:attribute name="SplitPointList" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="Percent" type="xs:double"></xs:attribute>
                                                          <xs:attribute name="RemainingCost" type="xs:int"></xs:attribute>
