@@ -505,6 +505,7 @@ public class ProjectExplorer
       "bk3",
       "cdpx",
       "cdpz",
+      "edpx",
       "exe",
       "fts",
       "gan",

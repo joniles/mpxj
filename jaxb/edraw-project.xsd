@@ -283,7 +283,7 @@
                                                                                                    </xs:element>
                                                                                              </xs:sequence>
                                                                                              <xs:attribute name="FieldType" type="xs:int"></xs:attribute>
-                                                                                             <xs:attribute name="PlainText" type="xs:int"></xs:attribute>
+                                                                                             <xs:attribute name="PlainText" type="xs:string"></xs:attribute>
                                                                                              <xs:attribute name="FieldID" type="xs:int"></xs:attribute>
                                                                                              <xs:attribute name="DataType" type="xs:int"></xs:attribute>
                                                                                        </xs:complexType>
