@@ -6,12 +6,12 @@
    <jxb:globalBindings>
       <jxb:javaType name="java.time.LocalDateTime"
          xmlType="xs:dateTime"
-         parseMethod="org.mpxj.ganttdesigner.DatatypeConverter.parseTimestamp"
-         printMethod="org.mpxj.ganttdesigner.DatatypeConverter.printTimestamp"/>
+         parseMethod="org.mpxj.edrawproject.DatatypeConverter.parseTimestamp"
+         printMethod="org.mpxj.edrawproject.DatatypeConverter.printTimestamp"/>
 
       <jxb:javaType name="java.lang.Boolean"
          xmlType="xs:boolean"
-         parseMethod="org.mpxj.ganttdesigner.DatatypeConverter.parseBoolean"
-         printMethod="org.mpxj.ganttdesigner.DatatypeConverter.printBoolean"/>
+         parseMethod="org.mpxj.edrawproject.DatatypeConverter.parseBoolean"
+         printMethod="org.mpxj.edrawproject.DatatypeConverter.printBoolean"/>
    </jxb:globalBindings>
 </jxb:bindings>
