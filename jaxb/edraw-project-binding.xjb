@@ -1,0 +1,17 @@
+<jxb:bindings version="3.0"
+               xmlns:jxb="https://jakarta.ee/xml/ns/jaxb"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               schemaLocation="edraw-project.xsd">
+
+   <jxb:globalBindings>
+      <jxb:javaType name="java.time.LocalDateTime"
+         xmlType="xs:dateTime"
+         parseMethod="org.mpxj.ganttdesigner.DatatypeConverter.parseTimestamp"
+         printMethod="org.mpxj.ganttdesigner.DatatypeConverter.printTimestamp"/>
+
+      <jxb:javaType name="java.lang.Boolean"
+         xmlType="xs:boolean"
+         parseMethod="org.mpxj.ganttdesigner.DatatypeConverter.parseBoolean"
+         printMethod="org.mpxj.ganttdesigner.DatatypeConverter.printBoolean"/>
+   </jxb:globalBindings>
+</jxb:bindings>
