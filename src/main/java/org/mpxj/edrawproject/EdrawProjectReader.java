@@ -90,9 +90,9 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
 
    private void processCalendars(Document document)
    {
-
+      for(Document.Calendars.Calendar xml : document.getCalendars())
    }
-   
+
    private void processResources(Document document)
    {
       for (Document.ResourceInfo.Column xml : document.getResourceInfo().getColumn())

@@ -354,7 +354,7 @@
                                        </xs:sequence>
                                  </xs:complexType>
                            </xs:element>
-                          <xs:element name="ResourceInfo">
+                           <xs:element name="ResourceInfo">
                                  <xs:complexType>
                                        <xs:sequence>
                                              <xs:element name="Column" maxOccurs="unbounded">
@@ -379,7 +379,7 @@
                            <xs:element name="Calendars">
                                  <xs:complexType>
                                        <xs:sequence>
-                                             <xs:element name="Calendar">
+                                             <xs:element name="Calendar" maxOccurs="unbounded">
                                                    <xs:complexType>
                                                          <xs:sequence>
                                                                <xs:element name="UID" type="xs:int"></xs:element>
@@ -388,7 +388,7 @@
                                                                <xs:element name="IsBaseCalendar" type="xs:boolean"></xs:element>
                                                                <xs:element name="BaseCalendarUID" type="xs:int"></xs:element>
                                                                <xs:element name="IsTemplateCalendar" type="xs:boolean"></xs:element>
-                                                               <xs:element name="MachineInfo"></xs:element>
+                                                               <xs:element name="MachineInfo" type="xs:string"></xs:element>
                                                                <xs:element name="WeekDays">
                                                                      <xs:complexType>
                                                                            <xs:sequence>
@@ -397,6 +397,23 @@
                                                                                              <xs:sequence>
                                                                                                    <xs:element name="DayType" type="xs:int"></xs:element>
                                                                                                    <xs:element name="DayWorking" type="xs:boolean"></xs:element>
+
+
+                                                                                                   <xs:element name="WorkingTimes">
+                                                                                                      <xs:complexType>
+                                                                                                            <xs:sequence>
+                                                                                                                  <xs:element name="WorkingTime" maxOccurs="unbounded">
+                                                                                                                        <xs:complexType>
+                                                                                                                              <xs:sequence>
+                                                                                                                                    <xs:element name="FromTime" type="xs:time"></xs:element>
+                                                                                                                                    <xs:element name="ToTime" type="xs:time"></xs:element>
+                                                                                                                              </xs:sequence>
+                                                                                                                        </xs:complexType>
+                                                                                                                  </xs:element>
+                                                                                                            </xs:sequence>
+                                                                                                      </xs:complexType>
+                                                                                                   </xs:element>
+
                                                                                              </xs:sequence>
                                                                                        </xs:complexType>
                                                                                  </xs:element>
@@ -409,8 +426,8 @@
                                                                                  <xs:element name="Exception" maxOccurs="unbounded">
                                                                                        <xs:complexType>
                                                                                              <xs:sequence>
-                                                                                                   <xs:element name="EnteredByOccurrences" type="xs:boolean"></xs:element>
-                                                                                                   <xs:element name="Holiday" type="xs:boolean"></xs:element>
+                                                                                                   <xs:element name="EnteredByOccurrences" type="xs:int"></xs:element>
+                                                                                                   <xs:element name="Holiday" type="xs:int"></xs:element>
                                                                                                    <xs:element name="TimePeriod">
                                                                                                          <xs:complexType>
                                                                                                                <xs:sequence>
@@ -422,7 +439,23 @@
                                                                                                    <xs:element name="Occurrences" type="xs:int"></xs:element>
                                                                                                    <xs:element name="Name" type="xs:string"></xs:element>
                                                                                                    <xs:element name="Type" type="xs:int"></xs:element>
-                                                                                                   <xs:element name="DayWorking" type="xs:boolean"></xs:element>
+                                                                                                   <xs:element name="DayWorking" type="xs:int"></xs:element>
+                                             
+                                                                                                   <xs:element name="WorkingTimes">
+                                                                                                      <xs:complexType>
+                                                                                                            <xs:sequence>
+                                                                                                                  <xs:element name="WorkingTime" maxOccurs="unbounded">
+                                                                                                                        <xs:complexType>
+                                                                                                                              <xs:sequence>
+                                                                                                                                    <xs:element name="FromTime" type="xs:time"></xs:element>
+                                                                                                                                    <xs:element name="ToTime" type="xs:time"></xs:element>
+                                                                                                                              </xs:sequence>
+                                                                                                                        </xs:complexType>
+                                                                                                                  </xs:element>
+                                                                                                            </xs:sequence>
+                                                                                                      </xs:complexType>
+                                                                                                   </xs:element>
+
                                                                                              </xs:sequence>
                                                                                        </xs:complexType>
                                                                                  </xs:element>
