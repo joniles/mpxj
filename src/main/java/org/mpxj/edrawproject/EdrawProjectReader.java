@@ -3,6 +3,7 @@
 package org.mpxj.edrawproject;
 
 import java.io.InputStream;
+import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,11 +13,15 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.mpxj.CostRateTable;
 import org.mpxj.CostRateTableEntry;
+import org.mpxj.LocalTimeRange;
+import org.mpxj.ProjectCalendar;
+import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectProperties;
 import org.mpxj.Rate;
 import org.mpxj.Resource;
 import org.mpxj.ResourceType;
 import org.mpxj.TimeUnit;
+import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.edrawproject.schema.Document;
 import org.xml.sax.SAXException;
@@ -54,7 +59,9 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
          addListenersToProject(m_projectFile);
 
          Document document = (Document) UnmarshalHelper.unmarshal(CONTEXT, stream);
+         
          processProperties(document);
+         processCalendars(document);
          processResources(document);
 
          m_projectFile.readComplete();
@@ -90,7 +97,28 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
 
    private void processCalendars(Document document)
    {
-      for(Document.Calendars.Calendar xml : document.getCalendars())
+      for(Document.Calendars.Calendar xml : document.getCalendars().getCalendar())
+      {
+         ProjectCalendar calendar = m_projectFile.addCalendar();
+         calendar.setUniqueID(xml.getUID());
+         calendar.setName(xml.getName());
+
+         for(Document.Calendars.Calendar.WeekDays.WeekDay xmlDay : xml.getWeekDays().getWeekDay())
+         {
+            DayOfWeek day = DAY_OF_WEEK_MAP.get(xmlDay.getDayType());
+            boolean workingDay = BooleanHelper.getBoolean(xmlDay.isDayWorking());
+            calendar.setWorkingDay(day, workingDay);
+
+            if (workingDay)
+            {
+               ProjectCalendarHours hours = calendar.addCalendarHours(day);
+               for (Document.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime xmlTime : xmlDay.getWorkingTimes().getWorkingTime())
+               {
+                  hours.add(new LocalTimeRange(xmlTime.getFromTime(), xmlTime.getToTime()));
+               }
+            }
+         }
+      }
    }
 
    private void processResources(Document document)
@@ -143,6 +171,18 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       TIME_UNIT_MAP.put(Integer.valueOf(3), TimeUnit.DAYS);
       TIME_UNIT_MAP.put(Integer.valueOf(4), TimeUnit.WEEKS);
       TIME_UNIT_MAP.put(Integer.valueOf(5), TimeUnit.MONTHS);
+   }
+
+   private static final Map<Integer, DayOfWeek> DAY_OF_WEEK_MAP = new HashMap<>();
+   static
+   {
+      DAY_OF_WEEK_MAP.put(Integer.valueOf(1), DayOfWeek.SUNDAY);
+      DAY_OF_WEEK_MAP.put(Integer.valueOf(2), DayOfWeek.MONDAY);
+      DAY_OF_WEEK_MAP.put(Integer.valueOf(3), DayOfWeek.TUESDAY);
+      DAY_OF_WEEK_MAP.put(Integer.valueOf(4), DayOfWeek.WEDNESDAY);
+      DAY_OF_WEEK_MAP.put(Integer.valueOf(5), DayOfWeek.THURSDAY);
+      DAY_OF_WEEK_MAP.put(Integer.valueOf(6), DayOfWeek.FRIDAY);
+      DAY_OF_WEEK_MAP.put(Integer.valueOf(7), DayOfWeek.SATURDAY);
    }
 
    /**

@@ -223,13 +223,13 @@
                                                                                        <xs:complexType>
                                                                                              <xs:attribute name="ID" type="xs:int"></xs:attribute>
                                                                                              <xs:attribute name="CostUnit" type="xs:int"></xs:attribute>
-                                                                                             <xs:attribute name="Cost" type="xs:int"></xs:attribute>
-                                                                                             <xs:attribute name="CostPer" type="xs:int"></xs:attribute>
+                                                                                             <xs:attribute name="Cost" type="xs:double"></xs:attribute>
+                                                                                             <xs:attribute name="CostPer" type="xs:double"></xs:attribute>
                                                                                              <xs:attribute name="Type" type="xs:int"></xs:attribute>
                                                                                              <xs:attribute name="WorkSecs" type="xs:int"></xs:attribute>
                                                                                              <xs:attribute name="OvertimeUnit" type="xs:int"></xs:attribute>
-                                                                                             <xs:attribute name="Percent" type="xs:int"></xs:attribute>
-                                                                                             <xs:attribute name="OvertimeCost" type="xs:int"></xs:attribute>
+                                                                                             <xs:attribute name="Percent" type="xs:double"></xs:attribute>
+                                                                                             <xs:attribute name="OvertimeCost" type="xs:double"></xs:attribute>
                                                                                              <xs:attribute name="Name" type="xs:string"></xs:attribute>
                                                                                        </xs:complexType>
                                                                                  </xs:element>
@@ -293,7 +293,7 @@
                                                                </xs:element>
                                                                <xs:element name="BarChart"></xs:element>
                                                          </xs:sequence>
-                                                         <xs:attribute name="Milestone" type="xs:int"></xs:attribute>
+                                                         <xs:attribute name="Milestone" type="xs:boolean"></xs:attribute>
                                                          <xs:attribute name="BackGroundColor" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="ProgressStatus" type="xs:int"></xs:attribute>
                                                          <xs:attribute name="BaseLinePointxEnd" type="xs:int"></xs:attribute>
@@ -302,7 +302,7 @@
                                                          <xs:attribute name="CriticalPath" type="xs:boolean"></xs:attribute>
                                                          <xs:attribute name="ID" type="xs:int"></xs:attribute>
                                                          <xs:attribute name="ActualDuration" type="xs:int"></xs:attribute>
-                                                         <xs:attribute name="DateBaseStart" type="xs:string"></xs:attribute>
+                                                         <xs:attribute name="DateBaseStart" type="xs:dateTime"></xs:attribute>
                                                          <xs:attribute name="Resources" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="FontColor" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="DurationUnits" type="xs:int"></xs:attribute>
@@ -314,15 +314,15 @@
                                                          <xs:attribute name="HideByColumns" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="Level" type="xs:int"></xs:attribute>
                                                          <xs:attribute name="IsToggler" type="xs:boolean"></xs:attribute>
-                                                         <xs:attribute name="BaselineCost" type="xs:string"></xs:attribute>
+                                                         <xs:attribute name="BaselineCost" type="xs:double"></xs:attribute>
                                                          <xs:attribute name="DurationSecs" type="xs:int"></xs:attribute>
                                                          <xs:attribute name="ManualDurationSecs" type="xs:int"></xs:attribute>
                                                          <xs:attribute name="DateLateStart" type="xs:dateTime"></xs:attribute>
-                                                         <xs:attribute name="LastSaveDate" type="xs:string"></xs:attribute>
+                                                         <xs:attribute name="LastSaveDate" type="xs:date"></xs:attribute>
                                                          <xs:attribute name="m_IbartextIndex" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="ActualStart" type="xs:int"></xs:attribute>
-                                                         <xs:attribute name="Work" type="xs:int"></xs:attribute>
-                                                         <xs:attribute name="Cost" type="xs:int"></xs:attribute>
+                                                         <xs:attribute name="Work" type="xs:double"></xs:attribute>
+                                                         <xs:attribute name="Cost" type="xs:double"></xs:attribute>
                                                          <xs:attribute name="SplitOffsetDuration" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="DateStart" type="xs:dateTime"></xs:attribute>
                                                          <xs:attribute name="RowID" type="xs:int"></xs:attribute>
@@ -334,9 +334,9 @@
                                                          <xs:attribute name="CountWidth" type="xs:int"></xs:attribute>
                                                          <xs:attribute name="Priority" type="xs:int"></xs:attribute>
                                                          <xs:attribute name="DateManualStart" type="xs:dateTime"></xs:attribute>
-                                                         <xs:attribute name="DateBaseFinish" type="xs:string"></xs:attribute>
+                                                         <xs:attribute name="DateBaseFinish" type="xs:dateTime"></xs:attribute>
                                                          <xs:attribute name="ShowByChild" type="xs:int"></xs:attribute>
-                                                         <xs:attribute name="ActualMilestone" type="xs:int"></xs:attribute>
+                                                         <xs:attribute name="ActualMilestone" type="xs:boolean"></xs:attribute>
                                                          <xs:attribute name="ParentID" type="xs:int"></xs:attribute>
                                                          <xs:attribute name="LateSlack" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="DateFinish" type="xs:dateTime"></xs:attribute>
@@ -346,7 +346,7 @@
                                                          <xs:attribute name="HideID" type="xs:boolean"></xs:attribute>
                                                          <xs:attribute name="SplitPointList" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="Percent" type="xs:double"></xs:attribute>
-                                                         <xs:attribute name="RemainingCost" type="xs:int"></xs:attribute>
+                                                         <xs:attribute name="RemainingCost" type="xs:double"></xs:attribute>
                                                          <xs:attribute name="EarlySlack" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="Childs" type="xs:string"></xs:attribute>
                                                    </xs:complexType>
@@ -361,14 +361,14 @@
                                                    <xs:complexType>
                                                          <xs:attribute name="ID" type="xs:int"></xs:attribute>
                                                          <xs:attribute name="CostUnit" type="xs:int"></xs:attribute>
-                                                         <xs:attribute name="Cost" type="xs:int"></xs:attribute>
-                                                         <xs:attribute name="CostPer" type="xs:int"></xs:attribute>
+                                                         <xs:attribute name="Cost" type="xs:double"></xs:attribute>
+                                                         <xs:attribute name="CostPer" type="xs:double"></xs:attribute>
                                                          <xs:attribute name="Type" type="xs:int"></xs:attribute>
                                                          <xs:attribute name="OvertimeUnit" type="xs:int"></xs:attribute>
                                                          <xs:attribute name="Notes" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="Unit" type="xs:int"></xs:attribute>
                                                          <xs:attribute name="Email" type="xs:string"></xs:attribute>
-                                                         <xs:attribute name="OvertimeCost" type="xs:int"></xs:attribute>
+                                                         <xs:attribute name="OvertimeCost" type="xs:double"></xs:attribute>
                                                          <xs:attribute name="Name" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="Group" type="xs:string"></xs:attribute>
                                                    </xs:complexType>
