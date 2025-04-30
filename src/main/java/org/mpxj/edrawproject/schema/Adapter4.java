@@ -8,20 +8,20 @@
 
 package org.mpxj.edrawproject.schema;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter3
-    extends XmlAdapter<String, LocalDateTime>
+public class Adapter4
+    extends XmlAdapter<String, LocalTime>
 {
 
 
-    public LocalDateTime unmarshal(String value) {
-        return (org.mpxj.edrawproject.DatatypeConverter.parseTimestamp(value));
+    public LocalTime unmarshal(String value) {
+        return (org.mpxj.edrawproject.DatatypeConverter.parseTime(value));
     }
 
-    public String marshal(LocalDateTime value) {
-        return (org.mpxj.edrawproject.DatatypeConverter.printTimestamp(value));
+    public String marshal(LocalTime value) {
+        return (org.mpxj.edrawproject.DatatypeConverter.printTime(value));
     }
 
 }
