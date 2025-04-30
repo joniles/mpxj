@@ -88,6 +88,11 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       props.setDaysPerMonth(document.getDaysPerMonth().getV());
    }
 
+   private void processCalendars(Document document)
+   {
+
+   }
+   
    private void processResources(Document document)
    {
       for (Document.ResourceInfo.Column xml : document.getResourceInfo().getColumn())
