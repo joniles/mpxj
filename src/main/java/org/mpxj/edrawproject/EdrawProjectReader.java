@@ -5,6 +5,7 @@ package org.mpxj.edrawproject;
 import java.io.InputStream;
 import java.time.DayOfWeek;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import jakarta.xml.bind.JAXBContext;
@@ -15,6 +16,7 @@ import org.mpxj.CostRateTable;
 import org.mpxj.CostRateTableEntry;
 import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
+import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectProperties;
 import org.mpxj.Rate;
@@ -24,6 +26,7 @@ import org.mpxj.TimeUnit;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.edrawproject.schema.Document;
+import org.mpxj.mspdi.schema.Project;
 import org.xml.sax.SAXException;
 
 import org.mpxj.EventManager;
@@ -105,6 +108,14 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
 
          for(Document.Calendars.Calendar.WeekDays.WeekDay xmlDay : xml.getWeekDays().getWeekDay())
          {
+            // Exceptions are represent both as days with a day type of zero,
+            // and with their own data in the calendar. We'll ignore day types
+            // of zero for now.
+            if (xmlDay.getDayType() == 0)
+            {
+               continue;
+            }
+
             DayOfWeek day = DAY_OF_WEEK_MAP.get(xmlDay.getDayType());
             boolean workingDay = BooleanHelper.getBoolean(xmlDay.isDayWorking());
             calendar.setWorkingDay(day, workingDay);
@@ -116,6 +127,34 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
                {
                   hours.add(new LocalTimeRange(xmlTime.getFromTime(), xmlTime.getToTime()));
                }
+            }
+         }
+
+         if (xml.getExceptions() == null)
+         {
+            continue;
+         }
+
+         for (Document.Calendars.Calendar.Exceptions.Exception xmlException : xml.getExceptions().getException())
+         {
+            ProjectCalendarException exception = calendar.addCalendarException(
+               xmlException.getTimePeriod().getFromDate().toLocalDate(),
+               xmlException.getTimePeriod().getToDate().toLocalDate());
+
+            if (xmlException.getWorkingTimes() == null)
+            {
+               continue;
+            }
+            
+            List<Document.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> workingTimes = xmlException.getWorkingTimes().getWorkingTime();
+            if(workingTimes == null || workingTimes.isEmpty())
+            {
+               continue;
+            }
+
+            for(Document.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime workingTime : workingTimes)
+            {
+               exception.add(new LocalTimeRange(workingTime.getFromTime(), workingTime.getToTime()));
             }
          }
       }
