@@ -18,5 +18,11 @@
          xmlType="xs:boolean"
          parseMethod="org.mpxj.edrawproject.DatatypeConverter.parseBoolean"
          printMethod="org.mpxj.edrawproject.DatatypeConverter.printBoolean"/>
+
+      <jxb:javaType name="java.lang.Double"
+         xmlType="xs:double"
+         parseMethod="org.mpxj.edrawproject.DatatypeConverter.parseDouble"
+         printMethod="org.mpxj.edrawproject.DatatypeConverter.printDouble"/>
+
    </jxb:globalBindings>
 </jxb:bindings>

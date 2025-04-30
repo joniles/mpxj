@@ -59,7 +59,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
          addListenersToProject(m_projectFile);
 
          Document document = (Document) UnmarshalHelper.unmarshal(CONTEXT, stream);
-         
+
          processProperties(document);
          processCalendars(document);
          processResources(document);

@@ -66,6 +66,21 @@ public class DatatypeConverter
       throw new UnsupportedOperationException();
    }
 
+   public static final Double parseDouble(String value)
+   {
+      if (value == null || value.isEmpty())
+      {
+         return null;
+      }
+
+      return Double.parseDouble(value);
+   }
+
+   public static final String printDouble(Double value)
+   {
+      throw new UnsupportedOperationException();
+   }
+
    private static final DateTimeFormatter TIMESTAMP_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
