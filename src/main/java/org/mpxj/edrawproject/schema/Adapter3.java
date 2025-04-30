@@ -8,19 +8,20 @@
 
 package org.mpxj.edrawproject.schema;
 
+import java.time.LocalTime;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter1
-    extends XmlAdapter<String, Boolean>
+public class Adapter3
+    extends XmlAdapter<String, LocalTime>
 {
 
 
-    public Boolean unmarshal(String value) {
-        return (org.mpxj.edrawproject.DatatypeConverter.parseBoolean(value));
+    public LocalTime unmarshal(String value) {
+        return (org.mpxj.edrawproject.DatatypeConverter.parseTime(value));
     }
 
-    public String marshal(Boolean value) {
-        return (org.mpxj.edrawproject.DatatypeConverter.printBoolean(value));
+    public String marshal(LocalTime value) {
+        return (org.mpxj.edrawproject.DatatypeConverter.printTime(value));
     }
 
 }
