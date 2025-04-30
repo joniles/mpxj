@@ -10,6 +10,7 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.mpxj.CostRateTable;
 import org.mpxj.CostRateTableEntry;
 import org.mpxj.ProjectProperties;
 import org.mpxj.Rate;
@@ -99,7 +100,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
          resource.setNotes(xml.getNotes());
          resource.setType(RESOURCE_TYPE_MAP.getOrDefault(xml.getType(), ResourceType.WORK));
          resource.setGroup(xml.getGroup());
-         
+
          Rate standardRate = new Rate(xml.getCost(), TIME_UNIT_MAP.getOrDefault(xml.getCostUnit(), TimeUnit.HOURS));
          Rate overtimeRate = new Rate(xml.getOvertimeCost(), TIME_UNIT_MAP.getOrDefault(xml.getOvertimeUnit(), TimeUnit.HOURS));
 
@@ -110,7 +111,9 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
             standardRate,
             overtimeRate);
 
-         resource.getCostRateTable(0).add(entry);
+         CostRateTable table = new CostRateTable();
+         table.add(entry);
+         resource.setCostRateTable(0, table);
       }
    }
 
