@@ -218,14 +218,13 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       task.setCritical(xml.isCriticalPath());
       task.setUniqueID(xml.getID());
       task.setID(xml.getRowID());
-      //ActualDuration
+      task.setActualDuration(getDuration(xml.getActualDuration(), xml.getDurationUnits()));
       //DateBaseStart
-      //DurationUnits
       //DateManualFinish
       //Manual
       //Level
       task.setBaselineCost(xml.getBaselineCost());
-      //DurationSecs
+      task.setDuration(getDuration(xml.getDurationSecs(), xml.getDurationUnits()));
       //ManualDurationSecs
       task.setLateStart(xml.getDateLateStart());
       //ActualStart -as int
@@ -247,9 +246,71 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       task.setRemainingCost(xml.getRemainingCost());
    }
 
-   private Duration getDuration()
+   private Duration getDuration(Integer seconds, Integer units)
    {
+      if (seconds == null)
+      {
+         return null;
+      }
 
+      double durationValue = seconds.doubleValue();
+      TimeUnit durationUnits = TimeUnit.HOURS;
+
+      switch (units.intValue())
+      {
+         case 0:
+         {
+            // Minutes
+            durationValue /= 60.0;
+            durationUnits = TimeUnit.MINUTES;
+            break;
+         }
+
+         case 1:
+         {
+            // Hours
+            durationValue /= (60.0 * 60.0);
+            durationUnits = TimeUnit.HOURS;
+            break;
+         }
+
+         case 2:
+         {
+            // Workday
+            durationValue /= (60.0 * m_projectFile.getProjectProperties().getMinutesPerDay());
+            durationUnits = TimeUnit.DAYS;
+            break;
+         }
+
+         case 3:
+         {
+            // Day
+            throw new IllegalArgumentException();
+         }
+
+         case 4:
+         {
+            // Weeks
+            durationValue /= (60.0 * m_projectFile.getProjectProperties().getMinutesPerWeek());
+            durationUnits = TimeUnit.WEEKS;
+            break;
+         }
+
+         case 5:
+         {
+            // Months
+            durationValue /= (60.0 * m_projectFile.getProjectProperties().getMinutesPerDay() * m_projectFile.getProjectProperties().getDaysPerMonth());
+            durationUnits = TimeUnit.MONTHS;
+            break;
+         }
+
+         default:
+         {
+            throw new IllegalArgumentException("Unsupported duration units: " + units);
+         }
+      }
+
+      return Duration.getInstance(durationValue, durationUnits);
    }
 
    private ProjectFile m_projectFile;
