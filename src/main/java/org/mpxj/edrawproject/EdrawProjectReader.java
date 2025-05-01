@@ -4,6 +4,8 @@ package org.mpxj.edrawproject;
 
 import java.io.InputStream;
 import java.time.DayOfWeek;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +14,10 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.mpxj.ChildTaskContainer;
 import org.mpxj.CostRateTable;
 import org.mpxj.CostRateTableEntry;
+import org.mpxj.Duration;
 import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
@@ -22,9 +26,12 @@ import org.mpxj.ProjectProperties;
 import org.mpxj.Rate;
 import org.mpxj.Resource;
 import org.mpxj.ResourceType;
+import org.mpxj.TaskContainer;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.BooleanHelper;
+import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.LocalDateTimeHelper;
+import org.mpxj.common.NumberHelper;
 import org.mpxj.edrawproject.schema.Document;
 import org.mpxj.mspdi.schema.Project;
 import org.xml.sax.SAXException;
@@ -55,6 +62,9 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoWBS(false);
          config.setAutoResourceUniqueID(false);
+         config.setAutoTaskUniqueID(false);
+         config.setAutoTaskID(false);
+         config.setAutoWBS(false);
 
          m_projectFile.getProjectProperties().setFileApplication("Edraw Project");
          m_projectFile.getProjectProperties().setFileType("EDPX");
@@ -66,6 +76,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
          processProperties(document);
          processCalendars(document);
          processResources(document);
+         processTasks(document);
 
          m_projectFile.readComplete();
 
@@ -100,93 +111,145 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
 
    private void processCalendars(Document document)
    {
-      for(Document.Calendars.Calendar xml : document.getCalendars().getCalendar())
+      document.getCalendars().getCalendar().forEach(this::processCalendar);
+   }
+
+   private void processCalendar(Document.Calendars.Calendar xml)
+   {
+      ProjectCalendar calendar = m_projectFile.addCalendar();
+      calendar.setUniqueID(xml.getUID());
+      calendar.setName(xml.getName());
+
+      for(Document.Calendars.Calendar.WeekDays.WeekDay xmlDay : xml.getWeekDays().getWeekDay())
       {
-         ProjectCalendar calendar = m_projectFile.addCalendar();
-         calendar.setUniqueID(xml.getUID());
-         calendar.setName(xml.getName());
-
-         for(Document.Calendars.Calendar.WeekDays.WeekDay xmlDay : xml.getWeekDays().getWeekDay())
-         {
-            // Exceptions are represent both as days with a day type of zero,
-            // and with their own data in the calendar. We'll ignore day types
-            // of zero for now.
-            if (xmlDay.getDayType() == 0)
-            {
-               continue;
-            }
-
-            DayOfWeek day = DAY_OF_WEEK_MAP.get(xmlDay.getDayType());
-            boolean workingDay = BooleanHelper.getBoolean(xmlDay.isDayWorking());
-            calendar.setWorkingDay(day, workingDay);
-
-            if (workingDay)
-            {
-               ProjectCalendarHours hours = calendar.addCalendarHours(day);
-               for (Document.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime xmlTime : xmlDay.getWorkingTimes().getWorkingTime())
-               {
-                  hours.add(new LocalTimeRange(xmlTime.getFromTime(), xmlTime.getToTime()));
-               }
-            }
-         }
-
-         if (xml.getExceptions() == null)
+         // Exceptions are represent both as days with a day type of zero,
+         // and with their own data in the calendar. We'll ignore day types
+         // of zero for now.
+         if (xmlDay.getDayType() == 0)
          {
             continue;
          }
 
-         for (Document.Calendars.Calendar.Exceptions.Exception xmlException : xml.getExceptions().getException())
+         DayOfWeek day = DAY_OF_WEEK_MAP.get(xmlDay.getDayType());
+         boolean workingDay = BooleanHelper.getBoolean(xmlDay.isDayWorking());
+         calendar.setWorkingDay(day, workingDay);
+
+         if (workingDay)
          {
-            ProjectCalendarException exception = calendar.addCalendarException(
-               xmlException.getTimePeriod().getFromDate().toLocalDate(),
-               xmlException.getTimePeriod().getToDate().toLocalDate());
+            ProjectCalendarHours hours = calendar.addCalendarHours(day);
+            for (Document.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime xmlTime : xmlDay.getWorkingTimes().getWorkingTime())
+            {
+               hours.add(new LocalTimeRange(xmlTime.getFromTime(), xmlTime.getToTime()));
+            }
+         }
+      }
 
-            if (xmlException.getWorkingTimes() == null)
-            {
-               continue;
-            }
-            
-            List<Document.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> workingTimes = xmlException.getWorkingTimes().getWorkingTime();
-            if(workingTimes == null || workingTimes.isEmpty())
-            {
-               continue;
-            }
+      if (xml.getExceptions() == null)
+      {
+         return;
+      }
 
-            for(Document.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime workingTime : workingTimes)
-            {
-               exception.add(new LocalTimeRange(workingTime.getFromTime(), workingTime.getToTime()));
-            }
+      for (Document.Calendars.Calendar.Exceptions.Exception xmlException : xml.getExceptions().getException())
+      {
+         ProjectCalendarException exception = calendar.addCalendarException(
+            xmlException.getTimePeriod().getFromDate().toLocalDate(),
+            xmlException.getTimePeriod().getToDate().toLocalDate());
+
+         if (xmlException.getWorkingTimes() == null)
+         {
+            continue;
+         }
+
+         List<Document.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> workingTimes = xmlException.getWorkingTimes().getWorkingTime();
+         if(workingTimes == null || workingTimes.isEmpty())
+         {
+            continue;
+         }
+
+         for(Document.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime workingTime : workingTimes)
+         {
+            exception.add(new LocalTimeRange(workingTime.getFromTime(), workingTime.getToTime()));
          }
       }
    }
 
    private void processResources(Document document)
    {
-      for (Document.ResourceInfo.Column xml : document.getResourceInfo().getColumn())
-      {
-         Resource resource = m_projectFile.addResource();
+      document.getResourceInfo().getColumn().forEach(this::processResource);
+   }
 
-         resource.setUniqueID(xml.getID());
-         resource.setName(xml.getName());
-         resource.setEmailAddress(xml.getEmail());
-         resource.setNotes(xml.getNotes());
-         resource.setType(RESOURCE_TYPE_MAP.getOrDefault(xml.getType(), ResourceType.WORK));
-         resource.setGroup(xml.getGroup());
+   private void processResource(Document.ResourceInfo.Column xml)
+   {
+      Resource resource = m_projectFile.addResource();
 
-         Rate standardRate = new Rate(xml.getCost(), TIME_UNIT_MAP.getOrDefault(xml.getCostUnit(), TimeUnit.HOURS));
-         Rate overtimeRate = new Rate(xml.getOvertimeCost(), TIME_UNIT_MAP.getOrDefault(xml.getOvertimeUnit(), TimeUnit.HOURS));
+      resource.setUniqueID(xml.getID());
+      resource.setName(xml.getName());
+      resource.setEmailAddress(xml.getEmail());
+      resource.setNotes(xml.getNotes());
+      resource.setType(RESOURCE_TYPE_MAP.getOrDefault(xml.getType(), ResourceType.WORK));
+      resource.setGroup(xml.getGroup());
 
-         CostRateTableEntry entry = new CostRateTableEntry(
-            LocalDateTimeHelper.START_DATE_NA,
-            LocalDateTimeHelper.END_DATE_NA,
-            xml.getCostPer(),
-            standardRate,
-            overtimeRate);
+      Rate standardRate = new Rate(xml.getCost(), TIME_UNIT_MAP.getOrDefault(xml.getCostUnit(), TimeUnit.HOURS));
+      Rate overtimeRate = new Rate(xml.getOvertimeCost(), TIME_UNIT_MAP.getOrDefault(xml.getOvertimeUnit(), TimeUnit.HOURS));
 
-         CostRateTable table = new CostRateTable();
-         table.add(entry);
-         resource.setCostRateTable(0, table);
-      }
+      CostRateTableEntry entry = new CostRateTableEntry(
+         LocalDateTimeHelper.START_DATE_NA,
+         LocalDateTimeHelper.END_DATE_NA,
+         xml.getCostPer(),
+         standardRate,
+         overtimeRate);
+
+      CostRateTable table = new CostRateTable();
+      table.add(entry);
+      resource.setCostRateTable(0, table);
+   }
+
+   private void processTasks(Document document)
+   {
+      List<Document.TaskList.Task> tasks = HierarchyHelper.sortHierarchy(document.getTaskList().getTask(), Document.TaskList.Task::getID, Document.TaskList.Task::getParentID, Comparator.comparing(Document.TaskList.Task::getRowID));
+      tasks.forEach(this::processTask);
+   }
+
+   private void processTask(Document.TaskList.Task xml)
+   {
+      ChildTaskContainer parent = m_projectFile.getTaskByUniqueID(xml.getParentID());
+      Task task = (parent == null ? m_projectFile : parent).addTask();
+      task.setMilestone(xml.isMilestone());
+      task.setCritical(xml.isCriticalPath());
+      task.setUniqueID(xml.getID());
+      task.setID(xml.getRowID());
+      //ActualDuration
+      //DateBaseStart
+      //DurationUnits
+      //DateManualFinish
+      //Manual
+      //Level
+      task.setBaselineCost(xml.getBaselineCost());
+      //DurationSecs
+      //ManualDurationSecs
+      task.setLateStart(xml.getDateLateStart());
+      //ActualStart -as int
+      //Work
+      task.setCost(xml.getCost());
+      task.setStart(xml.getDateStart());
+      //StartText
+      task.setName(xml.getName());
+      //ActualFinish -as int
+      task.setLateFinish(xml.getDateLateFinish());
+      //Priority
+      //DateManualStart
+      task.setBaselineFinish(xml.getDateBaseFinish());
+      task.setFinish(xml.getDateFinish());
+      task.setWBS(xml.getWbs());
+      task.setNotes(xml.getNotes());
+      //BaseLineNumber
+      task.setPercentageComplete(NumberHelper.getDouble(xml.getPercent()) * 100.0);
+      task.setRemainingCost(xml.getRemainingCost());
+   }
+
+   private Duration getDuration()
+   {
+
    }
 
    private ProjectFile m_projectFile;
