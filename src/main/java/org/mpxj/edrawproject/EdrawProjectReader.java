@@ -4,6 +4,7 @@ package org.mpxj.edrawproject;
 
 import java.io.InputStream;
 import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -216,20 +217,18 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       task.setCritical(xml.isCriticalPath());
       task.setUniqueID(xml.getID());
       task.setID(xml.getRowID());
-      // only populated in edraw for completed tasks
-      //task.setActualDuration(getDuration(xml.getActualDuration(), xml.getDurationUnits()));
       //DateBaseStart
       //Level
       task.setBaselineCost(xml.getBaselineCost());
       task.setDuration(getDuration(xml.getDurationSecs(), xml.getDurationUnits()));
       task.setLateStart(xml.getDateLateStart());
-      //ActualStart -as int
-      //Work
+      task.setActualStart(getDateFromLong(xml.getActualStart()));
+      //Work - always in hours
       task.setCost(xml.getCost());
       task.setStart(xml.getDateStart());
       //StartText
       task.setName(xml.getName());
-      //ActualFinish -as int
+      task.setActualFinish(getDateFromLong(xml.getActualFinish()));
       task.setLateFinish(xml.getDateLateFinish());
       //Priority
       task.setBaselineFinish(xml.getDateBaseFinish());
@@ -241,6 +240,9 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       task.setRemainingCost(xml.getRemainingCost());
 
       task.setTaskMode(BooleanHelper.getBoolean(xml.isManual()) ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED);
+
+      // ActualDuration is only populated in edraw for completed tasks
+      //ActualDuration
 
       // The Start, Finish, and Duration attributes appear to
       // contain the same values as the manual attributes below.
@@ -321,6 +323,16 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       return Duration.getInstance(durationValue, durationUnits);
    }
 
+   private LocalDateTime getDateFromLong(Long value)
+   {
+      if (value == null || value.longValue() == 0)
+      {
+         return null;
+      }
+
+      return EPOCH.plusSeconds(value.longValue());
+   }
+
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    Map<String, Task> m_taskMap;
@@ -355,6 +367,8 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       DAY_OF_WEEK_MAP.put(Integer.valueOf(6), DayOfWeek.FRIDAY);
       DAY_OF_WEEK_MAP.put(Integer.valueOf(7), DayOfWeek.SATURDAY);
    }
+
+   private static final LocalDateTime EPOCH = LocalDateTime.of(1970, 1, 1, 1, 0);
 
    /**
     * Cached context to minimise construction cost.

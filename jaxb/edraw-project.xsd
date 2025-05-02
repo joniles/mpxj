@@ -301,7 +301,7 @@
                                                          <xs:attribute name="RowHeight" type="xs:int"></xs:attribute>
                                                          <xs:attribute name="CriticalPath" type="xs:boolean"></xs:attribute>
                                                          <xs:attribute name="ID" type="xs:int"></xs:attribute>
-                                                         <xs:attribute name="ActualDuration" type="xs:int"></xs:attribute>
+                                                         <xs:attribute name="ActualDuration" type="xs:long"></xs:attribute>
                                                          <xs:attribute name="DateBaseStart" type="xs:dateTime"></xs:attribute>
                                                          <xs:attribute name="Resources" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="FontColor" type="xs:string"></xs:attribute>
