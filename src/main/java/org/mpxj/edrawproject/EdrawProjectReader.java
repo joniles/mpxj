@@ -19,6 +19,7 @@ import org.mpxj.CostRateTable;
 import org.mpxj.CostRateTableEntry;
 import org.mpxj.Duration;
 import org.mpxj.LocalTimeRange;
+import org.mpxj.Priority;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
@@ -217,32 +218,39 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       task.setCritical(xml.isCriticalPath());
       task.setUniqueID(xml.getID());
       task.setID(xml.getRowID());
-      //DateBaseStart
-      //Level
+      task.setBaselineStart(xml.getDateBaseStart());
+      task.setBaselineFinish(xml.getDateBaseFinish());
       task.setBaselineCost(xml.getBaselineCost());
       task.setDuration(getDuration(xml.getDurationSecs(), xml.getDurationUnits()));
       task.setLateStart(xml.getDateLateStart());
       task.setActualStart(getDateFromLong(xml.getActualStart()));
-      //Work - always in hours
+      task.setWork(Duration.getInstance(xml.getWork(), TimeUnit.HOURS));
       task.setCost(xml.getCost());
       task.setStart(xml.getDateStart());
-      //StartText
       task.setName(xml.getName());
       task.setActualFinish(getDateFromLong(xml.getActualFinish()));
       task.setLateFinish(xml.getDateLateFinish());
-      //Priority
-      task.setBaselineFinish(xml.getDateBaseFinish());
+      task.setPriority(PRIORITY_MAP.get(xml.getPriority()));
       task.setFinish(xml.getDateFinish());
       task.setWBS(xml.getWbs());
       task.setNotes(xml.getNotes());
-      //BaseLineNumber
       task.setPercentageComplete(NumberHelper.getDouble(xml.getPercent()) * 100.0);
       task.setRemainingCost(xml.getRemainingCost());
-
       task.setTaskMode(BooleanHelper.getBoolean(xml.isManual()) ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED);
+
+      // Not sure what this is used for
+      //StartText
+
+      // You would expect separate records to be kept for
+      // each number baseline, but that doesn't appear to
+      // be the case
+      //BaseLineNumber
 
       // ActualDuration is only populated in edraw for completed tasks
       //ActualDuration
+
+      // Level is the outline level - calculated by MPXJ
+      //Level
 
       // The Start, Finish, and Duration attributes appear to
       // contain the same values as the manual attributes below.
@@ -366,6 +374,16 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       DAY_OF_WEEK_MAP.put(Integer.valueOf(5), DayOfWeek.THURSDAY);
       DAY_OF_WEEK_MAP.put(Integer.valueOf(6), DayOfWeek.FRIDAY);
       DAY_OF_WEEK_MAP.put(Integer.valueOf(7), DayOfWeek.SATURDAY);
+   }
+
+   private static final Map<Integer, Priority> PRIORITY_MAP = new HashMap<>();
+   static
+   {
+      PRIORITY_MAP.put(Integer.valueOf(1), Priority.getInstance(Priority.HIGHEST));
+      PRIORITY_MAP.put(Integer.valueOf(2), Priority.getInstance(Priority.HIGH));
+      PRIORITY_MAP.put(Integer.valueOf(3), Priority.getInstance(Priority.MEDIUM));
+      PRIORITY_MAP.put(Integer.valueOf(4), Priority.getInstance(Priority.LOW));
+      PRIORITY_MAP.put(Integer.valueOf(5), Priority.getInstance(Priority.LOWEST));
    }
 
    private static final LocalDateTime EPOCH = LocalDateTime.of(1970, 1, 1, 1, 0);
