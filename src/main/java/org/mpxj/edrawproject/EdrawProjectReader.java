@@ -26,6 +26,7 @@ import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectProperties;
 import org.mpxj.Rate;
 import org.mpxj.Resource;
+import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceType;
 import org.mpxj.TaskMode;
 import org.mpxj.TimeUnit;
@@ -258,14 +259,33 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       //DateManualFinish
       //ManualDurationSecs
 
-      processResourceAssignments(xml.getResourceList());
+      processResourceAssignments(task, xml.getResourceList());
    }
 
-   private void processResourceAssignments(Document.TaskList.Task.ResourceList xmlResourceList)
+   private void processResourceAssignments(Task task, Document.TaskList.Task.ResourceList xmlResourceList)
    {
       if (xmlResourceList == null)
       {
          return;
+      }
+
+      List<Document.TaskList.Task.ResourceList.Resource> xmlResources = xmlResourceList.getResource();
+      if (xmlResources == null || xmlResources.isEmpty())
+      {
+         return;
+      }
+
+      for (Document.TaskList.Task.ResourceList.Resource xml : xmlResources)
+      {
+         Resource resource = m_projectFile.getResourceByUniqueID(xml.getID());
+         if (resource == null)
+         {
+            continue;
+         }
+
+         ResourceAssignment assignment = task.addResourceAssignment(resource);
+         assignment.setUnits(NumberHelper.getDouble(xml.getPercent()) * 100.0);
+         assignment.setWork(getDuration(xml.getWorkSecs(), 5));
       }
    }
 
