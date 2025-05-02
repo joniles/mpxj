@@ -249,14 +249,13 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       //ManualDurationSecs
    }
 
-   private Duration getDuration(Integer seconds, Integer units)
+   private Duration getDuration(Long seconds, Integer units)
    {
       // Note: durations are rounded to 1 decimal place,
       // so 1 day expressed as months should be 0.05mo
-      // but is actualy shown in edraw as 0.1mo
-      if (seconds == null || seconds.intValue() == -1 /*|| seconds.intValue() == 4294967295*/)
+      // but is actually shown in edraw as 0.1mo
+      if (seconds == null || seconds.longValue() == -1 || seconds.longValue() == 4294967295L)
       {
-         // TODO duration in seconds should be long
          return null;
       }
 
@@ -343,17 +342,6 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       RATE_TIME_UNIT_MAP.put(Integer.valueOf(3), TimeUnit.DAYS);
       RATE_TIME_UNIT_MAP.put(Integer.valueOf(4), TimeUnit.WEEKS);
       RATE_TIME_UNIT_MAP.put(Integer.valueOf(5), TimeUnit.MONTHS);
-   }
-
-   private static final Map<Integer, TimeUnit> DURATION_TIME_UNIT_MAP = new HashMap<>();
-   static
-   {
-      DURATION_TIME_UNIT_MAP.put(Integer.valueOf(6), TimeUnit.MINUTES);
-      DURATION_TIME_UNIT_MAP.put(Integer.valueOf(5), TimeUnit.HOURS);
-      DURATION_TIME_UNIT_MAP.put(Integer.valueOf(7), TimeUnit.DAYS); // Workday
-      DURATION_TIME_UNIT_MAP.put(Integer.valueOf(10), TimeUnit.DAYS);
-      DURATION_TIME_UNIT_MAP.put(Integer.valueOf(8), TimeUnit.WEEKS);
-      DURATION_TIME_UNIT_MAP.put(Integer.valueOf(9), TimeUnit.MONTHS);
    }
 
    private static final Map<Integer, DayOfWeek> DAY_OF_WEEK_MAP = new HashMap<>();

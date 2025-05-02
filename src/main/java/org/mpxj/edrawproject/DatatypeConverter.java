@@ -84,4 +84,6 @@ public class DatatypeConverter
    private static final DateTimeFormatter TIMESTAMP_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+   private static final LocalDateTime EPOCH = LocalDateTime.of(1970, 1, 1, 1, 0)
 }
