@@ -320,7 +320,7 @@
                                                          <xs:attribute name="DateLateStart" type="xs:dateTime"></xs:attribute>
                                                          <xs:attribute name="LastSaveDate" type="xs:date"></xs:attribute>
                                                          <xs:attribute name="m_IbartextIndex" type="xs:string"></xs:attribute>
-                                                         <xs:attribute name="ActualStart" type="xs:int"></xs:attribute>
+                                                         <xs:attribute name="ActualStart" type="xs:long"></xs:attribute>
                                                          <xs:attribute name="Work" type="xs:double"></xs:attribute>
                                                          <xs:attribute name="Cost" type="xs:double"></xs:attribute>
                                                          <xs:attribute name="SplitOffsetDuration" type="xs:string"></xs:attribute>
@@ -328,7 +328,7 @@
                                                          <xs:attribute name="RowID" type="xs:int"></xs:attribute>
                                                          <xs:attribute name="StartText" type="xs:string"></xs:attribute>
                                                          <xs:attribute name="Name" type="xs:string"></xs:attribute>
-                                                         <xs:attribute name="ActualFinish" type="xs:int"></xs:attribute>
+                                                         <xs:attribute name="ActualFinish" type="xs:long"></xs:attribute>
                                                          <xs:attribute name="FirstWidth" type="xs:int"></xs:attribute>
                                                          <xs:attribute name="DateLateFinish" type="xs:dateTime"></xs:attribute>
                                                          <xs:attribute name="CountWidth" type="xs:int"></xs:attribute>
