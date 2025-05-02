@@ -219,7 +219,7 @@
                                                                <xs:element name="ResourceList">
                                                                      <xs:complexType>
                                                                            <xs:sequence>
-                                                                                 <xs:element name="Resource">
+                                                                                 <xs:element name="Resource" maxOccurs="unbounded">
                                                                                        <xs:complexType>
                                                                                              <xs:attribute name="ID" type="xs:int"></xs:attribute>
                                                                                              <xs:attribute name="CostUnit" type="xs:int"></xs:attribute>

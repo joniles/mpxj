@@ -257,6 +257,16 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       //DateManualStart
       //DateManualFinish
       //ManualDurationSecs
+
+      processResourceAssignments(xml.getResourceList());
+   }
+
+   private void processResourceAssignments(Document.TaskList.Task.ResourceList xmlResourceList)
+   {
+      if (xmlResourceList == null)
+      {
+         return;
+      }
    }
 
    private Duration getDuration(Long seconds, Integer units)
