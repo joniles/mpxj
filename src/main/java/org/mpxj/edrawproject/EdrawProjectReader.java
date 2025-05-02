@@ -4,7 +4,6 @@ package org.mpxj.edrawproject;
 
 import java.io.InputStream;
 import java.time.DayOfWeek;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -26,14 +25,13 @@ import org.mpxj.ProjectProperties;
 import org.mpxj.Rate;
 import org.mpxj.Resource;
 import org.mpxj.ResourceType;
-import org.mpxj.TaskContainer;
+import org.mpxj.TaskMode;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.edrawproject.schema.Document;
-import org.mpxj.mspdi.schema.Project;
 import org.xml.sax.SAXException;
 
 import org.mpxj.EventManager;
@@ -189,8 +187,8 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       resource.setType(RESOURCE_TYPE_MAP.getOrDefault(xml.getType(), ResourceType.WORK));
       resource.setGroup(xml.getGroup());
 
-      Rate standardRate = new Rate(xml.getCost(), TIME_UNIT_MAP.getOrDefault(xml.getCostUnit(), TimeUnit.HOURS));
-      Rate overtimeRate = new Rate(xml.getOvertimeCost(), TIME_UNIT_MAP.getOrDefault(xml.getOvertimeUnit(), TimeUnit.HOURS));
+      Rate standardRate = new Rate(xml.getCost(), RATE_TIME_UNIT_MAP.getOrDefault(xml.getCostUnit(), TimeUnit.HOURS));
+      Rate overtimeRate = new Rate(xml.getOvertimeCost(), RATE_TIME_UNIT_MAP.getOrDefault(xml.getOvertimeUnit(), TimeUnit.HOURS));
 
       CostRateTableEntry entry = new CostRateTableEntry(
          LocalDateTimeHelper.START_DATE_NA,
@@ -218,14 +216,12 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       task.setCritical(xml.isCriticalPath());
       task.setUniqueID(xml.getID());
       task.setID(xml.getRowID());
-      task.setActualDuration(getDuration(xml.getActualDuration(), xml.getDurationUnits()));
+      // only populated in edraw for completed tasks
+      //task.setActualDuration(getDuration(xml.getActualDuration(), xml.getDurationUnits()));
       //DateBaseStart
-      //DateManualFinish
-      //Manual
       //Level
       task.setBaselineCost(xml.getBaselineCost());
       task.setDuration(getDuration(xml.getDurationSecs(), xml.getDurationUnits()));
-      //ManualDurationSecs
       task.setLateStart(xml.getDateLateStart());
       //ActualStart -as int
       //Work
@@ -236,7 +232,6 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       //ActualFinish -as int
       task.setLateFinish(xml.getDateLateFinish());
       //Priority
-      //DateManualStart
       task.setBaselineFinish(xml.getDateBaseFinish());
       task.setFinish(xml.getDateFinish());
       task.setWBS(xml.getWbs());
@@ -244,12 +239,24 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       //BaseLineNumber
       task.setPercentageComplete(NumberHelper.getDouble(xml.getPercent()) * 100.0);
       task.setRemainingCost(xml.getRemainingCost());
+
+      task.setTaskMode(BooleanHelper.getBoolean(xml.isManual()) ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED);
+
+      // The Start, Finish, and Duration attributes appear to
+      // contain the same values as the manual attributes below.
+      //DateManualStart
+      //DateManualFinish
+      //ManualDurationSecs
    }
 
    private Duration getDuration(Integer seconds, Integer units)
    {
-      if (seconds == null)
+      // Note: durations are rounded to 1 decimal place,
+      // so 1 day expressed as months should be 0.05mo
+      // but is actualy shown in edraw as 0.1mo
+      if (seconds == null || seconds.intValue() == -1 /*|| seconds.intValue() == 4294967295*/)
       {
+         // TODO duration in seconds should be long
          return null;
       }
 
@@ -258,7 +265,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
 
       switch (units.intValue())
       {
-         case 0:
+         case 6:
          {
             // Minutes
             durationValue /= 60.0;
@@ -266,7 +273,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
             break;
          }
 
-         case 1:
+         case 5:
          {
             // Hours
             durationValue /= (60.0 * 60.0);
@@ -274,7 +281,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
             break;
          }
 
-         case 2:
+         case 7:
          {
             // Workday
             durationValue /= (60.0 * m_projectFile.getProjectProperties().getMinutesPerDay());
@@ -282,13 +289,15 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
             break;
          }
 
-         case 3:
+         case 10:
          {
             // Day
-            throw new IllegalArgumentException();
+            durationValue /= (60.0 * m_projectFile.getProjectProperties().getMinutesPerDay());
+            durationUnits = TimeUnit.DAYS;
+            break;
          }
 
-         case 4:
+         case 8:
          {
             // Weeks
             durationValue /= (60.0 * m_projectFile.getProjectProperties().getMinutesPerWeek());
@@ -296,7 +305,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
             break;
          }
 
-         case 5:
+         case 9:
          {
             // Months
             durationValue /= (60.0 * m_projectFile.getProjectProperties().getMinutesPerDay() * m_projectFile.getProjectProperties().getDaysPerMonth());
@@ -325,15 +334,26 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       RESOURCE_TYPE_MAP.put(Integer.valueOf(2), ResourceType.COST);
    }
 
-   private static final Map<Integer, TimeUnit> TIME_UNIT_MAP = new HashMap<>();
+   private static final Map<Integer, TimeUnit> RATE_TIME_UNIT_MAP = new HashMap<>();
    static
    {
-      TIME_UNIT_MAP.put(Integer.valueOf(0), TimeUnit.MINUTES);
-      TIME_UNIT_MAP.put(Integer.valueOf(1), TimeUnit.HOURS);
-      TIME_UNIT_MAP.put(Integer.valueOf(2), TimeUnit.DAYS); // Workday
-      TIME_UNIT_MAP.put(Integer.valueOf(3), TimeUnit.DAYS);
-      TIME_UNIT_MAP.put(Integer.valueOf(4), TimeUnit.WEEKS);
-      TIME_UNIT_MAP.put(Integer.valueOf(5), TimeUnit.MONTHS);
+      RATE_TIME_UNIT_MAP.put(Integer.valueOf(0), TimeUnit.MINUTES);
+      RATE_TIME_UNIT_MAP.put(Integer.valueOf(1), TimeUnit.HOURS);
+      RATE_TIME_UNIT_MAP.put(Integer.valueOf(2), TimeUnit.DAYS); // Workday
+      RATE_TIME_UNIT_MAP.put(Integer.valueOf(3), TimeUnit.DAYS);
+      RATE_TIME_UNIT_MAP.put(Integer.valueOf(4), TimeUnit.WEEKS);
+      RATE_TIME_UNIT_MAP.put(Integer.valueOf(5), TimeUnit.MONTHS);
+   }
+
+   private static final Map<Integer, TimeUnit> DURATION_TIME_UNIT_MAP = new HashMap<>();
+   static
+   {
+      DURATION_TIME_UNIT_MAP.put(Integer.valueOf(6), TimeUnit.MINUTES);
+      DURATION_TIME_UNIT_MAP.put(Integer.valueOf(5), TimeUnit.HOURS);
+      DURATION_TIME_UNIT_MAP.put(Integer.valueOf(7), TimeUnit.DAYS); // Workday
+      DURATION_TIME_UNIT_MAP.put(Integer.valueOf(10), TimeUnit.DAYS);
+      DURATION_TIME_UNIT_MAP.put(Integer.valueOf(8), TimeUnit.WEEKS);
+      DURATION_TIME_UNIT_MAP.put(Integer.valueOf(9), TimeUnit.MONTHS);
    }
 
    private static final Map<Integer, DayOfWeek> DAY_OF_WEEK_MAP = new HashMap<>();

@@ -226,7 +226,7 @@
                                                                                              <xs:attribute name="Cost" type="xs:double"></xs:attribute>
                                                                                              <xs:attribute name="CostPer" type="xs:double"></xs:attribute>
                                                                                              <xs:attribute name="Type" type="xs:int"></xs:attribute>
-                                                                                             <xs:attribute name="WorkSecs" type="xs:int"></xs:attribute>
+                                                                                             <xs:attribute name="WorkSecs" type="xs:long"></xs:attribute>
                                                                                              <xs:attribute name="OvertimeUnit" type="xs:int"></xs:attribute>
                                                                                              <xs:attribute name="Percent" type="xs:double"></xs:attribute>
                                                                                              <xs:attribute name="OvertimeCost" type="xs:double"></xs:attribute>
@@ -315,8 +315,8 @@
                                                          <xs:attribute name="Level" type="xs:int"></xs:attribute>
                                                          <xs:attribute name="IsToggler" type="xs:boolean"></xs:attribute>
                                                          <xs:attribute name="BaselineCost" type="xs:double"></xs:attribute>
-                                                         <xs:attribute name="DurationSecs" type="xs:int"></xs:attribute>
-                                                         <xs:attribute name="ManualDurationSecs" type="xs:int"></xs:attribute>
+                                                         <xs:attribute name="DurationSecs" type="xs:long"></xs:attribute>
+                                                         <xs:attribute name="ManualDurationSecs" type="xs:long"></xs:attribute>
                                                          <xs:attribute name="DateLateStart" type="xs:dateTime"></xs:attribute>
                                                          <xs:attribute name="LastSaveDate" type="xs:date"></xs:attribute>
                                                          <xs:attribute name="m_IbartextIndex" type="xs:string"></xs:attribute>
