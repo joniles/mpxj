@@ -236,6 +236,17 @@
                                                                            </xs:sequence>
                                                                      </xs:complexType>
                                                                </xs:element>
+                                                               <xs:element name="PredecessorLink" maxOccurs="unbounded">
+                                                                  <xs:complexType>
+                                                                     <xs:sequence>
+                                                                        <xs:element name="PredecessorUID" type="xs:int"/>
+                                                                        <xs:element name="Type" type="xs:int"/>
+                                                                        <xs:element name="LinkLag" type="xs:long"/>
+                                                                        <xs:element name="LagFormat" type="xs:int"/>
+                                                                        <xs:element name="CrossProject" type="xs:boolean"/>
+                                                                     </xs:sequence>
+                                                                  </xs:complexType>
+                                                               </xs:element>
                                                                <xs:element name="Texts">
                                                                      <xs:complexType>
                                                                            <xs:sequence>
