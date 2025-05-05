@@ -25,6 +25,8 @@ import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectProperties;
 import org.mpxj.Rate;
+import org.mpxj.Relation;
+import org.mpxj.RelationType;
 import org.mpxj.Resource;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceType;
@@ -260,6 +262,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       //ManualDurationSecs
 
       processResourceAssignments(task, xml.getResourceList());
+      processRelationships(task, xml.getPredecessorLink());
    }
 
    private void processResourceAssignments(Task task, Document.TaskList.Task.ResourceList xmlResourceList)
@@ -286,6 +289,28 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
          ResourceAssignment assignment = task.addResourceAssignment(resource);
          assignment.setUnits(NumberHelper.getDouble(xml.getPercent()) * 100.0);
          assignment.setWork(getDuration(xml.getWorkSecs(), 5));
+      }
+   }
+
+   private void processRelationships(Task task, List<Document.TaskList.Task.PredecessorLink> xmlLinks)
+   {
+      if (xmlLinks == null || xmlLinks.isEmpty())
+      {
+         return;
+      }
+
+      for (Document.TaskList.Task.PredecessorLink xml : xmlLinks)
+      {
+         Task predecessor = m_projectFile.getTaskByUniqueID(xml.getPredecessorUID());
+         if (predecessor == null)
+         {
+            continue;
+         }
+
+         task.addPredecessor(new Relation.Builder()
+            .predecessorTask(predecessor)
+            .type(RELATION_TYPE_MAP.getOrDefault(xml.getType(), RelationType.FINISH_START))
+            .lag(getDuration(xml.getLinkLag() * 6, xml.getLagFormat())));
       }
    }
 
@@ -414,6 +439,15 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       PRIORITY_MAP.put(Integer.valueOf(3), Priority.getInstance(Priority.MEDIUM));
       PRIORITY_MAP.put(Integer.valueOf(4), Priority.getInstance(Priority.LOW));
       PRIORITY_MAP.put(Integer.valueOf(5), Priority.getInstance(Priority.LOWEST));
+   }
+
+   private static final Map<Integer, RelationType> RELATION_TYPE_MAP = new HashMap<>();
+   static
+   {
+      RELATION_TYPE_MAP.put(0, RelationType.FINISH_FINISH);
+      RELATION_TYPE_MAP.put(1, RelationType.FINISH_START);
+      RELATION_TYPE_MAP.put(2, RelationType.START_FINISH);
+      RELATION_TYPE_MAP.put(3, RelationType.START_START);
    }
 
    private static final LocalDateTime EPOCH = LocalDateTime.of(1970, 1, 1, 1, 0);
