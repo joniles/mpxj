@@ -36,7 +36,6 @@ nav:
     - 'Getting Started with .Net': 'howto-dotnet.md'
     - 'Getting Started with Python': 'howto-start-python.md'
     - 'Getting Started with Ruby': 'howto-start-ruby.md'
-    - 'Getting Started with COM': 'howto-com.md'
     - 'MPXJ Basics': 'howto-start.md'
     - 'Building MPXJ': 'howto-build.md'
     - 'Converting Files': 'howto-convert.md'

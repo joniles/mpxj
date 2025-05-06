@@ -444,27 +444,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../howto-com/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Getting Started with COM
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../howto-start/" class="md-nav__link">
         
   
@@ -1368,6 +1347,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../howto-use-cpm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPM Schedulers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../howto-use-external-projects/" class="md-nav__link">
         
   
@@ -1615,6 +1615,24 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#java" class="md-nav__link">
+    <span class="md-ellipsis">
+      Java
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#net" class="md-nav__link">
     <span class="md-ellipsis">
       .NET
@@ -1728,6 +1746,24 @@
   <a href="#unit-tests" class="md-nav__link">
     <span class="md-ellipsis">
       Unit Tests
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#java" class="md-nav__link">
+    <span class="md-ellipsis">
+      Java
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python
     </span>
   </a>
   
@@ -1868,6 +1904,22 @@ in JAXB functionality. What's happening?</strong></p>
 running the JUnit test runner with the -noloading command line option, other
 taking other steps to disable JUnit classloading was recommended. This problem
 is not believed to affect the more recent version of JAXB now used by MPXJ.</p>
+<h2 id="java">Java</h2>
+<p><strong>I've just update MPXJ and when I build my code I get the error
+<code>package net.sf.mpxj does not exist</code></strong></p>
+<p>As part of the MPXJ 14 release, the package name for MPXJ changed from
+<code>net.sf.mpxj</code> to <code>org.mpxj</code>. Find and replace references to the old package
+name in your code with the new package name, and your code should compile
+again. NOTE: the Maven Group ID for MPXJ has nit changed, and is still
+<code>net.sf.mpxj</code> - you don't need to update your POM file, just any references to
+<code>net.sf.mpxj</code> in your code.</p>
+<h2 id="python">Python</h2>
+<p><strong>I've just updated MPXJ and when I try to run my code I get the error
+<code>java.lang.ClassNotFoundException: java.lang.ClassNotFoundException: net.sf.mpxj</code></strong></p>
+<p>As part of the MPXJ 14 release, the package name for MPXJ changed from
+<code>net.sf.mpxj</code> to <code>org.mpxj</code>. Find and replace references to the old package
+name in your code with the new package name, and your code should run
+again.</p>
 <h2 id="net">.NET</h2>
 <p><strong>When using MPXJ from .NET Core I get an error similar to <code>No data is available
   for encoding 437. For information on defining a custom encoding, see the

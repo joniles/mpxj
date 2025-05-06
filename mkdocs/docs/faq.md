@@ -125,6 +125,26 @@ running the JUnit test runner with the -noloading command line option, other
 taking other steps to disable JUnit classloading was recommended. This problem
 is not believed to affect the more recent version of JAXB now used by MPXJ.
 
+## Java
+**I've just update MPXJ and when I build my code I get the error
+`package net.sf.mpxj does not exist`**
+
+As part of the MPXJ 14 release, the package name for MPXJ changed from
+`net.sf.mpxj` to `org.mpxj`. Find and replace references to the old package
+name in your code with the new package name, and your code should compile
+again. NOTE: the Maven Group ID for MPXJ has nit changed, and is still
+`net.sf.mpxj` - you don't need to update your POM file, just any references to
+`net.sf.mpxj` in your code.
+
+## Python
+**I've just updated MPXJ and when I try to run my code I get the error
+`java.lang.ClassNotFoundException: java.lang.ClassNotFoundException: net.sf.mpxj`**
+
+As part of the MPXJ 14 release, the package name for MPXJ changed from
+`net.sf.mpxj` to `org.mpxj`. Find and replace references to the old package
+name in your code with the new package name, and your code should run
+again.
+
 ## .NET
 **When using MPXJ from .NET Core I get an error similar to `No data is available
   for encoding 437. For information on defining a custom encoding, see the

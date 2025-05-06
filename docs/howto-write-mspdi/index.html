@@ -444,27 +444,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../howto-com/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Getting Started with COM
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../howto-start/" class="md-nav__link">
         
   
@@ -1461,6 +1440,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../howto-use-cpm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPM Schedulers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../howto-use-external-projects/" class="md-nav__link">
         
   
@@ -1790,9 +1790,9 @@ read and write an XML-based data interchange format called MSPDI.</p>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.write</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.writer.FileFormat</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.writer.UniversalProjectWriter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.writer.FileFormat</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.writer.UniversalProjectWriter</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MSPDI</span>
 <span class="p">{</span>
@@ -1843,8 +1843,8 @@ Project you can set this flag to <code>false</code>:</p>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.write</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MSPDICompatibleOutput</span>
 <span class="p">{</span>
@@ -1878,7 +1878,7 @@ Project you can set this flag to <code>false</code>:</p>
 <h3 id="save-version">Save Version</h3>
 <p>The MSPDI file contains a <code>SaveVersion</code> attribute which indicates the version of
 Microsoft Project used to save the file. The value of <code>SaveVersion</code> is defined
-by the <code>net.sf.mpxj.mspdi.SaveVersion</code> enum,  which provides the following
+by the <code>org.mpxj.mspdi.SaveVersion</code> enum,  which provides the following
 values:</p>
 <div class="highlight"><pre><span></span><code>Project2002
 Project2003
@@ -1900,9 +1900,9 @@ the older style of calendar exceptions is written to the MSPDI file:</p>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.write</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.mspdi.SaveVersion</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.mspdi.SaveVersion</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MSPDISaveVersion</span>
 <span class="p">{</span>
@@ -1956,8 +1956,8 @@ day-by-dat breakdown:</p>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.write</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MSPDITimephased</span>
 <span class="p">{</span>
@@ -1995,8 +1995,8 @@ write an aggregated form of the timephased data: </p>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.write</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MSPDITimephasedAggregate</span>
 <span class="p">{</span>

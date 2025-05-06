@@ -444,27 +444,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../howto-com/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Getting Started with COM
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../howto-start/" class="md-nav__link">
         
   
@@ -1461,6 +1440,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../howto-use-cpm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPM Schedulers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../howto-use-external-projects/" class="md-nav__link">
         
   
@@ -1789,8 +1789,8 @@
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PMXML</span>
 <span class="p">{</span>
@@ -1833,7 +1833,7 @@ PMXML file, as shown below:</p>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraPMFileReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.primavera.PrimaveraPMFileReader</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.io.FileInputStream</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Map</span><span class="p">;</span>
@@ -1884,17 +1884,17 @@ and the values are project short names.</p>
 call <code>setProjectID</code> to tell the reader which project to open, as shown below.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraPMFileReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.primavera.PrimaveraPMFileReader</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PMXMLProjectID</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="n">PrimaveraPMFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraPMFileReader</span><span class="p">();</span>
-<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="na">setProjectID</span><span class="p">(</span><span class="mi">123</span><span class="p">);</span>
-<span class="w">        </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">   </span><span class="p">{</span>
+<span class="w">      </span><span class="n">PrimaveraPMFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraPMFileReader</span><span class="p">();</span>
+<span class="w">      </span><span class="n">reader</span><span class="p">.</span><span class="na">setProjectID</span><span class="p">(</span><span class="mi">123</span><span class="p">);</span>
+<span class="w">      </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
+<span class="w">   </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Alternatively you can ask MPXJ to read all the projects contained in the file:</p>
@@ -1903,8 +1903,8 @@ call <code>setProjectID</code> to tell the reader which project to open, as show
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraPMFileReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.primavera.PrimaveraPMFileReader</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.util.List</span><span class="p">;</span>
 
@@ -1953,8 +1953,8 @@ MPXJ will attempt to link these relations across projects: </p>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraPMFileReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.primavera.PrimaveraPMFileReader</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.util.List</span><span class="p">;</span>
 
@@ -2003,20 +2003,20 @@ values with current dates" or "Budgeted values with current dates". The example
 below illustrates how this method is used:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraPMFileReader</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraBaselineStrategy</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.primavera.PrimaveraPMFileReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.primavera.PrimaveraBaselineStrategy</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.util.List</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PMXMLBaselines</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="n">PrimaveraPMFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraPMFileReader</span><span class="p">();</span>
-<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="na">setBaselineStrategy</span><span class="p">(</span><span class="n">PrimaveraBaselineStrategy</span><span class="p">.</span><span class="na">CURRENT_ATTRIBUTES</span><span class="p">);</span>
-<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">ProjectFile</span><span class="o">&gt;</span><span class="w"> </span><span class="n">files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">readAll</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">   </span><span class="p">{</span>
+<span class="w">      </span><span class="n">PrimaveraPMFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraPMFileReader</span><span class="p">();</span>
+<span class="w">      </span><span class="n">reader</span><span class="p">.</span><span class="na">setBaselineStrategy</span><span class="p">(</span><span class="n">PrimaveraBaselineStrategy</span><span class="p">.</span><span class="na">CURRENT_ATTRIBUTES</span><span class="p">);</span>
+<span class="w">      </span><span class="n">List</span><span class="o">&lt;</span><span class="n">ProjectFile</span><span class="o">&gt;</span><span class="w"> </span><span class="n">files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">readAll</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
+<span class="w">   </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>See the <a href="../howto-use-baselines/">How To Use Baselines section</a>

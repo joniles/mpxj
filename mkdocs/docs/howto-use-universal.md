@@ -6,9 +6,9 @@ from most sources of schedule data is to use the `UniversalProjectReader`:
 ```java
 package org.mpxj.howto.use.universal;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.reader.ProjectReader;
+import org.mpxj.reader.UniversalProjectReader;
 
 public class SimpleExample
 {
@@ -42,11 +42,11 @@ The example code below illustrates both these situations.
 ```java
 package org.mpxj.howto.use.universal;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.phoenix.PhoenixReader;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.UniversalProjectReader;
-import net.sf.mpxj.sdef.SDEFReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.phoenix.PhoenixReader;
+import org.mpxj.reader.ProjectReader;
+import org.mpxj.reader.UniversalProjectReader;
+import org.mpxj.sdef.SDEFReader;
 
 import java.io.File;
 
@@ -58,7 +58,7 @@ public class ProxyExample
 
       // Retrieve the proxy
       try (UniversalProjectReader.ProjectReaderProxy proxy
-              = upr.getProjectReaderProxy(file))
+         = upr.getProjectReaderProxy(file))
       {
          // Retrieve the reader class
          ProjectReader reader = proxy.getProjectReader();
@@ -74,7 +74,7 @@ public class ProxyExample
          // In this example we are changing the behavior of the Phoenix reader.
          if (reader instanceof PhoenixReader)
          {
-            ((PhoenixReader)reader).setUseActivityCodesForTaskHierarchy(false);
+            ((PhoenixReader) reader).setUseActivityCodesForTaskHierarchy(false);
          }
 
          // Finally, we read the schedule

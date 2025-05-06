@@ -11,8 +11,8 @@ The simplest way to read an MPX file is to use the `UniversalProjectReader`:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.reader.UniversalProjectReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.reader.UniversalProjectReader;
 	
 	public class MPX
 	{
@@ -67,8 +67,8 @@ The sample below shows how this is done:
 	```java
 	package org.mpxj.howto.read;
 
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.mpx.MPXReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.mpx.MPXReader;
 
 	import java.util.Locale;
 
@@ -119,7 +119,7 @@ You can retrieve a list of supported locales programmatically using the code sho
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.mpx.MPXReader;
+	import org.mpxj.mpx.MPXReader;
 	
 	import java.util.Locale;
 	
@@ -167,8 +167,8 @@ shown in the example below.
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.mpx.MPXReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.mpx.MPXReader;
 	
 	public class MPXIgnoreTextModels
 	{

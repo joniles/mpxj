@@ -10,9 +10,9 @@ The sample code below illustrates how to write data to a Planner file.
 	```java
 	package org.mpxj.howto.write;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.writer.FileFormat;
-	import net.sf.mpxj.writer.UniversalProjectWriter;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.writer.FileFormat;
+	import org.mpxj.writer.UniversalProjectWriter;
 	
 	public class Planner
 	{
@@ -50,8 +50,8 @@ The character set used to write a Planner file can be specified using the
 	```java
 	package org.mpxj.howto.write;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.planner.PlannerWriter;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.planner.PlannerWriter;
 	
 	import java.nio.charset.Charset;
 	

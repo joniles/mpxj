@@ -102,7 +102,7 @@ echo    TWINE_PASSWORD (PyPi API Key)
 echo    GEM_HOST_API_KEY (Rubygems API key)
 echo To enable Maven deploys
 echo    create gpg key and publish to server
-echo    configure ossrh credentials in .m2\settings.xml
+echo    configure Maven Central credentials in .m2\settings.xml
 
 pause
 

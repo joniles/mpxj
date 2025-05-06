@@ -6,8 +6,8 @@
    <jxb:globalBindings>
       <jxb:javaType name="java.time.LocalDateTime"
          xmlType="xs:date"
-         parseMethod="net.sf.mpxj.ganttproject.DatatypeConverter.parseDate"
-         printMethod="net.sf.mpxj.ganttproject.DatatypeConverter.printDate"/>
+         parseMethod="org.mpxj.ganttproject.DatatypeConverter.parseDate"
+         printMethod="org.mpxj.ganttproject.DatatypeConverter.printDate"/>
    </jxb:globalBindings>
 
     <!-- rename the value element -->

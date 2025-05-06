@@ -444,27 +444,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../howto-com/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Getting Started with COM
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../howto-start/" class="md-nav__link">
         
   
@@ -1370,6 +1349,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../howto-use-cpm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPM Schedulers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../howto-use-external-projects/" class="md-nav__link">
         
   
@@ -1645,9 +1645,9 @@
 from most sources of schedule data is to use the <code>UniversalProjectReader</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.use.universal</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.ProjectReader</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.reader.ProjectReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SimpleExample</span>
 <span class="p">{</span>
@@ -1676,11 +1676,11 @@ or you can change the reader's settings before continuing to read the schedule.
 The example code below illustrates both these situations.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.use.universal</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.phoenix.PhoenixReader</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.ProjectReader</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.sdef.SDEFReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.phoenix.PhoenixReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.reader.ProjectReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.sdef.SDEFReader</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.io.File</span><span class="p">;</span>
 
@@ -1692,7 +1692,7 @@ The example code below illustrates both these situations.</p>
 
 <span class="w">      </span><span class="c1">// Retrieve the proxy</span>
 <span class="w">      </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">UniversalProjectReader</span><span class="p">.</span><span class="na">ProjectReaderProxy</span><span class="w"> </span><span class="n">proxy</span>
-<span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="n">upr</span><span class="p">.</span><span class="na">getProjectReaderProxy</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">upr</span><span class="p">.</span><span class="na">getProjectReaderProxy</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
 <span class="w">      </span><span class="p">{</span>
 <span class="w">         </span><span class="c1">// Retrieve the reader class</span>
 <span class="w">         </span><span class="n">ProjectReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proxy</span><span class="p">.</span><span class="na">getProjectReader</span><span class="p">();</span>
@@ -1708,7 +1708,7 @@ The example code below illustrates both these situations.</p>
 <span class="w">         </span><span class="c1">// In this example we are changing the behavior of the Phoenix reader.</span>
 <span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">reader</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">PhoenixReader</span><span class="p">)</span>
 <span class="w">         </span><span class="p">{</span>
-<span class="w">            </span><span class="p">((</span><span class="n">PhoenixReader</span><span class="p">)</span><span class="n">reader</span><span class="p">).</span><span class="na">setUseActivityCodesForTaskHierarchy</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="w">            </span><span class="p">((</span><span class="n">PhoenixReader</span><span class="p">)</span><span class="w"> </span><span class="n">reader</span><span class="p">).</span><span class="na">setUseActivityCodesForTaskHierarchy</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
 <span class="w">         </span><span class="p">}</span>
 
 <span class="w">         </span><span class="c1">// Finally, we read the schedule</span>

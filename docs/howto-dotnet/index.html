@@ -447,15 +447,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#legacy-ikvm" class="md-nav__link">
-    <span class="md-ellipsis">
-      Legacy IKVM
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#sample-code" class="md-nav__link">
     <span class="md-ellipsis">
       Sample Code
@@ -506,27 +497,6 @@
   
   <span class="md-ellipsis">
     Getting Started with Ruby
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../howto-com/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Getting Started with COM
   </span>
   
 
@@ -1446,6 +1416,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../howto-use-cpm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPM Schedulers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../howto-use-external-projects/" class="md-nav__link">
         
   
@@ -1718,15 +1709,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#legacy-ikvm" class="md-nav__link">
-    <span class="md-ellipsis">
-      Legacy IKVM
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#sample-code" class="md-nav__link">
     <span class="md-ellipsis">
       Sample Code
@@ -1751,9 +1733,19 @@
 
 
 <h1 id="getting-started-with-net">Getting Started with .Net</h1>
-<p>There are three different ways of adding MPXJ to your .Net project. In each case
-tool called <a href="https://github.com/ikvmnet/ikvm">IKVM</a>
+<p>There are two different ways of adding MPXJ to your .Net project. In both cases
+a tool called <a href="https://github.com/ikvmnet/ikvm">IKVM</a>
 is being used to convert the original Java version of MPXJ into .Net assemblies.</p>
+<blockquote>
+<p>Note: both of the approaches described below require that the project
+you are adding MPXJ to is an SDK-style project. This is the modern project
+file format used by Visual Studio. 
+If you open your <code>csproj</code> file in a text editor, the first line should look
+something like this: <code>&lt;Project Sdk="Microsoft.NET.Sdk"&gt;</code>. If the first line of
+your <code>csproj</code> file looks something like this:
+<code>&lt;Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"&gt;</code>
+you will need to update to the new SDK project format in order to use MPXJ.</p>
+</blockquote>
 <h2 id="mpxjnet">MPXJ.Net</h2>
 <p><strong>This is the recommended approach.</strong></p>
 <p>The <a href="https://www.nuget.org/packages/MPXJ.Net">MPXJ.Net NuGet package</a>
@@ -1784,7 +1776,7 @@ you as you build your project.</p>
 your project file and include the following lines:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;ItemGroup&gt;</span>
 <span class="w">  </span><span class="nt">&lt;PackageReference</span><span class="w"> </span><span class="na">Include=</span><span class="s">&quot;IKVM.Maven.Sdk&quot;</span><span class="w"> </span><span class="na">Version=</span><span class="s">&quot;1.8.2&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">  </span><span class="nt">&lt;MavenReference</span><span class="w"> </span><span class="na">Include=</span><span class="s">&quot;net.sf.mpxj:mpxj&quot;</span><span class="w"> </span><span class="na">Version=</span><span class="s">&quot;13.7.0&quot;</span><span class="nt">/&gt;</span>
+<span class="w">  </span><span class="nt">&lt;MavenReference</span><span class="w"> </span><span class="na">Include=</span><span class="s">&quot;net.sf.mpxj:mpxj&quot;</span><span class="w"> </span><span class="na">Version=</span><span class="s">&quot;14.0.0&quot;</span><span class="nt">/&gt;</span>
 <span class="nt">&lt;/ItemGroup&gt;</span>
 </code></pre></div>
 <p>The <code>&lt;PackageReference&gt;</code> tag enables IKVM's Maven integration functionality. The
@@ -1804,16 +1796,6 @@ return to normal. You may also see various transient warning messages as the
 first build completes. These can be ignored and will disappear once your
 project has finished building.</p>
 </blockquote>
-<h2 id="legacy-ikvm">Legacy IKVM</h2>
-<p><strong>Deprecated. Do Not Use. Only supported until MPXJ version 14.</strong></p>
-<p>The original .Net version of MPXJ was created using a legacy version of IKVM.
-The assemblies for this version are shipped as part of the MPXJ distribution and
-are available from NuGet as the following packages:</p>
-<ul>
-<li><a href="https://www.nuget.org/packages/net.sf.mpxj">net.sf.mpxj</a> direct translation of MPXJ</li>
-<li><a href="https://www.nuget.org/packages/net.sf.mpxj-for-csharp">net.sf.mpxj-for-csharp</a> translation of MPXJ with properties and methods following C# naming conventions</li>
-<li><a href="https://www.nuget.org/packages/net.sf.mpxj-for-vb">net.sf.mpxj-for-vb</a> translation of MPXJ with properties and methods following C# naming conventions with some adjustments to accommodate VB's lack of case sensitivity</li>
-</ul>
 <h2 id="sample-code">Sample Code</h2>
 <p>You'll find a general introduction to MPXJ's functionality
 <a href="../howto-start/">here</a>,

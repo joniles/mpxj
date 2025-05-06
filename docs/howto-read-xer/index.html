@@ -444,27 +444,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../howto-com/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Getting Started with COM
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../howto-start/" class="md-nav__link">
         
   
@@ -1497,6 +1476,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../howto-use-cpm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPM Schedulers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../howto-use-external-projects/" class="md-nav__link">
         
   
@@ -1863,8 +1863,8 @@ widely used.</p>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">XER</span>
 <span class="p">{</span>
@@ -1906,17 +1906,17 @@ below illustrates how we can force the <code>PrimaveraXERFileReader</code> to re
 errors encountered when reading a file:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">XERIgnoreErrors</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="n">PrimaveraXERFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
-<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="na">setIgnoreErrors</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
-<span class="w">        </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xer&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">   </span><span class="p">{</span>
+<span class="w">      </span><span class="n">PrimaveraXERFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
+<span class="w">      </span><span class="n">reader</span><span class="p">.</span><span class="na">setIgnoreErrors</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="w">      </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xer&quot;</span><span class="p">);</span>
+<span class="w">   </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Note that if errors are ignored when reading a file, the ignored errors
@@ -1928,19 +1928,19 @@ adjust the Charset appropriately if a BOM is present. If you have an XER file
 with an unusual encoding, you can manually set the Charset used by the reader.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.nio.charset.Charset</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">XERCharset</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="n">PrimaveraXERFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
-<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="na">setCharset</span><span class="p">(</span><span class="n">Charset</span><span class="p">.</span><span class="na">forName</span><span class="p">(</span><span class="s">&quot;GB2312&quot;</span><span class="p">));</span>
-<span class="w">        </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xer&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">   </span><span class="p">{</span>
+<span class="w">      </span><span class="n">PrimaveraXERFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
+<span class="w">      </span><span class="n">reader</span><span class="p">.</span><span class="na">setCharset</span><span class="p">(</span><span class="n">Charset</span><span class="p">.</span><span class="na">forName</span><span class="p">(</span><span class="s">&quot;GB2312&quot;</span><span class="p">));</span>
+<span class="w">      </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xer&quot;</span><span class="p">);</span>
+<span class="w">   </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="multiple-projects">Multiple Projects</h3>
@@ -1950,24 +1950,24 @@ otherwise it will simply read the first project it finds. You can however use
 MPXJ to list the projects contained in an XER file, as shown below:</p>
 <p><div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.io.FileInputStream</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Map</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">XERListProjects</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="n">PrimaveraXERFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
-<span class="w">        </span><span class="n">FileInputStream</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileInputStream</span><span class="p">(</span><span class="s">&quot;my-sample.xer&quot;</span><span class="p">);</span>
-<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">projects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">listProjects</span><span class="p">(</span><span class="n">is</span><span class="p">);</span>
-<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;ID\tName&quot;</span><span class="p">);</span>
-<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Map</span><span class="p">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">entry</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">projects</span><span class="p">.</span><span class="na">entrySet</span><span class="p">())</span>
-<span class="w">        </span><span class="p">{</span>
-<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">entry</span><span class="p">.</span><span class="na">getKey</span><span class="p">()</span><span class="o">+</span><span class="s">&quot;\t&quot;</span><span class="o">+</span><span class="n">entry</span><span class="p">.</span><span class="na">getValue</span><span class="p">());</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">   </span><span class="p">{</span>
+<span class="w">      </span><span class="n">PrimaveraXERFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
+<span class="w">      </span><span class="n">FileInputStream</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileInputStream</span><span class="p">(</span><span class="s">&quot;my-sample.xer&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">projects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">listProjects</span><span class="p">(</span><span class="n">is</span><span class="p">);</span>
+<span class="w">      </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;ID\tName&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Map</span><span class="p">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">entry</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">projects</span><span class="p">.</span><span class="na">entrySet</span><span class="p">())</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">         </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">entry</span><span class="p">.</span><span class="na">getKey</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;\t&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">entry</span><span class="p">.</span><span class="na">getValue</span><span class="p">());</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 The call to <code>listProjects</code> returns a <code>Map</code> whose key is the project ID,
@@ -1976,24 +1976,24 @@ and the values are project short names.</p>
 call <code>setProjectID</code> to tell the reader which project to open, as shown below.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">XERProjectID</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="n">PrimaveraXERFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
-<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="na">setProjectID</span><span class="p">(</span><span class="mi">123</span><span class="p">);</span>
-<span class="w">        </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xer&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">   </span><span class="p">{</span>
+<span class="w">      </span><span class="n">PrimaveraXERFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
+<span class="w">      </span><span class="n">reader</span><span class="p">.</span><span class="na">setProjectID</span><span class="p">(</span><span class="mi">123</span><span class="p">);</span>
+<span class="w">      </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xer&quot;</span><span class="p">);</span>
+<span class="w">   </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Alternatively you can ask MPXJ to read all of the projects contained in the file:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.util.List</span><span class="p">;</span>
 
@@ -2012,11 +2012,11 @@ to the projects in the XER file.</p>
 <p>An XER file can contain multiple projects with relations between activities
 which span those projects. By default these cross-project relations are ignored.
 However, if you set the <code>linkCrossProjectRelations</code> reader attribute to <code>true</code>,
-MPXJ will attempt to link these relations across projects: </p>
+MPXJ will attempt to link these relations across projects:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.util.List</span><span class="p">;</span>
 
@@ -2039,17 +2039,17 @@ default behaviour now matches Primavera, but should you wish to you can revert
 to the original behaviour by calling the <code>setMatchPrimaveraWBS</code> as shown below.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">XERMatchWbs</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="n">PrimaveraXERFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
-<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="na">setMatchPrimaveraWBS</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
-<span class="w">        </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xer&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">   </span><span class="p">{</span>
+<span class="w">      </span><span class="n">PrimaveraXERFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
+<span class="w">      </span><span class="n">reader</span><span class="p">.</span><span class="na">setMatchPrimaveraWBS</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="w">      </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xer&quot;</span><span class="p">);</span>
+<span class="w">   </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="wbs-is-full-path">WBS is Full Path</h3>
@@ -2058,20 +2058,20 @@ separated hierarchy of all of the parent WBS attributes. In this example,
 <code>root.wbs1.wbs2</code> is the WBS attribute for <code>wbs2</code> which has the parents <code>root</code>
 and <code>wbs1</code>. To disable this behaviour, and simply record the code for the
 current WBS entry (in the example above <code>wbs2</code>) call the <code>setWbsIsFullPath</code>
-method, passing in <code>false</code>, as illustrated below.  </p>
+method, passing in <code>false</code>, as illustrated below.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">XERWbsFullPath</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="n">PrimaveraXERFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
-<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="na">setWbsIsFullPath</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
-<span class="w">        </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xer&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">   </span><span class="p">{</span>
+<span class="w">      </span><span class="n">PrimaveraXERFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
+<span class="w">      </span><span class="n">reader</span><span class="p">.</span><span class="na">setWbsIsFullPath</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="w">      </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xer&quot;</span><span class="p">);</span>
+<span class="w">   </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="reading-additional-attributes">Reading Additional Attributes</h3>
@@ -2083,50 +2083,50 @@ you will need to retrieve the maps which define which MPXJ attributes are used
 to store which columns from the XER file:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.FieldType</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.FieldType</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Map</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">XERAttributeMaps</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="n">PrimaveraXERFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
-<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">resourceFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getResourceFieldMap</span><span class="p">();</span>
-<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">wbsFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getWbsFieldMap</span><span class="p">();</span>
-<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">activityFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getActivityFieldMap</span><span class="p">();</span>
-<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">assignmentFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getAssignmentFieldMap</span><span class="p">();</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">   </span><span class="p">{</span>
+<span class="w">      </span><span class="n">PrimaveraXERFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
+<span class="w">      </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">resourceFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getResourceFieldMap</span><span class="p">();</span>
+<span class="w">      </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">wbsFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getWbsFieldMap</span><span class="p">();</span>
+<span class="w">      </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">activityFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getActivityFieldMap</span><span class="p">();</span>
+<span class="w">      </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">assignmentFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getAssignmentFieldMap</span><span class="p">();</span>
+<span class="w">   </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>These maps will contain the default mapping between columns and MPXJ attributes.
 You can modify these existing mappings, or add new ones, for example:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.FieldType</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.TaskField</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.FieldType</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.TaskField</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Map</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">XERAttributeConfig</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="n">PrimaveraXERFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
-<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">activityFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getActivityFieldMap</span><span class="p">();</span>
+<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">   </span><span class="p">{</span>
+<span class="w">      </span><span class="n">PrimaveraXERFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
+<span class="w">      </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">activityFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getActivityFieldMap</span><span class="p">();</span>
 
-<span class="w">        </span><span class="c1">//</span>
-<span class="w">        </span><span class="c1">// Store rsrc_id in NUMBER1</span>
-<span class="w">        </span><span class="c1">//</span>
-<span class="w">        </span><span class="n">activityFieldMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">TaskField</span><span class="p">.</span><span class="na">NUMBER1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;rsrc_id&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="c1">//</span>
+<span class="w">      </span><span class="c1">// Store rsrc_id in NUMBER1</span>
+<span class="w">      </span><span class="c1">//</span>
+<span class="w">      </span><span class="n">activityFieldMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">TaskField</span><span class="p">.</span><span class="na">NUMBER1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;rsrc_id&quot;</span><span class="p">);</span>
 
-<span class="w">        </span><span class="c1">//</span>
-<span class="w">        </span><span class="c1">// Read an Activity column called an_example_field and store it in TEXT10</span>
-<span class="w">        </span><span class="c1">//</span>
-<span class="w">        </span><span class="n">activityFieldMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">TaskField</span><span class="p">.</span><span class="na">TEXT10</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;an_example_field&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">      </span><span class="c1">//</span>
+<span class="w">      </span><span class="c1">// Read an Activity column called an_example_field and store it in TEXT10</span>
+<span class="w">      </span><span class="c1">//</span>
+<span class="w">      </span><span class="n">activityFieldMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">TaskField</span><span class="p">.</span><span class="na">TEXT10</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;an_example_field&quot;</span><span class="p">);</span>
+<span class="w">   </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>When reading new columns from the XER file, if these columns have a type other
@@ -2139,23 +2139,23 @@ date in an integer attribute).</p>
 store it in the <code>NUMBER2</code> attribute, we will need to take the following steps:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.DataType</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.FieldType</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.TaskField</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.DataType</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.FieldType</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.TaskField</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.primavera.PrimaveraXERFileReader</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Map</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">XERRegisterType</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="n">PrimaveraXERFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
-<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">DataType</span><span class="o">&gt;</span><span class="w"> </span><span class="n">fieldTypeMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getFieldTypeMap</span><span class="p">();</span>
-<span class="w">        </span><span class="n">fieldTypeMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;an_example_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">DataType</span><span class="p">.</span><span class="na">INTEGER</span><span class="p">);</span>
-<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">activityFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getActivityFieldMap</span><span class="p">();</span>
-<span class="w">        </span><span class="n">activityFieldMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">TaskField</span><span class="p">.</span><span class="na">NUMBER2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;an_example_id&quot;</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">   </span><span class="p">{</span>
+<span class="w">      </span><span class="n">PrimaveraXERFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraXERFileReader</span><span class="p">();</span>
+<span class="w">      </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">DataType</span><span class="o">&gt;</span><span class="w"> </span><span class="n">fieldTypeMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getFieldTypeMap</span><span class="p">();</span>
+<span class="w">      </span><span class="n">fieldTypeMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;an_example_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">DataType</span><span class="p">.</span><span class="na">INTEGER</span><span class="p">);</span>
+<span class="w">      </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">activityFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getActivityFieldMap</span><span class="p">();</span>
+<span class="w">      </span><span class="n">activityFieldMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">TaskField</span><span class="p">.</span><span class="na">NUMBER2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;an_example_id&quot;</span><span class="p">);</span>
+<span class="w">   </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 

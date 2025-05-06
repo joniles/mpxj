@@ -43,7 +43,7 @@ describe MPXJ::Task do
 
     it 'returns Task4 for Task5' do
       expect(@project.get_task_by_id(5).predecessors.size).to eq(1)
-      expect(@project.get_task_by_id(5).predecessors[0].task_unique_id).to eq(4)
+      expect(@project.get_task_by_id(5).predecessors[0].predecessor_task_unique_id).to eq(4)
     end
   end
 
@@ -54,7 +54,7 @@ describe MPXJ::Task do
 
     it 'returns Task5 for Task5' do
       expect(@project.get_task_by_id(4).successors.size).to eq(1)
-      expect(@project.get_task_by_id(4).successors[0].task_unique_id).to eq(5)
+      expect(@project.get_task_by_id(4).successors[0].successor_task_unique_id).to eq(5)
     end
   end
 

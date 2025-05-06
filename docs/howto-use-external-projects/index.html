@@ -11,7 +11,7 @@
         <link rel="canonical" href="http://www.mpxj.org/howto-use-external-projects/">
       
       
-        <link rel="prev" href="../howto-use-calendars/">
+        <link rel="prev" href="../howto-use-cpm/">
       
       
         <link rel="next" href="../howto-use-fields/">
@@ -428,27 +428,6 @@
   
   <span class="md-ellipsis">
     Getting Started with Ruby
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../howto-com/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Getting Started with COM
   </span>
   
 
@@ -1367,6 +1346,27 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-use-cpm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPM Schedulers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1853,9 +1853,9 @@ as-is, you only need to so something different if you want to work with the
 contents of the Subproject.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.use.externalprojects</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.Task</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.Task</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">IdentifySubprojectTasks</span>
 <span class="p">{</span>
@@ -1895,9 +1895,9 @@ method.</p>
 external project, as the example below illustrates:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.use.externalprojects</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.Task</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.Task</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ReadSubprojectData</span>
 <span class="p">{</span>
@@ -1923,9 +1923,9 @@ MPXJ cannot open this type of external project.</p>
 provided by MPXJ, as illustrated below:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.use.externalprojects</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.Task</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.Task</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ReadSubprojectDataMpxj</span>
 <span class="p">{</span>
@@ -1944,9 +1944,9 @@ working directory of the current process, however this behaviour can be
 configured as the example below illustrates:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.use.externalprojects</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.Task</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.Task</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.io.File</span><span class="p">;</span>
 
@@ -1972,9 +1972,9 @@ like any other summary task by revealing the child tasks it contains. We
 can reproduce this behavior using the code shown in the sample below:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.use.externalprojects</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.Task</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.Task</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ExpandSubprojects</span>
 <span class="p">{</span>
@@ -2005,8 +2005,8 @@ cover the <code>false</code> argument we're passing into this method in the sect
 below on External Predecessors):</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.use.externalprojects</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ExpandSubprojectsGlobally</span>
 <span class="p">{</span>
@@ -2043,9 +2043,9 @@ at a placeholder task representing an external predecessor? The sample
 code below illustrates this:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.use.externalprojects</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.Task</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.Task</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ExternalPredecessors</span>
 <span class="p">{</span>
@@ -2122,8 +2122,8 @@ those resources.</p>
 <code>getResourcePoolFile</code> method as illustrated below:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.use.externalprojects</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ResourcePool</span>
 <span class="p">{</span>
@@ -2138,8 +2138,8 @@ those resources.</p>
 sections, MPXJ can also open and read the resource pool file for you:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.use.externalprojects</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ResourcePoolObject</span>
 <span class="p">{</span>

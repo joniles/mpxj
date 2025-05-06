@@ -1,0 +1,2641 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="http://www.mpxj.org/howto-use-cpm/">
+      
+      
+        <link rel="prev" href="../howto-use-calendars/">
+      
+      
+        <link rel="next" href="../howto-use-external-projects/">
+      
+      
+      <link rel="icon" href="../images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.20">
+    
+    
+      
+        <title>CPM Schedulers - MPXJ</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.66ac8b77.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-9R48LPVHKE"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-9R48LPVHKE",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-9R48LPVHKE",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#how-to-use-the-cpm-schedulers" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="MPXJ" class="md-header__button md-logo" aria-label="MPXJ" data-md-component="logo">
+      
+  <img src="../images/mpxj-white.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MPXJ
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CPM Schedulers
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/joniles/mpxj" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mpxj
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MPXJ" class="md-nav__button md-logo" aria-label="MPXJ" data-md-component="logo">
+      
+  <img src="../images/mpxj-white.svg" alt="logo">
+
+    </a>
+    MPXJ
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/joniles/mpxj" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mpxj
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CHANGELOG/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Changes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../support/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Support
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../supported-formats/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    File Formats
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mpxj.teemill.com/collection/all-products/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Getting Started
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-start-java/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started with Java
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-dotnet/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started with .Net
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-start-python/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started with Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-start-ruby/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started with Ruby
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-start/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MPXJ Basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-build/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Building MPXJ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-convert/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Converting Files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    How to Read...
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            How to Read...
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-asta/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Asta files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-conceptdraw/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ConceptDraw PROJECT files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-openplan/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Deltek Open Plan BK3 files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-fasttrack/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FastTrack files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-ganttdesigner/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gantt Designer files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-ganttproject/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GanttProject files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-merlin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Merlin files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-mpd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MPD files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-mpd-database/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MPD databases
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-mpp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MPP files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-mpx/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MPX Files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-mspdi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MSPDI files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-p3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    P3 files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-primavera/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    P6 Databases
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-phoenix/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Phoenix files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-planner/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Planner files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-plf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PLF files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-pmxml/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PMXML files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-projectcommander/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Project Commander files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-projectlibre/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ProjectLibre files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-schedule-grid/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schedule Grid files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-sdef/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SDEF files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-suretrak/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SureTrak files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-synchro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Synchro Scheduler files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-turboproject/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TurboProject files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-xer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    XER files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    How to Write...
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            How to Write...
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-mpx/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MPX files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-mspdi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MSPDI files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-planner/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Planner files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-pmxml/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PMXML files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-sdef/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SDEF files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-xer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    XER files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    How to Use...
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            How to Use...
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-use-baselines/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Baselines
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-use-calendars/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Calendars
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    CPM Schedulers
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    CPM Schedulers
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#new-project-with-microsoftscheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      New Project With MicrosoftScheduler
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="New Project With MicrosoftScheduler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-dependent-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task Dependent Tasks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task Dependent Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#planned-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      Planned Project
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#progressed-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      Progressed Project
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-dependent-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resource Dependent Tasks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resource Dependent Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#planned-project_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Planned Project
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#progressed-project_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Progressed Project
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#new-project-with-primaverascheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      New Project With PrimaveraScheduler
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="New Project With PrimaveraScheduler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-dependent-activities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task Dependent Activities
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task Dependent Activities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#planned-project_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Planned Project
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#progressed-project_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Progressed Project
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-dependent-activities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resource Dependent Activities
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resource Dependent Activities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#planned-project_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Planned Project
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#progressed-project_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Progressed Project
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-an-existing-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      Update An Existing Project
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-use-external-projects/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    External Projects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-use-fields/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fields
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-use-universal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Universal Project Reader
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Field Guides...
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Field Guides...
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../field-guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Field Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mpp-field-guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MPP Field Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apidocs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    JavaDoc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Users
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Maven Reports
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#new-project-with-microsoftscheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      New Project With MicrosoftScheduler
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="New Project With MicrosoftScheduler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-dependent-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task Dependent Tasks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task Dependent Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#planned-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      Planned Project
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#progressed-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      Progressed Project
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-dependent-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resource Dependent Tasks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resource Dependent Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#planned-project_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Planned Project
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#progressed-project_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Progressed Project
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#new-project-with-primaverascheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      New Project With PrimaveraScheduler
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="New Project With PrimaveraScheduler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task-dependent-activities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task Dependent Activities
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task Dependent Activities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#planned-project_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Planned Project
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#progressed-project_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Progressed Project
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-dependent-activities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resource Dependent Activities
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resource Dependent Activities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#planned-project_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Planned Project
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#progressed-project_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Progressed Project
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-an-existing-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      Update An Existing Project
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="how-to-use-the-cpm-schedulers">How To: Use the CPM Schedulers</h1>
+<p>MPXJ provides two Critical Path Method (CPM) scheduler implementations:
+<code>MicrosoftScheduler</code> and <code>PrimaveraScheduler</code>. You can use these to schedule
+a new project you have created or an existing project you have updated.
+These schedulers will use the Critical Path Method algorithm to calculate
+the Early Start, Early Finish, Late Start and Late Finish dates for all of the
+tasks in the schedule, and from those it will set the Start and Finish dates for
+each task.</p>
+<p>The two CPM implementations aim to reproduce the results obtained when
+scheduling a project in either Microsoft Project or Primavera P6. Although both
+of these applications implement CPM, they both take slightly different
+approaches, and so the results obtained from each scheduler will be different.</p>
+<blockquote>
+<p>These schedulers have been implemented by observing and attempting to
+replicate the behavior of Microsoft Project and Primavera P6. In most cases
+they will produce results which match the original applications, but this is
+not guaranteed. If you do come across differences, bug reports with sample
+data are welcome - particularly if you can explain why the original
+application is scheduling the project the way it is!</p>
+</blockquote>
+<p>Both schedulers implement the <code>Scheduler</code> interface, which exposes a single
+<code>schedule</code> method. This method takes a <code>ProjectFile</code> instance, which is the
+project to be scheduled, and a start date, which is the date from which the
+project should be scheduled.</p>
+<blockquote>
+<p>NOTE: neither the <code>MicrosoftScheduler</code> or the <code>PrimaveraScheduler</code>
+perform resource leveling. Also, they both assume that you have either already
+determined the duration of each task, or have added resource assignments
+to the tasks representing the required amount of work for that task.</p>
+</blockquote>
+<p>The following sections provide some more detailed examples of using both
+of these schedulers with new and existing projects.</p>
+<h2 id="new-project-with-microsoftscheduler">New Project With MicrosoftScheduler</h2>
+<p>The <code>MicrosoftScheduler</code> is intended to schedule projects in a way that is
+closely aligned to how Microsoft Project would schedule the same project.</p>
+<blockquote>
+<p>NOTE: the <code>MicrosoftScheduler</code> only supports scheduling a project from the
+start date. Scheduling projects from the finish date is not supported.</p>
+</blockquote>
+<p>The <code>MicrosoftScheduler</code> determines that tasks are either "task dependent",
+or "resource dependent", and will schedule them accordingly.
+A task dependent task will not have any labor (work) resources assigned to it,
+and will already have its Duration, Actual Duration and Remaining duration
+attributes set. If the task has been progressed then the Actual Start (and 
+Actual Finish if applicable) will be set.</p>
+<p>A resource dependent task will have one or more labor (work) resource
+assignments, each with their Work, Actual Work and Remaining Work attributes
+set. If the task has been progressed then the Actual Start (and Actual Finish
+if applicable) will be set.</p>
+<blockquote>
+<p>NOTE: The <code>MicrosoftScheduler</code> will not correctly schedule split tasks,
+recurring tasks, or summary tasks which have constraints applied to them.</p>
+</blockquote>
+<p>The following sections provide sample code illustrating how the
+<code>MicrosoftScheduler</code> can be used to schedule a newly created project. All of
+this sample code is available in the
+<a href="https://github.com/joniles/mpxj-java-samples">MPXJ Java Samples repository</a>.</p>
+<h3 id="task-dependent-tasks">Task Dependent Tasks</h3>
+<h4 id="planned-project">Planned Project</h4>
+<p>To simplify the code in the following examples, we'll be using the
+method shown below to create new tasks. This avoids repeating code unnecessarily
+for each task we create.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="n">Task</span><span class="w"> </span><span class="nf">createTask</span><span class="p">(</span><span class="n">ChildTaskContainer</span><span class="w"> </span><span class="n">parent</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="w"> </span><span class="n">duration</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">Task</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parent</span><span class="p">.</span><span class="na">addTask</span><span class="p">();</span>
+<span class="w">  </span><span class="n">task</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+<span class="w">  </span><span class="n">task</span><span class="p">.</span><span class="na">setDuration</span><span class="p">(</span><span class="n">duration</span><span class="p">);</span>
+<span class="w">  </span><span class="n">task</span><span class="p">.</span><span class="na">setActualDuration</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">duration</span><span class="p">.</span><span class="na">getUnits</span><span class="p">()));</span>
+<span class="w">  </span><span class="n">task</span><span class="p">.</span><span class="na">setRemainingDuration</span><span class="p">(</span><span class="n">duration</span><span class="p">);</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">task</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The method shown above takes as arguments the parent of the new task (either the
+project file or a summary task) the name of the new task, and it's duration.
+The method then manages populating the Duration, Actual Duration and Remaining
+Duration attributes.</p>
+<div class="highlight"><pre><span></span><code><span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ProjectFile</span><span class="p">();</span>
+
+<span class="n">ProjectCalendar</span><span class="w"> </span><span class="n">calendar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addDefaultBaseCalendar</span><span class="p">();</span>
+<span class="n">file</span><span class="p">.</span><span class="na">setDefaultCalendar</span><span class="p">(</span><span class="n">calendar</span><span class="p">);</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">summary1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addTask</span><span class="p">();</span>
+<span class="n">summary1</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Summary 1&quot;</span><span class="p">);</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">task1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createTask</span><span class="p">(</span><span class="n">summary1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Task 1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+<span class="n">Task</span><span class="w"> </span><span class="n">task2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createTask</span><span class="p">(</span><span class="n">summary1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Task 2&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+<span class="n">Task</span><span class="w"> </span><span class="n">task3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createTask</span><span class="p">(</span><span class="n">summary1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Task 3&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+
+<span class="n">task3</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task1</span><span class="p">));</span>
+<span class="n">task3</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task2</span><span class="p">));</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">summary2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addTask</span><span class="p">();</span>
+<span class="n">summary2</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Summary 2&quot;</span><span class="p">);</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">task4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createTask</span><span class="p">(</span><span class="n">summary2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Task 4&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+<span class="n">Task</span><span class="w"> </span><span class="n">task5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createTask</span><span class="p">(</span><span class="n">summary2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Task 5&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+<span class="n">Task</span><span class="w"> </span><span class="n">task6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createTask</span><span class="p">(</span><span class="n">summary2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Task 6&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+
+<span class="n">task6</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task4</span><span class="p">));</span>
+<span class="n">task6</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task5</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">lag</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">)));</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">milestone1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createTask</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Milestone 1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+
+<span class="n">milestone1</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task3</span><span class="p">));</span>
+<span class="n">milestone1</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task6</span><span class="p">));</span>
+</code></pre></div>
+<p>We'll be working with the sample code above, which creates a new project, adds a
+default calendar, creates six tasks with two summary tasks and one milestone.
+The tasks are linked together by some simple predecessor-successor
+relationships, one of which has some lag defined.</p>
+<p>To schedule the file, we just need to invoke the scheduler as illustrated below:</p>
+<div class="highlight"><pre><span></span><code><span class="k">new</span><span class="w"> </span><span class="n">MicrosoftScheduler</span><span class="p">().</span><span class="na">schedule</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+</code></pre></div>
+<p>We're passing in the <code>ProjectFile</code> instance we've just created, along
+with the date from which we want to schedule the project. At this point the
+Start, Finish, Early Start, Early Finish, Late Start, and Late Finish
+attributes will be populated. </p>
+<p>We could inspect the results of using the scheduler by calling a <code>printTasks</code>
+method similar to the one implemented below:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">printTasks</span><span class="p">(</span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">writeTaskHeaders</span><span class="p">());</span>
+<span class="w">  </span><span class="n">file</span><span class="p">.</span><span class="na">getTasks</span><span class="p">().</span><span class="na">forEach</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">writeTaskData</span><span class="p">(</span><span class="n">t</span><span class="p">)));</span>
+<span class="p">}</span>
+
+<span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">writeTaskHeaders</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">TASK_COLUMNS</span><span class="p">.</span><span class="na">stream</span><span class="p">().</span><span class="na">map</span><span class="p">(</span><span class="n">TaskField</span><span class="p">::</span><span class="n">toString</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">joining</span><span class="p">(</span><span class="s">&quot;\t&quot;</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">writeTaskData</span><span class="p">(</span><span class="n">Task</span><span class="w"> </span><span class="n">task</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">TASK_COLUMNS</span><span class="p">.</span><span class="na">stream</span><span class="p">().</span><span class="na">map</span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">writeValue</span><span class="p">(</span><span class="n">task</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">c</span><span class="p">)))</span>
+<span class="w">    </span><span class="p">.</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">joining</span><span class="p">(</span><span class="s">&quot;\t&quot;</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">writeValue</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="w"> </span><span class="o">?</span><span class="w"> </span>
+<span class="w">    </span><span class="n">DATE_TIME_FORMAT</span><span class="p">.</span><span class="na">format</span><span class="p">((</span><span class="n">LocalDateTime</span><span class="p">)</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span>
+<span class="w">    </span><span class="n">String</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">TaskField</span><span class="o">&gt;</span><span class="w"> </span><span class="n">TASK_COLUMNS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span>
+<span class="w">  </span><span class="n">TaskField</span><span class="p">.</span><span class="na">ID</span><span class="p">,</span>
+<span class="w">  </span><span class="n">TaskField</span><span class="p">.</span><span class="na">UNIQUE_ID</span><span class="p">,</span>
+<span class="w">  </span><span class="n">TaskField</span><span class="p">.</span><span class="na">NAME</span><span class="p">,</span>
+<span class="w">  </span><span class="n">TaskField</span><span class="p">.</span><span class="na">DURATION</span><span class="p">,</span>
+<span class="w">  </span><span class="n">TaskField</span><span class="p">.</span><span class="na">START</span><span class="p">,</span>
+<span class="w">  </span><span class="n">TaskField</span><span class="p">.</span><span class="na">FINISH</span><span class="p">,</span>
+<span class="w">  </span><span class="n">TaskField</span><span class="p">.</span><span class="na">EARLY_START</span><span class="p">,</span>
+<span class="w">  </span><span class="n">TaskField</span><span class="p">.</span><span class="na">EARLY_FINISH</span><span class="p">,</span>
+<span class="w">  </span><span class="n">TaskField</span><span class="p">.</span><span class="na">LATE_START</span><span class="p">,</span>
+<span class="w">  </span><span class="n">TaskField</span><span class="p">.</span><span class="na">LATE_FINISH</span><span class="p">,</span>
+<span class="w">  </span><span class="n">TaskField</span><span class="p">.</span><span class="na">TOTAL_SLACK</span><span class="p">,</span>
+<span class="w">  </span><span class="n">TaskField</span><span class="p">.</span><span class="na">CRITICAL</span><span class="p">);</span>
+
+<span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">DateTimeFormatter</span><span class="w"> </span><span class="n">DATE_TIME_FORMAT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="w">  </span><span class="n">DateTimeFormatter</span><span class="p">.</span><span class="na">ofPattern</span><span class="p">(</span><span class="s">&quot;dd/MM/yy HH:mm&quot;</span><span class="p">);</span>
+</code></pre></div>
+<p>We can also then save an MSPDI file and open it in Microsoft Project to confirm
+that the project has been scheduled as we expect:</p>
+<div class="highlight"><pre><span></span><code><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectWriter</span><span class="p">(</span><span class="n">FileFormat</span><span class="p">.</span><span class="na">MSPDI</span><span class="p">).</span><span class="na">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;scheduled.xml&quot;</span><span class="p">);</span>
+</code></pre></div>
+<h4 id="progressed-project">Progressed Project</h4>
+<p>Building on the sample code above, we'll now update some of the tasks
+to indicate that they have been progressed, and have actual durations.
+To update the tasks we'll use the method shown below to set the Actual Start,
+Actual Duration and Remaining Duration attributes.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">progressTask</span><span class="p">(</span><span class="n">Task</span><span class="w"> </span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="w"> </span><span class="n">actualStart</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">percentComplete</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">durationValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task</span><span class="p">.</span><span class="na">getDuration</span><span class="p">().</span><span class="na">getDuration</span><span class="p">();</span>
+<span class="w">  </span><span class="n">TimeUnit</span><span class="w"> </span><span class="n">durationUnits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task</span><span class="p">.</span><span class="na">getDuration</span><span class="p">().</span><span class="na">getUnits</span><span class="p">();</span>
+<span class="w">  </span><span class="n">task</span><span class="p">.</span><span class="na">setActualStart</span><span class="p">(</span><span class="n">actualStart</span><span class="p">);</span>
+<span class="w">  </span><span class="n">task</span><span class="p">.</span><span class="na">setPercentageComplete</span><span class="p">(</span><span class="n">percentComplete</span><span class="p">);</span>
+<span class="w">  </span><span class="n">task</span><span class="p">.</span><span class="na">setActualDuration</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">((</span><span class="n">percentComplete</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">durationValue</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> </span><span class="n">durationUnits</span><span class="p">));</span>
+<span class="w">  </span><span class="n">task</span><span class="p">.</span><span class="na">setRemainingDuration</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(((</span><span class="mf">100.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">percentComplete</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">durationValue</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> </span><span class="n">durationUnits</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>We can now progress the first two tasks in our sample, and schedule the resulting
+project:</p>
+<div class="highlight"><pre><span></span><code><span class="n">progressTask</span><span class="p">(</span><span class="n">task1</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mf">25.0</span><span class="p">);</span>
+<span class="n">progressTask</span><span class="p">(</span><span class="n">task2</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mf">50.0</span><span class="p">);</span>
+
+<span class="k">new</span><span class="w"> </span><span class="n">MicrosoftScheduler</span><span class="p">().</span><span class="na">schedule</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+</code></pre></div>
+<h3 id="resource-dependent-tasks">Resource Dependent Tasks</h3>
+<h4 id="planned-project_1">Planned Project</h4>
+<p>To illustrate how <code>MicrosoftScheduler</code> operates with resource dependent tasks,
+we'll take a look at some more sample code. Similar to our task dependent
+example above we'll use a method to make our sample code less repetitive:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="n">ResourceAssignment</span><span class="w"> </span><span class="nf">createResourceAssignment</span><span class="p">(</span><span class="n">Task</span><span class="w"> </span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">Resource</span><span class="w"> </span><span class="n">resource</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="w"> </span><span class="n">work</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">ResourceAssignment</span><span class="w"> </span><span class="n">assignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task</span><span class="p">.</span><span class="na">addResourceAssignment</span><span class="p">(</span><span class="n">resource</span><span class="p">);</span>
+<span class="w">  </span><span class="n">assignment</span><span class="p">.</span><span class="na">setWork</span><span class="p">(</span><span class="n">work</span><span class="p">);</span>
+<span class="w">  </span><span class="n">assignment</span><span class="p">.</span><span class="na">setActualWork</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">.</span><span class="na">getUnits</span><span class="p">()));</span>
+<span class="w">  </span><span class="n">assignment</span><span class="p">.</span><span class="na">setRemainingWork</span><span class="p">(</span><span class="n">work</span><span class="p">);</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">assignment</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This method adds a resource assignment to a task and sets the attributes
+required by <code>MicrosoftScheduler</code>: Work, Actual Work and Remaining Work. Our new
+sample code creates a project with the same structure as the sample we looked
+at previously. The main difference is that we'll create two resources, and use
+the <code>createResourceAssignment</code> method to add work using these resources to two
+tasks.</p>
+<div class="highlight"><pre><span></span><code><span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ProjectFile</span><span class="p">();</span>
+
+<span class="n">ProjectCalendar</span><span class="w"> </span><span class="n">calendar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addDefaultBaseCalendar</span><span class="p">();</span>
+<span class="n">file</span><span class="p">.</span><span class="na">setDefaultCalendar</span><span class="p">(</span><span class="n">calendar</span><span class="p">);</span>
+
+<span class="n">Resource</span><span class="w"> </span><span class="n">resource1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addResource</span><span class="p">();</span>
+<span class="n">resource1</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Resource 1&quot;</span><span class="p">);</span>
+<span class="n">ProjectCalendar</span><span class="w"> </span><span class="n">calendar1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addDefaultDerivedCalendar</span><span class="p">();</span>
+<span class="n">resource1</span><span class="p">.</span><span class="na">setCalendar</span><span class="p">(</span><span class="n">calendar1</span><span class="p">);</span>
+<span class="n">calendar1</span><span class="p">.</span><span class="na">setParent</span><span class="p">(</span><span class="n">calendar</span><span class="p">);</span>
+<span class="n">calendar1</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Resource 1&quot;</span><span class="p">);</span>
+<span class="n">calendar1</span><span class="p">.</span><span class="na">addCalendarException</span><span class="p">(</span><span class="n">LocalDate</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">14</span><span class="p">));</span>
+
+<span class="n">Resource</span><span class="w"> </span><span class="n">resource2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addResource</span><span class="p">();</span>
+<span class="n">resource2</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Resource 2&quot;</span><span class="p">);</span>
+<span class="n">ProjectCalendar</span><span class="w"> </span><span class="n">calendar2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addDefaultDerivedCalendar</span><span class="p">();</span>
+<span class="n">resource2</span><span class="p">.</span><span class="na">setCalendar</span><span class="p">(</span><span class="n">calendar2</span><span class="p">);</span>
+<span class="n">calendar2</span><span class="p">.</span><span class="na">setParent</span><span class="p">(</span><span class="n">calendar</span><span class="p">);</span>
+<span class="n">calendar2</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Resource 2&quot;</span><span class="p">);</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">summary1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addTask</span><span class="p">();</span>
+<span class="n">summary1</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Summary 1&quot;</span><span class="p">);</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">task1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">summary1</span><span class="p">.</span><span class="na">addTask</span><span class="p">();</span>
+<span class="n">task1</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Task 1&quot;</span><span class="p">);</span>
+<span class="n">createResourceAssignment</span><span class="p">(</span><span class="n">task1</span><span class="p">,</span><span class="w"> </span><span class="n">resource1</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">HOURS</span><span class="p">));</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">task2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">summary1</span><span class="p">.</span><span class="na">addTask</span><span class="p">();</span>
+<span class="n">task2</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Task 2&quot;</span><span class="p">);</span>
+<span class="n">createResourceAssignment</span><span class="p">(</span><span class="n">task2</span><span class="p">,</span><span class="w"> </span><span class="n">resource2</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">HOURS</span><span class="p">));</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">task3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createTask</span><span class="p">(</span><span class="n">summary1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Task 3&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+
+<span class="n">task3</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task1</span><span class="p">));</span>
+<span class="n">task3</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task2</span><span class="p">));</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">summary2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addTask</span><span class="p">();</span>
+<span class="n">summary2</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Summary 2&quot;</span><span class="p">);</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">task4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createTask</span><span class="p">(</span><span class="n">summary2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Task 4&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+<span class="n">Task</span><span class="w"> </span><span class="n">task5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createTask</span><span class="p">(</span><span class="n">summary2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Task 5&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+<span class="n">Task</span><span class="w"> </span><span class="n">task6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createTask</span><span class="p">(</span><span class="n">summary2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Task 6&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+
+<span class="n">task6</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task4</span><span class="p">));</span>
+<span class="n">task6</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task5</span><span class="p">).</span><span class="na">lag</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">)));</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">milestone1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createTask</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Milestone 1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+
+<span class="n">milestone1</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task3</span><span class="p">));</span>
+<span class="n">milestone1</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task6</span><span class="p">));</span>
+
+<span class="k">new</span><span class="w"> </span><span class="n">MicrosoftScheduler</span><span class="p">().</span><span class="na">schedule</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+</code></pre></div>
+<p>As we did in our previous sample code, once we've created the project we
+schedule it using <code>MicrosoftScheduler</code>.</p>
+<h4 id="progressed-project_1">Progressed Project</h4>
+<p>Our final example illustrates how we'd update resource assignments to record
+actual work on our project. To do this we'll use another simple method to avoid
+repeating the same code when we update several resource assignments:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">progressAssignment</span><span class="p">(</span><span class="n">ResourceAssignment</span><span class="w"> </span><span class="n">assignment</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">percentComplete</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">workValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">assignment</span><span class="p">.</span><span class="na">getWork</span><span class="p">().</span><span class="na">getDuration</span><span class="p">();</span>
+<span class="w">  </span><span class="n">TimeUnit</span><span class="w"> </span><span class="n">workUnits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">assignment</span><span class="p">.</span><span class="na">getWork</span><span class="p">().</span><span class="na">getUnits</span><span class="p">();</span>
+<span class="w">  </span><span class="n">assignment</span><span class="p">.</span><span class="na">setPercentageWorkComplete</span><span class="p">(</span><span class="n">percentComplete</span><span class="p">);</span>
+<span class="w">  </span><span class="n">assignment</span><span class="p">.</span><span class="na">setActualWork</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">((</span><span class="n">percentComplete</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">workValue</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> </span><span class="n">workUnits</span><span class="p">));</span>
+<span class="w">  </span><span class="n">assignment</span><span class="p">.</span><span class="na">setRemainingWork</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(((</span><span class="mf">100.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">percentComplete</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">workValue</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> </span><span class="n">workUnits</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The main purpose of this method is to update the Actual Work and Remaining Work
+attributes of a resource assignment, given a percent complete value.</p>
+<p>Using our previous sample code, we'll add the following lines to add Actual Start dates
+to the tasks we're updating, then we'll adjust the resource assignments to
+have actual work:</p>
+<div class="highlight"><pre><span></span><code><span class="n">task1</span><span class="p">.</span><span class="na">setActualStart</span><span class="p">(</span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+<span class="n">progressAssignment</span><span class="p">(</span><span class="n">assignment1</span><span class="p">,</span><span class="w"> </span><span class="mf">25.0</span><span class="p">);</span>
+
+<span class="n">task2</span><span class="p">.</span><span class="na">setActualStart</span><span class="p">(</span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+<span class="n">progressAssignment</span><span class="p">(</span><span class="n">assignment2</span><span class="p">,</span><span class="w"> </span><span class="mf">50.0</span><span class="p">);</span>
+
+<span class="k">new</span><span class="w"> </span><span class="n">MicrosoftScheduler</span><span class="p">().</span><span class="na">schedule</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+</code></pre></div>
+<p>Once we've updated the resource assignments, we call the scheduler to update
+the schedule to include the actual work.</p>
+<h2 id="new-project-with-primaverascheduler">New Project With PrimaveraScheduler</h2>
+<p>The <code>PrimaveraScheduler</code> is intended to schedule projects in a way that is
+closely aligned to how Primavera P6 would schedule the same project.</p>
+<blockquote>
+<p>NOTE: the <code>PrimaveraScheduler</code> currently only supports P6's "default"
+scheduling options (the options configured when the
+Tools-&gt;Schedule-&gt;Options-&gt;Default menu item is selected).</p>
+</blockquote>
+<p>In the previous section we saw how <code>MicrosoftScheduler</code> differentiated between
+tasks based on whether they just had duration attributes defined, or whether
+they had resource assignments with work. Rather than taking this approach,
+Primavera P6 uses an explicit Activity Type attribute on each task to determine
+how it behaves (the value of this attribute in these cases will be either Task
+Dependent or Resource Dependent). This attribute is available through the use
+of getter and setter methods on instances of the <code>Task</code> class.</p>
+<blockquote>
+<p>Note that Task Dependent activities can have resource assignments with work,
+but these do not affect how the activity is scheduled: only the duration of
+these activities is used.</p>
+</blockquote>
+<p>P6 requires that milestones have a specific Activity Type: either Start
+Milestone or Finish Milestone.</p>
+<p>There are also Level of Effort activities (which represent an "outline" of an
+amount of effort required between two points in the schedule, determined by the
+activity's predecessors and successors) and WBS Summary activities, which are
+used to "roll up" details from all activities in the hierarchy beneath a parent
+WBS entry. All of these activities types are supported and can be scheduled by
+the <code>PrimaveraScheduler</code> class.</p>
+<p>For Task Dependent activities, the <code>PrimaveraScheduler</code> expects that the
+Duration, Actual Duration and Remaining Duration attributes are provided. For
+Resource Dependent activities, the activity must have labor (work) resource
+assignments with their Work, Actual Work, and Remaining Work attributes set. In
+both cases, where the activity has been progressed, the activity should have the
+Actual Start, and if applicable, the Actual Finish attribute populated.</p>
+<p>The Data Date is also important to the <code>PrimaveraScheduler</code>. The Data Date is
+known as the Status Date my MPXJ and can be found in the <code>ProjectProperties</code>.
+The example below illustrates the Data Date being set for a project:</p>
+<div class="highlight"><pre><span></span><code><span class="n">file</span><span class="p">.</span><span class="na">getProjectProperties</span><span class="p">().</span><span class="na">setStatusDate</span><span class="p">(</span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">17</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+</code></pre></div>
+<p>If your project does not have a value set for the Status Date attribute, the
+<code>PrimaveraScheduler</code> will assume that the Data Date is the same as the start
+date for the project your are scheduling.</p>
+<p>The following sections provide sample code illustrating how the
+<code>PrimaveraScheduler</code> can be used to schedule a newly created project. All of
+this sample code is available in the
+<a href="https://github.com/joniles/mpxj-java-samples">MPXJ Java Samples repository</a>.</p>
+<h3 id="task-dependent-activities">Task Dependent Activities</h3>
+<h4 id="planned-project_2">Planned Project</h4>
+<p>To simplify the code in the following examples, we'll be using the method shown
+below to create new activities. This avoids repeating code unnecessarily for
+each activity we create.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="n">Task</span><span class="w"> </span><span class="nf">createActivity</span><span class="p">(</span><span class="n">ChildTaskContainer</span><span class="w"> </span><span class="n">parent</span><span class="p">,</span><span class="w"> </span><span class="n">ActivityType</span><span class="w"> </span><span class="n">type</span><span class="p">,</span>
+<span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="w"> </span><span class="n">duration</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">Task</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parent</span><span class="p">.</span><span class="na">addTask</span><span class="p">();</span>
+<span class="w">  </span><span class="n">task</span><span class="p">.</span><span class="na">setActivityType</span><span class="p">(</span><span class="n">type</span><span class="p">);</span>
+<span class="w">  </span><span class="n">task</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+<span class="w">  </span><span class="n">task</span><span class="p">.</span><span class="na">setDuration</span><span class="p">(</span><span class="n">duration</span><span class="p">);</span>
+<span class="w">  </span><span class="n">task</span><span class="p">.</span><span class="na">setActualDuration</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">duration</span><span class="p">.</span><span class="na">getUnits</span><span class="p">()));</span>
+<span class="w">  </span><span class="n">task</span><span class="p">.</span><span class="na">setRemainingDuration</span><span class="p">(</span><span class="n">duration</span><span class="p">);</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">task</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The method shown above takes as arguments the parent of the new activity
+(either the project file or a WBS entry), the activity type, the name of the
+new activity, and its duration. The method then manages populating the
+Duration, Actual Duration and Remaining Duration attributes.</p>
+<div class="highlight"><pre><span></span><code><span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ProjectFile</span><span class="p">();</span>
+
+<span class="n">ProjectCalendar</span><span class="w"> </span><span class="n">calendar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addDefaultBaseCalendar</span><span class="p">();</span>
+<span class="n">file</span><span class="p">.</span><span class="na">setDefaultCalendar</span><span class="p">(</span><span class="n">calendar</span><span class="p">);</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">summary1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addTask</span><span class="p">();</span>
+<span class="n">summary1</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;WBS 1&quot;</span><span class="p">);</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">task1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createActivity</span><span class="p">(</span><span class="n">summary1</span><span class="p">,</span><span class="w"> </span><span class="n">ActivityType</span><span class="p">.</span><span class="na">TASK_DEPENDENT</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Activity 1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+<span class="n">Task</span><span class="w"> </span><span class="n">task2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createActivity</span><span class="p">(</span><span class="n">summary1</span><span class="p">,</span><span class="w"> </span><span class="n">ActivityType</span><span class="p">.</span><span class="na">TASK_DEPENDENT</span><span class="p">,</span><span class="s">&quot;Activity 2&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+<span class="n">Task</span><span class="w"> </span><span class="n">task3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createActivity</span><span class="p">(</span><span class="n">summary1</span><span class="p">,</span><span class="w"> </span><span class="n">ActivityType</span><span class="p">.</span><span class="na">TASK_DEPENDENT</span><span class="p">,</span><span class="s">&quot;Activity 3&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+
+<span class="n">task3</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task1</span><span class="p">));</span>
+<span class="n">task3</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task2</span><span class="p">));</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">summary2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addTask</span><span class="p">();</span>
+<span class="n">summary2</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;WBS 2&quot;</span><span class="p">);</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">task4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createActivity</span><span class="p">(</span><span class="n">summary2</span><span class="p">,</span><span class="w"> </span><span class="n">ActivityType</span><span class="p">.</span><span class="na">TASK_DEPENDENT</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Activity 4&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+<span class="n">Task</span><span class="w"> </span><span class="n">task5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createActivity</span><span class="p">(</span><span class="n">summary2</span><span class="p">,</span><span class="w"> </span><span class="n">ActivityType</span><span class="p">.</span><span class="na">TASK_DEPENDENT</span><span class="p">,</span><span class="s">&quot;Activity 5&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+<span class="n">Task</span><span class="w"> </span><span class="n">task6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createActivity</span><span class="p">(</span><span class="n">summary2</span><span class="p">,</span><span class="w"> </span><span class="n">ActivityType</span><span class="p">.</span><span class="na">TASK_DEPENDENT</span><span class="p">,</span><span class="s">&quot;Activity 6&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+
+<span class="n">task6</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task4</span><span class="p">));</span>
+<span class="n">task6</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task5</span><span class="p">).</span><span class="na">lag</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">)));</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">milestone1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createActivity</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">ActivityType</span><span class="p">.</span><span class="na">FINISH_MILESTONE</span><span class="p">,</span><span class="s">&quot;Milestone 1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+
+<span class="n">milestone1</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task3</span><span class="p">));</span>
+<span class="n">milestone1</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task6</span><span class="p">));</span>
+</code></pre></div>
+<p>We'll be working with the sample code above, which creates a new project, adds a
+default calendar, creates six activities with two WBS entries and one milestone.
+The activities are linked together by some simple predecessor-successor
+relationships, one of which has some lag defined.</p>
+<p>To schedule the file, we just need to invoke the scheduler as illustrated below:</p>
+<div class="highlight"><pre><span></span><code><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraScheduler</span><span class="p">().</span><span class="na">schedule</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+</code></pre></div>
+<p>We're passing in the <code>ProjectFile</code> instance we've just created, along
+with the date from which we want to schedule the project. At this point the
+Start, Finish, Early Start, Early Finish, Late Start, and Late Finish
+activity and WBS attributes will be populated. </p>
+<p>We could inspect the results of using the scheduler by calling the <code>printTasks</code>
+method we saw in a previous section, and we could also save a PMXML file and
+open it in Primavera P6 to confirm that the project has been scheduled as we
+expect:</p>
+<div class="highlight"><pre><span></span><code><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectWriter</span><span class="p">(</span><span class="n">FileFormat</span><span class="p">.</span><span class="na">PMXML</span><span class="p">).</span><span class="na">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;scheduled.xml&quot;</span><span class="p">);</span>
+</code></pre></div>
+<blockquote>
+<p>NOTE: when you import the resulting project into P6, you will have to schedule
+it first using P6's default scheduling options in order to populate the
+Early Start, Early Finish, Late Start, and Late Finish dates.</p>
+</blockquote>
+<h4 id="progressed-project_2">Progressed Project</h4>
+<p>Building on the sample code above, we'll now update some of the activities
+to indicate that they have been progressed, and have actual duration.
+To update the activities we'll use the method shown below to set the Actual Start
+Actual Duration and Remaining Duration attributes:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">progressActivity</span><span class="p">(</span><span class="n">Task</span><span class="w"> </span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="w"> </span><span class="n">actualStart</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">percentComplete</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">durationValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task</span><span class="p">.</span><span class="na">getDuration</span><span class="p">().</span><span class="na">getDuration</span><span class="p">();</span>
+<span class="w">  </span><span class="n">TimeUnit</span><span class="w"> </span><span class="n">durationUnits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task</span><span class="p">.</span><span class="na">getDuration</span><span class="p">().</span><span class="na">getUnits</span><span class="p">();</span>
+<span class="w">  </span><span class="n">task</span><span class="p">.</span><span class="na">setActualStart</span><span class="p">(</span><span class="n">actualStart</span><span class="p">);</span>
+<span class="w">  </span><span class="n">task</span><span class="p">.</span><span class="na">setPercentageComplete</span><span class="p">(</span><span class="n">percentComplete</span><span class="p">);</span>
+<span class="w">  </span><span class="n">task</span><span class="p">.</span><span class="na">setActualDuration</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">((</span><span class="n">percentComplete</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">durationValue</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> </span><span class="n">durationUnits</span><span class="p">));</span>
+<span class="w">  </span><span class="n">task</span><span class="p">.</span><span class="na">setRemainingDuration</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(((</span><span class="mf">100.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">percentComplete</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">durationValue</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> </span><span class="n">durationUnits</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>We can now progress the first two activities in our sample, and schedule the resulting
+project:</p>
+<div class="highlight"><pre><span></span><code><span class="n">progressActivity</span><span class="p">(</span><span class="n">task1</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mf">25.0</span><span class="p">);</span>
+<span class="n">progressActivity</span><span class="p">(</span><span class="n">task2</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="mf">50.0</span><span class="p">);</span>
+<span class="n">file</span><span class="p">.</span><span class="na">getProjectProperties</span><span class="p">().</span><span class="na">setStatusDate</span><span class="p">(</span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">17</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+<span class="k">new</span><span class="w"> </span><span class="n">PrimaveraScheduler</span><span class="p">().</span><span class="na">schedule</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+</code></pre></div>
+<p>Note that in the example above we've set the Data Date to be consistent with the
+progress we've applied to the activities.</p>
+<h3 id="resource-dependent-activities">Resource Dependent Activities</h3>
+<h4 id="planned-project_3">Planned Project</h4>
+<p>To illustrate how <code>PrimaveraScheduler</code> operates with resource dependent tasks,
+we'll take a look at some more sample code. Similar to our task dependent
+example above we'll use a method to make our sample code less repetitive:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="n">ResourceAssignment</span><span class="w"> </span><span class="nf">createResourceAssignment</span><span class="p">(</span><span class="n">Task</span><span class="w"> </span><span class="n">activity</span><span class="p">,</span><span class="w"> </span><span class="n">Resource</span><span class="w"> </span><span class="n">resource</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="w"> </span><span class="n">work</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">ResourceAssignment</span><span class="w"> </span><span class="n">assignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">activity</span><span class="p">.</span><span class="na">addResourceAssignment</span><span class="p">(</span><span class="n">resource</span><span class="p">);</span>
+<span class="w">  </span><span class="n">assignment</span><span class="p">.</span><span class="na">setWork</span><span class="p">(</span><span class="n">work</span><span class="p">);</span>
+<span class="w">  </span><span class="n">assignment</span><span class="p">.</span><span class="na">setActualWork</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">.</span><span class="na">getUnits</span><span class="p">()));</span>
+<span class="w">  </span><span class="n">assignment</span><span class="p">.</span><span class="na">setRemainingWork</span><span class="p">(</span><span class="n">work</span><span class="p">);</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">assignment</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This method adds a resource assignment to an activity and sets the attributes
+required by <code>PrimaveraScheduler</code>: Work, Actual Work and Remaining Work. Our new
+sample code creates a project with the same structure as the sample we looked
+at previously. The main difference is that we'll create two resources, and use
+the <code>createResourceAssignment</code> method to add work using these resources to two
+tasks.</p>
+<div class="highlight"><pre><span></span><code><span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ProjectFile</span><span class="p">();</span>
+
+<span class="n">ProjectCalendar</span><span class="w"> </span><span class="n">calendar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addDefaultBaseCalendar</span><span class="p">();</span>
+<span class="n">file</span><span class="p">.</span><span class="na">setDefaultCalendar</span><span class="p">(</span><span class="n">calendar</span><span class="p">);</span>
+
+<span class="n">Resource</span><span class="w"> </span><span class="n">resource1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addResource</span><span class="p">();</span>
+<span class="n">resource1</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Resource 1&quot;</span><span class="p">);</span>
+<span class="n">ProjectCalendar</span><span class="w"> </span><span class="n">calendar1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addDefaultDerivedCalendar</span><span class="p">();</span>
+<span class="n">resource1</span><span class="p">.</span><span class="na">setCalendar</span><span class="p">(</span><span class="n">calendar1</span><span class="p">);</span>
+<span class="n">calendar1</span><span class="p">.</span><span class="na">setParent</span><span class="p">(</span><span class="n">calendar</span><span class="p">);</span>
+<span class="n">calendar1</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Resource 1&quot;</span><span class="p">);</span>
+<span class="n">calendar1</span><span class="p">.</span><span class="na">addCalendarException</span><span class="p">(</span><span class="n">LocalDate</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">14</span><span class="p">));</span>
+
+<span class="n">Resource</span><span class="w"> </span><span class="n">resource2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addResource</span><span class="p">();</span>
+<span class="n">resource2</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Resource 2&quot;</span><span class="p">);</span>
+<span class="n">ProjectCalendar</span><span class="w"> </span><span class="n">calendar2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addDefaultDerivedCalendar</span><span class="p">();</span>
+<span class="n">resource2</span><span class="p">.</span><span class="na">setCalendar</span><span class="p">(</span><span class="n">calendar2</span><span class="p">);</span>
+<span class="n">calendar2</span><span class="p">.</span><span class="na">setParent</span><span class="p">(</span><span class="n">calendar</span><span class="p">);</span>
+<span class="n">calendar2</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Resource 2&quot;</span><span class="p">);</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">summary1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addTask</span><span class="p">();</span>
+<span class="n">summary1</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;WBS 1&quot;</span><span class="p">);</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">task1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">summary1</span><span class="p">.</span><span class="na">addTask</span><span class="p">();</span>
+<span class="n">task1</span><span class="p">.</span><span class="na">setActivityType</span><span class="p">(</span><span class="n">ActivityType</span><span class="p">.</span><span class="na">RESOURCE_DEPENDENT</span><span class="p">);</span>
+<span class="n">task1</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Activity 1&quot;</span><span class="p">);</span>
+<span class="n">createResourceAssignment</span><span class="p">(</span><span class="n">task1</span><span class="p">,</span><span class="w"> </span><span class="n">resource1</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">HOURS</span><span class="p">));</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">task2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">summary1</span><span class="p">.</span><span class="na">addTask</span><span class="p">();</span>
+<span class="n">task2</span><span class="p">.</span><span class="na">setActivityType</span><span class="p">(</span><span class="n">ActivityType</span><span class="p">.</span><span class="na">RESOURCE_DEPENDENT</span><span class="p">);</span>
+<span class="n">task2</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Activity 2&quot;</span><span class="p">);</span>
+<span class="n">createResourceAssignment</span><span class="p">(</span><span class="n">task2</span><span class="p">,</span><span class="w"> </span><span class="n">resource2</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">HOURS</span><span class="p">));</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">task3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createActivity</span><span class="p">(</span><span class="n">summary1</span><span class="p">,</span><span class="w"> </span><span class="n">ActivityType</span><span class="p">.</span><span class="na">TASK_DEPENDENT</span><span class="p">,</span><span class="s">&quot;Activity 3&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+
+<span class="n">task3</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task1</span><span class="p">));</span>
+<span class="n">task3</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task2</span><span class="p">));</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">summary2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addTask</span><span class="p">();</span>
+<span class="n">summary2</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;WBS 2&quot;</span><span class="p">);</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">task4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createActivity</span><span class="p">(</span><span class="n">summary2</span><span class="p">,</span><span class="w"> </span><span class="n">ActivityType</span><span class="p">.</span><span class="na">TASK_DEPENDENT</span><span class="p">,</span><span class="s">&quot;Activity 4&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+<span class="n">Task</span><span class="w"> </span><span class="n">task5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createActivity</span><span class="p">(</span><span class="n">summary2</span><span class="p">,</span><span class="w"> </span><span class="n">ActivityType</span><span class="p">.</span><span class="na">TASK_DEPENDENT</span><span class="p">,</span><span class="s">&quot;Activity 5&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+<span class="n">Task</span><span class="w"> </span><span class="n">task6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createActivity</span><span class="p">(</span><span class="n">summary2</span><span class="p">,</span><span class="w"> </span><span class="n">ActivityType</span><span class="p">.</span><span class="na">TASK_DEPENDENT</span><span class="p">,</span><span class="s">&quot;Activity 6&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+
+<span class="n">task6</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task4</span><span class="p">));</span>
+<span class="n">task6</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task5</span><span class="p">).</span><span class="na">lag</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">)));</span>
+
+<span class="n">Task</span><span class="w"> </span><span class="n">milestone1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createActivity</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">ActivityType</span><span class="p">.</span><span class="na">FINISH_MILESTONE</span><span class="p">,</span><span class="s">&quot;Milestone 1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+
+<span class="n">milestone1</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task3</span><span class="p">));</span>
+<span class="n">milestone1</span><span class="p">.</span><span class="na">addPredecessor</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Relation</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">predecessorTask</span><span class="p">(</span><span class="n">task6</span><span class="p">));</span>
+
+<span class="k">new</span><span class="w"> </span><span class="n">PrimaveraScheduler</span><span class="p">().</span><span class="na">schedule</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+</code></pre></div>
+<p>As we did in our previous sample code, once we've created the project we
+schedule it using <code>PrimaveraScheduler</code>.</p>
+<h4 id="progressed-project_3">Progressed Project</h4>
+<p>Our final example illustrates how we'd update resource assignments to record
+actual work on our project. To do this we'll use another simple method to avoid
+repeating the same code when we update several resource assignments:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">progressAssignment</span><span class="p">(</span><span class="n">ResourceAssignment</span><span class="w"> </span><span class="n">assignment</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">percentComplete</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">workValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">assignment</span><span class="p">.</span><span class="na">getWork</span><span class="p">().</span><span class="na">getDuration</span><span class="p">();</span>
+<span class="w">  </span><span class="n">TimeUnit</span><span class="w"> </span><span class="n">workUnits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">assignment</span><span class="p">.</span><span class="na">getWork</span><span class="p">().</span><span class="na">getUnits</span><span class="p">();</span>
+<span class="w">  </span><span class="n">assignment</span><span class="p">.</span><span class="na">setPercentageWorkComplete</span><span class="p">(</span><span class="n">percentComplete</span><span class="p">);</span>
+<span class="w">  </span><span class="n">assignment</span><span class="p">.</span><span class="na">setActualWork</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">((</span><span class="n">percentComplete</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">workValue</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> </span><span class="n">workUnits</span><span class="p">));</span>
+<span class="w">  </span><span class="n">assignment</span><span class="p">.</span><span class="na">setRemainingWork</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(((</span><span class="mf">100.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">percentComplete</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">workValue</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w"> </span><span class="n">workUnits</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The main purpose of this method is to update the Actual Work and Remaining Work
+attributes of a resource assignment, given a percent complete value.</p>
+<p>Using our previous sample code, we'll add the following lines to add Actual
+Start dates to the tasks we're updating, adjust the resource
+assignments to have actual work, and set the Data Date:</p>
+<div class="highlight"><pre><span></span><code><span class="n">task1</span><span class="p">.</span><span class="na">setActualStart</span><span class="p">(</span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+<span class="n">progressAssignment</span><span class="p">(</span><span class="n">assignment1</span><span class="p">,</span><span class="w"> </span><span class="mf">25.0</span><span class="p">);</span>
+
+<span class="n">task2</span><span class="p">.</span><span class="na">setActualStart</span><span class="p">(</span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+<span class="n">progressAssignment</span><span class="p">(</span><span class="n">assignment2</span><span class="p">,</span><span class="w"> </span><span class="mf">50.0</span><span class="p">);</span>
+
+<span class="n">file</span><span class="p">.</span><span class="na">getProjectProperties</span><span class="p">().</span><span class="na">setStatusDate</span><span class="p">(</span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">17</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+
+<span class="k">new</span><span class="w"> </span><span class="n">PrimaveraScheduler</span><span class="p">().</span><span class="na">schedule</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+</code></pre></div>
+<p>Once we've updated the resource assignments, we call the scheduler to update
+the schedule to include the actual work.</p>
+<h2 id="update-an-existing-project">Update An Existing Project</h2>
+<p>One final illustration is how MPXJ's schedulers can be used to update an
+existing project. In this example we have loaded an existing schedule from an
+MPP file, and have updated the duration of the second task from 3 days to 5
+days.</p>
+<p>Note that we are passing to the scheduler the start date of the project, as read
+from the project properties. This is to ensure that we replicate the date from
+which the project was originally scheduled.</p>
+<div class="highlight"><pre><span></span><code><span class="n">Task</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">getTaskByID</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">task</span><span class="p">.</span><span class="na">setDuration</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">DAYS</span><span class="p">));</span>
+
+<span class="k">new</span><span class="w"> </span><span class="n">MicrosoftScheduler</span><span class="p">().</span><span class="na">schedule</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">getProjectProperties</span><span class="p">().</span><span class="na">getStartDate</span><span class="p">());</span>
+
+<span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectWriter</span><span class="p">(</span><span class="n">FileFormat</span><span class="p">.</span><span class="na">MSPDI</span><span class="p">).</span><span class="na">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;updated.xml&quot;</span><span class="p">);</span>
+</code></pre></div>
+<p>When the project is scheduled, the scheduler will ensure that the finish date of
+the updated task is adjusted accordingly, along with the start and finish dates
+of any subsequent successor tasks. Although this sample is based on a Microsoft
+Project file, exactly the same approach could be used with a P6 project using
+the <code>PrimaveraScheduler</code>.</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.tabs.link", "content.code.copy"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.dd8806f2.min.js"></script>
+      
+    
+  </body>
+</html>

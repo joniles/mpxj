@@ -6,48 +6,48 @@
    <jxb:globalBindings>
 		<jxb:javaType name="java.lang.Integer"
                     xmlType="xs:int"
-                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseInteger"
-                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printInteger"/>
+                    parseMethod="org.mpxj.phoenix.DatatypeConverter.parseInteger"
+                    printMethod="org.mpxj.phoenix.DatatypeConverter.printInteger"/>
 
 		<jxb:javaType name="java.time.LocalDateTime"
                     xmlType="xs:dateTime"
-                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseDateTime"
-                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printDateTime"/>
+                    parseMethod="org.mpxj.phoenix.DatatypeConverter.parseDateTime"
+                    printMethod="org.mpxj.phoenix.DatatypeConverter.printDateTime"/>
 
-		<jxb:javaType name="net.sf.mpxj.Duration"
+		<jxb:javaType name="org.mpxj.Duration"
                     xmlType="phoenixDuration"
-                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseDuration"
-                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printDuration"/>
+                    parseMethod="org.mpxj.phoenix.DatatypeConverter.parseDuration"
+                    printMethod="org.mpxj.phoenix.DatatypeConverter.printDuration"/>
 
 		<jxb:javaType name="java.util.UUID"
                     xmlType="phoenixUuid"
-                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseUUID"
-                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printUUID"/>
+                    parseMethod="org.mpxj.phoenix.DatatypeConverter.parseUUID"
+                    printMethod="org.mpxj.phoenix.DatatypeConverter.printUUID"/>
 
-		<jxb:javaType name="net.sf.mpxj.RelationType"
+		<jxb:javaType name="org.mpxj.RelationType"
                     xmlType="phoenixRelationType"
-                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseRelationType"
-                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printRelationType"/>
+                    parseMethod="org.mpxj.phoenix.DatatypeConverter.parseRelationType"
+                    printMethod="org.mpxj.phoenix.DatatypeConverter.printRelationType"/>
 
-		<jxb:javaType name="net.sf.mpxj.TimeUnit"
+		<jxb:javaType name="org.mpxj.TimeUnit"
                     xmlType="phoenixTimeUnits"
-                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseTimeUnits"
-                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printTimeUnits"/>
+                    parseMethod="org.mpxj.phoenix.DatatypeConverter.parseTimeUnits"
+                    printMethod="org.mpxj.phoenix.DatatypeConverter.printTimeUnits"/>
 
-		<jxb:javaType name="net.sf.mpxj.ResourceType"
+		<jxb:javaType name="org.mpxj.ResourceType"
                     xmlType="phoenixResourceType"
-                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseResourceType"
-                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printResourceType"/>
+                    parseMethod="org.mpxj.phoenix.DatatypeConverter.parseResourceType"
+                    printMethod="org.mpxj.phoenix.DatatypeConverter.printResourceType"/>
 
         <jxb:javaType name="java.time.DayOfWeek"
                     xmlType="phoenixDay"
-                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseDay"
-                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printDay"/>
+                    parseMethod="org.mpxj.phoenix.DatatypeConverter.parseDay"
+                    printMethod="org.mpxj.phoenix.DatatypeConverter.printDay"/>
 
 		<jxb:javaType name="java.time.LocalDateTime"
                     xmlType="phoenixFinish"
-                    parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseFinishDateTime"
-                    printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printFinishDateTime"/>
+                    parseMethod="org.mpxj.phoenix.DatatypeConverter.parseFinishDateTime"
+                    printMethod="org.mpxj.phoenix.DatatypeConverter.printFinishDateTime"/>
 
    </jxb:globalBindings>
 
