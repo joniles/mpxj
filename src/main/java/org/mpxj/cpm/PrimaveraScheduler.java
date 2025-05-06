@@ -2879,7 +2879,7 @@ public class PrimaveraScheduler implements Scheduler
     */
    private void levelOfEffortPass(Task task)
    {
-      // Foe LOE these are generated values, so we need to clear them
+      // For LOE these are generated values, so we need to clear them
       task.setActualStart(null);
       task.setActualFinish(null);
 
@@ -3096,6 +3096,11 @@ public class PrimaveraScheduler implements Scheduler
          {
             lateStart = lateStartFromPredecessor == null ? lateStartFromSuccessor : lateStartFromPredecessor;
          }
+      }
+
+      if (earlyStart == null || earlyFinish == null || lateStart == null || lateFinish == null)
+      {
+         return;
       }
 
       AnnotatedDateTime start = earlyStart;

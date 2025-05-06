@@ -42,7 +42,7 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
       }
 
       int barStyleCount = MPPUtility.getByte(barStyleData, 2243);
-      if (barStyleCount <= 0 && barStyleCount >= 65535)
+      if (barStyleCount <= 0)
       {
          return EMPTY_STYLES;
       }
