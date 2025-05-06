@@ -1,3 +1,24 @@
+/*
+ * file:       EdrawProjectReader.java
+ * author:     Jon Iles
+ * date:       2025-05-06
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 
 
 package org.mpxj.edrawproject;
@@ -47,6 +68,9 @@ import org.mpxj.Task;
 import org.mpxj.common.UnmarshalHelper;
 import org.mpxj.reader.AbstractProjectStreamReader;
 
+/**
+ * This class creates a new ProjectFile instance by reading an Edraw Project EDPX file.
+ */
 public final class EdrawProjectReader extends AbstractProjectStreamReader
 {
    @Override public ProjectFile read(InputStream stream) throws MPXJException
@@ -99,6 +123,11 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       }
    }
 
+   /**
+    * Read project properties.
+    *
+    * @param document project data
+    */
    private void processProperties(Document document)
    {
       ProjectProperties props = m_projectFile.getProjectProperties();
@@ -112,14 +141,26 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       props.setDaysPerMonth(document.getDaysPerMonth().getV());
    }
 
+   /**
+    * Read calendars.
+    *
+    * @param document project data
+    */
    private void processCalendars(Document document)
    {
+      // Read all calendars
       document.getCalendars().getCalendar().forEach(this::processCalendar);
 
+      // Assign the default calendar
       ProjectCalendar defaultCalendar = m_projectFile.getCalendarByUniqueID(document.getCalendarUID().getV());
       m_projectFile.setDefaultCalendar(defaultCalendar);
    }
 
+   /**
+    * Read a single calendar.
+    *
+    * @param xml calendar data
+    */
    private void processCalendar(Document.Calendars.Calendar xml)
    {
       ProjectCalendar calendar = m_projectFile.addCalendar();
@@ -130,6 +171,12 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       m_eventManager.fireCalendarReadEvent(calendar);
    }
 
+   /**
+    * Read calendar days.
+    *
+    * @param calendar parent calendar
+    * @param xml calendar day data
+    */
    private void processDays(ProjectCalendar calendar, Document.Calendars.Calendar xml)
    {
       if (xml.getWeekDays() == null || xml.getWeekDays().getWeekDay() == null || xml.getWeekDays().getWeekDay().isEmpty())
@@ -137,31 +184,45 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
          return;
       }
 
-      for (Document.Calendars.Calendar.WeekDays.WeekDay xmlDay : xml.getWeekDays().getWeekDay())
+      xml.getWeekDays().getWeekDay().forEach(d -> processDay(calendar, d));
+   }
+
+   /**
+    * Process a calendar day.
+    *
+    * @param calendar parent calendar
+    * @param xml calendar day data
+    */
+   private void processDay(ProjectCalendar calendar, Document.Calendars.Calendar.WeekDays.WeekDay xml)
+   {
+      // Exceptions are represented both as days with a day type of zero,
+      // and with their own data in the calendar. We'll ignore day types
+      // of zero for now.
+      if (xml.getDayType() == 0)
       {
-         // Exceptions are represent both as days with a day type of zero,
-         // and with their own data in the calendar. We'll ignore day types
-         // of zero for now.
-         if (xmlDay.getDayType() == 0)
-         {
-            continue;
-         }
+         return;
+      }
 
-         DayOfWeek day = DAY_OF_WEEK_MAP.get(xmlDay.getDayType());
-         boolean workingDay = BooleanHelper.getBoolean(xmlDay.isDayWorking());
-         calendar.setWorkingDay(day, workingDay);
+      DayOfWeek day = DAY_OF_WEEK_MAP.get(xml.getDayType());
+      boolean workingDay = BooleanHelper.getBoolean(xml.isDayWorking());
+      calendar.setWorkingDay(day, workingDay);
 
-         if (workingDay)
+      if (workingDay)
+      {
+         ProjectCalendarHours hours = calendar.addCalendarHours(day);
+         for (Document.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime xmlTime : xml.getWorkingTimes().getWorkingTime())
          {
-            ProjectCalendarHours hours = calendar.addCalendarHours(day);
-            for (Document.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime xmlTime : xmlDay.getWorkingTimes().getWorkingTime())
-            {
-               hours.add(new LocalTimeRange(xmlTime.getFromTime(), xmlTime.getToTime()));
-            }
+            hours.add(new LocalTimeRange(xmlTime.getFromTime(), xmlTime.getToTime()));
          }
       }
    }
 
+   /**
+    * Process calendar exceptions.
+    *
+    * @param calendar parent calendar
+    * @param xml exception data
+    */
    private void processExceptions(ProjectCalendar calendar, Document.Calendars.Calendar xml)
    {
       if (xml.getExceptions() == null || xml.getExceptions().getException() == null || xml.getExceptions().getException().isEmpty())
@@ -169,35 +230,58 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
          return;
       }
 
-      for (Document.Calendars.Calendar.Exceptions.Exception xmlException : xml.getExceptions().getException())
+      xml.getExceptions().getException().forEach(e -> processException(calendar, e));
+   }
+
+   /**
+    * Process a calendar exception.
+    *
+    * @param calendar parent calendar
+    * @param xml exception data
+    */
+   private void processException(ProjectCalendar calendar, Document.Calendars.Calendar.Exceptions.Exception xml)
+   {
+      ProjectCalendarException exception = calendar.addCalendarException(
+         xml.getTimePeriod().getFromDate().toLocalDate(),
+         xml.getTimePeriod().getToDate().toLocalDate());
+
+      if (xml.getWorkingTimes() == null)
       {
-         ProjectCalendarException exception = calendar.addCalendarException(
-            xmlException.getTimePeriod().getFromDate().toLocalDate(),
-            xmlException.getTimePeriod().getToDate().toLocalDate());
+         return;
+      }
 
-         if (xmlException.getWorkingTimes() == null)
-         {
-            continue;
-         }
+      List<Document.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> workingTimes = xml.getWorkingTimes().getWorkingTime();
+      if(workingTimes == null || workingTimes.isEmpty())
+      {
+         return;
+      }
 
-         List<Document.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> workingTimes = xmlException.getWorkingTimes().getWorkingTime();
-         if(workingTimes == null || workingTimes.isEmpty())
-         {
-            continue;
-         }
-
-         for(Document.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime workingTime : workingTimes)
-         {
-            exception.add(new LocalTimeRange(workingTime.getFromTime(), workingTime.getToTime()));
-         }
+      for(Document.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime workingTime : workingTimes)
+      {
+         exception.add(new LocalTimeRange(workingTime.getFromTime(), workingTime.getToTime()));
       }
    }
 
+   /**
+    * Process resources.
+    *
+    * @param document project data
+    */
    private void processResources(Document document)
    {
+      if (document.getResourceInfo() == null || document.getResourceInfo().getColumn() == null || document.getResourceInfo().getColumn().isEmpty())
+      {
+         return;
+      }
+
       document.getResourceInfo().getColumn().forEach(this::processResource);
    }
 
+   /**
+    * Process a resource.
+    *
+    * @param xml resource data
+    */
    private void processResource(Document.ResourceInfo.Column xml)
    {
       Resource resource = m_projectFile.addResource();
@@ -226,12 +310,27 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       m_eventManager.fireResourceReadEvent(resource);
    }
 
+   /**
+    * Process tasks.
+    *
+    * @param document project data
+    */
    private void processTasks(Document document)
    {
+      if (document.getTaskList() == null || document.getTaskList().getTask() == null ||document.getTaskList().getTask().isEmpty())
+      {
+         return;
+      }
+
       List<Document.TaskList.Task> tasks = HierarchyHelper.sortHierarchy(document.getTaskList().getTask(), Document.TaskList.Task::getID, Document.TaskList.Task::getParentID, Comparator.comparing(Document.TaskList.Task::getRowID));
       tasks.forEach(this::processTask);
    }
 
+   /**
+    * Process a task.
+    *
+    * @param xml task data
+    */
    private void processTask(Document.TaskList.Task xml)
    {
       ChildTaskContainer parent = m_projectFile.getTaskByUniqueID(xml.getParentID());
@@ -293,58 +392,87 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       processRelationships(task, xml.getPredecessorLink());
    }
 
-   private void processResourceAssignments(Task task, Document.TaskList.Task.ResourceList xmlResourceList)
+   /**
+    * Process resource assignments.
+    *
+    * @param task parent task
+    * @param xml resource assignment data
+    */
+   private void processResourceAssignments(Task task, Document.TaskList.Task.ResourceList xml)
    {
-      if (xmlResourceList == null)
+      if (xml == null || xml.getResource() == null || xml.getResource().isEmpty())
       {
          return;
       }
 
-      List<Document.TaskList.Task.ResourceList.Resource> xmlResources = xmlResourceList.getResource();
-      if (xmlResources == null || xmlResources.isEmpty())
-      {
-         return;
-      }
-
-      for (Document.TaskList.Task.ResourceList.Resource xml : xmlResources)
-      {
-         Resource resource = m_projectFile.getResourceByUniqueID(xml.getID());
-         if (resource == null)
-         {
-            continue;
-         }
-
-         ResourceAssignment assignment = task.addResourceAssignment(resource);
-         assignment.setUnits(NumberHelper.getDouble(xml.getPercent()) * 100.0);
-         assignment.setWork(getDuration(xml.getWorkSecs(), 5));
-         m_eventManager.fireAssignmentReadEvent(assignment);
-      }
+      xml.getResource().forEach(a -> processResourceAssignment(task, a));
    }
 
-   private void processRelationships(Task task, List<Document.TaskList.Task.PredecessorLink> xmlLinks)
+   /**
+    * Process a resource assignment.
+    *
+    * @param task parent task
+    * @param xml resource assignment data
+    */
+   private void processResourceAssignment(Task task, Document.TaskList.Task.ResourceList.Resource xml)
    {
-      if (xmlLinks == null || xmlLinks.isEmpty())
+      Resource resource = m_projectFile.getResourceByUniqueID(xml.getID());
+      if (resource == null)
       {
          return;
       }
 
-      for (Document.TaskList.Task.PredecessorLink xml : xmlLinks)
-      {
-         Task predecessor = m_projectFile.getTaskByUniqueID(xml.getPredecessorUID());
-         if (predecessor == null)
-         {
-            continue;
-         }
-
-         Relation relation = task.addPredecessor(new Relation.Builder()
-            .predecessorTask(predecessor)
-            .type(RELATION_TYPE_MAP.getOrDefault(xml.getType(), RelationType.FINISH_START))
-            .lag(getDuration(xml.getLinkLag() * 6, xml.getLagFormat())));
-
-         m_eventManager.fireRelationReadEvent(relation);
-      }
+      ResourceAssignment assignment = task.addResourceAssignment(resource);
+      assignment.setUnits(NumberHelper.getDouble(xml.getPercent()) * 100.0);
+      assignment.setWork(getDuration(xml.getWorkSecs(), 5));
+      m_eventManager.fireAssignmentReadEvent(assignment);
    }
 
+   /**
+    * Process task relationships.
+    *
+    * @param task parent task
+    * @param xml relationship data
+    */
+   private void processRelationships(Task task, List<Document.TaskList.Task.PredecessorLink> xml)
+   {
+      if (xml == null || xml.isEmpty())
+      {
+         return;
+      }
+
+      xml.forEach(r -> processRelationship(task, r));
+   }
+
+   /**
+    * Process a task relationship.
+    *
+    * @param task parent task
+    * @param xml relationship data
+    */
+   private void processRelationship(Task task, Document.TaskList.Task.PredecessorLink xml)
+   {
+      Task predecessor = m_projectFile.getTaskByUniqueID(xml.getPredecessorUID());
+      if (predecessor == null)
+      {
+         return;
+      }
+
+      Relation relation = task.addPredecessor(new Relation.Builder()
+         .predecessorTask(predecessor)
+         .type(RELATION_TYPE_MAP.getOrDefault(xml.getType(), RelationType.FINISH_START))
+         .lag(getDuration(xml.getLinkLag() * 6, xml.getLagFormat())));
+
+      m_eventManager.fireRelationReadEvent(relation);
+   }
+
+   /**
+    * Create a Duration from a duration in seconds and duration units.
+    *
+    * @param seconds duration in sections
+    * @param units duration units
+    * @return Duration instance
+    */
    private Duration getDuration(Long seconds, Integer units)
    {
       // Note: durations are rounded to 1 decimal place,
@@ -417,6 +545,12 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       return Duration.getInstance(durationValue, durationUnits);
    }
 
+   /**
+    * Convert a long integer to a date.
+    *
+    * @param value date as integer
+    * @return LocalDateTime instance
+    */
    private LocalDateTime getDateFromLong(Long value)
    {
       if (value == null || value.longValue() == 0)
