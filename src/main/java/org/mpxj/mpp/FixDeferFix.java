@@ -64,10 +64,10 @@ final class FixDeferFix extends MPPComponent
 
       if (offset > 0 && offset < m_data.length)
       {
-         int nextBlockOffset = MPPUtility.getInt(m_data, offset);
+         int nextBlockOffset = ByteArrayHelper.getInt(m_data, offset);
          offset += 4;
 
-         int itemSize = MPPUtility.getInt(m_data, offset);
+         int itemSize = ByteArrayHelper.getInt(m_data, offset);
          offset += 4;
 
          if (itemSize > 0 && itemSize < m_data.length)
@@ -92,7 +92,7 @@ final class FixDeferFix extends MPPComponent
                      offset = nextBlockOffset;
                   }
 
-                  nextBlockOffset = MPPUtility.getInt(m_data, offset);
+                  nextBlockOffset = ByteArrayHelper.getInt(m_data, offset);
                   offset += 4;
                   blockRemainingSize = 32;
                }
@@ -198,10 +198,10 @@ final class FixDeferFix extends MPPComponent
 
          startOffset = fileOffset;
 
-         nextBlockOffset = MPPUtility.getInt(m_data, fileOffset);
+         nextBlockOffset = ByteArrayHelper.getInt(m_data, fileOffset);
          fileOffset += 4;
 
-         itemSize = MPPUtility.getInt(m_data, fileOffset);
+         itemSize = ByteArrayHelper.getInt(m_data, fileOffset);
          fileOffset += 4;
 
          blockRemainingSize = 28;
@@ -236,7 +236,7 @@ final class FixDeferFix extends MPPComponent
                continue;
             }
 
-            nextBlockOffset = MPPUtility.getInt(m_data, fileOffset);
+            nextBlockOffset = ByteArrayHelper.getInt(m_data, fileOffset);
             fileOffset += 4;
             blockRemainingSize = 32;
          }

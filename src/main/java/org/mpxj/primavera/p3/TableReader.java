@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.mpxj.common.AutoCloseableHelper;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.primavera.common.ColumnDefinition;
 import org.mpxj.primavera.common.RowValidator;
 import org.mpxj.primavera.common.Table;
@@ -150,14 +151,7 @@ class TableReader
     */
    private int getShort(byte[] data, int offset)
    {
-      int result = 0;
-      int i = offset;
-      for (int shiftBy = 0; shiftBy < 16; shiftBy += 8)
-      {
-         result |= ((data[i] & 0xff)) << shiftBy;
-         ++i;
-      }
-      return result;
+      return ByteArrayHelper.getShort(data, offset);
    }
 
    private final TableDefinition m_definition;

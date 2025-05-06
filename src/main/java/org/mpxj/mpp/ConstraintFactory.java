@@ -14,6 +14,7 @@ import org.mpxj.ProjectProperties;
 import org.mpxj.Relation;
 import org.mpxj.RelationType;
 import org.mpxj.Task;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.NumberHelper;
 
 /**
@@ -68,12 +69,12 @@ public class ConstraintFactory
             // SourceForge bug 2209477: we were reading an int here, but
             // it looks like the deleted flag is just a short.
             //
-            if (MPPUtility.getShort(metaData, 0) != 0)
+            if (ByteArrayHelper.getShort(metaData, 0) != 0)
             {
                continue;
             }
 
-            int index = consFixedData.getIndexFromOffset(MPPUtility.getInt(metaData, 4));
+            int index = consFixedData.getIndexFromOffset(ByteArrayHelper.getInt(metaData, 4));
             if (index == -1)
             {
                continue;
@@ -88,15 +89,15 @@ public class ConstraintFactory
                continue;
             }
 
-            int constraintID = MPPUtility.getInt(data, 0);
+            int constraintID = ByteArrayHelper.getInt(data, 0);
             if (constraintID <= lastConstraintID)
             {
                continue;
             }
 
             lastConstraintID = constraintID;
-            int taskID1 = MPPUtility.getInt(data, 4);
-            int taskID2 = MPPUtility.getInt(data, 8);
+            int taskID1 = ByteArrayHelper.getInt(data, 4);
+            int taskID2 = ByteArrayHelper.getInt(data, 8);
 
             if (taskID1 == taskID2)
             {
@@ -113,8 +114,8 @@ public class ConstraintFactory
             {
                Relation relation = task2.addPredecessor(new Relation.Builder()
                   .predecessorTask(task1)
-                  .type(RelationType.getInstance(MPPUtility.getShort(data, 12)))
-                  .lag(MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, durationOffset), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, durationUnitsOffset))))
+                  .type(RelationType.getInstance(ByteArrayHelper.getShort(data, 12)))
+                  .lag(MPPUtility.getAdjustedDuration(properties, ByteArrayHelper.getInt(data, durationOffset), MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(data, durationUnitsOffset))))
                   .uniqueID(Integer.valueOf(constraintID)));
                eventManager.fireRelationReadEvent(relation);
             }

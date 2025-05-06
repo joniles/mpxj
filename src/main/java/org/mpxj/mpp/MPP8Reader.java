@@ -36,6 +36,7 @@ import java.util.List;
 import org.mpxj.Availability;
 import org.mpxj.CostRateTable;
 import org.mpxj.CostRateTableEntry;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.LocalTimeRange;
 import org.mpxj.common.FieldTypeHelper;
@@ -211,8 +212,8 @@ final class MPP8Reader implements MPPVariantReader
       for (int loop = 0; loop < calendars; loop++)
       {
          baseData = calendarFixedData.getByteArrayValue(loop);
-         calendarID = MPPUtility.getInt(baseData, 0);
-         baseCalendarID = MPPUtility.getInt(baseData, 4);
+         calendarID = ByteArrayHelper.getInt(baseData, 0);
+         baseCalendarID = ByteArrayHelper.getInt(baseData, 4);
          name = calendarVarData.getUnicodeString(getOffset(baseData, 20));
 
          //
@@ -271,7 +272,7 @@ final class MPP8Reader implements MPPVariantReader
             {
                offset = 4 + (40 * index);
 
-               defaultFlag = MPPUtility.getShort(extData, offset);
+               defaultFlag = ByteArrayHelper.getShort(extData, offset);
                day = DayOfWeekHelper.getInstance(index + 1);
 
                if (defaultFlag == 1)
@@ -293,7 +294,7 @@ final class MPP8Reader implements MPPVariantReader
                }
                else
                {
-                  periodCount = MPPUtility.getShort(extData, offset + 2);
+                  periodCount = ByteArrayHelper.getShort(extData, offset + 2);
                   hours = cal.addCalendarHours(DayOfWeekHelper.getInstance(index + 1));
                   if (periodCount == 0)
                   {
@@ -317,7 +318,7 @@ final class MPP8Reader implements MPPVariantReader
             //
             // Handle any exceptions
             //
-            exceptionCount = MPPUtility.getShort(extData, 0);
+            exceptionCount = ByteArrayHelper.getShort(extData, 0);
             if (exceptionCount != 0)
             {
                for (index = 0; index < exceptionCount; index++)
@@ -328,7 +329,7 @@ final class MPP8Reader implements MPPVariantReader
                   LocalDate toDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(extData, offset + 2));
                   exception = cal.addCalendarException(fromDate, toDate);
 
-                  periodCount = MPPUtility.getShort(extData, offset + 6);
+                  periodCount = ByteArrayHelper.getShort(extData, offset + 6);
                   if (periodCount != 0)
                   {
                      for (int exceptionPeriodIndex = 0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
@@ -417,7 +418,7 @@ final class MPP8Reader implements MPPVariantReader
          //
          // Test for a valid unique id
          //
-         uniqueID = MPPUtility.getInt(data, 0);
+         uniqueID = ByteArrayHelper.getInt(data, 0);
          if (uniqueID < 1)
          {
             continue;
@@ -430,7 +431,7 @@ final class MPP8Reader implements MPPVariantReader
          // 0x0001 and 0x0002. Valid tasks have had values of 0x0000, 0x0914,
          // 0x0040, 0x004A, 0x203D and 0x0031
          //
-         deleted = MPPUtility.getShort(data, 272);
+         deleted = ByteArrayHelper.getShort(data, 272);
          if ((deleted & 0xC0) == 0 && (deleted & 0x03) != 0 && deleted != 0x0031 && deleted != 0x203D)
          {
             continue;
@@ -457,7 +458,7 @@ final class MPP8Reader implements MPPVariantReader
          taskExtData = new ExtendedData(taskVarData, getOffset(data, 312));
          byte[] recurringData = taskExtData.getByteArray(TASK_RECURRING_DATA);
 
-         id = MPPUtility.getInt(data, 4);
+         id = ByteArrayHelper.getInt(data, 4);
          flags[0] = (byte) (data[268] & data[303]);
          flags[1] = (byte) (data[269] & data[304]);
          flags[2] = (byte) (data[270] & data[305]);
@@ -465,7 +466,7 @@ final class MPP8Reader implements MPPVariantReader
          task = m_file.addTask();
 
          task.setActualCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 234)) / 100));
-         task.setActualDuration(MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, 74), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 72), defaultProjectTimeUnits)));
+         task.setActualDuration(MPPUtility.getAdjustedDuration(properties, ByteArrayHelper.getInt(data, 74), MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(data, 72), defaultProjectTimeUnits)));
          task.setActualFinish(MPPUtility.getTimestamp(data, 108));
          task.setActualOvertimeCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 210)) / 100));
          task.setActualOvertimeWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 192)) / 100, TimeUnit.HOURS));
@@ -476,7 +477,7 @@ final class MPP8Reader implements MPPVariantReader
          //task.setAssignmentDelay(); // Calculated value
          //task.setAssignmentUnits(); // Calculated value
          task.setBaselineCost(NumberHelper.getDouble((double) MPPUtility.getLong6(data, 246) / 100));
-         task.setBaselineDuration(MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, 82), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 72), defaultProjectTimeUnits)));
+         task.setBaselineDuration(MPPUtility.getAdjustedDuration(properties, ByteArrayHelper.getInt(data, 82), MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(data, 72), defaultProjectTimeUnits)));
          task.setBaselineFinish(MPPUtility.getTimestamp(data, 116));
          task.setBaselineStart(MPPUtility.getTimestamp(data, 112));
          task.setBaselineWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 174)) / 100, TimeUnit.HOURS));
@@ -484,7 +485,7 @@ final class MPP8Reader implements MPPVariantReader
          //task.setBCWS(); // Calculated value
          //task.setConfirmed(); // Calculated value
          task.setConstraintDate(MPPUtility.getTimestamp(data, 120));
-         task.setConstraintType(ConstraintType.getInstance(MPPUtility.getShort(data, 88)));
+         task.setConstraintType(ConstraintType.getInstance(ByteArrayHelper.getShort(data, 88)));
          task.setContact(taskExtData.getUnicodeString(TASK_CONTACT));
          task.setCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 222)) / 100));
          task.setCost(1, NumberHelper.getDouble(((double) taskExtData.getLong(TASK_COST1)) / 100));
@@ -513,7 +514,7 @@ final class MPP8Reader implements MPPVariantReader
          task.setDate(9, taskExtData.getTimestamp(TASK_DATE9));
          task.setDate(10, taskExtData.getTimestamp(TASK_DATE10));
          //task.setDelay(); // No longer supported by MS Project?
-         task.setDuration(MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, 68), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 72), defaultProjectTimeUnits)));
+         task.setDuration(MPPUtility.getAdjustedDuration(properties, ByteArrayHelper.getInt(data, 68), MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(data, 72), defaultProjectTimeUnits)));
          task.setDuration(1, MPPUtility.getAdjustedDuration(properties, taskExtData.getInt(TASK_DURATION1), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION1_UNITS), defaultProjectTimeUnits)));
          task.setDuration(2, MPPUtility.getAdjustedDuration(properties, taskExtData.getInt(TASK_DURATION2), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION2_UNITS), defaultProjectTimeUnits)));
          task.setDuration(3, MPPUtility.getAdjustedDuration(properties, taskExtData.getInt(TASK_DURATION3), MPPUtility.getDurationTimeUnits(taskExtData.getShort(TASK_DURATION3_UNITS), defaultProjectTimeUnits)));
@@ -542,7 +543,7 @@ final class MPP8Reader implements MPPVariantReader
          task.setFinish(10, taskExtData.getTimestamp(TASK_FINISH10));
          //task.setFinishVariance(); // Calculated value
          task.setFixedCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 228)) / 100));
-         task.setFixedCostAccrual(AccrueType.getInstance(MPPUtility.getShort(data, 136)));
+         task.setFixedCostAccrual(AccrueType.getInstance(ByteArrayHelper.getShort(data, 136)));
          task.setFlag(1, (flags[0] & 0x02) != 0);
          task.setFlag(2, (flags[0] & 0x04) != 0);
          task.setFlag(3, (flags[0] & 0x08) != 0);
@@ -572,7 +573,7 @@ final class MPP8Reader implements MPPVariantReader
          task.setLateStart(MPPUtility.getTimestamp(data, 24));
          task.setLevelAssignments((data[19] & 0x10) != 0);
          task.setLevelingCanSplit((data[19] & 0x08) != 0);
-         task.setLevelingDelay(MPPUtility.getDuration(((double) MPPUtility.getInt(data, 90)) / 3, MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 94), defaultProjectTimeUnits)));
+         task.setLevelingDelay(MPPUtility.getDuration(((double) ByteArrayHelper.getInt(data, 90)) / 3, MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(data, 94), defaultProjectTimeUnits)));
          //task.setLinkedFields();  // Calculated value
          task.setMarked((data[13] & 0x02) != 0);
          task.setMilestone((data[12] & 0x01) != 0);
@@ -598,7 +599,7 @@ final class MPP8Reader implements MPPVariantReader
          task.setNumber(19, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER19)));
          task.setNumber(20, NumberHelper.getDouble(taskExtData.getDouble(TASK_NUMBER20)));
          //task.setObjects(); // Calculated value
-         task.setOutlineLevel(Integer.valueOf(MPPUtility.getShort(data, 48)));
+         task.setOutlineLevel(Integer.valueOf(ByteArrayHelper.getShort(data, 48)));
          //task.setOutlineNumber(); // Calculated value
          //task.setOverallocated(); // Calculated value
          task.setOvertimeCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 204)) / 100));
@@ -608,12 +609,12 @@ final class MPP8Reader implements MPPVariantReader
          task.setPercentageWorkComplete(MPPUtility.getPercentage(data, 132));
          task.setPreleveledFinish(MPPUtility.getTimestamp(data, 148));
          task.setPreleveledStart(MPPUtility.getTimestamp(data, 144));
-         task.setPriority(Priority.getInstance((MPPUtility.getShort(data, 128) + 1) * 100));
+         task.setPriority(Priority.getInstance((ByteArrayHelper.getShort(data, 128) + 1) * 100));
          //task.setProject(); // Calculated value
-         task.setRecurring(MPPUtility.getShort(data, 142) != 0);
+         task.setRecurring(ByteArrayHelper.getShort(data, 142) != 0);
          //task.setRegularWork(); // Calculated value
          task.setRemainingCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 240)) / 100));
-         task.setRemainingDuration(MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, 78), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 72), defaultProjectTimeUnits)));
+         task.setRemainingDuration(MPPUtility.getAdjustedDuration(properties, ByteArrayHelper.getInt(data, 78), MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(data, 72), defaultProjectTimeUnits)));
          task.setRemainingOvertimeCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 216)) / 100));
          task.setRemainingOvertimeWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 198)) / 100, TimeUnit.HOURS));
          task.setRemainingWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 186)) / 100, TimeUnit.HOURS));
@@ -675,7 +676,7 @@ final class MPP8Reader implements MPPVariantReader
          task.setText(29, taskExtData.getUnicodeString(TASK_TEXT29));
          task.setText(30, taskExtData.getUnicodeString(TASK_TEXT30));
          //task.setTotalSlack(); // Calculated value
-         task.setType(TaskTypeHelper.getInstance(MPPUtility.getShort(data, 134)));
+         task.setType(TaskTypeHelper.getInstance(ByteArrayHelper.getShort(data, 134)));
          task.setUniqueID(Integer.valueOf(uniqueID));
          //task.setUniqueIDPredecessors(); // Calculated value
          //task.setUniqueIDSuccessors(); // Calculated value
@@ -796,10 +797,10 @@ final class MPP8Reader implements MPPVariantReader
          {
             byte[] data = consFixedData.getByteArrayValue(loop);
 
-            if (MPPUtility.getInt(data, 28) == 0)
+            if (ByteArrayHelper.getInt(data, 28) == 0)
             {
-               int taskID1 = MPPUtility.getInt(data, 12);
-               int taskID2 = MPPUtility.getInt(data, 16);
+               int taskID1 = ByteArrayHelper.getInt(data, 12);
+               int taskID2 = ByteArrayHelper.getInt(data, 16);
 
                if (taskID1 != taskID2)
                {
@@ -809,9 +810,9 @@ final class MPP8Reader implements MPPVariantReader
                   {
                      Relation relation = task2.addPredecessor(new Relation.Builder()
                         .predecessorTask(task1)
-                        .type(RelationType.getInstance(MPPUtility.getShort(data, 20)))
-                        .lag(MPPUtility.getDuration(MPPUtility.getInt(data, 24), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 22))))
-                        .uniqueID(Integer.valueOf(MPPUtility.getInt(data, 0))));
+                        .type(RelationType.getInstance(ByteArrayHelper.getShort(data, 20)))
+                        .lag(MPPUtility.getDuration(ByteArrayHelper.getInt(data, 24), MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(data, 22))))
+                        .uniqueID(Integer.valueOf(ByteArrayHelper.getInt(data, 0))));
                      m_eventManager.fireRelationReadEvent(relation);
                   }
                }
@@ -844,7 +845,7 @@ final class MPP8Reader implements MPPVariantReader
          //
          // Test for a valid unique id
          //
-         id = MPPUtility.getInt(data, 0);
+         id = ByteArrayHelper.getInt(data, 0);
          if (id < 1)
          {
             continue;
@@ -866,7 +867,7 @@ final class MPP8Reader implements MPPVariantReader
          // record. I have yet to see data to support this, so
          // the simple non-zero test remains.
          //
-         if (MPPUtility.getShort(data, 164) != 0)
+         if (ByteArrayHelper.getShort(data, 164) != 0)
          {
             continue;
          }
@@ -883,7 +884,7 @@ final class MPP8Reader implements MPPVariantReader
 
          resource = m_file.addResource();
 
-         resource.setAccrueAt(AccrueType.getInstance(MPPUtility.getShort(data, 20)));
+         resource.setAccrueAt(AccrueType.getInstance(ByteArrayHelper.getShort(data, 20)));
          resource.setActualCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 114)) / 100));
          resource.setActualOvertimeCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 144)) / 100));
          resource.setActualWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 62)) / 100, TimeUnit.HOURS));
@@ -934,7 +935,7 @@ final class MPP8Reader implements MPPVariantReader
          resource.setFinish(9, rscExtData.getTimestamp(RESOURCE_FINISH9));
          resource.setFinish(10, rscExtData.getTimestamp(RESOURCE_FINISH10));
          resource.setGroup(rscExtData.getUnicodeString(RESOURCE_GROUP));
-         resource.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
+         resource.setID(Integer.valueOf(ByteArrayHelper.getInt(data, 4)));
          resource.setInitials(rscVarData.getUnicodeString(getOffset(data, 160)));
          //resource.setLinkedFields(); // Calculated value
          resource.setName(rscVarData.getUnicodeString(getOffset(data, 156)));
@@ -962,7 +963,7 @@ final class MPP8Reader implements MPPVariantReader
          //resource.setOverallocated(); // Calculated value
          resource.setOvertimeCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 138)) / 100));
          resource.setOvertimeWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 74)) / 100, TimeUnit.HOURS));
-         resource.setPeakUnits(NumberHelper.getDouble(((double) MPPUtility.getInt(data, 110)) / 100));
+         resource.setPeakUnits(NumberHelper.getDouble(((double) ByteArrayHelper.getInt(data, 110)) / 100));
          //resource.setPercentageWorkComplete(); // Calculated value
          resource.setRegularWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 92)) / 100, TimeUnit.HOURS));
          resource.setRemainingCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 132)) / 100));
@@ -1014,7 +1015,7 @@ final class MPP8Reader implements MPPVariantReader
          //
          // Attach the resource calendar
          //
-         calendar = m_calendarMap.get(Integer.valueOf(MPPUtility.getInt(data, 24)));
+         calendar = m_calendarMap.get(Integer.valueOf(ByteArrayHelper.getInt(data, 24)));
          resource.setCalendar(calendar);
 
          //
@@ -1038,7 +1039,7 @@ final class MPP8Reader implements MPPVariantReader
          LocalDateTime availableTo = MPPUtility.getTimestamp(data, 32);
          availableFrom = availableFrom == null ? LocalDateTimeHelper.START_DATE_NA : availableFrom;
          availableTo = availableTo == null ? LocalDateTimeHelper.END_DATE_NA : availableTo;
-         resource.getAvailability().add(new Availability(availableFrom, availableTo, NumberHelper.getDouble(((double) MPPUtility.getInt(data, 52)) / 100)));
+         resource.getAvailability().add(new Availability(availableFrom, availableTo, NumberHelper.getDouble(((double) ByteArrayHelper.getInt(data, 52)) / 100)));
 
          m_eventManager.fireResourceReadEvent(resource);
       }
@@ -1073,8 +1074,8 @@ final class MPP8Reader implements MPPVariantReader
          //
          if (MPPUtility.getByte(data, 168) != 0x02)
          {
-            Task task = m_file.getTaskByUniqueID(Integer.valueOf(MPPUtility.getInt(data, 16)));
-            Resource resource = m_file.getResourceByUniqueID(Integer.valueOf(MPPUtility.getInt(data, 20)));
+            Task task = m_file.getTaskByUniqueID(Integer.valueOf(ByteArrayHelper.getInt(data, 16)));
+            Resource resource = m_file.getResourceByUniqueID(Integer.valueOf(ByteArrayHelper.getInt(data, 20)));
 
             if (task != null && resource != null)
             {
@@ -1094,8 +1095,8 @@ final class MPP8Reader implements MPPVariantReader
                //assignment.setPlannedWork(); // Not sure what this field maps on to in MSP
                assignment.setRemainingWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 114)) / 100, TimeUnit.HOURS));
                assignment.setStart(MPPUtility.getTimestamp(data, 24));
-               assignment.setUniqueID(Integer.valueOf(MPPUtility.getInt(data, 0)));
-               assignment.setUnits(Double.valueOf(((double) MPPUtility.getShort(data, 80)) / 100));
+               assignment.setUniqueID(Integer.valueOf(ByteArrayHelper.getInt(data, 0)));
+               assignment.setUnits(Double.valueOf(((double) ByteArrayHelper.getShort(data, 80)) / 100));
                assignment.setWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 84)) / 100, TimeUnit.HOURS));
 
                m_eventManager.fireAssignmentReadEvent(assignment);
@@ -1137,8 +1138,8 @@ final class MPP8Reader implements MPPVariantReader
       for (int loop = 0; loop < count; loop++)
       {
          data = assnFixedData.getByteArrayValue(loop);
-         task = m_file.getTaskByUniqueID(Integer.valueOf(MPPUtility.getInt(data, 16)));
-         resource = m_file.getResourceByUniqueID(Integer.valueOf(MPPUtility.getInt(data, 20)));
+         task = m_file.getTaskByUniqueID(Integer.valueOf(ByteArrayHelper.getInt(data, 16)));
+         resource = m_file.getResourceByUniqueID(Integer.valueOf(ByteArrayHelper.getInt(data, 20)));
 
          if (task == null && resource == null)
          {
@@ -1191,7 +1192,7 @@ final class MPP8Reader implements MPPVariantReader
             byte[] data = ff.getByteArrayValue(loop);
             Table table = new Table();
 
-            table.setID(MPPUtility.getInt(data, 0));
+            table.setID(ByteArrayHelper.getInt(data, 0));
 
             String name = MPPUtility.getUnicodeString(data, 4);
             if (name.indexOf('&') != -1)
@@ -1237,7 +1238,7 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void processColumnData(Table table, byte[] data)
    {
-      int columnCount = MPPUtility.getShort(data, 4) + 1;
+      int columnCount = ByteArrayHelper.getShort(data, 4) + 1;
       int index = 8;
       int columnTitleOffset;
       Column column;
@@ -1249,13 +1250,13 @@ final class MPP8Reader implements MPPVariantReader
 
          if (loop == 0)
          {
-            table.setResourceFlag(MPPUtility.getShort(data, index) == 0);
+            table.setResourceFlag(ByteArrayHelper.getShort(data, index) == 0);
          }
 
-         column.setFieldType(FieldTypeHelper.getInstance(m_file, MPPUtility.getInt(data, index)));
+         column.setFieldType(FieldTypeHelper.getInstance(m_file, ByteArrayHelper.getInt(data, index)));
          column.setWidth(MPPUtility.getByte(data, index + 4));
 
-         columnTitleOffset = MPPUtility.getShort(data, index + 6);
+         columnTitleOffset = ByteArrayHelper.getShort(data, index + 6);
          if (columnTitleOffset != 0)
          {
             column.setTitle(MPPUtility.getUnicodeString(data, columnTitleOffset));
@@ -1310,7 +1311,7 @@ final class MPP8Reader implements MPPVariantReader
     */
    private int getOffset(byte[] data, int offset)
    {
-      return (-1 - MPPUtility.getInt(data, offset));
+      return (-1 - ByteArrayHelper.getInt(data, offset));
    }
 
    //   private static void dumpUnknownData (String name, int[][] spec, byte[] data)

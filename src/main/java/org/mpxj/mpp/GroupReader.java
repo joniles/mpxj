@@ -29,6 +29,7 @@ import org.mpxj.FieldType;
 import org.mpxj.Group;
 import org.mpxj.GroupClause;
 import org.mpxj.ProjectFile;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
 
 /**
@@ -62,7 +63,7 @@ public abstract class GroupReader
             continue;
          }
 
-         Integer groupID = Integer.valueOf(MPPUtility.getInt(groupFixedData, 0));
+         Integer groupID = Integer.valueOf(ByteArrayHelper.getInt(groupFixedData, 0));
 
          byte[] groupVarData = varData.getByteArray(groupID, getVarDataType());
          if (groupVarData == null)
@@ -79,12 +80,12 @@ public abstract class GroupReader
          // short 4 = show summary tasks
          // short int at byte 6 for number of clauses
          //Integer groupUniqueID = Integer.valueOf(MPPUtility.getInt(groupVarData, 0));
-         boolean showSummaryTasks = (MPPUtility.getShort(groupVarData, 4) != 0);
+         boolean showSummaryTasks = (ByteArrayHelper.getShort(groupVarData, 4) != 0);
 
          Group group = new Group(groupID, groupName, showSummaryTasks);
          file.getGroups().add(group);
 
-         int clauseCount = MPPUtility.getShort(groupVarData, 6);
+         int clauseCount = ByteArrayHelper.getShort(groupVarData, 6);
          int offset = 8;
 
          for (int clauseIndex = 0; clauseIndex < clauseCount; clauseIndex++)
@@ -97,7 +98,7 @@ public abstract class GroupReader
             GroupClause clause = new GroupClause();
             group.addGroupClause(clause);
 
-            int fieldID = MPPUtility.getInt(groupVarData, offset);
+            int fieldID = ByteArrayHelper.getInt(groupVarData, offset);
             FieldType type = FieldTypeHelper.getInstance(file, fieldID);
             clause.setField(type);
 
@@ -131,7 +132,7 @@ public abstract class GroupReader
             clause.setPattern(BackgroundPattern.getInstance(MPPUtility.getByte(groupVarData, offset + 13) & 0x0F));
 
             // offset+14=group on
-            int groupOn = MPPUtility.getShort(groupVarData, offset + 14);
+            int groupOn = ByteArrayHelper.getShort(groupVarData, offset + 14);
             clause.setGroupOn(groupOn);
             // offset+24=start at
             // offset+40=group interval
@@ -152,21 +153,21 @@ public abstract class GroupReader
 
                case PERCENTAGE:
                {
-                  startAt = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 24));
-                  groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 40));
+                  startAt = Integer.valueOf(ByteArrayHelper.getInt(groupVarData, offset + 24));
+                  groupInterval = Integer.valueOf(ByteArrayHelper.getInt(groupVarData, offset + 40));
                   break;
                }
 
                case BOOLEAN:
                {
-                  startAt = (MPPUtility.getShort(groupVarData, offset + 24) == 1 ? Boolean.TRUE : Boolean.FALSE);
+                  startAt = (ByteArrayHelper.getShort(groupVarData, offset + 24) == 1 ? Boolean.TRUE : Boolean.FALSE);
                   break;
                }
 
                case DATE:
                {
                   startAt = MPPUtility.getTimestamp(groupVarData, offset + 24);
-                  groupInterval = Integer.valueOf(MPPUtility.getInt(groupVarData, offset + 40));
+                  groupInterval = Integer.valueOf(ByteArrayHelper.getInt(groupVarData, offset + 40));
                   break;
                }
 

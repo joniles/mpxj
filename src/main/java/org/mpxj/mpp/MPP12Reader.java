@@ -37,6 +37,7 @@ import java.util.UUID;
 
 import org.mpxj.FieldType;
 import org.mpxj.FieldTypeClass;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
 import org.mpxj.common.InputStreamHelper;
 import org.mpxj.common.LocalDateTimeHelper;
@@ -250,11 +251,11 @@ final class MPP12Reader implements MPPVariantReader
          return;
       }
 
-      int length = MPPUtility.getInt(data, 0);
+      int length = ByteArrayHelper.getInt(data, 0);
       int index = length + 36;
 
       // 4 byte record count
-      int recordCount = MPPUtility.getInt(data, index);
+      int recordCount = ByteArrayHelper.getInt(data, index);
       index += 4;
 
       // 8 bytes per record
@@ -262,13 +263,13 @@ final class MPP12Reader implements MPPVariantReader
 
       while (index + 176 <= data.length)
       {
-         int blockLength = MPPUtility.getInt(data, index);
+         int blockLength = ByteArrayHelper.getInt(data, index);
          if (blockLength <= 0 || index + blockLength > data.length)
          {
             break;
          }
 
-         int customFieldID = MPPUtility.getInt(data, index + 4);
+         int customFieldID = ByteArrayHelper.getInt(data, index + 4);
          FieldType field = FieldTypeHelper.getInstance(m_file, customFieldID);
          UUID lookupTableGuid = MPPUtility.getGUID(data, index + 160);
          if (lookupTableGuid != null)
@@ -329,13 +330,13 @@ final class MPP12Reader implements MPPVariantReader
       /*int unknown = MPPUtility.getInt(subProjData, offset);*/
       offset += 4;
 
-      int itemCountOffset = MPPUtility.getInt(subProjData, offset);
+      int itemCountOffset = ByteArrayHelper.getInt(subProjData, offset);
       offset += 4;
 
       while (offset < itemCountOffset)
       {
          index++;
-         itemHeaderOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+         itemHeaderOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
          offset += 4;
 
          // 20 byte header: 16 bytes GUID, 4 bytes flags
@@ -366,16 +367,16 @@ final class MPP12Reader implements MPPVariantReader
             case 0x09:
             case 0x0D:
             {
-               uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               uniqueIDOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
                // sometimes offset of a task ID?
                offset += 4;
 
-               filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               filePathOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
-               fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               fileNameOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
                readSubProjects(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
@@ -389,13 +390,13 @@ final class MPP12Reader implements MPPVariantReader
             case 0x11:
             case (byte) 0x91:
             {
-               uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               uniqueIDOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
-               filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               filePathOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
-               fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               fileNameOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
                // Unknown offset
@@ -412,16 +413,16 @@ final class MPP12Reader implements MPPVariantReader
             case (byte) 0x83:
             case 0x41:
             {
-               uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               uniqueIDOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
-               filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               filePathOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
                // unknown offset to 2 bytes of data?
                offset += 4;
 
-               fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               fileNameOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
                readSubProjects(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
@@ -434,13 +435,13 @@ final class MPP12Reader implements MPPVariantReader
             case 0x01:
             case 0x08:
             {
-               uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               uniqueIDOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
-               filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               filePathOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
-               fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               fileNameOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
                readSubProjects(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
@@ -454,10 +455,10 @@ final class MPP12Reader implements MPPVariantReader
             {
                uniqueIDOffset = itemHeaderOffset;
 
-               filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               filePathOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
-               fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               fileNameOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
                // unknown offset
@@ -472,13 +473,13 @@ final class MPP12Reader implements MPPVariantReader
             //
             case 0x05:
             {
-               uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               uniqueIDOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
-               filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               filePathOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
-               fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               fileNameOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
                readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
@@ -487,13 +488,13 @@ final class MPP12Reader implements MPPVariantReader
 
             case 0x45:
             {
-               uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               uniqueIDOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
-               filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               filePathOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
-               fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               fileNameOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
                offset += 4;
@@ -520,10 +521,10 @@ final class MPP12Reader implements MPPVariantReader
 
             case 0x04:
             {
-               filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               filePathOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
-               fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               fileNameOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
                readSubProject(subProjData, itemHeaderOffset, -1, filePathOffset, fileNameOffset, index);
@@ -536,13 +537,13 @@ final class MPP12Reader implements MPPVariantReader
             case (byte) 0x89:
             case (byte) 0x8D:
             {
-               uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+               uniqueIDOffset = ByteArrayHelper.getShort(subProjData, offset);
                offset += 8;
 
-               filePathOffset = MPPUtility.getShort(subProjData, offset);
+               filePathOffset = ByteArrayHelper.getShort(subProjData, offset);
                offset += 8;
 
-               fileNameOffset = MPPUtility.getShort(subProjData, offset);
+               fileNameOffset = ByteArrayHelper.getShort(subProjData, offset);
                offset += 4;
 
                readSubProjects(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
@@ -554,13 +555,13 @@ final class MPP12Reader implements MPPVariantReader
             //
             case 0x0A:
             {
-               uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+               uniqueIDOffset = ByteArrayHelper.getShort(subProjData, offset);
                offset += 4;
 
-               filePathOffset = MPPUtility.getShort(subProjData, offset);
+               filePathOffset = ByteArrayHelper.getShort(subProjData, offset);
                offset += 4;
 
-               fileNameOffset = MPPUtility.getShort(subProjData, offset);
+               fileNameOffset = ByteArrayHelper.getShort(subProjData, offset);
                offset += 4;
 
                readSubProjects(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
@@ -570,12 +571,12 @@ final class MPP12Reader implements MPPVariantReader
             // new resource pool entry
             case (byte) 0x44:
             {
-               filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               filePathOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
                offset += 4;
 
-               fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               fileNameOffset = ByteArrayHelper.getInt(subProjData, offset) & 0x1FFFF;
                offset += 4;
 
                readSubProjects(subProjData, itemHeaderOffset, -1, filePathOffset, fileNameOffset, index);
@@ -641,7 +642,7 @@ final class MPP12Reader implements MPPVariantReader
          // We have a 20 byte header.
          // First 16 bytes are (most of the time) the GUID of the target project
          // Remaining 4 bytes are believed to be flags
-         int type = uniqueIDOffset == -1 ? SUBPROJECT_TASKUNIQUEID0 : MPPUtility.getInt(data, uniqueIDOffset + 4);
+         int type = uniqueIDOffset == -1 ? SUBPROJECT_TASKUNIQUEID0 : ByteArrayHelper.getInt(data, uniqueIDOffset + 4);
 
          // Generate the unique id offset for this subproject
          //int offset = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
@@ -676,7 +677,7 @@ final class MPP12Reader implements MPPVariantReader
             //
             // 4 byte block size
             //
-            int size = MPPUtility.getInt(data, filePathOffset);
+            int size = ByteArrayHelper.getInt(data, filePathOffset);
             filePathOffset += 4;
             if (size == 0)
             {
@@ -687,7 +688,7 @@ final class MPP12Reader implements MPPVariantReader
                //
                // 4 byte unicode string size in bytes
                //
-               size = MPPUtility.getInt(data, filePathOffset);
+               size = ByteArrayHelper.getInt(data, filePathOffset);
                filePathOffset += 4;
 
                //
@@ -726,8 +727,8 @@ final class MPP12Reader implements MPPVariantReader
          return;
       }
 
-      int value = MPPUtility.getInt(data, uniqueIDOffset);
-      int type = MPPUtility.getInt(data, uniqueIDOffset + 4);
+      int value = ByteArrayHelper.getInt(data, uniqueIDOffset);
+      int type = ByteArrayHelper.getInt(data, uniqueIDOffset + 4);
       Integer taskUniqueID = value == 0 || value > MicrosoftProjectConstants.MAX_UNIQUE_ID ? null : Integer.valueOf(value);
       if (taskUniqueID != null)
       {
@@ -787,7 +788,7 @@ final class MPP12Reader implements MPPVariantReader
    {
       int offset = 0;
 
-      int blockCount = MPPUtility.getShort(data, 0);
+      int blockCount = ByteArrayHelper.getShort(data, 0);
       offset += 2;
 
       int size;
@@ -798,7 +799,7 @@ final class MPP12Reader implements MPPVariantReader
          /*unknownAttribute = MPPUtility.getShort(data, offset);*/
          offset += 2;
 
-         size = MPPUtility.getShort(data, offset);
+         size = ByteArrayHelper.getShort(data, offset);
          offset += 2;
 
          name = MPPUtility.getUnicodeString(data, offset);
@@ -848,7 +849,7 @@ final class MPP12Reader implements MPPVariantReader
             //
             // Check for the deleted task flag
             //
-            int flags = MPPUtility.getInt(metaData, 0);
+            int flags = ByteArrayHelper.getInt(metaData, 0);
             if ((flags & 0x02) != 0)
             {
                // Project stores the deleted tasks unique id's into the fixed data as well
@@ -859,7 +860,7 @@ final class MPP12Reader implements MPPVariantReader
                // So let's add the unique id for the deleted task into the map so we don't
                // accidentally include the task later.
                //
-               uniqueID = MPPUtility.getShort(data, TASK_UNIQUE_ID_FIXED_OFFSET); // Only a short stored for deleted tasks?
+               uniqueID = ByteArrayHelper.getShort(data, TASK_UNIQUE_ID_FIXED_OFFSET); // Only a short stored for deleted tasks?
                key = Integer.valueOf(uniqueID);
                taskMap.put(key, null); // use null so we can easily ignore this later
             }
@@ -870,7 +871,7 @@ final class MPP12Reader implements MPPVariantReader
                //
                if (data.length == NULL_TASK_BLOCK_SIZE)
                {
-                  uniqueID = MPPUtility.getInt(data, TASK_UNIQUE_ID_FIXED_OFFSET);
+                  uniqueID = ByteArrayHelper.getInt(data, TASK_UNIQUE_ID_FIXED_OFFSET);
                   key = Integer.valueOf(uniqueID);
                   if (!taskMap.containsKey(key))
                   {
@@ -886,7 +887,7 @@ final class MPP12Reader implements MPPVariantReader
                   int maxSize = fieldMap.getMaxFixedDataSize(0);
                   if (maxSize == 0 || ((data.length * 100) / maxSize) > 75)
                   {
-                     uniqueID = MPPUtility.getInt(data, uniqueIdOffset);
+                     uniqueID = ByteArrayHelper.getInt(data, uniqueIdOffset);
                      key = Integer.valueOf(uniqueID);
 
                      // Accept this task if it does not have a deleted unique ID or it has a deleted unique ID but it has var data entries
@@ -932,7 +933,7 @@ final class MPP12Reader implements MPPVariantReader
             continue;
          }
 
-         Integer uniqueID = Integer.valueOf(MPPUtility.getShort(data, uniqueIdOffset));
+         Integer uniqueID = Integer.valueOf(ByteArrayHelper.getShort(data, uniqueIdOffset));
          if (!resourceMap.containsKey(uniqueID))
          {
             resourceMap.put(uniqueID, Integer.valueOf(loop));
@@ -1013,16 +1014,16 @@ final class MPP12Reader implements MPPVariantReader
          }
 
          data = taskFixedData.getByteArrayValue(offset.intValue());
-         Integer id = Integer.valueOf(MPPUtility.getInt(data, fieldMap.getFixedDataOffset(TaskField.ID)));
+         Integer id = Integer.valueOf(ByteArrayHelper.getInt(data, fieldMap.getFixedDataOffset(TaskField.ID)));
 
          if (data.length == NULL_TASK_BLOCK_SIZE)
          {
-            Integer nullTaskID = Integer.valueOf(MPPUtility.getShort(data, TASK_ID_FIXED_OFFSET));
+            Integer nullTaskID = Integer.valueOf(ByteArrayHelper.getShort(data, TASK_ID_FIXED_OFFSET));
             if (!m_nullTaskOrder.containsKey(nullTaskID))
             {
                task = m_file.addTask();
                task.setNull(true);
-               task.setUniqueID(Integer.valueOf(MPPUtility.getShort(data, TASK_UNIQUE_ID_FIXED_OFFSET)));
+               task.setUniqueID(Integer.valueOf(ByteArrayHelper.getShort(data, TASK_UNIQUE_ID_FIXED_OFFSET)));
                task.setID(nullTaskID);
                m_nullTaskOrder.put(task.getID(), task.getUniqueID());
             }
@@ -1094,7 +1095,7 @@ final class MPP12Reader implements MPPVariantReader
          task.enableEvents();
 
          task.setEffortDriven((metaData[11] & 0x10) != 0);
-         task.setEstimated(getDurationEstimated(MPPUtility.getShort(data, fieldMap.getFixedDataOffset(TaskField.ACTUAL_DURATION_UNITS))));
+         task.setEstimated(getDurationEstimated(ByteArrayHelper.getShort(data, fieldMap.getFixedDataOffset(TaskField.ACTUAL_DURATION_UNITS))));
          task.setExpanded(((metaData[12] & 0x02) == 0));
 
          if (NumberHelper.getInt(task.getSubprojectTaskID()) != 0)
@@ -1256,12 +1257,12 @@ final class MPP12Reader implements MPPVariantReader
          {
             m_file.removeTask(task);
 
-            Integer nullTaskID = Integer.valueOf(MPPUtility.getInt(data, TASK_ID_FIXED_OFFSET));
+            Integer nullTaskID = Integer.valueOf(ByteArrayHelper.getInt(data, TASK_ID_FIXED_OFFSET));
             if (!m_nullTaskOrder.containsKey(nullTaskID))
             {
                task = m_file.addTask();
                task.setNull(true);
-               task.setUniqueID(Integer.valueOf(MPPUtility.getInt(data, TASK_UNIQUE_ID_FIXED_OFFSET)));
+               task.setUniqueID(Integer.valueOf(ByteArrayHelper.getInt(data, TASK_UNIQUE_ID_FIXED_OFFSET)));
                task.setID(nullTaskID);
                m_nullTaskOrder.put(task.getID(), task.getUniqueID());
             }
@@ -1274,7 +1275,7 @@ final class MPP12Reader implements MPPVariantReader
          }
          else
          {
-            Long key = Long.valueOf(MPPUtility.getLong(data2, 16));
+            Long key = Long.valueOf(ByteArrayHelper.getLong(data2, 16));
             m_taskOrder.put(key, task.getUniqueID());
          }
 
@@ -1375,7 +1376,7 @@ final class MPP12Reader implements MPPVariantReader
    {
       if (metaData2 != null)
       {
-         int bits = MPPUtility.getInt(metaData2, 59);
+         int bits = ByteArrayHelper.getInt(metaData2, 59);
          task.set(TaskField.ENTERPRISE_FLAG1, Boolean.valueOf((bits & 0x00001) != 0));
          task.set(TaskField.ENTERPRISE_FLAG2, Boolean.valueOf((bits & 0x00002) != 0));
          task.set(TaskField.ENTERPRISE_FLAG3, Boolean.valueOf((bits & 0x00004) != 0));
@@ -1409,7 +1410,7 @@ final class MPP12Reader implements MPPVariantReader
    {
       if (metaData2 != null)
       {
-         int bits = MPPUtility.getInt(metaData2, 16);
+         int bits = ByteArrayHelper.getInt(metaData2, 16);
          resource.set(ResourceField.ENTERPRISE_FLAG1, Boolean.valueOf((bits & 0x00010) != 0));
          resource.set(ResourceField.ENTERPRISE_FLAG2, Boolean.valueOf((bits & 0x00020) != 0));
          resource.set(ResourceField.ENTERPRISE_FLAG3, Boolean.valueOf((bits & 0x00040) != 0));
@@ -1431,7 +1432,7 @@ final class MPP12Reader implements MPPVariantReader
          resource.set(ResourceField.ENTERPRISE_FLAG19, Boolean.valueOf((bits & 0x400000) != 0));
          resource.set(ResourceField.ENTERPRISE_FLAG20, Boolean.valueOf((bits & 0x800000) != 0));
 
-         bits = MPPUtility.getInt(metaData2, 32);
+         bits = ByteArrayHelper.getInt(metaData2, 32);
          resource.set(ResourceField.GENERIC, Boolean.valueOf((bits & 0x04000000) != 0));
 
          bits = MPPUtility.getByte(metaData2, 48);
@@ -1564,7 +1565,7 @@ final class MPP12Reader implements MPPVariantReader
 
          hyperlinkReader.read(resource, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.HYPERLINK_DATA)));
 
-         resource.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
+         resource.setID(Integer.valueOf(ByteArrayHelper.getInt(data, 4)));
 
          resource.setOutlineCode(1, getCustomFieldOutlineCodeValue(rscVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE1_INDEX)));
          resource.setOutlineCode(2, getCustomFieldOutlineCodeValue(rscVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE2_INDEX)));
@@ -1711,7 +1712,7 @@ final class MPP12Reader implements MPPVariantReader
          for (int loop = 0; loop < items; loop++)
          {
             byte[] fm = fixedMeta.getByteArrayValue(loop);
-            int offset = MPPUtility.getShort(fm, 4);
+            int offset = ByteArrayHelper.getShort(fm, 4);
             if (offset > lastOffset)
             {
                byte[] fd = fixedData.getByteArrayValue(fixedData.getIndexFromOffset(offset));

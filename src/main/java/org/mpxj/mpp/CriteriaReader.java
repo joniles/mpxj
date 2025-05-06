@@ -36,6 +36,7 @@ import org.mpxj.GenericCriteriaPrompt;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.TestOperator;
+import org.mpxj.common.ByteArrayHelper;
 
 /**
  * This class allows criteria definitions to be read from an MPP file.
@@ -146,7 +147,7 @@ public abstract class CriteriaReader
       m_criteriaBlockMap.clear();
 
       m_criteriaData = data;
-      m_criteriaTextStart = MPPUtility.getShort(m_criteriaData, m_dataOffset + getCriteriaTextStartOffset());
+      m_criteriaTextStart = ByteArrayHelper.getShort(m_criteriaData, m_dataOffset + getCriteriaTextStartOffset());
 
       //
       // Populate the map
@@ -200,7 +201,7 @@ public abstract class CriteriaReader
    {
       if (block != null)
       {
-         if (MPPUtility.getShort(block, 0) > 0x3E6)
+         if (ByteArrayHelper.getShort(block, 0) > 0x3E6)
          {
             addCriteria(list, block);
          }
@@ -255,7 +256,7 @@ public abstract class CriteriaReader
       byte[] leftBlock = getChildBlock(block);
       byte[] rightBlock1 = getListNextBlock(leftBlock);
       byte[] rightBlock2 = getListNextBlock(rightBlock1);
-      TestOperator operator = TestOperator.getInstance(MPPUtility.getShort(block, 0) - 0x3E7);
+      TestOperator operator = TestOperator.getInstance(ByteArrayHelper.getShort(block, 0) - 0x3E7);
       FieldType leftValue = getFieldType(leftBlock);
       Object rightValue1 = getValue(leftValue, rightBlock1);
       Object rightValue2 = rightBlock2 == null ? null : getValue(leftValue, rightBlock2);
@@ -354,7 +355,7 @@ public abstract class CriteriaReader
          {
             case DURATION:
             {
-               value = MPPUtility.getAdjustedDuration(m_properties, MPPUtility.getInt(block, getValueOffset()), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(block, getTimeUnitsOffset())));
+               value = MPPUtility.getAdjustedDuration(m_properties, ByteArrayHelper.getInt(block, getValueOffset()), MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(block, getTimeUnitsOffset())));
                break;
             }
 
@@ -366,7 +367,7 @@ public abstract class CriteriaReader
 
             case PERCENTAGE:
             {
-               value = Double.valueOf(MPPUtility.getShort(block, getValueOffset()));
+               value = Double.valueOf(ByteArrayHelper.getShort(block, getValueOffset()));
                break;
             }
 
@@ -385,7 +386,7 @@ public abstract class CriteriaReader
 
             case BOOLEAN:
             {
-               int intValue = MPPUtility.getShort(block, getValueOffset());
+               int intValue = ByteArrayHelper.getShort(block, getValueOffset());
                value = (intValue == 1 ? Boolean.TRUE : Boolean.FALSE);
                break;
             }

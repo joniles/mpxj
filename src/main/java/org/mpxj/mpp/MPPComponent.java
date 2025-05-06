@@ -26,6 +26,7 @@ package org.mpxj.mpp;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.InputStreamHelper;
 
 /**
@@ -63,7 +64,7 @@ class MPPComponent
     */
    protected int readShort(InputStream is) throws IOException
    {
-      return MPPUtility.getShort(InputStreamHelper.read(is, 2), 0);
+      return ByteArrayHelper.getShort(InputStreamHelper.read(is, 2), 0);
    }
 
    /**
@@ -75,7 +76,7 @@ class MPPComponent
     */
    protected int readInt(InputStream is) throws IOException
    {
-      return MPPUtility.getInt(InputStreamHelper.read(is, 4), 0);
+      return ByteArrayHelper.getInt(InputStreamHelper.read(is, 4), 0);
    }
 
    /**

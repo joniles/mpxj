@@ -25,6 +25,7 @@ package org.mpxj.mpp;
 
 import org.mpxj.ProjectFile;
 import org.mpxj.ViewType;
+import org.mpxj.common.ByteArrayHelper;
 
 /**
  * This class represents a view of a set of project data that has been
@@ -46,8 +47,8 @@ public final class View8 extends AbstractMppView
    {
       super(parent);
 
-      m_id = Integer.valueOf(MPPUtility.getInt(data, 0));
-      m_name = removeAmpersand(MPPUtility.getUnicodeString(data, 4));
-      m_type = ViewType.getInstance(MPPUtility.getShort(data, 116));
+      m_id = Integer.valueOf(ByteArrayHelper.getInt(data, 0));
+      m_name = MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(data, 4));
+      m_type = ViewType.getInstance(ByteArrayHelper.getShort(data, 116));
    }
 }

@@ -26,6 +26,7 @@ package org.mpxj.mpp;
 import org.mpxj.Column;
 import org.mpxj.ProjectFile;
 import org.mpxj.Table;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
 
 /**
@@ -61,8 +62,8 @@ final class TableFactory14
    {
       Table table = new Table();
 
-      table.setID(MPPUtility.getInt(data, 0));
-      table.setResourceFlag(MPPUtility.getShort(data, 108) == 1);
+      table.setID(ByteArrayHelper.getInt(data, 0));
+      table.setResourceFlag(ByteArrayHelper.getShort(data, 108) == 1);
       table.setName(MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(data, 4)));
 
       byte[] columnData = null;
@@ -102,7 +103,7 @@ final class TableFactory14
 
       if (data != null && data.length > 6)
       {
-         int columnCount = MPPUtility.getShort(data, 4) + 1;
+         int columnCount = ByteArrayHelper.getShort(data, 4) + 1;
          int index = 12;
          Column column;
          int alignment;
@@ -110,7 +111,7 @@ final class TableFactory14
          for (int loop = 0; loop < columnCount; loop++)
          {
             column = new Column(file);
-            column.setFieldType(FieldTypeHelper.getInstance(file, MPPUtility.getInt(data, index)));
+            column.setFieldType(FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(data, index)));
 
             //System.out.println(fieldType);
 

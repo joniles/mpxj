@@ -30,6 +30,7 @@ import org.mpxj.Availability;
 import org.mpxj.AvailabilityTable;
 import org.mpxj.Resource;
 import org.mpxj.ResourceField;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 
@@ -60,7 +61,7 @@ final class AvailabilityFactory
       }
       else
       {
-         int items = MPPUtility.getShort(data, 0);
+         int items = ByteArrayHelper.getShort(data, 0);
          int offset = 12;
 
          for (int loop = 0; loop < items; loop++)

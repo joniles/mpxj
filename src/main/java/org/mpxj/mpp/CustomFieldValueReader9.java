@@ -48,6 +48,7 @@ import org.mpxj.FieldType;
 import org.mpxj.FieldTypeClass;
 import org.mpxj.ProjectProperties;
 import org.mpxj.TimeUnit;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
 import org.mpxj.common.Pair;
 
@@ -92,10 +93,10 @@ public class CustomFieldValueReader9
          int index = 0;
          int offset = 0;
          // First the length
-         int length = MPPUtility.getInt(data, offset);
+         int length = ByteArrayHelper.getInt(data, offset);
          offset += 4;
          // Then the number of custom value lists
-         int numberOfValueLists = MPPUtility.getInt(data, offset);
+         int numberOfValueLists = ByteArrayHelper.getInt(data, offset);
          offset += 4;
 
          // Then the value lists themselves
@@ -106,11 +107,11 @@ public class CustomFieldValueReader9
             // Each item consists of the Field ID (4 bytes) and the offset to the value list (4 bytes)
 
             // Get the Field
-            field = FieldTypeHelper.getInstance(m_file, MPPUtility.getInt(data, offset));
+            field = FieldTypeHelper.getInstance(m_file, ByteArrayHelper.getInt(data, offset));
             offset += 4;
 
             // Get the value list offset
-            valueListOffset = MPPUtility.getInt(data, offset);
+            valueListOffset = ByteArrayHelper.getInt(data, offset);
             offset += 4;
             // Read the value list itself
             if (valueListOffset < data.length)
@@ -118,13 +119,13 @@ public class CustomFieldValueReader9
                int tempOffset = valueListOffset;
                tempOffset += 8;
                // Get the data offset
-               int dataOffset = MPPUtility.getInt(data, tempOffset) + valueListOffset;
+               int dataOffset = ByteArrayHelper.getInt(data, tempOffset) + valueListOffset;
                tempOffset += 4;
                // Get the end of the data offset
-               int endDataOffset = MPPUtility.getInt(data, tempOffset) + valueListOffset;
+               int endDataOffset = ByteArrayHelper.getInt(data, tempOffset) + valueListOffset;
                tempOffset += 4;
                // Get the end of the description
-               int endDescriptionOffset = MPPUtility.getInt(data, tempOffset) + valueListOffset;
+               int endDescriptionOffset = ByteArrayHelper.getInt(data, tempOffset) + valueListOffset;
 
                // Get the values themselves
                int valuesLength = endDataOffset - dataOffset;
@@ -163,11 +164,11 @@ public class CustomFieldValueReader9
             continue;
          }
 
-         int fieldID = MPPUtility.getInt(data, 12);
+         int fieldID = ByteArrayHelper.getInt(data, 12);
          FieldType fieldType = FieldTypeHelper.getInstance(m_file, fieldID);
          if (fieldType != null && fieldType.getFieldTypeClass() != FieldTypeClass.UNKNOWN)
          {
-            int index = MPPUtility.getShort(data, 0);
+            int index = ByteArrayHelper.getShort(data, 0);
             map.put(Integer.valueOf(index), fieldType);
          }
       }
@@ -301,8 +302,8 @@ public class CustomFieldValueReader9
 
             case DURATION:
             {
-               TimeUnit units = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, index + 4), m_properties.getDefaultDurationUnits());
-               Duration value = MPPUtility.getAdjustedDuration(m_properties, MPPUtility.getInt(data, index), units);
+               TimeUnit units = MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(data, index + 4), m_properties.getDefaultDurationUnits());
+               Duration value = MPPUtility.getAdjustedDuration(m_properties, ByteArrayHelper.getInt(data, index), units);
                result.add(value);
                index += 6;
                break;
@@ -310,7 +311,7 @@ public class CustomFieldValueReader9
 
             case BOOLEAN:
             {
-               Boolean value = Boolean.valueOf(MPPUtility.getShort(data, index) == 1);
+               Boolean value = Boolean.valueOf(ByteArrayHelper.getShort(data, index) == 1);
                result.add(value);
                index += 2;
                break;

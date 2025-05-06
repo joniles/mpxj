@@ -265,7 +265,7 @@ final class Var2Data extends MPPComponent
 
          if (value != null && value.length >= 2)
          {
-            result = MPPUtility.getShort(value, 0);
+            result = ByteArrayHelper.getShort(value, 0);
          }
       }
 
@@ -319,7 +319,7 @@ final class Var2Data extends MPPComponent
 
          if (value != null && value.length >= 4)
          {
-            result = MPPUtility.getInt(value, 0);
+            result = ByteArrayHelper.getInt(value, 0);
          }
       }
 
@@ -349,7 +349,7 @@ final class Var2Data extends MPPComponent
 
          if (value != null && value.length >= offset + 4)
          {
-            result = MPPUtility.getInt(value, offset);
+            result = ByteArrayHelper.getInt(value, offset);
          }
       }
 
@@ -376,7 +376,7 @@ final class Var2Data extends MPPComponent
 
          if (value != null && value.length >= 8)
          {
-            result = MPPUtility.getLong(value, 0);
+            result = ByteArrayHelper.getLong(value, 0);
          }
       }
 

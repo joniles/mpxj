@@ -32,6 +32,7 @@ import java.time.format.DateTimeFormatter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -208,8 +209,8 @@ public class HexDumpController
 
       if (selectionIndex + offset + 2 <= data.length)
       {
-         shortValueLabel = Integer.toString(MPPUtility.getShort(data, selectionIndex + offset));
-         timeUnitsValueLabel = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, selectionIndex + offset)).toString();
+         shortValueLabel = Integer.toString(ByteArrayHelper.getShort(data, selectionIndex + offset));
+         timeUnitsValueLabel = MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(data, selectionIndex + offset)).toString();
 
          Double value = MPPUtility.getPercentage(data, selectionIndex + offset);
          if (value != null)
@@ -256,7 +257,7 @@ public class HexDumpController
       //
       if (selectionIndex + offset + 8 <= data.length)
       {
-         longValueLabel = Long.toString(MPPUtility.getLong(data, selectionIndex + offset));
+         longValueLabel = Long.toString(ByteArrayHelper.getLong(data, selectionIndex + offset));
          doubleValueLabel = Double.toString(MPPUtility.getDouble(data, selectionIndex + offset));
          durationValueLabel = Duration.getInstance(MPPUtility.getDouble(data, selectionIndex + offset) / 60000, TimeUnit.HOURS).toString();
       }

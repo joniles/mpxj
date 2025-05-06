@@ -87,7 +87,7 @@ class Props extends MPPComponent
       byte[] item = m_map.get(type);
       if (item != null)
       {
-         result = MPPUtility.getShort(item, 0);
+         result = ByteArrayHelper.getShort(item, 0);
       }
 
       return (result);
@@ -106,7 +106,7 @@ class Props extends MPPComponent
       byte[] item = m_map.get(type);
       if (item != null)
       {
-         result = MPPUtility.getInt(item, 0);
+         result = ByteArrayHelper.getInt(item, 0);
       }
 
       return (result);
@@ -182,7 +182,7 @@ class Props extends MPPComponent
       byte[] item = m_map.get(type);
       if (item != null)
       {
-         result = !(MPPUtility.getShort(item, 0) == 0);
+         result = !(ByteArrayHelper.getShort(item, 0) == 0);
       }
 
       return (result);

@@ -40,6 +40,7 @@ import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedWork;
 import org.mpxj.WorkContour;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DefaultTimephasedWorkContainer;
 import org.mpxj.common.MicrosoftProjectConstants;
 import org.mpxj.common.NumberHelper;
@@ -104,7 +105,7 @@ public class ResourceAssignmentFactory
             continue;
          }
 
-         int offset = MPPUtility.getInt(meta, 4);
+         int offset = ByteArrayHelper.getInt(meta, 4);
          byte[] data = assnFixedData.getByteArrayValue(assnFixedData.getIndexFromOffset(offset));
          if (data == null)
          {
@@ -118,7 +119,7 @@ public class ResourceAssignmentFactory
             data = newData;
          }
 
-         int id = MPPUtility.getInt(data, fieldMap.getFixedDataOffset(AssignmentField.UNIQUE_ID));
+         int id = ByteArrayHelper.getInt(data, fieldMap.getFixedDataOffset(AssignmentField.UNIQUE_ID));
          final Integer varDataId = Integer.valueOf(id);
          if (!set.contains(varDataId))
          {
@@ -230,7 +231,7 @@ public class ResourceAssignmentFactory
                {
                   if (timephasedWorkData.length >= 30)
                   {
-                     assignment.setWorkContour(WorkContourHelper.getInstance(file, MPPUtility.getShort(timephasedWorkData, 28)));
+                     assignment.setWorkContour(WorkContourHelper.getInstance(file, ByteArrayHelper.getShort(timephasedWorkData, 28)));
                   }
                }
             }

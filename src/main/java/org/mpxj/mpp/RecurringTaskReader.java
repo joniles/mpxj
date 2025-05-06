@@ -24,6 +24,8 @@
 package org.mpxj.mpp;
 
 import java.time.DayOfWeek;
+
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.ProjectProperties;
 import org.mpxj.RecurrenceType;
@@ -57,18 +59,18 @@ final class RecurringTaskReader
       RecurringTask rt = task.addRecurringTask();
       rt.setStartDate(LocalDateHelper.getLocalDate(MPPUtility.getDate(data, 6)));
       rt.setFinishDate(LocalDateHelper.getLocalDate(MPPUtility.getDate(data, 10)));
-      rt.setDuration(MPPUtility.getAdjustedDuration(m_properties, MPPUtility.getInt(data, 12), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 16))));
-      rt.setOccurrences(Integer.valueOf(MPPUtility.getShort(data, 18)));
-      rt.setRecurrenceType(RecurrenceType.getInstance(MPPUtility.getShort(data, 20)));
-      rt.setUseEndDate(MPPUtility.getShort(data, 24) == 1);
-      rt.setWorkingDaysOnly(MPPUtility.getShort(data, 26) == 1);
-      rt.setWeeklyDay(DayOfWeek.SUNDAY, MPPUtility.getShort(data, 28) == 1);
-      rt.setWeeklyDay(DayOfWeek.MONDAY, MPPUtility.getShort(data, 30) == 1);
-      rt.setWeeklyDay(DayOfWeek.TUESDAY, MPPUtility.getShort(data, 32) == 1);
-      rt.setWeeklyDay(DayOfWeek.WEDNESDAY, MPPUtility.getShort(data, 34) == 1);
-      rt.setWeeklyDay(DayOfWeek.THURSDAY, MPPUtility.getShort(data, 36) == 1);
-      rt.setWeeklyDay(DayOfWeek.FRIDAY, MPPUtility.getShort(data, 38) == 1);
-      rt.setWeeklyDay(DayOfWeek.SATURDAY, MPPUtility.getShort(data, 40) == 1);
+      rt.setDuration(MPPUtility.getAdjustedDuration(m_properties, ByteArrayHelper.getInt(data, 12), MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(data, 16))));
+      rt.setOccurrences(Integer.valueOf(ByteArrayHelper.getShort(data, 18)));
+      rt.setRecurrenceType(RecurrenceType.getInstance(ByteArrayHelper.getShort(data, 20)));
+      rt.setUseEndDate(ByteArrayHelper.getShort(data, 24) == 1);
+      rt.setWorkingDaysOnly(ByteArrayHelper.getShort(data, 26) == 1);
+      rt.setWeeklyDay(DayOfWeek.SUNDAY, ByteArrayHelper.getShort(data, 28) == 1);
+      rt.setWeeklyDay(DayOfWeek.MONDAY, ByteArrayHelper.getShort(data, 30) == 1);
+      rt.setWeeklyDay(DayOfWeek.TUESDAY, ByteArrayHelper.getShort(data, 32) == 1);
+      rt.setWeeklyDay(DayOfWeek.WEDNESDAY, ByteArrayHelper.getShort(data, 34) == 1);
+      rt.setWeeklyDay(DayOfWeek.THURSDAY, ByteArrayHelper.getShort(data, 36) == 1);
+      rt.setWeeklyDay(DayOfWeek.FRIDAY, ByteArrayHelper.getShort(data, 38) == 1);
+      rt.setWeeklyDay(DayOfWeek.SATURDAY, ByteArrayHelper.getShort(data, 40) == 1);
 
       int frequencyOffset = 0;
       int dayOfWeekOffset = 0;
@@ -92,7 +94,7 @@ final class RecurringTaskReader
 
          case MONTHLY:
          {
-            rt.setRelative(MPPUtility.getShort(data, 42) == 1);
+            rt.setRelative(ByteArrayHelper.getShort(data, 42) == 1);
             if (rt.getRelative())
             {
                frequencyOffset = 58;
@@ -110,7 +112,7 @@ final class RecurringTaskReader
 
          case YEARLY:
          {
-            rt.setRelative(MPPUtility.getShort(data, 44) != 1);
+            rt.setRelative(ByteArrayHelper.getShort(data, 44) != 1);
             if (rt.getRelative())
             {
                dayNumberOffset = 60;
@@ -127,22 +129,22 @@ final class RecurringTaskReader
 
       if (frequencyOffset != 0)
       {
-         rt.setFrequency(Integer.valueOf(MPPUtility.getShort(data, frequencyOffset)));
+         rt.setFrequency(Integer.valueOf(ByteArrayHelper.getShort(data, frequencyOffset)));
       }
 
       if (dayOfWeekOffset != 0)
       {
-         rt.setDayOfWeek(DayOfWeekHelper.getInstance(MPPUtility.getShort(data, dayOfWeekOffset) + 1));
+         rt.setDayOfWeek(DayOfWeekHelper.getInstance(ByteArrayHelper.getShort(data, dayOfWeekOffset) + 1));
       }
 
       if (dayNumberOffset != 0)
       {
-         rt.setDayNumber(Integer.valueOf(MPPUtility.getShort(data, dayNumberOffset)));
+         rt.setDayNumber(Integer.valueOf(ByteArrayHelper.getShort(data, dayNumberOffset)));
       }
 
       if (monthNumberOffset != 0)
       {
-         rt.setMonthNumber(Integer.valueOf(MPPUtility.getShort(data, monthNumberOffset)));
+         rt.setMonthNumber(Integer.valueOf(ByteArrayHelper.getShort(data, monthNumberOffset)));
       }
 
       if (dateOffset != 0)

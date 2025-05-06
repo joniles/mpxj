@@ -99,14 +99,14 @@ abstract class FieldMap
 
       while (index < data.length)
       {
-         long mask = MPPUtility.getInt(data, index);
+         long mask = ByteArrayHelper.getInt(data, index);
          //mask = mask << 4;
 
-         int dataBlockOffset = MPPUtility.getShort(data, index + 4);
+         int dataBlockOffset = ByteArrayHelper.getShort(data, index + 4);
          //int metaFlags = MPPUtility.getByte(data, index + 8);
-         int typeValue = MPPUtility.getInt(data, index + 12);
+         int typeValue = ByteArrayHelper.getInt(data, index + 12);
          FieldType type = getFieldType(typeValue);
-         int category = MPPUtility.getShort(data, index + 20);
+         int category = ByteArrayHelper.getShort(data, index + 20);
          //int sizeInBytes = MPPUtility.getShort(data, index + 22);
          //int metaIndex = MPPUtility.getInt(data, index + 24);
 
@@ -340,7 +340,7 @@ abstract class FieldMap
          int index = 4;
          while (index < fieldMapData.length)
          {
-            int typeValue = MPPUtility.getInt(fieldMapData, index);
+            int typeValue = ByteArrayHelper.getInt(fieldMapData, index);
             FieldType type = getFieldType(typeValue);
             if (type != null && type.getFieldTypeClass() == fieldTypeClass && type instanceof UserDefinedField)
             {
@@ -815,7 +815,7 @@ abstract class FieldMap
 
                   case INTEGER:
                   {
-                     result = Integer.valueOf(MPPUtility.getInt(data, m_fixedDataOffset));
+                     result = Integer.valueOf(ByteArrayHelper.getInt(data, m_fixedDataOffset));
                      break;
                   }
 
@@ -828,25 +828,25 @@ abstract class FieldMap
                         units = getProjectProperties().getDefaultDurationUnits();
                      }
 
-                     result = MPPUtility.getAdjustedDuration(getProjectProperties(), MPPUtility.getInt(data, m_fixedDataOffset), units);
+                     result = MPPUtility.getAdjustedDuration(getProjectProperties(), ByteArrayHelper.getInt(data, m_fixedDataOffset), units);
                      break;
                   }
 
                   case TIME_UNITS:
                   {
-                     result = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, m_fixedDataOffset), getProjectProperties().getDefaultDurationUnits());
+                     result = MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(data, m_fixedDataOffset), getProjectProperties().getDefaultDurationUnits());
                      break;
                   }
 
                   case CONSTRAINT:
                   {
-                     result = ConstraintType.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
+                     result = ConstraintType.getInstance(ByteArrayHelper.getShort(data, m_fixedDataOffset));
                      break;
                   }
 
                   case PRIORITY:
                   {
-                     result = Priority.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
+                     result = Priority.getInstance(ByteArrayHelper.getShort(data, m_fixedDataOffset));
                      break;
                   }
 
@@ -858,13 +858,13 @@ abstract class FieldMap
 
                   case TASK_TYPE:
                   {
-                     result = TaskTypeHelper.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
+                     result = TaskTypeHelper.getInstance(ByteArrayHelper.getShort(data, m_fixedDataOffset));
                      break;
                   }
 
                   case ACCRUE:
                   {
-                     result = AccrueType.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
+                     result = AccrueType.getInstance(ByteArrayHelper.getShort(data, m_fixedDataOffset));
                      break;
                   }
 
@@ -895,19 +895,19 @@ abstract class FieldMap
 
                   case SHORT:
                   {
-                     result = Integer.valueOf(MPPUtility.getShort(data, m_fixedDataOffset));
+                     result = Integer.valueOf(ByteArrayHelper.getShort(data, m_fixedDataOffset));
                      break;
                   }
 
                   case BOOLEAN:
                   {
-                     result = Boolean.valueOf(MPPUtility.getShort(data, m_fixedDataOffset) != 0);
+                     result = Boolean.valueOf(ByteArrayHelper.getShort(data, m_fixedDataOffset) != 0);
                      break;
                   }
 
                   case DELAY:
                   {
-                     result = MPPUtility.getDuration(MPPUtility.getShort(data, m_fixedDataOffset), TimeUnit.HOURS);
+                     result = MPPUtility.getDuration(ByteArrayHelper.getShort(data, m_fixedDataOffset), TimeUnit.HOURS);
                      break;
                   }
 
@@ -920,25 +920,25 @@ abstract class FieldMap
 
                   case WORKGROUP:
                   {
-                     result = WorkGroup.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
+                     result = WorkGroup.getInstance(ByteArrayHelper.getShort(data, m_fixedDataOffset));
                      break;
                   }
 
                   case RATE_UNITS:
                   {
-                     result = TimeUnit.getInstance(MPPUtility.getShort(data, m_fixedDataOffset) - 1);
+                     result = TimeUnit.getInstance(ByteArrayHelper.getShort(data, m_fixedDataOffset) - 1);
                      break;
                   }
 
                   case EARNED_VALUE_METHOD:
                   {
-                     result = EarnedValueMethod.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
+                     result = EarnedValueMethod.getInstance(ByteArrayHelper.getShort(data, m_fixedDataOffset));
                      break;
                   }
 
                   case RESOURCE_REQUEST_TYPE:
                   {
-                     result = ResourceRequestType.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
+                     result = ResourceRequestType.getInstance(ByteArrayHelper.getShort(data, m_fixedDataOffset));
                      break;
                   }
 
@@ -1156,7 +1156,7 @@ abstract class FieldMap
             {
                if (data.length >= 4)
                {
-                  int duration = MPPUtility.getInt(data, 0);
+                  int duration = ByteArrayHelper.getInt(data, 0);
                   result = MPPUtility.getAdjustedDuration(getProjectProperties(), duration, units);
                }
             }

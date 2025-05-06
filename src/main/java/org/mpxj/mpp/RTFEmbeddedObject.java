@@ -182,7 +182,7 @@ public final class RTFEmbeddedObject
       if (!blocks.isEmpty())
       {
          byte[] data = blocks.remove(0);
-         result = MPPUtility.getInt(data, 0);
+         result = ByteArrayHelper.getInt(data, 0);
       }
       else
       {

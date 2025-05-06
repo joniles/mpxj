@@ -38,6 +38,7 @@
 			<action dev="joniles" type="update">The deprecated `Task#setPrimaryResourceID` method has been removed. Use the `Task#setPrimaryResourceUniqueID` method instead.</action>
 			<action dev="joniles" type="update">The deprecated `Task#getPrimaryResourceID` method has been removed. Use the `Task#getPrimaryResourceUniqueID` method instead.</action>
 			<action dev="joniles" type="update">The deprecated `Task#isSucessor` method has been removed. Use the `Task#isSuccessor` method instead.</action>
+			<action dev="joniles" type="update">The common `MPPUtility` static methods `getShort`, `getInt`and `getLong` have been moved to the `ByteArrayHelper` class.</action>
 			<action dev="joniles" type="update">**BREAKING CHANGES - Ruby**</action>
 			<action dev="joniles" type="update">The deprecated Ruby attribute `Relation#task_unique_id` has been removed, use `Relation#predecessor_task_unique_id` and `Relation#successor_task_unique_id` instead.</action>
 		</release>

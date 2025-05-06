@@ -175,63 +175,6 @@ public final class MPPUtility
    }
 
    /**
-    * This method reads a two byte integer from the input array.
-    *
-    * @param data the input array
-    * @param offset offset of integer data in the array
-    * @return integer value
-    */
-   public static final int getShort(byte[] data, int offset)
-   {
-      int result = 0;
-      int i = offset;
-      for (int shiftBy = 0; shiftBy < 16; shiftBy += 8)
-      {
-         result |= ((data[i] & 0xff)) << shiftBy;
-         ++i;
-      }
-      return result;
-   }
-
-   /**
-    * This method reads a four byte integer from the input array.
-    *
-    * @param data the input array
-    * @param offset offset of integer data in the array
-    * @return integer value
-    */
-   public static final int getInt(byte[] data, int offset)
-   {
-      int result = 0;
-      int i = offset;
-      for (int shiftBy = 0; shiftBy < 32; shiftBy += 8)
-      {
-         result |= ((data[i] & 0xff)) << shiftBy;
-         ++i;
-      }
-      return result;
-   }
-
-   /**
-    * This method reads an eight byte integer from the input array.
-    *
-    * @param data the input array
-    * @param offset offset of integer data in the array
-    * @return integer value
-    */
-   public static final long getLong(byte[] data, int offset)
-   {
-      long result = 0;
-      int i = offset;
-      for (int shiftBy = 0; shiftBy < 64; shiftBy += 8)
-      {
-         result |= ((long) (data[i] & 0xff)) << shiftBy;
-         ++i;
-      }
-      return result;
-   }
-
-   /**
     * This method reads a six byte long from the input array.
     *
     * @param data the input array
@@ -259,7 +202,7 @@ public final class MPPUtility
     */
    public static final double getDouble(byte[] data, int offset)
    {
-      double result = Double.longBitsToDouble(getLong(data, offset));
+      double result = Double.longBitsToDouble(ByteArrayHelper.getLong(data, offset));
       if (Double.isNaN(result))
       {
          result = 0;
@@ -319,7 +262,7 @@ public final class MPPUtility
    public static final LocalDateTime getDate(byte[] data, int offset)
    {
       LocalDateTime result;
-      long days = getShort(data, offset);
+      long days = ByteArrayHelper.getShort(data, offset);
 
       if (days == 65535)
       {
@@ -344,7 +287,7 @@ public final class MPPUtility
    public static final LocalTime getTime(byte[] data, int offset)
    {
       // TODO: do we want to improve the accuracy here by using seconds?
-      long seconds = (getShort(data, offset) / 10L) * 60L;
+      long seconds = (ByteArrayHelper.getShort(data, offset) / 10L) * 60L;
       if (seconds > 86399)
       {
          seconds = seconds % 86400;
@@ -362,7 +305,7 @@ public final class MPPUtility
     */
    public static final long getDuration(byte[] data, int offset)
    {
-      return ((getShort(data, offset) * MS_PER_MINUTE) / 10);
+      return ((ByteArrayHelper.getShort(data, offset) * MS_PER_MINUTE) / 10);
    }
 
    /**
@@ -376,14 +319,14 @@ public final class MPPUtility
    {
       LocalDateTime result;
 
-      long days = getShort(data, offset + 2);
+      long days = ByteArrayHelper.getShort(data, offset + 2);
       if (days <= 1 || days == 65535)
       {
          result = null;
       }
       else
       {
-         long time = getShort(data, offset);
+         long time = ByteArrayHelper.getShort(data, offset);
          if (time == 65535)
          {
             time = 0;
@@ -413,7 +356,7 @@ public final class MPPUtility
     */
    public static final LocalDateTime getTimestampFromTenths(byte[] data, int offset)
    {
-      long seconds = ((long) getInt(data, offset)) * 6;
+      long seconds = ((long) ByteArrayHelper.getInt(data, offset)) * 6;
       return EPOCH_DATE.plusSeconds(seconds);
    }
 
@@ -930,7 +873,7 @@ public final class MPPUtility
     */
    public static final Double getPercentage(byte[] data, int offset)
    {
-      int value = MPPUtility.getShort(data, offset);
+      int value = ByteArrayHelper.getShort(data, offset);
       Double result = null;
       if (value >= 0 && value <= 100)
       {
@@ -1083,7 +1026,7 @@ public final class MPPUtility
             {
                try
                {
-                  int sh = MPPUtility.getShort(data, i);
+                  int sh = ByteArrayHelper.getShort(data, i);
                   System.out.println(i + ":" + sh);
                }
                catch (Exception ex)
@@ -1095,7 +1038,7 @@ public final class MPPUtility
             {
                try
                {
-                  int sh = MPPUtility.getInt(data, i);
+                  int sh = ByteArrayHelper.getInt(data, i);
                   System.out.println(i + ":" + sh);
                }
                catch (Exception ex)
@@ -1173,7 +1116,7 @@ public final class MPPUtility
             {
                try
                {
-                  System.out.println(i + ":" + MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, i), TimeUnit.DAYS));
+                  System.out.println(i + ":" + MPPUtility.getAdjustedDuration(properties, ByteArrayHelper.getInt(data, i), TimeUnit.DAYS));
                }
                catch (Exception ex)
                {

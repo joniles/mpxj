@@ -33,6 +33,7 @@ import org.mpxj.GraphicalIndicatorCriteria;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.TestOperator;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
 
 /**
@@ -56,7 +57,7 @@ public final class GraphicalIndicatorReader
 
       if (m_data != null)
       {
-         int columnsCount = MPPUtility.getInt(m_data, 4);
+         int columnsCount = ByteArrayHelper.getInt(m_data, 4);
          m_headerOffset = 8;
          for (int loop = 0; loop < columnsCount; loop++)
          {
@@ -70,10 +71,10 @@ public final class GraphicalIndicatorReader
     */
    private void processColumns()
    {
-      int fieldID = MPPUtility.getInt(m_data, m_headerOffset);
+      int fieldID = ByteArrayHelper.getInt(m_data, m_headerOffset);
       m_headerOffset += 4;
 
-      m_dataOffset = MPPUtility.getInt(m_data, m_headerOffset);
+      m_dataOffset = ByteArrayHelper.getInt(m_data, m_headerOffset);
       m_headerOffset += 4;
 
       FieldType type = FieldTypeHelper.getInstance(m_file, fieldID);
@@ -105,16 +106,16 @@ public final class GraphicalIndicatorReader
       indicator.setShowDataValuesInToolTips((flags & 0x01) != 0);
       m_dataOffset += 20;
 
-      int nonSummaryRowOffset = MPPUtility.getInt(m_data, m_dataOffset) - 36;
+      int nonSummaryRowOffset = ByteArrayHelper.getInt(m_data, m_dataOffset) - 36;
       m_dataOffset += 4;
 
-      int summaryRowOffset = MPPUtility.getInt(m_data, m_dataOffset) - 36;
+      int summaryRowOffset = ByteArrayHelper.getInt(m_data, m_dataOffset) - 36;
       m_dataOffset += 4;
 
-      int projectSummaryOffset = MPPUtility.getInt(m_data, m_dataOffset) - 36;
+      int projectSummaryOffset = ByteArrayHelper.getInt(m_data, m_dataOffset) - 36;
       m_dataOffset += 4;
 
-      int dataSize = MPPUtility.getInt(m_data, m_dataOffset) - 36;
+      int dataSize = ByteArrayHelper.getInt(m_data, m_dataOffset) - 36;
       m_dataOffset += 4;
 
       //System.out.println("Data");
@@ -153,13 +154,13 @@ public final class GraphicalIndicatorReader
       GraphicalIndicatorCriteria criteria = new GraphicalIndicatorCriteria(m_properties);
       criteria.setLeftValue(type);
 
-      int indicatorType = MPPUtility.getInt(m_data, m_dataOffset);
+      int indicatorType = ByteArrayHelper.getInt(m_data, m_dataOffset);
       m_dataOffset += 4;
       criteria.setIndicator(indicatorType);
 
       if (m_dataOffset + 4 < m_data.length)
       {
-         int operatorValue = MPPUtility.getInt(m_data, m_dataOffset);
+         int operatorValue = ByteArrayHelper.getInt(m_data, m_dataOffset);
          m_dataOffset += 4;
          TestOperator operator = (operatorValue == 0 ? TestOperator.IS_ANY_VALUE : TestOperator.getInstance(operatorValue - 0x3E7));
          criteria.setOperator(operator);
@@ -188,12 +189,12 @@ public final class GraphicalIndicatorReader
     */
    private void processOperandValue(int index, FieldType type, GraphicalIndicatorCriteria criteria)
    {
-      boolean valueFlag = (MPPUtility.getInt(m_data, m_dataOffset) == 1);
+      boolean valueFlag = (ByteArrayHelper.getInt(m_data, m_dataOffset) == 1);
       m_dataOffset += 4;
 
       if (!valueFlag)
       {
-         int fieldID = MPPUtility.getInt(m_data, m_dataOffset);
+         int fieldID = ByteArrayHelper.getInt(m_data, m_dataOffset);
          criteria.setRightValue(index, FieldTypeHelper.getInstance(m_file, fieldID));
          m_dataOffset += 4;
       }
@@ -206,7 +207,7 @@ public final class GraphicalIndicatorReader
          {
             case DURATION: // 0x03
             {
-               Duration value = MPPUtility.getAdjustedDuration(m_properties, MPPUtility.getInt(m_data, m_dataOffset), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(m_data, m_dataOffset + 4)));
+               Duration value = MPPUtility.getAdjustedDuration(m_properties, ByteArrayHelper.getInt(m_data, m_dataOffset), MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(m_data, m_dataOffset + 4)));
                m_dataOffset += 6;
                criteria.setRightValue(index, value);
                break;
@@ -238,7 +239,7 @@ public final class GraphicalIndicatorReader
 
             case BOOLEAN: // 0x0B
             {
-               int value = MPPUtility.getShort(m_data, m_dataOffset);
+               int value = ByteArrayHelper.getShort(m_data, m_dataOffset);
                m_dataOffset += 2;
                criteria.setRightValue(index, value == 1 ? Boolean.TRUE : Boolean.FALSE);
                break;

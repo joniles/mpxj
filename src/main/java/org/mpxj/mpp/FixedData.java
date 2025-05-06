@@ -110,7 +110,7 @@ final class FixedData extends MPPComponent
       for (int loop = 0; loop < itemCount; loop++)
       {
          byte[] metaData = meta.getByteArrayValue(loop);
-         int itemOffset = MPPUtility.getInt(metaData, 4);
+         int itemOffset = ByteArrayHelper.getInt(metaData, 4);
 
          if (itemOffset < 0 || itemOffset > buffer.length)
          {
@@ -125,7 +125,7 @@ final class FixedData extends MPPComponent
          else
          {
             byte[] nextMetaData = meta.getByteArrayValue(loop + 1);
-            int nextItemOffset = MPPUtility.getInt(nextMetaData, 4);
+            int nextItemOffset = ByteArrayHelper.getInt(nextMetaData, 4);
             itemSize = nextItemOffset - itemOffset;
          }
 
@@ -186,7 +186,7 @@ final class FixedData extends MPPComponent
       for (int loop = 0; loop < itemCount; loop++)
       {
          metaData = meta.getByteArrayValue(loop);
-         itemOffset = MPPUtility.getInt(metaData, 4);
+         itemOffset = ByteArrayHelper.getInt(metaData, 4);
 
          if (itemOffset < 0 || itemOffset > buffer.length)
          {

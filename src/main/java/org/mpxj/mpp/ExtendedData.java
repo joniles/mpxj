@@ -59,10 +59,10 @@ final class ExtendedData
 
          while (index < data.length)
          {
-            size = MPPUtility.getInt(data, index);
+            size = ByteArrayHelper.getInt(data, index);
             index += 4;
 
-            type = MPPUtility.getInt(data, index);
+            type = ByteArrayHelper.getInt(data, index);
             index += 4;
 
             m_map.put(Integer.valueOf(type), MPPUtility.cloneSubArray(data, index, size));
@@ -122,7 +122,7 @@ final class ExtendedData
       byte[] item = m_map.get(type);
       if (item != null)
       {
-         result = MPPUtility.getShort(item, 0);
+         result = ByteArrayHelper.getShort(item, 0);
       }
 
       return (result);
@@ -141,7 +141,7 @@ final class ExtendedData
       byte[] item = m_map.get(type);
       if (item != null)
       {
-         result = MPPUtility.getInt(item, 0);
+         result = ByteArrayHelper.getInt(item, 0);
       }
 
       return (result);
@@ -223,7 +223,7 @@ final class ExtendedData
     */
    private int getOffset(byte[] data)
    {
-      return (-1 - MPPUtility.getInt(data, 0));
+      return (-1 - ByteArrayHelper.getInt(data, 0));
    }
 
    /**

@@ -26,6 +26,7 @@ package org.mpxj.mpp;
 import java.util.UUID;
 
 import org.mpxj.CustomFieldContainer;
+import org.mpxj.common.ByteArrayHelper;
 
 /**
  * Core implementation to read fields from var data, including
@@ -85,7 +86,7 @@ abstract class VarDataFieldReader
    private Object getValueByID(byte[] data)
    {
       // 26 bytes in total: 2 byte mask, 4 byte unique ID, 16 byte GUID, 4 bytes unknown
-      int uniqueId = MPPUtility.getInt(data, 2);
+      int uniqueId = ByteArrayHelper.getInt(data, 2);
       UUID guid = MPPUtility.getGUID(data, 6);
 
       CustomFieldValueItem item;
