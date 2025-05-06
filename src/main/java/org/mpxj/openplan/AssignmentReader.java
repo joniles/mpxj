@@ -58,8 +58,8 @@ class AssignmentReader
     */
    public void read()
    {
-      Map<UUID, Task> taskMap = m_file.getTasks().stream().collect(Collectors.toMap(t -> t.getGUID(), t -> t));
-      Map<UUID, Resource> resourceMap = m_file.getResources().stream().collect(Collectors.toMap(r -> r.getGUID(), r -> r));
+      Map<UUID, Task> taskMap = m_file.getTasks().stream().collect(Collectors.toMap(Task::getGUID, t -> t));
+      Map<UUID, Resource> resourceMap = m_file.getResources().stream().collect(Collectors.toMap(Resource::getGUID, r -> r));
 
       for (Row row : new TableReader(m_root, "ASG").read())
       {

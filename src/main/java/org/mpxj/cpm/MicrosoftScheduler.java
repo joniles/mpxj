@@ -126,7 +126,7 @@ public class MicrosoftScheduler implements Scheduler
          }
       }
 
-      m_file.getChildTasks().forEach(t -> rollupDates(t));
+      m_file.getChildTasks().forEach(this::rollupDates);
    }
 
    private void validateTasks(List<Task> tasks) throws CpmException
@@ -247,7 +247,7 @@ public class MicrosoftScheduler implements Scheduler
          }
          else
          {
-            earlyStart = predecessors.stream().map(r -> calculateEarlyStart(r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+            earlyStart = predecessors.stream().map(this::calculateEarlyStart).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
          }
          earlyStart = getNextWorkStart(task, earlyStart);
 
@@ -404,7 +404,7 @@ public class MicrosoftScheduler implements Scheduler
             }
             else
             {
-               lateFinish = successors.stream().map(r -> calculateLateFinish(r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+               lateFinish = successors.stream().map(this::calculateLateFinish).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
             }
          }
 
@@ -995,7 +995,7 @@ public class MicrosoftScheduler implements Scheduler
     */
    private void createSummaryTaskRelationships()
    {
-      m_file.getRelations().stream().filter(r -> r.getPredecessorTask().getSummary() || r.getSuccessorTask().getSummary()).forEach(r -> createSummaryTaskRelationship(r));
+      m_file.getRelations().stream().filter(r -> r.getPredecessorTask().getSummary() || r.getSuccessorTask().getSummary()).forEach(this::createSummaryTaskRelationship);
    }
 
    /**

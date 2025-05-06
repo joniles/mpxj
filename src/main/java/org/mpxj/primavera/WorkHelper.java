@@ -23,6 +23,7 @@
 package org.mpxj.primavera;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import org.mpxj.Duration;
 import org.mpxj.Task;
@@ -41,7 +42,7 @@ class WorkHelper
     */
    public static Duration addWork(Duration... values)
    {
-      return Duration.getInstance(Arrays.stream(values).filter(d -> d != null).mapToDouble(d -> d.getDuration()).sum(), TimeUnit.HOURS);
+      return Duration.getInstance(Arrays.stream(values).filter(Objects::nonNull).mapToDouble(Duration::getDuration).sum(), TimeUnit.HOURS);
    }
 
    /**

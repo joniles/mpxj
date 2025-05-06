@@ -2994,12 +2994,12 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
 
    private LocalDateTime calculateStart()
    {
-      return m_assignments.stream().map(a -> a.getStart()).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(null);
+      return m_assignments.stream().map(ResourceAssignment::getStart).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(null);
    }
 
    private LocalDateTime calculateFinish()
    {
-      return m_assignments.stream().map(a -> a.getFinish()).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null);
+      return m_assignments.stream().map(ResourceAssignment::getFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null);
    }
 
    private Number calculateMaxUnits()

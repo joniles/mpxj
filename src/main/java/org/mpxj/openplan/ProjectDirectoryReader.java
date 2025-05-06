@@ -86,13 +86,13 @@ class ProjectDirectoryReader extends DirectoryReader
       DependenciesReader dependencies = new DependenciesReader(dir).read();
 
       CodeDirectoryReader codeReader = new CodeDirectoryReader(m_root);
-      dependencies.getCodes().forEach(r -> codeReader.read(r));
+      dependencies.getCodes().forEach(codeReader::read);
 
       ActivityCodeReader activityCodeReader = new ActivityCodeReader(dir, m_file);
       activityCodeReader.read(codeReader.getCodes());
 
       CalendarDirectoryReader calendarReader = new CalendarDirectoryReader(m_root, m_file);
-      dependencies.getCalendars().forEach(r -> calendarReader.read(r));
+      dependencies.getCalendars().forEach(calendarReader::read);
 
       ProjectCalendar defaultCalendar = calendarReader.getMap().get("< Default >");
       if (defaultCalendar != null)
@@ -105,7 +105,7 @@ class ProjectDirectoryReader extends DirectoryReader
       }
 
       ResourceDirectoryReader resourceReader = new ResourceDirectoryReader(m_root, m_file);
-      dependencies.getResources().forEach(r -> resourceReader.read(r));
+      dependencies.getResources().forEach(resourceReader::read);
 
       ActivityReader activityReader = new ActivityReader(dir, m_file);
       activityReader.read(activityCodeReader.getCodeMap(), calendarReader.getMap());

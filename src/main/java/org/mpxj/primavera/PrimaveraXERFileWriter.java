@@ -800,7 +800,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       }
 
       m_writer.writeTable("PCATVAL", PROJECT_CODE_VALUE_COLUMNS);
-      m_file.getProjectCodes().stream().map(c -> c.getValues()).flatMap(Collection::stream).sorted(Comparator.comparing(ProjectCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(PROJECT_CODE_VALUE_COLUMNS, v));
+      m_file.getProjectCodes().stream().map(ProjectCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(ProjectCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(PROJECT_CODE_VALUE_COLUMNS, v));
    }
 
    /**
@@ -860,7 +860,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       }
 
       m_writer.writeTable("RCATVAL", RESOURCE_CODE_VALUE_COLUMNS);
-      m_file.getResourceCodes().stream().map(c -> c.getValues()).flatMap(Collection::stream).sorted(Comparator.comparing(ResourceCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(RESOURCE_CODE_VALUE_COLUMNS, v));
+      m_file.getResourceCodes().stream().map(ResourceCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(ResourceCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(RESOURCE_CODE_VALUE_COLUMNS, v));
    }
 
    /**
@@ -907,7 +907,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       }
 
       m_writer.writeTable("ROLECATVAL", ROLE_CODE_VALUE_COLUMNS);
-      m_file.getRoleCodes().stream().map(c -> c.getValues()).flatMap(Collection::stream).sorted(Comparator.comparing(RoleCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(ROLE_CODE_VALUE_COLUMNS, v));
+      m_file.getRoleCodes().stream().map(RoleCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(RoleCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(ROLE_CODE_VALUE_COLUMNS, v));
    }
 
    /**
@@ -954,7 +954,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       }
 
       m_writer.writeTable("ASGNMNTCATVAL", RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS);
-      m_file.getResourceAssignmentCodes().stream().map(c -> c.getValues()).flatMap(Collection::stream).sorted(Comparator.comparing(ResourceAssignmentCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS, v));
+      m_file.getResourceAssignmentCodes().stream().map(ResourceAssignmentCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(ResourceAssignmentCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS, v));
    }
 
    /**
@@ -1139,7 +1139,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ProjectProperties projectProperties = m_file.getProjectProperties();
 
       // Try to assign a unique ID before the other WBS entries if possible
-      Integer uniqueID = tasks.stream().map(t -> t.getUniqueID()).min(Comparator.naturalOrder()).orElse(null);
+      Integer uniqueID = tasks.stream().map(Task::getUniqueID).min(Comparator.naturalOrder()).orElse(null);
       if (uniqueID == null || uniqueID.intValue() <= 1)
       {
          uniqueID = m_file.getUniqueIdObjectSequence(Task.class).getNext();
@@ -1234,7 +1234,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private Stream<ResourceAssignment> getSortedResourceAssignmentStream()
    {
-      return m_file.getResourceAssignments().stream().filter(t -> WriterHelper.isValidAssignment(t)).sorted(Comparator.comparing(ResourceAssignment::getUniqueID));
+      return m_file.getResourceAssignments().stream().filter(WriterHelper::isValidAssignment).sorted(Comparator.comparing(ResourceAssignment::getUniqueID));
    }
 
    /**
@@ -1407,31 +1407,31 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<Currency>> CURRENCY_COLUMNS = new LinkedHashMap<>();
    static
    {
-      CURRENCY_COLUMNS.put("curr_id", c -> c.getUniqueID());
-      CURRENCY_COLUMNS.put("decimal_digit_cnt", c -> c.getNumberOfDecimalPlaces());
-      CURRENCY_COLUMNS.put("curr_symbol", c -> c.getSymbol());
-      CURRENCY_COLUMNS.put("decimal_symbol", c -> c.getDecimalSymbol());
-      CURRENCY_COLUMNS.put("digit_group_symbol", c -> c.getDigitGroupingSymbol());
-      CURRENCY_COLUMNS.put("pos_curr_fmt_type", c -> c.getPositiveCurrencyFormat());
-      CURRENCY_COLUMNS.put("neg_curr_fmt_type", c -> c.getNegativeCurrencyFormat());
-      CURRENCY_COLUMNS.put("curr_type", c -> c.getName());
-      CURRENCY_COLUMNS.put("curr_short_name", c -> c.getCurrencyID());
+      CURRENCY_COLUMNS.put("curr_id", Currency::getUniqueID);
+      CURRENCY_COLUMNS.put("decimal_digit_cnt", Currency::getNumberOfDecimalPlaces);
+      CURRENCY_COLUMNS.put("curr_symbol", Currency::getSymbol);
+      CURRENCY_COLUMNS.put("decimal_symbol", Currency::getDecimalSymbol);
+      CURRENCY_COLUMNS.put("digit_group_symbol", Currency::getDigitGroupingSymbol);
+      CURRENCY_COLUMNS.put("pos_curr_fmt_type", Currency::getPositiveCurrencyFormat);
+      CURRENCY_COLUMNS.put("neg_curr_fmt_type", Currency::getNegativeCurrencyFormat);
+      CURRENCY_COLUMNS.put("curr_type", Currency::getName);
+      CURRENCY_COLUMNS.put("curr_short_name", Currency::getCurrencyID);
       CURRENCY_COLUMNS.put("group_digit_cnt", c -> "3");
-      CURRENCY_COLUMNS.put("base_exch_rate", c -> c.getExchangeRate());
+      CURRENCY_COLUMNS.put("base_exch_rate", Currency::getExchangeRate);
    }
 
    private static final Map<String, ExportFunction<Resource>> ROLE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      ROLE_COLUMNS.put("role_id", r -> r.getUniqueID());
-      ROLE_COLUMNS.put("parent_role_id", r -> r.getParentResourceUniqueID());
-      ROLE_COLUMNS.put("seq_num", r -> r.getSequenceNumber());
+      ROLE_COLUMNS.put("role_id", Resource::getUniqueID);
+      ROLE_COLUMNS.put("parent_role_id", Resource::getParentResourceUniqueID);
+      ROLE_COLUMNS.put("seq_num", Resource::getSequenceNumber);
       ROLE_COLUMNS.put("role_name", r -> StringHelper.stripControlCharacters(r.getName()));
-      ROLE_COLUMNS.put("role_short_name", r -> WriterHelper.getRoleID(r));
+      ROLE_COLUMNS.put("role_short_name", WriterHelper::getRoleID);
       ROLE_COLUMNS.put("pobs_id", r -> "");
       ROLE_COLUMNS.put("def_cost_qty_link_flag", r -> Boolean.valueOf(r.getCalculateCostsFromUnits()));
       ROLE_COLUMNS.put("cost_qty_type", r -> "QT_Hour");
-      ROLE_COLUMNS.put("role_descr", r -> r.getNotesObject());
+      ROLE_COLUMNS.put("role_descr", Resource::getNotesObject);
       ROLE_COLUMNS.put("last_checksum", r -> "");
    }
 
@@ -1467,21 +1467,21 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<Resource>> RESOURCE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      RESOURCE_COLUMNS.put("rsrc_id", r -> r.getUniqueID());
-      RESOURCE_COLUMNS.put("parent_rsrc_id", r -> r.getParentResourceUniqueID());
-      RESOURCE_COLUMNS.put("clndr_id", r -> r.getCalendarUniqueID());
-      RESOURCE_COLUMNS.put("role_id", r -> r.getPrimaryRoleUniqueID());
-      RESOURCE_COLUMNS.put("shift_id", r -> r.getShiftUniqueID());
+      RESOURCE_COLUMNS.put("rsrc_id", Resource::getUniqueID);
+      RESOURCE_COLUMNS.put("parent_rsrc_id", Resource::getParentResourceUniqueID);
+      RESOURCE_COLUMNS.put("clndr_id", Resource::getCalendarUniqueID);
+      RESOURCE_COLUMNS.put("role_id", Resource::getPrimaryRoleUniqueID);
+      RESOURCE_COLUMNS.put("shift_id", Resource::getShiftUniqueID);
       RESOURCE_COLUMNS.put("user_id", r -> "");
       RESOURCE_COLUMNS.put("pobs_id", r -> "");
-      RESOURCE_COLUMNS.put("guid", r -> r.getGUID());
-      RESOURCE_COLUMNS.put("rsrc_seq_num", r -> getSequenceNumber(r));
-      RESOURCE_COLUMNS.put("email_addr", r -> r.getEmailAddress());
-      RESOURCE_COLUMNS.put("employee_code", r -> r.getCode());
+      RESOURCE_COLUMNS.put("guid", Resource::getGUID);
+      RESOURCE_COLUMNS.put("rsrc_seq_num", PrimaveraXERFileWriter::getSequenceNumber);
+      RESOURCE_COLUMNS.put("email_addr", Resource::getEmailAddress);
+      RESOURCE_COLUMNS.put("employee_code", Resource::getCode);
       RESOURCE_COLUMNS.put("office_phone", r -> "");
       RESOURCE_COLUMNS.put("other_phone", r -> "");
       RESOURCE_COLUMNS.put("rsrc_name", r -> StringHelper.stripControlCharacters(r.getName()));
-      RESOURCE_COLUMNS.put("rsrc_short_name", r -> WriterHelper.getResourceID(r));
+      RESOURCE_COLUMNS.put("rsrc_short_name", WriterHelper::getResourceID);
       RESOURCE_COLUMNS.put("rsrc_title_name", r -> "");
       RESOURCE_COLUMNS.put("def_qty_per_hr", r -> r.getDefaultUnits() == null || r.getDefaultUnits().doubleValue() == 0.0 ? null : Double.valueOf(r.getDefaultUnits().doubleValue() / 100.0));
       RESOURCE_COLUMNS.put("cost_qty_type", r -> "QT_Hour");
@@ -1491,10 +1491,10 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("def_cost_qty_link_flag", r -> Boolean.valueOf(r.getCalculateCostsFromUnits()));
       RESOURCE_COLUMNS.put("ot_flag", r -> Boolean.FALSE);
       RESOURCE_COLUMNS.put("curr_id", r -> r.getCurrencyUniqueID() == null ? DEFAULT_CURRENCY.getUniqueID() : r.getCurrencyUniqueID());
-      RESOURCE_COLUMNS.put("unit_id", r -> r.getUnitOfMeasureUniqueID());
-      RESOURCE_COLUMNS.put("rsrc_type", r -> r.getType());
-      RESOURCE_COLUMNS.put("location_id", r -> r.getLocationUniqueID());
-      RESOURCE_COLUMNS.put("rsrc_notes", r -> r.getNotesObject());
+      RESOURCE_COLUMNS.put("unit_id", Resource::getUnitOfMeasureUniqueID);
+      RESOURCE_COLUMNS.put("rsrc_type", Resource::getType);
+      RESOURCE_COLUMNS.put("location_id", Resource::getLocationUniqueID);
+      RESOURCE_COLUMNS.put("rsrc_notes", Resource::getNotesObject);
       RESOURCE_COLUMNS.put("load_tasks_flag", r -> "");
       RESOURCE_COLUMNS.put("level_flag", r -> "");
       RESOURCE_COLUMNS.put("last_checksum", r -> "");
@@ -1504,7 +1504,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       PROJECT_COLUMNS.put("proj_id", p -> getProjectID(p.getUniqueID()));
-      PROJECT_COLUMNS.put("fy_start_month_num", p -> p.getFiscalYearStartMonth());
+      PROJECT_COLUMNS.put("fy_start_month_num", ProjectProperties::getFiscalYearStartMonth);
       PROJECT_COLUMNS.put("rsrc_self_add_flag", p -> Boolean.TRUE);
       PROJECT_COLUMNS.put("allow_complete_flag", p -> Boolean.TRUE);
       PROJECT_COLUMNS.put("rsrc_multi_assign_flag", p -> Boolean.TRUE);
@@ -1513,43 +1513,43 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("step_complete_flag", p -> Boolean.TRUE);
       PROJECT_COLUMNS.put("cost_qty_recalc_flag", p -> Boolean.TRUE);
       PROJECT_COLUMNS.put("batch_sum_flag", p -> Boolean.TRUE);
-      PROJECT_COLUMNS.put("name_sep_char", p -> p.getWbsCodeSeparator());
+      PROJECT_COLUMNS.put("name_sep_char", ProjectProperties::getWbsCodeSeparator);
       PROJECT_COLUMNS.put("def_complete_pct_type", p -> PercentCompleteType.DURATION);
-      PROJECT_COLUMNS.put("proj_short_name", p -> getProjectShortName(p));
+      PROJECT_COLUMNS.put("proj_short_name", PrimaveraXERFileWriter::getProjectShortName);
       PROJECT_COLUMNS.put("acct_id", p -> "");
       PROJECT_COLUMNS.put("orig_proj_id", p -> "");
       PROJECT_COLUMNS.put("source_proj_id", p -> "");
       PROJECT_COLUMNS.put("base_type_id", p -> "");
-      PROJECT_COLUMNS.put("clndr_id", p -> p.getDefaultCalendarUniqueID());
-      PROJECT_COLUMNS.put("sum_base_proj_id", p -> p.getBaselineProjectUniqueID());
-      PROJECT_COLUMNS.put("task_code_base", p -> p.getActivityIdSuffix());
-      PROJECT_COLUMNS.put("task_code_step", p -> p.getActivityIdIncrement());
+      PROJECT_COLUMNS.put("clndr_id", ProjectProperties::getDefaultCalendarUniqueID);
+      PROJECT_COLUMNS.put("sum_base_proj_id", ProjectProperties::getBaselineProjectUniqueID);
+      PROJECT_COLUMNS.put("task_code_base", ProjectProperties::getActivityIdSuffix);
+      PROJECT_COLUMNS.put("task_code_step", ProjectProperties::getActivityIdIncrement);
       PROJECT_COLUMNS.put("priority_num", p -> Integer.valueOf(10));
       PROJECT_COLUMNS.put("wbs_max_sum_level", p -> Integer.valueOf(0));
       PROJECT_COLUMNS.put("strgy_priority_num", p -> Integer.valueOf(100));
       PROJECT_COLUMNS.put("last_checksum", p -> "");
       PROJECT_COLUMNS.put("critical_drtn_hr_cnt", p -> Double.valueOf(p.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, p).getDuration()));
       PROJECT_COLUMNS.put("def_cost_per_qty", p -> new CurrencyValue(Double.valueOf(100.0)));
-      PROJECT_COLUMNS.put("last_recalc_date", p -> p.getStatusDate());
-      PROJECT_COLUMNS.put("plan_start_date", p -> WriterHelper.getProjectPlannedStart(p));
-      PROJECT_COLUMNS.put("plan_end_date", p -> p.getMustFinishBy());
-      PROJECT_COLUMNS.put("scd_end_date", p -> p.getScheduledFinish());
-      PROJECT_COLUMNS.put("add_date", p -> p.getCreationDate());
+      PROJECT_COLUMNS.put("last_recalc_date", ProjectProperties::getStatusDate);
+      PROJECT_COLUMNS.put("plan_start_date", WriterHelper::getProjectPlannedStart);
+      PROJECT_COLUMNS.put("plan_end_date", ProjectProperties::getMustFinishBy);
+      PROJECT_COLUMNS.put("scd_end_date", ProjectProperties::getScheduledFinish);
+      PROJECT_COLUMNS.put("add_date", ProjectProperties::getCreationDate);
       PROJECT_COLUMNS.put("last_tasksum_date", p -> "");
       PROJECT_COLUMNS.put("fcst_start_date", p -> "");
-      PROJECT_COLUMNS.put("def_duration_type", p -> p.getDefaultTaskType());
-      PROJECT_COLUMNS.put("task_code_prefix", p -> p.getActivityIdPrefix());
-      PROJECT_COLUMNS.put("guid", p -> p.getGUID());
+      PROJECT_COLUMNS.put("def_duration_type", ProjectProperties::getDefaultTaskType);
+      PROJECT_COLUMNS.put("task_code_prefix", ProjectProperties::getActivityIdPrefix);
+      PROJECT_COLUMNS.put("guid", ProjectProperties::getGUID);
       PROJECT_COLUMNS.put("def_qty_type", p -> "QT_Hour");
       PROJECT_COLUMNS.put("add_by_name", p -> "admin");
       PROJECT_COLUMNS.put("web_local_root_path", p -> "");
-      PROJECT_COLUMNS.put("proj_url", p -> p.getProjectWebsiteUrl());
+      PROJECT_COLUMNS.put("proj_url", ProjectProperties::getProjectWebsiteUrl);
       PROJECT_COLUMNS.put("def_rate_type", p -> RateTypeHelper.getXerFromInstance(Integer.valueOf(0)));
       PROJECT_COLUMNS.put("add_act_remain_flag", p -> Boolean.FALSE);
       PROJECT_COLUMNS.put("act_this_per_link_flag", p -> Boolean.TRUE);
       PROJECT_COLUMNS.put("def_task_type", p -> ActivityTypeHelper.NEW_ACTIVITY_DEFAULT_TYPE);
       PROJECT_COLUMNS.put("act_pct_link_flag", p -> Boolean.FALSE);
-      PROJECT_COLUMNS.put("critical_path_type", p -> p.getCriticalActivityType());
+      PROJECT_COLUMNS.put("critical_path_type", ProjectProperties::getCriticalActivityType);
       PROJECT_COLUMNS.put("task_code_prefix_flag", p -> Boolean.valueOf(p.getActivityIdIncrementBasedOnSelectedActivity()));
       PROJECT_COLUMNS.put("def_rollup_dates_flag", p -> Boolean.TRUE);
       PROJECT_COLUMNS.put("use_project_baseline_flag", p -> Boolean.TRUE);
@@ -1562,7 +1562,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("last_baseline_update_date", p -> "");
       PROJECT_COLUMNS.put("cr_external_key", p -> "");
       PROJECT_COLUMNS.put("apply_actuals_date", p -> "");
-      PROJECT_COLUMNS.put("location_id", p -> p.getLocationUniqueID());
+      PROJECT_COLUMNS.put("location_id", ProjectProperties::getLocationUniqueID);
       PROJECT_COLUMNS.put("loaded_scope_level", p -> Integer.valueOf(7));
       PROJECT_COLUMNS.put("export_flag", p -> Boolean.valueOf(p.getExportFlag()));
       PROJECT_COLUMNS.put("new_fin_dates_id", p -> "");
@@ -1578,13 +1578,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<ProjectCalendar>> CALENDAR_COLUMNS = new LinkedHashMap<>();
    static
    {
-      CALENDAR_COLUMNS.put("clndr_id", c -> c.getUniqueID());
+      CALENDAR_COLUMNS.put("clndr_id", ProjectCalendar::getUniqueID);
       CALENDAR_COLUMNS.put("default_flag", c -> Boolean.valueOf(c.getParentFile().getProjectProperties().getDefaultCalendar() == c));
       CALENDAR_COLUMNS.put("clndr_name", c -> StringHelper.stripControlCharacters(c.getName()));
       CALENDAR_COLUMNS.put("proj_id", c -> c.getType() == CalendarType.PROJECT ? getProjectID(c.getParentFile().getProjectProperties().getUniqueID()) : null);
-      CALENDAR_COLUMNS.put("base_clndr_id", c -> c.getParentUniqueID());
+      CALENDAR_COLUMNS.put("base_clndr_id", ProjectCalendar::getParentUniqueID);
       CALENDAR_COLUMNS.put("last_chng_date", c -> null);
-      CALENDAR_COLUMNS.put("clndr_type", c -> c.getType());
+      CALENDAR_COLUMNS.put("clndr_type", ProjectCalendar::getType);
       CALENDAR_COLUMNS.put("day_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(c.getMinutesPerDay()) / 60));
       CALENDAR_COLUMNS.put("week_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(c.getMinutesPerWeek()) / 60));
       CALENDAR_COLUMNS.put("month_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(c.getMinutesPerMonth()) / 60));
@@ -1596,18 +1596,18 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<Task>> WBS_COLUMNS = new LinkedHashMap<>();
    static
    {
-      WBS_COLUMNS.put("wbs_id", t -> t.getUniqueID());
+      WBS_COLUMNS.put("wbs_id", Task::getUniqueID);
       WBS_COLUMNS.put("proj_id", t -> getProjectID(t.getParentFile().getProjectProperties().getUniqueID()));
       WBS_COLUMNS.put("obs_id", t -> "");
-      WBS_COLUMNS.put("seq_num", t -> getSequenceNumber(t));
+      WBS_COLUMNS.put("seq_num", PrimaveraXERFileWriter::getSequenceNumber);
       WBS_COLUMNS.put("est_wt", t -> Integer.valueOf(1));
       WBS_COLUMNS.put("proj_node_flag", t -> Boolean.valueOf(t.getParentTask() == null));
       WBS_COLUMNS.put("sum_data_flag", t -> Boolean.TRUE);
       WBS_COLUMNS.put("status_code", t -> "WS_Open");
-      WBS_COLUMNS.put("wbs_short_name", t -> TaskHelper.getWbsCode(t));
+      WBS_COLUMNS.put("wbs_short_name", TaskHelper::getWbsCode);
       WBS_COLUMNS.put("wbs_name", t -> StringHelper.stripControlCharacters(t.getName()));
       WBS_COLUMNS.put("phase_id", t -> "");
-      WBS_COLUMNS.put("parent_wbs_id", t -> t.getParentTaskUniqueID());
+      WBS_COLUMNS.put("parent_wbs_id", Task::getParentTaskUniqueID);
       WBS_COLUMNS.put("ev_user_pct", t -> Integer.valueOf(6));
       WBS_COLUMNS.put("ev_etc_user_value", t -> Double.valueOf(0.88));
       WBS_COLUMNS.put("orig_cost", t -> CurrencyValue.ZERO);
@@ -1619,87 +1619,87 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       WBS_COLUMNS.put("anticip_end_date", t -> "");
       WBS_COLUMNS.put("ev_compute_type", t -> "EC_Cmp_pct");
       WBS_COLUMNS.put("ev_etc_compute_type", t -> "EE_PF_cpi");
-      WBS_COLUMNS.put("guid", t -> t.getGUID());
-      WBS_COLUMNS.put("tmpl_guid", t -> t.getMethodologyGUID());
+      WBS_COLUMNS.put("guid", Task::getGUID);
+      WBS_COLUMNS.put("tmpl_guid", Task::getMethodologyGUID);
       WBS_COLUMNS.put("plan_open_state", t -> "");
    }
 
    private static final Map<String, ExportFunction<Task>> ACTIVITY_COLUMNS = new LinkedHashMap<>();
    static
    {
-      ACTIVITY_COLUMNS.put("task_id", t -> t.getUniqueID());
+      ACTIVITY_COLUMNS.put("task_id", Task::getUniqueID);
       ACTIVITY_COLUMNS.put("proj_id", t -> getProjectID(t.getParentFile().getProjectProperties().getUniqueID()));
-      ACTIVITY_COLUMNS.put("wbs_id", t -> t.getParentTaskUniqueID());
-      ACTIVITY_COLUMNS.put("clndr_id", t -> t.getCalendarUniqueID());
-      ACTIVITY_COLUMNS.put("phys_complete_pct", t -> t.getPhysicalPercentComplete());
+      ACTIVITY_COLUMNS.put("wbs_id", Task::getParentTaskUniqueID);
+      ACTIVITY_COLUMNS.put("clndr_id", Task::getCalendarUniqueID);
+      ACTIVITY_COLUMNS.put("phys_complete_pct", Task::getPhysicalPercentComplete);
       ACTIVITY_COLUMNS.put("rev_fdbk_flag", t -> Boolean.FALSE);
       ACTIVITY_COLUMNS.put("est_wt", t -> Integer.valueOf(1));
       ACTIVITY_COLUMNS.put("lock_plan_flag", t -> Boolean.FALSE);
       ACTIVITY_COLUMNS.put("auto_compute_act_flag", t -> Boolean.TRUE);
-      ACTIVITY_COLUMNS.put("complete_pct_type", t -> getPercentCompleteType(t));
-      ACTIVITY_COLUMNS.put("task_type", t -> getActivityType(t));
-      ACTIVITY_COLUMNS.put("duration_type", t -> t.getType());
-      ACTIVITY_COLUMNS.put("status_code", t -> ActivityStatusHelper.getActivityStatus(t));
-      ACTIVITY_COLUMNS.put("task_code", t -> WriterHelper.getActivityID(t));
+      ACTIVITY_COLUMNS.put("complete_pct_type", PrimaveraXERFileWriter::getPercentCompleteType);
+      ACTIVITY_COLUMNS.put("task_type", PrimaveraXERFileWriter::getActivityType);
+      ACTIVITY_COLUMNS.put("duration_type", Task::getType);
+      ACTIVITY_COLUMNS.put("status_code", ActivityStatusHelper::getActivityStatus);
+      ACTIVITY_COLUMNS.put("task_code", WriterHelper::getActivityID);
       ACTIVITY_COLUMNS.put("task_name", t -> StringHelper.stripControlCharacters(t.getName()));
-      ACTIVITY_COLUMNS.put("rsrc_id", t -> t.getPrimaryResourceUniqueID());
+      ACTIVITY_COLUMNS.put("rsrc_id", Task::getPrimaryResourceUniqueID);
       ACTIVITY_COLUMNS.put("total_float_hr_cnt", t -> t.getActivityStatus() == ActivityStatus.COMPLETED ? null : t.getTotalSlack());
       ACTIVITY_COLUMNS.put("free_float_hr_cnt", t -> t.getActivityStatus() == ActivityStatus.COMPLETED ? null : t.getFreeSlack());
-      ACTIVITY_COLUMNS.put("remain_drtn_hr_cnt", t -> t.getRemainingDuration());
-      ACTIVITY_COLUMNS.put("act_work_qty", t -> WorkHelper.getActualWorkLabor(t));
-      ACTIVITY_COLUMNS.put("remain_work_qty", t -> WorkHelper.getRemainingWorkLabor(t));
-      ACTIVITY_COLUMNS.put("target_work_qty", t -> WorkHelper.getPlannedWorkLabor(t));
-      ACTIVITY_COLUMNS.put("target_drtn_hr_cnt", t -> WriterHelper.getActivityPlannedDuration(t));
+      ACTIVITY_COLUMNS.put("remain_drtn_hr_cnt", Task::getRemainingDuration);
+      ACTIVITY_COLUMNS.put("act_work_qty", WorkHelper::getActualWorkLabor);
+      ACTIVITY_COLUMNS.put("remain_work_qty", WorkHelper::getRemainingWorkLabor);
+      ACTIVITY_COLUMNS.put("target_work_qty", WorkHelper::getPlannedWorkLabor);
+      ACTIVITY_COLUMNS.put("target_drtn_hr_cnt", WriterHelper::getActivityPlannedDuration);
       ACTIVITY_COLUMNS.put("target_equip_qty", t -> WorkHelper.zeroIfNull(t.getPlannedWorkNonlabor()));
       ACTIVITY_COLUMNS.put("act_equip_qty", t -> WorkHelper.zeroIfNull(t.getActualWorkNonlabor()));
       ACTIVITY_COLUMNS.put("remain_equip_qty", t -> WorkHelper.zeroIfNull(t.getRemainingWorkNonlabor()));
-      ACTIVITY_COLUMNS.put("cstr_date", t -> t.getConstraintDate());
-      ACTIVITY_COLUMNS.put("act_start_date", t -> t.getActualStart());
-      ACTIVITY_COLUMNS.put("act_end_date", t -> t.getActualFinish());
-      ACTIVITY_COLUMNS.put("late_start_date", t -> t.getLateStart());
-      ACTIVITY_COLUMNS.put("late_end_date", t -> t.getLateFinish());
-      ACTIVITY_COLUMNS.put("expect_end_date", t -> t.getExpectedFinish());
-      ACTIVITY_COLUMNS.put("early_start_date", t -> t.getEarlyStart());
-      ACTIVITY_COLUMNS.put("early_end_date", t -> t.getEarlyFinish());
-      ACTIVITY_COLUMNS.put("restart_date", t -> t.getRemainingEarlyStart());
-      ACTIVITY_COLUMNS.put("reend_date", t -> t.getRemainingEarlyFinish());
-      ACTIVITY_COLUMNS.put("target_start_date", t -> t.getPlannedStart());
-      ACTIVITY_COLUMNS.put("target_end_date", t -> t.getPlannedFinish());
-      ACTIVITY_COLUMNS.put("rem_late_start_date", t -> t.getRemainingLateStart());
-      ACTIVITY_COLUMNS.put("rem_late_end_date", t -> t.getRemainingLateFinish());
-      ACTIVITY_COLUMNS.put("cstr_type", t -> t.getConstraintType());
-      ACTIVITY_COLUMNS.put("priority_type", t -> t.getPriority());
-      ACTIVITY_COLUMNS.put("suspend_date", t -> t.getSuspendDate());
-      ACTIVITY_COLUMNS.put("resume_date", t -> t.getResume());
-      ACTIVITY_COLUMNS.put("float_path", t -> t.getFloatPath());
-      ACTIVITY_COLUMNS.put("float_path_order", t -> t.getFloatPathOrder());
-      ACTIVITY_COLUMNS.put("guid", t -> t.getGUID());
-      ACTIVITY_COLUMNS.put("tmpl_guid", t -> t.getMethodologyGUID());
-      ACTIVITY_COLUMNS.put("cstr_date2", t -> t.getSecondaryConstraintDate());
-      ACTIVITY_COLUMNS.put("cstr_type2", t -> t.getSecondaryConstraintType());
+      ACTIVITY_COLUMNS.put("cstr_date", Task::getConstraintDate);
+      ACTIVITY_COLUMNS.put("act_start_date", Task::getActualStart);
+      ACTIVITY_COLUMNS.put("act_end_date", Task::getActualFinish);
+      ACTIVITY_COLUMNS.put("late_start_date", Task::getLateStart);
+      ACTIVITY_COLUMNS.put("late_end_date", Task::getLateFinish);
+      ACTIVITY_COLUMNS.put("expect_end_date", Task::getExpectedFinish);
+      ACTIVITY_COLUMNS.put("early_start_date", Task::getEarlyStart);
+      ACTIVITY_COLUMNS.put("early_end_date", Task::getEarlyFinish);
+      ACTIVITY_COLUMNS.put("restart_date", Task::getRemainingEarlyStart);
+      ACTIVITY_COLUMNS.put("reend_date", Task::getRemainingEarlyFinish);
+      ACTIVITY_COLUMNS.put("target_start_date", Task::getPlannedStart);
+      ACTIVITY_COLUMNS.put("target_end_date", Task::getPlannedFinish);
+      ACTIVITY_COLUMNS.put("rem_late_start_date", Task::getRemainingLateStart);
+      ACTIVITY_COLUMNS.put("rem_late_end_date", Task::getRemainingLateFinish);
+      ACTIVITY_COLUMNS.put("cstr_type", Task::getConstraintType);
+      ACTIVITY_COLUMNS.put("priority_type", Task::getPriority);
+      ACTIVITY_COLUMNS.put("suspend_date", Task::getSuspendDate);
+      ACTIVITY_COLUMNS.put("resume_date", Task::getResume);
+      ACTIVITY_COLUMNS.put("float_path", Task::getFloatPath);
+      ACTIVITY_COLUMNS.put("float_path_order", Task::getFloatPathOrder);
+      ACTIVITY_COLUMNS.put("guid", Task::getGUID);
+      ACTIVITY_COLUMNS.put("tmpl_guid", Task::getMethodologyGUID);
+      ACTIVITY_COLUMNS.put("cstr_date2", Task::getSecondaryConstraintDate);
+      ACTIVITY_COLUMNS.put("cstr_type2", Task::getSecondaryConstraintType);
       ACTIVITY_COLUMNS.put("driving_path_flag", t -> Boolean.FALSE);
       ACTIVITY_COLUMNS.put("act_this_per_work_qty", t -> Integer.valueOf(0));
       ACTIVITY_COLUMNS.put("act_this_per_equip_qty", t -> Integer.valueOf(0));
-      ACTIVITY_COLUMNS.put("external_early_start_date", t -> t.getExternalEarlyStart());
-      ACTIVITY_COLUMNS.put("external_late_end_date", t -> t.getExternalLateFinish());
-      ACTIVITY_COLUMNS.put("create_date", t -> t.getCreateDate());
+      ACTIVITY_COLUMNS.put("external_early_start_date", Task::getExternalEarlyStart);
+      ACTIVITY_COLUMNS.put("external_late_end_date", Task::getExternalLateFinish);
+      ACTIVITY_COLUMNS.put("create_date", Task::getCreateDate);
       ACTIVITY_COLUMNS.put("update_date", t -> null);
       ACTIVITY_COLUMNS.put("create_user", t -> null);
       ACTIVITY_COLUMNS.put("update_user", t -> null);
-      ACTIVITY_COLUMNS.put("location_id", t -> t.getLocationUniqueID());
+      ACTIVITY_COLUMNS.put("location_id", Task::getLocationUniqueID);
    }
 
    private static final Map<String, ExportFunction<Relation>> PREDECESSOR_COLUMNS = new LinkedHashMap<>();
    static
    {
-      PREDECESSOR_COLUMNS.put("task_pred_id", r -> r.getUniqueID());
+      PREDECESSOR_COLUMNS.put("task_pred_id", Relation::getUniqueID);
       PREDECESSOR_COLUMNS.put("task_id", r -> r.getSuccessorTask().getUniqueID());
       PREDECESSOR_COLUMNS.put("pred_task_id", r -> r.getPredecessorTask().getUniqueID());
       PREDECESSOR_COLUMNS.put("proj_id", r -> getProjectID(r.getSuccessorTask().getParentFile().getProjectProperties().getUniqueID()));
       PREDECESSOR_COLUMNS.put("pred_proj_id", r -> getProjectID(r.getPredecessorTask().getParentFile().getProjectProperties().getUniqueID()));
-      PREDECESSOR_COLUMNS.put("pred_type", r -> r.getType());
-      PREDECESSOR_COLUMNS.put("lag_hr_cnt", r -> r.getLag());
-      PREDECESSOR_COLUMNS.put("comments", r -> r.getNotes());
+      PREDECESSOR_COLUMNS.put("pred_type", Relation::getType);
+      PREDECESSOR_COLUMNS.put("lag_hr_cnt", Relation::getLag);
+      PREDECESSOR_COLUMNS.put("comments", Relation::getNotes);
       PREDECESSOR_COLUMNS.put("float_path", r -> null);
       PREDECESSOR_COLUMNS.put("aref", r -> null);
       PREDECESSOR_COLUMNS.put("arls", r -> null);
@@ -1708,51 +1708,51 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<ResourceAssignment>> RESOURCE_ASSIGNMENT_COLUMNS = new LinkedHashMap<>();
    static
    {
-      RESOURCE_ASSIGNMENT_COLUMNS.put("taskrsrc_id", r -> r.getUniqueID());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("task_id", r -> r.getTaskUniqueID());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("taskrsrc_id", ResourceAssignment::getUniqueID);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("task_id", ResourceAssignment::getTaskUniqueID);
       RESOURCE_ASSIGNMENT_COLUMNS.put("proj_id", r -> getProjectID(r.getParentFile().getProjectProperties().getUniqueID()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("cost_qty_link_flag", r -> Boolean.valueOf(r.getCalculateCostsFromUnits()));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("role_id", r -> r.getRoleUniqueID());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("acct_id", r -> r.getCostAccountUniqueID());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_id", r -> r.getResourceUniqueID());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("role_id", ResourceAssignment::getRoleUniqueID);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("acct_id", ResourceAssignment::getCostAccountUniqueID);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_id", ResourceAssignment::getResourceUniqueID);
       RESOURCE_ASSIGNMENT_COLUMNS.put("pobs_id", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("skill_level", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty", r -> new XerUnitsHelper(r).getRemainingUnits());
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty", r -> new XerUnitsHelper(r).getPlannedUnits());
       RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty_per_hr", r -> new XerUnitsHelper(r).getRemainingUnitsPerTime());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_lag_drtn_hr_cnt", r -> r.getDelay());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_lag_drtn_hr_cnt", ResourceAssignment::getDelay);
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty_per_hr", r -> new XerUnitsHelper(r).getPlannedUnitsPerTime());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_qty", r -> r.getActualOvertimeWork());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_qty", r -> getActualRegularWork(r));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_qty", ResourceAssignment::getActualOvertimeWork);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_qty", PrimaveraXERFileWriter::getActualRegularWork);
       RESOURCE_ASSIGNMENT_COLUMNS.put("relag_drtn_hr_cnt", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("ot_factor", r -> null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty", r -> r.getOverrideRate());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty", ResourceAssignment::getOverrideRate);
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_cost", r -> CurrencyValue.getInstance(r.getPlannedCost()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_cost", r -> CurrencyValue.getInstance(getActualRegularCost(r)));
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_cost", r -> CurrencyValue.getInstance(r.getActualOvertimeCost()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("remain_cost", r -> CurrencyValue.getInstance(r.getRemainingCost()));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_start_date", r -> r.getActualStart());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_end_date", r -> r.getActualFinish());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("restart_date", r -> r.getRemainingEarlyStart());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("reend_date", r -> r.getRemainingEarlyFinish());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_start_date", r -> r.getPlannedStart());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_end_date", r -> r.getPlannedFinish());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_start_date", r -> r.getRemainingLateStart());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_end_date", r -> r.getRemainingLateFinish());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_start_date", ResourceAssignment::getActualStart);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_end_date", ResourceAssignment::getActualFinish);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("restart_date", ResourceAssignment::getRemainingEarlyStart);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("reend_date", ResourceAssignment::getRemainingEarlyFinish);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_start_date", ResourceAssignment::getPlannedStart);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_end_date", ResourceAssignment::getPlannedFinish);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_start_date", ResourceAssignment::getRemainingLateStart);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_end_date", ResourceAssignment::getRemainingLateFinish);
       RESOURCE_ASSIGNMENT_COLUMNS.put("rollup_dates_flag", r -> Boolean.TRUE);
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_crv", r -> TimephasedHelper.write(r.getTask().getEffectiveCalendar(), r.getTimephasedPlannedWork()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("remain_crv", r -> TimephasedHelper.write(r.getTask().getEffectiveCalendar(), r.getTimephasedWork()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("actual_crv", r -> TimephasedHelper.write(r.getTask().getEffectiveCalendar(), r.getTimephasedActualWork()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("ts_pend_act_end_flag", r -> Boolean.FALSE);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("guid", r -> r.getGUID());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("guid", ResourceAssignment::getGUID);
       RESOURCE_ASSIGNMENT_COLUMNS.put("rate_type", r -> RateTypeHelper.getXerFromInstance(r.getRateIndex()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_cost", r -> CurrencyValue.ZERO);
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_qty", r -> Integer.valueOf(0));
       RESOURCE_ASSIGNMENT_COLUMNS.put("curv_id", r -> CurveHelper.getCurveID(r.getWorkContour()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_type", r -> r.getResource() == null ? ResourceType.WORK : r.getResource().getType());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty_source_type", r -> r.getRateSource());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty_source_type", ResourceAssignment::getRateSource);
       RESOURCE_ASSIGNMENT_COLUMNS.put("create_user", r -> null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("create_date", r -> r.getCreateDate());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("create_date", ResourceAssignment::getCreateDate);
       RESOURCE_ASSIGNMENT_COLUMNS.put("has_rsrchours", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("taskrsrc_sum_id", r -> null);
    }
@@ -1760,70 +1760,70 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<CostAccount>> COST_ACCOUNT_COLUMNS = new LinkedHashMap<>();
    static
    {
-      COST_ACCOUNT_COLUMNS.put("acct_id", c -> c.getUniqueID());
-      COST_ACCOUNT_COLUMNS.put("parent_acct_id", c -> c.getParentUniqueID());
-      COST_ACCOUNT_COLUMNS.put("acct_seq_num", c -> c.getSequenceNumber());
-      COST_ACCOUNT_COLUMNS.put("acct_name", c -> c.getID());
+      COST_ACCOUNT_COLUMNS.put("acct_id", CostAccount::getUniqueID);
+      COST_ACCOUNT_COLUMNS.put("parent_acct_id", CostAccount::getParentUniqueID);
+      COST_ACCOUNT_COLUMNS.put("acct_seq_num", CostAccount::getSequenceNumber);
+      COST_ACCOUNT_COLUMNS.put("acct_name", CostAccount::getID);
       COST_ACCOUNT_COLUMNS.put("acct_short_name", c -> StringHelper.stripControlCharacters(c.getName()));
-      COST_ACCOUNT_COLUMNS.put("acct_descr", c -> c.getNotesObject());
+      COST_ACCOUNT_COLUMNS.put("acct_descr", CostAccount::getNotesObject);
    }
 
    private static final Map<String, ExportFunction<ExpenseCategory>> EXPENSE_CATEGORY_COLUMNS = new LinkedHashMap<>();
    static
    {
-      EXPENSE_CATEGORY_COLUMNS.put("cost_type_id", e -> e.getUniqueID());
-      EXPENSE_CATEGORY_COLUMNS.put("seq_num", e -> e.getSequenceNumber());
+      EXPENSE_CATEGORY_COLUMNS.put("cost_type_id", ExpenseCategory::getUniqueID);
+      EXPENSE_CATEGORY_COLUMNS.put("seq_num", ExpenseCategory::getSequenceNumber);
       EXPENSE_CATEGORY_COLUMNS.put("cost_type", e -> StringHelper.stripControlCharacters(e.getName()));
    }
 
    private static final Map<String, ExportFunction<Location>> LOCATION_COLUMNS = new LinkedHashMap<>();
    static
    {
-      LOCATION_COLUMNS.put("location_id", l -> l.getUniqueID());
+      LOCATION_COLUMNS.put("location_id", Location::getUniqueID);
       LOCATION_COLUMNS.put("location_name", l -> StringHelper.stripControlCharacters(l.getName()));
       LOCATION_COLUMNS.put("location_type", l -> locationIsCity(l) ? "City" : "LT_Point");
-      LOCATION_COLUMNS.put("address_line1", l -> l.getAddressLine1());
-      LOCATION_COLUMNS.put("address_line2", l -> l.getAddressLine2());
-      LOCATION_COLUMNS.put("address_line3", l -> l.getAddressLine3());
-      LOCATION_COLUMNS.put("city_name", l -> l.getCity());
-      LOCATION_COLUMNS.put("municipality_name", l -> l.getMunicipality());
-      LOCATION_COLUMNS.put("state_name", l -> l.getState());
-      LOCATION_COLUMNS.put("state_code", l -> l.getStateCode());
-      LOCATION_COLUMNS.put("country_name", l -> l.getCountry());
-      LOCATION_COLUMNS.put("country_code", l -> l.getCountryCode());
-      LOCATION_COLUMNS.put("postal_code", l -> l.getPostalCode());
-      LOCATION_COLUMNS.put("longitude", l -> l.getLongitude());
-      LOCATION_COLUMNS.put("latitude", l -> l.getLatitude());
+      LOCATION_COLUMNS.put("address_line1", Location::getAddressLine1);
+      LOCATION_COLUMNS.put("address_line2", Location::getAddressLine2);
+      LOCATION_COLUMNS.put("address_line3", Location::getAddressLine3);
+      LOCATION_COLUMNS.put("city_name", Location::getCity);
+      LOCATION_COLUMNS.put("municipality_name", Location::getMunicipality);
+      LOCATION_COLUMNS.put("state_name", Location::getState);
+      LOCATION_COLUMNS.put("state_code", Location::getStateCode);
+      LOCATION_COLUMNS.put("country_name", Location::getCountry);
+      LOCATION_COLUMNS.put("country_code", Location::getCountryCode);
+      LOCATION_COLUMNS.put("postal_code", Location::getPostalCode);
+      LOCATION_COLUMNS.put("longitude", Location::getLongitude);
+      LOCATION_COLUMNS.put("latitude", Location::getLatitude);
    }
 
    private static final Map<String, ExportFunction<ExpenseItem>> EXPENSE_ITEM_COLUMNS = new LinkedHashMap<>();
    static
    {
-      EXPENSE_ITEM_COLUMNS.put("cost_item_id", i -> i.getUniqueID());
-      EXPENSE_ITEM_COLUMNS.put("acct_id", i -> i.getAccountUniqueID());
+      EXPENSE_ITEM_COLUMNS.put("cost_item_id", ExpenseItem::getUniqueID);
+      EXPENSE_ITEM_COLUMNS.put("acct_id", ExpenseItem::getAccountUniqueID);
       EXPENSE_ITEM_COLUMNS.put("pobs_id", i -> null);
-      EXPENSE_ITEM_COLUMNS.put("cost_type_id", i -> i.getCategoryUniqueID());
+      EXPENSE_ITEM_COLUMNS.put("cost_type_id", ExpenseItem::getCategoryUniqueID);
       EXPENSE_ITEM_COLUMNS.put("proj_id", i -> getProjectID(i.getTask().getParentFile().getProjectProperties().getUniqueID()));
       EXPENSE_ITEM_COLUMNS.put("task_id", i -> i.getTask().getUniqueID());
       EXPENSE_ITEM_COLUMNS.put("cost_name", i -> StringHelper.stripControlCharacters(i.getName()));
-      EXPENSE_ITEM_COLUMNS.put("po_number", i -> i.getDocumentNumber());
-      EXPENSE_ITEM_COLUMNS.put("vendor_name", i -> i.getVendor());
+      EXPENSE_ITEM_COLUMNS.put("po_number", ExpenseItem::getDocumentNumber);
+      EXPENSE_ITEM_COLUMNS.put("vendor_name", ExpenseItem::getVendor);
       EXPENSE_ITEM_COLUMNS.put("act_cost", i -> CurrencyValue.getInstance(i.getActualCost()));
       EXPENSE_ITEM_COLUMNS.put("cost_per_qty", i -> CurrencyValue.getInstance(i.getPricePerUnit()));
       EXPENSE_ITEM_COLUMNS.put("remain_cost", i -> CurrencyValue.getInstance(i.getRemainingCost()));
       EXPENSE_ITEM_COLUMNS.put("target_cost", i -> CurrencyValue.getInstance(i.getPlannedCost()));
-      EXPENSE_ITEM_COLUMNS.put("cost_load_type", i -> i.getAccrueType());
+      EXPENSE_ITEM_COLUMNS.put("cost_load_type", ExpenseItem::getAccrueType);
       EXPENSE_ITEM_COLUMNS.put("auto_compute_act_flag", i -> Boolean.valueOf(i.getAutoComputeActuals()));
-      EXPENSE_ITEM_COLUMNS.put("target_qty", i -> i.getPlannedUnits());
-      EXPENSE_ITEM_COLUMNS.put("qty_name", i -> i.getUnitOfMeasure());
-      EXPENSE_ITEM_COLUMNS.put("cost_descr", i -> i.getDescription());
+      EXPENSE_ITEM_COLUMNS.put("target_qty", ExpenseItem::getPlannedUnits);
+      EXPENSE_ITEM_COLUMNS.put("qty_name", ExpenseItem::getUnitOfMeasure);
+      EXPENSE_ITEM_COLUMNS.put("cost_descr", ExpenseItem::getDescription);
       EXPENSE_ITEM_COLUMNS.put("contract_manager_import", i -> null);
    }
 
    private static final Map<String, ExportFunction<WorkContour>> RESOURCE_CURVE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      RESOURCE_CURVE_COLUMNS.put("curv_id", r -> r.getUniqueID());
+      RESOURCE_CURVE_COLUMNS.put("curv_id", WorkContour::getUniqueID);
       RESOURCE_CURVE_COLUMNS.put("curv_name", r -> StringHelper.stripControlCharacters(r.getName()));
       RESOURCE_CURVE_COLUMNS.put("default_flag", r -> Boolean.valueOf(r.isContourDefault()));
       RESOURCE_CURVE_COLUMNS.put("pct_usage_0", r -> Double.valueOf(r.getCurveValues()[0]));
@@ -1852,39 +1852,39 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<Step>> ACTIVITY_STEP_COLUMNS = new LinkedHashMap<>();
    static
    {
-      ACTIVITY_STEP_COLUMNS.put("proc_id", s -> s.getUniqueID());
+      ACTIVITY_STEP_COLUMNS.put("proc_id", Step::getUniqueID);
       ACTIVITY_STEP_COLUMNS.put("task_id", s -> s.getTask().getUniqueID());
       ACTIVITY_STEP_COLUMNS.put("proj_id", s -> getProjectID(s.getTask().getParentFile().getProjectProperties().getUniqueID()));
-      ACTIVITY_STEP_COLUMNS.put("seq_num", s -> s.getSequenceNumber());
+      ACTIVITY_STEP_COLUMNS.put("seq_num", Step::getSequenceNumber);
       ACTIVITY_STEP_COLUMNS.put("proc_name", s -> StringHelper.stripControlCharacters(s.getName()));
       ACTIVITY_STEP_COLUMNS.put("complete_flag", s -> Boolean.valueOf(s.getComplete()));
-      ACTIVITY_STEP_COLUMNS.put("proc_wt", s -> s.getWeight());
-      ACTIVITY_STEP_COLUMNS.put("complete_pct", s -> s.getPercentComplete());
-      ACTIVITY_STEP_COLUMNS.put("proc_descr", s -> s.getDescriptionObject());
+      ACTIVITY_STEP_COLUMNS.put("proc_wt", Step::getWeight);
+      ACTIVITY_STEP_COLUMNS.put("complete_pct", Step::getPercentComplete);
+      ACTIVITY_STEP_COLUMNS.put("proc_descr", Step::getDescriptionObject);
    }
 
    private static final Map<String, ExportFunction<ActivityCode>> ACTIVITY_CODE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      ACTIVITY_CODE_COLUMNS.put("actv_code_type_id", a -> a.getUniqueID());
-      ACTIVITY_CODE_COLUMNS.put("actv_short_len", a -> a.getMaxLength());
-      ACTIVITY_CODE_COLUMNS.put("seq_num", a -> a.getSequenceNumber());
+      ACTIVITY_CODE_COLUMNS.put("actv_code_type_id", ActivityCode::getUniqueID);
+      ACTIVITY_CODE_COLUMNS.put("actv_short_len", ActivityCode::getMaxLength);
+      ACTIVITY_CODE_COLUMNS.put("seq_num", ActivityCode::getSequenceNumber);
       ACTIVITY_CODE_COLUMNS.put("actv_code_type", a -> StringHelper.stripControlCharacters(a.getName()));
-      ACTIVITY_CODE_COLUMNS.put("proj_id", a -> a.getScopeProjectUniqueID());
-      ACTIVITY_CODE_COLUMNS.put("wbs_id", a -> a.getScopeEpsUniqueID());
-      ACTIVITY_CODE_COLUMNS.put("actv_code_type_scope", a -> a.getScope());
+      ACTIVITY_CODE_COLUMNS.put("proj_id", ActivityCode::getScopeProjectUniqueID);
+      ACTIVITY_CODE_COLUMNS.put("wbs_id", ActivityCode::getScopeEpsUniqueID);
+      ACTIVITY_CODE_COLUMNS.put("actv_code_type_scope", ActivityCode::getScope);
    }
 
    private static final Map<String, ExportFunction<ActivityCodeValue>> ACTIVITY_CODE_VALUE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_id", a -> a.getUniqueID());
-      ACTIVITY_CODE_VALUE_COLUMNS.put("parent_actv_code_id", a -> a.getParentValueUniqueID());
-      ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_type_id", a -> a.getParentCodeUniqueID());
+      ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_id", ActivityCodeValue::getUniqueID);
+      ACTIVITY_CODE_VALUE_COLUMNS.put("parent_actv_code_id", ActivityCodeValue::getParentValueUniqueID);
+      ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_type_id", ActivityCodeValue::getParentCodeUniqueID);
       ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_name", a -> StringHelper.stripControlCharacters(a.getDescription()));
       ACTIVITY_CODE_VALUE_COLUMNS.put("short_name", a -> StringHelper.stripControlCharacters(a.getName()));
-      ACTIVITY_CODE_VALUE_COLUMNS.put("seq_num", a -> a.getSequenceNumber());
-      ACTIVITY_CODE_VALUE_COLUMNS.put("color", a -> a.getColor());
+      ACTIVITY_CODE_VALUE_COLUMNS.put("seq_num", ActivityCodeValue::getSequenceNumber);
+      ACTIVITY_CODE_VALUE_COLUMNS.put("color", ActivityCodeValue::getColor);
       ACTIVITY_CODE_VALUE_COLUMNS.put("total_assignments", a -> null);
    }
 
@@ -1925,8 +1925,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<NotesTopic>> NOTE_TYPE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      NOTE_TYPE_COLUMNS.put("memo_type_id", n -> n.getUniqueID());
-      NOTE_TYPE_COLUMNS.put("seq_num", n -> n.getSequenceNumber());
+      NOTE_TYPE_COLUMNS.put("memo_type_id", NotesTopic::getUniqueID);
+      NOTE_TYPE_COLUMNS.put("seq_num", NotesTopic::getSequenceNumber);
       NOTE_TYPE_COLUMNS.put("eps_flag", n -> Boolean.valueOf(n.getAvailableForEPS()));
       NOTE_TYPE_COLUMNS.put("proj_flag", n -> Boolean.valueOf(n.getAvailableForProject()));
       NOTE_TYPE_COLUMNS.put("wbs_flag", n -> Boolean.valueOf(n.getAvailableForWBS()));
@@ -1968,42 +1968,42 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       SCHEDULE_OPTIONS_COLUMNS.put("sched_calendar_on_relationship_lag", o -> RelationshipLagCalendarHelper.getXerFromInstance(o.getRelationshipLagCalendar()));
       SCHEDULE_OPTIONS_COLUMNS.put("sched_use_expect_end_flag", o -> Boolean.valueOf(o.getUseExpectedFinishDates()));
       SCHEDULE_OPTIONS_COLUMNS.put("sched_progress_override", o -> Boolean.valueOf(o.getSchedulingProgressedActivities() == SchedulingProgressedActivities.PROGRESS_OVERRIDE));
-      SCHEDULE_OPTIONS_COLUMNS.put("level_float_thrs_cnt", o -> o.getPreserveMinimumFloatWhenLeveling());
+      SCHEDULE_OPTIONS_COLUMNS.put("level_float_thrs_cnt", ProjectProperties::getPreserveMinimumFloatWhenLeveling);
       SCHEDULE_OPTIONS_COLUMNS.put("level_outer_assign_flag", o -> Boolean.valueOf(o.getConsiderAssignmentsInOtherProjects()));
-      SCHEDULE_OPTIONS_COLUMNS.put("level_outer_assign_priority", o -> o.getConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan());
-      SCHEDULE_OPTIONS_COLUMNS.put("level_over_alloc_pct", o -> o.getMaxPercentToOverallocateResources());
+      SCHEDULE_OPTIONS_COLUMNS.put("level_outer_assign_priority", ProjectProperties::getConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan);
+      SCHEDULE_OPTIONS_COLUMNS.put("level_over_alloc_pct", ProjectProperties::getMaxPercentToOverallocateResources);
       SCHEDULE_OPTIONS_COLUMNS.put("level_within_float_flag", o -> Boolean.valueOf(o.getLevelResourcesOnlyWithinActivityTotalFloat()));
       SCHEDULE_OPTIONS_COLUMNS.put("level_keep_sched_date_flag", o -> Boolean.valueOf(o.getPreserveScheduledEarlyAndLateDates()));
       SCHEDULE_OPTIONS_COLUMNS.put("level_all_rsrc_flag", o -> Boolean.valueOf(o.getLevelAllResources()));
       SCHEDULE_OPTIONS_COLUMNS.put("sched_use_project_end_date_for_float", o -> Boolean.valueOf(o.getCalculateFloatBasedOnFinishDateOfEachProject()));
       SCHEDULE_OPTIONS_COLUMNS.put("enable_multiple_longest_path_calc", o -> Boolean.valueOf(o.getCalculateMultipleFloatPaths()));
       SCHEDULE_OPTIONS_COLUMNS.put("limit_multiple_longest_path_calc", o -> Boolean.valueOf(o.getLimitNumberOfFloatPathsToCalculate()));
-      SCHEDULE_OPTIONS_COLUMNS.put("max_multiple_longest_path", o -> o.getMaximumNumberOfFloatPathsToCalculate());
+      SCHEDULE_OPTIONS_COLUMNS.put("max_multiple_longest_path", ProjectProperties::getMaximumNumberOfFloatPathsToCalculate);
       SCHEDULE_OPTIONS_COLUMNS.put("use_total_float_multiple_longest_paths", o -> Boolean.valueOf(o.getCalculateMultipleFloatPathsUsingTotalFloat()));
-      SCHEDULE_OPTIONS_COLUMNS.put("key_activity_for_multiple_longest_paths", o -> o.getDisplayMultipleFloatPathsEndingWithActivityUniqueID());
+      SCHEDULE_OPTIONS_COLUMNS.put("key_activity_for_multiple_longest_paths", ProjectProperties::getDisplayMultipleFloatPathsEndingWithActivityUniqueID);
       SCHEDULE_OPTIONS_COLUMNS.put("LevelPriorityList", o -> "priority_type,ASC_BY_FIELD/ASC"); // TODO: translation required
    }
 
    private static final Map<String, ExportFunction<UnitOfMeasure>> UNIT_OF_MEASURE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      UNIT_OF_MEASURE_COLUMNS.put("unit_id", u -> u.getUniqueID());
-      UNIT_OF_MEASURE_COLUMNS.put("seq_num", u -> u.getSequenceNumber());
-      UNIT_OF_MEASURE_COLUMNS.put("unit_abbrev", u -> u.getAbbreviation());
+      UNIT_OF_MEASURE_COLUMNS.put("unit_id", UnitOfMeasure::getUniqueID);
+      UNIT_OF_MEASURE_COLUMNS.put("seq_num", UnitOfMeasure::getSequenceNumber);
+      UNIT_OF_MEASURE_COLUMNS.put("unit_abbrev", UnitOfMeasure::getAbbreviation);
       UNIT_OF_MEASURE_COLUMNS.put("unit_name", u -> StringHelper.stripControlCharacters(u.getName()));
    }
 
    private static final Map<String, ExportFunction<Shift>> SHIFT_COLUMNS = new LinkedHashMap<>();
    static
    {
-      SHIFT_COLUMNS.put("shift_id", s -> s.getUniqueID());
+      SHIFT_COLUMNS.put("shift_id", Shift::getUniqueID);
       SHIFT_COLUMNS.put("shift_name", s -> StringHelper.stripControlCharacters(s.getName()));
    }
 
    private static final Map<String, ExportFunction<ShiftPeriod>> SHIFT_PERIOD_COLUMNS = new LinkedHashMap<>();
    static
    {
-      SHIFT_PERIOD_COLUMNS.put("shift_period_id", s -> s.getUniqueID());
+      SHIFT_PERIOD_COLUMNS.put("shift_period_id", ShiftPeriod::getUniqueID);
       SHIFT_PERIOD_COLUMNS.put("shift_id", s -> s.getParentShift().getUniqueID());
       SHIFT_PERIOD_COLUMNS.put("shift_start_hr_num", s -> Integer.valueOf(s.getStart().getHour()));
    }
@@ -2025,21 +2025,21 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<ProjectCode>> PROJECT_CODE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      PROJECT_CODE_COLUMNS.put("proj_catg_type_id", c -> c.getUniqueID());
-      PROJECT_CODE_COLUMNS.put("seq_num", c -> c.getSequenceNumber());
-      PROJECT_CODE_COLUMNS.put("proj_catg_short_len", c -> c.getMaxLength());
-      PROJECT_CODE_COLUMNS.put("proj_catg_type", c -> c.getName());
+      PROJECT_CODE_COLUMNS.put("proj_catg_type_id", ProjectCode::getUniqueID);
+      PROJECT_CODE_COLUMNS.put("seq_num", ProjectCode::getSequenceNumber);
+      PROJECT_CODE_COLUMNS.put("proj_catg_short_len", ProjectCode::getMaxLength);
+      PROJECT_CODE_COLUMNS.put("proj_catg_type", ProjectCode::getName);
    }
 
    private static final Map<String, ExportFunction<ProjectCodeValue>> PROJECT_CODE_VALUE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      PROJECT_CODE_VALUE_COLUMNS.put("proj_catg_id", v -> v.getUniqueID());
-      PROJECT_CODE_VALUE_COLUMNS.put("proj_catg_type_id", v -> v.getParentCodeUniqueID());
-      PROJECT_CODE_VALUE_COLUMNS.put("seq_num", v -> v.getSequenceNumber());
-      PROJECT_CODE_VALUE_COLUMNS.put("proj_catg_short_name", v -> v.getName());
-      PROJECT_CODE_VALUE_COLUMNS.put("parent_proj_catg_id", v -> v.getParentValueUniqueID());
-      PROJECT_CODE_VALUE_COLUMNS.put("proj_catg_name", v -> v.getDescription());
+      PROJECT_CODE_VALUE_COLUMNS.put("proj_catg_id", ProjectCodeValue::getUniqueID);
+      PROJECT_CODE_VALUE_COLUMNS.put("proj_catg_type_id", ProjectCodeValue::getParentCodeUniqueID);
+      PROJECT_CODE_VALUE_COLUMNS.put("seq_num", ProjectCodeValue::getSequenceNumber);
+      PROJECT_CODE_VALUE_COLUMNS.put("proj_catg_short_name", ProjectCodeValue::getName);
+      PROJECT_CODE_VALUE_COLUMNS.put("parent_proj_catg_id", ProjectCodeValue::getParentValueUniqueID);
+      PROJECT_CODE_VALUE_COLUMNS.put("proj_catg_name", ProjectCodeValue::getDescription);
    }
 
    private static final Map<String, ExportFunction<Map<String, Object>>> PROJECT_CODE_ASSIGNMENT_COLUMNS = new LinkedHashMap<>();
@@ -2053,21 +2053,21 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<ResourceCode>> RESOURCE_CODE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      RESOURCE_CODE_COLUMNS.put("rsrc_catg_type_id", c -> c.getUniqueID());
-      RESOURCE_CODE_COLUMNS.put("seq_num", c -> c.getSequenceNumber());
-      RESOURCE_CODE_COLUMNS.put("rsrc_catg_short_len", c -> c.getMaxLength());
-      RESOURCE_CODE_COLUMNS.put("rsrc_catg_type", c -> c.getName());
+      RESOURCE_CODE_COLUMNS.put("rsrc_catg_type_id", ResourceCode::getUniqueID);
+      RESOURCE_CODE_COLUMNS.put("seq_num", ResourceCode::getSequenceNumber);
+      RESOURCE_CODE_COLUMNS.put("rsrc_catg_short_len", ResourceCode::getMaxLength);
+      RESOURCE_CODE_COLUMNS.put("rsrc_catg_type", ResourceCode::getName);
    }
 
    private static final Map<String, ExportFunction<ResourceCodeValue>> RESOURCE_CODE_VALUE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      RESOURCE_CODE_VALUE_COLUMNS.put("rsrc_catg_id", v -> v.getUniqueID());
-      RESOURCE_CODE_VALUE_COLUMNS.put("rsrc_catg_type_id", v -> v.getParentCodeUniqueID());
-      RESOURCE_CODE_VALUE_COLUMNS.put("seq_num", v -> v.getSequenceNumber());
-      RESOURCE_CODE_VALUE_COLUMNS.put("rsrc_catg_short_name", v -> v.getName());
-      RESOURCE_CODE_VALUE_COLUMNS.put("rsrc_catg_name", v -> v.getDescription());
-      RESOURCE_CODE_VALUE_COLUMNS.put("parent_rsrc_catg_id", v -> v.getParentValueUniqueID());
+      RESOURCE_CODE_VALUE_COLUMNS.put("rsrc_catg_id", ResourceCodeValue::getUniqueID);
+      RESOURCE_CODE_VALUE_COLUMNS.put("rsrc_catg_type_id", ResourceCodeValue::getParentCodeUniqueID);
+      RESOURCE_CODE_VALUE_COLUMNS.put("seq_num", ResourceCodeValue::getSequenceNumber);
+      RESOURCE_CODE_VALUE_COLUMNS.put("rsrc_catg_short_name", ResourceCodeValue::getName);
+      RESOURCE_CODE_VALUE_COLUMNS.put("rsrc_catg_name", ResourceCodeValue::getDescription);
+      RESOURCE_CODE_VALUE_COLUMNS.put("parent_rsrc_catg_id", ResourceCodeValue::getParentValueUniqueID);
    }
 
    private static final Map<String, ExportFunction<Map<String, Object>>> RESOURCE_CODE_ASSIGNMENT_COLUMNS = new LinkedHashMap<>();
@@ -2081,21 +2081,21 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<RoleCode>> ROLE_CODE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      ROLE_CODE_COLUMNS.put("role_catg_type_id", c -> c.getUniqueID());
-      ROLE_CODE_COLUMNS.put("seq_num", c -> c.getSequenceNumber());
-      ROLE_CODE_COLUMNS.put("role_catg_short_len", c -> c.getMaxLength());
-      ROLE_CODE_COLUMNS.put("role_catg_type", c -> c.getName());
+      ROLE_CODE_COLUMNS.put("role_catg_type_id", RoleCode::getUniqueID);
+      ROLE_CODE_COLUMNS.put("seq_num", RoleCode::getSequenceNumber);
+      ROLE_CODE_COLUMNS.put("role_catg_short_len", RoleCode::getMaxLength);
+      ROLE_CODE_COLUMNS.put("role_catg_type", RoleCode::getName);
    }
 
    private static final Map<String, ExportFunction<RoleCodeValue>> ROLE_CODE_VALUE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      ROLE_CODE_VALUE_COLUMNS.put("role_catg_id", v -> v.getUniqueID());
-      ROLE_CODE_VALUE_COLUMNS.put("role_catg_type_id", v -> v.getParentCodeUniqueID());
-      ROLE_CODE_VALUE_COLUMNS.put("seq_num", v -> v.getSequenceNumber());
-      ROLE_CODE_VALUE_COLUMNS.put("role_catg_short_name", v -> v.getName());
-      ROLE_CODE_VALUE_COLUMNS.put("role_catg_name", v -> v.getDescription());
-      ROLE_CODE_VALUE_COLUMNS.put("parent_role_catg_id", v -> v.getParentValueUniqueID());
+      ROLE_CODE_VALUE_COLUMNS.put("role_catg_id", RoleCodeValue::getUniqueID);
+      ROLE_CODE_VALUE_COLUMNS.put("role_catg_type_id", RoleCodeValue::getParentCodeUniqueID);
+      ROLE_CODE_VALUE_COLUMNS.put("seq_num", RoleCodeValue::getSequenceNumber);
+      ROLE_CODE_VALUE_COLUMNS.put("role_catg_short_name", RoleCodeValue::getName);
+      ROLE_CODE_VALUE_COLUMNS.put("role_catg_name", RoleCodeValue::getDescription);
+      ROLE_CODE_VALUE_COLUMNS.put("parent_role_catg_id", RoleCodeValue::getParentValueUniqueID);
    }
 
    private static final Map<String, ExportFunction<Map<String, Object>>> ROLE_CODE_ASSIGNMENT_COLUMNS = new LinkedHashMap<>();
@@ -2109,21 +2109,21 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<ResourceAssignmentCode>> RESOURCE_ASSIGNMENT_CODE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      RESOURCE_ASSIGNMENT_CODE_COLUMNS.put("asgnmnt_catg_type_id", c -> c.getUniqueID());
-      RESOURCE_ASSIGNMENT_CODE_COLUMNS.put("seq_num", c -> c.getSequenceNumber());
-      RESOURCE_ASSIGNMENT_CODE_COLUMNS.put("asgnmnt_catg_short_len", c -> c.getMaxLength());
-      RESOURCE_ASSIGNMENT_CODE_COLUMNS.put("asgnmnt_catg_type", c -> c.getName());
+      RESOURCE_ASSIGNMENT_CODE_COLUMNS.put("asgnmnt_catg_type_id", ResourceAssignmentCode::getUniqueID);
+      RESOURCE_ASSIGNMENT_CODE_COLUMNS.put("seq_num", ResourceAssignmentCode::getSequenceNumber);
+      RESOURCE_ASSIGNMENT_CODE_COLUMNS.put("asgnmnt_catg_short_len", ResourceAssignmentCode::getMaxLength);
+      RESOURCE_ASSIGNMENT_CODE_COLUMNS.put("asgnmnt_catg_type", ResourceAssignmentCode::getName);
    }
 
    private static final Map<String, ExportFunction<ResourceAssignmentCodeValue>> RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("asgnmnt_catg_id", v -> v.getUniqueID());
-      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("asgnmnt_catg_type_id", v -> v.getParentCodeUniqueID());
-      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("seq_num", v -> v.getSequenceNumber());
-      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("asgnmnt_catg_short_name", v -> v.getName());
-      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("asgnmnt_catg_name", v -> v.getDescription());
-      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("parent_asgnmnt_catg_id", v -> v.getParentValueUniqueID());
+      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("asgnmnt_catg_id", ResourceAssignmentCodeValue::getUniqueID);
+      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("asgnmnt_catg_type_id", ResourceAssignmentCodeValue::getParentCodeUniqueID);
+      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("seq_num", ResourceAssignmentCodeValue::getSequenceNumber);
+      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("asgnmnt_catg_short_name", ResourceAssignmentCodeValue::getName);
+      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("asgnmnt_catg_name", ResourceAssignmentCodeValue::getDescription);
+      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("parent_asgnmnt_catg_id", ResourceAssignmentCodeValue::getParentValueUniqueID);
    }
 
    private static final Map<String, ExportFunction<Map<String, Object>>> RESOURCE_ASSIGNMENT_CODE_ASSIGNMENT_COLUMNS = new LinkedHashMap<>();

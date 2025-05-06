@@ -321,20 +321,20 @@ public class MicrosoftSchedulerComparator
       List<Task> tasks = scheduler.getSortedTasks();
 
       // Sort so we can see errors at the bottom first, as these are rolled up.
-      List<Task> wbs = m_workingFile.getTasks().stream().filter(t -> t.getSummary()).collect(Collectors.toList());
+      List<Task> wbs = m_workingFile.getTasks().stream().filter(Task::getSummary).collect(Collectors.toList());
       Collections.reverse(wbs);
 
       if (m_forwardErrorCount != 0)
       {
-         tasks.forEach(t -> analyseForwardError(t));
-         wbs.forEach(t -> analyseForwardError(t));
+         tasks.forEach(this::analyseForwardError);
+         wbs.forEach(this::analyseForwardError);
       }
 
       if (m_backwardErrorCount != 0)
       {
          Collections.reverse(tasks);
-         tasks.forEach(t -> analyseBackwardError(t));
-         wbs.forEach(t -> analyseBackwardError(t));
+         tasks.forEach(this::analyseBackwardError);
+         wbs.forEach(this::analyseBackwardError);
       }
    }
 

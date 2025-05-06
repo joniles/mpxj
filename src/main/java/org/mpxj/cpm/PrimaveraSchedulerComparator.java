@@ -340,7 +340,7 @@ public class PrimaveraSchedulerComparator
       // Yes, it's hacky. The real solution is to understand the logic P6 is
       // applying when it chooses between end of day or start of next day.
       //result = working.getChildTasks().stream().map(t -> t.getEffectiveCalendar()).anyMatch(c -> c.getNextWorkStart(workingDate).isEqual(baselineDate) || c.getNextWorkStart(baselineDate).isEqual(workingDate));
-      result = allChildTasks(working).stream().map(t -> t.getEffectiveCalendar()).anyMatch(c -> c.getNextWorkStart(workingDate).isEqual(baselineDate) || c.getNextWorkStart(baselineDate).isEqual(workingDate));
+      result = allChildTasks(working).stream().map(Task::getEffectiveCalendar).anyMatch(c -> c.getNextWorkStart(workingDate).isEqual(baselineDate) || c.getNextWorkStart(baselineDate).isEqual(workingDate));
       return result;
    }
 
@@ -354,20 +354,20 @@ public class PrimaveraSchedulerComparator
       List<Task> activities = new DepthFirstGraphSort(m_workingFile, PrimaveraScheduler::isActivity).sort();
       List<Task> levelOfEffortActivities = new DepthFirstGraphSort(m_workingFile, PrimaveraScheduler::isLevelOfEffortActivity).sort();
       List<Task> wbsSummaryActivities = new DepthFirstGraphSort(m_workingFile, PrimaveraScheduler::isWbsSummary).sort();
-      List<Task> wbs = m_workingFile.getTasks().stream().filter(t -> t.getSummary()).collect(Collectors.toList());
+      List<Task> wbs = m_workingFile.getTasks().stream().filter(Task::getSummary).collect(Collectors.toList());
 
       // Sort so we can see errors at the bottom first, as these are rolled up.
       Collections.reverse(wbs);
 
       if (m_forwardErrorCount != 0)
       {
-         activities.forEach(t -> analyseForwardError(t));
-         levelOfEffortActivities.forEach(t -> analyseForwardError(t));
-         wbsSummaryActivities.forEach(t -> analyseForwardError(t));
+         activities.forEach(this::analyseForwardError);
+         levelOfEffortActivities.forEach(this::analyseForwardError);
+         wbsSummaryActivities.forEach(this::analyseForwardError);
 
          if (analyseWbs)
          {
-            wbs.forEach(t -> analyseForwardError(t));
+            wbs.forEach(this::analyseForwardError);
          }
       }
 
@@ -375,13 +375,13 @@ public class PrimaveraSchedulerComparator
       {
          Collections.reverse(activities);
          Collections.reverse(levelOfEffortActivities);
-         activities.forEach(t -> analyseBackwardError(t));
-         levelOfEffortActivities.forEach(t -> analyseBackwardError(t));
-         wbsSummaryActivities.forEach(t -> analyseBackwardError(t));
+         activities.forEach(this::analyseBackwardError);
+         levelOfEffortActivities.forEach(this::analyseBackwardError);
+         wbsSummaryActivities.forEach(this::analyseBackwardError);
 
          if (analyseWbs)
          {
-            wbs.forEach(t -> analyseBackwardError(t));
+            wbs.forEach(this::analyseBackwardError);
          }
       }
    }

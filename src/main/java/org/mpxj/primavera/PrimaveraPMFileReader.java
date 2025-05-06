@@ -81,6 +81,7 @@ import org.mpxj.common.InputStreamHelper;
 import org.mpxj.common.LocalDateHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.primavera.schema.ActivityStepType;
+import org.mpxj.primavera.schema.CostAccountType;
 import org.mpxj.primavera.schema.ProjectCodeType;
 import org.mpxj.primavera.schema.ProjectCodeTypeType;
 import org.mpxj.primavera.schema.ProjectListType;
@@ -896,7 +897,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          map.put(code.getUniqueID(), code);
       }
 
-      typeValues = HierarchyHelper.sortHierarchy(typeValues, v -> v.getObjectId(), v -> v.getParentObjectId());
+      typeValues = HierarchyHelper.sortHierarchy(typeValues, ActivityCodeType::getObjectId, ActivityCodeType::getParentObjectId);
       for (ActivityCodeType typeValue : typeValues)
       {
          ActivityCode code = map.get(typeValue.getCodeTypeObjectId());
@@ -939,7 +940,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          map.put(code.getUniqueID(), code);
       }
 
-      List<ProjectCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getProjectCode(), v -> v.getObjectId(), v -> v.getParentObjectId());
+      List<ProjectCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getProjectCode(), ProjectCodeType::getObjectId, ProjectCodeType::getParentObjectId);
       for (ProjectCodeType typeValue : typeValues)
       {
          ProjectCode code = map.get(typeValue.getCodeTypeObjectId());
@@ -981,7 +982,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          map.put(code.getUniqueID(), code);
       }
 
-      List<ResourceCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getResourceCode(), v -> v.getObjectId(), v -> v.getParentObjectId());
+      List<ResourceCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getResourceCode(), ResourceCodeType::getObjectId, ResourceCodeType::getParentObjectId);
       for (ResourceCodeType typeValue : typeValues)
       {
          ResourceCode code = map.get(typeValue.getCodeTypeObjectId());
@@ -1023,7 +1024,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          map.put(code.getUniqueID(), code);
       }
 
-      List<RoleCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getRoleCode(), v -> v.getObjectId(), v -> v.getParentObjectId());
+      List<RoleCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getRoleCode(), RoleCodeType::getObjectId, RoleCodeType::getParentObjectId);
       for (RoleCodeType typeValue : typeValues)
       {
          RoleCode code = map.get(typeValue.getCodeTypeObjectId());
@@ -1065,7 +1066,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          map.put(code.getUniqueID(), code);
       }
 
-      List<ResourceAssignmentCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getResourceAssignmentCode(), v -> v.getObjectId(), v -> v.getParentObjectId());
+      List<ResourceAssignmentCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getResourceAssignmentCode(), ResourceAssignmentCodeType::getObjectId, ResourceAssignmentCodeType::getParentObjectId);
       for (ResourceAssignmentCodeType typeValue : typeValues)
       {
          ResourceAssignmentCode code = map.get(typeValue.getCodeTypeObjectId());
@@ -1182,7 +1183,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private void processCostAccounts(APIBusinessObjects apibo)
    {
       CostAccountContainer container = m_projectFile.getCostAccounts();
-      HierarchyHelper.sortHierarchy(apibo.getCostAccount(), v -> v.getObjectId(), v -> v.getParentObjectId()).forEach(c -> container.add(
+      HierarchyHelper.sortHierarchy(apibo.getCostAccount(), CostAccountType::getObjectId, CostAccountType::getParentObjectId).forEach(c -> container.add(
          new CostAccount.Builder(m_projectFile)
             .uniqueID(c.getObjectId())
             .id(c.getId())

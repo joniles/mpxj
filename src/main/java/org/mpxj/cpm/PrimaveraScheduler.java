@@ -112,7 +112,7 @@ public class PrimaveraScheduler implements Scheduler
 
       levelOfEffortPass();
 
-      m_file.getChildTasks().forEach(t -> rollupDates(t));
+      m_file.getChildTasks().forEach(this::rollupDates);
 
       wbsSummaryPass();
    }
@@ -210,7 +210,7 @@ public class PrimaveraScheduler implements Scheduler
          }
          else
          {
-            earlyStart = predecessors.stream().map(r -> calculateEarlyStart(r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+            earlyStart = predecessors.stream().map(this::calculateEarlyStart).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
          }
 
          switch (task.getConstraintType())
@@ -323,7 +323,7 @@ public class PrimaveraScheduler implements Scheduler
             }
             else
             {
-               earlyStart = getNextWorkStart(task, predecessors.stream().map(r -> calculateEarlyStart(r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date")));
+               earlyStart = getNextWorkStart(task, predecessors.stream().map(this::calculateEarlyStart).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date")));
                earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
             }
          }
@@ -336,7 +336,7 @@ public class PrimaveraScheduler implements Scheduler
             }
             else
             {
-               earlyStart = predecessors.stream().map(r -> calculateEarlyStart(r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+               earlyStart = predecessors.stream().map(this::calculateEarlyStart).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
                earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
             }
          }
@@ -407,7 +407,7 @@ public class PrimaveraScheduler implements Scheduler
          }
          else
          {
-            lateFinish = successors.stream().map(r -> calculateLateFinish(r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+            lateFinish = successors.stream().map(this::calculateLateFinish).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
          }
 
          switch (task.getConstraintType())
@@ -511,7 +511,7 @@ public class PrimaveraScheduler implements Scheduler
          }
          else
          {
-            lateFinish = successors.stream().map(r -> calculateLateFinish(r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+            lateFinish = successors.stream().map(this::calculateLateFinish).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
          }
       }
 
@@ -2477,7 +2477,7 @@ public class PrimaveraScheduler implements Scheduler
       }
       else
       {
-         Relation relation = successors.stream().min(Comparator.comparing(r -> getAlapEarlyStart(r))).orElseThrow(() -> new CpmException("Missing early start date"));
+         Relation relation = successors.stream().min(Comparator.comparing(this::getAlapEarlyStart)).orElseThrow(() -> new CpmException("Missing early start date"));
          earlyStart = getAlapEarlyStart(relation);
          earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
       }
@@ -3424,7 +3424,7 @@ public class PrimaveraScheduler implements Scheduler
       }
       else
       {
-         remaining = getResourceAssignmentStream(task).map(r -> r.getRemainingWork()).max(Comparator.naturalOrder()).orElse(null);
+         remaining = getResourceAssignmentStream(task).map(ResourceAssignment::getRemainingWork).max(Comparator.naturalOrder()).orElse(null);
       }
 
       return remaining.getDuration() != 0.0;
@@ -3439,7 +3439,7 @@ public class PrimaveraScheduler implements Scheduler
       }
       else
       {
-         actual = getResourceAssignmentStream(task).map(r -> r.getActualWork()).max(Comparator.naturalOrder()).orElse(null);
+         actual = getResourceAssignmentStream(task).map(ResourceAssignment::getActualWork).max(Comparator.naturalOrder()).orElse(null);
       }
 
       return actual.getDuration() != 0.0;

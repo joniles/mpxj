@@ -817,7 +817,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
             else
             {
                UniversalProjectReader reader = new UniversalProjectReader();
-               m_cleanup.push(() -> reader.cleanup());
+               m_cleanup.push(reader::cleanup);
                reader.m_properties = m_properties;
                ProjectReaderProxy result = reader.getProjectReaderProxy(file);
                if (result != null)
@@ -909,7 +909,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    private ProjectReaderProxy handleByteOrderMark(InputStream stream, int length, Charset charset) throws Exception
    {
       UniversalProjectReader reader = new UniversalProjectReader();
-      m_cleanup.push(() -> reader.cleanup());
+      m_cleanup.push(reader::cleanup);
       reader.m_properties = m_properties;
       reader.m_skipBytes = length;
       reader.m_charset = charset;
