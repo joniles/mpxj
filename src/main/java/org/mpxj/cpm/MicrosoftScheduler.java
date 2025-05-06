@@ -79,7 +79,8 @@ public class MicrosoftScheduler implements Scheduler
       {
          createSummaryTaskRelationships();
 
-         tasks = new DepthFirstGraphSort(m_file, this::isTask) {
+         tasks = new DepthFirstGraphSort(m_file, this::isTask)
+         {
             @Override public List<Relation> getSuccessors(Task task)
             {
                List<Relation> successors = task.getSuccessors();
@@ -207,7 +208,6 @@ public class MicrosoftScheduler implements Scheduler
          return;
       }
 
-      ProjectCalendar calendar = task.getEffectiveCalendar();
       LocalDateTime earlyStart;
 
       LocalDateTime earlyFinish = null;
@@ -240,7 +240,7 @@ public class MicrosoftScheduler implements Scheduler
 
                default:
                {
-                  earlyStart = addLevelingDelay(task,  getNextWorkStart(task, m_projectStartDate));
+                  earlyStart = addLevelingDelay(task, getNextWorkStart(task, m_projectStartDate));
                   break;
                }
             }
@@ -324,8 +324,8 @@ public class MicrosoftScheduler implements Scheduler
                   if (earlyFinish.isBefore(task.getConstraintDate()))
                   {
                      earlyFinish = task.getConstraintDate();
-                     break;
                   }
+                  break;
                }
 
                default:
@@ -383,7 +383,6 @@ public class MicrosoftScheduler implements Scheduler
          successors.addAll(summaryTaskSuccessors);
       }
 
-      ProjectCalendar calendar = task.getEffectiveCalendar();
       LocalDateTime lateFinish;
 
       if (task.getActualFinish() == null)
@@ -435,6 +434,12 @@ public class MicrosoftScheduler implements Scheduler
                {
                   lateFinish = task.getConstraintDate();
                }
+               break;
+            }
+            
+            default:
+            {
+               break;
             }
          }
 
@@ -485,9 +490,6 @@ public class MicrosoftScheduler implements Scheduler
     */
    private LocalDateTime calculateEarlyStart(Relation relation)
    {
-      ProjectCalendar taskCalendar = relation.getSuccessorTask().getEffectiveCalendar();
-      Task predecessor = relation.getPredecessorTask();
-
       switch (relation.getType())
       {
          case FINISH_START:
@@ -526,7 +528,6 @@ public class MicrosoftScheduler implements Scheduler
    private LocalDateTime calculateEarlyStartForFinishStart(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
-      Task successorTask = relation.getSuccessorTask();
 
       if (predecessorTask.getActualStart() == null)
       {
@@ -564,7 +565,6 @@ public class MicrosoftScheduler implements Scheduler
    private LocalDateTime calculateEarlyStartForStartStart(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
-      Task successorTask = relation.getSuccessorTask();
 
       if (predecessorTask.getActualStart() == null)
       {
@@ -601,8 +601,6 @@ public class MicrosoftScheduler implements Scheduler
    private LocalDateTime calculateEarlyStartForStartFinish(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
-      Task successorTask = relation.getSuccessorTask();
-
       if (predecessorTask.getActualStart() == null)
       {
          // Predecessor not started
@@ -644,8 +642,7 @@ public class MicrosoftScheduler implements Scheduler
       // seem to be unaffected.
 
       Task predecessorTask = relation.getPredecessorTask();
-      Task successorTask = relation.getSuccessorTask();
-
+      
       if (predecessorTask.getActualStart() == null)
       {
          // Predecessor not started
@@ -952,7 +949,7 @@ public class MicrosoftScheduler implements Scheduler
          {
             throw new UnsupportedOperationException("Unsupported TimeUnit " + delay.getUnits());
          }
-         delay = Duration.getInstance(delay.getDuration() , newTimeUnit);
+         delay = Duration.getInstance(delay.getDuration(), newTimeUnit);
       }
 
       ProjectCalendar calendar = task.getEffectiveCalendar();
@@ -990,7 +987,7 @@ public class MicrosoftScheduler implements Scheduler
       if (lag.getUnits() == TimeUnit.PERCENT)
       {
          Duration predecessorDuration = relation.getPredecessorTask().getDuration();
-         lag = Duration.getInstance((predecessorDuration.getDuration() * lag.getDuration())/100.0, predecessorDuration.getUnits());
+         lag = Duration.getInstance((predecessorDuration.getDuration() * lag.getDuration()) / 100.0, predecessorDuration.getUnits());
       }
 
       ProjectCalendar calendar = relation.getSuccessorTask().getEffectiveCalendar();
@@ -1015,7 +1012,7 @@ public class MicrosoftScheduler implements Scheduler
       if (lag.getUnits() == TimeUnit.PERCENT)
       {
          Duration predecessorDuration = relation.getPredecessorTask().getDuration();
-         lag = Duration.getInstance((predecessorDuration.getDuration() * lag.getDuration())/100.0, predecessorDuration.getUnits());
+         lag = Duration.getInstance((predecessorDuration.getDuration() * lag.getDuration()) / 100.0, predecessorDuration.getUnits());
       }
 
       ProjectCalendar calendar = relation.getSuccessorTask().getEffectiveCalendar();

@@ -8,12 +8,13 @@
     <file-match-pattern match-pattern=".java$" include-pattern="true"/>
   </fileset>
   <filter name="FilesFromPackage" enabled="true">
-    <filter-data value="src/main/java/net/sf/mpxj/conceptdraw/schema"/>
-    <filter-data value="src/main/java/net/sf/mpxj/ganttdesigner/schema"/>
-    <filter-data value="src/main/java/net/sf/mpxj/ganttproject/schema"/>
-    <filter-data value="src/main/java/net/sf/mpxj/mspdi/schema"/>
-    <filter-data value="src/main/java/net/sf/mpxj/phoenix/schema"/>
-    <filter-data value="src/main/java/net/sf/mpxj/planner/schema"/>
-    <filter-data value="src/main/java/net/sf/mpxj/primavera/schema"/>
+    <filter-data value="src/main/java/org/mpxj/conceptdraw/schema"/>
+    <filter-data value="src/main/java/org/mpxj/edrawproject/schema"/>
+    <filter-data value="src/main/java/org/mpxj/ganttdesigner/schema"/>
+    <filter-data value="src/main/java/org/mpxj/ganttproject/schema"/>
+    <filter-data value="src/main/java/org/mpxj/mspdi/schema"/>
+    <filter-data value="src/main/java/org/mpxj/phoenix/schema"/>
+    <filter-data value="src/main/java/org/mpxj/planner/schema"/>
+    <filter-data value="src/main/java/org/mpxj/primavera/schema"/>
   </filter>
 </fileset-config>

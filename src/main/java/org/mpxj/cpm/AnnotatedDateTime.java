@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
  * to be associated with the date indicating if it is actual
  * or planned.
  */
-class AnnotatedDateTime
+final class AnnotatedDateTime
 {
    /**
     * Factory method for a planned value.

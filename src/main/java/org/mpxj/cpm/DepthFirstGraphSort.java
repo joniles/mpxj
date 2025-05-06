@@ -63,7 +63,7 @@ class DepthFirstGraphSort
       {
          for (Task task : m_file.getTasks())
          {
-            if (m_includeTask.apply(task))
+            if (m_includeTask.apply(task).booleanValue())
             {
                visit(task);
             }
@@ -115,7 +115,7 @@ class DepthFirstGraphSort
       for (Relation relation : getSuccessors(task))
       {
          Task successorTask = relation.getSuccessorTask();
-         if (m_includeTask.apply(successorTask))
+         if (m_includeTask.apply(successorTask).booleanValue())
          {
             visit(successorTask);
          }

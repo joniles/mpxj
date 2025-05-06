@@ -378,7 +378,6 @@ public class PrimaveraScheduler implements Scheduler
    private void backwardPass(Task task) throws CpmException
    {
       List<Relation> successors = m_file.getRelations().getSuccessors(task).stream().filter(r -> isActivity(r.getSuccessorTask())).collect(Collectors.toList());
-      ProjectCalendar calendar = task.getEffectiveCalendar();
       LocalDateTime lateFinish;
 
       if (task.getActualFinish() == null)
@@ -481,6 +480,11 @@ public class PrimaveraScheduler implements Scheduler
                   {
                      lateFinish = task.getSecondaryConstraintDate();
                   }
+                  break;
+               }
+               
+               default:
+               {
                   break;
                }
             }
@@ -2609,7 +2613,6 @@ public class PrimaveraScheduler implements Scheduler
    private LocalDateTime getAlapEarlyStart(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
-      ProjectCalendar calendar = predecessorTask.getEffectiveCalendar();
       Task successorTask = relation.getSuccessorTask();
 
       switch (relation.getType())
@@ -3210,7 +3213,6 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-
       AnnotatedDateTime lateStart;
       if (lateStartFromPredecessor == null && lateStartFromSuccessor == null)
       {
@@ -3229,7 +3231,6 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       AnnotatedDateTime start = earlyStart;
-      AnnotatedDateTime finish = earlyFinish;
 
       if (earlyStart.isBefore(m_dataDate))
       {
@@ -3282,7 +3283,7 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      if (earlyFinish.isActual()  || lateFinish.isActual())
+      if (earlyFinish.isActual() || lateFinish.isActual())
       {
          if (task.getCalendar().getWork(m_dataDate, task.getFinish(), TimeUnit.HOURS).getDuration() <= 0)
          {
@@ -3352,7 +3353,7 @@ public class PrimaveraScheduler implements Scheduler
       {
          return null;
       }
-      
+
       ProjectCalendar calendar = task.getEffectiveCalendar();
       LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(finish);
 
@@ -3422,9 +3423,9 @@ public class PrimaveraScheduler implements Scheduler
     */
    private List<Task> allWbsChildTasks(Task wbs, List<Task> childTasks)
    {
-     childTasks.addAll(wbs.getChildTasks().stream().filter(t -> !t.getSummary() && t.getActivityType() != ActivityType.WBS_SUMMARY && t.getActualFinish() == null).collect(Collectors.toList()));
-     wbs.getChildTasks().stream().filter(Task::getSummary).forEach(t -> allWbsChildTasks(t, childTasks));
-     return childTasks;
+      childTasks.addAll(wbs.getChildTasks().stream().filter(t -> !t.getSummary() && t.getActivityType() != ActivityType.WBS_SUMMARY && t.getActualFinish() == null).collect(Collectors.toList()));
+      wbs.getChildTasks().stream().filter(Task::getSummary).forEach(t -> allWbsChildTasks(t, childTasks));
+      return childTasks;
    }
 
    /**

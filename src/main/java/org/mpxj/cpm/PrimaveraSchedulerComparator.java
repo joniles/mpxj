@@ -215,7 +215,7 @@ public class PrimaveraSchedulerComparator
          scheduler.schedule(m_workingFile, start);
       }
 
-      catch(CpmException ex)
+      catch (CpmException ex)
       {
          if (m_debug)
          {
@@ -306,14 +306,14 @@ public class PrimaveraSchedulerComparator
     */
    private boolean compareDates(Task baseline, Task working, TaskField field)
    {
-      LocalDateTime baselineDate = (LocalDateTime)baseline.get(field);
+      LocalDateTime baselineDate = (LocalDateTime) baseline.get(field);
       if (baselineDate == null)
       {
          // We have XER files where some of the attributes we'd expect to be populated are not present. Skip these.
          return true;
       }
 
-      LocalDateTime workingDate = (LocalDateTime)working.get(field);
+      LocalDateTime workingDate = (LocalDateTime) working.get(field);
       if (workingDate == null)
       {
          return false;
@@ -399,7 +399,7 @@ public class PrimaveraSchedulerComparator
       boolean remainingEarlyStartFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
       boolean remainingEarlyFinishFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
 
-      System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
+      System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working);
       System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
       System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
       System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (startFail ? " FAIL" : ""));
@@ -424,7 +424,7 @@ public class PrimaveraSchedulerComparator
       boolean remainingLateStartFail = !compareDates(baseline, working, TaskField.REMAINING_LATE_START);
       boolean remainingLateFinishFail = !compareDates(baseline, working, TaskField.REMAINING_LATE_FINISH);
 
-      System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
+      System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working);
       System.out.println("Late Start: " + baseline.getLateStart() + " " + working.getLateStart() + (lateStartFail ? " FAIL" : ""));
       System.out.println("Late Finish: " + baseline.getLateFinish() + " " + working.getLateFinish() + (lateFinishFail ? " FAIL" : ""));
       System.out.println("Remaining Late Start: " + baseline.getRemainingLateStart() + " " + working.getRemainingLateStart() + (remainingLateStartFail ? " FAIL" : ""));

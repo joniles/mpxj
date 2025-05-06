@@ -250,7 +250,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       for (int loop = 1; loop < columnCount; loop++)
       {
          String name = meta.getColumnName(loop);
-         String typeName  = meta.getColumnTypeName(loop);
+         String typeName = meta.getColumnTypeName(loop);
          Integer type = "NTEXT".equals(typeName) ? Integer.valueOf(1) : Integer.valueOf(meta.getColumnType(loop));
          map.put(name, type);
       }

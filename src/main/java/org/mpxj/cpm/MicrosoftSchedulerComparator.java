@@ -158,7 +158,6 @@ public class MicrosoftSchedulerComparator
          }
       }
 
-
       if (m_debug)
       {
          System.out.println();
@@ -198,7 +197,7 @@ public class MicrosoftSchedulerComparator
          scheduler.schedule(m_workingFile, m_workingFile.getProjectProperties().getStartDate());
       }
 
-      catch(CpmException ex)
+      catch (CpmException ex)
       {
          if (m_debug)
          {
@@ -282,14 +281,14 @@ public class MicrosoftSchedulerComparator
     */
    private boolean compareDates(Task baseline, Task working, TaskField field)
    {
-      LocalDateTime baselineDate = (LocalDateTime)baseline.get(field);
+      LocalDateTime baselineDate = (LocalDateTime) baseline.get(field);
       if (baselineDate == null)
       {
          // We have XER files where some of the attributes we'd expect to be populated are not present. Skip these.
          return true;
       }
 
-      LocalDateTime workingDate = (LocalDateTime)working.get(field);
+      LocalDateTime workingDate = (LocalDateTime) working.get(field);
       if (workingDate == null)
       {
          return false;
@@ -348,7 +347,7 @@ public class MicrosoftSchedulerComparator
       boolean finishFail = !compareDates(baseline, working, TaskField.FINISH);
       //boolean criticalFail = baseline.getCritical() != working.getCritical();
 
-      System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
+      System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working);
       System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
       System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
       System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (startFail ? " FAIL" : ""));
@@ -368,7 +367,7 @@ public class MicrosoftSchedulerComparator
       boolean lateStartFail = !compareDates(baseline, working, TaskField.LATE_START);
       boolean lateFinishFail = !compareDates(baseline, working, TaskField.LATE_FINISH);
 
-      System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
+      System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working);
       System.out.println("Late Start: " + baseline.getLateStart() + " " + working.getLateStart() + (lateStartFail ? " FAIL" : ""));
       System.out.println("Late Finish: " + baseline.getLateFinish() + " " + working.getLateFinish() + (lateFinishFail ? " FAIL" : ""));
       System.out.println();

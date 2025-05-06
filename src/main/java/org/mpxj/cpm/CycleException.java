@@ -28,4 +28,5 @@ package org.mpxj.cpm;
  */
 public class CycleException extends CpmException
 {
+   // Empty body
 }

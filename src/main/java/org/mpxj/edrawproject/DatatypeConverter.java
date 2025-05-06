@@ -141,7 +141,7 @@ public class DatatypeConverter
          return null;
       }
 
-      return Double.parseDouble(value);
+      return Double.valueOf(value);
    }
 
    /**
