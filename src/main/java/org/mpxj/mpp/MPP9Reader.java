@@ -333,6 +333,7 @@ final class MPP9Reader implements MPPVariantReader
             //
             case 0x01:
             case 0x03:
+            case 0x05:
             case 0x08:
             case 0x0A:
             case 0x11:
@@ -386,24 +387,6 @@ final class MPP9Reader implements MPPVariantReader
                offset += 4;
 
                // unknown offset
-               offset += 4;
-
-               readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
-               break;
-            }
-
-            //
-            // resource, task unique ID, path, file name
-            //
-            case 0x05:
-            {
-               uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
-               offset += 4;
-
-               filePathOffset = MPPUtility.getShort(subProjData, offset);
-               offset += 4;
-
-               fileNameOffset = MPPUtility.getShort(subProjData, offset);
                offset += 4;
 
                readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
