@@ -176,7 +176,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
     */
    private void processDays(ProjectCalendar calendar, Document.Calendars.Calendar xml)
    {
-      if (xml.getWeekDays() == null || xml.getWeekDays().getWeekDay() == null || xml.getWeekDays().getWeekDay().isEmpty())
+      if (xml.getWeekDays() == null)
       {
          return;
       }
@@ -222,7 +222,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
     */
    private void processExceptions(ProjectCalendar calendar, Document.Calendars.Calendar xml)
    {
-      if (xml.getExceptions() == null || xml.getExceptions().getException() == null || xml.getExceptions().getException().isEmpty())
+      if (xml.getExceptions() == null)
       {
          return;
       }

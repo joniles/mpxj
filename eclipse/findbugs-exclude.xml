@@ -195,6 +195,13 @@
 		<Method name="writeNativeWbsNote" />
 	</Match>
 
+	<!-- We're happy with this cast -->
+	<Match>
+		<Bug pattern="BC_UNCONFIRMED_CAST" />
+		<Class name="~.*\.PrimaveraPMProjectWriter" />
+		<Method name="writeWbsNote" />
+	</Match>
+
 	<Match>
 		<Bug pattern="DMI_HARDCODED_ABSOLUTE_FILENAME" />
 		<Class name="~.*\.OperatingSystem" />
@@ -215,5 +222,25 @@
 	<Match>
 		<Bug pattern="CT_CONSTRUCTOR_THROW" />
 	</Match>
+
+	<Match>
+		<Bug pattern="NP_BOOLEAN_RETURN_NULL" />
+		<Class name="~.*\.MapRow" />
+		<Method name="getBooleanObject" />
+	</Match>
+
+	<!-- Currently the notes toString implementation can return null -->
+	<Match>
+		<Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" />
+		<Class name="~.*\.Notes" />
+		<Method name="isEmpty" />
+	</Match>
+
+	<Match>
+		<Bug pattern="NP_TOSTRING_COULD_RETURN_NULL" />
+		<Class name="~.*\.StructuredNotes" />
+		<Method name="toString" />
+	</Match>
+
 
 </FindBugsFilter>
