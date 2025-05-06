@@ -41,6 +41,7 @@ import java.util.regex.Pattern;
 
 import org.mpxj.HasCharset;
 import org.mpxj.common.ConnectionHelper;
+import org.mpxj.edrawproject.EdrawProjectReader;
 import org.mpxj.openplan.OpenPlanReader;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
@@ -518,6 +519,11 @@ public final class UniversalProjectReader extends AbstractProjectReader
          if (matchesFingerprint(buffer, PROJECT_COMMANDER_FINGERPRINT_1) || matchesFingerprint(buffer, PROJECT_COMMANDER_FINGERPRINT_2))
          {
             return new StreamReaderProxy(configure(new ProjectCommanderReader()), bis);
+         }
+
+         if (matchesFingerprint(buffer, EDRAW_PROJECT_FINGERPRINT))
+         {
+            return new StreamReaderProxy(configure(new EdrawProjectReader()), bis);
          }
 
          return null;
@@ -1254,4 +1260,6 @@ public final class UniversalProjectReader extends AbstractProjectReader
    private static final Pattern CONCEPT_DRAW_FINGERPRINT = Pattern.compile(".*Application=\"CDProject\".*", Pattern.DOTALL);
 
    private static final Pattern GANTT_DESIGNER_FINGERPRINT = Pattern.compile(".*<Gantt Version=.*", Pattern.DOTALL);
+
+   private static final Pattern EDRAW_PROJECT_FINGERPRINT = Pattern.compile(".*<Document.*DocGuid=.*", Pattern.DOTALL);
 }

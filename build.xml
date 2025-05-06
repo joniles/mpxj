@@ -195,6 +195,9 @@
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b gantt-designer-binding.xjb -p org.mpxj.ganttdesigner.schema gantt-designer.xsd" />
 		</exec>
+		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b edraw-project-binding.xjb -p org.mpxj.edrawproject.schema edraw-project.xsd" />
+		</exec>
 
 		<!-- Remove schemas not included with MPXJ -->
 		<delete file="${basedir}/jaxb/document-corrected.xsd"/>

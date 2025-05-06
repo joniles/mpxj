@@ -43,6 +43,7 @@ nav:
     - 'Asta files': 'howto-read-asta.md'
     - 'ConceptDraw PROJECT files': 'howto-read-conceptdraw.md'
     - 'Deltek Open Plan BK3 files': 'howto-read-openplan.md'
+    - 'Edraw Project EDPX files': 'howto-read-edraw.md'
     - 'FastTrack files': 'howto-read-fasttrack.md'
     - 'Gantt Designer files': 'howto-read-ganttdesigner.md'
     - 'GanttProject files': 'howto-read-ganttproject.md'

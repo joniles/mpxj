@@ -1,9 +1,9 @@
-# How To: Read Deltek Open Plan BK3 files
-Deltek Open Plan is a planning tool for Windows which can store schedule
-data in a variety of databases, and export schedules to BK3 files.
+# How To: Read Edraw Project EDPX files
+Edraw Project is an easy to use tool which allows users to rapidly create and
+maintain professional looking project plans.
 
-## Reading Open Plan files
-The simplest way to read an Open Plan file is to use the
+## Reading Edraw Project files
+The simplest way to read an Edraw Project file is to use the
 `UniversalProjectReader`:
 
 === "Java"
@@ -18,7 +18,7 @@ The simplest way to read an Open Plan file is to use the
 		public void read() throws Exception
 		{
 			UniversalProjectReader reader = new UniversalProjectReader();
-			ProjectFile project = reader.read("my-sample.bk3");
+			ProjectFile project = reader.read("my-sample.edpx");
 		}
 	}
 	```
@@ -34,12 +34,12 @@ The simplest way to read an Open Plan file is to use the
 	 	public void Read()
 	 	{
 		  	var reader = new UniversalProjectReader();
-		  	var project = reader.Read("my-sample.bk3");
+		  	var project = reader.Read("my-sample.edpx");
 	 	}
 	}
 	```
 
-You can work directly with the `OpenPlanReader` by replacing
-`UniversalProjectReader` with `OpenPlanReader`, although this offers no
+You can work directly with the `EdrawProjectReader` by replacing
+`UniversalProjectReader` with `EdrawProjectReader`, although this offers no
 particular advantage as there are no additional configuration settings available
-on the `OpenPlanReader` class.
+on the `EdrawProjectReader` class.
