@@ -170,7 +170,7 @@
 		<copy file="${env.MPXJ_SCHEMA_DIR}/conceptdraw/document-corrected.xsd" toDir="${basedir}/jaxb"/>
 		<copy file="${env.MPXJ_SCHEMA_DIR}/mspdi/mspdi_pj15-corrected.xsd" toDir="${basedir}/jaxb"/>
 		<copy file="${env.MPXJ_SCHEMA_DIR}/pmxml/p6v2412-p6apibo-corrected.xsd" toDir="${basedir}/jaxb"/>
-<!--
+
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b pm-binding.xjb -p org.mpxj.primavera.schema p6v2412-p6apibo-corrected.xsd" />
 		</exec>
@@ -195,7 +195,6 @@
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b gantt-designer-binding.xjb -p org.mpxj.ganttdesigner.schema gantt-designer.xsd" />
 		</exec>
--->
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b edraw-project-binding.xjb -p org.mpxj.edrawproject.schema edraw-project.xsd" />
 		</exec>
