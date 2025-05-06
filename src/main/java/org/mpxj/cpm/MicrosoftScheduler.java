@@ -307,7 +307,7 @@ public class MicrosoftScheduler implements Scheduler
                   earlyStart = getDateFromFinishAndDuration(task, earlyFinish);
                   break;
                }
-               
+
                default:
                {
                   break;
@@ -550,7 +550,7 @@ public class MicrosoftScheduler implements Scheduler
          LocalDateTime finish = isAlap(relation) ? predecessorTask.getLateFinish() : predecessorTask.getEarlyFinish();
          return addLag(relation, finish);
       }
-      
+
       // Predecessor not finished
       // Successor not started
       LocalDateTime finish = isAlap(relation) ? predecessorTask.getLateFinish() : predecessorTask.getEarlyFinish();
@@ -582,7 +582,7 @@ public class MicrosoftScheduler implements Scheduler
          // Successor not started
          return addLag(relation, predecessorTask.getActualStart());
       }
-      
+
       // Predecessor not finished
       // Successor not started
       LocalDateTime start = isAlap(relation) ? predecessorTask.getLateStart() : predecessorTask.getEarlyStart();
@@ -803,12 +803,12 @@ public class MicrosoftScheduler implements Scheduler
             // Successor not started
             return removeLag(relation, relation.getSuccessorTask().getLateFinish());
          }
-         
+
          // Successor started
          // Successor not finished
          return removeLag(relation, relation.getSuccessorTask().getLateFinish());
       }
-      
+
       // Predecessor Started
       // Predecessor not finished
       if (successorTask.getActualStart() == null)
@@ -816,7 +816,7 @@ public class MicrosoftScheduler implements Scheduler
          // Successor not started
          return removeLag(relation, relation.getSuccessorTask().getLateFinish());
       }
-      
+
       // Successor started
       // Successor not finished
       return removeLag(relation, relation.getSuccessorTask().getLateFinish());
@@ -841,7 +841,7 @@ public class MicrosoftScheduler implements Scheduler
             // Successor not started
             return removeLag(relation, m_calculatedLateStart.getOrDefault(successorTask, successorTask.getLateStart()));
          }
-         
+
          // successor started
          // successor not finished
          return removeLag(relation, m_calculatedLateStart.getOrDefault(successorTask, successorTask.getLateStart()));
@@ -879,12 +879,12 @@ public class MicrosoftScheduler implements Scheduler
             // Successor not started
             return removeLag(relation, getDateFromStartAndDuration(predecessorTask, successorTask.getLateFinish()));
          }
-         
+
          // successor started
          // successor not finished
          return removeLag(relation, getDateFromStartAndDuration(predecessorTask, successorTask.getLateFinish()));
       }
-      
+
       // Predecessor Started
       // Predecessor not finished
       if (successorTask.getActualStart() == null)
@@ -892,7 +892,7 @@ public class MicrosoftScheduler implements Scheduler
          // Successor not started
          return removeLag(relation, getDateFromStartAndDuration(predecessorTask, successorTask.getLateFinish()));
       }
-      
+
       // successor started
       // successor not finished
       return removeLag(relation, getDateFromStartAndDuration(predecessorTask, successorTask.getLateFinish()));

@@ -19,6 +19,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
 package org.mpxj;
 
 import java.util.Map;
@@ -110,15 +111,15 @@ public abstract class AbstractBaselineStrategy implements BaselineStrategy
       {
          --index;
          fields = new TaskField[]
-            {
-               TaskFieldLists.BASELINE_COSTS[index],
-               TaskFieldLists.BASELINE_DURATIONS[index],
-               TaskFieldLists.BASELINE_FINISHES[index],
-               TaskFieldLists.BASELINE_FIXED_COST_ACCRUALS[index],
-               TaskFieldLists.BASELINE_FIXED_COSTS[index],
-               TaskFieldLists.BASELINE_STARTS[index],
-               TaskFieldLists.BASELINE_WORKS[index]
-            };
+         {
+            TaskFieldLists.BASELINE_COSTS[index],
+            TaskFieldLists.BASELINE_DURATIONS[index],
+            TaskFieldLists.BASELINE_FINISHES[index],
+            TaskFieldLists.BASELINE_FIXED_COST_ACCRUALS[index],
+            TaskFieldLists.BASELINE_FIXED_COSTS[index],
+            TaskFieldLists.BASELINE_STARTS[index],
+            TaskFieldLists.BASELINE_WORKS[index]
+         };
       }
       return fields;
    }
@@ -135,24 +136,24 @@ public abstract class AbstractBaselineStrategy implements BaselineStrategy
    }
 
    private static final TaskField[] SOURCE_FIELDS =
-      {
-         TaskField.COST,
-         TaskField.DURATION,
-         TaskField.FINISH,
-         TaskField.FIXED_COST_ACCRUAL,
-         TaskField.FIXED_COST,
-         TaskField.START,
-         TaskField.WORK
-      };
+   {
+      TaskField.COST,
+      TaskField.DURATION,
+      TaskField.FINISH,
+      TaskField.FIXED_COST_ACCRUAL,
+      TaskField.FIXED_COST,
+      TaskField.START,
+      TaskField.WORK
+   };
 
    private static final TaskField[] BASELINE0_FIELDS =
-      {
-         TaskField.BASELINE_COST,
-         TaskField.BASELINE_DURATION,
-         TaskField.BASELINE_FINISH,
-         TaskField.BASELINE_FIXED_COST_ACCRUAL,
-         TaskField.BASELINE_FIXED_COST,
-         TaskField.BASELINE_START,
-         TaskField.BASELINE_WORK
-      };
+   {
+      TaskField.BASELINE_COST,
+      TaskField.BASELINE_DURATION,
+      TaskField.BASELINE_FINISH,
+      TaskField.BASELINE_FIXED_COST_ACCRUAL,
+      TaskField.BASELINE_FIXED_COST,
+      TaskField.BASELINE_START,
+      TaskField.BASELINE_WORK
+   };
 }

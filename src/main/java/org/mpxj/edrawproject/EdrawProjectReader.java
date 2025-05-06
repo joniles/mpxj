@@ -495,7 +495,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
          case 7: // Workday
          case 10: // Day
          {
-            
+
             durationValue /= (60.0 * NumberHelper.getInt(m_projectFile.getProjectProperties().getMinutesPerDay()));
             durationUnits = TimeUnit.DAYS;
             break;

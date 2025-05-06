@@ -135,7 +135,7 @@ public class PrimaveraSchedulerComparator
       {
          throw new IllegalArgumentException();
       }
-      
+
       m_directory = true;
       int failed = 0;
       int skipped = 0;

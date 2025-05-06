@@ -98,7 +98,7 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
          return EMPTY_EXCEPTIONS;
       }
 
-         //System.out.println(ByteArrayHelper.hexdump(barData, false, 71, ""));
+      //System.out.println(ByteArrayHelper.hexdump(barData, false, 71, ""));
       GanttBarStyleException[] barStyle = new GanttBarStyleException[barData.length / 71];
       int offset = 0;
       for (int loop = 0; loop < barStyle.length; loop++)
