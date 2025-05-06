@@ -115,6 +115,9 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
    private void processCalendars(Document document)
    {
       document.getCalendars().getCalendar().forEach(this::processCalendar);
+
+      ProjectCalendar defaultCalendar = m_projectFile.getCalendarByUniqueID(document.getCalendarUID().getV());
+      m_projectFile.setDefaultCalendar(defaultCalendar);
    }
 
    private void processCalendar(Document.Calendars.Calendar xml)
@@ -122,8 +125,19 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       ProjectCalendar calendar = m_projectFile.addCalendar();
       calendar.setUniqueID(xml.getUID());
       calendar.setName(xml.getName());
+      processDays(calendar, xml);
+      processExceptions(calendar, xml);
+      m_eventManager.fireCalendarReadEvent(calendar);
+   }
 
-      for(Document.Calendars.Calendar.WeekDays.WeekDay xmlDay : xml.getWeekDays().getWeekDay())
+   private void processDays(ProjectCalendar calendar, Document.Calendars.Calendar xml)
+   {
+      if (xml.getWeekDays() == null || xml.getWeekDays().getWeekDay() == null || xml.getWeekDays().getWeekDay().isEmpty())
+      {
+         return;
+      }
+
+      for (Document.Calendars.Calendar.WeekDays.WeekDay xmlDay : xml.getWeekDays().getWeekDay())
       {
          // Exceptions are represent both as days with a day type of zero,
          // and with their own data in the calendar. We'll ignore day types
@@ -146,8 +160,11 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
             }
          }
       }
+   }
 
-      if (xml.getExceptions() == null)
+   private void processExceptions(ProjectCalendar calendar, Document.Calendars.Calendar xml)
+   {
+      if (xml.getExceptions() == null || xml.getExceptions().getException() == null || xml.getExceptions().getException().isEmpty())
       {
          return;
       }
@@ -205,6 +222,8 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       CostRateTable table = new CostRateTable();
       table.add(entry);
       resource.setCostRateTable(0, table);
+
+      m_eventManager.fireResourceReadEvent(resource);
    }
 
    private void processTasks(Document document)
@@ -216,6 +235,8 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
    private void processTask(Document.TaskList.Task xml)
    {
       ChildTaskContainer parent = m_projectFile.getTaskByUniqueID(xml.getParentID());
+      double percentComplete = NumberHelper.getDouble(xml.getPercent()) * 100.0;
+
       Task task = (parent == null ? m_projectFile : parent).addTask();
       task.setMilestone(xml.isMilestone());
       task.setCritical(xml.isCriticalPath());
@@ -237,9 +258,16 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       task.setFinish(xml.getDateFinish());
       task.setWBS(xml.getWbs());
       task.setNotes(xml.getNotes());
-      task.setPercentageComplete(NumberHelper.getDouble(xml.getPercent()) * 100.0);
+      task.setPercentageComplete(percentComplete);
       task.setRemainingCost(xml.getRemainingCost());
       task.setTaskMode(BooleanHelper.getBoolean(xml.isManual()) ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED);
+
+      double actualDuration = (task.getDuration().getDuration() * percentComplete) / 100.0;
+      double remainingDuration = task.getDuration().getDuration() - actualDuration;
+      task.setActualDuration(Duration.getInstance(actualDuration, task.getDuration().getUnits()));
+      task.setRemainingDuration(Duration.getInstance(remainingDuration, task.getDuration().getUnits()));
+
+      m_eventManager.fireTaskReadEvent(task);
 
       // Not sure what this is used for
       //StartText
@@ -289,6 +317,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
          ResourceAssignment assignment = task.addResourceAssignment(resource);
          assignment.setUnits(NumberHelper.getDouble(xml.getPercent()) * 100.0);
          assignment.setWork(getDuration(xml.getWorkSecs(), 5));
+         m_eventManager.fireAssignmentReadEvent(assignment);
       }
    }
 
@@ -307,10 +336,12 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
             continue;
          }
 
-         task.addPredecessor(new Relation.Builder()
+         Relation relation = task.addPredecessor(new Relation.Builder()
             .predecessorTask(predecessor)
             .type(RELATION_TYPE_MAP.getOrDefault(xml.getType(), RelationType.FINISH_START))
             .lag(getDuration(xml.getLinkLag() * 6, xml.getLagFormat())));
+
+         m_eventManager.fireRelationReadEvent(relation);
       }
    }
 
@@ -325,7 +356,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       }
 
       double durationValue = seconds.doubleValue();
-      TimeUnit durationUnits = TimeUnit.HOURS;
+      TimeUnit durationUnits;
 
       switch (units.intValue())
       {
