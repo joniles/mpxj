@@ -1226,10 +1226,7 @@ public abstract class GanttChartView extends GenericView
    {
       m_barStyles = barStyles;
       m_barStylesMap = new HashMap<>();
-      if (m_barStyles != null)
-      {
-         Arrays.stream(m_barStyles).forEach(style -> m_barStylesMap.computeIfAbsent(style.getID(), k -> new ArrayList<>()).add(style));
-      }
+      Arrays.stream(m_barStyles).forEach(style -> m_barStylesMap.computeIfAbsent(style.getID(), k -> new ArrayList<>()).add(style));
    }
 
    /**
@@ -1371,12 +1368,9 @@ public abstract class GanttChartView extends GenericView
          }
       }
 
-      if (m_barStyleExceptions != null)
+      for (GanttBarStyleException barStyleException : m_barStyleExceptions)
       {
-         for (GanttBarStyleException barStyleException : m_barStyleExceptions)
-         {
-            pw.println("   BarStyleException=" + barStyleException);
-         }
+         pw.println("   BarStyleException=" + barStyleException);
       }
 
       if (!m_autoFilters.isEmpty())

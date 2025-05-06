@@ -43,7 +43,7 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
 
       if (barStyleData == null)
       {
-         return null;
+         return EMPTY_STYLES;
       }
 
       GanttBarStyle[] barStyles = new GanttBarStyle[barStyleData[countOffset]];
@@ -97,7 +97,7 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
       byte[] barData = props.getByteArray(EXCEPTION_PROPERTIES);
       if (barData == null)
       {
-         return null;
+         return EMPTY_EXCEPTIONS;
       }
 
       GanttBarStyleException[] barStyle = new GanttBarStyleException[barData.length / 38];
@@ -172,4 +172,7 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
    private static final Integer DEFAULT_PROPERTIES1 = Integer.valueOf(574619686);
    private static final Integer DEFAULT_PROPERTIES2 = Integer.valueOf(574619656);
    private static final Integer EXCEPTION_PROPERTIES = Integer.valueOf(574619661);
+
+   private static final GanttBarStyle[] EMPTY_STYLES = new GanttBarStyle[0];
+   private static final GanttBarStyleException[] EMPTY_EXCEPTIONS = new GanttBarStyleException[0];
 }
