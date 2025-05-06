@@ -24,5 +24,10 @@
          parseMethod="org.mpxj.edrawproject.DatatypeConverter.parseDouble"
          printMethod="org.mpxj.edrawproject.DatatypeConverter.printDouble"/>
 
+      <jxb:javaType name="java.lang.Integer"
+         xmlType="xs:int"
+         parseMethod="org.mpxj.edrawproject.DatatypeConverter.parseInteger"
+         printMethod="org.mpxj.edrawproject.DatatypeConverter.printInteger"/>
+
    </jxb:globalBindings>
 </jxb:bindings>

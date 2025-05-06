@@ -10,17 +10,17 @@ package org.mpxj.edrawproject.schema;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter1
-    extends XmlAdapter<String, Boolean>
+public class Adapter5
+    extends XmlAdapter<String, Integer>
 {
 
 
-    public Boolean unmarshal(String value) {
-        return (org.mpxj.edrawproject.DatatypeConverter.parseBoolean(value));
+    public Integer unmarshal(String value) {
+        return (org.mpxj.edrawproject.DatatypeConverter.parseInteger(value));
     }
 
-    public String marshal(Boolean value) {
-        return (org.mpxj.edrawproject.DatatypeConverter.printBoolean(value));
+    public String marshal(Integer value) {
+        return (org.mpxj.edrawproject.DatatypeConverter.printInteger(value));
     }
 
 }
