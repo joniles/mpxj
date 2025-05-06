@@ -152,6 +152,12 @@ public class DatatypeConverter
       throw new UnsupportedOperationException();
    }
 
+   /**
+    * Parse an integer value.
+    *
+    * @param value string representation
+    * @return Integer instance
+    */
    public static final Integer parseInteger(String value)
    {
       if (value == null || value.isEmpty())
@@ -162,6 +168,12 @@ public class DatatypeConverter
       return Integer.valueOf(value);
    }
 
+   /**
+    * Print an integer value.
+    *
+    * @param value Integer instance
+    * @return string representation
+    */
    public static final String printInteger(Integer value)
    {
       throw new UnsupportedOperationException();

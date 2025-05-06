@@ -124,27 +124,27 @@ class ResourceDirectoryReader extends DirectoryReader
       // Resource Structure
       System.out.println("RDS");
       new TableReader(dir, "RDS").read().forEach(System.out::println);
-
+      
       // Resource Cost Escalation
       System.out.println("RSL");
       new TableReader(dir, "RSL").read().forEach(System.out::println);
-
+      
       // Skill Assignment
       System.out.println("SKL");
       new TableReader(dir, "SKL").read().forEach(System.out::println);
-
+      
       // Explorer Folders
       System.out.println("EXF");
       new TableReader(dir, "EXF").read().forEach(System.out::println);
-
+      
       // Project Summary Usage
       System.out.println("PSU");
       new TableReader(dir, "PSU").read().forEach(System.out::println);
-
+      
       // Explorer Folder Items
       System.out.println("EXI");
       new TableReader(dir, "EXI").read().forEach(System.out::println);
-
+      
       // Code Structure Association
       // Not populated for any resources in the sample data
       System.out.println("SCA");

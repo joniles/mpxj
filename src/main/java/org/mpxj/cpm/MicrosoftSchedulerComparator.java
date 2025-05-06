@@ -33,6 +33,7 @@ import org.mpxj.ProjectFile;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
+import org.mpxj.common.NumberHelper;
 import org.mpxj.reader.UniversalProjectReader;
 
 /**
@@ -119,9 +120,13 @@ public class MicrosoftSchedulerComparator
     */
    public boolean process(File directory, String suffix) throws Exception
    {
-      m_directory = true;
-
       File[] fileList = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(suffix));
+      if (fileList == null)
+      {
+         throw new IllegalArgumentException();
+      }
+      
+      m_directory = true;
       int failed = 0;
       int skipped = 0;
       int valid = 0;
@@ -212,7 +217,7 @@ public class MicrosoftSchedulerComparator
          Task workingTask = m_workingFile.getTaskByUniqueID(baselineTask.getUniqueID());
 
          // TODO: investigate rollup logic for project summary task
-         if (baselineTask.getID() == 0)
+         if (NumberHelper.getInt(baselineTask.getID()) == 0)
          {
             continue;
          }

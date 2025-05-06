@@ -105,13 +105,13 @@
 	<!-- Swing UI code containing classes we don't need to serialize -->
 	<Match>
 		<Bug pattern="SE_BAD_FIELD" />
-		<Class name="~net\.sf\.mpxj\.explorer\..*" />
+		<Class name="~org\.mpxj\.explorer\..*" />
 	</Match>
 
 	<!-- Findbugs doesn't read @SuppressWarnings annotation -->
 	<Match>
 		<Bug pattern="DLS_DEAD_LOCAL_STORE " />
-		<Class name="~net\.sf\.mpxj\.explorer\..*" />
+		<Class name="~org\.mpxj\.explorer\..*" />
 	</Match>
 
 	<!-- We're happy with these casts -->
@@ -168,6 +168,12 @@
 		<Method name="debugFailure" />
 	</Match>
 
+	<Match>
+		<Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" />
+		<Class name="~.*\.CustomerDataTest" />
+		<Method name="incrementTestCount" />
+	</Match>
+
 	<!-- We're happy with this cast -->
 	<Match>
 		<Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" />
@@ -193,9 +199,21 @@
 		<Bug pattern="DMI_HARDCODED_ABSOLUTE_FILENAME" />
 		<Class name="~.*\.OperatingSystem" />
 	</Match>
-	
+
 	<!-- From an IDEA inspection, more efficient for modern JVMs to pass zero length array -->
 	<Match>
 		<Bug pattern="ITA_INEFFICIENT_TO_ARRAY" />
 	</Match>
+
+	<!-- Deliberate repetitive code to allow for easier debugging -->
+	<Match>
+		<Bug pattern="DB_DUPLICATE_BRANCHES" />
+		<Class name="~.*\.*Scheduler" />
+	</Match>
+
+	<!-- Not concerned about finalizer attacks -->
+	<Match>
+		<Bug pattern="CT_CONSTRUCTOR_THROW" />
+	</Match>
+
 </FindBugsFilter>

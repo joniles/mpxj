@@ -195,7 +195,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       // Exceptions are represented both as days with a day type of zero,
       // and with their own data in the calendar. We'll ignore day types
       // of zero for now.
-      if (xml.getDayType() == 0)
+      if (NumberHelper.getInt(xml.getDayType()) == 0)
       {
          return;
       }
@@ -247,16 +247,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
          return;
       }
 
-      List<Document.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> workingTimes = xml.getWorkingTimes().getWorkingTime();
-      if (workingTimes == null || workingTimes.isEmpty())
-      {
-         return;
-      }
-
-      for (Document.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime workingTime : workingTimes)
-      {
-         exception.add(new LocalTimeRange(workingTime.getFromTime(), workingTime.getToTime()));
-      }
+      xml.getWorkingTimes().getWorkingTime().forEach(w -> exception.add(new LocalTimeRange(w.getFromTime(), w.getToTime())));
    }
 
    /**
@@ -266,7 +257,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
     */
    private void processResources(Document document)
    {
-      if (document.getResourceInfo() == null || document.getResourceInfo().getColumn() == null || document.getResourceInfo().getColumn().isEmpty())
+      if (document.getResourceInfo() == null)
       {
          return;
       }
@@ -314,7 +305,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
     */
    private void processTasks(Document document)
    {
-      if (document.getTaskList() == null || document.getTaskList().getTask() == null || document.getTaskList().getTask().isEmpty())
+      if (document.getTaskList() == null || document.getTaskList().getTask().isEmpty())
       {
          return;
       }
@@ -334,8 +325,8 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       double percentComplete = NumberHelper.getDouble(xml.getPercent()) * 100.0;
 
       Task task = (parent == null ? m_projectFile : parent).addTask();
-      task.setMilestone(xml.isMilestone());
-      task.setCritical(xml.isCriticalPath());
+      task.setMilestone(BooleanHelper.getBoolean(xml.isMilestone()));
+      task.setCritical(BooleanHelper.getBoolean(xml.isCriticalPath()));
       task.setUniqueID(xml.getID());
       task.setID(xml.getRowID());
       task.setBaselineStart(xml.getDateBaseStart());
@@ -344,7 +335,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       task.setDuration(getDuration(xml.getDurationSecs(), xml.getDurationUnits()));
       task.setLateStart(xml.getDateLateStart());
       task.setActualStart(getDateFromLong(xml.getActualStart()));
-      task.setWork(Duration.getInstance(xml.getWork(), TimeUnit.HOURS));
+      task.setWork(Duration.getInstance(NumberHelper.getDouble(xml.getWork()), TimeUnit.HOURS));
       task.setCost(xml.getCost());
       task.setStart(xml.getDateStart());
       task.setName(xml.getName());
@@ -354,7 +345,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       task.setFinish(xml.getDateFinish());
       task.setWBS(xml.getWbs());
       task.setNotes(xml.getNotes());
-      task.setPercentageComplete(percentComplete);
+      task.setPercentageComplete(Double.valueOf(percentComplete));
       task.setRemainingCost(xml.getRemainingCost());
       task.setTaskMode(BooleanHelper.getBoolean(xml.isManual()) ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED);
 
@@ -397,7 +388,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
     */
    private void processResourceAssignments(Task task, Document.TaskList.Task.ResourceList xml)
    {
-      if (xml == null || xml.getResource() == null || xml.getResource().isEmpty())
+      if (xml == null || xml.getResource().isEmpty())
       {
          return;
       }
@@ -421,7 +412,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
 
       ResourceAssignment assignment = task.addResourceAssignment(resource);
       assignment.setUnits(Double.valueOf(NumberHelper.getDouble(xml.getPercent()) * 100.0));
-      assignment.setWork(getDuration(xml.getWorkSecs(), 5));
+      assignment.setWork(getDuration(xml.getWorkSecs(), Integer.valueOf(5)));
       m_eventManager.fireAssignmentReadEvent(assignment);
    }
 
@@ -501,17 +492,10 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
             break;
          }
 
-         case 7:
+         case 7: // Workday
+         case 10: // Day
          {
-            // Workday
-            durationValue /= (60.0 * NumberHelper.getInt(m_projectFile.getProjectProperties().getMinutesPerDay()));
-            durationUnits = TimeUnit.DAYS;
-            break;
-         }
-
-         case 10:
-         {
-            // Day
+            
             durationValue /= (60.0 * NumberHelper.getInt(m_projectFile.getProjectProperties().getMinutesPerDay()));
             durationUnits = TimeUnit.DAYS;
             break;

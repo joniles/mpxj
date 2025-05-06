@@ -130,9 +130,13 @@ public class PrimaveraSchedulerComparator
     */
    public boolean process(File directory, String suffix) throws Exception
    {
-      m_directory = true;
-
       File[] fileList = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(suffix));
+      if (fileList == null)
+      {
+         throw new IllegalArgumentException();
+      }
+      
+      m_directory = true;
       int failed = 0;
       int skipped = 0;
       int valid = 0;
