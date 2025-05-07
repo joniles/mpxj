@@ -14,10 +14,10 @@ want to write.
 	```java
     package org.mpxj.howto.convert;
     
-    import net.sf.mpxj.ProjectFile;
-    import net.sf.mpxj.reader.UniversalProjectReader;
-    import net.sf.mpxj.writer.FileFormat;
-    import net.sf.mpxj.writer.UniversalProjectWriter;
+    import org.mpxj.ProjectFile;
+    import org.mpxj.reader.UniversalProjectReader;
+    import org.mpxj.writer.FileFormat;
+    import org.mpxj.writer.UniversalProjectWriter;
     
     public class ConvertUniversal
     {
@@ -50,9 +50,9 @@ want to write.
 	
 	jpype.startJVM()
 	
-	from net.sf.mpxj.reader import UniversalProjectReader
-	from net.sf.mpxj.writer import FileFormat
-	from net.sf.mpxj.writer import UniversalProjectWriter
+	from org.mpxj.reader import UniversalProjectReader
+	from org.mpxj.writer import FileFormat
+	from org.mpxj.writer import UniversalProjectWriter
 
 	def convert(input_file, format, output_file):
 		project_file = UniversalProjectReader().read(input_file);
@@ -68,11 +68,11 @@ you can use the specific Reader and Writer classes, as shown below.
 	```java
     package org.mpxj.howto.convert;
     
-    import net.sf.mpxj.ProjectFile;
-    import net.sf.mpxj.mpp.MPPReader;
-    import net.sf.mpxj.mpx.MPXWriter;
-    import net.sf.mpxj.reader.ProjectReader;
-    import net.sf.mpxj.writer.ProjectWriter;
+    import org.mpxj.ProjectFile;
+    import org.mpxj.mpp.MPPReader;
+    import org.mpxj.mpx.MPXWriter;
+    import org.mpxj.reader.ProjectReader;
+    import org.mpxj.writer.ProjectWriter;
     
     public class ConvertMppToMpx
     {
@@ -112,8 +112,8 @@ you can use the specific Reader and Writer classes, as shown below.
 	
 	jpype.startJVM()
 	
-	from net.sf.mpxj.mpp import MPPReader
-	from net.sf.mpxj.mpx import MPXWriter
+	from org.mpxj.mpp import MPPReader
+	from org.mpxj.mpx import MPXWriter
 	
 	def convert(input_file, output_file):
 		reader = MPPReader()

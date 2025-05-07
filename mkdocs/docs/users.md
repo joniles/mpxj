@@ -24,6 +24,7 @@ like to be featured in this list.
 * CV Projects [www.cvprojects.com](http://www.cvprojects.com)
 * DHTMLX Gantt [dhtmlx.com/docs/products/dhtmlxGantt](http://dhtmlx.com/docs/products/dhtmlxGantt/)
 * DTP [www.parasoft.com/products/parasoft-dtp](https://www.parasoft.com/products/parasoft-dtp/)
+* Edraw Project [www.edrawsoft.com/edraw-project/](https://www.edrawsoft.com/edraw-project/)
 * eProject [www.eprocorp.com](http://www.eprocorp.com)
 * Exicom [www.exicom.se/en](http://www.exicom.se/en)
 * FastTrack Schedule [www.aecsoftware.com](http://www.aecsoftware.com/)

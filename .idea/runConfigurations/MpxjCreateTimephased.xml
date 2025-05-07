@@ -1,11 +1,11 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="MpxjCreateTimephased" type="Application" factoryName="Application" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="net.sf.mpxj.sample.MpxjCreateTimephased" />
+    <option name="MAIN_CLASS_NAME" value="org.mpxj.sample.MpxjCreateTimephased" />
     <module name="mpxj" />
     <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/../test.xml" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="net.sf.mpxj.sample.*" />
+        <option name="PATTERN" value="org.mpxj.sample.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

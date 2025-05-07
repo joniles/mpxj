@@ -36,7 +36,6 @@ nav:
     - 'Getting Started with .Net': 'howto-dotnet.md'
     - 'Getting Started with Python': 'howto-start-python.md'
     - 'Getting Started with Ruby': 'howto-start-ruby.md'
-    - 'Getting Started with COM': 'howto-com.md'
     - 'MPXJ Basics': 'howto-start.md'
     - 'Building MPXJ': 'howto-build.md'
     - 'Converting Files': 'howto-convert.md'
@@ -44,6 +43,7 @@ nav:
     - 'Asta files': 'howto-read-asta.md'
     - 'ConceptDraw PROJECT files': 'howto-read-conceptdraw.md'
     - 'Deltek Open Plan BK3 files': 'howto-read-openplan.md'
+    - 'Edraw Project EDPX files': 'howto-read-edraw.md'
     - 'FastTrack files': 'howto-read-fasttrack.md'
     - 'Gantt Designer files': 'howto-read-ganttdesigner.md'
     - 'GanttProject files': 'howto-read-ganttproject.md'
@@ -77,6 +77,7 @@ nav:
   - 'How to Use...':
     - 'Baselines': 'howto-use-baselines.md'
     - 'Calendars': 'howto-use-calendars.md'
+    - 'CPM Schedulers': 'howto-use-cpm.md'
     - 'External Projects': 'howto-use-external-projects.md'
     - 'Fields': 'howto-use-fields.md'
     - 'Universal Project Reader': 'howto-use-universal.md'

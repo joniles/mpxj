@@ -21,9 +21,9 @@ contents of the Subproject.
 ```java
 package org.mpxj.howto.use.externalprojects;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Task;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.Task;
+import org.mpxj.reader.UniversalProjectReader;
 
 public class IdentifySubprojectTasks
 {
@@ -68,9 +68,9 @@ external project, as the example below illustrates:
 ```java
 package org.mpxj.howto.use.externalprojects;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Task;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.Task;
+import org.mpxj.reader.UniversalProjectReader;
 
 public class ReadSubprojectData
 {
@@ -99,9 +99,9 @@ provided by MPXJ, as illustrated below:
 ```java
 package org.mpxj.howto.use.externalprojects;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Task;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.Task;
+import org.mpxj.reader.UniversalProjectReader;
 
 public class ReadSubprojectDataMpxj
 {
@@ -123,9 +123,9 @@ configured as the example below illustrates:
 ```java
 package org.mpxj.howto.use.externalprojects;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Task;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.Task;
+import org.mpxj.reader.UniversalProjectReader;
 
 import java.io.File;
 
@@ -156,9 +156,9 @@ can reproduce this behavior using the code shown in the sample below:
 ```java
 package org.mpxj.howto.use.externalprojects;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Task;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.Task;
+import org.mpxj.reader.UniversalProjectReader;
 
 public class ExpandSubprojects
 {
@@ -192,8 +192,8 @@ below on External Predecessors):
 ```java
 package org.mpxj.howto.use.externalprojects;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.reader.UniversalProjectReader;
 
 public class ExpandSubprojectsGlobally
 {
@@ -234,9 +234,9 @@ code below illustrates this:
 ```java
 package org.mpxj.howto.use.externalprojects;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Task;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.Task;
+import org.mpxj.reader.UniversalProjectReader;
 
 public class ExternalPredecessors
 {
@@ -321,8 +321,8 @@ The full path for a project's resource pool can be retrieved using the
 ```java
 package org.mpxj.howto.use.externalprojects;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.reader.UniversalProjectReader;
 
 public class ResourcePool
 {
@@ -340,8 +340,8 @@ sections, MPXJ can also open and read the resource pool file for you:
 ```java
 package org.mpxj.howto.use.externalprojects;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.reader.UniversalProjectReader;
 
 public class ResourcePoolObject
 {

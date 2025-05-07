@@ -1,0 +1,33 @@
+<jxb:bindings version="3.0"
+               xmlns:jxb="https://jakarta.ee/xml/ns/jaxb"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               schemaLocation="edraw-project.xsd">
+
+   <jxb:globalBindings>
+      <jxb:javaType name="java.time.LocalDateTime"
+         xmlType="xs:dateTime"
+         parseMethod="org.mpxj.edrawproject.DatatypeConverter.parseTimestamp"
+         printMethod="org.mpxj.edrawproject.DatatypeConverter.printTimestamp"/>
+
+      <jxb:javaType name="java.time.LocalTime"
+         xmlType="xs:time"
+         parseMethod="org.mpxj.edrawproject.DatatypeConverter.parseTime"
+         printMethod="org.mpxj.edrawproject.DatatypeConverter.printTime"/>
+
+      <jxb:javaType name="java.lang.Boolean"
+         xmlType="xs:boolean"
+         parseMethod="org.mpxj.edrawproject.DatatypeConverter.parseBoolean"
+         printMethod="org.mpxj.edrawproject.DatatypeConverter.printBoolean"/>
+
+      <jxb:javaType name="java.lang.Double"
+         xmlType="xs:double"
+         parseMethod="org.mpxj.edrawproject.DatatypeConverter.parseDouble"
+         printMethod="org.mpxj.edrawproject.DatatypeConverter.printDouble"/>
+
+      <jxb:javaType name="java.lang.Integer"
+         xmlType="xs:int"
+         parseMethod="org.mpxj.edrawproject.DatatypeConverter.parseInteger"
+         printMethod="org.mpxj.edrawproject.DatatypeConverter.printInteger"/>
+
+   </jxb:globalBindings>
+</jxb:bindings>

@@ -131,3 +131,8 @@ Deltek Open Plan is an enterprise project management application offering
 resource management, critical path analysis, and customizable reporting.
 Projects managed in Open Plan can be exported to BK3 files, which can be read
 by MPXJ.
+
+* **EDRAW PROJECT:** [Edraw Project](https://www.edrawsoft.com/edraw-project/)
+is an easy to use tool which allows users to rapidly create and
+maintain professional looking project plans. MPXJ reads the EDPX format
+written by Edraw Project.

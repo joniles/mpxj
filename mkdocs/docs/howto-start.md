@@ -30,12 +30,12 @@ A similar arrangement exists for the writer classes, although there is not a
 "universal project writer" as such:
 
  
-* `net.sf.mpxj.mpx.MPXWriter`: writes Microsoft MPX files
-* `net.sf.mpxj.mspdi.MSPDIWriter`: writes Microsoft MSPDI (XML) files
-* `net.sf.mpxj.planner.PlannerWriter`: writes Planner (XML) files
-* `net.sf.mpxj.sdef.SDEFWriter`: writes SDEF files
-* `net.sf.mpxj.primavera.PrimaveraPMFileWriter`: writes Primavera PMXML (XML) files
-* `net.sf.mpxj.json.JsonWriter`: writes JSON files (primarily used to support the Ruby version of MPXJ)
+* `org.mpxj.mpx.MPXWriter`: writes Microsoft MPX files
+* `org.mpxj.mspdi.MSPDIWriter`: writes Microsoft MSPDI (XML) files
+* `org.mpxj.planner.PlannerWriter`: writes Planner (XML) files
+* `org.mpxj.sdef.SDEFWriter`: writes SDEF files
+* `org.mpxj.primavera.PrimaveraPMFileWriter`: writes Primavera PMXML (XML) files
+* `org.mpxj.json.JsonWriter`: writes JSON files (primarily used to support the Ruby version of MPXJ)
 
 All of these classes implement the ProjectWriter interface. If you know which 
 type of file you are working with, you can use these writers directly, 

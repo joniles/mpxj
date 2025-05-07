@@ -2,40 +2,40 @@
   <!-- note that the schemaLocation will need to be changed to be correct for your system -->
   <jxb:bindings node="/xsd:schema" schemaLocation="file:document-corrected.xsd">
     <jxb:globalBindings generateElementProperty="false">
-      <jxb:javaType name="java.lang.Integer" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseInteger" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printInteger" xmlType="xsd:integer"/>
-      <jxb:javaType name="java.lang.Double" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseDouble" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printDouble" xmlType="xsd:double"/>
-      <jxb:javaType name="java.lang.Integer" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseInteger" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printInteger" xmlType="xsd:int"/>
-      <jxb:javaType name="java.time.LocalTime" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseTime" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printTime" xmlType="xsd:time"/>
-      <jxb:javaType name="java.time.LocalDate" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseDate" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printDate" xmlType="xsd:date"/>
-      <jxb:javaType name="java.time.LocalDateTime" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseDateTime" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printDateTime" xmlType="xsd:dateTime"/>
-      <jxb:javaType name="net.sf.mpxj.TimeUnit" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseTimeUnit" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printTimeUnit" xmlType="cdprj:ShortTimeUnitType"/>
+      <jxb:javaType name="java.lang.Integer" parseMethod="org.mpxj.conceptdraw.DatatypeConverter.parseInteger" printMethod="org.mpxj.conceptdraw.DatatypeConverter.printInteger" xmlType="xsd:integer"/>
+      <jxb:javaType name="java.lang.Double" parseMethod="org.mpxj.conceptdraw.DatatypeConverter.parseDouble" printMethod="org.mpxj.conceptdraw.DatatypeConverter.printDouble" xmlType="xsd:double"/>
+      <jxb:javaType name="java.lang.Integer" parseMethod="org.mpxj.conceptdraw.DatatypeConverter.parseInteger" printMethod="org.mpxj.conceptdraw.DatatypeConverter.printInteger" xmlType="xsd:int"/>
+      <jxb:javaType name="java.time.LocalTime" parseMethod="org.mpxj.conceptdraw.DatatypeConverter.parseTime" printMethod="org.mpxj.conceptdraw.DatatypeConverter.printTime" xmlType="xsd:time"/>
+      <jxb:javaType name="java.time.LocalDate" parseMethod="org.mpxj.conceptdraw.DatatypeConverter.parseDate" printMethod="org.mpxj.conceptdraw.DatatypeConverter.printDate" xmlType="xsd:date"/>
+      <jxb:javaType name="java.time.LocalDateTime" parseMethod="org.mpxj.conceptdraw.DatatypeConverter.parseDateTime" printMethod="org.mpxj.conceptdraw.DatatypeConverter.printDateTime" xmlType="xsd:dateTime"/>
+      <jxb:javaType name="org.mpxj.TimeUnit" parseMethod="org.mpxj.conceptdraw.DatatypeConverter.parseTimeUnit" printMethod="org.mpxj.conceptdraw.DatatypeConverter.printTimeUnit" xmlType="cdprj:ShortTimeUnitType"/>
     </jxb:globalBindings>
     <jxb:bindings node="//xsd:element[@name='HoursPerDay']">
-      <jxb:javaType name="java.lang.Integer" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseMinutesFromHours" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printHoursFromMinutes"/>
+      <jxb:javaType name="java.lang.Integer" parseMethod="org.mpxj.conceptdraw.DatatypeConverter.parseMinutesFromHours" printMethod="org.mpxj.conceptdraw.DatatypeConverter.printHoursFromMinutes"/>
     </jxb:bindings>
     <jxb:bindings node="//xsd:element[@name='CurrencyPosition']">
-      <jxb:javaType name="net.sf.mpxj.CurrencySymbolPosition" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseCurrencySymbolPosition" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printCurrencySymbolPosition"/>
+      <jxb:javaType name="org.mpxj.CurrencySymbolPosition" parseMethod="org.mpxj.conceptdraw.DatatypeConverter.parseCurrencySymbolPosition" printMethod="org.mpxj.conceptdraw.DatatypeConverter.printCurrencySymbolPosition"/>
     </jxb:bindings>
     <jxb:bindings node="//xsd:element[@name='Day']">
-      <jxb:javaType name="java.time.DayOfWeek" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseDay" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printDay"/>
+      <jxb:javaType name="java.time.DayOfWeek" parseMethod="org.mpxj.conceptdraw.DatatypeConverter.parseDay" printMethod="org.mpxj.conceptdraw.DatatypeConverter.printDay"/>
     </jxb:bindings>
     <jxb:bindings node="//xsd:element[@name='Resource']//xsd:element[@name='Type']">
-      <jxb:javaType name="net.sf.mpxj.ResourceType" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseResourceType" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printResourceType"/>
+      <jxb:javaType name="org.mpxj.ResourceType" parseMethod="org.mpxj.conceptdraw.DatatypeConverter.parseResourceType" printMethod="org.mpxj.conceptdraw.DatatypeConverter.printResourceType"/>
     </jxb:bindings>
     <jxb:bindings node="//xsd:element[@name='Resource']//xsd:element[@name='SubType']">
-      <jxb:javaType name="net.sf.mpxj.ResourceType" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseResourceType" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printResourceType"/>
+      <jxb:javaType name="org.mpxj.ResourceType" parseMethod="org.mpxj.conceptdraw.DatatypeConverter.parseResourceType" printMethod="org.mpxj.conceptdraw.DatatypeConverter.printResourceType"/>
     </jxb:bindings>
     <jxb:bindings node="//xsd:element[@name='Priority']">
-      <jxb:javaType name="net.sf.mpxj.Priority" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parsePriority" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printPriority"/>
+      <jxb:javaType name="org.mpxj.Priority" parseMethod="org.mpxj.conceptdraw.DatatypeConverter.parsePriority" printMethod="org.mpxj.conceptdraw.DatatypeConverter.printPriority"/>
     </jxb:bindings>
     <jxb:bindings node="//xsd:element[@name='Task']//xsd:element[@name='Complete']">
-      <jxb:javaType name="java.lang.Double" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parsePercent" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printPercent"/>
+      <jxb:javaType name="java.lang.Double" parseMethod="org.mpxj.conceptdraw.DatatypeConverter.parsePercent" printMethod="org.mpxj.conceptdraw.DatatypeConverter.printPercent"/>
     </jxb:bindings>
     <jxb:bindings node="//xsd:element[@name='SchedulingType']">
-      <jxb:javaType name="net.sf.mpxj.TaskType" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseTaskType" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printTaskType"/>
+      <jxb:javaType name="org.mpxj.TaskType" parseMethod="org.mpxj.conceptdraw.DatatypeConverter.parseTaskType" printMethod="org.mpxj.conceptdraw.DatatypeConverter.printTaskType"/>
     </jxb:bindings>
     <jxb:bindings node="//xsd:element[@name='Link']//xsd:element[@name='Type']">
-      <jxb:javaType name="net.sf.mpxj.RelationType" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseRelationType" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printRelationType"/>
+      <jxb:javaType name="org.mpxj.RelationType" parseMethod="org.mpxj.conceptdraw.DatatypeConverter.parseRelationType" printMethod="org.mpxj.conceptdraw.DatatypeConverter.printRelationType"/>
     </jxb:bindings>
   </jxb:bindings>
 </jxb:bindings>

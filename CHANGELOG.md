@@ -1,11 +1,44 @@
 # Changelog
 
 ## NOTE
-From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net.sf.mpxj-for-vb` packages will
-no longer be distributed. Please use the `MPXJ.Net` package instead.
+From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net.sf.mpxj-for-vb` packages are
+no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 13.12.1 (unreleased)
+## 14.0.0 (unreleased)
+* **NEW FEATURE**
+* MPXJ can now schedule projects using CPM (Critical Path Method)
+* Two new classes (`MicrosoftScheduler` and `PrimaveraScheduler`) allow MPXJ to schedule a project in a way which follows the approach of either Microsoft Project or Primavera P6.
+* **CHANGES**
+* Improvements to accuracy of reading text UDF values from Powerproject PP files.
+* Corrected conversion of elapsed durations when writing JSON files.
+* Added the `Relation#lag_units` method to the ruby gem.
+* **BREAKING CHANGES - .Net**
+* The `net.sf.mpxj`, `net.sf.mpxj-for-csharp`, and `net.sf.mpxj-for-vb` NuGet packages are no longer being distributed. You must migrate your code to use the `MPXJ.Net` NuGet package instead.
+* **BREAKING CHANGES - Java, Python**
+* The name of the package containing MPXJ's Java classes has changed from `net.sf.mpxj` to `org.mpxj`. You will need to update your code by searching for `net.sf.mpxj` and replace this with `org.mpxj`. NOTE: for Java applications using Maven, the Maven Group ID **has not changed**, you will still retrieve MPXJ using the Group ID `net.sf.mpxj`.
+* The constant `TaskField.PRIMARY_RESOURCE_ID` has been renamed to `TaskField.PRIMARY_RESOURCE_UNIQUE_ID`.
+* The `RelationContainer#getRawSuccessors` method has been removed. Use the `RelationContainer#getSuccessors` method instead. This method now returns the same data `getRawSuccessors` returned previously.
+* The deprecated `UserDefinedField` constructors have been removed, use `UserDefinedField.Builder` instead.
+* The deprecated `UserDefinedField#setDataType` method has been removed, use the `UserDefinedField.Builder#dataType` method instead.
+* The deprecated `StructuredNotes` constructor has been removed, use the `StructuredNotes` constructor taking a `ProjectFile` instance instead.
+* The deprecated `Relation#getSourceTask` and `Relation#getTargetTask` methods have been removed, use `Relation#getPredecessorTask` and `Relation#getSuccessorTask` methods instead.
+* The deprecated `Relation.Builder#sourceTask` and `Relation.Builder#targetTask` methods have been removed, use `Relation.Builder#predecessorTask` and `Relation.Builder#successorTask` methods instead.
+* The deprecated `ActivityCodeValue#getType` method has been removed. Use the `ActivityCodeValue#getParentCode` method instead.
+* The deprecated `ActivityCodeValue#getActivityCode` method has been removed. Use the `ActivityCodeValue#getParentCode` method instead.
+* The deprecated `ActivityCodeValue#getParent` method has been removed. Use the `ActivityCodeValue#getParentValue` method instead.
+* The deprecated `ActivityCodeValue#getParentUniqueID` method has been removed. Use the `ActivityCodeValue#getParentValueUniqueID` method instead.
+* The deprecated `ActivityCodeValue.Builder#type` method has been removed. Use the `ActivityCodeValue.Builder#activityCode` method instead.
+* The deprecated `ActivityCodeValue.Builder#parent` method has been removed. Use the `ActivityCodeValue.Builder#parentValue` method instead.
+* The deprecated `Task#addActivityCode` method has been removed. Use the `Task#addActivityCodeValue` method instead.
+* The deprecated `GanttBarStyleException#getBarStyleIndex` method has been removed. Use `GanttBarStyleException#getGanttBarStyleID` to retrieve the bar style ID, and `GanttChartView#getGanttBarStyleByID` to retrieve the style
+* The deprecated constant `TaskField.ACTIVITY_CODE_LIST` has been removed. Use `TaskField.ACTIVITY_CODE_VALUES` instead.
+* The deprecated `Task#getActivityCodes` method has been removed. Use the `Task#getActivityCodeValues` method instead.
+* The deprecated `Task#setPrimaryResourceID` method has been removed. Use the `Task#setPrimaryResourceUniqueID` method instead.
+* The deprecated `Task#getPrimaryResourceID` method has been removed. Use the `Task#getPrimaryResourceUniqueID` method instead.
+* The deprecated `Task#isSucessor` method has been removed. Use the `Task#isSuccessor` method instead.
+* **BREAKING CHANGES - Ruby**
+* The deprecated Ruby attribute `Relation#task_unique_id` has been removed, use `Relation#predecessor_task_unique_id` and `Relation#successor_task_unique_id` instead.
 
 ## 13.12.0 (2025-04-09)
 * Added support for reading Float Path and Float Path Order from XER files and P6 databases.
@@ -1505,7 +1538,7 @@ no longer be distributed. Please use the `MPXJ.Net` package instead.
 ## 5.2.2 (2016-03-11)
 * Add support for resource assignment Stop and Resume attributes for MPP and MSPDI files
 * Fixed [Issue 291](https://sourceforge.net/p/mpxj/bugs/291): PrimaveraPMFileWriter.write fails with java.lang.IllegalArgumentException
-* Fixed [Issue 292](https://sourceforge.net/p/mpxj/bugs/292): Microsoft Project 2016 : Need to set 'Stop' and 'Resume'  properties for net.sf.mpxj.ResourceAssignment
+* Fixed [Issue 292](https://sourceforge.net/p/mpxj/bugs/292): Microsoft Project 2016 : Need to set 'Stop' and 'Resume' properties for org.mpxj.ResourceAssignment
 
 ## 5.2.1 (2016-02-11)
 * Add support for PP files generated by Asta Powerproject up to version 13.0.0.3

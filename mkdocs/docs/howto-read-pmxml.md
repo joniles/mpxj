@@ -8,8 +8,8 @@ The simplest way to read a PMXML file is to use the `UniversalProjectReader`:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.reader.UniversalProjectReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.reader.UniversalProjectReader;
 	
 	public class PMXML
 	{
@@ -52,7 +52,7 @@ PMXML file, as shown below:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+	import org.mpxj.primavera.PrimaveraPMFileReader;
 	
 	import java.io.FileInputStream;
 	import java.util.Map;
@@ -105,17 +105,17 @@ call `setProjectID` to tell the reader which project to open, as shown below.
 ```java
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.primavera.PrimaveraPMFileReader;
 
 public class PMXMLProjectID
 {
-	public void read() throws Exception
-	{
-		PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
-		reader.setProjectID(123);
-		ProjectFile file = reader.read("my-sample.xml");
-	}
+   public void read() throws Exception
+   {
+      PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
+      reader.setProjectID(123);
+      ProjectFile file = reader.read("my-sample.xml");
+   }
 }
 ```
 
@@ -125,8 +125,8 @@ Alternatively you can ask MPXJ to read all the projects contained in the file:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.primavera.PrimaveraPMFileReader;
 	
 	import java.util.List;
 	
@@ -175,8 +175,8 @@ MPXJ will attempt to link these relations across projects:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.primavera.PrimaveraPMFileReader;
 	
 	import java.util.List;
 	
@@ -228,20 +228,20 @@ below illustrates how this method is used:
 ```java
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraPMFileReader;
-import net.sf.mpxj.primavera.PrimaveraBaselineStrategy;
+import org.mpxj.ProjectFile;
+import org.mpxj.primavera.PrimaveraPMFileReader;
+import org.mpxj.primavera.PrimaveraBaselineStrategy;
 
 import java.util.List;
 
 public class PMXMLBaselines
 {
-	public void read() throws Exception
-	{
-		PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
-		reader.setBaselineStrategy(PrimaveraBaselineStrategy.CURRENT_ATTRIBUTES);
-		List<ProjectFile> files = reader.readAll("my-sample.xml");
-	}
+   public void read() throws Exception
+   {
+      PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
+      reader.setBaselineStrategy(PrimaveraBaselineStrategy.CURRENT_ATTRIBUTES);
+      List<ProjectFile> files = reader.readAll("my-sample.xml");
+   }
 }
 ```
 

@@ -1,4 +1,4 @@
-# How To: Deltek Open Plan BK3 files
+# How To: Read Deltek Open Plan BK3 files
 Deltek Open Plan is a planning tool for Windows which can store schedule
 data in a variety of databases, and export schedules to BK3 files.
 
@@ -10,8 +10,8 @@ The simplest way to read an Open Plan file is to use the
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.reader.UniversalProjectReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.reader.UniversalProjectReader;
 	
 	public class OpenPlan
 	{

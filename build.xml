@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="net.sf.mpxj" default="archive" basedir=".">
+<project name="org.mpxj" default="archive" basedir=".">
 
 	<target name="init" description="Initialize properties">
 		<tstamp />
@@ -9,89 +9,23 @@
 		<!-- Build Configuration -->
 		<property name="current.version" value="13.12.0" />
 		<property name="current.version.classifier" value="" />
+
 		<!-- Environment Configuration-->
-		<property name="maven.cmd" value="mvn.cmd"/>
-		<property name="ruby.cmd" value="bundle.bat"/>
-		<property name="python.cmd" value="py.exe" />
-		<property name="nuget.cmd" value="nuget.exe" />
-		<property name="ikvm.net45.dir" value="${basedir}/../mpxj-legacy-ikvm/ikvm-8.1.5717.0" />
-		<property name="ikvmc.net45.cmd" value="${ikvm.net45.dir}/bin/ikvmc.exe" />
-		<property name="ikvmstub.net45.cmd" value="${ikvm.net45.dir}/bin/ikvmstub.exe" />
-		<property name="tlbexp.net45.cmd" value="C:/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/tlbexp.exe" />
-		<property name="ikvm.nca31.dir" value="${basedir}/../mpxj-legacy-ikvm/ikvm-netcoreapp3.1" />
-		<property name="ikvmc.nca31.cmd" value="${ikvm.nca31.dir}/ikvmc.exe" />
-		<property name="ikvmstub.nca31.cmd" value="${ikvm.nca31.dir}/ikvmstub.exe" />
-		<property name="xjc.cmd" value="${basedir}/../jaxb-ri-3.0.2/bin/xjc.bat" />
+		<property name="jaxb.name" value = "jaxb-ri-3.0.2"/>
+
+		<condition property="os.family.name" value="windows">
+			<os family="windows" />
+		</condition>
+		<condition property="os.family.name" value="unix">
+			<os family="unix" />
+		</condition>
+
+		<property file="build.${os.family.name}.properties"/>
 
 		<!-- Common properties -->
 		<property name="dist.dir" value="${basedir}/dist" />
 		<property name="lib.dir" value="${basedir}/lib" />
 		<property name="distribution" value="${dist.dir}/mpxj-${current.version}.zip" />
-
-		<!-- Runtime Dependencies -->
-		<!-- NOTE: poi.jar is only used to name the legacy DLL -->
-		<property name="poi.jar" value="poi-5.2.2"/>
-		<property name="poifs.jar" value="poifs-5.2.2"/>
-		<property name="commons-collections.jar" value="commons-collections4-4.4" />
-		<property name="commons-io.jar" value="commons-io-2.11.0" />
-		<property name="commons-math.jar" value="commons-math3-3.6.1" />
-		<property name="log4j-api.jar" value="log4j-api-2.17.2" />
-		<property name="rtfparserkit.jar" value="rtfparserkit-1.16.0" />
-		<property name="sqlite-jdbc.jar" value="sqlite-jdbc-3.42.0.0" />
-		<property name="jsoup.jar" value="jsoup-1.15.3" />
-		<property name="commons-lang3.jar" value="commons-lang3-3.10" />
-		<property name="commons-logging.jar" value="commons-logging-1.2" />
-		<property name="jackcess.jar" value="jackcess-4.0.1" />
-		<property name="jakarta.activation.jar" value="jakarta.activation-2.0.1" />
-		<property name="jakarta.xml.bind-api.jar" value="jakarta.xml.bind-api-3.0.1" />
-		<property name="istack-commons-runtime.jar" value="istack-commons-runtime-4.0.1" />
-		<property name="txw2.jar" value="txw2-3.0.2" />
-		<property name="jaxb-core.jar" value="jaxb-core-3.0.2" />
-		<property name="jaxb-runtime.jar" value="jaxb-runtime-3.0.2" />
-
-		<!-- Test Dependencies -->
-		<property name="junit.jar" value="junit-4.13.1"/>
-		<property name="hamcrest.jar" value="hamcrest-core-1.3"/>
-
-		<!-- Dependency Paths -->
-		<path id="poifs.path"><pathelement location="${basedir}/../poifs/target/${poifs.jar}.jar" /></path>
-		<path id="commons-collections.path"><pathelement location="${basedir}/../poifs/target/${commons-collections.jar}.jar" /></path>
-		<path id="commons-io.path"><pathelement location="${basedir}/../poifs/target/${commons-io.jar}.jar" /></path>
-		<path id="commons-math.path"><pathelement location="${basedir}/../poifs/target/${commons-math.jar}.jar" /></path>
-		<path id="log4j-api.path"><pathelement location="${basedir}/../poifs/target/${log4j-api.jar}.jar" /></path>
-		<path id="rtfparserkit.path"><pathelement location="${lib.dir}/${rtfparserkit.jar}.jar" /></path>
-		<path id="sqlite-jdbc.path"><pathelement location="${lib.dir}/${sqlite-jdbc.jar}.jar" /></path>
-		<path id="jsoup.path"><pathelement location="${lib.dir}/${jsoup.jar}.jar" /></path>
-		<path id="commons-lang3.path"><pathelement location="${lib.dir}/${commons-lang3.jar}.jar" /></path>
-		<path id="commons-logging.path"><pathelement location="${lib.dir}/${commons-logging.jar}.jar" /></path>
-		<path id="jackcess.path"><pathelement location="${lib.dir}/${jackcess.jar}.jar" /></path>
-		<path id="jakarta.activation.path"><pathelement location="${lib.dir}/${jakarta.activation.jar}.jar" /></path>
-		<path id="jakarta.xml.bind-api.path"><pathelement location="${lib.dir}/${jakarta.xml.bind-api.jar}.jar" /></path>
-		<path id="istack-commons-runtime.path"><pathelement location="${lib.dir}/${istack-commons-runtime.jar}.jar" /></path>
-		<path id="txw2.path"><pathelement location="${lib.dir}/${txw2.jar}.jar" /></path>
-		<path id="jaxb-core.path"><pathelement location="${lib.dir}/${jaxb-core.jar}.jar" /></path>
-		<path id="jaxb-runtime.path"><pathelement location="${lib.dir}/${jaxb-runtime.jar}.jar" /></path>
-		<path id="junit.path"><pathelement location="${lib.dir}/${junit.jar}.jar" /></path>
-
-		<!-- Dependency Classpaths -->
-		<property name="poifs.classpath" refid="poifs.path" />
-		<property name="commons-collections.classpath" refid="commons-collections.path" />
-		<property name="commons-io.classpath" refid="commons-io.path" />
-		<property name="commons-math.classpath" refid="commons-math.path" />
-		<property name="log4j-api.classpath" refid="log4j-api.path" />
-		<property name="rtfparserkit.classpath" refid="rtfparserkit.path" />
-		<property name="sqlite-jdbc.classpath" refid="sqlite-jdbc.path" />
-		<property name="jsoup.classpath" refid="jsoup.path" />
-		<property name="commons-lang3.classpath" refid="commons-lang3.path" />
-		<property name="commons-logging.classpath" refid="commons-logging.path" />
-		<property name="jackcess.classpath" refid="jackcess.path" />
-		<property name="jaxb-core.classpath" refid="jaxb-core.path" />
-		<property name="jakarta.activation.classpath" refid="jakarta.activation.path" />
-		<property name="jakarta.xml.bind-api.classpath" refid="jakarta.xml.bind-api.path" />
-		<property name="istack-commons-runtime.classpath" refid="istack-commons-runtime.path" />
-		<property name="txw2.classpath" refid="txw2.path" />
-		<property name="jaxb-runtime.classpath" refid="jaxb-runtime.path" />
-		<property name="junit.classpath" refid="junit.path" />
 
 		<mkdir dir="${lib.dir}" />
 	</target>
@@ -110,27 +44,7 @@
 			<arg line="versions:commit -f ${basedir}/pom.tests.xml"/>
 		</exec>
 
-		<replaceregexp
-		               match='(\[assembly: (AssemblyVersion|AssemblyFileVersion)\(").+("\)\])'
-		               replace='\1${current.version}.0\3'
-		               byline="true">
-			<fileset dir="${basedir}/src.net/samples" includes="**/*.cs" />
-		</replaceregexp>
-
-		<replaceregexp
-		               match='(\[assembly: (AssemblyVersion|AssemblyFileVersion)\(").+("\)\])'
-		               replace='\1${current.version}.0\3'
-		               byline="true">
-			<fileset dir="${basedir}/src.net/utilities" includes="**/*.cs" />
-		</replaceregexp>
-
-		<replaceregexp file="${basedir}/src.net/utilities/MpxjUtilities.nca31.csproj"
-		               match="&lt;Version&gt;.*&lt;/Version&gt;"
-		               replace="&lt;Version&gt;${current.version}.0&lt;/Version&gt;"
-		               byline="true"
-		/>
-
-		<replaceregexp file="${basedir}/src/main/java/net/sf/mpxj/MPXJ.java"
+		<replaceregexp file="${basedir}/src/main/java/org/mpxj/MPXJ.java"
 					   match='VERSION = ".*"'
 					   replace='VERSION = "${current.version}"'
 					   byline="true"
@@ -171,7 +85,7 @@
 	</target>
 
 	<target name="gem-source" description="Generate source required by Ruby gem">
-		<java classname="net.sf.mpxj.ruby.MethodGenerator" failonerror="true">
+		<java classname="org.mpxj.ruby.MethodGenerator" failonerror="true">
 			<arg value="${basedir}/src.ruby/mpxj/lib/mpxj" />
 			<classpath>
 				<pathelement path="${classpath}" />
@@ -258,28 +172,31 @@
 		<copy file="${env.MPXJ_SCHEMA_DIR}/pmxml/p6v2412-p6apibo-corrected.xsd" toDir="${basedir}/jaxb"/>
 
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b pm-binding.xjb -p net.sf.mpxj.primavera.schema p6v2412-p6apibo-corrected.xsd" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b pm-binding.xjb -p org.mpxj.primavera.schema p6v2412-p6apibo-corrected.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b mspdi-binding.xjb -p net.sf.mpxj.mspdi.schema mspdi_pj15-corrected.xsd" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b mspdi-binding.xjb -p org.mpxj.mspdi.schema mspdi_pj15-corrected.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b mrproject.xjb -p net.sf.mpxj.planner.schema mrproject-0.6.xsd" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b mrproject.xjb -p org.mpxj.planner.schema mrproject-0.6.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b phoenix-4-binding.xjb -p net.sf.mpxj.phoenix.schema.phoenix4 phoenix-4.xsd" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b phoenix-4-binding.xjb -p org.mpxj.phoenix.schema.phoenix4 phoenix-4.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b phoenix-5-binding.xjb -p net.sf.mpxj.phoenix.schema.phoenix5 phoenix-5.xsd" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b phoenix-5-binding.xjb -p org.mpxj.phoenix.schema.phoenix5 phoenix-5.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ganttproject-binding.xjb -p net.sf.mpxj.ganttproject.schema ganttproject-2.8.xsd" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ganttproject-binding.xjb -p org.mpxj.ganttproject.schema ganttproject-2.8.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b conceptdraw-binding.xjb -p net.sf.mpxj.conceptdraw.schema document-corrected.xsd" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b conceptdraw-binding.xjb -p org.mpxj.conceptdraw.schema document-corrected.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b gantt-designer-binding.xjb -p net.sf.mpxj.ganttdesigner.schema gantt-designer.xsd" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b gantt-designer-binding.xjb -p org.mpxj.ganttdesigner.schema gantt-designer.xsd" />
+		</exec>
+		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b edraw-project-binding.xjb -p org.mpxj.edrawproject.schema edraw-project.xsd" />
 		</exec>
 
 		<!-- Remove schemas not included with MPXJ -->
@@ -288,619 +205,10 @@
 		<delete file="${basedir}/jaxb/p6v2412-p6apibo-corrected.xsd"/>
 	</target>
 
-	<target name="ikvm-init" depends="init">
-		<property name="mpxj.snk" value="${basedir}/src.net/mpxj.snk"/>
-		<property name="ikvm.working.dir" value="${basedir}/ikvm.tmp" />
-	</target>
 
-	<target name="ikvm-net45-init" depends="ikvm-init">
-		<property name="lib.net45.dir" value="${basedir}/src.net/lib/net45" />
-		<property name="poi.net45.dll" value="${lib.net45.dir}\${poi.jar}.dll" />
-		<property name="commons-collections.net45.dll" value="${lib.net45.dir}\${commons-collections.jar}.dll" />
-		<property name="commons-io.net45.dll" value="${lib.net45.dir}\${commons-io.jar}.dll" />
-		<property name="commons-math.net45.dll" value="${lib.net45.dir}\${commons-math.jar}.dll" />
-		<property name="log4j-api.net45.dll" value="${lib.net45.dir}\${log4j-api.jar}.dll" />
-		<property name="rtfparserkit.net45.dll" value="${lib.net45.dir}\${rtfparserkit.jar}.dll" />
-		<property name="sqlite-jdbc.net45.dll" value="${lib.net45.dir}\${sqlite-jdbc.jar}.dll" />
-		<property name="jsoup.net45.dll" value="${lib.net45.dir}\${jsoup.jar}.dll" />
-		<property name="commons-lang3.net45.dll" value="${lib.net45.dir}\${commons-lang3.jar}.dll" />
-		<property name="commons-logging.net45.dll" value="${lib.net45.dir}\${commons-logging.jar}.dll" />
-		<property name="jackcess.net45.dll" value="${lib.net45.dir}\${jackcess.jar}.dll" />
-		<property name="jakarta.activation.net45.dll" value="${lib.net45.dir}\${jakarta.activation.jar}.dll" />
-		<property name="jakarta.xml.bind-api.net45.dll" value="${lib.net45.dir}\${jakarta.xml.bind-api.jar}.dll" />
-		<property name="istack-commons-runtime.net45.dll" value="${lib.net45.dir}\${istack-commons-runtime.jar}.dll" />
-		<property name="txw2.net45.dll" value="${lib.net45.dir}\${txw2.jar}.dll" />
-		<property name="jaxb-core.net45.dll" value="${lib.net45.dir}\${jaxb-core.jar}.dll" />
-		<property name="jaxb-runtime.net45.dll" value="${lib.net45.dir}\${jaxb-runtime.jar}.dll" />
-		<property name="junit.net45.dll" value="${lib.net45.dir}\junit.dll" />
-		<property name="mpxj.net45.dll" value="${lib.net45.dir}\mpxj.dll" />
-		<property name="mpxj-test.net45.dll" value="${lib.net45.dir}\mpxj-test.dll" />
-		<property name="mpxj-for-vb.net45.dll" value="${lib.net45.dir}\mpxj-for-vb.dll" />
-		<property name="mpxj-for-csharp.net45.dll" value="${lib.net45.dir}\mpxj-for-csharp.dll" />
-		<property name="mpxj-utilities.net45.dll" value="${lib.net45.dir}\MpxjUtilities.dll" />
+	<target name="archive" depends="maven-install,gem-source,changelog,releasenotes" description="Create library files"/>
 
-		<available file="${ikvmc.net45.cmd}" property="ikvm.net45.available" />
-		<available file="${tlbexp.net45.cmd}" property="tlbexp.available" />
-		<condition property="dotnet.available">
-			<and>
-				<available file="dotnet.exe" filepath="${env.Path}" property="dotnet.available" />
-				<isset property="ikvm.net45.available"/>
-			</and>
-		</condition>
-	</target>
-
-	<target name="ikvm-nca31-init" depends="ikvm-init">
-		<property name="lib.nca31.dir" value="${basedir}/src.net/lib/netcoreapp3.1" />
-		<property name="poi.nca31.dll" value="${lib.nca31.dir}\${poi.jar}.dll" />
-		<property name="commons-collections.nca31.dll" value="${lib.nca31.dir}\${commons-collections.jar}.dll" />
-		<property name="commons-io.nca31.dll" value="${lib.nca31.dir}\${commons-io.jar}.dll" />
-		<property name="commons-math.nca31.dll" value="${lib.nca31.dir}\${commons-math.jar}.dll" />
-		<property name="log4j-api.nca31.dll" value="${lib.nca31.dir}\${log4j-api.jar}.dll" />
-		<property name="rtfparserkit.nca31.dll" value="${lib.nca31.dir}\${rtfparserkit.jar}.dll" />
-		<property name="sqlite-jdbc.nca31.dll" value="${lib.nca31.dir}\${sqlite-jdbc.jar}.dll" />
-		<property name="jsoup.nca31.dll" value="${lib.nca31.dir}\${jsoup.jar}.dll" />
-		<property name="commons-lang3.nca31.dll" value="${lib.nca31.dir}\${commons-lang3.jar}.dll" />
-		<property name="commons-logging.nca31.dll" value="${lib.nca31.dir}\${commons-logging.jar}.dll" />
-		<property name="jackcess.nca31.dll" value="${lib.nca31.dir}\${jackcess.jar}.dll" />
-		<property name="jakarta.activation.nca31.dll" value="${lib.nca31.dir}\${jakarta.activation.jar}.dll" />
-		<property name="jakarta.xml.bind-api.nca31.dll" value="${lib.nca31.dir}\${jakarta.xml.bind-api.jar}.dll" />
-		<property name="istack-commons-runtime.nca31.dll" value="${lib.nca31.dir}\${istack-commons-runtime.jar}.dll" />
-		<property name="txw2.nca31.dll" value="${lib.nca31.dir}\${txw2.jar}.dll" />
-		<property name="jaxb-core.nca31.dll" value="${lib.nca31.dir}\${jaxb-core.jar}.dll" />
-		<property name="jaxb-runtime.nca31.dll" value="${lib.nca31.dir}\${jaxb-runtime.jar}.dll" />
-		<property name="junit.nca31.dll" value="${lib.nca31.dir}\junit.dll" />
-		<property name="mpxj.nca31.dll" value="${lib.nca31.dir}\mpxj.dll" />
-		<property name="mpxj-test.nca31.dll" value="${lib.nca31.dir}\mpxj-test.dll" />
-		<property name="mpxj-for-vb.nca31.dll" value="${lib.nca31.dir}\mpxj-for-vb.dll" />
-		<property name="mpxj-for-csharp.nca31.dll" value="${lib.nca31.dir}\mpxj-for-csharp.dll" />
-		<property name="mpxj-utilities.nca31.dll" value="${lib.nca31.dir}\MpxjUtilities.dll" />
-
-		<available file="${ikvmc.nca31.cmd}" property="ikvm.nca31.available" />
-		<condition property="dotnet.available">
-			<and>
-				<available file="dotnet.exe" filepath="${env.Path}" property="dotnet.available" />
-				<isset property="ikvm.nca31.available"/>
-			</and>
-		</condition>
-	</target>
-
-	<target name="ikvm-net45-compile" depends="ikvm-net45-init" description="Compile everything ready for use with IKVM" if="ikvm.net45.available">
-
-		<property name="ikvm.src.dir" value="${ikvm.working.dir}/src" />
-		<property name="ikvm.src.test.dir" value="${ikvm.working.dir}/src.test" />
-		<property name="ikvm.classes.dir" value="${ikvm.working.dir}/classes" />
-		<property name="ikvm.classes.test.dir" value="${ikvm.working.dir}/classes.test" />
-		<property name="ikvm.lib.dir" value="${ikvm.working.dir}/lib" />
-
-		<!-- Extract the target JVM version from pom.xml -->
-		<loadfile encoding="UTF-8" property="target-jvm-version" srcFile="${basedir}/pom.xml" >
-	        <filterchain>
-	            <tokenfilter>
-	                <containsregex
-	                    pattern="(\s*&lt;target&gt;)(.+)(&lt;/target&gt;\s*)"
-	                    replace="\2" />
-	            </tokenfilter>
-	            <striplinebreaks />
-	        </filterchain>
-		</loadfile>
-
-		<delete dir="${ikvm.working.dir}" />
-		<mkdir dir="${ikvm.src.dir}" />
-		<mkdir dir="${ikvm.src.test.dir}" />
-		<mkdir dir="${ikvm.classes.dir}" />
-		<mkdir dir="${ikvm.classes.test.dir}" />
-		<mkdir dir="${ikvm.lib.dir}" />
-
-		<exec executable="${ikvmstub.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-out:${ikvm.lib.dir}/mscorlib.jar mscorlib" />
-		</exec>
-
-		<copy todir="${ikvm.src.dir}">
-			<fileset dir="${basedir}/src/main/java" includes="**" />
-		</copy>
-
-		<copy todir="${ikvm.src.test.dir}">
-			<fileset dir="${basedir}/src/test/java">
-				<exclude name="**/CustomerDataTestCharacterEscapeHandler*"/>
-			</fileset>
-		</copy>
-
-		<replace dir="${ikvm.src.dir}" token="public class " value="import cli.System.Runtime.InteropServices.*;${line.separator}@ClassInterfaceAttribute.Annotation(ClassInterfaceType.__Enum.AutoDual)${line.separator}public class ">
-			<include name="**/*.java" />
-			<exclude name="**/schema/*.java" />
-			<exclude name="**/schema/phoenix*/*.java" />
-			<exclude name="**/FieldMap.java" />
-		</replace>
-
-		<replace dir="${ikvm.src.dir}" token="public final class " value="import cli.System.Runtime.InteropServices.*;${line.separator}@ClassInterfaceAttribute.Annotation(ClassInterfaceType.__Enum.AutoDual)${line.separator}                       public final class ">
-			<include name="**/*.java" />
-		</replace>
-
-		<replace dir="${ikvm.src.dir}" token="public interface " value="import cli.System.Runtime.InteropServices.*;${line.separator}@ClassInterfaceAttribute.Annotation(ClassInterfaceType.__Enum.AutoDual)${line.separator}                       public interface ">
-			<include name="**/*.java" />
-			<exclude name="**/UniversalProjectReader.java" />
-		</replace>
-
-		<replace dir="${ikvm.src.dir}" token="class ProjectEntity" value="import cli.System.Runtime.InteropServices.*;${line.separator}@ClassInterfaceAttribute.Annotation(ClassInterfaceType.__Enum.AutoDual)${line.separator}public class ProjectEntity">
-			<include name="**/ProjectEntity.java" />
-		</replace>
-
-		<replace dir="${ikvm.src.dir}" token="public enum " value="import cli.System.Runtime.InteropServices.*;${line.separator}@ClassInterfaceAttribute.Annotation(ClassInterfaceType.__Enum.AutoDual)${line.separator}public enum ">
-			<include name="**/*.java" />
-		</replace>
-
-		<replace dir="${ikvm.src.dir}" token="final class XsdDuration" value="public final class XsdDuration">
-			<include name="**/mspdi/XsdDuration.java" />
-		</replace>
-
-		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poifs.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}::${commons-logging.classpath}:${jackcess.classpath}:${jakarta.activation.classpath}:${jakarta.xml.bind-api.classpath}:${istack-commons-runtime.classpath}:${txw2.classpath}:${jaxb-core.classpath}:${jaxb-runtime.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
-			<compilerarg line="-encoding cp1252" />
-		</javac>
-
-		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poifs.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${commons-logging.classpath}:${jackcess.classpath}:${jakarta.activation.classpath}:${jakarta.xml.bind-api.classpath}:${istack-commons-runtime.classpath}:${txw2.classpath}:${jaxb-core.classpath}:${jaxb-runtime.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
-			<compilerarg line="-encoding cp1252" />
-		</javac>
-
-		<jar jarfile="${ikvm.working.dir}/mpxj.jar">
-			<fileset dir="${ikvm.classes.dir}"/>
-			<fileset dir="${basedir}/src/main/resources"/>
-		</jar>
-		<jar jarfile="${ikvm.working.dir}/mpxj-test.jar">
-			<fileset dir="${ikvm.classes.test.dir}"/>
-		</jar>
-	</target>
-
-	<target name="ikvm-nca31-compile" depends="ikvm-nca31-init" description="Compile everything ready for use with IKVM" if="ikvm.nca31.available">
-
-		<property name="ikvm.src.dir" value="${ikvm.working.dir}/src" />
-		<property name="ikvm.src.test.dir" value="${ikvm.working.dir}/src.test" />
-		<property name="ikvm.classes.dir" value="${ikvm.working.dir}/classes" />
-		<property name="ikvm.classes.test.dir" value="${ikvm.working.dir}/classes.test" />
-		<property name="ikvm.lib.dir" value="${ikvm.working.dir}/lib" />
-
-		<!-- Extract the target JVM version from pom.xml -->
-		<loadfile encoding="UTF-8" property="target-jvm-version" srcFile="${basedir}/pom.xml" >
-	        <filterchain>
-	            <tokenfilter>
-	                <containsregex
-	                    pattern="(\s*&lt;target&gt;)(.+)(&lt;/target&gt;\s*)"
-	                    replace="\2" />
-	            </tokenfilter>
-	            <striplinebreaks />
-	        </filterchain>
-		</loadfile>
-
-		<delete dir="${ikvm.working.dir}" />
-		<mkdir dir="${ikvm.src.dir}" />
-		<mkdir dir="${ikvm.src.test.dir}" />
-		<mkdir dir="${ikvm.classes.dir}" />
-		<mkdir dir="${ikvm.classes.test.dir}" />
-		<mkdir dir="${ikvm.lib.dir}" />
-
-		<exec executable="${ikvmstub.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-out:${ikvm.lib.dir}/mscorlib.jar mscorlib" />
-		</exec>
-
-		<copy todir="${ikvm.src.dir}">
-			<fileset dir="${basedir}/src/main/java" includes="**" />
-		</copy>
-
-		<copy todir="${ikvm.src.test.dir}">
-			<fileset dir="${basedir}/src/test/java">
-				<exclude name="**/CustomerDataTestCharacterEscapeHandler*"/>
-			</fileset>
-		</copy>
-
-		<replace dir="${ikvm.src.dir}" token="final class XsdDuration" value="public final class XsdDuration">
-			<include name="**/mspdi/XsdDuration.java" />
-		</replace>
-
-		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poifs.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${commons-logging.classpath}:${jackcess.classpath}:${jakarta.activation.classpath}:${jakarta.xml.bind-api.classpath}:${istack-commons-runtime.classpath}:${txw2.classpath}:${jaxb-core.classpath}:${jaxb-runtime.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
-			<compilerarg line="-encoding cp1252" />
-		</javac>
-
-		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poifs.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${commons-logging.classpath}:${jackcess.classpath}:${jakarta.activation.classpath}:${jakarta.xml.bind-api.classpath}:${istack-commons-runtime.classpath}:${txw2.classpath}:${jaxb-core.classpath}:${jaxb-runtime.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
-			<compilerarg line="-encoding cp1252" />
-		</javac>
-
-		<jar jarfile="${ikvm.working.dir}/mpxj.jar">
-			<fileset dir="${ikvm.classes.dir}"/>
-			<fileset dir="${basedir}/src/main/resources"/>
-		</jar>
-		<jar jarfile="${ikvm.working.dir}/mpxj-test.jar">
-			<fileset dir="${ikvm.classes.test.dir}"/>
-		</jar>
-	</target>
-
-	<target name="ikvm-net45-dll" depends="ikvm-net45-compile" description="Build .net DLLs" if="ikvm.net45.available">
-		<java classname="net.sf.mpxj.ikvm.MapFileGenerator" failonerror="true">
-			<arg value="${ikvm.working.dir}/mpxj.jar" />
-			<arg value="${ikvm.working.dir}/ikvm-remap-vb.xml" />
-			<arg value="False" />
-			<classpath>
-				<pathelement path="${classpath}" />
-				<pathelement path="${ikvm.working.dir}/mpxj.jar" />
-				<pathelement location="${junit.classpath}" />
-				<pathelement location="${poifs.classpath}" />
-				<pathelement location="${rtfparserkit.classpath}" />
-				<pathelement location="${sqlite-jdbc.classpath}" />
-				<pathelement location="${jsoup.classpath}" />
-				<pathelement location="${commons-lang3.classpath}" />
-				<pathelement location="${commons-logging.classpath}" />
-				<pathelement location="${jackcess.classpath}" />
-				<pathelement location="${jakarta.activation.classpath}" />
-				<pathelement location="${jakarta.xml.bind-api.classpath}" />
-				<pathelement location="${istack-commons-runtime.classpath}" />
-				<pathelement location="${txw2.classpath}" />
-				<pathelement location="${jaxb-core.classpath}" />
-				<pathelement location="${jaxb-runtime.classpath}" />
-			</classpath>
-		</java>
-
-		<java classname="net.sf.mpxj.ikvm.MapFileGenerator" failonerror="true">
-			<arg value="${ikvm.working.dir}/mpxj.jar" />
-			<arg value="${ikvm.working.dir}/ikvm-remap-csharp.xml" />
-			<arg value="True" />
-			<classpath>
-				<pathelement path="${classpath}" />
-				<pathelement path="${ikvm.working.dir}/mpxj.jar" />
-				<pathelement location="${junit.classpath}" />
-				<pathelement location="${poifs.classpath}" />
-				<pathelement location="${rtfparserkit.classpath}" />
-				<pathelement location="${sqlite-jdbc.classpath}" />
-				<pathelement location="${jsoup.classpath}" />
-				<pathelement location="${commons-lang3.classpath}" />
-				<pathelement location="${commons-logging.classpath}" />
-				<pathelement location="${jackcess.classpath}" />
-				<pathelement location="${jakarta.activation.classpath}" />
-				<pathelement location="${jakarta.xml.bind-api.classpath}" />
-				<pathelement location="${istack-commons-runtime.classpath}" />
-				<pathelement location="${txw2.classpath}" />
-				<pathelement location="${jaxb-core.classpath}" />
-				<pathelement location="${jaxb-runtime.classpath}" />
-			</classpath>
-		</java>
-
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-collections.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}/../poifs/target/${commons-collections.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-io.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}/../poifs/target/${commons-io.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-math.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}/../poifs/target/${commons-math.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${log4j-api.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}/../poifs/target/${log4j-api.jar}.jar" />
-		</exec>
-
-		<!-- POI >= 5.0.0 won't compile as-is using IKVM. Instead we use poifs which is a cut down
-		     version of POI which removes the parts we don't use and avoids Java language constructs
-		     which IKVM doesn't like. https://github.com/joniles/poifs -->
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -nowarn:0117 -out:${poi.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${commons-collections.net45.dll} -reference:${commons-io.net45.dll} -reference:${commons-math.net45.dll} -reference:${log4j-api.net45.dll} ${basedir}/../poifs/target/${poifs.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${rtfparserkit.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${rtfparserkit.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${sqlite-jdbc.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${sqlite-jdbc.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jsoup.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${jsoup.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-lang3.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${commons-lang3.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-logging.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${commons-logging.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jackcess.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${commons-lang3.net45.dll} -reference:${commons-logging.net45.dll} ${lib.dir}\${jackcess.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jakarta.activation.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${jakarta.activation.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jakarta.xml.bind-api.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${jakarta.activation.net45.dll} ${lib.dir}\${jakarta.xml.bind-api.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${istack-commons-runtime.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${istack-commons-runtime.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${txw2.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${istack-commons-runtime.net45.dll} ${lib.dir}\${txw2.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jaxb-core.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${jakarta.xml.bind-api.net45.dll} -reference:${txw2.net45.dll} ${lib.dir}\${jaxb-core.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jaxb-runtime.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${jakarta.xml.bind-api.net45.dll} -reference:${txw2.net45.dll} -reference:${jaxb-core.net45.dll} -reference:${istack-commons-runtime.net45.dll} -reference:${jakarta.activation.net45.dll} ${lib.dir}\${jaxb-runtime.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0003 -nowarn:0100 -nowarn:0111 -nowarn:0105 -out:${junit.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${hamcrest.jar}.jar ${lib.dir}\${junit.jar}.jar" />
-		</exec>
-
-		<!-- Generate the original unmapped DLL -->
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0003 -out:${mpxj.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.net45.dll} -reference:${rtfparserkit.net45.dll} -reference:${sqlite-jdbc.net45.dll} -reference:${jsoup.net45.dll} -reference:${jackcess.net45.dll} -reference:${jakarta.xml.bind-api.net45.dll} -reference:${jaxb-runtime.net45.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0003 -out:${mpxj-test.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${poi.net45.dll} -reference:${rtfparserkit.net45.dll} -reference:${sqlite-jdbc.net45.dll} -reference:${jsoup.net45.dll} -reference:${jackcess.net45.dll} -reference:${jakarta.xml.bind-api.net45.dll} -reference:${jaxb-runtime.net45.dll} -reference:${mpxj.net45.dll} -reference:${junit.net45.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj-test.jar" />
-		</exec>
-
-		<!-- Generate a mapped DLL for VB, avoids name clashes due to VB's case insensitivity -->
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0003 -out:${mpxj-for-vb.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-vb.xml -reference:${poi.net45.dll} -reference:${rtfparserkit.net45.dll} -reference:${sqlite-jdbc.net45.dll} -reference:${jsoup.net45.dll} -reference:${jackcess.net45.dll} -reference:${jakarta.xml.bind-api.net45.dll} -reference:${jaxb-runtime.net45.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
-		</exec>
-
-		<!-- Generate a mapped DLL for C# and other .Net languages -->
-		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0003 -out:${mpxj-for-csharp.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-csharp.xml -reference:${poi.net45.dll} -reference:${rtfparserkit.net45.dll} -reference:${sqlite-jdbc.net45.dll} -reference:${jsoup.net45.dll} -reference:${jackcess.net45.dll} -reference:${jakarta.xml.bind-api.net45.dll} -reference:${jaxb-runtime.net45.dll} -reference:mscorlib.dll -reference:system.dll ${ikvm.working.dir}\mpxj.jar" />
-		</exec>
-
-		<!-- Export a Type Library (TLB) for each assembly. This step will fail if the assemblies are in the GAC! -->
-		<apply executable="${tlbexp.net45.cmd}" parallel="false" relative="true" dir="${lib.net45.dir}" failifexecutionfails="true">
-			<arg value="/nologo"/>
-			<arg value="/silence:000017CE"/>
-			<arg value="/silence:001311D9"/>
-			<arg value="/silence:80131178"/>
-			<arg value="/silence:0013117F"/>
-			<arg value="/silence:8013117D"/>
-			<arg value="/silence:801311B0"/>
-			<arg value="/silence:80131172"/>
-			<srcfile />
-			<fileset dir="${lib.net45.dir}">
-				<include name="**/*.dll" />
-				<exclude name="**/ikvm-native*.dll" />
-			</fileset>
-		</apply>
-
-		<!-- Generate a batch file which installs the assemblies in the GAC -->
-		<echo file="${lib.net45.dir}\mpxj-gac-install.bat" message="@echo off${line.separator}echo This batch file installs the DLLs required to use MPXJ into the GAC${line.separator}pause${line.separator}"/>
-		<apply executable="cmd.exe" parallel="false" relative="true">
-			<arg value="/c" />
-			<srcfile prefix="echo gacutil /i " />
-			<arg value="&gt;&gt; ${lib.net45.dir}\mpxj-gac-install.bat" />
-			<fileset dir="${lib.net45.dir}">
-				<include name="*.dll" />
-			</fileset>
-		</apply>
-		<replace file="${lib.net45.dir}\mpxj-gac-install.bat" token='" "' value="" />
-
-		<!-- Generate a batch file which removes the assemblies from the GAC -->
-		<echo file="${lib.net45.dir}\mpxj-gac-uninstall.bat" message="@echo off${line.separator}echo This batch file uninstalls the DLLs required to use MPXJ from the GAC${line.separator}pause${line.separator}"/>
-		<apply executable="cmd.exe" parallel="false" relative="true" addsourcefile="false">
-			<arg value="/c" />
-			<targetfile prefix="echo gacutil /u " />
-			<arg value="&gt;&gt; ${lib.net45.dir}\mpxj-gac-uninstall.bat" />
-			<fileset dir="${lib.net45.dir}">
-				<include name="**/*.dll" />
-			</fileset>
-			<mapper type="glob" from="*.dll" to="*"/>
-		</apply>
-		<replace file="${lib.net45.dir}\mpxj-gac-uninstall.bat" token='" "' value="" />
-
-		<!-- Generate a batch file to register the assemblies -->
-		<echo file="${lib.net45.dir}\mpxj-register-assemblies.bat" message="@echo off${line.separator}echo This batch file registers the .Net assemblies used by MPXJ so that they can be called from COM${line.separator}pause${line.separator}"/>
-		<apply executable="cmd.exe" parallel="false" relative="true">
-			<arg value="/c" />
-			<srcfile prefix="echo regasm " />
-			<arg value="&gt;&gt; ${lib.net45.dir}\mpxj-register-assemblies.bat" />
-			<fileset dir="${lib.net45.dir}">
-				<include name="**/*.dll" />
-			</fileset>
-		</apply>
-		<replace file="${lib.net45.dir}\mpxj-register-assemblies.bat" token='" "' value="" />
-
-		<!-- Generate a batch file to unregister the assemblies -->
-		<echo file="${lib.net45.dir}\mpxj-unregister-assemblies.bat" message="@echo off${line.separator}echo This batch file deregisters the .Net assemblies used by MPXJ so that they are no longer available to be called from COM${line.separator}pause${line.separator}"/>
-		<apply executable="cmd.exe" parallel="false" relative="true">
-			<arg value="/c" />
-			<srcfile prefix="echo regasm /u " />
-			<arg value="&gt;&gt; ${lib.net45.dir}\mpxj-unregister-assemblies.bat" />
-			<fileset dir="${lib.net45.dir}">
-				<include name="**/*.dll" />
-			</fileset>
-		</apply>
-		<replace file="${lib.net45.dir}\mpxj-unregister-assemblies.bat" token='" "' value="" />
-
-		<delete dir="${ikvm.working.dir}" />
-	</target>
-
-	<target name="ikvm-nca31-dll" depends="ikvm-nca31-compile" description="Build .net DLLs" if="ikvm.nca31.available">
-		<java classname="net.sf.mpxj.ikvm.MapFileGenerator" failonerror="true">
-			<arg value="${ikvm.working.dir}/mpxj.jar" />
-			<arg value="${ikvm.working.dir}/ikvm-remap-vb.xml" />
-			<arg value="False" />
-			<classpath>
-				<pathelement path="${classpath}" />
-				<pathelement path="${ikvm.working.dir}/mpxj.jar" />
-				<pathelement location="${junit.classpath}" />
-				<pathelement location="${poifs.classpath}" />
-				<pathelement location="${rtfparserkit.classpath}" />
-				<pathelement location="${sqlite-jdbc.classpath}" />
-				<pathelement location="${jsoup.classpath}" />
-				<pathelement location="${commons-lang3.classpath}" />
-				<pathelement location="${commons-logging.classpath}" />
-				<pathelement location="${jackcess.classpath}" />
-				<pathelement location="${jakarta.activation.classpath}" />
-				<pathelement location="${jakarta.xml.bind-api.classpath}" />
-				<pathelement location="${istack-commons-runtime.classpath}" />
-				<pathelement location="${txw2.classpath}" />
-				<pathelement location="${jaxb-core.classpath}" />
-				<pathelement location="${jaxb-runtime.classpath}" />
-			</classpath>
-		</java>
-
-		<java classname="net.sf.mpxj.ikvm.MapFileGenerator" failonerror="true">
-			<arg value="${ikvm.working.dir}/mpxj.jar" />
-			<arg value="${ikvm.working.dir}/ikvm-remap-csharp.xml" />
-			<arg value="True" />
-			<classpath>
-				<pathelement path="${classpath}" />
-				<pathelement path="${ikvm.working.dir}/mpxj.jar" />
-				<pathelement location="${junit.classpath}" />
-				<pathelement location="${poifs.classpath}" />
-				<pathelement location="${rtfparserkit.classpath}" />
-				<pathelement location="${sqlite-jdbc.classpath}" />
-				<pathelement location="${jsoup.classpath}" />
-				<pathelement location="${commons-lang3.classpath}" />
-				<pathelement location="${commons-logging.classpath}" />
-				<pathelement location="${jackcess.classpath}" />
-				<pathelement location="${jakarta.activation.classpath}" />
-				<pathelement location="${jakarta.xml.bind-api.classpath}" />
-				<pathelement location="${istack-commons-runtime.classpath}" />
-				<pathelement location="${txw2.classpath}" />
-				<pathelement location="${jaxb-core.classpath}" />
-				<pathelement location="${jaxb-runtime.classpath}" />
-			</classpath>
-		</java>
-
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-collections.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}/../poifs/target/${commons-collections.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-io.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}/../poifs/target/${commons-io.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-math.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}/../poifs/target/${commons-math.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${log4j-api.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}/../poifs/target/${log4j-api.jar}.jar" />
-		</exec>
-
-		<!-- POI >= 5.0.0 won't compile as-is using IKVM. Instead we use poifs which is a cut down
-		     version of POI which removes the parts we don't use and avoids Java language constructs
-		     which IKVM doesn't like. https://github.com/joniles/poifs -->
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -nowarn:0117 -out:${poi.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${commons-collections.nca31.dll} -reference:${commons-io.nca31.dll} -reference:${commons-math.nca31.dll} -reference:${log4j-api.nca31.dll} ${basedir}/../poifs/target/${poifs.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${rtfparserkit.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${rtfparserkit.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jsoup.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${jsoup.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-lang3.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${commons-lang3.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-logging.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${commons-logging.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jackcess.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${commons-lang3.nca31.dll} -reference:${commons-logging.nca31.dll} ${basedir}\lib\${jackcess.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${istack-commons-runtime.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${istack-commons-runtime.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${txw2.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${istack-commons-runtime.nca31.dll} ${basedir}\lib\${txw2.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jakarta.activation.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${jakarta.activation.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jakarta.xml.bind-api.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${jakarta.activation.nca31.dll} ${basedir}\lib\${jakarta.xml.bind-api.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jaxb-core.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${jakarta.xml.bind-api.nca31.dll} -reference:${txw2.nca31.dll} ${basedir}\lib\${jaxb-core.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jaxb-runtime.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${jakarta.xml.bind-api.nca31.dll} -reference:${txw2.nca31.dll} -reference:${jaxb-core.nca31.dll} -reference:${istack-commons-runtime.nca31.dll} -reference:${jakarta.activation.nca31.dll} ${basedir}\lib\${jaxb-runtime.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0003 -nowarn:0100 -nowarn:0111 -nowarn:0105 -out:${junit.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${lib.dir}\${hamcrest.jar}.jar ${lib.dir}\${junit.jar}.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${sqlite-jdbc.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:System.Console.dll ${lib.dir}\${sqlite-jdbc.jar}.jar" />
-		</exec>
-
-		<!-- Generate the original unmapped DLL -->
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0003 -out:${mpxj.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${poi.nca31.dll} -reference:${rtfparserkit.nca31.dll} -reference:${sqlite-jdbc.nca31.dll} -reference:${jsoup.nca31.dll} -reference:${jackcess.nca31.dll} -reference:${jakarta.xml.bind-api.nca31.dll} -reference:${jaxb-runtime.nca31.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
-		</exec>
-
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0003 -out:${mpxj-test.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${poi.nca31.dll} -reference:${rtfparserkit.nca31.dll} -reference:${sqlite-jdbc.nca31.dll} -reference:${jsoup.nca31.dll} -reference:${jackcess.nca31.dll} -reference:${jakarta.xml.bind-api.nca31.dll} -reference:${jaxb-runtime.nca31.dll} -reference:${mpxj.nca31.dll} -reference:${junit.nca31.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj-test.jar" />
-		</exec>
-
-		<!-- Generate a mapped DLL for VB, avoids name clashes due to VB's case insensitivity -->
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0003 -out:${mpxj-for-vb.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-vb.xml -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${poi.nca31.dll} -reference:${rtfparserkit.nca31.dll} -reference:${sqlite-jdbc.nca31.dll} -reference:${jsoup.nca31.dll} -reference:${jackcess.nca31.dll} -reference:${jakarta.xml.bind-api.nca31.dll} -reference:${jaxb-runtime.nca31.dll} -reference:mscorlib.dll ${ikvm.working.dir}\mpxj.jar" />
-		</exec>
-
-		<!-- Generate a mapped DLL for C# and other .Net languages -->
-		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0003 -out:${mpxj-for-csharp.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -remap:${ikvm.working.dir}/ikvm-remap-csharp.xml -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${poi.nca31.dll} -reference:${rtfparserkit.nca31.dll} -reference:${sqlite-jdbc.nca31.dll} -reference:${jsoup.nca31.dll} -reference:${jackcess.nca31.dll} -reference:${jakarta.xml.bind-api.nca31.dll} -reference:${jaxb-runtime.nca31.dll} -reference:mscorlib.dll -reference:system.dll ${ikvm.working.dir}\mpxj.jar" />
-		</exec>
-
-		<delete dir="${ikvm.working.dir}" />
-	</target>
-
-	<target name="vs-net45-dll" depends="ikvm-net45-dll" description="Build .Net DLLs using Visual Studio" if="dotnet.available">
-		<delete includeemptydirs="true">
-			<fileset dir="${basedir}/src.net/utilities" defaultexcludes="false">
-				<include name="bin" />
-				<include name="obj" />
-			</fileset>
-		</delete>
-
-		<exec executable="dotnet" dir="${basedir}" failonerror="true">
-			<arg line="build src.net/utilities/MpxjUtilities.net45.csproj" />
-		</exec>
-		<copy file="src.net/utilities/bin/Debug/net45/MpxjUtilities.dll" tofile="${mpxj-utilities.net45.dll}"/>
-	</target>
-
-	<target name="vs-nca31-dll" depends="ikvm-nca31-dll" description="Build .Net DLLs using Visual Studio" if="dotnet.available">
-		<delete includeemptydirs="true">
-			<fileset dir="${basedir}/src.net/utilities" defaultexcludes="false">
-				<include name="bin" />
-				<include name="obj" />
-			</fileset>
-		</delete>
-
-		<exec executable="dotnet" dir="${basedir}" failonerror="true">
-			<arg line="build src.net/utilities/MpxjUtilities.nca31.csproj" />
-		</exec>
-		<copy file="src.net/utilities/bin/Debug/netcoreapp3.1/MpxjUtilities.dll" tofile="${mpxj-utilities.nca31.dll}"/>
-	</target>
-
-	<target name="archive" depends="maven-install,ikvm-nca31-dll,vs-nca31-dll,ikvm-net45-dll,vs-net45-dll,gem-source,changelog,releasenotes" description="Create library files"/>
-
-	<target name="distribute" depends="archive,dotnet-clean,nuget-package" description="Create distribution">
+	<target name="distribute" depends="archive" description="Create distribution">
 		<zip zipfile="${distribution}">
 			<zipfileset dir="${basedir}" prefix="mpxj" excludes="target/**, dist/**" />
 		</zip>
@@ -914,20 +222,6 @@
 		<delete>
 			<fileset dir="${basedir}" includes="**/*~" defaultexcludes="no" />
 		</delete>
-	</target>
-
-	<target name="dotnet-clean" depends="ikvm-init" description="Clean up .Net build files">
-		<delete includeemptydirs="true">
-			<fileset dir="${basedir}/src.net" defaultexcludes="false">
-				<include name="**/bin/**" />
-				<include name="**/obj/**" />
-				<include name="**/.vs/**" />
-				<include name="**/*.suo" />
-				<include name="**/*.user" />
-			</fileset>
-		</delete>
-
-		<delete dir="${ikvm.working.dir}" />
 	</target>
 
 	<target name="gem-clean" depends="init" description="Clean up Ruby files">
@@ -952,19 +246,9 @@
 		<mkdir dir="${basedir}/src.python/mpxj/mpxj/lib" />
 	</target>
 
-	<target name="clean" depends="init, temp-clean, dotnet-clean, gem-clean, python-clean, maven-clean" description="Clean up all files">
+	<target name="clean" depends="init, temp-clean, gem-clean, python-clean, maven-clean" description="Clean up all files">
 		<delete file="${basedir}/mpxj.jar" />
 		<delete file="${basedir}/mpxj-test.jar" />
-
-		<delete>
-			<fileset dir="${basedir}/src.net/lib">
-				<include name="**/*.tlb"/>
-				<include name="**/*.bat"/>
-				<include name="**/*.dll"/>
-				<exclude name="**/ikvm-native*.dll"/>
-				<exclude name="**/IKVM.*.dll"/>
-			</fileset>
-		</delete>
 
 		<delete>
 			<fileset dir="${lib.dir}">
@@ -1049,115 +333,4 @@
 			<arg line='release create -F ${dist.dir}/readme.md -t "Version ${current.version}" v${current.version} ${distribution}'/>
 		</exec>
 	</target>
-
-	<target name="nuget-package" depends="init" description="Create NuGet packages">
-		<property name="nuspec.dir" value="${basedir}/src.net/nuget"/>
-
-		<exec executable="${nuget.cmd}" failonerror="true">
-			<arg value="update"/>
-			<arg value="-self"/>
-		</exec>
-
-		<replace dir="${nuspec.dir}" token="0.0.0" value="${current.version}">
-			<include name="*.nuspec" />
-		</replace>
-
-		<antcall target="nuget-pack">
-			<param name="nuget.spec" value="mpxj"/>
-		</antcall>
-
-		<antcall target="nuget-pack">
-			<param name="nuget.spec" value="mpxj-for-csharp"/>
-		</antcall>
-
-		<antcall target="nuget-pack">
-			<param name="nuget.spec" value="mpxj-for-vb"/>
-		</antcall>
-
-		<antcall target="nuget-pack">
-			<param name="nuget.spec" value="mpxj-test"/>
-		</antcall>
-
-		<replace dir="${nuspec.dir}" token="${current.version}" value="0.0.0">
-			<include name="*.nuspec" />
-		</replace>
-	</target>
-
-	<target name="nuget-pack">
-		<exec executable="${nuget.cmd}" failonerror="true">
-			<arg value="pack"/>
-			<arg value="${nuspec.dir}/${nuget.spec}.nuspec"/>
-			<arg value="-outputdirectory"/>
-			<arg value="${dist.dir}"/>
-			<arg value="-version"/>
-			<arg value="${current.version}"/>
-			<arg value="-verbosity"/>
-			<arg value="quiet"/>
-			<arg value="-nopackageanalysis"/>
-		</exec>
-	</target>
-
-	<target name="nuget-push">
-		<exec executable="${nuget.cmd}" failonerror="true">
-			<arg value="push"/>
-			<arg value="-Source"/>
-			<arg value="https://www.nuget.org/api/v2/package"/>
-			<arg value="-Timeout"/>
-			<arg value="1200"/>
-			<arg value="-Verbosity"/>
-			<arg value="Detailed"/>
-			<arg value="-ApiKey"/>
-			<arg value="${env.NUGET_API_KEY}"/>
-			<arg value="${dist.dir}/net.sf.${nuget.package}.${current.version}.nupkg"/>
-		</exec>
-	</target>
-
-	<target name="nuget-deploy" depends="init" description="Deploy NuGet packages">
-		<antcall target="nuget-push">
-			<param name="nuget.package" value="mpxj"/>
-		</antcall>
-
-		<antcall target="nuget-push">
-			<param name="nuget.package" value="mpxj-for-csharp"/>
-		</antcall>
-
-		<antcall target="nuget-push">
-			<param name="nuget.package" value="mpxj-for-vb"/>
-		</antcall>
-	</target>
-
-	<!-- Experimental - work in progress -->
-	<target name="j2objc">
-		<property name="j2objc.dir" value="../j2objc-1.0.2"/>
-	    <fileset
-	    	id="source.fileset"
-	    	dir="src"
-	    	includes="**/*.java"
-	    	excludes="net/sf/mpxj/explorer/**,net/sf/mpxj/mspdi/**,net/sf/mpxj/primavera/**,net/sf/mpxj/ikvm/**"
-	    />
-	    <pathconvert property="source.files" refid="source.fileset" pathsep=" "/>
-		<java jar="${j2objc.dir}/lib/j2objc.jar" fork="true">
-			<arg line="-Xbootclasspath:${j2objc.dir}/lib/jre_emul.jar -d src.objc"/>
-			<arg line=" ${source.files}"/>
-		</java>
-	</target>
-
-	<!-- Run this after xjc to fix incorrectly escaped XML in javadoc comments -->
-	<target name="fix-jaxb-comments" depends="init" description="Fix JAXB generated comments">
-		<replaceregexp
-		               match="( \*[ ]+&amp;lt;.+)&gt;"
-		               replace="\1&amp;gt;"
-		               byline="true">
-			<fileset dir="${basedir}/src/main/java" includes="**/schema/*.java" />
-		</replaceregexp>
-
-		<replaceregexp
-		               match='(base="&amp;lt;.+)&gt;'
-		               replace="\1&amp;gt;"
-		               byline="true">
-			<fileset dir="${basedir}/src/main/java" includes="**/schema/*.java" />
-		</replaceregexp>
-
-	</target>
-
 </project>

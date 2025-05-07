@@ -11,10 +11,10 @@
 	<name>MPXJ</name>
 	<url>http://mpxj.org</url>
 
-	<description>Library that provides facilities to allow project information to be manipulated in Java and .Net. Supports a range of data formats: Microsoft Project Exchange (MPX), Microsoft Project (MPP,MPT), Microsoft Project Data Interchange (MSPDI XML), Microsoft Project Database (MPD), Planner (XML), Primavera (PM XML, XER, and database), Asta Powerproject (PP, MDB), Asta Easyplan (PP), Phoenix Project Manager (PPX), FastTrack Schedule (FTS), and the Standard Data Exchange Format (SDEF).</description>
+	<description>MPXJ is a library which allows you to read, manipulate, and write project information from Java, .Net, Python and Ruby. MPXJ supports a range of data formats: Microsoft Project Exchange (MPX), Microsoft Project (MPP, MPT), Microsoft Project Data Interchange (MSPDI XML), Microsoft Project Database (MPD), Planner (XML), Primavera P6 (PMXML, XER, and database), Primavera P3, Primavera Suretrak, Asta Powerproject (PP, MDB), Asta Easyplan (PP), Phoenix Project Manager (PPX), FastTrack Schedule (FTS), Ganttproject (GAN), Turboproject (PEP), Conceptdraw PROJECT (CDPX, CDPZ, CDPTZ), Synchro Scheduler (SP) Gantt Designer (GNT), Standard Data Exchange Format (SDEF), Project Commander (PC), Deltek Open Plan (BK3), and Edraw Project (EDPX).</description>
 
 	<organization>
-		<name>Packwood Software</name>
+		<name>MPXJ</name>
 		<url>http://mpxj.org</url>
 	</organization>
 	<inceptionYear>2000</inceptionYear>

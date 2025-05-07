@@ -2,11 +2,11 @@
   <!-- note that the schemaLocation will need to be changed to be correct for your system -->
   <jxb:bindings node="/xsd:schema" schemaLocation="file:p6v2412-p6apibo-corrected.xsd">
     <jxb:globalBindings generateElementProperty="false">
-      <jxb:javaType name="java.time.LocalDateTime" parseMethod="net.sf.mpxj.primavera.DatatypeConverter.parseDateTime" printMethod="net.sf.mpxj.primavera.DatatypeConverter.printDateTime" xmlType="xsd:dateTime"/>
-      <jxb:javaType name="java.time.LocalTime" parseMethod="net.sf.mpxj.primavera.DatatypeConverter.parseTime" printMethod="net.sf.mpxj.primavera.DatatypeConverter.printTime" xmlType="xsd:time"/>
-      <jxb:javaType name="java.lang.Double" parseMethod="net.sf.mpxj.primavera.DatatypeConverter.parseDouble" printMethod="net.sf.mpxj.primavera.DatatypeConverter.printDouble" xmlType="xsd:double"/>
-      <jxb:javaType name="java.lang.Boolean" parseMethod="net.sf.mpxj.primavera.DatatypeConverter.parseBoolean" printMethod="net.sf.mpxj.primavera.DatatypeConverter.printBoolean" xmlType="xsd:boolean"/>
-      <jxb:javaType name="java.lang.String" parseMethod="net.sf.mpxj.primavera.DatatypeConverter.parseString" printMethod="net.sf.mpxj.primavera.DatatypeConverter.printString" xmlType="xsd:string"/>
+      <jxb:javaType name="java.time.LocalDateTime" parseMethod="org.mpxj.primavera.DatatypeConverter.parseDateTime" printMethod="org.mpxj.primavera.DatatypeConverter.printDateTime" xmlType="xsd:dateTime"/>
+      <jxb:javaType name="java.time.LocalTime" parseMethod="org.mpxj.primavera.DatatypeConverter.parseTime" printMethod="org.mpxj.primavera.DatatypeConverter.printTime" xmlType="xsd:time"/>
+      <jxb:javaType name="java.lang.Double" parseMethod="org.mpxj.primavera.DatatypeConverter.parseDouble" printMethod="org.mpxj.primavera.DatatypeConverter.printDouble" xmlType="xsd:double"/>
+      <jxb:javaType name="java.lang.Boolean" parseMethod="org.mpxj.primavera.DatatypeConverter.parseBoolean" printMethod="org.mpxj.primavera.DatatypeConverter.printBoolean" xmlType="xsd:boolean"/>
+      <jxb:javaType name="java.lang.String" parseMethod="org.mpxj.primavera.DatatypeConverter.parseString" printMethod="org.mpxj.primavera.DatatypeConverter.printString" xmlType="xsd:string"/>
     </jxb:globalBindings>
   </jxb:bindings>
 </jxb:bindings>

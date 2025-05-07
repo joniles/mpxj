@@ -10,9 +10,9 @@ The sample code below illustrates how to write data to an XER file.
 	```java
 	package org.mpxj.howto.write;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.writer.FileFormat;
-	import net.sf.mpxj.writer.UniversalProjectWriter;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.writer.FileFormat;
+	import org.mpxj.writer.UniversalProjectWriter;
 	
 	public class XER
 	{
@@ -52,8 +52,8 @@ below.
 	```java
 	package org.mpxj.howto.write;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.primavera.PrimaveraXERFileWriter;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.primavera.PrimaveraXERFileWriter;
 	
 	import java.nio.charset.Charset;
 	

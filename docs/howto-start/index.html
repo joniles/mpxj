@@ -11,7 +11,7 @@
         <link rel="canonical" href="http://www.mpxj.org/howto-start/">
       
       
-        <link rel="prev" href="../howto-com/">
+        <link rel="prev" href="../howto-start-ruby/">
       
       
         <link rel="next" href="../howto-build/">
@@ -430,27 +430,6 @@
   
   <span class="md-ellipsis">
     Getting Started with Ruby
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../howto-com/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Getting Started with COM
   </span>
   
 
@@ -1446,6 +1425,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../howto-use-cpm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPM Schedulers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../howto-use-external-projects/" class="md-nav__link">
         
   
@@ -1773,12 +1773,12 @@ which can determine for itself the type of file you have passed to it.</p>
 <p>A similar arrangement exists for the writer classes, although there is not a
 "universal project writer" as such:</p>
 <ul>
-<li><code>net.sf.mpxj.mpx.MPXWriter</code>: writes Microsoft MPX files</li>
-<li><code>net.sf.mpxj.mspdi.MSPDIWriter</code>: writes Microsoft MSPDI (XML) files</li>
-<li><code>net.sf.mpxj.planner.PlannerWriter</code>: writes Planner (XML) files</li>
-<li><code>net.sf.mpxj.sdef.SDEFWriter</code>: writes SDEF files</li>
-<li><code>net.sf.mpxj.primavera.PrimaveraPMFileWriter</code>: writes Primavera PMXML (XML) files</li>
-<li><code>net.sf.mpxj.json.JsonWriter</code>: writes JSON files (primarily used to support the Ruby version of MPXJ)</li>
+<li><code>org.mpxj.mpx.MPXWriter</code>: writes Microsoft MPX files</li>
+<li><code>org.mpxj.mspdi.MSPDIWriter</code>: writes Microsoft MSPDI (XML) files</li>
+<li><code>org.mpxj.planner.PlannerWriter</code>: writes Planner (XML) files</li>
+<li><code>org.mpxj.sdef.SDEFWriter</code>: writes SDEF files</li>
+<li><code>org.mpxj.primavera.PrimaveraPMFileWriter</code>: writes Primavera PMXML (XML) files</li>
+<li><code>org.mpxj.json.JsonWriter</code>: writes JSON files (primarily used to support the Ruby version of MPXJ)</li>
 </ul>
 <p>All of these classes implement the ProjectWriter interface. If you know which 
 type of file you are working with, you can use these writers directly, 

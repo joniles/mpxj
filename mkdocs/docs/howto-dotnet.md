@@ -1,7 +1,16 @@
 # Getting Started with .Net
-There are three different ways of adding MPXJ to your .Net project. In each case
-tool called [IKVM](https://github.com/ikvmnet/ikvm)
+There are two different ways of adding MPXJ to your .Net project. In both cases
+a tool called [IKVM](https://github.com/ikvmnet/ikvm)
 is being used to convert the original Java version of MPXJ into .Net assemblies.
+
+> Note: both of the approaches described below require that the project
+> you are adding MPXJ to is an SDK-style project. This is the modern project
+> file format used by Visual Studio. 
+> If you open your `csproj` file in a text editor, the first line should look
+> something like this: `<Project Sdk="Microsoft.NET.Sdk">`. If the first line of
+> your `csproj` file looks something like this:
+> `<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">`
+> you will need to update to the new SDK project format in order to use MPXJ.
 
 ## MPXJ.Net
 **This is the recommended approach.**
@@ -38,7 +47,7 @@ your project file and include the following lines:
 ```xml
 <ItemGroup>
   <PackageReference Include="IKVM.Maven.Sdk" Version="1.8.2" />
-  <MavenReference Include="net.sf.mpxj:mpxj" Version="13.7.0"/>
+  <MavenReference Include="net.sf.mpxj:mpxj" Version="14.0.0"/>
 </ItemGroup>
 ```
 
@@ -59,18 +68,6 @@ recommended.
 > return to normal. You may also see various transient warning messages as the
 > first build completes. These can be ignored and will disappear once your
 > project has finished building.
-
-
-## Legacy IKVM
-**Deprecated. Do Not Use. Only supported until MPXJ version 14.**
-
-The original .Net version of MPXJ was created using a legacy version of IKVM.
-The assemblies for this version are shipped as part of the MPXJ distribution and
-are available from NuGet as the following packages:
-
-* [net.sf.mpxj](https://www.nuget.org/packages/net.sf.mpxj) direct translation of MPXJ
-* [net.sf.mpxj-for-csharp](https://www.nuget.org/packages/net.sf.mpxj-for-csharp) translation of MPXJ with properties and methods following C# naming conventions
-* [net.sf.mpxj-for-vb](https://www.nuget.org/packages/net.sf.mpxj-for-vb) translation of MPXJ with properties and methods following C# naming conventions with some adjustments to accommodate VB's lack of case sensitivity
 
 ## Sample Code
 You'll find a general introduction to MPXJ's functionality

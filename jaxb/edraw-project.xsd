@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+         <!-- XML Schema Generated from XML Document on Mon Apr 28 2025 22:32:37 GMT+0100 (British Summer Time) -->
+         <!-- with XmlGrid.net Free Online Service http://xmlgrid.net -->
+         <xs:element name="Document">
+               <xs:complexType>
+                     <xs:sequence>
+                           <xs:element name="CreatedVersion">
+                                 <xs:complexType>
+                                       <xs:attribute name="V" type="xs:string"/>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="CreationDate">
+                                 <xs:complexType>
+                                       <xs:attribute name="V" type="xs:dateTime"/>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="Creator">
+                                 <xs:complexType>
+                                       <xs:attribute name="V" type="xs:string"/>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="LastSaved">
+                                 <xs:complexType>
+                                       <xs:attribute name="V" type="xs:dateTime"/>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="Modifier">
+                                 <xs:complexType>
+                                       <xs:attribute name="V" type="xs:string"/>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="DPi">
+                                 <xs:complexType>
+                                       <xs:attribute name="V" type="xs:int"/>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="ScreenWidth">
+                                 <xs:complexType>
+                                       <xs:attribute name="V" type="xs:int"/>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="ScreenHeight">
+                                 <xs:complexType>
+                                       <xs:attribute name="V" type="xs:int"/>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="CalendarUID">
+                                 <xs:complexType>
+                                       <xs:attribute name="V" type="xs:int"/>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="MinutesPerDay">
+                                 <xs:complexType>
+                                       <xs:attribute name="V" type="xs:int"/>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="MinutesPerWeek">
+                                 <xs:complexType>
+                                       <xs:attribute name="V" type="xs:int"/>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="DaysPerMonth">
+                                 <xs:complexType>
+                                       <xs:attribute name="V" type="xs:int"/>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="DateFormat">
+                                 <xs:complexType>
+                                       <xs:attribute name="V" type="xs:string"/>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="GanttViewSplitterRate">
+                                 <xs:complexType>
+                                       <xs:attribute name="V" type="xs:double"/>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="m_isShowSpecificTime">
+                                 <xs:complexType>
+                                       <xs:attribute name="V" type="xs:boolean"/>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="GanttOption">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="MajorUnit">
+                                                   <xs:complexType>
+                                                         <xs:attribute name="V" type="xs:int"/>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                             <xs:element name="MinorUnit">
+                                                   <xs:complexType>
+                                                         <xs:attribute name="V" type="xs:int"/>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                             <xs:element name="ProjectUnit">
+                                                   <xs:complexType>
+                                                         <xs:attribute name="V" type="xs:int"/>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                             <xs:element name="BaselineCost">
+                                                   <xs:complexType>
+                                                         <xs:attribute name="V" type="xs:int"/>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                             <xs:element name="StartDate">
+                                                   <xs:complexType>
+                                                         <xs:attribute name="V" type="xs:dateTime"/>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                             <xs:element name="FinishDate">
+                                                   <xs:complexType>
+                                                         <xs:attribute name="V" type="xs:dateTime"/>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                             <xs:element name="Auto">
+                                                   <xs:complexType>
+                                                         <xs:attribute name="V" type="xs:int"/>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                             <xs:element name="ThemeIndex">
+                                                   <xs:complexType>
+                                                         <xs:attribute name="V" type="xs:int"/>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                       </xs:sequence>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="RowColumn">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="ColumnList">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="Column" maxOccurs="unbounded">
+                                                                     <xs:complexType>
+                                                                           <xs:sequence>
+                                                                                 <xs:element name="Text">
+                                                                                       <xs:complexType>
+                                                                                             <xs:sequence>
+                                                                                                   <xs:element name="Varient"></xs:element>
+                                                                                                   <xs:element name="TextBlock">
+                                                                                                         <xs:complexType>
+                                                                                                               <xs:sequence>
+                                                                                                                     <xs:element name="Character">
+                                                                                                                           <xs:complexType>
+                                                                                                                                 <xs:attribute name="Family" type="xs:string"/>
+                                                                                                                                 <xs:attribute name="Size" type="xs:int"/>
+                                                                                                                                 <xs:attribute name="IX" type="xs:int"/>
+                                                                                                                           </xs:complexType>
+                                                                                                                     </xs:element>
+                                                                                                                     <xs:element name="Paragraph">
+                                                                                                                           <xs:complexType>
+                                                                                                                                 <xs:attribute name="Align" type="xs:int"/>
+                                                                                                                                 <xs:attribute name="IX" type="xs:int"/>
+                                                                                                                                 <xs:attribute name="SpLine" type="xs:int"/>
+                                                                                                                           </xs:complexType>
+                                                                                                                     </xs:element>
+                                                                                                                     <xs:element name="WrapMode">
+                                                                                                                           <xs:complexType>
+                                                                                                                                 <xs:attribute name="Value" type="xs:int"/>
+                                                                                                                           </xs:complexType>
+                                                                                                                     </xs:element>
+                                                                                                                     <xs:element name="FillColor">
+                                                                                                                           <xs:complexType>
+                                                                                                                                 <xs:attribute name="Color" type="xs:string"/>
+                                                                                                                           </xs:complexType>
+                                                                                                                     </xs:element>
+                                                                                                                     <xs:element name="Color">
+                                                                                                                           <xs:complexType>
+                                                                                                                                 <xs:attribute name="V" type="xs:string"/>
+                                                                                                                           </xs:complexType>
+                                                                                                                     </xs:element>
+                                                                                                               </xs:sequence>
+                                                                                                               <xs:attribute name="VAlign" type="xs:string"/>
+                                                                                                               <xs:attribute name="HAlign" type="xs:string"/>
+                                                                                                               <xs:attribute name="TextFormatMask" type="xs:int"/>
+                                                                                                         </xs:complexType>
+                                                                                                   </xs:element>
+                                                                                             </xs:sequence>
+                                                                                             <xs:attribute name="FieldType" type="xs:int"/>
+                                                                                             <xs:attribute name="PlainText" type="xs:string"/>
+                                                                                             <xs:attribute name="FieldID" type="xs:int"/>
+                                                                                             <xs:attribute name="DataType" type="xs:int"/>
+                                                                                       </xs:complexType>
+                                                                                 </xs:element>
+                                                                           </xs:sequence>
+                                                                           <xs:attribute name="FieldType" type="xs:int"/>
+                                                                           <xs:attribute name="Key" type="xs:int"/>
+                                                                           <xs:attribute name="IsHide" type="xs:boolean"/>
+                                                                           <xs:attribute name="FilterType" type="xs:int"/>
+                                                                           <xs:attribute name="ColSelectALL" type="xs:int"/>
+                                                                           <xs:attribute name="Width" type="xs:int"/>
+                                                                           <xs:attribute name="SortStatus" type="xs:int"/>
+                                                                     </xs:complexType>
+                                                               </xs:element>
+                                                         </xs:sequence>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                       </xs:sequence>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="TaskList">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="Task" maxOccurs="unbounded">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="Format">
+                                                                     <xs:complexType>
+                                                                           <xs:attribute name="Family" type="xs:string"/>
+                                                                           <xs:attribute name="Bold" type="xs:int"/>
+                                                                           <xs:attribute name="Underline" type="xs:int"/>
+                                                                           <xs:attribute name="StrikeOut" type="xs:int"/>
+                                                                           <xs:attribute name="PointSize" type="xs:int"/>
+                                                                           <xs:attribute name="Italic" type="xs:int"/>
+                                                                     </xs:complexType>
+                                                               </xs:element>
+                                                               <xs:element name="ResourceList">
+                                                                     <xs:complexType>
+                                                                           <xs:sequence>
+                                                                                 <xs:element name="Resource" maxOccurs="unbounded">
+                                                                                       <xs:complexType>
+                                                                                             <xs:attribute name="ID" type="xs:int"/>
+                                                                                             <xs:attribute name="CostUnit" type="xs:int"/>
+                                                                                             <xs:attribute name="Cost" type="xs:double"/>
+                                                                                             <xs:attribute name="CostPer" type="xs:double"/>
+                                                                                             <xs:attribute name="Type" type="xs:int"/>
+                                                                                             <xs:attribute name="WorkSecs" type="xs:long"/>
+                                                                                             <xs:attribute name="OvertimeUnit" type="xs:int"/>
+                                                                                             <xs:attribute name="Percent" type="xs:double"/>
+                                                                                             <xs:attribute name="OvertimeCost" type="xs:double"/>
+                                                                                             <xs:attribute name="Name" type="xs:string"/>
+                                                                                       </xs:complexType>
+                                                                                 </xs:element>
+                                                                           </xs:sequence>
+                                                                     </xs:complexType>
+                                                               </xs:element>
+                                                               <xs:element name="PredecessorLink" maxOccurs="unbounded">
+                                                                  <xs:complexType>
+                                                                     <xs:sequence>
+                                                                        <xs:element name="PredecessorUID" type="xs:int"/>
+                                                                        <xs:element name="Type" type="xs:int"/>
+                                                                        <xs:element name="LinkLag" type="xs:long"/>
+                                                                        <xs:element name="LagFormat" type="xs:int"/>
+                                                                        <xs:element name="CrossProject" type="xs:boolean"/>
+                                                                     </xs:sequence>
+                                                                  </xs:complexType>
+                                                               </xs:element>
+                                                               <xs:element name="Texts">
+                                                                     <xs:complexType>
+                                                                           <xs:sequence>
+                                                                                 <xs:element name="TextCell" maxOccurs="unbounded">
+                                                                                       <xs:complexType>
+                                                                                             <xs:sequence>
+                                                                                                   <xs:element name="Varient"></xs:element>
+                                                                                                   <xs:element name="TextBlock">
+                                                                                                         <xs:complexType>
+                                                                                                               <xs:sequence>
+                                                                                                                     <xs:element name="Character">
+                                                                                                                           <xs:complexType>
+                                                                                                                                 <xs:attribute name="Family" type="xs:string"/>
+                                                                                                                                 <xs:attribute name="Size" type="xs:int"/>
+                                                                                                                                 <xs:attribute name="IX" type="xs:int"/>
+                                                                                                                           </xs:complexType>
+                                                                                                                     </xs:element>
+                                                                                                                     <xs:element name="Paragraph">
+                                                                                                                           <xs:complexType>
+                                                                                                                                 <xs:attribute name="Align" type="xs:int"/>
+                                                                                                                                 <xs:attribute name="IX" type="xs:int"/>
+                                                                                                                                 <xs:attribute name="SpLine" type="xs:int"/>
+                                                                                                                           </xs:complexType>
+                                                                                                                     </xs:element>
+                                                                                                                     <xs:element name="WrapMode">
+                                                                                                                           <xs:complexType>
+                                                                                                                                 <xs:attribute name="Value" type="xs:int"/>
+                                                                                                                           </xs:complexType>
+                                                                                                                     </xs:element>
+                                                                                                                     <xs:element name="FillColor">
+                                                                                                                           <xs:complexType>
+                                                                                                                                 <xs:attribute name="Color" type="xs:string"/>
+                                                                                                                           </xs:complexType>
+                                                                                                                     </xs:element>
+                                                                                                                     <xs:element name="Color">
+                                                                                                                           <xs:complexType>
+                                                                                                                                 <xs:attribute name="V" type="xs:string"/>
+                                                                                                                           </xs:complexType>
+                                                                                                                     </xs:element>
+                                                                                                               </xs:sequence>
+                                                                                                               <xs:attribute name="VAlign" type="xs:string"/>
+                                                                                                               <xs:attribute name="HAlign" type="xs:string"/>
+                                                                                                               <xs:attribute name="TextFormatMask" type="xs:int"/>
+                                                                                                         </xs:complexType>
+                                                                                                   </xs:element>
+                                                                                             </xs:sequence>
+                                                                                             <xs:attribute name="FieldType" type="xs:int"/>
+                                                                                             <xs:attribute name="PlainText" type="xs:string"/>
+                                                                                             <xs:attribute name="FieldID" type="xs:int"/>
+                                                                                             <xs:attribute name="DataType" type="xs:int"/>
+                                                                                       </xs:complexType>
+                                                                                 </xs:element>
+                                                                           </xs:sequence>
+                                                                     </xs:complexType>
+                                                               </xs:element>
+                                                               <xs:element name="BarChart"></xs:element>
+                                                         </xs:sequence>
+                                                         <xs:attribute name="Milestone" type="xs:boolean"/>
+                                                         <xs:attribute name="BackGroundColor" type="xs:string"/>
+                                                         <xs:attribute name="ProgressStatus" type="xs:int"/>
+                                                         <xs:attribute name="BaseLinePointxEnd" type="xs:int"/>
+                                                         <xs:attribute name="m_Bestyletext" type="xs:string"/>
+                                                         <xs:attribute name="RowHeight" type="xs:int"/>
+                                                         <xs:attribute name="CriticalPath" type="xs:boolean"/>
+                                                         <xs:attribute name="ID" type="xs:int"/>
+                                                         <xs:attribute name="ActualDuration" type="xs:long"/>
+                                                         <xs:attribute name="DateBaseStart" type="xs:dateTime"/>
+                                                         <xs:attribute name="Resources" type="xs:string"/>
+                                                         <xs:attribute name="FontColor" type="xs:string"/>
+                                                         <xs:attribute name="DurationUnits" type="xs:int"/>
+                                                         <xs:attribute name="DateManualFinish" type="xs:dateTime"/>
+                                                         <xs:attribute name="m_bebartextIndex" type="xs:string"/>
+                                                         <xs:attribute name="m_Istyletext" type="xs:string"/>
+                                                         <xs:attribute name="BaseLinePointxBegin" type="xs:int"/>
+                                                         <xs:attribute name="Manual" type="xs:boolean"/>
+                                                         <xs:attribute name="HideByColumns" type="xs:string"/>
+                                                         <xs:attribute name="Level" type="xs:int"/>
+                                                         <xs:attribute name="IsToggler" type="xs:boolean"/>
+                                                         <xs:attribute name="BaselineCost" type="xs:double"/>
+                                                         <xs:attribute name="DurationSecs" type="xs:long"/>
+                                                         <xs:attribute name="ManualDurationSecs" type="xs:long"/>
+                                                         <xs:attribute name="DateLateStart" type="xs:dateTime"/>
+                                                         <xs:attribute name="LastSaveDate" type="xs:date"/>
+                                                         <xs:attribute name="m_IbartextIndex" type="xs:string"/>
+                                                         <xs:attribute name="ActualStart" type="xs:long"/>
+                                                         <xs:attribute name="Work" type="xs:double"/>
+                                                         <xs:attribute name="Cost" type="xs:double"/>
+                                                         <xs:attribute name="SplitOffsetDuration" type="xs:string"/>
+                                                         <xs:attribute name="DateStart" type="xs:dateTime"/>
+                                                         <xs:attribute name="RowID" type="xs:int"/>
+                                                         <xs:attribute name="StartText" type="xs:string"/>
+                                                         <xs:attribute name="Name" type="xs:string"/>
+                                                         <xs:attribute name="ActualFinish" type="xs:long"/>
+                                                         <xs:attribute name="FirstWidth" type="xs:int"/>
+                                                         <xs:attribute name="DateLateFinish" type="xs:dateTime"/>
+                                                         <xs:attribute name="CountWidth" type="xs:int"/>
+                                                         <xs:attribute name="Priority" type="xs:int"/>
+                                                         <xs:attribute name="DateManualStart" type="xs:dateTime"/>
+                                                         <xs:attribute name="DateBaseFinish" type="xs:dateTime"/>
+                                                         <xs:attribute name="ShowByChild" type="xs:int"/>
+                                                         <xs:attribute name="ActualMilestone" type="xs:boolean"/>
+                                                         <xs:attribute name="ParentID" type="xs:int"/>
+                                                         <xs:attribute name="LateSlack" type="xs:string"/>
+                                                         <xs:attribute name="DateFinish" type="xs:dateTime"/>
+                                                         <xs:attribute name="Wbs" type="xs:string"/>
+                                                         <xs:attribute name="Notes" type="xs:string"/>
+                                                         <xs:attribute name="BaseLineNumber" type="xs:int"/>
+                                                         <xs:attribute name="HideID" type="xs:boolean"/>
+                                                         <xs:attribute name="SplitPointList" type="xs:string"/>
+                                                         <xs:attribute name="Percent" type="xs:double"/>
+                                                         <xs:attribute name="RemainingCost" type="xs:double"/>
+                                                         <xs:attribute name="EarlySlack" type="xs:string"/>
+                                                         <xs:attribute name="Childs" type="xs:string"/>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                       </xs:sequence>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="ResourceInfo">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="Column" maxOccurs="unbounded">
+                                                   <xs:complexType>
+                                                         <xs:attribute name="ID" type="xs:int"/>
+                                                         <xs:attribute name="CostUnit" type="xs:int"/>
+                                                         <xs:attribute name="Cost" type="xs:double"/>
+                                                         <xs:attribute name="CostPer" type="xs:double"/>
+                                                         <xs:attribute name="Type" type="xs:int"/>
+                                                         <xs:attribute name="OvertimeUnit" type="xs:int"/>
+                                                         <xs:attribute name="Notes" type="xs:string"/>
+                                                         <xs:attribute name="Unit" type="xs:int"/>
+                                                         <xs:attribute name="Email" type="xs:string"/>
+                                                         <xs:attribute name="OvertimeCost" type="xs:double"/>
+                                                         <xs:attribute name="Name" type="xs:string"/>
+                                                         <xs:attribute name="Group" type="xs:string"/>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                       </xs:sequence>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="Calendars">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="Calendar" maxOccurs="unbounded">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="UID" type="xs:int"></xs:element>
+                                                               <xs:element name="Name" type="xs:string"></xs:element>
+                                                               <xs:element name="NameU"></xs:element>
+                                                               <xs:element name="IsBaseCalendar" type="xs:boolean"></xs:element>
+                                                               <xs:element name="BaseCalendarUID" type="xs:int"></xs:element>
+                                                               <xs:element name="IsTemplateCalendar" type="xs:boolean"></xs:element>
+                                                               <xs:element name="MachineInfo" type="xs:string"></xs:element>
+                                                               <xs:element name="WeekDays">
+                                                                     <xs:complexType>
+                                                                           <xs:sequence>
+                                                                                 <xs:element name="WeekDay" maxOccurs="unbounded">
+                                                                                       <xs:complexType>
+                                                                                             <xs:sequence>
+                                                                                                   <xs:element name="DayType" type="xs:int"></xs:element>
+                                                                                                   <xs:element name="DayWorking" type="xs:boolean"></xs:element>
+
+
+                                                                                                   <xs:element name="WorkingTimes">
+                                                                                                      <xs:complexType>
+                                                                                                            <xs:sequence>
+                                                                                                                  <xs:element name="WorkingTime" maxOccurs="unbounded">
+                                                                                                                        <xs:complexType>
+                                                                                                                              <xs:sequence>
+                                                                                                                                    <xs:element name="FromTime" type="xs:time"></xs:element>
+                                                                                                                                    <xs:element name="ToTime" type="xs:time"></xs:element>
+                                                                                                                              </xs:sequence>
+                                                                                                                        </xs:complexType>
+                                                                                                                  </xs:element>
+                                                                                                            </xs:sequence>
+                                                                                                      </xs:complexType>
+                                                                                                   </xs:element>
+
+                                                                                             </xs:sequence>
+                                                                                       </xs:complexType>
+                                                                                 </xs:element>
+                                                                           </xs:sequence>
+                                                                     </xs:complexType>
+                                                               </xs:element>
+                                                               <xs:element name="Exceptions">
+                                                                     <xs:complexType>
+                                                                           <xs:sequence>
+                                                                                 <xs:element name="Exception" maxOccurs="unbounded">
+                                                                                       <xs:complexType>
+                                                                                             <xs:sequence>
+                                                                                                   <xs:element name="EnteredByOccurrences" type="xs:boolean"></xs:element>
+                                                                                                   <xs:element name="Holiday" type="xs:boolean"></xs:element>
+                                                                                                   <xs:element name="TimePeriod">
+                                                                                                         <xs:complexType>
+                                                                                                               <xs:sequence>
+                                                                                                                     <xs:element name="FromDate" type="xs:dateTime"></xs:element>
+                                                                                                                     <xs:element name="ToDate" type="xs:dateTime"></xs:element>
+                                                                                                               </xs:sequence>
+                                                                                                         </xs:complexType>
+                                                                                                   </xs:element>
+                                                                                                   <xs:element name="Occurrences" type="xs:int"></xs:element>
+                                                                                                   <xs:element name="Name" type="xs:string"></xs:element>
+                                                                                                   <xs:element name="Type" type="xs:int"></xs:element>
+                                                                                                   <xs:element name="DayWorking" type="xs:boolean"></xs:element>
+
+                                                                                                   <xs:element name="WorkingTimes">
+                                                                                                      <xs:complexType>
+                                                                                                            <xs:sequence>
+                                                                                                                  <xs:element name="WorkingTime" maxOccurs="unbounded">
+                                                                                                                        <xs:complexType>
+                                                                                                                              <xs:sequence>
+                                                                                                                                    <xs:element name="FromTime" type="xs:time"></xs:element>
+                                                                                                                                    <xs:element name="ToTime" type="xs:time"></xs:element>
+                                                                                                                              </xs:sequence>
+                                                                                                                        </xs:complexType>
+                                                                                                                  </xs:element>
+                                                                                                            </xs:sequence>
+                                                                                                      </xs:complexType>
+                                                                                                   </xs:element>
+
+                                                                                             </xs:sequence>
+                                                                                       </xs:complexType>
+                                                                                 </xs:element>
+                                                                           </xs:sequence>
+                                                                     </xs:complexType>
+                                                               </xs:element>
+                                                         </xs:sequence>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                       </xs:sequence>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="WaterMark">
+                                 <xs:complexType>
+                                       <xs:attribute name="Type" type="xs:string"/>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="lineStyleInformation">
+                                 <xs:complexType>
+                                       <xs:attribute name="line_roundsize" type="xs:int"/>
+                                       <xs:attribute name="line_width" type="xs:int"/>
+                                       <xs:attribute name="line_Color" type="xs:string"/>
+                                       <xs:attribute name="line_index" type="xs:int"/>
+                                 </xs:complexType>
+                           </xs:element>
+                     </xs:sequence>
+                     <xs:attribute name="DocGuid" type="xs:string"/>
+                     <xs:attribute name="Version" type="xs:string"/>
+                     <xs:attribute name="OS" type="xs:string"/>
+               </xs:complexType>
+         </xs:element>
+   </xs:schema>

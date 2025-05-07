@@ -10,8 +10,8 @@ The simplest way to read a schedule grid file is to use the
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.reader.UniversalProjectReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.reader.UniversalProjectReader;
 	
 	public class ScheduleGrid
 	{
@@ -54,8 +54,8 @@ errors encountered when reading a file:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.sage.SageReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.sage.SageReader;
 	
 	public class ScheduleGridIgnoreErrors
 	{

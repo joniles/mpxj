@@ -6,28 +6,28 @@
    <jxb:globalBindings>
       <jxb:javaType name="java.time.LocalDateTime"
          xmlType="xs:dateTime"
-         parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parseTimestamp"
-         printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printTimestamp"/>
+         parseMethod="org.mpxj.ganttdesigner.DatatypeConverter.parseTimestamp"
+         printMethod="org.mpxj.ganttdesigner.DatatypeConverter.printTimestamp"/>
 
       <jxb:javaType name="java.time.LocalDate"
          xmlType="xs:date"
-         parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parseDate"
-         printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printDate"/>
+         parseMethod="org.mpxj.ganttdesigner.DatatypeConverter.parseDate"
+         printMethod="org.mpxj.ganttdesigner.DatatypeConverter.printDate"/>
 
-	  <jxb:javaType name="net.sf.mpxj.Duration"
+	  <jxb:javaType name="org.mpxj.Duration"
 	     xmlType="ganttDesignerDuration"
-	     parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parseDuration"
-	     printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printDuration"/>
+	     parseMethod="org.mpxj.ganttdesigner.DatatypeConverter.parseDuration"
+	     printMethod="org.mpxj.ganttdesigner.DatatypeConverter.printDuration"/>
 
 	  <jxb:javaType name="java.lang.Double"
 	     xmlType="ganttDesignerPercent"
-	     parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parsePercent"
-	     printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printPercent"/>
+	     parseMethod="org.mpxj.ganttdesigner.DatatypeConverter.parsePercent"
+	     printMethod="org.mpxj.ganttdesigner.DatatypeConverter.printPercent"/>
 
 	  <jxb:javaType name="java.time.DayOfWeek"
 	     xmlType="ganttDesignerDay"
-	     parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parseDay"
-	     printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printDay"/>
+	     parseMethod="org.mpxj.ganttdesigner.DatatypeConverter.parseDay"
+	     printMethod="org.mpxj.ganttdesigner.DatatypeConverter.printDay"/>
 
    </jxb:globalBindings>
 

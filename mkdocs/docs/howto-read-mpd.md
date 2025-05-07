@@ -13,8 +13,8 @@ The simplest way to read an MPD file is to use the `UniversalProjectReader`:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.reader.UniversalProjectReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.reader.UniversalProjectReader;
 	
 	public class MPDFile
 	{
@@ -60,8 +60,8 @@ calling the `read` method reads the required project.
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.mpd.MPDFileReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.mpd.MPDFileReader;
 	
 	import java.io.File;
 	import java.util.Map;

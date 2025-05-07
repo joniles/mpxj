@@ -62,26 +62,6 @@ rem required for Maven deploy
 winget install GnuPG.Gpg4win
 
 rem
-rem .Net Framework 4.5
-rem
-curl -O https://download.microsoft.com/download/4/3/B/43B61315-B2CE-4F5B-9E32-34CCA07B2F0E/NDP452-KB2901951-x86-x64-DevPack.exe
-start /wait NDP452-KB2901951-x86-x64-DevPack.exe /q /norestart
-
-rem
-rem IKVM versions
-rem
-curl -L -o mpxj-legacy-ikvm.zip https://github.com/joniles/mpxj-legacy-ikvm/archive/refs/heads/master.zip
-tar -xf mpxj-legacy-ikvm.zip
-ren mpxj-legacy-ikvm-master mpxj-legacy-ikvm
-
-rem
-rem POIFS
-rem
-set POIFS_VERSION=5.2.2
-mkdir poifs\target
-curl -L -o poifs\target\poifs-%POIFS_VERSION%.jar https://github.com/joniles/poifs/releases/download/v%POIFS_VERSION%/poifs-%POIFS_VERSION%.jar
-
-rem
 rem Nuget
 rem
 mkdir nuget
@@ -95,13 +75,6 @@ rem
 py -m pip install mkdocs-material build twine
 
 rem
-rem Install signing key - required for .Net core version of IKVM
-rem
-curl -O -L https://raw.githubusercontent.com/joniles/mpxj/master/src.net/mpxj.snk
-"C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\sn.exe" -m y
-"C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\sn.exe" -i mpxj.snk mpxj-key
-
-rem
 rem Quick download of MPXJ for testing - replace with git clone
 rem
 curl -L -o mpxj.zip https://github.com/joniles/mpxj/archive/refs/heads/master.zip
@@ -112,7 +85,6 @@ rem
 rem Cleanup downloaded files
 rem
 del *.zip
-del *.snk
 del *.exe
 
 
@@ -130,7 +102,7 @@ echo    TWINE_PASSWORD (PyPi API Key)
 echo    GEM_HOST_API_KEY (Rubygems API key)
 echo To enable Maven deploys
 echo    create gpg key and publish to server
-echo    configure ossrh credentials in .m2\settings.xml
+echo    configure Maven Central credentials in .m2\settings.xml
 
 pause
 

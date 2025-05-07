@@ -11,8 +11,8 @@ The simplest way to read an SDEF file is to use the `UniversalProjectReader`:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.reader.UniversalProjectReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.reader.UniversalProjectReader;
 	
 	public class SDEF
 	{
@@ -55,8 +55,8 @@ errors encountered when reading a file:
 	```java
 	package org.mpxj.howto.read;
 	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.sdef.SDEFReader;
+	import org.mpxj.ProjectFile;
+	import org.mpxj.sdef.SDEFReader;
 	
 	public class SDEFIgnoreErrors
 	{
