@@ -5,7 +5,9 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="14.0.0">
+		<release date="unreleased" version="14.0.1">
+		</release>
+		<release date="2025-05-07" version="14.0.0">
 			<action dev="joniles" type="update">**NEW FEATURES**</action>
 			<action dev="joniles" type="update">MPXJ can now schedule projects using CPM (Critical Path Method)</action>
 			<action dev="joniles" type="update">Two new classes (`MicrosoftScheduler` and `PrimaveraScheduler`) allow MPXJ to schedule a project in a way which follows the approach of either Microsoft Project or Primavera P6.</action>

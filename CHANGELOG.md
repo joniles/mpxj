@@ -5,10 +5,13 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 14.0.0 (unreleased)
-* **NEW FEATURE**
+## 14.0.1 (unreleased)
+
+## 14.0.0 (2025-05-07)
+* **NEW FEATURES**
 * MPXJ can now schedule projects using CPM (Critical Path Method)
 * Two new classes (`MicrosoftScheduler` and `PrimaveraScheduler`) allow MPXJ to schedule a project in a way which follows the approach of either Microsoft Project or Primavera P6.
+* Added support for reading Edraw Project EDPX files
 * **CHANGES**
 * Improvements to accuracy of reading text UDF values from Powerproject PP files.
 * Corrected conversion of elapsed durations when writing JSON files.
@@ -37,6 +40,7 @@ no longer distributed. Please use the `MPXJ.Net` package instead.
 * The deprecated `Task#setPrimaryResourceID` method has been removed. Use the `Task#setPrimaryResourceUniqueID` method instead.
 * The deprecated `Task#getPrimaryResourceID` method has been removed. Use the `Task#getPrimaryResourceUniqueID` method instead.
 * The deprecated `Task#isSucessor` method has been removed. Use the `Task#isSuccessor` method instead.
+* The common `MPPUtility` static methods `getShort`, `getInt`and `getLong` have been moved to the `ByteArrayHelper` class.
 * **BREAKING CHANGES - Ruby**
 * The deprecated Ruby attribute `Relation#task_unique_id` has been removed, use `Relation#predecessor_task_unique_id` and `Relation#successor_task_unique_id` instead.
 
