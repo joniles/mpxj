@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import org.mpxj.Duration;
 import org.mpxj.RelationType;
 import org.mpxj.TimeUnit;
+import org.mpxj.common.ByteArrayHelper;
 
 /**
  * Contains methods to extract different data types from a byte array.
@@ -55,14 +56,7 @@ class DatatypeConverter
     */
    public static final int getShort(byte[] data, int offset)
    {
-      int result = 0;
-      int i = offset;
-      for (int shiftBy = 0; shiftBy < 16; shiftBy += 8)
-      {
-         result |= ((data[i] & 0xff)) << shiftBy;
-         ++i;
-      }
-      return result;
+      return ByteArrayHelper.getShort(data, offset);
    }
 
    /**
@@ -88,14 +82,7 @@ class DatatypeConverter
     */
    public static final int getInt(byte[] data, int offset)
    {
-      int result = 0;
-      int i = offset;
-      for (int shiftBy = 0; shiftBy < 32; shiftBy += 8)
-      {
-         result |= ((data[i] & 0xff)) << shiftBy;
-         ++i;
-      }
-      return result;
+      return ByteArrayHelper.getInt(data, offset);
    }
 
    /**

@@ -37,7 +37,7 @@ public interface GanttBarStyleFactory
     * @param props props structure containing the Gantt chart style data
     * @return array of styles
     */
-   public GanttBarStyle[] processDefaultStyles(ProjectFile file, Props props);
+   GanttBarStyle[] processDefaultStyles(ProjectFile file, Props props);
 
    /**
     * Reads the set of exception bar styles from MPP files.
@@ -46,5 +46,5 @@ public interface GanttBarStyleFactory
     * @param props props structure containing the Gantt chart style data
     * @return array of styles
     */
-   public GanttBarStyleException[] processExceptionStyles(ProjectFile file, Props props);
+   GanttBarStyleException[] processExceptionStyles(ProjectFile file, Props props);
 }

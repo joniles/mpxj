@@ -38,7 +38,7 @@ public interface FieldContainer
     * @param field field identifier
     * @param value field value
     */
-   public void set(FieldType field, Object value);
+   void set(FieldType field, Object value);
 
    /**
     * Retrieve a field value.
@@ -46,7 +46,7 @@ public interface FieldContainer
     * @param field field identifier
     * @return field value
     */
-   public Object get(FieldType field);
+   Object get(FieldType field);
 
    /**
     * Retrieve a field value. Use the cached value. Do not attempt to
@@ -55,19 +55,19 @@ public interface FieldContainer
     * @param field field identifier
     * @return field value
     */
-   public Object getCachedValue(FieldType field);
+   Object getCachedValue(FieldType field);
 
    /**
     * Add a listener to receive field events.
     *
     * @param listener target listener
     */
-   public void addFieldListener(FieldListener listener);
+   void addFieldListener(FieldListener listener);
 
    /**
     * Remove a listener.
     *
     * @param listener target listener
     */
-   public void removeFieldListener(FieldListener listener);
+   void removeFieldListener(FieldListener listener);
 }

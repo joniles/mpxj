@@ -130,9 +130,13 @@ public class PrimaveraSchedulerComparator
     */
    public boolean process(File directory, String suffix) throws Exception
    {
-      m_directory = true;
-
       File[] fileList = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(suffix));
+      if (fileList == null)
+      {
+         throw new IllegalArgumentException();
+      }
+
+      m_directory = true;
       int failed = 0;
       int skipped = 0;
       int valid = 0;
@@ -215,7 +219,7 @@ public class PrimaveraSchedulerComparator
          scheduler.schedule(m_workingFile, start);
       }
 
-      catch(CpmException ex)
+      catch (CpmException ex)
       {
          if (m_debug)
          {
@@ -306,14 +310,14 @@ public class PrimaveraSchedulerComparator
     */
    private boolean compareDates(Task baseline, Task working, TaskField field)
    {
-      LocalDateTime baselineDate = (LocalDateTime)baseline.get(field);
+      LocalDateTime baselineDate = (LocalDateTime) baseline.get(field);
       if (baselineDate == null)
       {
          // We have XER files where some of the attributes we'd expect to be populated are not present. Skip these.
          return true;
       }
 
-      LocalDateTime workingDate = (LocalDateTime)working.get(field);
+      LocalDateTime workingDate = (LocalDateTime) working.get(field);
       if (workingDate == null)
       {
          return false;
@@ -336,7 +340,7 @@ public class PrimaveraSchedulerComparator
       // Yes, it's hacky. The real solution is to understand the logic P6 is
       // applying when it chooses between end of day or start of next day.
       //result = working.getChildTasks().stream().map(t -> t.getEffectiveCalendar()).anyMatch(c -> c.getNextWorkStart(workingDate).isEqual(baselineDate) || c.getNextWorkStart(baselineDate).isEqual(workingDate));
-      result = allChildTasks(working).stream().map(t -> t.getEffectiveCalendar()).anyMatch(c -> c.getNextWorkStart(workingDate).isEqual(baselineDate) || c.getNextWorkStart(baselineDate).isEqual(workingDate));
+      result = allChildTasks(working).stream().map(Task::getEffectiveCalendar).anyMatch(c -> c.getNextWorkStart(workingDate).isEqual(baselineDate) || c.getNextWorkStart(baselineDate).isEqual(workingDate));
       return result;
    }
 
@@ -350,20 +354,20 @@ public class PrimaveraSchedulerComparator
       List<Task> activities = new DepthFirstGraphSort(m_workingFile, PrimaveraScheduler::isActivity).sort();
       List<Task> levelOfEffortActivities = new DepthFirstGraphSort(m_workingFile, PrimaveraScheduler::isLevelOfEffortActivity).sort();
       List<Task> wbsSummaryActivities = new DepthFirstGraphSort(m_workingFile, PrimaveraScheduler::isWbsSummary).sort();
-      List<Task> wbs = m_workingFile.getTasks().stream().filter(t -> t.getSummary()).collect(Collectors.toList());
+      List<Task> wbs = m_workingFile.getTasks().stream().filter(Task::getSummary).collect(Collectors.toList());
 
       // Sort so we can see errors at the bottom first, as these are rolled up.
       Collections.reverse(wbs);
 
       if (m_forwardErrorCount != 0)
       {
-         activities.forEach(t -> analyseForwardError(t));
-         levelOfEffortActivities.forEach(t -> analyseForwardError(t));
-         wbsSummaryActivities.forEach(t -> analyseForwardError(t));
+         activities.forEach(this::analyseForwardError);
+         levelOfEffortActivities.forEach(this::analyseForwardError);
+         wbsSummaryActivities.forEach(this::analyseForwardError);
 
          if (analyseWbs)
          {
-            wbs.forEach(t -> analyseForwardError(t));
+            wbs.forEach(this::analyseForwardError);
          }
       }
 
@@ -371,13 +375,13 @@ public class PrimaveraSchedulerComparator
       {
          Collections.reverse(activities);
          Collections.reverse(levelOfEffortActivities);
-         activities.forEach(t -> analyseBackwardError(t));
-         levelOfEffortActivities.forEach(t -> analyseBackwardError(t));
-         wbsSummaryActivities.forEach(t -> analyseBackwardError(t));
+         activities.forEach(this::analyseBackwardError);
+         levelOfEffortActivities.forEach(this::analyseBackwardError);
+         wbsSummaryActivities.forEach(this::analyseBackwardError);
 
          if (analyseWbs)
          {
-            wbs.forEach(t -> analyseBackwardError(t));
+            wbs.forEach(this::analyseBackwardError);
          }
       }
    }
@@ -399,7 +403,7 @@ public class PrimaveraSchedulerComparator
       boolean remainingEarlyStartFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
       boolean remainingEarlyFinishFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
 
-      System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
+      System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working);
       System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
       System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
       System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (startFail ? " FAIL" : ""));
@@ -424,7 +428,7 @@ public class PrimaveraSchedulerComparator
       boolean remainingLateStartFail = !compareDates(baseline, working, TaskField.REMAINING_LATE_START);
       boolean remainingLateFinishFail = !compareDates(baseline, working, TaskField.REMAINING_LATE_FINISH);
 
-      System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
+      System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working);
       System.out.println("Late Start: " + baseline.getLateStart() + " " + working.getLateStart() + (lateStartFail ? " FAIL" : ""));
       System.out.println("Late Finish: " + baseline.getLateFinish() + " " + working.getLateFinish() + (lateFinishFail ? " FAIL" : ""));
       System.out.println("Remaining Late Start: " + baseline.getRemainingLateStart() + " " + working.getRemainingLateStart() + (remainingLateStartFail ? " FAIL" : ""));

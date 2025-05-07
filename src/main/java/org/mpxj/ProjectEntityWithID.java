@@ -33,12 +33,12 @@ public interface ProjectEntityWithID extends ProjectEntityWithMutableUniqueID
     *
     * @return ID value
     */
-   public Integer getID();
+   Integer getID();
 
    /**
     * Set the ID value of the entity.
     *
     * @param id ID value
     */
-   public void setID(Integer id);
+   void setID(Integer id);
 }

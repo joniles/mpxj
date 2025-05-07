@@ -39,37 +39,4 @@ public abstract class AbstractMppView extends AbstractView
    {
       super(parent);
    }
-
-   /**
-    * Remove the ampersand embedded in the view name.
-    *
-    * @param name view name
-    * @return view name without the ampersand
-    */
-   protected String removeAmpersand(String name)
-   {
-      if (name != null)
-      {
-         if (name.indexOf('&') != -1)
-         {
-            StringBuilder sb = new StringBuilder();
-            int index = 0;
-            char c;
-
-            while (index < name.length())
-            {
-               c = name.charAt(index);
-               if (c != '&')
-               {
-                  sb.append(c);
-               }
-               ++index;
-            }
-
-            name = sb.toString();
-         }
-      }
-
-      return (name);
-   }
 }

@@ -27,6 +27,7 @@ package org.mpxj.mpp;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.InputStreamHelper;
 
 /**
@@ -50,7 +51,7 @@ final class Props9 extends Props
       }
 
       byte[] header = InputStreamHelper.read(is, 16);
-      int headerCount = MPPUtility.getShort(header, 12);
+      int headerCount = ByteArrayHelper.getShort(header, 12);
       int foundCount = 0;
       int availableBytes = is.available();
 

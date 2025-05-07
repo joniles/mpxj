@@ -32,6 +32,7 @@ import org.mpxj.DataLink;
 import org.mpxj.DataLinkContainer;
 import org.mpxj.FieldType;
 import org.mpxj.ProjectFile;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
 
 /**
@@ -72,7 +73,7 @@ class DataLinkFactory
          byte[] data = m_fixedData.getByteArrayValue(index);
          if (data != null && (data[112] & 0x20) == 0)
          {
-            int id = MPPUtility.getInt(data, 0);
+            int id = ByteArrayHelper.getInt(data, 0);
             byte[] propsData = m_varData.getByteArray(Integer.valueOf(id), key);
             if (propsData != null)
             {

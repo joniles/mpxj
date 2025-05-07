@@ -27,6 +27,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+import org.mpxj.common.NumberHelper;
+
 /**
  * This class contains methods used to perform the datatype conversions
  * required to read Edraw Project EDPX files.
@@ -136,12 +138,7 @@ public class DatatypeConverter
     */
    public static final Double parseDouble(String value)
    {
-      if (value == null || value.isEmpty())
-      {
-         return null;
-      }
-
-      return Double.parseDouble(value);
+      return NumberHelper.getDoubleObject(value);
    }
 
    /**
@@ -151,6 +148,33 @@ public class DatatypeConverter
     * @return string representation
     */
    public static final String printDouble(Double value)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   /**
+    * Parse an integer value.
+    *
+    * @param value string representation
+    * @return Integer instance
+    */
+   public static final Integer parseInteger(String value)
+   {
+      if (value == null || value.isEmpty())
+      {
+         return null;
+      }
+
+      return Integer.valueOf(value);
+   }
+
+   /**
+    * Print an integer value.
+    *
+    * @param value Integer instance
+    * @return string representation
+    */
+   public static final String printInteger(Integer value)
    {
       throw new UnsupportedOperationException();
    }

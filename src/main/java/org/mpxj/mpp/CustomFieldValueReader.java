@@ -75,7 +75,7 @@ abstract class CustomFieldValueReader
             continue;
          }
 
-         Integer id = Integer.valueOf(MPPUtility.getShort(fixedData, UNJQUE_ID_OFFSET));
+         Integer id = Integer.valueOf(ByteArrayHelper.getShort(fixedData, UNJQUE_ID_OFFSET));
          if (!m_outlineCodeVarMeta.containsKey(id))
          {
             continue;
@@ -90,12 +90,12 @@ abstract class CustomFieldValueReader
          CustomFieldValueItem item = new CustomFieldValueItem(id);
          item.setDescription(m_outlineCodeVarData.getUnicodeString(id, VALUE_LIST_DESCRIPTION));
          item.setUnknown(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_UNKNOWN));
-         item.setParentUniqueID(Integer.valueOf(MPPUtility.getShort(fixedData, m_parentOffset)));
+         item.setParentUniqueID(Integer.valueOf(ByteArrayHelper.getShort(fixedData, m_parentOffset)));
 
          byte[] fixedData2 = m_outlineCodeFixedData2.getByteArrayValue(loop);
          item.setGUID(MPPUtility.getGUID(fixedData2, 0));
          UUID lookupTableGuid = MPPUtility.getGUID(fixedData2, m_fieldOffset);
-         item.setType(CustomFieldValueDataType.getInstance(MPPUtility.getShort(fixedData2, m_typeOffset)));
+         item.setType(CustomFieldValueDataType.getInstance(ByteArrayHelper.getShort(fixedData2, m_typeOffset)));
          item.setValue(getTypedValue(item.getType(), value));
 
          m_container.registerValue(item);
@@ -159,8 +159,8 @@ abstract class CustomFieldValueReader
 
             case DURATION:
             {
-               TimeUnit units = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(value, 4), m_properties.getDefaultDurationUnits());
-               result = MPPUtility.getAdjustedDuration(m_properties, MPPUtility.getInt(value, 0), units);
+               TimeUnit units = MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(value, 4), m_properties.getDefaultDurationUnits());
+               result = MPPUtility.getAdjustedDuration(m_properties, ByteArrayHelper.getInt(value, 0), units);
                break;
             }
 

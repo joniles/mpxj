@@ -35,12 +35,12 @@ public interface TimePeriodEntity
     *
     * @return start time
     */
-   public LocalDateTime getStart();
+   LocalDateTime getStart();
 
    /**
     * Finish time, represented as a LocalDateTime instance.
     *
     * @return finish time
     */
-   public LocalDateTime getFinish();
+   LocalDateTime getFinish();
 }

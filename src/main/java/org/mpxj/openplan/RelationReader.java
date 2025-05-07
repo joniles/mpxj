@@ -55,7 +55,7 @@ class RelationReader
     */
    public void read()
    {
-      Map<UUID, Task> map = m_file.getTasks().stream().collect(Collectors.toMap(t -> t.getGUID(), t -> t));
+      Map<UUID, Task> map = m_file.getTasks().stream().collect(Collectors.toMap(Task::getGUID, t -> t));
 
       for (Row row : new TableReader(m_root, "REL").read())
       {

@@ -3,6 +3,7 @@ package org.mpxj.mpp;
 
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
+import org.mpxj.common.ByteArrayHelper;
 
 /**
  * Represents the type and location of a bit flag within a block of data.
@@ -38,7 +39,7 @@ public class MppBitFlag
    {
       if (data != null)
       {
-         container.set(m_type, ((MPPUtility.getInt(data, m_offset) & m_mask) == 0) ? m_zeroValue : m_nonZeroValue);
+         container.set(m_type, ((ByteArrayHelper.getInt(data, m_offset) & m_mask) == 0) ? m_zeroValue : m_nonZeroValue);
       }
    }
 

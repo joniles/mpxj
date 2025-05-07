@@ -43,5 +43,5 @@ interface MPPVariantReader
     * @param file data structure to be populated
     * @param root Root of the POI file system.
     */
-   public void process(MPPReader reader, ProjectFile file, DirectoryEntry root) throws MPXJException, IOException;
+   void process(MPPReader reader, ProjectFile file, DirectoryEntry root) throws MPXJException, IOException;
 }

@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.mpxj.ProjectFile;
 import org.mpxj.ViewState;
+import org.mpxj.common.ByteArrayHelper;
 
 /**
  * This class allows the saved state of a view to be read from an MPP file.
@@ -63,7 +64,7 @@ public abstract class ViewStateReader
          {
             for (int index = 0; index < listData.length; index += 4)
             {
-               Integer uniqueID = Integer.valueOf(MPPUtility.getInt(listData, index));
+               Integer uniqueID = Integer.valueOf(ByteArrayHelper.getInt(listData, index));
 
                //
                // Ensure that we have a valid task, and that if we have and
@@ -76,7 +77,7 @@ public abstract class ViewStateReader
             }
          }
 
-         int filterID = MPPUtility.getShort(fixedData, 128);
+         int filterID = ByteArrayHelper.getShort(fixedData, 128);
 
          ViewState state = new ViewState(file, viewName, uniqueIdList, filterID);
          file.getViews().setViewState(state);

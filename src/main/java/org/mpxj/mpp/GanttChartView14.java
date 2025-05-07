@@ -31,6 +31,7 @@ import java.util.Map;
 
 import java.time.DayOfWeek;
 
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.FieldType;
 import org.mpxj.Filter;
@@ -67,7 +68,7 @@ public final class GanttChartView14 extends GanttChartView
       //
       // 16 byte block header containing the filter count
       //
-      int filterCount = MPPUtility.getShort(data, 8);
+      int filterCount = ByteArrayHelper.getShort(data, 8);
       int offset = 16;
       CriteriaReader criteria = new FilterCriteriaReader14();
 
@@ -86,7 +87,7 @@ public final class GanttChartView14 extends GanttChartView
          }
 
          FieldType field = getFieldType(data, offset);
-         int blockSize = MPPUtility.getShort(data, offset + 4);
+         int blockSize = ByteArrayHelper.getShort(data, offset + 4);
 
          //
          // Steelray 12335: the block size may be zero
@@ -123,7 +124,7 @@ public final class GanttChartView14 extends GanttChartView
     */
    private FieldType getFieldType(byte[] data, int offset)
    {
-      int fieldIndex = MPPUtility.getInt(data, offset);
+      int fieldIndex = ByteArrayHelper.getInt(data, offset);
       return FieldTypeHelper.mapTextFields(FieldTypeHelper.getInstance(m_file, fieldIndex));
    }
 
@@ -184,7 +185,7 @@ public final class GanttChartView14 extends GanttChartView
          m_timescaleTopTier.setUsesFiscalYear((viewPropertyData[41361] & 0x01) != 0);
          m_timescaleTopTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[41311]));
          m_timescaleTopTier.setCount(viewPropertyData[41313]);
-         m_timescaleTopTier.setFormat(TimescaleFormat.getInstance(MPPUtility.getShort(viewPropertyData, 41315)));
+         m_timescaleTopTier.setFormat(TimescaleFormat.getInstance(ByteArrayHelper.getShort(viewPropertyData, 41315)));
          m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[41317]));
 
          m_timescaleMiddleTier = new TimescaleTier();
@@ -192,7 +193,7 @@ public final class GanttChartView14 extends GanttChartView
          m_timescaleMiddleTier.setUsesFiscalYear((flags & 0x08) != 0);
          m_timescaleMiddleTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[1152]));
          m_timescaleMiddleTier.setCount(viewPropertyData[1156]);
-         m_timescaleMiddleTier.setFormat(TimescaleFormat.getInstance(MPPUtility.getShort(viewPropertyData, 1160)));
+         m_timescaleMiddleTier.setFormat(TimescaleFormat.getInstance(ByteArrayHelper.getShort(viewPropertyData, 1160)));
          m_timescaleMiddleTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[1166]));
 
          m_timescaleBottomTier = new TimescaleTier();
@@ -200,7 +201,7 @@ public final class GanttChartView14 extends GanttChartView
          m_timescaleBottomTier.setUsesFiscalYear((flags & 0x10) != 0);
          m_timescaleBottomTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[1154]));
          m_timescaleBottomTier.setCount(viewPropertyData[1158]);
-         m_timescaleBottomTier.setFormat(TimescaleFormat.getInstance(MPPUtility.getShort(viewPropertyData, 1162)));
+         m_timescaleBottomTier.setFormat(TimescaleFormat.getInstance(ByteArrayHelper.getShort(viewPropertyData, 1162)));
          m_timescaleBottomTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[1164]));
 
          m_showDrawings = (viewPropertyData[2237] != 0);
@@ -261,7 +262,7 @@ public final class GanttChartView14 extends GanttChartView
       else
       {
          backgroundColor = MPPUtility.getColor(data, offset + 16);
-         backgroundPattern = BackgroundPattern.getInstance(MPPUtility.getShort(data, offset + 28));
+         backgroundPattern = BackgroundPattern.getInstance(ByteArrayHelper.getShort(data, offset + 28));
       }
 
       boolean bold = ((style & 0x01) != 0);
@@ -288,14 +289,14 @@ public final class GanttChartView14 extends GanttChartView
 
    @Override protected TableFontStyle getColumnFontStyle(ProjectFile file, byte[] data, int offset, Map<Integer, FontBase> fontBases)
    {
-      int uniqueID = MPPUtility.getInt(data, offset);
-      FieldType fieldType = FieldTypeHelper.getInstance(file, MPPUtility.getInt(data, offset + 4));
+      int uniqueID = ByteArrayHelper.getInt(data, offset);
+      FieldType fieldType = FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(data, offset + 4));
       Integer index = Integer.valueOf(MPPUtility.getByte(data, offset + 8));
       int style = MPPUtility.getByte(data, offset + 11);
       Color color = MPPUtility.getColor(data, offset + 12);
-      int change = MPPUtility.getShort(data, offset + 40);
+      int change = ByteArrayHelper.getShort(data, offset + 40);
       Color backgroundColor = MPPUtility.getColor(data, offset + 24);
-      BackgroundPattern backgroundPattern = BackgroundPattern.getInstance(MPPUtility.getShort(data, offset + 36));
+      BackgroundPattern backgroundPattern = BackgroundPattern.getInstance(ByteArrayHelper.getShort(data, offset + 36));
 
       FontBase fontBase = fontBases.get(index);
 
@@ -344,9 +345,9 @@ public final class GanttChartView14 extends GanttChartView
       m_progressLinesBeginAtDate = MPPUtility.getDate(progressLineData, 46);
       m_progressLinesDisplaySelected = (progressLineData[48] != 0);
       m_progressLinesActualPlan = (progressLineData[52] != 0);
-      m_progressLinesDisplayType = MPPUtility.getShort(progressLineData, 54);
+      m_progressLinesDisplayType = ByteArrayHelper.getShort(progressLineData, 54);
       m_progressLinesShowDate = (progressLineData[56] != 0);
-      m_progressLinesDateFormat = MPPUtility.getShort(progressLineData, 58);
+      m_progressLinesDateFormat = ByteArrayHelper.getShort(progressLineData, 58);
       m_progressLinesFontStyle = getFontStyle(progressLineData, 60, fontBases, true);
       m_progressLinesCurrentLineColor = MPPUtility.getColor(progressLineData, 92);
       m_progressLinesCurrentLineStyle = LineStyle.getInstance(progressLineData[104]);
@@ -357,7 +358,7 @@ public final class GanttChartView14 extends GanttChartView
       m_progressLinesOtherProgressPointColor = MPPUtility.getColor(progressLineData, 131);
       m_progressLinesOtherProgressPointShape = progressLineData[143];
 
-      int dateCount = MPPUtility.getShort(progressLineData, 50);
+      int dateCount = ByteArrayHelper.getShort(progressLineData, 50);
       if (dateCount != 0)
       {
          m_progressLinesDisplaySelectedDates = new LocalDateTime[dateCount];

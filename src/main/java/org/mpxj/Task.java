@@ -28,7 +28,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -6014,12 +6013,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    private TaskMode defaultTaskMode()
    {
       return TaskMode.AUTO_SCHEDULED;
-   }
-
-   private List<ActivityCodeValue> calculateActivityCodes()
-   {
-      Map<ActivityCode, ActivityCodeValue> map = getActivityCodeValues();
-      return map.isEmpty() ? Collections.emptyList() : new ArrayList<>(map.values());
    }
 
    private Map<ActivityCode, ActivityCodeValue> defaultActivityCodeValues()

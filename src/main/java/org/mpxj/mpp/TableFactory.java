@@ -26,6 +26,7 @@ package org.mpxj.mpp;
 import org.mpxj.Column;
 import org.mpxj.ProjectFile;
 import org.mpxj.Table;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
 
 /**
@@ -61,8 +62,8 @@ final class TableFactory
    {
       Table table = new Table();
 
-      table.setID(MPPUtility.getInt(data, 0));
-      table.setResourceFlag(MPPUtility.getShort(data, 108) == 1);
+      table.setID(ByteArrayHelper.getInt(data, 0));
+      table.setResourceFlag(ByteArrayHelper.getShort(data, 108) == 1);
       table.setName(MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(data, 4)));
 
       byte[] columnData = null;
@@ -101,7 +102,7 @@ final class TableFactory
       //System.out.println(ByteArrayHelper.hexdump(data, 8, data.length-8, false, 12, ""));
       if (data != null && data.length > 6)
       {
-         int columnCount = MPPUtility.getShort(data, 4) + 1;
+         int columnCount = ByteArrayHelper.getShort(data, 4) + 1;
          int index = 8;
          int columnTitleOffset;
          Column column;
@@ -110,7 +111,7 @@ final class TableFactory
          for (int loop = 0; loop < columnCount; loop++)
          {
             column = new Column(file);
-            column.setFieldType(FieldTypeHelper.getInstance(file, MPPUtility.getInt(data, index)));
+            column.setFieldType(FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(data, index)));
 
             //                        if (column.getFieldType() == null)
             //                        {
@@ -123,7 +124,7 @@ final class TableFactory
 
             column.setWidth(MPPUtility.getByte(data, index + 4));
 
-            columnTitleOffset = MPPUtility.getShort(data, index + 6);
+            columnTitleOffset = ByteArrayHelper.getShort(data, index + 6);
             if (columnTitleOffset != 0)
             {
                column.setTitle(MPPUtility.getUnicodeString(data, columnTitleOffset));

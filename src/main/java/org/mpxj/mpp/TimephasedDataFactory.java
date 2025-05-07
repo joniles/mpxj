@@ -37,6 +37,7 @@ import org.mpxj.TimephasedCost;
 import org.mpxj.TimephasedCostContainer;
 import org.mpxj.TimephasedWork;
 import org.mpxj.TimephasedWorkContainer;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DefaultTimephasedCostContainer;
 import org.mpxj.common.DefaultTimephasedWorkContainer;
 import org.mpxj.common.NumberHelper;
@@ -61,15 +62,15 @@ final class TimephasedDataFactory
    public List<TimephasedWork> getCompleteWork(ProjectCalendar calendar, ResourceAssignment resourceAssignment, byte[] data)
    {
       List<TimephasedWork> list = new ArrayList<>();
-      if (calendar == null || data == null || data.length <= 26 || MPPUtility.getShort(data, 0) == 0 || resourceAssignment.getTask().getDuration() == null || resourceAssignment.getTask().getDuration().getDuration() == 0)
+      if (calendar == null || data == null || data.length <= 26 || ByteArrayHelper.getShort(data, 0) == 0 || resourceAssignment.getTask().getDuration() == null || resourceAssignment.getTask().getDuration().getDuration() == 0)
       {
          return list;
       }
 
       LocalDateTime startDate = resourceAssignment.getStart();
-      double finishTime = MPPUtility.getInt(data, 24);
+      double finishTime = ByteArrayHelper.getInt(data, 24);
 
-      int blockCount = MPPUtility.getShort(data, 0);
+      int blockCount = ByteArrayHelper.getShort(data, 0);
       double previousCumulativeWork = 0;
       TimephasedWork previousAssignment = null;
 
@@ -77,7 +78,7 @@ final class TimephasedDataFactory
       int currentBlock = 0;
       while (currentBlock < blockCount && index + 20 <= data.length)
       {
-         double time = MPPUtility.getInt(data, index);
+         double time = ByteArrayHelper.getInt(data, index);
 
          // If the start of this block is before the start of the assignment, or after the end of the assignment
          // the values don't make sense, so we'll just set the start of this block to be the start of the assignment.
@@ -171,7 +172,7 @@ final class TimephasedDataFactory
          return list;
       }
 
-      int blockCount = MPPUtility.getShort(data, 0);
+      int blockCount = ByteArrayHelper.getShort(data, 0);
       if (blockCount == 0)
       {
          if (data.length >= 24)
@@ -207,7 +208,7 @@ final class TimephasedDataFactory
 
          while (currentBlock < blockCount && index + 28 <= data.length)
          {
-            double time = MPPUtility.getInt(data, index);
+            double time = ByteArrayHelper.getInt(data, index);
             time /= 80;
             Duration blockDuration = Duration.getInstance(time, TimeUnit.MINUTES);
             LocalDateTime start;
@@ -231,7 +232,7 @@ final class TimephasedDataFactory
             // in negative durations.
             // MPPUtility.getDouble(data, index + 12);
 
-            int currentModifiedFlag = MPPUtility.getShort(data, index + 22);
+            int currentModifiedFlag = ByteArrayHelper.getShort(data, index + 22);
             boolean modified = (currentBlock > 0 && previousModifiedFlag != 0 && currentModifiedFlag == 0) || ((currentModifiedFlag & 0x3000) != 0);
             previousModifiedFlag = currentModifiedFlag;
 
@@ -259,7 +260,7 @@ final class TimephasedDataFactory
 
          if (previousAssignment != null)
          {
-            double time = MPPUtility.getInt(data, 24);
+            double time = ByteArrayHelper.getInt(data, 24);
             time /= 80;
             Duration blockDuration = Duration.getInstance(time, TimeUnit.MINUTES);
             LocalDateTime finish = calendar.getDate(offset, blockDuration);
@@ -296,9 +297,9 @@ final class TimephasedDataFactory
       }
 
       // 8 byte header
-      int blockCount = MPPUtility.getShort(data, 0);
+      int blockCount = ByteArrayHelper.getShort(data, 0);
       //int timephasedDataType = MPPUtility.getShort(data, 2);
-      int offset = MPPUtility.getShort(data, 4);
+      int offset = ByteArrayHelper.getShort(data, 4);
       //int unknown = MPPUtility.getShort(data, 6);
 
       // We need at least 3 blocks
@@ -337,7 +338,7 @@ final class TimephasedDataFactory
          {
             LocalDateTime blockStartDate = blockEndDate;
             long currentCumulativeWorkInMinutes = (long) (MPPUtility.getDouble(data, offset) / 1000.0);
-            int expectedWorkThisPeriodInMinutes = MPPUtility.getInt(data, offset + 8) / 10;
+            int expectedWorkThisPeriodInMinutes = ByteArrayHelper.getInt(data, offset + 8) / 10;
             //int unknown = MPPUtility.getInt(data, offset + 12);
             blockEndDate = MPPUtility.getTimestampFromTenths(data, offset + 16);
 

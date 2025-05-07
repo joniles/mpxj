@@ -24,6 +24,7 @@
 package org.mpxj.mpp;
 
 import org.mpxj.FieldType;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
 
 /**
@@ -43,30 +44,30 @@ public final class FilterCriteriaReader12 extends CriteriaReader
 
    @Override protected byte[] getChildBlock(byte[] block)
    {
-      int offset = MPPUtility.getShort(block, 74);
+      int offset = ByteArrayHelper.getShort(block, 74);
       return m_criteriaBlockMap.get(Integer.valueOf(offset));
    }
 
    @Override protected byte[] getListNextBlock(byte[] block)
    {
-      int offset = MPPUtility.getShort(block, 76);
+      int offset = ByteArrayHelper.getShort(block, 76);
       return m_criteriaBlockMap.get(Integer.valueOf(offset));
    }
 
    @Override protected FieldType getFieldType(byte[] block)
    {
-      int fieldIndex = MPPUtility.getInt(block, 40);
+      int fieldIndex = ByteArrayHelper.getInt(block, 40);
       return FieldTypeHelper.getInstance(m_file, fieldIndex);
    }
 
    @Override protected int getTextOffset(byte[] block)
    {
-      return MPPUtility.getShort(block, 68);
+      return ByteArrayHelper.getShort(block, 68);
    }
 
    @Override protected int getPromptOffset(byte[] block)
    {
-      return MPPUtility.getShort(block, 72);
+      return ByteArrayHelper.getShort(block, 72);
    }
 
    @Override protected int getValueOffset()

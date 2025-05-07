@@ -34,5 +34,5 @@ public interface MpxjEnum
     *
     * @return enum value
     */
-   public int getValue();
+   int getValue();
 }

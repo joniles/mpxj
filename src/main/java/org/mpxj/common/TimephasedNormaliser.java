@@ -44,5 +44,5 @@ public interface TimephasedNormaliser<T>
     * @param parent parent entity
     * @param list list of assignment data
     */
-   public void normalise(ProjectCalendar calendar, TimePeriodEntity parent, List<T> list);
+   void normalise(ProjectCalendar calendar, TimePeriodEntity parent, List<T> list);
 }

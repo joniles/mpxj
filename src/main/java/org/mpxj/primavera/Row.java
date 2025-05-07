@@ -44,7 +44,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public String getString(String name);
+   String getString(String name);
 
    /**
     * Retrieve an Integer attribute.
@@ -52,7 +52,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public Integer getInteger(String name);
+   Integer getInteger(String name);
 
    /**
     * Retrieve a Double attribute.
@@ -60,7 +60,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public Double getDouble(String name);
+   Double getDouble(String name);
 
    /**
     * Retrieve a boolean attribute.
@@ -68,7 +68,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public boolean getBoolean(String name);
+   boolean getBoolean(String name);
 
    /**
     * Retrieve a boolean attribute.
@@ -76,7 +76,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public Boolean getBooleanObject(String name);
+   Boolean getBooleanObject(String name);
 
    /**
     * Retrieve an in attribute.
@@ -84,7 +84,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public int getInt(String name);
+   int getInt(String name);
 
    /**
     * Retrieve a date attribute.
@@ -92,7 +92,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public LocalDateTime getDate(String name);
+   LocalDateTime getDate(String name);
 
    /**
     * Retrieve a duration attribute.
@@ -100,7 +100,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public Duration getDuration(String name);
+   Duration getDuration(String name);
 
    /**
     * Retrieve a UUID attribute.
@@ -108,5 +108,5 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public UUID getUUID(String name);
+   UUID getUUID(String name);
 }

@@ -33,5 +33,5 @@ public interface ProjectEntityWithUniqueID
     *
     * @return Unique ID value
     */
-   public Integer getUniqueID();
+   Integer getUniqueID();
 }

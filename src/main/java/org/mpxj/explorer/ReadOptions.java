@@ -72,7 +72,7 @@ class ReadOptions
    }
 
    /**
-    * Retrueve the expand subprojects flag.
+    * Retrieve the expand subprojects flag.
     *
     * @return expand subprojects flag
     */

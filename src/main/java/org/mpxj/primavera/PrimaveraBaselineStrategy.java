@@ -23,14 +23,14 @@
 
 package org.mpxj.primavera;
 
-import org.mpxj.DefaultBaselineStrategy;
+import org.mpxj.AbstractBaselineStrategy;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
 
 /**
  * Strategies used to assign baselines for Primavera schedules.
  */
-public final class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
+public final class PrimaveraBaselineStrategy extends AbstractBaselineStrategy
 {
    /**
     * Private constructor.

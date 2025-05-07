@@ -122,21 +122,21 @@ public final class UniversalProjectReader extends AbstractProjectReader
        *
        * @return {@code ProjectReader} instance
        */
-      public ProjectReader getProjectReader();
+      ProjectReader getProjectReader();
 
       /**
        * Read a single {@code ProjectFile} instance from the supplied file or stream.
        *
        * @return {@code ProjectFile} instance or {@code null}
        */
-      public ProjectFile read() throws MPXJException;
+      ProjectFile read() throws MPXJException;
 
       /**
        * Read a list of {@code ProjectFile} instances from the supplied file or stream.
        *
        * @return {@code ProjectFile} instance or an empty list
        */
-      public List<ProjectFile> readAll() throws MPXJException;
+      List<ProjectFile> readAll() throws MPXJException;
    }
 
    /**
@@ -817,7 +817,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
             else
             {
                UniversalProjectReader reader = new UniversalProjectReader();
-               m_cleanup.push(() -> reader.cleanup());
+               m_cleanup.push(reader::cleanup);
                reader.m_properties = m_properties;
                ProjectReaderProxy result = reader.getProjectReaderProxy(file);
                if (result != null)
@@ -909,7 +909,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    private ProjectReaderProxy handleByteOrderMark(InputStream stream, int length, Charset charset) throws Exception
    {
       UniversalProjectReader reader = new UniversalProjectReader();
-      m_cleanup.push(() -> reader.cleanup());
+      m_cleanup.push(reader::cleanup);
       reader.m_properties = m_properties;
       reader.m_skipBytes = length;
       reader.m_charset = charset;

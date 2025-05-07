@@ -23,13 +23,13 @@
 
 package org.mpxj.asta;
 
-import org.mpxj.DefaultBaselineStrategy;
+import org.mpxj.AbstractBaselineStrategy;
 import org.mpxj.Task;
 
 /**
  * Strategy used to assign baselines for Asta schedules.
  */
-public final class AstaBaselineStrategy extends DefaultBaselineStrategy
+public final class AstaBaselineStrategy extends AbstractBaselineStrategy
 {
    /**
     * Private constructor.

@@ -28,6 +28,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.mpxj.ActivityCodeValue;
 import org.mpxj.ActivityStatus;
@@ -346,7 +347,7 @@ class ActivityReader
     */
    private Double sum(Row row, String... keys)
    {
-      return Double.valueOf(Arrays.stream(keys).map(k -> row.getDouble(k)).filter(v -> v != null).mapToDouble(v -> v.doubleValue()).sum());
+      return Double.valueOf(Arrays.stream(keys).map(row::getDouble).filter(Objects::nonNull).mapToDouble(Double::doubleValue).sum());
    }
 
    private final ProjectFile m_file;

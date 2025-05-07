@@ -36,6 +36,7 @@ import org.mpxj.Rate;
 import org.mpxj.Resource;
 import org.mpxj.ResourceField;
 import org.mpxj.TimeUnit;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.RateHelper;
@@ -89,10 +90,10 @@ final class CostRateTableFactory
       {
          for (int i = 16; i + 44 <= data.length; i += 44)
          {
-            TimeUnit standardRateFormat = getFormat(MPPUtility.getShort(data, i + 8));
+            TimeUnit standardRateFormat = getFormat(ByteArrayHelper.getShort(data, i + 8));
             Rate standardRate = RateHelper.convertFromHours(m_file.getProjectProperties(), MPPUtility.getDouble(data, i), standardRateFormat);
 
-            TimeUnit overtimeRateFormat = getFormat(MPPUtility.getShort(data, i + 24));
+            TimeUnit overtimeRateFormat = getFormat(ByteArrayHelper.getShort(data, i + 24));
             Rate overtimeRate = RateHelper.convertFromHours(m_file.getProjectProperties(), MPPUtility.getDouble(data, i + 16), overtimeRateFormat);
 
             Double costPerUse = NumberHelper.getDouble(MPPUtility.getDouble(data, i + 32) / 100.0);

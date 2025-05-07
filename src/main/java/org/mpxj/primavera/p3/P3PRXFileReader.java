@@ -30,6 +30,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FileHelper;
 import org.mpxj.common.FixedLengthInputStream;
 import org.mpxj.common.InputStreamHelper;
@@ -122,14 +123,7 @@ public final class P3PRXFileReader extends AbstractProjectStreamReader
     */
    private int getInt(byte[] data, int offset)
    {
-      int result = 0;
-      int i = offset;
-      for (int shiftBy = 0; shiftBy < 32; shiftBy += 8)
-      {
-         result |= ((data[i] & 0xff)) << shiftBy;
-         ++i;
-      }
-      return result;
+      return ByteArrayHelper.getInt(data, offset);
    }
 
    /**

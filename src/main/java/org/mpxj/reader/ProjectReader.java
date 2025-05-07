@@ -43,7 +43,7 @@ public interface ProjectReader
     *
     * @param listener ProjectListener instance
     */
-   public void addProjectListener(ProjectListener listener);
+   void addProjectListener(ProjectListener listener);
 
    /**
     * Read a single schedule from a file where the file name is supplied.
@@ -51,7 +51,7 @@ public interface ProjectReader
     * @param fileName file name
     * @return ProjectFile instance
     */
-   public ProjectFile read(String fileName) throws MPXJException;
+   ProjectFile read(String fileName) throws MPXJException;
 
    /**
     * Read all schedules from a file where the file name is supplied.
@@ -59,7 +59,7 @@ public interface ProjectReader
     * @param fileName file name
     * @return ProjectFile instance
     */
-   public List<ProjectFile> readAll(String fileName) throws MPXJException;
+   List<ProjectFile> readAll(String fileName) throws MPXJException;
 
    /**
     * Read a single schedule from a file where a File instance is supplied.
@@ -67,7 +67,7 @@ public interface ProjectReader
     * @param file File instance
     * @return ProjectFile instance
     */
-   public ProjectFile read(File file) throws MPXJException;
+   ProjectFile read(File file) throws MPXJException;
 
    /**
     * Read all schedules from a file where a File instance is supplied.
@@ -75,7 +75,7 @@ public interface ProjectReader
     * @param file File instance
     * @return ProjectFile instance
     */
-   public List<ProjectFile> readAll(File file) throws MPXJException;
+   List<ProjectFile> readAll(File file) throws MPXJException;
 
    /**
     * Read a single schedule from a file where the contents of the project file
@@ -84,7 +84,7 @@ public interface ProjectReader
     * @param inputStream InputStream instance
     * @return ProjectFile instance
     */
-   public ProjectFile read(InputStream inputStream) throws MPXJException;
+   ProjectFile read(InputStream inputStream) throws MPXJException;
 
    /**
     * Read all schedules from a file where the contents of the project file
@@ -93,6 +93,6 @@ public interface ProjectReader
     * @param inputStream InputStream instance
     * @return ProjectFile instance
     */
-   public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException;
+   List<ProjectFile> readAll(InputStream inputStream) throws MPXJException;
 
 }

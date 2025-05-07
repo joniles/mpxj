@@ -26,6 +26,8 @@ package org.mpxj.mpp;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.mpxj.common.ByteArrayHelper;
+
 /**
  * This class represents a block of property data.
  */
@@ -38,17 +40,17 @@ final class PropsBlock extends Props
     */
    PropsBlock(byte[] data)
    {
-      int dataSize = MPPUtility.getInt(data, 0);
-      int itemCount = MPPUtility.getInt(data, 4);
+      int dataSize = ByteArrayHelper.getInt(data, 0);
+      int itemCount = ByteArrayHelper.getInt(data, 4);
 
       int offset = 8;
       Map<Integer, Integer> offsetMap = new TreeMap<>();
       for (int loop = 0; loop < itemCount; loop++)
       {
-         int itemKey = MPPUtility.getInt(data, offset);
+         int itemKey = ByteArrayHelper.getInt(data, offset);
          offset += 4;
 
-         int itemOffset = MPPUtility.getInt(data, offset);
+         int itemOffset = ByteArrayHelper.getInt(data, offset);
          offset += 4;
 
          offsetMap.put(Integer.valueOf(itemOffset), Integer.valueOf(itemKey));

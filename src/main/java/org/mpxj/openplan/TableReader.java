@@ -279,7 +279,7 @@ class TableReader extends AbstractReader
       }
 
       pw.println("TABLE: " + m_name);
-      rows.forEach(r -> pw.println(r));
+      rows.forEach(pw::println);
       pw.println();
       pw.flush();
       pw.close();

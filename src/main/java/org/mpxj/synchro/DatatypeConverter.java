@@ -33,6 +33,7 @@ import java.util.UUID;
 
 import org.mpxj.Duration;
 import org.mpxj.TimeUnit;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.CharsetHelper;
 import org.mpxj.common.InputStreamHelper;
 
@@ -77,14 +78,7 @@ final class DatatypeConverter
     */
    public static final int getInt(byte[] data, int offset)
    {
-      int result = 0;
-      int i = offset;
-      for (int shiftBy = 0; shiftBy < 32; shiftBy += 8)
-      {
-         result |= ((data[i] & 0xff)) << shiftBy;
-         ++i;
-      }
-      return result;
+      return ByteArrayHelper.getInt(data, offset);
    }
 
    /**
@@ -96,14 +90,7 @@ final class DatatypeConverter
     */
    public static final int getShort(byte[] data, int offset)
    {
-      int result = 0;
-      int i = offset;
-      for (int shiftBy = 0; shiftBy < 16; shiftBy += 8)
-      {
-         result |= ((data[i] & 0xff)) << shiftBy;
-         ++i;
-      }
-      return result;
+      return ByteArrayHelper.getShort(data, offset);
    }
 
    /**
@@ -115,14 +102,7 @@ final class DatatypeConverter
     */
    public static final long getLong(byte[] data, int offset)
    {
-      long result = 0;
-      int i = offset;
-      for (int shiftBy = 0; shiftBy < 64; shiftBy += 8)
-      {
-         result |= ((long) (data[i] & 0xff)) << shiftBy;
-         ++i;
-      }
-      return result;
+      return ByteArrayHelper.getLong(data, offset);
    }
 
    /**

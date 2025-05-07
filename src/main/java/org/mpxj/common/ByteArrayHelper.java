@@ -31,6 +31,63 @@ import java.text.DecimalFormat;
 public final class ByteArrayHelper
 {
    /**
+    * This method reads a two byte integer from the input array.
+    *
+    * @param data the input array
+    * @param offset offset of integer data in the array
+    * @return integer value
+    */
+   public static final int getShort(byte[] data, int offset)
+   {
+      int result = 0;
+      int i = offset;
+      for (int shiftBy = 0; shiftBy < 16; shiftBy += 8)
+      {
+         result |= ((data[i] & 0xff)) << shiftBy;
+         ++i;
+      }
+      return result;
+   }
+
+   /**
+    * This method reads a four byte integer from the input array.
+    *
+    * @param data the input array
+    * @param offset offset of integer data in the array
+    * @return integer value
+    */
+   public static final int getInt(byte[] data, int offset)
+   {
+      int result = 0;
+      int i = offset;
+      for (int shiftBy = 0; shiftBy < 32; shiftBy += 8)
+      {
+         result |= ((data[i] & 0xff)) << shiftBy;
+         ++i;
+      }
+      return result;
+   }
+
+   /**
+    * This method reads an eight byte integer from the input array.
+    *
+    * @param data the input array
+    * @param offset offset of integer data in the array
+    * @return integer value
+    */
+   public static final long getLong(byte[] data, int offset)
+   {
+      long result = 0;
+      int i = offset;
+      for (int shiftBy = 0; shiftBy < 64; shiftBy += 8)
+      {
+         result |= ((long) (data[i] & 0xff)) << shiftBy;
+         ++i;
+      }
+      return result;
+   }
+
+   /**
     * This method generates a formatted version of the data contained
     * in a byte array. The data is written both in hex, and as ASCII
     * characters.

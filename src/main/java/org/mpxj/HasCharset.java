@@ -35,12 +35,12 @@ public interface HasCharset
     *
     * @param charset Charset instance
     */
-   public void setCharset(Charset charset);
+   void setCharset(Charset charset);
 
    /**
     * Retrieve the Charset tp be used when reading.
     *
     * @return Charset instance
     */
-   public Charset getCharset();
+   Charset getCharset();
 }

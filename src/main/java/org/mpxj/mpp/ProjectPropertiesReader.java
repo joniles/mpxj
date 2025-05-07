@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.TreeMap;
 
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.Duration;
 import org.apache.poi.hpsf.CustomProperties;
@@ -219,7 +220,7 @@ public final class ProjectPropertiesReader
       }
 
       // Length of the 8.3 filename
-      int length = MPPUtility.getInt(data, offset);
+      int length = ByteArrayHelper.getInt(data, offset);
       offset += 4;
 
       // 8.3 filename

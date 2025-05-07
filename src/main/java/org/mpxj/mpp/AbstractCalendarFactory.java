@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.LocalTimeRange;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -125,8 +126,8 @@ abstract class AbstractCalendarFactory implements CalendarFactory
             //
             while (offset + 12 <= fixedData.length)
             {
-               Integer calendarID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + getCalendarIDOffset()));
-               int baseCalendarID = MPPUtility.getInt(fixedData, offset + getBaseIDOffset());
+               Integer calendarID = Integer.valueOf(ByteArrayHelper.getInt(fixedData, offset + getCalendarIDOffset()));
+               int baseCalendarID = ByteArrayHelper.getInt(fixedData, offset + getBaseIDOffset());
 
                if (calendarID.intValue() > 0 && !calendarMap.containsKey(calendarID))
                {
@@ -154,7 +155,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                      // In practice, I've seen a few sample files where this is the case.
                      // As long as the resource ID isn't already linked to a calendar, we'll
                      // use the resource ID.
-                     Integer resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + getResourceIDOffset()));
+                     Integer resourceID = Integer.valueOf(ByteArrayHelper.getInt(fixedData, offset + getResourceIDOffset()));
                      if (resourceID.intValue() > 0 && !resourceMap.containsKey(resourceID))
                      {
                         resourceMap.put(resourceID, cal);
@@ -172,7 +173,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                      }
 
                      baseCalendars.add(new Pair<>(cal, Integer.valueOf(baseCalendarID)));
-                     Integer resourceID = Integer.valueOf(MPPUtility.getInt(fixedData, offset + getResourceIDOffset()));
+                     Integer resourceID = Integer.valueOf(ByteArrayHelper.getInt(fixedData, offset + getResourceIDOffset()));
                      resourceMap.put(resourceID, cal);
                   }
 
@@ -242,7 +243,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       for (index = 0; index < 7; index++)
       {
          offset = getCalendarHoursOffset() + (60 * index);
-         defaultFlag = data == null ? 1 : MPPUtility.getShort(data, offset);
+         defaultFlag = data == null ? 1 : ByteArrayHelper.getShort(data, offset);
          day = DayOfWeekHelper.getInstance(index + 1);
 
          if (defaultFlag == 1)
@@ -279,7 +280,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
             dateRanges.clear();
 
             periodIndex = 0;
-            periodCount = MPPUtility.getShort(data, offset + 2);
+            periodCount = ByteArrayHelper.getShort(data, offset + 2);
             while (periodIndex < periodCount)
             {
                int startOffset = offset + 8 + (periodIndex * 2);

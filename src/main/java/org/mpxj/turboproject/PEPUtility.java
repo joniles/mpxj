@@ -25,6 +25,8 @@ package org.mpxj.turboproject;
 
 import java.time.LocalDateTime;
 
+import org.mpxj.common.ByteArrayHelper;
+
 /**
  * Common utility methods for extracting data from a byte array.
  */
@@ -39,14 +41,7 @@ final class PEPUtility
     */
    public static final int getInt(byte[] data, int offset)
    {
-      int result = 0;
-      int i = offset;
-      for (int shiftBy = 0; shiftBy < 32; shiftBy += 8)
-      {
-         result |= ((data[i] & 0xff)) << shiftBy;
-         ++i;
-      }
-      return result;
+      return ByteArrayHelper.getInt(data, offset);
    }
 
    /**
@@ -58,14 +53,7 @@ final class PEPUtility
     */
    public static final int getShort(byte[] data, int offset)
    {
-      int result = 0;
-      int i = offset;
-      for (int shiftBy = 0; shiftBy < 16; shiftBy += 8)
-      {
-         result |= ((data[i] & 0xff)) << shiftBy;
-         ++i;
-      }
-      return result;
+      return ByteArrayHelper.getShort(data, offset);
    }
 
    /**

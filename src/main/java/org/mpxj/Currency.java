@@ -102,7 +102,7 @@ public final class Currency implements ProjectEntityWithUniqueID
    }
 
    /**
-    * Retrieve the number of decinal places to be displayed.
+    * Retrieve the number of decimal places to be displayed.
     *
     * @return decimal places
     */

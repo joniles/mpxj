@@ -32,7 +32,7 @@ import org.mpxj.common.InputStreamHelper;
 
 /**
  * This class handles reading the data found in the CompObj block
- * of an MPP file. The bits we can decypher allow us to determine
+ * of an MPP file. The bits we can decipher allow us to determine
  * the file format.
  */
 final class CompObj extends MPPComponent

@@ -20,7 +20,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-
 package org.mpxj.edrawproject;
 
 import java.io.InputStream;
@@ -84,7 +83,6 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
 
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
-         m_taskMap = new HashMap<>();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoWBS(false);
@@ -119,7 +117,6 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       {
          m_projectFile = null;
          m_eventManager = null;
-         m_taskMap = null;
       }
    }
 
@@ -179,7 +176,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
     */
    private void processDays(ProjectCalendar calendar, Document.Calendars.Calendar xml)
    {
-      if (xml.getWeekDays() == null || xml.getWeekDays().getWeekDay() == null || xml.getWeekDays().getWeekDay().isEmpty())
+      if (xml.getWeekDays() == null)
       {
          return;
       }
@@ -198,7 +195,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       // Exceptions are represented both as days with a day type of zero,
       // and with their own data in the calendar. We'll ignore day types
       // of zero for now.
-      if (xml.getDayType() == 0)
+      if (NumberHelper.getInt(xml.getDayType()) == 0)
       {
          return;
       }
@@ -225,7 +222,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
     */
    private void processExceptions(ProjectCalendar calendar, Document.Calendars.Calendar xml)
    {
-      if (xml.getExceptions() == null || xml.getExceptions().getException() == null || xml.getExceptions().getException().isEmpty())
+      if (xml.getExceptions() == null)
       {
          return;
       }
@@ -250,16 +247,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
          return;
       }
 
-      List<Document.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> workingTimes = xml.getWorkingTimes().getWorkingTime();
-      if(workingTimes == null || workingTimes.isEmpty())
-      {
-         return;
-      }
-
-      for(Document.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime workingTime : workingTimes)
-      {
-         exception.add(new LocalTimeRange(workingTime.getFromTime(), workingTime.getToTime()));
-      }
+      xml.getWorkingTimes().getWorkingTime().forEach(w -> exception.add(new LocalTimeRange(w.getFromTime(), w.getToTime())));
    }
 
    /**
@@ -269,7 +257,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
     */
    private void processResources(Document document)
    {
-      if (document.getResourceInfo() == null || document.getResourceInfo().getColumn() == null || document.getResourceInfo().getColumn().isEmpty())
+      if (document.getResourceInfo() == null)
       {
          return;
       }
@@ -317,7 +305,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
     */
    private void processTasks(Document document)
    {
-      if (document.getTaskList() == null || document.getTaskList().getTask() == null ||document.getTaskList().getTask().isEmpty())
+      if (document.getTaskList() == null || document.getTaskList().getTask().isEmpty())
       {
          return;
       }
@@ -337,8 +325,8 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       double percentComplete = NumberHelper.getDouble(xml.getPercent()) * 100.0;
 
       Task task = (parent == null ? m_projectFile : parent).addTask();
-      task.setMilestone(xml.isMilestone());
-      task.setCritical(xml.isCriticalPath());
+      task.setMilestone(BooleanHelper.getBoolean(xml.isMilestone()));
+      task.setCritical(BooleanHelper.getBoolean(xml.isCriticalPath()));
       task.setUniqueID(xml.getID());
       task.setID(xml.getRowID());
       task.setBaselineStart(xml.getDateBaseStart());
@@ -347,7 +335,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       task.setDuration(getDuration(xml.getDurationSecs(), xml.getDurationUnits()));
       task.setLateStart(xml.getDateLateStart());
       task.setActualStart(getDateFromLong(xml.getActualStart()));
-      task.setWork(Duration.getInstance(xml.getWork(), TimeUnit.HOURS));
+      task.setWork(Duration.getInstance(NumberHelper.getDouble(xml.getWork()), TimeUnit.HOURS));
       task.setCost(xml.getCost());
       task.setStart(xml.getDateStart());
       task.setName(xml.getName());
@@ -357,7 +345,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       task.setFinish(xml.getDateFinish());
       task.setWBS(xml.getWbs());
       task.setNotes(xml.getNotes());
-      task.setPercentageComplete(percentComplete);
+      task.setPercentageComplete(Double.valueOf(percentComplete));
       task.setRemainingCost(xml.getRemainingCost());
       task.setTaskMode(BooleanHelper.getBoolean(xml.isManual()) ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED);
 
@@ -400,7 +388,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
     */
    private void processResourceAssignments(Task task, Document.TaskList.Task.ResourceList xml)
    {
-      if (xml == null || xml.getResource() == null || xml.getResource().isEmpty())
+      if (xml == null || xml.getResource().isEmpty())
       {
          return;
       }
@@ -423,8 +411,8 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       }
 
       ResourceAssignment assignment = task.addResourceAssignment(resource);
-      assignment.setUnits(NumberHelper.getDouble(xml.getPercent()) * 100.0);
-      assignment.setWork(getDuration(xml.getWorkSecs(), 5));
+      assignment.setUnits(Double.valueOf(NumberHelper.getDouble(xml.getPercent()) * 100.0));
+      assignment.setWork(getDuration(xml.getWorkSecs(), Integer.valueOf(5)));
       m_eventManager.fireAssignmentReadEvent(assignment);
    }
 
@@ -461,7 +449,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
       Relation relation = task.addPredecessor(new Relation.Builder()
          .predecessorTask(predecessor)
          .type(RELATION_TYPE_MAP.getOrDefault(xml.getType(), RelationType.FINISH_START))
-         .lag(getDuration(xml.getLinkLag() * 6, xml.getLagFormat())));
+         .lag(getDuration(Long.valueOf(xml.getLinkLag() * 6), xml.getLagFormat())));
 
       m_eventManager.fireRelationReadEvent(relation);
    }
@@ -504,18 +492,11 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
             break;
          }
 
-         case 7:
+         case 7: // Workday
+         case 10: // Day
          {
-            // Workday
-            durationValue /= (60.0 * m_projectFile.getProjectProperties().getMinutesPerDay());
-            durationUnits = TimeUnit.DAYS;
-            break;
-         }
 
-         case 10:
-         {
-            // Day
-            durationValue /= (60.0 * m_projectFile.getProjectProperties().getMinutesPerDay());
+            durationValue /= (60.0 * NumberHelper.getInt(m_projectFile.getProjectProperties().getMinutesPerDay()));
             durationUnits = TimeUnit.DAYS;
             break;
          }
@@ -523,7 +504,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
          case 8:
          {
             // Weeks
-            durationValue /= (60.0 * m_projectFile.getProjectProperties().getMinutesPerWeek());
+            durationValue /= (60.0 * NumberHelper.getInt(m_projectFile.getProjectProperties().getMinutesPerWeek()));
             durationUnits = TimeUnit.WEEKS;
             break;
          }
@@ -531,7 +512,7 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
          case 9:
          {
             // Months
-            durationValue /= (60.0 * m_projectFile.getProjectProperties().getMinutesPerDay() * m_projectFile.getProjectProperties().getDaysPerMonth());
+            durationValue /= (60.0 * NumberHelper.getInt(m_projectFile.getProjectProperties().getMinutesPerDay()) * NumberHelper.getInt(m_projectFile.getProjectProperties().getDaysPerMonth()));
             durationUnits = TimeUnit.MONTHS;
             break;
          }
@@ -563,7 +544,6 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
 
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
-   Map<String, Task> m_taskMap;
 
    private static final Map<Integer, ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
    static
@@ -609,10 +589,10 @@ public final class EdrawProjectReader extends AbstractProjectStreamReader
    private static final Map<Integer, RelationType> RELATION_TYPE_MAP = new HashMap<>();
    static
    {
-      RELATION_TYPE_MAP.put(0, RelationType.FINISH_FINISH);
-      RELATION_TYPE_MAP.put(1, RelationType.FINISH_START);
-      RELATION_TYPE_MAP.put(2, RelationType.START_FINISH);
-      RELATION_TYPE_MAP.put(3, RelationType.START_START);
+      RELATION_TYPE_MAP.put(Integer.valueOf(0), RelationType.FINISH_FINISH);
+      RELATION_TYPE_MAP.put(Integer.valueOf(1), RelationType.FINISH_START);
+      RELATION_TYPE_MAP.put(Integer.valueOf(2), RelationType.START_FINISH);
+      RELATION_TYPE_MAP.put(Integer.valueOf(3), RelationType.START_START);
    }
 
    private static final LocalDateTime EPOCH = LocalDateTime.of(1970, 1, 1, 1, 0);

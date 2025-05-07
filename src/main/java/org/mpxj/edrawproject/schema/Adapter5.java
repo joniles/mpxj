@@ -7,22 +7,21 @@
 
 package org.mpxj.edrawproject.schema;
 
-import java.time.LocalDateTime;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter3
+public class Adapter5
          extends
-            XmlAdapter<String, LocalDateTime>
+            XmlAdapter<String, Integer>
 {
 
-   @Override public LocalDateTime unmarshal(String value)
+   @Override public Integer unmarshal(String value)
    {
-      return (org.mpxj.edrawproject.DatatypeConverter.parseTimestamp(value));
+      return (org.mpxj.edrawproject.DatatypeConverter.parseInteger(value));
    }
 
-   @Override public String marshal(LocalDateTime value)
+   @Override public String marshal(Integer value)
    {
-      return (org.mpxj.edrawproject.DatatypeConverter.printTimestamp(value));
+      return (org.mpxj.edrawproject.DatatypeConverter.printInteger(value));
    }
 
 }

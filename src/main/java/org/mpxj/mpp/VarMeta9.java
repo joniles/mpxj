@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.InputStreamHelper;
 
 /**
@@ -79,7 +80,7 @@ final class VarMeta9 extends AbstractVarMeta
       {
          InputStreamHelper.read(is, uniqueIDArray, 3);
 
-         uniqueID = Integer.valueOf(MPPUtility.getInt(uniqueIDArray, 0));
+         uniqueID = Integer.valueOf(ByteArrayHelper.getInt(uniqueIDArray, 0));
 
          type = Integer.valueOf(readByte(is));
          offset = Integer.valueOf(readInt(is));

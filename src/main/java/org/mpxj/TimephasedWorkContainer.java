@@ -35,14 +35,14 @@ public interface TimephasedWorkContainer
     *
     * @return timephased data
     */
-   public List<TimephasedWork> getData();
+   List<TimephasedWork> getData();
 
    /**
     * Indicates if any timephased data is present.
     *
     * @return boolean flag
     */
-   public boolean hasData();
+   boolean hasData();
 
    /**
     * Create a new TimephasedWorkContainer duplicating the content of
@@ -52,5 +52,5 @@ public interface TimephasedWorkContainer
     * @param totalFactor total factor
     * @return new TimephasedWorkContainer instance
     */
-   public TimephasedWorkContainer applyFactor(double perDayFactor, double totalFactor);
+   TimephasedWorkContainer applyFactor(double perDayFactor, double totalFactor);
 }

@@ -992,7 +992,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeRoleAssignments()
    {
-      m_projectFile.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> writeRoleAssignments(r));
+      m_projectFile.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(this::writeRoleAssignments);
    }
 
    /**
@@ -1217,7 +1217,7 @@ final class PrimaveraPMProjectWriter
    {
       List<ResourceAssignment> assignments = new ArrayList<>();
       m_projectFile.getTasks().forEach(t -> assignments.addAll(t.getResourceAssignments()));
-      assignments.stream().filter(a -> WriterHelper.isValidAssignment(a)).forEach(a -> writeAssignment(a));
+      assignments.stream().filter(WriterHelper::isValidAssignment).forEach(this::writeAssignment);
    }
 
    /**

@@ -40,68 +40,68 @@ public interface ProjectListener
     *
     * @param task task instance
     */
-   public void taskRead(Task task);
+   void taskRead(Task task);
 
    /**
     * This method is called when a task is written to a file.
     *
     * @param task task instance
     */
-   public void taskWritten(Task task);
+   void taskWritten(Task task);
 
    /**
     * This method is called when a resource is read from a file.
     *
     * @param resource resource instance
     */
-   public void resourceRead(Resource resource);
+   void resourceRead(Resource resource);
 
    /**
     * This method is called when a resource is written to a file.
     *
     * @param resource resource instance
     */
-   public void resourceWritten(Resource resource);
+   void resourceWritten(Resource resource);
 
    /**
     * This method is called when a calendar is read from a file.
     *
     * @param calendar calendar instance
     */
-   public void calendarRead(ProjectCalendar calendar);
+   void calendarRead(ProjectCalendar calendar);
 
    /**
     * This method is called when a calendar is written to a file.
     *
     * @param calendar calendar instance
     */
-   public void calendarWritten(ProjectCalendar calendar);
+   void calendarWritten(ProjectCalendar calendar);
 
    /**
     * This method is called when an assignment is read from a file.
     *
     * @param assignment resource assignment
     */
-   public void assignmentRead(ResourceAssignment assignment);
+   void assignmentRead(ResourceAssignment assignment);
 
    /**
     * This method is called when an assignment is written to a file.
     *
     * @param assignment assignment instance
     */
-   public void assignmentWritten(ResourceAssignment assignment);
+   void assignmentWritten(ResourceAssignment assignment);
 
    /**
     * This method is called when a relation is read from a file.
     *
     * @param relation relation instance
     */
-   public void relationRead(Relation relation);
+   void relationRead(Relation relation);
 
    /**
     * This method is called when a relation is written to a file.
     *
     * @param relation relation instance
     */
-   public void relationWritten(Relation relation);
+   void relationWritten(Relation relation);
 }

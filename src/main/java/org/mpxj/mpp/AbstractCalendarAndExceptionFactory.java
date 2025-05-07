@@ -28,6 +28,8 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
 import java.time.DayOfWeek;
+
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.DayType;
 import org.mpxj.LocalDateRange;
@@ -72,7 +74,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
       {
          int offset = 420; // The first 420 is for the working hours data
 
-         int exceptionCount = MPPUtility.getShort(data, offset);
+         int exceptionCount = ByteArrayHelper.getShort(data, offset);
 
          if (exceptionCount == 0)
          {
@@ -112,7 +114,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                   exception = cal.addCalendarException(rd);
                }
 
-               int periodCount = MPPUtility.getShort(data, offset + 14);
+               int periodCount = ByteArrayHelper.getShort(data, offset + 14);
                if (periodCount != 0)
                {
                   for (int exceptionPeriodIndex = 0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
@@ -127,7 +129,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                //
                // Extract the name length - ensure that it is aligned to a 4 byte boundary
                //
-               int exceptionNameLength = MPPUtility.getInt(data, offset + 88);
+               int exceptionNameLength = ByteArrayHelper.getInt(data, offset + 88);
                if (exceptionNameLength % 4 != 0)
                {
                   exceptionNameLength = ((exceptionNameLength / 4) + 1) * 4;
@@ -149,12 +151,12 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
    private RecurringData readRecurringData(byte[] data, int offset, LocalDate fromDate, LocalDate toDate)
    {
       RecurringData rd = new RecurringData();
-      int recurrenceTypeValue = MPPUtility.getShort(data, offset + 72);
+      int recurrenceTypeValue = ByteArrayHelper.getShort(data, offset + 72);
       rd.setStartDate(fromDate);
       rd.setFinishDate(toDate);
       rd.setRecurrenceType(getRecurrenceType(recurrenceTypeValue));
       rd.setRelative(getRelative(recurrenceTypeValue));
-      rd.setOccurrences(Integer.valueOf(MPPUtility.getShort(data, offset + 4)));
+      rd.setOccurrences(Integer.valueOf(ByteArrayHelper.getShort(data, offset + 4)));
 
       switch (rd.getRecurrenceType())
       {
@@ -167,7 +169,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
             }
             else
             {
-               frequency = MPPUtility.getShort(data, offset + 76);
+               frequency = ByteArrayHelper.getShort(data, offset + 76);
             }
             rd.setFrequency(Integer.valueOf(frequency));
             break;
@@ -176,7 +178,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
          case WEEKLY:
          {
             rd.setWeeklyDaysFromBitmap(Integer.valueOf(MPPUtility.getByte(data, offset + 76)), DAY_MASKS);
-            rd.setFrequency(Integer.valueOf(MPPUtility.getShort(data, offset + 78)));
+            rd.setFrequency(Integer.valueOf(ByteArrayHelper.getShort(data, offset + 78)));
             break;
          }
 
@@ -186,7 +188,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
             {
                rd.setDayOfWeek(DayOfWeekHelper.getInstance(MPPUtility.getByte(data, offset + 77) - 2));
                rd.setDayNumber(Integer.valueOf(MPPUtility.getByte(data, offset + 76) + 1));
-               rd.setFrequency(Integer.valueOf(MPPUtility.getShort(data, offset + 78)));
+               rd.setFrequency(Integer.valueOf(ByteArrayHelper.getShort(data, offset + 78)));
             }
             else
             {
@@ -264,7 +266,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
          //
          // Extract the name length - ensure that it is aligned to a 4 byte boundary
          //
-         int nameLength = MPPUtility.getInt(data, offset);
+         int nameLength = ByteArrayHelper.getInt(data, offset);
          if (nameLength % 4 != 0)
          {
             nameLength = ((nameLength / 4) + 1) * 4;
@@ -295,7 +297,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
    {
       //System.out.println(ByteArrayHelper.hexdump(data, offset, 60, false));
 
-      int dayType = MPPUtility.getShort(data, offset);
+      int dayType = ByteArrayHelper.getShort(data, offset);
       if (dayType == 1)
       {
          week.setCalendarDayType(day, DayType.DEFAULT);
@@ -303,7 +305,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
       else
       {
          ProjectCalendarHours hours = week.addCalendarHours(day);
-         int rangeCount = MPPUtility.getShort(data, offset + 2);
+         int rangeCount = ByteArrayHelper.getShort(data, offset + 2);
          if (rangeCount == 0)
          {
             week.setCalendarDayType(day, DayType.NON_WORKING);
@@ -314,7 +316,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
             for (int index = 0; index < rangeCount; index++)
             {
                LocalTime startTime = MPPUtility.getTime(data, offset + 8 + (index * 2));
-               int durationInSeconds = MPPUtility.getInt(data, offset + 20 + (index * 4)) * 6;
+               int durationInSeconds = ByteArrayHelper.getInt(data, offset + 20 + (index * 4)) * 6;
                LocalTime finishTime = startTime.plusSeconds(durationInSeconds);
                hours.add(new LocalTimeRange(startTime, finishTime));
             }

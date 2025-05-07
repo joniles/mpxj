@@ -879,7 +879,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    {
       List<Task> externalTasks = new ArrayList<>();
       findExternalTasks(getChildTasks(), externalTasks);
-      Set<Task> replacedTasks = externalTasks.stream().map(t -> replaceRelations(t)).filter(t -> t != null).collect(Collectors.toSet());
+      Set<Task> replacedTasks = externalTasks.stream().map(this::replaceRelations).filter(Objects::nonNull).collect(Collectors.toSet());
       removeExternalTasks(getChildTasks(), replacedTasks);
    }
 
@@ -989,7 +989,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    private void findExternalTasks(List<Task> tasks, List<Task> externalTasks)
    {
-      externalTasks.addAll(tasks.stream().filter(t -> t.getExternalTask()).collect(Collectors.toList()));
+      externalTasks.addAll(tasks.stream().filter(Task::getExternalTask).collect(Collectors.toList()));
       tasks.forEach(t -> findExternalTasks(t.getChildTasks(), externalTasks));
    }
 
@@ -1002,7 +1002,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    private void removeExternalTasks(List<Task> tasks, Set<Task> replacedTasks)
    {
-      tasks.removeIf(t -> replacedTasks.contains(t));
+      tasks.removeIf(replacedTasks::contains);
       for (Task task : tasks)
       {
          removeExternalTasks(task.getChildTasks(), replacedTasks);

@@ -41,7 +41,7 @@ public interface ProjectWriter
     * @param projectFile project file instance
     * @param fileName file name
     */
-   public void write(ProjectFile projectFile, String fileName) throws IOException;
+   void write(ProjectFile projectFile, String fileName) throws IOException;
 
    /**
     * Create a project file using the supplied File instance.
@@ -49,7 +49,7 @@ public interface ProjectWriter
     * @param projectFile project file instance
     * @param file File instance
     */
-   public void write(ProjectFile projectFile, File file) throws IOException;
+   void write(ProjectFile projectFile, File file) throws IOException;
 
    /**
     * Write a project file's content to the supplied OutputStream instance.
@@ -57,5 +57,5 @@ public interface ProjectWriter
     * @param projectFile project file instance
     * @param outputStream OutputStream instance
     */
-   public void write(ProjectFile projectFile, OutputStream outputStream) throws IOException;
+   void write(ProjectFile projectFile, OutputStream outputStream) throws IOException;
 }

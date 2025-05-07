@@ -28,7 +28,7 @@ import java.util.Locale;
 /**
  * Represents a user defined field.
  */
-public class UserDefinedField implements FieldType
+public final class UserDefinedField implements FieldType
 {
    /**
     * Private constructor.

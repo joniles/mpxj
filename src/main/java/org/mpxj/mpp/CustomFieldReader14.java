@@ -29,6 +29,7 @@ import java.util.Map;
 import org.mpxj.CustomFieldContainer;
 import org.mpxj.DataType;
 import org.mpxj.ProjectFile;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
 
 /**
@@ -63,21 +64,21 @@ class CustomFieldReader14
       int index = 0;
       int offset = 0;
       // First the length (repeated twice)
-      int aliasBlockSize = MPPUtility.getInt(m_data, offset);
+      int aliasBlockSize = ByteArrayHelper.getInt(m_data, offset);
       offset += 8;
       // Then the number of custom columns
-      int numberOfAliases = MPPUtility.getInt(m_data, offset);
+      int numberOfAliases = ByteArrayHelper.getInt(m_data, offset);
       offset += 4;
 
       // Then the aliases themselves
       while (index < numberOfAliases && offset < aliasBlockSize)
       {
          // Get the Field ID
-         int fieldID = MPPUtility.getInt(m_data, offset);
+         int fieldID = ByteArrayHelper.getInt(m_data, offset);
          offset += 4;
 
          // Get the alias offset (offset + 4 for some reason).
-         int aliasOffset = MPPUtility.getInt(m_data, offset) + 4;
+         int aliasOffset = ByteArrayHelper.getInt(m_data, offset) + 4;
          offset += 4;
          // Read the alias itself
          if (aliasOffset < m_data.length)
@@ -99,7 +100,7 @@ class CustomFieldReader14
       {
          return;
       }
-      int unknownBlock1Size = MPPUtility.getInt(m_data, offset);
+      int unknownBlock1Size = ByteArrayHelper.getInt(m_data, offset);
       offset += 4;
       offset += unknownBlock1Size;
       if (offset > m_data.length)
@@ -112,7 +113,7 @@ class CustomFieldReader14
       {
          return;
       }
-      int unknownBlock2Size = MPPUtility.getInt(m_data, offset);
+      int unknownBlock2Size = ByteArrayHelper.getInt(m_data, offset);
       offset += 4;
       offset += unknownBlock2Size;
       if (offset > m_data.length)
@@ -125,7 +126,7 @@ class CustomFieldReader14
       {
          return;
       }
-      int numberOfDefinitions = MPPUtility.getInt(m_data, offset);
+      int numberOfDefinitions = ByteArrayHelper.getInt(m_data, offset);
       offset += 4;
 
       //int definitionsBlockSize = MPPUtility.getInt(m_data, offset);
@@ -140,8 +141,8 @@ class CustomFieldReader14
             break;
          }
 
-         DataType customFieldDataType = EnterpriseCustomFieldDataType.getDataTypeFromID(MPPUtility.getShort(m_data, offset + 12));
-         FieldTypeHelper.getInstance(m_file, MPPUtility.getInt(m_data, offset), customFieldDataType);
+         DataType customFieldDataType = EnterpriseCustomFieldDataType.getDataTypeFromID(ByteArrayHelper.getShort(m_data, offset + 12));
+         FieldTypeHelper.getInstance(m_file, ByteArrayHelper.getInt(m_data, offset), customFieldDataType);
 
          offset += 88;
       }

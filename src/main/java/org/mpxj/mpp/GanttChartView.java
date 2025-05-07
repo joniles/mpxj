@@ -40,6 +40,7 @@ import org.mpxj.FieldType;
 import org.mpxj.Filter;
 import org.mpxj.FilterContainer;
 import org.mpxj.ProjectFile;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
 
 /**
@@ -122,7 +123,7 @@ public abstract class GanttChartView extends GenericView
          byte[] tableData = props.getByteArray(TABLE_PROPERTIES);
          if (tableData != null)
          {
-            m_tableWidth = MPPUtility.getShort(tableData, 35);
+            m_tableWidth = ByteArrayHelper.getShort(tableData, 35);
             m_highlightFilter = (tableData[7] != 0);
          }
 
@@ -1170,8 +1171,8 @@ public abstract class GanttChartView extends GenericView
     */
    protected TableFontStyle getColumnFontStyle(ProjectFile file, byte[] data, int offset, Map<Integer, FontBase> fontBases)
    {
-      int uniqueID = MPPUtility.getInt(data, offset);
-      FieldType fieldType = FieldTypeHelper.getInstance(file, MPPUtility.getInt(data, offset + 4));
+      int uniqueID = ByteArrayHelper.getInt(data, offset);
+      FieldType fieldType = FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(data, offset + 4));
       Integer index = Integer.valueOf(MPPUtility.getByte(data, offset + 8));
       int style = MPPUtility.getByte(data, offset + 9);
       ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset + 10));
@@ -1226,10 +1227,7 @@ public abstract class GanttChartView extends GenericView
    {
       m_barStyles = barStyles;
       m_barStylesMap = new HashMap<>();
-      if (m_barStyles != null)
-      {
-         Arrays.stream(m_barStyles).forEach(style -> m_barStylesMap.computeIfAbsent(style.getID(), k -> new ArrayList<>()).add(style));
-      }
+      Arrays.stream(m_barStyles).forEach(style -> m_barStylesMap.computeIfAbsent(style.getID(), k -> new ArrayList<>()).add(style));
    }
 
    /**
@@ -1371,12 +1369,9 @@ public abstract class GanttChartView extends GenericView
          }
       }
 
-      if (m_barStyleExceptions != null)
+      for (GanttBarStyleException barStyleException : m_barStyleExceptions)
       {
-         for (GanttBarStyleException barStyleException : m_barStyleExceptions)
-         {
-            pw.println("   BarStyleException=" + barStyleException);
-         }
+         pw.println("   BarStyleException=" + barStyleException);
       }
 
       if (!m_autoFilters.isEmpty())

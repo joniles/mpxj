@@ -36,5 +36,5 @@ public interface UniqueIdObjectSequenceProvider
     * @param c class
     * @return ObjectSequence instance
     */
-   public ObjectSequence getUniqueIdObjectSequence(Class<?> c);
+   ObjectSequence getUniqueIdObjectSequence(Class<?> c);
 }

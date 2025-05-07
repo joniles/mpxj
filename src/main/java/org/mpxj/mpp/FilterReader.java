@@ -29,6 +29,7 @@ import java.util.List;
 import org.mpxj.Filter;
 import org.mpxj.GenericCriteriaPrompt;
 import org.mpxj.ProjectFile;
+import org.mpxj.common.ByteArrayHelper;
 
 /**
  * This class allows filter definitions to be read from an MPP file.
@@ -71,7 +72,7 @@ public abstract class FilterReader
          }
 
          Filter filter = new Filter();
-         filter.setID(Integer.valueOf(MPPUtility.getInt(filterFixedData, 0)));
+         filter.setID(Integer.valueOf(ByteArrayHelper.getInt(filterFixedData, 0)));
          filter.setName(MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(filterFixedData, 4)));
          byte[] filterVarData = varData.getByteArray(filter.getID(), getVarDataType());
          if (filterVarData == null)

@@ -319,7 +319,8 @@ public class CustomerDataTest
 
    private Set<String> readFile(File file) throws IOException
    {
-      try (Stream<String> stream = Files.lines(Paths.get(file.getPath()))) {
+      try (Stream<String> stream = Files.lines(Paths.get(file.getPath())))
+      {
          return stream.map(t -> removeComments(t.trim())).filter(t -> !t.isEmpty()).collect(Collectors.toSet());
       }
    }

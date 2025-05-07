@@ -29,6 +29,7 @@ import java.util.Map;
 import org.mpxj.ProjectFile;
 import org.mpxj.View;
 import org.mpxj.ViewType;
+import org.mpxj.common.ByteArrayHelper;
 
 /**
  * Default implementation of a view factory for MPP12 files.
@@ -38,14 +39,14 @@ class ViewFactory12 implements ViewFactory
    @Override public View createView(ProjectFile file, byte[] fixedMeta, byte[] fixedData, Var2Data varData, Map<Integer, FontBase> fontBases) throws IOException
    {
       View view;
-      int splitViewFlag = MPPUtility.getShort(fixedData, 110);
+      int splitViewFlag = ByteArrayHelper.getShort(fixedData, 110);
       if (splitViewFlag == 1)
       {
          view = new SplitView9(file, fixedData, varData);
       }
       else
       {
-         ViewType type = ViewType.getInstance(MPPUtility.getShort(fixedData, 112));
+         ViewType type = ViewType.getInstance(ByteArrayHelper.getShort(fixedData, 112));
          if (type == ViewType.GANTT_CHART)
          {
             view = new GanttChartView12(file, fixedMeta, fixedData, varData, fontBases);

@@ -36,21 +36,21 @@ public interface FieldType extends MpxjEnum
     *
     * @return field type class
     */
-   public FieldTypeClass getFieldTypeClass();
+   FieldTypeClass getFieldTypeClass();
 
    /**
     * Retrieve the enum name.
     *
     * @return enum name
     */
-   public String name();
+   String name();
 
    /**
     * Retrieve the name of this field using the default locale.
     *
     * @return field name
     */
-   public String getName();
+   String getName();
 
    /**
     * Retrieve the name of this field using the supplied locale.
@@ -58,19 +58,19 @@ public interface FieldType extends MpxjEnum
     * @param locale target locale
     * @return field name
     */
-   public String getName(Locale locale);
+   String getName(Locale locale);
 
    /**
     * Retrieve the data type of this field.
     *
     * @return data type
     */
-   public DataType getDataType();
+   DataType getDataType();
 
    /**
     * Retrieve the associated units field, if any.
     *
     * @return units field
     */
-   public FieldType getUnitsType();
+   FieldType getUnitsType();
 }

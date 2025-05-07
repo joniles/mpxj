@@ -1999,14 +1999,14 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      GanttChartView ganttChartView = (GanttChartView) view;
-      if (ganttChartView.getBarStyles() == null)
+      GanttBarStyle[] styles = ((GanttChartView) view).getBarStyles();
+      if (styles == null || styles.length == 0)
       {
          return;
       }
 
       m_writer.writeStartList("bar_styles");
-      for (GanttBarStyle style : ((GanttChartView) view).getBarStyles())
+      for (GanttBarStyle style : styles)
       {
          m_writer.writeStartObject(null);
          writeIntegerField("id", style.getID());
@@ -2031,14 +2031,14 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      GanttChartView ganttChartView = (GanttChartView) view;
-      if (ganttChartView.getBarStyleExceptions() == null)
+      GanttBarStyleException[] exceptions = ((GanttChartView) view).getBarStyleExceptions();
+      if (exceptions == null || exceptions.length == 0)
       {
          return;
       }
 
       m_writer.writeStartList("bar_style_exceptions");
-      for (GanttBarStyleException style : ((GanttChartView) view).getBarStyleExceptions())
+      for (GanttBarStyleException style : exceptions)
       {
          m_writer.writeStartObject(null);
          writeIntegerField("task_unique_id", Integer.valueOf(style.getTaskUniqueID()));

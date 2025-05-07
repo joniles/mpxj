@@ -597,7 +597,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       // Identify valid derived calendars, in theory all other calendars should be base calendars
       //
-      Map<Integer, List<Resource>> resourceCalendarMap = m_projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(r -> r.getCalendarUniqueID()));
+      Map<Integer, List<Resource>> resourceCalendarMap = m_projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(Resource::getCalendarUniqueID));
       Set<ProjectCalendar> derivedCalendarSet = m_projectFile.getResources().stream().map(Resource::getCalendar).filter(c -> isValidDerivedCalendar(resourceCalendarMap, c)).collect(Collectors.toSet());
       List<ProjectCalendar> baseCalendars = m_projectFile.getCalendars().stream().filter(c -> !derivedCalendarSet.contains(c)).collect(Collectors.toList());
 
@@ -2907,7 +2907,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       71,
    };
 
-   private static final Set<String> TIME_UNIT_NAMES = new HashSet<>(Arrays.stream(TimeUnit.values()).map(u -> u.getName()).collect(Collectors.toList()));
+   private static final Set<String> TIME_UNIT_NAMES = new HashSet<>(Arrays.stream(TimeUnit.values()).map(TimeUnit::getName).collect(Collectors.toList()));
 
    private static final BigInteger TIMEPHASED_DATA_PERIOD_YEARS = BigInteger.valueOf(8);
    private static final BigInteger TIMEPHASED_DATA_PERIOD_MONTHS = BigInteger.valueOf(5);

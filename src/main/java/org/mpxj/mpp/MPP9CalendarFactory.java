@@ -29,6 +29,7 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
 import org.mpxj.LocalTimeRange;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.LocalDateHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -99,7 +100,7 @@ class MPP9CalendarFactory extends AbstractCalendarFactory
       //
       // Handle any exceptions
       //
-      int exceptionCount = MPPUtility.getShort(data, 0);
+      int exceptionCount = ByteArrayHelper.getShort(data, 0);
 
       if (exceptionCount != 0)
       {
@@ -117,7 +118,7 @@ class MPP9CalendarFactory extends AbstractCalendarFactory
             LocalDate toDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(data, offset + 2));
             exception = cal.addCalendarException(fromDate, toDate);
 
-            periodCount = MPPUtility.getShort(data, offset + 6);
+            periodCount = ByteArrayHelper.getShort(data, offset + 6);
             if (periodCount != 0)
             {
                for (int exceptionPeriodIndex = 0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)

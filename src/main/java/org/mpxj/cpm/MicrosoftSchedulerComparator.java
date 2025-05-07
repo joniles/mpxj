@@ -33,6 +33,7 @@ import org.mpxj.ProjectFile;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
+import org.mpxj.common.NumberHelper;
 import org.mpxj.reader.UniversalProjectReader;
 
 /**
@@ -119,9 +120,13 @@ public class MicrosoftSchedulerComparator
     */
    public boolean process(File directory, String suffix) throws Exception
    {
-      m_directory = true;
-
       File[] fileList = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(suffix));
+      if (fileList == null)
+      {
+         throw new IllegalArgumentException();
+      }
+
+      m_directory = true;
       int failed = 0;
       int skipped = 0;
       int valid = 0;
@@ -157,7 +162,6 @@ public class MicrosoftSchedulerComparator
             ++failed;
          }
       }
-
 
       if (m_debug)
       {
@@ -198,7 +202,7 @@ public class MicrosoftSchedulerComparator
          scheduler.schedule(m_workingFile, m_workingFile.getProjectProperties().getStartDate());
       }
 
-      catch(CpmException ex)
+      catch (CpmException ex)
       {
          if (m_debug)
          {
@@ -213,7 +217,7 @@ public class MicrosoftSchedulerComparator
          Task workingTask = m_workingFile.getTaskByUniqueID(baselineTask.getUniqueID());
 
          // TODO: investigate rollup logic for project summary task
-         if (baselineTask.getID() == 0)
+         if (NumberHelper.getInt(baselineTask.getID()) == 0)
          {
             continue;
          }
@@ -282,14 +286,14 @@ public class MicrosoftSchedulerComparator
     */
    private boolean compareDates(Task baseline, Task working, TaskField field)
    {
-      LocalDateTime baselineDate = (LocalDateTime)baseline.get(field);
+      LocalDateTime baselineDate = (LocalDateTime) baseline.get(field);
       if (baselineDate == null)
       {
          // We have XER files where some of the attributes we'd expect to be populated are not present. Skip these.
          return true;
       }
 
-      LocalDateTime workingDate = (LocalDateTime)working.get(field);
+      LocalDateTime workingDate = (LocalDateTime) working.get(field);
       if (workingDate == null)
       {
          return false;
@@ -317,20 +321,20 @@ public class MicrosoftSchedulerComparator
       List<Task> tasks = scheduler.getSortedTasks();
 
       // Sort so we can see errors at the bottom first, as these are rolled up.
-      List<Task> wbs = m_workingFile.getTasks().stream().filter(t -> t.getSummary()).collect(Collectors.toList());
+      List<Task> wbs = m_workingFile.getTasks().stream().filter(Task::getSummary).collect(Collectors.toList());
       Collections.reverse(wbs);
 
       if (m_forwardErrorCount != 0)
       {
-         tasks.forEach(t -> analyseForwardError(t));
-         wbs.forEach(t -> analyseForwardError(t));
+         tasks.forEach(this::analyseForwardError);
+         wbs.forEach(this::analyseForwardError);
       }
 
       if (m_backwardErrorCount != 0)
       {
          Collections.reverse(tasks);
-         tasks.forEach(t -> analyseBackwardError(t));
-         wbs.forEach(t -> analyseBackwardError(t));
+         tasks.forEach(this::analyseBackwardError);
+         wbs.forEach(this::analyseBackwardError);
       }
    }
 
@@ -348,7 +352,7 @@ public class MicrosoftSchedulerComparator
       boolean finishFail = !compareDates(baseline, working, TaskField.FINISH);
       //boolean criticalFail = baseline.getCritical() != working.getCritical();
 
-      System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
+      System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working);
       System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
       System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
       System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (startFail ? " FAIL" : ""));
@@ -368,7 +372,7 @@ public class MicrosoftSchedulerComparator
       boolean lateStartFail = !compareDates(baseline, working, TaskField.LATE_START);
       boolean lateFinishFail = !compareDates(baseline, working, TaskField.LATE_FINISH);
 
-      System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
+      System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working);
       System.out.println("Late Start: " + baseline.getLateStart() + " " + working.getLateStart() + (lateStartFail ? " FAIL" : ""));
       System.out.println("Late Finish: " + baseline.getLateFinish() + " " + working.getLateFinish() + (lateFinishFail ? " FAIL" : ""));
       System.out.println();

@@ -24,6 +24,7 @@
 package org.mpxj.mpp;
 
 import org.mpxj.ProjectFile;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
 
 /**
@@ -43,7 +44,7 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
 
       if (barStyleData == null)
       {
-         return null;
+         return EMPTY_STYLES;
       }
 
       GanttBarStyle[] barStyles = new GanttBarStyle[barStyleData[countOffset]];
@@ -57,7 +58,7 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
          GanttBarStyle style = new GanttBarStyle();
          barStyles[loop] = style;
 
-         style.setID(Integer.valueOf(MPPUtility.getShort(barStyleData, styleOffset + 56)));
+         style.setID(Integer.valueOf(ByteArrayHelper.getShort(barStyleData, styleOffset + 56)));
          style.setName(styleName);
 
          style.setMiddleShape(GanttBarMiddleShape.getInstance(barStyleData[styleOffset]));
@@ -72,19 +73,19 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
          style.setEndType(GanttBarStartEndType.getInstance(barStyleData[styleOffset + 6] / 21));
          style.setEndColor(ColorType.getInstance(barStyleData[styleOffset + 7]).getColor());
 
-         style.setFromField(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 8)));
-         style.setToField(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 12)));
+         style.setFromField(FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(barStyleData, styleOffset + 8)));
+         style.setToField(FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(barStyleData, styleOffset + 12)));
 
          extractFlags(style, GanttBarShowForTasks.NORMAL, MPPUtility.getLong6(barStyleData, styleOffset + 16));
          extractFlags(style, GanttBarShowForTasks.NOT_NORMAL, MPPUtility.getLong6(barStyleData, styleOffset + 24));
 
          style.setRow(barStyleData[styleOffset + 32] + 1);
 
-         style.setLeftText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 34)));
-         style.setRightText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 38)));
-         style.setTopText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 42)));
-         style.setBottomText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 46)));
-         style.setInsideText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barStyleData, styleOffset + 50)));
+         style.setLeftText(FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(barStyleData, styleOffset + 34)));
+         style.setRightText(FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(barStyleData, styleOffset + 38)));
+         style.setTopText(FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(barStyleData, styleOffset + 42)));
+         style.setBottomText(FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(barStyleData, styleOffset + 46)));
+         style.setInsideText(FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(barStyleData, styleOffset + 50)));
 
          styleOffset += 58;
       }
@@ -97,7 +98,7 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
       byte[] barData = props.getByteArray(EXCEPTION_PROPERTIES);
       if (barData == null)
       {
-         return null;
+         return EMPTY_EXCEPTIONS;
       }
 
       GanttBarStyleException[] barStyle = new GanttBarStyleException[barData.length / 38];
@@ -110,9 +111,9 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
          //System.out.println("GanttBarStyleException");
          //System.out.println(ByteArrayHelper.hexdump(data, offset, 38, false));
 
-         style.setTaskUniqueID(MPPUtility.getInt(barData, offset));
-         style.setGanttBarStyleID(Integer.valueOf(MPPUtility.getShort(barData, offset + 4)));
-         style.setBarStyleIndex(MPPUtility.getShort(barData, offset + 4) - 1);
+         style.setTaskUniqueID(ByteArrayHelper.getInt(barData, offset));
+         style.setGanttBarStyleID(Integer.valueOf(ByteArrayHelper.getShort(barData, offset + 4)));
+         style.setBarStyleIndex(ByteArrayHelper.getShort(barData, offset + 4) - 1);
 
          style.setStartShape(GanttBarStartEndShape.getInstance(barData[offset + 9] % 21));
          style.setStartType(GanttBarStartEndType.getInstance(barData[offset + 9] / 21));
@@ -127,11 +128,11 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
          style.setEndType(GanttBarStartEndType.getInstance(barData[offset + 11] / 21));
          style.setEndColor(ColorType.getInstance(barData[offset + 12]).getColor());
 
-         style.setLeftText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 16)));
-         style.setRightText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 20)));
-         style.setTopText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 24)));
-         style.setBottomText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 28)));
-         style.setInsideText(FieldTypeHelper.getInstance(file, MPPUtility.getInt(barData, offset + 32)));
+         style.setLeftText(FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(barData, offset + 16)));
+         style.setRightText(FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(barData, offset + 20)));
+         style.setTopText(FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(barData, offset + 24)));
+         style.setBottomText(FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(barData, offset + 28)));
+         style.setInsideText(FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(barData, offset + 32)));
 
          offset += 38;
       }
@@ -172,4 +173,7 @@ public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
    private static final Integer DEFAULT_PROPERTIES1 = Integer.valueOf(574619686);
    private static final Integer DEFAULT_PROPERTIES2 = Integer.valueOf(574619656);
    private static final Integer EXCEPTION_PROPERTIES = Integer.valueOf(574619661);
+
+   private static final GanttBarStyle[] EMPTY_STYLES = new GanttBarStyle[0];
+   private static final GanttBarStyleException[] EMPTY_EXCEPTIONS = new GanttBarStyleException[0];
 }
