@@ -35,14 +35,14 @@ interface VarMeta
     *
     * @return number of items
     */
-   public int getItemCount();
+   int getItemCount();
 
    /**
     * This method retrieves the size of the Var2Data block.
     *
     * @return data size
     */
-   public int getDataSize();
+   int getDataSize();
 
    /**
     * This method returns an array containing all of the unique identifiers
@@ -50,7 +50,7 @@ interface VarMeta
     *
     * @return array of unique identifiers
     */
-   public Integer[] getUniqueIdentifierArray();
+   Integer[] getUniqueIdentifierArray();
 
    /**
     * This method returns an set containing all of the unique identifiers
@@ -58,7 +58,7 @@ interface VarMeta
     *
     * @return set of unique identifiers
     */
-   public Set<Integer> getUniqueIdentifierSet();
+   Set<Integer> getUniqueIdentifierSet();
 
    /**
     * This method retrieves the offset of a given entry in the Var2Data block.
@@ -69,14 +69,14 @@ interface VarMeta
     * @param type data type identifier
     * @return offset of requested item
     */
-   public Integer getOffset(Integer id, Integer type);
+   Integer getOffset(Integer id, Integer type);
 
    /**
     * Retrieve the offsets array.
     *
     * @return offsets array
     */
-   public int[] getOffsets();
+   int[] getOffsets();
 
    /**
     * Retrieves a set containing the types defined
@@ -85,7 +85,7 @@ interface VarMeta
     * @param id unique ID
     * @return set of types
     */
-   public Set<Integer> getTypes(Integer id);
+   Set<Integer> getTypes(Integer id);
 
    /**
     * This method is used to check if a given key is present.
@@ -93,7 +93,7 @@ interface VarMeta
     * @param key key to test
     * @return Boolean flag
     */
-   public boolean containsKey(Integer key);
+   boolean containsKey(Integer key);
 
    /**
     * This method dumps the contents of this VarMeta block as a String.
@@ -102,5 +102,5 @@ interface VarMeta
     * @param fieldMap field map used to decode var data keys
     * @return formatted contents of this block
     */
-   public String toString(FieldMap fieldMap);
+   String toString(FieldMap fieldMap);
 }

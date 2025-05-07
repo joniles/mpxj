@@ -40,7 +40,7 @@ public interface View
     *
     * @return view identifier
     */
-   public Integer getID();
+   Integer getID();
 
    /**
     * This method is used to retrieve the view name. Note that internally
@@ -50,14 +50,14 @@ public interface View
     *
     * @return view name
     */
-   public String getName();
+   String getName();
 
    /**
     * Retrieves the view type.
     *
     * @return view type
     */
-   public ViewType getType();
+   ViewType getType();
 
    /**
     * Retrieve the name of the table part of the view.
@@ -72,5 +72,5 @@ public interface View
     *
     * @return table instance
     */
-   public Table getTable();
+   Table getTable();
 }

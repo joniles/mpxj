@@ -95,7 +95,7 @@ class DepthFirstGraphSort
    /**
     * Recursively build the sorted list of tasks.
     *
-    * @param task curent task
+    * @param task current task
     */
    private void visit(Task task) throws CycleException
    {

@@ -40,7 +40,7 @@ interface Row
     * @param name column name
     * @return string value
     */
-   public String getString(String name);
+   String getString(String name);
 
    /**
     * Retrieve a date.
@@ -48,7 +48,7 @@ interface Row
     * @param name column name
     * @return date value
     */
-   public LocalDateTime getDate(String name);
+   LocalDateTime getDate(String name);
 
    /**
     * Retrieve a time.
@@ -56,7 +56,7 @@ interface Row
     * @param name column name
     * @return time value
     */
-   public LocalTime getTime(String name);
+   LocalTime getTime(String name);
 
    /**
     * Retrieve a double.
@@ -64,7 +64,7 @@ interface Row
     * @param name column name
     * @return double value
     */
-   public Double getDouble(String name);
+   Double getDouble(String name);
 
    /**
     * Retrieve an integer.
@@ -72,7 +72,7 @@ interface Row
     * @param name column name
     * @return integer value
     */
-   public Integer getInteger(String name);
+   Integer getInteger(String name);
 
    /**
     * Retrieve a Boolean.
@@ -80,7 +80,7 @@ interface Row
     * @param name column name
     * @return Boolean value
     */
-   public Boolean getBoolean(String name);
+   Boolean getBoolean(String name);
 
    /**
     * Retrieve a UUID.
@@ -88,7 +88,7 @@ interface Row
     * @param name column name
     * @return UUID value
     */
-   public UUID getUuid(String name);
+   UUID getUuid(String name);
 
    /**
     * Retrieve a duration.
@@ -96,7 +96,7 @@ interface Row
     * @param name column name
     * @return duration value
     */
-   public Duration getDuration(String name);
+   Duration getDuration(String name);
 
    /**
     * Retrieve a resource type.
@@ -104,5 +104,5 @@ interface Row
     * @param name column name
     * @return resource type value
     */
-   public ResourceType getResourceType(String name);
+   ResourceType getResourceType(String name);
 }

@@ -39,5 +39,5 @@ interface BlockPatternValidator
     * @param matchedPatternNames set of block names read so far
     * @return true if the block start is valid
     */
-   public boolean valid(Set<String> matchedPatternNames);
+   boolean valid(Set<String> matchedPatternNames);
 }

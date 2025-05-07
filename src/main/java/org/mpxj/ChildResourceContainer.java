@@ -35,12 +35,12 @@ public interface ChildResourceContainer
     *
     * @return list of child resources
     */
-   public List<Resource> getChildResources();
+   List<Resource> getChildResources();
 
    /**
     * Creates and adds a resource to the list of resources held by this object.
     *
     * @return newly created resource
     */
-   public Resource addResource();
+   Resource addResource();
 }

@@ -44,7 +44,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public Object getObject(String name);
+   Object getObject(String name);
 
    /**
     * Retrieve a string attribute.
@@ -52,7 +52,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public String getString(String name);
+   String getString(String name);
 
    /**
     * Retrieve an Integer attribute.
@@ -60,7 +60,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public Integer getInteger(String name);
+   Integer getInteger(String name);
 
    /**
     * Retrieve a Double attribute.
@@ -68,7 +68,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public Double getDouble(String name);
+   Double getDouble(String name);
 
    /**
     * Retrieve a Percentage attribute, rounded to two decimal places.
@@ -76,7 +76,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public Double getPercent(String name);
+   Double getPercent(String name);
 
    /**
     * Retrieve a currency attribute.
@@ -84,7 +84,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public Double getCurrency(String name);
+   Double getCurrency(String name);
 
    /**
     * Retrieve a boolean attribute.
@@ -92,7 +92,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public boolean getBoolean(String name);
+   boolean getBoolean(String name);
 
    /**
     * Retrieve an in attribute.
@@ -100,7 +100,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public int getInt(String name);
+   int getInt(String name);
 
    /**
     * Retrieve a date attribute.
@@ -108,7 +108,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public LocalDateTime getDate(String name);
+   LocalDateTime getDate(String name);
 
    /**
     * Retrieve a duration attribute.
@@ -116,7 +116,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public Duration getDuration(String name);
+   Duration getDuration(String name);
 
    /**
     * Retrieve a duration attribute.
@@ -124,21 +124,21 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public Duration getWork(String name);
+   Duration getWork(String name);
 
    /**
     * Add a child Row to this row.
     *
     * @param row child row
     */
-   public void addChild(Row row);
+   void addChild(Row row);
 
    /**
     * Retrieve a list of child rows.
     *
     * @return list of child rows
     */
-   public List<Row> getChildRows();
+   List<Row> getChildRows();
 
    /**
     * Merge the columns from another row with this row.
@@ -146,5 +146,5 @@ interface Row
     * @param row row to merge
     * @param prefix prefix used to avoid name collisions
     */
-   public void merge(Row row, String prefix);
+   void merge(Row row, String prefix);
 }

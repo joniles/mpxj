@@ -32,5 +32,5 @@ public interface ProjectEntityWithMutableUniqueID extends ProjectEntityWithUniqu
     *
     * @param id Unique ID value
     */
-   public void setUniqueID(Integer id);
+   void setUniqueID(Integer id);
 }

@@ -34,33 +34,33 @@ public interface TimeUnitDefaultsContainer
     *
     * @return minutes per day
     */
-   public Integer getMinutesPerDay();
+   Integer getMinutesPerDay();
 
    /**
     * Retrieve the number of minutes per week.
     *
     * @return minutes per week
     */
-   public Integer getMinutesPerWeek();
+   Integer getMinutesPerWeek();
 
    /**
     * Retrieve the number of minutes per month.
     *
     * @return minutes per month
     */
-   public Integer getMinutesPerMonth();
+   Integer getMinutesPerMonth();
 
    /**
     * Retrieve the number of minutes per year.
     *
     * @return minutes per year
     */
-   public Integer getMinutesPerYear();
+   Integer getMinutesPerYear();
 
    /**
     * Retrieve the number of days per month.
     *
     * @return days per month
     */
-   public Integer getDaysPerMonth();
+   Integer getDaysPerMonth();
 }

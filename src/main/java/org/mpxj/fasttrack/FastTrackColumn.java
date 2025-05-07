@@ -36,26 +36,26 @@ interface FastTrackColumn
     * @param startIndex offset into data buffer
     * @param length length of the block containing the column data
     */
-   public void read(FastTrackTableType tableType, byte[] buffer, int startIndex, int length);
+   void read(FastTrackTableType tableType, byte[] buffer, int startIndex, int length);
 
    /**
     * Retrieve the column name.
     *
     * @return column name
     */
-   public String getName();
+   String getName();
 
    /**
     * Retrieve the column type.
     *
     * @return column type
     */
-   public FastTrackField getType();
+   FastTrackField getType();
 
    /**
     * Retrieve the column data.
     *
     * @return column data
     */
-   public Object[] getData();
+   Object[] getData();
 }

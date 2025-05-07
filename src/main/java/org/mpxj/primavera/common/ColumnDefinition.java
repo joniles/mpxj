@@ -34,7 +34,7 @@ public interface ColumnDefinition
     *
     * @return column name
     */
-   public String getName();
+   String getName();
 
    /**
     * Read the column data.
@@ -43,5 +43,5 @@ public interface ColumnDefinition
     * @param data table data block
     * @return column value
     */
-   public Object read(int offset, byte[] data);
+   Object read(int offset, byte[] data);
 }

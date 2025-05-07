@@ -35,5 +35,5 @@ interface FixedMetaItemSizeProvider
     * @param itemCount number of items we are expecting in the FixedMeta structure
     * @return the item size to use
     */
-   public int getItemSize(int fileSize, int itemCount);
+   int getItemSize(int fileSize, int itemCount);
 }
