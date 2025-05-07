@@ -4,6 +4,8 @@ org.mpxj.common
 org.mpxj.conceptdraw
 org.mpxj.conceptdraw.schema
 org.mpxj.cpm
+org.mpxj.edrawproject
+org.mpxj.edrawproject.schema
 org.mpxj.explorer
 org.mpxj.fasttrack
 org.mpxj.ganttdesigner

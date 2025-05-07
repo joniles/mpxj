@@ -300,9 +300,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1400-unreleased" class="md-nav__link">
+  <a href="#1401-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      14.0.0 (unreleased)
+      14.0.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1400-2025-05-07" class="md-nav__link">
+    <span class="md-ellipsis">
+      14.0.0 (2025-05-07)
     </span>
   </a>
   
@@ -3046,6 +3055,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../howto-read-edraw/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Edraw Project EDPX files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../howto-read-fasttrack/" class="md-nav__link">
         
   
@@ -4065,9 +4095,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1400-unreleased" class="md-nav__link">
+  <a href="#1401-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      14.0.0 (unreleased)
+      14.0.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1400-2025-05-07" class="md-nav__link">
+    <span class="md-ellipsis">
+      14.0.0 (2025-05-07)
     </span>
   </a>
   
@@ -6468,11 +6507,17 @@
 <h2 id="note">NOTE</h2>
 <p>From version 14.0.0 onwards the <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code> and <code>net.sf.mpxj-for-vb</code> packages are
 no longer distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
-<h2 id="1400-unreleased">14.0.0 (unreleased)</h2>
+<h2 id="1401-unreleased">14.0.1 (unreleased)</h2>
+<h2 id="1400-2025-05-07">14.0.0 (2025-05-07)</h2>
 <ul>
-<li><strong>NEW FEATURE</strong></li>
+<li><strong>NEW FEATURES</strong></li>
 <li>MPXJ can now schedule projects using CPM (Critical Path Method)</li>
 <li>Two new classes (<code>MicrosoftScheduler</code> and <code>PrimaveraScheduler</code>) allow MPXJ to schedule a project in a way which follows the approach of either Microsoft Project or Primavera P6.</li>
+<li>Added support for reading Edraw Project EDPX files</li>
+<li><strong>CHANGES</strong></li>
+<li>Improvements to accuracy of reading text UDF values from Powerproject PP files.</li>
+<li>Corrected conversion of elapsed durations when writing JSON files.</li>
+<li>Added the <code>Relation#lag_units</code> method to the ruby gem.</li>
 <li><strong>BREAKING CHANGES - .Net</strong></li>
 <li>The <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code>, and <code>net.sf.mpxj-for-vb</code> NuGet packages are no longer being distributed. You must migrate your code to use the <code>MPXJ.Net</code> NuGet package instead.</li>
 <li><strong>BREAKING CHANGES - Java, Python</strong></li>
@@ -6497,6 +6542,7 @@ no longer distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
 <li>The deprecated <code>Task#setPrimaryResourceID</code> method has been removed. Use the <code>Task#setPrimaryResourceUniqueID</code> method instead.</li>
 <li>The deprecated <code>Task#getPrimaryResourceID</code> method has been removed. Use the <code>Task#getPrimaryResourceUniqueID</code> method instead.</li>
 <li>The deprecated <code>Task#isSucessor</code> method has been removed. Use the <code>Task#isSuccessor</code> method instead.</li>
+<li>The common <code>MPPUtility</code> static methods <code>getShort</code>, <code>getInt</code>and <code>getLong</code> have been moved to the <code>ByteArrayHelper</code> class.</li>
 <li><strong>BREAKING CHANGES - Ruby</strong></li>
 <li>The deprecated Ruby attribute <code>Relation#task_unique_id</code> has been removed, use <code>Relation#predecessor_task_unique_id</code> and <code>Relation#successor_task_unique_id</code> instead.</li>
 </ul>
