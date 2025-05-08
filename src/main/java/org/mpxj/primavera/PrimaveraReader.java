@@ -1458,8 +1458,22 @@ final class PrimaveraReader
 
             if (finish != null)
             {
+               Duration actualDuration;
                cal = task.getEffectiveCalendar();
-               task.setActualDuration(cal.getWork(actualStart, finish, TimeUnit.HOURS));
+               if (task.getSuspendDate() == null || finish.isBefore(task.getSuspendDate()))
+               {
+                  actualDuration = cal.getWork(actualStart, finish, TimeUnit.HOURS);
+               }
+               else
+               {
+                  double actualHours = cal.getWork(actualStart, task.getSuspendDate(), TimeUnit.HOURS).getDuration();
+                  if (task.getResume() != null && finish.isAfter(task.getResume()))
+                  {
+                     actualHours += cal.getWork(task.getResume(), finish, TimeUnit.HOURS).getDuration();
+                  }
+                  actualDuration = Duration.getInstance(actualHours, TimeUnit.HOURS);
+               }
+               task.setActualDuration(actualDuration);
             }
          }
 
