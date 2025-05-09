@@ -224,6 +224,13 @@
 		<delete file="${basedir}/jaxb/mspdi_pj15-corrected.xsd"/>
 	</target>
 
+	<target name="xjc-planner" depends="init" description="Planner schema code generation">
+		<property name="classes.dir" value="${basedir}/target/classes" />
+		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b mrproject.xjb -p org.mpxj.planner.schema mrproject-0.6.xsd" />
+		</exec>
+	</target>
+
 	<target name="archive" depends="maven-install,gem-source,changelog,releasenotes" description="Create library files"/>
 
 	<target name="distribute" depends="archive" description="Create distribution">
