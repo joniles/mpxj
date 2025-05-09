@@ -170,9 +170,6 @@
 		<copy file="${env.MPXJ_SCHEMA_DIR}/conceptdraw/document-corrected.xsd" toDir="${basedir}/jaxb"/>
 
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b phoenix-5-binding.xjb -p org.mpxj.phoenix.schema.phoenix5 phoenix-5.xsd" />
-		</exec>
-		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ganttproject-binding.xjb -p org.mpxj.ganttproject.schema ganttproject-2.8.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
@@ -226,6 +223,13 @@
 		<property name="classes.dir" value="${basedir}/target/classes" />
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b phoenix-5-binding.xjb -p org.mpxj.phoenix.schema.phoenix5 phoenix-5.xsd" />
+		</exec>
+	</target>
+
+	<target name="xjc-ganttproject" depends="init" description="GanttProject schema code generation">
+		<property name="classes.dir" value="${basedir}/target/classes" />
+		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ganttproject-binding.xjb -p org.mpxj.ganttproject.schema ganttproject-2.8.xsd" />
 		</exec>
 	</target>
 
