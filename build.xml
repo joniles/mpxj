@@ -222,6 +222,13 @@
 		</exec>
 	</target>
 
+	<target name="xjc-phoenix5" depends="init" description="Phoenix 5 schema code generation">
+		<property name="classes.dir" value="${basedir}/target/classes" />
+		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b phoenix-5-binding.xjb -p org.mpxj.phoenix.schema.phoenix5 phoenix-5.xsd" />
+		</exec>
+	</target>
+
 	<target name="archive" depends="maven-install,gem-source,changelog,releasenotes" description="Create library files"/>
 
 	<target name="distribute" depends="archive" description="Create distribution">
