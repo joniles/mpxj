@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="14.0.1">
+			<action dev="joniles" type="update">Updated to POI 5.4.1</action>
 			<action dev="joniles" type="update">Improve actual duration calculation for activities with suspend and resume dates when reading XER files and Primavera P6 databases.</action>
 		</release>
 		<release date="2025-05-07" version="14.0.0">
