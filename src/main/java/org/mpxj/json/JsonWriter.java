@@ -30,6 +30,7 @@ import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -41,6 +42,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import org.mpxj.Availability;
 import org.mpxj.Code;
 import org.mpxj.CodeValue;
@@ -221,10 +225,16 @@ public final class JsonWriter extends AbstractProjectWriter
       try
       {
          m_projectFile = projectFile;
-         m_writer = new JsonStreamWriter(stream, m_charset);
-         m_writer.setPretty(m_pretty);
 
-         m_writer.writeStartObject(null);
+         JsonFactory factory = new JsonFactory();
+         m_writer = factory.createGenerator(stream);
+         if (m_pretty)
+         {
+            m_writer.setPrettyPrinter(new DefaultPrettyPrinter());
+            //m_writer.setPrettyPrinter(new MyPrettyPrinter());
+         }
+
+         m_writer.writeStartObject();
          writeProperties();
          writeCurrencies();
          writeUserDefinedFields();
@@ -269,12 +279,12 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartList("user_defined_fields");
+      m_writer.writeArrayFieldStart("user_defined_fields");
       for (UserDefinedField field : sortedFieldsList)
       {
          writeUserDefinedField(field);
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    /**
@@ -288,12 +298,12 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartList("custom_fields");
+      m_writer.writeArrayFieldStart("custom_fields");
       for (CustomField field : sortedFieldsList)
       {
          writeCustomField(field);
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    /**
@@ -307,21 +317,21 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartList("work_contours");
+      m_writer.writeArrayFieldStart("work_contours");
       for (WorkContour contour : contours)
       {
-         m_writer.writeStartObject(null);
+         m_writer.writeStartObject();
          writeIntegerField("unique_id", contour.getUniqueID());
          writeStringField("name", contour.getName());
          writeBooleanField("default", Boolean.valueOf(contour.isContourDefault()));
          if (contour.getCurveValues() != null)
          {
-            m_writer.writeList("curve_values", Arrays.stream(contour.getCurveValues()).mapToObj(Double::toString).collect(Collectors.toList()));
+            writeDoubleList("curve_values", Arrays.stream(contour.getCurveValues()).boxed().collect(Collectors.toList()));
          }
          m_writer.writeEndObject();
       }
 
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    /**
@@ -336,12 +346,13 @@ public final class JsonWriter extends AbstractProjectWriter
 
       List<ActivityCode> sortedActivityCodeList = new ArrayList<>(m_projectFile.getActivityCodes());
       sortedActivityCodeList.sort(Comparator.comparing(ActivityCode::getName));
-      m_writer.writeStartList("activity_codes");
+
+      m_writer.writeArrayFieldStart("activity_codes");
       for (ActivityCode code : sortedActivityCodeList)
       {
          writeActivityCode(code);
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    /**
@@ -359,12 +370,12 @@ public final class JsonWriter extends AbstractProjectWriter
 
       List<? extends Code> sortedCodeList = new ArrayList<>(codes);
       sortedCodeList.sort(Comparator.comparing(Code::getName));
-      m_writer.writeStartList(attributeName);
+      m_writer.writeArrayFieldStart(attributeName);
       for (Code code : sortedCodeList)
       {
          writeCode(code);
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    /**
@@ -383,17 +394,17 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartObject(null);
+      m_writer.writeStartObject();
 
       Integer uniqueID = field.getUniqueID();
       if (uniqueID.intValue() != FieldTypeHelper.getFieldID(field.getFieldType()))
       {
          // Only write this attribute is we have a non-default value
-         m_writer.writeNameValuePair("unique_id", field.getUniqueID().intValue());
+         m_writer.writeNumberField("unique_id", field.getUniqueID().intValue());
       }
 
       writeFieldType("", field.getFieldType());
-      m_writer.writeNameValuePair("field_alias", field.getAlias());
+      m_writer.writeStringField("field_alias", field.getAlias());
       writeGraphicalIndicator(field.getGraphicalIndicator());
       writeLookupTable(field);
       writeCustomFieldValueMasks(field);
@@ -413,7 +424,7 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartObject("lookup_table");
+      m_writer.writeObjectFieldStart("lookup_table");
       writeStringField("guid", table.getGUID());
       writeBooleanField("enterprise", Boolean.valueOf(table.getEnterprise()));
       writeBooleanField("show_indent", Boolean.valueOf(table.getShowIndent()));
@@ -421,12 +432,13 @@ public final class JsonWriter extends AbstractProjectWriter
       writeBooleanField("leaf_only", Boolean.valueOf(table.getLeafOnly()));
       writeBooleanField("all_levels_required", Boolean.valueOf(table.getAllLevelsRequired()));
       writeBooleanField("only_table_values_allowed", Boolean.valueOf(table.getOnlyTableValuesAllowed()));
-      m_writer.writeStartList("values");
+
+      m_writer.writeArrayFieldStart("values");
       for (CustomFieldValueItem item : table)
       {
          writeCustomFieldValueItem(item);
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
       m_writer.writeEndObject();
    }
 
@@ -437,7 +449,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCustomFieldValueItem(CustomFieldValueItem item) throws IOException
    {
-      m_writer.writeStartObject(null);
+      m_writer.writeStartObject();
       writeIntegerField("unique_id", item.getUniqueID());
       writeStringField("guid", item.getGUID());
       writeStringField("value", item.getValue());
@@ -460,7 +472,7 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartObject("graphical_indicator");
+      m_writer.writeObjectFieldStart("graphical_indicator");
       writeBooleanField("summary_rows_inherit_from_non_summary_rows", Boolean.valueOf(indicator.getSummaryRowsInheritFromNonSummaryRows()));
       writeBooleanField("project_summary_inherits_from_summary_rows", Boolean.valueOf(indicator.getProjectSummaryInheritsFromSummaryRows()));
       writeBooleanField("show_data_values_in_tooltips", Boolean.valueOf(indicator.getShowDataValuesInToolTips()));
@@ -483,15 +495,15 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartList(name);
+      m_writer.writeArrayFieldStart(name);
       for (GraphicalIndicatorCriteria criteria : list)
       {
-         m_writer.writeStartObject(null);
+         m_writer.writeStartObject();
          writeIntegerField("indicator", Integer.valueOf(criteria.getIndicator()));
          writeGenericCriteriaAttributes(criteria);
          m_writer.writeEndObject();
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    /**
@@ -512,14 +524,14 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartList("criteria_list");
+      m_writer.writeArrayFieldStart("criteria_list");
       for (GenericCriteria child : list)
       {
-         m_writer.writeStartObject(null);
+         m_writer.writeStartObject();
          writeGenericCriteriaAttributes(child);
          m_writer.writeEndObject();
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    /**
@@ -534,17 +546,17 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartList("masks");
+      m_writer.writeArrayFieldStart("masks");
       for (CustomFieldValueMask mask : field.getMasks())
       {
-         m_writer.writeStartObject(null);
+         m_writer.writeStartObject();
          writeIntegerField("length", Integer.valueOf(mask.getLength()));
          writeIntegerField("level", Integer.valueOf(mask.getLevel()));
          writeStringField("separator", mask.getSeparator());
          writeStringField("type", mask.getType().name());
          m_writer.writeEndObject();
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    /**
@@ -554,7 +566,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeUserDefinedField(UserDefinedField field) throws IOException
    {
-      m_writer.writeStartObject(null);
+      m_writer.writeStartObject();
       writeIntegerField("unique_id", Integer.valueOf(FieldTypeHelper.getFieldID(field)));
       writeStringField("field_type_class", field.getFieldTypeClass().toString().toLowerCase());
       writeBooleanField("summary_task_only", Boolean.valueOf(field.getSummaryTaskOnly()));
@@ -574,12 +586,12 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartList("units_of_measure");
+      m_writer.writeArrayFieldStart("units_of_measure");
       for (UnitOfMeasure uom : m_projectFile.getUnitsOfMeasure())
       {
          writeUnitOfMeasure(uom);
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    /**
@@ -589,7 +601,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeUnitOfMeasure(UnitOfMeasure uom) throws IOException
    {
-      m_writer.writeStartObject(null);
+      m_writer.writeStartObject();
       writeMandatoryIntegerField("unique_id", uom.getUniqueID());
       writeStringField("abbreviation", uom.getAbbreviation());
       writeStringField("name", uom.getName());
@@ -607,12 +619,12 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartList("currencies");
+      m_writer.writeArrayFieldStart("currencies");
       for (Currency currency : m_projectFile.getCurrencies())
       {
          writeCurrency(currency);
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    /**
@@ -622,7 +634,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCurrency(Currency currency) throws IOException
    {
-      m_writer.writeStartObject(null);
+      m_writer.writeStartObject();
       writeMandatoryIntegerField("unique_id", currency.getUniqueID());
       writeStringField("currency_id", currency.getCurrencyID());
       writeStringField("name", currency.getName());
@@ -642,7 +654,8 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeProperties() throws IOException
    {
       writeAttributeTypes("property_types", ProjectField.values());
-      m_writer.writeStartObject("property_values");
+
+      m_writer.writeObjectFieldStart("property_values");
       writeFields(m_projectFile.getProjectProperties(), ProjectField.values());
       writeFields(m_projectFile.getProjectProperties(), m_projectFile.getUserDefinedFields().getProjectFields().toArray(new FieldType[0]));
       m_writer.writeEndObject();
@@ -655,10 +668,10 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       writeAttributeTypes("resource_types", ResourceField.values());
 
-      m_writer.writeStartList("resources");
+      m_writer.writeArrayFieldStart("resources");
       for (Resource resource : m_projectFile.getResources())
       {
-         m_writer.writeStartObject(null);
+         m_writer.writeStartObject();
          writeFields(resource, ResourceField.values());
          writeFields(resource, m_projectFile.getUserDefinedFields().getResourceFields().toArray(new FieldType[0]));
          writeCostRateTables(resource);
@@ -666,7 +679,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeRoleAssignments(resource);
          m_writer.writeEndObject();
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    /**
@@ -674,12 +687,12 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCalendars() throws IOException
    {
-      m_writer.writeStartList("calendars");
+      m_writer.writeArrayFieldStart("calendars");
       for (ProjectCalendar calendar : m_projectFile.getCalendars())
       {
          writeCalendar(calendar);
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    /**
@@ -689,7 +702,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCalendar(ProjectCalendar calendar) throws IOException
    {
-      m_writer.writeStartObject(null);
+      m_writer.writeStartObject();
       writeMandatoryIntegerField("unique_id", calendar.getUniqueID());
       writeStringField("guid", calendar.getGUID());
       writeMandatoryIntegerField("parent_unique_id", calendar.getParentUniqueID());
@@ -715,12 +728,12 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (!calendar.getWorkWeeks().isEmpty())
       {
-         m_writer.writeStartList("working_weeks");
+         m_writer.writeArrayFieldStart("working_weeks");
          for (ProjectCalendarWeek week : calendar.getWorkWeeks())
          {
             writeCalendarWeek(week);
          }
-         m_writer.writeEndList();
+         m_writer.writeEndArray();
       }
    }
 
@@ -731,7 +744,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCalendarWeek(ProjectCalendarWeek week) throws IOException
    {
-      m_writer.writeStartObject(null);
+      m_writer.writeStartObject();
       writeStringField("name", week.getName());
       writeDateField("effective_from", week.getDateRange().getStart());
       writeDateField("effective_to", week.getDateRange().getEnd());
@@ -748,7 +761,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       for (DayOfWeek day : DayOfWeekHelper.ORDERED_DAYS)
       {
-         m_writer.writeStartObject(day.name().toLowerCase());
+         m_writer.writeObjectFieldStart(day.name().toLowerCase());
          writeStringField("type", week.getCalendarDayType(day).toString().toLowerCase());
          writeCalendarHours(week.getCalendarHours(day));
          m_writer.writeEndObject();
@@ -764,15 +777,15 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (hours != null && !hours.isEmpty())
       {
-         m_writer.writeStartList("hours");
+         m_writer.writeArrayFieldStart("hours");
          for (LocalTimeRange range : hours)
          {
-            m_writer.writeStartObject(null);
+            m_writer.writeStartObject();
             writeTimeField("from", range.getStart());
             writeTimeField("to", range.getEnd());
             m_writer.writeEndObject();
          }
-         m_writer.writeEndList();
+         m_writer.writeEndArray();
       }
    }
 
@@ -780,12 +793,12 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (!calendar.getCalendarExceptions().isEmpty())
       {
-         m_writer.writeStartList("exceptions");
+         m_writer.writeArrayFieldStart("exceptions");
          for (ProjectCalendarException ex : calendar.getCalendarExceptions())
          {
             writeCalendarException(ex);
          }
-         m_writer.writeEndList();
+         m_writer.writeEndArray();
       }
    }
 
@@ -796,7 +809,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCalendarException(ProjectCalendarException ex) throws IOException
    {
-      m_writer.writeStartObject(null);
+      m_writer.writeStartObject();
       writeCalendarExceptionDetails(ex);
       writeCalendarHours(ex);
       writeRecurringData(ex.getRecurring());
@@ -829,7 +842,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (data != null)
       {
-         m_writer.writeStartObject("recurrence");
+         m_writer.writeObjectFieldStart("recurrence");
          writeStringField("type", data.getRecurrenceType().toString().toLowerCase());
          writeDateField("start_date", data.getStartDate());
          writeDateField("finish_date", data.getFinishDate());
@@ -840,10 +853,10 @@ public final class JsonWriter extends AbstractProjectWriter
          writeIntegerField("month_number", data.getMonthNumber());
          writeBooleanField("use_end_date", Boolean.valueOf(data.getUseEndDate()));
 
-         List<Object> weeklyDays = Arrays.stream(DayOfWeekHelper.ORDERED_DAYS).filter(data::getWeeklyDay).map(d -> "\"" + d.toString().toLowerCase() + "\"").collect(Collectors.toList());
+         List<String> weeklyDays = Arrays.stream(DayOfWeekHelper.ORDERED_DAYS).filter(data::getWeeklyDay).map(d -> d.toString().toLowerCase()).collect(Collectors.toList());
          if (!weeklyDays.isEmpty())
          {
-            m_writer.writeList("weekly_days", weeklyDays);
+            writeStringList("weekly_days", weeklyDays);
          }
          m_writer.writeEndObject();
       }
@@ -857,12 +870,12 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       writeAttributeTypes("task_types", TaskField.values());
 
-      m_writer.writeStartList("tasks");
+      m_writer.writeArrayFieldStart("tasks");
       for (Task task : m_projectFile.getChildTasks())
       {
          writeTask(task);
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    /**
@@ -873,7 +886,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeTask(Task task) throws IOException
    {
-      m_writer.writeStartObject(null);
+      m_writer.writeStartObject();
       writeFields(task, TaskField.values());
       writeFields(task, m_projectFile.getUserDefinedFields().getTaskFields().toArray(new FieldType[0]));
       m_writer.writeEndObject();
@@ -890,15 +903,15 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       writeAttributeTypes("assignment_types", AssignmentField.values());
 
-      m_writer.writeStartList("assignments");
+      m_writer.writeArrayFieldStart("assignments");
       for (ResourceAssignment assignment : m_projectFile.getResourceAssignments())
       {
-         m_writer.writeStartObject(null);
+         m_writer.writeStartObject();
          writeFields(assignment, AssignmentField.values());
          writeFields(assignment, m_projectFile.getUserDefinedFields().getAssignmentFields().toArray(new FieldType[0]));
          m_writer.writeEndObject();
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    /**
@@ -911,10 +924,11 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (m_writeAttributeTypes)
       {
-         m_writer.writeStartObject(name);
+         m_writer.writeObjectFieldStart(name);
+         m_writer.writeStartObject();
          for (FieldType field : types)
          {
-            m_writer.writeNameValuePair(field.name().toLowerCase(), field.getDataType().getValue());
+            m_writer.writeNumberField(field.name().toLowerCase(), field.getDataType().getValue());
          }
          m_writer.writeEndObject();
       }
@@ -939,7 +953,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
       if (tablesArePopulated)
       {
-         m_writer.writeStartObject("cost_rate_tables");
+         m_writer.writeObjectFieldStart("cost_rate_tables");
          for (int index = 0; index < CostRateTable.MAX_TABLES; index++)
          {
             writeCostRateTable(index, resource.getCostRateTable(index));
@@ -961,16 +975,16 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartList("availability_table");
+      m_writer.writeArrayFieldStart("availability_table");
       for (Availability entry : availability)
       {
-         m_writer.writeStartObject(null);
+         m_writer.writeStartObject();
          writeTimestampField("start", entry.getRange().getStart());
          writeTimestampField("end", entry.getRange().getEnd());
          writeDoubleField("units", entry.getUnits());
          m_writer.writeEndObject();
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    /**
@@ -986,16 +1000,16 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartList("role_assignments");
+      m_writer.writeArrayFieldStart("role_assignments");
       for (Map.Entry<Resource, SkillLevel> entry : map.entrySet().stream().sorted(Comparator.comparing(o -> o.getKey().getUniqueID())).collect(Collectors.toList()))
       {
-         m_writer.writeStartObject(null);
+         m_writer.writeStartObject();
          writeIntegerField("resource_id", entry.getKey().getUniqueID());
          writeStringField("skill_level", entry.getValue());
          m_writer.writeEndObject();
       }
 
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    /**
@@ -1008,7 +1022,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (table.tableIsPopulated())
       {
-         m_writer.writeStartList(Integer.toString(index));
+         m_writer.writeArrayFieldStart(Integer.toString(index));
          for (CostRateTableEntry entry : table)
          {
             LocalDateTime startDate = entry.getStartDate();
@@ -1023,11 +1037,12 @@ public final class JsonWriter extends AbstractProjectWriter
                endDate = null;
             }
 
-            m_writer.writeStartObject(null);
+            m_writer.writeStartObject();
             writeTimestampField("start_date", startDate);
             writeTimestampField("end_date", endDate);
             writeDoubleField("cost_per_use", entry.getCostPerUse());
-            m_writer.writeStartObject("rates");
+
+            m_writer.writeObjectFieldStart("rates");
             for (int rateIndex = 0; rateIndex < CostRateTableEntry.MAX_RATES; rateIndex++)
             {
                writeCostRate(rateIndex, entry.getRate(rateIndex));
@@ -1036,7 +1051,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
             m_writer.writeEndObject();
          }
-         m_writer.writeEndList();
+         m_writer.writeEndArray();
       }
    }
 
@@ -1271,7 +1286,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (value != null)
       {
-         m_writer.writeNameValuePair(fieldName, value.intValue());
+         m_writer.writeNumberField(fieldName, value.intValue());
       }
    }
 
@@ -1292,7 +1307,7 @@ public final class JsonWriter extends AbstractProjectWriter
       int val = ((Number) value).intValue();
       if (val != 0 || MANDATORY_FIELDS.contains(fieldType))
       {
-         m_writer.writeNameValuePair(fieldName, val);
+         m_writer.writeNumberField(fieldName, val);
       }
    }
 
@@ -1314,7 +1329,7 @@ public final class JsonWriter extends AbstractProjectWriter
       {
          // Round to 4 decimal places
          val = Math.round(val * 10000.0) / 10000.0;
-         m_writer.writeNameValuePair(fieldName, val);
+         m_writer.writeNumberField(fieldName, val);
       }
    }
 
@@ -1334,7 +1349,7 @@ public final class JsonWriter extends AbstractProjectWriter
       boolean val = ((Boolean) value).booleanValue();
       if (val)
       {
-         m_writer.writeNameValuePair(fieldName, val);
+         m_writer.writeBooleanField(fieldName, val);
       }
    }
 
@@ -1354,7 +1369,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
       if (value instanceof String)
       {
-         m_writer.writeNameValuePair(fieldName + "_text", (String) value);
+         m_writer.writeStringField(fieldName + "_text", (String) value);
          return;
       }
 
@@ -1393,7 +1408,7 @@ public final class JsonWriter extends AbstractProjectWriter
          {
             Duration minutes = val.convertUnits(TimeUnit.MINUTES, defaults);
             long seconds = (long) (minutes.getDuration() * 60.0);
-            m_writer.writeNameValuePair(fieldName, seconds);
+            m_writer.writeNumberField(fieldName, seconds);
          }
          else
          {
@@ -1409,7 +1424,7 @@ public final class JsonWriter extends AbstractProjectWriter
             }
 
             Duration duration = val.convertUnits(targetUnits, defaults);
-            m_writer.writeNameValuePair(fieldName, duration.getDuration());
+            m_writer.writeNumberField(fieldName, duration.getDuration());
          }
       }
    }
@@ -1429,7 +1444,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
       if (value instanceof String)
       {
-         m_writer.writeNameValuePair(fieldName + "_text", (String) value);
+         m_writer.writeStringField(fieldName + "_text", (String) value);
          return;
       }
 
@@ -1438,8 +1453,7 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      LocalDateTime val = (LocalDateTime) value;
-      m_writer.writeNameValuePair(fieldName, val);
+      m_writer.writeStringField(fieldName, TIMESTAMP_FORMAT.format((LocalDateTime)value));
    }
 
    /**
@@ -1452,7 +1466,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (value instanceof LocalDate)
       {
-         m_writer.writeNameValuePairAsDate(fieldName, (LocalDate) value);
+         m_writer.writeStringField(fieldName, DATE_FORMAT.format(((LocalDate) value)));
       }
    }
 
@@ -1466,7 +1480,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (value instanceof LocalTime)
       {
-         m_writer.writeNameValuePairAsTime(fieldName, (LocalTime) value);
+         m_writer.writeStringField(fieldName, TIME_FORMAT.format((LocalTime) value));
       }
    }
 
@@ -1486,7 +1500,7 @@ public final class JsonWriter extends AbstractProjectWriter
       TimeUnit val = (TimeUnit) value;
       if (val != m_projectFile.getProjectProperties().getDefaultDurationUnits())
       {
-         m_writer.writeNameValuePair(fieldName, val.toString());
+         m_writer.writeStringField(fieldName, val.toString());
       }
    }
 
@@ -1500,7 +1514,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (value instanceof Priority)
       {
-         m_writer.writeNameValuePair(fieldName, ((Priority) value).getValue());
+         m_writer.writeNumberField(fieldName, ((Priority) value).getValue());
       }
    }
 
@@ -1520,7 +1534,7 @@ public final class JsonWriter extends AbstractProjectWriter
       Rate val = (Rate) value;
       if (val.getAmount() != 0.0)
       {
-         m_writer.writeNameValuePair(fieldName, val.getAmount() + "/" + val.getUnits());
+         m_writer.writeStringField(fieldName, val.getAmount() + "/" + val.getUnits());
       }
    }
 
@@ -1544,7 +1558,7 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartObject(fieldName);
+      m_writer.writeObjectFieldStart(fieldName);
       for (Map.Entry<String, Object> entry : map.entrySet())
       {
          Object entryValue = entry.getValue();
@@ -1577,15 +1591,15 @@ public final class JsonWriter extends AbstractProjectWriter
 
       @SuppressWarnings("unchecked")
       List<LocalDateTimeRange> list = (List<LocalDateTimeRange>) value;
-      m_writer.writeStartList(fieldName);
+      m_writer.writeArrayFieldStart(fieldName);
       for (LocalDateTimeRange entry : list)
       {
-         m_writer.writeStartObject(null);
+         m_writer.writeStartObject();
          writeTimestampField("start", entry.getStart());
          writeTimestampField("end", entry.getEnd());
          m_writer.writeEndObject();
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    /**
@@ -1595,7 +1609,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeActivityCode(ActivityCode code) throws IOException
    {
-      m_writer.writeStartObject(null);
+      m_writer.writeStartObject();
 
       writeMandatoryIntegerField("unique_id", code.getUniqueID());
       writeStringField("scope", code.getScope());
@@ -1605,12 +1619,12 @@ public final class JsonWriter extends AbstractProjectWriter
       writeStringField("name", code.getName());
       if (!code.getValues().isEmpty())
       {
-         m_writer.writeStartList("values");
+         m_writer.writeArrayFieldStart("values");
          for (ActivityCodeValue value : code.getValues().stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).collect(Collectors.toList()))
          {
             writeActivityCodeValue(value);
          }
-         m_writer.writeEndList();
+         m_writer.writeEndArray();
       }
       m_writer.writeEndObject();
    }
@@ -1622,19 +1636,19 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCode(Code code) throws IOException
    {
-      m_writer.writeStartObject(null);
+      m_writer.writeStartObject();
 
       writeMandatoryIntegerField("unique_id", code.getUniqueID());
       writeMandatoryIntegerField("sequence_number", code.getSequenceNumber());
       writeStringField("name", code.getName());
       if (!code.getValues().isEmpty())
       {
-         m_writer.writeStartList("values");
+         m_writer.writeArrayFieldStart("values");
          for (CodeValue value : code.getValues().stream().sorted(Comparator.comparing(CodeValue::getUniqueID)).collect(Collectors.toList()))
          {
             writeCodeValue(value);
          }
-         m_writer.writeEndList();
+         m_writer.writeEndArray();
       }
       m_writer.writeEndObject();
    }
@@ -1646,7 +1660,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeActivityCodeValue(ActivityCodeValue value) throws IOException
    {
-      m_writer.writeStartObject(null);
+      m_writer.writeStartObject();
       writeMandatoryIntegerField("unique_id", value.getUniqueID());
       writeMandatoryIntegerField("sequence_number", value.getSequenceNumber());
       writeStringField("name", value.getName());
@@ -1663,7 +1677,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCodeValue(CodeValue value) throws IOException
    {
-      m_writer.writeStartObject(null);
+      m_writer.writeStartObject();
       writeMandatoryIntegerField("unique_id", value.getUniqueID());
       writeMandatoryIntegerField("sequence_number", value.getSequenceNumber());
       writeStringField("name", value.getName());
@@ -1685,7 +1699,7 @@ public final class JsonWriter extends AbstractProjectWriter
          String val = value.toString();
          if (!val.isEmpty())
          {
-            m_writer.writeNameValuePair(fieldName, val);
+            m_writer.writeStringField(fieldName, val);
          }
       }
    }
@@ -1707,10 +1721,10 @@ public final class JsonWriter extends AbstractProjectWriter
       List<Relation> list = (List<Relation>) value;
       if (!list.isEmpty())
       {
-         m_writer.writeStartList(fieldName);
+         m_writer.writeArrayFieldStart(fieldName);
          for (Relation relation : list)
          {
-            m_writer.writeStartObject(null);
+            m_writer.writeStartObject();
             writeIntegerField("unique_id", relation.getUniqueID());
             writeIntegerField("predecessor_task_unique_id", relation.getPredecessorTask().getUniqueID());
             writeIntegerField("successor_task_unique_id", relation.getSuccessorTask().getUniqueID());
@@ -1723,7 +1737,7 @@ public final class JsonWriter extends AbstractProjectWriter
             writeStringField("notes", relation.getNotes());
             m_writer.writeEndObject();
          }
-         m_writer.writeEndList();
+         m_writer.writeEndArray();
       }
    }
 
@@ -1743,7 +1757,7 @@ public final class JsonWriter extends AbstractProjectWriter
       ResourceRequestType type = (ResourceRequestType) value;
       if (type != ResourceRequestType.NONE)
       {
-         m_writer.writeNameValuePair(fieldName, type.name());
+         m_writer.writeStringField(fieldName, type.name());
       }
    }
 
@@ -1763,7 +1777,7 @@ public final class JsonWriter extends AbstractProjectWriter
       WorkContour type = (WorkContour) value;
       if (!type.isContourFlat())
       {
-         m_writer.writeNameValuePair(fieldName, type.toString());
+         m_writer.writeStringField(fieldName, type.toString());
       }
    }
 
@@ -1784,7 +1798,7 @@ public final class JsonWriter extends AbstractProjectWriter
       EarnedValueMethod method = (EarnedValueMethod) value;
       if (container instanceof ProjectProperties || method != m_projectFile.getProjectProperties().getDefaultTaskEarnedValueMethod())
       {
-         m_writer.writeNameValuePair(fieldName, method.name());
+         m_writer.writeStringField(fieldName, method.name());
       }
    }
 
@@ -1805,7 +1819,7 @@ public final class JsonWriter extends AbstractProjectWriter
       TaskType type = (TaskType) value;
       if (container instanceof ProjectProperties || type != m_projectFile.getProjectProperties().getDefaultTaskType())
       {
-         m_writer.writeNameValuePair(fieldName, type.name());
+         m_writer.writeStringField(fieldName, type.name());
       }
    }
 
@@ -1813,7 +1827,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (value != null)
       {
-         m_writer.writeNameValuePair(name, ColorHelper.getHtmlColor(value));
+         m_writer.writeStringField(name, ColorHelper.getHtmlColor(value));
       }
    }
 
@@ -1828,7 +1842,7 @@ public final class JsonWriter extends AbstractProjectWriter
       Map<? extends Code, ? extends CodeValue> map = (Map<? extends Code, ? extends CodeValue>) value;
       if (!map.isEmpty())
       {
-         m_writer.writeList(fieldName, map.values().stream().map(CodeValue::getUniqueID).sorted().collect(Collectors.toList()));
+         writeIntegerList(fieldName, map.values().stream().map(CodeValue::getUniqueID).sorted().collect(Collectors.toList()));
       }
    }
 
@@ -1846,10 +1860,10 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartList(fieldName);
+      m_writer.writeArrayFieldStart(fieldName);
       for (ExpenseItem item : list)
       {
-         m_writer.writeStartObject(null);
+         m_writer.writeStartObject();
          writeIntegerField("unique_id", item.getUniqueID());
          writeStringField("name", item.getName());
          writeStringField("description", item.getDescription());
@@ -1871,7 +1885,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeStringField("unit_of_measure", item.getUnitOfMeasure());
          m_writer.writeEndObject();
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    private void writeStepList(String fieldName, Object value) throws IOException
@@ -1888,10 +1902,10 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartList(fieldName);
+      m_writer.writeArrayFieldStart(fieldName);
       for (Step item : list)
       {
-         m_writer.writeStartObject(null);
+         m_writer.writeStartObject();
          writeIntegerField("unique_id", item.getUniqueID());
          writeStringField("name", item.getName());
          writeIntegerField("sequence_number", item.getSequenceNumber());
@@ -1900,7 +1914,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeStringField("description", item.getDescription());
          m_writer.writeEndObject();
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    private void writeTables() throws IOException
@@ -1910,17 +1924,17 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartList("tables");
+      m_writer.writeArrayFieldStart("tables");
       for (Table table : m_projectFile.getTables())
       {
-         m_writer.writeStartObject(null);
+         m_writer.writeStartObject();
          writeIntegerField("id", Integer.valueOf(table.getID()));
          writeStringField("name", table.getName());
          writeBooleanField("resource", Boolean.valueOf(table.getResourceFlag()));
          writeTableColumns(table);
          m_writer.writeEndObject();
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    private void writeTableColumns(Table table) throws IOException
@@ -1930,10 +1944,10 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartList("columns");
+      m_writer.writeArrayFieldStart("columns");
       for (Column column : table.getColumns())
       {
-         m_writer.writeStartObject(null);
+         m_writer.writeStartObject();
          writeFieldType("", column.getFieldType());
          writeStringField("title", column.getTitle());
          writeIntegerField("width", Integer.valueOf(column.getWidth()));
@@ -1941,7 +1955,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeIntegerField("align_title", Integer.valueOf(column.getAlignTitle()));
          m_writer.writeEndObject();
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    private void writeViews() throws IOException
@@ -1951,10 +1965,10 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartList("views");
+      m_writer.writeArrayFieldStart("views");
       for (View view : m_projectFile.getViews())
       {
-         m_writer.writeStartObject(null);
+         m_writer.writeStartObject();
          writeIntegerField("id", view.getID());
          writeStringField("name", view.getName());
          writeStringField("type", view.getType().name().toLowerCase());
@@ -1964,7 +1978,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeBarStyleExceptions(view);
          m_writer.writeEndObject();
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    private void writeViewTableFontStyles(View view) throws IOException
@@ -1980,16 +1994,16 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartList("table_font_styles");
+      m_writer.writeArrayFieldStart("table_font_styles");
       for (TableFontStyle style : ganttChartView.getTableFontStyles())
       {
-         m_writer.writeStartObject(null);
+         m_writer.writeStartObject();
          writeIntegerField("row_unique_id", Integer.valueOf(style.getRowUniqueID()));
          writeFieldType("", style.getFieldType());
          // TODO: add more of the style attributes as needed
          m_writer.writeEndObject();
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    private void writeBarStyles(View view) throws IOException
@@ -2005,10 +2019,10 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartList("bar_styles");
+      m_writer.writeArrayFieldStart("bar_styles");
       for (GanttBarStyle style : styles)
       {
-         m_writer.writeStartObject(null);
+         m_writer.writeStartObject();
          writeIntegerField("id", style.getID());
          writeStringField("name", style.getName());
          writeIntegerField("row", Integer.valueOf(style.getRow()));
@@ -2021,7 +2035,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeFieldType("inside_", style.getInsideText());
          m_writer.writeEndObject();
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    private void writeBarStyleExceptions(View view) throws IOException
@@ -2037,10 +2051,10 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStartList("bar_style_exceptions");
+      m_writer.writeArrayFieldStart("bar_style_exceptions");
       for (GanttBarStyleException style : exceptions)
       {
-         m_writer.writeStartObject(null);
+         m_writer.writeStartObject();
          writeIntegerField("task_unique_id", Integer.valueOf(style.getTaskUniqueID()));
          writeIntegerField("bar_style_id", style.getGanttBarStyleID());
          writeFieldType("top_", style.getTopText());
@@ -2050,7 +2064,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeFieldType("inside_", style.getInsideText());
          m_writer.writeEndObject();
       }
-      m_writer.writeEndList();
+      m_writer.writeEndArray();
    }
 
    /**
@@ -2069,7 +2083,7 @@ public final class JsonWriter extends AbstractProjectWriter
       TaskMode type = (TaskMode) value;
       if (type != TaskMode.AUTO_SCHEDULED)
       {
-         m_writer.writeNameValuePair(fieldName, type.name());
+         m_writer.writeStringField(fieldName, type.name());
       }
    }
 
@@ -2082,8 +2096,38 @@ public final class JsonWriter extends AbstractProjectWriter
       }
    }
 
+   private void writeStringList(String name, List<String> list) throws IOException
+   {
+      m_writer.writeArrayFieldStart(name);
+      for (String value : list)
+      {
+         m_writer.writeObject(value);
+      }
+      m_writer.writeEndArray();
+   }
+
+   private void writeDoubleList(String name, List<Double> list) throws IOException
+   {
+      m_writer.writeArrayFieldStart(name);
+      for (Double value : list)
+      {
+         m_writer.writeObject(value);
+      }
+      m_writer.writeEndArray();
+   }
+
+   private void writeIntegerList(String name, List<Integer> list) throws IOException
+   {
+      m_writer.writeArrayFieldStart(name);
+      for (Integer value : list)
+      {
+         m_writer.writeObject(value);
+      }
+      m_writer.writeEndArray();
+   }
+
    private ProjectFile m_projectFile;
-   private JsonStreamWriter m_writer;
+   private JsonGenerator m_writer;
    private boolean m_pretty;
    private boolean m_includeLayoutData;
    private Charset m_charset = DEFAULT_CHARSET;
@@ -2114,4 +2158,8 @@ public final class JsonWriter extends AbstractProjectWriter
 
    private static final Set<FieldType> IGNORED_FIELDS = new HashSet<>(Arrays.asList(AssignmentField.ASSIGNMENT_TASK_GUID, AssignmentField.ASSIGNMENT_RESOURCE_GUID, ResourceField.CALENDAR_GUID, ResourceField.STANDARD_RATE_UNITS, ResourceField.OVERTIME_RATE_UNITS));
    private static final Set<FieldType> MANDATORY_FIELDS = new HashSet<>(Arrays.asList(TaskField.UNIQUE_ID, TaskField.PARENT_TASK_UNIQUE_ID, ProjectField.DEFAULT_CALENDAR_UNIQUE_ID));
+
+   private static final DateTimeFormatter TIMESTAMP_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.S");
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+   private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
 }
