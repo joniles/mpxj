@@ -168,21 +168,7 @@
 
 		<!-- Copy in schemas not included with MPXJ -->
 		<copy file="${env.MPXJ_SCHEMA_DIR}/conceptdraw/document-corrected.xsd" toDir="${basedir}/jaxb"/>
-		<copy file="${env.MPXJ_SCHEMA_DIR}/mspdi/mspdi_pj15-corrected.xsd" toDir="${basedir}/jaxb"/>
-		<copy file="${env.MPXJ_SCHEMA_DIR}/pmxml/p6v2412-p6apibo-corrected.xsd" toDir="${basedir}/jaxb"/>
 
-		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b pm-binding.xjb -p org.mpxj.primavera.schema p6v2412-p6apibo-corrected.xsd" />
-		</exec>
-		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b mspdi-binding.xjb -p org.mpxj.mspdi.schema mspdi_pj15-corrected.xsd" />
-		</exec>
-		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b mrproject.xjb -p org.mpxj.planner.schema mrproject-0.6.xsd" />
-		</exec>
-		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b phoenix-4-binding.xjb -p org.mpxj.phoenix.schema.phoenix4 phoenix-4.xsd" />
-		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b phoenix-5-binding.xjb -p org.mpxj.phoenix.schema.phoenix5 phoenix-5.xsd" />
 		</exec>
@@ -201,8 +187,6 @@
 
 		<!-- Remove schemas not included with MPXJ -->
 		<delete file="${basedir}/jaxb/document-corrected.xsd"/>
-		<delete file="${basedir}/jaxb/mspdi_pj15-corrected.xsd"/>
-		<delete file="${basedir}/jaxb/p6v2412-p6apibo-corrected.xsd"/>
 	</target>
 
 
@@ -228,6 +212,13 @@
 		<property name="classes.dir" value="${basedir}/target/classes" />
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b mrproject.xjb -p org.mpxj.planner.schema mrproject-0.6.xsd" />
+		</exec>
+	</target>
+
+	<target name="xjc-phoenix4" depends="init" description="Phoenix 4 schema code generation">
+		<property name="classes.dir" value="${basedir}/target/classes" />
+		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b phoenix-4-binding.xjb -p org.mpxj.phoenix.schema.phoenix4 phoenix-4.xsd" />
 		</exec>
 	</target>
 
