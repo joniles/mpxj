@@ -44,7 +44,6 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import org.mpxj.Availability;
 import org.mpxj.Code;
 import org.mpxj.CodeValue;
@@ -322,7 +321,7 @@ public final class JsonWriter extends AbstractProjectWriter
       {
          m_writer.writeStartObject();
          writeIntegerField("unique_id", contour.getUniqueID());
-         writeStringField("name", contour.getName());
+         writeOptionalStringField("name", contour.getName());
          writeBooleanField("default", Boolean.valueOf(contour.isContourDefault()));
          if (contour.getCurveValues() != null)
          {
@@ -404,7 +403,7 @@ public final class JsonWriter extends AbstractProjectWriter
       }
 
       writeFieldType("", field.getFieldType());
-      m_writer.writeStringField("field_alias", field.getAlias());
+      writeStringField("field_alias", field.getAlias());
       writeGraphicalIndicator(field.getGraphicalIndicator());
       writeLookupTable(field);
       writeCustomFieldValueMasks(field);
@@ -425,7 +424,7 @@ public final class JsonWriter extends AbstractProjectWriter
       }
 
       m_writer.writeObjectFieldStart("lookup_table");
-      writeStringField("guid", table.getGUID());
+      writeOptionalStringField("guid", table.getGUID());
       writeBooleanField("enterprise", Boolean.valueOf(table.getEnterprise()));
       writeBooleanField("show_indent", Boolean.valueOf(table.getShowIndent()));
       writeBooleanField("resource_substitution_enabled", Boolean.valueOf(table.getResourceSubstitutionEnabled()));
@@ -451,11 +450,11 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       m_writer.writeStartObject();
       writeIntegerField("unique_id", item.getUniqueID());
-      writeStringField("guid", item.getGUID());
-      writeStringField("value", item.getValue());
-      writeStringField("description", item.getDescription());
+      writeOptionalStringField("guid", item.getGUID());
+      writeOptionalStringField("value", item.getValue());
+      writeOptionalStringField("description", item.getDescription());
       writeIntegerField("parent_unique_id", item.getParentUniqueID());
-      writeStringField("type", item.getType() == null ? null : item.getType().name());
+      writeOptionalStringField("type", item.getType() == null ? null : item.getType().name());
       writeBooleanField("collapsed", Boolean.valueOf(item.getCollapsed()));
       m_writer.writeEndObject();
    }
@@ -513,10 +512,10 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeGenericCriteriaAttributes(GenericCriteria criteria) throws IOException
    {
-      writeStringField("left_value", criteria.getLeftValue().name());
-      writeStringField("operator", criteria.getOperator().name());
-      writeStringField("right_value_1", criteria.getValue(0));
-      writeStringField("right_value_2", criteria.getValue(1));
+      writeOptionalStringField("left_value", criteria.getLeftValue().name());
+      writeOptionalStringField("operator", criteria.getOperator().name());
+      writeOptionalStringField("right_value_1", criteria.getValue(0));
+      writeOptionalStringField("right_value_2", criteria.getValue(1));
 
       List<GenericCriteria> list = criteria.getCriteriaList();
       if (list.isEmpty())
@@ -552,8 +551,8 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.writeStartObject();
          writeIntegerField("length", Integer.valueOf(mask.getLength()));
          writeIntegerField("level", Integer.valueOf(mask.getLevel()));
-         writeStringField("separator", mask.getSeparator());
-         writeStringField("type", mask.getType().name());
+         writeOptionalStringField("separator", mask.getSeparator());
+         writeOptionalStringField("type", mask.getType().name());
          m_writer.writeEndObject();
       }
       m_writer.writeEndArray();
@@ -568,11 +567,11 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       m_writer.writeStartObject();
       writeIntegerField("unique_id", Integer.valueOf(FieldTypeHelper.getFieldID(field)));
-      writeStringField("field_type_class", field.getFieldTypeClass().toString().toLowerCase());
+      writeOptionalStringField("field_type_class", field.getFieldTypeClass().toString().toLowerCase());
       writeBooleanField("summary_task_only", Boolean.valueOf(field.getSummaryTaskOnly()));
-      writeStringField("data_type", field.getDataType().toString().toLowerCase());
-      writeStringField("internal_name", field.name().toLowerCase());
-      writeStringField("external_name", field.getName());
+      writeOptionalStringField("data_type", field.getDataType().toString().toLowerCase());
+      writeOptionalStringField("internal_name", field.name().toLowerCase());
+      writeOptionalStringField("external_name", field.getName());
       m_writer.writeEndObject();
    }
 
@@ -603,8 +602,8 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       m_writer.writeStartObject();
       writeMandatoryIntegerField("unique_id", uom.getUniqueID());
-      writeStringField("abbreviation", uom.getAbbreviation());
-      writeStringField("name", uom.getName());
+      writeOptionalStringField("abbreviation", uom.getAbbreviation());
+      writeOptionalStringField("name", uom.getName());
       writeMandatoryIntegerField("sequence_number", uom.getSequenceNumber());
       m_writer.writeEndObject();
    }
@@ -636,15 +635,15 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       m_writer.writeStartObject();
       writeMandatoryIntegerField("unique_id", currency.getUniqueID());
-      writeStringField("currency_id", currency.getCurrencyID());
-      writeStringField("name", currency.getName());
-      writeStringField("symbol", currency.getSymbol());
+      writeOptionalStringField("currency_id", currency.getCurrencyID());
+      writeOptionalStringField("name", currency.getName());
+      writeOptionalStringField("symbol", currency.getSymbol());
       writeDoubleField("exchange_rate", currency.getExchangeRate());
-      writeStringField("decimal_symbol", currency.getDecimalSymbol());
+      writeOptionalStringField("decimal_symbol", currency.getDecimalSymbol());
       writeMandatoryIntegerField("number_of_decimal_places", currency.getNumberOfDecimalPlaces());
-      writeStringField("digit_grouping_symbol", currency.getDigitGroupingSymbol());
-      writeStringField("positive_currency_format", currency.getPositiveCurrencyFormat());
-      writeStringField("negative_currency_format", currency.getNegativeCurrencyFormat());
+      writeOptionalStringField("digit_grouping_symbol", currency.getDigitGroupingSymbol());
+      writeOptionalStringField("positive_currency_format", currency.getPositiveCurrencyFormat());
+      writeOptionalStringField("negative_currency_format", currency.getNegativeCurrencyFormat());
       m_writer.writeEndObject();
    }
 
@@ -704,10 +703,10 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       m_writer.writeStartObject();
       writeMandatoryIntegerField("unique_id", calendar.getUniqueID());
-      writeStringField("guid", calendar.getGUID());
+      writeOptionalStringField("guid", calendar.getGUID());
       writeMandatoryIntegerField("parent_unique_id", calendar.getParentUniqueID());
-      writeStringField("name", calendar.getName());
-      writeStringField("type", calendar.getType().toString());
+      writeOptionalStringField("name", calendar.getName());
+      writeOptionalStringField("type", calendar.getType().toString());
       writeBooleanField("personal", Boolean.valueOf(calendar.getPersonal()));
       writeIntegerField("minutes_per_day", calendar.getCalendarMinutesPerDay());
       writeIntegerField("minutes_per_week", calendar.getCalendarMinutesPerWeek());
@@ -745,7 +744,7 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeCalendarWeek(ProjectCalendarWeek week) throws IOException
    {
       m_writer.writeStartObject();
-      writeStringField("name", week.getName());
+      writeOptionalStringField("name", week.getName());
       writeDateField("effective_from", week.getDateRange().getStart());
       writeDateField("effective_to", week.getDateRange().getEnd());
       writeCalendarDays(week);
@@ -762,7 +761,7 @@ public final class JsonWriter extends AbstractProjectWriter
       for (DayOfWeek day : DayOfWeekHelper.ORDERED_DAYS)
       {
          m_writer.writeObjectFieldStart(day.name().toLowerCase());
-         writeStringField("type", week.getCalendarDayType(day).toString().toLowerCase());
+         writeOptionalStringField("type", week.getCalendarDayType(day).toString().toLowerCase());
          writeCalendarHours(week.getCalendarHours(day));
          m_writer.writeEndObject();
       }
@@ -824,13 +823,13 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeCalendarExceptionDetails(ProjectCalendarException ex) throws IOException
    {
       DayType type = ex.getWorking() ? DayType.WORKING : DayType.NON_WORKING;
-      writeStringField("name", ex.getName());
+      writeOptionalStringField("name", ex.getName());
       if (ex.getRecurring() == null)
       {
          writeDateField("from", ex.getFromDate());
          writeDateField("to", ex.getToDate());
       }
-      writeStringField("type", type.toString().toLowerCase());
+      writeOptionalStringField("type", type.toString().toLowerCase());
    }
 
    /**
@@ -843,7 +842,7 @@ public final class JsonWriter extends AbstractProjectWriter
       if (data != null)
       {
          m_writer.writeObjectFieldStart("recurrence");
-         writeStringField("type", data.getRecurrenceType().toString().toLowerCase());
+         writeOptionalStringField("type", data.getRecurrenceType().toString().toLowerCase());
          writeDateField("start_date", data.getStartDate());
          writeDateField("finish_date", data.getFinishDate());
          writeIntegerField("occurrences", data.getOccurrences());
@@ -1005,7 +1004,7 @@ public final class JsonWriter extends AbstractProjectWriter
       {
          m_writer.writeStartObject();
          writeIntegerField("resource_id", entry.getKey().getUniqueID());
-         writeStringField("skill_level", entry.getValue());
+         writeOptionalStringField("skill_level", entry.getValue());
          m_writer.writeEndObject();
       }
 
@@ -1259,7 +1258,7 @@ public final class JsonWriter extends AbstractProjectWriter
                value = ((Enum<?>) value).name();
             }
 
-            writeStringField(fieldName, value);
+            writeOptionalStringField(fieldName, value);
             break;
          }
       }
@@ -1369,7 +1368,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
       if (value instanceof String)
       {
-         m_writer.writeStringField(fieldName + "_text", (String) value);
+         writeStringField(fieldName + "_text", (String) value);
          return;
       }
 
@@ -1444,7 +1443,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
       if (value instanceof String)
       {
-         m_writer.writeStringField(fieldName + "_text", (String) value);
+         writeStringField(fieldName + "_text", (String) value);
          return;
       }
 
@@ -1453,7 +1452,7 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      m_writer.writeStringField(fieldName, TIMESTAMP_FORMAT.format((LocalDateTime)value));
+      writeStringField(fieldName, TIMESTAMP_FORMAT.format((LocalDateTime)value));
    }
 
    /**
@@ -1466,7 +1465,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (value instanceof LocalDate)
       {
-         m_writer.writeStringField(fieldName, DATE_FORMAT.format(((LocalDate) value)));
+         writeStringField(fieldName, DATE_FORMAT.format(((LocalDate) value)));
       }
    }
 
@@ -1480,7 +1479,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (value instanceof LocalTime)
       {
-         m_writer.writeStringField(fieldName, TIME_FORMAT.format((LocalTime) value));
+         writeStringField(fieldName, TIME_FORMAT.format((LocalTime) value));
       }
    }
 
@@ -1500,7 +1499,7 @@ public final class JsonWriter extends AbstractProjectWriter
       TimeUnit val = (TimeUnit) value;
       if (val != m_projectFile.getProjectProperties().getDefaultDurationUnits())
       {
-         m_writer.writeStringField(fieldName, val.toString());
+         writeStringField(fieldName, val.toString());
       }
    }
 
@@ -1534,7 +1533,7 @@ public final class JsonWriter extends AbstractProjectWriter
       Rate val = (Rate) value;
       if (val.getAmount() != 0.0)
       {
-         m_writer.writeStringField(fieldName, val.getAmount() + "/" + val.getUnits());
+         writeStringField(fieldName, val.getAmount() + "/" + val.getUnits());
       }
    }
 
@@ -1612,11 +1611,11 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeStartObject();
 
       writeMandatoryIntegerField("unique_id", code.getUniqueID());
-      writeStringField("scope", code.getScope());
+      writeOptionalStringField("scope", code.getScope());
       writeIntegerField("scope_eps_unique_id", code.getScopeEpsUniqueID());
       writeIntegerField("scope_project_unique_id", code.getScopeProjectUniqueID());
       writeMandatoryIntegerField("sequence_number", code.getSequenceNumber());
-      writeStringField("name", code.getName());
+      writeOptionalStringField("name", code.getName());
       if (!code.getValues().isEmpty())
       {
          m_writer.writeArrayFieldStart("values");
@@ -1640,7 +1639,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
       writeMandatoryIntegerField("unique_id", code.getUniqueID());
       writeMandatoryIntegerField("sequence_number", code.getSequenceNumber());
-      writeStringField("name", code.getName());
+      writeOptionalStringField("name", code.getName());
       if (!code.getValues().isEmpty())
       {
          m_writer.writeArrayFieldStart("values");
@@ -1663,8 +1662,8 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeStartObject();
       writeMandatoryIntegerField("unique_id", value.getUniqueID());
       writeMandatoryIntegerField("sequence_number", value.getSequenceNumber());
-      writeStringField("name", value.getName());
-      writeStringField("description", value.getDescription());
+      writeOptionalStringField("name", value.getName());
+      writeOptionalStringField("description", value.getDescription());
       writeColorField("color", value.getColor());
       writeIntegerField("parent_value_unique_id", value.getParentValueUniqueID());
       m_writer.writeEndObject();
@@ -1680,8 +1679,8 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeStartObject();
       writeMandatoryIntegerField("unique_id", value.getUniqueID());
       writeMandatoryIntegerField("sequence_number", value.getSequenceNumber());
-      writeStringField("name", value.getName());
-      writeStringField("description", value.getDescription());
+      writeOptionalStringField("name", value.getName());
+      writeOptionalStringField("description", value.getDescription());
       writeIntegerField("parent_value_unique_id", value.getParentValueUniqueID());
       m_writer.writeEndObject();
    }
@@ -1692,16 +1691,51 @@ public final class JsonWriter extends AbstractProjectWriter
     * @param fieldName field name
     * @param value field value
     */
-   private void writeStringField(String fieldName, Object value) throws IOException
+   private void writeOptionalStringField(String fieldName, Object value) throws IOException
    {
       if (value != null)
       {
          String val = value.toString();
          if (!val.isEmpty())
          {
-            m_writer.writeStringField(fieldName, val);
+            writeStringField(fieldName, val);
          }
       }
+   }
+
+   private void writeStringField(String fieldName, String val) throws IOException
+   {
+      m_writer.writeStringField(fieldName, stripControlCharacters(val));
+   }
+
+   private String stripControlCharacters(String value)
+   {
+      m_buffer.setLength(0);
+      for (int index = 0; index < value.length(); index++)
+      {
+         char c = value.charAt(index);
+         switch(c)
+         {
+            case '\b':
+            case '\f':
+            case '\n':
+            case '\r':
+            case '\t':
+            {
+               m_buffer.append(c);
+               break;
+            }
+
+            default:
+            {
+               if (c > 0x1f)
+               {
+                  m_buffer.append(c);
+               }
+            }
+         }
+      }
+      return m_buffer.toString();
    }
 
    /**
@@ -1733,8 +1767,8 @@ public final class JsonWriter extends AbstractProjectWriter
             {
                writeTimeUnitsField("lag_units", relation.getLag().getUnits());
             }
-            writeStringField("type", relation.getType());
-            writeStringField("notes", relation.getNotes());
+            writeOptionalStringField("type", relation.getType());
+            writeOptionalStringField("notes", relation.getNotes());
             m_writer.writeEndObject();
          }
          m_writer.writeEndArray();
@@ -1757,7 +1791,7 @@ public final class JsonWriter extends AbstractProjectWriter
       ResourceRequestType type = (ResourceRequestType) value;
       if (type != ResourceRequestType.NONE)
       {
-         m_writer.writeStringField(fieldName, type.name());
+         writeStringField(fieldName, type.name());
       }
    }
 
@@ -1777,7 +1811,7 @@ public final class JsonWriter extends AbstractProjectWriter
       WorkContour type = (WorkContour) value;
       if (!type.isContourFlat())
       {
-         m_writer.writeStringField(fieldName, type.toString());
+         writeStringField(fieldName, type.toString());
       }
    }
 
@@ -1798,7 +1832,7 @@ public final class JsonWriter extends AbstractProjectWriter
       EarnedValueMethod method = (EarnedValueMethod) value;
       if (container instanceof ProjectProperties || method != m_projectFile.getProjectProperties().getDefaultTaskEarnedValueMethod())
       {
-         m_writer.writeStringField(fieldName, method.name());
+         writeStringField(fieldName, method.name());
       }
    }
 
@@ -1819,7 +1853,7 @@ public final class JsonWriter extends AbstractProjectWriter
       TaskType type = (TaskType) value;
       if (container instanceof ProjectProperties || type != m_projectFile.getProjectProperties().getDefaultTaskType())
       {
-         m_writer.writeStringField(fieldName, type.name());
+         writeStringField(fieldName, type.name());
       }
    }
 
@@ -1827,7 +1861,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (value != null)
       {
-         m_writer.writeStringField(name, ColorHelper.getHtmlColor(value));
+         writeStringField(name, ColorHelper.getHtmlColor(value));
       }
    }
 
@@ -1865,12 +1899,12 @@ public final class JsonWriter extends AbstractProjectWriter
       {
          m_writer.writeStartObject();
          writeIntegerField("unique_id", item.getUniqueID());
-         writeStringField("name", item.getName());
-         writeStringField("description", item.getDescription());
+         writeOptionalStringField("name", item.getName());
+         writeOptionalStringField("description", item.getDescription());
          writeIntegerField("account_unique_id", item.getAccountUniqueID());
          writeIntegerField("category_unique_id", item.getCategoryUniqueID());
-         writeStringField("document_number", item.getDocumentNumber());
-         writeStringField("vendor", item.getVendor());
+         writeOptionalStringField("document_number", item.getDocumentNumber());
+         writeOptionalStringField("vendor", item.getVendor());
          writeDoubleField("at_completion_cost", item.getAtCompletionCost());
          writeDoubleField("at_completion_units", item.getAtCompletionUnits());
          writeDoubleField("actual_cost", item.getActualCost());
@@ -1880,9 +1914,9 @@ public final class JsonWriter extends AbstractProjectWriter
          writeDoubleField("remaining_units", item.getRemainingUnits());
          writeDoubleField("planned_cost", item.getPlannedCost());
          writeDoubleField("planned_units", item.getPlannedUnits());
-         writeStringField("accrue_type", item.getAccrueType().name().toLowerCase());
+         writeOptionalStringField("accrue_type", item.getAccrueType().name().toLowerCase());
          writeBooleanField("auto_compute_actuals", Boolean.valueOf(item.getAutoComputeActuals()));
-         writeStringField("unit_of_measure", item.getUnitOfMeasure());
+         writeOptionalStringField("unit_of_measure", item.getUnitOfMeasure());
          m_writer.writeEndObject();
       }
       m_writer.writeEndArray();
@@ -1907,11 +1941,11 @@ public final class JsonWriter extends AbstractProjectWriter
       {
          m_writer.writeStartObject();
          writeIntegerField("unique_id", item.getUniqueID());
-         writeStringField("name", item.getName());
+         writeOptionalStringField("name", item.getName());
          writeIntegerField("sequence_number", item.getSequenceNumber());
          writeDoubleField("percent_complete", item.getPercentComplete());
          writeDoubleField("weight", item.getWeight());
-         writeStringField("description", item.getDescription());
+         writeOptionalStringField("description", item.getDescription());
          m_writer.writeEndObject();
       }
       m_writer.writeEndArray();
@@ -1929,7 +1963,7 @@ public final class JsonWriter extends AbstractProjectWriter
       {
          m_writer.writeStartObject();
          writeIntegerField("id", Integer.valueOf(table.getID()));
-         writeStringField("name", table.getName());
+         writeOptionalStringField("name", table.getName());
          writeBooleanField("resource", Boolean.valueOf(table.getResourceFlag()));
          writeTableColumns(table);
          m_writer.writeEndObject();
@@ -1949,7 +1983,7 @@ public final class JsonWriter extends AbstractProjectWriter
       {
          m_writer.writeStartObject();
          writeFieldType("", column.getFieldType());
-         writeStringField("title", column.getTitle());
+         writeOptionalStringField("title", column.getTitle());
          writeIntegerField("width", Integer.valueOf(column.getWidth()));
          writeIntegerField("align_data", Integer.valueOf(column.getAlignData()));
          writeIntegerField("align_title", Integer.valueOf(column.getAlignTitle()));
@@ -1970,9 +2004,9 @@ public final class JsonWriter extends AbstractProjectWriter
       {
          m_writer.writeStartObject();
          writeIntegerField("id", view.getID());
-         writeStringField("name", view.getName());
-         writeStringField("type", view.getType().name().toLowerCase());
-         writeStringField("table_name", view.getTableName());
+         writeOptionalStringField("name", view.getName());
+         writeOptionalStringField("type", view.getType().name().toLowerCase());
+         writeOptionalStringField("table_name", view.getTableName());
          writeViewTableFontStyles(view);
          writeBarStyles(view);
          writeBarStyleExceptions(view);
@@ -2024,7 +2058,7 @@ public final class JsonWriter extends AbstractProjectWriter
       {
          m_writer.writeStartObject();
          writeIntegerField("id", style.getID());
-         writeStringField("name", style.getName());
+         writeOptionalStringField("name", style.getName());
          writeIntegerField("row", Integer.valueOf(style.getRow()));
          writeFieldType("from_", style.getFromField());
          writeFieldType("to_", style.getToField());
@@ -2083,7 +2117,7 @@ public final class JsonWriter extends AbstractProjectWriter
       TaskMode type = (TaskMode) value;
       if (type != TaskMode.AUTO_SCHEDULED)
       {
-         m_writer.writeStringField(fieldName, type.name());
+         writeStringField(fieldName, type.name());
       }
    }
 
@@ -2091,8 +2125,8 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (fieldType != null)
       {
-         writeStringField(prefix + "field_type_class", fieldType.getFieldTypeClass().name().toLowerCase());
-         writeStringField(prefix + "field_type", fieldType.name().toLowerCase());
+         writeOptionalStringField(prefix + "field_type_class", fieldType.getFieldTypeClass().name().toLowerCase());
+         writeOptionalStringField(prefix + "field_type", fieldType.name().toLowerCase());
       }
    }
 
@@ -2133,6 +2167,7 @@ public final class JsonWriter extends AbstractProjectWriter
    private Charset m_charset = DEFAULT_CHARSET;
    private boolean m_writeAttributeTypes;
    private TimeUnit m_timeUnits;
+   private StringBuilder m_buffer = new StringBuilder();
 
    private static final Charset DEFAULT_CHARSET = CharsetHelper.UTF8;
 
