@@ -2167,7 +2167,7 @@ public final class JsonWriter extends AbstractProjectWriter
    private Charset m_charset = DEFAULT_CHARSET;
    private boolean m_writeAttributeTypes;
    private TimeUnit m_timeUnits;
-   private StringBuilder m_buffer = new StringBuilder();
+   private final StringBuilder m_buffer = new StringBuilder();
 
    private static final Charset DEFAULT_CHARSET = CharsetHelper.UTF8;
 
