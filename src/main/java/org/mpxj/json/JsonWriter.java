@@ -44,6 +44,7 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import org.mpxj.Availability;
 import org.mpxj.Code;
 import org.mpxj.CodeValue;
@@ -229,8 +230,7 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer = factory.createGenerator(stream);
          if (m_pretty)
          {
-            //m_writer.setPrettyPrinter(new DefaultPrettyPrinter());
-            //m_writer.setPrettyPrinter(new MyPrettyPrinter());
+            m_writer.setPrettyPrinter(new DefaultPrettyPrinter());
          }
 
          m_writer.writeStartObject();
