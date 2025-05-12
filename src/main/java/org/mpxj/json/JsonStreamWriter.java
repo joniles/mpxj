@@ -113,7 +113,13 @@ public class JsonStreamWriter
       writeComma();
       writeNewLineIndent();
       writeName(name);
-      m_writer.write(" [");
+
+      if (m_pretty)
+      {
+         m_writer.write(" ");
+      }
+
+      m_writer.write("[");
       m_writer.write(values.stream().map(Object::toString).collect(Collectors.joining(",")));
       m_writer.write("]");
    }
