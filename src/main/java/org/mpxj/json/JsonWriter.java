@@ -230,7 +230,7 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer = factory.createGenerator(stream);
          if (m_pretty)
          {
-            m_writer.setPrettyPrinter(new DefaultPrettyPrinter());
+            //m_writer.setPrettyPrinter(new DefaultPrettyPrinter());
             //m_writer.setPrettyPrinter(new MyPrettyPrinter());
          }
 
