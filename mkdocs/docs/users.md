@@ -12,6 +12,7 @@ like to be featured in this list.
 * Atlas Authority [atlasauthority.com](https://atlasauthority.com/)
 * Aurea Savvion BPM Studio [www.aurea.com](https://www.aurea.com/)
 * Autodesk Build – Schedule [construction.autodesk.com/products/autodesk-build/](https://construction.autodesk.com/products/autodesk-build/)
+* BIM4You [www.bib-gmbh.de](https://www.bib-gmbh.de/)
 * Bosch RefinemySite [www.bosch-refinemysite.com](https://www.bosch-refinemysite.com/)
 * Bryntum [bryntum.com](https://www.bryntum.com/)
 * Buildots [buildots.com](https://buildots.com/)
