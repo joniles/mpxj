@@ -205,7 +205,9 @@ public enum ProjectField implements FieldType
    PROJECT_IS_BASELINE(DataType.BOOLEAN),
    PROJECT_WEBSITE_URL(DataType.STRING),
    NOTES(DataType.NOTES),
-   PROJECT_CODE_VALUES(DataType.CODE_VALUES);
+   PROJECT_CODE_VALUES(DataType.CODE_VALUES),
+   ENABLE_SUMMARIZATION(DataType.BOOLEAN),
+   ENABLE_PUBLICATION(DataType.BOOLEAN);
 
    /**
     * Constructor.
