@@ -9,7 +9,7 @@
 			<action dev="joniles" type="update">Updated to POI 5.4.1</action>
 			<action dev="joniles" type="update">Improve actual duration calculation for activities with suspend and resume dates when reading XER files and Primavera P6 databases.</action>
 			<action dev="joniles" type="update">Added Enable Summarization and Enable Publication flags to `ProjectProperties`.</action>
-			<action dev="joniles" type="update">Added support for Enable Summarization and Enable Publication flags when reading nd writing PMXML files.</action>
+			<action dev="joniles" type="update">Added support for Enable Summarization and Enable Publication flags when reading and writing PMXML files.</action>
 			<action dev="joniles" type="update">Updated the JSON writer to use Jackson.</action>
 		</release>
 		<release date="2025-05-07" version="14.0.0">
