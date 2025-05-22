@@ -3602,6 +3602,46 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
+    * Retrieve the enable publication flag.
+    *
+    * @return enable publication flag
+    */
+   public boolean getEnablePublication()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.ENABLE_PUBLICATION));
+   }
+
+   /**
+    * Set the enable publication flag.
+    *
+    * @param value enable publication flag
+    */
+   public void setEnablePublication(boolean value)
+   {
+      set(ProjectField.ENABLE_PUBLICATION, value);
+   }
+
+   /**
+    * Retrieve the enable summarization flag.
+    *
+    * @return enable summarization flag
+    */
+   public boolean getEnableSummarization()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.ENABLE_SUMMARIZATION));
+   }
+
+   /**
+    * Set the enable summarization flg.
+    *
+    * @param value enable summarization flag
+    */
+   public void setEnableSummarization(boolean value)
+   {
+      set(ProjectField.ENABLE_SUMMARIZATION, value);
+   }
+
+   /**
     * Maps a field index to a ProjectField instance.
     *
     * @param fields array of fields used as the basis for the mapping.

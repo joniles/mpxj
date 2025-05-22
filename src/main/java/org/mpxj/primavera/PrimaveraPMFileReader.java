@@ -828,6 +828,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setActivityIdIncrement(project.getActivityIdIncrement());
       properties.setActivityIdIncrementBasedOnSelectedActivity(BooleanHelper.getBoolean(project.isActivityIdBasedOnSelectedActivity()));
       properties.setProjectWebsiteUrl(nullIfEmpty(project.getWebSiteURL()));
+      properties.setEnablePublication(BooleanHelper.getBoolean(project.isEnablePublication()));
+      properties.setEnableSummarization(BooleanHelper.getBoolean(project.isEnableSummarization()));
 
       ProjectCalendar calendar = m_projectFile.getCalendarByUniqueID(project.getActivityDefaultCalendarObjectId());
       if (calendar != null)
@@ -860,6 +862,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setLastBaselineUpdateDate(project.getLastBaselineUpdateDate());
       properties.setProjectIsBaseline(true);
       properties.setProjectWebsiteUrl(project.getWebSiteURL());
+      properties.setEnablePublication(BooleanHelper.getBoolean(project.isEnablePublication()));
+      properties.setEnableSummarization(BooleanHelper.getBoolean(project.isEnableSummarization()));
 
       ProjectCalendar calendar = m_projectFile.getCalendarByUniqueID(project.getActivityDefaultCalendarObjectId());
       if (calendar != null)

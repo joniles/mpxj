@@ -608,7 +608,8 @@ final class PrimaveraPMProjectWriter
       project.setEarnedValueETCComputeType("ETC = Remaining Cost for Activity");
       project.setEarnedValueETCUserValue(Double.valueOf(0.88));
       project.setEarnedValueUserPercent(Double.valueOf(0.06));
-      project.setEnableSummarization(Boolean.TRUE);
+      project.setEnablePublication(Boolean.valueOf(mpxj.getEnablePublication()));
+      project.setEnableSummarization(Boolean.valueOf(mpxj.getEnableSummarization()));
       project.setFiscalYearStartMonth(Integer.valueOf(1));
       project.setFinishDate(mpxj.getFinishDate());
       project.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
@@ -674,7 +675,8 @@ final class PrimaveraPMProjectWriter
       project.setDataDate(m_projectFile.getProjectProperties().getStatusDate());
       project.setDefaultPriceTimeUnits("Hour");
       project.setDiscountApplicationPeriod("Month");
-      project.setEnableSummarization(Boolean.TRUE);
+      project.setEnablePublication(Boolean.valueOf(mpxj.getEnablePublication()));
+      project.setEnableSummarization(Boolean.valueOf(mpxj.getEnableSummarization()));
       project.setFiscalYearStartMonth(Integer.valueOf(1));
       project.setFinishDate(mpxj.getFinishDate());
       project.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));

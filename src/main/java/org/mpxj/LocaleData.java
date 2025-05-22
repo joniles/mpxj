@@ -2310,6 +2310,8 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.PROJECT_WEBSITE_URL.getValue()] = "Project Website URL";
       PROJECT_COLUMNS_ARRAY[ProjectField.NOTES.getValue()] = "Notes";
       PROJECT_COLUMNS_ARRAY[ProjectField.PROJECT_CODE_VALUES.getValue()] = "Project Code Values";
+      PROJECT_COLUMNS_ARRAY[ProjectField.ENABLE_PUBLICATION.getValue()] = "Enable Publication";
+      PROJECT_COLUMNS_ARRAY[ProjectField.ENABLE_SUMMARIZATION.getValue()] = "Enable Summarization";
    }
 
    private static final Object[][] RESOURCES =
