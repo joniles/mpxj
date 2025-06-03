@@ -3703,6 +3703,16 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       return getParentFile().getLatestFinishDate();
    }
 
+   private LocalDateTime calculateActualStart()
+   {
+      return getParentFile().getActualStart();
+   }
+
+   private LocalDateTime calculateActualFinish()
+   {
+      return getParentFile().getActualFinish();
+   }
+
    private Integer calculateMinutesPerWeek()
    {
       return Integer.valueOf(DEFAULT_DAYS_PER_WEEK * NumberHelper.getInt(getMinutesPerDay()));
@@ -3841,6 +3851,8 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    {
       CALCULATED_FIELD_MAP.put(ProjectField.START_DATE, ProjectProperties::calculateStartDate);
       CALCULATED_FIELD_MAP.put(ProjectField.FINISH_DATE, ProjectProperties::calculateFinishDate);
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTUAL_START, ProjectProperties::calculateActualStart);
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTUAL_FINISH, ProjectProperties::calculateActualFinish);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_WEEK, ProjectProperties::calculateMinutesPerWeek);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_MONTH, ProjectProperties::calculateMinutesPerMonth);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_YEAR, ProjectProperties::calculateMinutesPerYear);

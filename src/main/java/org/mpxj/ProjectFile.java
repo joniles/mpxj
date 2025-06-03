@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -332,59 +333,32 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public LocalDateTime getEarliestStartDate()
    {
-      LocalDateTime startDate = null;
+      return m_tasks.stream().map(this::getStartDate).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(null);
+   }
 
-      for (Task task : m_tasks)
-      {
-         //
-         // If a hidden "summary" task is present we ignore it
-         //
-         if (NumberHelper.getInt(task.getUniqueID()) == 0)
-         {
-            continue;
-         }
+   /**
+    * Calculate the actual start date for the project.
+    *
+    * @return project actual start date
+    */
+   LocalDateTime getActualStart()
+   {
+      return m_tasks.stream().map(Task::getActualStart).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(null);
+   }
 
-         //
-         // Select the actual or forecast start date. Note that the
-         // behaviour is different for milestones. The milestone end date
-         // is always correct, the milestone start date may be different
-         // to reflect a missed deadline.
-         //
-         LocalDateTime taskStartDate;
-         if (task.getMilestone())
-         {
-            taskStartDate = task.getActualFinish();
-            if (taskStartDate == null)
-            {
-               taskStartDate = task.getFinish();
-            }
-         }
-         else
-         {
-            taskStartDate = task.getActualStart();
-            if (taskStartDate == null)
-            {
-               taskStartDate = task.getStart();
-            }
-         }
+   /**
+    * Calculate the actual finish date for the project.
+    *
+    * @return project actual finish date
+    */
+   LocalDateTime getActualFinish()
+   {
+       if (m_tasks.stream().map(Task::getActualFinish).anyMatch(Objects::isNull))
+       {
+          return null;
+       }
 
-         if (taskStartDate != null)
-         {
-            if (startDate == null)
-            {
-               startDate = taskStartDate;
-            }
-            else
-            {
-               if (taskStartDate.isBefore(startDate))
-               {
-                  startDate = taskStartDate;
-               }
-            }
-         }
-      }
-
-      return (startDate);
+       return m_tasks.stream().map(Task::getActualFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null);
    }
 
    /**
@@ -394,45 +368,77 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public LocalDateTime getLatestFinishDate()
    {
-      LocalDateTime finishDate = null;
+      return m_tasks.stream().map(this::getFinishDate).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null);
+   }
 
-      for (Task task : m_tasks)
+   /**
+    * Retrieve the start date for a task.
+    *
+    * @param task task
+    * @return start date
+    */
+   private LocalDateTime getStartDate(Task task)
+   {
+      //
+      // If a hidden "summary" task is present we ignore it
+      //
+      if (NumberHelper.getInt(task.getUniqueID()) == 0)
       {
-         //
-         // If a hidden "summary" task is present we ignore it
-         //
-         if (NumberHelper.getInt(task.getUniqueID()) == 0)
-         {
-            continue;
-         }
-
-         //
-         // Select the actual or forecast start date
-         //
-         LocalDateTime taskFinishDate;
-         taskFinishDate = task.getActualFinish();
-         if (taskFinishDate == null)
-         {
-            taskFinishDate = task.getFinish();
-         }
-
-         if (taskFinishDate != null)
-         {
-            if (finishDate == null)
-            {
-               finishDate = taskFinishDate;
-            }
-            else
-            {
-               if (taskFinishDate.isAfter(finishDate))
-               {
-                  finishDate = taskFinishDate;
-               }
-            }
-         }
+         return null;
       }
 
-      return (finishDate);
+      //
+      // Select the actual or planned start date. Note that the
+      // behaviour is different for milestones. The milestone end date
+      // is always correct, the milestone start date may be different
+      // to reflect a missed deadline.
+      //
+      LocalDateTime taskStartDate;
+      if (task.getMilestone())
+      {
+         taskStartDate = task.getActualFinish();
+         if (taskStartDate == null)
+         {
+            taskStartDate = task.getFinish();
+         }
+      }
+      else
+      {
+         taskStartDate = task.getActualStart();
+         if (taskStartDate == null)
+         {
+            taskStartDate = task.getStart();
+         }
+      }
+      return taskStartDate;
+   }
+
+   /**
+    * Retrieve the finish date for a task.
+    *
+    * @param task task
+    * @return finish date
+    */
+   private LocalDateTime getFinishDate(Task task)
+   {
+      //
+      // If a hidden "summary" task is present we ignore it
+      //
+      if (NumberHelper.getInt(task.getUniqueID()) == 0)
+      {
+         return null;
+      }
+
+      //
+      // Select the actual or forecast start date
+      //
+      LocalDateTime taskFinishDate;
+      taskFinishDate = task.getActualFinish();
+      if (taskFinishDate == null)
+      {
+         taskFinishDate = task.getFinish();
+      }
+      return taskFinishDate;
    }
 
    /**
