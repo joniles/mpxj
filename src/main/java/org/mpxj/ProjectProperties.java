@@ -3840,6 +3840,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    static
    {
       CALCULATED_FIELD_MAP.put(ProjectField.START_DATE, ProjectProperties::calculateStartDate);
+      //CALCULATED_FIELD_MAP.put(ProjectField.ACTUAL_START, ProjectProperties::calculateActualStartDate);
       CALCULATED_FIELD_MAP.put(ProjectField.FINISH_DATE, ProjectProperties::calculateFinishDate);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_WEEK, ProjectProperties::calculateMinutesPerWeek);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_MONTH, ProjectProperties::calculateMinutesPerMonth);
