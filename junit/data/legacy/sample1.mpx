@@ -10,7 +10,7 @@ MPX;Microsoft Project for Windows;4.0;ANSI
 25;5;08:00 AM;12:00 PM;01:00 PM;05:00 PM
 25;6;08:00 AM;12:00 PM;01:00 PM;05:00 PM
 25;7
-30;Project1;;;Standard;01/01/2003;;0;05/12/2003;;$0,00;$0,00;$0,00;0h;0h;0h;0%;0d;0d;0d;0%;;;;;0d;0d
+30;Project1;;;Standard;01/01/2003;;0;05/12/2003;;$0,00;$0,00;$0,00;0h;0h;0h;0%;0d;0d;0d;0%;;;01/01/2003;;0d;0d
 40;Name;ID;Max Units;Unique ID
 41;1;40;41;49
 50;Resource1;1;;1

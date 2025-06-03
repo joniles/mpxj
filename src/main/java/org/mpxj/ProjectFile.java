@@ -337,6 +337,31 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
+    * Calculate the actual start date for the project.
+    *
+    * @return project actual start date
+    */
+   LocalDateTime getActualStart()
+   {
+      return m_tasks.stream().map(Task::getActualStart).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(null);
+   }
+
+   /**
+    * Calculate the actual finish date for the project.
+    *
+    * @return project actual finish date
+    */
+   LocalDateTime getActualFinish()
+   {
+       if (m_tasks.stream().map(Task::getActualFinish).anyMatch(Objects::isNull))
+       {
+          return null;
+       }
+
+       return m_tasks.stream().map(Task::getActualFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null);
+   }
+
+   /**
     * Find the latest task finish date.
     *
     * @return finish date
@@ -346,6 +371,12 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       return m_tasks.stream().map(this::getFinishDate).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null);
    }
 
+   /**
+    * Retrieve the star tdate for a task.
+    *
+    * @param task task
+    * @return start date
+    */
    private LocalDateTime getStartDate(Task task)
    {
       //
@@ -382,6 +413,12 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       return taskStartDate;
    }
 
+   /**
+    * Retrieve the finish date for a task.
+    *
+    * @param task task
+    * @return finish date
+    */
    private LocalDateTime getFinishDate(Task task)
    {
       //
