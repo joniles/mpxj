@@ -372,7 +372,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
-    * Retrieve the star tdate for a task.
+    * Retrieve the start date for a task.
     *
     * @param task task
     * @return start date
