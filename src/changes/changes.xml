@@ -11,6 +11,7 @@
 			<action dev="joniles" type="update">Added Enable Summarization and Enable Publication flags to `ProjectProperties`.</action>
 			<action dev="joniles" type="update">Added support for Enable Summarization and Enable Publication flags when reading and writing PMXML files.</action>
 			<action dev="joniles" type="update">Ensure the Actual Start and Actual Finish attributes in `ProjectProperties` are populated.</action>
+			<action dev="joniles" type="update">Improve retrieval of Enterprise Custom Field names when reading MSPDI files.</action>
 			<action dev="joniles" type="update">Updated the JSON writer to use Jackson.</action>
 		</release>
 		<release date="2025-05-07" version="14.0.0">

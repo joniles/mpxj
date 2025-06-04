@@ -51,6 +51,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.mpxj.CalendarType;
 import org.mpxj.ChildTaskContainer;
 import org.mpxj.HasCharset;
+import org.mpxj.UserDefinedField;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.LocalDateRange;
 import org.mpxj.LocalTimeRange;
@@ -866,9 +867,17 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
       FieldType field = FieldTypeHelper.getInstance(m_projectFile, Integer.parseInt(attribute.getFieldID()));
       m_lookupTableMap.put(attribute.getLtuid(), field);
       String alias = attribute.getAlias();
+
+      // If we are dealing with an enterprise custom field (which will appear here as a UserDefinedField instance)
+      // and we haven't been given an explicit alias, then fallback on the field name.
+      if ((alias == null || alias.isEmpty()) && field instanceof UserDefinedField)
+      {
+         alias = attribute.getFieldName();
+      }
+
       if (alias != null && !alias.isEmpty())
       {
-         m_projectFile.getCustomFields().getOrCreate(field).setAlias(attribute.getAlias());
+         m_projectFile.getCustomFields().getOrCreate(field).setAlias(alias);
       }
    }
 
