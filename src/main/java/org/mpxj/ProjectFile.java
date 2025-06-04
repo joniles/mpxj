@@ -353,12 +353,12 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    LocalDateTime getActualFinish()
    {
-       if (m_tasks.stream().map(Task::getActualFinish).anyMatch(Objects::isNull))
-       {
-          return null;
-       }
+      if (m_tasks.stream().map(Task::getActualFinish).anyMatch(Objects::isNull))
+      {
+         return null;
+      }
 
-       return m_tasks.stream().map(Task::getActualFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null);
+      return m_tasks.stream().map(Task::getActualFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null);
    }
 
    /**

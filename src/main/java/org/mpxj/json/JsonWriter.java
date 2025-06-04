@@ -1452,7 +1452,7 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      writeStringField(fieldName, TIMESTAMP_FORMAT.format((LocalDateTime)value));
+      writeStringField(fieldName, TIMESTAMP_FORMAT.format((LocalDateTime) value));
    }
 
    /**
@@ -1714,7 +1714,7 @@ public final class JsonWriter extends AbstractProjectWriter
       for (int index = 0; index < value.length(); index++)
       {
          char c = value.charAt(index);
-         switch(c)
+         switch (c)
          {
             case '\b':
             case '\f':
