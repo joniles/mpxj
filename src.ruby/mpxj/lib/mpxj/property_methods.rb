@@ -585,6 +585,20 @@ module MPXJ
       get_integer_value(attribute_values['editing_time'])
     end
 
+    # Retrieve the Enable Publication value
+    #
+    # @return Enable Publication value
+    def enable_publication
+      get_boolean_value(attribute_values['enable_publication'])
+    end
+
+    # Retrieve the Enable Summarization value
+    #
+    # @return Enable Summarization value
+    def enable_summarization
+      get_boolean_value(attribute_values['enable_summarization'])
+    end
+
     # Retrieve the Export Flag value
     #
     # @return Export Flag value
@@ -1313,6 +1327,8 @@ module MPXJ
       'earned_value_method' => :earned_value_method,
       'editable_actual_costs' => :boolean,
       'editing_time' => :integer,
+      'enable_publication' => :boolean,
+      'enable_summarization' => :boolean,
       'export_flag' => :boolean,
       'extended_creation_date' => :date,
       'file_application' => :string,

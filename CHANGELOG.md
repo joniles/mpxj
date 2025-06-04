@@ -5,11 +5,15 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 14.1.0 (unreleased)
+## 14.2.0 (unreleased)
+
+## 14.1.0 (2025-06-05)
 * Updated to POI 5.4.1
 * Improve actual duration calculation for activities with suspend and resume dates when reading XER files and Primavera P6 databases.
 * Added Enable Summarization and Enable Publication flags to `ProjectProperties`.
 * Added support for Enable Summarization and Enable Publication flags when reading and writing PMXML files.
+* Ensure the Actual Start and Actual Finish attributes in `ProjectProperties` are populated.
+* Improve retrieval of Enterprise Custom Field names when reading MSPDI files.
 * Updated the JSON writer to use Jackson.
 
 ## 14.0.0 (2025-05-07)

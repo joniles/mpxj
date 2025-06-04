@@ -5,7 +5,9 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="14.1.0">
+		<release date="unreleased" version="14.2.0">
+		</release>
+		<release date="2025-06-05" version="14.1.0">
 			<action dev="joniles" type="update">Updated to POI 5.4.1</action>
 			<action dev="joniles" type="update">Improve actual duration calculation for activities with suspend and resume dates when reading XER files and Primavera P6 databases.</action>
 			<action dev="joniles" type="update">Added Enable Summarization and Enable Publication flags to `ProjectProperties`.</action>
