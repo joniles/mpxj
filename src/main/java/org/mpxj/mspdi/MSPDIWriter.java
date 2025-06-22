@@ -1207,7 +1207,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       return name;
    }
-   
+
    /**
     * Writes resource baseline data.
     *
