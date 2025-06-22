@@ -63,6 +63,7 @@ import org.mpxj.DataType;
 import org.mpxj.LocalDateTimeRange;
 import java.time.DayOfWeek;
 
+import org.mpxj.ProjectCalendarDays;
 import org.mpxj.TimephasedItem;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.DayType;
@@ -672,7 +673,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       ProjectCalendar base = mpxjCalendar.getParent();
       // SF-329: null default required to keep Powerproject happy when importing MSPDI files
       calendar.setBaseCalendarUID(base == null ? NULL_CALENDAR_ID : NumberHelper.getBigInteger(m_calendarMapper.getUniqueID(base)));
-      calendar.setName(StringHelper.stripControlCharacters(mpxjCalendar.getName()));
+      calendar.setName(normalizeCalendarName(mpxjCalendar));
 
       //
       // Create a list of normal days
@@ -703,6 +704,29 @@ public final class MSPDIWriter extends AbstractProjectWriter
       m_eventManager.fireCalendarWrittenEvent(mpxjCalendar);
 
       return calendar;
+   }
+
+   /**
+    * Strip control characters, and ensure that the calendar name is no longer than 51 characters.
+    *
+    * @param calendar calendar
+    * @return calendar name
+    */
+   private String normalizeCalendarName(ProjectCalendarDays calendar)
+   {
+      String name = calendar.getName();
+      if (name == null || name.isEmpty())
+      {
+         return name;
+      }
+
+      name = StringHelper.stripControlCharacters(name);
+      if (name.length() > 51)
+      {
+         name = name.substring(0, 51);
+      }
+
+      return name;
    }
 
    /**
@@ -980,7 +1004,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             WorkWeek xmlWeek = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeek();
             xmlWorkWeekList.add(xmlWeek);
 
-            xmlWeek.setName(StringHelper.stripControlCharacters(week.getName()));
+            xmlWeek.setName(normalizeCalendarName(week));
             TimePeriod xmlTimePeriod = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeekTimePeriod();
             xmlWeek.setTimePeriod(xmlTimePeriod);
             xmlTimePeriod.setFromDate(week.getDateRange().getStart().atStartOfDay());
@@ -1103,7 +1127,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setIsNull(Boolean.valueOf(mpx.getNull()));
       xml.setMaterialLabel(formatMaterialLabel(mpx));
       xml.setMaxUnits(DatatypeConverter.printUnits(mpx.getMaxUnits()));
-      xml.setName(StringHelper.stripControlCharacters(mpx.getName()));
+      xml.setName(normalizeResourceName(mpx));
       xml.setNotes(nullIfEmpty(mpx.getNotes()));
       xml.setNTAccount(mpx.getNtAccount());
       xml.setOverAllocated(Boolean.valueOf(mpx.getOverAllocated()));
@@ -1148,6 +1172,40 @@ public final class MSPDIWriter extends AbstractProjectWriter
       writeAvailability(xml, mpx);
 
       return (xml);
+   }
+
+   /**
+    * Strip control characters and ensure that the resource name does not contain , [ or ] characters.
+    * Replace , with ; to match MS Project behaviour. Replace [ and ] with a space character.
+    *
+    * @param resource resource
+    * @return resource name
+    */
+   private String normalizeResourceName(Resource resource)
+   {
+      String name = resource.getName();
+      if (name == null || name.isEmpty())
+      {
+         return name;
+      }
+
+      name = StringHelper.stripControlCharacters(name);
+      if (name.contains(","))
+      {
+         name = name.replace(',', ';');
+      }
+
+      if (name.contains("["))
+      {
+         name = name.replace('[', ' ');
+      }
+
+      if (name.contains("]"))
+      {
+         name = name.replace(']', ' ');
+      }
+
+      return name;
    }
 
    /**
