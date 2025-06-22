@@ -1194,15 +1194,15 @@ public final class MSPDIWriter extends AbstractProjectWriter
          name = name.replace(',', ';');
       }
 
-//      if (name.contains("["))
-//      {
-//         name = name.replace('[', ' ');
-//      }
-//
-//      if (name.contains("]"))
-//      {
-//         name = name.replace(']', ' ');
-//      }
+      if (name.contains("["))
+      {
+         name = name.replace('[', ' ');
+      }
+
+      if (name.contains("]"))
+      {
+         name = name.replace(']', ' ');
+      }
 
       return name;
    }
