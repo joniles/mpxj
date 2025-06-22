@@ -1176,6 +1176,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Strip control characters and ensure that the resource name does not contain , [ or ] characters.
+    * Replace , with ; to match MS Project behaviour. Replace [ and ] with a space character.
     *
     * @param resource resource
     * @return resource name
@@ -1206,45 +1207,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       return name;
    }
-
-   private String replaceCharacters(String text, int index)
-   {
-      StringBuilder sb = new StringBuilder();
-      if (index != 0)
-      {
-         sb.append(text, 0, index);
-      }
-
-      ++index;
-
-      while (index < text.length())
-      {
-         char c = text.charAt(index);
-         switch(c)
-         {
-            case ',':
-            case '[':
-            case ']':
-            {
-               c = ' ';
-               break;
-            }
-
-            default:
-            {
-               break;
-            }
-         }
-
-         sb.append(c);
-
-         ++index;
-      }
-
-      return sb.toString();
-   }
-
-
+   
    /**
     * Writes resource baseline data.
     *
