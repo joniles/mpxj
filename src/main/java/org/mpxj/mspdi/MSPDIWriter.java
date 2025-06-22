@@ -721,10 +721,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
 
       name = StringHelper.stripControlCharacters(name);
-//      if (name.length() > 51)
-//      {
-//         name = name.substring(0, 51);
-//      }
+      if (name.length() > 51)
+      {
+         name = name.substring(0, 51);
+      }
 
       return name;
    }
