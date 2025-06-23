@@ -97,6 +97,7 @@ like to be featured in this list.
 * VisiLean [visilean.com](https://visilean.com)
 * Windchill ProjectLink [www.ptc.com/products/windchill-projectlink](http://www.ptc.com/products/windchill-projectlink)
 * Workfront [www.workfront.com](http://www.workfront.com)
+* Workzone [www.workzone.com](https://www.workzone.com/)
 * Xena [xena.sourceforge.net](http://xena.sourceforge.net)
 * xPlanner [www.xplanner.org](http://www.xplanner.org)
 * xProcess [www.openxprocess.com](http://www.openxprocess.com)
