@@ -6,6 +6,8 @@ no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
 ## 14.2.0 (unreleased)
+* MS Project will reject MSPDI files where resource names contain , [ or ] characters. When writing MSPDI files, ensure resource names do not contain these characters.
+* MS Project will reject MSPDI files where calendar names are longer than 51 characters. When writing MSPDI files, truncate calendar names longer than 51 characters.
 
 ## 14.1.0 (2025-06-05)
 * Updated to POI 5.4.1
