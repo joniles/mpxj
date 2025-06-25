@@ -33,6 +33,7 @@ like to be featured in this list.
 * Exicom [www.exicom.se/en](http://www.exicom.se/en)
 * FastTrack Schedule [www.aecsoftware.com](http://www.aecsoftware.com/)
 * forProject [www.forproject.com](http://www.forproject.com)
+* Foresight [www.foresight.works](https://www.foresight.works/)
 * Frontline [www.frontlinec.com](https://www.frontlinec.com/)
 * Gantt Designer [timios.net/Gantt](http://timios.net/Gantt/)
 * Gantter [gantter.com](http://gantter.com)
