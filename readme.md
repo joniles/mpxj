@@ -23,21 +23,22 @@ Work to build and maintain MPXJ is kindly supported by my sponsors:
 <a href="https://www.onepager.com/"><img width="30%" alt="OnePager Logo" src="mkdocs/docs/images/onepager.png"/></a>
 <img width="2%"/>
 <a href="https://www.aphex.co/"><img width="30%"alt="Aphex Logo" src="mkdocs/docs/images/aphex.png"/></a>
+
 </p>
 <p float="left" align="middle" style="margin-block-end: 0em; margin-block-start: 0em;">
 <a href="https://schedulevalidator.com/"><img width="30%" alt="Schedule Validator Logo" src="mkdocs/docs/images/schedule-validator.png"/></a>
 <img width="2%"/>
-<a href="https://www.bryntum.com/"><img width="30%" alt="Bryntum Logo" src="mkdocs/docs/images/bryntum.png"/></a>
+<a href="https://www.kidasa.com/"><img width="30%" alt="Kidasa Logo" src="mkdocs/docs/images/kidasa.png"/></a>
 <img width="2%"/>
-<a href="https://www.turbo-chart.com/"><img width="30%" alt="Turbo Chart Logo" src="mkdocs/docs/images/turbo-chart.png"/></a>
+<a href="https://www.bryntum.com/"><img width="30%" alt="Bryntum Logo" src="mkdocs/docs/images/bryntum.png"/></a>
 </p>
+
 <p float="left" align="middle" style="margin-block-end: 0em; margin-block-start: 0em;">
-<img width="8%"/>
+<a href="https://www.turbo-chart.com/"><img width="30%" alt="Turbo Chart Logo" src="mkdocs/docs/images/turbo-chart.png"/></a>
 <img width="2%"/>
 <a href="https://www.rationalplan.com/"><img width="30%" alt="RationalPlan Logo" src="mkdocs/docs/images/rationalplan.png"/></a>
 <img width="2%"/>
 <a href="https://corasystems.com/"><img width="30%" alt="Cora Systems Logo" src="mkdocs/docs/images/cora.png"/></a>
-<img width="15%"/>
 </p>
 
 Head over to my [sponsors page](https://github.com/sponsors/joniles)
