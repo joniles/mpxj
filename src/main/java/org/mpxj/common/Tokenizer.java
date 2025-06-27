@@ -50,22 +50,21 @@ public abstract class Tokenizer
    public int nextToken() throws IOException
    {
       int c;
-      int nextc = -1;
       boolean quoted = false;
-      int result = m_next;
-      if (m_next != 0)
+      int result = m_nextToken;
+      if (m_nextToken != 0)
       {
-         m_next = 0;
+         m_nextToken = 0;
       }
 
       m_buffer.setLength(0);
 
       while (result == 0)
       {
-         if (nextc != -1)
+         if (m_nextCharacter != -1)
          {
-            c = nextc;
-            nextc = -1;
+            c = m_nextCharacter;
+            m_nextCharacter = -1;
          }
          else
          {
@@ -79,7 +78,7 @@ public abstract class Tokenizer
                if (m_buffer.length() != 0)
                {
                   result = TT_WORD;
-                  m_next = TT_EOF;
+                  m_nextToken = TT_EOF;
                }
                else
                {
@@ -88,16 +87,15 @@ public abstract class Tokenizer
                break;
             }
 
-            case TT_EOL:
+            case '\r':
             {
-               int length = m_buffer.length();
-
-               if (length != 0 && m_buffer.charAt(length - 1) == '\r')
+               m_nextCharacter = read();
+               if (m_nextCharacter == '\n')
                {
-                  --length;
-                  m_buffer.setLength(length);
+                  m_nextCharacter = -1;
                }
 
+               int length = m_buffer.length();
                if (length == 0)
                {
                   result = TT_EOL;
@@ -105,7 +103,23 @@ public abstract class Tokenizer
                else
                {
                   result = TT_WORD;
-                  m_next = TT_EOL;
+                  m_nextToken = TT_EOL;
+               }
+
+               break;
+            }
+
+            case '\n':
+            {
+               int length = m_buffer.length();
+               if (length == 0)
+               {
+                  result = TT_EOL;
+               }
+               else
+               {
+                  result = TT_WORD;
+                  m_nextToken = TT_EOL;
                }
 
                break;
@@ -128,11 +142,11 @@ public abstract class Tokenizer
                      }
                      else
                      {
-                        nextc = read();
-                        if (nextc == quote)
+                        m_nextCharacter = read();
+                        if (m_nextCharacter == quote)
                         {
                            m_buffer.append((char) c);
-                           nextc = -1;
+                           m_nextCharacter = -1;
                         }
                         else
                         {
@@ -158,7 +172,7 @@ public abstract class Tokenizer
 
       m_type = result;
 
-      return (result);
+      return result;
    }
 
    /**
@@ -182,7 +196,7 @@ public abstract class Tokenizer
     */
    public String getToken()
    {
-      return (m_buffer.toString());
+      return m_buffer.toString();
    }
 
    /**
@@ -192,7 +206,7 @@ public abstract class Tokenizer
     */
    public int getType()
    {
-      return (m_type);
+      return m_type;
    }
 
    /**
@@ -211,7 +225,8 @@ public abstract class Tokenizer
    public static final int TT_WORD = -3;
 
    private char m_delimiter = ',';
-   private int m_next;
+   private int m_nextToken;
+   private int m_nextCharacter = -1;
    private int m_type;
    private final StringBuilder m_buffer = new StringBuilder();
 }
