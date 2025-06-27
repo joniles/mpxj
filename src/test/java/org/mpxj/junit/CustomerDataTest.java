@@ -313,6 +313,7 @@ public class CustomerDataTest
       comparator.setUseScheduled(useScheduled);
       comparator.setExcluded(excluded);
       comparator.setNoWbsTest(noWbsTest);
+      comparator.setDebug(false);
 
       assertTrue(comparator.process(new File(m_privateDirectory, "XER"), ".xer"));
    }
