@@ -739,13 +739,27 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          {
             List<Row> result = new ArrayList<>();
             Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+            Map<String, Integer> index = getIndex(meta);
+
             while (rs.next())
             {
-               result.add(new ResultSetRow(rs, meta));
+               result.add(new ResultSetRow(rs, meta, index));
             }
+
             return result;
          }
       }
+   }
+
+   private Map<String, Integer> getIndex(Map<String, Integer> meta)
+   {
+      HashMap<String, Integer> indexMap = new HashMap<>();
+      int index = 0;
+      for (Map.Entry<String, Integer> entry : meta.entrySet())
+      {
+         indexMap.put(entry.getKey().toLowerCase(), Integer.valueOf(index++));
+      }
+      return indexMap;
    }
 
    /**
@@ -772,9 +786,11 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          try (ResultSet rs = ps.executeQuery())
          {
             Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
+            Map<String, Integer> index = getIndex(meta);
+
             while (rs.next())
             {
-               result.add(new ResultSetRow(rs, meta));
+               result.add(new ResultSetRow(rs, meta, index));
             }
          }
       }

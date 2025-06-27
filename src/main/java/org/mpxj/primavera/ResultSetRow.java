@@ -37,7 +37,7 @@ import org.mpxj.common.NumberHelper;
 /**
  * Implementation of the Row interface, wrapping a Map.
  */
-final class ResultSetRow extends MapRow
+final class ResultSetRow extends ArrayRow
 {
    /**
     * Constructor.
@@ -47,10 +47,15 @@ final class ResultSetRow extends MapRow
     * @param meta
     *            result set meta data
     */
-   public ResultSetRow(ResultSet rs, Map<String, Integer> meta)
+   public ResultSetRow(ResultSet rs, Map<String, Integer> meta, Map<String, Integer> index)
       throws SQLException
    {
-      super(new HashMap<>(), false);
+      super(index, populateArray(rs, meta, index), false);
+   }
+
+   private static Object[] populateArray(ResultSet rs, Map<String, Integer> meta, Map<String, Integer> index) throws SQLException
+   {
+      Object[] array = new Object[meta.size()];
 
       for (Entry<String, Integer> entry : meta.entrySet())
       {
@@ -141,8 +146,10 @@ final class ResultSetRow extends MapRow
             value = null;
          }
 
-         m_map.put(name, value);
+         array[index.get(name).intValue()] = value;
       }
+
+      return array;
    }
 
    /**
@@ -153,7 +160,7 @@ final class ResultSetRow extends MapRow
     * @param value string value
     * @return string value with trailing ASCII NUL stripped
     */
-   private String stripTrailingNul(String value)
+   private static String stripTrailingNul(String value)
    {
       String result = value;
       while (result != null && !result.isEmpty() && result.charAt(result.length() - 1) == 0)
