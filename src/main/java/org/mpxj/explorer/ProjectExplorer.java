@@ -277,6 +277,12 @@ public class ProjectExplorer
 
          configureReader(proxy);
          ProjectFile projectFile = proxy.read();
+         if (projectFile == null)
+         {
+            JOptionPane.showMessageDialog(m_frame, "Failed to read file");
+            return;
+         }
+
          expandSubprojects(file, projectFile);
          m_tabbedPane.add(file.getName(), new ProjectFilePanel(file, projectFile, m_writeOptions));
          m_saveMenu.setEnabled(true);
