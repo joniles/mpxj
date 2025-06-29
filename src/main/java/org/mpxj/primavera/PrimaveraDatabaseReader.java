@@ -739,7 +739,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          {
             List<Row> result = new ArrayList<>();
             Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
-            Map<String, Integer> index = getIndex(meta);
+            Map<String, Integer> index = createIndexFromMetadata(meta);
 
             while (rs.next())
             {
@@ -751,7 +751,13 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       }
    }
 
-   private Map<String, Integer> getIndex(Map<String, Integer> meta)
+   /**
+    * Creates a Map to allow a column name to be mapped to an array index.
+    *
+    * @param meta result set metadata
+    * @return index
+    */
+   private Map<String, Integer> createIndexFromMetadata(Map<String, Integer> meta)
    {
       HashMap<String, Integer> indexMap = new HashMap<>();
       int index = 0;
@@ -786,7 +792,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          try (ResultSet rs = ps.executeQuery())
          {
             Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
-            Map<String, Integer> index = getIndex(meta);
+            Map<String, Integer> index = createIndexFromMetadata(meta);
 
             while (rs.next())
             {

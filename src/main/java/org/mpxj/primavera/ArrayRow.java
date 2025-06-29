@@ -1,8 +1,7 @@
 /*
- * file:       MapRow.java
+ * file:       ArrayRow.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2010
- * date:       22/03/2010
+ * date:       2025-06-29
  */
 
 /*
@@ -32,7 +31,7 @@ import org.mpxj.TimeUnit;
 import org.mpxj.common.NumberHelper;
 
 /**
- * Implementation of the Row interface, wrapping a Map.
+ * Implementation of the Row interface, wrapping an array.
  */
 class ArrayRow implements Row
 {
