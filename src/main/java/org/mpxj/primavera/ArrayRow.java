@@ -1,8 +1,7 @@
 /*
- * file:       MapRow.java
+ * file:       ArrayRow.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2010
- * date:       22/03/2010
+ * date:       2025-06-29
  */
 
 /*
@@ -26,20 +25,20 @@ package org.mpxj.primavera;
 import java.util.Map;
 
 /**
- * Implementation of the Row interface, wrapping a Map.
+ * Implementation of the Row interface, wrapping an array.
  */
-class MapRow extends AbstractRow
+class ArrayRow extends AbstractRow
 {
    /**
     * Constructor.
     *
-    * @param map map to be wrapped by this instance
     * @param ignoreErrors true if errors reading values are ignored
     */
-   public MapRow(Map<String, Object> map, boolean ignoreErrors)
+   public ArrayRow(Map<String, Integer> index, Object[] array, boolean ignoreErrors)
    {
       super(ignoreErrors);
-      m_map = map;
+      m_index = index;
+      m_array = array;
    }
 
    /**
@@ -50,8 +49,10 @@ class MapRow extends AbstractRow
     */
    protected Object getObject(String name)
    {
-      return m_map.get(name);
+      Integer index = m_index.get(name);
+      return index == null ? null : m_array[index.intValue()];
    }
 
-   protected final Map<String, Object> m_map;
+   protected final Object[] m_array;
+   private final Map<String, Integer> m_index;
 }

@@ -851,13 +851,16 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
             if (m_skipTable)
             {
                m_currentFieldNames = null;
+               m_currentFieldIndex = null;
             }
             else
             {
                m_currentFieldNames = record.toArray(new String[0]);
+               m_currentFieldIndex = new HashMap<>();
                for (int loop = 0; loop < m_currentFieldNames.length; loop++)
                {
                   m_currentFieldNames[loop] = m_currentFieldNames[loop].toLowerCase();
+                  m_currentFieldIndex.put(m_currentFieldNames[loop], Integer.valueOf(loop));
                }
             }
             break;
@@ -894,7 +897,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
     */
    private void processData(List<String> record)
    {
-      Map<String, Object> map = new HashMap<>();
+      Object[] array = new Object[m_currentFieldIndex.size()];
+
       for (int loop = 1; loop < record.size(); loop++)
       {
          // We have more fields than field names, stop processing
@@ -969,10 +973,10 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
             }
          }
 
-         map.put(fieldName, objectValue);
+         array[loop] = objectValue;
       }
 
-      Row currentRow = new MapRow(map, m_ignoreErrors);
+      Row currentRow = new ArrayRow(m_currentFieldIndex, array, m_ignoreErrors);
       m_currentTable.add(currentRow);
 
       //
@@ -1229,6 +1233,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    private String m_currentTableName;
    private List<Row> m_currentTable;
    private String[] m_currentFieldNames;
+   private Map<String, Integer> m_currentFieldIndex;
    private String m_defaultCurrencyName;
    private DecimalFormat m_numberFormat;
    private Row m_defaultCurrencyData;
