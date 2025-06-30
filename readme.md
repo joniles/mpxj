@@ -41,6 +41,15 @@ Work to build and maintain MPXJ is kindly supported by my sponsors:
 <a href="https://corasystems.com/"><img width="30%" alt="Cora Systems Logo" src="mkdocs/docs/images/cora.png"/></a>
 </p>
 
+<p float="left" align="middle" style="margin-block-end: 0em; margin-block-start: 0em;">
+<img width="30%"/>
+<img width="2%"/>
+<a href="https://www.foresight.works/"><img width="30%" alt="Foresight Logo" src="mkdocs/docs/images/foresight.png"/></a>
+<img width="2%"/>
+<img width="30%"/>
+</p>
+
+
 Head over to my [sponsors page](https://github.com/sponsors/joniles)
 if you'd like to see your name and logo here,
 or if you just want to say thanks you could [buy me a coffee](https://buymeacoffee.com/joniles)!
