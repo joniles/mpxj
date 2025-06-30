@@ -14,6 +14,7 @@
 			<action dev="joniles" type="update">Updated to use sqlite-jdbc 3.50.2.0</action>
 			<action dev="joniles" type="update">Updated to use jsoup 1.21.1</action>
 			<action dev="joniles" type="update">Updated to use jackson-core 2.19.1</action>
+			<action dev="joniles" type="update">Updated to use jackcess 4.0.8</action>
 		</release>
 		<release date="2025-06-05" version="14.1.0">
 			<action dev="joniles" type="update">Updated to POI 5.4.1</action>
