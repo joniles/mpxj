@@ -11,6 +11,7 @@
 			<action dev="joniles" type="update">Improve handling of unusual end-of-line character combinations when reading XER files.</action>
 			<action dev="joniles" type="update">Improve handling of invalid encoded UUID values read from XER files.</action>
 			<action dev="joniles" type="update">Reduce memory used when reading XER files.</action>
+			<action dev="joniles" type="update">Updated to use sqlite-jdbc 3.50.2.0</action>
 		</release>
 		<release date="2025-06-05" version="14.1.0">
 			<action dev="joniles" type="update">Updated to POI 5.4.1</action>
