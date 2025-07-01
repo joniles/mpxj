@@ -259,6 +259,11 @@ class CalendarDirectoryReader extends DirectoryReader
       recurrence.setDayNumber(day);
       recurrence.setMonthNumber(month);
 
+      if (!recurrence.isValid())
+      {
+         return;
+      }
+
       ProjectCalendarException exception = calendar.addCalendarException(recurrence);
 
       // We're done if this is a non-working period

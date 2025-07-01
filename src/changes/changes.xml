@@ -11,6 +11,7 @@
 			<action dev="joniles" type="update">Improve handling of unusual end-of-line character combinations when reading XER files.</action>
 			<action dev="joniles" type="update">Improve handling of invalid encoded UUID values read from XER files.</action>
 			<action dev="joniles" type="update">Reduce memory used when reading XER files.</action>
+			<action dev="joniles" type="update">Ignore invalid recurring exceptions read from BK3 files.</action>
 			<action dev="joniles" type="update">Updated to use sqlite-jdbc 3.50.2.0</action>
 			<action dev="joniles" type="update">Updated to use jsoup 1.21.1</action>
 			<action dev="joniles" type="update">Updated to use jackson-core 2.19.1</action>
