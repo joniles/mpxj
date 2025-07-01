@@ -76,6 +76,7 @@ like to be featured in this list.
 * PROJECT in a box [projectinabox.org.uk](http://projectinabox.org.uk)
 * Project Kit [www.methodpark.de](http://www.methodpark.de)
 * ProjectLibre [www.projectlibre.org](http://www.projectlibre.org/)
+* Projectplan.net [www.getprojectplan.net](https://www.getprojectplan.net/)
 * Projec.to Online Microsoft Project Viewer [www.onlineprojectviewer.com/](http://www.onlineprojectviewer.com)
 * ProjExec [www.triloggroup.com](http://www.triloggroup.com)
 * RationalPlan [www.rationalplan.com](http://www.rationalplan.com)
