@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * This class represents a Calendar Definition record for an MPP Manually Scheduled task.
  */
-public class ManuallyScheduledTaskCalendar extends ProjectCalendar
+class ManuallyScheduledTaskCalendar extends ProjectCalendar
 {
    /**
     * Constructor.
