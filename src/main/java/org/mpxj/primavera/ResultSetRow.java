@@ -28,7 +28,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
