@@ -5,7 +5,9 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="14.2.0">
+		<release date="unreleased" version="14.3.0">
+		</release>
+		<release date="2025-07-03" version="14.2.0">
 			<action dev="joniles" type="update">MS Project will reject MSPDI files where resource names contain , [ or ] characters. When writing MSPDI files, ensure resource names do not contain these characters.</action>
 			<action dev="joniles" type="update">MS Project will reject MSPDI files where calendar names are longer than 51 characters. When writing MSPDI files, truncate calendar names longer than 51 characters.</action>
 			<action dev="joniles" type="update">Improve handling of unusual end-of-line character combinations when reading XER files.</action>

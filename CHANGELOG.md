@@ -5,14 +5,19 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 14.2.0 (unreleased)
+## 14.3.0 (unreleased)
+
+## 14.2.0 (2025-07-03)
 * MS Project will reject MSPDI files where resource names contain , [ or ] characters. When writing MSPDI files, ensure resource names do not contain these characters.
 * MS Project will reject MSPDI files where calendar names are longer than 51 characters. When writing MSPDI files, truncate calendar names longer than 51 characters.
 * Improve handling of unusual end-of-line character combinations when reading XER files.
 * Improve handling of invalid encoded UUID values read from XER files.
 * Reduce memory used when reading XER files.
+* Ignore invalid recurring exceptions read from BK3 files.
 * Updated to use sqlite-jdbc 3.50.2.0
 * Updated to use jsoup 1.21.1
+* Updated to use jackson-core 2.19.1
+* Updated to use jackcess 4.0.8
 
 ## 14.1.0 (2025-06-05)
 * Updated to POI 5.4.1
