@@ -1,5 +1,5 @@
 package org.mpxj.opc;
 
-public class OpcExportJobTimeoutException extends RuntimeException
+public class OpcExportJobTimeoutException extends OpcException
 {
 }

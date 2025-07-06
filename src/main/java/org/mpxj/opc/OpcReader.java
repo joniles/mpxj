@@ -2,6 +2,7 @@ package org.mpxj.opc;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -23,10 +24,12 @@ import jakarta.ws.rs.client.Invocation;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.glassfish.jersey.client.filter.EncodingFilter;
 import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.message.GZipEncoder;
+import org.mpxj.common.InputStreamHelper;
 
 public class OpcReader
 {
@@ -42,14 +45,14 @@ public class OpcReader
       reader.setLogger(log, Level.INFO);
 
 
-      List<OpcProject> projects = reader.getProjects();
-      projects.forEach(System.out::println);
+//      List<OpcProject> projects = reader.getProjects();
+//      projects.forEach(System.out::println);
 
-//      OpcProject project = new OpcProject();
-//      project.setProjectId(14501);
-//      project.setWorkspaceId(6003);
-//
-//      reader.exportProject(project, "/Users/joniles/Downloads/export.xml");
+      OpcProject project = new OpcProject();
+      project.setProjectId(14501);
+      project.setWorkspaceId(6003);
+
+      reader.exportProject(project, "/Users/joniles/Downloads/export.xml");
 
       System.out.println("done");
    }
@@ -89,46 +92,17 @@ public class OpcReader
       }
    }
 
-   public void exportProject(OpcProject project, OutputStream stream)
+   public void exportProject(OpcProject project, OutputStream stream) throws IOException
    {
       createClient();
       authenticate();
 
       ExportRequest exportRequest = new ExportRequest(project);
       long jobId = getExportJobId(project);
-
-
-      Invocation.Builder builder = getInvocationBuilder("action/jobStatus/"+ jobId);
-
-      int retryCount = 1;
-      JobStatus jobStatus = null;
-
-        while (retryCount < 15)
-        {
-           try
-           {
-              Thread.sleep(retryCount * 1000);
-           }
-
-           catch (InterruptedException ex)
-           {
-              // ignore
-           }
-
-            jobStatus = builder.get().readEntity(JobStatus.class);
-            if (jobIsComplete(jobStatus))
-            {
-               break;
-            }
-
-            ++retryCount;
-        }
-
-        if (!jobIsComplete(jobStatus))
-        {
-           throw new OpcExportJobTimeoutException();
-        }
+      waitForExportJob(jobId);
+      downloadFile(jobId, stream);
    }
+
 
    private boolean jobIsComplete(JobStatus status)
    {
@@ -143,10 +117,59 @@ public class OpcReader
       return builder.post(Entity.entity(exportRequest, MediaType.APPLICATION_JSON)).readEntity(JobStatus.class).getJobId();
    }
 
+   private void waitForExportJob(long jobId)
+   {
+      Invocation.Builder builder = getInvocationBuilder("action/jobStatus/"+ jobId);
+
+      int retryCount = 1;
+      JobStatus jobStatus = null;
+
+      while (retryCount < 15)
+      {
+         try
+         {
+            Thread.sleep(retryCount * 1000);
+         }
+
+         catch (InterruptedException ex)
+         {
+            // ignore
+         }
+
+         jobStatus = builder.get().readEntity(JobStatus.class);
+         if (jobIsComplete(jobStatus))
+         {
+            break;
+         }
+
+         ++retryCount;
+      }
+
+      if (!jobIsComplete(jobStatus))
+      {
+         throw new OpcExportJobTimeoutException();
+      }
+   }
+
+   private void downloadFile(long jobId, OutputStream stream) throws IOException
+   {
+      Invocation.Builder builder = getInvocationBuilder("action/download/job/" + jobId);
+
+      Response response = builder.get();
+      if(response.getStatus() != Response.Status.OK.getStatusCode())
+      {
+         throw new OpcDownloadException("Download failed with status " + response.getStatus());
+      }
+
+      //response.readEntity(InputStream.class);
+      InputStreamHelper.writeInputStreamToOutputStream(response.readEntity(InputStream.class), stream);
+   }
+
    private List<OpcWorkspace> getWorkspaces()
    {
       Invocation.Builder builder = getInvocationBuilder("workspace");
-      return builder.get().readEntity(new GenericType<List<OpcWorkspace>>() {});
+      List<OpcWorkspace> result = builder.get().readEntity(new GenericType<List<OpcWorkspace>>() {});
+      return result == null ? Collections.emptyList() : result;
    }
 
    private List<OpcProject> getProjectsInWorkspace(OpcWorkspace workspace)
@@ -192,8 +215,10 @@ public class OpcReader
       ObjectMapper mapper = new ObjectMapper();
       mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
       m_client = ClientBuilder.newClient().register(new JacksonJsonProvider(mapper));
-      m_client.register(GZipEncoder.class);
-      m_client.register(EncodingFilter.class);
+
+      // TODO - make switchable to we allow "raw" download of resulting file
+//      m_client.register(GZipEncoder.class);
+      //m_client.register(EncodingFilter.class);
       if (m_logger != null)
       {
          m_client.register(m_logger);

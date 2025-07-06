@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
@@ -46,12 +47,15 @@ public class InputStreamHelper
     */
    public static File writeStreamToTempFile(InputStream inputStream, String tempFileSuffix) throws IOException
    {
-      FileOutputStream outputStream = null;
+      File file = Files.createTempFile("mpxj", tempFileSuffix).toFile();
+      writeInputStreamToOutputStream(inputStream, new FileOutputStream(file));
+      return file;
+   }
 
+   public static void writeInputStreamToOutputStream(InputStream inputStream, OutputStream outputStream) throws IOException
+   {
       try
       {
-         File file = Files.createTempFile("mpxj", tempFileSuffix).toFile();
-         outputStream = new FileOutputStream(file);
          byte[] buffer = new byte[1024];
          while (true)
          {
@@ -62,15 +66,11 @@ public class InputStreamHelper
             }
             outputStream.write(buffer, 0, bytesRead);
          }
-         return file;
       }
 
       finally
       {
-         if (outputStream != null)
-         {
-            outputStream.close();
-         }
+         outputStream.close();
       }
    }
 
