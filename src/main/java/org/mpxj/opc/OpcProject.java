@@ -32,6 +32,11 @@ public class OpcProject
       this.projectName = projectName;
    }
 
+   @Override public String toString()
+   {
+      return "[OpcProject projectId=" + m_projectId + ", workspaceId=" + m_workspaceId + ", projectName=" + projectName + "]";
+   }
+
    private long m_projectId;
    private long m_workspaceId;
    private String projectName;
