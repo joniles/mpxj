@@ -29,11 +29,14 @@ import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.glassfish.jersey.client.filter.EncodingFilter;
 import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.message.GZipEncoder;
+import org.mpxj.MPXJException;
+import org.mpxj.ProjectFile;
 import org.mpxj.common.InputStreamHelper;
+import org.mpxj.reader.UniversalProjectReader;
 
 public class OpcReader
 {
-   public static void main(String[] argv) throws IOException
+   public static void main(String[] argv) throws Exception
    {
       Logger log = Logger.getLogger("OPCReader");
       log.setLevel(Level.INFO);
@@ -52,8 +55,9 @@ public class OpcReader
       project.setProjectId(14501);
       project.setWorkspaceId(6003);
 
-      reader.exportProject(project, "/Users/joniles/Downloads/export.xml");
+      //reader.exportProject(project, "/Users/joniles/Downloads/export.xml");
 
+      ProjectFile mpxj = reader.readProject(project);
       System.out.println("done");
    }
 
@@ -71,7 +75,7 @@ public class OpcReader
 
    public List<OpcProject> getProjects()
    {
-      createClient();
+      createDefaultClient();
       authenticate();
       return getWorkspaces().stream().flatMap(w -> getProjectsInWorkspace(w).stream()).collect(Collectors.toList());
    }
@@ -94,15 +98,24 @@ public class OpcReader
 
    public void exportProject(OpcProject project, OutputStream stream) throws IOException
    {
-      createClient();
+      InputStreamHelper.writeInputStreamToOutputStream(getInputStreamForProject(project), stream);
+   }
+
+   public ProjectFile readProject(OpcProject project) throws IOException, MPXJException
+   {
+      return new UniversalProjectReader().read(getInputStreamForProject(project));
+   }
+
+   private InputStream getInputStreamForProject(OpcProject project) throws IOException
+   {
+      createDefaultClient();
       authenticate();
 
       ExportRequest exportRequest = new ExportRequest(project);
       long jobId = getExportJobId(project);
       waitForExportJob(jobId);
-      downloadFile(jobId, stream);
+      return downloadProject(jobId);
    }
-
 
    private boolean jobIsComplete(JobStatus status)
    {
@@ -151,9 +164,9 @@ public class OpcReader
       }
    }
 
-   private void downloadFile(long jobId, OutputStream stream) throws IOException
+   private InputStream downloadProject(long jobId) throws IOException
    {
-      Invocation.Builder builder = getInvocationBuilder("action/download/job/" + jobId);
+      Invocation.Builder builder = getInvocationBuilder(createNewClient(), "action/download/job/" + jobId);
 
       Response response = builder.get();
       if(response.getStatus() != Response.Status.OK.getStatusCode())
@@ -161,8 +174,7 @@ public class OpcReader
          throw new OpcDownloadException("Download failed with status " + response.getStatus());
       }
 
-      //response.readEntity(InputStream.class);
-      InputStreamHelper.writeInputStreamToOutputStream(response.readEntity(InputStream.class), stream);
+      return response.readEntity(InputStream.class);
    }
 
    private List<OpcWorkspace> getWorkspaces()
@@ -205,29 +217,38 @@ public class OpcReader
       }
    }
 
-   private void createClient()
+   private void createDefaultClient()
    {
       if (m_client != null)
       {
          return;
       }
 
+      m_client = createNewClient();
+      m_client.register(GZipEncoder.class);
+      m_client.register(EncodingFilter.class);
+   }
+
+   private Client createNewClient()
+   {
       ObjectMapper mapper = new ObjectMapper();
       mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-      m_client = ClientBuilder.newClient().register(new JacksonJsonProvider(mapper));
-
-      // TODO - make switchable to we allow "raw" download of resulting file
-//      m_client.register(GZipEncoder.class);
-      //m_client.register(EncodingFilter.class);
+      Client client = ClientBuilder.newClient().register(new JacksonJsonProvider(mapper));
       if (m_logger != null)
       {
-         m_client.register(m_logger);
+         client.register(m_logger);
       }
+      return client;
    }
 
    private Invocation.Builder getInvocationBuilder(String path)
    {
-      WebTarget target = m_client.target("https://" + m_host).path("api/restapi").path(path);
+      return getInvocationBuilder(m_client, path);
+   }
+
+   private Invocation.Builder getInvocationBuilder(Client client, String path)
+   {
+      WebTarget target = client.target("https://" + m_host).path("api/restapi").path(path);
       Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON);
       builder.accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML);
       builder.header("Version", "3");
