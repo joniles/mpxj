@@ -57,10 +57,10 @@ public class OpcReader
 
 //      reader.exportProject(project, "/Users/joniles/Downloads/export.xml", ExportType.XML, false);
 //      reader.exportProject(project, "/Users/joniles/Downloads/export.xml.zip", ExportType.XML, true);
-      reader.exportProject(project, "/Users/joniles/Downloads/export.xer", ExportType.XER, false);
-//      reader.exportProject(project, "/Users/joniles/Downloads/export.xer.zip", ExportType.XER, false);
+//      reader.exportProject(project, "/Users/joniles/Downloads/export.xer", ExportType.XER, false);
+//      reader.exportProject(project, "/Users/joniles/Downloads/export.xer.zip", ExportType.XER, true);
 
-      //ProjectFile mpxj = reader.readProject(project);
+      ProjectFile mpxj = reader.readProject(project);
 
       System.out.println("done");
    }
