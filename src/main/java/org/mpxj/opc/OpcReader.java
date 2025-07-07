@@ -55,12 +55,16 @@ public class OpcReader
       project.setProjectId(14501);
       project.setWorkspaceId(6003);
 
+      List<OpcProjectBaseline> baselines = reader.getProjectBaselines(project);
+
+      //      28101
+      //      34101
+
 //      reader.exportProject(project, "/Users/joniles/Downloads/export.xml", ExportType.XML, false);
 //      reader.exportProject(project, "/Users/joniles/Downloads/export.xml.zip", ExportType.XML, true);
 //      reader.exportProject(project, "/Users/joniles/Downloads/export.xer", ExportType.XER, false);
 //      reader.exportProject(project, "/Users/joniles/Downloads/export.xer.zip", ExportType.XER, true);
 
-      List<OpcProjectBaseline> baselines = reader.getProjectBaselines(project);
 
       //ProjectFile mpxj = reader.readProject(project);
 
@@ -186,14 +190,8 @@ public class OpcReader
       }
       client.register(GZipEncoder.class);
       client.register(EncodingFilter.class);
-
-      WebTarget target = client.target("https://" + m_host).path("api/restapi").path("action/download/job/" + jobId);
-      Invocation.Builder builder = target.request(MediaType.WILDCARD);
-      builder.header("Version", "3");
-      builder.header("Authorization", "Bearer " + m_tokenResponse.getAccessToken());
-      m_tokenResponse.getRequestHeaders().forEach(builder::header);
-
-      Response response = builder.get();
+      
+      Response response = getInvocationBuilder("action/download/job/" + jobId, MediaType.WILDCARD_TYPE).get();
       if(response.getStatus() != Response.Status.OK.getStatusCode())
       {
          throw new OpcDownloadException("Download failed with status " + response.getStatus());

@@ -22,6 +22,11 @@ public class OpcProjectBaseline
       m_name = name;
    }
 
+   @Override public String toString()
+   {
+      return "[OpcProjectBaseline project BaselineId=" + m_projectBaselineId + ", name=" + m_name + "]";
+   }
+
    private long m_projectBaselineId;
    private String m_name;
 }
