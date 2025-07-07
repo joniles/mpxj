@@ -1,6 +1,6 @@
 package org.mpxj.opc;
 
-public enum ExportType
+public enum OpcExportType
 {
    XML,
    XER;

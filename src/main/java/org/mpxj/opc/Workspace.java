@@ -1,6 +1,6 @@
 package org.mpxj.opc;
 
-class OpcWorkspace
+class Workspace
 {
    public long getWorkspaceId()
    {

@@ -34,6 +34,8 @@ import org.mpxj.ProjectFile;
 import org.mpxj.common.InputStreamHelper;
 import org.mpxj.reader.UniversalProjectReader;
 
+// TODO - pagination
+
 public class OpcReader
 {
    public static void main(String[] argv) throws Exception
@@ -55,14 +57,14 @@ public class OpcReader
       project.setProjectId(14501);
       project.setWorkspaceId(6003);
 
-      List<OpcProjectBaseline> baselines = reader.getProjectBaselines(project);
+        //List<OpcProjectBaseline> baselines = reader.getProjectBaselines(project);
 
       //      28101
       //      34101
 
-//      reader.exportProject(project, "/Users/joniles/Downloads/export.xml", ExportType.XML, false);
+      //reader.exportProject(project, baselines, "/Users/joniles/Downloads/export.xml", ExportType.XML, false);
 //      reader.exportProject(project, "/Users/joniles/Downloads/export.xml.zip", ExportType.XML, true);
-//      reader.exportProject(project, "/Users/joniles/Downloads/export.xer", ExportType.XER, false);
+      //reader.exportProject(project, "/Users/joniles/Downloads/export.xer", ExportType.XER, false);
 //      reader.exportProject(project, "/Users/joniles/Downloads/export.xer.zip", ExportType.XER, true);
 
 
@@ -99,37 +101,57 @@ public class OpcReader
       return result == null ? Collections.emptyList() : result;
    }
 
-   public void exportProject(OpcProject project, String filename, ExportType type, boolean compressed) throws IOException
+   public void exportProject(OpcProject project, String filename, OpcExportType type, boolean compressed) throws IOException
+   {
+      exportProject(project, Collections.emptyList(), filename, type, compressed);
+   }
+
+   public void exportProject(OpcProject project, List<OpcProjectBaseline> baselines, String filename, OpcExportType type, boolean compressed) throws IOException
    {
       try(OutputStream os = Files.newOutputStream(Paths.get(filename)))
       {
-         exportProject(project, os, type, compressed);
+         exportProject(project, baselines, os, type, compressed);
       }
    }
 
-   public void exportProject(OpcProject project, File file, ExportType type, boolean compressed) throws IOException
+   public void exportProject(OpcProject project, File file, OpcExportType type, boolean compressed) throws IOException
+   {
+      exportProject(project, Collections.emptyList(), file, type, compressed);
+   }
+
+   public void exportProject(OpcProject project, List<OpcProjectBaseline> baselines, File file, OpcExportType type, boolean compressed) throws IOException
    {
       try(OutputStream os = Files.newOutputStream(file.toPath()))
       {
-         exportProject(project, os, type, compressed);
+         exportProject(project, baselines, os, type, compressed);
       }
    }
 
-   public void exportProject(OpcProject project, OutputStream stream, ExportType type, boolean compressed) throws IOException
+   public void exportProject(OpcProject project, OutputStream stream, OpcExportType type, boolean compressed) throws IOException
    {
-      InputStreamHelper.writeInputStreamToOutputStream(getInputStreamForProject(project, type, compressed), stream);
+      exportProject(project, Collections.emptyList(), stream, type, compressed);
+   }
+
+   public void exportProject(OpcProject project, List<OpcProjectBaseline> baselines, OutputStream stream, OpcExportType type, boolean compressed) throws IOException
+   {
+      InputStreamHelper.writeInputStreamToOutputStream(getInputStreamForProject(project, baselines, type, compressed), stream);
    }
 
    public ProjectFile readProject(OpcProject project) throws MPXJException
    {
-      return new UniversalProjectReader().read(getInputStreamForProject(project, ExportType.XML, true));
+      return readProject(project, Collections.emptyList());
    }
 
-   private InputStream getInputStreamForProject(OpcProject project, ExportType type, boolean compressed)
+   public ProjectFile readProject(OpcProject project, List<OpcProjectBaseline> baselines) throws MPXJException
+   {
+      return new UniversalProjectReader().read(getInputStreamForProject(project, baselines, OpcExportType.XML, true));
+   }
+
+   private InputStream getInputStreamForProject(OpcProject project, List<OpcProjectBaseline> baselines, OpcExportType type, boolean compressed)
    {
       createDefaultClient();
       authenticate();
-      long jobId = startExportJob(project, type, compressed);
+      long jobId = startExportJob(project, baselines, type, compressed);
       waitForExportJob(jobId);
       return downloadProject(jobId);
    }
@@ -139,10 +161,10 @@ public class OpcReader
       return status != null && "COMPLETED".equals(status.getJobStatus());
    }
 
-   private long startExportJob(OpcProject project, ExportType type, boolean compressed)
+   private long startExportJob(OpcProject project, List<OpcProjectBaseline> baselines, OpcExportType type, boolean compressed)
    {
-      ExportRequest exportRequest = new ExportRequest(project, compressed);
-      String path = type == ExportType.XML ? "action/exportP6xml" : "action/exportP6xer";
+      ExportRequest exportRequest = new ExportRequest(project, baselines, compressed);
+      String path = type == OpcExportType.XML ? "action/exportP6xml" : "action/exportP6xer";
       Invocation.Builder builder = getInvocationBuilder(path);
       return builder.post(Entity.entity(exportRequest, MediaType.APPLICATION_JSON)).readEntity(JobStatus.class).getJobId();
    }
@@ -190,7 +212,7 @@ public class OpcReader
       }
       client.register(GZipEncoder.class);
       client.register(EncodingFilter.class);
-      
+
       Response response = getInvocationBuilder("action/download/job/" + jobId, MediaType.WILDCARD_TYPE).get();
       if(response.getStatus() != Response.Status.OK.getStatusCode())
       {
@@ -200,20 +222,19 @@ public class OpcReader
       return response.readEntity(InputStream.class);
    }
 
-   private List<OpcWorkspace> getWorkspaces()
+   private List<Workspace> getWorkspaces()
    {
       Invocation.Builder builder = getInvocationBuilder("workspace");
-      List<OpcWorkspace> result = builder.get().readEntity(new GenericType<List<OpcWorkspace>>() {});
+      List<Workspace> result = builder.get().readEntity(new GenericType<List<Workspace>>() {});
       return result == null ? Collections.emptyList() : result;
    }
 
-   private List<OpcProject> getProjectsInWorkspace(OpcWorkspace workspace)
+   private List<OpcProject> getProjectsInWorkspace(Workspace workspace)
    {
       Invocation.Builder builder = getInvocationBuilder("project/workspace/" + workspace.getWorkspaceId());
       List<OpcProject> result = builder.get().readEntity(new GenericType<List<OpcProject>>() {});
       return result == null ? Collections.emptyList() : result;
    }
-
 
    private void authenticate()
    {
@@ -254,6 +275,7 @@ public class OpcReader
       {
          m_client.register(m_logger);
       }
+
       m_client.register(GZipEncoder.class);
       m_client.register(EncodingFilter.class);
    }
