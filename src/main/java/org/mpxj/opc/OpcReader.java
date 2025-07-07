@@ -60,7 +60,9 @@ public class OpcReader
 //      reader.exportProject(project, "/Users/joniles/Downloads/export.xer", ExportType.XER, false);
 //      reader.exportProject(project, "/Users/joniles/Downloads/export.xer.zip", ExportType.XER, true);
 
-      ProjectFile mpxj = reader.readProject(project);
+      List<OpcProjectBaseline> baselines = reader.getProjectBaselines(project);
+
+      //ProjectFile mpxj = reader.readProject(project);
 
       System.out.println("done");
    }
@@ -82,6 +84,15 @@ public class OpcReader
       createDefaultClient();
       authenticate();
       return getWorkspaces().stream().flatMap(w -> getProjectsInWorkspace(w).stream()).collect(Collectors.toList());
+   }
+
+   public List<OpcProjectBaseline> getProjectBaselines(OpcProject project)
+   {
+      createDefaultClient();
+      authenticate();
+      Invocation.Builder builder = getInvocationBuilder("action/baseline/project/" + project.getProjectId());
+      List<OpcProjectBaseline> result = builder.get().readEntity(new GenericType<List<OpcProjectBaseline>>() {});
+      return result == null ? Collections.emptyList() : result;
    }
 
    public void exportProject(OpcProject project, String filename, ExportType type, boolean compressed) throws IOException
@@ -251,8 +262,13 @@ public class OpcReader
 
    private Invocation.Builder getInvocationBuilder(String path)
    {
+      return getInvocationBuilder(path, MediaType.APPLICATION_JSON_TYPE);
+   }
+
+   private Invocation.Builder getInvocationBuilder(String path, MediaType mediaType)
+   {
       WebTarget target = m_client.target("https://" + m_host).path("api/restapi").path(path);
-      Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON);
+      Invocation.Builder builder = target.request(mediaType);
       builder.header("Version", "3");
       builder.header("Authorization", "Bearer " + m_tokenResponse.getAccessToken());
       m_tokenResponse.getRequestHeaders().forEach(builder::header);
