@@ -105,12 +105,12 @@ public class OpcReader
       InputStreamHelper.writeInputStreamToOutputStream(getInputStreamForProject(project, type, compressed), stream);
    }
 
-   public ProjectFile readProject(OpcProject project) throws IOException, MPXJException
+   public ProjectFile readProject(OpcProject project) throws MPXJException
    {
       return new UniversalProjectReader().read(getInputStreamForProject(project, ExportType.XML, true));
    }
 
-   private InputStream getInputStreamForProject(OpcProject project, ExportType type, boolean compressed) throws IOException
+   private InputStream getInputStreamForProject(OpcProject project, ExportType type, boolean compressed)
    {
       createDefaultClient();
       authenticate();
@@ -136,7 +136,7 @@ public class OpcReader
    {
       Invocation.Builder builder = getInvocationBuilder("action/jobStatus/"+ jobId);
 
-      int retryCount = 1;
+      long retryCount = 1;
       JobStatus jobStatus = null;
 
       while (retryCount < 15)
@@ -166,9 +166,21 @@ public class OpcReader
       }
    }
 
-   private InputStream downloadProject(long jobId) throws IOException
+   private InputStream downloadProject(long jobId)
    {
-      Invocation.Builder builder = getInvocationBuilder(createNewClient(), "action/download/job/" + jobId);
+      Client client = ClientBuilder.newClient();
+      if (m_logger != null)
+      {
+         client.register(m_logger);
+      }
+      client.register(GZipEncoder.class);
+      client.register(EncodingFilter.class);
+
+      WebTarget target = client.target("https://" + m_host).path("api/restapi").path("action/download/job/" + jobId);
+      Invocation.Builder builder = target.request(MediaType.WILDCARD);
+      builder.header("Version", "3");
+      builder.header("Authorization", "Bearer " + m_tokenResponse.getAccessToken());
+      m_tokenResponse.getRequestHeaders().forEach(builder::header);
 
       Response response = builder.get();
       if(response.getStatus() != Response.Status.OK.getStatusCode())
@@ -226,33 +238,21 @@ public class OpcReader
          return;
       }
 
-      m_client = createNewClient();
+      ObjectMapper mapper = new ObjectMapper();
+      mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+      m_client = ClientBuilder.newClient().register(new JacksonJsonProvider(mapper));
+      if (m_logger != null)
+      {
+         m_client.register(m_logger);
+      }
       m_client.register(GZipEncoder.class);
       m_client.register(EncodingFilter.class);
    }
 
-   private Client createNewClient()
-   {
-      ObjectMapper mapper = new ObjectMapper();
-      mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-      Client client = ClientBuilder.newClient().register(new JacksonJsonProvider(mapper));
-      if (m_logger != null)
-      {
-         client.register(m_logger);
-      }
-      return client;
-   }
-
    private Invocation.Builder getInvocationBuilder(String path)
    {
-      return getInvocationBuilder(m_client, path);
-   }
-
-   private Invocation.Builder getInvocationBuilder(Client client, String path)
-   {
-      WebTarget target = client.target("https://" + m_host).path("api/restapi").path(path);
+      WebTarget target = m_client.target("https://" + m_host).path("api/restapi").path(path);
       Invocation.Builder builder = target.request(MediaType.APPLICATION_JSON);
-      builder.accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML);
       builder.header("Version", "3");
       builder.header("Authorization", "Bearer " + m_tokenResponse.getAccessToken());
       m_tokenResponse.getRequestHeaders().forEach(builder::header);
