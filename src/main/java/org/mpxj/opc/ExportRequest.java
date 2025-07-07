@@ -2,10 +2,11 @@ package org.mpxj.opc;
 
 class ExportRequest
 {
-   public ExportRequest(OpcProject project)
+   public ExportRequest(OpcProject project, boolean compressed)
    {
       m_project = project;
       m_projectInfo.setProjectId(project.getProjectId());
+      m_exportCompressedFile = compressed;
    }
 
    public boolean getExportCompressedFile()

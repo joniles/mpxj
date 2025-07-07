@@ -55,9 +55,13 @@ public class OpcReader
       project.setProjectId(14501);
       project.setWorkspaceId(6003);
 
-      //reader.exportProject(project, "/Users/joniles/Downloads/export.xml");
+//      reader.exportProject(project, "/Users/joniles/Downloads/export.xml", ExportType.XML, false);
+//      reader.exportProject(project, "/Users/joniles/Downloads/export.xml.zip", ExportType.XML, true);
+      reader.exportProject(project, "/Users/joniles/Downloads/export.xer", ExportType.XER, false);
+//      reader.exportProject(project, "/Users/joniles/Downloads/export.xer.zip", ExportType.XER, false);
 
-      ProjectFile mpxj = reader.readProject(project);
+      //ProjectFile mpxj = reader.readProject(project);
+
       System.out.println("done");
    }
 
@@ -80,39 +84,37 @@ public class OpcReader
       return getWorkspaces().stream().flatMap(w -> getProjectsInWorkspace(w).stream()).collect(Collectors.toList());
    }
 
-   public void exportProject(OpcProject project, String filename) throws IOException
+   public void exportProject(OpcProject project, String filename, ExportType type, boolean compressed) throws IOException
    {
       try(OutputStream os = Files.newOutputStream(Paths.get(filename)))
       {
-         exportProject(project, os);
+         exportProject(project, os, type, compressed);
       }
    }
 
-   public void exportProject(OpcProject project, File file) throws IOException
+   public void exportProject(OpcProject project, File file, ExportType type, boolean compressed) throws IOException
    {
       try(OutputStream os = Files.newOutputStream(file.toPath()))
       {
-         exportProject(project, os);
+         exportProject(project, os, type, compressed);
       }
    }
 
-   public void exportProject(OpcProject project, OutputStream stream) throws IOException
+   public void exportProject(OpcProject project, OutputStream stream, ExportType type, boolean compressed) throws IOException
    {
-      InputStreamHelper.writeInputStreamToOutputStream(getInputStreamForProject(project), stream);
+      InputStreamHelper.writeInputStreamToOutputStream(getInputStreamForProject(project, type, compressed), stream);
    }
 
    public ProjectFile readProject(OpcProject project) throws IOException, MPXJException
    {
-      return new UniversalProjectReader().read(getInputStreamForProject(project));
+      return new UniversalProjectReader().read(getInputStreamForProject(project, ExportType.XML, true));
    }
 
-   private InputStream getInputStreamForProject(OpcProject project) throws IOException
+   private InputStream getInputStreamForProject(OpcProject project, ExportType type, boolean compressed) throws IOException
    {
       createDefaultClient();
       authenticate();
-
-      ExportRequest exportRequest = new ExportRequest(project);
-      long jobId = getExportJobId(project);
+      long jobId = startExportJob(project, type, compressed);
       waitForExportJob(jobId);
       return downloadProject(jobId);
    }
@@ -122,11 +124,11 @@ public class OpcReader
       return status != null && "COMPLETED".equals(status.getJobStatus());
    }
 
-   private long getExportJobId(OpcProject project)
+   private long startExportJob(OpcProject project, ExportType type, boolean compressed)
    {
-      ExportRequest exportRequest = new ExportRequest(project);
-
-      Invocation.Builder builder = getInvocationBuilder("action/exportP6xml");
+      ExportRequest exportRequest = new ExportRequest(project, compressed);
+      String path = type == ExportType.XML ? "action/exportP6xml" : "action/exportP6xer";
+      Invocation.Builder builder = getInvocationBuilder(path);
       return builder.post(Entity.entity(exportRequest, MediaType.APPLICATION_JSON)).readEntity(JobStatus.class).getJobId();
    }
 
