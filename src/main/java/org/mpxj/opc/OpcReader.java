@@ -25,6 +25,7 @@ import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.glassfish.jersey.client.filter.EncodingFilter;
 import org.glassfish.jersey.logging.LoggingFeature;
@@ -205,7 +206,7 @@ public class OpcReader
 
    private InputStream downloadProject(long jobId)
    {
-      Client client = ClientBuilder.newClient();
+      Client client = JerseyClientBuilder.newClient();
       if (m_logger != null)
       {
          client.register(m_logger);
