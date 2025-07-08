@@ -75,6 +75,8 @@ public class OpcReader
 
    public OpcReader(String host, String user, String password)
    {
+      System.setProperty("jakarta.ws.rs.client.ClientBuilder", "org.glassfish.jersey.client.JerseyClientBuilder");
+      
       m_host = host;
       m_user = user;
       m_password = password;
