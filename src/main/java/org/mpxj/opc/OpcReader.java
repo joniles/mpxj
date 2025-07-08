@@ -87,14 +87,14 @@ public class OpcReader
 
    public List<OpcProject> getProjects()
    {
-      createDefaultClient();
+      createDefaultClientNew();
       authenticate();
       return getWorkspaces().stream().flatMap(w -> getProjectsInWorkspace(w).stream()).collect(Collectors.toList());
    }
 
    public List<OpcProjectBaseline> getProjectBaselines(OpcProject project)
    {
-      createDefaultClient();
+      createDefaultClientNew();
       authenticate();
       Invocation.Builder builder = getInvocationBuilder("action/baseline/project/" + project.getProjectId());
       List<OpcProjectBaseline> result = builder.get().readEntity(new GenericType<List<OpcProjectBaseline>>() {});
@@ -149,7 +149,7 @@ public class OpcReader
 
    private InputStream getInputStreamForProject(OpcProject project, List<OpcProjectBaseline> baselines, OpcExportType type, boolean compressed)
    {
-      createDefaultClient();
+      createDefaultClientNew();
       authenticate();
       long jobId = startExportJob(project, baselines, type, compressed);
       waitForExportJob(jobId);
@@ -261,7 +261,7 @@ public class OpcReader
       }
    }
 
-   private void createDefaultClient()
+   private void createDefaultClientNew()
    {
       if (m_client != null)
       {
