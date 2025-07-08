@@ -18,7 +18,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
 import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.Invocation;
 import jakarta.ws.rs.client.WebTarget;
@@ -271,7 +270,7 @@ public class OpcReader
 
       ObjectMapper mapper = new ObjectMapper();
       mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-      m_client = ClientBuilder.newClient().register(new JacksonJsonProvider(mapper));
+      m_client = JerseyClientBuilder.newClient().register(new JacksonJsonProvider(mapper));
       if (m_logger != null)
       {
          m_client.register(m_logger);
