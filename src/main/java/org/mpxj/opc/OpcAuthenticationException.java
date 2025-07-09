@@ -6,4 +6,9 @@ public class OpcAuthenticationException extends OpcException
    {
       super(ex);
    }
+
+   public OpcAuthenticationException(String message)
+   {
+      super(message);
+   }
 }

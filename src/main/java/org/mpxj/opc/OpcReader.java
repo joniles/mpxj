@@ -4,31 +4,21 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
+import java.util.zip.GZIPInputStream;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.client.Invocation;
-import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.GenericType;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
-import org.glassfish.jersey.client.filter.EncodingFilter;
-import org.glassfish.jersey.logging.LoggingFeature;
-import org.glassfish.jersey.message.GZipEncoder;
+
+import org.apache.commons.codec.binary.Base64;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.common.InputStreamHelper;
@@ -40,32 +30,24 @@ public class OpcReader
 {
    public static void main(String[] argv) throws Exception
    {
-      Logger log = Logger.getLogger("OPCReader");
-      log.setLevel(Level.INFO);
-      ConsoleHandler handler = new ConsoleHandler();
-      handler.setFormatter(new SimpleFormatter());
-      log.addHandler(handler);
-
       OpcReader reader = new OpcReader(argv[0], argv[1], argv[2]);
-      reader.setLogger(log, Level.INFO);
 
+//      List<OpcProject> projects = reader.getProjects();
+//      projects.forEach(System.out::println);
 
-      List<OpcProject> projects = reader.getProjects();
-      projects.forEach(System.out::println);
+      OpcProject project = new OpcProject();
+      project.setProjectId(14501);
+      project.setWorkspaceId(6003);
 
-//      OpcProject project = new OpcProject();
-//      project.setProjectId(14501);
-//      project.setWorkspaceId(6003);
-
-        //List<OpcProjectBaseline> baselines = reader.getProjectBaselines(project);
+      //List<OpcProjectBaseline> baselines = reader.getProjectBaselines(project);
 
       //      28101
       //      34101
 
-      //reader.exportProject(project, baselines, "/Users/joniles/Downloads/export.xml", ExportType.XML, false);
-//      reader.exportProject(project, "/Users/joniles/Downloads/export.xml.zip", ExportType.XML, true);
-      //reader.exportProject(project, "/Users/joniles/Downloads/export.xer", ExportType.XER, false);
-//      reader.exportProject(project, "/Users/joniles/Downloads/export.xer.zip", ExportType.XER, true);
+      //reader.exportProject(project, "/Users/joniles/Downloads/export.xml", OpcExportType.XML, false);
+      //reader.exportProject(project, baselines, "/Users/joniles/Downloads/export.xml.zip", OpcExportType.XML, true);
+      //reader.exportProject(project, "/Users/joniles/Downloads/export.xer", OpcExportType.XER, false);
+      //reader.exportProject(project, "/Users/joniles/Downloads/export.xer.zip", OpcExportType.XER, true);
 
 
       //ProjectFile mpxj = reader.readProject(project);
@@ -78,27 +60,34 @@ public class OpcReader
       m_host = host;
       m_user = user;
       m_password = password;
-   }
 
-   public void setLogger(Logger logger, Level level)
-   {
-      m_logger = new LoggingFeature(logger, level, null, null);
+      m_mapper = new ObjectMapper();
+      m_mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
    }
 
    public List<OpcProject> getProjects()
    {
-      createDefaultClient();
       authenticate();
       return getWorkspaces().stream().flatMap(w -> getProjectsInWorkspace(w).stream()).collect(Collectors.toList());
    }
 
    public List<OpcProjectBaseline> getProjectBaselines(OpcProject project)
    {
-      createDefaultClient();
       authenticate();
-      Invocation.Builder builder = getInvocationBuilder("action/baseline/project/" + project.getProjectId());
-      List<OpcProjectBaseline> result = builder.get().readEntity(new GenericType<List<OpcProjectBaseline>>() {});
-      return result == null ? Collections.emptyList() : result;
+
+      HttpURLConnection connection = performGetRequest("action/baseline/project/" + project.getProjectId());
+      int code = getResponseCode(connection);
+      if (code == 204)
+      {
+         return Collections.emptyList();
+      }
+
+      if (code != 200)
+      {
+         throw new OpcException("List workspaces request failed with code " + code);
+      }
+
+      return readValue(connection, new TypeReference<List<OpcProjectBaseline>>() {});
    }
 
    public void exportProject(OpcProject project, String filename, OpcExportType type, boolean compressed) throws IOException
@@ -149,7 +138,6 @@ public class OpcReader
 
    private InputStream getInputStreamForProject(OpcProject project, List<OpcProjectBaseline> baselines, OpcExportType type, boolean compressed)
    {
-      createDefaultClient();
       authenticate();
       long jobId = startExportJob(project, baselines, type, compressed);
       waitForExportJob(jobId);
@@ -165,13 +153,20 @@ public class OpcReader
    {
       ExportRequest exportRequest = new ExportRequest(project, baselines, compressed);
       String path = type == OpcExportType.XML ? "action/exportP6xml" : "action/exportP6xer";
-      Invocation.Builder builder = getInvocationBuilder(path);
-      return builder.post(Entity.entity(exportRequest, MediaType.APPLICATION_JSON)).readEntity(JobStatus.class).getJobId();
+      HttpURLConnection connection = performPostRequest(path, exportRequest);
+      int code = getResponseCode(connection);
+      if (code != 201)
+      {
+         throw new OpcException("Export request failed with code " + code);
+      }
+
+      JobStatus status = readValue(connection, JobStatus.class);
+      return status.getJobId();
    }
 
    private void waitForExportJob(long jobId)
    {
-      Invocation.Builder builder = getInvocationBuilder("action/jobStatus/"+ jobId);
+      String path = "action/jobStatus/"+ jobId;
 
       long retryCount = 1;
       JobStatus jobStatus = null;
@@ -188,7 +183,14 @@ public class OpcReader
             // ignore
          }
 
-         jobStatus = builder.get().readEntity(JobStatus.class);
+         HttpURLConnection connection = performGetRequest(path);
+         int code = getResponseCode(connection);
+         if (code != 200)
+         {
+            throw new OpcException("Export job status request failed with code " + code);
+         }
+
+         jobStatus = readValue(connection, JobStatus.class);
          if (jobIsComplete(jobStatus))
          {
             break;
@@ -205,35 +207,47 @@ public class OpcReader
 
    private InputStream downloadProject(long jobId)
    {
-      Client client = ClientBuilder.newClient();
-      if (m_logger != null)
+      HttpURLConnection connection = performGetRequest("action/download/job/" + jobId, "*/*");
+      int code = getResponseCode(connection);
+      if (code != 200)
       {
-         client.register(m_logger);
+         throw new OpcException("Export download request failed with code " + code);
       }
-      client.register(GZipEncoder.class);
-      client.register(EncodingFilter.class);
-
-      Response response = getInvocationBuilder("action/download/job/" + jobId, MediaType.WILDCARD_TYPE).get();
-      if(response.getStatus() != Response.Status.OK.getStatusCode())
-      {
-         throw new OpcDownloadException("Download failed with status " + response.getStatus());
-      }
-
-      return response.readEntity(InputStream.class);
+      return getInputStream(connection);
    }
 
    private List<Workspace> getWorkspaces()
    {
-      Invocation.Builder builder = getInvocationBuilder("workspace");
-      List<Workspace> result = builder.get().readEntity(new GenericType<List<Workspace>>() {});
-      return result == null ? Collections.emptyList() : result;
+      HttpURLConnection connection = performGetRequest("workspace");
+      int code = getResponseCode(connection);
+      if (code == 204)
+      {
+         return Collections.emptyList();
+      }
+
+      if (code != 200)
+      {
+         throw new OpcException("List workspaces request failed with status " + code);
+      }
+
+      return readValue(connection, new TypeReference<List<Workspace>>() {});
    }
 
    private List<OpcProject> getProjectsInWorkspace(Workspace workspace)
    {
-      Invocation.Builder builder = getInvocationBuilder("project/workspace/" + workspace.getWorkspaceId());
-      List<OpcProject> result = builder.get().readEntity(new GenericType<List<OpcProject>>() {});
-      return result == null ? Collections.emptyList() : result;
+      HttpURLConnection connection = performGetRequest("project/workspace/" + workspace.getWorkspaceId());
+      int code = getResponseCode(connection);
+      if (code == 204)
+      {
+         return Collections.emptyList();
+      }
+
+      if (code != 200)
+      {
+         throw new OpcException("List workspaces request failed with status " + code);
+      }
+
+      return readValue(connection, new TypeReference<List<OpcProject>>() {});
    }
 
    private void authenticate()
@@ -245,14 +259,25 @@ public class OpcReader
 
       try
       {
-         m_client.register(HttpAuthenticationFeature.basic(m_user, m_password));
-         WebTarget webTarget = m_client.target("https://" + m_host)
-            .path("primediscovery/apitoken/request")
-            .queryParam("scope", "http://" + m_host + "/api");
+         URL url = new URL("https://" + m_host + "/primediscovery/apitoken/request?scope=http://" + m_host + "/api");
+         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+         connection.setRequestMethod("POST");
+         connection.setRequestProperty("Accept", "application/json");
+         connection.setRequestProperty("Accept-Encoding", "gzip");
 
-         m_tokenResponse = webTarget
-            .request(MediaType.APPLICATION_JSON)
-            .post(null, TokenResponse.class);
+         String auth = m_user + ":" + m_password;
+         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.UTF_8));
+         String authHeaderValue = "Basic " + new String(encodedAuth);
+         connection.setRequestProperty("Authorization", authHeaderValue);
+
+         connection.connect();
+         int code = connection.getResponseCode();
+         if (code != 200)
+         {
+            throw new OpcAuthenticationException("Authentication request failed with status " + code);
+         }
+
+         m_tokenResponse = m_mapper.readValue(getInputStream(connection), TokenResponse.class);
       }
 
       catch (Exception ex)
@@ -261,44 +286,120 @@ public class OpcReader
       }
    }
 
-   private void createDefaultClient()
+   private HttpURLConnection performGetRequest(String path)
    {
-      if (m_client != null)
-      {
-         return;
-      }
-
-      ObjectMapper mapper = new ObjectMapper();
-      mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-      m_client = ClientBuilder.newClient().register(new JacksonJsonProvider(mapper));
-      if (m_logger != null)
-      {
-         m_client.register(m_logger);
-      }
-
-      m_client.register(GZipEncoder.class);
-      m_client.register(EncodingFilter.class);
+      return performGetRequest(path, "application/json");
    }
 
-   private Invocation.Builder getInvocationBuilder(String path)
+   private HttpURLConnection performGetRequest(String path, String accept)
    {
-      return getInvocationBuilder(path, MediaType.APPLICATION_JSON_TYPE);
+      try
+      {
+         URL url = new URL("https://" + m_host + "/api/restapi/" + path);
+         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+         connection.setRequestProperty("Accept", accept);
+         connection.setRequestProperty("Accept-Encoding", "gzip");
+         connection.setRequestProperty("Version", "3");
+         connection.setRequestProperty("Authorization", "Bearer " + m_tokenResponse.getAccessToken());
+         m_tokenResponse.getRequestHeaders().forEach(connection::setRequestProperty);
+
+         connection.setRequestMethod("GET");
+         connection.connect();
+         return connection;
+      }
+
+      catch (IOException ex)
+      {
+         throw new OpcException(ex);
+      }
    }
 
-   private Invocation.Builder getInvocationBuilder(String path, MediaType mediaType)
+   private HttpURLConnection performPostRequest(String path, Object body)
    {
-      WebTarget target = m_client.target("https://" + m_host).path("api/restapi").path(path);
-      Invocation.Builder builder = target.request(mediaType);
-      builder.header("Version", "3");
-      builder.header("Authorization", "Bearer " + m_tokenResponse.getAccessToken());
-      m_tokenResponse.getRequestHeaders().forEach(builder::header);
-      return builder;
+      try
+      {
+         URL url = new URL("https://" + m_host + "/api/restapi/" + path);
+         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+         connection.setRequestProperty("Accept", "application/json");
+         connection.setRequestProperty("Accept-Encoding", "gzip");
+         connection.setRequestProperty("Version", "3");
+         connection.setRequestProperty("Authorization", "Bearer " + m_tokenResponse.getAccessToken());
+         m_tokenResponse.getRequestHeaders().forEach(connection::setRequestProperty);
+
+         connection.setRequestMethod("POST");
+         connection.setRequestProperty("Content-Type", "application/json");
+         connection.setDoOutput(true);
+         m_mapper.writeValue(connection.getOutputStream(), body);
+
+         connection.connect();
+         return connection;
+      }
+
+      catch (IOException ex)
+      {
+         throw new OpcException(ex);
+      }
+   }
+
+   private InputStream getInputStream(HttpURLConnection connection)
+   {
+      try
+      {
+         if ("gzip".equals(connection.getContentEncoding()))
+         {
+            return new GZIPInputStream(connection.getInputStream());
+         }
+         return connection.getInputStream();
+      }
+
+      catch (IOException ex)
+      {
+         throw new OpcException(ex);
+      }
+   }
+
+   private int getResponseCode(HttpURLConnection connection)
+   {
+      try
+      {
+         return connection.getResponseCode();
+      }
+
+      catch (IOException ex)
+      {
+         throw new OpcException(ex);
+      }
+   }
+
+   private <T> T readValue(HttpURLConnection connection, TypeReference<T> valueTypeRef)
+   {
+      try
+      {
+         return m_mapper.readValue(getInputStream(connection), valueTypeRef);
+      }
+
+      catch (IOException ex)
+      {
+         throw new OpcException(ex);
+      }
+   }
+
+   private <T> T readValue(HttpURLConnection connection, Class<T> clazz)
+   {
+      try
+      {
+         return m_mapper.readValue(getInputStream(connection), clazz);
+      }
+
+      catch (IOException ex)
+      {
+         throw new OpcException(ex);
+      }
    }
 
    private final String m_host;
    private final String m_user;
    private final String m_password;
-   private LoggingFeature m_logger;
-   private Client m_client;
+   private final ObjectMapper m_mapper;
    private TokenResponse m_tokenResponse = TokenResponse.DEFAULT_TOKEN;
 }
