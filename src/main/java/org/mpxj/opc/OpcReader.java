@@ -18,13 +18,13 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
 import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.Invocation;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.glassfish.jersey.client.filter.EncodingFilter;
 import org.glassfish.jersey.logging.LoggingFeature;
@@ -75,8 +75,6 @@ public class OpcReader
 
    public OpcReader(String host, String user, String password)
    {
-      System.setProperty("jakarta.ws.rs.client.ClientBuilder", "org.glassfish.jersey.client.JerseyClientBuilder");
-      
       m_host = host;
       m_user = user;
       m_password = password;
@@ -89,14 +87,14 @@ public class OpcReader
 
    public List<OpcProject> getProjects()
    {
-      createDefaultClientNew();
+      createDefaultClient();
       authenticate();
       return getWorkspaces().stream().flatMap(w -> getProjectsInWorkspace(w).stream()).collect(Collectors.toList());
    }
 
    public List<OpcProjectBaseline> getProjectBaselines(OpcProject project)
    {
-      createDefaultClientNew();
+      createDefaultClient();
       authenticate();
       Invocation.Builder builder = getInvocationBuilder("action/baseline/project/" + project.getProjectId());
       List<OpcProjectBaseline> result = builder.get().readEntity(new GenericType<List<OpcProjectBaseline>>() {});
@@ -151,7 +149,7 @@ public class OpcReader
 
    private InputStream getInputStreamForProject(OpcProject project, List<OpcProjectBaseline> baselines, OpcExportType type, boolean compressed)
    {
-      createDefaultClientNew();
+      createDefaultClient();
       authenticate();
       long jobId = startExportJob(project, baselines, type, compressed);
       waitForExportJob(jobId);
@@ -207,7 +205,7 @@ public class OpcReader
 
    private InputStream downloadProject(long jobId)
    {
-      Client client = JerseyClientBuilder.newClient();
+      Client client = ClientBuilder.newClient();
       if (m_logger != null)
       {
          client.register(m_logger);
@@ -263,7 +261,7 @@ public class OpcReader
       }
    }
 
-   private void createDefaultClientNew()
+   private void createDefaultClient()
    {
       if (m_client != null)
       {
@@ -272,7 +270,7 @@ public class OpcReader
 
       ObjectMapper mapper = new ObjectMapper();
       mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-      m_client = JerseyClientBuilder.newClient().register(new JacksonJsonProvider(mapper));
+      m_client = ClientBuilder.newClient().register(new JacksonJsonProvider(mapper));
       if (m_logger != null)
       {
          m_client.register(m_logger);
