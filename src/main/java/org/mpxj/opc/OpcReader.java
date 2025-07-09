@@ -35,9 +35,9 @@ public class OpcReader
 //      List<OpcProject> projects = reader.getProjects();
 //      projects.forEach(System.out::println);
 
-      OpcProject project = new OpcProject();
-      project.setProjectId(14501);
-      project.setWorkspaceId(6003);
+//      OpcProject project = new OpcProject();
+//      project.setProjectId(14501);
+//      project.setWorkspaceId(6003);
 
       //List<OpcProjectBaseline> baselines = reader.getProjectBaselines(project);
 
