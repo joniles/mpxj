@@ -127,7 +127,7 @@ abstract class AbstractReader
       try
       {
          int length = getByte();
-         if (length == 0)
+         if (length <= 0)
          {
             return null;
          }
