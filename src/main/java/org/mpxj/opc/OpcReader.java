@@ -1,8 +1,10 @@
 package org.mpxj.opc;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -31,8 +33,7 @@ public class OpcReader
    public static void main(String[] argv) throws Exception
    {
       OpcReader reader = new OpcReader(argv[0], argv[1], argv[2]);
-
-//      List<OpcProject> projects = reader.getProjects();
+      List<OpcProject> projects = reader.getProjects();
 //      projects.forEach(System.out::println);
 
 //      OpcProject project = new OpcProject();
@@ -84,7 +85,7 @@ public class OpcReader
 
       if (code != 200)
       {
-         throw new OpcException("List workspaces request failed with code " + code);
+         throw new OpcException(getExceptionMessage(connection, code, "List project baselines request failed"));
       }
 
       return readValue(connection, new TypeReference<List<OpcProjectBaseline>>() {});
@@ -157,7 +158,7 @@ public class OpcReader
       int code = getResponseCode(connection);
       if (code != 201)
       {
-         throw new OpcException("Export request failed with code " + code);
+         throw new OpcException(getExceptionMessage(connection, code, "Export project request failed"));
       }
 
       JobStatus status = readValue(connection, JobStatus.class);
@@ -187,7 +188,7 @@ public class OpcReader
          int code = getResponseCode(connection);
          if (code != 200)
          {
-            throw new OpcException("Export job status request failed with code " + code);
+            throw new OpcException(getExceptionMessage(connection, code, "Export job status request failed"));
          }
 
          jobStatus = readValue(connection, JobStatus.class);
@@ -211,7 +212,7 @@ public class OpcReader
       int code = getResponseCode(connection);
       if (code != 200)
       {
-         throw new OpcException("Export download request failed with code " + code);
+         throw new OpcException(getExceptionMessage(connection, code, "Export download request failed"));
       }
       return getInputStream(connection);
    }
@@ -227,7 +228,7 @@ public class OpcReader
 
       if (code != 200)
       {
-         throw new OpcException("List workspaces request failed with status " + code);
+         throw new OpcException(getExceptionMessage(connection, code, "List workspaces request failed"));
       }
 
       return readValue(connection, new TypeReference<List<Workspace>>() {});
@@ -244,7 +245,7 @@ public class OpcReader
 
       if (code != 200)
       {
-         throw new OpcException("List workspaces request failed with status " + code);
+         throw new OpcException(getExceptionMessage(connection, code, "List projects in workspace request failed"));
       }
 
       return readValue(connection, new TypeReference<List<OpcProject>>() {});
@@ -274,7 +275,7 @@ public class OpcReader
          int code = connection.getResponseCode();
          if (code != 200)
          {
-            throw new OpcAuthenticationException("Authentication request failed with status " + code);
+            throw new OpcAuthenticationException(getExceptionMessage(connection, code, "Authentication request failed"));
          }
 
          m_tokenResponse = m_mapper.readValue(getInputStream(connection), TokenResponse.class);
@@ -295,14 +296,7 @@ public class OpcReader
    {
       try
       {
-         URL url = new URL("https://" + m_host + "/api/restapi/" + path);
-         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-         connection.setRequestProperty("Accept", accept);
-         connection.setRequestProperty("Accept-Encoding", "gzip");
-         connection.setRequestProperty("Version", "3");
-         connection.setRequestProperty("Authorization", "Bearer " + m_tokenResponse.getAccessToken());
-         m_tokenResponse.getRequestHeaders().forEach(connection::setRequestProperty);
-
+         HttpURLConnection connection = createConnection(path, accept);
          connection.setRequestMethod("GET");
          connection.connect();
          return connection;
@@ -318,19 +312,11 @@ public class OpcReader
    {
       try
       {
-         URL url = new URL("https://" + m_host + "/api/restapi/" + path);
-         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-         connection.setRequestProperty("Accept", "application/json");
-         connection.setRequestProperty("Accept-Encoding", "gzip");
-         connection.setRequestProperty("Version", "3");
-         connection.setRequestProperty("Authorization", "Bearer " + m_tokenResponse.getAccessToken());
-         m_tokenResponse.getRequestHeaders().forEach(connection::setRequestProperty);
-
+         HttpURLConnection connection = createConnection(path, "application/json");
          connection.setRequestMethod("POST");
          connection.setRequestProperty("Content-Type", "application/json");
          connection.setDoOutput(true);
          m_mapper.writeValue(connection.getOutputStream(), body);
-
          connection.connect();
          return connection;
       }
@@ -339,6 +325,18 @@ public class OpcReader
       {
          throw new OpcException(ex);
       }
+   }
+
+   private HttpURLConnection createConnection(String path, String accept) throws IOException
+   {
+      URL url = new URL("https://" + m_host + "/api/restapi/" + path);
+      HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+      connection.setRequestProperty("Accept", accept);
+      connection.setRequestProperty("Accept-Encoding", "gzip");
+      connection.setRequestProperty("Version", "3");
+      connection.setRequestProperty("Authorization", "Bearer " + m_tokenResponse.getAccessToken());
+      m_tokenResponse.getRequestHeaders().forEach(connection::setRequestProperty);
+      return connection;
    }
 
    private InputStream getInputStream(HttpURLConnection connection)
@@ -395,6 +393,30 @@ public class OpcReader
       {
          throw new OpcException(ex);
       }
+   }
+
+   private String getExceptionMessage(HttpURLConnection connection, int code, String message)
+   {
+      String responseBody = "";
+
+      try
+      {
+         InputStream stream = connection.getErrorStream();
+         if (stream == null)
+         {
+            stream = connection.getInputStream();
+         }
+
+         BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+         responseBody = br.lines().collect(Collectors.joining(System.lineSeparator()));
+      }
+
+      catch (IOException ex)
+      {
+         // Ignore exceptions when trying to retrieve the response body
+      }
+
+      return message + "\nresponseCode=" + code + "\nresponseBody=" + responseBody;
    }
 
    private final String m_host;
