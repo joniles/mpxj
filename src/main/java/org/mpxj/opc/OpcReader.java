@@ -100,6 +100,42 @@ public class OpcReader
    }
 
    /**
+    * Retrieve the start value for number of milliseconds to wait before checking
+    * the export job status. Actual interval waited each time is
+    * exportPollInterval * exportPollNumber, where exportPollNumber is 1..exportPollCount.
+    * The default value is 1000 milliseconds.
+    *
+    * @return export poll interval in milliseconds
+    */
+   public long getExportPollInterval()
+   {
+      return m_exportPollInterval;
+   }
+
+   /**
+    * Set the start value for number of milliseconds to wait before checking
+    * the export job status. Actual interval waited each time is
+    * exportPollInterval * exportPollNumber, where exportPollNumber is 1..exportPollCount.
+    * The default value is 1000 milliseconds.
+    *
+    * @param exportPollInterval export poll interval in milliseconds
+    */
+   public void setExportPollInterval(long exportPollInterval)
+   {
+      m_exportPollInterval = exportPollInterval;
+   }
+
+   public int getExportPollCount()
+   {
+      return m_exportPollCount;
+   }
+
+   public void setExportPollCount(int exportPollCount)
+   {
+      m_exportPollCount = exportPollCount;
+   }
+
+   /**
     * Retrieves a list of OpcProject instances representing the projects in OPC.
     *
     * @return list of projects
@@ -110,6 +146,12 @@ public class OpcReader
       return getWorkspaces().stream().flatMap(w -> getProjectsInWorkspace(w).stream()).collect(Collectors.toList());
    }
 
+   /**
+    * Retrieves a list of baselines available for a given project.
+    *
+    * @param project project details
+    * @return list of baselines
+    */
    public List<OpcProjectBaseline> getProjectBaselines(OpcProject project)
    {
       authenticate();
@@ -129,11 +171,28 @@ public class OpcReader
       return readValue(connection, new TypeReference<List<OpcProjectBaseline>>() {});
    }
 
+   /**
+    * Export a project to a named file.
+    *
+    * @param project project to export
+    * @param filename target filename
+    * @param type target file type
+    * @param compressed true if the output is written as a zip file
+    */
    public void exportProject(OpcProject project, String filename, OpcExportType type, boolean compressed) throws IOException
    {
       exportProject(project, Collections.emptyList(), filename, type, compressed);
    }
 
+   /**
+    * Export a project with baselines to a named file.
+    *
+    * @param project project to export
+    * @param baselines baselines to export
+    * @param filename target filename
+    * @param type target file type
+    * @param compressed true if the output is written as a zip file
+    */
    public void exportProject(OpcProject project, List<OpcProjectBaseline> baselines, String filename, OpcExportType type, boolean compressed) throws IOException
    {
       try(OutputStream os = Files.newOutputStream(Paths.get(filename)))
@@ -142,11 +201,28 @@ public class OpcReader
       }
    }
 
+   /**
+    * Export a project to a file identified by a File instance.
+    *
+    * @param project project to export
+    * @param file target File instance
+    * @param type target file type
+    * @param compressed true if the output is written as a zip file
+    */
    public void exportProject(OpcProject project, File file, OpcExportType type, boolean compressed) throws IOException
    {
       exportProject(project, Collections.emptyList(), file, type, compressed);
    }
 
+   /**
+    * Export a project with baselines to a file identified by a File instance.
+    *
+    * @param project project to export
+    * @param baselines list of baselines to export
+    * @param file target File instance
+    * @param type target file type
+    * @param compressed true if the output is written as a zip file
+    */
    public void exportProject(OpcProject project, List<OpcProjectBaseline> baselines, File file, OpcExportType type, boolean compressed) throws IOException
    {
       try(OutputStream os = Files.newOutputStream(file.toPath()))
@@ -155,26 +231,65 @@ public class OpcReader
       }
    }
 
+   /**
+    * Export a project to an output stream
+    *
+    * @param project project to export
+    * @param stream target output stream
+    * @param type target file type
+    * @param compressed true if the output is written as a zip file
+    */
    public void exportProject(OpcProject project, OutputStream stream, OpcExportType type, boolean compressed) throws IOException
    {
       exportProject(project, Collections.emptyList(), stream, type, compressed);
    }
 
+   /**
+    * Export a project with baselines to an output stream
+    *
+    * @param project project to export
+    * @param baselines list of baselines to export
+    * @param stream target output stream
+    * @param type target file type
+    * @param compressed true if the output is written as a zip file
+    */
    public void exportProject(OpcProject project, List<OpcProjectBaseline> baselines, OutputStream stream, OpcExportType type, boolean compressed) throws IOException
    {
       InputStreamHelper.writeInputStreamToOutputStream(getInputStreamForProject(project, baselines, type, compressed), stream);
    }
 
+   /**
+    * Read a project.
+    *
+    * @param project project details
+    * @return ProjectFile instance
+    */
    public ProjectFile readProject(OpcProject project) throws MPXJException
    {
       return readProject(project, Collections.emptyList());
    }
 
+   /**
+    * Read a project with baselines.
+    *
+    * @param project project details
+    * @param baselines baselines to read
+    * @return ProjectFile instance
+    */
    public ProjectFile readProject(OpcProject project, List<OpcProjectBaseline> baselines) throws MPXJException
    {
-      return new UniversalProjectReader().read(getInputStreamForProject(project, baselines, OpcExportType.XML, true));
+      return new UniversalProjectReader().read(getInputStreamForProject(project, baselines, OpcExportType.XML, false));
    }
 
+   /**
+    * Retrieve a project from OPC as an input stream.
+    *
+    * @param project project details
+    * @param baselines list of baselines
+    * @param type required file type
+    * @param compressed true if the output is returned as a zip file
+    * @return InputStream instance
+    */
    private InputStream getInputStreamForProject(OpcProject project, List<OpcProjectBaseline> baselines, OpcExportType type, boolean compressed)
    {
       authenticate();
@@ -183,11 +298,26 @@ public class OpcReader
       return downloadProject(jobId);
    }
 
+   /**
+    * Returns true if the job status indicates that the job is complete.
+    *
+    * @param status job status
+    * @return true if the job is complete
+    */
    private boolean jobIsComplete(JobStatus status)
    {
       return status != null && "COMPLETED".equals(status.getJobStatus());
    }
 
+   /**
+    * Send a request to OPC to start a project export.
+    *
+    * @param project project to export
+    * @param baselines baselines to export
+    * @param type required file type
+    * @param compressed true if the output is written as a zip file
+    * @return ID of the export job
+    */
    private long startExportJob(OpcProject project, List<OpcProjectBaseline> baselines, OpcExportType type, boolean compressed)
    {
       ExportRequest exportRequest = new ExportRequest(project, baselines, compressed);
@@ -210,11 +340,11 @@ public class OpcReader
       long retryCount = 1;
       JobStatus jobStatus = null;
 
-      while (retryCount < 15)
+      while (retryCount < m_exportPollCount)
       {
          try
          {
-            Thread.sleep(retryCount * 1000);
+            Thread.sleep(retryCount * m_exportPollInterval);
          }
 
          catch (InterruptedException ex)
@@ -461,5 +591,7 @@ public class OpcReader
    private final String m_user;
    private final String m_password;
    private final ObjectMapper m_mapper;
+   private int m_exportPollCount = 15;
+   private long m_exportPollInterval = 1000;
    private TokenResponse m_tokenResponse = TokenResponse.DEFAULT_TOKEN;
 }
