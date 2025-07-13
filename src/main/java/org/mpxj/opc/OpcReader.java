@@ -125,11 +125,23 @@ public class OpcReader
       m_exportPollInterval = exportPollInterval;
    }
 
+   /**
+    * Retrieve the number of times we'll check the status of the
+    * export job before giving up.
+    *
+    * @return number of times to check the status of the export job
+    */
    public int getExportPollCount()
    {
       return m_exportPollCount;
    }
 
+   /**
+    * Set the number of times we'll check the status of the
+    * export job before giving up.
+    *
+    * @param exportPollCount number of times to check the status of the export job
+    */
    public void setExportPollCount(int exportPollCount)
    {
       m_exportPollCount = exportPollCount;
@@ -333,6 +345,13 @@ public class OpcReader
       return status.getJobId();
    }
 
+   /**
+    * Wait for an export request to complete.
+    * Utilises a form of exponential backoff to
+    * sleep between status requests.
+    *
+    * @param jobId ID of the export job
+    */
    private void waitForExportJob(long jobId)
    {
       String path = "action/jobStatus/"+ jobId;
@@ -374,6 +393,13 @@ public class OpcReader
       }
    }
 
+   /**
+    * Download the exported project and return an input stream representing
+    * the project data.
+    *
+    * @param jobId export job ID
+    * @return exported project data as an input stream
+    */
    private InputStream downloadProject(long jobId)
    {
       HttpURLConnection connection = performGetRequest("action/download/job/" + jobId, "*/*");
@@ -385,6 +411,11 @@ public class OpcReader
       return getInputStream(connection);
    }
 
+   /**
+    * Retrieve a list of the available workspaces.
+    *
+    * @return list of workspaces
+    */
    private List<Workspace> getWorkspaces()
    {
       HttpURLConnection connection = performGetRequest("workspace");
@@ -402,6 +433,12 @@ public class OpcReader
       return readValue(connection, new TypeReference<List<Workspace>>() {});
    }
 
+   /**
+    * Retrieve a list of projects in a workspace.
+    *
+    * @param workspace target workspace
+    * @return list of projects in the workspace
+    */
    private List<OpcProject> getProjectsInWorkspace(Workspace workspace)
    {
       HttpURLConnection connection = performGetRequest("project/workspace/" + workspace.getWorkspaceId());
@@ -419,6 +456,9 @@ public class OpcReader
       return readValue(connection, new TypeReference<List<OpcProject>>() {});
    }
 
+   /**
+    * Authenticate with OPC if the current auth token is invalid, and store the new auth token.
+    */
    private void authenticate()
    {
       if (m_tokenResponse.valid())
@@ -455,11 +495,24 @@ public class OpcReader
       }
    }
 
+   /**
+    * Perform a GET request with a JSON response.
+    *
+    * @param path request path
+    * @return connection ready to read status and response
+    */
    private HttpURLConnection performGetRequest(String path)
    {
       return performGetRequest(path, "application/json");
    }
 
+   /**
+    * Perform a GET request and accept the provided content type.
+    *
+    * @param path request path
+    * @param accept accepted content type
+    * @return connection ready to read status and response
+    */
    private HttpURLConnection performGetRequest(String path, String accept)
    {
       try
@@ -476,6 +529,13 @@ public class OpcReader
       }
    }
 
+   /**
+    * Perform a POST request.
+    *
+    * @param path request path
+    * @param body request body to be serialized to JSON
+    * @return connection ready to read status and response
+    */
    private HttpURLConnection performPostRequest(String path, Object body)
    {
       try
@@ -495,6 +555,14 @@ public class OpcReader
       }
    }
 
+   /**
+    * Create a connection to the supplied path.
+    *
+    * @param path
+    * @param accept
+    * @return
+    * @throws IOException
+    */
    private HttpURLConnection createConnection(String path, String accept) throws IOException
    {
       URL url = new URL("https://" + m_host + "/api/restapi/" + path);
