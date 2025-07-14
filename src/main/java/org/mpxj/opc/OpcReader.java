@@ -558,10 +558,9 @@ public class OpcReader
    /**
     * Create a connection to the supplied path.
     *
-    * @param path
-    * @param accept
-    * @return
-    * @throws IOException
+    * @param path target path
+    * @param accept content type to accept
+    * @return HttpURLConnection configured connection
     */
    private HttpURLConnection createConnection(String path, String accept) throws IOException
    {
@@ -575,6 +574,12 @@ public class OpcReader
       return connection;
    }
 
+   /**
+    * Retrieve an input stream from a connection, handling gzipped content.
+    *
+    * @param connection connection
+    * @return input stream
+    */
    private InputStream getInputStream(HttpURLConnection connection)
    {
       try
@@ -592,6 +597,13 @@ public class OpcReader
       }
    }
 
+   /**
+    * Retrieve the response code from a connection,
+    * wrap any IOException in an OPCException.
+    *
+    * @param connection target connection
+    * @return response code
+    */
    private int getResponseCode(HttpURLConnection connection)
    {
       try
@@ -605,6 +617,13 @@ public class OpcReader
       }
    }
 
+   /**
+    * Unmarshall a collection of JSON values.
+    *
+    * @param connection target connection
+    * @param valueTypeRef generic collection type
+    * @return collection of object instances representing unmarshalled JSON values
+    */
    private <T> T readValue(HttpURLConnection connection, TypeReference<T> valueTypeRef)
    {
       try
@@ -618,6 +637,13 @@ public class OpcReader
       }
    }
 
+   /**
+    * Unmarshall a JSON value as an object.
+    *
+    * @param connection target connection
+    * @param clazz target object class
+    * @return unmarshalled data as a object
+    */
    private <T> T readValue(HttpURLConnection connection, Class<T> clazz)
    {
       try
@@ -631,6 +657,15 @@ public class OpcReader
       }
    }
 
+   /**
+    * Augment the supplied exception message with the response code and
+    * response body from the connection.
+    *
+    * @param connection target connection
+    * @param code response code
+    * @param message message to augment
+    * @return augmented message including response code and response body
+    */
    private String getExceptionMessage(HttpURLConnection connection, int code, String message)
    {
       String responseBody = "";
