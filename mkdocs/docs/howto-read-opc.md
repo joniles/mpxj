@@ -61,26 +61,28 @@ ProjectFile mpxjProject = reader.readProject(opcProject);
 You now have access to the project data via the `ProjectFile` instance.
 
 In the example above we have used an instance of `OpcProject` returned by the
-`getProjects()` method of the reader when we called `readProject()`.
-This is not strictly necessary, you can
-construct your own `OpcProject` instance which just needs to include the
-project and workspace ID, as illustrated by the code below.
+`getProjects()` method of the reader when we called `readProject()`. This is
+not strictly necessary, you can construct your own `OpcProject` instance which
+just needs to include the project and workspace IDs, as illustrated by the code
+below.
 
 ```java
 OpcProject opcProject = new OpcProject();
 opcProject.setWorkspaceId(123);
 opcProject.setProjectId(456);
 
-OpcReader reader = new OpcReader("myopchost.oraclecloud.com", "myusername", "mypassword");
+OpcReader reader = new OpcReader("my-opc-host.oraclecloud.com",
+		"my-username", "my-password");
 ProjectFile mpxjProject = reader.readProject(opcProject);
 ```
 
 This means that you can store and manage details of the projects returned by the
-`getProjects()` call in your won code, then populate an `OpcProject` instance
+`getProjects()` call in your own code, then populate an `OpcProject` instance
 when you need to retrieve data for a specific project.
 
 
 ## Export a project
+
 As well as reading a project from OPC and returning a `ProjectFile` instance,
 the `OpcReader` allows you to export a project directly to an XML or XER file.
 You may find this useful if you need to retain a snapshot of the project from
@@ -88,7 +90,8 @@ a given point in time, or pass the project data on to another system for
 further processing. 
 
 ```java
-OpcReader reader = new OpcReader("myopchost.oraclecloud.com", "myusername", "mypassword");
+OpcReader reader = new OpcReader("my-opc-host.oraclecloud.com",
+	"my-username", "my-password");
 List<OpcProject> opcProjects = reader.getProjects();
 
 // In this example, we'll just use the first project returned
@@ -104,7 +107,7 @@ an XML file, the `exportProject` call would look like this:
 reader.exportProject(opcProject, "export-file.xml", OpcExportType.XML, false);
 ```
 
-The final argument determines whether the result file is compressed or not.
+The final argument determines whether the resulting file is compressed or not.
 Setting this argument to true will create a zip file containing the requested
 XER or XML file:
 
@@ -112,3 +115,27 @@ XER or XML file:
 reader.exportProject(opcProject, "export-file.zip", OpcExportType.XML, true);
 ```
 
+There are two additional forms of the `exportProject` method, one which takes
+a `File` instance representing the target file, and one which takes an
+`OutputStream` instance to which the file data will be written:
+
+```java
+// Output destination specified by a File instance
+File file = new File("export-file.xer");
+reader.exportProject(opcProject, file, OpcExportType.XER, false);
+
+// Output sent to an OutputStream
+try (OutputStream out = Files.newOutputStream(Paths.get("export-file.xer")))
+{
+ reader.exportProject(opcProject, out, OpcExportType.XER, false);
+}
+```
+
+## Baselines
+
+The baselines available in OPC for a given project can be retrieved using the
+`getProjectBaselines` method:
+
+```java
+List<OpcProjectBaseline> baselines = reader.getProjectBaselines(opcProject);
+```
