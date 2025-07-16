@@ -139,3 +139,40 @@ The baselines available in OPC for a given project can be retrieved using the
 ```java
 List<OpcProjectBaseline> baselines = reader.getProjectBaselines(opcProject);
 ```
+
+The `getProjectBaselines` method returns a list of `OpcProjectBaseline`
+instances, each containing the name and ID of a baseline. These value can be
+used to include baseline data as part of the project read from OPC:
+
+```java
+// We're assuming that the project has more than one baseline.
+// We'll just request data from the first baseline.
+List<OpcProjectBaseline> requiredBaselines = Collections.singletonList(baselines.get(0));
+ProjectFile mpxjProject = reader.readProject(opcProject, requiredBaselines);
+```
+
+In the example above we're just requesting that data for one baseline is
+included. As we're passing a list of `OpcProjectBaseline` instance to the
+`readProject` method, we can request as many of the project's baselines as
+we need - just include them in this list.
+
+As we saw previously with the `OpcProject` class, we don't need to directly
+reuse the `OpcProjectBaseline` instances returned by the `getProjectBaselines`
+method. The only required value in this class is the baseline ID. You can
+manage the storage of the baseline names and IDs in your own code, and just
+construct suitable `OpcProjectBaseline` instances when you wish to export a
+project with a baseline, as the example below illustrates:
+
+```java
+List<OpcProjectBaseline> requiredBaselines = new ArrayList<>();
+
+OpcProjectBaseline baseline1 = new OpcProjectBaseline();
+baseline1.setProjectBaselineId(789);
+requiredBaselines.add(baseline1);
+
+OpcProjectBaseline baseline2 = new OpcProjectBaseline();
+baseline2.setProjectBaselineId(790);
+requiredBaselines.add(baseline2);
+
+ProjectFile mpxjProject = reader.readProject(opcProject, requiredBaselines);
+```
