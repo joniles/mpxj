@@ -96,3 +96,19 @@ OpcProject opcProject = opcProjects.get(0);
 reader.exportProject(opcProject, "export-file.xer", OpcExportType.XER, false);
 ```
 
+In the example above, the second argument is the name of the file we'll create,
+the third argument represents the file type we wish to write. If we're writing
+an XML file, the `exportProject` call would look like this:
+
+```java
+reader.exportProject(opcProject, "export-file.xml", OpcExportType.XML, false);
+```
+
+The final argument determines whether the result file is compressed or not.
+Setting this argument to true will create a zip file containing the requested
+XER or XML file:
+
+```java
+reader.exportProject(opcProject, "export-file.zip", OpcExportType.XML, true);
+```
+
