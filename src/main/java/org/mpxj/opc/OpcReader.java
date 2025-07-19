@@ -1,5 +1,5 @@
 /*
- * file:       TokenResponse.java
+ * file:       OpcReader.java
  * author:     Jon Iles
  * date:       2025-07-09
  */
@@ -56,32 +56,6 @@ import org.mpxj.reader.UniversalProjectReader;
  */
 public class OpcReader
 {
-   public static void main(String[] argv) throws Exception
-   {
-      OpcReader reader = new OpcReader(argv[0], argv[1], argv[2]);
-      List<OpcProject> projects = reader.getProjects();
-//      projects.forEach(System.out::println);
-
-//      OpcProject project = new OpcProject();
-//      project.setProjectId(14501);
-//      project.setWorkspaceId(6003);
-
-      //List<OpcProjectBaseline> baselines = reader.getProjectBaselines(project);
-
-      //      28101
-      //      34101
-
-      //reader.exportProject(project, "/Users/joniles/Downloads/export.xml", OpcExportType.XML, false);
-      //reader.exportProject(project, baselines, "/Users/joniles/Downloads/export.xml.zip", OpcExportType.XML, true);
-      //reader.exportProject(project, "/Users/joniles/Downloads/export.xer", OpcExportType.XER, false);
-      //reader.exportProject(project, "/Users/joniles/Downloads/export.xer.zip", OpcExportType.XER, true);
-
-
-      //ProjectFile mpxj = reader.readProject(project);
-
-      System.out.println("done");
-   }
-
    /**
     * Constructor.
     *

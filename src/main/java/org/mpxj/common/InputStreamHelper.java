@@ -48,10 +48,16 @@ public class InputStreamHelper
    public static File writeStreamToTempFile(InputStream inputStream, String tempFileSuffix) throws IOException
    {
       File file = Files.createTempFile("mpxj", tempFileSuffix).toFile();
-      writeInputStreamToOutputStream(inputStream, new FileOutputStream(file));
+      writeInputStreamToOutputStream(inputStream, Files.newOutputStream(file.toPath()));
       return file;
    }
 
+   /**
+    * Copy the data from an InputStream to and OutputStream.
+    *
+    * @param inputStream data source
+    * @param outputStream target stream
+    */
    public static void writeInputStreamToOutputStream(InputStream inputStream, OutputStream outputStream) throws IOException
    {
       try
