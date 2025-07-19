@@ -123,6 +123,8 @@ public class OpcReader
 
    /**
     * Retrieves a list of OpcProject instances representing the projects in OPC.
+    * NOTE: the implementation of this method assumes you have less than 5000
+    * projects per workspace.
     *
     * @return list of projects
     */
@@ -134,6 +136,8 @@ public class OpcReader
 
    /**
     * Retrieves a list of baselines available for a given project.
+    * Note: the implementation of this method assumes you have less
+    * than 5000 baselines per project.
     *
     * @param project project details
     * @return list of baselines

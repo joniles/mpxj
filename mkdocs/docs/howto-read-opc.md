@@ -192,3 +192,10 @@ reader.exportProject(opcProject, requiredBaselines,
 > Note that only the XML-based file format supports the inclusion of
 > baselines. If you request an XER export, baseline data will not be present
 > in the exported file.
+
+## Pagination
+For requests made to the OPC API where more than 5000 items are returned, the
+API changes the structure of its response to use pagination. MPXJ currently
+doesn't support this paginated structure. If you have more than 5000 projects
+in a workspace, or more than 5000 baselines for a project, please contact me
+and I will update MPXJ to support this.
