@@ -1,10 +1,10 @@
 # How To: Read Oracle Primavera Cloud projects
 
-Oracle Primavera Cloud (henceforth abbreviated to OPC) is Oracle's
+Oracle Primavera Cloud (OPC) is Oracle's
 "next generation" scheduling product. The nomenclature is confusing as this is
- not a hosted version of Primavera P6, but rather a distinct product which is
- different from the various hosted options available for Primavera
- P6 and P6 EPPM.
+not a hosted version of Primavera P6, but rather a distinct product which is
+different from the various hosted options available for Primavera P6 and P6
+EPPM.
 
 OPC provides a REST API which is used by MPXJ to read project data. You will
 need to ensure that you have 
@@ -28,12 +28,12 @@ the pattern `something.oraclecloud.com`, similar to one of these examples:
 * `primavera-us2.oraclecloud.com`
 * `primavera-eu1.oraclecloud.com`
 
-This will be the first part of the URL your users would normally see when
-they are logged in to OPC.
+This will be the first part of the URL your users would normally see in their
+browser's address bar once they are logged in to OPC.
 
 ## Read a project
 
-Once you have the username password and hostname, you can create an instance of
+Once you have the username, password and hostname, you can create an instance of
 the reader and retrieve a list of the available projects.
 
 ```java
@@ -141,18 +141,19 @@ List<OpcProjectBaseline> baselines = reader.getProjectBaselines(opcProject);
 ```
 
 The `getProjectBaselines` method returns a list of `OpcProjectBaseline`
-instances, each containing the name and ID of a baseline. These value can be
+instances, each containing the name and ID of a baseline. This information can be
 used to include baseline data as part of the project read from OPC:
 
 ```java
 // We're assuming that the project has more than one baseline.
 // We'll just request data from the first baseline.
-List<OpcProjectBaseline> requiredBaselines = Collections.singletonList(baselines.get(0));
+List<OpcProjectBaseline> requiredBaselines =
+	Collections.singletonList(baselines.get(0));
 ProjectFile mpxjProject = reader.readProject(opcProject, requiredBaselines);
 ```
 
 In the example above we're just requesting that data for one baseline is
-included. As we're passing a list of `OpcProjectBaseline` instance to the
+included. As we're passing a list of `OpcProjectBaseline` instances to the
 `readProject` method, we can request as many of the project's baselines as
 we need - just include them in this list.
 
@@ -176,3 +177,18 @@ requiredBaselines.add(baseline2);
 
 ProjectFile mpxjProject = reader.readProject(opcProject, requiredBaselines);
 ```
+
+Finally, as well as reading a project with baselines directly using MPXJ,
+you can also export a project including baselines. As before there are several
+variants of the `exportProject` method taking a file name, `File` instance
+or an `OutputStream` instance. The example below illustrates exporting a
+project with a baseline to a named file:
+
+```java
+reader.exportProject(opcProject, requiredBaselines,
+	"export-file.xml", OpcExportType.XML, false);
+```
+
+> Note that only the XML-based file format supports the inclusion of
+> baselines. If you request an XER export, baseline data will not be present
+> in the exported file.
