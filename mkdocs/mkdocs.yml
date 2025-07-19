@@ -53,6 +53,7 @@ nav:
     - 'MPP files': 'howto-read-mpp.md'
     - 'MPX Files': 'howto-read-mpx.md'
     - 'MSPDI files': 'howto-read-mspdi.md'
+    - 'Oracle Primavera Cloud': 'howto-read-opc.md'
     - 'P3 files': 'howto-read-p3.md'
     - 'P6 Databases': 'howto-read-primavera.md'
     - 'Phoenix files': 'howto-read-phoenix.md'
