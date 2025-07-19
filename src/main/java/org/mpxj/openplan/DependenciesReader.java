@@ -57,20 +57,21 @@ public class DependenciesReader extends AbstractReader
       for (int index = 0; index < count; index++)
       {
          String name = getString();
-         String type = getString();
-         getByte();
 
-         String path = name + "_" + type;
-
-         //         if (!path.endsWith("_VUE"))
-         //         {
-         //            System.out.println(path);
-         //         }
-
-         StoreDirectoryName x = TYPE_MAP.get(type);
-         if (x != null)
+         while (true)
          {
-            x.add(this, path);
+            String type = getString();
+            if (type == null)
+            {
+               break;
+            }
+
+            String path = name + "_" + type;
+            StoreDirectoryName x = TYPE_MAP.get(type);
+            if (x != null)
+            {
+               x.add(this, path);
+            }
          }
       }
 

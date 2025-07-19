@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="14.3.0">
 			<action dev="joniles" type="update">Implemented support for reading and exporting projects from Oracle Primavera Cloud (OPC)</action>
+			<action dev="joniles" type="update">Improve support for reading BK3 files.</action>
 		</release>
 		<release date="2025-07-03" version="14.2.0">
 			<action dev="joniles" type="update">MS Project will reject MSPDI files where resource names contain , [ or ] characters. When writing MSPDI files, ensure resource names do not contain these characters.</action>
