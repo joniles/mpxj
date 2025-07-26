@@ -49,8 +49,6 @@ import org.mpxj.ProjectFile;
 import org.mpxj.common.InputStreamHelper;
 import org.mpxj.reader.UniversalProjectReader;
 
-// TODO - pagination
-
 /**
  * Access schedule data in Oracle Primavera Cloud (OPC).
  */
@@ -125,6 +123,7 @@ public class OpcReader
     * Retrieves a list of OpcProject instances representing the projects in OPC.
     * NOTE: the implementation of this method assumes you have less than 5000
     * projects per workspace.
+    * TODO: implement support for pagination
     *
     * @return list of projects
     */
@@ -138,6 +137,7 @@ public class OpcReader
     * Retrieves a list of baselines available for a given project.
     * Note: the implementation of this method assumes you have less
     * than 5000 baselines per project.
+    * TODO: implement support for pagination
     *
     * @param project project details
     * @return list of baselines
