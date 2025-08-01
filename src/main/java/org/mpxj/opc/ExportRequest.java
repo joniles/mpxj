@@ -72,10 +72,13 @@ class ExportRequest
     */
    public ExportRequestProject[] getProjectsInfo()
    {
-      return new ExportRequestProject[] { m_projectInfo };
+      return new ExportRequestProject[]
+      {
+         m_projectInfo
+      };
    }
 
    private final OpcProject m_project;
    private final boolean m_exportCompressedFile;
-   private final ExportRequestProject  m_projectInfo = new ExportRequestProject();
+   private final ExportRequestProject m_projectInfo = new ExportRequestProject();
 }

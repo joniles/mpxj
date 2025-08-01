@@ -98,7 +98,7 @@ class TokenResponse
     */
    public boolean valid()
    {
-      return LocalDateTime.now().isBefore(m_createdAt.plusSeconds(m_expiresIn-60));
+      return LocalDateTime.now().isBefore(m_createdAt.plusSeconds(m_expiresIn - 60));
    }
 
    private final LocalDateTime m_createdAt = LocalDateTime.now();

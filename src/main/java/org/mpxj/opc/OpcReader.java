@@ -20,7 +20,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-
 package org.mpxj.opc;
 
 import java.io.BufferedReader;
@@ -158,7 +157,9 @@ public class OpcReader
          throw new OpcException(getExceptionMessage(connection, code, "List project baselines request failed"));
       }
 
-      return readValue(connection, new TypeReference<List<OpcProjectBaseline>>() {});
+      return readValue(connection, new TypeReference<List<OpcProjectBaseline>>()
+      {
+      });
    }
 
    /**
@@ -185,7 +186,7 @@ public class OpcReader
     */
    public void exportProject(OpcProject project, List<OpcProjectBaseline> baselines, String filename, OpcExportType type, boolean compressed) throws IOException
    {
-      try(OutputStream os = Files.newOutputStream(Paths.get(filename)))
+      try (OutputStream os = Files.newOutputStream(Paths.get(filename)))
       {
          exportProject(project, baselines, os, type, compressed);
       }
@@ -215,7 +216,7 @@ public class OpcReader
     */
    public void exportProject(OpcProject project, List<OpcProjectBaseline> baselines, File file, OpcExportType type, boolean compressed) throws IOException
    {
-      try(OutputStream os = Files.newOutputStream(file.toPath()))
+      try (OutputStream os = Files.newOutputStream(file.toPath()))
       {
          exportProject(project, baselines, os, type, compressed);
       }
@@ -332,7 +333,7 @@ public class OpcReader
     */
    private void waitForExportJob(long jobId)
    {
-      String path = "action/jobStatus/"+ jobId;
+      String path = "action/jobStatus/" + jobId;
 
       long retryCount = 1;
       JobStatus jobStatus = null;
@@ -408,7 +409,9 @@ public class OpcReader
          throw new OpcException(getExceptionMessage(connection, code, "List workspaces request failed"));
       }
 
-      return readValue(connection, new TypeReference<List<Workspace>>() {});
+      return readValue(connection, new TypeReference<List<Workspace>>()
+      {
+      });
    }
 
    /**
@@ -431,7 +434,9 @@ public class OpcReader
          throw new OpcException(getExceptionMessage(connection, code, "List projects in workspace request failed"));
       }
 
-      return readValue(connection, new TypeReference<List<OpcProject>>() {});
+      return readValue(connection, new TypeReference<List<OpcProject>>()
+      {
+      });
    }
 
    /**
