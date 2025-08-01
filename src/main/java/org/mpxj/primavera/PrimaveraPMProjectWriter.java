@@ -1797,22 +1797,24 @@ final class PrimaveraPMProjectWriter
          }
 
          Object value = mpxj.getCachedValue(fieldType);
-         if (FieldTypeHelper.valueIsNotDefault(fieldType, value))
+         if (value == null)
          {
-            CustomField field = customFields.get(fieldType);
-            int uniqueID = field == null ? FieldTypeHelper.getFieldID(fieldType) : NumberHelper.getInt(field.getUniqueID());
-
-            DataType dataType = fieldType.getDataType();
-            if (dataType == DataType.CUSTOM)
-            {
-               dataType = DataType.BINARY;
-            }
-
-            UDFAssignmentType udf = m_factory.createUDFAssignmentType();
-            udf.setTypeObjectId(uniqueID);
-            setUserFieldValue(udf, dataType, value);
-            out.add(udf);
+            continue;
          }
+
+         CustomField field = customFields.get(fieldType);
+         int uniqueID = field == null ? FieldTypeHelper.getFieldID(fieldType) : NumberHelper.getInt(field.getUniqueID());
+
+         DataType dataType = fieldType.getDataType();
+         if (dataType == DataType.CUSTOM)
+         {
+            dataType = DataType.BINARY;
+         }
+
+         UDFAssignmentType udf = m_factory.createUDFAssignmentType();
+         udf.setTypeObjectId(uniqueID);
+         setUserFieldValue(udf, dataType, value);
+         out.add(udf);
       }
 
       out.sort(Comparator.comparing(UDFAssignmentType::getTypeObjectId));

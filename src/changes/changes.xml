@@ -9,6 +9,7 @@
 			<action dev="joniles" type="update">Implemented support for reading and exporting projects from Oracle Primavera Cloud (OPC)</action>
 			<action dev="joniles" type="update">Improve support for reading BK3 files.</action>
 			<action dev="joniles" type="update">Avoid NPE when writing MSPDI files with manually scheduled tasks when no default calendar has been provided.</action>
+			<action dev="joniles" type="update">When writing PMXML files all non-null values for User Defined Fields are included. Previously UDF values considered to be defaults were not written.</action>
 		</release>
 		<release date="2025-07-03" version="14.2.0">
 			<action dev="joniles" type="update">MS Project will reject MSPDI files where resource names contain , [ or ] characters. When writing MSPDI files, ensure resource names do not contain these characters.</action>
