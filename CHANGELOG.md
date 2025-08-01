@@ -5,7 +5,13 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 14.3.0 (unreleased)
+## 14.4.0 (unreleased)
+
+## 14.3.0 (2025-08-01)
+* Implemented support for reading and exporting projects from Oracle Primavera Cloud (OPC)
+* Improve support for reading BK3 files.
+* Avoid NPE when writing MSPDI files with manually scheduled tasks when no default calendar has been provided.
+* When writing PMXML files all non-null values for User Defined Fields are included. Previously UDF values considered to be defaults were not written.
 
 ## 14.2.0 (2025-07-03)
 * MS Project will reject MSPDI files where resource names contain , [ or ] characters. When writing MSPDI files, ensure resource names do not contain these characters.

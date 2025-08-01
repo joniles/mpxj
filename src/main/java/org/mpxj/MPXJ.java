@@ -28,5 +28,5 @@ package org.mpxj;
  */
 public final class MPXJ
 {
-   public static final String VERSION = "14.2.0";
+   public static final String VERSION = "14.3.0";
 }
