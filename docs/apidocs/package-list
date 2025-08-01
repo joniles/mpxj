@@ -21,6 +21,7 @@ org.mpxj.mpp
 org.mpxj.mpx
 org.mpxj.mspdi
 org.mpxj.mspdi.schema
+org.mpxj.opc
 org.mpxj.openplan
 org.mpxj.phoenix
 org.mpxj.planner

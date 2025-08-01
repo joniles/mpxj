@@ -300,9 +300,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1430-unreleased" class="md-nav__link">
+  <a href="#1440-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      14.3.0 (unreleased)
+      14.4.0 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1430-2025-08-01" class="md-nav__link">
+    <span class="md-ellipsis">
+      14.3.0 (2025-08-01)
     </span>
   </a>
   
@@ -3283,6 +3292,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../howto-read-opc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Oracle Primavera Cloud
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../howto-read-p3/" class="md-nav__link">
         
   
@@ -4113,9 +4143,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1430-unreleased" class="md-nav__link">
+  <a href="#1440-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      14.3.0 (unreleased)
+      14.4.0 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1430-2025-08-01" class="md-nav__link">
+    <span class="md-ellipsis">
+      14.3.0 (2025-08-01)
     </span>
   </a>
   
@@ -6543,7 +6582,14 @@
 <h2 id="note">NOTE</h2>
 <p>From version 14.0.0 onwards the <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code> and <code>net.sf.mpxj-for-vb</code> packages are
 no longer distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
-<h2 id="1430-unreleased">14.3.0 (unreleased)</h2>
+<h2 id="1440-unreleased">14.4.0 (unreleased)</h2>
+<h2 id="1430-2025-08-01">14.3.0 (2025-08-01)</h2>
+<ul>
+<li>Implemented support for reading and exporting projects from Oracle Primavera Cloud (OPC)</li>
+<li>Improve support for reading BK3 files.</li>
+<li>Avoid NPE when writing MSPDI files with manually scheduled tasks when no default calendar has been provided.</li>
+<li>When writing PMXML files all non-null values for User Defined Fields are included. Previously UDF values considered to be defaults were not written.</li>
+</ul>
 <h2 id="1420-2025-07-03">14.2.0 (2025-07-03)</h2>
 <ul>
 <li>MS Project will reject MSPDI files where resource names contain , [ or ] characters. When writing MSPDI files, ensure resource names do not contain these characters.</li>
