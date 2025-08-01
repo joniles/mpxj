@@ -247,7 +247,7 @@ abstract class AbstractRow implements Row
     * @param name column name
     * @return column value
     */
-   abstract protected Object getObject(String name);
+   protected abstract Object getObject(String name);
 
    /**
     * Parse a string representation of a Boolean value.

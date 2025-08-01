@@ -75,7 +75,7 @@ public class OpcProject
     */
    public String getProjectName()
    {
-      return projectName;
+      return m_projectName;
    }
 
    /**
@@ -85,15 +85,15 @@ public class OpcProject
     */
    public void setProjectName(String projectName)
    {
-      this.projectName = projectName;
+      this.m_projectName = projectName;
    }
 
    @Override public String toString()
    {
-      return "[OpcProject projectId=" + m_projectId + ", workspaceId=" + m_workspaceId + ", projectName=" + projectName + "]";
+      return "[OpcProject projectId=" + m_projectId + ", workspaceId=" + m_workspaceId + ", projectName=" + m_projectName + "]";
    }
 
    private long m_projectId;
    private long m_workspaceId;
-   private String projectName;
+   private String m_projectName;
 }

@@ -41,10 +41,9 @@ final class ResultSetRow extends ArrayRow
    /**
     * Constructor.
     *
-    * @param rs
-    *            result set from which data is drawn
-    * @param meta
-    *            result set meta data
+    * @param rs result set from which data is drawn
+    * @param meta result set meta data
+    * @param index field index
     */
    public ResultSetRow(ResultSet rs, Map<String, Integer> meta, Map<String, Integer> index)
       throws SQLException

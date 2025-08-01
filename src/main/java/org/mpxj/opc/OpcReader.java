@@ -222,7 +222,7 @@ public class OpcReader
    }
 
    /**
-    * Export a project to an output stream
+    * Export a project to an output stream.
     *
     * @param project project to export
     * @param stream target output stream
@@ -235,7 +235,7 @@ public class OpcReader
    }
 
    /**
-    * Export a project with baselines to an output stream
+    * Export a project with baselines to an output stream.
     *
     * @param project project to export
     * @param baselines list of baselines to export

@@ -32,6 +32,8 @@ class ArrayRow extends AbstractRow
    /**
     * Constructor.
     *
+    * @param index field index
+    * @param array field data
     * @param ignoreErrors true if errors reading values are ignored
     */
    public ArrayRow(Map<String, Integer> index, Object[] array, boolean ignoreErrors)
@@ -47,7 +49,7 @@ class ArrayRow extends AbstractRow
     * @param name column name
     * @return column value
     */
-   protected Object getObject(String name)
+   @Override protected Object getObject(String name)
    {
       Integer index = m_index.get(name);
       return index == null ? null : m_array[index.intValue()];

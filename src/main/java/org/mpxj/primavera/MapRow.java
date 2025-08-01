@@ -48,7 +48,7 @@ class MapRow extends AbstractRow
     * @param name column name
     * @return column value
     */
-   protected Object getObject(String name)
+   @Override protected Object getObject(String name)
    {
       return m_map.get(name);
    }
