@@ -656,8 +656,10 @@ public class OpcReader
             stream = connection.getInputStream();
          }
 
-         BufferedReader br = new BufferedReader(new InputStreamReader(stream));
-         responseBody = br.lines().collect(Collectors.joining(System.lineSeparator()));
+         try (BufferedReader br = new BufferedReader(new InputStreamReader(stream)))
+         {
+            responseBody = br.lines().collect(Collectors.joining(System.lineSeparator()));
+         }
       }
 
       catch (IOException ex)
