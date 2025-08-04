@@ -51,7 +51,12 @@ class ResourceReader extends TableReader
       {
          map.put("SUPPLY_REFERENCE", stream.readString());
       }
-      map.put("UNKNOWN1", stream.readBytes(48));
+
+      map.put("UNKNOWN1A", stream.readBytes(32));
+      int unknown1Count = stream.readInt();
+      map.put("UNKNOWN1B", stream.readBytes(unknown1Count * 20));
+      map.put("UNKNOWN1C", stream.readBytes(12));
+
       map.put("RESOURCES", stream.readTable(ResourceReader.class));
       map.put("UNKNOWN2", stream.readBytes(20));
       map.put("URL", stream.readString());

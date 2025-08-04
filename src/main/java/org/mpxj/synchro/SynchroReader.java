@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.mpxj.ChildResourceContainer;
 import org.mpxj.ChildTaskContainer;
 import org.mpxj.ConstraintType;
 import java.time.DayOfWeek;
@@ -230,7 +231,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
          // TODO: need to sort by type as well as by name!
          for (MapRow resourceRow : sort(companyRow.getRows("RESOURCES"), "NAME"))
          {
-            processResource(resourceRow);
+            processResource(m_project, resourceRow);
          }
       }
    }
@@ -243,18 +244,19 @@ public final class SynchroReader extends AbstractProjectStreamReader
       // TODO: need to sort by type as well as by name!
       for (MapRow resourceRow : sort(reader.getRows(), "NAME"))
       {
-         processResource(resourceRow);
+         processResource(m_project, resourceRow);
       }
    }
 
    /**
     * Extract data for a single resource.
     *
+    * @param parent parent resource container
     * @param row Synchro resource data
     */
-   private void processResource(MapRow row)
+   private void processResource(ChildResourceContainer parent, MapRow row)
    {
-      Resource resource = m_project.addResource();
+      Resource resource = parent.addResource();
       resource.setName(row.getString("NAME"));
       resource.setGUID(row.getUUID("UUID"));
       resource.setEmailAddress(row.getString("EMAIL"));
@@ -269,7 +271,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
       {
          for (MapRow childResource : sort(resources, "NAME"))
          {
-            processResource(childResource);
+            processResource(resource, childResource);
          }
       }
 

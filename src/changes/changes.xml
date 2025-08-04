@@ -6,6 +6,8 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="14.4.0">
+			<action dev="joniles" type="update">Improve handling of resource data read from certain Synchro 6.5 SP files.</action>
+			<action dev="joniles" type="update">Ensure the parent resource is set for nested resources read from Synchro SP files.</action>
 		</release>
 		<release date="2025-08-01" version="14.3.0">
 			<action dev="joniles" type="update">Implemented support for reading and exporting projects from Oracle Primavera Cloud (OPC)</action>
