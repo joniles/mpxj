@@ -7,6 +7,11 @@ no longer distributed. Please use the `MPXJ.Net` package instead.
 
 ## 14.4.0 (unreleased)
 
+## 14.3.1 (2025-08-04)
+* Improve handling of resource data read from certain Synchro 6.5 SP files.
+* Ensure the parent resource is set for nested resources read from Synchro SP files.
+* Populate the Resource's Resource ID attribute when reading from Synchro SP files.
+
 ## 14.3.0 (2025-08-01)
 * Implemented support for reading and exporting projects from Oracle Primavera Cloud (OPC)
 * Improve support for reading BK3 files.
