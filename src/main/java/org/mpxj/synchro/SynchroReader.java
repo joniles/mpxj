@@ -265,6 +265,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
       resource.setDescription(row.getString("DESCRIPTION"));
       resource.setSupplyReference(row.getString("SUPPLY_REFERENCE"));
       resource.setActive(true);
+      resource.setResourceID(row.getString("ID"));
 
       List<MapRow> resources = row.getRows("RESOURCES");
       if (resources != null)
