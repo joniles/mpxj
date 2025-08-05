@@ -5,8 +5,9 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="14.4.0">
-			<action dev="joniles" type="update">In Synchro SP files, handle time ranges which finish at midnight.</action>
+		<release date="unreleased" version="14.3.2">
+			<action dev="joniles" type="update">Handle time ranges in Synchro SP file which finish at midnight.</action>
+			<action dev="joniles" type="update">Improve support for reading task data from certain Synchro 6.5 SP files.</action>
 		</release>
 		<release date="2025-08-04" version="14.3.1">
 			<action dev="joniles" type="update">Improve handling of resource data read from certain Synchro 6.5 SP files.</action>

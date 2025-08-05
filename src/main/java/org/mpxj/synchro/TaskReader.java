@@ -103,7 +103,8 @@ class TaskReader extends TableReader
       map.put("ACTUAL_PHYSICAL_QUANTITY", stream.readDouble());
       map.put("ESTIMATED_FINISH", stream.readDate());
       map.put("EXPECTED_FINISH_EXTRA", stream.readBytes(4));
-      map.put("UNKNOWN12", stream.readTable(UnknownTableReader.class));
+      // NOTE: UNKNOWN12 contains a nested table at the end of the row - will need sample data for further work
+      map.put("UNKNOWN12", stream.readUnknownTable(163, 0xD87556E6));
       map.put("UNKNOWN13", stream.readBytes(8));
    }
 
