@@ -266,6 +266,10 @@ final class DatatypeConverter
    {
       int timeValue = getInt(is);
       timeValue -= 86400;
+      if (timeValue == 86400)
+      {
+         timeValue = 0;
+      }
       return LocalTime.ofSecondOfDay(timeValue);
    }
 
