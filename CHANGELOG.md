@@ -7,6 +7,10 @@ no longer distributed. Please use the `MPXJ.Net` package instead.
 
 ## 14.4.0 (unreleased)
 
+## 14.3.2 (2025-08-05)
+* Handle time ranges in Synchro SP file which finish at midnight.
+* Improve support for reading task data from certain Synchro 6.5 SP files.
+
 ## 14.3.1 (2025-08-04)
 * Improve handling of resource data read from certain Synchro 6.5 SP files.
 * Ensure the parent resource is set for nested resources read from Synchro SP files.
