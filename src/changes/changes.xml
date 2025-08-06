@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="14.4.0">
+			<action dev="joniles" type="update">Remove workaround for locating the SQLite native library when using .Net on a Mac. This is no longer necessary following the recent SQLite version update.</action>
 		</release>
 		<release date="2025-08-05" version="14.3.2">
 			<action dev="joniles" type="update">Handle time ranges in Synchro SP file which finish at midnight.</action>

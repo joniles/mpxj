@@ -72,21 +72,15 @@ public final class SQLite
       // and thus the SQLite native library can't be loaded.
       OperatingSystem os = new OperatingSystem();
 
-      // Handle an issue where SQLite is no longer generating
-      // the correct native library name when run via IKVM on OSX.
-      SQLiteLibHelper lib = new SQLiteLibHelper();
-
       try
       {
          os.configure();
-         lib.configure();
          String url = "jdbc:sqlite:" + file.getAbsolutePath();
          return org.sqlite.JDBC.createConnection(url, props);
       }
 
       finally
       {
-         lib.restore();
          os.restore();
       }
    }
