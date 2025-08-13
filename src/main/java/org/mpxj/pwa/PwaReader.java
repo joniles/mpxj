@@ -101,7 +101,7 @@ public class PwaReader
 
       if (code != 200)
       {
-         throw new PwaException(getExceptionMessage(connection, code, "List project baselines request failed"));
+         throw new PwaException(getExceptionMessage(connection, code, "Read resources request failed"));
       }
 
       ListContainer dataList = readValue(connection, ListContainer.class);
@@ -109,8 +109,6 @@ public class PwaReader
       {
          populateFieldContainer(m_project.addResource(), RESOURCE_FIELDS, data);
       }
-
-      System.out.println("here");
    }
 
    private HttpURLConnection createConnection(String path)
@@ -247,9 +245,20 @@ public class PwaReader
             }
 
             case DURATION:
-            case WORK:
             {
                value = Duration.getInstance(Double.parseDouble(String.valueOf(value)), TimeUnit.HOURS);
+               break;
+            }
+
+            case WORK:
+            {
+               double time = Double.parseDouble(String.valueOf(value));
+               if (entry.getKey().endsWith("Milliseconds"))
+               {
+                  time = time / (1000.0 * 60.0 * 60.0);
+               }
+
+               value = Duration.getInstance(time, TimeUnit.HOURS);
                break;
             }
 
@@ -549,22 +558,22 @@ public class PwaReader
       //RESOURCE_FIELDS.put("ActualCostWorkPerformedTimeSpan", "PT0S");
       RESOURCE_FIELDS.put("ActualOvertimeCost", ResourceField.ACTUAL_OVERTIME_COST);
       //RESOURCE_FIELDS.put("ActualOvertimeWork", "0h");
-      //RESOURCE_FIELDS.put("ActualOvertimeWorkMilliseconds", 0);
+      RESOURCE_FIELDS.put("ActualOvertimeWorkMilliseconds", ResourceField.ACTUAL_OVERTIME_WORK);
       //RESOURCE_FIELDS.put("ActualOvertimeWorkTimeSpan", "PT0S");
       //RESOURCE_FIELDS.put("ActualWork", "0h");
-      //RESOURCE_FIELDS.put("ActualWorkMilliseconds", 0);
+      RESOURCE_FIELDS.put("ActualWorkMilliseconds", ResourceField.ACTUAL_WORK);
       //RESOURCE_FIELDS.put("ActualWorkTimeSpan", "PT0S");
       RESOURCE_FIELDS.put("AvailableFrom", ResourceField.AVAILABLE_FROM);
       RESOURCE_FIELDS.put("AvailableTo", ResourceField.AVAILABLE_TO);
       RESOURCE_FIELDS.put("BaselineCost", ResourceField.BASELINE_COST);
       //RESOURCE_FIELDS.put("BaselineWork", "0h");
-      //RESOURCE_FIELDS.put("BaselineWorkMilliseconds", 0);
+      RESOURCE_FIELDS.put("BaselineWorkMilliseconds", ResourceField.BASELINE_WORK);
       //RESOURCE_FIELDS.put("BaselineWorkTimeSpan", "PT0S");
       //RESOURCE_FIELDS.put("BudetCostWorkPerformed", 0.0);
       RESOURCE_FIELDS.put("BudgetedCost", ResourceField.BUDGET_COST);
       //RESOURCE_FIELDS.put("BudgetedCostWorkScheduled", 0.0);
       //RESOURCE_FIELDS.put("BudgetedWork", "0h");
-      //RESOURCE_FIELDS.put("BudgetedWorkMilliseconds", 0);
+      RESOURCE_FIELDS.put("BudgetedWorkMilliseconds", ResourceField.BUDGET_WORK);
       //RESOURCE_FIELDS.put("BudgetedWorkTimeSpan", "PT0S");
       RESOURCE_FIELDS.put("Cost", ResourceField.COST);
       RESOURCE_FIELDS.put("CostVariance", ResourceField.COST_VARIANCE);
@@ -580,30 +589,30 @@ public class PwaReader
       RESOURCE_FIELDS.put("Notes", ResourceField.NOTES);
       RESOURCE_FIELDS.put("OvertimeCost", ResourceField.OVERTIME_COST);
       //RESOURCE_FIELDS.put("OvertimeWork", "0h");
-      //RESOURCE_FIELDS.put("OvertimeWorkMilliseconds", 0);
+      RESOURCE_FIELDS.put("OvertimeWorkMilliseconds", ResourceField.OVERTIME_WORK);
       //RESOURCE_FIELDS.put("OvertimeWorkTimeSpan", "PT0S");
       //RESOURCE_FIELDS.put("PeakWork", "0h");
       //RESOURCE_FIELDS.put("PeakWorkMilliseconds", 0);
       //RESOURCE_FIELDS.put("PeakWorkTimeSpan", "PT0S");
       RESOURCE_FIELDS.put("PercentWorkComplete", ResourceField.PERCENT_WORK_COMPLETE);
       //RESOURCE_FIELDS.put("RegularWork", "0h");
-      //RESOURCE_FIELDS.put("RegularWorkMilliseconds", 0);
+      RESOURCE_FIELDS.put("RegularWorkMilliseconds", ResourceField.REGULAR_WORK);
       //RESOURCE_FIELDS.put("RegularWorkTimeSpan", "PT0S");
       RESOURCE_FIELDS.put("RemainingCost", ResourceField.REMAINING_COST);
       RESOURCE_FIELDS.put("RemainingOvertimeCost", ResourceField.REMAINING_OVERTIME_COST);
       //RESOURCE_FIELDS.put("RemainingOvertimeWork", "0h");
-      //RESOURCE_FIELDS.put("RemainingOvertimeWorkMilliseconds", 0);
+      RESOURCE_FIELDS.put("RemainingOvertimeWorkMilliseconds", ResourceField.REMAINING_OVERTIME_WORK);
       //RESOURCE_FIELDS.put("RemainingOvertimeWorkTimeSpan", "PT0S");
       //RESOURCE_FIELDS.put("RemainingWork", "0h");
-      //RESOURCE_FIELDS.put("RemainingWorkMilliseconds", 0);
+      RESOURCE_FIELDS.put("RemainingWorkMilliseconds", ResourceField.REMAINING_WORK);
       //RESOURCE_FIELDS.put("RemainingWorkTimeSpan", "PT0S");
       //RESOURCE_FIELDS.put("ScheduleCostVariance", 0.0);
       RESOURCE_FIELDS.put("Start", ResourceField.START);
       //RESOURCE_FIELDS.put("Work", "0h");
-      //RESOURCE_FIELDS.put("WorkMilliseconds", 0);
+      RESOURCE_FIELDS.put("WorkMilliseconds", ResourceField.WORK);
       //RESOURCE_FIELDS.put("WorkTimeSpan", "PT0S");
       //RESOURCE_FIELDS.put("WorkVariance", "0h");
-      //RESOURCE_FIELDS.put("WorkVarianceMilliseconds", 0);
+      RESOURCE_FIELDS.put("WorkVarianceMilliseconds", ResourceField.WORK_VARIANCE);
       //RESOURCE_FIELDS.put("WorkVarianceTimeSpan", "PT0S");
       RESOURCE_FIELDS.put("CanLevel", ResourceField.CAN_LEVEL);
       RESOURCE_FIELDS.put("Code", ResourceField.CODE);
