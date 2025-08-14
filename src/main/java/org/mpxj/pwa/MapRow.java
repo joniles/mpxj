@@ -1,5 +1,6 @@
 package org.mpxj.pwa;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -39,6 +40,17 @@ class MapRow
    public UUID getUUID(String key)
    {
       return UUID.fromString(String.valueOf(getObject(key)));
+   }
+
+   public LocalDate getLocalDate(String key)
+   {
+      LocalDateTime result = (LocalDateTime)getObject(key, DataType.DATE);
+      return result == null ? null : result.toLocalDate();
+   }
+
+   public int getInt(String key)
+   {
+      return NumberHelper.getInt((Integer)getObject(key, DataType.INTEGER));
    }
 
    public Object getObject(String key, DataType type)

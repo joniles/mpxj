@@ -18,23 +18,15 @@ import java.util.zip.GZIPInputStream;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.mpxj.AccrueType;
-import org.mpxj.BookingType;
-import org.mpxj.CurrencySymbolPosition;
-import org.mpxj.Duration;
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
+import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectField;
 import org.mpxj.ProjectFile;
-import org.mpxj.Rate;
 import org.mpxj.ResourceField;
-import org.mpxj.ScheduleFrom;
-import org.mpxj.TimeUnit;
-import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.LocalDateTimeHelper;
-import org.mpxj.common.NumberHelper;
-import org.mpxj.mpp.TaskTypeHelper;
 import org.mpxj.opc.OpcException;
 
 public class PwaReader
@@ -72,7 +64,7 @@ public class PwaReader
 
       if (code != 200)
       {
-         throw new PwaException(getExceptionMessage(connection, code, "List project baselines request failed"));
+         throw new PwaException(getExceptionMessage(connection, code));
       }
 
       populateFieldContainer(m_project.getProjectProperties(), PROJECT_DATA_PROJECT_FIELDS, readMapRow(connection));
@@ -82,7 +74,7 @@ public class PwaReader
 
       if (code != 200)
       {
-         throw new PwaException(getExceptionMessage(connection, code, "List project baselines request failed"));
+         throw new PwaException(getExceptionMessage(connection, code));
       }
 
       populateFieldContainer(m_project.getProjectProperties(), PROJECT_SERVER_PROJECT_FIELDS, readMapRow(connection));
@@ -100,18 +92,13 @@ public class PwaReader
 
       if (code != 200)
       {
-         throw new PwaException(getExceptionMessage(connection, code, "Read calendars request failed"));
+         throw new PwaException(getExceptionMessage(connection, code));
       }
 
       readValue(connection, ListContainer.class).getValue().forEach(item -> readCalendar(new MapRow(item)));
    }
 
-   private void readCalendarExceptions(ProjectCalendar calendar)
-   {
-
-   }
-
-   public void readCalendar(MapRow row)
+   private void readCalendar(MapRow row)
    {
       ProjectCalendar calendar = m_project.addDefaultBaseCalendar();
       //"odata.type": "PS.Calendar",
@@ -122,6 +109,61 @@ public class PwaReader
       //"IsStandardCalendar": false,
       //"Modified": "2025-08-13T15:18:27.837",
       calendar.setName(row.getString("Name"));
+
+      readCalendarExceptions(calendar);
+   }
+
+   private void readCalendarExceptions(ProjectCalendar calendar)
+   {
+      HttpURLConnection connection = createConnection("ProjectServer/Calendars('" + calendar.getGUID() + "')/BaseCalendarExceptions");
+      int code = getResponseCode(connection);
+
+      if (code != 200)
+      {
+         throw new PwaException(getExceptionMessage(connection, code));
+      }
+
+      readValue(connection, ListContainer.class).getValue().forEach(item -> readCalendarException(calendar, new MapRow(item)));
+   }
+
+   private void readCalendarException(ProjectCalendar calendar, MapRow row)
+   {
+      ProjectCalendarException exception = calendar.addCalendarException(row.getLocalDate("Start"), row.getLocalDate("Finish"));
+      //"odata.type": "PS.BaseCalendarException",
+      //"odata.id": "https://example.sharepoint.com/sites/pwa/_api/ProjectServer/Calendars('b6635b2e-e747-4771-a78b-24f7509629d0')/BaseCalendarExceptions(0)",
+      //"odata.editLink": "ProjectServer/Calendars('b6635b2e-e747-4771-a78b-24f7509629d0')/BaseCalendarExceptions(0)",
+      //"Start": "2025-08-18T00:00:00"
+      //"Finish": "2025-08-18T00:00:00",
+      //"Id": 0,
+      exception.setName(row.getString("Name"));
+      addRange(exception, row, 1);
+      addRange(exception, row, 2);
+      addRange(exception, row, 3);
+      addRange(exception, row, 4);
+      addRange(exception, row, 5);
+
+      //"RecurrenceDays": 0,
+      //"RecurrenceFrequency": 1,
+      //"RecurrenceMonth": 0,
+      //"RecurrenceMonthDay": 0,
+      //"RecurrenceType": 0,
+      //"RecurrenceWeek": 0,
+   }
+
+   private void addRange(ProjectCalendarException exception, MapRow row, int index)
+   {
+      String shift = "Shift" + index;
+      int start = row.getInt(shift + "Start");
+      int finish = row.getInt(shift + "Finish");
+
+      // TODO check 24 hour
+      if (start == finish)
+      {
+         return;
+      }
+
+
+      exception.add(new LocalTimeRange(LocalTime.MIDNIGHT.plusMinutes(start), LocalTime.MIDNIGHT.plusMinutes(finish)));
    }
 
    private void readResources()
@@ -131,7 +173,7 @@ public class PwaReader
 
       if (code != 200)
       {
-         throw new PwaException(getExceptionMessage(connection, code, "Read resources request failed"));
+         throw new PwaException(getExceptionMessage(connection, code));
       }
 
       readValue(connection, ListContainer.class).getValue().forEach(item -> populateFieldContainer(m_project.addResource(), RESOURCE_FIELDS, new MapRow(item)));
@@ -170,7 +212,7 @@ public class PwaReader
       }
    }
 
-   private String getExceptionMessage(HttpURLConnection connection, int code, String message)
+   private String getExceptionMessage(HttpURLConnection connection, int code)
    {
       String responseBody = "";
 
@@ -193,7 +235,7 @@ public class PwaReader
          // Ignore exceptions when trying to retrieve the response body
       }
 
-      return message + "\nresponseCode=" + code + "\nresponseBody=" + responseBody;
+      return connection.getRequestMethod() + " " + connection.getURL() + " failed: "+ "\nresponseCode=" + code + "\nresponseBody=" + responseBody;
    }
 
    private <T> T readValue(HttpURLConnection connection, Class<T> clazz)
@@ -259,24 +301,12 @@ public class PwaReader
       }
    }
 
-   private LocalDateTime getDate(String value)
-   {
-      if (value.equals("0001-01-01T00:00:00"))
-      {
-         return null;
-      }
-
-      return LocalDateTimeHelper.parseBest(DATE_TIME_FORMAT, value);
-   }
-
    private final String m_host;
    private final String m_token;
    private final ObjectMapper m_mapper;
    private UUID m_projectID;
    private ProjectFile m_project;
-
-   private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'[HH:mm:ss.SSS][HH:mm:ss.SS][HH:mm:ss.S][HH:mm:ss]");
-
+   
    private static final Map<String, ProjectField> PROJECT_DATA_PROJECT_FIELDS = new HashMap<>();
    static
    {
