@@ -223,7 +223,7 @@ public class MicrosoftScheduler implements Scheduler
       {
          if (predecessors.isEmpty())
          {
-            switch (task.getConstraintType())
+            switch (getConstraintType(task))
             {
                case START_NO_EARLIER_THAN:
                {
@@ -251,67 +251,64 @@ public class MicrosoftScheduler implements Scheduler
          }
          earlyStart = getNextWorkStart(task, earlyStart);
 
-         if (task.getConstraintType() != null)
+         switch (getConstraintType(task))
          {
-            switch (task.getConstraintType())
+            case START_NO_EARLIER_THAN:
             {
-               case START_NO_EARLIER_THAN:
-               {
-                  if (earlyStart.isBefore(task.getConstraintDate()))
-                  {
-                     earlyStart = task.getConstraintDate();
-                  }
-                  break;
-               }
-
-               case FINISH_NO_LATER_THAN:
-               {
-                  LocalDateTime latestStart = getDateFromFinishAndDuration(task, task.getConstraintDate());
-                  if (earlyStart.isAfter(latestStart))
-                  {
-                     earlyStart = latestStart;
-                  }
-                  break;
-               }
-
-               case FINISH_NO_EARLIER_THAN:
-               {
-                  LocalDateTime earliestStart = getDateFromFinishAndDuration(task, task.getConstraintDate());
-                  if (earlyStart.isBefore(earliestStart))
-                  {
-                     earlyStart = earliestStart;
-                  }
-                  break;
-               }
-
-               case START_NO_LATER_THAN:
-               {
-                  if (earlyStart.isAfter(task.getConstraintDate()))
-                  {
-                     earlyStart = task.getConstraintDate();
-                  }
-                  break;
-               }
-
-               case MUST_START_ON:
-               case START_ON:
+               if (earlyStart.isBefore(task.getConstraintDate()))
                {
                   earlyStart = task.getConstraintDate();
-                  break;
                }
+               break;
+            }
 
-               case MUST_FINISH_ON:
-               case FINISH_ON:
+            case FINISH_NO_LATER_THAN:
+            {
+               LocalDateTime latestStart = getDateFromFinishAndDuration(task, task.getConstraintDate());
+               if (earlyStart.isAfter(latestStart))
                {
-                  earlyFinish = task.getConstraintDate();
-                  earlyStart = getDateFromFinishAndDuration(task, earlyFinish);
-                  break;
+                  earlyStart = latestStart;
                }
+               break;
+            }
 
-               default:
+            case FINISH_NO_EARLIER_THAN:
+            {
+               LocalDateTime earliestStart = getDateFromFinishAndDuration(task, task.getConstraintDate());
+               if (earlyStart.isBefore(earliestStart))
                {
-                  break;
+                  earlyStart = earliestStart;
                }
+               break;
+            }
+
+            case START_NO_LATER_THAN:
+            {
+               if (earlyStart.isAfter(task.getConstraintDate()))
+               {
+                  earlyStart = task.getConstraintDate();
+               }
+               break;
+            }
+
+            case MUST_START_ON:
+            case START_ON:
+            {
+               earlyStart = task.getConstraintDate();
+               break;
+            }
+
+            case MUST_FINISH_ON:
+            case FINISH_ON:
+            {
+               earlyFinish = task.getConstraintDate();
+               earlyStart = getDateFromFinishAndDuration(task, earlyFinish);
+               break;
+            }
+
+            default:
+            {
+               break;
             }
          }
       }
@@ -408,7 +405,7 @@ public class MicrosoftScheduler implements Scheduler
             }
          }
 
-         switch (task.getConstraintType())
+         switch (getConstraintType(task))
          {
             case MUST_START_ON:
             {
@@ -1426,6 +1423,18 @@ public class MicrosoftScheduler implements Scheduler
    private boolean isAlap(Relation relation)
    {
       return relation.getPredecessorTask().getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE && relation.getSuccessorTask().getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && m_backwardPass;
+   }
+
+   /**
+    * Retrieve the constraint type and default to As Soon As Possible
+    * if no constraint type is present.
+    *
+    * @param task target task
+    * @return constraint type
+    */
+   private ConstraintType getConstraintType(Task task)
+   {
+      return task.getConstraintType() == null ? ConstraintType.AS_SOON_AS_POSSIBLE : task.getConstraintType();
    }
 
    private ProjectFile m_file;
