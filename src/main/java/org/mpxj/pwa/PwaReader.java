@@ -6,9 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -26,7 +24,7 @@ import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectField;
 import org.mpxj.ProjectFile;
 import org.mpxj.ResourceField;
-import org.mpxj.common.LocalDateTimeHelper;
+import org.mpxj.TaskField;
 import org.mpxj.opc.OpcException;
 
 public class PwaReader
@@ -53,6 +51,7 @@ public class PwaReader
       readProjectProperties();
       readCalendars();
       readResources();
+      readTasks();
 
       return m_project;
    }
@@ -162,7 +161,6 @@ public class PwaReader
          return;
       }
 
-
       exception.add(new LocalTimeRange(LocalTime.MIDNIGHT.plusMinutes(start), LocalTime.MIDNIGHT.plusMinutes(finish)));
    }
 
@@ -177,6 +175,20 @@ public class PwaReader
       }
 
       readValue(connection, ListContainer.class).getValue().forEach(item -> populateFieldContainer(m_project.addResource(), RESOURCE_FIELDS, new MapRow(item)));
+   }
+
+   private void readTasks()
+   {
+      HttpURLConnection connection = createConnection("ProjectServer/Projects(guid'" + m_projectID + "')/Tasks");
+      int code = getResponseCode(connection);
+
+      if (code != 200)
+      {
+         throw new PwaException(getExceptionMessage(connection, code));
+      }
+
+      // TODO: construct task hierarchy
+      readValue(connection, ListContainer.class).getValue().forEach(item -> populateFieldContainer(m_project.addResource(), TASK_FIELDS, new MapRow(item)));
    }
 
    private HttpURLConnection createConnection(String path)
@@ -235,7 +247,7 @@ public class PwaReader
          // Ignore exceptions when trying to retrieve the response body
       }
 
-      return connection.getRequestMethod() + " " + connection.getURL() + " failed: "+ "\nresponseCode=" + code + "\nresponseBody=" + responseBody;
+      return connection.getRequestMethod() + " " + connection.getURL() + " failed: " + "\nresponseCode=" + code + "\nresponseBody=" + responseBody;
    }
 
    private <T> T readValue(HttpURLConnection connection, Class<T> clazz)
@@ -306,7 +318,7 @@ public class PwaReader
    private final ObjectMapper m_mapper;
    private UUID m_projectID;
    private ProjectFile m_project;
-   
+
    private static final Map<String, ProjectField> PROJECT_DATA_PROJECT_FIELDS = new HashMap<>();
    static
    {
@@ -575,5 +587,167 @@ public class PwaReader
       RESOURCE_FIELDS.put("Phonetics", ResourceField.PHONETICS);
       RESOURCE_FIELDS.put("StandardRate", ResourceField.STANDARD_RATE);
       RESOURCE_FIELDS.put("StandardRateUnits", ResourceField.STANDARD_RATE_UNITS);
+   }
+
+   private static final Map<String, TaskField> TASK_FIELDS = new HashMap<>();
+   static
+   {
+      //TASK_FIELDS.put("odata.type", "PS.PublishedTask");
+      //TASK_FIELDS.put("odata.id", "https://example.sharepoint.com/sites/pwa/_api/ProjectServer/Projects('47bd06f0-2703-ef11-ba8c-00155d805832')/Tasks('de57d9b7-a356-f011-97c7-080027c4b287')");
+      //TASK_FIELDS.put("odata.editLink", "ProjectServer/Projects('47bd06f0-2703-ef11-ba8c-00155d805832')/Tasks('de57d9b7-a356-f011-97c7-080027c4b287')");
+      TASK_FIELDS.put("ActualCostWorkPerformed", TaskField.ACWP);
+      //TASK_FIELDS.put("ActualDuration", "0d");
+      TASK_FIELDS.put("ActualDurationMilliseconds", TaskField.ACTUAL_DURATION);
+      //TASK_FIELDS.put("ActualDurationTimeSpan", "PT0S");
+      TASK_FIELDS.put("ActualOvertimeCost", TaskField.ACTUAL_OVERTIME_COST);
+      //TASK_FIELDS.put("ActualOvertimeWork", "0h");
+      TASK_FIELDS.put("ActualOvertimeWorkMilliseconds", TaskField.ACTUAL_OVERTIME_WORK);
+      //TASK_FIELDS.put("ActualOvertimeWorkTimeSpan", "PT0S");
+      TASK_FIELDS.put("BaselineCost", TaskField.BASELINE_COST);
+      //TASK_FIELDS.put("BaselineDuration", null);
+      TASK_FIELDS.put("BaselineDurationMilliseconds", TaskField.BASELINE_DURATION);
+      //TASK_FIELDS.put("BaselineDurationTimeSpan", "PT0S");
+      TASK_FIELDS.put("BaselineFinish", TaskField.BASELINE_FINISH);
+      TASK_FIELDS.put("BaselineStart", TaskField.BASELINE_START);
+      //TASK_FIELDS.put("BaselineWork", null);
+      TASK_FIELDS.put("BaselineWorkMilliseconds", TaskField.BASELINE_WORK);
+      //TASK_FIELDS.put("BaselineWorkTimeSpan", "PT0S");
+      TASK_FIELDS.put("BudgetCost", TaskField.BUDGET_COST);
+      TASK_FIELDS.put("BudgetedCostWorkPerformed", TaskField.BCWP);
+      TASK_FIELDS.put("BudgetedCostWorkScheduled", TaskField.BCWS);
+      TASK_FIELDS.put("Contact", TaskField.CONTACT);
+      TASK_FIELDS.put("CostPerformanceIndex", TaskField.CPI);
+      TASK_FIELDS.put("CostVariance", TaskField.COST_VARIANCE);
+      //TASK_FIELDS.put("CostVarianceAtCompletion", 0.0);
+      //TASK_FIELDS.put("CostVariancePercentage", 0);
+      TASK_FIELDS.put("Created", TaskField.CREATED);
+      //TASK_FIELDS.put("CurrentCostVariance", 0.0);
+      //TASK_FIELDS.put("DurationVariance", "3d");
+      TASK_FIELDS.put("DurationVarianceMilliseconds", TaskField.DURATION_VARIANCE);
+      //TASK_FIELDS.put("DurationVarianceTimeSpan", "P1D");
+      TASK_FIELDS.put("EarliestFinish", TaskField.EARLY_FINISH);
+      TASK_FIELDS.put("EarliestStart", TaskField.EARLY_START);
+      TASK_FIELDS.put("EstimateAtCompletion", TaskField.EAC);
+      //TASK_FIELDS.put("ExternalProjectUid", "00000000-0000-0000-0000-000000000000");
+      //TASK_FIELDS.put("ExternalTaskUid", "00000000-0000-0000-0000-000000000000");
+      //TASK_FIELDS.put("FinishSlack", "6d");
+      TASK_FIELDS.put("FinishSlackMilliseconds", TaskField.FINISH_SLACK);
+      //TASK_FIELDS.put("FinishSlackTimeSpan", "P2D");
+      //TASK_FIELDS.put("FinishVariance", "0d");
+      TASK_FIELDS.put("FinishVarianceMilliseconds", TaskField.FINISH_VARIANCE);
+      //TASK_FIELDS.put("FinishVarianceTimeSpan", "PT0S");
+      //TASK_FIELDS.put("FreeSlack", "6d");
+      TASK_FIELDS.put("FreeSlackMilliseconds", TaskField.FREE_SLACK);
+      //TASK_FIELDS.put("FreeSlackTimeSpan", "P2D");
+      TASK_FIELDS.put("Id", TaskField.GUID);
+      TASK_FIELDS.put("IgnoreResourceCalendar", TaskField.IGNORE_RESOURCE_CALENDAR);
+      TASK_FIELDS.put("IsCritical", TaskField.CRITICAL);
+      TASK_FIELDS.put("IsDurationEstimate", TaskField.ESTIMATED);
+      TASK_FIELDS.put("IsExternalTask", TaskField.EXTERNAL_TASK);
+      TASK_FIELDS.put("IsOverAllocated", TaskField.OVERALLOCATED);
+      TASK_FIELDS.put("IsRecurring", TaskField.RECURRING);
+      //TASK_FIELDS.put("IsRecurringSummary", false);
+      TASK_FIELDS.put("IsRolledUp", TaskField.ROLLUP);
+      //TASK_FIELDS.put("IsSubProject", false);
+      TASK_FIELDS.put("IsSubProjectReadOnly", TaskField.SUBPROJECT_READ_ONLY);
+      //TASK_FIELDS.put("IsSubProjectScheduledFromFinish", false);
+      TASK_FIELDS.put("IsSummary", TaskField.SUMMARY);
+      TASK_FIELDS.put("LatestFinish", TaskField.LATE_FINISH);
+      TASK_FIELDS.put("LatestStart", TaskField.LATE_START);
+      //TASK_FIELDS.put("LevelingDelay", "0ed");
+      TASK_FIELDS.put("LevelingDelayMilliseconds", TaskField.LEVELING_DELAY);
+      //TASK_FIELDS.put("LevelingDelayTimeSpan", "PT0S");
+      //TASK_FIELDS.put("Modified", "2025-07-01T17:49:44.46");
+      TASK_FIELDS.put("Notes", TaskField.NOTES);
+      TASK_FIELDS.put("OutlinePosition", TaskField.ID);
+      TASK_FIELDS.put("OvertimeCost", TaskField.OVERTIME_COST);
+      //TASK_FIELDS.put("OvertimeWork", "0h");
+      TASK_FIELDS.put("OvertimeWorkMilliseconds", TaskField.OVERTIME_WORK);
+      //TASK_FIELDS.put("OvertimeWorkTimeSpan", "PT0S");
+      TASK_FIELDS.put("PercentWorkComplete", TaskField.PERCENT_WORK_COMPLETE);
+      TASK_FIELDS.put("PreLevelingFinish", TaskField.PRELEVELED_FINISH);
+      TASK_FIELDS.put("PreLevelingStart", TaskField.PRELEVELED_START);
+      //TASK_FIELDS.put("RegularWork", "0h");
+      TASK_FIELDS.put("RegularWorkMilliseconds", TaskField.REGULAR_WORK);
+      //TASK_FIELDS.put("RegularWorkTimeSpan", "PT0S");
+      TASK_FIELDS.put("RemainingCost", TaskField.REMAINING_COST);
+      TASK_FIELDS.put("RemainingOvertimeCost", TaskField.REMAINING_OVERTIME_COST);
+      //TASK_FIELDS.put("RemainingOvertimeWork", "0h");
+      TASK_FIELDS.put("RemainingOvertimeWorkMilliseconds", TaskField.REMAINING_OVERTIME_WORK);
+      //TASK_FIELDS.put("RemainingOvertimeWorkTimeSpan", "PT0S");
+      //TASK_FIELDS.put("RemainingWork", "0h");
+      TASK_FIELDS.put("RemainingWorkMilliseconds", TaskField.REMAINING_WORK);
+      //TASK_FIELDS.put("RemainingWorkTimeSpan", "PT0S");
+      TASK_FIELDS.put("Resume", TaskField.RESUME);
+      //TASK_FIELDS.put("ScheduleCostVariance", 0.0);
+      //TASK_FIELDS.put("ScheduledDuration", "3d");
+      TASK_FIELDS.put("ScheduledDurationMilliseconds", TaskField.SCHEDULED_DURATION);
+      //TASK_FIELDS.put("ScheduledDurationTimeSpan", "P1D");
+      TASK_FIELDS.put("ScheduledFinish", TaskField.SCHEDULED_FINISH);
+      TASK_FIELDS.put("ScheduledStart", TaskField.SCHEDULED_START);
+      TASK_FIELDS.put("SchedulePerformanceIndex", TaskField.SPI);
+      TASK_FIELDS.put("ScheduleVariancePercentage", TaskField.SVPERCENT);
+      //TASK_FIELDS.put("StartSlack", "6d");
+      TASK_FIELDS.put("StartSlackMilliseconds", TaskField.START_SLACK);
+      //TASK_FIELDS.put("StartSlackTimeSpan", "P2D");
+      //TASK_FIELDS.put("StartVariance", "0d");
+      TASK_FIELDS.put("StartVarianceMilliseconds", TaskField.START_VARIANCE);
+      //TASK_FIELDS.put("StartVarianceTimeSpan", "PT0S");
+      TASK_FIELDS.put("Stop", TaskField.STOP);
+      TASK_FIELDS.put("ToCompletePerformanceIndex", TaskField.TCPI);
+      //TASK_FIELDS.put("TotalSlack", "6d");
+      TASK_FIELDS.put("TotalSlackMilliseconds", TaskField.TOTAL_SLACK);
+      //TASK_FIELDS.put("TotalSlackTimeSpan", "P2D");
+      TASK_FIELDS.put("WorkBreakdownStructure", TaskField.WBS);
+      //TASK_FIELDS.put("WorkVariance", "0h");
+      TASK_FIELDS.put("WorkVarianceMilliseconds", TaskField.WORK_VARIANCE);
+      //TASK_FIELDS.put("WorkVarianceTimeSpan", "PT0S");
+      TASK_FIELDS.put("ActualCost", TaskField.ACTUAL_COST);
+      TASK_FIELDS.put("ActualFinish", TaskField.ACTUAL_FINISH);
+      TASK_FIELDS.put("ActualStart", TaskField.ACTUAL_START);
+      //TASK_FIELDS.put("ActualWork", "0h");
+      TASK_FIELDS.put("ActualWorkMilliseconds", TaskField.ACTUAL_WORK);
+      //TASK_FIELDS.put("ActualWorkTimeSpan", "PT0S");
+      //TASK_FIELDS.put("BudgetWork", "0h");
+      TASK_FIELDS.put("BudgetWorkMilliseconds", TaskField.BUDGET_WORK);
+      //TASK_FIELDS.put("BudgetWorkTimeSpan", "PT0S");
+      //TASK_FIELDS.put("Completion", "0001-01-01T00:00:00");
+      TASK_FIELDS.put("ConstraintStartEnd", TaskField.CONSTRAINT_DATE);
+      TASK_FIELDS.put("ConstraintType", TaskField.CONSTRAINT_TYPE);
+      TASK_FIELDS.put("Cost", TaskField.COST);
+      TASK_FIELDS.put("Deadline", TaskField.DEADLINE);
+      //TASK_FIELDS.put("Duration", "3d");
+      TASK_FIELDS.put("DurationMilliseconds", TaskField.DURATION);
+      //TASK_FIELDS.put("DurationTimeSpan", "P1D");
+      TASK_FIELDS.put("Finish", TaskField.FINISH);
+      TASK_FIELDS.put("FinishText", TaskField.FINISH_TEXT);
+      TASK_FIELDS.put("FixedCost", TaskField.FIXED_COST);
+      TASK_FIELDS.put("FixedCostAccrual", TaskField.FIXED_COST_ACCRUAL);
+      TASK_FIELDS.put("IsActive", TaskField.ACTIVE);
+      TASK_FIELDS.put("IsEffortDriven", TaskField.EFFORT_DRIVEN);
+      //TASK_FIELDS.put("IsLockedByManager", false);
+      TASK_FIELDS.put("IsManual", TaskField.TASK_MODE);
+      TASK_FIELDS.put("IsMarked", TaskField.MARKED);
+      TASK_FIELDS.put("IsMilestone", TaskField.MILESTONE);
+      TASK_FIELDS.put("LevelingAdjustsAssignments", TaskField.LEVEL_ASSIGNMENTS);
+      TASK_FIELDS.put("LevelingCanSplit", TaskField.LEVELING_CAN_SPLIT);
+      TASK_FIELDS.put("Name", TaskField.NAME);
+      TASK_FIELDS.put("OutlineLevel", TaskField.OUTLINE_LEVEL);
+      TASK_FIELDS.put("PercentComplete", TaskField.PERCENT_COMPLETE);
+      TASK_FIELDS.put("PercentPhysicalWorkComplete", TaskField.PHYSICAL_PERCENT_COMPLETE);
+      TASK_FIELDS.put("Priority", TaskField.PRIORITY);
+      //TASK_FIELDS.put("RemainingDuration", "3d");
+      TASK_FIELDS.put("RemainingDurationMilliseconds", TaskField.REMAINING_DURATION);
+      //TASK_FIELDS.put("RemainingDurationTimeSpan", "P1D");
+      TASK_FIELDS.put("Start", TaskField.START);
+      TASK_FIELDS.put("StartText", TaskField.START_TEXT);
+      TASK_FIELDS.put("TaskType", TaskField.TYPE);
+      //TASK_FIELDS.put("UsePercentPhysicalWorkComplete", false);
+      //TASK_FIELDS.put("Work", "0h");
+      TASK_FIELDS.put("WorkMilliseconds", TaskField.WORK);
+      //TASK_FIELDS.put("WorkTimeSpan", "PT0S");
+
+      // TODO: review custom field handling
+      //TASK_FIELDS.put("Custom_x005f_0000e8d965f147699bd2819d38036fcc", ["Entry_000079d24a4341fcb26498d23fadd84b"]);
    }
 }

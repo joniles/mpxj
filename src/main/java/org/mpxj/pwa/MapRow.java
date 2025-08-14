@@ -9,11 +9,14 @@ import java.util.UUID;
 
 import org.mpxj.AccrueType;
 import org.mpxj.BookingType;
+import org.mpxj.ConstraintType;
 import org.mpxj.CurrencySymbolPosition;
 import org.mpxj.DataType;
 import org.mpxj.Duration;
+import org.mpxj.Priority;
 import org.mpxj.Rate;
 import org.mpxj.ScheduleFrom;
+import org.mpxj.TaskMode;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.LocalDateTimeHelper;
@@ -39,7 +42,7 @@ class MapRow
 
    public UUID getUUID(String key)
    {
-      return UUID.fromString(String.valueOf(getObject(key)));
+      return (UUID)getObject(key, DataType.GUID);
    }
 
    public LocalDate getLocalDate(String key)
@@ -75,7 +78,7 @@ class MapRow
 
          case GUID:
          {
-            return UUID.fromString(String.valueOf(value));
+            return getUuidFromString(String.valueOf(value));
          }
 
          case DURATION:
@@ -149,9 +152,26 @@ class MapRow
             return TimeUnit.getInstance(NumberHelper.getInt((Integer) value) - 1);
          }
 
+         case TASK_MODE:
+         {
+            return ((Boolean) value).booleanValue() ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED;
+         }
+
+         case PRIORITY:
+         {
+            return Priority.getInstance((Integer)value);
+         }
+
+         case CONSTRAINT:
+         {
+            return ConstraintType.getInstance(NumberHelper.getInt((Integer) value) - 1);
+         }
+
          case INTEGER:
+         case NUMERIC:
          case PERCENTAGE:
          case BOOLEAN:
+         case SHORT:
          {
             return value;
          }
@@ -171,6 +191,16 @@ class MapRow
       }
 
       return LocalDateTimeHelper.parseBest(DATE_TIME_FORMAT, value);
+   }
+
+   private UUID getUuidFromString(String value)
+   {
+      if (value.equals("00000000-0000-0000-0000-000000000000"))
+      {
+         return null;
+      }
+
+      return UUID.fromString(value);
    }
 
    private final Map<String, Object> m_map;
