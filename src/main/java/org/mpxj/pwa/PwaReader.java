@@ -24,6 +24,7 @@ import org.mpxj.CurrencySymbolPosition;
 import org.mpxj.Duration;
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
+import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectField;
 import org.mpxj.ProjectFile;
 import org.mpxj.Rate;
@@ -74,11 +75,7 @@ public class PwaReader
          throw new PwaException(getExceptionMessage(connection, code, "List project baselines request failed"));
       }
 
-      Map<String, Object> map = readValue(connection, new TypeReference<Map<String, Object>>()
-      {
-      });
-
-      populateFieldContainer(m_project.getProjectProperties(), PROJECT_DATA_PROJECT_FIELDS, map);
+      populateFieldContainer(m_project.getProjectProperties(), PROJECT_DATA_PROJECT_FIELDS, readMapRow(connection));
 
       connection = createConnection("ProjectServer/Projects(guid'" + m_projectID + "')");
       code = getResponseCode(connection);
@@ -88,11 +85,7 @@ public class PwaReader
          throw new PwaException(getExceptionMessage(connection, code, "List project baselines request failed"));
       }
 
-      map = readValue(connection, new TypeReference<Map<String, Object>>()
-      {
-      });
-
-      populateFieldContainer(m_project.getProjectProperties(), PROJECT_SERVER_PROJECT_FIELDS, map);
+      populateFieldContainer(m_project.getProjectProperties(), PROJECT_SERVER_PROJECT_FIELDS, readMapRow(connection));
    }
 
    /**
@@ -107,15 +100,28 @@ public class PwaReader
 
       if (code != 200)
       {
-         throw new PwaException(getExceptionMessage(connection, code, "Read resources request failed"));
+         throw new PwaException(getExceptionMessage(connection, code, "Read calendars request failed"));
       }
 
-      ListContainer dataList = readValue(connection, ListContainer.class);
-      for (Map<String, Object> data : dataList.getValue())
-      {
-         populateFieldContainer(m_project.addResource(), RESOURCE_FIELDS, data);
-      }
+      readValue(connection, ListContainer.class).getValue().forEach(item -> readCalendar(new MapRow(item)));
+   }
 
+   private void readCalendarExceptions(ProjectCalendar calendar)
+   {
+
+   }
+
+   public void readCalendar(MapRow row)
+   {
+      ProjectCalendar calendar = m_project.addDefaultBaseCalendar();
+      //"odata.type": "PS.Calendar",
+      //"odata.id": "https://example.sharepoint.com/sites/pwa/_api/ProjectServer/Calendars('9410ae84-5878-f011-97be-080027fff3b7')",
+      //"odata.editLink": "ProjectServer/Calendars('9410ae84-5878-f011-97be-080027fff3b7')",
+      //"Created": "2025-08-13T15:18:27.837",
+      calendar.setGUID(row.getUUID("Id"));
+      //"IsStandardCalendar": false,
+      //"Modified": "2025-08-13T15:18:27.837",
+      calendar.setName(row.getString("Name"));
    }
 
    private void readResources()
@@ -128,11 +134,7 @@ public class PwaReader
          throw new PwaException(getExceptionMessage(connection, code, "Read resources request failed"));
       }
 
-      ListContainer dataList = readValue(connection, ListContainer.class);
-      for (Map<String, Object> data : dataList.getValue())
-      {
-         populateFieldContainer(m_project.addResource(), RESOURCE_FIELDS, data);
-      }
+      readValue(connection, ListContainer.class).getValue().forEach(item -> populateFieldContainer(m_project.addResource(), RESOURCE_FIELDS, new MapRow(item)));
    }
 
    private HttpURLConnection createConnection(String path)
@@ -207,6 +209,18 @@ public class PwaReader
       }
    }
 
+   private MapRow readMapRow(HttpURLConnection connection)
+   {
+      return new MapRow(readValue(connection));
+   }
+
+   private Map<String, Object> readValue(HttpURLConnection connection)
+   {
+      return readValue(connection, new TypeReference<Map<String, Object>>()
+      {
+      });
+   }
+
    private <T> T readValue(HttpURLConnection connection, TypeReference<T> valueTypeRef)
    {
       try
@@ -237,135 +251,11 @@ public class PwaReader
       }
    }
 
-   private void populateFieldContainer(FieldContainer container, Map<String, ? extends FieldType> index, Map<String, Object> data)
+   private void populateFieldContainer(FieldContainer container, Map<String, ? extends FieldType> index, MapRow data)
    {
       for (Map.Entry<String, ? extends FieldType> entry : index.entrySet())
       {
-         Object value = data.get(entry.getKey());
-         if (value == null)
-         {
-            continue;
-         }
-
-         FieldType type = entry.getValue();
-         switch (type.getDataType())
-         {
-            case STRING:
-            {
-               value = String.valueOf(value);
-               break;
-            }
-
-            case DATE:
-            {
-               value = getDate(String.valueOf(value));
-               break;
-            }
-
-            case GUID:
-            {
-               value = UUID.fromString(String.valueOf(value));
-               break;
-            }
-
-            case DURATION:
-            {
-               value = Duration.getInstance(Double.parseDouble(String.valueOf(value)), TimeUnit.HOURS);
-               break;
-            }
-
-            case WORK:
-            {
-               double time = Double.parseDouble(String.valueOf(value));
-               if (entry.getKey().endsWith("Milliseconds"))
-               {
-                  time = time / (1000.0 * 60.0 * 60.0);
-               }
-
-               value = Duration.getInstance(time, TimeUnit.HOURS);
-               break;
-            }
-
-            case CURRENCY:
-            {
-               value = Double.parseDouble(String.valueOf(value));
-               break;
-            }
-
-            case SCHEDULE_FROM:
-            {
-               value = ((Boolean) value).booleanValue() ? ScheduleFrom.START : ScheduleFrom.FINISH;
-               break;
-            }
-
-            case ACCRUE:
-            {
-               value = AccrueType.getInstance((Integer) value);
-               break;
-            }
-
-            case DAY:
-            {
-               value = DayOfWeekHelper.getInstance(NumberHelper.getInt((Integer) value) + 1);
-               break;
-            }
-
-            case TIME:
-            {
-               value = LocalTime.parse(String.valueOf(value), DATE_TIME_FORMAT);
-               break;
-            }
-
-            case TASK_TYPE:
-            {
-               value = TaskTypeHelper.getInstance((Integer) value);
-               break;
-            }
-
-            case CURRENCY_SYMBOL_POSITION:
-            {
-               value = CurrencySymbolPosition.getInstance((Integer) value);
-               break;
-            }
-
-            case RATE:
-            {
-               value = new Rate((Number) value, TimeUnit.HOURS);
-               break;
-            }
-
-            case UNITS:
-            {
-               value = Double.valueOf(((Number)value).doubleValue() * 100);
-               break;
-            }
-
-            case BOOKING_TYPE:
-            {
-               value = BookingType.getInstance(NumberHelper.getInt((Integer) value));
-               break;
-            }
-
-            case RATE_UNITS:
-            {
-               value = TimeUnit.getInstance(NumberHelper.getInt((Integer) value)-1);
-               break;
-            }
-
-            case INTEGER:
-            case PERCENTAGE:
-            case BOOLEAN:
-            {
-               break;
-            }
-
-            default:
-            {
-               throw new PwaException(type.getDataType() + " not handled");
-            }
-         }
-
-         container.set(type, value);
+         container.set(entry.getValue(), data.getObject(entry.getKey(), entry.getValue().getDataType()));
       }
    }
 
