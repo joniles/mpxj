@@ -58,6 +58,7 @@ public class PwaReader
       m_project = new ProjectFile();
 
       readProjectProperties();
+      readCalendars();
       readResources();
 
       return m_project;
@@ -92,6 +93,29 @@ public class PwaReader
       });
 
       populateFieldContainer(m_project.getProjectProperties(), PROJECT_SERVER_PROJECT_FIELDS, map);
+   }
+
+   /**
+    * Issues with PWA:
+    * 1. WorkWeeks are not available, although allegedly there is an endpoint
+    * 2. Resource calendars are not available
+    */
+   private void readCalendars()
+   {
+      HttpURLConnection connection = createConnection("ProjectServer/Calendars");
+      int code = getResponseCode(connection);
+
+      if (code != 200)
+      {
+         throw new PwaException(getExceptionMessage(connection, code, "Read resources request failed"));
+      }
+
+      ListContainer dataList = readValue(connection, ListContainer.class);
+      for (Map<String, Object> data : dataList.getValue())
+      {
+         populateFieldContainer(m_project.addResource(), RESOURCE_FIELDS, data);
+      }
+
    }
 
    private void readResources()
