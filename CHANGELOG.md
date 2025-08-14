@@ -7,6 +7,10 @@ no longer distributed. Please use the `MPXJ.Net` package instead.
 
 ## 14.4.0 (unreleased)
 
+## 14.3.3 (2025-08-14)
+* Do not supply a default value for the Task Constraint Type attribute. Previously if this value was not set, MPXJ returned `ConstraintType.AS_SOON_AS_POSSIBLE`.
+* Remove workaround for locating the SQLite native library when using .Net on a Mac. This is no longer necessary following the recent SQLite version update.
+
 ## 14.3.2 (2025-08-05)
 * Handle time ranges in Synchro SP file which finish at midnight.
 * Improve support for reading task data from certain Synchro 6.5 SP files.
