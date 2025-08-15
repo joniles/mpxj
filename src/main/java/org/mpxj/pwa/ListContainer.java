@@ -5,15 +5,15 @@ import java.util.Map;
 
 class ListContainer
 {
-   public List<Map<String, Object>> getValue()
+   public List<MapRow> getValue()
    {
       return m_value;
    }
 
-   public void setValue(List<Map<String, Object>> value)
+   public void setValue(List<MapRow> value)
    {
       m_value = value;
    }
 
-   private List<Map<String, Object>> m_value;
+   private List<MapRow> m_value;
 }

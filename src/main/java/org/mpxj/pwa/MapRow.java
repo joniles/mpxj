@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -24,58 +26,37 @@ import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.mpp.TaskTypeHelper;
 
-class MapRow
+class MapRow extends LinkedHashMap<String, Object>
 {
-   public MapRow()
+   public List<MapRow> getList(String key)
    {
-
-   }
-
-   public MapRow(Map<String, Object> map)
-   {
-      m_map = map;
-   }
-
-   public MapRow wrap(Map<String, Object> map)
-   {
-      m_map = map;
-      return this;
-   }
-
-   public Object getObject(String key)
-   {
-      return m_map.get(key);
-   }
-
-   public List<Map<String, Object>> getList(String key)
-   {
-      return (List<Map<String, Object>>) m_map.get(key);
+      return (List<MapRow>) get(key);
    }
 
    public String getString(String key)
    {
-      return String.valueOf(getObject(key));
+      return String.valueOf(get(key));
    }
 
    public UUID getUUID(String key)
    {
-      return (UUID)getObject(key, DataType.GUID);
+      return (UUID) getObject(key, DataType.GUID);
    }
 
    public LocalDate getLocalDate(String key)
    {
-      LocalDateTime result = (LocalDateTime)getObject(key, DataType.DATE);
+      LocalDateTime result = (LocalDateTime) getObject(key, DataType.DATE);
       return result == null ? null : result.toLocalDate();
    }
 
    public int getInt(String key)
    {
-      return NumberHelper.getInt((Integer)getObject(key, DataType.INTEGER));
+      return NumberHelper.getInt((Integer) getObject(key, DataType.INTEGER));
    }
 
    public Object getObject(String key, DataType type)
    {
-      Object value = m_map.get(key);
+      Object value = get(key);
       if (value == null)
       {
          return null;
@@ -176,7 +157,7 @@ class MapRow
 
          case PRIORITY:
          {
-            return Priority.getInstance((Integer)value);
+            return Priority.getInstance((Integer) value);
          }
 
          case CONSTRAINT:
@@ -219,8 +200,6 @@ class MapRow
 
       return UUID.fromString(value);
    }
-
-   private Map<String, Object> m_map;
 
    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'[HH:mm:ss.SSS][HH:mm:ss.SS][HH:mm:ss.S][HH:mm:ss]");
 }

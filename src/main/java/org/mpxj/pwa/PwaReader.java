@@ -17,6 +17,7 @@ import java.util.zip.GZIPInputStream;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
 import org.mpxj.LocalTimeRange;
@@ -44,6 +45,10 @@ public class PwaReader
       m_token = token;
       m_mapper = new ObjectMapper();
       m_mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+      SimpleModule module = new SimpleModule();
+      module.addDeserializer(Map.class, new MapRowDeserializer());
+      m_mapper.registerModule(module);
    }
 
    public ProjectFile readProject(UUID id)
@@ -116,7 +121,7 @@ public class PwaReader
       }
 
       MapRow row = new MapRow();
-      readValue(connection, ListContainer.class).getValue().forEach(item -> readCalendar(row.wrap(item)));
+      readValue(connection, ListContainer.class).getValue().forEach(item -> readCalendar(item));
    }
 
    private void readCalendar(MapRow row)
@@ -145,7 +150,7 @@ public class PwaReader
       }
 
       MapRow row = new MapRow();
-      readValue(connection, ListContainer.class).getValue().forEach(item -> readCalendarException(calendar, row.wrap(item)));
+      readValue(connection, ListContainer.class).getValue().forEach(item -> readCalendarException(calendar, item));
    }
 
    private void readCalendarException(ProjectCalendar calendar, MapRow row)
@@ -190,7 +195,7 @@ public class PwaReader
    private void readResources()
    {
       MapRow row = new MapRow();
-      m_data.getList("ProjectResources").forEach(item -> populateFieldContainer(m_project.addResource(), RESOURCE_FIELDS, row.wrap(item)));
+      m_data.getList("ProjectResources").forEach(item -> populateFieldContainer(m_project.addResource(), RESOURCE_FIELDS, item));
    }
 
    private void readTasks()
@@ -292,14 +297,12 @@ public class PwaReader
 
    private MapRow readMapRow(HttpURLConnection connection)
    {
-      return new MapRow(readValue(connection));
+      return readValue(connection);
    }
 
-   private Map<String, Object> readValue(HttpURLConnection connection)
+   private MapRow readValue(HttpURLConnection connection)
    {
-      return readValue(connection, new TypeReference<Map<String, Object>>()
-      {
-      });
+      return readValue(connection, MapRow.class);
    }
 
    private <T> T readValue(HttpURLConnection connection, TypeReference<T> valueTypeRef)
