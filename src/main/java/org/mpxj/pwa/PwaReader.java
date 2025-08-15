@@ -14,8 +14,12 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 
+import com.fasterxml.jackson.core.JacksonException;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.mpxj.FieldContainer;
@@ -47,7 +51,14 @@ public class PwaReader
       m_mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
       SimpleModule module = new SimpleModule();
-      module.addDeserializer(Map.class, new MapRowDeserializer());
+      module.addDeserializer(Map.class, new JsonDeserializer<MapRow>()
+      {
+         @Override public MapRow deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException
+         {
+            return ctxt.readValue(p, MapRow.class);
+         }
+      });
+
       m_mapper.registerModule(module);
    }
 
