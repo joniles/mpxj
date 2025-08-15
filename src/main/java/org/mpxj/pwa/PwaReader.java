@@ -510,7 +510,7 @@ public class PwaReader
       //RESOURCE_FIELDS.put("odata.editLink", "ProjectServer/Projects('47bd06f0-2703-ef11-ba8c-00155d805832')/ProjectResources('323acc7e-2578-f011-b51f-00155d80b22e')");
       RESOURCE_FIELDS.put("ActualCost", ResourceField.ACTUAL_COST);
       //RESOURCE_FIELDS.put("ActualCostWorkPerformed", "0h");
-      //RESOURCE_FIELDS.put("ActualCostWorkPerformedMilliseconds", 0);
+      RESOURCE_FIELDS.put("ActualCostWorkPerformedMilliseconds", ResourceField.ACWP);
       //RESOURCE_FIELDS.put("ActualCostWorkPerformedTimeSpan", "PT0S");
       RESOURCE_FIELDS.put("ActualOvertimeCost", ResourceField.ACTUAL_OVERTIME_COST);
       //RESOURCE_FIELDS.put("ActualOvertimeWork", "0h");
@@ -525,9 +525,9 @@ public class PwaReader
       //RESOURCE_FIELDS.put("BaselineWork", "0h");
       RESOURCE_FIELDS.put("BaselineWorkMilliseconds", ResourceField.BASELINE_WORK);
       //RESOURCE_FIELDS.put("BaselineWorkTimeSpan", "PT0S");
-      //RESOURCE_FIELDS.put("BudetCostWorkPerformed", 0.0);
+      RESOURCE_FIELDS.put("BudetCostWorkPerformed", ResourceField.BCWP);
       RESOURCE_FIELDS.put("BudgetedCost", ResourceField.BUDGET_COST);
-      //RESOURCE_FIELDS.put("BudgetedCostWorkScheduled", 0.0);
+      RESOURCE_FIELDS.put("BudgetedCostWorkScheduled", ResourceField.BCWS);
       //RESOURCE_FIELDS.put("BudgetedWork", "0h");
       RESOURCE_FIELDS.put("BudgetedWorkMilliseconds", ResourceField.BUDGET_WORK);
       //RESOURCE_FIELDS.put("BudgetedWorkTimeSpan", "PT0S");
@@ -748,6 +748,12 @@ public class PwaReader
       //TASK_FIELDS.put("WorkTimeSpan", "PT0S");
 
       // TODO: review custom field handling
-      //TASK_FIELDS.put("Custom_x005f_0000e8d965f147699bd2819d38036fcc", ["Entry_000079d24a4341fcb26498d23fadd84b"]);
+      //"Custom_x005f_0000e8d965f147699bd2819d38036fcc": ["Entry_000079d24a4341fcb26498d23fadd84b"]
+      //"LocalCustom_x005f_Published_x005f_47bd06f02703ef11ba8c00155d805832_x005f_000039b78bbe4ceb82c4fa8c0b400033": "aaa",
+      //"LocalCustom_x005f_Published_x005f_47bd06f02703ef11ba8c00155d805832_x005f_000039b78bbe4ceb82c4fa8c0b400048": true,
+      //"LocalCustom_x005f_Published_x005f_47bd06f02703ef11ba8c00155d805832_x005f_000039b78bbe4ceb82c4fa8c0b400067": "1d",
+      //"LocalCustom_x005f_Published_x005f_47bd06f02703ef11ba8c00155d805832_x005f_000039b78bbe4ceb82c4fa8c0b40006a": "111.000000",
+      //"LocalCustom_x005f_Published_x005f_47bd06f02703ef11ba8c00155d805832_x005f_000039b78bbe4ceb82c4fa8c0b400109": "2025-08-10T08:00:00",
+      //"LocalCustom_x005f_Published_x005f_47bd06f02703ef11ba8c00155d805832_x005f_000039b78bbe4ceb82c4fa8c0b4001a0": ["Entry_5e9f2da1a879f01197c0080027fff3b7"]
    }
 }
