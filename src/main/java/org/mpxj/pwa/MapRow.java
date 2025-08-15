@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -25,14 +26,30 @@ import org.mpxj.mpp.TaskTypeHelper;
 
 class MapRow
 {
+   public MapRow()
+   {
+
+   }
+
    public MapRow(Map<String, Object> map)
    {
       m_map = map;
    }
 
+   public MapRow wrap(Map<String, Object> map)
+   {
+      m_map = map;
+      return this;
+   }
+
    public Object getObject(String key)
    {
       return m_map.get(key);
+   }
+
+   public List<Map<String, Object>> getList(String key)
+   {
+      return (List<Map<String, Object>>) m_map.get(key);
    }
 
    public String getString(String key)
@@ -203,7 +220,7 @@ class MapRow
       return UUID.fromString(value);
    }
 
-   private final Map<String, Object> m_map;
+   private Map<String, Object> m_map;
 
    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'[HH:mm:ss.SSS][HH:mm:ss.SS][HH:mm:ss.S][HH:mm:ss]");
 }

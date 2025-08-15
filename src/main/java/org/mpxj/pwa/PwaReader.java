@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -24,7 +25,9 @@ import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectField;
 import org.mpxj.ProjectFile;
 import org.mpxj.ResourceField;
+import org.mpxj.Task;
 import org.mpxj.TaskField;
+import org.mpxj.common.HierarchyHelper;
 import org.mpxj.opc.OpcException;
 
 public class PwaReader
@@ -45,15 +48,42 @@ public class PwaReader
 
    public ProjectFile readProject(UUID id)
    {
-      m_projectID = id;
-      m_project = new ProjectFile();
+      try
+      {
+         m_projectID = id;
+         m_project = new ProjectFile();
+         m_data = readData();
 
-      readProjectProperties();
-      readCalendars();
-      readResources();
-      readTasks();
+         readProjectProperties();
+         readCalendars();
+         readResources();
+         readTasks();
 
-      return m_project;
+         return m_project;
+      }
+
+      finally
+      {
+         m_projectID = null;
+         m_project = null;
+         m_data = null;
+      }
+   }
+
+   private MapRow readData()
+   {
+      HttpURLConnection connection = createConnection("ProjectServer/Projects(guid'" + m_projectID + "')?"
+         + "$expand=ProjectResources,Tasks,TaskLinks,Tasks/Parent,Tasks/CustomFields,Tasks/Assignments,Tasks/Assignments/Resource&"
+         + "$select=*,Tasks/*,Tasks/Parent/Id,Tasks/Assignments/*,Tasks/CustomFields/*,Tasks/Assignments/Resource/Id");
+
+      int code = getResponseCode(connection);
+
+      if (code != 200)
+      {
+         throw new PwaException(getExceptionMessage(connection, code));
+      }
+
+      return readMapRow(connection);
    }
 
    private void readProjectProperties()
@@ -67,16 +97,7 @@ public class PwaReader
       }
 
       populateFieldContainer(m_project.getProjectProperties(), PROJECT_DATA_PROJECT_FIELDS, readMapRow(connection));
-
-      connection = createConnection("ProjectServer/Projects(guid'" + m_projectID + "')");
-      code = getResponseCode(connection);
-
-      if (code != 200)
-      {
-         throw new PwaException(getExceptionMessage(connection, code));
-      }
-
-      populateFieldContainer(m_project.getProjectProperties(), PROJECT_SERVER_PROJECT_FIELDS, readMapRow(connection));
+      populateFieldContainer(m_project.getProjectProperties(), PROJECT_SERVER_PROJECT_FIELDS, m_data);
    }
 
    /**
@@ -94,7 +115,8 @@ public class PwaReader
          throw new PwaException(getExceptionMessage(connection, code));
       }
 
-      readValue(connection, ListContainer.class).getValue().forEach(item -> readCalendar(new MapRow(item)));
+      MapRow row = new MapRow();
+      readValue(connection, ListContainer.class).getValue().forEach(item -> readCalendar(row.wrap(item)));
    }
 
    private void readCalendar(MapRow row)
@@ -122,7 +144,8 @@ public class PwaReader
          throw new PwaException(getExceptionMessage(connection, code));
       }
 
-      readValue(connection, ListContainer.class).getValue().forEach(item -> readCalendarException(calendar, new MapRow(item)));
+      MapRow row = new MapRow();
+      readValue(connection, ListContainer.class).getValue().forEach(item -> readCalendarException(calendar, row.wrap(item)));
    }
 
    private void readCalendarException(ProjectCalendar calendar, MapRow row)
@@ -166,29 +189,33 @@ public class PwaReader
 
    private void readResources()
    {
-      HttpURLConnection connection = createConnection("ProjectServer/Projects(guid'" + m_projectID + "')/ProjectResources");
-      int code = getResponseCode(connection);
-
-      if (code != 200)
-      {
-         throw new PwaException(getExceptionMessage(connection, code));
-      }
-
-      readValue(connection, ListContainer.class).getValue().forEach(item -> populateFieldContainer(m_project.addResource(), RESOURCE_FIELDS, new MapRow(item)));
+      MapRow row = new MapRow();
+      m_data.getList("ProjectResources").forEach(item -> populateFieldContainer(m_project.addResource(), RESOURCE_FIELDS, row.wrap(item)));
    }
 
    private void readTasks()
    {
-      HttpURLConnection connection = createConnection("ProjectServer/Projects(guid'" + m_projectID + "')/Tasks");
-      int code = getResponseCode(connection);
+//      List<Map<String,  Object>> taskMaps = HierarchyHelper.sortHierarchy(m_data.getList("Tasks"), t -> t.get("Id"), this::getParentID);
+//      Map<Object, Task> idMap = new HashMap<>();
+//
+//      MapRow row = new MapRow();
+//      for (Map<String, Object> taskMap : taskMaps)
+//      {
+//         row.wrap(taskMap);
+//         String parent = row.getMap("Parent");
+//      }
+//
+//      populateFieldContainer(m_project.addTask(), TASK_FIELDS, row.wrap(item)));
+   }
 
-      if (code != 200)
+   private Object getParentID(Map<String, Object> map)
+   {
+      Map<String, Object> parent = (Map<String, Object>)map.get("Parent");
+      if (parent == null)
       {
-         throw new PwaException(getExceptionMessage(connection, code));
+         return  null;
       }
-
-      // TODO: construct task hierarchy
-      readValue(connection, ListContainer.class).getValue().forEach(item -> populateFieldContainer(m_project.addResource(), TASK_FIELDS, new MapRow(item)));
+      return parent.get("Id");
    }
 
    private HttpURLConnection createConnection(String path)
@@ -318,6 +345,7 @@ public class PwaReader
    private final ObjectMapper m_mapper;
    private UUID m_projectID;
    private ProjectFile m_project;
+   private MapRow m_data;
 
    private static final Map<String, ProjectField> PROJECT_DATA_PROJECT_FIELDS = new HashMap<>();
    static
@@ -659,7 +687,7 @@ public class PwaReader
       //TASK_FIELDS.put("LevelingDelayTimeSpan", "PT0S");
       //TASK_FIELDS.put("Modified", "2025-07-01T17:49:44.46");
       TASK_FIELDS.put("Notes", TaskField.NOTES);
-      TASK_FIELDS.put("OutlinePosition", TaskField.ID);
+      TASK_FIELDS.put("OutlinePosition", TaskField.OUTLINE_NUMBER);
       TASK_FIELDS.put("OvertimeCost", TaskField.OVERTIME_COST);
       //TASK_FIELDS.put("OvertimeWork", "0h");
       TASK_FIELDS.put("OvertimeWorkMilliseconds", TaskField.OVERTIME_WORK);
