@@ -14,7 +14,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 
-import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -53,7 +52,7 @@ public class PwaReader
       SimpleModule module = new SimpleModule();
       module.addDeserializer(Map.class, new JsonDeserializer<MapRow>()
       {
-         @Override public MapRow deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException
+         @Override public MapRow deserialize(JsonParser p, DeserializationContext ctxt) throws IOException
          {
             return ctxt.readValue(p, MapRow.class);
          }
@@ -69,6 +68,7 @@ public class PwaReader
          m_projectID = id;
          m_project = new ProjectFile();
          m_data = readData();
+         m_taskMap = new HashMap<>();
 
          readProjectProperties();
          readCalendars();
@@ -83,6 +83,7 @@ public class PwaReader
          m_projectID = null;
          m_project = null;
          m_data = null;
+         m_taskMap = null;
       }
    }
 
@@ -132,7 +133,7 @@ public class PwaReader
       }
 
       MapRow row = new MapRow();
-      readValue(connection, ListContainer.class).getValue().forEach(item -> readCalendar(item));
+      readValue(connection, ListContainer.class).getValue().forEach(this::readCalendar);
    }
 
    private void readCalendar(MapRow row)
@@ -211,27 +212,25 @@ public class PwaReader
 
    private void readTasks()
    {
-//      List<Map<String,  Object>> taskMaps = HierarchyHelper.sortHierarchy(m_data.getList("Tasks"), t -> t.get("Id"), this::getParentID);
-//      Map<Object, Task> idMap = new HashMap<>();
-//
-//      MapRow row = new MapRow();
-//      for (Map<String, Object> taskMap : taskMaps)
-//      {
-//         row.wrap(taskMap);
-//         String parent = row.getMap("Parent");
-//      }
-//
-//      populateFieldContainer(m_project.addTask(), TASK_FIELDS, row.wrap(item)));
+      List<MapRow> tasks = HierarchyHelper.sortHierarchy(m_data.getList("Tasks"), t -> t.getUUID("Id"), this::getParentID);
+
+      for (MapRow taskData : tasks)
+      {
+         Task parentTask = m_taskMap.get(getParentID(taskData));
+         Task task = (parentTask == null ? m_project : parentTask).addTask();
+         populateFieldContainer(task, TASK_FIELDS, taskData);
+         m_taskMap.put(task.getGUID(), task);
+      }
    }
 
-   private Object getParentID(Map<String, Object> map)
+   private UUID getParentID(MapRow map)
    {
-      Map<String, Object> parent = (Map<String, Object>)map.get("Parent");
+      MapRow parent = map.getMapRow("Parent");
       if (parent == null)
       {
          return  null;
       }
-      return parent.get("Id");
+      return parent.getUUID("Id");
    }
 
    private HttpURLConnection createConnection(String path)
@@ -360,6 +359,7 @@ public class PwaReader
    private UUID m_projectID;
    private ProjectFile m_project;
    private MapRow m_data;
+   private Map<UUID, Task> m_taskMap;
 
    private static final Map<String, ProjectField> PROJECT_DATA_PROJECT_FIELDS = new HashMap<>();
    static

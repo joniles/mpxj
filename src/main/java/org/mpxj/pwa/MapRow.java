@@ -33,6 +33,11 @@ class MapRow extends LinkedHashMap<String, Object>
       return (List<MapRow>) get(key);
    }
 
+   public MapRow getMapRow(String key)
+   {
+      return (MapRow) get(key);
+   }
+
    public String getString(String key)
    {
       return String.valueOf(get(key));
@@ -49,9 +54,14 @@ class MapRow extends LinkedHashMap<String, Object>
       return result == null ? null : result.toLocalDate();
    }
 
+   public Integer getInteger(String key)
+   {
+      return (Integer) getObject(key, DataType.INTEGER);
+   }
+
    public int getInt(String key)
    {
-      return NumberHelper.getInt((Integer) getObject(key, DataType.INTEGER));
+      return NumberHelper.getInt(getInteger(key));
    }
 
    public Object getObject(String key, DataType type)
