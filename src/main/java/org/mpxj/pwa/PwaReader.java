@@ -32,6 +32,7 @@ import org.mpxj.ResourceField;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.common.HierarchyHelper;
+import org.mpxj.explorer.ProjectExplorer;
 import org.mpxj.opc.OpcException;
 
 public class PwaReader
@@ -39,7 +40,8 @@ public class PwaReader
    public static void main(String[] argv)
    {
       PwaReader reader = new PwaReader(argv[0], argv[1]);
-      reader.readProject(UUID.fromString("47bd06f0-2703-ef11-ba8c-00155d805832"));
+      ProjectFile file = reader.readProject(UUID.fromString("47bd06f0-2703-ef11-ba8c-00155d805832"));
+      ProjectExplorer.view(file);
    }
 
    public PwaReader(String host, String token)
@@ -212,8 +214,8 @@ public class PwaReader
 
    private void readTasks()
    {
-      List<MapRow> tasks = HierarchyHelper.sortHierarchy(m_data.getList("Tasks"), t -> t.getUUID("Id"), this::getParentID);
-
+      // At the moment we're assuming that the tasks arrive in the correct order for the hierarchy.
+      List<MapRow> tasks = m_data.getList("Tasks");
       for (MapRow taskData : tasks)
       {
          Task parentTask = m_taskMap.get(getParentID(taskData));
