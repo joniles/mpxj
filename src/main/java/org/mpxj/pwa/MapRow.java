@@ -21,7 +21,9 @@ import org.mpxj.ConstraintType;
 import org.mpxj.CurrencySymbolPosition;
 import org.mpxj.DataType;
 import org.mpxj.Duration;
+import org.mpxj.Notes;
 import org.mpxj.Priority;
+import org.mpxj.ProjectFile;
 import org.mpxj.Rate;
 import org.mpxj.ScheduleFrom;
 import org.mpxj.TaskMode;
@@ -30,9 +32,15 @@ import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.mpp.TaskTypeHelper;
+import org.mpxj.mpp.WorkContourHelper;
 
 class MapRow extends LinkedHashMap<String, Object>
 {
+   public void setProject(ProjectFile project)
+   {
+      m_project = project;
+   }
+
    public List<MapRow> getList(String key)
    {
       List<MapRow> row = (List<MapRow>)get(key);
@@ -106,6 +114,7 @@ class MapRow extends LinkedHashMap<String, Object>
          }
 
          case WORK:
+         case DELAY:
          {
             double time = Double.parseDouble(String.valueOf(value));
             if (key.endsWith("Milliseconds"))
@@ -195,11 +204,20 @@ class MapRow extends LinkedHashMap<String, Object>
             return value;
          }
 
+         case WORK_CONTOUR:
+         {
+            return WorkContourHelper.getInstance(m_project, ((Integer)value).intValue());
+         }
+
+         case NOTES:
+         {
+            return new Notes(String.valueOf(value));
+         }
+
          case INTEGER:
          case PERCENTAGE:
          case BOOLEAN:
          case SHORT:
-         case NOTES:
          {
             return value;
          }
@@ -248,6 +266,8 @@ class MapRow extends LinkedHashMap<String, Object>
 
       return Duration.getInstance(duration, unit);
    }
+
+   private ProjectFile m_project;
 
    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'[HH:mm:ss.SSS][HH:mm:ss.SS][HH:mm:ss.S][HH:mm:ss]");
    private static final Pattern DURATION_REGEX = Pattern.compile("(-?\\d+\\.\\d+|-?\\d+)(emo|mo|em|eh|ed|ew|ey|e%|m|h|d|w|%|y)");

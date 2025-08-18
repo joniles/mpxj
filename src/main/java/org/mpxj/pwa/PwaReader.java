@@ -402,6 +402,8 @@ public class PwaReader
       }
 
       ResourceAssignment assignment = task.addResourceAssignment(resource);
+
+      populateFieldContainer(assignment, ASSIGNMENT_FIELDS, data);
    }
 
    private HttpURLConnection createConnection(String path)
@@ -518,6 +520,7 @@ public class PwaReader
 
    private void populateFieldContainer(FieldContainer container, Map<String, ? extends FieldType> index, MapRow data)
    {
+      data.setProject(m_project);
       for (Map.Entry<String, ? extends FieldType> entry : index.entrySet())
       {
          container.set(entry.getValue(), data.getObject(entry.getKey(), entry.getValue().getDataType()));
