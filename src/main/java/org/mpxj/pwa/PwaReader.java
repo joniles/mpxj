@@ -28,6 +28,7 @@ import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectField;
 import org.mpxj.ProjectFile;
+import org.mpxj.Resource;
 import org.mpxj.ResourceField;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
@@ -70,6 +71,7 @@ public class PwaReader
          m_projectID = id;
          m_project = new ProjectFile();
          m_data = readData();
+         m_resourceMap = new HashMap<>();
          m_taskMap = new HashMap<>();
          m_customFields = new HashMap<>();
          m_lookupEntries = new HashMap<>();
@@ -87,6 +89,7 @@ public class PwaReader
          m_projectID = null;
          m_project = null;
          m_data = null;
+         m_resourceMap = null;
          m_taskMap = null;
          m_customFields = null;
          m_lookupEntries = null;
@@ -99,6 +102,8 @@ public class PwaReader
          + "?$expand=" +
          String.join(",",
             "ProjectResources",
+            "ProjectResources/CustomFields",
+            "ProjectResources/CustomFields/LookupEntries",
             "Tasks",
             "TaskLinks",
             "Tasks/Parent",
@@ -109,6 +114,11 @@ public class PwaReader
          + "&$select=" +
          String.join(",",
             "*",
+            "ProjectResources/*",
+            "ProjectResources/CustomFields/Id",
+            "ProjectResources/CustomFields/Name",
+            "ProjectResources/CustomFields/LookupEntries/InternalName",
+            "ProjectResources/CustomFields/LookupEntries/Value",
             "Tasks/*",
             "Tasks/Parent/Id",
             "Tasks/Assignments/*",
@@ -221,21 +231,30 @@ public class PwaReader
 
    private void readResources()
    {
-      m_data.getList("ProjectResources").forEach(item -> populateFieldContainer(m_project.addResource(), RESOURCE_FIELDS, item));
+      m_data.getList("ProjectResources").forEach(r -> readResource(r));
+   }
+
+   private void readResource(MapRow data)
+   {
+      Resource resource = m_project.addResource();
+      populateFieldContainer(resource, RESOURCE_FIELDS, data);
+      readCustomFields(data, resource);
+      m_resourceMap.put(resource.getGUID(), resource);
    }
 
    private void readTasks()
    {
       // At the moment we're assuming that the tasks arrive in the correct order for the hierarchy.
-      List<MapRow> tasks = m_data.getList("Tasks");
-      for (MapRow data : tasks)
-      {
-         Task parentTask = m_taskMap.get(getParentID(data));
-         Task task = (parentTask == null ? m_project : parentTask).addTask();
-         populateFieldContainer(task, TASK_FIELDS, data);
-         readCustomFields(data, task);
-         m_taskMap.put(task.getGUID(), task);
-      }
+      m_data.getList("Tasks").forEach(t -> readTask(t));
+   }
+
+   private void readTask(MapRow data)
+   {
+      Task parentTask = m_taskMap.get(getParentID(data));
+      Task task = (parentTask == null ? m_project : parentTask).addTask();
+      populateFieldContainer(task, TASK_FIELDS, data);
+      readCustomFields(data, task);
+      m_taskMap.put(task.getGUID(), task);
    }
 
    private UUID getParentID(MapRow map)
@@ -427,6 +446,7 @@ public class PwaReader
    private ProjectFile m_project;
    private MapRow m_data;
    private Map<UUID, Task> m_taskMap;
+   private Map<UUID, Resource> m_resourceMap;
    private Map<String, FieldType> m_customFields;
    private Map<String, Object> m_lookupEntries;
 

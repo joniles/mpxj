@@ -4,10 +4,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.mpxj.AccrueType;
 import org.mpxj.BookingType;
@@ -91,6 +97,11 @@ class MapRow extends LinkedHashMap<String, Object>
 
          case DURATION:
          {
+            if (key.startsWith("LocalCustom"))
+            {
+               return parseDuration(String.valueOf(value));
+            }
+
             return Duration.getInstance(Double.parseDouble(String.valueOf(value)), TimeUnit.HOURS);
          }
 
@@ -175,8 +186,16 @@ class MapRow extends LinkedHashMap<String, Object>
             return ConstraintType.getInstance(NumberHelper.getInt((Integer) value) - 1);
          }
 
-         case INTEGER:
          case NUMERIC:
+         {
+            if (value instanceof String)
+            {
+               return Double.valueOf((String)value);
+            }
+            return value;
+         }
+
+         case INTEGER:
          case PERCENTAGE:
          case BOOLEAN:
          case SHORT:
@@ -211,5 +230,25 @@ class MapRow extends LinkedHashMap<String, Object>
       return UUID.fromString(value);
    }
 
+   private Object parseDuration(String value)
+   {
+      Matcher match = DURATION_REGEX.matcher(value);
+      if (!match.matches())
+      {
+         return value;
+      }
+
+      double duration = Double.parseDouble(match.group(1));
+      TimeUnit unit = TIME_UNIT_MAP.get(match.group(2));
+      if (unit == null)
+      {
+         return value;
+      }
+
+      return Duration.getInstance(duration, unit);
+   }
+
    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'[HH:mm:ss.SSS][HH:mm:ss.SS][HH:mm:ss.S][HH:mm:ss]");
+   private static final Pattern DURATION_REGEX = Pattern.compile("(-?\\d+\\.\\d+|-?\\d+)(emo|mo|em|eh|ed|ew|ey|e%|m|h|d|w|%|y)");
+   private static final Map<String, TimeUnit> TIME_UNIT_MAP = Arrays.stream(TimeUnit.values()).collect(Collectors.toMap(TimeUnit::getName, t -> t));
 }
