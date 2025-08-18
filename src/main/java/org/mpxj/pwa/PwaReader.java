@@ -161,8 +161,7 @@ public class PwaReader
          throw new PwaException(getExceptionMessage(connection, code));
       }
 
-      MapRow row = new MapRow();
-      readValue(connection, ListContainer.class).getValue().forEach(this::readCalendar);
+      readValue(connection).getList("value").forEach(this::readCalendar);
    }
 
    private void readCalendar(MapRow row)
