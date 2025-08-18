@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.mpxj.AssignmentField;
 import org.mpxj.CustomFieldValueDataType;
+import org.mpxj.Duration;
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
 import org.mpxj.FieldTypeClass;
@@ -31,11 +32,14 @@ import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectField;
 import org.mpxj.ProjectFile;
+import org.mpxj.Relation;
+import org.mpxj.RelationType;
 import org.mpxj.Resource;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceField;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
+import org.mpxj.TimeUnit;
 import org.mpxj.UserDefinedField;
 import org.mpxj.common.FieldTypeHelper;
 import org.mpxj.explorer.ProjectExplorer;
@@ -85,6 +89,7 @@ public class PwaReader
          readCalendars();
          readResources();
          readTasks();
+         readTaskLinks();
 
          return m_project;
       }
@@ -404,6 +409,29 @@ public class PwaReader
       ResourceAssignment assignment = task.addResourceAssignment(resource);
 
       populateFieldContainer(assignment, ASSIGNMENT_FIELDS, data);
+   }
+
+   private void readTaskLinks()
+   {
+      m_data.getList("TaskLinks").forEach(this::readTaskLink);
+   }
+
+   private void readTaskLink(MapRow data)
+   {
+      Task predecessor = m_taskMap.get(data.getUUID("PredecessorTaskId"));
+      Task successor = m_taskMap.get(data.getUUID("SuccessorTaskId"));
+      if (predecessor == null || successor == null)
+      {
+         return;
+      }
+
+      RelationType type = RelationType.getInstance(data.getInt("DependencyType"));
+      double lag = data.getInt("LinkLag") / 600.0;
+
+      successor.addPredecessor(new Relation.Builder()
+         .lag(Duration.getInstance(lag, TimeUnit.HOURS))
+         .type(type)
+         .predecessorTask(predecessor));
    }
 
    private HttpURLConnection createConnection(String path)
