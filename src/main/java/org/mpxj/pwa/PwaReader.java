@@ -21,8 +21,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.mpxj.CustomFieldValueDataType;
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
+import org.mpxj.FieldTypeClass;
 import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
@@ -32,6 +34,7 @@ import org.mpxj.Resource;
 import org.mpxj.ResourceField;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
+import org.mpxj.UserDefinedField;
 import org.mpxj.common.FieldTypeHelper;
 import org.mpxj.explorer.ProjectExplorer;
 import org.mpxj.opc.OpcException;
@@ -117,6 +120,8 @@ public class PwaReader
             "ProjectResources/*",
             "ProjectResources/CustomFields/Id",
             "ProjectResources/CustomFields/Name",
+            "ProjectResources/CustomFields/InternalName",
+            "ProjectResources/CustomFields/FieldType",
             "ProjectResources/CustomFields/LookupEntries/InternalName",
             "ProjectResources/CustomFields/LookupEntries/Value",
             "Tasks/*",
@@ -124,6 +129,8 @@ public class PwaReader
             "Tasks/Assignments/*",
             "Tasks/CustomFields/Id",
             "Tasks/CustomFields/Name",
+            "Tasks/CustomFields/InternalName",
+            "Tasks/CustomFields/FieldType",
             "Tasks/CustomFields/LookupEntries/InternalName",
             "Tasks/CustomFields/LookupEntries/Value",
             "Tasks/Assignments/Resource/Id");
@@ -231,21 +238,21 @@ public class PwaReader
 
    private void readResources()
    {
-      m_data.getList("ProjectResources").forEach(r -> readResource(r));
+      m_data.getList("ProjectResources").forEach(this::readResource);
    }
 
    private void readResource(MapRow data)
    {
       Resource resource = m_project.addResource();
       populateFieldContainer(resource, RESOURCE_FIELDS, data);
-      readCustomFields(data, resource);
+      readCustomFields(data, resource, FieldTypeClass.RESOURCE);
       m_resourceMap.put(resource.getGUID(), resource);
    }
 
    private void readTasks()
    {
       // At the moment we're assuming that the tasks arrive in the correct order for the hierarchy.
-      m_data.getList("Tasks").forEach(t -> readTask(t));
+      m_data.getList("Tasks").forEach(this::readTask);
    }
 
    private void readTask(MapRow data)
@@ -253,7 +260,7 @@ public class PwaReader
       Task parentTask = m_taskMap.get(getParentID(data));
       Task task = (parentTask == null ? m_project : parentTask).addTask();
       populateFieldContainer(task, TASK_FIELDS, data);
-      readCustomFields(data, task);
+      readCustomFields(data, task, FieldTypeClass.TASK);
       m_taskMap.put(task.getGUID(), task);
    }
 
@@ -267,13 +274,20 @@ public class PwaReader
       return parent.getUUID("Id");
    }
 
-   private void readCustomFields(MapRow data, FieldContainer container)
+   private void readCustomFields(MapRow data, FieldContainer container, FieldTypeClass fieldTypeClass)
    {
       data.keySet().stream().filter(key -> key.startsWith("LocalCustom")).forEach(key -> readLocalCustomField(data, key, container));
+      data.keySet().stream().filter(key -> key.startsWith("Custom_")).forEach(key -> readEnterpriseCustomField(data, key, container, fieldTypeClass));
    }
 
    private void readLocalCustomField(MapRow data, String internalName, FieldContainer container)
    {
+      Object value = data.get(internalName);
+      if (value == null)
+      {
+         return;
+      }
+
       FieldType type = m_customFields.get(internalName);
       if (type == null)
       {
@@ -296,12 +310,58 @@ public class PwaReader
          }
       }
 
-      Object value = data.get(internalName);
       if (value instanceof List)
       {
          // Note: we don't currently support multi-select values,
-         // so we just use the first valuein the list
-         List<String> list = (List<String>)value;
+         // so we just use the first value in the list
+         @SuppressWarnings("unchecked") List<String> list = (List<String>)value;
+         value = list.isEmpty() ? null :  m_lookupEntries.get(list.get(0));
+      }
+      else
+      {
+         value = data.getObject(internalName, type.getDataType());
+      }
+
+      container.set(type, value);
+   }
+
+   private void readEnterpriseCustomField(MapRow data, String internalName, FieldContainer container, FieldTypeClass fieldTypeClass)
+   {
+      Object value = data.get(internalName);
+      if (value == null)
+      {
+         return;
+      }
+
+      FieldType type = m_customFields.get(internalName);
+      if (type == null)
+      {
+         // Remove Custom_ prefix
+         MapRow customField = data.getList("CustomFields").stream().filter(f -> internalName.endsWith(f.getString("InternalName").substring(7))).findFirst().orElse(null);
+         if(customField == null)
+         {
+            return;
+         }
+
+         UserDefinedField field = new UserDefinedField.Builder(m_project)
+            .fieldTypeClass(fieldTypeClass)
+            .dataType(CustomFieldValueDataType.getInstance(customField.getInt("FieldType")).getDataType())
+            .internalName(customField.getString("InternalName"))
+            .externalName(customField.getString("Name"))
+            .build();
+
+         m_project.getUserDefinedFields().add(field);
+         m_project.getCustomFields().add(field).setAlias(field.getName());
+
+         m_customFields.put(internalName, type);
+         customField.getList("LookupEntries").forEach(e -> m_lookupEntries.put(e.getString("InternalName"), e.getObject("Value", field.getDataType())));
+      }
+
+      if (value instanceof List)
+      {
+         // Note: we don't currently support multi-select values,
+         // so we just use the first value in the list
+         @SuppressWarnings("unchecked") List<String> list = (List<String>)value;
          value = list.isEmpty() ? null :  m_lookupEntries.get(list.get(0));
       }
       else
