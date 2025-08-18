@@ -4,10 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.mpxj.AccrueType;
@@ -30,7 +29,8 @@ class MapRow extends LinkedHashMap<String, Object>
 {
    public List<MapRow> getList(String key)
    {
-      return (List<MapRow>) get(key);
+      List<MapRow> row = (List<MapRow>)get(key);
+      return row == null ? Collections.emptyList() : row;
    }
 
    public MapRow getMapRow(String key)

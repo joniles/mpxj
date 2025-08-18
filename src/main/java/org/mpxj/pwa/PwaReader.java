@@ -31,7 +31,7 @@ import org.mpxj.ProjectFile;
 import org.mpxj.ResourceField;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
-import org.mpxj.common.HierarchyHelper;
+import org.mpxj.common.FieldTypeHelper;
 import org.mpxj.explorer.ProjectExplorer;
 import org.mpxj.opc.OpcException;
 
@@ -71,6 +71,8 @@ public class PwaReader
          m_project = new ProjectFile();
          m_data = readData();
          m_taskMap = new HashMap<>();
+         m_customFields = new HashMap<>();
+         m_lookupEntries = new HashMap<>();
 
          readProjectProperties();
          readCalendars();
@@ -86,14 +88,39 @@ public class PwaReader
          m_project = null;
          m_data = null;
          m_taskMap = null;
+         m_customFields = null;
+         m_lookupEntries = null;
       }
    }
 
    private MapRow readData()
    {
-      HttpURLConnection connection = createConnection("ProjectServer/Projects(guid'" + m_projectID + "')?"
-         + "$expand=ProjectResources,Tasks,TaskLinks,Tasks/Parent,Tasks/CustomFields,Tasks/Assignments,Tasks/Assignments/Resource&"
-         + "$select=*,Tasks/*,Tasks/Parent/Id,Tasks/Assignments/*,Tasks/CustomFields/*,Tasks/Assignments/Resource/Id");
+      String query = "ProjectServer/Projects(guid'" + m_projectID + "')"
+         + "?$expand=" +
+         String.join(",",
+            "ProjectResources",
+            "Tasks",
+            "TaskLinks",
+            "Tasks/Parent",
+            "Tasks/CustomFields",
+            "Tasks/CustomFields/LookupEntries",
+            "Tasks/Assignments",
+            "Tasks/Assignments/Resource")
+         + "&$select=" +
+         String.join(",",
+            "*",
+            "Tasks/*",
+            "Tasks/Parent/Id",
+            "Tasks/Assignments/*",
+            "Tasks/CustomFields/Id",
+            "Tasks/CustomFields/Name",
+            "Tasks/CustomFields/LookupEntries/InternalName",
+            "Tasks/CustomFields/LookupEntries/Value",
+            "Tasks/Assignments/Resource/Id");
+
+      System.out.println(query);
+
+      HttpURLConnection connection = createConnection(query);
 
       int code = getResponseCode(connection);
 
@@ -126,7 +153,7 @@ public class PwaReader
     */
    private void readCalendars()
    {
-      HttpURLConnection connection = createConnection("ProjectServer/Calendars");
+      HttpURLConnection connection = createConnection("ProjectServer/Calendars?$expand=BaseCalendarExceptions");
       int code = getResponseCode(connection);
 
       if (code != 200)
@@ -150,22 +177,9 @@ public class PwaReader
       //"Modified": "2025-08-13T15:18:27.837",
       calendar.setName(row.getString("Name"));
 
-      readCalendarExceptions(calendar);
+      row.getList("BaseCalendarExceptions").forEach(item -> readCalendarException(calendar, item));
    }
 
-   private void readCalendarExceptions(ProjectCalendar calendar)
-   {
-      HttpURLConnection connection = createConnection("ProjectServer/Calendars('" + calendar.getGUID() + "')/BaseCalendarExceptions");
-      int code = getResponseCode(connection);
-
-      if (code != 200)
-      {
-         throw new PwaException(getExceptionMessage(connection, code));
-      }
-
-      MapRow row = new MapRow();
-      readValue(connection, ListContainer.class).getValue().forEach(item -> readCalendarException(calendar, item));
-   }
 
    private void readCalendarException(ProjectCalendar calendar, MapRow row)
    {
@@ -208,7 +222,6 @@ public class PwaReader
 
    private void readResources()
    {
-      MapRow row = new MapRow();
       m_data.getList("ProjectResources").forEach(item -> populateFieldContainer(m_project.addResource(), RESOURCE_FIELDS, item));
    }
 
@@ -216,11 +229,12 @@ public class PwaReader
    {
       // At the moment we're assuming that the tasks arrive in the correct order for the hierarchy.
       List<MapRow> tasks = m_data.getList("Tasks");
-      for (MapRow taskData : tasks)
+      for (MapRow data : tasks)
       {
-         Task parentTask = m_taskMap.get(getParentID(taskData));
+         Task parentTask = m_taskMap.get(getParentID(data));
          Task task = (parentTask == null ? m_project : parentTask).addTask();
-         populateFieldContainer(task, TASK_FIELDS, taskData);
+         populateFieldContainer(task, TASK_FIELDS, data);
+         readCustomFields(data, task);
          m_taskMap.put(task.getGUID(), task);
       }
    }
@@ -233,6 +247,58 @@ public class PwaReader
          return  null;
       }
       return parent.getUUID("Id");
+   }
+
+   private void readCustomFields(MapRow data, FieldContainer container)
+   {
+      data.keySet().stream().filter(key -> key.startsWith("LocalCustom")).forEach(key -> readLocalCustomField(data, key, container));
+   }
+
+   private void readLocalCustomField(MapRow data, String internalName, FieldContainer container)
+   {
+      FieldType type = m_customFields.get(internalName);
+      if (type == null)
+      {
+         type= getFieldTypeFromIdentifier(internalName);
+         if (type == null)
+         {
+            return;
+         }
+
+         m_customFields.put(internalName, type);
+
+         final FieldType t = type;
+         MapRow customField = data.getList("CustomFields").stream().filter(f -> t.equals(getFieldTypeFromIdentifier(f.getString("Id")))).findFirst().orElse(null);
+         if (customField != null)
+         {
+            m_project.getCustomFields().getOrCreate(type).setAlias(customField.getString("Name"));
+
+            // Currently we're assuming that lookup entries have a globally unique identifier
+            customField.getList("LookupEntries").forEach(e -> m_lookupEntries.put(e.getString("InternalName"), e.getObject("Value", t.getDataType())));
+         }
+      }
+
+      Object value = data.get(internalName);
+      if (value instanceof List)
+      {
+         // Note: we don't currently support multi-select values,
+         // so we just use the first valuein the list
+         List<String> list = (List<String>)value;
+         value = list.isEmpty() ? null :  m_lookupEntries.get(list.get(0));
+      }
+      else
+      {
+         value = data.getObject(internalName, type.getDataType());
+      }
+
+      container.set(type, value);
+   }
+
+   private FieldType getFieldTypeFromIdentifier(String key)
+   {
+      // LocalCustom_x005f_Published_x005f_47bd06f02703ef11ba8c00155d805832_x005f_000039b78bbe4ceb82c4fa8c0b400033
+      String fieldID = key.substring(key.length()-8);
+      return FieldTypeHelper.getInstance(m_project, Integer.parseInt(fieldID, 16));
    }
 
    private HttpURLConnection createConnection(String path)
@@ -362,6 +428,8 @@ public class PwaReader
    private ProjectFile m_project;
    private MapRow m_data;
    private Map<UUID, Task> m_taskMap;
+   private Map<String, FieldType> m_customFields;
+   private Map<String, Object> m_lookupEntries;
 
    private static final Map<String, ProjectField> PROJECT_DATA_PROJECT_FIELDS = new HashMap<>();
    static
