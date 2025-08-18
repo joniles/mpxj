@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.mpxj.AssignmentField;
 import org.mpxj.CustomFieldValueDataType;
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
@@ -31,6 +32,7 @@ import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectField;
 import org.mpxj.ProjectFile;
 import org.mpxj.Resource;
+import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceField;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
@@ -261,6 +263,7 @@ public class PwaReader
       Task task = (parentTask == null ? m_project : parentTask).addTask();
       populateFieldContainer(task, TASK_FIELDS, data);
       readCustomFields(data, task, FieldTypeClass.TASK);
+      readResourceAssignments(data, task);
       m_taskMap.put(task.getGUID(), task);
    }
 
@@ -377,6 +380,28 @@ public class PwaReader
       // LocalCustom_x005f_Published_x005f_47bd06f02703ef11ba8c00155d805832_x005f_000039b78bbe4ceb82c4fa8c0b400033
       String fieldID = key.substring(key.length()-8);
       return FieldTypeHelper.getInstance(m_project, Integer.parseInt(fieldID, 16));
+   }
+
+   private void readResourceAssignments(MapRow data, Task task)
+   {
+      data.getList("Assignments").forEach(d -> readResourceAssignment(d, task));
+   }
+
+   private void readResourceAssignment(MapRow data, Task task)
+   {
+      MapRow resourceData = data.getMapRow("Resource");
+      if (resourceData == null)
+      {
+         return;
+      }
+
+      Resource resource = m_resourceMap.get(resourceData.getUUID("Id"));
+      if (resource == null)
+      {
+         return;
+      }
+
+      ResourceAssignment assignment = task.addResourceAssignment(resource);
    }
 
    private HttpURLConnection createConnection(String path)
@@ -946,5 +971,96 @@ public class PwaReader
       //"LocalCustom_x005f_Published_x005f_47bd06f02703ef11ba8c00155d805832_x005f_000039b78bbe4ceb82c4fa8c0b40006a": "111.000000",
       //"LocalCustom_x005f_Published_x005f_47bd06f02703ef11ba8c00155d805832_x005f_000039b78bbe4ceb82c4fa8c0b400109": "2025-08-10T08:00:00",
       //"LocalCustom_x005f_Published_x005f_47bd06f02703ef11ba8c00155d805832_x005f_000039b78bbe4ceb82c4fa8c0b4001a0": ["Entry_5e9f2da1a879f01197c0080027fff3b7"]
+   }
+
+   private static final Map<String, AssignmentField> ASSIGNMENT_FIELDS = new HashMap<>();
+   static
+   {
+      //ASSIGNMENT_FIELDS.put("odata.type", "PS.PublishedAssignment");
+      //ASSIGNMENT_FIELDS.put("odata.id", "https://timephased.sharepoint.com/sites/pwa/_api/ProjectServer/Projects('47bd06f0-2703-ef11-ba8c-00155d805832')/Assignments('8f946826-5578-f011-97be-080027fff3b7')");
+      //ASSIGNMENT_FIELDS.put("odata.editLink", "ProjectServer/Projects('47bd06f0-2703-ef11-ba8c-00155d805832')/Assignments('8f946826-5578-f011-97be-080027fff3b7')");
+      ASSIGNMENT_FIELDS.put("ActualCostWorkPerformed", AssignmentField.ACWP);
+      ASSIGNMENT_FIELDS.put("ActualOvertimeCost", AssignmentField.ACTUAL_OVERTIME_COST);
+      ASSIGNMENT_FIELDS.put("BaselineCost", AssignmentField.BASELINE_COST);
+      //ASSIGNMENT_FIELDS.put("BaselineCostPerUse", 0.0);
+      ASSIGNMENT_FIELDS.put("BaselineFinish", AssignmentField.BASELINE_FINISH);
+      ASSIGNMENT_FIELDS.put("BaselineStart", AssignmentField.BASELINE_START);
+      //ASSIGNMENT_FIELDS.put("BaselineWork", null);
+      ASSIGNMENT_FIELDS.put("BaselineWorkMilliseconds", AssignmentField.BASELINE_WORK);
+      //ASSIGNMENT_FIELDS.put("BaselineWorkTimeSpan", "PT0S");
+      ASSIGNMENT_FIELDS.put("BudgetedCostWorkPerformed", AssignmentField.BCWP);
+      ASSIGNMENT_FIELDS.put("BudgetedCostWorkScheduled", AssignmentField.BCWS);
+      ASSIGNMENT_FIELDS.put("CostVariance", AssignmentField.COST_VARIANCE);
+      //ASSIGNMENT_FIELDS.put("CostVarianceAtCompletion", 0.0);
+      ASSIGNMENT_FIELDS.put("Created", AssignmentField.CREATED);
+      //ASSIGNMENT_FIELDS.put("CurrentCostVariance", -234.0);
+      ASSIGNMENT_FIELDS.put("Finish", AssignmentField.FINISH);
+      //ASSIGNMENT_FIELDS.put("FinishVariance", "0d");
+      ASSIGNMENT_FIELDS.put("FinishVarianceMilliseconds", AssignmentField.FINISH_VARIANCE);
+      //ASSIGNMENT_FIELDS.put("FinishVarianceTimeSpan", "PT0S");
+      ASSIGNMENT_FIELDS.put("Id", AssignmentField.GUID);
+      ASSIGNMENT_FIELDS.put("IsConfirmed", AssignmentField.CONFIRMED);
+      ASSIGNMENT_FIELDS.put("IsOverAllocated", AssignmentField.OVERALLOCATED);
+      //ASSIGNMENT_FIELDS.put("IsPublished", true);
+      ASSIGNMENT_FIELDS.put("IsResponsePending", AssignmentField.RESPONSE_PENDING);
+      ASSIGNMENT_FIELDS.put("IsUpdateNeeded", AssignmentField.UPDATE_NEEDED);
+      //ASSIGNMENT_FIELDS.put("LevelingDelay", "0d");
+      ASSIGNMENT_FIELDS.put("LevelingDelayMilliseconds", AssignmentField.LEVELING_DELAY);
+      //ASSIGNMENT_FIELDS.put("LevelingDelayTimeSpan", "PT0S");
+      //ASSIGNMENT_FIELDS.put("Modified", "2025-08-13T15:39:09.04");
+      ASSIGNMENT_FIELDS.put("Notes", AssignmentField.NOTES);
+      ASSIGNMENT_FIELDS.put("OvertimeCost", AssignmentField.OVERTIME_COST);
+      ASSIGNMENT_FIELDS.put("RemainingCost", AssignmentField.REMAINING_COST);
+      ASSIGNMENT_FIELDS.put("RemainingOvertimeCost", AssignmentField.REMAINING_OVERTIME_COST);
+      ASSIGNMENT_FIELDS.put("Resume", AssignmentField.RESUME);
+      //ASSIGNMENT_FIELDS.put("ScheduleCostVariance", 0.0);
+      ASSIGNMENT_FIELDS.put("Start", AssignmentField.START);
+      //ASSIGNMENT_FIELDS.put("StartVariance", "0d");
+      ASSIGNMENT_FIELDS.put("StartVarianceMilliseconds", AssignmentField.START_VARIANCE);
+      //ASSIGNMENT_FIELDS.put("StartVarianceTimeSpan", "PT0S");
+      //ASSIGNMENT_FIELDS.put("Stop", "2024-04-25T17:00:00");
+      //ASSIGNMENT_FIELDS.put("TimephasedAssignmentModCounter", 11);
+      ASSIGNMENT_FIELDS.put("WorkContourType", AssignmentField.WORK_CONTOUR);
+      //ASSIGNMENT_FIELDS.put("WorkVariance", "24h");
+      ASSIGNMENT_FIELDS.put("WorkVarianceMilliseconds", AssignmentField.WORK_VARIANCE);
+      //ASSIGNMENT_FIELDS.put("WorkVarianceTimeSpan", "P1D");
+      ASSIGNMENT_FIELDS.put("ActualCost", AssignmentField.ACTUAL_COST);
+      ASSIGNMENT_FIELDS.put("ActualFinish", AssignmentField.ACTUAL_FINISH);
+      //ASSIGNMENT_FIELDS.put("ActualOvertimeWork", null);
+      ASSIGNMENT_FIELDS.put("ActualOvertimeWorkMilliseconds", AssignmentField.ACTUAL_OVERTIME_WORK);
+      //ASSIGNMENT_FIELDS.put("ActualOvertimeWorkTimeSpan", "PT0S");
+      ASSIGNMENT_FIELDS.put("ActualStart", AssignmentField.ACTUAL_START);
+      //ASSIGNMENT_FIELDS.put("ActualWork", "8h");
+      ASSIGNMENT_FIELDS.put("ActualWorkMilliseconds", AssignmentField.ACTUAL_WORK);
+      //ASSIGNMENT_FIELDS.put("ActualWorkTimeSpan", "PT8H");
+      ASSIGNMENT_FIELDS.put("BudgetedCost", AssignmentField.BUDGET_COST);
+      //ASSIGNMENT_FIELDS.put("BudgetedWork", null);
+      ASSIGNMENT_FIELDS.put("BudgetedWorkMilliseconds", AssignmentField.BUDGET_WORK);
+      //ASSIGNMENT_FIELDS.put("BudgetedWorkTimeSpan", "PT0S");
+      ASSIGNMENT_FIELDS.put("Cost", AssignmentField.COST);
+      ASSIGNMENT_FIELDS.put("CostRateTable", AssignmentField.COST_RATE_TABLE);
+      //ASSIGNMENT_FIELDS.put("DefaultBookingType", 1);
+      //ASSIGNMENT_FIELDS.put("Delay", "0d");
+      ASSIGNMENT_FIELDS.put("DelayMilliseconds", AssignmentField.ASSIGNMENT_DELAY);
+      //ASSIGNMENT_FIELDS.put("DelayTimeSpan", "PT0S");
+      //ASSIGNMENT_FIELDS.put("IsLockedByManager", false);
+      //ASSIGNMENT_FIELDS.put("IsWorkResource", false);
+      //ASSIGNMENT_FIELDS.put("OvertimeWork", null);
+      ASSIGNMENT_FIELDS.put("OvertimeWorkMilliseconds", AssignmentField.OVERTIME_WORK);
+      //ASSIGNMENT_FIELDS.put("OvertimeWorkTimeSpan", "PT0S");
+      ASSIGNMENT_FIELDS.put("PercentWorkComplete", AssignmentField.PERCENT_WORK_COMPLETE);
+      //ASSIGNMENT_FIELDS.put("RegularWork", "24h");
+      ASSIGNMENT_FIELDS.put("RegularWorkMilliseconds", AssignmentField.REGULAR_WORK);
+      //ASSIGNMENT_FIELDS.put("RegularWorkTimeSpan", "P1D");
+      //ASSIGNMENT_FIELDS.put("RemainingOvertimeWork", null);
+      ASSIGNMENT_FIELDS.put("RemainingOvertimeWorkMilliseconds", AssignmentField.REMAINING_OVERTIME_WORK);
+      //ASSIGNMENT_FIELDS.put("RemainingOvertimeWorkTimeSpan", "PT0S");
+      //ASSIGNMENT_FIELDS.put("RemainingWork", "16h");
+      ASSIGNMENT_FIELDS.put("RemainingWorkMilliseconds", AssignmentField.REMAINING_WORK);
+      //ASSIGNMENT_FIELDS.put("RemainingWorkTimeSpan", "PT16H");
+      //ASSIGNMENT_FIELDS.put("ResourceCapacity", 1.0);
+      //ASSIGNMENT_FIELDS.put("Work", "24h");
+      ASSIGNMENT_FIELDS.put("WorkMilliseconds", AssignmentField.WORK);
+      //ASSIGNMENT_FIELDS.put("WorkTimeSpan", "P1D");
    }
 }

@@ -199,6 +199,7 @@ class MapRow extends LinkedHashMap<String, Object>
          case PERCENTAGE:
          case BOOLEAN:
          case SHORT:
+         case NOTES:
          {
             return value;
          }
