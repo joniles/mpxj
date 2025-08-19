@@ -1,3 +1,25 @@
+/*
+ * file:       MapRow.java
+ * author:     Jon Iles
+ * date:       2025-08-19
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 package org.mpxj.pwa;
 
 import java.time.LocalDate;
@@ -34,55 +56,118 @@ import org.mpxj.common.NumberHelper;
 import org.mpxj.mpp.TaskTypeHelper;
 import org.mpxj.mpp.WorkContourHelper;
 
+/**
+ * Represents data deserialized from JSON. Provides method to return correctly typed values.
+ */
 class MapRow extends LinkedHashMap<String, Object>
 {
+   /**
+    * Set the current project this data is being used with.
+    *
+    * @param project current project
+    */
    public void setProject(ProjectFile project)
    {
       m_project = project;
    }
 
+   /**
+    * Retrieve a deserialized list as a list of MapRow instances.
+    *
+    * @param key map key
+    * @return list of MapRow instances
+    */
    public List<MapRow> getList(String key)
    {
       @SuppressWarnings("unchecked") List<MapRow> row = (List<MapRow>)get(key);
       return row == null ? Collections.emptyList() : row;
    }
 
+   /**
+    * Retrieve a deserialized object as a MapRow instance.
+    *
+    * @param key map key
+    * @return MapRow instance
+    */
    public MapRow getMapRow(String key)
    {
       return (MapRow) get(key);
    }
 
+   /**
+    * Retrieve a string value.
+    *
+    * @param key map key
+    * @return string value
+    */
    public String getString(String key)
    {
       return String.valueOf(get(key));
    }
 
+   /**
+    * Retrieve a UUID value.
+    *
+    * @param key map key
+    * @return UUID value
+    */
    public UUID getUUID(String key)
    {
       return (UUID) getObject(key, DataType.GUID);
    }
 
+   /**
+    * Retrieve a LocalDate value.
+    *
+    * @param key map key
+    * @return LocalDate value
+    */
    public LocalDate getLocalDate(String key)
    {
       LocalDateTime result = (LocalDateTime) getObject(key, DataType.DATE);
       return result == null ? null : result.toLocalDate();
    }
 
+   /**
+    * Retrieve an Integer value.
+    *
+    * @param key map key
+    * @return Integer value
+    */
    public Integer getInteger(String key)
    {
       return (Integer) getObject(key, DataType.INTEGER);
    }
 
+   /**
+    * Retrieve an int value.
+    *
+    * @param key map key
+    * @return int value
+    */
    public int getInt(String key)
    {
       return NumberHelper.getInt(getInteger(key));
    }
 
+   /**
+    * Retrieve a boolean value.
+    *
+    * @param key map key
+    * @return boolean value
+    */
    public boolean getBool(String key)
    {
       return BooleanHelper.getBoolean((Boolean)get(key));
    }
 
+   /**
+    * Retrieve a value expressed as a specific type.
+    *
+    * @param key map key
+    * @param type required type
+    * @return value as the required type
+    */
    public Object getObject(String key, DataType type)
    {
       Object value = get(key);
@@ -112,7 +197,7 @@ class MapRow extends LinkedHashMap<String, Object>
          {
             if (key.startsWith("LocalCustom"))
             {
-               return parseDuration(String.valueOf(value));
+               return getDurationFromString(String.valueOf(value));
             }
 
             double time = Double.parseDouble(String.valueOf(value));
@@ -240,6 +325,12 @@ class MapRow extends LinkedHashMap<String, Object>
       }
    }
 
+   /**
+    * Retrieve a LocalDateTime instance from a string representation.
+    *
+    * @param value string value
+    * @return LocalDateTime instance
+    */
    private LocalDateTime getDateFromString(String value)
    {
       if (value.equals("0001-01-01T00:00:00"))
@@ -250,6 +341,12 @@ class MapRow extends LinkedHashMap<String, Object>
       return LocalDateTimeHelper.parseBest(DATE_TIME_FORMAT, value);
    }
 
+   /**
+    * Retrieve a UUID from a string representation.
+    *
+    * @param value string value
+    * @return UUID instance
+    */
    private UUID getUuidFromString(String value)
    {
       if (value.equals("00000000-0000-0000-0000-000000000000"))
@@ -260,7 +357,13 @@ class MapRow extends LinkedHashMap<String, Object>
       return UUID.fromString(value);
    }
 
-   private Object parseDuration(String value)
+   /**
+    * Retrieve a Duration instance from a string representation.
+    *
+    * @param value string value
+    * @return Duration instance
+    */
+   private Object getDurationFromString(String value)
    {
       Matcher match = DURATION_REGEX.matcher(value);
       if (!match.matches())

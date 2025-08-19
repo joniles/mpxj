@@ -1,3 +1,25 @@
+/*
+ * file:       PwaReader.java
+ * author:     Jon Iles
+ * date:       2025-08-19
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 package org.mpxj.pwa;
 
 import java.io.BufferedReader;
@@ -43,8 +65,10 @@ import org.mpxj.TimeUnit;
 import org.mpxj.UserDefinedField;
 import org.mpxj.common.FieldTypeHelper;
 import org.mpxj.explorer.ProjectExplorer;
-import org.mpxj.opc.OpcException;
 
+/**
+ * Access schedule data in Microsoft Project Server / Project Web App (PWA) / Project Online.
+ */
 public class PwaReader
 {
    public static void main(String[] argv)
@@ -52,11 +76,17 @@ public class PwaReader
       PwaReader reader = new PwaReader(argv[0], argv[1]);
       reader.getProjects().forEach(System.out::println);
 
-      //ProjectFile file = reader.readProject(UUID.fromString("47bd06f0-2703-ef11-ba8c-00155d805832"));
-      ProjectFile file = reader.readProject(UUID.fromString("778019b9-fe7c-f011-97c0-080027fff3b7"));
+      ProjectFile file = reader.readProject(UUID.fromString("47bd06f0-2703-ef11-ba8c-00155d805832"));
+      //ProjectFile file = reader.readProject(UUID.fromString("778019b9-fe7c-f011-97c0-080027fff3b7"));
       ProjectExplorer.view(file);
    }
 
+   /**
+    * Constructor.
+    *
+    * @param host host URL, expected to be in the form https://example.sharepoint.com/sites/pwa
+    * @param token access token
+    */
    public PwaReader(String host, String token)
    {
       m_host = host;
@@ -72,6 +102,11 @@ public class PwaReader
       }));
    }
 
+   /**
+    * Retrieve a list of projects available in PWA for the current user.
+    *
+    * @return list of PwaProject instances
+    */
    public List<PwaProject> getProjects()
    {
       HttpURLConnection connection = createConnection("ProjectServer/Projects?$select=Id,Name");
@@ -87,11 +122,12 @@ public class PwaReader
       return data.getList("value").stream().map(d -> new PwaProject(d.getUUID("Id"), d.getString("Name"))).collect(Collectors.toList());
    }
 
-   public ProjectFile readProject(PwaProject project)
-   {
-      return readProject(project.getProjectId());
-   }
-
+   /**
+    * Read a project from PWA using its unique ID.
+    *
+    * @param id project unique ID
+    * @return ProjectFile instance representing the project in PWA
+    */
    public ProjectFile readProject(UUID id)
    {
       try
@@ -526,7 +562,7 @@ public class PwaReader
 
       catch (IOException ex)
       {
-         throw new OpcException(ex);
+         throw new PwaException(ex);
       }
    }
 
