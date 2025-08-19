@@ -1263,7 +1263,7 @@ public class PwaReader
       //ASSIGNMENT_FIELDS.put("RemainingWork", "16h");
       ASSIGNMENT_FIELDS.put("RemainingWorkMilliseconds", AssignmentField.REMAINING_WORK);
       //ASSIGNMENT_FIELDS.put("RemainingWorkTimeSpan", "PT16H");
-      //ASSIGNMENT_FIELDS.put("ResourceCapacity", 1.0);
+      ASSIGNMENT_FIELDS.put("ResourceCapacity", AssignmentField.ASSIGNMENT_UNITS);
       //ASSIGNMENT_FIELDS.put("Work", "24h");
       ASSIGNMENT_FIELDS.put("WorkMilliseconds", AssignmentField.WORK);
       //ASSIGNMENT_FIELDS.put("WorkTimeSpan", "P1D");
