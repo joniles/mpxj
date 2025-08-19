@@ -201,6 +201,11 @@ public class PwaReader
       calendar.setName(row.getString("Name"));
 
       row.getList("BaseCalendarExceptions").forEach(item -> readCalendarException(calendar, item));
+
+      if (row.getBool("IsStandardCalendar"))
+      {
+         m_project.setDefaultCalendar(calendar);
+      }
    }
 
 

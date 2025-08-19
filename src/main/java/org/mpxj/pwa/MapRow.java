@@ -6,7 +6,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +27,7 @@ import org.mpxj.Rate;
 import org.mpxj.ScheduleFrom;
 import org.mpxj.TaskMode;
 import org.mpxj.TimeUnit;
+import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
@@ -78,6 +78,11 @@ class MapRow extends LinkedHashMap<String, Object>
       return NumberHelper.getInt(getInteger(key));
    }
 
+   public boolean getBool(String key)
+   {
+      return BooleanHelper.getBoolean((Boolean)get(key));
+   }
+
    public Object getObject(String key, DataType type)
    {
       Object value = get(key);
@@ -110,7 +115,13 @@ class MapRow extends LinkedHashMap<String, Object>
                return parseDuration(String.valueOf(value));
             }
 
-            return Duration.getInstance(Double.parseDouble(String.valueOf(value)), TimeUnit.HOURS);
+            double time = Double.parseDouble(String.valueOf(value));
+            if (key.endsWith("Milliseconds"))
+            {
+               time = time / (1000.0 * 60.0 * 60.0);
+            }
+
+            return Duration.getInstance(time, TimeUnit.HOURS);
          }
 
          case WORK:
