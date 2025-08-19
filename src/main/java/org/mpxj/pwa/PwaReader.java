@@ -37,7 +37,6 @@ import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -117,7 +116,7 @@ public class PwaReader
          throw new PwaException(getExceptionMessage(connection, code));
       }
 
-      MapRow data = readValue(connection);
+      MapRow data = getMapRow(connection);
 
       return data.getList("value").stream().map(d -> new PwaProject(d.getUUID("Id"), d.getString("Name"))).collect(Collectors.toList());
    }
@@ -213,7 +212,7 @@ public class PwaReader
          throw new PwaException(getExceptionMessage(connection, code));
       }
 
-      return readValue(connection);
+      return getMapRow(connection);
    }
 
    /**
@@ -231,7 +230,7 @@ public class PwaReader
          throw new PwaException(getExceptionMessage(connection, code));
       }
 
-      populateFieldContainer(m_project.getProjectProperties(), PROJECT_DATA_PROJECT_FIELDS, readValue(connection));
+      populateFieldContainer(m_project.getProjectProperties(), PROJECT_DATA_PROJECT_FIELDS, getMapRow(connection));
       populateFieldContainer(m_project.getProjectProperties(), PROJECT_SERVER_PROJECT_FIELDS, m_data);
    }
 
@@ -252,7 +251,7 @@ public class PwaReader
          throw new PwaException(getExceptionMessage(connection, code));
       }
 
-      readValue(connection).getList("value").forEach(this::readCalendar);
+      getMapRow(connection).getList("value").forEach(this::readCalendar);
    }
 
    /**
@@ -316,7 +315,7 @@ public class PwaReader
     *
     * @param exception parent calendar exception
     * @param data exception data
-    * @param index shift numnber
+    * @param index shift number
     */
    private void addRange(ProjectCalendarException exception, MapRow data, int index)
    {
@@ -673,11 +672,17 @@ public class PwaReader
       return connection.getRequestMethod() + " " + connection.getURL() + " failed: " + "\nresponseCode=" + code + "\nresponseBody=" + responseBody;
    }
 
-   private <T> T readValue(HttpURLConnection connection, Class<T> clazz)
+   /**
+    * Deserializes a PWA response into a MapRow instance.
+    *
+    * @param connection request connection
+    * @return MapRow instance
+    */
+   private MapRow getMapRow(HttpURLConnection connection)
    {
       try
       {
-         return m_mapper.readValue(getInputStream(connection), clazz);
+         return m_mapper.readValue(getInputStream(connection), MapRow.class);
       }
 
       catch (IOException ex)
@@ -686,11 +691,13 @@ public class PwaReader
       }
    }
 
-   private MapRow readValue(HttpURLConnection connection)
-   {
-      return readValue(connection, MapRow.class);
-   }
-
+   /**
+    * Retrieves an InputStream instance from a PWA response.
+    * Handles gzipped responses.
+    *
+    * @param connection request connection
+    * @return InputStream instance
+    */
    private InputStream getInputStream(HttpURLConnection connection)
    {
       try
@@ -708,6 +715,13 @@ public class PwaReader
       }
    }
 
+   /**
+    * Using an index which maps PWA fields to MPXJ fields, populate a field container.
+    *
+    * @param container target field container
+    * @param index index mapping PWA fields to MPXJ fields
+    * @param data response data use to populate the supplied container
+    */
    private void populateFieldContainer(FieldContainer container, Map<String, ? extends FieldType> index, MapRow data)
    {
       data.setProject(m_project);
