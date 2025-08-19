@@ -48,6 +48,7 @@ nav:
     - 'Gantt Designer files': 'howto-read-ganttdesigner.md'
     - 'GanttProject files': 'howto-read-ganttproject.md'
     - 'Merlin files': 'howto-read-merlin.md'
+    - 'Microsoft Project Server': 'howto-read-pwa.md'
     - 'MPD files': 'howto-read-mpd.md'
     - 'MPD databases': 'howto-read-mpd-database.md'
     - 'MPP files': 'howto-read-mpp.md'
