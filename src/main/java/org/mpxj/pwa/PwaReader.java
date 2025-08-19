@@ -52,7 +52,8 @@ public class PwaReader
       PwaReader reader = new PwaReader(argv[0], argv[1]);
       reader.getProjects().forEach(System.out::println);
 
-      ProjectFile file = reader.readProject(UUID.fromString("47bd06f0-2703-ef11-ba8c-00155d805832"));
+      //ProjectFile file = reader.readProject(UUID.fromString("47bd06f0-2703-ef11-ba8c-00155d805832"));
+      ProjectFile file = reader.readProject(UUID.fromString("778019b9-fe7c-f011-97c0-080027fff3b7"));
       ProjectExplorer.view(file);
    }
 
