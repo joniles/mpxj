@@ -322,8 +322,6 @@ public class PwaReader
       String shift = "Shift" + index;
       int start = data.getInt(shift + "Start");
       int finish = data.getInt(shift + "Finish");
-
-      // TODO check 24 hour
       if (start == finish)
       {
          return;
