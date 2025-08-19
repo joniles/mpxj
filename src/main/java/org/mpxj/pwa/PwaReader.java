@@ -50,6 +50,8 @@ public class PwaReader
    public static void main(String[] argv)
    {
       PwaReader reader = new PwaReader(argv[0], argv[1]);
+      reader.getProjects().forEach(System.out::println);
+
       ProjectFile file = reader.readProject(UUID.fromString("47bd06f0-2703-ef11-ba8c-00155d805832"));
       ProjectExplorer.view(file);
    }
@@ -60,17 +62,33 @@ public class PwaReader
       m_token = token;
       m_mapper = new ObjectMapper();
       m_mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-      SimpleModule module = new SimpleModule();
-      module.addDeserializer(Map.class, new JsonDeserializer<MapRow>()
+      m_mapper.registerModule(new SimpleModule().addDeserializer(Map.class, new JsonDeserializer<MapRow>()
       {
          @Override public MapRow deserialize(JsonParser p, DeserializationContext ctxt) throws IOException
          {
             return ctxt.readValue(p, MapRow.class);
          }
-      });
+      }));
+   }
 
-      m_mapper.registerModule(module);
+   public List<PwaProject> getProjects()
+   {
+      HttpURLConnection connection = createConnection("ProjectServer/Projects?$select=Id,Name");
+      int code = getResponseCode(connection);
+
+      if (code != 200)
+      {
+         throw new PwaException(getExceptionMessage(connection, code));
+      }
+
+      MapRow data = readMapRow(connection);
+
+      return data.getList("value").stream().map(d -> new PwaProject(d.getUUID("Id"), d.getString("Name"))).collect(Collectors.toList());
+   }
+
+   public ProjectFile readProject(PwaProject project)
+   {
+      return readProject(project.getProjectId());
    }
 
    public ProjectFile readProject(UUID id)
@@ -142,7 +160,7 @@ public class PwaReader
             "Tasks/CustomFields/LookupEntries/Value",
             "Tasks/Assignments/Resource/Id");
 
-      System.out.println(query);
+      //System.out.println(query);
 
       HttpURLConnection connection = createConnection(query);
 
@@ -1013,7 +1031,7 @@ public class PwaReader
    static
    {
       //ASSIGNMENT_FIELDS.put("odata.type", "PS.PublishedAssignment");
-      //ASSIGNMENT_FIELDS.put("odata.id", "https://timephased.sharepoint.com/sites/pwa/_api/ProjectServer/Projects('47bd06f0-2703-ef11-ba8c-00155d805832')/Assignments('8f946826-5578-f011-97be-080027fff3b7')");
+      //ASSIGNMENT_FIELDS.put("odata.id", "https://example.sharepoint.com/sites/pwa/_api/ProjectServer/Projects('47bd06f0-2703-ef11-ba8c-00155d805832')/Assignments('8f946826-5578-f011-97be-080027fff3b7')");
       //ASSIGNMENT_FIELDS.put("odata.editLink", "ProjectServer/Projects('47bd06f0-2703-ef11-ba8c-00155d805832')/Assignments('8f946826-5578-f011-97be-080027fff3b7')");
       ASSIGNMENT_FIELDS.put("ActualCostWorkPerformed", AssignmentField.ACWP);
       ASSIGNMENT_FIELDS.put("ActualOvertimeCost", AssignmentField.ACTUAL_OVERTIME_COST);

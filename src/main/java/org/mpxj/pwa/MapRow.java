@@ -43,7 +43,7 @@ class MapRow extends LinkedHashMap<String, Object>
 
    public List<MapRow> getList(String key)
    {
-      List<MapRow> row = (List<MapRow>)get(key);
+      @SuppressWarnings("unchecked") List<MapRow> row = (List<MapRow>)get(key);
       return row == null ? Collections.emptyList() : row;
    }
 
