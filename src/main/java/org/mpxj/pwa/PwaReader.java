@@ -117,7 +117,7 @@ public class PwaReader
          throw new PwaException(getExceptionMessage(connection, code));
       }
 
-      MapRow data = readMapRow(connection);
+      MapRow data = readValue(connection);
 
       return data.getList("value").stream().map(d -> new PwaProject(d.getUUID("Id"), d.getString("Name"))).collect(Collectors.toList());
    }
@@ -161,6 +161,11 @@ public class PwaReader
       }
    }
 
+   /**
+    * Read the bulk of the required project data from PWA using a single OData query.
+    *
+    * @return MapRow instance representing deserialized JSON
+    */
    private MapRow readData()
    {
       String query = "ProjectServer/Projects(guid'" + m_projectID + "')"
@@ -208,9 +213,14 @@ public class PwaReader
          throw new PwaException(getExceptionMessage(connection, code));
       }
 
-      return readMapRow(connection);
+      return readValue(connection);
    }
 
+   /**
+    * Read project property data. Note that we're using data from both
+    * ProjectServer/Projects and ProjectData/Projects endpoints to
+    * capture the maximum detail possible.
+    */
    private void readProjectProperties()
    {
       HttpURLConnection connection = createConnection("ProjectData/Projects(guid'" + m_projectID + "')");
@@ -221,13 +231,15 @@ public class PwaReader
          throw new PwaException(getExceptionMessage(connection, code));
       }
 
-      populateFieldContainer(m_project.getProjectProperties(), PROJECT_DATA_PROJECT_FIELDS, readMapRow(connection));
+      populateFieldContainer(m_project.getProjectProperties(), PROJECT_DATA_PROJECT_FIELDS, readValue(connection));
       populateFieldContainer(m_project.getProjectProperties(), PROJECT_SERVER_PROJECT_FIELDS, m_data);
    }
 
    /**
+    * Read calendars, or at least as much data as we can.
+    *
     * Issues with PWA:
-    * 1. WorkWeeks are not available, although allegedly there is an endpoint
+    * 1. WorkWeeks are not available, although allegedly there is an endpoint (in some versions of PWA?)
     * 2. Resource calendars are not available
     */
    private void readCalendars()
@@ -243,43 +255,54 @@ public class PwaReader
       readValue(connection).getList("value").forEach(this::readCalendar);
    }
 
-   private void readCalendar(MapRow row)
+   /**
+    * Create a calendar from PWA data.
+    *
+    * @param data calendar data
+    */
+   private void readCalendar(MapRow data)
    {
       ProjectCalendar calendar = m_project.addDefaultBaseCalendar();
       //"odata.type": "PS.Calendar",
       //"odata.id": "https://example.sharepoint.com/sites/pwa/_api/ProjectServer/Calendars('9410ae84-5878-f011-97be-080027fff3b7')",
       //"odata.editLink": "ProjectServer/Calendars('9410ae84-5878-f011-97be-080027fff3b7')",
       //"Created": "2025-08-13T15:18:27.837",
-      calendar.setGUID(row.getUUID("Id"));
+      calendar.setGUID(data.getUUID("Id"));
       //"IsStandardCalendar": false,
       //"Modified": "2025-08-13T15:18:27.837",
-      calendar.setName(row.getString("Name"));
+      calendar.setName(data.getString("Name"));
 
-      row.getList("BaseCalendarExceptions").forEach(item -> readCalendarException(calendar, item));
+      data.getList("BaseCalendarExceptions").forEach(item -> readCalendarException(calendar, item));
 
-      if (row.getBool("IsStandardCalendar"))
+      if (data.getBool("IsStandardCalendar"))
       {
          m_project.setDefaultCalendar(calendar);
       }
    }
 
-
-   private void readCalendarException(ProjectCalendar calendar, MapRow row)
+   /**
+    * Add an exception to a calendar.
+    *
+    * @param calendar parent calendar
+    * @param data exception data
+    */
+   private void readCalendarException(ProjectCalendar calendar, MapRow data)
    {
-      ProjectCalendarException exception = calendar.addCalendarException(row.getLocalDate("Start"), row.getLocalDate("Finish"));
+      ProjectCalendarException exception = calendar.addCalendarException(data.getLocalDate("Start"), data.getLocalDate("Finish"));
       //"odata.type": "PS.BaseCalendarException",
       //"odata.id": "https://example.sharepoint.com/sites/pwa/_api/ProjectServer/Calendars('b6635b2e-e747-4771-a78b-24f7509629d0')/BaseCalendarExceptions(0)",
       //"odata.editLink": "ProjectServer/Calendars('b6635b2e-e747-4771-a78b-24f7509629d0')/BaseCalendarExceptions(0)",
       //"Start": "2025-08-18T00:00:00"
       //"Finish": "2025-08-18T00:00:00",
       //"Id": 0,
-      exception.setName(row.getString("Name"));
-      addRange(exception, row, 1);
-      addRange(exception, row, 2);
-      addRange(exception, row, 3);
-      addRange(exception, row, 4);
-      addRange(exception, row, 5);
+      exception.setName(data.getString("Name"));
+      addRange(exception, data, 1);
+      addRange(exception, data, 2);
+      addRange(exception, data, 3);
+      addRange(exception, data, 4);
+      addRange(exception, data, 5);
 
+      // TODO: consider implementing support for recurring exceptions
       //"RecurrenceDays": 0,
       //"RecurrenceFrequency": 1,
       //"RecurrenceMonth": 0,
@@ -288,11 +311,18 @@ public class PwaReader
       //"RecurrenceWeek": 0,
    }
 
-   private void addRange(ProjectCalendarException exception, MapRow row, int index)
+   /**
+    * Add a time range to a calendar exception.
+    *
+    * @param exception parent calendar exception
+    * @param data exception data
+    * @param index shift numnber
+    */
+   private void addRange(ProjectCalendarException exception, MapRow data, int index)
    {
       String shift = "Shift" + index;
-      int start = row.getInt(shift + "Start");
-      int finish = row.getInt(shift + "Finish");
+      int start = data.getInt(shift + "Start");
+      int finish = data.getInt(shift + "Finish");
 
       // TODO check 24 hour
       if (start == finish)
@@ -303,11 +333,19 @@ public class PwaReader
       exception.add(new LocalTimeRange(LocalTime.MIDNIGHT.plusMinutes(start), LocalTime.MIDNIGHT.plusMinutes(finish)));
    }
 
+   /**
+    * Read resources for the current project.
+    */
    private void readResources()
    {
       m_data.getList("ProjectResources").forEach(this::readResource);
    }
 
+   /**
+    * Read a single resource.
+    *
+    * @param data resource data
+    */
    private void readResource(MapRow data)
    {
       Resource resource = m_project.addResource();
@@ -316,12 +354,20 @@ public class PwaReader
       m_resourceMap.put(resource.getGUID(), resource);
    }
 
+   /**
+    * Read tasks for the current project.
+    */
    private void readTasks()
    {
       // At the moment we're assuming that the tasks arrive in the correct order for the hierarchy.
       m_data.getList("Tasks").forEach(this::readTask);
    }
 
+   /**
+    * Read an individual task.
+    *
+    * @param data task data
+    */
    private void readTask(MapRow data)
    {
       Task parentTask = m_taskMap.get(getParentID(data));
@@ -332,9 +378,15 @@ public class PwaReader
       m_taskMap.put(task.getGUID(), task);
    }
 
-   private UUID getParentID(MapRow map)
+   /**
+    * Retrieve the parent task unique ID, or null if the task has no parent.
+    *
+    * @param data task data
+    * @return parent task unique ID
+    */
+   private UUID getParentID(MapRow data)
    {
-      MapRow parent = map.getMapRow("Parent");
+      MapRow parent = data.getMapRow("Parent");
       if (parent == null)
       {
          return  null;
@@ -342,12 +394,26 @@ public class PwaReader
       return parent.getUUID("Id");
    }
 
+   /**
+    * Read project and enterprise custom fields.
+    *
+    * @param data entity data
+    * @param container target container
+    * @param fieldTypeClass target container type
+    */
    private void readCustomFields(MapRow data, FieldContainer container, FieldTypeClass fieldTypeClass)
    {
       data.keySet().stream().filter(key -> key.startsWith("LocalCustom")).forEach(key -> readLocalCustomField(data, key, container));
       data.keySet().stream().filter(key -> key.startsWith("Custom_")).forEach(key -> readEnterpriseCustomField(data, key, container, fieldTypeClass));
    }
 
+   /**
+    * Read a project custom field.
+    *
+    * @param data entity data
+    * @param internalName custom field internal name
+    * @param container target container
+    */
    private void readLocalCustomField(MapRow data, String internalName, FieldContainer container)
    {
       Object value = data.get(internalName);
@@ -393,6 +459,14 @@ public class PwaReader
       container.set(type, value);
    }
 
+   /**
+    * Read an enterprise custom field.
+    *
+    * @param data entity data
+    * @param internalName custom field internal name
+    * @param container target container
+    * @param fieldTypeClass target container type
+    */
    private void readEnterpriseCustomField(MapRow data, String internalName, FieldContainer container, FieldTypeClass fieldTypeClass)
    {
       Object value = data.get(internalName);
@@ -440,18 +514,37 @@ public class PwaReader
       container.set(type, value);
    }
 
-   private FieldType getFieldTypeFromIdentifier(String key)
+   /**
+    * For a project (local) custom field, us ethe last 8 hex digits of the internal name
+    * to determine the field type.
+    *
+    * @param internalName custom field internal name
+    * @return FieldType instance
+    */
+   private FieldType getFieldTypeFromIdentifier(String internalName)
    {
       // LocalCustom_x005f_Published_x005f_47bd06f02703ef11ba8c00155d805832_x005f_000039b78bbe4ceb82c4fa8c0b400033
-      String fieldID = key.substring(key.length()-8);
+      String fieldID = internalName.substring(internalName.length()-8);
       return FieldTypeHelper.getInstance(m_project, Integer.parseInt(fieldID, 16));
    }
 
+   /**
+    * Read a task's resource assignments.
+    *
+    * @param data resource assignment data
+    * @param task parent task
+    */
    private void readResourceAssignments(MapRow data, Task task)
    {
       data.getList("Assignments").forEach(d -> readResourceAssignment(d, task));
    }
 
+   /**
+    * Read a resource assignment.
+    *
+    * @param data resource assignment data
+    * @param task parent task
+    */
    private void readResourceAssignment(MapRow data, Task task)
    {
       MapRow resourceData = data.getMapRow("Resource");
@@ -471,11 +564,19 @@ public class PwaReader
       populateFieldContainer(assignment, ASSIGNMENT_FIELDS, data);
    }
 
+   /**
+    * Read the predecessor relationships between tasks in a project.
+    */
    private void readTaskLinks()
    {
       m_data.getList("TaskLinks").forEach(this::readTaskLink);
    }
 
+   /**
+    * Read an individua predecessor relationship from a project.
+    *
+    * @param data predecessor relationship data
+    */
    private void readTaskLink(MapRow data)
    {
       Task predecessor = m_taskMap.get(data.getUUID("PredecessorTaskId"));
@@ -494,6 +595,12 @@ public class PwaReader
          .predecessorTask(predecessor));
    }
 
+   /**
+    * Create an HttpURLConnection instance.
+    *
+    * @param path target path
+    * @return HttpURLConnection instance
+    */
    private HttpURLConnection createConnection(String path)
    {
       try
@@ -514,6 +621,12 @@ public class PwaReader
       }
    }
 
+   /**
+    * Retrieve the response code after making a request.
+    *
+    * @param connection request connection
+    * @return response code
+    */
    private int getResponseCode(HttpURLConnection connection)
    {
       try
@@ -527,6 +640,13 @@ public class PwaReader
       }
    }
 
+   /**
+    * Generate an exception message detailing the request made and the response received.
+    *
+    * @param connection request connection
+    * @param code response code
+    * @return exception message
+    */
    private String getExceptionMessage(HttpURLConnection connection, int code)
    {
       String responseBody = "";
@@ -566,27 +686,9 @@ public class PwaReader
       }
    }
 
-   private MapRow readMapRow(HttpURLConnection connection)
-   {
-      return readValue(connection);
-   }
-
    private MapRow readValue(HttpURLConnection connection)
    {
       return readValue(connection, MapRow.class);
-   }
-
-   private <T> T readValue(HttpURLConnection connection, TypeReference<T> valueTypeRef)
-   {
-      try
-      {
-         return m_mapper.readValue(getInputStream(connection), valueTypeRef);
-      }
-
-      catch (IOException ex)
-      {
-         throw new PwaException(ex);
-      }
    }
 
    private InputStream getInputStream(HttpURLConnection connection)
