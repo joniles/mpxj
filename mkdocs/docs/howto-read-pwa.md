@@ -1,6 +1,6 @@
-# How To: Read Microsoft Project Server projects
+# How To: Read Microsoft Project Server Projects
 
-## What's in a name?
+## What's in a Name?
 Microsoft Project Server is a project and portfolio management platform built on
 top of Sharepoint. It does not include its own project management application,
 but rather uses Microsoft Project Professional on the desktop as the main
@@ -19,7 +19,7 @@ Server. This is the component MPXJ works with, and for the remainder of this
 documentation we'll refer to PWA as a catch-all term for the various flavors of
 Project Server.
 
-## Reading PWA Projects with MPXJ
+## Reading Projects
 MPXJ uses the API provided by PWA to read project data. This is achieved using
 the `PwaReader` class illustrated below:
 
@@ -77,7 +77,7 @@ data to allow you to modify or re-schedule the project using CPM.
 > Why can't we just download an MPP file? That's an interesting question,
 > after all isn't that what Microsoft Project Professional is doing when
 > it is working with Project Server? Sadly, the situation isn't that simple.
-> It appears that Microsoft Project Professional uses a set of private
+> It appears that Microsoft Project Professional uses private
 > APIs provided by Project Server to download a set of binary data which
 > it then reassembles into a full MPP file. It would certainly be feasible
 > to replicate this using MPXJ, but for Project Online these private APIs depend
@@ -88,9 +88,64 @@ data to allow you to modify or re-schedule the project using CPM.
 > created who can authenticate with just a username and password,
 > it is possible to call these private APIs. If you have an on premise 
 > installation like this and would like to help me improve MPXJ's functionality,
-> please get in touch via the support link on the sidebar.
-
+> [please get in touch](mailto:jon@timephased.com).
 
 ## Authentication
+This is probably the trickiest part of getting data out of Project Server. The
+exact mechanism you'll need to use will depend on how your Project Server
+instance is hosted. In this section I will focus on Project Online as it is a
+fairly common way of using Project Server, but the concepts covered here are
+likely to be transferable to other types of installation.
+
+> If you have an on premise version of Project Server (or Project Server hosted
+> by an third party) which allows you to authenticate with just a username and
+> password, please [get in touch](mailto:jon@timephased.com).
+> I'm keen to collaborate with you to get authentication working in your
+> environment.
+ 
+With Project Online, the only option is to use "modern authentication" - there
+is no option to have a user account with just a username and password. This
+means that we need to accommodate users being prompted to enter their username,
+password and provide a second authentication factor like TOTP or a code
+delivered by SMS. Fortunately this is all handled for us by Microsoft, so I'll
+explain what needs to be set up to get this to work for us.
+
+To get authentication working we'll be using Microsoft Entra which is
+Microsoft's cloud based Identity and Access management (IAM) platform. Entra
+can be found at [https://entra.microsoft.com/](https://entra.microsoft.com/).
+
+What we'll be configuring in Entra is an App Registration which will 
+allow us to authenticate with delegated permissions as a Sharepoint user. This
+means that once authenticated we'll be making API calls "on behalf of"
+the user who provided their credentials.
+
+For convenience you'll find [some sample code on GitHub](https://github.com/joniles/mpxj-java-samples/blob/main/src/main/java/org/mpxj/howto/use/pwa/DesktopMicrosoftAuthenticator.java)
+which uses the configuration I'm describing here to retrieve an access token.
+This sample code is purely provided as a simple working example to get you
+started. In production you'd need to use a version of
+[Microsoft's  MSAL library](https://learn.microsoft.com/en-us/entra/identity-platform/msal-overview)
+for your language of choice, or another tried-and-tested OAuth library to manage
+authentication.
+
+In summary we'll need to:
+
+1. Create an App Registration and take note of the `Application (client) ID` - 
+   this is our Client ID
+2. In the `Certificates & secrets` section, we'll create a Client Secret and
+   copy the value - this is our Client Secret
+3. In the `Authentication` section we'll need to add a Redirect URI. This is
+   where the user's browser will redirect on completion of authentication. For
+   the example code I've linked to above this will be a `localhost` URL.
+4. Finally you'll need to add the following Delegated Sharepoint permissions:
+   `AllSites.FullControl` and `ProjectWebApp.FullControl`.
 
 
+The final thing we'll need is the "resource" we'll be requesting access to
+when we authenticate. In this case, if the URL to access your Project Server
+instance is `https://example.sharepoint.com/sites/pwa`, the 
+resource we need to use will be `https://example.sharepoint.com`.
+
+With the App Registration in Entra configured as described above, you should be
+able to use the details noted above with the sample code to authenticate with
+Microsoft and retrieve an access token. Once you have an access token you can
+use `PwaReader` to read project data!
