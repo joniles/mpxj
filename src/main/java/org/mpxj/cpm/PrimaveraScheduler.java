@@ -182,7 +182,7 @@ public class PrimaveraScheduler implements Scheduler
       {
          if (predecessors.isEmpty())
          {
-            switch (task.getConstraintType())
+            switch (getConstraintType(task))
             {
                case START_NO_EARLIER_THAN:
                {
@@ -213,7 +213,7 @@ public class PrimaveraScheduler implements Scheduler
             earlyStart = predecessors.stream().map(this::calculateEarlyStart).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
          }
 
-         switch (task.getConstraintType())
+         switch (getConstraintType(task))
          {
             case START_NO_EARLIER_THAN:
             {
@@ -410,7 +410,7 @@ public class PrimaveraScheduler implements Scheduler
             lateFinish = successors.stream().map(this::calculateLateFinish).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
          }
 
-         switch (task.getConstraintType())
+         switch (getConstraintType(task))
          {
             case START_ON:
             {
@@ -3454,6 +3454,18 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       return actual.getDuration() != 0.0;
+   }
+
+   /**
+    * Retrieve the constraint type and default to As Soon As Possible
+    * if no constraint type is present.
+    *
+    * @param task target task
+    * @return constraint type
+    */
+   private ConstraintType getConstraintType(Task task)
+   {
+      return task.getConstraintType() == null ? ConstraintType.AS_SOON_AS_POSSIBLE : task.getConstraintType();
    }
 
    private ProjectFile m_file;

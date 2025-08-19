@@ -5976,16 +5976,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Supply a default value for constraint type.
-    *
-    * @return constraint type default value
-    */
-   private ConstraintType defaultConstraintType()
-   {
-      return ConstraintType.AS_SOON_AS_POSSIBLE;
-   }
-
-   /**
     * Supply a default value for the active flag.
     *
     * @return active flag default value
@@ -6079,7 +6069,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.PREDECESSORS, Task::calculatePredecessors);
       CALCULATED_FIELD_MAP.put(TaskField.SUCCESSORS, Task::calculateSuccessors);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_PERCENT_COMPLETE, Task::calculateActivityPercentComplete);
-      CALCULATED_FIELD_MAP.put(TaskField.CONSTRAINT_TYPE, Task::defaultConstraintType);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);
       CALCULATED_FIELD_MAP.put(TaskField.TYPE, Task::defaultType);
       CALCULATED_FIELD_MAP.put(TaskField.TASK_MODE, Task::defaultTaskMode);

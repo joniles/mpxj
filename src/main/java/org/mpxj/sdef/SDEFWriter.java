@@ -49,6 +49,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.mpxj.ConstraintType;
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
 import org.mpxj.ProjectCalendar;
@@ -289,7 +290,7 @@ public final class SDEFWriter extends AbstractProjectWriter
          {
             formattedConstraintDate = m_formatter.format(conDate).toUpperCase();
 
-            switch (record.getConstraintType())
+            switch (getConstraintType(record))
             {
                case AS_LATE_AS_POSSIBLE:
                case MUST_FINISH_ON:
@@ -578,6 +579,18 @@ public final class SDEFWriter extends AbstractProjectWriter
       }
 
       return activityID;
+   }
+
+   /**
+    * Retrieve the constraint type and default to As Soon As Possible
+    * if no constraint type is present.
+    *
+    * @param task target task
+    * @return constraint type
+    */
+   private ConstraintType getConstraintType(Task task)
+   {
+      return task.getConstraintType() == null ? ConstraintType.AS_SOON_AS_POSSIBLE : task.getConstraintType();
    }
 
    private ProjectFile m_projectFile;

@@ -1463,6 +1463,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Universal Project Reader
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1472,6 +1483,52 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#java-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Java Notes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#c-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      C# Notes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proxy-read-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Proxy Read Methods
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1669,6 +1726,41 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#java-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Java Notes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#c-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      C# Notes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proxy-read-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Proxy Read Methods
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1685,6 +1777,9 @@
 <h1 id="how-to-use-the-universal-project-reader">How To: Use the Universal Project Reader</h1>
 <p>As you may have seen elsewhere in this documentation, the preferred way to read
 from most sources of schedule data is to use the <code>UniversalProjectReader</code>:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Java</label><label for="__tabbed_1_2">C#</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.use.universal</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
@@ -1693,13 +1788,31 @@ from most sources of schedule data is to use the <code>UniversalProjectReader</c
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SimpleExample</span>
 <span class="p">{</span>
-<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">process</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">   </span><span class="p">{</span>
-<span class="w">      </span><span class="n">ProjectReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">();</span>
-<span class="w">      </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;example.mpp&quot;</span><span class="p">);</span>
-<span class="w">   </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">process</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ProjectReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">();</span>
+<span class="w">        </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;example.mpp&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">namespace</span><span class="w"> </span><span class="nn">MpxjSamples.HowToUse.Universal</span><span class="p">;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="nn">MPXJ.Net</span><span class="p">;</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">SimpleExample</span>
+<span class="p">{</span>
+<span class="w">     </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Process</span><span class="p">()</span>
+<span class="w">     </span><span class="p">{</span>
+<span class="w">          </span><span class="kt">var</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">();</span>
+<span class="w">          </span><span class="kt">var</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="n">Read</span><span class="p">(</span><span class="s">&quot;example.mpp&quot;</span><span class="p">);</span>
+<span class="w">     </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+</div>
+</div>
 <p>This is very convenient as you don't need to know ahead of time what type of
 schedule file you are working with, <code>UniversalProjectReader</code> will figure this
 out for you. The drawback to this approach is that for a number of schedule
@@ -1716,6 +1829,9 @@ data at the point just before schedule data has been read.</p>
 continue reading the type of schedule contained in the supplied file or stream,
 or you can change the reader's settings before continuing to read the schedule.
 The example code below illustrates both these situations.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Java</label><label for="__tabbed_2_2">C#</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.use.universal</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
@@ -1728,47 +1844,91 @@ The example code below illustrates both these situations.</p>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ProxyExample</span>
 <span class="p">{</span>
-<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="n">File</span><span class="w"> </span><span class="n">file</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">   </span><span class="p">{</span>
-<span class="w">      </span><span class="n">UniversalProjectReader</span><span class="w"> </span><span class="n">upr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="n">File</span><span class="w"> </span><span class="n">file</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">UniversalProjectReader</span><span class="w"> </span><span class="n">upr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">();</span>
 
-<span class="w">      </span><span class="c1">// Retrieve the proxy</span>
-<span class="w">      </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">UniversalProjectReader</span><span class="p">.</span><span class="na">ProjectReaderProxy</span><span class="w"> </span><span class="n">proxy</span>
-<span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">upr</span><span class="p">.</span><span class="na">getProjectReaderProxy</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
-<span class="w">      </span><span class="p">{</span>
-<span class="w">         </span><span class="c1">// Retrieve the reader class</span>
-<span class="w">         </span><span class="n">ProjectReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proxy</span><span class="p">.</span><span class="na">getProjectReader</span><span class="p">();</span>
+<span class="w">        </span><span class="c1">// Retrieve the proxy</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">UniversalProjectReader</span><span class="p">.</span><span class="na">ProjectReaderProxy</span><span class="w"> </span><span class="n">proxy</span>
+<span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">upr</span><span class="p">.</span><span class="na">getProjectReaderProxy</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Retrieve the reader class</span>
+<span class="w">            </span><span class="n">ProjectReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proxy</span><span class="p">.</span><span class="na">getProjectReader</span><span class="p">();</span>
 
-<span class="w">         </span><span class="c1">// Determine if we want to continue processing this file type.</span>
-<span class="w">         </span><span class="c1">// In this example we are ignoring SDEF files.</span>
-<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">reader</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">SDEFReader</span><span class="p">)</span>
-<span class="w">         </span><span class="p">{</span>
-<span class="w">            </span><span class="k">return</span><span class="p">;</span>
-<span class="w">         </span><span class="p">}</span>
+<span class="w">            </span><span class="c1">// Determine if we want to continue processing this file type.</span>
+<span class="w">            </span><span class="c1">// In this example we are ignoring SDEF files.</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">reader</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">SDEFReader</span><span class="p">)</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="k">return</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
 
-<span class="w">         </span><span class="c1">// Provide configuration for specific reader types.</span>
-<span class="w">         </span><span class="c1">// In this example we are changing the behavior of the Phoenix reader.</span>
-<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">reader</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">PhoenixReader</span><span class="p">)</span>
-<span class="w">         </span><span class="p">{</span>
-<span class="w">            </span><span class="p">((</span><span class="n">PhoenixReader</span><span class="p">)</span><span class="w"> </span><span class="n">reader</span><span class="p">).</span><span class="na">setUseActivityCodesForTaskHierarchy</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
-<span class="w">         </span><span class="p">}</span>
+<span class="w">            </span><span class="c1">// Provide configuration for specific reader types.</span>
+<span class="w">            </span><span class="c1">// In this example we are changing the behavior of the Phoenix reader.</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">reader</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">PhoenixReader</span><span class="p">)</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="p">((</span><span class="n">PhoenixReader</span><span class="p">)</span><span class="w"> </span><span class="n">reader</span><span class="p">).</span><span class="na">setUseActivityCodesForTaskHierarchy</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
 
-<span class="w">         </span><span class="c1">// Finally, we read the schedule</span>
-<span class="w">         </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proxy</span><span class="p">.</span><span class="na">read</span><span class="p">();</span>
+<span class="w">            </span><span class="c1">// Finally, we read the schedule</span>
+<span class="w">            </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proxy</span><span class="p">.</span><span class="na">read</span><span class="p">();</span>
 
-<span class="w">         </span><span class="c1">// Now we can work with the schedule data...</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">   </span><span class="p">}</span>
+<span class="w">            </span><span class="c1">// Now we can work with the schedule data...</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>The first thing to notice is that the proxy class is being used within a "try
-with resources" statement. This is important as the <code>UniversalProjectReader</code>
-may have a number of resources open (streams, temporary files, and so on) which
-need to be released once you have finished with the proxy class.
-<code>UniversalProjectReader.ProjectReaderProxy</code> implements the <code>AutoCloseable</code>
-interface, so you can either arrange to explicitly call the <code>close</code> method
-yourself at an appropriate point, or you can use try with resources to ensure
-this happens automatically.</p>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">namespace</span><span class="w"> </span><span class="nn">MpxjSamples.HowToUse.Universal</span><span class="p">;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="nn">MPXJ.Net</span><span class="p">;</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ProxyExample</span>
+<span class="p">{</span>
+<span class="w">     </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Process</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">file</span><span class="p">)</span>
+<span class="w">     </span><span class="p">{</span>
+<span class="w">          </span><span class="kt">var</span><span class="w"> </span><span class="n">upr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">();</span>
+
+<span class="w">          </span><span class="c1">// Retrieve the proxy</span>
+<span class="w">          </span><span class="k">using</span><span class="w"> </span><span class="nn">var</span><span class="w"> </span><span class="n">proxy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">upr</span><span class="p">.</span><span class="n">GetProjectReaderProxy</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+
+<span class="w">          </span><span class="c1">// Retrieve the reader class</span>
+<span class="w">          </span><span class="kt">var</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proxy</span><span class="p">.</span><span class="n">ProjectReader</span><span class="p">;</span>
+
+<span class="w">          </span><span class="c1">// Determine if we want to continue processing this file type.</span>
+<span class="w">          </span><span class="c1">// In this example we are ignoring SDEF files.</span>
+<span class="w">          </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">reader</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">SDEFReader</span><span class="p">)</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">                </span><span class="k">return</span><span class="p">;</span>
+<span class="w">          </span><span class="p">}</span>
+
+<span class="w">          </span><span class="c1">// Provide configuration for specific reader types.</span>
+<span class="w">          </span><span class="c1">// In this example we are changing the behavior of the Phoenix reader.</span>
+<span class="w">          </span><span class="kt">var</span><span class="w"> </span><span class="n">phoenixReader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">PhoenixReader</span><span class="p">;</span>
+<span class="w">          </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">phoenixReader</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">null</span><span class="p">)</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">                </span><span class="n">phoenixReader</span><span class="p">.</span><span class="n">UseActivityCodesForTaskHierarchy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">;</span>
+<span class="w">          </span><span class="p">}</span>
+
+<span class="w">          </span><span class="c1">// Finally, we read the schedule</span>
+<span class="w">          </span><span class="kt">var</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proxy</span><span class="p">.</span><span class="n">Read</span><span class="p">();</span>
+
+<span class="w">          </span><span class="c1">// Now we can work with the schedule data...</span>
+<span class="w">     </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="java-notes">Java Notes</h2>
+<p>The first thing to notice in the Java sample is that the proxy class is being
+used within a "try with resources" statement. This is important as the
+<code>UniversalProjectReader</code> may have a number of resources open  (streams, temporary
+files, and so on) which need to be released once you have finished with the
+proxy class. <code>UniversalProjectReader.ProjectReaderProxy</code> implements the
+<code>AutoCloseable</code> interface, so you can either arrange to explicitly call the
+<code>close</code> method yourself at an appropriate point, or you can use try with
+resources to ensure this happens automatically.</p>
 <p>The initial line of the <code>try</code> statement calls <code>getProjectReaderProxy</code> to
 retrieve the proxy. This method can be called with either a file name, a <code>File</code>
 instance, or an <code>InputStream</code>. Within the <code>try</code> block, the first thing we do is
@@ -1782,7 +1942,26 @@ Phoenix schedule, we're choosing to change the default behavior of the reader.</
 proxy to read the schedule. The proxy also provides a <code>readAll</code> method: if the
 source data contains multiple schedules you can use this method to read them
 all.</p>
-<p>Note that we're using the <code>read</code> or <code>readAll</code> methods provided by the
+<h2 id="c-notes">C# Notes</h2>
+<p>Similarly in the C# example, the proxy class is being managed with a <code>using</code>
+statement to allow any responses it holds to be disposed. The
+<code>UniversalProjectReader.IProjectReaderProxy</code> extends the <code>IDisposable</code>
+interface so you cam either work with <code>using</code> to automatically release the
+resources it holds, or you can call the <code>Dispose</code> method yourself.</p>
+<p>The <code>using</code> statement calls <code>GetProjectReaderProxy</code> to retrieve the proxy. This
+method can be called with either a file name or a <code>Stream</code> instance. Once we
+have the proxy, er retrieve the reader class instance which the
+<code>UniversalProjectReader</code> has selected to read our schedule data.</p>
+<p>The next two stanzas of code use <code>is</code> and <code>as</code> to determine the type of the
+reader selected: in the first stanza we're choosing not to continue if we've
+been provided with an SDEF file. In the second stanza, if we are dealing with a
+Phoenix schedule, we're choosing to change the default behavior of the reader.</p>
+<p>Finally at the end of the sample we're calling the <code>Read</code> method of the
+proxy to read the schedule. The proxy also provides a <code>ReadAll</code> method: if the
+source data contains multiple schedules you can use this method to read them
+all.</p>
+<h2 id="proxy-read-methods">Proxy Read Methods</h2>
+<p>Note that we're using the read methods provided by the
 proxy class, we're not attempting to use the methods provided on the reader
 class itself. This is important as the <code>UniversalProjectReader</code> may have
 located the schedule within a larger set of data, for example within a Zip file
