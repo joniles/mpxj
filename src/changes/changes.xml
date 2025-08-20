@@ -7,6 +7,9 @@
 	<body>
 		<release date="unreleased" version="14.4.0">
 		</release>
+		<release date="2025-08-20" version="14.3.4">
+			<action dev="joniles" type="update">Add missing reader class proxy handling in MPXJ.Net.</action>
+		</release>
 		<release date="2025-08-14" version="14.3.3">
             <action dev="joniles" type="update">Do not supply a default value for the Task Constraint Type attribute. Previously if this value was not set, MPXJ returned `ConstraintType.AS_SOON_AS_POSSIBLE`.</action>
 			<action dev="joniles" type="update">Remove workaround for locating the SQLite native library when using .Net on a Mac. This is no longer necessary following the recent SQLite version update.</action>
