@@ -86,7 +86,7 @@ public class FileSaverView
       String[] extensions = m_model.getExtensions();
       for (int extensionIndex = 0; extensionIndex < extensions.length; extensionIndex += 2)
       {
-         m_fileChooser.setFileFilter(new FileNameExtensionFilter(extensions[extensionIndex].toUpperCase() + " File", extensions[extensionIndex + 1]));
+         m_fileChooser.addChoosableFileFilter(new FileNameExtensionFilter(extensions[extensionIndex].toUpperCase() + " File", extensions[extensionIndex + 1]));
       }
    }
 }

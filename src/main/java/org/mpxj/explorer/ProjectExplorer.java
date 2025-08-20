@@ -96,6 +96,28 @@ public class ProjectExplorer
    }
 
    /**
+    * Launch the application with a ProjectFile instance.
+    *
+    * @param projectFile project to view
+    */
+   public static void view(ProjectFile projectFile)
+   {
+      EventQueue.invokeLater(() -> {
+         try
+         {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            ProjectExplorer window = new ProjectExplorer();
+            window.m_frame.setVisible(true);
+            window.openFile(projectFile);
+         }
+         catch (Exception ex)
+         {
+            ex.printStackTrace();
+         }
+      });
+   }
+
+   /**
     * Create the application.
     */
    public ProjectExplorer()
@@ -293,6 +315,19 @@ public class ProjectExplorer
       {
          throw new IllegalArgumentException("Failed to read file", ex);
       }
+   }
+
+   private void openFile(ProjectFile projectFile)
+   {
+      if (projectFile == null)
+      {
+         JOptionPane.showMessageDialog(m_frame, "Failed to read file");
+         return;
+      }
+
+      m_tabbedPane.add("Project File", new ProjectFilePanel(null, projectFile, m_writeOptions));
+      m_saveMenu.setEnabled(true);
+      m_cleanMenu.setEnabled(false);
    }
 
    private void openAll(File file)

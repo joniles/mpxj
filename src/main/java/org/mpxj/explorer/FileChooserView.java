@@ -84,8 +84,8 @@ public class FileChooserView
       String[] extensions = m_model.getExtensions();
       for (String extension : extensions)
       {
-         m_fileChooser.setFileFilter(new FileNameExtensionFilter(extension.toUpperCase() + " Files", extension));
+         m_fileChooser.addChoosableFileFilter(new FileNameExtensionFilter(extension.toUpperCase() + " Files", extension));
       }
-      m_fileChooser.setFileFilter(new FileNameExtensionFilter("Project Files", m_model.getExtensions()));
+      m_fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Project Files", m_model.getExtensions()));
    }
 }
