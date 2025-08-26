@@ -7,6 +7,9 @@ no longer distributed. Please use the `MPXJ.Net` package instead.
 
 ## 14.4.0 (unreleased)
 
+## 14.3.5 (2025-08-26)
+* When reading XER files and P6 databases, ensure that project-specific calendars are only attached to the project to which they relate.
+
 ## 14.3.4 (2025-08-20)
 * Add missing reader class proxy handling in MPXJ.Net.
 
