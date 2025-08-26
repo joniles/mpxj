@@ -45,6 +45,7 @@ import org.mpxj.ActivityCodeContainer;
 import org.mpxj.ActivityCodeValue;
 import org.mpxj.AssignmentField;
 import org.mpxj.Availability;
+import org.mpxj.CalendarType;
 import org.mpxj.CostAccount;
 import org.mpxj.CostAccountContainer;
 import org.mpxj.CostRateTableEntry;
@@ -188,14 +189,12 @@ final class PrimaveraReader
    /**
     * Process project properties.
     *
-    * @param projectID project ID
     * @param rows project properties data.
     */
-   public void processProjectProperties(Integer projectID, List<Row> rows)
+   public void processProjectProperties(List<Row> rows)
    {
       ProjectProperties properties = m_project.getProjectProperties();
-      properties.setUniqueID(projectID);
-      populateUserDefinedFieldValues("PROJECT", FieldTypeClass.PROJECT, properties, projectID);
+      populateUserDefinedFieldValues("PROJECT", FieldTypeClass.PROJECT, properties, m_project.getProjectProperties().getUniqueID());
 
       if (!rows.isEmpty())
       {
@@ -761,6 +760,11 @@ final class PrimaveraReader
       for (Row row : rows)
       {
          ProjectCalendar calendar = processCalendar(row);
+         if (calendar == null)
+         {
+            continue;
+         }
+
          Integer baseCalendarID = row.getInteger("base_clndr_id");
          if (baseCalendarID != null)
          {
@@ -789,12 +793,18 @@ final class PrimaveraReader
     */
    public ProjectCalendar processCalendar(Row row)
    {
-      ProjectCalendar calendar = m_project.addCalendar();
+      // If this is a project calendar, and we're not reading the
+      // project the calendar is linked to, then skip it.
+      CalendarType type = CalendarTypeHelper.getInstanceFromXer(row.getString("clndr_type"));
+      if (type == CalendarType.PROJECT && !m_project.getProjectProperties().getUniqueID().equals(row.getInteger("proj_id")))
+      {
+         return null;
+      }
 
-      Integer id = row.getInteger("clndr_id");
-      calendar.setUniqueID(id);
+      ProjectCalendar calendar = m_project.addCalendar();
+      calendar.setUniqueID(row.getInteger("clndr_id"));
       calendar.setName(row.getString("clndr_name"));
-      calendar.setType(CalendarTypeHelper.getInstanceFromXer(row.getString("clndr_type")));
+      calendar.setType(type);
       calendar.setPersonal(row.getBoolean("rsrc_private"));
 
       // We may override this later with project properties
