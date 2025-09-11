@@ -6,6 +6,14 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="14.4.0">
+            <action dev="joniles" type="update">Improve handling of different date formats read from BK3 files.</action>
+            <action dev="joniles" type="update">Adjust handling of the Mandatory Start constraint on in progress tasks in the PrimaveraScheduler.</action>
+		</release>
+		<release date="2025-08-26" version="14.3.5">
+            <action dev="joniles" type="update">When reading XER files and P6 databases, ensure that project-specific calendars are only attached to the project to which they relate.</action>
+		</release>
+		<release date="2025-08-20" version="14.3.4">
+			<action dev="joniles" type="update">Add missing reader class proxy handling in MPXJ.Net.</action>
 		</release>
 		<release date="2025-08-14" version="14.3.3">
             <action dev="joniles" type="update">Do not supply a default value for the Task Constraint Type attribute. Previously if this value was not set, MPXJ returned `ConstraintType.AS_SOON_AS_POSSIBLE`.</action>

@@ -427,7 +427,10 @@ public class PrimaveraScheduler implements Scheduler
 
             case MUST_START_ON:
             {
-               lateFinish = getDateFromStartAndDuration(task, task.getConstraintDate());
+               if (task.getActualStart() == null)
+               {
+                  lateFinish = getDateFromStartAndDuration(task, task.getConstraintDate());
+               }
                break;
             }
 

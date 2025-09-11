@@ -23,7 +23,6 @@
 package org.mpxj.openplan;
 
 import java.io.PrintWriter;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -40,6 +39,7 @@ import org.mpxj.ResourceType;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.DebugLogPrintWriter;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.mpxj.common.LocalDateTimeHelper;
 
 /**
  * Reads a table of data held in a BK3 file.
@@ -131,8 +131,7 @@ class TableReader extends AbstractReader
 
          case DATE:
          {
-            // TODO: could improve optional section parsing
-            return LocalDateTime.parse(value.substring(0, 12), DATE_FORMAT);
+            return LocalDateTimeHelper.parseBest(DATE_FORMAT, value);
          }
 
          case TIME:
@@ -288,7 +287,7 @@ class TableReader extends AbstractReader
 
    private final String m_name;
 
-   private static final DateTimeFormatter DATE_FORMAT = new DateTimeFormatterBuilder().parseLenient().appendPattern("yyyyMMddHHmm").toFormatter();
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("[yyyy-MM-dd'T'HH:mm:ss][yyyyMMddHHmmss'Z'][yyyyMMddHHmm]");
 
    private static final DateTimeFormatter TIME_FORMAT = new DateTimeFormatterBuilder().parseLenient().appendPattern("HH:mm").toFormatter();
 

@@ -245,6 +245,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
          project.getProjectProperties().setFileType("XER");
          addListenersToProject(project);
          processProjectID();
+         project.getProjectProperties().setUniqueID(m_projectID);
 
          if (m_readSharedData)
          {
@@ -446,7 +447,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       // Process common attributes
       //
       List<Row> rows = getRows("project", "proj_id", m_projectID);
-      m_reader.processProjectProperties(m_projectID, rows);
+      m_reader.processProjectProperties(rows);
 
       rows = getRows("projpcat", "proj_id", m_projectID);
       m_reader.processProjectCodeAssignments(rows);

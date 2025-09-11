@@ -137,6 +137,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          addListenersToProject(project);
          processTableNames();
          processAnalytics();
+         project.getProjectProperties().setUniqueID(m_projectID);
 
          if (m_readSharedData)
          {
@@ -253,7 +254,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       // Process common attributes
       //
       List<Row> rows = getRows("select * from " + m_schema + "project where proj_id=?", m_projectID);
-      m_reader.processProjectProperties(m_projectID, rows);
+      m_reader.processProjectProperties(rows);
 
       rows = getRows("select * from " + m_schema + "projpcat where proj_id=?", m_projectID);
       m_reader.processProjectCodeAssignments(rows);
