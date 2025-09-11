@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="14.4.0">
+            <action dev="joniles" type="update">Improve handling of different date formats read from BK3 files.</action>
 		</release>
 		<release date="2025-08-26" version="14.3.5">
             <action dev="joniles" type="update">When reading XER files and P6 databases, ensure that project-specific calendars are only attached to the project to which they relate.</action>
