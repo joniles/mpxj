@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="14.4.0">
+            <action dev="joniles" type="update">Implemented support for reading projects from Microsoft Project Server (also known as Project Online, Project Web Access or PWA).</action>
             <action dev="joniles" type="update">Improve handling of different date formats read from BK3 files.</action>
             <action dev="joniles" type="update">Adjust handling of the Mandatory Start constraint on in progress tasks in the PrimaveraScheduler.</action>
 		</release>
