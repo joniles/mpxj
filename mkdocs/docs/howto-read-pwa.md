@@ -10,7 +10,7 @@ the backend server.
 
 Project Server can be installed on premise, although it has become more common
 to see use of the Microsoft-hosted version of Project Server, branded as
-Project Online. There are also third-party hosting options, although these
+Project Online. There are also third-party hosting options, but these
 aren't covered here.
 
 A core part of the Project Server platform is the Project Web App (PWA) which
@@ -19,35 +19,68 @@ Server. This is the component MPXJ works with, and for the remainder of this
 documentation we'll refer to PWA as a catch-all term for the various flavors of
 Project Server.
 
+> At the time of writing it appears that Project Online will be
+> [discontinued by Microsoft on September 30, 2026](https://techcommunity.microsoft.com/blog/plannerblog/microsoft-project-online-is-retiring-what-you-need-to-know/4450558).
+> Although Project Online will no longer be available, on premise versions of
+> Project Server remain available, and should be accessible through MPXJ
+> using the reader described here.
+ 
 ## Reading Projects
 MPXJ uses the API provided by PWA to read project data. This is achieved using
 the `PwaReader` class illustrated below:
 
-```java
-// The URL for your Project Server instance
-String projectServerUrl = "https://example.sharepoint.com/sites/pwa";
+=== "Java"
+	```java
+	// The URL for your Project Server instance
+	String projectServerUrl = "https://example.sharepoint.com/sites/pwa";
+	
+	// We're assuming you have already authenticated
+	// as a user and have an access token
+	String accessToken = "my-access-token-from-oauth";
+	
+	// Create a reader
+	PwaReader reader = new PwaReader(projectServerUrl, accessToken);
+	
+	// Retrieve the projects available and print their details
+	List<PwaProject> projects = reader.getProjects();
+	for (PwaProject project : projects)
+	{
+	 System.out.println("ID: " + project.getProjectId()
+		+ " Name: " + project.getProjectName());
+	}
+	
+	// Get the ID of the first project on the list
+	UUID projectID = projects.get(0).getProjectId();
+	
+	// Now read the project
+	ProjectFile project = reader.readProject(projectID);
+	```
 
-// We're assuming you have already authenticated
-// as a user and have an access token
-String accessToken = "my-access-token-from-oauth";
-
-// Create a reader
-PwaReader reader = new PwaReader(projectServerUrl, accessToken);
-
-// Retrieve the projects available and print their details
-List<PwaProject> projects = reader.getProjects();
-for (PwaProject project : projects)
-{
- System.out.println("ID: " + project.getProjectId()
- 	+ " Name: " + project.getProjectName());
-}
-
-// Get the ID of the first project on the list
-UUID projectID = projects.get(0).getProjectId();
-
-// Now read the project
-ProjectFile project = reader.readProject(projectID);
-```
+=== "C#"
+	```c#
+	// The URL for your Project Server instance
+	var projectServerUrl = "https://example.sharepoint.com/sites/pwa";
+	
+	// We're assuming you have already authenticated as a user and have an access token
+	var accessToken = "my-access-token-from-oauth";
+	
+	// Create a reader
+	var reader = new PwaReader(projectServerUrl, accessToken);
+	
+	// Retrieve the projects available and print their details
+	var projects = reader.GetProjects();
+	foreach (var p in projects)
+	{
+    	System.Console.WriteLine("ID: " + p.ProjectId
+    		+ " Name: " + p.ProjectName);
+	}
+	
+	// Get the ID of the first project on the list
+	var projectId = projects.First().ProjectId;
+	
+	// Now read the project
+	var project = reader.ReadProject(projectId);
+	```
 
 As the example illustrates, the reader is initialized with the URL of your
 Project Server instance, and an access token. We'll discuss in more detail
@@ -130,14 +163,14 @@ authentication.
 In summary we'll need to:
 
 1. Create an App Registration and take note of the `Application (client) ID` - 
-   this is our Client ID
+	this is our Client ID
 2. In the `Certificates & secrets` section, we'll create a Client Secret and
-   copy the value - this is our Client Secret
+	copy the value - this is our Client Secret
 3. In the `Authentication` section we'll need to add a Redirect URI. This is
-   where the user's browser will redirect on completion of authentication. For
-   the example code I've linked to above this will be a `localhost` URL.
+	where the user's browser will redirect on completion of authentication. For
+	the example code I've linked to above this will be a `localhost` URL.
 4. Finally you'll need to add the following Delegated Sharepoint permissions:
-   `AllSites.FullControl` and `ProjectWebApp.FullControl`.
+	`AllSites.FullControl` and `ProjectWebApp.FullControl`.
 
 
 The final thing we'll need is the "resource" we'll be requesting access to
@@ -146,6 +179,6 @@ instance is `https://example.sharepoint.com/sites/pwa`, the
 resource we need to use will be `https://example.sharepoint.com`.
 
 With the App Registration in Entra configured as described above, you should be
-able to use the details noted above with the sample code to authenticate with
-Microsoft and retrieve an access token. Once you have an access token you can
-use `PwaReader` to read project data!
+able to use the details noted above with the [sample authentication code](https://github.com/joniles/mpxj-java-samples/blob/main/src/main/java/org/mpxj/howto/use/pwa/DesktopMicrosoftAuthenticator.java)
+to authenticate with Microsoft and retrieve an access token. Once you have an
+access token you can use `PwaReader` to read project data!
