@@ -63,7 +63,6 @@ import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
 import org.mpxj.UserDefinedField;
 import org.mpxj.common.FieldTypeHelper;
-import org.mpxj.explorer.ProjectExplorer;
 
 /**
  * Access schedule data in Microsoft Project Server / Project Web App (PWA) / Project Online.
