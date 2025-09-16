@@ -464,7 +464,7 @@ public class PwaReader
       FieldType type = m_customFields.get(internalName);
       if (type == null)
       {
-         // Remove Custom_ prefix
+         // substring used to remove Custom_ prefix
          MapRow customField = data.getList("CustomFields").stream().filter(f -> internalName.endsWith(f.getString("InternalName").substring(7))).findFirst().orElse(null);
          if(customField == null)
          {
@@ -477,6 +477,7 @@ public class PwaReader
             .internalName(customField.getString("InternalName"))
             .externalName(customField.getString("Name"))
             .build();
+         type = field;
 
          m_project.getUserDefinedFields().add(field);
          m_project.getCustomFields().add(field).setAlias(field.getName());
