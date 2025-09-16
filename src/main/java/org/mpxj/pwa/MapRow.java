@@ -223,7 +223,7 @@ class MapRow extends LinkedHashMap<String, Object>
 
          case CURRENCY:
          {
-            return Double.parseDouble(String.valueOf(value));
+            return Double.valueOf(String.valueOf(value));
          }
 
          case SCHEDULE_FROM:
@@ -248,12 +248,12 @@ class MapRow extends LinkedHashMap<String, Object>
 
          case TASK_TYPE:
          {
-            return TaskTypeHelper.getInstance((Integer) value);
+            return TaskTypeHelper.getInstance(NumberHelper.getInt((Integer) value));
          }
 
          case CURRENCY_SYMBOL_POSITION:
          {
-            return CurrencySymbolPosition.getInstance((Integer) value);
+            return CurrencySymbolPosition.getInstance(NumberHelper.getInt((Integer) value));
          }
 
          case RATE:
@@ -283,7 +283,7 @@ class MapRow extends LinkedHashMap<String, Object>
 
          case PRIORITY:
          {
-            return Priority.getInstance((Integer) value);
+            return Priority.getInstance(NumberHelper.getInt((Integer) value));
          }
 
          case CONSTRAINT:
@@ -381,7 +381,7 @@ class MapRow extends LinkedHashMap<String, Object>
       return Duration.getInstance(duration, unit);
    }
 
-   private ProjectFile m_project;
+   private transient ProjectFile m_project;
 
    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'[HH:mm:ss.SSS][HH:mm:ss.SS][HH:mm:ss.S][HH:mm:ss]");
    private static final Pattern DURATION_REGEX = Pattern.compile("(-?\\d+\\.\\d+|-?\\d+)(emo|mo|em|eh|ed|ew|ey|e%|m|h|d|w|%|y)");

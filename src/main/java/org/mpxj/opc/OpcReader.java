@@ -159,6 +159,7 @@ public class OpcReader
 
       return readValue(connection, new TypeReference<List<OpcProjectBaseline>>()
       {
+         // Empty block
       });
    }
 
@@ -411,6 +412,7 @@ public class OpcReader
 
       return readValue(connection, new TypeReference<List<Workspace>>()
       {
+         // Empty block
       });
    }
 
@@ -436,6 +438,7 @@ public class OpcReader
 
       return readValue(connection, new TypeReference<List<OpcProject>>()
       {
+         // Empty block
       });
    }
 
@@ -603,6 +606,7 @@ public class OpcReader
    /**
     * Unmarshall a collection of JSON values.
     *
+    * @param <T> unmarshalled type
     * @param connection target connection
     * @param valueTypeRef generic collection type
     * @return collection of object instances representing unmarshalled JSON values
@@ -623,6 +627,7 @@ public class OpcReader
    /**
     * Unmarshall a JSON value as an object.
     *
+    * @param <T> unmarshalled type
     * @param connection target connection
     * @param clazz target object class
     * @return unmarshalled data as a object
