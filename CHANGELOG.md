@@ -5,7 +5,12 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 14.4.0 (unreleased)
+## 14.5.0 (unreleased)
+
+## 14.4.0 (2025-09-16)
+* Implemented support for reading projects from Microsoft Project Server (also known as Project Online, Project Web Access or PWA).
+* Improve handling of different date formats read from BK3 files.
+* Adjust handling of the Mandatory Start constraint on in progress tasks in the PrimaveraScheduler.
 
 ## 14.3.5 (2025-08-26)
 * When reading XER files and P6 databases, ensure that project-specific calendars are only attached to the project to which they relate.
