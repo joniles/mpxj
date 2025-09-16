@@ -157,38 +157,38 @@ public class PwaReader
    private MapRow readData()
    {
       String query = "ProjectServer/Projects(guid'" + m_projectID + "')"
-         + "?$expand=" +
-         String.join(",",
-            "ProjectResources",
-            "ProjectResources/CustomFields",
-            "ProjectResources/CustomFields/LookupEntries",
-            "Tasks",
-            "TaskLinks",
-            "Tasks/Parent",
-            "Tasks/CustomFields",
-            "Tasks/CustomFields/LookupEntries",
-            "Tasks/Assignments",
-            "Tasks/Assignments/Resource")
-         + "&$select=" +
-         String.join(",",
-            "*",
-            "ProjectResources/*",
-            "ProjectResources/CustomFields/Id",
-            "ProjectResources/CustomFields/Name",
-            "ProjectResources/CustomFields/InternalName",
-            "ProjectResources/CustomFields/FieldType",
-            "ProjectResources/CustomFields/LookupEntries/InternalName",
-            "ProjectResources/CustomFields/LookupEntries/Value",
-            "Tasks/*",
-            "Tasks/Parent/Id",
-            "Tasks/Assignments/*",
-            "Tasks/CustomFields/Id",
-            "Tasks/CustomFields/Name",
-            "Tasks/CustomFields/InternalName",
-            "Tasks/CustomFields/FieldType",
-            "Tasks/CustomFields/LookupEntries/InternalName",
-            "Tasks/CustomFields/LookupEntries/Value",
-            "Tasks/Assignments/Resource/Id");
+               + "?$expand=" +
+               String.join(",",
+                  "ProjectResources",
+                  "ProjectResources/CustomFields",
+                  "ProjectResources/CustomFields/LookupEntries",
+                  "Tasks",
+                  "TaskLinks",
+                  "Tasks/Parent",
+                  "Tasks/CustomFields",
+                  "Tasks/CustomFields/LookupEntries",
+                  "Tasks/Assignments",
+                  "Tasks/Assignments/Resource")
+               + "&$select=" +
+               String.join(",",
+                  "*",
+                  "ProjectResources/*",
+                  "ProjectResources/CustomFields/Id",
+                  "ProjectResources/CustomFields/Name",
+                  "ProjectResources/CustomFields/InternalName",
+                  "ProjectResources/CustomFields/FieldType",
+                  "ProjectResources/CustomFields/LookupEntries/InternalName",
+                  "ProjectResources/CustomFields/LookupEntries/Value",
+                  "Tasks/*",
+                  "Tasks/Parent/Id",
+                  "Tasks/Assignments/*",
+                  "Tasks/CustomFields/Id",
+                  "Tasks/CustomFields/Name",
+                  "Tasks/CustomFields/InternalName",
+                  "Tasks/CustomFields/FieldType",
+                  "Tasks/CustomFields/LookupEntries/InternalName",
+                  "Tasks/CustomFields/LookupEntries/Value",
+                  "Tasks/Assignments/Resource/Id");
 
       //System.out.println(query);
 
@@ -375,7 +375,7 @@ public class PwaReader
       MapRow parent = data.getMapRow("Parent");
       if (parent == null)
       {
-         return  null;
+         return null;
       }
       return parent.getUUID("Id");
    }
@@ -411,7 +411,7 @@ public class PwaReader
       FieldType type = m_customFields.get(internalName);
       if (type == null)
       {
-         type= getFieldTypeFromIdentifier(internalName);
+         type = getFieldTypeFromIdentifier(internalName);
          if (type == null)
          {
             return;
@@ -434,8 +434,9 @@ public class PwaReader
       {
          // Note: we don't currently support multi-select values,
          // so we just use the first value in the list
-         @SuppressWarnings("unchecked") List<String> list = (List<String>)value;
-         value = list.isEmpty() ? null :  m_lookupEntries.get(list.get(0));
+         @SuppressWarnings("unchecked")
+         List<String> list = (List<String>) value;
+         value = list.isEmpty() ? null : m_lookupEntries.get(list.get(0));
       }
       else
       {
@@ -466,7 +467,7 @@ public class PwaReader
       {
          // substring used to remove Custom_ prefix
          MapRow customField = data.getList("CustomFields").stream().filter(f -> internalName.endsWith(f.getString("InternalName").substring(7))).findFirst().orElse(null);
-         if(customField == null)
+         if (customField == null)
          {
             return;
          }
@@ -490,8 +491,9 @@ public class PwaReader
       {
          // Note: we don't currently support multi-select values,
          // so we just use the first value in the list
-         @SuppressWarnings("unchecked") List<String> list = (List<String>)value;
-         value = list.isEmpty() ? null :  m_lookupEntries.get(list.get(0));
+         @SuppressWarnings("unchecked")
+         List<String> list = (List<String>) value;
+         value = list.isEmpty() ? null : m_lookupEntries.get(list.get(0));
       }
       else
       {
@@ -502,7 +504,7 @@ public class PwaReader
    }
 
    /**
-    * For a project (local) custom field, us ethe last 8 hex digits of the internal name
+    * For a project (local) custom field, use the last 8 hex digits of the internal name
     * to determine the field type.
     *
     * @param internalName custom field internal name
@@ -511,7 +513,7 @@ public class PwaReader
    private FieldType getFieldTypeFromIdentifier(String internalName)
    {
       // LocalCustom_x005f_Published_x005f_47bd06f02703ef11ba8c00155d805832_x005f_000039b78bbe4ceb82c4fa8c0b400033
-      String fieldID = internalName.substring(internalName.length()-8);
+      String fieldID = internalName.substring(internalName.length() - 8);
       return FieldTypeHelper.getInstance(m_project, Integer.parseInt(fieldID, 16));
    }
 

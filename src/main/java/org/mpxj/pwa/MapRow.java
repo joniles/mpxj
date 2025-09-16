@@ -79,7 +79,8 @@ class MapRow extends LinkedHashMap<String, Object>
     */
    public List<MapRow> getList(String key)
    {
-      @SuppressWarnings("unchecked") List<MapRow> row = (List<MapRow>)get(key);
+      @SuppressWarnings("unchecked")
+      List<MapRow> row = (List<MapRow>) get(key);
       return row == null ? Collections.emptyList() : row;
    }
 
@@ -158,7 +159,7 @@ class MapRow extends LinkedHashMap<String, Object>
     */
    public boolean getBool(String key)
    {
-      return BooleanHelper.getBoolean((Boolean)get(key));
+      return BooleanHelper.getBoolean((Boolean) get(key));
    }
 
    /**
@@ -295,14 +296,14 @@ class MapRow extends LinkedHashMap<String, Object>
          {
             if (value instanceof String)
             {
-               return Double.valueOf((String)value);
+               return Double.valueOf((String) value);
             }
             return value;
          }
 
          case WORK_CONTOUR:
          {
-            return WorkContourHelper.getInstance(m_project, ((Integer)value).intValue());
+            return WorkContourHelper.getInstance(m_project, ((Integer) value).intValue());
          }
 
          case NOTES:
