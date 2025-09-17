@@ -33,6 +33,7 @@ org.mpxj.primavera.schema
 org.mpxj.primavera.suretrak
 org.mpxj.projectcommander
 org.mpxj.projectlibre
+org.mpxj.pwa
 org.mpxj.reader
 org.mpxj.ruby
 org.mpxj.sage
