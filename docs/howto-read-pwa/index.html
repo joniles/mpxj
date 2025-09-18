@@ -1,0 +1,2043 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="http://www.mpxj.org/howto-read-pwa/">
+      
+      
+        <link rel="prev" href="../howto-read-merlin/">
+      
+      
+        <link rel="next" href="../howto-read-mpd/">
+      
+      
+      <link rel="icon" href="../images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.20">
+    
+    
+      
+        <title>Microsoft Project Server - MPXJ</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.66ac8b77.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-9R48LPVHKE"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-9R48LPVHKE",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-9R48LPVHKE",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#how-to-read-microsoft-project-server-projects" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="MPXJ" class="md-header__button md-logo" aria-label="MPXJ" data-md-component="logo">
+      
+  <img src="../images/mpxj-white.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MPXJ
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Microsoft Project Server
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/joniles/mpxj" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mpxj
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MPXJ" class="md-nav__button md-logo" aria-label="MPXJ" data-md-component="logo">
+      
+  <img src="../images/mpxj-white.svg" alt="logo">
+
+    </a>
+    MPXJ
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/joniles/mpxj" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mpxj
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CHANGELOG/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Changes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../support/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Support
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../supported-formats/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    File Formats
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://mpxj.teemill.com/collection/all-products/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Store
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Getting Started
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-start-java/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started with Java
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-dotnet/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started with .Net
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-start-python/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started with Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-start-ruby/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started with Ruby
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-start/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MPXJ Basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-build/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Building MPXJ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-convert/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Converting Files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    How to Read...
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            How to Read...
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-asta/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Asta files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-conceptdraw/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ConceptDraw PROJECT files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-openplan/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Deltek Open Plan BK3 files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-edraw/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Edraw Project EDPX files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-fasttrack/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FastTrack files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-ganttdesigner/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gantt Designer files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-ganttproject/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GanttProject files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-merlin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Merlin files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Microsoft Project Server
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Microsoft Project Server
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#whats-in-a-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      What's in a Name?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading-projects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reading Projects
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caveats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caveats
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-mpd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MPD files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-mpd-database/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MPD databases
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-mpp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MPP files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-mpx/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MPX Files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-mspdi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MSPDI files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-opc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Oracle Primavera Cloud
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-p3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    P3 files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-primavera/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    P6 Databases
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-phoenix/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Phoenix files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-planner/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Planner files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-plf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PLF files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-pmxml/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PMXML files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-projectcommander/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Project Commander files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-projectlibre/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ProjectLibre files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-schedule-grid/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schedule Grid files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-sdef/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SDEF files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-suretrak/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SureTrak files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-synchro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Synchro Scheduler files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-turboproject/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TurboProject files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-xer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    XER files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    How to Write...
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            How to Write...
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-mpx/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MPX files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-mspdi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MSPDI files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-planner/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Planner files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-pmxml/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PMXML files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-sdef/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SDEF files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-xer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    XER files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    How to Use...
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            How to Use...
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-use-baselines/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Baselines
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-use-calendars/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Calendars
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-use-cpm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPM Schedulers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-use-external-projects/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    External Projects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-use-fields/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fields
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-use-universal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Universal Project Reader
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Field Guides...
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Field Guides...
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../field-guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Field Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mpp-field-guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MPP Field Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apidocs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    JavaDoc
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Users
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Maven Reports
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#whats-in-a-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      What's in a Name?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading-projects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reading Projects
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caveats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caveats
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="how-to-read-microsoft-project-server-projects">How To: Read Microsoft Project Server Projects</h1>
+<h2 id="whats-in-a-name">What's in a Name?</h2>
+<p>Microsoft Project Server is a project and portfolio management platform built on
+top of Sharepoint. It does not include its own project management application,
+but rather uses Microsoft Project Professional on the desktop as the main
+user-facing front end to allow projects to be developed and managed, while
+providing central storage of projects, portfolio management and reporting on
+the backend server.</p>
+<p>Project Server can be installed on premise, although it has become more common
+to see use of the Microsoft-hosted version of Project Server, branded as
+Project Online. There are also third-party hosting options, but these
+aren't covered here.</p>
+<p>A core part of the Project Server platform is the Project Web App (PWA) which
+among other things provides an API which allow data to be extracted from Project
+Server. This is the component MPXJ works with, and for the remainder of this
+documentation we'll refer to PWA as a catch-all term for the various flavors of
+Project Server.</p>
+<blockquote>
+<p>At the time of writing it appears that Project Online will be
+<a href="https://techcommunity.microsoft.com/blog/plannerblog/microsoft-project-online-is-retiring-what-you-need-to-know/4450558">discontinued by Microsoft on September 30, 2026</a>.
+Although Project Online will no longer be available, on premise versions of
+Project Server remain available, and should be accessible through MPXJ
+using the reader described here.</p>
+</blockquote>
+<h2 id="reading-projects">Reading Projects</h2>
+<p>MPXJ uses the API provided by PWA to read project data. This is achieved using
+the <code>PwaReader</code> class illustrated below:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Java</label><label for="__tabbed_1_2">C#</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1">// The URL for your Project Server instance</span>
+<span class="n">String</span><span class="w"> </span><span class="n">projectServerUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;https://example.sharepoint.com/sites/pwa&quot;</span><span class="p">;</span>
+
+<span class="c1">// We&#39;re assuming you have already authenticated</span>
+<span class="c1">// as a user and have an access token</span>
+<span class="n">String</span><span class="w"> </span><span class="n">accessToken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;my-access-token-from-oauth&quot;</span><span class="p">;</span>
+
+<span class="c1">// Create a reader</span>
+<span class="n">PwaReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PwaReader</span><span class="p">(</span><span class="n">projectServerUrl</span><span class="p">,</span><span class="w"> </span><span class="n">accessToken</span><span class="p">);</span>
+
+<span class="c1">// Retrieve the projects available and print their details</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">PwaProject</span><span class="o">&gt;</span><span class="w"> </span><span class="n">projects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getProjects</span><span class="p">();</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">PwaProject</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">projects</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;ID: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">project</span><span class="p">.</span><span class="na">getProjectId</span><span class="p">()</span>
+<span class="w">    </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; Name: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">project</span><span class="p">.</span><span class="na">getProjectName</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="c1">// Get the ID of the first project on the list</span>
+<span class="n">UUID</span><span class="w"> </span><span class="n">projectID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">projects</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getProjectId</span><span class="p">();</span>
+
+<span class="c1">// Now read the project</span>
+<span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">readProject</span><span class="p">(</span><span class="n">projectID</span><span class="p">);</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1">// The URL for your Project Server instance</span>
+<span class="kt">var</span><span class="w"> </span><span class="n">projectServerUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;https://example.sharepoint.com/sites/pwa&quot;</span><span class="p">;</span>
+
+<span class="c1">// We&#39;re assuming you have already authenticated as a user and have an access token</span>
+<span class="kt">var</span><span class="w"> </span><span class="n">accessToken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;my-access-token-from-oauth&quot;</span><span class="p">;</span>
+
+<span class="c1">// Create a reader</span>
+<span class="kt">var</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PwaReader</span><span class="p">(</span><span class="n">projectServerUrl</span><span class="p">,</span><span class="w"> </span><span class="n">accessToken</span><span class="p">);</span>
+
+<span class="c1">// Retrieve the projects available and print their details</span>
+<span class="kt">var</span><span class="w"> </span><span class="n">projects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="n">GetProjects</span><span class="p">();</span>
+<span class="k">foreach</span><span class="w"> </span><span class="p">(</span><span class="kt">var</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">projects</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;ID: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">ProjectId</span>
+<span class="w">        </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; Name: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">ProjectName</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Get the ID of the first project on the list</span>
+<span class="kt">var</span><span class="w"> </span><span class="n">projectId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">projects</span><span class="p">.</span><span class="n">First</span><span class="p">().</span><span class="n">ProjectId</span><span class="p">;</span>
+
+<span class="c1">// Now read the project</span>
+<span class="kt">var</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="n">ReadProject</span><span class="p">(</span><span class="n">projectId</span><span class="p">);</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>As the example illustrates, the reader is initialized with the URL of your
+Project Server instance, and an access token. We'll discuss in more detail
+in a later section how to get an access token.</p>
+<p>Once you have the reader set up, the <code>getProjects</code> method can be called to
+retrieve a list of the available projects. These are returned as a list of
+<code>PwaProject</code> instances. Each <code>PwaProject</code> instance contains the unique ID of
+the project along with its name.</p>
+<p>We can then read an individual project by passing the project's unique ID to the 
+<code>readProject</code> method, which will return a <code>ProjectFile</code> instance.</p>
+<h2 id="caveats">Caveats</h2>
+<p>MPXJ is using the API exposed by PWA to read the various component parts of the
+a project and assemble them into a <code>ProjectFile</code> instance. There are
+unfortunately some gaps in the data available via the API, in particular
+calendar data is incomplete (it is not possible to read the normal working
+hours for a given calendar), resource calendars are not available, and any
+calendars assigned to tasks are not available.</p>
+<p>What this means in practice is that the project data returned by MPXJ is a useful
+snapshot of the current state of a project, but it does not contain enough
+data to allow you to modify or re-schedule the project using CPM.</p>
+<blockquote>
+<p>Why can't we just download an MPP file? That's an interesting question,
+after all isn't that what Microsoft Project Professional is doing when
+it is working with Project Server? Sadly, the situation isn't that simple.
+It appears that Microsoft Project Professional uses private
+APIs provided by Project Server to download a set of binary data which
+it then reassembles into a full MPP file. It would certainly be feasible
+to replicate this using MPXJ, but for Project Online these private APIs depend
+on an authentication mechanism which is specific to Microsoft and Microsoft
+Project Professional on the desktop.</p>
+<p>For on premise Project Server installations where Sharepoint users can be
+created who can authenticate with just a username and password,
+it is possible to call these private APIs. If you have an on premise 
+installation like this and would like to help me improve MPXJ's functionality,
+<a href="mailto:jon@timephased.com">please get in touch</a>.</p>
+</blockquote>
+<h2 id="authentication">Authentication</h2>
+<p>This is probably the trickiest part of getting data out of Project Server. The
+exact mechanism you'll need to use will depend on how your Project Server
+instance is hosted. In this section I will focus on Project Online as it is a
+fairly common way of using Project Server, but the concepts covered here are
+likely to be transferable to other types of installation.</p>
+<blockquote>
+<p>If you have an on premise version of Project Server (or Project Server hosted
+by an third party) which allows you to authenticate with just a username and
+password, please <a href="mailto:jon@timephased.com">get in touch</a>.
+I'm keen to collaborate with you to get authentication working in your
+environment.</p>
+</blockquote>
+<p>With Project Online, the only option is to use "modern authentication" - there
+is no option to have a user account with just a username and password. This
+means that we need to accommodate users being prompted to enter their username,
+password and provide a second authentication factor like TOTP or a code
+delivered by SMS. Fortunately this is all handled for us by Microsoft, so I'll
+explain what needs to be set up to get this to work for us.</p>
+<p>To get authentication working we'll be using Microsoft Entra which is
+Microsoft's cloud based Identity and Access management (IAM) platform. Entra
+can be found at <a href="https://entra.microsoft.com/">https://entra.microsoft.com/</a>.</p>
+<p>What we'll be configuring in Entra is an App Registration which will 
+allow us to authenticate with delegated permissions as a Sharepoint user. This
+means that once authenticated we'll be making API calls "on behalf of"
+the user who provided their credentials.</p>
+<p>For convenience you'll find <a href="https://github.com/joniles/mpxj-java-samples/blob/main/src/main/java/org/mpxj/howto/use/pwa/DesktopMicrosoftAuthenticator.java">some sample code on GitHub</a>
+which uses the configuration I'm describing here to retrieve an access token.
+This sample code is purely provided as a simple working example to get you
+started. In production you'd need to use a version of
+<a href="https://learn.microsoft.com/en-us/entra/identity-platform/msal-overview">Microsoft's  MSAL library</a>
+for your language of choice, or another tried-and-tested OAuth library to manage
+authentication.</p>
+<p>In summary we'll need to:</p>
+<ol>
+<li>Create an App Registration and take note of the <code>Application (client) ID</code> - 
+    this is our Client ID</li>
+<li>In the <code>Certificates &amp; secrets</code> section, we'll create a Client Secret and
+    copy the value - this is our Client Secret</li>
+<li>In the <code>Authentication</code> section we'll need to add a Redirect URI. This is
+    where the user's browser will redirect on completion of authentication. For
+    the example code I've linked to above this will be a <code>localhost</code> URL.</li>
+<li>Finally you'll need to add the following Delegated Sharepoint permissions:
+    <code>AllSites.FullControl</code> and <code>ProjectWebApp.FullControl</code>.</li>
+</ol>
+<p>The final thing we'll need is the "resource" we'll be requesting access to
+when we authenticate. In this case, if the URL to access your Project Server
+instance is <code>https://example.sharepoint.com/sites/pwa</code>, the 
+resource we need to use will be <code>https://example.sharepoint.com</code>.</p>
+<p>With the App Registration in Entra configured as described above, you should be
+able to use the details noted above with the <a href="https://github.com/joniles/mpxj-java-samples/blob/main/src/main/java/org/mpxj/howto/use/pwa/DesktopMicrosoftAuthenticator.java">sample authentication code</a>
+to authenticate with Microsoft and retrieve an access token. Once you have an
+access token you can use <code>PwaReader</code> to read project data!</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.tabs.link", "content.code.copy"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.dd8806f2.min.js"></script>
+      
+    
+  </body>
+</html>
