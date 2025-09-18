@@ -187,10 +187,10 @@ public class PrimaveraSchedulerComparator
    }
 
    /**
-    * Compare an individual file.
+    * Compare a single file.
     *
     * @param file file to compare
-    * @return true if the files compare successfully
+    * @return true if compared successfully
     */
    public boolean process(File file) throws Exception
    {
@@ -199,24 +199,20 @@ public class PrimaveraSchedulerComparator
          System.out.print("Processing " + file + " ... ");
       }
 
-      m_forwardErrorCount = 0;
-      m_backwardErrorCount = 0;
-      boolean analyseWbs = true;
-
-      m_baselineFile = new UniversalProjectReader().read(file);
-      m_workingFile = new UniversalProjectReader().read(file);
+      ProjectFile baselineFile = new UniversalProjectReader().read(file);
+      ProjectFile workingFile = new UniversalProjectReader().read(file);
 
       PrimaveraScheduler scheduler = new PrimaveraScheduler();
 
       try
       {
-         LocalDateTime start = m_workingFile.getProjectProperties().getPlannedStart();
+         LocalDateTime start = workingFile.getProjectProperties().getPlannedStart();
          if (start == null)
          {
-            start = m_workingFile.getProjectProperties().getStartDate();
+            start = workingFile.getProjectProperties().getStartDate();
          }
 
-         scheduler.schedule(m_workingFile, start);
+         scheduler.schedule(workingFile, start);
       }
 
       catch (CpmException ex)
@@ -229,13 +225,27 @@ public class PrimaveraSchedulerComparator
          return false;
       }
 
-      for (Task baselineTask : m_baselineFile.getTasks())
-      {
-         Task workingTask = m_workingFile.getTaskByUniqueID(baselineTask.getUniqueID());
+      return process(baselineFile,  workingFile, !m_noWbsTest.contains(file.getName().toLowerCase()));
+   }
 
-         if (workingTask.getSummary() && m_noWbsTest.contains(file.getName().toLowerCase()))
+   /**
+    * Compare two ProjectFile instances.
+    *
+    * @param baselineFile baseline project
+    * @param workingFile working project
+    * @param analyseWbs true if the WBS should be analysed
+    * @return true if compared successfully
+    */
+   public boolean process(ProjectFile baselineFile, ProjectFile workingFile, boolean analyseWbs) throws Exception
+   {
+      m_forwardErrorCount = 0;
+      m_backwardErrorCount = 0;
+
+      for (Task baselineTask : baselineFile.getTasks())
+      {
+         Task workingTask = workingFile.getTaskByUniqueID(baselineTask.getUniqueID());
+         if (workingTask.getSummary() && !analyseWbs)
          {
-            analyseWbs = false;
             continue;
          }
 
@@ -254,15 +264,15 @@ public class PrimaveraSchedulerComparator
       if (m_debug)
       {
          System.out.println("failed.");
-         System.out.println("Project ID: " + m_baselineFile.getProjectProperties().getProjectID());
-         System.out.println(m_baselineFile.getProjectProperties().getSchedulingProgressedActivities());
+         System.out.println("Project ID: " + baselineFile.getProjectProperties().getProjectID());
+         System.out.println(baselineFile.getProjectProperties().getSchedulingProgressedActivities());
          System.out.println("Forward errors: " + m_forwardErrorCount);
          System.out.println("Backward errors: " + m_backwardErrorCount);
       }
 
       if (!m_directory && m_debug)
       {
-         analyseFailures(analyseWbs);
+         analyseFailures(baselineFile, workingFile, analyseWbs);
          System.out.println("DONE");
       }
 
@@ -349,25 +359,25 @@ public class PrimaveraSchedulerComparator
     *
     * @param analyseWbs true if the WBS should be compared
     */
-   private void analyseFailures(boolean analyseWbs) throws CycleException
+   private void analyseFailures(ProjectFile baselineFile, ProjectFile workingFile, boolean analyseWbs) throws CycleException
    {
-      List<Task> activities = new DepthFirstGraphSort(m_workingFile, PrimaveraScheduler::isActivity).sort();
-      List<Task> levelOfEffortActivities = new DepthFirstGraphSort(m_workingFile, PrimaveraScheduler::isLevelOfEffortActivity).sort();
-      List<Task> wbsSummaryActivities = new DepthFirstGraphSort(m_workingFile, PrimaveraScheduler::isWbsSummary).sort();
-      List<Task> wbs = m_workingFile.getTasks().stream().filter(Task::getSummary).collect(Collectors.toList());
+      List<Task> activities = new DepthFirstGraphSort(workingFile, PrimaveraScheduler::isActivity).sort();
+      List<Task> levelOfEffortActivities = new DepthFirstGraphSort(workingFile, PrimaveraScheduler::isLevelOfEffortActivity).sort();
+      List<Task> wbsSummaryActivities = new DepthFirstGraphSort(workingFile, PrimaveraScheduler::isWbsSummary).sort();
+      List<Task> wbs = workingFile.getTasks().stream().filter(Task::getSummary).collect(Collectors.toList());
 
       // Sort so we can see errors at the bottom first, as these are rolled up.
       Collections.reverse(wbs);
 
       if (m_forwardErrorCount != 0)
       {
-         activities.forEach(this::analyseForwardError);
-         levelOfEffortActivities.forEach(this::analyseForwardError);
-         wbsSummaryActivities.forEach(this::analyseForwardError);
+         activities.forEach(a -> analyseForwardError(baselineFile, a));
+         levelOfEffortActivities.forEach(a -> analyseForwardError(baselineFile, a));
+         wbsSummaryActivities.forEach(a -> analyseForwardError(baselineFile, a));
 
          if (analyseWbs)
          {
-            wbs.forEach(this::analyseForwardError);
+            wbs.forEach(a -> analyseForwardError(baselineFile, a));
          }
       }
 
@@ -375,13 +385,13 @@ public class PrimaveraSchedulerComparator
       {
          Collections.reverse(activities);
          Collections.reverse(levelOfEffortActivities);
-         activities.forEach(this::analyseBackwardError);
-         levelOfEffortActivities.forEach(this::analyseBackwardError);
-         wbsSummaryActivities.forEach(this::analyseBackwardError);
+         activities.forEach(a -> analyseBackwardError(baselineFile, a));
+         levelOfEffortActivities.forEach(a -> analyseBackwardError(baselineFile, a));
+         wbsSummaryActivities.forEach(a -> analyseBackwardError(baselineFile, a));
 
          if (analyseWbs)
          {
-            wbs.forEach(this::analyseBackwardError);
+            wbs.forEach(a -> analyseBackwardError(baselineFile, a));
          }
       }
    }
@@ -391,9 +401,9 @@ public class PrimaveraSchedulerComparator
     *
     * @param working scheduled task
     */
-   private void analyseForwardError(Task working)
+   private void analyseForwardError(ProjectFile baselineFile, Task working)
    {
-      Task baseline = m_baselineFile.getTaskByUniqueID(working.getUniqueID());
+      Task baseline = baselineFile.getTaskByUniqueID(working.getUniqueID());
       boolean earlyStartFail = !compareDates(baseline, working, TaskField.EARLY_START);
       boolean earlyFinishFail = !compareDates(baseline, working, TaskField.EARLY_FINISH);
       boolean startFail = !compareDates(baseline, working, TaskField.START);
@@ -420,9 +430,9 @@ public class PrimaveraSchedulerComparator
     *
     * @param working scheduled task
     */
-   private void analyseBackwardError(Task working)
+   private void analyseBackwardError(ProjectFile baselineFile, Task working)
    {
-      Task baseline = m_baselineFile.getTaskByUniqueID(working.getUniqueID());
+      Task baseline = baselineFile.getTaskByUniqueID(working.getUniqueID());
       boolean lateStartFail = !compareDates(baseline, working, TaskField.LATE_START);
       boolean lateFinishFail = !compareDates(baseline, working, TaskField.LATE_FINISH);
       boolean remainingLateStartFail = !compareDates(baseline, working, TaskField.REMAINING_LATE_START);
@@ -454,8 +464,6 @@ public class PrimaveraSchedulerComparator
 
    private boolean m_debug;
    private boolean m_directory;
-   private ProjectFile m_baselineFile;
-   private ProjectFile m_workingFile;
    private int m_forwardErrorCount;
    private int m_backwardErrorCount;
    private Set<String> m_unreadableFiles = Collections.emptySet();
