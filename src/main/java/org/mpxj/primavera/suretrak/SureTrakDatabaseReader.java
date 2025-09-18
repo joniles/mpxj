@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -705,8 +706,8 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
    private static final Integer WBS_FORMAT_ID = Integer.valueOf(0x79);
    private static final Integer WBS_ENTRIES_ID = Integer.valueOf(0x7A);
 
-   private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<>();
-   private static final Map<String, FieldType> TASK_FIELDS = new HashMap<>();
+   private static final Map<String, FieldType> RESOURCE_FIELDS = new LinkedHashMap<>();
+   private static final Map<String, FieldType> TASK_FIELDS = new LinkedHashMap<>();
 
    static
    {

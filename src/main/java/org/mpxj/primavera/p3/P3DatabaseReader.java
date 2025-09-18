@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -580,9 +581,9 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
    private Map<String, Task> m_wbsMap;
    private Map<String, Task> m_activityMap;
 
-   private static final Map<String, FieldType> PROJECT_FIELDS = new HashMap<>();
-   private static final Map<String, FieldType> RESOURCE_FIELDS = new HashMap<>();
-   private static final Map<String, FieldType> TASK_FIELDS = new HashMap<>();
+   private static final Map<String, FieldType> PROJECT_FIELDS = new LinkedHashMap<>();
+   private static final Map<String, FieldType> RESOURCE_FIELDS = new LinkedHashMap<>();
+   private static final Map<String, FieldType> TASK_FIELDS = new LinkedHashMap<>();
 
    static
    {
