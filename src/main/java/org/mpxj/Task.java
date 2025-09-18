@@ -28,10 +28,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
@@ -5807,6 +5809,85 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return NumberHelper.getDouble(bcwp.doubleValue() - bcws.doubleValue());
    }
 
+   private Duration calculateFreeSlack()
+   {
+      // If the task is complete, free slack is always zero
+      if (getActualFinish() != null || getActivityType() == ActivityType.LEVEL_OF_EFFORT || getSummary()) // TODO - do we want to populate this for WBS?
+      {
+         Duration duration = getDuration();
+         return Duration.getInstance(0, duration == null ? TimeUnit.HOURS : duration.getUnits());
+      }
+
+      return getSuccessors().stream()
+         // Ignore completed successors
+         .filter(r -> r.getSuccessorTask().getActualFinish() == null)
+         .map(this::calculateFreeSlack)
+         .filter(Objects::nonNull)
+         .min(Comparator.naturalOrder())
+         .orElseGet(this::getTotalSlack);
+   }
+
+   private Duration calculateFreeSlack(Relation relation)
+   {
+      Task successorTask = relation.getSuccessorTask();
+
+      switch (relation.getType())
+      {
+         case FINISH_START:
+         {
+            return calculateFreeSlackVariance(relation, getEarlyFinish(), successorTask.getEarlyStart());
+         }
+
+         case START_START:
+         {
+            return calculateFreeSlackVariance(relation, getEarlyStart(), successorTask.getEarlyStart());
+         }
+
+         case FINISH_FINISH:
+         {
+            return calculateFreeSlackVariance(relation, getEarlyFinish(), successorTask.getEarlyFinish());
+         }
+
+         case START_FINISH:
+         {
+            return getTotalSlack();
+         }
+      }
+
+      return null;
+   }
+
+   private Duration calculateFreeSlackVariance(Relation relation, LocalDateTime date1, LocalDateTime date2)
+   {
+      TimeUnit format = getDuration() == null ? TimeUnit.HOURS : getDuration().getUnits();
+
+      if (date1 == null || date2 == null)
+      {
+         return Duration.getInstance(0, format);
+      }
+
+      return removeLag(relation, LocalDateTimeHelper.getVariance(getEffectiveCalendar(), date1, date2, format));
+   }
+
+   private Duration removeLag(Relation relation, Duration duration)
+   {
+      Duration lag = relation.getLag();
+      double lagDuration = lag.getDuration();
+      if (lagDuration == 0.0)
+      {
+         return duration;
+      }
+
+      TimeUnit lagUnits = lag.getUnits();
+      TimeUnit durationUnits = duration.getUnits();
+      if (lagUnits != durationUnits)
+      {
+         lag = lag.convertUnits(durationUnits, relation.getPredecessorTask().getEffectiveCalendar());
+      }
+
+      return Duration.getInstance(duration.getDuration() - lag.getDuration(), durationUnits);
+   }
+
    private Duration calculateTotalSlack()
    {
       // Calculate these first to avoid clearing our total slack value
@@ -6062,6 +6143,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.WORK_VARIANCE, Task::calculateWorkVariance);
       CALCULATED_FIELD_MAP.put(TaskField.CV, Task::calculateCV);
       CALCULATED_FIELD_MAP.put(TaskField.SV, Task::calculateSV);
+      CALCULATED_FIELD_MAP.put(TaskField.FREE_SLACK, Task::calculateFreeSlack);
       CALCULATED_FIELD_MAP.put(TaskField.TOTAL_SLACK, Task::calculateTotalSlack);
       CALCULATED_FIELD_MAP.put(TaskField.CRITICAL, Task::calculateCritical);
       CALCULATED_FIELD_MAP.put(TaskField.COMPLETE_THROUGH, Task::calculateCompleteThrough);
@@ -6087,12 +6169,13 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       dependencies.calculatedField(TaskField.FINISH_VARIANCE).dependsOn(TaskField.FINISH, TaskField.BASELINE_FINISH);
       dependencies.calculatedField(TaskField.START_SLACK).dependsOn(TaskField.EARLY_START, TaskField.LATE_START);
       dependencies.calculatedField(TaskField.FINISH_SLACK).dependsOn(TaskField.EARLY_FINISH, TaskField.LATE_FINISH);
+      dependencies.calculatedField(TaskField.TOTAL_SLACK).dependsOn(TaskField.START_SLACK, TaskField.FINISH_SLACK, TaskField.ACTUAL_START);
+      dependencies.calculatedField(TaskField.FREE_SLACK).dependsOn(TaskField.EARLY_START, TaskField.EARLY_FINISH); // TODO: need to account for successor changes
       dependencies.calculatedField(TaskField.COST_VARIANCE).dependsOn(TaskField.COST, TaskField.BASELINE_COST);
       dependencies.calculatedField(TaskField.DURATION_VARIANCE).dependsOn(TaskField.DURATION, TaskField.BASELINE_DURATION);
       dependencies.calculatedField(TaskField.WORK_VARIANCE).dependsOn(TaskField.WORK, TaskField.BASELINE_WORK);
       dependencies.calculatedField(TaskField.CV).dependsOn(TaskField.BCWP, TaskField.ACWP);
       dependencies.calculatedField(TaskField.SV).dependsOn(TaskField.BCWP, TaskField.BCWS);
-      dependencies.calculatedField(TaskField.TOTAL_SLACK).dependsOn(TaskField.START_SLACK, TaskField.FINISH_SLACK, TaskField.ACTUAL_START);
       dependencies.calculatedField(TaskField.CRITICAL).dependsOn(TaskField.TOTAL_SLACK, TaskField.ACTUAL_FINISH);
       dependencies.calculatedField(TaskField.COMPLETE_THROUGH).dependsOn(TaskField.DURATION, TaskField.ACTUAL_START, TaskField.PERCENT_COMPLETE);
       dependencies.calculatedField(TaskField.EXTERNAL_PROJECT).dependsOn(TaskField.SUBPROJECT_FILE, TaskField.EXTERNAL_TASK);
