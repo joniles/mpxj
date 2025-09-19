@@ -104,17 +104,61 @@ public class PrimaveraScheduler implements Scheduler
 
       backwardPass(activities);
 
-      for (Task activity : activities)
-      {
-         activity.setStart(activity.getActualStart() == null ? activity.getEarlyStart() : activity.getActualStart());
-         activity.setFinish(activity.getActualFinish() == null ? activity.getEarlyFinish() : activity.getActualFinish());
-      }
+      activities.forEach(this::updateDates);
 
       levelOfEffortPass();
 
       m_file.getChildTasks().forEach(this::rollupDates);
 
       wbsSummaryPass();
+   }
+
+   private void updateDates(Task activity)
+   {
+      activity.setStart(activity.getActualStart() == null ? activity.getEarlyStart() : activity.getActualStart());
+      activity.setFinish(activity.getActualFinish() == null ? activity.getEarlyFinish() : activity.getActualFinish());
+
+      // P6 moves the planned start/finish dates for unstarted activities
+      if (activity.getActualStart() == null)
+      {
+         activity.setPlannedStart(activity.getStart());
+         activity.setPlannedFinish(activity.getFinish());
+      }
+
+      activity.getResourceAssignments().forEach(this::updateDates);
+   }
+
+   private void updateDates(ResourceAssignment assignment)
+   {
+      Task activity = assignment.getTask();
+      if (activity.getActualFinish() != null)
+      {
+         assignment.setRemainingEarlyStart(null);
+         assignment.setRemainingEarlyFinish(null);
+         assignment.setRemainingLateStart(null);
+         assignment.setRemainingLateFinish(null);
+         return;
+      }
+
+      assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
+      assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
+
+      if (activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT || assignment.getRemainingWork().getDuration() == 0.0)
+      {
+         assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
+         assignment.setRemainingLateStart(activity.getRemainingLateStart());
+      }
+      else
+      {
+         assignment.setRemainingEarlyFinish(getEquivalentPreviousWorkFinish(assignment.getEffectiveCalendar(), getDateFromWork(assignment.getEffectiveCalendar(), assignment.getRemainingUnits(), assignment.getRemainingEarlyStart(), assignment.getRemainingWork())));
+         assignment.setRemainingLateStart(getDateFromWork(assignment.getEffectiveCalendar(), assignment.getRemainingUnits(), assignment.getRemainingLateFinish(), assignment.getRemainingWork().negate()));
+      }
+
+      if (activity.getActualStart() == null)
+      {
+         assignment.setPlannedStart(assignment.getRemainingEarlyStart());
+         assignment.setPlannedFinish(assignment.getRemainingEarlyFinish());
+      }
    }
 
    private void validateActivities(List<Task> tasks) throws CpmException
@@ -3183,6 +3227,13 @@ public class PrimaveraScheduler implements Scheduler
       task.setLateStart(lateStart.getValue());
       task.setLateFinish(lateFinish.getValue());
 
+      // P6 moves the planned start/finish dates for unstarted activities
+      if (task.getActualStart() == null)
+      {
+         task.setPlannedStart(task.getStart());
+         task.setPlannedFinish(task.getFinish());
+      }
+
       if (task.getActualStart() == null || task.getActualFinish() == null)
       {
          task.setRemainingEarlyStart(earlyStart.getValue());
@@ -3190,6 +3241,8 @@ public class PrimaveraScheduler implements Scheduler
          task.setRemainingLateStart(lateStart.getValue());
          task.setRemainingLateFinish(lateFinish.getValue());
       }
+
+      task.getResourceAssignments().forEach(this::updateDates);
    }
 
    /**
@@ -3401,13 +3454,18 @@ public class PrimaveraScheduler implements Scheduler
     */
    private LocalDateTime getDateFromWork(ResourceAssignment assignment, LocalDateTime date, Duration work)
    {
-      double units = assignment.getUnits().doubleValue();
-      if (units != 100.0)
+      return getDateFromWork(assignment.getResource().getCalendar(), assignment.getUnits(), date, work);
+   }
+
+   private LocalDateTime getDateFromWork(ProjectCalendar calendar, Number units, LocalDateTime date, Duration work)
+   {
+      double unitsValue = units.doubleValue();
+      if (unitsValue != 100.0)
       {
-         work = Duration.getInstance((work.getDuration() * 100.0) / units, work.getUnits());
+         work = Duration.getInstance((work.getDuration() * 100.0) / unitsValue, work.getUnits());
       }
 
-      return assignment.getResource().getCalendar().getDate(date, work);
+      return calendar.getDate(date, work);
    }
 
    /**
