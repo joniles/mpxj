@@ -142,7 +142,7 @@ public class PrimaveraScheduler implements Scheduler
 
       if (activity.getActualStart() == null)
       {
-         assignment.setRemainingEarlyStart(assignment.getPlannedStart().isAfter(activity.getRemainingEarlyStart()) ? assignment.getPlannedStart() : activity.getRemainingEarlyStart());
+         assignment.setRemainingEarlyStart(assignment.getPlannedStart() != null && assignment.getPlannedStart().isAfter(activity.getRemainingEarlyStart()) ? assignment.getPlannedStart() : activity.getRemainingEarlyStart());
       }
       else
       {
@@ -177,7 +177,7 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      if (activity.getActualStart() == null && assignment.getRemainingEarlyStart().isAfter(assignment.getPlannedStart()))
+      if (activity.getActualStart() == null && (assignment.getPlannedStart() == null || assignment.getRemainingEarlyStart().isAfter(assignment.getPlannedStart())))
       {
          assignment.setPlannedStart(assignment.getRemainingEarlyStart());
          assignment.setPlannedFinish(assignment.getRemainingEarlyFinish());
@@ -3496,7 +3496,7 @@ public class PrimaveraScheduler implements Scheduler
          work = Duration.getInstance((work.getDuration() * 100.0) / unitsValue, work.getUnits());
       }
 
-      return calendar.getDate(date, work);
+      return getDate(calendar, date, work);
    }
 
    /**
