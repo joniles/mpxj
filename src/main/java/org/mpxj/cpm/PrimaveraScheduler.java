@@ -150,15 +150,31 @@ public class PrimaveraScheduler implements Scheduler
       }
       assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
 
-      if (activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT || assignment.getResource().getType() != ResourceType.WORK || assignment.getRemainingWork().getDuration() == 0.0)
+      if (activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT || assignment.getResource().getType() != ResourceType.WORK)
       {
          assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
          assignment.setRemainingLateStart(activity.getRemainingLateStart());
       }
       else
       {
-         assignment.setRemainingEarlyFinish(getEquivalentPreviousWorkFinish(assignment.getEffectiveCalendar(), getDateFromWork(assignment.getEffectiveCalendar(), assignment.getRemainingUnits(), assignment.getRemainingEarlyStart(), assignment.getRemainingWork())));
-         assignment.setRemainingLateStart(getDateFromWork(assignment.getEffectiveCalendar(), assignment.getRemainingUnits(), assignment.getRemainingLateFinish(), assignment.getRemainingWork().negate()));
+         if (assignment.getRemainingWork().getDuration() == 0.0)
+         {
+            if (assignment.getActualFinish() == null)
+            {
+               assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
+               assignment.setRemainingLateStart(activity.getRemainingLateStart());
+            }
+            else
+            {
+               assignment.setRemainingEarlyFinish(assignment.getRemainingEarlyStart());
+               assignment.setRemainingLateStart(assignment.getRemainingLateFinish());
+            }
+         }
+         else
+         {
+            assignment.setRemainingEarlyFinish(getEquivalentPreviousWorkFinish(assignment.getEffectiveCalendar(), getDateFromWork(assignment.getEffectiveCalendar(), assignment.getRemainingUnits(), assignment.getRemainingEarlyStart(), assignment.getRemainingWork())));
+            assignment.setRemainingLateStart(getDateFromWork(assignment.getEffectiveCalendar(), assignment.getRemainingUnits(), assignment.getRemainingLateFinish(), assignment.getRemainingWork().negate()));
+         }
       }
 
       if (activity.getActualStart() == null && assignment.getRemainingEarlyStart().isAfter(assignment.getPlannedStart()))
