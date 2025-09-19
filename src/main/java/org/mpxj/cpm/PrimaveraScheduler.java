@@ -140,10 +140,17 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
-      assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
+      if (activity.getActualStart() == null)
+      {
+         assignment.setRemainingEarlyStart(assignment.getPlannedStart().isAfter(activity.getRemainingEarlyStart()) ? assignment.getPlannedStart() : activity.getRemainingEarlyStart());
+      }
+      else
+      {
+         assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
+      }
       assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
 
-      if (activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT || assignment.getRemainingWork().getDuration() == 0.0)
+      if (activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT || assignment.getResource().getType() != ResourceType.WORK || assignment.getRemainingWork().getDuration() == 0.0)
       {
          assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
          assignment.setRemainingLateStart(activity.getRemainingLateStart());
@@ -154,11 +161,14 @@ public class PrimaveraScheduler implements Scheduler
          assignment.setRemainingLateStart(getDateFromWork(assignment.getEffectiveCalendar(), assignment.getRemainingUnits(), assignment.getRemainingLateFinish(), assignment.getRemainingWork().negate()));
       }
 
-      if (activity.getActualStart() == null)
+      if (activity.getActualStart() == null && assignment.getRemainingEarlyStart().isAfter(assignment.getPlannedStart()))
       {
          assignment.setPlannedStart(assignment.getRemainingEarlyStart());
          assignment.setPlannedFinish(assignment.getRemainingEarlyFinish());
       }
+
+      assignment.setStart(assignment.getActualStart() == null ? assignment.getRemainingEarlyStart() : assignment.getActualStart());
+      assignment.setFinish(assignment.getActualFinish() == null ? assignment.getRemainingEarlyFinish() : assignment.getActualFinish());
    }
 
    private void validateActivities(List<Task> tasks) throws CpmException
@@ -3460,6 +3470,11 @@ public class PrimaveraScheduler implements Scheduler
    private LocalDateTime getDateFromWork(ProjectCalendar calendar, Number units, LocalDateTime date, Duration work)
    {
       double unitsValue = units.doubleValue();
+      if (unitsValue == 0.0)
+      {
+         return date;
+      }
+
       if (unitsValue != 100.0)
       {
          work = Duration.getInstance((work.getDuration() * 100.0) / unitsValue, work.getUnits());
