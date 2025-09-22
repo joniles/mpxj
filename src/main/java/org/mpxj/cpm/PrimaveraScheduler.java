@@ -113,6 +113,11 @@ public class PrimaveraScheduler implements Scheduler
       wbsSummaryPass();
    }
 
+   /**
+    * Update Start, Finish, Planned Start, and Planned Finish dates.
+    *
+    * @param activity activity to update
+    */
    private void updateDates(Task activity)
    {
       activity.setStart(activity.getActualStart() == null ? activity.getEarlyStart() : activity.getActualStart());
@@ -128,6 +133,11 @@ public class PrimaveraScheduler implements Scheduler
       activity.getResourceAssignments().forEach(this::updateDates);
    }
 
+   /**
+    * Update the Remaining Early Start, Remaining Early Finish, Remaining Late Start, Remaining Late Finish, Start, Finish, Planned Start, and Planned Finish dates.
+    *
+    * @param assignment resource assignment to update
+    */
    private void updateDates(ResourceAssignment assignment)
    {
       Task activity = assignment.getTask();
@@ -187,11 +197,22 @@ public class PrimaveraScheduler implements Scheduler
       assignment.setFinish(assignment.getActualFinish() == null ? assignment.getRemainingEarlyFinish() : assignment.getActualFinish());
    }
 
+   /**
+    * Determine the effective calendar to use for the given resource assignment.
+    *
+    * @param assignment resource assignment.
+    * @return effective calendar
+    */
    private ProjectCalendar getEffectiveCalendar(ResourceAssignment assignment)
    {
       return assignment.getTask().getActivityType() == ActivityType.RESOURCE_DEPENDENT ? assignment.getResource().getCalendar() : assignment.getEffectiveCalendar();
    }
 
+   /**
+    * Ensure that the activities in the project can be scheduled.
+    *
+    * @param tasks activities from the project
+    */
    private void validateActivities(List<Task> tasks) throws CpmException
    {
       for (Task task : tasks)

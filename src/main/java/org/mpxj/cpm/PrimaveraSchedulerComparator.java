@@ -114,7 +114,7 @@ public class PrimaveraSchedulerComparator
    }
 
    /**
-    * Tell the comparator not to test the WBS in these file.
+    * Tell the comparator not to test the WBS in these files.
     *
     * @param value set of excluded files
     */
@@ -123,6 +123,11 @@ public class PrimaveraSchedulerComparator
       m_noWbsTest = value;
    }
 
+   /**
+    * Tell the comparator not to test resource assignments in these files.
+    *
+    * @param value set of excluded files
+    */
    public void setNoResourceAssignmentTest(Set<String> value)
    {
       m_noResourceAssignmentTest = value;
@@ -481,6 +486,12 @@ public class PrimaveraSchedulerComparator
       return result;
    }
 
+   /**
+    * Compare two resource assignments.
+    *
+    * @param baseline baseline resource assignment
+    * @param working working resource assignment
+    */
    private void compare(ResourceAssignment baseline, ResourceAssignment working)
    {
       boolean startFailed = !compareDates(baseline, working, AssignmentField.START);
@@ -498,6 +509,14 @@ public class PrimaveraSchedulerComparator
       }
    }
 
+   /**
+    * Compare two dates from a resource assignment.
+    *
+    * @param baseline baseline resource assignment
+    * @param working scheduled resource assignment
+    * @param field field containing the dates to compare
+    * @return true if the comparison is successful
+    */
    private boolean compareDates(ResourceAssignment baseline, ResourceAssignment working, AssignmentField field)
    {
       LocalDateTime baselineDate = (LocalDateTime) baseline.get(field);
