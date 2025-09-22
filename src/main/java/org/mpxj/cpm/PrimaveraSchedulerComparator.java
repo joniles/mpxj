@@ -248,6 +248,7 @@ public class PrimaveraSchedulerComparator
    {
       m_forwardErrorCount = 0;
       m_backwardErrorCount = 0;
+      m_assignmentErrorCount = 0;
 
       for (Task baselineTask : baselineFile.getTasks())
       {
@@ -269,7 +270,7 @@ public class PrimaveraSchedulerComparator
          }
       }
 
-      if (m_forwardErrorCount == 0 && m_backwardErrorCount == 0)
+      if (m_forwardErrorCount == 0 && m_backwardErrorCount == 0 && m_assignmentErrorCount == 0)
       {
          if (m_debug)
          {
@@ -285,6 +286,7 @@ public class PrimaveraSchedulerComparator
          System.out.println(baselineFile.getProjectProperties().getSchedulingProgressedActivities());
          System.out.println("Forward errors: " + m_forwardErrorCount);
          System.out.println("Backward errors: " + m_backwardErrorCount);
+         System.out.println("Assignment errors: " + m_assignmentErrorCount);
       }
 
       if (!m_directory && m_debug)
@@ -487,18 +489,12 @@ public class PrimaveraSchedulerComparator
       boolean actualFinishFailed = !compareDates(baseline, working, AssignmentField.ACTUAL_FINISH);
       boolean remainingEarlyStartFailed = !compareDates(baseline, working, AssignmentField.REMAINING_EARLY_START);
       boolean remainingEarlyFinishFailed = !compareDates(baseline, working, AssignmentField.REMAINING_EARLY_FINISH);
-      if (startFailed || finishFailed || actualStartFailed || actualFinishFailed || remainingEarlyStartFailed || remainingEarlyFinishFailed)
-      {
-         System.out.println("Forward failure");
-         //++m_forwardErrorCount;
-      }
-
       boolean remainingLateStartFailed = !compareDates(baseline, working, AssignmentField.REMAINING_LATE_START);
       boolean remainingLateFinishFailed = !compareDates(baseline, working, AssignmentField.REMAINING_LATE_FINISH);
-      if (remainingLateStartFailed || remainingLateFinishFailed)
+
+      if (startFailed || finishFailed || actualStartFailed || actualFinishFailed || remainingEarlyStartFailed || remainingEarlyFinishFailed || remainingLateStartFailed || remainingLateFinishFailed)
       {
-         System.out.println("Backward failure");
-         //++m_backwardErrorCount;
+         ++m_assignmentErrorCount;
       }
    }
 
@@ -530,6 +526,7 @@ public class PrimaveraSchedulerComparator
    private boolean m_directory;
    private int m_forwardErrorCount;
    private int m_backwardErrorCount;
+   private int m_assignmentErrorCount;
    private Set<String> m_unreadableFiles = Collections.emptySet();
    private Set<String> m_useScheduled = Collections.emptySet();
    private Set<String> m_excluded = Collections.emptySet();
