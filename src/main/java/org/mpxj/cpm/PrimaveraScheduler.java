@@ -150,7 +150,7 @@ public class PrimaveraScheduler implements Scheduler
       }
       assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
 
-      if (activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT || assignment.getResource().getType() != ResourceType.WORK)
+      if (activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT || assignment.getResource().getType() == ResourceType.MATERIAL)
       {
          assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
          assignment.setRemainingLateStart(activity.getRemainingLateStart());
