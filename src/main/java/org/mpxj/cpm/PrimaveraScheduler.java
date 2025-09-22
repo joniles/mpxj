@@ -172,8 +172,8 @@ public class PrimaveraScheduler implements Scheduler
          }
          else
          {
-            assignment.setRemainingEarlyFinish(getEquivalentPreviousWorkFinish(assignment.getEffectiveCalendar(), getDateFromWork(assignment.getEffectiveCalendar(), assignment.getRemainingUnits(), assignment.getRemainingEarlyStart(), assignment.getRemainingWork())));
-            assignment.setRemainingLateStart(getDateFromWork(assignment.getEffectiveCalendar(), assignment.getRemainingUnits(), assignment.getRemainingLateFinish(), assignment.getRemainingWork().negate()));
+            assignment.setRemainingEarlyFinish(getEquivalentPreviousWorkFinish(getEffectiveCalendar(assignment), getDateFromWork(getEffectiveCalendar(assignment), assignment.getRemainingUnits(), assignment.getRemainingEarlyStart(), assignment.getRemainingWork())));
+            assignment.setRemainingLateStart(getDateFromWork(getEffectiveCalendar(assignment), assignment.getRemainingUnits(), assignment.getRemainingLateFinish(), assignment.getRemainingWork().negate()));
          }
       }
 
@@ -185,6 +185,11 @@ public class PrimaveraScheduler implements Scheduler
 
       assignment.setStart(assignment.getActualStart() == null ? assignment.getRemainingEarlyStart() : assignment.getActualStart());
       assignment.setFinish(assignment.getActualFinish() == null ? assignment.getRemainingEarlyFinish() : assignment.getActualFinish());
+   }
+
+   private ProjectCalendar getEffectiveCalendar(ResourceAssignment assignment)
+   {
+      return assignment.getTask().getActivityType() == ActivityType.RESOURCE_DEPENDENT ? assignment.getResource().getCalendar() : assignment.getEffectiveCalendar();
    }
 
    private void validateActivities(List<Task> tasks) throws CpmException
