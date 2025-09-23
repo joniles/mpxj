@@ -71,7 +71,7 @@ class WriterHelper
     */
    public static String getActivityID(Task task)
    {
-      return task.getActivityID() == null ? task.getWBS() : task.getActivityID();
+      return task.getActivityID() == null || task.getActivityID().trim().isEmpty() ? task.getWBS() : task.getActivityID();
    }
 
    /**
