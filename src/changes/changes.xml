@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="14.5.0">
             <action dev="joniles" type="update">Add Free Slack calculation to the Task class.</action>
+            <action dev="joniles" type="update">Ensure that the PrimaveraScheduler updates resource assignment dates.</action>
 		</release>
 		<release date="2025-09-16" version="14.4.0">
             <action dev="joniles" type="update">Implemented support for reading projects from Microsoft Project Server (also known as Project Online, Project Web Access or PWA).</action>
