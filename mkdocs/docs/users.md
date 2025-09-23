@@ -65,6 +65,7 @@ like to be featured in this list.
 * Onepoint Project [www.onepoint-project.com](http://www.onepoint-project.com)
 * Opdec [www.opdec.com](https://www.opdec.com/)
 * OpenProj [openproj.org](http://openproj.org/)
+* Opteam [opteam.ai](https://opteam.ai/)
 * Pavone [www.pavone.com](http://www.pavone.com)
 * Pemari [www.pemari.com](http://www.pemari.com)
 * PIEmatrix [piematrix.com](http://piematrix.com)
