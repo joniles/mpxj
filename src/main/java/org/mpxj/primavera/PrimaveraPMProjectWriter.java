@@ -1859,7 +1859,7 @@ final class PrimaveraPMProjectWriter
       xml.setSequenceNumber(code.getSequenceNumber());
       xml.setName(code.getName());
       xml.setIsSecureCode(Boolean.valueOf(code.getSecure()));
-      xml.setLength(code.getMaxLength());
+      xml.setLength(WriterHelper.getCodeMaxLength(code));
 
       if (code.getScope() != ActivityCodeScope.GLOBAL)
       {
@@ -1883,7 +1883,7 @@ final class PrimaveraPMProjectWriter
          xmlCode.setName(code.getName());
          xmlCode.setSequenceNumber(code.getSequenceNumber());
          xmlCode.setIsSecureCode(Boolean.valueOf(code.getSecure()));
-         xmlCode.setLength(code.getMaxLength());
+         xmlCode.setLength(WriterHelper.getCodeMaxLength(code));
 
          for (ProjectCodeValue value : code.getValues())
          {
@@ -1913,7 +1913,7 @@ final class PrimaveraPMProjectWriter
          xmlCode.setName(code.getName());
          xmlCode.setSequenceNumber(code.getSequenceNumber());
          xmlCode.setIsSecureCode(Boolean.valueOf(code.getSecure()));
-         xmlCode.setLength(code.getMaxLength());
+         xmlCode.setLength(WriterHelper.getCodeMaxLength(code));
 
          for (ResourceCodeValue value : code.getValues())
          {
@@ -1943,7 +1943,7 @@ final class PrimaveraPMProjectWriter
          xmlCode.setName(code.getName());
          xmlCode.setSequenceNumber(code.getSequenceNumber());
          xmlCode.setIsSecureCode(Boolean.valueOf(code.getSecure()));
-         xmlCode.setLength(code.getMaxLength());
+         xmlCode.setLength(WriterHelper.getCodeMaxLength(code));
 
          for (RoleCodeValue value : code.getValues())
          {
@@ -1973,7 +1973,7 @@ final class PrimaveraPMProjectWriter
          xmlCode.setName(code.getName());
          xmlCode.setSequenceNumber(code.getSequenceNumber());
          xmlCode.setIsSecureCode(Boolean.valueOf(code.getSecure()));
-         xmlCode.setLength(code.getMaxLength());
+         xmlCode.setLength(WriterHelper.getCodeMaxLength(code));
 
          for (ResourceAssignmentCodeValue value : code.getValues())
          {

@@ -1867,7 +1867,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       ACTIVITY_CODE_COLUMNS.put("actv_code_type_id", ActivityCode::getUniqueID);
-      ACTIVITY_CODE_COLUMNS.put("actv_short_len", ActivityCode::getMaxLength);
+      ACTIVITY_CODE_COLUMNS.put("actv_short_len", WriterHelper::getCodeMaxLength);
       ACTIVITY_CODE_COLUMNS.put("seq_num", ActivityCode::getSequenceNumber);
       ACTIVITY_CODE_COLUMNS.put("actv_code_type", a -> StringHelper.stripControlCharacters(a.getName()));
       ACTIVITY_CODE_COLUMNS.put("proj_id", ActivityCode::getScopeProjectUniqueID);
@@ -2027,7 +2027,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       PROJECT_CODE_COLUMNS.put("proj_catg_type_id", ProjectCode::getUniqueID);
       PROJECT_CODE_COLUMNS.put("seq_num", ProjectCode::getSequenceNumber);
-      PROJECT_CODE_COLUMNS.put("proj_catg_short_len", ProjectCode::getMaxLength);
+      PROJECT_CODE_COLUMNS.put("proj_catg_short_len", WriterHelper::getCodeMaxLength);
       PROJECT_CODE_COLUMNS.put("proj_catg_type", ProjectCode::getName);
    }
 
@@ -2055,7 +2055,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       RESOURCE_CODE_COLUMNS.put("rsrc_catg_type_id", ResourceCode::getUniqueID);
       RESOURCE_CODE_COLUMNS.put("seq_num", ResourceCode::getSequenceNumber);
-      RESOURCE_CODE_COLUMNS.put("rsrc_catg_short_len", ResourceCode::getMaxLength);
+      RESOURCE_CODE_COLUMNS.put("rsrc_catg_short_len", WriterHelper::getCodeMaxLength);
       RESOURCE_CODE_COLUMNS.put("rsrc_catg_type", ResourceCode::getName);
    }
 
@@ -2083,7 +2083,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       ROLE_CODE_COLUMNS.put("role_catg_type_id", RoleCode::getUniqueID);
       ROLE_CODE_COLUMNS.put("seq_num", RoleCode::getSequenceNumber);
-      ROLE_CODE_COLUMNS.put("role_catg_short_len", RoleCode::getMaxLength);
+      ROLE_CODE_COLUMNS.put("role_catg_short_len", WriterHelper::getCodeMaxLength);
       ROLE_CODE_COLUMNS.put("role_catg_type", RoleCode::getName);
    }
 
@@ -2111,7 +2111,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       RESOURCE_ASSIGNMENT_CODE_COLUMNS.put("asgnmnt_catg_type_id", ResourceAssignmentCode::getUniqueID);
       RESOURCE_ASSIGNMENT_CODE_COLUMNS.put("seq_num", ResourceAssignmentCode::getSequenceNumber);
-      RESOURCE_ASSIGNMENT_CODE_COLUMNS.put("asgnmnt_catg_short_len", ResourceAssignmentCode::getMaxLength);
+      RESOURCE_ASSIGNMENT_CODE_COLUMNS.put("asgnmnt_catg_short_len", WriterHelper::getCodeMaxLength);
       RESOURCE_ASSIGNMENT_CODE_COLUMNS.put("asgnmnt_catg_type", ResourceAssignmentCode::getName);
    }
 
