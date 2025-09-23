@@ -167,6 +167,12 @@ public class PrimaveraScheduler implements Scheduler
       }
       else
       {
+         // The case where a resource has zero work on a resource assignment is the
+         // one case that we seem to have problems matching P6. Sometimes P6 will
+         // set the Remaining Early Start and Remaining Early Finish to match the
+         // activity. Sometimes it will set the Remaining Early Start to match the activity
+         // and the Remaining Early Finish the same as the Remaining Early Start.
+         // Can't get to the bottom of the logic it's using...
          if (assignment.getRemainingWork().getDuration() == 0.0)
          {
             if (assignment.getActualFinish() == null)
