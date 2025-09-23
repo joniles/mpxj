@@ -30,8 +30,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.mpxj.AssignmentField;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
+import org.mpxj.ResourceAssignment;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.reader.UniversalProjectReader;
@@ -112,13 +114,23 @@ public class PrimaveraSchedulerComparator
    }
 
    /**
-    * Tell the comparator not to test the WBS in these file.
+    * Tell the comparator not to test the WBS in these files.
     *
     * @param value set of excluded files
     */
    public void setNoWbsTest(Set<String> value)
    {
       m_noWbsTest = value;
+   }
+
+   /**
+    * Tell the comparator not to test resource assignments in these files.
+    *
+    * @param value set of excluded files
+    */
+   public void setNoResourceAssignmentTest(Set<String> value)
+   {
+      m_noResourceAssignmentTest = value;
    }
 
    /**
@@ -225,7 +237,8 @@ public class PrimaveraSchedulerComparator
          return false;
       }
 
-      return process(baselineFile,  workingFile, !m_noWbsTest.contains(file.getName().toLowerCase()));
+      String fileName = file.getName().toLowerCase();
+      return process(baselineFile,  workingFile, !m_noWbsTest.contains(fileName), !m_noResourceAssignmentTest.contains(fileName));
    }
 
    /**
@@ -236,10 +249,11 @@ public class PrimaveraSchedulerComparator
     * @param analyseWbs true if the WBS should be analysed
     * @return true if compared successfully
     */
-   public boolean process(ProjectFile baselineFile, ProjectFile workingFile, boolean analyseWbs) throws Exception
+   public boolean process(ProjectFile baselineFile, ProjectFile workingFile, boolean analyseWbs, boolean analyseResourceAssignments) throws Exception
    {
       m_forwardErrorCount = 0;
       m_backwardErrorCount = 0;
+      m_assignmentErrorCount = 0;
 
       for (Task baselineTask : baselineFile.getTasks())
       {
@@ -250,9 +264,18 @@ public class PrimaveraSchedulerComparator
          }
 
          compare(baselineTask, workingTask);
+
+         if (analyseResourceAssignments)
+         {
+            for (ResourceAssignment baselineAssignment : baselineTask.getResourceAssignments())
+            {
+               ResourceAssignment workingAssignment = workingFile.getResourceAssignments().getByUniqueID(baselineAssignment.getUniqueID());
+               compare(baselineAssignment, workingAssignment);
+            }
+         }
       }
 
-      if (m_forwardErrorCount == 0 && m_backwardErrorCount == 0)
+      if (m_forwardErrorCount == 0 && m_backwardErrorCount == 0 && m_assignmentErrorCount == 0)
       {
          if (m_debug)
          {
@@ -268,6 +291,7 @@ public class PrimaveraSchedulerComparator
          System.out.println(baselineFile.getProjectProperties().getSchedulingProgressedActivities());
          System.out.println("Forward errors: " + m_forwardErrorCount);
          System.out.println("Backward errors: " + m_backwardErrorCount);
+         System.out.println("Assignment errors: " + m_assignmentErrorCount);
       }
 
       if (!m_directory && m_debug)
@@ -462,12 +486,69 @@ public class PrimaveraSchedulerComparator
       return result;
    }
 
+   /**
+    * Compare two resource assignments.
+    *
+    * @param baseline baseline resource assignment
+    * @param working working resource assignment
+    */
+   private void compare(ResourceAssignment baseline, ResourceAssignment working)
+   {
+      boolean startFailed = !compareDates(baseline, working, AssignmentField.START);
+      boolean finishFailed = !compareDates(baseline, working, AssignmentField.FINISH);
+      boolean actualStartFailed = !compareDates(baseline, working, AssignmentField.ACTUAL_START);
+      boolean actualFinishFailed = !compareDates(baseline, working, AssignmentField.ACTUAL_FINISH);
+      boolean remainingEarlyStartFailed = !compareDates(baseline, working, AssignmentField.REMAINING_EARLY_START);
+      boolean remainingEarlyFinishFailed = !compareDates(baseline, working, AssignmentField.REMAINING_EARLY_FINISH);
+      boolean remainingLateStartFailed = !compareDates(baseline, working, AssignmentField.REMAINING_LATE_START);
+      boolean remainingLateFinishFailed = !compareDates(baseline, working, AssignmentField.REMAINING_LATE_FINISH);
+
+      if (startFailed || finishFailed || actualStartFailed || actualFinishFailed || remainingEarlyStartFailed || remainingEarlyFinishFailed || remainingLateStartFailed || remainingLateFinishFailed)
+      {
+         ++m_assignmentErrorCount;
+      }
+   }
+
+   /**
+    * Compare two dates from a resource assignment.
+    *
+    * @param baseline baseline resource assignment
+    * @param working scheduled resource assignment
+    * @param field field containing the dates to compare
+    * @return true if the comparison is successful
+    */
+   private boolean compareDates(ResourceAssignment baseline, ResourceAssignment working, AssignmentField field)
+   {
+      LocalDateTime baselineDate = (LocalDateTime) baseline.get(field);
+      if (baselineDate == null)
+      {
+         // We have XER files where some of the attributes we'd expect to be populated are not present. Skip these.
+         return true;
+      }
+
+      LocalDateTime workingDate = (LocalDateTime) working.get(field);
+      if (workingDate == null)
+      {
+         return false;
+      }
+
+      if (baselineDate.isEqual(workingDate))
+      {
+         return true;
+      }
+
+      ProjectCalendar calendar = baseline.getEffectiveCalendar();
+      return calendar.getNextWorkStart(workingDate).isEqual(baselineDate) || calendar.getNextWorkStart(baselineDate).isEqual(workingDate);
+   }
+
    private boolean m_debug;
    private boolean m_directory;
    private int m_forwardErrorCount;
    private int m_backwardErrorCount;
+   private int m_assignmentErrorCount;
    private Set<String> m_unreadableFiles = Collections.emptySet();
    private Set<String> m_useScheduled = Collections.emptySet();
    private Set<String> m_excluded = Collections.emptySet();
    private Set<String> m_noWbsTest = Collections.emptySet();
+   private Set<String> m_noResourceAssignmentTest = Collections.emptySet();
 }

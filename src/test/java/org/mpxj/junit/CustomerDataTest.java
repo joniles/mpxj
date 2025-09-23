@@ -307,12 +307,14 @@ public class CustomerDataTest
       Set<String> useScheduled = readFile(new File(m_privateDirectory, "primavera-scheduler-use-scheduled.txt"));
       Set<String> excluded = readFile(new File(m_privateDirectory, "primavera-scheduler-excluded.txt"));
       Set<String> noWbsTest = readFile(new File(m_privateDirectory, "primavera-scheduler-no-wbs-test.txt"));
+      Set<String> noResourceAssignmentTest = readFile(new File(m_privateDirectory, "primavera-scheduler-no-assignment-test.txt"));
 
       PrimaveraSchedulerComparator comparator = new PrimaveraSchedulerComparator();
       comparator.setUnreadableFiles(unreadable);
       comparator.setUseScheduled(useScheduled);
       comparator.setExcluded(excluded);
       comparator.setNoWbsTest(noWbsTest);
+      comparator.setNoResourceAssignmentTest(noResourceAssignmentTest);
       comparator.setDebug(false);
 
       assertTrue(comparator.process(new File(m_privateDirectory, "XER"), ".xer"));

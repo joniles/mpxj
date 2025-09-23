@@ -104,11 +104,7 @@ public class PrimaveraScheduler implements Scheduler
 
       backwardPass(activities);
 
-      for (Task activity : activities)
-      {
-         activity.setStart(activity.getActualStart() == null ? activity.getEarlyStart() : activity.getActualStart());
-         activity.setFinish(activity.getActualFinish() == null ? activity.getEarlyFinish() : activity.getActualFinish());
-      }
+      activities.forEach(this::updateDates);
 
       levelOfEffortPass();
 
@@ -117,6 +113,112 @@ public class PrimaveraScheduler implements Scheduler
       wbsSummaryPass();
    }
 
+   /**
+    * Update Start, Finish, Planned Start, and Planned Finish dates.
+    *
+    * @param activity activity to update
+    */
+   private void updateDates(Task activity)
+   {
+      activity.setStart(activity.getActualStart() == null ? activity.getEarlyStart() : activity.getActualStart());
+      activity.setFinish(activity.getActualFinish() == null ? activity.getEarlyFinish() : activity.getActualFinish());
+
+      // P6 moves the planned start/finish dates for unstarted activities
+      if (activity.getActualStart() == null)
+      {
+         activity.setPlannedStart(activity.getStart());
+         activity.setPlannedFinish(activity.getFinish());
+      }
+
+      activity.getResourceAssignments().forEach(this::updateDates);
+   }
+
+   /**
+    * Update the Remaining Early Start, Remaining Early Finish, Remaining Late Start, Remaining Late Finish, Start, Finish, Planned Start, and Planned Finish dates.
+    *
+    * @param assignment resource assignment to update
+    */
+   private void updateDates(ResourceAssignment assignment)
+   {
+      Task activity = assignment.getTask();
+      if (activity.getActualFinish() != null)
+      {
+         assignment.setRemainingEarlyStart(null);
+         assignment.setRemainingEarlyFinish(null);
+         assignment.setRemainingLateStart(null);
+         assignment.setRemainingLateFinish(null);
+         return;
+      }
+
+      if (activity.getActualStart() == null)
+      {
+         assignment.setRemainingEarlyStart(assignment.getPlannedStart() != null && assignment.getPlannedStart().isAfter(activity.getRemainingEarlyStart()) ? assignment.getPlannedStart() : activity.getRemainingEarlyStart());
+      }
+      else
+      {
+         assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
+      }
+      assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
+
+      if (activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT || assignment.getResource().getType() == ResourceType.MATERIAL)
+      {
+         assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
+         assignment.setRemainingLateStart(activity.getRemainingLateStart());
+      }
+      else
+      {
+         // The case where a resource has zero work on a resource assignment is the
+         // one case that we seem to have problems matching P6. Sometimes P6 will
+         // set the Remaining Early Start and Remaining Early Finish to match the
+         // activity. Sometimes it will set the Remaining Early Start to match the activity
+         // and the Remaining Early Finish the same as the Remaining Early Start.
+         // Can't get to the bottom of the logic it's using...
+         if (assignment.getRemainingWork().getDuration() == 0.0)
+         {
+            if (assignment.getActualFinish() == null)
+            {
+               assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
+               assignment.setRemainingLateStart(activity.getRemainingLateStart());
+            }
+            else
+            {
+               assignment.setRemainingEarlyFinish(assignment.getRemainingEarlyStart());
+               assignment.setRemainingLateStart(assignment.getRemainingLateFinish());
+            }
+         }
+         else
+         {
+            assignment.setRemainingEarlyFinish(getEquivalentPreviousWorkFinish(getEffectiveCalendar(assignment), getDateFromWork(getEffectiveCalendar(assignment), assignment.getRemainingUnits(), assignment.getRemainingEarlyStart(), assignment.getRemainingWork())));
+            assignment.setRemainingLateStart(getDateFromWork(getEffectiveCalendar(assignment), assignment.getRemainingUnits(), assignment.getRemainingLateFinish(), assignment.getRemainingWork().negate()));
+         }
+      }
+
+      if (activity.getActualStart() == null && (assignment.getPlannedStart() == null || assignment.getRemainingEarlyStart().isAfter(assignment.getPlannedStart())))
+      {
+         assignment.setPlannedStart(assignment.getRemainingEarlyStart());
+         assignment.setPlannedFinish(assignment.getRemainingEarlyFinish());
+      }
+
+      assignment.setStart(assignment.getActualStart() == null ? assignment.getRemainingEarlyStart() : assignment.getActualStart());
+      assignment.setFinish(assignment.getActualFinish() == null ? assignment.getRemainingEarlyFinish() : assignment.getActualFinish());
+   }
+
+   /**
+    * Determine the effective calendar to use for the given resource assignment.
+    *
+    * @param assignment resource assignment.
+    * @return effective calendar
+    */
+   private ProjectCalendar getEffectiveCalendar(ResourceAssignment assignment)
+   {
+      return assignment.getTask().getActivityType() == ActivityType.RESOURCE_DEPENDENT ? assignment.getResource().getCalendar() : assignment.getEffectiveCalendar();
+   }
+
+   /**
+    * Ensure that the activities in the project can be scheduled.
+    *
+    * @param tasks activities from the project
+    */
    private void validateActivities(List<Task> tasks) throws CpmException
    {
       for (Task task : tasks)
@@ -3183,6 +3285,13 @@ public class PrimaveraScheduler implements Scheduler
       task.setLateStart(lateStart.getValue());
       task.setLateFinish(lateFinish.getValue());
 
+      // P6 moves the planned start/finish dates for unstarted activities
+      if (task.getActualStart() == null)
+      {
+         task.setPlannedStart(task.getStart());
+         task.setPlannedFinish(task.getFinish());
+      }
+
       if (task.getActualStart() == null || task.getActualFinish() == null)
       {
          task.setRemainingEarlyStart(earlyStart.getValue());
@@ -3190,6 +3299,8 @@ public class PrimaveraScheduler implements Scheduler
          task.setRemainingLateStart(lateStart.getValue());
          task.setRemainingLateFinish(lateFinish.getValue());
       }
+
+      task.getResourceAssignments().forEach(this::updateDates);
    }
 
    /**
@@ -3401,13 +3512,23 @@ public class PrimaveraScheduler implements Scheduler
     */
    private LocalDateTime getDateFromWork(ResourceAssignment assignment, LocalDateTime date, Duration work)
    {
-      double units = assignment.getUnits().doubleValue();
-      if (units != 100.0)
+      return getDateFromWork(assignment.getResource().getCalendar(), assignment.getUnits(), date, work);
+   }
+
+   private LocalDateTime getDateFromWork(ProjectCalendar calendar, Number units, LocalDateTime date, Duration work)
+   {
+      double unitsValue = units.doubleValue();
+      if (unitsValue == 0.0)
       {
-         work = Duration.getInstance((work.getDuration() * 100.0) / units, work.getUnits());
+         return date;
       }
 
-      return assignment.getResource().getCalendar().getDate(date, work);
+      if (unitsValue != 100.0)
+      {
+         work = Duration.getInstance((work.getDuration() * 100.0) / unitsValue, work.getUnits());
+      }
+
+      return getDate(calendar, date, work);
    }
 
    /**
