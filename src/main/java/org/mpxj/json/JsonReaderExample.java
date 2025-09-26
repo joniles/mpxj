@@ -17,6 +17,7 @@ import org.mpxj.CustomField;
 import org.mpxj.CustomFieldContainer;
 import org.mpxj.Relation;
 import org.mpxj.Priority;
+import org.mpxj.ResourceAssignment;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -41,6 +42,10 @@ public class JsonReaderExample
          
          // Then run the full workflow test
          testCompleteWorkflow();
+         
+         // Test with real MPP file conversion
+         testWithRealMppFile();
+         
          System.out.println("\n=== All tests completed successfully! ===");
       }
       catch (Exception e)
@@ -976,6 +981,82 @@ public class JsonReaderExample
                                        description, expected, actual);
          throw new AssertionError(message);
       }
+   }
+
+   /**
+    * Test reading the DemoSchedule.json file using the new readProject method.
+    */
+   private static void testWithRealMppFile() throws Exception
+   {
+      System.out.println("\n=== Test: Reading DemoSchedule.json ===");
+      
+      // Read the JSON file
+      String projectJsonString = new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get("DemoSchedule.json")), 
+                                           java.nio.charset.StandardCharsets.UTF_8);
+      
+      System.out.println("✓ DemoSchedule.json read successfully");
+      System.out.println("  JSON size: " + projectJsonString.length() + " characters");
+      
+      // Create a new project to read into
+      ProjectFile newProject = new ProjectFile();
+      
+      // Read the JSON using our new readProject method
+      JsonReader.readProject(newProject, projectJsonString);
+      
+      System.out.println("✓ JSON parsed successfully using readProject method");
+      System.out.println("  Project: " + newProject.getProjectProperties().getProjectTitle());
+      System.out.println("  Author: " + newProject.getProjectProperties().getAuthor());
+      System.out.println("  Start Date: " + newProject.getProjectProperties().getStartDate());
+      System.out.println("  Status Date: " + newProject.getProjectProperties().getStatusDate());
+      System.out.println("  Tasks: " + newProject.getTasks().size());
+      System.out.println("  Resources: " + newProject.getResources().size());
+      System.out.println("  Calendars: " + newProject.getCalendars().size());
+      System.out.println("  Assignments: " + newProject.getResourceAssignments().size());
+      System.out.println("  Relations: " + newProject.getRelations().size());
+      
+      // Display some sample data
+      if (!newProject.getTasks().isEmpty())
+      {
+         Task firstTask = newProject.getTasks().get(0);
+         System.out.println("\nFirst Task:");
+         System.out.println("  Name: " + firstTask.getName());
+         System.out.println("  Duration: " + firstTask.getDuration());
+         System.out.println("  Start: " + firstTask.getStart());
+         System.out.println("  Finish: " + firstTask.getFinish());
+         System.out.println("  Unique ID: " + firstTask.getUniqueID());
+      }
+      
+      if (!newProject.getResources().isEmpty())
+      {
+         Resource firstResource = newProject.getResources().get(0);
+         System.out.println("\nFirst Resource:");
+         System.out.println("  Name: " + firstResource.getName());
+         System.out.println("  Type: " + firstResource.getType());
+         System.out.println("  Max Units: " + firstResource.getMaxUnits());
+         System.out.println("  Unique ID: " + firstResource.getUniqueID());
+      }
+      
+      if (!newProject.getCalendars().isEmpty())
+      {
+         ProjectCalendar firstCalendar = newProject.getCalendars().get(0);
+         System.out.println("\nFirst Calendar:");
+         System.out.println("  Name: " + firstCalendar.getName());
+         System.out.println("  Type: " + firstCalendar.getType());
+         System.out.println("  Unique ID: " + firstCalendar.getUniqueID());
+      }
+      
+      if (!newProject.getResourceAssignments().isEmpty())
+      {
+         ResourceAssignment firstAssignment = newProject.getResourceAssignments().get(0);
+         System.out.println("\nFirst Assignment:");
+         System.out.println("  Task: " + firstAssignment.getTask().getName());
+         System.out.println("  Resource: " + firstAssignment.getResource().getName());
+         System.out.println("  Units: " + firstAssignment.getUnits());
+         System.out.println("  Work: " + firstAssignment.getWork());
+         System.out.println("  Unique ID: " + firstAssignment.getUniqueID());
+      }
+      
+      System.out.println("\n✓ DemoSchedule.json parsing test completed successfully");
    }
 
 

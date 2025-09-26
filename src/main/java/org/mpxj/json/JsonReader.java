@@ -117,11 +117,15 @@ public class JsonReader
       Task task = projectFile.addTask();
       Map<String, Object> fieldValues = new HashMap<>();
       
-      // Parse the JSON object
-      JsonToken token = parser.nextToken();
+      // Check if we're already at START_OBJECT, if not, move to it
+      JsonToken token = parser.getCurrentToken();
       if (token != JsonToken.START_OBJECT)
       {
-         throw new IOException("Expected JSON object start");
+         token = parser.nextToken();
+         if (token != JsonToken.START_OBJECT)
+         {
+            throw new IOException("Expected JSON object start");
+         }
       }
 
       // Read all fields
@@ -136,7 +140,6 @@ public class JsonReader
       // Apply the field values to the task
       applyFieldValuesToTask(task, fieldValues);
       
-      parser.close();
       return task;
    }
 
@@ -417,9 +420,20 @@ public class JsonReader
             {
                return value;
             }
+            else if (value instanceof Number)
+            {
+               // Convert numeric value to Duration (assuming minutes)
+               double durationValue = ((Number) value).doubleValue();
+               return Duration.getInstance(durationValue, TimeUnit.MINUTES);
+            }
             break;
 
          case DATE:
+            if (value instanceof String)
+            {
+               return parseDateTime((String) value);
+            }
+            break;
 
          case STRING:
             return value.toString();
@@ -502,6 +516,11 @@ public class JsonReader
             // Remove the 'Z' and parse as LocalDateTime (ignoring timezone)
             String withoutZ = dateTimeString.substring(0, dateTimeString.length() - 1);
             return LocalDateTime.parse(withoutZ, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS"));
+         }
+         // Try format with single millisecond digit (e.g., "2026-11-10T13:00:00.0")
+         else if (dateTimeString.matches("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d"))
+         {
+            return LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.S"));
          }
          // Try full date-time format first
          else if (dateTimeString.contains("T"))
@@ -1313,7 +1332,16 @@ public class JsonReader
             {
                try
                {
-                  type = RelationType.valueOf(typeStr.toUpperCase());
+                  // Convert short form to full form
+                  String fullTypeStr = typeStr.toUpperCase();
+                  switch (fullTypeStr)
+                  {
+                     case "FS": fullTypeStr = "FINISH_START"; break;
+                     case "SS": fullTypeStr = "START_START"; break;
+                     case "FF": fullTypeStr = "FINISH_FINISH"; break;
+                     case "SF": fullTypeStr = "START_FINISH"; break;
+                  }
+                  type = RelationType.valueOf(fullTypeStr);
                }
                catch (Exception e)
                {
@@ -1780,4 +1808,157 @@ public class JsonReader
       }
       return null;
    }
+
+
+   /**
+    * Read a complete project from a JSON string containing the entire project structure.
+    * This method handles property_values, custom_fields, calendars, resources, tasks, and assignments.
+    *
+    * @param project target project file
+    * @param projectJson JSON string containing complete project data
+    * @throws IOException if JSON parsing fails
+    */
+   public static void readProject(ProjectFile project, String projectJson) throws IOException
+   {
+      JsonFactory factory = new JsonFactory();
+      try (JsonParser parser = factory.createParser(projectJson))
+      {
+         parser.nextToken(); // Move to START_OBJECT
+         
+         while (parser.nextToken() != JsonToken.END_OBJECT)
+         {
+            String fieldName = parser.currentName();
+            if (fieldName == null) continue;
+            
+            parser.nextToken();
+            
+            switch (fieldName)
+            {
+               case "property_values":
+                  parsePropertyValues(parser, project.getProjectProperties());
+                  break;
+               case "custom_fields":
+                  if (parser.getCurrentToken() == JsonToken.START_ARRAY)
+                  {
+                     parseCustomFields(parser, project.getCustomFields());
+                  }
+                  break;
+               case "calendars":
+                  if (parser.getCurrentToken() == JsonToken.START_ARRAY)
+                  {
+                     while (parser.nextToken() != JsonToken.END_ARRAY)
+                     {
+                        readCalendarFromParser(project, parser);
+                     }
+                  }
+                  break;
+               case "resources":
+                  if (parser.getCurrentToken() == JsonToken.START_ARRAY)
+                  {
+                     while (parser.nextToken() != JsonToken.END_ARRAY)
+                     {
+                        readResourceFromParser(project, parser);
+                     }
+                  }
+                  break;
+               case "tasks":
+                  if (parser.getCurrentToken() == JsonToken.START_ARRAY)
+                  {
+                     while (parser.nextToken() != JsonToken.END_ARRAY)
+                     {
+                        readTaskFromParser(project, parser);
+                     }
+                  }
+                  break;
+               case "assignments":
+                  if (parser.getCurrentToken() == JsonToken.START_ARRAY)
+                  {
+                     while (parser.nextToken() != JsonToken.END_ARRAY)
+                     {
+                        readAssignment(project, parser);
+                     }
+                  }
+                  break;
+               default:
+                  parser.skipChildren();
+                  break;
+            }
+         }
+      }
+   }
+
+   /**
+    * Read a calendar from JSON parser.
+    * This method is used by readProject to parse calendar objects from a parser.
+    *
+    * @param project target project file
+    * @param parser JSON parser positioned at a calendar object
+    * @throws IOException if JSON parsing fails
+    */
+   private static void readCalendarFromParser(ProjectFile project, JsonParser parser) throws IOException
+   {
+      ProjectCalendar calendar = project.addCalendar();
+      Map<String, Object> fieldValues = new HashMap<>();
+      
+      // Check if we're already at START_OBJECT, if not, move to it
+      JsonToken token = parser.getCurrentToken();
+      if (token != JsonToken.START_OBJECT)
+      {
+         token = parser.nextToken();
+         if (token != JsonToken.START_OBJECT)
+         {
+            throw new IOException("Expected JSON object start");
+         }
+      }
+      
+      // Parse the JSON object
+      while (parser.nextToken() != JsonToken.END_OBJECT)
+      {
+         String calendarFieldName = parser.currentName();
+         parser.nextToken();
+         Object value = parseFieldValue(parser);
+         fieldValues.put(calendarFieldName, value);
+      }
+
+      // Apply the field values to the calendar
+      applyFieldValuesToCalendar(calendar, fieldValues);
+   }
+
+   /**
+    * Read a resource from JSON parser.
+    * This method is used by readProject to parse resource objects from a parser.
+    *
+    * @param project target project file
+    * @param parser JSON parser positioned at a resource object
+    * @throws IOException if JSON parsing fails
+    */
+   private static void readResourceFromParser(ProjectFile project, JsonParser parser) throws IOException
+   {
+      Resource resource = project.addResource();
+      Map<String, Object> fieldValues = new HashMap<>();
+      
+      // Check if we're already at START_OBJECT, if not, move to it
+      JsonToken token = parser.getCurrentToken();
+      if (token != JsonToken.START_OBJECT)
+      {
+         token = parser.nextToken();
+         if (token != JsonToken.START_OBJECT)
+         {
+            throw new IOException("Expected JSON object start");
+         }
+      }
+      
+      // Parse the JSON object
+      while (parser.nextToken() != JsonToken.END_OBJECT)
+      {
+         String resourceFieldName = parser.currentName();
+         parser.nextToken();
+         Object value = parseFieldValue(parser);
+         fieldValues.put(resourceFieldName, value);
+      }
+
+      // Apply the field values to the resource
+      applyFieldValuesToResource(resource, fieldValues);
+   }
+
 }
