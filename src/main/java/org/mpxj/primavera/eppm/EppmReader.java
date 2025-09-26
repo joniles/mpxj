@@ -16,7 +16,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.binary.Base64;
-
+import org.mpxj.MPXJException;
+import org.mpxj.ProjectFile;
+import org.mpxj.opc.OpcException;
+import org.mpxj.opc.OpcExportType;
+import org.mpxj.opc.OpcProject;
+import org.mpxj.opc.OpcProjectBaseline;
+import org.mpxj.reader.UniversalProjectReader;
 
 public class EppmReader
 {
@@ -52,6 +58,19 @@ public class EppmReader
       {
          // Empty block
       });
+   }
+
+   public ProjectFile readProject(EppmProject project) throws MPXJException
+   {
+      //return new UniversalProjectReader().read(getInputStreamForProject(project, EppmExportType.XML, false));
+      return null;
+   }
+
+   private InputStream getInputStreamForProject(OpcProject project, List<OpcProjectBaseline> baselines, OpcExportType type, boolean compressed)
+   {
+      authenticate();
+
+      return null;
    }
 
    private void authenticate()
@@ -137,6 +156,25 @@ public class EppmReader
       catch (IOException ex)
       {
          throw new EppmException(ex);
+      }
+   }
+
+   private HttpURLConnection performPostRequest(String path, Object body)
+   {
+      try
+      {
+         HttpURLConnection connection = createConnection(path, "application/json");
+         connection.setRequestMethod("POST");
+         connection.setRequestProperty("Content-Type", "application/json");
+         connection.setDoOutput(true);
+         m_mapper.writeValue(connection.getOutputStream(), body);
+         connection.connect();
+         return connection;
+      }
+
+      catch (IOException ex)
+      {
+         throw new OpcException(ex);
       }
    }
 

@@ -24,12 +24,12 @@ public class EppmProject
       m_name = name;
    }
 
-   public String getObjectId()
+   public Integer getObjectId()
    {
       return m_objectId;
    }
 
-   public void setObjectId(String objectId)
+   public void setObjectId(Integer objectId)
    {
       m_objectId = objectId;
    }
@@ -44,19 +44,19 @@ public class EppmProject
       m_dataDate = dataDate;
    }
 
-   public String getCurrentBaselineProjectObjectId()
+   public Integer getCurrentBaselineProjectObjectId()
    {
       return m_currentBaselineProjectObjectId;
    }
 
-   public void setCurrentBaselineProjectObjectId(String currentBaselineProjectObjectId)
+   public void setCurrentBaselineProjectObjectId(Integer currentBaselineProjectObjectId)
    {
       m_currentBaselineProjectObjectId = currentBaselineProjectObjectId;
    }
 
    @JsonProperty("Id") private String m_id;
    @JsonProperty("Name") private String m_name;
-   @JsonProperty("ObjectId") private String m_objectId;
+   @JsonProperty("ObjectId") private Integer m_objectId;
    @JsonProperty("DataDate") private String m_dataDate;
-   @JsonProperty("CurrentBaselineProjectObjectId") private String m_currentBaselineProjectObjectId;
+   @JsonProperty("CurrentBaselineProjectObjectId") private Integer m_currentBaselineProjectObjectId;
 }
