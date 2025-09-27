@@ -1,10 +1,10 @@
-package org.mpxj.primavera.eppm;
+package org.mpxj.primavera.webservices;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ExportRequest
+class ExportRequest
 {
    public void setFileType(String fileType)
    {

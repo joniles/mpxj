@@ -57,6 +57,7 @@ nav:
     - 'Oracle Primavera Cloud': 'howto-read-opc.md'
     - 'P3 files': 'howto-read-p3.md'
     - 'P6 Databases': 'howto-read-primavera.md'
+    - 'P6 Web Services': 'howto-read-p6ws.md'
     - 'Phoenix files': 'howto-read-phoenix.md'
     - 'Planner files': 'howto-read-planner.md'
     - 'PLF files': 'howto-read-plf.md'

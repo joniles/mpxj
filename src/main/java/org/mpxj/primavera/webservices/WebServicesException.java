@@ -1,11 +1,11 @@
-package org.mpxj.primavera.eppm;
+package org.mpxj.primavera.webservices;
 
-public class EppmException extends RuntimeException
+public class WebServicesException extends RuntimeException
 {
    /**
     * Constructor.
     */
-   public EppmException()
+   public WebServicesException()
    {
       super();
    }
@@ -15,7 +15,7 @@ public class EppmException extends RuntimeException
     *
     * @param ex cause
     */
-   public EppmException(Exception ex)
+   public WebServicesException(Exception ex)
    {
       super(ex);
    }
@@ -25,7 +25,7 @@ public class EppmException extends RuntimeException
     *
     * @param message message
     */
-   public EppmException(String message)
+   public WebServicesException(String message)
    {
       super(message);
    }

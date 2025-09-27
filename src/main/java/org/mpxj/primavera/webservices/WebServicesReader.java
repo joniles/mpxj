@@ -1,4 +1,4 @@
-package org.mpxj.primavera.eppm;
+package org.mpxj.primavera.webservices;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,23 +27,23 @@ import org.mpxj.common.InputStreamHelper;
 import org.mpxj.explorer.ProjectExplorer;
 import org.mpxj.reader.UniversalProjectReader;
 
-public class EppmReader
+public class WebServicesReader
 {
    public static void main(String[] argv) throws Exception
    {
-      EppmReader reader = new EppmReader(argv[0], argv[1], argv[2], argv[3]);
-      List<EppmProject> projects = reader.getProjects();
+      WebServicesReader reader = new WebServicesReader(argv[0], argv[1], argv[2], argv[3]);
+      List<WebServicesProject> projects = reader.getProjects();
 
-      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xml", EppmExportType.XML, true, false);
-      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xml.zip", EppmExportType.XML, true, true);
-      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xer", EppmExportType.XER, true, false);
-      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xer.zip", EppmExportType.XER, true, true);
+      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xml", WebServicesExportType.XML, true, false);
+      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xml.zip", WebServicesExportType.XML, true, true);
+      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xer", WebServicesExportType.XER, true, false);
+      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xer.zip", WebServicesExportType.XER, true, true);
 
       ProjectFile project = reader.readProject(projects.get(0));
       ProjectExplorer.view(project);
    }
 
-   public EppmReader(String url, String databaseName, String user, String password)
+   public WebServicesReader(String url, String databaseName, String user, String password)
    {
       m_url = url;
       m_databaseName = databaseName;
@@ -54,7 +54,7 @@ public class EppmReader
       m_mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
    }
 
-   public List<EppmProject> getProjects()
+   public List<WebServicesProject> getProjects()
    {
       authenticate();
 
@@ -62,16 +62,16 @@ public class EppmReader
       int code = getResponseCode(connection);
       if (code != 200)
       {
-         throw new EppmException(getExceptionMessage(connection, code, "List projects request failed"));
+         throw new WebServicesException(getExceptionMessage(connection, code, "List projects request failed"));
       }
 
-      return readValue(connection, new TypeReference<List<EppmProject>>()
+      return readValue(connection, new TypeReference<List<WebServicesProject>>()
       {
          // Empty block
       });
    }
 
-   public void exportProject(EppmProject project, String filename, EppmExportType type, boolean includeBaseline, boolean compressed) throws IOException
+   public void exportProject(WebServicesProject project, String filename, WebServicesExportType type, boolean includeBaseline, boolean compressed) throws IOException
    {
       try (OutputStream os = Files.newOutputStream(Paths.get(filename)))
       {
@@ -79,28 +79,28 @@ public class EppmReader
       }
    }
 
-   public void exportProject(EppmProject project, OutputStream stream, EppmExportType type, boolean inclueBaseline, boolean compressed) throws IOException
+   public void exportProject(WebServicesProject project, OutputStream stream, WebServicesExportType type, boolean inclueBaseline, boolean compressed) throws IOException
    {
       InputStreamHelper.writeInputStreamToOutputStream(getInputStreamForProject(project, type, inclueBaseline, compressed), stream);
    }
 
-   public ProjectFile readProject(EppmProject project) throws MPXJException
+   public ProjectFile readProject(WebServicesProject project) throws MPXJException
    {
       return readProject(project, true);
    }
 
-   public ProjectFile readProject(EppmProject project, boolean includeBaseline) throws MPXJException
+   public ProjectFile readProject(WebServicesProject project, boolean includeBaseline) throws MPXJException
    {
-      return new UniversalProjectReader().read(getInputStreamForProject(project, EppmExportType.XML, includeBaseline, false));
+      return new UniversalProjectReader().read(getInputStreamForProject(project, WebServicesExportType.XML, includeBaseline, false));
    }
 
-   private InputStream getInputStreamForProject(EppmProject project, EppmExportType type, boolean includeBaseline, boolean compressed)
+   private InputStream getInputStreamForProject(WebServicesProject project, WebServicesExportType type, boolean includeBaseline, boolean compressed)
    {
       authenticate();
 
       String path;
       ExportRequest request;
-      if (type == EppmExportType.XML)
+      if (type == WebServicesExportType.XML)
       {
          request = new XmlExportRequest();
          path = "export/exportProjects";
@@ -126,7 +126,7 @@ public class EppmReader
       int code = getResponseCode(connection);
       if (code != 200)
       {
-         throw new EppmException(getExceptionMessage(connection, code, "Export project request failed"));
+         throw new WebServicesException(getExceptionMessage(connection, code, "Export project request failed"));
       }
 
       return getInputStream(connection);
@@ -153,13 +153,13 @@ public class EppmReader
          int code = connection.getResponseCode();
          if (code != 200)
          {
-            throw new EppmAuthenticationException(getExceptionMessage(connection, code, "Authentication request failed"));
+            throw new WebServicesAuthenticationException(getExceptionMessage(connection, code, "Authentication request failed"));
          }
 
          List<String> cookiesHeader = connection.getHeaderFields().get("Set-Cookie");
          if (cookiesHeader == null)
          {
-            throw new EppmAuthenticationException("No cookies received");
+            throw new WebServicesAuthenticationException("No cookies received");
          }
 
          m_cookies = cookiesHeader.stream().flatMap(c -> HttpCookie.parse(c).stream()).map(HttpCookie::toString).collect(Collectors.joining(";"));
@@ -167,7 +167,7 @@ public class EppmReader
 
       catch (Exception ex)
       {
-         throw new EppmAuthenticationException(ex);
+         throw new WebServicesAuthenticationException(ex);
       }
    }
 
@@ -214,7 +214,7 @@ public class EppmReader
 
       catch (IOException ex)
       {
-         throw new EppmException(ex);
+         throw new WebServicesException(ex);
       }
    }
 
@@ -233,7 +233,7 @@ public class EppmReader
 
       catch (IOException ex)
       {
-         throw new EppmException(ex);
+         throw new WebServicesException(ex);
       }
    }
 
@@ -256,7 +256,7 @@ public class EppmReader
 
       catch (IOException ex)
       {
-         throw new EppmException(ex);
+         throw new WebServicesException(ex);
       }
    }
 
@@ -269,7 +269,7 @@ public class EppmReader
 
       catch (IOException ex)
       {
-         throw new EppmException(ex);
+         throw new WebServicesException(ex);
       }
    }
 
@@ -286,7 +286,7 @@ public class EppmReader
 
       catch (IOException ex)
       {
-         throw new EppmException(ex);
+         throw new WebServicesException(ex);
       }
    }
 

@@ -1,4 +1,4 @@
-package org.mpxj.primavera.eppm;
+package org.mpxj.primavera.webservices;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
