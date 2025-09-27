@@ -4,10 +4,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
@@ -18,18 +22,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.binary.Base64;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
-import org.mpxj.opc.OpcException;
-import org.mpxj.opc.OpcExportType;
-import org.mpxj.opc.OpcProject;
-import org.mpxj.opc.OpcProjectBaseline;
+import org.mpxj.common.InputStreamHelper;
 import org.mpxj.reader.UniversalProjectReader;
 
 public class EppmReader
 {
-   public static void main(String[] argv)
+   public static void main(String[] argv) throws Exception
    {
       EppmReader reader = new EppmReader(argv[0], argv[1], argv[2], argv[3]);
       List<EppmProject> projects = reader.getProjects();
+
+      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xml", EppmExportType.XML, false);
+      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xml.zip", EppmExportType.XML, true);
+      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xer", EppmExportType.XER, false);
+      reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xer.zip", EppmExportType.XER, true);
    }
 
    public EppmReader(String url, String databaseName, String user, String password)
@@ -60,17 +66,53 @@ public class EppmReader
       });
    }
 
-   public ProjectFile readProject(EppmProject project) throws MPXJException
+   public void exportProject(EppmProject project, String filename, EppmExportType type, boolean compressed) throws IOException
    {
-      //return new UniversalProjectReader().read(getInputStreamForProject(project, EppmExportType.XML, false));
-      return null;
+      try (OutputStream os = Files.newOutputStream(Paths.get(filename)))
+      {
+         exportProject(project, os, type, compressed);
+      }
    }
 
-   private InputStream getInputStreamForProject(OpcProject project, List<OpcProjectBaseline> baselines, OpcExportType type, boolean compressed)
+   public void exportProject(EppmProject project, OutputStream stream, EppmExportType type, boolean compressed) throws IOException
+   {
+      InputStreamHelper.writeInputStreamToOutputStream(getInputStreamForProject(project, type, compressed), stream);
+   }
+
+   public ProjectFile readProject(EppmProject project) throws MPXJException
+   {
+      return new UniversalProjectReader().read(getInputStreamForProject(project, EppmExportType.XML, false));
+   }
+
+   private InputStream getInputStreamForProject(EppmProject project, EppmExportType type, boolean compressed)
    {
       authenticate();
 
-      return null;
+      String path;
+      ExportRequest request;
+      if (type == EppmExportType.XML)
+      {
+         request = new XmlExportRequest();
+         path = "export/exportProjects";
+         request.setFileType(compressed ? "ZIP" : "XML");
+         request.setProjectObjectId(Collections.singletonList(project.getObjectId()));
+      }
+      else
+      {
+         request = new ExportRequest();
+         path = "export/exportXERProject";
+         request.setFileType(compressed ? "ZIP" : "XER");
+         request.setProjectObjectId(Collections.singletonList(project.getObjectId()));
+      }
+
+      HttpURLConnection connection = performPostRequest(path, request);
+      int code = getResponseCode(connection);
+      if (code != 200)
+      {
+         throw new EppmException(getExceptionMessage(connection, code, "Export project request failed"));
+      }
+
+      return getInputStream(connection);
    }
 
    private void authenticate()
@@ -174,7 +216,7 @@ public class EppmReader
 
       catch (IOException ex)
       {
-         throw new OpcException(ex);
+         throw new EppmException(ex);
       }
    }
 
