@@ -11,6 +11,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.common.InputStreamHelper;
+import org.mpxj.explorer.ProjectExplorer;
 import org.mpxj.reader.UniversalProjectReader;
 
 public class EppmReader
@@ -32,10 +34,13 @@ public class EppmReader
       EppmReader reader = new EppmReader(argv[0], argv[1], argv[2], argv[3]);
       List<EppmProject> projects = reader.getProjects();
 
-      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xml", EppmExportType.XML, false);
-      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xml.zip", EppmExportType.XML, true);
-      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xer", EppmExportType.XER, false);
-      reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xer.zip", EppmExportType.XER, true);
+      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xml", EppmExportType.XML, true, false);
+      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xml.zip", EppmExportType.XML, true, true);
+      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xer", EppmExportType.XER, true, false);
+      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xer.zip", EppmExportType.XER, true, true);
+
+      ProjectFile project = reader.readProject(projects.get(0));
+      ProjectExplorer.view(project);
    }
 
    public EppmReader(String url, String databaseName, String user, String password)
@@ -66,25 +71,30 @@ public class EppmReader
       });
    }
 
-   public void exportProject(EppmProject project, String filename, EppmExportType type, boolean compressed) throws IOException
+   public void exportProject(EppmProject project, String filename, EppmExportType type, boolean includeBaseline, boolean compressed) throws IOException
    {
       try (OutputStream os = Files.newOutputStream(Paths.get(filename)))
       {
-         exportProject(project, os, type, compressed);
+         exportProject(project, os, type, includeBaseline, compressed);
       }
    }
 
-   public void exportProject(EppmProject project, OutputStream stream, EppmExportType type, boolean compressed) throws IOException
+   public void exportProject(EppmProject project, OutputStream stream, EppmExportType type, boolean inclueBaseline, boolean compressed) throws IOException
    {
-      InputStreamHelper.writeInputStreamToOutputStream(getInputStreamForProject(project, type, compressed), stream);
+      InputStreamHelper.writeInputStreamToOutputStream(getInputStreamForProject(project, type, inclueBaseline, compressed), stream);
    }
 
    public ProjectFile readProject(EppmProject project) throws MPXJException
    {
-      return new UniversalProjectReader().read(getInputStreamForProject(project, EppmExportType.XML, false));
+      return readProject(project, true);
    }
 
-   private InputStream getInputStreamForProject(EppmProject project, EppmExportType type, boolean compressed)
+   public ProjectFile readProject(EppmProject project, boolean includeBaseline) throws MPXJException
+   {
+      return new UniversalProjectReader().read(getInputStreamForProject(project, EppmExportType.XML, includeBaseline, false));
+   }
+
+   private InputStream getInputStreamForProject(EppmProject project, EppmExportType type, boolean includeBaseline, boolean compressed)
    {
       authenticate();
 
@@ -95,7 +105,14 @@ public class EppmReader
          request = new XmlExportRequest();
          path = "export/exportProjects";
          request.setFileType(compressed ? "ZIP" : "XML");
-         request.setProjectObjectId(Collections.singletonList(project.getObjectId()));
+         if (includeBaseline && project.getCurrentBaselineProjectObjectId() != null)
+         {
+            request.setProjectObjectId(Arrays.asList(project.getObjectId(), project.getCurrentBaselineProjectObjectId()));
+         }
+         else
+         {
+            request.setProjectObjectId(Collections.singletonList(project.getObjectId()));
+         }
       }
       else
       {
