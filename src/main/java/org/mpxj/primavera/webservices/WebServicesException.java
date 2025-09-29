@@ -1,5 +1,5 @@
 /*
- * file:       OpcException.java
+ * file:       WebServicesException.java
  * author:     Jon Iles
  * date:       2025-07-09
  */
@@ -19,18 +19,17 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-
-package org.mpxj.opc;
+package org.mpxj.primavera.webservices;
 
 /**
- * General exception thrown when OPC API calls do not work as expected.
+ * General exception thrown when P6 Web Services API calls do not work as expected.
  */
-public class OpcException extends RuntimeException
+public class WebServicesException extends RuntimeException
 {
    /**
     * Constructor.
     */
-   public OpcException()
+   public WebServicesException()
    {
       super();
    }
@@ -40,7 +39,7 @@ public class OpcException extends RuntimeException
     *
     * @param ex cause
     */
-   public OpcException(Exception ex)
+   public WebServicesException(Exception ex)
    {
       super(ex);
    }
@@ -50,7 +49,7 @@ public class OpcException extends RuntimeException
     *
     * @param message message
     */
-   public OpcException(String message)
+   public WebServicesException(String message)
    {
       super(message);
    }

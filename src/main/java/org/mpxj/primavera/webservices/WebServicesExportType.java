@@ -1,7 +1,7 @@
 /*
- * file:       OpcException.java
+ * file:       WebServicesExportType.java
  * author:     Jon Iles
- * date:       2025-07-09
+ * date:       2025-09-29
  */
 
 /*
@@ -20,38 +20,14 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package org.mpxj.opc;
+
+package org.mpxj.primavera.webservices;
 
 /**
- * General exception thrown when OPC API calls do not work as expected.
+ * Represents the format in which the schedule will be exported.
  */
-public class OpcException extends RuntimeException
+public enum WebServicesExportType
 {
-   /**
-    * Constructor.
-    */
-   public OpcException()
-   {
-      super();
-   }
-
-   /**
-    * Constructor.
-    *
-    * @param ex cause
-    */
-   public OpcException(Exception ex)
-   {
-      super(ex);
-   }
-
-   /**
-    * Constructor.
-    *
-    * @param message message
-    */
-   public OpcException(String message)
-   {
-      super(message);
-   }
+   XML,
+   XER
 }

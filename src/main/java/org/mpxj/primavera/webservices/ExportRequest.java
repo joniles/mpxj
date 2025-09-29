@@ -1,7 +1,7 @@
 /*
- * file:       OpcException.java
+ * file:       ExportRequest.java
  * author:     Jon Iles
- * date:       2025-07-09
+ * date:       2025-09-29
  */
 
 /*
@@ -20,38 +20,37 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package org.mpxj.opc;
+package org.mpxj.primavera.webservices;
+
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * General exception thrown when OPC API calls do not work as expected.
+ * Represents the JSON payload used to request a project export.
  */
-public class OpcException extends RuntimeException
+class ExportRequest
 {
    /**
-    * Constructor.
+    * Sets the file type to export.
+    *
+    * @param fileType file type
     */
-   public OpcException()
+   public void setFileType(String fileType)
    {
-      super();
+      m_fileType = fileType;
    }
 
    /**
-    * Constructor.
+    * Sets the unique ID of the project to export.
     *
-    * @param ex cause
+    * @param projectObjectId project unique ID
     */
-   public OpcException(Exception ex)
+   public void setProjectObjectId(List<Integer> projectObjectId)
    {
-      super(ex);
+      m_projectObjectId = projectObjectId;
    }
 
-   /**
-    * Constructor.
-    *
-    * @param message message
-    */
-   public OpcException(String message)
-   {
-      super(message);
-   }
+   @JsonProperty("FileType") private String m_fileType;
+   @JsonProperty("ProjectObjectId") private List<Integer> m_projectObjectId;
 }

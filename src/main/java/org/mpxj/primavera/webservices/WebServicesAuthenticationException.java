@@ -1,7 +1,7 @@
 /*
- * file:       OpcException.java
+ * file:       WebServicesAuthenticationException.java
  * author:     Jon Iles
- * date:       2025-07-09
+ * date:       2025-09-29
  */
 
 /*
@@ -20,27 +20,19 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package org.mpxj.opc;
+package org.mpxj.primavera.webservices;
 
 /**
- * General exception thrown when OPC API calls do not work as expected.
+ * An exception thrown when P6 Web Services authentication fails.
  */
-public class OpcException extends RuntimeException
+public class WebServicesAuthenticationException extends WebServicesException
 {
-   /**
-    * Constructor.
-    */
-   public OpcException()
-   {
-      super();
-   }
-
    /**
     * Constructor.
     *
     * @param ex cause
     */
-   public OpcException(Exception ex)
+   public WebServicesAuthenticationException(Exception ex)
    {
       super(ex);
    }
@@ -50,7 +42,7 @@ public class OpcException extends RuntimeException
     *
     * @param message message
     */
-   public OpcException(String message)
+   public WebServicesAuthenticationException(String message)
    {
       super(message);
    }

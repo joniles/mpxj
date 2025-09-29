@@ -1,7 +1,7 @@
 /*
- * file:       OpcException.java
+ * file:       XmlExportRequest.java
  * author:     Jon Iles
- * date:       2025-07-09
+ * date:       2025-09-29
  */
 
 /*
@@ -20,38 +20,25 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package org.mpxj.opc;
+package org.mpxj.primavera.webservices;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * General exception thrown when OPC API calls do not work as expected.
+ * Represents the JSON payload used to request an XML project export.
  */
-public class OpcException extends RuntimeException
+class XmlExportRequest extends ExportRequest
 {
    /**
-    * Constructor.
+    * Set the encoding to use for the exported project.
+    * Defaults to UTF-8.
+    *
+    * @param encoding exported project encoding
     */
-   public OpcException()
+   public void setEncoding(String encoding)
    {
-      super();
+      m_encoding = encoding;
    }
 
-   /**
-    * Constructor.
-    *
-    * @param ex cause
-    */
-   public OpcException(Exception ex)
-   {
-      super(ex);
-   }
-
-   /**
-    * Constructor.
-    *
-    * @param message message
-    */
-   public OpcException(String message)
-   {
-      super(message);
-   }
+   @JsonProperty("Encoding") private String m_encoding = "UTF-8";
 }
