@@ -1,3 +1,25 @@
+/*
+ * file:       WebServicesReader.java
+ * author:     Jon Iles
+ * date:       2025-09-29
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 package org.mpxj.primavera.webservices;
 
 import java.io.BufferedReader;
@@ -24,29 +46,16 @@ import org.apache.commons.codec.binary.Base64;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.common.InputStreamHelper;
-import org.mpxj.explorer.ProjectExplorer;
 import org.mpxj.reader.UniversalProjectReader;
 
+/**
+ * Access schedule data via P6 Web Services.
+ */
 public class WebServicesReader
 {
-   public static void main(String[] argv) throws Exception
-   {
-      WebServicesReader reader = new WebServicesReader(argv[0], argv[1], argv[2], argv[3]);
-      List<WebServicesProject> projects = reader.getProjects();
-
-      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xml", WebServicesExportType.XML, true, false);
-      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xml.zip", WebServicesExportType.XML, true, true);
-      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xer", WebServicesExportType.XER, true, false);
-      //reader.exportProject(projects.get(0), "/Users/joniles/Downloads/export.xer.zip", WebServicesExportType.XER, true, true);
-
-      ProjectFile project = reader.readProject(projects.get(0));
-      ProjectExplorer.view(project);
-   }
-
    public WebServicesReader(String url, String databaseName, String user, String password)
    {
       this(url);
-
       m_databaseName = databaseName;
       m_user = user;
       m_password = password;

@@ -23,7 +23,7 @@
 package org.mpxj.opc;
 
 /**
- * General exception thrown when OPC API callsdo not work as expected.
+ * General exception thrown when OPC API calls do not work as expected.
  */
 public class OpcException extends RuntimeException
 {
