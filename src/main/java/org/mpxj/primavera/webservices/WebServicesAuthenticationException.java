@@ -22,6 +22,9 @@
 
 package org.mpxj.primavera.webservices;
 
+/**
+ * An exception thrown when P6 Web Services authentication fails.
+ */
 public class WebServicesAuthenticationException extends WebServicesException
 {
    /**
