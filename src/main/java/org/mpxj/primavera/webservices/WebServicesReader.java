@@ -45,11 +45,22 @@ public class WebServicesReader
 
    public WebServicesReader(String url, String databaseName, String user, String password)
    {
-      m_url = url;
+      this(url);
+
       m_databaseName = databaseName;
       m_user = user;
       m_password = password;
+   }
 
+   public WebServicesReader(String url, String bearerToken)
+   {
+      this(url);
+      m_bearerToken = bearerToken;
+   }
+
+   private WebServicesReader(String url)
+   {
+      m_url = url;
       m_mapper = new ObjectMapper();
       m_mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
    }
@@ -134,7 +145,7 @@ public class WebServicesReader
 
    private void authenticate()
    {
-      if (m_cookies != null)
+      if (m_cookies != null || m_bearerToken != null)
       {
          return;
       }
@@ -243,7 +254,16 @@ public class WebServicesReader
       HttpURLConnection connection = (HttpURLConnection) url.openConnection();
       connection.setRequestProperty("Accept", accept);
       connection.setRequestProperty("Accept-Encoding", "gzip");
-      connection.setRequestProperty("Cookie", m_cookies);
+
+      if (m_bearerToken == null)
+      {
+         connection.setRequestProperty("Cookie", m_cookies);
+      }
+      else
+      {
+         connection.setRequestProperty("Authorization", "Bearer " + m_bearerToken);
+      }
+
       return connection;
    }
 
@@ -291,9 +311,10 @@ public class WebServicesReader
    }
 
    private final String m_url;
-   private final String m_databaseName;
-   private final String m_user;
-   private final String m_password;
+   private String m_databaseName;
+   private String m_user;
+   private String m_password;
    private String m_cookies;
+   private String m_bearerToken;
    private final ObjectMapper m_mapper;
 }

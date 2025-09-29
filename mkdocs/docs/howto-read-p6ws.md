@@ -18,7 +18,7 @@ modules.
 
 The user account will also need to have access to the projects you wish to work
 with via the API. At minimum the user account will need read access, including
-"Export Project Data" privilege.
+the Export Project Data" privilege.
 
 ## Authentication
 
