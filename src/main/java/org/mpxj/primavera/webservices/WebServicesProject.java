@@ -123,7 +123,7 @@ public class WebServicesProject
    /**
     * Sets the unique ID of the project's current baseline.
     *
-    * @param currentBaselineProjectObjectId current baseline unqique ID
+    * @param currentBaselineProjectObjectId current baseline unique ID
     */
    public void setCurrentBaselineProjectObjectId(Integer currentBaselineProjectObjectId)
    {

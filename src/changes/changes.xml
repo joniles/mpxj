@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="14.5.0">
+            <action dev="joniles" type="update">Implemented support for reading and exporting projects from Primavera P6 EPPM via Primavera P6 Web Services (p6ws).</action>
             <action dev="joniles" type="update">Add Free Slack calculation to the Task class.</action>
             <action dev="joniles" type="update">Ensure that the PrimaveraScheduler updates resource assignment dates.</action>
             <action dev="joniles" type="update">Handle blank Activity ID values when writing XER and PMXML files.</action>

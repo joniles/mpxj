@@ -53,6 +53,14 @@ import org.mpxj.reader.UniversalProjectReader;
  */
 public class WebServicesReader
 {
+   /**
+    * Constructor.
+    *
+    * @param url P6 Web Services URL
+    * @param databaseName database name
+    * @param user user name
+    * @param password password
+    */
    public WebServicesReader(String url, String databaseName, String user, String password)
    {
       this(url);
@@ -61,12 +69,23 @@ public class WebServicesReader
       m_password = password;
    }
 
+   /**
+    * Constructor.
+    *
+    * @param url P6 Web Services URL
+    * @param bearerToken OAuth bearer token
+    */
    public WebServicesReader(String url, String bearerToken)
    {
       this(url);
       m_bearerToken = bearerToken;
    }
 
+   /**
+    * Constructor.
+    *
+    * @param url P6 Web Services URL
+    */
    private WebServicesReader(String url)
    {
       m_url = url;
@@ -74,6 +93,11 @@ public class WebServicesReader
       m_mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
    }
 
+   /**
+    * Retrieve details of the projects available via the P6 Web Services API.
+    *
+    * @return list of WebServicesProject instances
+    */
    public List<WebServicesProject> getProjects()
    {
       authenticate();
@@ -91,6 +115,15 @@ public class WebServicesReader
       });
    }
 
+   /**
+    * Export a project.
+    *
+    * @param project WebServicesProject instance identifying the project to export
+    * @param filename name of file to which the project data is written
+    * @param type export type
+    * @param includeBaseline true if the baseline should be included in the export
+    * @param compressed true if the project data should be exported as a zip file
+    */
    public void exportProject(WebServicesProject project, String filename, WebServicesExportType type, boolean includeBaseline, boolean compressed) throws IOException
    {
       try (OutputStream os = Files.newOutputStream(Paths.get(filename)))
@@ -99,21 +132,52 @@ public class WebServicesReader
       }
    }
 
-   public void exportProject(WebServicesProject project, OutputStream stream, WebServicesExportType type, boolean inclueBaseline, boolean compressed) throws IOException
+   /**
+    * Export a project.
+    *
+    * @param project WebServicesProject instance identifying the project to export
+    * @param stream OutputStream instance to which project data will be written
+    * @param type export type
+    * @param includeBaseline true if the baseline should be included in the export
+    * @param compressed true if the project data should be exported as a zip file
+    */
+   public void exportProject(WebServicesProject project, OutputStream stream, WebServicesExportType type, boolean includeBaseline, boolean compressed) throws IOException
    {
-      InputStreamHelper.writeInputStreamToOutputStream(getInputStreamForProject(project, type, inclueBaseline, compressed), stream);
+      InputStreamHelper.writeInputStreamToOutputStream(getInputStreamForProject(project, type, includeBaseline, compressed), stream);
    }
 
+   /**
+    * Read a project and return a ProjectFile instance.
+    *
+    * @param project WebServicesProject instance identifying the project to read
+    * @return ProjectFile instance
+    */
    public ProjectFile readProject(WebServicesProject project) throws MPXJException
    {
       return readProject(project, true);
    }
 
+   /**
+    * Read a project and return a ProjectFile instance.
+    *
+    * @param project WebServicesProject instance identifying the project to read
+    * @param includeBaseline true if the current baseline should be included
+    * @return ProjectFile instance
+    */
    public ProjectFile readProject(WebServicesProject project, boolean includeBaseline) throws MPXJException
    {
       return new UniversalProjectReader().read(getInputStreamForProject(project, WebServicesExportType.XML, includeBaseline, false));
    }
 
+   /**
+    * Retrieve an InputStream instance representing project data read from P7=6 Web Services.
+    *
+    * @param project WebServicesProject instance identifying the project to read
+    * @param type export type
+    * @param includeBaseline true if the baseline should be included in the export
+    * @param compressed true if the project data should be returned as a zip file
+    * @return InputStream instance
+    */
    private InputStream getInputStreamForProject(WebServicesProject project, WebServicesExportType type, boolean includeBaseline, boolean compressed)
    {
       authenticate();
@@ -152,6 +216,9 @@ public class WebServicesReader
       return getInputStream(connection);
    }
 
+   /**
+    * Perform authentication as required.
+    */
    private void authenticate()
    {
       if (m_cookies != null || m_bearerToken != null)
@@ -191,6 +258,15 @@ public class WebServicesReader
       }
    }
 
+   /**
+    * Augment the supplied exception message with the response code and
+    * response body from the connection.
+    *
+    * @param connection target connection
+    * @param code response code
+    * @param message message to augment
+    * @return augmented message including response code and response body
+    */
    private String getExceptionMessage(HttpURLConnection connection, int code, String message)
    {
       String responseBody = "";
@@ -217,11 +293,24 @@ public class WebServicesReader
       return message + "\nresponseCode=" + code + "\nresponseBody=" + responseBody;
    }
 
+   /**
+    * Perform a GET request with a JSON response.
+    *
+    * @param path request path
+    * @return connection ready to read status and response
+    */
    private HttpURLConnection performGetRequest(String path)
    {
       return performGetRequest(path, "application/json");
    }
 
+   /**
+    * Perform a GET request and accept the provided content type.
+    *
+    * @param path request path
+    * @param accept accepted content type
+    * @return connection ready to read status and response
+    */
    private HttpURLConnection performGetRequest(String path, String accept)
    {
       try
@@ -238,6 +327,13 @@ public class WebServicesReader
       }
    }
 
+   /**
+    * Perform a POST request.
+    *
+    * @param path request path
+    * @param body request body to be serialized to JSON
+    * @return connection ready to read status and response
+    */
    private HttpURLConnection performPostRequest(String path, Object body)
    {
       try
@@ -257,6 +353,13 @@ public class WebServicesReader
       }
    }
 
+   /**
+    * Create a connection to the supplied path.
+    *
+    * @param path target path
+    * @param accept content type to accept
+    * @return HttpURLConnection configured connection
+    */
    private HttpURLConnection createConnection(String path, String accept) throws IOException
    {
       URL url = new URL(m_url + "/restapi/" + path);
@@ -276,6 +379,13 @@ public class WebServicesReader
       return connection;
    }
 
+   /**
+    * Retrieve the response code from a connection,
+    * wrap any IOException in a WebServicesException.
+    *
+    * @param connection target connection
+    * @return response code
+    */
    private int getResponseCode(HttpURLConnection connection)
    {
       try
@@ -289,6 +399,14 @@ public class WebServicesReader
       }
    }
 
+   /**
+    * Unmarshall a collection of JSON values.
+    *
+    * @param <T> unmarshalled type
+    * @param connection target connection
+    * @param valueTypeRef generic collection type
+    * @return collection of object instances representing unmarshalled JSON values
+    */
    private <T> T readValue(HttpURLConnection connection, TypeReference<T> valueTypeRef)
    {
       try
@@ -302,6 +420,12 @@ public class WebServicesReader
       }
    }
 
+   /**
+    * Retrieve an input stream from a connection, handling gzipped content.
+    *
+    * @param connection connection
+    * @return input stream
+    */
    private InputStream getInputStream(HttpURLConnection connection)
    {
       try
