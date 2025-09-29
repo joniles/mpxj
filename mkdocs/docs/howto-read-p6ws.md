@@ -93,7 +93,7 @@ ProjectFile mpxjProject = reader.readProject(wsProject);
 You now have access to the project data via the `ProjectFile` instance.
 
 In the example above we have used an instance of `WebServicesProject` returned
-by the `getProjects()` method of the reader when we called `readProject()`.
+by the `getProjects()` method of the reader when we called `readProject`.
 This is not strictly necessary, you can construct your own
 `WebServicesProject` instance which just needs to include the project unique
 ID (Object ID), as illustrated by the example below.
