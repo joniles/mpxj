@@ -7,7 +7,7 @@
 		<property environment="env"/>
 
 		<!-- Build Configuration -->
-		<property name="current.version" value="14.4.0" />
+		<property name="current.version" value="14.5.0" />
 		<property name="current.version.classifier" value="" />
 
 		<!-- Environment Configuration-->

@@ -5,7 +5,14 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 14.5.0 (unreleased)
+## 14.6.0 (unreleased)
+
+## 14.5.0 (2025-10-01)
+* Implemented support for reading and exporting projects using Primavera P6 Web Services (p6ws). Among other things this could be used to access projects managed by Primavera P6 EPPM.
+* Add Free Slack calculation to the Task class.
+* Ensure that the PrimaveraScheduler updates resource assignment dates.
+* Handle blank Activity ID values when writing XER and PMXML files.
+* Ensure that all Activity, Project, Resource Assignment, Resource and Role Code definitions in XER and PMXML files include a maximum length.
 
 ## 14.4.0 (2025-09-16)
 * Implemented support for reading projects from Microsoft Project Server (also known as Project Online, Project Web Access or PWA).
