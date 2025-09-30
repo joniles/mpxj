@@ -238,7 +238,7 @@ public class PrimaveraSchedulerComparator
       }
 
       String fileName = file.getName().toLowerCase();
-      return process(baselineFile,  workingFile, !m_noWbsTest.contains(fileName), !m_noResourceAssignmentTest.contains(fileName));
+      return process(baselineFile, workingFile, !m_noWbsTest.contains(fileName), !m_noResourceAssignmentTest.contains(fileName));
    }
 
    /**
