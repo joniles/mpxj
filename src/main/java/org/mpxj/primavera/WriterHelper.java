@@ -123,7 +123,7 @@ class WriterHelper
    public static Integer getCodeMaxLength(Code code)
    {
       Integer maxLength = code.getMaxLength();
-      return maxLength == null ? code.getValues().stream().map(v -> v.getName().length()).max(Integer::compareTo).orElse(DEFAULT_CODE_MAX_LENGTH) : maxLength;
+      return maxLength == null ? code.getValues().stream().map(v -> Integer.valueOf(v.getName().length())).max(Integer::compareTo).orElse(DEFAULT_CODE_MAX_LENGTH) : maxLength;
    }
 
    private static final String RESOURCE_ID_PREFIX = "RESOURCE-";

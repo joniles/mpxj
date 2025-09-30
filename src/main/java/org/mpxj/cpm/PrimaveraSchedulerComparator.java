@@ -247,6 +247,7 @@ public class PrimaveraSchedulerComparator
     * @param baselineFile baseline project
     * @param workingFile working project
     * @param analyseWbs true if the WBS should be analysed
+    * @param analyseResourceAssignments true if resource assignments should be analysed
     * @return true if compared successfully
     */
    public boolean process(ProjectFile baselineFile, ProjectFile workingFile, boolean analyseWbs, boolean analyseResourceAssignments) throws Exception
@@ -381,6 +382,8 @@ public class PrimaveraSchedulerComparator
    /**
     * Write debug output to show where the two project differ.
     *
+    * @param baselineFile baseline for comparison
+    * @param workingFile working file for comparison
     * @param analyseWbs true if the WBS should be compared
     */
    private void analyseFailures(ProjectFile baselineFile, ProjectFile workingFile, boolean analyseWbs) throws CycleException
@@ -423,6 +426,7 @@ public class PrimaveraSchedulerComparator
    /**
     * Write debug information for a forward pass error.
     *
+    * @param baselineFile baseline for comparison
     * @param working scheduled task
     */
    private void analyseForwardError(ProjectFile baselineFile, Task working)
@@ -452,6 +456,7 @@ public class PrimaveraSchedulerComparator
    /**
     * Write debug information for a backward pass error.
     *
+    * @param baselineFile baseline for comparison
     * @param working scheduled task
     */
    private void analyseBackwardError(ProjectFile baselineFile, Task working)
