@@ -31,6 +31,7 @@ org.mpxj.primavera.common
 org.mpxj.primavera.p3
 org.mpxj.primavera.schema
 org.mpxj.primavera.suretrak
+org.mpxj.primavera.webservices
 org.mpxj.projectcommander
 org.mpxj.projectlibre
 org.mpxj.pwa
