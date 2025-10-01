@@ -955,7 +955,12 @@ public class PrimaveraScheduler implements Scheduler
 
             if (relation.getLag().getDuration() > 0)
             {
-               return predecessorTask.getEarlyStart();
+               LocalDateTime earlyStart = addLag(relation, predecessorTask.getActualStart());
+               if (earlyStart.isBefore(m_dataDate))
+               {
+                  return predecessorTask.getEarlyStart();
+               }
+               return earlyStart;
             }
 
             return predecessorTask.getEarlyStart();
