@@ -5731,10 +5731,20 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    private Duration calculateStartSlack()
    {
       Duration duration = getDuration();
+      if (duration == null)
+      {
+         return null;
+      }
+
+      if (getActualStart() != null)
+      {
+         return Duration.getInstance(0, duration.getUnits());
+      }
+
       LocalDateTime lateStart = getLateStart();
       LocalDateTime earlyStart = getEarlyStart();
 
-      if (duration == null || lateStart == null || earlyStart == null)
+      if (lateStart == null || earlyStart == null)
       {
          return null;
       }
@@ -5745,10 +5755,20 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    private Duration calculateFinishSlack()
    {
       Duration duration = getDuration();
+      if (duration == null)
+      {
+         return null;
+      }
+
+      if (getActualFinish() != null)
+      {
+         return Duration.getInstance(0, duration.getUnits());
+      }
+
       LocalDateTime earlyFinish = getEarlyFinish();
       LocalDateTime lateFinish = getLateFinish();
 
-      if (duration == null || earlyFinish == null || lateFinish == null)
+      if (earlyFinish == null || lateFinish == null)
       {
          return null;
       }
@@ -5812,7 +5832,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    private Duration calculateFreeSlack()
    {
       // If the task is complete, free slack is always zero
-      if (getActualFinish() != null || getActivityType() == ActivityType.LEVEL_OF_EFFORT || getSummary()) // TODO - do we want to populate this for WBS?
+      if (getActualStart() != null || getActivityType() == ActivityType.LEVEL_OF_EFFORT || getSummary()) // TODO - do we want to populate this for WBS?
       {
          Duration duration = getDuration();
          return Duration.getInstance(0, duration == null ? TimeUnit.HOURS : duration.getUnits());
@@ -5824,7 +5844,13 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          .map(this::calculateFreeSlack)
          .filter(Objects::nonNull)
          .min(Comparator.naturalOrder())
-         .orElseGet(this::getTotalSlack);
+         .orElseGet(this::calculateFreeSlackWithoutSuccessors);
+   }
+
+   private Duration calculateFreeSlackWithoutSuccessors()
+   {
+      TimeUnit format = getDuration() == null ? TimeUnit.HOURS : getDuration().getUnits();
+      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getEarlyFinish(), getParentFile().getLatestFinishDate(), format);
    }
 
    private Duration calculateFreeSlack(Relation relation)
