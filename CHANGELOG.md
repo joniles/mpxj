@@ -7,6 +7,10 @@ no longer distributed. Please use the `MPXJ.Net` package instead.
 
 ## 14.6.0 (unreleased)
 
+## 14.5.1 (2025-10-07)
+* Ensure that project listeners work in MPXJ.Net when using the ProjectReaderProxy from UniversalProjectReader.
+* Minor PrimaveraScheduler improvements.
+
 ## 14.5.0 (2025-10-01)
 * Implemented support for reading and exporting projects using Primavera P6 Web Services (p6ws). Among other things this could be used to access projects managed by Primavera P6 EPPM.
 * Add Free Slack calculation to the Task class.

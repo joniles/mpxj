@@ -5,7 +5,9 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="14.5.1">
+		<release date="unreleased" version="14.6.0">
+		</release>
+		<release date="2025-10-07" version="14.5.1">
 			<action dev="joniles" type="update">Ensure that project listeners work in MPXJ.Net when using the ProjectReaderProxy from UniversalProjectReader.</action>
 			<action dev="joniles" type="update">Minor PrimaveraScheduler improvements.</action>
 		</release>
