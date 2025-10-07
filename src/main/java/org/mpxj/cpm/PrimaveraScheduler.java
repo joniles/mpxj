@@ -2796,6 +2796,10 @@ public class PrimaveraScheduler implements Scheduler
          // Clear the critical flag to force it to be recalculated
          task.set(TaskField.CRITICAL, null);
       }
+
+      // Force start and finish dates to be recalculated
+      m_file.getProjectProperties().setStartDate(null);
+      m_file.getProjectProperties().setFinishDate(null);
    }
 
    /**

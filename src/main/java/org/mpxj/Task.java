@@ -5849,8 +5849,11 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    private Duration calculateFreeSlackWithoutSuccessors()
    {
-      TimeUnit format = getDuration() == null ? TimeUnit.HOURS : getDuration().getUnits();
-      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getEarlyFinish(), getParentFile().getLatestFinishDate(), format);
+      if (getDuration() == null)
+      {
+         return null;
+      }
+      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getEarlyFinish(), getParentFile().getProjectProperties().getFinishDate(), getDuration().getUnits());
    }
 
    private Duration calculateFreeSlack(Relation relation)
