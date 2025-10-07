@@ -62,8 +62,12 @@ Phoenix, Fasttrack, GanttProject, TurboProject, ConceptDraw PROJECT, Synchro,
 Gantt Designer, SDEF, Sage 100 Contractor Schedule Grid, Project Commander,
 Deltek Open Plan BK3, and Edraw Project EDPX.
 
-MPXJ can also write schedule data as MPX, MSPDI, PMXML, XER, Planner and SDEF
-files.
+As well as file-based project data, MPXJ can also read project data from
+Microsoft Project Server, Primavera P6 Web Services (P6 EPPM), and Oracle
+Primavera Cloud (OPC).
+
+Finally, MPXJ can also write schedule data as MPX, MSPDI, PMXML, XER, Planner
+and SDEF files.
 
 More details of the supported file formats can be found
 [here](https://www.mpxj.org/supported-formats/).
