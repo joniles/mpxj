@@ -1,4 +1,6 @@
-# Supported Formats
+# Supported Data Sources
+
+## File Formats
 
 * **MPX:** The MPX file format can be read by versions of Microsoft
 Project up to and including Microsoft Project 2010, and written by versions of
@@ -136,3 +138,19 @@ by MPXJ.
 is an easy to use tool which allows users to rapidly create and
 maintain professional looking project plans. MPXJ reads the EDPX format
 written by Edraw Project.
+
+## Servers
+
+* **MICROSOFT PROJECT SERVER** [Microsoft Project Server](https://www.microsoft.com/en-gb/microsoft-365/project/enterprise-project-server)
+is a centralized project management platform that enables organizations to plan,
+manage, and track projects, resources, and portfolios.
+
+* **PRIMAVERA P6 WEB SERVICES** [Primavera P6 Web Services](https://www.oracle.com/construction-engineering/primavera-p6/)
+is a component typically made available as part of a Primavera P6 Enterprise
+Project Portfolio Management (EPPM) installation. EPPM is a centralized
+planning solution based on Primavera P6.
+
+* **ORACLE PRIMAVERA CLOUD** [Oracle Primavera Cloud](https://www.oracle.com/construction-engineering/primavera-cloud-project-management/)
+(often abbreviated as OPC) is Oracle's next-generation centralized planning
+solution representing an evolution of the Primavera P6 and P6 EPPM products.
+
