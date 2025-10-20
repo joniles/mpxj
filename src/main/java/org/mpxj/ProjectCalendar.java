@@ -77,6 +77,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    {
       m_projectFile = file;
       m_temporaryCalendar = temporaryCalendar;
+      m_defaults = file.getProjectProperties();
 
       if (!temporaryCalendar && file.getProjectConfig().getAutoCalendarUniqueID())
       {
@@ -98,7 +99,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       {
          if (m_parent == null)
          {
-            result = getParentFile().getProjectProperties().getMinutesPerDay();
+            result = m_defaults.getMinutesPerDay();
          }
          else
          {
@@ -123,7 +124,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       {
          if (m_parent == null)
          {
-            result = getParentFile().getProjectProperties().getMinutesPerWeek();
+            result = m_defaults.getMinutesPerWeek();
          }
          else
          {
@@ -148,7 +149,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       {
          if (m_parent == null)
          {
-            result = getParentFile().getProjectProperties().getMinutesPerMonth();
+            result = m_defaults.getMinutesPerMonth();
          }
          else
          {
@@ -173,7 +174,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       {
          if (m_parent == null)
          {
-            result = getParentFile().getProjectProperties().getMinutesPerYear();
+            result = m_defaults.getMinutesPerYear();
          }
          else
          {
@@ -193,7 +194,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    {
       // We actually don't store this as part of calendar presently,
       // so we'll use the value from the project properties.
-      return getParentFile().getProjectProperties().getDaysPerMonth();
+      return m_defaults.getDaysPerMonth();
    }
 
    /**
@@ -439,12 +440,10 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
       ProjectCalendar temporaryCalendar = new TemporaryCalendar(getParentFile());
       ProjectCalendarHelper.mergeExceptions(temporaryCalendar, getCalendarExceptions());
-      LocalDate earliestStartDate = LocalDateHelper.getLocalDate(getParentFile().getEarliestStartDate());
-      LocalDate latestFinishDate = LocalDateHelper.getLocalDate(getParentFile().getLatestFinishDate());
 
       for (ProjectCalendarWeek week : getWorkWeeks())
       {
-         ProjectCalendarHelper.mergeExceptions(temporaryCalendar, week.convertToRecurringExceptions(earliestStartDate, latestFinishDate));
+         ProjectCalendarHelper.mergeExceptions(temporaryCalendar, week.convertToRecurringExceptions(null, null));
       }
 
       return temporaryCalendar.getExpandedCalendarExceptions();
@@ -2062,6 +2061,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    private CalendarType m_type = CalendarType.GLOBAL;
    private boolean m_personal;
    private final boolean m_temporaryCalendar;
+   private final TimeUnitDefaultsContainer m_defaults;
 
    /**
     * Default base calendar name to use when none is supplied.
