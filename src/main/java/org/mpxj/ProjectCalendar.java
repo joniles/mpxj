@@ -64,25 +64,24 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public ProjectCalendar(ProjectFile file)
    {
-      this(file, false);
+      this(file, file.getCalendars(), file.getProjectConfig());
    }
 
    /**
     * Internal constructor to allow the temporary calendar flag to be set.
     *
     * @param file the parent file to which this record belongs.
-    * @param temporaryCalendar true if this is a temporary calendar
+    * @param container ProjectCalendarContainer, null if this is a temporary calendar
     */
-   protected ProjectCalendar(ProjectFile file, boolean temporaryCalendar)
+   protected ProjectCalendar(ProjectFile file, ProjectCalendarContainer container, ProjectConfig config)
    {
       m_projectFile = file;
-      m_temporaryCalendar = temporaryCalendar;
       m_defaults = file.getProjectProperties();
-      m_container = file.getCalendars();
+      m_container = container;
 
-      if (!temporaryCalendar && file.getProjectConfig().getAutoCalendarUniqueID())
+      if (m_container != null && config != null && config.getAutoCalendarUniqueID())
       {
-         setUniqueID(file.getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
+         setUniqueID(container.getSequenceProvider().getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
       }
    }
 
@@ -1168,7 +1167,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    @Override public void setUniqueID(Integer uniqueID)
    {
       // If we have a temporary calendar, we don't want to modify the unique ID map for calendars
-      if (!m_temporaryCalendar)
+      if (m_container != null)
       {
          m_container.updateUniqueID(this, m_uniqueID, uniqueID);
       }
@@ -1240,7 +1239,10 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public void remove()
    {
-      m_container.remove(this);
+      if (m_container != null)
+      {
+         m_container.remove(this);
+      }
    }
 
    /**
@@ -1729,7 +1731,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public List<ProjectCalendar> getDerivedCalendars()
    {
-      return Collections.unmodifiableList(m_container.stream().filter(c -> c.m_parent != null && m_uniqueID != null && m_uniqueID.equals(c.m_parent.m_uniqueID)).collect(Collectors.toList()));
+      return m_container == null ? Collections.emptyList() : Collections.unmodifiableList(m_container.stream().filter(c -> c.m_parent != null && m_uniqueID != null && m_uniqueID.equals(c.m_parent.m_uniqueID)).collect(Collectors.toList()));
    }
 
    @Override public String toString()
@@ -2061,7 +2063,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    private Integer m_calendarMinutesPerYear;
    private CalendarType m_type = CalendarType.GLOBAL;
    private boolean m_personal;
-   private final boolean m_temporaryCalendar;
    private final TimeUnitDefaultsContainer m_defaults;
    private final ProjectCalendarContainer m_container;
 
