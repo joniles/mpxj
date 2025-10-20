@@ -1579,7 +1579,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
          case MONTHS:
          {
-            double daysPerMonth = getParentFile().getProjectProperties().getDaysPerMonth().doubleValue();
+            double daysPerMonth = getDaysPerMonth().doubleValue();
             double minutesPerDay = NumberHelper.getDouble(getMinutesPerDay());
             if (daysPerMonth != 0 && minutesPerDay != 0)
             {
