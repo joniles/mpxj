@@ -472,6 +472,7 @@ class TableReader extends AbstractReader
       TYPE_MAP.put("TOTRELSHP", DataType.INTEGER);
       TYPE_MAP.put("TOTRESO", DataType.INTEGER);
       TYPE_MAP.put("TSDATE", DataType.DATE);
+      TYPE_MAP.put("TFDATE", DataType.DATE);
       TYPE_MAP.put("UNIT_COST", DataType.NUMERIC);
       TYPE_MAP.put("USE_UID", DataType.GUID);
       TYPE_MAP.put("USER_DTE01", DataType.DATE);
