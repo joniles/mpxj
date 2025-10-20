@@ -612,8 +612,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    {
       if (duration.getUnits().isElapsed())
       {
-         ProjectProperties properties = getParentFile().getProjectProperties();
-         double elapsedMinutes = duration.convertUnits(TimeUnit.ELAPSED_MINUTES, properties).getDuration();
+         double elapsedMinutes = duration.convertUnits(TimeUnit.ELAPSED_MINUTES, this).getDuration();
          return date.plusMinutes((long) elapsedMinutes);
       }
 
@@ -622,8 +621,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
    private LocalDateTime getDateFromPositiveDuration(LocalDateTime startDate, Duration duration)
    {
-      ProjectProperties properties = getParentFile().getProjectProperties();
-      long remainingMilliseconds = Math.round(NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2) * 60000.0);
+      long remainingMilliseconds = Math.round(NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, this).getDuration(), 2) * 60000.0);
       if (remainingMilliseconds == 0)
       {
          return startDate;
@@ -764,8 +762,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
    private LocalDateTime getDateFromNegativeDuration(LocalDateTime endDate, Duration duration)
    {
-      ProjectProperties properties = getParentFile().getProjectProperties();
-      long remainingMilliseconds = -Math.round(NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2) * 60000.0);
+      long remainingMilliseconds = -Math.round(NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, this).getDuration(), 2) * 60000.0);
       if (remainingMilliseconds == 0)
       {
          return endDate;
