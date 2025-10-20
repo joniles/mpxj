@@ -98,7 +98,8 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       {
          if (m_parent == null)
          {
-            result = getParentFile().getProjectProperties().getMinutesPerDay();
+            //result = getParentFile().getProjectProperties().getMinutesPerDay();
+            throw new UnsupportedOperationException();
          }
          else
          {
