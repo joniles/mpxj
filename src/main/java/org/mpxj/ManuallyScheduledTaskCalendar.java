@@ -42,7 +42,7 @@ class ManuallyScheduledTaskCalendar extends ProjectCalendar
     */
    public ManuallyScheduledTaskCalendar(ProjectCalendar calendar, ResourceAssignment assignment)
    {
-      super(calendar.getParentFile(), null, null);
+      super(calendar.getParentFile(), null, calendar.getTimeUnitDefaults(), null);
       m_calendar = calendar;
       m_assignment = assignment;
 

@@ -64,25 +64,30 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public ProjectCalendar(ProjectFile file)
    {
-      this(file, file.getCalendars(), file.getProjectConfig());
+      this(file, file.getCalendars(), file.getProjectProperties(), file.getProjectConfig());
    }
 
    /**
-    * Internal constructor to allow the temporary calendar flag to be set.
+    * Internal constructor.
     *
     * @param file the parent file to which this record belongs.
     * @param container ProjectCalendarContainer, null if this is a temporary calendar
     */
-   protected ProjectCalendar(ProjectFile file, ProjectCalendarContainer container, ProjectConfig config)
+   protected ProjectCalendar(ProjectFile file, ProjectCalendarContainer container, TimeUnitDefaultsContainer defaults, ProjectConfig config)
    {
       m_projectFile = file;
-      m_defaults = file.getProjectProperties();
+      m_defaults = defaults;
       m_container = container;
 
       if (m_container != null && config != null && config.getAutoCalendarUniqueID())
       {
          setUniqueID(container.getSequenceProvider().getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
       }
+   }
+
+   public TimeUnitDefaultsContainer getTimeUnitDefaults()
+   {
+      return m_defaults;
    }
 
    /**
@@ -438,7 +443,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          return getExpandedCalendarExceptions();
       }
 
-      ProjectCalendar temporaryCalendar = new TemporaryCalendar(getParentFile());
+      ProjectCalendar temporaryCalendar = new TemporaryCalendar(getParentFile(), m_defaults);
       ProjectCalendarHelper.mergeExceptions(temporaryCalendar, getCalendarExceptions());
 
       for (ProjectCalendarWeek week : getWorkWeeks())

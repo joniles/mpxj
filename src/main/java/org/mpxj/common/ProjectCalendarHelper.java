@@ -56,7 +56,7 @@ public final class ProjectCalendarHelper
          return calendar;
       }
 
-      ProjectCalendar newCalendar = new TemporaryCalendar(calendar.getParentFile());
+      ProjectCalendar newCalendar = new TemporaryCalendar(calendar.getParentFile(), calendar.getTimeUnitDefaults());
       newCalendar.setName(calendar.getName());
       newCalendar.setUniqueID(calendar.getUniqueID());
       newCalendar.setType(calendar.getType());
@@ -84,7 +84,7 @@ public final class ProjectCalendarHelper
    public static ProjectCalendar createTemporaryDerivedCalendar(ProjectCalendar baseCalendar, Resource resource)
    {
       ProjectFile file = baseCalendar.getParentFile();
-      ProjectCalendar derivedCalendar = new TemporaryCalendar(file);
+      ProjectCalendar derivedCalendar = new TemporaryCalendar(file,  baseCalendar.getTimeUnitDefaults());
       derivedCalendar.setParent(baseCalendar);
       derivedCalendar.setName(resource.getName());
       derivedCalendar.setCalendarDayType(DayOfWeek.SUNDAY, DayType.DEFAULT);

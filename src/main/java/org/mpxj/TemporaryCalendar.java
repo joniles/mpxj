@@ -34,8 +34,8 @@ public class TemporaryCalendar extends ProjectCalendar
     *
     * @param file the parent file to which this record belongs.
     */
-   public TemporaryCalendar(ProjectFile file)
+   public TemporaryCalendar(ProjectFile file, TimeUnitDefaultsContainer defaults)
    {
-      super(file, null, null);
+      super(file, null, defaults, null);
    }
 }
