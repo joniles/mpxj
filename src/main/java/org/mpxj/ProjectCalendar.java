@@ -1990,6 +1990,16 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       }
    }
 
+   public Integer getProjectUniqueID()
+   {
+      return m_projectUniqueID;
+   }
+
+   public void setProjectUniqueID(Integer projectUniqueID)
+   {
+      m_projectUniqueID = projectUniqueID;
+   }
+
    /**
     * Returns true if this is a personal calendar.
     * Defaults to false.
@@ -2071,6 +2081,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    private Integer m_calendarMinutesPerYear;
    private CalendarType m_type = CalendarType.GLOBAL;
    private boolean m_personal;
+   private Integer m_projectUniqueID;
    private final TimeUnitDefaultsContainer m_defaults;
    private final ProjectCalendarContainer m_container;
 

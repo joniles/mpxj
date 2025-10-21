@@ -60,6 +60,7 @@ public final class ProjectCalendarHelper
       newCalendar.setName(calendar.getName());
       newCalendar.setUniqueID(calendar.getUniqueID());
       newCalendar.setType(calendar.getType());
+      newCalendar.setProjectUniqueID(calendar.getProjectUniqueID());
       newCalendar.setPersonal(calendar.getPersonal());
       newCalendar.setCalendarMinutesPerDay(calendar.getCalendarMinutesPerDay());
       newCalendar.setCalendarMinutesPerWeek(calendar.getCalendarMinutesPerWeek());

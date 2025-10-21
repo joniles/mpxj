@@ -805,6 +805,7 @@ final class PrimaveraReader
       calendar.setUniqueID(row.getInteger("clndr_id"));
       calendar.setName(row.getString("clndr_name"));
       calendar.setType(type);
+      calendar.setProjectUniqueID(row.getInteger("proj_id"));
       calendar.setPersonal(row.getBoolean("rsrc_private"));
 
       // We may override this later with project properties
