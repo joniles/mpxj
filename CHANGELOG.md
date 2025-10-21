@@ -7,6 +7,10 @@ no longer distributed. Please use the `MPXJ.Net` package instead.
 
 ## 14.6.0 (unreleased)
 
+## 14.5.2 (2025-10-22)
+* Fix an issue reading secondary constraint dates and finish constraint dates from Open Plan BK3 files.
+* Update the Jackcess dependency Commons Lang 3 to a version not affected by CVE-2025-48924.
+
 ## 14.5.1 (2025-10-07)
 * Ensure that project listeners work in MPXJ.Net when using the ProjectReaderProxy from UniversalProjectReader.
 * Minor PrimaveraScheduler improvements.
