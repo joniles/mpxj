@@ -81,6 +81,13 @@
 			<version>2.19.1</version>
 		</dependency>
 
+        <!-- Used to update a dependency of Jackcess to avoid a vulnerability. Can be removed when Jackcess is updated. -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.19.0</version>
+        </dependency>
+
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>

@@ -5,8 +5,9 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="14.6.0">
-            <action dev="joniles" type="update">Fix an issue reading secondary constraint dates and fiish constraint dates from Open Plan BK3 files.</action>
+		<release date="unreleased" version="14.5.2">
+            <action dev="joniles" type="update">Fix an issue reading secondary constraint dates and finish constraint dates from Open Plan BK3 files.</action>
+            <action dev="joniles" type="update">Update the Jackcess dependency Commons Lang 3 to a version not affected by CVE-2025-48924.</action>
 		</release>
 		<release date="2025-10-07" version="14.5.1">
 			<action dev="joniles" type="update">Ensure that project listeners work in MPXJ.Net when using the ProjectReaderProxy from UniversalProjectReader.</action>
