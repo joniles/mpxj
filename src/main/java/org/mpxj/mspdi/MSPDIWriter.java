@@ -606,7 +606,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // Create temporary flattened base calendars, derived resource calendars
       //
       baseCalendars = baseCalendars.stream().map(ProjectCalendarHelper::createTemporaryFlattenedCalendar).collect(Collectors.toList());
-      baseCalendars.forEach(c -> c.getResources().forEach(r -> derivedCalendarSet.add(createTemporaryDerivedCalendar(c, r))));
+      baseCalendars.forEach(c -> getResourcesAssignedToCalendar(m_projectFile, c).forEach(r -> derivedCalendarSet.add(createTemporaryDerivedCalendar(c, r))));
 
       //
       // Write the calendars, base calendars first, derived calendars second, sorted by unique ID.
@@ -618,6 +618,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       baseCalendars.stream().map(c -> writeCalendar(c, true, baselineCalendarName.equals(c.getName()))).forEach(calendar::add);
       derivedCalendars.stream().map(c -> writeCalendar(c, false, baselineCalendarName.equals(c.getName()))).forEach(calendar::add);
+   }
+
+   public List<Resource> getResourcesAssignedToCalendar(ProjectFile file, ProjectCalendar calendar)
+   {
+      Integer calendarUniqueID = calendar.getUniqueID();
+      return Collections.unmodifiableList(file.getResources().stream().filter(r -> calendarUniqueID.equals(r.getCalendarUniqueID())).collect(Collectors.toList()));
    }
 
    /**
