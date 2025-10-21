@@ -439,8 +439,8 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
       ProjectCalendar temporaryCalendar = new TemporaryCalendar(getParentFile());
       ProjectCalendarHelper.mergeExceptions(temporaryCalendar, getCalendarExceptions());
-      LocalDate earliestStartDate = LocalDateHelper.getLocalDate(getParentFile().getEarliestStartDate());
-      LocalDate latestFinishDate = LocalDateHelper.getLocalDate(getParentFile().getLatestFinishDate());
+      LocalDate earliestStartDate = LocalDateHelper.getLocalDate(m_projectFile.getEarliestStartDate());
+      LocalDate latestFinishDate = LocalDateHelper.getLocalDate(m_projectFile.getLatestFinishDate());
 
       for (ProjectCalendarWeek week : getWorkWeeks())
       {
@@ -1729,7 +1729,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public List<ProjectCalendar> getDerivedCalendars()
    {
-      return Collections.unmodifiableList(getParentFile().getCalendars().stream().filter(c -> c.m_parent != null && m_uniqueID != null && m_uniqueID.equals(c.m_parent.m_uniqueID)).collect(Collectors.toList()));
+      return Collections.unmodifiableList(m_projectFile.getCalendars().stream().filter(c -> c.m_parent != null && m_uniqueID != null && m_uniqueID.equals(c.m_parent.m_uniqueID)).collect(Collectors.toList()));
    }
 
    @Override public String toString()
