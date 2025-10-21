@@ -90,6 +90,17 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       return m_defaults;
    }
 
+   public boolean getDefault()
+   {
+      Integer defaultCalendarUniqueID = m_container == null ? null : m_container.getDefaultCalendarUniqueID();
+      return defaultCalendarUniqueID != null && defaultCalendarUniqueID.equals(m_uniqueID);
+   }
+
+   public void setDefault()
+   {
+      m_container.setDefaultCalendarUniqueID(m_uniqueID);
+   }
+
    /**
     * Retrieve the effective number of minutes per day for this calendar.
     * Will fall back to the parent calendar and project settings if

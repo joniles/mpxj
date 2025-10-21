@@ -30,6 +30,7 @@ import java.time.LocalTime;
 import java.util.Collections;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -3659,12 +3660,15 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
 
    @Override void handleFieldChange(FieldType field, Object oldValue, Object newValue)
    {
-      // No action required
+      if (field == ProjectField.DEFAULT_CALENDAR_UNIQUE_ID)
+      {
+         getParentFile().getCalendars().setDefaultCalendarUniqueID((Integer)newValue);
+      }
    }
 
    @Override boolean getAlwaysCalculatedField(FieldType field)
    {
-      return false;
+      return ALWAYS_CALCULATED_FIELDS.contains(field);
    }
 
    @Override Function<ProjectProperties, Object> getCalculationMethod(FieldType field)
@@ -3726,6 +3730,11 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    private Integer calculateMinutesPerYear()
    {
       return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()) * 12);
+   }
+
+   private Integer calculateDefaultCalendarUniqueID()
+   {
+      return getParentFile().getCalendars().getDefaultCalendarUniqueID();
    }
 
    /**
@@ -3846,6 +3855,8 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
 
    private static final Integer DEFAULT_FLOAT_PATHS = Integer.valueOf(10);
 
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Collections.singletonList(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID));
+
    private static final Map<FieldType, Function<ProjectProperties, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
    {
@@ -3856,6 +3867,8 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_WEEK, ProjectProperties::calculateMinutesPerWeek);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_MONTH, ProjectProperties::calculateMinutesPerMonth);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_YEAR, ProjectProperties::calculateMinutesPerYear);
+
+      CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID, ProjectProperties::calculateDefaultCalendarUniqueID);
 
       CALCULATED_FIELD_MAP.put(ProjectField.DAYS_PER_MONTH, p -> DEFAULT_DAYS_PER_MONTH);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_DAY, p -> DEFAULT_MINUTES_PER_DAY);

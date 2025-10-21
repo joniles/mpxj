@@ -164,5 +164,16 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
       return (calendar);
    }
 
+   public Integer getDefaultCalendarUniqueID()
+   {
+      return m_defaultCalendarUniqueID;
+   }
+
+   public void setDefaultCalendarUniqueID(Integer defaultCalendarUniqueID)
+   {
+      m_defaultCalendarUniqueID = defaultCalendarUniqueID;
+   }
+
    private final ProjectFile m_projectFile;
+   private Integer m_defaultCalendarUniqueID;
 }

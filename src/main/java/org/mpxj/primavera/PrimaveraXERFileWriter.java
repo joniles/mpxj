@@ -1579,7 +1579,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       CALENDAR_COLUMNS.put("clndr_id", ProjectCalendar::getUniqueID);
-      CALENDAR_COLUMNS.put("default_flag", c -> Boolean.valueOf(c.getParentFile().getProjectProperties().getDefaultCalendar() == c));
+      CALENDAR_COLUMNS.put("default_flag", c -> Boolean.valueOf(c.getDefault()));
       CALENDAR_COLUMNS.put("clndr_name", c -> StringHelper.stripControlCharacters(c.getName()));
       CALENDAR_COLUMNS.put("proj_id", c -> c.getType() == CalendarType.PROJECT ? getProjectID(c.getParentFile().getProjectProperties().getUniqueID()) : null);
       CALENDAR_COLUMNS.put("base_clndr_id", ProjectCalendar::getParentUniqueID);
