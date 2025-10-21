@@ -793,18 +793,11 @@ final class PrimaveraReader
     */
    public ProjectCalendar processCalendar(Row row)
    {
-      // If this is a project calendar, and we're not reading the
-      // project the calendar is linked to, then skip it.
-      CalendarType type = CalendarTypeHelper.getInstanceFromXer(row.getString("clndr_type"));
-      if (type == CalendarType.PROJECT && !m_project.getProjectProperties().getUniqueID().equals(row.getInteger("proj_id")))
-      {
-         return null;
-      }
-
       ProjectCalendar calendar = m_project.addCalendar();
       calendar.setUniqueID(row.getInteger("clndr_id"));
       calendar.setName(row.getString("clndr_name"));
-      calendar.setType(type);
+      calendar.setType(CalendarTypeHelper.getInstanceFromXer(row.getString("clndr_type")));
+      calendar.setProjectUniqueID(row.getInteger("proj_id"));
       calendar.setPersonal(row.getBoolean("rsrc_private"));
 
       // We may override this later with project properties

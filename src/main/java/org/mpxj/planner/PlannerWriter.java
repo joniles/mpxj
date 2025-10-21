@@ -176,7 +176,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       //
       // Process each calendar in turn
       //
-      List<ProjectCalendar> sortedCalendarList = m_projectFile.getCalendars().stream().filter(c -> !c.isDerived()).sorted((a, b) -> NumberHelper.compare(a.getUniqueID(), b.getUniqueID())).collect(Collectors.toList());
+      List<ProjectCalendar> sortedCalendarList = m_projectFile.getCalendarsForProject().stream().filter(c -> !c.isDerived()).sorted((a, b) -> NumberHelper.compare(a.getUniqueID(), b.getUniqueID())).collect(Collectors.toList());
       for (ProjectCalendar mpxjCalendar : sortedCalendarList)
       {
          Calendar plannerCalendar = m_factory.createCalendar();
@@ -283,7 +283,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       // Process any derived calendars
       //
       List<Calendar> calendarList = plannerCalendar.getCalendar();
-      List<ProjectCalendar> sortedCalendarList = new ArrayList<>(mpxjCalendar.getDerivedCalendars());
+      List<ProjectCalendar> sortedCalendarList = new ArrayList<>(mpxjCalendar.getDerivedCalendarsForProject(m_projectFile));
       sortedCalendarList.sort((a, b) -> NumberHelper.compare(a.getUniqueID(), b.getUniqueID()));
 
       for (ProjectCalendar mpxjDerivedCalendar : sortedCalendarList)

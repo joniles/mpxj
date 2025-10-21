@@ -47,8 +47,6 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
    {
       super.removed(calendar);
       calendar.getDerivedCalendars().forEach(c -> c.setParent(null));
-      calendar.getResources().forEach(r -> r.setCalendar(null));
-      calendar.getTasks().forEach(t -> t.setCalendar(null));
       calendar.setParent(null);
    }
 
@@ -164,5 +162,16 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
       return (calendar);
    }
 
+   public Integer getDefaultCalendarUniqueID()
+   {
+      return m_defaultCalendarUniqueID;
+   }
+
+   public void setDefaultCalendarUniqueID(Integer defaultCalendarUniqueID)
+   {
+      m_defaultCalendarUniqueID = defaultCalendarUniqueID;
+   }
+
    private final ProjectFile m_projectFile;
+   private Integer m_defaultCalendarUniqueID;
 }
