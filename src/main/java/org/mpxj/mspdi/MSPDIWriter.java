@@ -600,7 +600,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       Map<Integer, List<Resource>> resourceCalendarMap = m_projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(Resource::getCalendarUniqueID));
       Set<ProjectCalendar> derivedCalendarSet = m_projectFile.getResources().stream().map(Resource::getCalendar).filter(c -> isValidDerivedCalendar(resourceCalendarMap, c)).collect(Collectors.toSet());
-      List<ProjectCalendar> baseCalendars = m_projectFile.getEffectiveCalendars().stream().filter(c -> !derivedCalendarSet.contains(c)).collect(Collectors.toList());
+      List<ProjectCalendar> baseCalendars = m_projectFile.getCalendarsForProject().stream().filter(c -> !derivedCalendarSet.contains(c)).collect(Collectors.toList());
 
       //
       // Create temporary flattened base calendars, derived resource calendars

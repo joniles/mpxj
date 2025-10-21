@@ -42,6 +42,7 @@ import java.util.TreeMap;
 import java.util.UUID;
 import java.util.WeakHashMap;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.mpxj.common.LocalDateHelper;
 import org.mpxj.common.LocalDateTimeHelper;
@@ -1746,7 +1747,17 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public List<ProjectCalendar> getDerivedCalendars()
    {
-      return Collections.unmodifiableList(m_container.stream().filter(c -> c.m_parent != null && m_uniqueID != null && m_uniqueID.equals(c.m_parent.m_uniqueID)).collect(Collectors.toList()));
+      return Collections.unmodifiableList(getDerivedCalendarStream().collect(Collectors.toList()));
+   }
+
+   public List<ProjectCalendar> getDerivedCalendarsForProject(ProjectFile project)
+   {
+      return Collections.unmodifiableList(getDerivedCalendarStream().filter(c -> c.getType() != CalendarType.PROJECT || c.getProjectUniqueID().equals(project.getProjectProperties().getUniqueID())).collect(Collectors.toList()));
+   }
+
+   private Stream<ProjectCalendar> getDerivedCalendarStream()
+   {
+      return m_container.stream().filter(c -> c.m_parent != null && m_uniqueID != null && m_uniqueID.equals(c.m_parent.m_uniqueID));
    }
 
    @Override public String toString()

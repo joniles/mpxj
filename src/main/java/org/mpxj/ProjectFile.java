@@ -181,7 +181,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       return m_calendars;
    }
 
-   public List<ProjectCalendar> getEffectiveCalendars()
+   public List<ProjectCalendar> getCalendarsForProject()
    {
       return m_calendars.stream().filter(c -> c.getType() != CalendarType.PROJECT || c.getProjectUniqueID().equals(m_properties.getUniqueID())).collect(Collectors.toList());
    }

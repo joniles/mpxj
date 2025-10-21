@@ -794,7 +794,7 @@ final class PrimaveraPMProjectWriter
    private void writeGlobalCalendars()
    {
       List<CalendarType> calendars = m_apibo.getCalendar();
-      m_projectFile.getEffectiveCalendars().stream().filter(c -> c.getType() != org.mpxj.CalendarType.PROJECT).forEach(c -> writeCalendar(calendars, c));
+      m_projectFile.getCalendarsForProject().stream().filter(c -> c.getType() != org.mpxj.CalendarType.PROJECT).forEach(c -> writeCalendar(calendars, c));
    }
 
    /**
@@ -804,7 +804,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeProjectCalendars(List<CalendarType> calendars)
    {
-      m_projectFile.getEffectiveCalendars().stream().filter(c -> c.getType() == org.mpxj.CalendarType.PROJECT).forEach(c -> writeCalendar(calendars, c));
+      m_projectFile.getCalendarsForProject().stream().filter(c -> c.getType() == org.mpxj.CalendarType.PROJECT).forEach(c -> writeCalendar(calendars, c));
    }
 
    /**
