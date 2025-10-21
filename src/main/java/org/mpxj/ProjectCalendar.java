@@ -64,7 +64,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public ProjectCalendar(ProjectFile file)
    {
-      this(file, file.getCalendars(), file.getProjectProperties(), file.getProjectConfig());
+      this(file.getCalendars(), file.getProjectProperties(), file.getProjectConfig(), false);
    }
 
    /**
@@ -73,13 +73,13 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param file the parent file to which this record belongs.
     * @param container ProjectCalendarContainer, null if this is a temporary calendar
     */
-   protected ProjectCalendar(ProjectFile file, ProjectCalendarContainer container, TimeUnitDefaultsContainer defaults, ProjectConfig config)
+   protected ProjectCalendar(ProjectCalendarContainer container, TimeUnitDefaultsContainer defaults, ProjectConfig config, boolean temporaryCalendar)
    {
-      m_projectFile = file;
+      m_temporaryCalendar = temporaryCalendar;
       m_defaults = defaults;
       m_container = container;
 
-      if (m_container != null && config != null && config.getAutoCalendarUniqueID())
+      if (!m_temporaryCalendar && config != null && config.getAutoCalendarUniqueID())
       {
          setUniqueID(container.getSequenceProvider().getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
       }
@@ -90,9 +90,19 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       return m_defaults;
    }
 
+   public ProjectCalendarContainer getProjectCalendarContainer()
+   {
+      return m_container;
+   }
+
    public boolean getDefault()
    {
-      Integer defaultCalendarUniqueID = m_container == null ? null : m_container.getDefaultCalendarUniqueID();
+      if (m_temporaryCalendar)
+      {
+         return false;
+      }
+
+      Integer defaultCalendarUniqueID = m_container.getDefaultCalendarUniqueID();
       return defaultCalendarUniqueID != null && defaultCalendarUniqueID.equals(m_uniqueID);
    }
 
@@ -454,7 +464,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          return getExpandedCalendarExceptions();
       }
 
-      ProjectCalendar temporaryCalendar = new TemporaryCalendar(getParentFile(), m_defaults);
+      ProjectCalendar temporaryCalendar = new TemporaryCalendar(m_container, m_defaults);
       ProjectCalendarHelper.mergeExceptions(temporaryCalendar, getCalendarExceptions());
 
       for (ProjectCalendarWeek week : getWorkWeeks())
@@ -1183,7 +1193,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    @Override public void setUniqueID(Integer uniqueID)
    {
       // If we have a temporary calendar, we don't want to modify the unique ID map for calendars
-      if (m_container != null)
+      if (!m_temporaryCalendar)
       {
          m_container.updateUniqueID(this, m_uniqueID, uniqueID);
       }
@@ -1247,10 +1257,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public void remove()
    {
-      if (m_container != null)
-      {
-         m_container.remove(this);
-      }
+      m_container.remove(this);
    }
 
    /**
@@ -1739,7 +1746,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public List<ProjectCalendar> getDerivedCalendars()
    {
-      return m_container == null ? Collections.emptyList() : Collections.unmodifiableList(m_container.stream().filter(c -> c.m_parent != null && m_uniqueID != null && m_uniqueID.equals(c.m_parent.m_uniqueID)).collect(Collectors.toList()));
+      return Collections.unmodifiableList(m_container.stream().filter(c -> c.m_parent != null && m_uniqueID != null && m_uniqueID.equals(c.m_parent.m_uniqueID)).collect(Collectors.toList()));
    }
 
    @Override public String toString()
@@ -1947,16 +1954,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    }
 
    /**
-    * Accessor method allowing retrieval of ProjectFile reference.
-    *
-    * @return reference to this the parent ProjectFile instance
-    */
-   public final ProjectFile getParentFile()
-   {
-      return m_projectFile;
-   }
-
-   /**
     * Determine if this calendar is derived from another.
     *
     * @return true if this calendar is derived from another calendar
@@ -2027,11 +2024,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    private ProjectCalendar m_parent;
 
    /**
-    * Parent project.
-    */
-   private final ProjectFile m_projectFile;
-
-   /**
     * Unique identifier of this calendar.
     */
    private Integer m_uniqueID;
@@ -2081,6 +2073,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    private Integer m_calendarMinutesPerYear;
    private CalendarType m_type = CalendarType.GLOBAL;
    private boolean m_personal;
+   private final boolean m_temporaryCalendar;
    private Integer m_projectUniqueID;
    private final TimeUnitDefaultsContainer m_defaults;
    private final ProjectCalendarContainer m_container;
