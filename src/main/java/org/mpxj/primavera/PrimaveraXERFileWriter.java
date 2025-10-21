@@ -317,7 +317,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeCalendars()
    {
       m_writer.writeTable("CALENDAR", CALENDAR_COLUMNS);
-      m_file.getCalendars().stream().sorted(Comparator.comparing(ProjectCalendar::getUniqueID)).map(ProjectCalendarHelper::normalizeCalendar).forEach(c -> m_writer.writeRecord(CALENDAR_COLUMNS, c));
+      m_file.getEffectiveCalendars().stream().sorted(Comparator.comparing(ProjectCalendar::getUniqueID)).map(ProjectCalendarHelper::normalizeCalendar).forEach(c -> m_writer.writeRecord(CALENDAR_COLUMNS, c));
    }
 
    /**

@@ -260,7 +260,7 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       // Write project calendars
       //
-      for (ProjectCalendar cal : m_projectFile.getCalendars())
+      for (ProjectCalendar cal : m_projectFile.getEffectiveCalendars())
       {
          if (!isResourceCalendar(cal))
          {

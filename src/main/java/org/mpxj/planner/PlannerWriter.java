@@ -176,7 +176,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       //
       // Process each calendar in turn
       //
-      List<ProjectCalendar> sortedCalendarList = m_projectFile.getCalendars().stream().filter(c -> !c.isDerived()).sorted((a, b) -> NumberHelper.compare(a.getUniqueID(), b.getUniqueID())).collect(Collectors.toList());
+      List<ProjectCalendar> sortedCalendarList = m_projectFile.getEffectiveCalendars().stream().filter(c -> !c.isDerived()).sorted((a, b) -> NumberHelper.compare(a.getUniqueID(), b.getUniqueID())).collect(Collectors.toList());
       for (ProjectCalendar mpxjCalendar : sortedCalendarList)
       {
          Calendar plannerCalendar = m_factory.createCalendar();
