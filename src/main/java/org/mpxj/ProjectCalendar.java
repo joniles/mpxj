@@ -78,7 +78,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       m_projectFile = file;
       m_temporaryCalendar = temporaryCalendar;
       m_defaults = file.getProjectProperties();
-      m_container = file.getCalendars();
 
       if (!temporaryCalendar && file.getProjectConfig().getAutoCalendarUniqueID())
       {
@@ -1170,7 +1169,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       // If we have a temporary calendar, we don't want to modify the unique ID map for calendars
       if (!m_temporaryCalendar)
       {
-         m_container.updateUniqueID(this, m_uniqueID, uniqueID);
+         getParentFile().getCalendars().updateUniqueID(this, m_uniqueID, uniqueID);
       }
       m_uniqueID = uniqueID;
    }
@@ -1240,7 +1239,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public void remove()
    {
-      m_container.remove(this);
+      getParentFile().removeCalendar(this);
    }
 
    /**
@@ -1729,7 +1728,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public List<ProjectCalendar> getDerivedCalendars()
    {
-      return Collections.unmodifiableList(m_container.stream().filter(c -> c.m_parent != null && m_uniqueID != null && m_uniqueID.equals(c.m_parent.m_uniqueID)).collect(Collectors.toList()));
+      return Collections.unmodifiableList(getParentFile().getCalendars().stream().filter(c -> c.m_parent != null && m_uniqueID != null && m_uniqueID.equals(c.m_parent.m_uniqueID)).collect(Collectors.toList()));
    }
 
    @Override public String toString()
@@ -2063,7 +2062,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    private boolean m_personal;
    private final boolean m_temporaryCalendar;
    private final TimeUnitDefaultsContainer m_defaults;
-   private final ProjectCalendarContainer m_container;
 
    /**
     * Default base calendar name to use when none is supplied.
