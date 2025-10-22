@@ -1,5 +1,5 @@
 /*
- * file:       ProjectFileSharedData.java
+ * file:       ProjectContext.java
  * author:     Jon Iles
  * date:       2024-08-22
  */
@@ -200,6 +200,11 @@ public class ProjectContext implements UniqueIdObjectSequenceProvider
       return m_timeUnitDefaults;
    }
 
+   public ProjectConfig getProjectConfig()
+   {
+      return m_projectConfig;
+   }
+
    /**
     * Retrieve the ObjectSequence instance used to generate Unique ID values for a given class.
     *
@@ -239,6 +244,7 @@ public class ProjectContext implements UniqueIdObjectSequenceProvider
    private final ShiftPeriodContainer m_shiftPeriods = new ShiftPeriodContainer(this);
    private final CurrencyContainer m_currencies = new CurrencyContainer(this);
    private final TimeUnitDefaults m_timeUnitDefaults = new TimeUnitDefaults();
+   private final ProjectConfig m_projectConfig = new ProjectConfig();
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
 
    private static final Set<String> HOSTED_CLASS_NAMES = new HashSet<>(
