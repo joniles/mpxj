@@ -45,6 +45,7 @@ import org.mpxj.FieldType;
 import org.mpxj.HasCharset;
 import org.mpxj.MPXJException;
 import org.mpxj.Notes;
+import org.mpxj.ProjectConfig;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectContext;
 import org.mpxj.Relation;
@@ -156,7 +157,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       {
          m_tables = new HashMap<>();
          m_numberFormat = new DecimalFormat();
-         m_readSharedData = true;
+         m_populateContext = true;
 
          processFile(READ_REQUIRED_TABLES, is);
 
@@ -173,6 +174,13 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
 
             result.add(project);
          }
+
+         //
+         // We've used Primavera's unique ID values for the calendars we've read so far.
+         // At this point any new calendars we create must be auto numbered. We also need to
+         // ensure that the auto numbering starts from an appropriate value.
+         //
+         shared.getProjectConfig().setAutoCalendarUniqueID(true);
 
          // Sort to ensure exported project is first
          result.sort((o1, o2) -> Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
@@ -247,9 +255,10 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
          processProjectID();
          project.getProjectProperties().setUniqueID(m_projectID);
 
-         if (m_readSharedData)
+         if (m_populateContext)
          {
-            m_readSharedData = false;
+            m_populateContext = false;
+            configure();
             processCurrencies();
             processLocations();
             processShifts();
@@ -301,6 +310,11 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
          m_numberFormat = null;
          m_defaultCurrencyData = null;
       }
+   }
+
+   private void configure()
+   {
+      m_reader.configure();
    }
 
    /**
@@ -1249,7 +1263,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    private boolean m_wbsIsFullPath = true;
    private boolean m_linkCrossProjectRelations;
    private boolean m_ignoreErrors = true;
-   private boolean m_readSharedData;
+   private boolean m_populateContext;
    private Set<String> m_requiredTables;
 
    /**

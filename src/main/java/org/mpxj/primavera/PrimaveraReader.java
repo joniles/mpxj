@@ -129,7 +129,7 @@ final class PrimaveraReader
    /**
     * Constructor.
     *
-    * @param shared shared data container
+    * @param context shared data container
     * @param resourceFields resource field mapping
     * @param wbsFields wbs field mapping
     * @param taskFields task field mapping
@@ -139,18 +139,11 @@ final class PrimaveraReader
     * @param wbsIsFullPath determine the WBS attribute structure
     * @param ignoreErrors ignore errors flag
     */
-   public PrimaveraReader(ProjectContext shared, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath, boolean ignoreErrors)
+   public PrimaveraReader(ProjectContext context, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath, boolean ignoreErrors)
    {
-      m_project = new ProjectFile(shared);
+      m_context = context;
+      m_project = new ProjectFile(context);
       m_eventManager = m_project.getEventManager();
-
-      ProjectConfig config = m_project.getProjectConfig();
-      config.setAutoTaskUniqueID(false);
-      config.setAutoResourceUniqueID(false);
-      config.setAutoAssignmentUniqueID(false);
-      config.setAutoWBS(false);
-      config.setAutoRelationUniqueID(false);
-      config.setBaselineStrategy(PrimaveraBaselineStrategy.PLANNED_ATTRIBUTES);
 
       m_resourceFields = resourceFields;
       m_roleFields = roleFields;
@@ -183,6 +176,17 @@ final class PrimaveraReader
    public List<ExternalRelation> getExternalRelations()
    {
       return m_externalRelations;
+   }
+
+   public void configure()
+   {
+      ProjectConfig config = m_context.getProjectConfig();
+      config.setAutoTaskUniqueID(false);
+      config.setAutoResourceUniqueID(false);
+      config.setAutoAssignmentUniqueID(false);
+      config.setAutoWBS(false);
+      config.setAutoRelationUniqueID(false);
+      config.setBaselineStrategy(PrimaveraBaselineStrategy.PLANNED_ATTRIBUTES);
    }
 
    /**
@@ -226,14 +230,6 @@ final class PrimaveraReader
             m_project.getProjectProperties().setDefaultCalendar(calendar);
          }
       }
-
-      //
-      // We've used Primavera's unique ID values for the calendars we've read so far.
-      // At this point any new calendars we create must be auto numbered. We also need to
-      // ensure that the auto numbering starts from an appropriate value.
-      //
-      ProjectConfig config = m_project.getProjectConfig();
-      config.setAutoCalendarUniqueID(true);
 
       // Ensure we have a default calendar
       if (m_project.getDefaultCalendar() == null)
@@ -2844,6 +2840,7 @@ final class PrimaveraReader
       return map;
    }
 
+   private final ProjectContext m_context;
    private final ProjectFile m_project;
    private final EventManager m_eventManager;
    private final ClashMap m_activityClashMap = new ClashMap();

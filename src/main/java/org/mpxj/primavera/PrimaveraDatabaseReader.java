@@ -118,30 +118,31 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    public ProjectFile read() throws MPXJException
    {
-      m_readSharedData = true;
+      m_populateContext = true;
       return read(new ProjectContext());
    }
 
    /**
     * Read a project from the current data source.
     *
-    * @param shared shared data to use when reading this project
+    * @param context shared data to use when reading this project
     * @return ProjectFile instance
     */
-   private ProjectFile read(ProjectContext shared) throws MPXJException
+   private ProjectFile read(ProjectContext context) throws MPXJException
    {
       try
       {
-         m_reader = new PrimaveraReader(shared, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
+         m_reader = new PrimaveraReader(context, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
          ProjectFile project = m_reader.getProject();
          addListenersToProject(project);
          processTableNames();
          processAnalytics();
          project.getProjectProperties().setUniqueID(m_projectID);
 
-         if (m_readSharedData)
+         if (m_populateContext)
          {
-            m_readSharedData = false;
+            m_populateContext = false;
+            configure();
             processCurrencies();
             processLocations();
             processShifts();
@@ -213,13 +214,26 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       Map<Integer, String> projects = listProjects();
       List<ProjectFile> result = new ArrayList<>(projects.size());
       ProjectContext shared = new ProjectContext();
-      m_readSharedData = true;
+      m_populateContext = true;
       for (Integer id : projects.keySet())
       {
          setProjectID(id.intValue());
          result.add(read(shared));
       }
+
+      //
+      // We've used Primavera's unique ID values for the calendars we've read so far.
+      // At this point any new calendars we create must be auto numbered. We also need to
+      // ensure that the auto numbering starts from an appropriate value.
+      //
+      shared.getProjectConfig().setAutoCalendarUniqueID(true);
+
       return result;
+   }
+
+   private void configure()
+   {
+      m_reader.configure();
    }
 
    /**
@@ -1038,7 +1052,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private boolean m_wbsIsFullPath = true;
    private boolean m_ignoreErrors = true;
    private Set<String> m_tableNames;
-   private boolean m_readSharedData;
+   private boolean m_populateContext;
 
    private final Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
    private final Map<FieldType, String> m_roleFields = PrimaveraReader.getDefaultRoleFieldMap();

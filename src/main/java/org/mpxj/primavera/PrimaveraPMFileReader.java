@@ -471,32 +471,22 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_activityClashMap = new ClashMap();
          m_roleClashMap = new ClashMap();
 
-         boolean readSharedData = m_shared == null;
-         if (m_shared == null)
+         boolean populateContext = m_context == null;
+         if (m_context == null)
          {
-            m_shared = new ProjectContext();
+            m_context = new ProjectContext();
          }
 
-         m_projectFile = new ProjectFile(m_shared);
+         m_projectFile = new ProjectFile(m_context);
          m_eventManager = m_projectFile.getEventManager();
-
-         ProjectConfig config = m_projectFile.getProjectConfig();
-         config.setAutoTaskUniqueID(false);
-         config.setAutoResourceUniqueID(false);
-         config.setAutoCalendarUniqueID(false);
-         config.setAutoAssignmentUniqueID(false);
-         config.setAutoWBS(false);
-         config.setAutoRelationUniqueID(false);
-         config.setBaselineStrategy(m_baselineStrategy);
-
          m_projectFile.getProjectProperties().setFileApplication("Primavera");
          m_projectFile.getProjectProperties().setFileType("PMXML");
-
          addListenersToProject(m_projectFile);
 
          // Process common data
-         if (readSharedData)
+         if (populateContext)
          {
+            configure();
             processCurrencies(apibo);
             processLocations(apibo);
             processUnitsOfMeasure(apibo);
@@ -573,7 +563,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          processGlobalProperties(apibo);
          processActivityCodeDefinitions(activityCodeTypes, activityCodes);
-         configureProjectCalendars();
          processProjectCodeAssignments(codes);
          processTasks(wbs, wbsNotes, activities, getActivityNotes(activityNotes));
          processPredecessors(relationships);
@@ -591,10 +580,22 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       finally
       {
          m_projectFile = null;
-         m_shared = null;
+         m_context = null;
          m_activityClashMap = null;
          m_roleClashMap = null;
       }
+   }
+
+   private void configure()
+   {
+      ProjectConfig config = m_context.getProjectConfig();
+      config.setAutoTaskUniqueID(false);
+      config.setAutoResourceUniqueID(false);
+      config.setAutoCalendarUniqueID(false);
+      config.setAutoAssignmentUniqueID(false);
+      config.setAutoWBS(false);
+      config.setAutoRelationUniqueID(false);
+      config.setBaselineStrategy(m_baselineStrategy);
    }
 
    /**
@@ -1303,16 +1304,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             entry.getKey().setParent(baseCalendar);
          }
       }
-   }
-
-   /**
-    * Set the default calendar ID and enable auto calendar unique ID values.
-    */
-   private void configureProjectCalendars()
-   {
-      // Ensure that resource calendars we create later have valid unique IDs
-      ProjectConfig config = m_projectFile.getProjectConfig();
-      config.setAutoCalendarUniqueID(true);
    }
 
    /**
@@ -2976,7 +2967,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    private Integer m_projectID;
    private ProjectFile m_projectFile;
-   private ProjectContext m_shared;
+   private ProjectContext m_context;
    private EventManager m_eventManager;
    private ClashMap m_activityClashMap;
    private ClashMap m_roleClashMap;
