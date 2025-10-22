@@ -38,7 +38,6 @@ import java.util.UUID;
 import java.util.function.Function;
 
 import org.mpxj.common.BooleanHelper;
-import org.mpxj.common.NumberHelper;
 import org.mpxj.common.PopulatedFields;
 import org.mpxj.common.ProjectFieldLists;
 
@@ -3748,21 +3747,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    private LocalDateTime calculateActualFinish()
    {
       return getParentFile().getActualFinish();
-   }
-
-   private Integer calculateMinutesPerWeek()
-   {
-      return null;
-   }
-
-   private Integer calculateMinutesPerMonth()
-   {
-      return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()));
-   }
-
-   private Integer calculateMinutesPerYear()
-   {
-      return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()) * 12);
    }
 
    private Integer calculateDefaultCalendarUniqueID()

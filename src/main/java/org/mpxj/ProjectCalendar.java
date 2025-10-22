@@ -1755,6 +1755,11 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       return Collections.unmodifiableList(getDerivedCalendarStream().filter(c -> c.getType() != CalendarType.PROJECT || c.getProjectUniqueID().equals(project.getProjectProperties().getUniqueID())).collect(Collectors.toList()));
    }
 
+   public boolean isParent()
+   {
+      return getDerivedCalendarStream().findAny().isPresent();
+   }
+
    private Stream<ProjectCalendar> getDerivedCalendarStream()
    {
       return m_container.stream().filter(c -> c.m_parent != null && m_uniqueID != null && m_uniqueID.equals(c.m_parent.m_uniqueID));
