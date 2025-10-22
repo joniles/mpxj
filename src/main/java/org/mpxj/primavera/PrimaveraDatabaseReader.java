@@ -41,7 +41,7 @@ import javax.sql.DataSource;
 import org.mpxj.EPS;
 import org.mpxj.EpsNode;
 import org.mpxj.EpsProjectNode;
-import org.mpxj.ProjectFileSharedData;
+import org.mpxj.ProjectContext;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.FieldType;
 import org.mpxj.MPXJException;
@@ -119,7 +119,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    public ProjectFile read() throws MPXJException
    {
       m_readSharedData = true;
-      return read(new ProjectFileSharedData());
+      return read(new ProjectContext());
    }
 
    /**
@@ -128,7 +128,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     * @param shared shared data to use when reading this project
     * @return ProjectFile instance
     */
-   private ProjectFile read(ProjectFileSharedData shared) throws MPXJException
+   private ProjectFile read(ProjectContext shared) throws MPXJException
    {
       try
       {
@@ -212,7 +212,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    {
       Map<Integer, String> projects = listProjects();
       List<ProjectFile> result = new ArrayList<>(projects.size());
-      ProjectFileSharedData shared = new ProjectFileSharedData();
+      ProjectContext shared = new ProjectContext();
       m_readSharedData = true;
       for (Integer id : projects.keySet())
       {

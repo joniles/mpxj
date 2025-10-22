@@ -52,7 +52,7 @@ import org.mpxj.CurrencyContainer;
 import org.mpxj.ProjectCode;
 import org.mpxj.ProjectCodeContainer;
 import org.mpxj.ProjectCodeValue;
-import org.mpxj.ProjectFileSharedData;
+import org.mpxj.ProjectContext;
 import org.mpxj.ResourceAssignmentCode;
 import org.mpxj.ResourceAssignmentCodeContainer;
 import org.mpxj.ResourceAssignmentCodeValue;
@@ -474,7 +474,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          boolean readSharedData = m_shared == null;
          if (m_shared == null)
          {
-            m_shared = new ProjectFileSharedData();
+            m_shared = new ProjectContext();
          }
 
          m_projectFile = new ProjectFile(m_shared);
@@ -2976,7 +2976,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    private Integer m_projectID;
    private ProjectFile m_projectFile;
-   private ProjectFileSharedData m_shared;
+   private ProjectContext m_shared;
    private EventManager m_eventManager;
    private ClashMap m_activityClashMap;
    private ClashMap m_roleClashMap;

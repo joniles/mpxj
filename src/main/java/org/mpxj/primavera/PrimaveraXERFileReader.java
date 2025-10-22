@@ -46,7 +46,7 @@ import org.mpxj.HasCharset;
 import org.mpxj.MPXJException;
 import org.mpxj.Notes;
 import org.mpxj.ProjectFile;
-import org.mpxj.ProjectFileSharedData;
+import org.mpxj.ProjectContext;
 import org.mpxj.Relation;
 import org.mpxj.Task;
 import org.mpxj.WorkContour;
@@ -163,7 +163,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
          List<Row> rows = getRows("project", null, null);
          List<ProjectFile> result = new ArrayList<>(rows.size());
          List<ExternalRelation> externalRelations = new ArrayList<>();
-         ProjectFileSharedData shared = new ProjectFileSharedData();
+         ProjectContext shared = new ProjectContext();
          for (Row row : rows)
          {
             setProjectID(row.getInt("proj_id"));

@@ -51,7 +51,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ProjectFile()
    {
-      m_shared = new ProjectFileSharedData();
+      m_shared = new ProjectContext();
    }
 
    /**
@@ -59,9 +59,14 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     *
     * @param shared ProjectFileSharedData instance
     */
-   public ProjectFile(ProjectFileSharedData shared)
+   public ProjectFile(ProjectContext shared)
    {
       m_shared = shared;
+   }
+
+   public ProjectContext getProjectContext()
+   {
+      return m_shared;
    }
 
    /**
@@ -1049,7 +1054,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    @Override public ObjectSequence getUniqueIdObjectSequence(Class<?> c)
    {
-      return ProjectFileSharedData.contains(c) ? m_shared.getUniqueIdObjectSequence(c) : m_uniqueIdObjectSequences.computeIfAbsent(c.getName(), x -> new ObjectSequence(1));
+      return ProjectContext.contains(c) ? m_shared.getUniqueIdObjectSequence(c) : m_uniqueIdObjectSequences.computeIfAbsent(c.getName(), x -> new ObjectSequence(1));
    }
 
    /**
@@ -1102,5 +1107,5 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final Map<Integer, Map<Task, Task>> m_baselineTaskMap = new HashMap<>();
    private final List<Exception> m_ignoredErrors = new ArrayList<>();
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
-   private final ProjectFileSharedData m_shared;
+   private final ProjectContext m_shared;
 }

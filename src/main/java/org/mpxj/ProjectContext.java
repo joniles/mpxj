@@ -33,7 +33,7 @@ import org.mpxj.common.ObjectSequence;
 /**
  * Implements a container for common data which can be shared across multiple ProjectFile instances.
  */
-public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
+public class ProjectContext implements UniqueIdObjectSequenceProvider
 {
    /**
     * Retrieve the locations available for this schedule.
@@ -195,6 +195,11 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
       return m_currencies;
    }
 
+   public TimeUnitDefaults getTimeUnitDefaults()
+   {
+      return m_timeUnitDefaults;
+   }
+
    /**
     * Retrieve the ObjectSequence instance used to generate Unique ID values for a given class.
     *
@@ -233,6 +238,7 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    private final ShiftContainer m_shifts = new ShiftContainer(this);
    private final ShiftPeriodContainer m_shiftPeriods = new ShiftPeriodContainer(this);
    private final CurrencyContainer m_currencies = new CurrencyContainer(this);
+   private final TimeUnitDefaults m_timeUnitDefaults = new TimeUnitDefaults();
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
 
    private static final Set<String> HOSTED_CLASS_NAMES = new HashSet<>(

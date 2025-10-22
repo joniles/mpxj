@@ -45,7 +45,6 @@ import org.mpxj.ActivityCodeContainer;
 import org.mpxj.ActivityCodeValue;
 import org.mpxj.AssignmentField;
 import org.mpxj.Availability;
-import org.mpxj.CalendarType;
 import org.mpxj.CostAccount;
 import org.mpxj.CostAccountContainer;
 import org.mpxj.CostRateTableEntry;
@@ -59,7 +58,7 @@ import java.time.DayOfWeek;
 import org.mpxj.ProjectCode;
 import org.mpxj.ProjectCodeContainer;
 import org.mpxj.ProjectCodeValue;
-import org.mpxj.ProjectFileSharedData;
+import org.mpxj.ProjectContext;
 import org.mpxj.ResourceAssignmentCode;
 import org.mpxj.ResourceAssignmentCodeContainer;
 import org.mpxj.ResourceAssignmentCodeValue;
@@ -140,7 +139,7 @@ final class PrimaveraReader
     * @param wbsIsFullPath determine the WBS attribute structure
     * @param ignoreErrors ignore errors flag
     */
-   public PrimaveraReader(ProjectFileSharedData shared, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath, boolean ignoreErrors)
+   public PrimaveraReader(ProjectContext shared, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath, boolean ignoreErrors)
    {
       m_project = new ProjectFile(shared);
       m_eventManager = m_project.getEventManager();
