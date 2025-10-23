@@ -35,7 +35,6 @@ import java.util.Set;
 import org.mpxj.FieldType;
 import org.mpxj.HasCharset;
 import org.mpxj.MPXJException;
-import org.mpxj.Notes;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectContext;
 import org.mpxj.Relation;
@@ -104,15 +103,12 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    {
       ProjectFile project = null;
 
-      // Preserve the requested project ID, this member variable is used when reading all projects
-      Integer targetProjectID = m_projectID;
-
       // Using readAll ensures that cross project relations can be included if required
       List<ProjectFile> projects = readAll(is);
 
       if (!projects.isEmpty())
       {
-         if (targetProjectID == null)
+         if (m_projectID == null)
          {
             // We haven't been asked for a specific project: the first one will be the exported project
             project = projects.get(0);
@@ -120,7 +116,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
          else
          {
             // We have been asked for a specific project: find it
-            project = projects.stream().filter(p -> targetProjectID.equals(p.getProjectProperties().getUniqueID())).findFirst().orElse(null);
+            project = projects.stream().filter(p -> m_projectID.equals(p.getProjectProperties().getUniqueID())).findFirst().orElse(null);
          }
       }
 
@@ -137,149 +133,78 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
     */
    @Override public List<ProjectFile> readAll(InputStream is) throws MPXJException
    {
-      try
+      XerFile file = new XerFile(READ_REQUIRED_TABLES, m_charset, m_ignoreErrors).read(is);
+      ProjectContext context = new PrimaveraXERContextReader(file).read();
+
+      List<Row> rows = file.getRows("project", null, null);
+      List<ProjectFile> result = new ArrayList<>(rows.size());
+      List<ExternalRelation> externalRelations = new ArrayList<>();
+
+      for (Row row : rows)
       {
-         m_populateContext = true;
+         ProjectFile project = new ProjectFile(context);
+         addListenersToProject(project);
+         PrimaveraXERProjectReader reader = new PrimaveraXERProjectReader(file, project, row.getInt("proj_id") , m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
+         reader.read();
+         externalRelations.addAll(reader.getExternalRelations());
 
-         m_file = new XerFile(READ_REQUIRED_TABLES, m_charset, m_ignoreErrors).read(is);
-         ProjectContext context = new PrimaveraXERContextReader(m_file).read();
+         result.add(project);
+      }
 
-         List<Row> rows = m_file.getRows("project", null, null);
-         List<ProjectFile> result = new ArrayList<>(rows.size());
-         List<ExternalRelation> externalRelations = new ArrayList<>();
+      //
+      // We've used Primavera's unique ID values for the calendars we've read so far.
+      // At this point any new calendars we create must be auto numbered. We also need to
+      // ensure that the auto numbering starts from an appropriate value.
+      //
+      context.getProjectConfig().setAutoCalendarUniqueID(true);
 
-         for (Row row : rows)
+      // Sort to ensure exported project is first
+      result.sort((o1, o2) -> Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
+
+      if (m_linkCrossProjectRelations)
+      {
+         for (ExternalRelation externalRelation : externalRelations)
          {
-//            setProjectID(row.getInt("proj_id"));
-//            m_reader = new PrimaveraReader(context, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
-//            ProjectFile project = readProject();
-
-            ProjectFile project = new ProjectFile(context);
-            addListenersToProject(project);
-            PrimaveraXERProjectReader reader = new PrimaveraXERProjectReader(m_file, project, row.getInt("proj_id") , m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
-            reader.read();
-            externalRelations.addAll(reader.getExternalRelations());
-
-            result.add(project);
-         }
-
-         //
-         // We've used Primavera's unique ID values for the calendars we've read so far.
-         // At this point any new calendars we create must be auto numbered. We also need to
-         // ensure that the auto numbering starts from an appropriate value.
-         //
-         context.getProjectConfig().setAutoCalendarUniqueID(true);
-
-         // Sort to ensure exported project is first
-         result.sort((o1, o2) -> Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
-
-         if (m_linkCrossProjectRelations)
-         {
-            for (ExternalRelation externalRelation : externalRelations)
+            Task predecessorTask;
+            // we could aggregate the project task id maps but that's likely more work
+            // than just looping through the projects
+            for (ProjectFile proj : result)
             {
-               Task predecessorTask;
-               // we could aggregate the project task id maps but that's likely more work
-               // than just looping through the projects
-               for (ProjectFile proj : result)
+               predecessorTask = proj.getTaskByUniqueID(externalRelation.externalTaskUniqueID());
+               if (predecessorTask != null)
                {
-                  predecessorTask = proj.getTaskByUniqueID(externalRelation.externalTaskUniqueID());
-                  if (predecessorTask != null)
-                  {
-                     Task successorTask = externalRelation.getTargetTask();
+                  Task successorTask = externalRelation.getTargetTask();
 
-                     // We need to ensure that the relation is present in both
-                     // projects so that predecessors and successors are populated
-                     // in both projects.
+                  // We need to ensure that the relation is present in both
+                  // projects so that predecessors and successors are populated
+                  // in both projects.
 
-                     ProjectFile successorProject = successorTask.getParentFile();
-                     successorProject.getRelations().addPredecessor(new Relation.Builder()
-                        .predecessorTask(predecessorTask)
-                        .successorTask(successorTask)
-                        .type(externalRelation.getType())
-                        .lag(externalRelation.getLag())
-                        .uniqueID(externalRelation.getUniqueID())
-                        .notes(externalRelation.getNotes()));
+                  ProjectFile successorProject = successorTask.getParentFile();
+                  successorProject.getRelations().addPredecessor(new Relation.Builder()
+                     .predecessorTask(predecessorTask)
+                     .successorTask(successorTask)
+                     .type(externalRelation.getType())
+                     .lag(externalRelation.getLag())
+                     .uniqueID(externalRelation.getUniqueID())
+                     .notes(externalRelation.getNotes()));
 
-                     ProjectFile predecessorProject = predecessorTask.getParentFile();
-                     predecessorProject.getRelations().addPredecessor(new Relation.Builder()
-                        .predecessorTask(predecessorTask)
-                        .successorTask(successorTask)
-                        .type(externalRelation.getType())
-                        .lag(externalRelation.getLag())
-                        .uniqueID(externalRelation.getUniqueID())
-                        .notes(externalRelation.getNotes()));
+                  ProjectFile predecessorProject = predecessorTask.getParentFile();
+                  predecessorProject.getRelations().addPredecessor(new Relation.Builder()
+                     .predecessorTask(predecessorTask)
+                     .successorTask(successorTask)
+                     .type(externalRelation.getType())
+                     .lag(externalRelation.getLag())
+                     .uniqueID(externalRelation.getUniqueID())
+                     .notes(externalRelation.getNotes()));
 
-                     break;
-                  }
+                  break;
                }
-               // if predecessorTask not found the external task is outside of the file so ignore
             }
-         }
-
-         return result;
-      }
-
-      finally
-      {
-         m_reader = null;
-      }
-   }
-
-   /**
-    * Common project read functionality.
-    *
-    * @return ProjectFile instance
-    */
-   private ProjectFile readProject()
-   {
-      ProjectFile project = m_reader.getProject();
-      project.getProjectProperties().setFileApplication("Primavera");
-      project.getProjectProperties().setFileType("XER");
-      addListenersToProject(project);
-      processProjectID();
-      project.getProjectProperties().setUniqueID(m_projectID);
-
-      processActivityCodeAssignments();
-      processResourceCodeAssignments();
-      processRoleCodeAssignments();
-      processResourceAssignmentCodeAssignments();
-      processUdfValues();
-      processCalendars();
-      processResources();
-      processRoles();
-      processRoleAssignments();
-      processResourceRates();
-      processRoleRates();
-
-      processProjectProperties();
-      processTasks();
-      processPredecessors();
-      processAssignments();
-      processExpenseItems();
-      processActivitySteps();
-
-      m_reader.rollupValues();
-      project.updateStructure();
-      project.readComplete();
-
-      return project;
-   }
-
-   /**
-    * If the user has not specified a project ID, this method
-    * retrieves the ID of the first project in the file.
-    */
-   private void processProjectID()
-   {
-      if (m_projectID == null)
-      {
-         List<Row> rows = m_file.getRows("project", null, null);
-         if (!rows.isEmpty())
-         {
-            Row row = rows.get(0);
-            m_projectID = row.getInteger("proj_id");
+            // if predecessorTask not found the external task is outside of the file so ignore
          }
       }
+
+      return result;
    }
 
    /**
@@ -304,193 +229,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       }
 
       return result;
-   }
-
-   /**
-    * Process project properties.
-    */
-   private void processProjectProperties()
-   {
-      //
-      // Process common attributes
-      //
-      List<Row> rows = m_file.getRows("project", "proj_id", m_projectID);
-      m_reader.processProjectProperties(rows);
-
-      rows = m_file.getRows("projpcat", "proj_id", m_projectID);
-      m_reader.processProjectCodeAssignments(rows);
-
-      //
-      // Process XER-specific attributes
-      //
-      if (m_file.getDefaultCurrencyData() != null)
-      {
-         m_reader.processDefaultCurrency(m_file.getDefaultCurrencyData());
-      }
-
-      processScheduleOptions();
-   }
-
-   /**
-    * Process expense items.
-    */
-   private void processExpenseItems()
-   {
-      m_reader.processExpenseItems(m_file.getRows("projcost", "proj_id", m_projectID));
-   }
-
-   /**
-    * Process activity steps.
-    */
-   private void processActivitySteps()
-   {
-      m_reader.processActivitySteps(m_file.getRows("taskproc", "proj_id", m_projectID));
-   }
-
-   /**
-    * Process activity code assignments.
-    */
-   private void processActivityCodeAssignments()
-   {
-      List<Row> assignments = m_file.getRows("taskactv", null, null);
-      m_reader.processActivityCodeAssignments(assignments);
-   }
-
-   /**
-    * Process resource code assignments.
-    */
-   private void processResourceCodeAssignments()
-   {
-      List<Row> assignments = m_file.getRows("rsrcrcat", null, null);
-      m_reader.processResourceCodeAssignments(assignments);
-   }
-
-   /**
-    * Process role code assignments.
-    */
-   private void processRoleCodeAssignments()
-   {
-      List<Row> assignments = m_file.getRows("rolercat", null, null);
-      m_reader.processRoleCodeAssignments(assignments);
-   }
-
-   /**
-    * Process resource assignment code assignments.
-    */
-   private void processResourceAssignmentCodeAssignments()
-   {
-      List<Row> assignments = m_file.getRows("asgnmntacat", null, null);
-      m_reader.processResourceAssignmentCodeAssignments(assignments);
-   }
-
-   /**
-    * Process schedule options from SCHEDOPTIONS.
-    * This is represented as the PROJPROP table in a P6 database.
-    */
-   private void processScheduleOptions()
-   {
-      List<Row> rows = m_file.getRows("schedoptions", "proj_id", m_projectID);
-      if (!rows.isEmpty())
-      {
-         m_reader.processScheduleOptions(rows.get(0));
-      }
-   }
-
-
-   /**
-    * Process user defined field values.
-    */
-   private void processUdfValues()
-   {
-      List<Row> values = m_file.getRows("udfvalue", null, null);
-      m_reader.processUdfValues(values);
-   }
-
-   /**
-    * Process project calendars.
-    */
-   private void processCalendars()
-   {
-      List<Row> rows = m_file.getRows("calendar", null, null);
-      m_reader.processCalendars(rows);
-   }
-
-   /**
-    * Process resources.
-    */
-   private void processResources()
-   {
-      List<Row> rows = m_file.getRows("rsrc", null, null);
-      m_reader.processResources(rows);
-   }
-
-   /**
-    * Process roles.
-    */
-   private void processRoles()
-   {
-      List<Row> rows = m_file.getRows("roles", null, null);
-      m_reader.processRoles(rows);
-   }
-
-   /**
-    * Process role assignments.
-    */
-   private void processRoleAssignments()
-   {
-      List<Row> rows = m_file.getRows("rsrcrole", null, null);
-      m_reader.processRoleAssignments(rows);
-   }
-
-   /**
-    * Process resource rates.
-    */
-   private void processResourceRates()
-   {
-      List<Row> rows = m_file.getRows("rsrcrate", null, null);
-      m_reader.processResourceRates(rows);
-   }
-
-   /**
-    * Process role rates.
-    */
-   private void processRoleRates()
-   {
-      List<Row> rows = m_file.getRows("rolerate", null, null);
-      m_reader.processRoleRates(rows);
-      m_reader.processRoleAvailability(rows);
-   }
-
-   /**
-    * Process tasks.
-    */
-   private void processTasks()
-   {
-      List<Row> wbs = m_file.getRows("projwbs", "proj_id", m_projectID);
-      List<Row> tasks = m_file.getRows("task", "proj_id", m_projectID);
-      Map<Integer, Notes> wbsNotes = m_reader.getNotes(m_file.getRows("wbsmemo", "proj_id", m_projectID), "wbs_memo_id", "wbs_id", "wbs_memo");
-      Map<Integer, Notes> taskNotes = m_reader.getNotes(m_file.getRows("taskmemo", "proj_id", m_projectID), "memo_id", "task_id", "task_memo");
-
-      wbs.sort(WBS_ROW_COMPARATOR);
-      m_reader.processTasks(wbs, tasks, wbsNotes, taskNotes);
-   }
-
-   /**
-    * Process predecessors.
-    */
-   private void processPredecessors()
-   {
-      List<Row> rows = m_file.getRows("taskpred", "proj_id", m_projectID);
-      m_reader.processPredecessors(rows);
-   }
-
-   /**
-    * Process resource assignments.
-    */
-   private void processAssignments()
-   {
-      List<Row> rows = m_file.getRows("taskrsrc", "proj_id", m_projectID);
-      m_reader.processAssignments(rows);
    }
 
    /**
@@ -612,19 +350,16 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    }
 
    private Charset m_charset = CharsetHelper.CP1252;
-   private XerFile m_file;
-   private PrimaveraReader m_reader;
    private Integer m_projectID;
+   private boolean m_matchPrimaveraWBS = true;
+   private boolean m_wbsIsFullPath = true;
+   private boolean m_linkCrossProjectRelations;
+   private boolean m_ignoreErrors = true;
    private final Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
    private final Map<FieldType, String> m_roleFields = PrimaveraReader.getDefaultRoleFieldMap();
    private final Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
    private final Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();
    private final Map<FieldType, String> m_assignmentFields = PrimaveraReader.getDefaultAssignmentFieldMap();
-   private boolean m_matchPrimaveraWBS = true;
-   private boolean m_wbsIsFullPath = true;
-   private boolean m_linkCrossProjectRelations;
-   private boolean m_ignoreErrors = true;
-   private boolean m_populateContext;
 
    private static final Set<String> LIST_REQUIRED_TABLES = new HashSet<>();
    static
