@@ -22,8 +22,10 @@
 
 package org.mpxj;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Arrays;
@@ -206,6 +208,26 @@ public class ProjectContext implements UniqueIdObjectSequenceProvider
    }
 
    /**
+    * Add an error which has been ignored while reading context data.
+    *
+    * @param ex ignored error
+    */
+   public void addIgnoredError(Exception ex)
+   {
+      m_ignoredErrors.add(ex);
+   }
+
+   /**
+    * Retrieve a list of errors ignored when reading context data.
+    *
+    * @return list of errors
+    */
+   public List<Exception> getIgnoredErrors()
+   {
+      return m_ignoredErrors;
+   }
+
+   /**
     * Retrieve the ObjectSequence instance used to generate Unique ID values for a given class.
     *
     * @param c target class
@@ -246,6 +268,7 @@ public class ProjectContext implements UniqueIdObjectSequenceProvider
    private final TimeUnitDefaults m_timeUnitDefaults = new TimeUnitDefaults();
    private final ProjectConfig m_projectConfig = new ProjectConfig();
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
+   private final List<Exception> m_ignoredErrors = new ArrayList<>();
 
    private static final Set<String> HOSTED_CLASS_NAMES = new HashSet<>(
       Arrays.asList(

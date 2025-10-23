@@ -26,15 +26,11 @@ package org.mpxj.primavera;
 import java.io.File;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -50,10 +46,6 @@ import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.WorkContour;
 import org.mpxj.WorkContourContainer;
-import org.mpxj.common.AutoCloseableHelper;
-import org.mpxj.common.ConnectionHelper;
-import org.mpxj.common.NumberHelper;
-import org.mpxj.common.ResultSetHelper;
 import org.mpxj.reader.AbstractProjectReader;
 
 /**
@@ -118,8 +110,44 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    public ProjectFile read() throws MPXJException
    {
-      m_populateContext = true;
-      return read(new ProjectContext());
+      ProjectContext context = new PrimaveraDatabaseContextReader(m_database, m_schema, m_ignoreErrors, m_projectID).read();
+      ProjectFile result = read(context);
+
+      //
+      // We've used Primavera's unique ID values for the calendars we've read so far.
+      // At this point any new calendars we create must be auto numbered. We also need to
+      // ensure that the auto numbering starts from an appropriate value.
+      //
+      context.getProjectConfig().setAutoCalendarUniqueID(true);
+
+      return result;
+   }
+
+   /**
+    * Convenience method which allows all projects in the database to
+    * be read in a single operation.
+    *
+    * @return list of ProjectFile instances
+    */
+   public List<ProjectFile> readAll() throws MPXJException
+   {
+      Map<Integer, String> projects = listProjects();
+      List<ProjectFile> result = new ArrayList<>(projects.size());
+      ProjectContext context = new PrimaveraDatabaseContextReader(m_database, m_schema, m_ignoreErrors, null).read();
+      for (Integer id : projects.keySet())
+      {
+         setProjectID(id.intValue());
+         result.add(read(context));
+      }
+
+      //
+      // We've used Primavera's unique ID values for the calendars we've read so far.
+      // At this point any new calendars we create must be auto numbered. We also need to
+      // ensure that the auto numbering starts from an appropriate value.
+      //
+      context.getProjectConfig().setAutoCalendarUniqueID(true);
+
+      return result;
    }
 
    /**
@@ -133,26 +161,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       try
       {
          m_reader = new PrimaveraReader(context, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
-
-         if (m_populateContext)
-         {
-            m_populateContext = false;
-            configure();
-            processCurrencies();
-            processLocations();
-            processShifts();
-            processUnitsOfMeasure();
-            processExpenseCategories();
-            processCostAccounts();
-            processWorkContours();
-            processNotebookTopics();
-            processUdfDefinitions();
-            processProjectCodeDefinitions();
-            processResourceCodeDefinitions();
-            processRoleCodeDefinitions();
-            processResourceAssignmentCodeDefinitions();
-            processActivityCodeDefinitions();
-         }
 
          ProjectFile project = m_reader.getProject();
          addListenersToProject(project);
@@ -197,34 +205,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       {
          m_database.close();
       }
-   }
-
-   /**
-    * Convenience method which allows all projects in the database to
-    * be read in a single operation.
-    *
-    * @return list of ProjectFile instances
-    */
-   public List<ProjectFile> readAll() throws MPXJException
-   {
-      Map<Integer, String> projects = listProjects();
-      List<ProjectFile> result = new ArrayList<>(projects.size());
-      ProjectContext shared = new ProjectContext();
-      m_populateContext = true;
-      for (Integer id : projects.keySet())
-      {
-         setProjectID(id.intValue());
-         result.add(read(shared));
-      }
-
-      //
-      // We've used Primavera's unique ID values for the calendars we've read so far.
-      // At this point any new calendars we create must be auto numbered. We also need to
-      // ensure that the auto numbering starts from an appropriate value.
-      //
-      shared.getProjectConfig().setAutoCalendarUniqueID(true);
-
-      return result;
    }
 
    private void configure()
@@ -950,7 +930,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private boolean m_matchPrimaveraWBS = true;
    private boolean m_wbsIsFullPath = true;
    private boolean m_ignoreErrors = true;
-   private boolean m_populateContext;
    private PrimaveraDatabaseConnection m_database ;
 
    private final Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
