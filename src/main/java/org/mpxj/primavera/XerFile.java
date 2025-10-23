@@ -37,9 +37,13 @@ class XerFile
     *
     * @param is input stream
     */
-   public void processFile(InputStream is) throws MPXJException
+   public XerFile read(InputStream is) throws MPXJException
    {
       int line = 1;
+
+      m_tables.clear();
+      m_numberFormat = new DecimalFormat();
+      m_defaultCurrencyData = null;
 
       try
       {
@@ -79,6 +83,8 @@ class XerFile
             }
             ++line;
          }
+
+         return this;
       }
 
       catch (Exception ex)
@@ -420,9 +426,10 @@ class XerFile
    private final boolean m_ignoreErrors;
    private final Set<String> m_requiredTables;
    private final Charset m_charset;
-   private final Map<String, List<Row>> m_tables = new HashMap<>();
    private final DateTimeFormatter m_df = DateTimeFormatter.ofPattern("yyyy-M-dd[ HH[:][.]mm[[:][.]ss]]");
-   private DecimalFormat m_numberFormat = new DecimalFormat();
+   private final Map<String, List<Row>> m_tables = new HashMap<>();
+
+   private DecimalFormat m_numberFormat;
    private String m_defaultCurrencyName;
    private String m_currentTableName;
    boolean m_skipTable;

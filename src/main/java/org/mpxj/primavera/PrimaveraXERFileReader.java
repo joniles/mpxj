@@ -144,8 +144,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       {
          m_populateContext = true;
 
-         m_file = new XerFile(READ_REQUIRED_TABLES, m_charset, m_ignoreErrors);
-         m_file.processFile(is);
+         m_file = new XerFile(READ_REQUIRED_TABLES, m_charset, m_ignoreErrors).read(is);
 
          List<Row> rows = m_file.getRows("project", null, null);
          List<ProjectFile> result = new ArrayList<>(rows.size());
@@ -314,8 +313,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
     */
    public Map<Integer, String> listProjects(InputStream is) throws MPXJException
    {
-      XerFile file = new XerFile(LIST_REQUIRED_TABLES, m_charset, m_ignoreErrors);
-      file.processFile(is);
+      XerFile file = new XerFile(LIST_REQUIRED_TABLES, m_charset, m_ignoreErrors).read(is);
 
       Map<Integer, String> result = new HashMap<>();
 
