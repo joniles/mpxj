@@ -47,30 +47,17 @@ import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.mpxj.BaselineStrategy;
-import org.mpxj.Currency;
-import org.mpxj.CurrencyContainer;
 import org.mpxj.ProjectCode;
-import org.mpxj.ProjectCodeContainer;
 import org.mpxj.ProjectCodeValue;
 import org.mpxj.ProjectContext;
 import org.mpxj.ResourceAssignmentCode;
-import org.mpxj.ResourceAssignmentCodeContainer;
 import org.mpxj.ResourceAssignmentCodeValue;
 import org.mpxj.ResourceCode;
-import org.mpxj.ResourceCodeContainer;
 import org.mpxj.ResourceCodeValue;
 import org.mpxj.RoleCode;
-import org.mpxj.RoleCodeContainer;
 import org.mpxj.RoleCodeValue;
-import org.mpxj.Shift;
-import org.mpxj.ShiftContainer;
 import org.mpxj.ShiftPeriod;
-import org.mpxj.ShiftPeriodContainer;
-import org.mpxj.UnitOfMeasure;
-import org.mpxj.UnitOfMeasureContainer;
 import org.mpxj.common.DayOfWeekHelper;
-import org.mpxj.Location;
-import org.mpxj.LocationContainer;
 import org.mpxj.NotesTopic;
 import org.mpxj.Step;
 import org.mpxj.LocalTimeRange;
@@ -81,20 +68,8 @@ import org.mpxj.common.InputStreamHelper;
 import org.mpxj.common.LocalDateHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.primavera.schema.ActivityStepType;
-import org.mpxj.primavera.schema.CostAccountType;
-import org.mpxj.primavera.schema.ProjectCodeType;
-import org.mpxj.primavera.schema.ProjectCodeTypeType;
 import org.mpxj.primavera.schema.ProjectListType;
-import org.mpxj.primavera.schema.ResourceAssignmentCodeType;
-import org.mpxj.primavera.schema.ResourceAssignmentCodeTypeType;
-import org.mpxj.primavera.schema.ResourceCodeType;
-import org.mpxj.primavera.schema.ResourceCodeTypeType;
 import org.mpxj.primavera.schema.ResourceRoleType;
-import org.mpxj.primavera.schema.RoleCodeType;
-import org.mpxj.primavera.schema.RoleCodeTypeType;
-import org.mpxj.primavera.schema.ShiftPeriodType;
-import org.mpxj.primavera.schema.ShiftType;
-import org.mpxj.primavera.schema.UnitOfMeasureType;
 import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -105,19 +80,14 @@ import org.mpxj.ActivityCodeValue;
 import org.mpxj.AssignmentField;
 import org.mpxj.Availability;
 import org.mpxj.ChildTaskContainer;
-import org.mpxj.CostAccount;
-import org.mpxj.CostAccountContainer;
 import org.mpxj.CostRateTableEntry;
 import org.mpxj.CriticalActivityType;
 import java.time.DayOfWeek;
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
-import org.mpxj.ExpenseCategory;
-import org.mpxj.ExpenseCategoryContainer;
 import org.mpxj.ExpenseItem;
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
-import org.mpxj.FieldTypeClass;
 import org.mpxj.HtmlNotes;
 import org.mpxj.MPXJException;
 import org.mpxj.Notes;
@@ -126,7 +96,6 @@ import org.mpxj.PercentCompleteType;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
-import org.mpxj.ProjectConfig;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.Rate;
@@ -138,7 +107,6 @@ import org.mpxj.StructuredNotes;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
-import org.mpxj.WorkContour;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.UnmarshalHelper;
@@ -157,20 +125,16 @@ import org.mpxj.primavera.schema.CalendarType.StandardWorkWeek.StandardWorkHours
 import org.mpxj.primavera.schema.CodeAssignmentType;
 import org.mpxj.primavera.schema.CurrencyType;
 import org.mpxj.primavera.schema.GlobalPreferencesType;
-import org.mpxj.primavera.schema.NotebookTopicType;
 import org.mpxj.primavera.schema.ProjectNoteType;
 import org.mpxj.primavera.schema.ProjectType;
 import org.mpxj.primavera.schema.RelationshipType;
 import org.mpxj.primavera.schema.ResourceAssignmentType;
-import org.mpxj.primavera.schema.ResourceCurveType;
-import org.mpxj.primavera.schema.ResourceCurveValuesType;
 import org.mpxj.primavera.schema.ResourceRateType;
 import org.mpxj.primavera.schema.ResourceType;
 import org.mpxj.primavera.schema.RoleRateType;
 import org.mpxj.primavera.schema.RoleType;
 import org.mpxj.primavera.schema.ScheduleOptionsType;
 import org.mpxj.primavera.schema.UDFAssignmentType;
-import org.mpxj.primavera.schema.UDFTypeType;
 import org.mpxj.primavera.schema.WBSType;
 import org.mpxj.primavera.schema.WorkTimeType;
 import org.mpxj.reader.AbstractProjectStreamReader;
@@ -474,22 +438,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          // Process common data
          if (m_context == null)
          {
-            m_context = new ProjectContext();
-            configure();
-            processCurrencies(apibo);
-            processLocations(apibo);
-            processUnitsOfMeasure(apibo);
-            processExpenseCategories(apibo);
-            processCostAccounts(apibo);
-            processWorkContours(apibo);
-            processNotebookTopics(apibo);
-            processUdfDefintions(apibo);
+            m_context = new PrimaveraPMContextReader(apibo, m_baselineStrategy).read();
             processActivityCodeDefinitions(apibo.getActivityCodeType(), apibo.getActivityCode());
-            processProjectCodeDefinitions(apibo);
-            processResourceCodeDefinitions(apibo);
-            processRoleCodeDefinitions(apibo);
-            processResourceAssignmentCodeDefinitions(apibo);
-            processShifts(apibo);
          }
 
          m_projectFile = new ProjectFile(m_context);
@@ -581,18 +531,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
-   private void configure()
-   {
-      ProjectConfig config = m_context.getProjectConfig();
-      config.setAutoTaskUniqueID(false);
-      config.setAutoResourceUniqueID(false);
-      config.setAutoCalendarUniqueID(false);
-      config.setAutoAssignmentUniqueID(false);
-      config.setAutoWBS(false);
-      config.setAutoRelationUniqueID(false);
-      config.setBaselineStrategy(m_baselineStrategy);
-   }
-
    /**
     * Normally we'd just create an InputSource instance directly from
     * the input stream. Unfortunately P6 doesn't seem to filter out
@@ -627,44 +565,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
 
       return result;
-   }
-
-   /**
-    * Process UDF definitions.
-    *
-    * @param apibo top level object
-    */
-   private void processUdfDefintions(APIBusinessObjects apibo)
-   {
-      for (UDFTypeType udf : apibo.getUDFType())
-      {
-         processUdfDefinition(udf);
-      }
-   }
-
-   /**
-    * Process an individual UDF.
-    *
-    * @param udf UDF definition
-    */
-   private void processUdfDefinition(UDFTypeType udf)
-   {
-      FieldTypeClass fieldTypeClass = FieldTypeClassHelper.getInstanceFromXml(udf.getSubjectArea());
-      if (fieldTypeClass == null)
-      {
-         return;
-      }
-
-      UserDefinedField field = new UserDefinedField.Builder(m_context)
-         .uniqueID(udf.getObjectId())
-         .externalName(udf.getTitle())
-         .fieldTypeClass(fieldTypeClass)
-         .summaryTaskOnly(udf.getSubjectArea().equals("WBS"))
-         .dataType(UdfHelper.getDataTypeFromXml(udf.getDataType()))
-         .build();
-
-      m_context.getUserDefinedFields().add(field);
-      m_context.getCustomFields().add(field).setAlias(udf.getTitle()).setUniqueID(udf.getObjectId());
    }
 
    private void processGlobalProperties(APIBusinessObjects apibo)
@@ -870,6 +770,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       processScheduleOptions(project.getScheduleOptions());
    }
 
+
    /**
     * Process activity code definitions.
     *
@@ -915,310 +816,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             code.addValue(value);
          }
       }
-   }
-
-   /**
-    * Process project code definitions.
-    *
-    * @param apibo top level object
-    */
-   private void processProjectCodeDefinitions(APIBusinessObjects apibo)
-   {
-      ProjectCodeContainer container = m_context.getProjectCodes();
-      Map<Integer, ProjectCode> map = new HashMap<>();
-
-      for (ProjectCodeTypeType type : apibo.getProjectCodeType())
-      {
-         ProjectCode code = new ProjectCode.Builder(m_context)
-            .uniqueID(type.getObjectId())
-            .sequenceNumber(type.getSequenceNumber())
-            .name(type.getName())
-            .secure(BooleanHelper.getBoolean(type.isIsSecureCode()))
-            .maxLength(type.getLength())
-            .build();
-         container.add(code);
-         map.put(code.getUniqueID(), code);
-      }
-
-      List<ProjectCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getProjectCode(), ProjectCodeType::getObjectId, ProjectCodeType::getParentObjectId);
-      for (ProjectCodeType typeValue : typeValues)
-      {
-         ProjectCode code = map.get(typeValue.getCodeTypeObjectId());
-         if (code != null)
-         {
-            ProjectCodeValue value = new ProjectCodeValue.Builder(m_context)
-               .projectCode(code)
-               .uniqueID(typeValue.getObjectId())
-               .sequenceNumber(typeValue.getSequenceNumber())
-               .name(typeValue.getCodeValue())
-               .description(typeValue.getDescription())
-               .parentValue(code.getValueByUniqueID(typeValue.getParentObjectId()))
-               .build();
-            code.addValue(value);
-         }
-      }
-   }
-
-   /**
-    * Process resource code definitions.
-    *
-    * @param apibo top level object
-    */
-   private void processResourceCodeDefinitions(APIBusinessObjects apibo)
-   {
-      ResourceCodeContainer container = m_context.getResourceCodes();
-      Map<Integer, ResourceCode> map = new HashMap<>();
-
-      for (ResourceCodeTypeType type : apibo.getResourceCodeType())
-      {
-         ResourceCode code = new ResourceCode.Builder(m_context)
-            .uniqueID(type.getObjectId())
-            .sequenceNumber(type.getSequenceNumber())
-            .name(type.getName())
-            .secure(BooleanHelper.getBoolean(type.isIsSecureCode()))
-            .maxLength(type.getLength())
-            .build();
-         container.add(code);
-         map.put(code.getUniqueID(), code);
-      }
-
-      List<ResourceCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getResourceCode(), ResourceCodeType::getObjectId, ResourceCodeType::getParentObjectId);
-      for (ResourceCodeType typeValue : typeValues)
-      {
-         ResourceCode code = map.get(typeValue.getCodeTypeObjectId());
-         if (code != null)
-         {
-            ResourceCodeValue value = new ResourceCodeValue.Builder(m_context)
-               .resourceCode(code)
-               .uniqueID(typeValue.getObjectId())
-               .sequenceNumber(typeValue.getSequenceNumber())
-               .name(typeValue.getCodeValue())
-               .description(typeValue.getDescription())
-               .parentValue(code.getValueByUniqueID(typeValue.getParentObjectId()))
-               .build();
-            code.addValue(value);
-         }
-      }
-   }
-
-   /**
-    * Process role code definitions.
-    *
-    * @param apibo top level object
-    */
-   private void processRoleCodeDefinitions(APIBusinessObjects apibo)
-   {
-      RoleCodeContainer container = m_context.getRoleCodes();
-      Map<Integer, RoleCode> map = new HashMap<>();
-
-      for (RoleCodeTypeType type : apibo.getRoleCodeType())
-      {
-         RoleCode code = new RoleCode.Builder(m_context)
-            .uniqueID(type.getObjectId())
-            .sequenceNumber(type.getSequenceNumber())
-            .name(type.getName())
-            .secure(BooleanHelper.getBoolean(type.isIsSecureCode()))
-            .maxLength(type.getLength())
-            .build();
-         container.add(code);
-         map.put(code.getUniqueID(), code);
-      }
-
-      List<RoleCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getRoleCode(), RoleCodeType::getObjectId, RoleCodeType::getParentObjectId);
-      for (RoleCodeType typeValue : typeValues)
-      {
-         RoleCode code = map.get(typeValue.getCodeTypeObjectId());
-         if (code != null)
-         {
-            RoleCodeValue value = new RoleCodeValue.Builder(m_context)
-               .roleCode(code)
-               .uniqueID(typeValue.getObjectId())
-               .sequenceNumber(typeValue.getSequenceNumber())
-               .name(typeValue.getCodeValue())
-               .description(typeValue.getDescription())
-               .parentValue(code.getValueByUniqueID(typeValue.getParentObjectId()))
-               .build();
-            code.addValue(value);
-         }
-      }
-   }
-
-   /**
-    * Process resource assignment code definitions.
-    *
-    * @param apibo top level object
-    */
-   private void processResourceAssignmentCodeDefinitions(APIBusinessObjects apibo)
-   {
-      ResourceAssignmentCodeContainer container = m_context.getResourceAssignmentCodes();
-      Map<Integer, ResourceAssignmentCode> map = new HashMap<>();
-
-      for (ResourceAssignmentCodeTypeType type : apibo.getResourceAssignmentCodeType())
-      {
-         ResourceAssignmentCode code = new ResourceAssignmentCode.Builder(m_context)
-            .uniqueID(type.getObjectId())
-            .sequenceNumber(type.getSequenceNumber())
-            .name(type.getName())
-            .secure(BooleanHelper.getBoolean(type.isIsSecureCode()))
-            .maxLength(type.getLength())
-            .build();
-         container.add(code);
-         map.put(code.getUniqueID(), code);
-      }
-
-      List<ResourceAssignmentCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getResourceAssignmentCode(), ResourceAssignmentCodeType::getObjectId, ResourceAssignmentCodeType::getParentObjectId);
-      for (ResourceAssignmentCodeType typeValue : typeValues)
-      {
-         ResourceAssignmentCode code = map.get(typeValue.getCodeTypeObjectId());
-         if (code != null)
-         {
-            ResourceAssignmentCodeValue value = new ResourceAssignmentCodeValue.Builder(m_context)
-               .resourceAssignmentCode(code)
-               .uniqueID(typeValue.getObjectId())
-               .sequenceNumber(typeValue.getSequenceNumber())
-               .name(typeValue.getCodeValue())
-               .description(typeValue.getDescription())
-               .parentValue(code.getValueByUniqueID(typeValue.getParentObjectId()))
-               .build();
-            code.addValue(value);
-         }
-      }
-   }
-
-   /**
-    * Process locations.
-    *
-    * @param apibo top level object
-    */
-   private void processLocations(APIBusinessObjects apibo)
-   {
-      LocationContainer container = m_context.getLocations();
-      apibo.getLocation().forEach(c -> container.add(
-         new Location.Builder(m_context)
-            .uniqueID(c.getObjectId())
-            .name(c.getName())
-            .addressLine1(c.getAddressLine1())
-            .addressLine2(c.getAddressLine2())
-            .city(c.getCity())
-            .municipality(c.getMunicipality())
-            .state(c.getState())
-            .stateCode(c.getStateCode())
-            .country(c.getCountry())
-            .countryCode(c.getCountryCode())
-            .postalCode(c.getPostalCode())
-            .latitude(c.getLatitude())
-            .longitude(c.getLongitude())
-            .build()));
-   }
-
-   /**
-    * Process currencies.
-    *
-    * @param apibo top level object
-    */
-   private void processCurrencies(APIBusinessObjects apibo)
-   {
-      CurrencyContainer container = m_context.getCurrencies();
-
-      apibo.getCurrency().forEach(c -> container.add(
-         new Currency.Builder(m_context)
-            .uniqueID(c.getObjectId())
-            .currencyID(c.getId())
-            .name(c.getName())
-            .symbol(c.getSymbol())
-            .exchangeRate(c.getExchangeRate())
-            .decimalSymbol("Comma".equals(c.getDecimalSymbol()) ? "," : ".")
-            .numberOfDecimalPlaces(c.getDecimalPlaces())
-            .digitGroupingSymbol("Comma".equals(c.getDigitGroupingSymbol()) ? "," : ".")
-            .positiveCurrencyFormat(c.getPositiveSymbol())
-            .negativeCurrencyFormat(c.getNegativeSymbol())
-            .build()));
-   }
-
-   /**
-    * Process shifts.
-    *
-    * @param apibo top level object
-    */
-   private void processShifts(APIBusinessObjects apibo)
-   {
-      ShiftContainer shiftContainer = m_context.getShifts();
-      ShiftPeriodContainer shiftPeriodContainer = m_context.getShiftPeriods();
-
-      for (ShiftType xml : apibo.getShift())
-      {
-         Shift shift = new Shift.Builder(m_context)
-            .name(xml.getName())
-            .uniqueID(xml.getObjectId())
-            .build();
-         shiftContainer.add(shift);
-
-         for (ShiftPeriodType xmlPeriod : xml.getShiftPeriod())
-         {
-            ShiftPeriod period = new ShiftPeriod.Builder(m_context, shift)
-               .uniqueID(xmlPeriod.getObjectId())
-               .start(xmlPeriod.getStartHour())
-               .build();
-            shiftPeriodContainer.add(period);
-         }
-      }
-   }
-
-   /**
-    * Process expense categories.
-    *
-    * @param apibo top level object
-    */
-   private void processExpenseCategories(APIBusinessObjects apibo)
-   {
-      ExpenseCategoryContainer container = m_context.getExpenseCategories();
-      apibo.getExpenseCategory().forEach(c -> container.add(new ExpenseCategory.Builder(m_context).uniqueID(c.getObjectId()).name(c.getName()).sequenceNumber(c.getSequenceNumber()).build()));
-   }
-
-   /**
-    * Process cost accounts.
-    *
-    * @param apibo top level object
-    */
-   private void processCostAccounts(APIBusinessObjects apibo)
-   {
-      CostAccountContainer container = m_context.getCostAccounts();
-      HierarchyHelper.sortHierarchy(apibo.getCostAccount(), CostAccountType::getObjectId, CostAccountType::getParentObjectId).forEach(c -> container.add(
-         new CostAccount.Builder(m_context)
-            .uniqueID(c.getObjectId())
-            .id(c.getId())
-            .name(c.getName())
-            .notes(getNotes(c.getDescription()))
-            .sequenceNumber(c.getSequenceNumber())
-            .parent(container.getByUniqueID(c.getParentObjectId()))
-            .build()));
-   }
-
-   /**
-    * Process units of measure.
-    *
-    * @param apibo top level object
-    */
-   private void processUnitsOfMeasure(APIBusinessObjects apibo)
-   {
-      UnitOfMeasureContainer container = m_context.getUnitsOfMeasure();
-      apibo.getUnitOfMeasure().forEach(u -> container.add(processUnitOfMeasure(u)));
-   }
-
-   /**
-    * Create a unit of measure.
-    *
-    * @param u unit of measure data
-    * @return UnitOfMeasure instance
-    */
-   private UnitOfMeasure processUnitOfMeasure(UnitOfMeasureType u)
-   {
-      return new UnitOfMeasure.Builder(m_context)
-         .uniqueID(u.getObjectId())
-         .abbreviation(u.getAbbreviation())
-         .name(u.getName())
-         .sequenceNumber(u.getSequenceNumber())
-         .build();
    }
 
    /**
@@ -1498,7 +1095,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setCode(xml.getEmployeeId());
          resource.setEmailAddress(xml.getEmailAddress());
          resource.setGUID(DatatypeConverter.parseUUID(xml.getGUID()));
-         resource.setNotesObject(getNotes(xml.getResourceNotes()));
+         resource.setNotesObject(NotesHelper.getNotes(xml.getResourceNotes()));
          resource.setCreationDate(xml.getCreateDate());
          resource.setType(ResourceTypeHelper.getInstanceFromXml(xml.getResourceType()));
          resource.setDefaultUnits(defaultUnitsPerTime);
@@ -1536,7 +1133,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setUniqueID(m_roleClashMap.getID(role.getObjectId()));
          resource.setName(role.getName());
          resource.setResourceID(role.getId());
-         resource.setNotesObject(getHtmlNote(role.getResponsibilities()));
+         resource.setNotesObject(NotesHelper.getHtmlNote(role.getResponsibilities()));
          resource.setSequenceNumber(role.getSequenceNumber());
 
          processRoleCodeAssignments(resource, role.getCode());
@@ -1566,18 +1163,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          resource.addRoleAssignment(role, SkillLevelHelper.getInstanceFromXml(assignment.getProficiency()));
       }
-   }
-
-   /**
-    * Create a Notes instance from an HTML document.
-    *
-    * @param text HTML document
-    * @return Notes instance
-    */
-   private Notes getNotes(String text)
-   {
-      Notes notes = getHtmlNote(text);
-      return notes == null || notes.isEmpty() ? null : notes;
    }
 
    /**
@@ -2222,48 +1807,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
-   private void processWorkContours(APIBusinessObjects apibo)
-   {
-      apibo.getResourceCurve().forEach(this::processWorkContour);
-   }
-
-   private void processWorkContour(ResourceCurveType curve)
-   {
-      if (m_context.getWorkContours().getByUniqueID(curve.getObjectId()) != null)
-      {
-         return;
-      }
-
-      ResourceCurveValuesType curveValues = curve.getValues();
-
-      double[] values =
-      {
-         NumberHelper.getDouble(curveValues.getValue0()),
-         NumberHelper.getDouble(curveValues.getValue5()),
-         NumberHelper.getDouble(curveValues.getValue10()),
-         NumberHelper.getDouble(curveValues.getValue15()),
-         NumberHelper.getDouble(curveValues.getValue20()),
-         NumberHelper.getDouble(curveValues.getValue25()),
-         NumberHelper.getDouble(curveValues.getValue30()),
-         NumberHelper.getDouble(curveValues.getValue35()),
-         NumberHelper.getDouble(curveValues.getValue40()),
-         NumberHelper.getDouble(curveValues.getValue45()),
-         NumberHelper.getDouble(curveValues.getValue50()),
-         NumberHelper.getDouble(curveValues.getValue55()),
-         NumberHelper.getDouble(curveValues.getValue60()),
-         NumberHelper.getDouble(curveValues.getValue65()),
-         NumberHelper.getDouble(curveValues.getValue70()),
-         NumberHelper.getDouble(curveValues.getValue75()),
-         NumberHelper.getDouble(curveValues.getValue80()),
-         NumberHelper.getDouble(curveValues.getValue85()),
-         NumberHelper.getDouble(curveValues.getValue90()),
-         NumberHelper.getDouble(curveValues.getValue95()),
-         NumberHelper.getDouble(curveValues.getValue100()),
-      };
-
-      m_context.getWorkContours().add(new WorkContour(curve.getObjectId(), curve.getName(), BooleanHelper.getBoolean(curve.isIsDefault()), values));
-   }
-
    /**
     * Process resource assignments.
     *
@@ -2551,41 +2094,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             .uniqueID(activityStep.getObjectId())
             .weight(activityStep.getWeight())
             .percentComplete(Double.valueOf(NumberHelper.getDouble(activityStep.getPercentComplete()) * 100.0))
-            .description(getHtmlNote(activityStep.getDescription()))
+            .description(NotesHelper.getHtmlNote(activityStep.getDescription()))
             .build();
 
          task.getSteps().add(step);
       }
-   }
-
-   /**
-    * Populate notebook topics.
-    *
-    * @param apibo top level object
-    */
-   private void processNotebookTopics(APIBusinessObjects apibo)
-   {
-      apibo.getNotebookTopic().forEach(this::processNotebookTopic);
-   }
-
-   /**
-    * Populate an individual notebook topic.
-    *
-    * @param xml notebook topic data
-    */
-   private void processNotebookTopic(NotebookTopicType xml)
-   {
-      NotesTopic topic = new NotesTopic.Builder(m_context)
-         .uniqueID(xml.getObjectId())
-         .sequenceNumber(xml.getSequenceNumber())
-         .availableForEPS(BooleanHelper.getBoolean(xml.isAvailableForEPS()))
-         .availableForProject(BooleanHelper.getBoolean(xml.isAvailableForProject()))
-         .availableForWBS(BooleanHelper.getBoolean(xml.isAvailableForWBS()))
-         .availableForActivity(BooleanHelper.getBoolean(xml.isAvailableForActivity()))
-         .name(xml.getName())
-         .build();
-
-      m_context.getNotesTopics().add(topic);
    }
 
    /**
@@ -2615,7 +2128,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    private Notes getNote(Integer uniqueID, Integer topicID, String text)
    {
-      HtmlNotes note = getHtmlNote(text);
+      HtmlNotes note = NotesHelper.getHtmlNote(text);
       if (note == null || note.isEmpty())
       {
          return null;
@@ -2628,27 +2141,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
 
       return new StructuredNotes(m_projectFile, uniqueID, topic, note);
-   }
-
-   /**
-    * Create an HtmlNote instance.
-    *
-    * @param text note text
-    * @return HtmlNote instance
-    */
-   private HtmlNotes getHtmlNote(String text)
-   {
-      if (text == null || text.isEmpty())
-      {
-         return null;
-      }
-
-      // Remove BOM and NUL characters
-      String html = text.replaceAll("[\\uFEFF\\uFFFE\\x00]", "");
-
-      HtmlNotes result = new HtmlNotes(html);
-
-      return result.isEmpty() ? null : result;
    }
 
    /**
