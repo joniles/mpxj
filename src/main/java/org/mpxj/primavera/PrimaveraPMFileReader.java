@@ -251,8 +251,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       List<ProjectFile> result = new ArrayList<>(projects.size() + baselineProjects.size());
       m_externalRelations = new ArrayList<>();
 
-      projects.forEach(project -> result.add(read(apibo, project)));
-      baselineProjects.forEach(project -> result.add(read(apibo, project)));
+      ProjectContext context = new PrimaveraPMContextReader(apibo).read();
+      context.getProjectConfig().setBaselineStrategy(m_baselineStrategy);
+      processActivityCodeDefinitions(context, apibo.getActivityCodeType(), apibo.getActivityCode());
+
+      projects.forEach(project -> result.add(read(context, apibo, project)));
+      baselineProjects.forEach(project -> result.add(read(context, apibo, project)));
 
       // Sort to ensure exported project is first
       result.sort((o1, o2) -> Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
@@ -428,21 +432,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
-   private ProjectFile read(APIBusinessObjects apibo, Object projectObject)
+   private ProjectFile read(ProjectContext context, APIBusinessObjects apibo, Object projectObject)
    {
       try
       {
          m_activityClashMap = new ClashMap();
          m_roleClashMap = new ClashMap();
 
-         // Process common data
-         if (m_context == null)
-         {
-            m_context = new PrimaveraPMContextReader(apibo, m_baselineStrategy).read();
-            processActivityCodeDefinitions(apibo.getActivityCodeType(), apibo.getActivityCode());
-         }
-
-         m_projectFile = new ProjectFile(m_context);
+         m_projectFile = new ProjectFile(context);
          m_eventManager = m_projectFile.getEventManager();
          m_projectFile.getProjectProperties().setFileApplication("Primavera");
          m_projectFile.getProjectProperties().setFileType("PMXML");
@@ -507,7 +504,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_projectFile.getProjectProperties().setNotesObject(wbsNotes.get(Integer.valueOf(0)));
 
          processGlobalProperties(apibo);
-         processActivityCodeDefinitions(activityCodeTypes, activityCodes);
+         processActivityCodeDefinitions(m_projectFile.getProjectContext(), activityCodeTypes, activityCodes);
          processProjectCodeAssignments(codes);
          processTasks(wbs, wbsNotes, activities, getActivityNotes(activityNotes));
          processPredecessors(relationships);
@@ -525,7 +522,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       finally
       {
          m_projectFile = null;
-         m_context = null;
          m_activityClashMap = null;
          m_roleClashMap = null;
       }
@@ -777,14 +773,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     * @param types list of activity code types
     * @param typeValues list of activity code values
     */
-   private void processActivityCodeDefinitions(List<ActivityCodeTypeType> types, List<ActivityCodeType> typeValues)
+   private void processActivityCodeDefinitions(ProjectContext context, List<ActivityCodeTypeType> types, List<ActivityCodeType> typeValues)
    {
-      ActivityCodeContainer container = m_context.getActivityCodes();
+      ActivityCodeContainer container = context.getActivityCodes();
       Map<Integer, ActivityCode> map = new HashMap<>();
 
       for (ActivityCodeTypeType type : types)
       {
-         ActivityCode code = new ActivityCode.Builder(m_context)
+         ActivityCode code = new ActivityCode.Builder(context)
             .uniqueID(type.getObjectId())
             .scope(ActivityCodeScopeHelper.getInstanceFromXml(type.getScope()))
             .scopeEpsUniqueID(type.getEPSObjectId())
@@ -804,7 +800,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          ActivityCode code = map.get(typeValue.getCodeTypeObjectId());
          if (code != null)
          {
-            ActivityCodeValue value = new ActivityCodeValue.Builder(m_context)
+            ActivityCodeValue value = new ActivityCodeValue.Builder(context)
                .activityCode(code)
                .uniqueID(typeValue.getObjectId())
                .sequenceNumber(typeValue.getSequenceNumber())
@@ -2454,7 +2450,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    private Integer m_projectID;
    private ProjectFile m_projectFile;
-   private ProjectContext m_context;
    private EventManager m_eventManager;
    private ClashMap m_activityClashMap;
    private ClashMap m_roleClashMap;

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.mpxj.BaselineStrategy;
 import org.mpxj.CostAccount;
 import org.mpxj.CostAccountContainer;
 import org.mpxj.Currency;
@@ -60,10 +59,9 @@ import org.mpxj.primavera.schema.UnitOfMeasureType;
 
 class PrimaveraPMContextReader
 {
-   public PrimaveraPMContextReader(APIBusinessObjects apibo, BaselineStrategy baselineStrategy)
+   public PrimaveraPMContextReader(APIBusinessObjects apibo)
    {
       m_apibo = apibo;
-      m_baselineStrategy = baselineStrategy;
    }
    
    public ProjectContext read()
@@ -94,7 +92,6 @@ class PrimaveraPMContextReader
       config.setAutoAssignmentUniqueID(false);
       config.setAutoWBS(false);
       config.setAutoRelationUniqueID(false);
-      config.setBaselineStrategy(m_baselineStrategy);
    }
 
    /**
@@ -489,5 +486,4 @@ class PrimaveraPMContextReader
 
    private final ProjectContext m_context = new ProjectContext();
    private final APIBusinessObjects m_apibo;
-   private final BaselineStrategy m_baselineStrategy;
 }
