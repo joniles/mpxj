@@ -99,8 +99,6 @@ class PrimaveraPMContextReader
 
    /**
     * Process project code definitions.
-    *
-    * @param apibo top level object
     */
    private void processProjectCodeDefinitions()
    {
@@ -141,8 +139,6 @@ class PrimaveraPMContextReader
 
    /**
     * Process resource code definitions.
-    *
-    * @param apibo top level object
     */
    private void processResourceCodeDefinitions()
    {
@@ -183,8 +179,6 @@ class PrimaveraPMContextReader
 
    /**
     * Process role code definitions.
-    *
-    * @param apibo top level object
     */
    private void processRoleCodeDefinitions()
    {
@@ -225,8 +219,6 @@ class PrimaveraPMContextReader
 
    /**
     * Process resource assignment code definitions.
-    *
-    * @param apibo top level object
     */
    private void processResourceAssignmentCodeDefinitions()
    {
@@ -267,8 +259,6 @@ class PrimaveraPMContextReader
 
    /**
     * Process locations.
-    *
-    * @param apibo top level object
     */
    private void processLocations()
    {
@@ -293,8 +283,6 @@ class PrimaveraPMContextReader
 
    /**
     * Process currencies.
-    *
-    * @param apibo top level object
     */
    private void processCurrencies()
    {
@@ -317,8 +305,6 @@ class PrimaveraPMContextReader
 
    /**
     * Process shifts.
-    *
-    * @param apibo top level object
     */
    private void processShifts()
    {
@@ -346,8 +332,6 @@ class PrimaveraPMContextReader
 
    /**
     * Process expense categories.
-    *
-    * @param apibo top level object
     */
    private void processExpenseCategories()
    {
@@ -357,8 +341,6 @@ class PrimaveraPMContextReader
 
    /**
     * Process cost accounts.
-    *
-    * @param apibo top level object
     */
    private void processCostAccounts()
    {
@@ -376,8 +358,6 @@ class PrimaveraPMContextReader
 
    /**
     * Process units of measure.
-    *
-    * @param apibo top level object
     */
    private void processUnitsOfMeasure()
    {
@@ -445,8 +425,6 @@ class PrimaveraPMContextReader
 
    /**
     * Populate notebook topics.
-    *
-    * @param apibo top level object
     */
    private void processNotebookTopics()
    {
@@ -475,8 +453,6 @@ class PrimaveraPMContextReader
 
    /**
     * Process UDF definitions.
-    *
-    * @param apibo top level object
     */
    private void processUdfDefintions()
    {
