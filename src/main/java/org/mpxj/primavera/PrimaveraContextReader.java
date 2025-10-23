@@ -44,8 +44,7 @@ import org.mpxj.common.HierarchyHelper;
 
 abstract class PrimaveraContextReader
 {
-
-   public void configure()
+   protected void configure()
    {
       ProjectConfig config = m_context.getProjectConfig();
       config.setAutoTaskUniqueID(false);
@@ -61,7 +60,7 @@ abstract class PrimaveraContextReader
     *
     * @param currencies currency data
     */
-   public void processCurrencies(List<Row> currencies)
+   protected void processCurrencies(List<Row> currencies)
    {
       CurrencyContainer container = m_context.getCurrencies();
       currencies.forEach(
@@ -86,7 +85,7 @@ abstract class PrimaveraContextReader
     *
     * @param locations locations data
     */
-   public void processLocations(List<Row> locations)
+   protected void processLocations(List<Row> locations)
    {
       LocationContainer container = m_context.getLocations();
       locations.forEach(
@@ -116,7 +115,7 @@ abstract class PrimaveraContextReader
     * @param shifts shift data
     * @param periods shift period data
     */
-   public void processShifts(List<Row> shifts, List<Row> periods)
+   protected void processShifts(List<Row> shifts, List<Row> periods)
    {
       ShiftContainer shiftContainer = m_context.getShifts();
       shifts.forEach(r -> shiftContainer.add(
@@ -147,7 +146,7 @@ abstract class PrimaveraContextReader
     *
     * @param units units of measure
     */
-   public void processUnitsOfMeasure(List<Row> units)
+   protected void processUnitsOfMeasure(List<Row> units)
    {
       UnitOfMeasureContainer container = m_context.getUnitsOfMeasure();
       units.forEach(row -> container.add(processUnitOfMeasure(row)));
@@ -174,7 +173,7 @@ abstract class PrimaveraContextReader
     *
     * @param categories expense categories
     */
-   public void processExpenseCategories(List<Row> categories)
+   protected void processExpenseCategories(List<Row> categories)
    {
       ExpenseCategoryContainer container = m_context.getExpenseCategories();
       categories.forEach(row -> container.add(new ExpenseCategory.Builder(m_context)
@@ -189,7 +188,7 @@ abstract class PrimaveraContextReader
     *
     * @param accounts cost accounts
     */
-   public void processCostAccounts(List<Row> accounts)
+   protected void processCostAccounts(List<Row> accounts)
    {
       CostAccountContainer container = m_context.getCostAccounts();
       HierarchyHelper.sortHierarchy(accounts, v -> v.getInteger("acct_id"), v -> v.getInteger("parent_acct_id")).forEach(row -> container.add(
@@ -208,7 +207,7 @@ abstract class PrimaveraContextReader
     *
     * @param rows notebook topic rows
     */
-   public void processNotebookTopics(List<Row> rows)
+   protected void processNotebookTopics(List<Row> rows)
    {
       rows.forEach(this::processNotebookTopic);
    }
@@ -238,7 +237,7 @@ abstract class PrimaveraContextReader
     *
     * @param fields field definitions
     */
-   public void processUdfDefinitions(List<Row> fields)
+   protected void processUdfDefinitions(List<Row> fields)
    {
       UserDefinedFieldContainer container = m_context.getUserDefinedFields();
 
@@ -273,7 +272,7 @@ abstract class PrimaveraContextReader
     * @param types project code type data
     * @param typeValues project code value data
     */
-   public void processProjectCodeDefinitions(List<Row> types, List<Row> typeValues)
+   protected void processProjectCodeDefinitions(List<Row> types, List<Row> typeValues)
    {
       ProjectCodeContainer container = m_context.getProjectCodes();
       Map<Integer, ProjectCode> map = new HashMap<>();
@@ -315,7 +314,7 @@ abstract class PrimaveraContextReader
     * @param types resource code type data
     * @param typeValues resource code value data
     */
-   public void processResourceCodeDefinitions(List<Row> types, List<Row> typeValues)
+   protected void processResourceCodeDefinitions(List<Row> types, List<Row> typeValues)
    {
       ResourceCodeContainer container = m_context.getResourceCodes();
       Map<Integer, ResourceCode> map = new HashMap<>();
@@ -357,7 +356,7 @@ abstract class PrimaveraContextReader
     * @param types role code type data
     * @param typeValues role code value data
     */
-   public void processRoleCodeDefinitions(List<Row> types, List<Row> typeValues)
+   protected void processRoleCodeDefinitions(List<Row> types, List<Row> typeValues)
    {
       RoleCodeContainer container = m_context.getRoleCodes();
       Map<Integer, RoleCode> map = new HashMap<>();
@@ -399,7 +398,7 @@ abstract class PrimaveraContextReader
     * @param types resource assignment code type data
     * @param typeValues resource assignment code value data
     */
-   public void processResourceAssignmentCodeDefinitions(List<Row> types, List<Row> typeValues)
+   protected void processResourceAssignmentCodeDefinitions(List<Row> types, List<Row> typeValues)
    {
       ResourceAssignmentCodeContainer container = m_context.getResourceAssignmentCodes();
       Map<Integer, ResourceAssignmentCode> map = new HashMap<>();
@@ -441,7 +440,7 @@ abstract class PrimaveraContextReader
     * @param types activity code type data
     * @param typeValues activity code value data
     */
-   public void processActivityCodeDefinitions(List<Row> types, List<Row> typeValues)
+   protected void processActivityCodeDefinitions(List<Row> types, List<Row> typeValues)
    {
       ActivityCodeContainer container = m_context.getActivityCodes();
       Map<Integer, ActivityCode> map = new HashMap<>();
