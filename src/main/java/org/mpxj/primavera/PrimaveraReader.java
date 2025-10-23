@@ -272,10 +272,10 @@ final class PrimaveraReader
     */
    public void processLocations(List<Row> locations)
    {
-      LocationContainer container = m_project.getLocations();
+      LocationContainer container = m_context.getLocations();
       locations.forEach(
          row -> container.add(
-            new Location.Builder(m_project)
+            new Location.Builder(m_context)
                .uniqueID(row.getInteger("location_id"))
                .name(row.getString("location_name"))
                .addressLine1(row.getString("address_line1"))
@@ -300,10 +300,10 @@ final class PrimaveraReader
     */
    public void processCurrencies(List<Row> currencies)
    {
-      CurrencyContainer container = m_project.getCurrencies();
+      CurrencyContainer container = m_context.getCurrencies();
       currencies.forEach(
          row -> container.add(
-            new Currency.Builder(m_project)
+            new Currency.Builder(m_context)
                .uniqueID(row.getInteger("curr_id"))
                .numberOfDecimalPlaces(row.getInteger("decimal_digit_cnt"))
                .symbol(row.getString("curr_symbol"))
@@ -326,14 +326,14 @@ final class PrimaveraReader
     */
    public void processShifts(List<Row> shifts, List<Row> periods)
    {
-      ShiftContainer shiftContainer = m_project.getShifts();
+      ShiftContainer shiftContainer = m_context.getShifts();
       shifts.forEach(r -> shiftContainer.add(
-         new Shift.Builder(m_project)
+         new Shift.Builder(m_context)
             .uniqueID(r.getInteger("shift_id"))
             .name(r.getString("shift_name"))
             .build()));
 
-      ShiftPeriodContainer shiftPeriodContainer = m_project.getShiftPeriods();
+      ShiftPeriodContainer shiftPeriodContainer = m_context.getShiftPeriods();
       for (Row row : periods)
       {
          Shift shift = shiftContainer.getByUniqueID(row.getInteger("shift_id"));
@@ -342,7 +342,7 @@ final class PrimaveraReader
             continue;
          }
 
-         ShiftPeriod period = new ShiftPeriod.Builder(m_project, shift)
+         ShiftPeriod period = new ShiftPeriod.Builder(m_context, shift)
             .uniqueID(row.getInteger("shift_period_id"))
             .start(row.getInteger("shift_start_hr_num"))
             .build();
@@ -357,8 +357,8 @@ final class PrimaveraReader
     */
    public void processExpenseCategories(List<Row> categories)
    {
-      ExpenseCategoryContainer container = m_project.getExpenseCategories();
-      categories.forEach(row -> container.add(new ExpenseCategory.Builder(m_project).uniqueID(row.getInteger("cost_type_id")).name(row.getString("cost_type")).sequenceNumber(row.getInteger("seq_num")).build()));
+      ExpenseCategoryContainer container = m_context.getExpenseCategories();
+      categories.forEach(row -> container.add(new ExpenseCategory.Builder(m_context).uniqueID(row.getInteger("cost_type_id")).name(row.getString("cost_type")).sequenceNumber(row.getInteger("seq_num")).build()));
    }
 
    /**
@@ -368,9 +368,9 @@ final class PrimaveraReader
     */
    public void processCostAccounts(List<Row> accounts)
    {
-      CostAccountContainer container = m_project.getCostAccounts();
+      CostAccountContainer container = m_context.getCostAccounts();
       HierarchyHelper.sortHierarchy(accounts, v -> v.getInteger("acct_id"), v -> v.getInteger("parent_acct_id")).forEach(row -> container.add(
-         new CostAccount.Builder(m_project)
+         new CostAccount.Builder(m_context)
             .uniqueID(row.getInteger("acct_id"))
             .id(row.getString("acct_short_name"))
             .name(row.getString("acct_name"))
@@ -387,7 +387,7 @@ final class PrimaveraReader
     */
    public void processUnitsOfMeasure(List<Row> units)
    {
-      UnitOfMeasureContainer container = m_project.getUnitsOfMeasure();
+      UnitOfMeasureContainer container = m_context.getUnitsOfMeasure();
       units.forEach(row -> container.add(processUnitOfMeasure(row)));
    }
 
@@ -415,12 +415,12 @@ final class PrimaveraReader
     */
    public void processActivityCodeDefinitions(List<Row> types, List<Row> typeValues)
    {
-      ActivityCodeContainer container = m_project.getActivityCodes();
+      ActivityCodeContainer container = m_context.getActivityCodes();
       Map<Integer, ActivityCode> map = new HashMap<>();
 
       for (Row row : types)
       {
-         ActivityCode code = new ActivityCode.Builder(m_project)
+         ActivityCode code = new ActivityCode.Builder(m_context)
             .uniqueID(row.getInteger("actv_code_type_id"))
             .scope(ActivityCodeScopeHelper.getInstanceFromXer(row.getString("actv_code_type_scope")))
             .scopeEpsUniqueID(row.getInteger("wbs_id"))
@@ -440,7 +440,7 @@ final class PrimaveraReader
          ActivityCode code = map.get(row.getInteger("actv_code_type_id"));
          if (code != null)
          {
-            ActivityCodeValue value = new ActivityCodeValue.Builder(m_project)
+            ActivityCodeValue value = new ActivityCodeValue.Builder(m_context)
                .activityCode(code)
                .uniqueID(row.getInteger("actv_code_id"))
                .sequenceNumber(row.getInteger("seq_num"))
@@ -462,12 +462,12 @@ final class PrimaveraReader
     */
    public void processProjectCodeDefinitions(List<Row> types, List<Row> typeValues)
    {
-      ProjectCodeContainer container = m_project.getProjectCodes();
+      ProjectCodeContainer container = m_context.getProjectCodes();
       Map<Integer, ProjectCode> map = new HashMap<>();
 
       for (Row row : types)
       {
-         ProjectCode code = new ProjectCode.Builder(m_project)
+         ProjectCode code = new ProjectCode.Builder(m_context)
             .uniqueID(row.getInteger("proj_catg_type_id"))
             .sequenceNumber(row.getInteger("seq_num"))
             .name(row.getString("proj_catg_type"))
@@ -483,7 +483,7 @@ final class PrimaveraReader
          ProjectCode code = map.get(row.getInteger("proj_catg_type_id"));
          if (code != null)
          {
-            ProjectCodeValue value = new ProjectCodeValue.Builder(m_project)
+            ProjectCodeValue value = new ProjectCodeValue.Builder(m_context)
                .projectCode(code)
                .uniqueID(row.getInteger("proj_catg_id"))
                .sequenceNumber(row.getInteger("seq_num"))
@@ -504,12 +504,12 @@ final class PrimaveraReader
     */
    public void processResourceCodeDefinitions(List<Row> types, List<Row> typeValues)
    {
-      ResourceCodeContainer container = m_project.getResourceCodes();
+      ResourceCodeContainer container = m_context.getResourceCodes();
       Map<Integer, ResourceCode> map = new HashMap<>();
 
       for (Row row : types)
       {
-         ResourceCode code = new ResourceCode.Builder(m_project)
+         ResourceCode code = new ResourceCode.Builder(m_context)
             .uniqueID(row.getInteger("rsrc_catg_type_id"))
             .sequenceNumber(row.getInteger("seq_num"))
             .name(row.getString("rsrc_catg_type"))
@@ -525,7 +525,7 @@ final class PrimaveraReader
          ResourceCode code = map.get(row.getInteger("rsrc_catg_type_id"));
          if (code != null)
          {
-            ResourceCodeValue value = new ResourceCodeValue.Builder(m_project)
+            ResourceCodeValue value = new ResourceCodeValue.Builder(m_context)
                .resourceCode(code)
                .uniqueID(row.getInteger("rsrc_catg_id"))
                .sequenceNumber(row.getInteger("seq_num"))
@@ -546,12 +546,12 @@ final class PrimaveraReader
     */
    public void processRoleCodeDefinitions(List<Row> types, List<Row> typeValues)
    {
-      RoleCodeContainer container = m_project.getRoleCodes();
+      RoleCodeContainer container = m_context.getRoleCodes();
       Map<Integer, RoleCode> map = new HashMap<>();
 
       for (Row row : types)
       {
-         RoleCode code = new RoleCode.Builder(m_project)
+         RoleCode code = new RoleCode.Builder(m_context)
             .uniqueID(row.getInteger("role_catg_type_id"))
             .sequenceNumber(row.getInteger("seq_num"))
             .name(row.getString("role_catg_type"))
@@ -567,7 +567,7 @@ final class PrimaveraReader
          RoleCode code = map.get(row.getInteger("role_catg_type_id"));
          if (code != null)
          {
-            RoleCodeValue value = new RoleCodeValue.Builder(m_project)
+            RoleCodeValue value = new RoleCodeValue.Builder(m_context)
                .roleCode(code)
                .uniqueID(row.getInteger("role_catg_id"))
                .sequenceNumber(row.getInteger("seq_num"))
@@ -588,12 +588,12 @@ final class PrimaveraReader
     */
    public void processResourceAssignmentCodeDefinitions(List<Row> types, List<Row> typeValues)
    {
-      ResourceAssignmentCodeContainer container = m_project.getResourceAssignmentCodes();
+      ResourceAssignmentCodeContainer container = m_context.getResourceAssignmentCodes();
       Map<Integer, ResourceAssignmentCode> map = new HashMap<>();
 
       for (Row row : types)
       {
-         ResourceAssignmentCode code = new ResourceAssignmentCode.Builder(m_project)
+         ResourceAssignmentCode code = new ResourceAssignmentCode.Builder(m_context)
             .uniqueID(row.getInteger("asgnmnt_catg_type_id"))
             .sequenceNumber(row.getInteger("seq_num"))
             .name(row.getString("asgnmnt_catg_type"))
@@ -609,7 +609,7 @@ final class PrimaveraReader
          ResourceAssignmentCode code = map.get(row.getInteger("asgnmnt_catg_type_id"));
          if (code != null)
          {
-            ResourceAssignmentCodeValue value = new ResourceAssignmentCodeValue.Builder(m_project)
+            ResourceAssignmentCodeValue value = new ResourceAssignmentCodeValue.Builder(m_context)
                .resourceAssignmentCode(code)
                .uniqueID(row.getInteger("asgnmnt_catg_id"))
                .sequenceNumber(row.getInteger("seq_num"))
@@ -689,7 +689,7 @@ final class PrimaveraReader
     */
    public void processUdfDefinitions(List<Row> fields)
    {
-      UserDefinedFieldContainer container = m_project.getUserDefinedFields();
+      UserDefinedFieldContainer container = m_context.getUserDefinedFields();
 
       for (Row row : fields)
       {
@@ -702,7 +702,7 @@ final class PrimaveraReader
             continue;
          }
 
-         UserDefinedField fieldType = new UserDefinedField.Builder(m_project)
+         UserDefinedField fieldType = new UserDefinedField.Builder(m_context)
             .uniqueID(fieldId)
             .internalName(row.getString("udf_type_name"))
             .externalName(row.getString("udf_type_label"))
@@ -712,7 +712,7 @@ final class PrimaveraReader
             .build();
 
          container.add(fieldType);
-         m_project.getCustomFields().add(fieldType).setAlias(fieldType.getName()).setUniqueID(fieldId);
+         m_context.getCustomFields().add(fieldType).setAlias(fieldType.getName()).setUniqueID(fieldId);
       }
    }
 
@@ -1755,7 +1755,7 @@ final class PrimaveraReader
     */
    private void processNotebookTopic(Row row)
    {
-      NotesTopic topic = new NotesTopic.Builder(m_project)
+      NotesTopic topic = new NotesTopic.Builder(m_context)
          .uniqueID(row.getInteger("memo_type_id"))
          .sequenceNumber(row.getInteger("seq_num"))
          .availableForEPS(row.getBoolean("eps_flag"))
@@ -1765,7 +1765,7 @@ final class PrimaveraReader
          .name(row.getString("memo_type"))
          .build();
 
-      m_project.getNotesTopics().add(topic);
+      m_context.getNotesTopics().add(topic);
    }
 
    /**
