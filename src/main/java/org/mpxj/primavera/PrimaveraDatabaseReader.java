@@ -207,11 +207,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       }
    }
 
-   private void configure()
-   {
-      m_reader.configure();
-   }
-
    /**
     * Populate data for analytics.
     */
@@ -259,47 +254,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    }
 
    /**
-    * Select the currencies from the database.
-    */
-   private void processCurrencies() throws SQLException
-   {
-      if (m_database.hasTable("CURRTYPE"))
-      {
-         m_reader.processCurrencies(m_database.getRows("select * from " + m_schema + "currtype"));
-      }
-   }
-
-   /**
-    * Select the locations from the database.
-    */
-   private void processLocations() throws SQLException
-   {
-      if (m_database.hasTable("LOCATION"))
-      {
-         m_reader.processLocations(m_database.getRows("select * from " + m_schema + "location"));
-      }
-   }
-
-   /**
-    * Select shifts from the database.
-    */
-   private void processShifts() throws SQLException
-   {
-      if (m_database.hasTable("SHIFT") && m_database.hasTable("SHIFTPER"))
-      {
-         m_reader.processShifts(m_database.getRows("select * from " + m_schema + "shift"), m_database.getRows("select * from " + m_schema + "shiftper"));
-      }
-   }
-
-   /**
-    * Select the expense categories from the database.
-    */
-   private void processExpenseCategories() throws SQLException
-   {
-      m_reader.processExpenseCategories(m_database.getRows("select * from " + m_schema + "costtype"));
-   }
-
-   /**
     * Select the expense items from the database.
     */
    private void processExpenseItems() throws SQLException
@@ -313,95 +267,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private void processActivitySteps() throws SQLException
    {
       m_reader.processActivitySteps(m_database.getRows("select * from " + m_schema + "taskproc where proj_id=?", m_projectID));
-   }
-
-   /**
-    * Select the cost accounts from the database.
-    */
-   private void processCostAccounts() throws SQLException
-   {
-      m_reader.processCostAccounts(m_database.getRows("select * from " + m_schema + "account"));
-   }
-
-   /**
-    * Process units of measure.
-    */
-   private void processUnitsOfMeasure() throws SQLException
-   {
-      m_reader.processUnitsOfMeasure(m_database.getRows("select * from " + m_schema + "umeasure"));
-   }
-
-   /**
-    * Process notebook topics.
-    */
-   private void processNotebookTopics() throws SQLException
-   {
-      m_reader.processNotebookTopics(m_database.getRows("select * from " + m_schema + "memotype"));
-   }
-
-   /**
-    * Process activity code definitions.
-    */
-   private void processActivityCodeDefinitions() throws SQLException
-   {
-      if (m_database.hasTable("ACTVTYPE") && m_database.hasTable("ACTVCODE"))
-      {
-         List<Row> types = m_database.getRows("select * from " + m_schema + "actvtype where actv_code_type_id in (select distinct actv_code_type_id from taskactv where proj_id=?)", m_projectID);
-         List<Row> typeValues = m_database.getRows("select * from " + m_schema + "actvcode where actv_code_id in (select distinct actv_code_id from taskactv where proj_id=?)", m_projectID);
-         m_reader.processActivityCodeDefinitions(types, typeValues);
-      }
-   }
-
-   /**
-    * Process project code definitions.
-    */
-   private void processProjectCodeDefinitions() throws SQLException
-   {
-      if (m_database.hasTable("PCATTYPE") && m_database.hasTable("PCATVAL"))
-      {
-         List<Row> types = m_database.getRows("select * from " + m_schema + "pcattype where proj_catg_type_id in (select distinct proj_catg_type_id from projpcat where proj_id=?)", m_projectID);
-         List<Row> typeValues = m_database.getRows("select * from " + m_schema + "pcatval where proj_catg_id in (select distinct proj_catg_id from projpcat where proj_id=?)", m_projectID);
-         m_reader.processProjectCodeDefinitions(types, typeValues);
-      }
-   }
-
-   /**
-    * Process resource code definitions.
-    */
-   private void processResourceCodeDefinitions() throws SQLException
-   {
-      if (m_database.hasTable("RCATTYPE") && m_database.hasTable("RCATVAL"))
-      {
-         List<Row> types = m_database.getRows("select * from " + m_schema + "rcattype where rsrc_catg_type_id in (select distinct rsrc_catg_type_id from rsrcrcat where rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null))", m_projectID);
-         List<Row> typeValues = m_database.getRows("select * from " + m_schema + "rcatval where rsrc_catg_id in (select distinct rsrc_catg_id from rsrcrcat where rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null))", m_projectID);
-         m_reader.processResourceCodeDefinitions(types, typeValues);
-      }
-   }
-
-   /**
-    * Process role code definitions.
-    */
-   private void processRoleCodeDefinitions() throws SQLException
-   {
-      if (m_database.hasTable("ROLECATTYPE") && m_database.hasTable("ROLECATVAL"))
-      {
-         List<Row> types = m_database.getRows("select * from " + m_schema + "rolecattype where role_catg_type_id in (select distinct role_catg_type_id from rolercat where role_id in (select distinct role_id from " + m_schema + "rsrcrole where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null)))", m_projectID);
-         List<Row> typeValues = m_database.getRows("select * from " + m_schema + "rolecatval where role_catg_id in (select distinct role_catg_id from rolercat where role_id in (select distinct role_id from " + m_schema + "rsrcrole where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null)))", m_projectID);
-         m_reader.processRoleCodeDefinitions(types, typeValues);
-      }
-   }
-
-   /**
-    * Process resource assignment code definitions.
-    */
-   private void processResourceAssignmentCodeDefinitions() throws SQLException
-   {
-      if (m_database.hasTable("ASGNMNTCATTYPE") && m_database.hasTable("ASGNMNTCATVAL"))
-      {
-         List<Row> types = m_database.getRows("select * from " + m_schema + "asgnmntcattype where asgnmnt_catg_type_id in (select distinct asgnmnt_catg_type_id from asgnmntacat where proj_id=?)", m_projectID);
-         List<Row> typeValues = m_database.getRows("select * from " + m_schema + "asgnmntcatval where asgnmnt_catg_id in (select distinct asgnmnt_catg_id from asgnmntacat where proj_id=?)", m_projectID);
-         m_reader.processResourceAssignmentCodeDefinitions(types, typeValues);
-      }
    }
 
    /**
@@ -450,15 +315,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          List<Row> assignments = m_database.getRows("select * from " + m_schema + "asgnmntacat where proj_id=?", m_projectID);
          m_reader.processResourceAssignmentCodeAssignments(assignments);
       }
-   }
-
-   /**
-    * Process user defined field definitions.
-    */
-   private void processUdfDefinitions() throws SQLException
-   {
-      List<Row> fields = m_database.getRows("select * from " + m_schema + "udftype");
-      m_reader.processUdfDefinitions(fields);
    }
 
    /**
