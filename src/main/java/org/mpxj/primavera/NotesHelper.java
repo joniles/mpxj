@@ -35,6 +35,9 @@ class NotesHelper
       // Remove BOM and NUL characters
       String html = text.replaceAll("[\\uFEFF\\uFFFE\\x00]", "");
 
+      // Replace newlines
+      html = html.replaceAll("\\x7F\\x7F", "\n");
+
       HtmlNotes result = new HtmlNotes(html);
 
       return result.isEmpty() ? null : result;
