@@ -40,10 +40,7 @@ import org.mpxj.ProjectFile;
 import org.mpxj.ProjectContext;
 import org.mpxj.Relation;
 import org.mpxj.Task;
-import org.mpxj.WorkContour;
-import org.mpxj.WorkContourContainer;
 import org.mpxj.common.CharsetHelper;
-import org.mpxj.common.NumberHelper;
 import org.mpxj.reader.AbstractProjectStreamReader;
 
 /**
@@ -153,10 +150,15 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
 
          for (Row row : rows)
          {
-            setProjectID(row.getInt("proj_id"));
-            m_reader = new PrimaveraReader(context, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
-            ProjectFile project = readProject();
-            externalRelations.addAll(m_reader.getExternalRelations());
+//            setProjectID(row.getInt("proj_id"));
+//            m_reader = new PrimaveraReader(context, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
+//            ProjectFile project = readProject();
+
+            ProjectFile project = new ProjectFile(context);
+            addListenersToProject(project);
+            PrimaveraXERProjectReader reader = new PrimaveraXERProjectReader(m_file, project, row.getInt("proj_id") , m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
+            reader.read();
+            externalRelations.addAll(reader.getExternalRelations());
 
             result.add(project);
          }
