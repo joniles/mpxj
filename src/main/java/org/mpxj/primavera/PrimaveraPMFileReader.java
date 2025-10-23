@@ -471,21 +471,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_activityClashMap = new ClashMap();
          m_roleClashMap = new ClashMap();
 
-         boolean populateContext = m_context == null;
+         // Process common data
          if (m_context == null)
          {
             m_context = new ProjectContext();
-         }
-
-         m_projectFile = new ProjectFile(m_context);
-         m_eventManager = m_projectFile.getEventManager();
-         m_projectFile.getProjectProperties().setFileApplication("Primavera");
-         m_projectFile.getProjectProperties().setFileType("PMXML");
-         addListenersToProject(m_projectFile);
-
-         // Process common data
-         if (populateContext)
-         {
             configure();
             processCurrencies(apibo);
             processLocations(apibo);
@@ -502,6 +491,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             processResourceAssignmentCodeDefinitions(apibo);
             processShifts(apibo);
          }
+
+         m_projectFile = new ProjectFile(m_context);
+         m_eventManager = m_projectFile.getEventManager();
+         m_projectFile.getProjectProperties().setFileApplication("Primavera");
+         m_projectFile.getProjectProperties().setFileType("PMXML");
+         addListenersToProject(m_projectFile);
 
          processCalendars(apibo.getCalendar());
          processResources(apibo);
@@ -660,7 +655,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          return;
       }
 
-      UserDefinedField field = new UserDefinedField.Builder(m_projectFile)
+      UserDefinedField field = new UserDefinedField.Builder(m_context)
          .uniqueID(udf.getObjectId())
          .externalName(udf.getTitle())
          .fieldTypeClass(fieldTypeClass)
@@ -668,8 +663,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          .dataType(UdfHelper.getDataTypeFromXml(udf.getDataType()))
          .build();
 
-      m_projectFile.getUserDefinedFields().add(field);
-      m_projectFile.getCustomFields().add(field).setAlias(udf.getTitle()).setUniqueID(udf.getObjectId());
+      m_context.getUserDefinedFields().add(field);
+      m_context.getCustomFields().add(field).setAlias(udf.getTitle()).setUniqueID(udf.getObjectId());
    }
 
    private void processGlobalProperties(APIBusinessObjects apibo)
@@ -883,12 +878,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processActivityCodeDefinitions(List<ActivityCodeTypeType> types, List<ActivityCodeType> typeValues)
    {
-      ActivityCodeContainer container = m_projectFile.getActivityCodes();
+      ActivityCodeContainer container = m_context.getActivityCodes();
       Map<Integer, ActivityCode> map = new HashMap<>();
 
       for (ActivityCodeTypeType type : types)
       {
-         ActivityCode code = new ActivityCode.Builder(m_projectFile)
+         ActivityCode code = new ActivityCode.Builder(m_context)
             .uniqueID(type.getObjectId())
             .scope(ActivityCodeScopeHelper.getInstanceFromXml(type.getScope()))
             .scopeEpsUniqueID(type.getEPSObjectId())
@@ -908,7 +903,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          ActivityCode code = map.get(typeValue.getCodeTypeObjectId());
          if (code != null)
          {
-            ActivityCodeValue value = new ActivityCodeValue.Builder(m_projectFile)
+            ActivityCodeValue value = new ActivityCodeValue.Builder(m_context)
                .activityCode(code)
                .uniqueID(typeValue.getObjectId())
                .sequenceNumber(typeValue.getSequenceNumber())
@@ -929,12 +924,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processProjectCodeDefinitions(APIBusinessObjects apibo)
    {
-      ProjectCodeContainer container = m_projectFile.getProjectCodes();
+      ProjectCodeContainer container = m_context.getProjectCodes();
       Map<Integer, ProjectCode> map = new HashMap<>();
 
       for (ProjectCodeTypeType type : apibo.getProjectCodeType())
       {
-         ProjectCode code = new ProjectCode.Builder(m_projectFile)
+         ProjectCode code = new ProjectCode.Builder(m_context)
             .uniqueID(type.getObjectId())
             .sequenceNumber(type.getSequenceNumber())
             .name(type.getName())
@@ -951,7 +946,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          ProjectCode code = map.get(typeValue.getCodeTypeObjectId());
          if (code != null)
          {
-            ProjectCodeValue value = new ProjectCodeValue.Builder(m_projectFile)
+            ProjectCodeValue value = new ProjectCodeValue.Builder(m_context)
                .projectCode(code)
                .uniqueID(typeValue.getObjectId())
                .sequenceNumber(typeValue.getSequenceNumber())
@@ -971,12 +966,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processResourceCodeDefinitions(APIBusinessObjects apibo)
    {
-      ResourceCodeContainer container = m_projectFile.getResourceCodes();
+      ResourceCodeContainer container = m_context.getResourceCodes();
       Map<Integer, ResourceCode> map = new HashMap<>();
 
       for (ResourceCodeTypeType type : apibo.getResourceCodeType())
       {
-         ResourceCode code = new ResourceCode.Builder(m_projectFile)
+         ResourceCode code = new ResourceCode.Builder(m_context)
             .uniqueID(type.getObjectId())
             .sequenceNumber(type.getSequenceNumber())
             .name(type.getName())
@@ -993,7 +988,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          ResourceCode code = map.get(typeValue.getCodeTypeObjectId());
          if (code != null)
          {
-            ResourceCodeValue value = new ResourceCodeValue.Builder(m_projectFile)
+            ResourceCodeValue value = new ResourceCodeValue.Builder(m_context)
                .resourceCode(code)
                .uniqueID(typeValue.getObjectId())
                .sequenceNumber(typeValue.getSequenceNumber())
@@ -1013,12 +1008,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processRoleCodeDefinitions(APIBusinessObjects apibo)
    {
-      RoleCodeContainer container = m_projectFile.getRoleCodes();
+      RoleCodeContainer container = m_context.getRoleCodes();
       Map<Integer, RoleCode> map = new HashMap<>();
 
       for (RoleCodeTypeType type : apibo.getRoleCodeType())
       {
-         RoleCode code = new RoleCode.Builder(m_projectFile)
+         RoleCode code = new RoleCode.Builder(m_context)
             .uniqueID(type.getObjectId())
             .sequenceNumber(type.getSequenceNumber())
             .name(type.getName())
@@ -1035,7 +1030,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          RoleCode code = map.get(typeValue.getCodeTypeObjectId());
          if (code != null)
          {
-            RoleCodeValue value = new RoleCodeValue.Builder(m_projectFile)
+            RoleCodeValue value = new RoleCodeValue.Builder(m_context)
                .roleCode(code)
                .uniqueID(typeValue.getObjectId())
                .sequenceNumber(typeValue.getSequenceNumber())
@@ -1055,12 +1050,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processResourceAssignmentCodeDefinitions(APIBusinessObjects apibo)
    {
-      ResourceAssignmentCodeContainer container = m_projectFile.getResourceAssignmentCodes();
+      ResourceAssignmentCodeContainer container = m_context.getResourceAssignmentCodes();
       Map<Integer, ResourceAssignmentCode> map = new HashMap<>();
 
       for (ResourceAssignmentCodeTypeType type : apibo.getResourceAssignmentCodeType())
       {
-         ResourceAssignmentCode code = new ResourceAssignmentCode.Builder(m_projectFile)
+         ResourceAssignmentCode code = new ResourceAssignmentCode.Builder(m_context)
             .uniqueID(type.getObjectId())
             .sequenceNumber(type.getSequenceNumber())
             .name(type.getName())
@@ -1077,7 +1072,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          ResourceAssignmentCode code = map.get(typeValue.getCodeTypeObjectId());
          if (code != null)
          {
-            ResourceAssignmentCodeValue value = new ResourceAssignmentCodeValue.Builder(m_projectFile)
+            ResourceAssignmentCodeValue value = new ResourceAssignmentCodeValue.Builder(m_context)
                .resourceAssignmentCode(code)
                .uniqueID(typeValue.getObjectId())
                .sequenceNumber(typeValue.getSequenceNumber())
@@ -1097,9 +1092,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processLocations(APIBusinessObjects apibo)
    {
-      LocationContainer container = m_projectFile.getLocations();
+      LocationContainer container = m_context.getLocations();
       apibo.getLocation().forEach(c -> container.add(
-         new Location.Builder(m_projectFile)
+         new Location.Builder(m_context)
             .uniqueID(c.getObjectId())
             .name(c.getName())
             .addressLine1(c.getAddressLine1())
@@ -1123,10 +1118,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processCurrencies(APIBusinessObjects apibo)
    {
-      CurrencyContainer container = m_projectFile.getCurrencies();
+      CurrencyContainer container = m_context.getCurrencies();
 
       apibo.getCurrency().forEach(c -> container.add(
-         new Currency.Builder(m_projectFile)
+         new Currency.Builder(m_context)
             .uniqueID(c.getObjectId())
             .currencyID(c.getId())
             .name(c.getName())
@@ -1147,12 +1142,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processShifts(APIBusinessObjects apibo)
    {
-      ShiftContainer shiftContainer = m_projectFile.getShifts();
-      ShiftPeriodContainer shiftPeriodContainer = m_projectFile.getShiftPeriods();
+      ShiftContainer shiftContainer = m_context.getShifts();
+      ShiftPeriodContainer shiftPeriodContainer = m_context.getShiftPeriods();
 
       for (ShiftType xml : apibo.getShift())
       {
-         Shift shift = new Shift.Builder(m_projectFile)
+         Shift shift = new Shift.Builder(m_context)
             .name(xml.getName())
             .uniqueID(xml.getObjectId())
             .build();
@@ -1160,7 +1155,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          for (ShiftPeriodType xmlPeriod : xml.getShiftPeriod())
          {
-            ShiftPeriod period = new ShiftPeriod.Builder(m_projectFile, shift)
+            ShiftPeriod period = new ShiftPeriod.Builder(m_context, shift)
                .uniqueID(xmlPeriod.getObjectId())
                .start(xmlPeriod.getStartHour())
                .build();
@@ -1176,8 +1171,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processExpenseCategories(APIBusinessObjects apibo)
    {
-      ExpenseCategoryContainer container = m_projectFile.getExpenseCategories();
-      apibo.getExpenseCategory().forEach(c -> container.add(new ExpenseCategory.Builder(m_projectFile).uniqueID(c.getObjectId()).name(c.getName()).sequenceNumber(c.getSequenceNumber()).build()));
+      ExpenseCategoryContainer container = m_context.getExpenseCategories();
+      apibo.getExpenseCategory().forEach(c -> container.add(new ExpenseCategory.Builder(m_context).uniqueID(c.getObjectId()).name(c.getName()).sequenceNumber(c.getSequenceNumber()).build()));
    }
 
    /**
@@ -1187,9 +1182,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processCostAccounts(APIBusinessObjects apibo)
    {
-      CostAccountContainer container = m_projectFile.getCostAccounts();
+      CostAccountContainer container = m_context.getCostAccounts();
       HierarchyHelper.sortHierarchy(apibo.getCostAccount(), CostAccountType::getObjectId, CostAccountType::getParentObjectId).forEach(c -> container.add(
-         new CostAccount.Builder(m_projectFile)
+         new CostAccount.Builder(m_context)
             .uniqueID(c.getObjectId())
             .id(c.getId())
             .name(c.getName())
@@ -1206,7 +1201,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processUnitsOfMeasure(APIBusinessObjects apibo)
    {
-      UnitOfMeasureContainer container = m_projectFile.getUnitsOfMeasure();
+      UnitOfMeasureContainer container = m_context.getUnitsOfMeasure();
       apibo.getUnitOfMeasure().forEach(u -> container.add(processUnitOfMeasure(u)));
    }
 
@@ -1218,7 +1213,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private UnitOfMeasure processUnitOfMeasure(UnitOfMeasureType u)
    {
-      return new UnitOfMeasure.Builder(m_projectFile)
+      return new UnitOfMeasure.Builder(m_context)
          .uniqueID(u.getObjectId())
          .abbreviation(u.getAbbreviation())
          .name(u.getName())
@@ -2234,7 +2229,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    private void processWorkContour(ResourceCurveType curve)
    {
-      if (m_projectFile.getWorkContours().getByUniqueID(curve.getObjectId()) != null)
+      if (m_context.getWorkContours().getByUniqueID(curve.getObjectId()) != null)
       {
          return;
       }
@@ -2266,7 +2261,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          NumberHelper.getDouble(curveValues.getValue100()),
       };
 
-      m_projectFile.getWorkContours().add(new WorkContour(curve.getObjectId(), curve.getName(), BooleanHelper.getBoolean(curve.isIsDefault()), values));
+      m_context.getWorkContours().add(new WorkContour(curve.getObjectId(), curve.getName(), BooleanHelper.getBoolean(curve.isIsDefault()), values));
    }
 
    /**
@@ -2580,7 +2575,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processNotebookTopic(NotebookTopicType xml)
    {
-      NotesTopic topic = new NotesTopic.Builder(m_projectFile)
+      NotesTopic topic = new NotesTopic.Builder(m_context)
          .uniqueID(xml.getObjectId())
          .sequenceNumber(xml.getSequenceNumber())
          .availableForEPS(BooleanHelper.getBoolean(xml.isAvailableForEPS()))
@@ -2590,7 +2585,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          .name(xml.getName())
          .build();
 
-      m_projectFile.getNotesTopics().add(topic);
+      m_context.getNotesTopics().add(topic);
    }
 
    /**

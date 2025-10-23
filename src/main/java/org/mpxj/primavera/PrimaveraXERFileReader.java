@@ -248,13 +248,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    {
       try
       {
-         ProjectFile project = m_reader.getProject();
-         project.getProjectProperties().setFileApplication("Primavera");
-         project.getProjectProperties().setFileType("XER");
-         addListenersToProject(project);
-         processProjectID();
-         project.getProjectProperties().setUniqueID(m_projectID);
-
          if (m_populateContext)
          {
             m_populateContext = false;
@@ -274,6 +267,13 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
             processResourceAssignmentCodeDefinitions();
             processActivityCodeDefinitions();
          }
+
+         ProjectFile project = m_reader.getProject();
+         project.getProjectProperties().setFileApplication("Primavera");
+         project.getProjectProperties().setFileType("XER");
+         addListenersToProject(project);
+         processProjectID();
+         project.getProjectProperties().setUniqueID(m_projectID);
 
          processActivityCodeAssignments();
          processResourceCodeAssignments();

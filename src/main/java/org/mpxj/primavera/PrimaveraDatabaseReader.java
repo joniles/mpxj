@@ -133,11 +133,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       try
       {
          m_reader = new PrimaveraReader(context, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
-         ProjectFile project = m_reader.getProject();
-         addListenersToProject(project);
          processTableNames();
-         processAnalytics();
-         project.getProjectProperties().setUniqueID(m_projectID);
 
          if (m_populateContext)
          {
@@ -158,6 +154,11 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
             processResourceAssignmentCodeDefinitions();
             processActivityCodeDefinitions();
          }
+
+         ProjectFile project = m_reader.getProject();
+         addListenersToProject(project);
+         processAnalytics();
+         project.getProjectProperties().setUniqueID(m_projectID);
 
          processActivityCodeAssignments();
          processResourceCodeAssignments();
