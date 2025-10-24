@@ -62,7 +62,6 @@ import org.mpxj.Relation;
 import org.mpxj.RelationType;
 import org.mpxj.Resource;
 import org.mpxj.ResourceAssignment;
-import org.mpxj.ResourceField;
 import org.mpxj.Step;
 import org.mpxj.StructuredNotes;
 import org.mpxj.Task;
@@ -263,11 +262,6 @@ abstract class PrimaveraProjectReader
       for (Row row : rows)
       {
          ProjectCalendar calendar = processCalendar(row);
-         if (calendar == null)
-         {
-            continue;
-         }
-
          Integer baseCalendarID = row.getInteger("base_clndr_id");
          if (baseCalendarID != null)
          {

@@ -144,7 +144,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       {
          ProjectFile project = new ProjectFile(context);
          addListenersToProject(project);
-         PrimaveraXERProjectReader reader = new PrimaveraXERProjectReader(file, project, row.getInt("proj_id") , m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
+         PrimaveraXERProjectReader reader = new PrimaveraXERProjectReader(file, project, row.getInteger("proj_id") , m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
          reader.read();
          externalRelations.addAll(reader.getExternalRelations());
 
@@ -413,6 +413,4 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       READ_REQUIRED_TABLES.add("asgnmntcatval");
       READ_REQUIRED_TABLES.add("asgnmntacat");
    }
-
-   private static final WbsRowComparatorXER WBS_ROW_COMPARATOR = new WbsRowComparatorXER();
 }

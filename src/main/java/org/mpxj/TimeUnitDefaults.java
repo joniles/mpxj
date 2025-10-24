@@ -4,7 +4,7 @@ import org.mpxj.common.NumberHelper;
 
 public class TimeUnitDefaults implements TimeUnitDefaultsContainer
 {
-   public Integer getMinutesPerDay()
+   @Override public Integer getMinutesPerDay()
    {
       if (m_minutesPerDay == null)
       {
@@ -18,7 +18,7 @@ public class TimeUnitDefaults implements TimeUnitDefaultsContainer
       m_minutesPerDay = minutesPerDay;
    }
 
-   public Integer getMinutesPerWeek()
+   @Override public Integer getMinutesPerWeek()
    {
       if (m_minutesPerWeek == null)
       {
@@ -32,7 +32,7 @@ public class TimeUnitDefaults implements TimeUnitDefaultsContainer
       m_minutesPerWeek = minutesPerWeek;
    }
 
-   public Integer getMinutesPerMonth()
+   @Override public Integer getMinutesPerMonth()
    {
       if (m_minutesPerMonth == null)
       {
@@ -46,7 +46,7 @@ public class TimeUnitDefaults implements TimeUnitDefaultsContainer
       m_minutesPerMonth = minutesPerMonth;
    }
 
-   public Integer getMinutesPerYear()
+   @Override public Integer getMinutesPerYear()
    {
       if (m_minutesPerYear == null)
       {
@@ -60,7 +60,7 @@ public class TimeUnitDefaults implements TimeUnitDefaultsContainer
       m_minutesPerYear = minutesPerYear;
    }
 
-   public Integer getDaysPerMonth()
+   @Override public Integer getDaysPerMonth()
    {
       return m_daysPerMonth;
    }

@@ -3694,6 +3694,11 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
                getParentFile().getProjectContext().getTimeUnitDefaults().setMinutesPerYear((Integer) newValue);
                break;
             }
+            
+            default:
+            {
+               break;
+            }
          }
       }
    }

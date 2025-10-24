@@ -71,7 +71,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    /**
     * Internal constructor.
     *
-    * @param file the parent file to which this record belongs.
     * @param container ProjectCalendarContainer, null if this is a temporary calendar
     */
    protected ProjectCalendar(ProjectCalendarContainer container, TimeUnitDefaultsContainer defaults, ProjectConfig config, boolean temporaryCalendar)

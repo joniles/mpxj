@@ -36,6 +36,7 @@ class XerFile
     * Reads the XER file table and row structure ready for processing.
     *
     * @param is input stream
+    * @return XerFile instance
     */
    public XerFile read(InputStream is) throws MPXJException
    {

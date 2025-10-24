@@ -32,7 +32,6 @@ import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectCalendarWeek;
-import org.mpxj.ProjectFile;
 import org.mpxj.Resource;
 import org.mpxj.TemporaryCalendar;
 
