@@ -38,14 +38,9 @@ import org.mpxj.EPS;
 import org.mpxj.EpsNode;
 import org.mpxj.EpsProjectNode;
 import org.mpxj.ProjectContext;
-import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.FieldType;
 import org.mpxj.MPXJException;
-import org.mpxj.Notes;
 import org.mpxj.ProjectFile;
-import org.mpxj.ProjectProperties;
-import org.mpxj.WorkContour;
-import org.mpxj.WorkContourContainer;
 import org.mpxj.reader.AbstractProjectReader;
 
 /**
@@ -111,7 +106,11 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    public ProjectFile read() throws MPXJException
    {
       ProjectContext context = new PrimaveraDatabaseContextReader(m_database, m_schema, m_ignoreErrors, m_projectID).read();
-      ProjectFile result = read(context);
+
+      ProjectFile project = new ProjectFile(context);
+      addListenersToProject(project);
+      PrimaveraDatabaseProjectReader reader = new PrimaveraDatabaseProjectReader(m_database, m_schema, project, m_projectID, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
+      reader.read();
 
       //
       // We've used Primavera's unique ID values for the calendars we've read so far.
@@ -120,7 +119,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       //
       context.getProjectConfig().setAutoCalendarUniqueID(true);
 
-      return result;
+      return project;
    }
 
    /**
@@ -134,10 +133,15 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       Map<Integer, String> projects = listProjects();
       List<ProjectFile> result = new ArrayList<>(projects.size());
       ProjectContext context = new PrimaveraDatabaseContextReader(m_database, m_schema, m_ignoreErrors, null).read();
+
       for (Integer id : projects.keySet())
       {
-         setProjectID(id.intValue());
-         result.add(read(context));
+         ProjectFile project = new ProjectFile(context);
+         addListenersToProject(project);
+         PrimaveraDatabaseProjectReader reader = new PrimaveraDatabaseProjectReader(m_database, m_schema, project, id, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
+         reader.read();
+
+         result.add(project);
       }
 
       //
@@ -148,345 +152,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       context.getProjectConfig().setAutoCalendarUniqueID(true);
 
       return result;
-   }
-
-   /**
-    * Read a project from the current data source.
-    *
-    * @param context shared data to use when reading this project
-    * @return ProjectFile instance
-    */
-   private ProjectFile read(ProjectContext context) throws MPXJException
-   {
-      try
-      {
-         m_reader = new PrimaveraReader(context, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
-
-         ProjectFile project = m_reader.getProject();
-         addListenersToProject(project);
-         processAnalytics();
-         project.getProjectProperties().setUniqueID(m_projectID);
-
-         processActivityCodeAssignments();
-         processResourceCodeAssignments();
-         processRoleCodeAssignments();
-         processResourceAssignmentCodeAssignments();
-         processUdfValues();
-         processCalendars();
-         processResources();
-         processRoles();
-         processRoleAssignments();
-         processResourceRates();
-         processRoleRates();
-         processRoleAvailability();
-
-         processProjectProperties();
-         processTasks();
-         processPredecessors();
-         processAssignments();
-         processExpenseItems();
-         processActivitySteps();
-
-         m_reader.rollupValues();
-
-         m_reader = null;
-         project.updateStructure();
-         project.readComplete();
-
-         return (project);
-      }
-
-      catch (SQLException ex)
-      {
-         throw new MPXJException(MPXJException.READ_ERROR, ex);
-      }
-
-      finally
-      {
-         m_database.close();
-      }
-   }
-
-   /**
-    * Populate data for analytics.
-    */
-   private void processAnalytics() throws SQLException
-   {
-      ProjectProperties properties = m_reader.getProject().getProjectProperties();
-      properties.setFileApplication("Primavera");
-      properties.setFileType(m_database.getProductName());
-   }
-
-   /**
-    * Select the project properties from the database.
-    */
-   private void processProjectProperties() throws SQLException
-   {
-      //
-      // Process common attributes
-      //
-      List<Row> rows = m_database.getRows("select * from " + m_schema + "project where proj_id=?", m_projectID);
-      m_reader.processProjectProperties(rows);
-
-      rows = m_database.getRows("select * from " + m_schema + "projpcat where proj_id=?", m_projectID);
-      m_reader.processProjectCodeAssignments(rows);
-
-      //
-      // Process PMDB-specific attributes
-      //
-      rows = m_database.getRows("select * from " + m_schema + "prefer where prefer.delete_date is null");
-      if (!rows.isEmpty())
-      {
-         Row row = rows.get(0);
-         ProjectProperties ph = m_reader.getProject().getProjectProperties();
-         ph.setCreationDate(row.getDate("create_date"));
-         ph.setLastSaved(row.getDate("update_date"));
-         ph.setMinutesPerDay(Integer.valueOf((int) (row.getDouble("day_hr_cnt").doubleValue() * 60)));
-         ph.setMinutesPerWeek(Integer.valueOf((int) (row.getDouble("week_hr_cnt").doubleValue() * 60)));
-         ph.setMinutesPerMonth(Integer.valueOf((int) (row.getDouble("month_hr_cnt").doubleValue() * 60)));
-         ph.setMinutesPerYear(Integer.valueOf((int) (row.getDouble("year_hr_cnt").doubleValue() * 60)));
-         ph.setWeekStartDay(DayOfWeekHelper.getInstance(row.getInt("week_start_day_num")));
-
-         processDefaultCurrency(row.getInteger("curr_id"));
-      }
-
-      processSchedulingProjectProperties();
-   }
-
-   /**
-    * Select the expense items from the database.
-    */
-   private void processExpenseItems() throws SQLException
-   {
-      m_reader.processExpenseItems(m_database.getRows("select * from " + m_schema + "projcost where proj_id=?", m_projectID));
-   }
-
-   /**
-    * Select the activity steps from the database.
-    */
-   private void processActivitySteps() throws SQLException
-   {
-      m_reader.processActivitySteps(m_database.getRows("select * from " + m_schema + "taskproc where proj_id=?", m_projectID));
-   }
-
-   /**
-    * Process activity code assignments.
-    */
-   private void processActivityCodeAssignments() throws SQLException
-   {
-      if (m_database.hasTable("TASKACTV"))
-      {
-         List<Row> assignments = m_database.getRows("select * from " + m_schema + "taskactv where proj_id=?", m_projectID);
-         m_reader.processActivityCodeAssignments(assignments);
-      }
-   }
-
-   /**
-    * Process resource code assignments.
-    */
-   private void processResourceCodeAssignments() throws SQLException
-   {
-      if (m_database.hasTable("RSRCRCAT"))
-      {
-         List<Row> assignments = m_database.getRows("select * from " + m_schema + "rsrcrcat where rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null)", m_projectID);
-         m_reader.processResourceCodeAssignments(assignments);
-      }
-   }
-
-   /**
-    * Process role code assignments.
-    */
-   private void processRoleCodeAssignments() throws SQLException
-   {
-      if (m_database.hasTable("ROLERCAT"))
-      {
-         List<Row> assignments = m_database.getRows("select * from " + m_schema + "rolercat where role_id in (select distinct role_id from " + m_schema + "rsrcrole where delete_date is null and rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null))", m_projectID);
-         m_reader.processRoleCodeAssignments(assignments);
-      }
-   }
-
-   /**
-    * Process resource assignment code assignments.
-    */
-   private void processResourceAssignmentCodeAssignments() throws SQLException
-   {
-      if (m_database.hasTable("ASGNMNTACAT"))
-      {
-         List<Row> assignments = m_database.getRows("select * from " + m_schema + "asgnmntacat where proj_id=?", m_projectID);
-         m_reader.processResourceAssignmentCodeAssignments(assignments);
-      }
-   }
-
-   /**
-    * Process user defined field values.
-    */
-   private void processUdfValues() throws SQLException
-   {
-      List<Row> values = m_database.getRows("select * from " + m_schema + "udfvalue where proj_id=? or proj_id is null", m_projectID);
-      m_reader.processUdfValues(values);
-   }
-
-   /**
-    * Process the scheduling project property from PROJPROP. This is represented
-    * as the schedoptions table in an XER file.
-    */
-   private void processSchedulingProjectProperties() throws SQLException
-   {
-      List<Row> rows = m_database.getRows("select * from " + m_schema + "projprop where proj_id=? and prop_name='scheduling'", m_projectID);
-      if (!rows.isEmpty())
-      {
-         StructuredTextRecord record = new StructuredTextParser().parse(rows.get(0).getString("prop_value"));
-         m_reader.processScheduleOptions(new MapRow(new HashMap<>(record.getAttributes()), false));
-      }
-   }
-
-   /**
-    * Select the default currency properties from the database.
-    *
-    * @param currencyID default currency ID
-    */
-   private void processDefaultCurrency(Integer currencyID) throws SQLException
-   {
-      List<Row> rows = m_database.getRows("select * from " + m_schema + "currtype where curr_id=?", currencyID);
-      if (!rows.isEmpty())
-      {
-         Row row = rows.get(0);
-         m_reader.processDefaultCurrency(row);
-      }
-   }
-
-   /**
-    * Process resources.
-    */
-   private void processResources() throws SQLException
-   {
-      // TODO: handle exporting parent resources
-      List<Row> rows = m_database.getRows("select * from " + m_schema + "rsrc where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by rsrc_seq_num", m_projectID);
-      m_reader.processResources(rows);
-   }
-
-   /**
-    * Process roles.
-    */
-   private void processRoles() throws SQLException
-   {
-      // TODO: handle exporting parent roles
-      List<Row> rows = m_database.getRows("select * from " + m_schema + "roles where delete_date is null and role_id in (select distinct role_id from " + m_schema + "taskrsrc where proj_id=? and delete_date is null union select distinct role_id from " + m_schema + "rsrc where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc where proj_id=? and delete_date is null)) order by seq_num", m_projectID, m_projectID);
-      m_reader.processRoles(rows);
-   }
-
-   /**
-    * Process role assignments.
-    */
-   private void processRoleAssignments() throws SQLException
-   {
-      if (m_database.hasTable("RSRCROLE"))
-      {
-         List<Row> rows = m_database.getRows("select * from " + m_schema + "rsrcrole where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null)", m_projectID);
-         m_reader.processRoleAssignments(rows);
-      }
-   }
-
-   /**
-    * Process resource rates.
-    */
-   private void processResourceRates() throws SQLException
-   {
-      List<Row> rows = m_database.getRows("select * from " + m_schema + "rsrcrate where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by rsrc_rate_id", m_projectID);
-      m_reader.processResourceRates(rows);
-   }
-
-   /**
-    * Process role rates.
-    */
-   private void processRoleRates() throws SQLException
-   {
-      List<Row> rows = m_database.getRows("select * from " + m_schema + "rolerate where delete_date is null and role_id in (select role_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by role_rate_id", m_projectID);
-      m_reader.processRoleRates(rows);
-   }
-
-   /**
-    * Process role availability.
-    */
-   private void processRoleAvailability() throws SQLException
-   {
-      List<Row> rows = m_database.getRows("select * from " + m_schema + "rolelimit where delete_date is null and role_id in (select role_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by rolelimit_id", m_projectID);
-      m_reader.processRoleAvailability(rows);
-   }
-
-   /**
-    * Process tasks.
-    */
-   private void processTasks() throws SQLException
-   {
-      List<Row> wbs = m_database.getRows("select * from " + m_schema + "projwbs where proj_id=? and delete_date is null order by parent_wbs_id,seq_num", m_projectID);
-      List<Row> tasks = m_database.getRows("select * from " + m_schema + "task where proj_id=? and delete_date is null", m_projectID);
-      Map<Integer, Notes> wbsNotes = m_reader.getNotes(m_database.getRows("select * from " + m_schema + "wbsmemo where proj_id=?", m_projectID), "wbs_memo_id", "wbs_id", "wbs_memo");
-      Map<Integer, Notes> taskNotes = m_reader.getNotes(m_database.getRows("select * from " + m_schema + "taskmemo where proj_id=?", m_projectID), "memo_id", "task_id", "task_memo");
-
-      m_reader.processTasks(wbs, tasks, wbsNotes, taskNotes);
-   }
-
-   /**
-    * Process predecessors.
-    */
-   private void processPredecessors() throws SQLException
-   {
-      List<Row> rows = m_database.getRows("select * from " + m_schema + "taskpred where proj_id=? and delete_date is null", m_projectID);
-      m_reader.processPredecessors(rows);
-   }
-
-   /**
-    * Process calendars.
-    */
-   private void processCalendars() throws SQLException
-   {
-      List<Row> rows = m_database.getRows("select * from " + m_schema + "calendar where (proj_id is null or proj_id=?) and delete_date is null", m_projectID);
-      m_reader.processCalendars(rows);
-   }
-
-   /**
-    * Process resource assignments.
-    */
-   private void processAssignments() throws SQLException
-   {
-      List<Row> rows = m_database.getRows("select * from " + m_schema + "taskrsrc where proj_id=? and delete_date is null", m_projectID);
-      m_reader.processAssignments(rows);
-   }
-
-   /**
-    * Process resource curves.
-    */
-   private void processWorkContours() throws SQLException
-   {
-      WorkContourContainer contours = m_reader.getProject().getWorkContours();
-      List<Row> rows = m_database.getRows("select * from " + m_schema + "rsrccurv");
-      for (Row row : rows)
-      {
-         try
-         {
-            Integer id = row.getInteger("curv_id");
-            if (contours.getByUniqueID(id) != null)
-            {
-               continue;
-            }
-            double[] values = new StructuredTextParser().parse(row.getString("curv_data")).getChildren().stream().mapToDouble(r -> Double.parseDouble(r.getAttribute("PctUsage"))).toArray();
-            contours.add(new WorkContour(id, row.getString("curv_name"), row.getBoolean("default_flag"), values));
-         }
-
-         catch (Exception ex)
-         {
-            if (m_ignoreErrors)
-            {
-               // Skip any curves we can't read
-               m_reader.getProject().addIgnoredError(ex);
-            }
-            else
-            {
-               throw ex;
-            }
-         }
-      }
    }
 
    /**
@@ -549,23 +214,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    @Override public List<ProjectFile> readAll(InputStream inputStream)
    {
       throw new UnsupportedOperationException();
-   }
-
-   /**
-    * Creates a Map to allow a column name to be mapped to an array index.
-    *
-    * @param meta result set metadata
-    * @return index
-    */
-   private Map<String, Integer> createIndexFromMetadata(Map<String, Integer> meta)
-   {
-      HashMap<String, Integer> indexMap = new HashMap<>();
-      int index = 0;
-      for (Map.Entry<String, Integer> entry : meta.entrySet())
-      {
-         indexMap.put(entry.getKey().toLowerCase(), Integer.valueOf(index++));
-      }
-      return indexMap;
    }
 
    /**
@@ -780,7 +428,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          row.getString("wbs_name"));
    }
 
-   private PrimaveraReader m_reader;
    private Integer m_projectID;
    private String m_schema = "";
    private boolean m_matchPrimaveraWBS = true;
@@ -788,9 +435,9 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private boolean m_ignoreErrors = true;
    private PrimaveraDatabaseConnection m_database ;
 
-   private final Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
-   private final Map<FieldType, String> m_roleFields = PrimaveraReader.getDefaultRoleFieldMap();
-   private final Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
-   private final Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();
-   private final Map<FieldType, String> m_assignmentFields = PrimaveraReader.getDefaultAssignmentFieldMap();
+   private final Map<FieldType, String> m_resourceFields = PrimaveraContextReader.getDefaultResourceFieldMap();
+   private final Map<FieldType, String> m_roleFields = PrimaveraContextReader.getDefaultRoleFieldMap();
+   private final Map<FieldType, String> m_wbsFields = PrimaveraProjectReader.getDefaultWbsFieldMap();
+   private final Map<FieldType, String> m_taskFields = PrimaveraProjectReader.getDefaultTaskFieldMap();
+   private final Map<FieldType, String> m_assignmentFields = PrimaveraProjectReader.getDefaultAssignmentFieldMap();
 }

@@ -355,11 +355,11 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    private boolean m_wbsIsFullPath = true;
    private boolean m_linkCrossProjectRelations;
    private boolean m_ignoreErrors = true;
-   private final Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
-   private final Map<FieldType, String> m_roleFields = PrimaveraReader.getDefaultRoleFieldMap();
-   private final Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
-   private final Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();
-   private final Map<FieldType, String> m_assignmentFields = PrimaveraReader.getDefaultAssignmentFieldMap();
+   private final Map<FieldType, String> m_resourceFields = PrimaveraContextReader.getDefaultResourceFieldMap();
+   private final Map<FieldType, String> m_roleFields = PrimaveraContextReader.getDefaultRoleFieldMap();
+   private final Map<FieldType, String> m_wbsFields = PrimaveraProjectReader.getDefaultWbsFieldMap();
+   private final Map<FieldType, String> m_taskFields = PrimaveraProjectReader.getDefaultTaskFieldMap();
+   private final Map<FieldType, String> m_assignmentFields = PrimaveraProjectReader.getDefaultAssignmentFieldMap();
 
    private static final Set<String> LIST_REQUIRED_TABLES = new HashSet<>();
    static

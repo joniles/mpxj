@@ -1,6 +1,7 @@
 package org.mpxj.primavera;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.mpxj.Currency;
 import org.mpxj.CurrencyContainer;
 import org.mpxj.ExpenseCategory;
 import org.mpxj.ExpenseCategoryContainer;
+import org.mpxj.FieldType;
 import org.mpxj.FieldTypeClass;
 import org.mpxj.Location;
 import org.mpxj.LocationContainer;
@@ -28,6 +30,7 @@ import org.mpxj.ResourceAssignmentCodeValue;
 import org.mpxj.ResourceCode;
 import org.mpxj.ResourceCodeContainer;
 import org.mpxj.ResourceCodeValue;
+import org.mpxj.ResourceField;
 import org.mpxj.RoleCode;
 import org.mpxj.RoleCodeContainer;
 import org.mpxj.RoleCodeValue;
@@ -482,4 +485,56 @@ abstract class PrimaveraContextReader
    }
 
    protected final ProjectContext m_context = new ProjectContext();
+
+   /**
+    * Retrieve the default mapping between MPXJ resource fields and Primavera resource field names.
+    *
+    * @return mapping
+    */
+   public static Map<FieldType, String> getDefaultResourceFieldMap()
+   {
+      Map<FieldType, String> map = new LinkedHashMap<>();
+
+      map.put(ResourceField.UNIQUE_ID, "rsrc_id");
+      map.put(ResourceField.GUID, "guid");
+      map.put(ResourceField.NAME, "rsrc_name");
+      map.put(ResourceField.CODE, "employee_code");
+      map.put(ResourceField.EMAIL_ADDRESS, "email_addr");
+      map.put(ResourceField.NOTES, "rsrc_notes");
+      map.put(ResourceField.CREATED, "create_date");
+      map.put(ResourceField.TYPE, "rsrc_type");
+      map.put(ResourceField.PARENT_ID, "parent_rsrc_id");
+      map.put(ResourceField.RESOURCE_ID, "rsrc_short_name");
+      map.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, "def_cost_qty_link_flag");
+      map.put(ResourceField.SEQUENCE_NUMBER, "rsrc_seq_num");
+      map.put(ResourceField.ACTIVE, "active_flag");
+      map.put(ResourceField.LOCATION_UNIQUE_ID, "location_id");
+      map.put(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID, "unit_id");
+      map.put(ResourceField.SHIFT_UNIQUE_ID, "shift_id");
+      map.put(ResourceField.PRIMARY_ROLE_UNIQUE_ID, "role_id");
+      map.put(ResourceField.CURRENCY_UNIQUE_ID, "curr_id");
+
+      return map;
+   }
+
+   /**
+    * Retrieve the default mapping between MPXJ resource fields and Primavera role field names.
+    *
+    * @return mapping
+    */
+   public static Map<FieldType, String> getDefaultRoleFieldMap()
+   {
+      Map<FieldType, String> map = new LinkedHashMap<>();
+
+      map.put(ResourceField.UNIQUE_ID, "role_id");
+      map.put(ResourceField.NAME, "role_name");
+      map.put(ResourceField.RESOURCE_ID, "role_short_name");
+      map.put(ResourceField.NOTES, "role_descr");
+      map.put(ResourceField.PARENT_ID, "parent_role_id");
+      map.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, "def_cost_qty_link_flag");
+      map.put(ResourceField.SEQUENCE_NUMBER, "seq_num");
+
+      return map;
+   }
+
 }
