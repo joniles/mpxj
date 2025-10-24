@@ -81,6 +81,7 @@ class PrimaveraPMContextReader extends PrimaveraPMCommonReader
       processResourceAssignmentCodeDefinitions();
       processShifts();
       processActivityCodeDefinitions(m_context, m_apibo.getActivityCodeType(), m_apibo.getActivityCode());
+      processCalendars(m_context, m_apibo.getCalendar());
 
       return m_context;
    }

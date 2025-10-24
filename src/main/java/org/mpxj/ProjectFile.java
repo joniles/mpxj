@@ -139,7 +139,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ProjectCalendar addCalendar()
    {
-      return m_calendars.add();
+      return m_context.getCalendars().add();
    }
 
    /**
@@ -149,7 +149,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public void removeCalendar(ProjectCalendar calendar)
    {
-      m_calendars.remove(calendar);
+      m_context.getCalendars().remove(calendar);
    }
 
    /**
@@ -161,7 +161,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ProjectCalendar addDefaultBaseCalendar()
    {
-      return m_calendars.addDefaultBaseCalendar();
+      return m_context.getCalendars().addDefaultBaseCalendar();
    }
 
    /**
@@ -172,7 +172,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ProjectCalendar addDefaultDerivedCalendar()
    {
-      return m_calendars.addDefaultDerivedCalendar();
+      return m_context.getCalendars().addDefaultDerivedCalendar();
    }
 
    /**
@@ -183,12 +183,12 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ProjectCalendarContainer getCalendars()
    {
-      return m_calendars;
+      return m_context.getCalendars();
    }
 
    public List<ProjectCalendar> getCalendarsForProject()
    {
-      return m_calendars.stream().filter(c -> c.getType() != CalendarType.PROJECT || c.getProjectUniqueID().equals(m_properties.getUniqueID())).collect(Collectors.toList());
+      return m_context.getCalendars().stream().filter(c -> c.getType() != CalendarType.PROJECT || c.getProjectUniqueID().equals(m_properties.getUniqueID())).collect(Collectors.toList());
    }
 
    /**
@@ -260,7 +260,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ProjectCalendar getCalendarByName(String calendarName)
    {
-      return m_calendars.getByName(calendarName);
+      return m_context.getCalendars().getByName(calendarName);
    }
 
    /**
@@ -273,7 +273,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ProjectCalendar getCalendarByUniqueID(Integer calendarID)
    {
-      return m_calendars.getByUniqueID(calendarID);
+      return m_context.getCalendars().getByUniqueID(calendarID);
    }
 
    /**
@@ -1094,7 +1094,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final List<Resource> m_childResources = new ArrayList<>();
    private final ResourceAssignmentContainer m_assignments = new ResourceAssignmentContainer(this);
    private final RelationContainer m_relations = new RelationContainer(this);
-   private final ProjectCalendarContainer m_calendars = new ProjectCalendarContainer(this);
    private final TableContainer m_tables = new TableContainer();
    private final FilterContainer m_filters = new FilterContainer();
    private final GroupContainer m_groups = new GroupContainer();

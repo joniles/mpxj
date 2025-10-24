@@ -35,12 +35,12 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
    /**
     * Constructor.
     *
-    * @param projectFile parent project
+    * @param context parent context
     */
-   public ProjectCalendarContainer(ProjectFile projectFile)
+   public ProjectCalendarContainer(ProjectContext context)
    {
-      super(projectFile);
-      m_projectFile = projectFile;
+      super(context);
+      m_context = context;
    }
 
    @Override public void removed(ProjectCalendar calendar)
@@ -57,7 +57,7 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
     */
    public ProjectCalendar add()
    {
-      ProjectCalendar calendar = new ProjectCalendar(m_projectFile);
+      ProjectCalendar calendar = new ProjectCalendar(m_context.getCalendars(), m_context.getTimeUnitDefaults(), m_context.getProjectConfig(), false);
       add(calendar);
       return calendar;
    }
@@ -124,7 +124,7 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
             result = addDefaultBaseCalendar();
             if (NumberHelper.getInt(result.getUniqueID()) == 0)
             {
-               result.setUniqueID(m_projectFile.getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
+               result.setUniqueID(m_context.getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
             }
          }
       }
@@ -172,6 +172,6 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
       m_defaultCalendarUniqueID = defaultCalendarUniqueID;
    }
 
-   private final ProjectFile m_projectFile;
+   private final ProjectContext m_context;
    private Integer m_defaultCalendarUniqueID;
 }

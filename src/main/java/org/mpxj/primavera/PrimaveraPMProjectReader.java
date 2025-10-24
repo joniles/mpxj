@@ -1,9 +1,6 @@
 package org.mpxj.primavera;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -15,7 +12,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.mpxj.ActivityCode;
-import org.mpxj.ActivityCodeContainer;
 import org.mpxj.ActivityCodeValue;
 import org.mpxj.AssignmentField;
 import org.mpxj.Availability;
@@ -28,17 +24,13 @@ import org.mpxj.ExpenseItem;
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
 import org.mpxj.HtmlNotes;
-import org.mpxj.LocalTimeRange;
 import org.mpxj.Notes;
 import org.mpxj.NotesTopic;
 import org.mpxj.ParentNotes;
 import org.mpxj.PercentCompleteType;
 import org.mpxj.ProjectCalendar;
-import org.mpxj.ProjectCalendarException;
-import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectCode;
 import org.mpxj.ProjectCodeValue;
-import org.mpxj.ProjectContext;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.Rate;
@@ -60,10 +52,7 @@ import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
 import org.mpxj.UserDefinedField;
 import org.mpxj.common.BooleanHelper;
-import org.mpxj.common.ColorHelper;
 import org.mpxj.common.DayOfWeekHelper;
-import org.mpxj.common.HierarchyHelper;
-import org.mpxj.common.LocalDateHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.primavera.schema.APIBusinessObjects;
@@ -74,7 +63,6 @@ import org.mpxj.primavera.schema.ActivityNoteType;
 import org.mpxj.primavera.schema.ActivityStepType;
 import org.mpxj.primavera.schema.ActivityType;
 import org.mpxj.primavera.schema.BaselineProjectType;
-import org.mpxj.primavera.schema.CalendarType;
 import org.mpxj.primavera.schema.CodeAssignmentType;
 import org.mpxj.primavera.schema.CurrencyType;
 import org.mpxj.primavera.schema.GlobalPreferencesType;
@@ -90,7 +78,6 @@ import org.mpxj.primavera.schema.RoleType;
 import org.mpxj.primavera.schema.ScheduleOptionsType;
 import org.mpxj.primavera.schema.UDFAssignmentType;
 import org.mpxj.primavera.schema.WBSType;
-import org.mpxj.primavera.schema.WorkTimeType;
 
 class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
 {
@@ -114,7 +101,6 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
          m_projectFile.getProjectProperties().setFileApplication("Primavera");
          m_projectFile.getProjectProperties().setFileType("PMXML");
 
-         processCalendars(apibo.getCalendar());
          processResources(apibo);
          processRoles(apibo);
          processRoleAssignments(apibo);
@@ -137,7 +123,7 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
          if (projectObject instanceof ProjectType)
          {
             ProjectType project = (ProjectType) projectObject;
-            processCalendars(project.getCalendar());
+            processCalendars(m_projectFile.getProjectContext(), project.getCalendar());
             processProjectProperties(project);
             activityCodeTypes = project.getActivityCodeType();
             activityCodes = project.getActivityCode();
@@ -154,7 +140,7 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
          else
          {
             BaselineProjectType project = (BaselineProjectType) projectObject;
-            processCalendars(project.getCalendar());
+            processCalendars(m_projectFile.getProjectContext(), project.getCalendar());
             processProjectProperties(project);
             activityCodeTypes = project.getActivityCodeType();
             activityCodes = project.getActivityCode();
@@ -193,208 +179,6 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
          m_activityClashMap = null;
          m_roleClashMap = null;
       }
-   }
-
-   /**
-    * Process project calendars.
-    *
-    * @param calendars list of calendar data
-    */
-   private void processCalendars(List<CalendarType> calendars)
-   {
-      //
-      // First pass: read calendar definitions
-      //
-      Map<ProjectCalendar, Integer> baseCalendarMap = new HashMap<>();
-      for (CalendarType row : calendars)
-      {
-         ProjectCalendar calendar = processCalendar(row);
-         Integer baseCalendarID = row.getBaseCalendarObjectId();
-         if (baseCalendarID != null)
-         {
-            baseCalendarMap.put(calendar, baseCalendarID);
-         }
-      }
-
-      //
-      // Second pass: create calendar hierarchy
-      //
-      for (Map.Entry<ProjectCalendar, Integer> entry : baseCalendarMap.entrySet())
-      {
-         ProjectCalendar baseCalendar = m_projectFile.getCalendarByUniqueID(entry.getValue());
-         if (baseCalendar != null)
-         {
-            entry.getKey().setParent(baseCalendar);
-         }
-      }
-   }
-
-   /**
-    * Process data for an individual calendar.
-    *
-    * @param row calendar data
-    * @return ProjectCalendar instance
-    */
-   private ProjectCalendar processCalendar(CalendarType row)
-   {
-      ProjectCalendar calendar = m_projectFile.addCalendar();
-
-      Integer id = row.getObjectId();
-      calendar.setUniqueID(id);
-      calendar.setName(row.getName());
-      calendar.setType(CalendarTypeHelper.getInstanceFromXml(row.getType()));
-      calendar.setProjectUniqueID(row.getProjectObjectId());
-      calendar.setPersonal(BooleanHelper.getBoolean(row.isIsPersonal()));
-
-      if (BooleanHelper.getBoolean(row.isIsDefault()) && m_projectFile.getDefaultCalendar() == null)
-      {
-         m_projectFile.setDefaultCalendar(calendar);
-      }
-
-      Map<DayOfWeek, CalendarType.StandardWorkWeek.StandardWorkHours> hoursMap = new HashMap<>();
-      CalendarType.StandardWorkWeek stdWorkWeek = row.getStandardWorkWeek();
-      if (stdWorkWeek != null)
-      {
-         for (CalendarType.StandardWorkWeek.StandardWorkHours hours : stdWorkWeek.getStandardWorkHours())
-         {
-            hoursMap.put(DAY_MAP.get(hours.getDayOfWeek()), hours);
-         }
-      }
-
-      for (DayOfWeek day : DayOfWeek.values())
-      {
-         // If we don't have an entry for a day, use default values
-         CalendarType.StandardWorkWeek.StandardWorkHours hours = hoursMap.get(day);
-         if (hours == null)
-         {
-            calendar.setWorkingDay(day, day != DayOfWeek.SATURDAY && day != DayOfWeek.SUNDAY);
-            if (calendar.isWorkingDay(day))
-            {
-               calendar.addCalendarHours(day).add(ProjectCalendarHelper.getDefaultCalendarHours());
-            }
-            continue;
-         }
-
-         ProjectCalendarHours calendarHours = calendar.addCalendarHours(day);
-         List<WorkTimeType> workTime = hours.getWorkTime();
-         if (workTime.isEmpty() || workTime.get(0) == null)
-         {
-            calendar.setWorkingDay(day, false);
-         }
-         else
-         {
-            calendar.setWorkingDay(day, true);
-            for (WorkTimeType work : workTime)
-            {
-               if (work != null)
-               {
-                  calendarHours.add(new LocalTimeRange(work.getStart(), getEndTime(work.getFinish())));
-               }
-            }
-         }
-      }
-
-      CalendarType.HolidayOrExceptions hoe = row.getHolidayOrExceptions();
-      if (hoe != null)
-      {
-         for (CalendarType.HolidayOrExceptions.HolidayOrException ex : hoe.getHolidayOrException())
-         {
-            LocalDate startDate = LocalDateHelper.getLocalDate(ex.getDate());
-            LocalDate endDate = LocalDateHelper.getLocalDate(ex.getDate());
-            ProjectCalendarException pce = calendar.addCalendarException(startDate, endDate);
-
-            List<WorkTimeType> workTime = ex.getWorkTime();
-
-            // Special case: a single entry for 00:00-23:59 is treated by P6 as a non-working day
-            if (workTime.size() == 1)
-            {
-               WorkTimeType work = workTime.get(0);
-               if (work == null || (LocalTime.MIDNIGHT.equals(work.getStart()) && NON_WORKING_END_TIME.equals(work.getFinish())))
-               {
-                  continue;
-               }
-            }
-
-            for (WorkTimeType work : workTime)
-            {
-               if (work != null && work.getStart() != null && work.getFinish() != null)
-               {
-                  pce.add(new LocalTimeRange(work.getStart(), getEndTime(work.getFinish())));
-               }
-            }
-         }
-      }
-
-      ProjectCalendarHelper.ensureWorkingTime(calendar);
-
-      //
-      // Try and extract minutes per period from the calendar row
-      //
-      Double rowHoursPerDay = row.getHoursPerDay();
-      Double rowHoursPerWeek = row.getHoursPerWeek();
-      Double rowHoursPerMonth = row.getHoursPerMonth();
-      Double rowHoursPerYear = row.getHoursPerYear();
-
-      calendar.setCalendarMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerDay) * 60)));
-      calendar.setCalendarMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerWeek) * 60)));
-      calendar.setCalendarMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerMonth) * 60)));
-      calendar.setCalendarMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerYear) * 60)));
-
-      //
-      // If we're missing any of these figures, generate them.
-      // Note that P6 allows users to enter arbitrary hours per period,
-      // as far as I can see they aren't validated to see if they make sense,
-      // so the figures here won't necessarily match what you'd see in P6.
-      //
-      if (rowHoursPerDay == null || rowHoursPerWeek == null || rowHoursPerMonth == null || rowHoursPerYear == null)
-      {
-         int minutesPerWeek = 0;
-         int workingDays = 0;
-
-         for (DayOfWeek day : DayOfWeek.values())
-         {
-            ProjectCalendarHours hours = calendar.getCalendarHours(day);
-            if (hours == null)
-            {
-               continue;
-            }
-
-            if (!hours.isEmpty())
-            {
-               ++workingDays;
-               for (LocalTimeRange range : hours)
-               {
-                  minutesPerWeek += (range.getDurationAsMilliseconds() / (1000 * 60));
-               }
-            }
-         }
-
-         int minutesPerDay = minutesPerWeek / workingDays;
-         int minutesPerMonth = minutesPerWeek * 4;
-         int minutesPerYear = minutesPerMonth * 12;
-
-         if (rowHoursPerDay == null)
-         {
-            calendar.setCalendarMinutesPerDay(Integer.valueOf(minutesPerDay));
-         }
-
-         if (rowHoursPerWeek == null)
-         {
-            calendar.setCalendarMinutesPerWeek(Integer.valueOf(minutesPerWeek));
-         }
-
-         if (rowHoursPerMonth == null)
-         {
-            calendar.setCalendarMinutesPerMonth(Integer.valueOf(minutesPerMonth));
-         }
-
-         if (rowHoursPerYear == null)
-         {
-            calendar.setCalendarMinutesPerYear(Integer.valueOf(minutesPerYear));
-         }
-      }
-
-      return calendar;
    }
 
    /**
@@ -1948,19 +1732,6 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
    }
 
    /**
-    * The end of a Primavera time range finishes on the last minute
-    * of the period, so a range of 12:00 -> 13:00 is represented by
-    * Primavera as 12:00 -> 12:59.
-    *
-    * @param date Primavera end time
-    * @return date MPXJ end time
-    */
-   private LocalTime getEndTime(LocalTime date)
-   {
-      return date.plusMinutes(1);
-   }
-
-   /**
     * Reverse the effects of PrimaveraPMFileWriter.getPercentage().
     *
     * @param n percentage value to convert
@@ -2008,28 +1779,6 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
    private ClashMap m_roleClashMap;
    private final List<ExternalRelation> m_externalRelations;
 
-   private static final Map<String, DayOfWeek> DAY_MAP = new HashMap<>();
-   static
-   {
-      // Current PMXML schema
-      DAY_MAP.put("Monday", DayOfWeek.MONDAY);
-      DAY_MAP.put("Tuesday", DayOfWeek.TUESDAY);
-      DAY_MAP.put("Wednesday", DayOfWeek.WEDNESDAY);
-      DAY_MAP.put("Thursday", DayOfWeek.THURSDAY);
-      DAY_MAP.put("Friday", DayOfWeek.FRIDAY);
-      DAY_MAP.put("Saturday", DayOfWeek.SATURDAY);
-      DAY_MAP.put("Sunday", DayOfWeek.SUNDAY);
-
-      // Older (6.2?) schema
-      DAY_MAP.put("1", DayOfWeek.SUNDAY);
-      DAY_MAP.put("2", DayOfWeek.MONDAY);
-      DAY_MAP.put("3", DayOfWeek.TUESDAY);
-      DAY_MAP.put("4", DayOfWeek.WEDNESDAY);
-      DAY_MAP.put("5", DayOfWeek.THURSDAY);
-      DAY_MAP.put("6", DayOfWeek.FRIDAY);
-      DAY_MAP.put("7", DayOfWeek.SATURDAY);
-   }
-
    private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<>();
    static
    {
@@ -2042,6 +1791,4 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
    }
 
    private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();
-
-   private static final LocalTime NON_WORKING_END_TIME = LocalTime.of(23, 59);
 }
