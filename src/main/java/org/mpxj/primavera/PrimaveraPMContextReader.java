@@ -57,7 +57,7 @@ import org.mpxj.primavera.schema.ShiftType;
 import org.mpxj.primavera.schema.UDFTypeType;
 import org.mpxj.primavera.schema.UnitOfMeasureType;
 
-class PrimaveraPMContextReader
+class PrimaveraPMContextReader extends PrimaveraPMCommonReader
 {
    public PrimaveraPMContextReader(APIBusinessObjects apibo)
    {
@@ -80,6 +80,8 @@ class PrimaveraPMContextReader
       processRoleCodeDefinitions();
       processResourceAssignmentCodeDefinitions();
       processShifts();
+      processActivityCodeDefinitions(m_context, m_apibo.getActivityCodeType(), m_apibo.getActivityCode());
+
       return m_context;
    }
 
