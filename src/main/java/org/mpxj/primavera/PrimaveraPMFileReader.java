@@ -249,31 +249,40 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       List<ProjectType> projects = apibo.getProject();
       List<BaselineProjectType> baselineProjects = apibo.getBaselineProject();
       List<ProjectFile> result = new ArrayList<>(projects.size() + baselineProjects.size());
-      m_externalRelations = new ArrayList<>();
+      List<ExternalRelation> externalRelations = new ArrayList<>();
 
       ProjectContext context = new PrimaveraPMContextReader(apibo).read();
       context.getProjectConfig().setBaselineStrategy(m_baselineStrategy);
       processActivityCodeDefinitions(context, apibo.getActivityCodeType(), apibo.getActivityCode());
 
-      projects.forEach(project -> result.add(read(context, apibo, project)));
-      baselineProjects.forEach(project -> result.add(read(context, apibo, project)));
+      projects.forEach(project -> result.add(read(context, apibo, project, externalRelations)));
+      baselineProjects.forEach(project -> result.add(read(context, apibo, project, externalRelations)));
+
+//      projects.forEach(project -> result.add(read(context, apibo, project)));
+//      baselineProjects.forEach(project -> result.add(read(context, apibo, project)));
 
       // Sort to ensure exported project is first
       result.sort((o1, o2) -> Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
 
-      linkCrossProjectRelations(result);
+      linkCrossProjectRelations(result, externalRelations);
       populateBaselines(apibo, result);
 
-      m_externalRelations = null;
 
       return result;
    }
 
-   private void linkCrossProjectRelations(List<ProjectFile> projects)
+   private ProjectFile read(ProjectContext context, APIBusinessObjects apibo, Object projectObject, List<ExternalRelation> externalRelations)
+   {
+      ProjectFile projectFile = new ProjectFile(context);
+      addListenersToProject(projectFile);
+      return new PrimaveraPMProjectReader(projectFile, externalRelations).read(apibo, projectObject);
+   }
+
+   private void linkCrossProjectRelations(List<ProjectFile> projects, List<ExternalRelation> externalRelations)
    {
       if (m_linkCrossProjectRelations)
       {
-         for (ExternalRelation externalRelation : m_externalRelations)
+         for (ExternalRelation externalRelation : externalRelations)
          {
             Task externalTask = findTaskInProjects(projects, externalRelation.externalTaskUniqueID());
             if (externalTask != null)
