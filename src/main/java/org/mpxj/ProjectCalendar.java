@@ -1814,7 +1814,11 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       m_workingDateCache.clear();
       m_startTimeCache.clear();
       m_getDateLastResult = null;
-      getDerivedCalendars().forEach(ProjectCalendar::clearWorkingDateCache);
+
+      if (!m_temporaryCalendar)
+      {
+         getDerivedCalendars().forEach(ProjectCalendar::clearWorkingDateCache);
+      }
    }
 
    /**
