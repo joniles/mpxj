@@ -607,6 +607,46 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
+    * Set the activity default calendar unique ID for this project.
+    *
+    * @param id activity default calendar unique ID
+    */
+   public void setActivityDefaultCalendarUniqueID(Integer id)
+   {
+      set(ProjectField.ACTIVITY_DEFAULT_CALENDAR_UNIQUE_ID, id);
+   }
+
+   /**
+    * Retrieve the activity default calendar unique ID for this project.
+    *
+    * @return activity default calendar unique ID
+    */
+   public Integer getActivityDefaultCalendarUniqueID()
+   {
+      return (Integer) get(ProjectField.ACTIVITY_DEFAULT_CALENDAR_UNIQUE_ID);
+   }
+
+   /**
+    * Set the activity default calendar for this project.
+    *
+    * @param calendar activity default calendar
+    */
+   public void setActivityDefaultCalendar(ProjectCalendar calendar)
+   {
+      set(ProjectField.ACTIVITY_DEFAULT_CALENDAR_UNIQUE_ID, calendar.getUniqueID());
+   }
+
+   /**
+    * Retrieve the activity default calendar for this project.
+    *
+    * @return activity default calendar
+    */
+   public ProjectCalendar getActivityDefaultCalendar()
+   {
+      return getParentFile().getCalendars().getByUniqueID((Integer) get(ProjectField.ACTIVITY_DEFAULT_CALENDAR_UNIQUE_ID));
+   }
+
+   /**
     * Sets the project start date.
     *
     * @param startDate project start date
