@@ -207,7 +207,8 @@ public enum ProjectField implements FieldType
    NOTES(DataType.NOTES),
    PROJECT_CODE_VALUES(DataType.CODE_VALUES),
    ENABLE_SUMMARIZATION(DataType.BOOLEAN),
-   ENABLE_PUBLICATION(DataType.BOOLEAN);
+   ENABLE_PUBLICATION(DataType.BOOLEAN),
+   ACTIVITY_DEFAULT_CALENDAR_UNIQUE_ID(DataType.INTEGER);
 
    /**
     * Constructor.
