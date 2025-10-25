@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="14.6.0">
+            <action dev="joniles" type="update">Add support for the Project attribute Activity Default Calendar Unique ID.</action>
 		</release>
 		<release date="2025-10-22" version="14.5.2">
             <action dev="joniles" type="update">Fix an issue reading secondary constraint dates and finish constraint dates from Open Plan BK3 files.</action>

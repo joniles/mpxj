@@ -2312,6 +2312,7 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.PROJECT_CODE_VALUES.getValue()] = "Project Code Values";
       PROJECT_COLUMNS_ARRAY[ProjectField.ENABLE_PUBLICATION.getValue()] = "Enable Publication";
       PROJECT_COLUMNS_ARRAY[ProjectField.ENABLE_SUMMARIZATION.getValue()] = "Enable Summarization";
+      PROJECT_COLUMNS_ARRAY[ProjectField.ACTIVITY_DEFAULT_CALENDAR_UNIQUE_ID.getValue()] = "Activity Default Calendar Unique ID";
    }
 
    private static final Object[][] RESOURCES =

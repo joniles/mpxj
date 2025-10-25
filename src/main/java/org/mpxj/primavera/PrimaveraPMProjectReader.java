@@ -505,6 +505,7 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
       // NOTE: this also appears in the schedule options. We will override this with the schedule options value if both are present
       properties.setRelationshipLagCalendar(RelationshipLagCalendarHelper.getInstanceFromXml(project.getRelationshipLagCalendar()));
       properties.setWbsCodeSeparator(project.getWBSCodeSeparator());
+      properties.setActivityDefaultCalendarUniqueID(project.getActivityDefaultCalendarObjectId());
       properties.setActivityIdPrefix(project.getActivityIdPrefix());
       properties.setActivityIdSuffix(project.getActivityIdSuffix());
       properties.setActivityIdIncrement(project.getActivityIdIncrement());
@@ -539,6 +540,7 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
       properties.setMustFinishBy(project.getMustFinishByDate());
       properties.setCriticalSlackLimit(Duration.getInstance(NumberHelper.getDouble(project.getCriticalActivityFloatLimit()), TimeUnit.HOURS));
       properties.setWbsCodeSeparator(project.getWBSCodeSeparator());
+      properties.setActivityDefaultCalendarUniqueID(project.getActivityDefaultCalendarObjectId());
       properties.setBaselineTypeName(project.getBaselineTypeName());
       properties.setBaselineTypeUniqueID(project.getBaselineTypeObjectId());
       properties.setLastBaselineUpdateDate(project.getLastBaselineUpdateDate());

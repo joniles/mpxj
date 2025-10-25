@@ -581,7 +581,7 @@ final class PrimaveraPMProjectWriter
       String projectID = getProjectID(mpxj);
 
       project.setActivityDefaultActivityType(ActivityTypeHelper.getXmlFromInstance(ActivityTypeHelper.NEW_ACTIVITY_DEFAULT_TYPE));
-      project.setActivityDefaultCalendarObjectId(mpxj.getDefaultCalendarUniqueID());
+      project.setActivityDefaultCalendarObjectId(mpxj.getActivityDefaultCalendarUniqueID() == null ? mpxj.getDefaultCalendarUniqueID() : mpxj.getActivityDefaultCalendarUniqueID());
       project.setActivityDefaultDurationType(TaskTypeHelper.getXmlFromInstance(TaskType.FIXED_DURATION_AND_UNITS));
       project.setActivityDefaultPercentCompleteType(PercentCompleteTypeHelper.getXmlFromInstance(PercentCompleteType.DURATION));
       project.setActivityDefaultPricePerUnit(NumberHelper.DOUBLE_ZERO);
@@ -654,7 +654,7 @@ final class PrimaveraPMProjectWriter
       String projectID = getProjectID(mpxj);
 
       project.setActivityDefaultActivityType(ActivityTypeHelper.getXmlFromInstance(ActivityTypeHelper.NEW_ACTIVITY_DEFAULT_TYPE));
-      project.setActivityDefaultCalendarObjectId(mpxj.getDefaultCalendarUniqueID());
+      project.setActivityDefaultCalendarObjectId(mpxj.getActivityDefaultCalendarUniqueID() == null ? mpxj.getDefaultCalendarUniqueID() : mpxj.getActivityDefaultCalendarUniqueID());
       project.setActivityDefaultDurationType(TaskTypeHelper.getXmlFromInstance(TaskType.FIXED_DURATION_AND_UNITS));
       project.setActivityDefaultPercentCompleteType(PercentCompleteTypeHelper.getXmlFromInstance(PercentCompleteType.DURATION));
       project.setActivityDefaultPricePerUnit(NumberHelper.DOUBLE_ZERO);
