@@ -1520,7 +1520,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("orig_proj_id", p -> "");
       PROJECT_COLUMNS.put("source_proj_id", p -> "");
       PROJECT_COLUMNS.put("base_type_id", p -> "");
-      PROJECT_COLUMNS.put("clndr_id", ProjectProperties::getDefaultCalendarUniqueID);
+      PROJECT_COLUMNS.put("clndr_id", p -> p.getActivityDefaultCalendarUniqueID() == null ? p.getDefaultCalendarUniqueID() : p.getActivityDefaultCalendarUniqueID());
       PROJECT_COLUMNS.put("sum_base_proj_id", ProjectProperties::getBaselineProjectUniqueID);
       PROJECT_COLUMNS.put("task_code_base", ProjectProperties::getActivityIdSuffix);
       PROJECT_COLUMNS.put("task_code_step", ProjectProperties::getActivityIdIncrement);
