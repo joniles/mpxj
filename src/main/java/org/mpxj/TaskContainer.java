@@ -23,6 +23,7 @@
 
 package org.mpxj;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -34,7 +35,7 @@ import org.mpxj.common.PopulatedFields;
 /**
  * Manages the collection of tasks belonging to a project.
  */
-public class TaskContainer extends ProjectEntityWithIDContainer<Task>
+public class TaskContainer extends ProjectEntityWithIDContainer<Task> implements ChildTaskContainer
 {
    /**
     * Constructor.
@@ -45,6 +46,27 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
    {
       super(projectFile);
       m_projectFile = projectFile;
+   }
+
+   /**
+    * This method is used to retrieve a list of all top level tasks
+    * defined in this project file.
+    *
+    * @return list of tasks
+    */
+   @Override public List<Task> getChildTasks()
+   {
+      return m_childTasks;
+   }
+
+   /**
+    * This method allows a task to be added to the file programmatically.
+    *
+    * @return new task object
+    */
+   @Override public Task addTask()
+   {
+      return add();
    }
 
    /**
@@ -263,4 +285,5 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
    }
 
    private final ProjectFile m_projectFile;
+   private final List<Task> m_childTasks = new ArrayList<>();
 }
