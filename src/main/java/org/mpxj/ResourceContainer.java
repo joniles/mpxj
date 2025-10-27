@@ -23,6 +23,7 @@
 
 package org.mpxj;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -33,7 +34,7 @@ import org.mpxj.common.PopulatedFields;
 /**
  * Manages the collection of resources belonging to a project.
  */
-public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
+public class ResourceContainer extends ProjectEntityWithIDContainer<Resource> implements ChildResourceContainer
 {
    /**
     * Constructor.
@@ -44,6 +45,27 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
    {
       super(projectFile);
       m_projectFile = projectFile;
+   }
+
+   /**
+    * This method is used to retrieve a list of all top level resources
+    * defined in this project file.
+    *
+    * @return list of resources
+    */
+   @Override public List<Resource> getChildResources()
+   {
+      return m_childResources;
+   }
+
+   /**
+    * This method is used to add a new resource to the file.
+    *
+    * @return new resource object
+    */
+   @Override public Resource addResource()
+   {
+      return add();
    }
 
    @Override public void removed(Resource resource)
@@ -156,4 +178,5 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
    }
 
    private final ProjectFile m_projectFile;
+   private final List<Resource> m_childResources = new ArrayList<>();
 }

@@ -118,7 +118,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    @Override public List<Resource> getChildResources()
    {
-      return m_childResources;
+      return m_resources.getChildResources();
    }
 
    /**
@@ -1091,7 +1091,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final ResourceContainer m_resources = new ResourceContainer(this);
    private final TaskContainer m_tasks = new TaskContainer(this);
    private final List<Task> m_childTasks = new ArrayList<>();
-   private final List<Resource> m_childResources = new ArrayList<>();
    private final ResourceAssignmentContainer m_assignments = new ResourceAssignmentContainer(this);
    private final RelationContainer m_relations = new RelationContainer(this);
    private final TableContainer m_tables = new TableContainer();
