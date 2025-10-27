@@ -1,9 +1,16 @@
 package org.mpxj.primavera;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.mpxj.ActivityCode;
 import org.mpxj.ActivityCodeContainer;
@@ -16,9 +23,13 @@ import org.mpxj.ExpenseCategory;
 import org.mpxj.ExpenseCategoryContainer;
 import org.mpxj.FieldType;
 import org.mpxj.FieldTypeClass;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.Location;
 import org.mpxj.LocationContainer;
 import org.mpxj.NotesTopic;
+import org.mpxj.ProjectCalendar;
+import org.mpxj.ProjectCalendarException;
+import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectCode;
 import org.mpxj.ProjectCodeContainer;
 import org.mpxj.ProjectCodeValue;
@@ -43,7 +54,9 @@ import org.mpxj.UnitOfMeasureContainer;
 import org.mpxj.UserDefinedField;
 import org.mpxj.UserDefinedFieldContainer;
 import org.mpxj.common.ColorHelper;
+import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.HierarchyHelper;
+import org.mpxj.common.NumberHelper;
 
 abstract class PrimaveraContextReader
 {
@@ -484,7 +497,278 @@ abstract class PrimaveraContextReader
       }
    }
 
+   /**
+    * Process project calendars.
+    *
+    * @param rows project calendar data
+    */
+   protected void processCalendars(List<Row> rows)
+   {
+      //
+      // First pass: read calendar definitions
+      //
+      Map<ProjectCalendar, Integer> baseCalendarMap = new HashMap<>();
+      for (Row row : rows)
+      {
+         ProjectCalendar calendar = processCalendar(row);
+         Integer baseCalendarID = row.getInteger("base_clndr_id");
+         if (baseCalendarID != null)
+         {
+            baseCalendarMap.put(calendar, baseCalendarID);
+         }
+      }
+
+      //
+      // Second pass: create calendar hierarchy
+      //
+      for (Map.Entry<ProjectCalendar, Integer> entry : baseCalendarMap.entrySet())
+      {
+         ProjectCalendar baseCalendar = m_context.getCalendars().getByUniqueID(entry.getValue());
+         if (baseCalendar != null)
+         {
+            entry.getKey().setParent(baseCalendar);
+         }
+      }
+   }
+
+   /**
+    * Process data for an individual calendar.
+    *
+    * @param row calendar data
+    * @return ProjectCalendar instance
+    */
+   protected ProjectCalendar processCalendar(Row row)
+   {
+      ProjectCalendar calendar = m_context.getCalendars().add();
+      calendar.setUniqueID(row.getInteger("clndr_id"));
+      calendar.setName(row.getString("clndr_name"));
+      calendar.setType(CalendarTypeHelper.getInstanceFromXer(row.getString("clndr_type")));
+      calendar.setProjectUniqueID(row.getInteger("proj_id"));
+      calendar.setPersonal(row.getBoolean("rsrc_private"));
+
+      // We may override this later with project properties
+      if (row.getBoolean("default_flag") && m_context.getCalendars().getDefaultCalendarUniqueID() == null)
+      {
+         calendar.setDefault();
+      }
+
+      // Process data
+      String calendarData = row.getString("clndr_data");
+      if (calendarData != null && !calendarData.isEmpty())
+      {
+         StructuredTextParser parser = new StructuredTextParser();
+         parser.setRaiseExceptionOnParseError(false);
+         StructuredTextRecord root = parser.parse(calendarData);
+         StructuredTextRecord daysOfWeek = root.getChild("DaysOfWeek");
+         StructuredTextRecord exceptions = root.getChild("Exceptions");
+
+         if (daysOfWeek != null)
+         {
+            processCalendarDays(calendar, daysOfWeek);
+         }
+
+         if (exceptions != null)
+         {
+            processCalendarExceptions(calendar, exceptions);
+         }
+      }
+
+      ProjectCalendarHelper.ensureWorkingTime(calendar);
+
+      //
+      // Try and extract minutes per period from the calendar row
+      //
+      Double rowHoursPerDay = row.getDouble("day_hr_cnt");
+      Double rowHoursPerWeek = row.getDouble("week_hr_cnt");
+      Double rowHoursPerMonth = row.getDouble("month_hr_cnt");
+      Double rowHoursPerYear = row.getDouble("year_hr_cnt");
+
+      calendar.setCalendarMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerDay) * 60)));
+      calendar.setCalendarMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerWeek) * 60)));
+      calendar.setCalendarMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerMonth) * 60)));
+      calendar.setCalendarMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerYear) * 60)));
+
+      //
+      // If we're missing any of these figures, generate them.
+      // Note that P6 allows users to enter arbitrary hours per period,
+      // as far as I can see they aren't validated to see if they make sense,
+      // so the figures here won't necessarily match what you'd see in P6.
+      //
+      if (rowHoursPerDay == null || rowHoursPerWeek == null || rowHoursPerMonth == null || rowHoursPerYear == null)
+      {
+         int minutesPerWeek = 0;
+         int workingDays = 0;
+
+         for (DayOfWeek day : DayOfWeek.values())
+         {
+            ProjectCalendarHours hours = calendar.getCalendarHours(day);
+            if (hours == null)
+            {
+               continue;
+            }
+
+            if (!hours.isEmpty())
+            {
+               ++workingDays;
+               for (LocalTimeRange range : hours)
+               {
+                  minutesPerWeek += (range.getDurationAsMilliseconds() / (1000 * 60));
+               }
+            }
+         }
+
+         int minutesPerDay = minutesPerWeek / workingDays;
+         int minutesPerMonth = minutesPerWeek * 4;
+         int minutesPerYear = minutesPerMonth * 12;
+
+         if (rowHoursPerDay == null)
+         {
+            calendar.setCalendarMinutesPerDay(Integer.valueOf(minutesPerDay));
+         }
+
+         if (rowHoursPerWeek == null)
+         {
+            calendar.setCalendarMinutesPerWeek(Integer.valueOf(minutesPerWeek));
+         }
+
+         if (rowHoursPerMonth == null)
+         {
+            calendar.setCalendarMinutesPerMonth(Integer.valueOf(minutesPerMonth));
+         }
+
+         if (rowHoursPerYear == null)
+         {
+            calendar.setCalendarMinutesPerYear(Integer.valueOf(minutesPerYear));
+         }
+      }
+
+      return calendar;
+   }
+
+   /**
+    * Process calendar days of the week.
+    *
+    * @param calendar project calendar
+    * @param daysOfWeek calendar data
+    */
+   private void processCalendarDays(ProjectCalendar calendar, StructuredTextRecord daysOfWeek)
+   {
+      Map<DayOfWeek, StructuredTextRecord> days = daysOfWeek.getChildren().stream().filter(d -> DayOfWeekHelper.getInstance(Integer.parseInt(d.getRecordName())) != null).collect(Collectors.toMap(d -> DayOfWeekHelper.getInstance(Integer.parseInt(d.getRecordName())), d -> d));
+
+      for (DayOfWeek day : DayOfWeek.values())
+      {
+         StructuredTextRecord dayRecord = days.get(day);
+         processCalendarHours(day, calendar, dayRecord == null ? StructuredTextRecord.EMPTY : dayRecord);
+      }
+   }
+
+   /**
+    * Process hours in a working day.
+    *
+    * @param day day to process
+    * @param calendar project calendar
+    * @param dayRecord working day data
+    */
+   private void processCalendarHours(DayOfWeek day, ProjectCalendar calendar, StructuredTextRecord dayRecord)
+   {
+      // Get hours
+      ProjectCalendarHours hours = calendar.addCalendarHours(day);
+      List<StructuredTextRecord> recHours = dayRecord.getChildren();
+      if (recHours.isEmpty())
+      {
+         // No data -> not working
+         calendar.setWorkingDay(day, false);
+      }
+      else
+      {
+         calendar.setWorkingDay(day, true);
+         // Read hours
+         for (StructuredTextRecord recWorkingHours : recHours)
+         {
+            addHours(hours, recWorkingHours);
+         }
+      }
+   }
+
+   /**
+    * Parses a record containing hours and add them to a container.
+    *
+    * @param ranges hours container
+    * @param hoursRecord hours record
+    */
+   private void addHours(ProjectCalendarHours ranges, StructuredTextRecord hoursRecord)
+   {
+      String startText = hoursRecord.getAttribute("s");
+      String endText = hoursRecord.getAttribute("f");
+
+      // Ignore incomplete records
+      if (startText == null || endText == null || startText.isEmpty() || endText.isEmpty())
+      {
+         return;
+      }
+
+      DateTimeFormatter formatter = startText.indexOf(' ') == -1 ? m_twentyFourHourTimeFormat : m_twelveHourTimeFormat;
+      try
+      {
+         LocalTime start = LocalTime.parse(startText, formatter);
+         LocalTime end = LocalTime.parse(endText, formatter);
+         ranges.add(new LocalTimeRange(start, end));
+      }
+
+      catch (DateTimeParseException ex)
+      {
+         if (m_ignoreErrors)
+         {
+            m_context.addIgnoredError(ex);
+         }
+         else
+         {
+            throw ex;
+         }
+      }
+   }
+
+   /**
+    * Process calendar exceptions.
+    *
+    * @param calendar project calendar
+    * @param exceptions calendar data
+    */
+   private void processCalendarExceptions(ProjectCalendar calendar, StructuredTextRecord exceptions)
+   {
+      for (StructuredTextRecord exception : exceptions.getChildren())
+      {
+         long daysFromEpoch;
+
+         try
+         {
+            daysFromEpoch = Integer.parseInt(exception.getAttribute("d"));
+         }
+
+         catch (NumberFormatException ex)
+         {
+            if (m_ignoreErrors)
+            {
+               m_context.addIgnoredError(ex);
+               continue;
+            }
+            throw ex;
+         }
+
+         LocalDate startEx = EXCEPTION_EPOCH.plusDays(daysFromEpoch);
+
+         ProjectCalendarException pce = calendar.addCalendarException(startEx, startEx);
+         for (StructuredTextRecord exceptionHours : exception.getChildren())
+         {
+            addHours(pce, exceptionHours);
+         }
+      }
+   }
+
    protected final ProjectContext m_context = new ProjectContext();
+   private final DateTimeFormatter m_twentyFourHourTimeFormat = DateTimeFormatter.ofPattern("H:mm");
+   private final DateTimeFormatter m_twelveHourTimeFormat = new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("h:mm a").toFormatter();
+   protected boolean m_ignoreErrors;
 
    /**
     * Retrieve the default mapping between MPXJ resource fields and Primavera resource field names.
@@ -537,4 +821,5 @@ abstract class PrimaveraContextReader
       return map;
    }
 
+   static final LocalDate EXCEPTION_EPOCH = LocalDate.of(1899, 12, 30);
 }

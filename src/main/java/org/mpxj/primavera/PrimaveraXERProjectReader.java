@@ -38,7 +38,6 @@ class PrimaveraXERProjectReader extends PrimaveraProjectReader
       processRoleCodeAssignments();
       processResourceAssignmentCodeAssignments();
       processUdfValues();
-      processCalendars();
       processResources();
       processRoles();
       processRoleAssignments();
@@ -102,15 +101,6 @@ class PrimaveraXERProjectReader extends PrimaveraProjectReader
    {
       List<Row> values = m_file.getRows("udfvalue", null, null);
       processUdfValues(values);
-   }
-
-   /**
-    * Process project calendars.
-    */
-   private void processCalendars()
-   {
-      List<Row> rows = m_file.getRows("calendar", null, null);
-      processCalendars(rows);
    }
 
    /**

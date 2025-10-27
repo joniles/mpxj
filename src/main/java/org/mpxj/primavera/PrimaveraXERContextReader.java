@@ -9,9 +9,10 @@ import org.mpxj.common.NumberHelper;
 
 class PrimaveraXERContextReader extends PrimaveraContextReader
 {
-   public PrimaveraXERContextReader(XerFile file)
+   public PrimaveraXERContextReader(XerFile file, boolean ignoreErrors)
    {
       m_file= file;
+      m_ignoreErrors = ignoreErrors;
    }
 
    public ProjectContext read()
@@ -31,6 +32,7 @@ class PrimaveraXERContextReader extends PrimaveraContextReader
       processRoleCodeDefinitions();
       processResourceAssignmentCodeDefinitions();
       processActivityCodeDefinitions();
+      processCalendars();
 
       return m_context;
    }
@@ -193,6 +195,15 @@ class PrimaveraXERContextReader extends PrimaveraContextReader
       List<Row> types = m_file.getRows("asgnmntcattype", null, null);
       List<Row> typeValues = m_file.getRows("asgnmntcatval", null, null);
       processResourceAssignmentCodeDefinitions(types, typeValues);
+   }
+
+   /**
+    * Process project calendars.
+    */
+   private void processCalendars()
+   {
+      List<Row> rows = m_file.getRows("calendar", null, null);
+      processCalendars(rows);
    }
 
    private final XerFile m_file;

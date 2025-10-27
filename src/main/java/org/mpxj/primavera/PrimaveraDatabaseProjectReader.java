@@ -48,7 +48,6 @@ class PrimaveraDatabaseProjectReader extends PrimaveraProjectReader
          processRoleCodeAssignments();
          processResourceAssignmentCodeAssignments();
          processUdfValues();
-         processCalendars();
          processResources();
          processRoles();
          processRoleAssignments();
@@ -137,15 +136,6 @@ class PrimaveraDatabaseProjectReader extends PrimaveraProjectReader
    {
       List<Row> values = m_database.getRows("select * from " + m_schema + "udfvalue where proj_id=? or proj_id is null", m_projectID);
       processUdfValues(values);
-   }
-
-   /**
-    * Process calendars.
-    */
-   private void processCalendars() throws SQLException
-   {
-      List<Row> rows = m_database.getRows("select * from " + m_schema + "calendar where (proj_id is null or proj_id=?) and delete_date is null", m_projectID);
-      processCalendars(rows);
    }
 
    /**

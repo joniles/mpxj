@@ -134,7 +134,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    @Override public List<ProjectFile> readAll(InputStream is) throws MPXJException
    {
       XerFile file = new XerFile(READ_REQUIRED_TABLES, m_charset, m_ignoreErrors).read(is);
-      ProjectContext context = new PrimaveraXERContextReader(file).read();
+      ProjectContext context = new PrimaveraXERContextReader(file, m_ignoreErrors).read();
 
       List<Row> rows = file.getRows("project", null, null);
       List<ProjectFile> result = new ArrayList<>(rows.size());

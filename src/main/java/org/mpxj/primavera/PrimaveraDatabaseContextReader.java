@@ -37,6 +37,8 @@ class PrimaveraDatabaseContextReader extends PrimaveraContextReader
          processRoleCodeDefinitions();
          processResourceAssignmentCodeDefinitions();
          processActivityCodeDefinitions();
+         processCalendars();
+
          return m_context;
       }
 
@@ -284,8 +286,16 @@ class PrimaveraDatabaseContextReader extends PrimaveraContextReader
       }
    }
 
+   /**
+    * Process calendars.
+    */
+   private void processCalendars() throws SQLException
+   {
+      List<Row> rows = m_database.getRows("select * from " + m_schema + "calendar where (proj_id is null or proj_id=?) and delete_date is null", m_projectID);
+      processCalendars(rows);
+   }
+
    private final PrimaveraDatabaseConnection m_database;
    private final String m_schema;
-   private final boolean m_ignoreErrors;
    private final Integer m_projectID;
 }
