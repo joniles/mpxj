@@ -57,7 +57,7 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
     */
    public ProjectCalendar add()
    {
-      ProjectCalendar calendar = new ProjectCalendar(m_context.getCalendars(), m_context.getTimeUnitDefaults(), m_context.getProjectConfig(), false);
+      ProjectCalendar calendar = new ProjectCalendar(m_context, false);
       add(calendar);
       return calendar;
    }

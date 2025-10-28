@@ -65,34 +65,28 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public ProjectCalendar(ProjectFile file)
    {
-      this(file.getCalendars(), file.getProjectProperties(), file.getProjectConfig(), false);
+      this(file.getProjectContext(), false);
    }
 
    /**
     * Internal constructor.
     *
-    * @param container ProjectCalendarContainer, null if this is a temporary calendar
+    * @param context parent ProjectContext
     */
-   protected ProjectCalendar(ProjectCalendarContainer container, TimeUnitDefaultsContainer defaults, ProjectConfig config, boolean temporaryCalendar)
+   protected ProjectCalendar(ProjectContext context, boolean temporaryCalendar)
    {
+      m_context = context;
       m_temporaryCalendar = temporaryCalendar;
-      m_defaults = defaults;
-      m_container = container;
 
-      if (!m_temporaryCalendar && config != null && config.getAutoCalendarUniqueID())
+      if (!m_temporaryCalendar && m_context.getProjectConfig().getAutoCalendarUniqueID())
       {
-         setUniqueID(container.getSequenceProvider().getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
+         setUniqueID(m_context.getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
       }
    }
 
-   public TimeUnitDefaultsContainer getTimeUnitDefaults()
+   public ProjectContext getProjectContext()
    {
-      return m_defaults;
-   }
-
-   public ProjectCalendarContainer getProjectCalendarContainer()
-   {
-      return m_container;
+      return m_context;
    }
 
    public boolean getDefault()
@@ -102,13 +96,13 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          return false;
       }
 
-      Integer defaultCalendarUniqueID = m_container.getDefaultCalendarUniqueID();
+      Integer defaultCalendarUniqueID = m_context.getCalendars().getDefaultCalendarUniqueID();
       return defaultCalendarUniqueID != null && defaultCalendarUniqueID.equals(m_uniqueID);
    }
 
    public void setDefault()
    {
-      m_container.setDefaultCalendarUniqueID(m_uniqueID);
+      m_context.getCalendars().setDefaultCalendarUniqueID(m_uniqueID);
    }
 
    /**
@@ -125,7 +119,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       {
          if (m_parent == null)
          {
-            result = m_defaults.getMinutesPerDay();
+            result = m_context.getTimeUnitDefaults().getMinutesPerDay();
          }
          else
          {
@@ -150,7 +144,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       {
          if (m_parent == null)
          {
-            result = m_defaults.getMinutesPerWeek();
+            result = m_context.getTimeUnitDefaults().getMinutesPerWeek();
          }
          else
          {
@@ -175,7 +169,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       {
          if (m_parent == null)
          {
-            result = m_defaults.getMinutesPerMonth();
+            result = m_context.getTimeUnitDefaults().getMinutesPerMonth();
          }
          else
          {
@@ -200,7 +194,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       {
          if (m_parent == null)
          {
-            result = m_defaults.getMinutesPerYear();
+            result = m_context.getTimeUnitDefaults().getMinutesPerYear();
          }
          else
          {
@@ -220,7 +214,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    {
       // We actually don't store this as part of calendar presently,
       // so we'll use the value from the project properties.
-      return m_defaults.getDaysPerMonth();
+      return m_context.getTimeUnitDefaults().getDaysPerMonth();
    }
 
    /**
@@ -464,7 +458,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          return getExpandedCalendarExceptions();
       }
 
-      ProjectCalendar temporaryCalendar = new TemporaryCalendar(m_container, m_defaults);
+      ProjectCalendar temporaryCalendar = new TemporaryCalendar(m_context);
       ProjectCalendarHelper.mergeExceptions(temporaryCalendar, getCalendarExceptions());
 
       for (ProjectCalendarWeek week : getWorkWeeks())
@@ -1195,7 +1189,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       // If we have a temporary calendar, we don't want to modify the unique ID map for calendars
       if (!m_temporaryCalendar)
       {
-         m_container.updateUniqueID(this, m_uniqueID, uniqueID);
+         m_context.getCalendars().updateUniqueID(this, m_uniqueID, uniqueID);
       }
       m_uniqueID = uniqueID;
    }
@@ -1257,7 +1251,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public void remove()
    {
-      m_container.remove(this);
+      m_context.getCalendars().remove(this);
    }
 
    /**
@@ -1761,7 +1755,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
    private Stream<ProjectCalendar> getDerivedCalendarStream()
    {
-      return m_container.stream().filter(c -> c.m_parent != null && m_uniqueID != null && m_uniqueID.equals(c.m_parent.m_uniqueID));
+      return m_context.getCalendars().stream().filter(c -> c.m_parent != null && m_uniqueID != null && m_uniqueID.equals(c.m_parent.m_uniqueID));
    }
 
    @Override public String toString()
@@ -2094,8 +2088,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    private boolean m_personal;
    private final boolean m_temporaryCalendar;
    private Integer m_projectUniqueID;
-   private final TimeUnitDefaultsContainer m_defaults;
-   private final ProjectCalendarContainer m_container;
+   private final ProjectContext m_context;
 
    /**
     * Default base calendar name to use when none is supplied.

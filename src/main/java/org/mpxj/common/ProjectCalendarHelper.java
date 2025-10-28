@@ -55,7 +55,7 @@ public final class ProjectCalendarHelper
          return calendar;
       }
 
-      ProjectCalendar newCalendar = new TemporaryCalendar(calendar.getProjectCalendarContainer(), calendar.getTimeUnitDefaults());
+      ProjectCalendar newCalendar = new TemporaryCalendar(calendar.getProjectContext());
       newCalendar.setName(calendar.getName());
       newCalendar.setUniqueID(calendar.getUniqueID());
       newCalendar.setType(calendar.getType());
@@ -83,7 +83,7 @@ public final class ProjectCalendarHelper
     */
    public static ProjectCalendar createTemporaryDerivedCalendar(ProjectCalendar baseCalendar, Resource resource)
    {
-      ProjectCalendar derivedCalendar = new TemporaryCalendar(baseCalendar.getProjectCalendarContainer(), baseCalendar.getTimeUnitDefaults());
+      ProjectCalendar derivedCalendar = new TemporaryCalendar(baseCalendar.getProjectContext());
       derivedCalendar.setParent(baseCalendar);
       derivedCalendar.setName(resource.getName());
       derivedCalendar.setCalendarDayType(DayOfWeek.SUNDAY, DayType.DEFAULT);
@@ -96,7 +96,7 @@ public final class ProjectCalendarHelper
 
       if (NumberHelper.getInt(derivedCalendar.getUniqueID()) == 0)
       {
-         derivedCalendar.setUniqueID(baseCalendar.getProjectCalendarContainer().getSequenceProvider().getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
+         derivedCalendar.setUniqueID(baseCalendar.getProjectContext().getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
       }
 
       return derivedCalendar;

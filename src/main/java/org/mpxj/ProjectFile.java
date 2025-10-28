@@ -51,7 +51,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ProjectFile()
    {
-      m_context = new ProjectContext();
+      this(new ProjectContext());
    }
 
    /**
@@ -62,6 +62,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    public ProjectFile(ProjectContext context)
    {
       m_context = context;
+      m_context.getProjects().add(this);
    }
 
    public ProjectContext getProjectContext()

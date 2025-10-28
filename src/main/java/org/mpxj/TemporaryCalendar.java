@@ -32,10 +32,10 @@ public class TemporaryCalendar extends ProjectCalendar
    /**
     * Constructor.
     *
-    * @param defaults time unit conversion defaults
+    * @param context parent project context
     */
-   public TemporaryCalendar(ProjectCalendarContainer container, TimeUnitDefaultsContainer defaults)
+   public TemporaryCalendar(ProjectContext context)
    {
-      super(container, defaults, null, true);
+      super(context, true);
    }
 }

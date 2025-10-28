@@ -218,6 +218,11 @@ public class ProjectContext implements UniqueIdObjectSequenceProvider
       return m_resources;
    }
 
+   public List<ProjectFile> getProjects()
+   {
+      return m_projects;
+   }
+
    public TimeUnitDefaults getTimeUnitDefaults()
    {
       return m_timeUnitDefaults;
@@ -293,6 +298,8 @@ public class ProjectContext implements UniqueIdObjectSequenceProvider
    private final ProjectConfig m_projectConfig = new ProjectConfig();
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
    private final List<Exception> m_ignoredErrors = new ArrayList<>();
+
+   private final List<ProjectFile> m_projects = new ArrayList<>();
 
    private static final Set<String> HOSTED_CLASS_NAMES = new HashSet<>(
       Arrays.asList(
