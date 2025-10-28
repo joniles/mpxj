@@ -1460,7 +1460,6 @@ public final class MPXReader extends AbstractProjectStreamReader
       if (resource != null)
       {
          assignment.setResourceUniqueID(resource.getUniqueID());
-         resource.addResourceAssignment(assignment);
       }
 
       m_eventManager.fireAssignmentReadEvent(assignment);

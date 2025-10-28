@@ -109,11 +109,6 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task> implements
          ResourceAssignment assignment = iter.next();
          if (assignment.getTask() == task)
          {
-            Resource resource = assignment.getResource();
-            if (resource != null)
-            {
-               resource.removeResourceAssignment(assignment);
-            }
             iter.remove();
          }
       }

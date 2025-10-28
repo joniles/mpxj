@@ -37,6 +37,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.NumberHelper;
@@ -50,7 +52,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    /**
     * Default constructor.
     *
-    * @param file the parent file to which this record belongs.
+    * @param context parent context
     */
    Resource(ProjectContext context)
    {
@@ -1716,28 +1718,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
-    * This method is used internally within MPXJ to track tasks which are
-    * assigned to a particular resource.
-    *
-    * @param assignment resource assignment instance
-    */
-   public void addResourceAssignment(ResourceAssignment assignment)
-   {
-      m_assignments.add(assignment);
-   }
-
-   /**
-    * Internal method used as part of the process of removing a resource
-    * assignment.
-    *
-    * @param assignment resource assignment to be removed
-    */
-   void removeResourceAssignment(ResourceAssignment assignment)
-   {
-      m_assignments.remove(assignment);
-   }
-
-   /**
     * Retrieve a list of tasks assigned to this resource. Note that if this
     * project data has been read from an MPX file which declared some or all of
     * the resources assignments before the tasks and resources to which the
@@ -1748,7 +1728,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<ResourceAssignment> getTaskAssignments()
    {
-      return (m_assignments);
+      return getResourceAssignmentStream().collect(Collectors.toList());
    }
 
    /**
@@ -2725,7 +2705,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    /**
     * Assign a role code value to this resource.
     *
-    * @param value resoroleurce code value
+    * @param value role code value
     */
    @SuppressWarnings("unchecked") public void addRoleCodeValue(RoleCodeValue value)
    {
@@ -2799,15 +2779,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       if (field == ResourceField.UNIQUE_ID)
       {
          m_context.getResources().updateUniqueID(this, (Integer) oldValue, (Integer) newValue);
-
-         if (!m_assignments.isEmpty())
-         {
-            for (ResourceAssignment assignment : m_assignments)
-            {
-               assignment.setResourceUniqueID((Integer) newValue);
-            }
-         }
-
+         getResourceAssignmentStream((Integer)oldValue).forEach(a -> a.setResourceUniqueID((Integer) newValue));
          return;
       }
 
@@ -2991,12 +2963,26 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
 
    private LocalDateTime calculateStart()
    {
-      return m_assignments.stream().map(ResourceAssignment::getStart).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(null);
+      return getResourceAssignmentStream().map(ResourceAssignment::getStart).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(null);
    }
 
    private LocalDateTime calculateFinish()
    {
-      return m_assignments.stream().map(ResourceAssignment::getFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null);
+      return getResourceAssignmentStream().map(ResourceAssignment::getFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null);
+   }
+
+   private Stream<ResourceAssignment> getResourceAssignmentStream()
+   {
+      return getResourceAssignmentStream(getUniqueID());
+   }
+
+   private Stream<ResourceAssignment> getResourceAssignmentStream(Integer id)
+   {
+      if (id == null)
+      {
+         return Stream.empty();
+      }
+      return m_context.getProjects().stream().flatMap(p -> p.getResourceAssignments().stream()).filter(a -> id.equals(a.getResourceUniqueID()));
    }
 
    private Number calculateMaxUnits()
@@ -3057,7 +3043,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * List of all assignments for this resource.
     */
    private final ProjectContext m_context;
-   private final List<ResourceAssignment> m_assignments = new ArrayList<>();
    private final Map<Resource, SkillLevel> m_roleAssignments = new HashMap<>();
 
    /**

@@ -48,11 +48,6 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
    {
       super.removed(assignment);
       assignment.getTask().removeResourceAssignment(assignment);
-      Resource resource = assignment.getResource();
-      if (resource != null)
-      {
-         resource.removeResourceAssignment(assignment);
-      }
    }
 
    /**

@@ -415,12 +415,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    {
       m_assignments.add(assignment);
       m_parentFile.getResourceAssignments().add(assignment);
-
-      Resource resource = assignment.getResource();
-      if (resource != null)
-      {
-         resource.addResourceAssignment(assignment);
-      }
    }
 
    /**
