@@ -11,8 +11,9 @@ import org.mpxj.common.NumberHelper;
 
 class PrimaveraXERContextReader extends PrimaveraContextReader
 {
-   public PrimaveraXERContextReader(XerFile file, Map<String, Map<Integer, List<Row>>> udfValues, boolean ignoreErrors, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, ClashMap roleClashMap)
+   public PrimaveraXERContextReader(ProjectContext context, XerFile file, Map<String, Map<Integer, List<Row>>> udfValues, boolean ignoreErrors, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, ClashMap roleClashMap)
    {
+      m_context = context;
       m_file= file;
       m_udfValues = udfValues;
       m_ignoreErrors = ignoreErrors;

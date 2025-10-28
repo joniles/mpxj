@@ -72,13 +72,14 @@ import org.mpxj.primavera.schema.UnitOfMeasureType;
 
 class PrimaveraPMContextReader extends PrimaveraPMCommonReader
 {
-   public PrimaveraPMContextReader(APIBusinessObjects apibo, ClashMap roleClashMap)
+   public PrimaveraPMContextReader(ProjectContext context, APIBusinessObjects apibo, ClashMap roleClashMap)
    {
+      m_context = context;
       m_apibo = apibo;
       m_roleClashMap = roleClashMap;
    }
    
-   public ProjectContext read()
+   public void read()
    {
       configure();
       processCurrencies();
@@ -101,8 +102,6 @@ class PrimaveraPMContextReader extends PrimaveraPMCommonReader
       processRoleAssignments();
       processResourceRates();
       processRoleRates();
-
-      return m_context;
    }
 
    private void configure()
@@ -553,8 +552,7 @@ class PrimaveraPMContextReader extends PrimaveraPMCommonReader
 
          populateUserDefinedFieldValues(m_context, resource, xml.getUDF());
 
-         // TODO
-         //m_eventManager.fireResourceReadEvent(resource);
+         m_context.getEventManager().fireResourceReadEvent(resource);
       }
    }
 
@@ -801,7 +799,7 @@ class PrimaveraPMContextReader extends PrimaveraPMCommonReader
       }
    }
 
-   private final ProjectContext m_context = new ProjectContext();
+   private final ProjectContext m_context;
    private final APIBusinessObjects m_apibo;
    private final ClashMap m_roleClashMap;
 }

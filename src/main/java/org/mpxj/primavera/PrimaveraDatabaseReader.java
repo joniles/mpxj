@@ -107,10 +107,11 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    {
       Map<String, Map<Integer, List<Row>>> udfValues = new HashMap<>();
       ClashMap roleClashMap = new ClashMap();
-      ProjectContext context = new PrimaveraDatabaseContextReader(m_database, m_schema, udfValues, m_ignoreErrors, m_projectID, m_resourceFields, m_roleFields, roleClashMap).read();
+      ProjectContext context = new ProjectContext();
+      addListenersToContext(context);
+      new PrimaveraDatabaseContextReader(context, m_database, m_schema, udfValues, m_ignoreErrors, m_projectID, m_resourceFields, m_roleFields, roleClashMap).read();
 
       ProjectFile project = new ProjectFile(context);
-      addListenersToProject(project);
       PrimaveraDatabaseProjectReader reader = new PrimaveraDatabaseProjectReader(m_database, m_schema, project, m_projectID, udfValues, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors, roleClashMap);
       reader.read();
 
@@ -136,15 +137,15 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       ClashMap roleClashMap = new ClashMap();
       Map<Integer, String> projects = listProjects();
       List<ProjectFile> result = new ArrayList<>(projects.size());
-      ProjectContext context = new PrimaveraDatabaseContextReader(m_database, m_schema, udfValues, m_ignoreErrors, null, m_resourceFields, m_roleFields, roleClashMap).read();
+      ProjectContext context = new ProjectContext();
+      addListenersToContext(context);
+      new PrimaveraDatabaseContextReader(context, m_database, m_schema, udfValues, m_ignoreErrors, null, m_resourceFields, m_roleFields, roleClashMap).read();
 
       for (Integer id : projects.keySet())
       {
          ProjectFile project = new ProjectFile(context);
-         addListenersToProject(project);
          PrimaveraDatabaseProjectReader reader = new PrimaveraDatabaseProjectReader(m_database, m_schema, project, id, udfValues, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors, roleClashMap);
          reader.read();
-
          result.add(project);
       }
 

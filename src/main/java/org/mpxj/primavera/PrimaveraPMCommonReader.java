@@ -279,6 +279,8 @@ class PrimaveraPMCommonReader
          }
       }
 
+      context.getEventManager().fireCalendarReadEvent(calendar);
+
       return calendar;
    }
 

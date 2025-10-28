@@ -12,8 +12,9 @@ import org.mpxj.WorkContourContainer;
 
 class PrimaveraDatabaseContextReader extends PrimaveraContextReader
 {
-   public PrimaveraDatabaseContextReader(PrimaveraDatabaseConnection database, String schema, Map<String, Map<Integer, List<Row>>> udfValues, boolean ignoreErrors, Integer projectID, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, ClashMap roleClashMap)
+   public PrimaveraDatabaseContextReader(ProjectContext context, PrimaveraDatabaseConnection database, String schema, Map<String, Map<Integer, List<Row>>> udfValues, boolean ignoreErrors, Integer projectID, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, ClashMap roleClashMap)
    {
+      m_context = context;
       m_database = database;
       m_schema = schema;
       m_udfValues = udfValues;
@@ -24,7 +25,7 @@ class PrimaveraDatabaseContextReader extends PrimaveraContextReader
       m_roleClashMap = roleClashMap;
    }
 
-   public ProjectContext read() throws MPXJException
+   public void read() throws MPXJException
    {
       try
       {
@@ -52,8 +53,6 @@ class PrimaveraDatabaseContextReader extends PrimaveraContextReader
          processRoles();
          processRoleRates();
          processRoleAvailability();
-
-         return m_context;
       }
 
       catch (SQLException ex)

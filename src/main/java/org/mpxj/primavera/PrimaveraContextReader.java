@@ -23,7 +23,6 @@ import org.mpxj.CostAccountContainer;
 import org.mpxj.CostRateTableEntry;
 import org.mpxj.Currency;
 import org.mpxj.CurrencyContainer;
-import org.mpxj.EventManager;
 import org.mpxj.ExpenseCategory;
 import org.mpxj.ExpenseCategoryContainer;
 import org.mpxj.FieldType;
@@ -838,8 +837,7 @@ abstract class PrimaveraContextReader extends PrimaveraCommonReader
 
          populateResourceCodeValues(resource);
 
-         // TODO - add to context?
-         //m_eventManager.fireResourceReadEvent(resource);
+         m_context.getEventManager().fireResourceReadEvent(resource);
       }
    }
 
@@ -1153,7 +1151,7 @@ abstract class PrimaveraContextReader extends PrimaveraCommonReader
       });
    }
 
-   protected final ProjectContext m_context = new ProjectContext();
+   protected ProjectContext m_context;
    private final DateTimeFormatter m_twentyFourHourTimeFormat = DateTimeFormatter.ofPattern("H:mm");
    private final DateTimeFormatter m_twelveHourTimeFormat = new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("h:mm a").toFormatter();
    protected boolean m_ignoreErrors;

@@ -254,6 +254,16 @@ public class ProjectContext implements UniqueIdObjectSequenceProvider
    }
 
    /**
+    * Retrieve the event manager for this project.
+    *
+    * @return event manager
+    */
+   public EventManager getEventManager()
+   {
+      return m_eventManager;
+   }
+
+   /**
     * Retrieve the ObjectSequence instance used to generate Unique ID values for a given class.
     *
     * @param c target class
@@ -298,6 +308,7 @@ public class ProjectContext implements UniqueIdObjectSequenceProvider
    private final ProjectConfig m_projectConfig = new ProjectConfig();
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
    private final List<Exception> m_ignoredErrors = new ArrayList<>();
+   private final EventManager m_eventManager = new EventManager();
 
    private final List<ProjectFile> m_projects = new ArrayList<>();
 

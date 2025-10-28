@@ -1229,22 +1229,20 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     *
     * @return list of resources
     */
-// TODO: reinstate once resources have moved
-//   public List<Resource> getResources()
-//   {
-//      return Collections.unmodifiableList(getParentFile().getResources().stream().filter(r -> m_uniqueID.equals(r.getCalendarUniqueID())).collect(Collectors.toList()));
-//   }
+   public List<Resource> getResources()
+   {
+      return Collections.unmodifiableList(m_context.getResources().stream().filter(r -> m_uniqueID.equals(r.getCalendarUniqueID())).collect(Collectors.toList()));
+   }
 
    /**
     * Retrieve the number of resources using this calendar.
     *
     * @return number of resources
     */
-// TODO: reinstate once resources have moved
-//   public int getResourceCount()
-//   {
-//      return (int) getParentFile().getResources().stream().filter(r -> m_uniqueID.equals(r.getCalendarUniqueID())).count();
-//   }
+   public int getResourceCount()
+   {
+      return (int) m_context.getResources().stream().filter(r -> m_uniqueID.equals(r.getCalendarUniqueID())).count();
+   }
 
    /**
     * Removes this calendar from the project.

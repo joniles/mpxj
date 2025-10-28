@@ -499,7 +499,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public EventManager getEventManager()
    {
-      return m_eventManager;
+      return m_context.getEventManager();
    }
 
    /**
@@ -1096,7 +1096,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final FilterContainer m_filters = new FilterContainer();
    private final GroupContainer m_groups = new GroupContainer();
    private final ViewContainer m_views = new ViewContainer();
-   private final EventManager m_eventManager = new EventManager();
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
    private final ExternalProjectContainer m_externalProjects = new ExternalProjectContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];

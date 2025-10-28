@@ -26,6 +26,7 @@ package org.mpxj.reader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mpxj.ProjectContext;
 import org.mpxj.ProjectFile;
 import org.mpxj.listener.ProjectListener;
 
@@ -52,6 +53,16 @@ public abstract class AbstractProjectReader implements ProjectReader
    protected void addListenersToProject(ProjectFile project)
    {
       project.getEventManager().addProjectListeners(m_projectListeners);
+   }
+
+   /**
+    * Common method to add listeners to a project.
+    *
+    * @param context target project context
+    */
+   protected void addListenersToContext(ProjectContext context)
+   {
+      context.getEventManager().addProjectListeners(m_projectListeners);
    }
 
    /**
