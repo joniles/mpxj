@@ -21,14 +21,11 @@ import org.mpxj.Availability;
 import org.mpxj.CostRateTableEntry;
 import org.mpxj.CriticalActivityType;
 import org.mpxj.CurrencySymbolPosition;
-import org.mpxj.DataType;
 
 import org.mpxj.ProjectCode;
 import org.mpxj.ProjectCodeValue;
 import org.mpxj.ResourceAssignmentCode;
 import org.mpxj.ResourceAssignmentCodeValue;
-import org.mpxj.ResourceCode;
-import org.mpxj.ResourceCodeValue;
 import org.mpxj.RoleCode;
 import org.mpxj.RoleCodeValue;
 import org.mpxj.SchedulingProgressedActivities;
@@ -64,7 +61,7 @@ import org.mpxj.common.NumberHelper;
 import org.mpxj.common.ObjectSequence;
 import org.mpxj.common.SlackHelper;
 
-abstract class PrimaveraProjectReader
+abstract class PrimaveraProjectReader extends PrimaveraCommonReader
 {
    /**
     * Retrieves a list of external predecessors relationships.
@@ -84,7 +81,7 @@ abstract class PrimaveraProjectReader
    protected void processProjectProperties(List<Row> rows)
    {
       ProjectProperties properties = m_project.getProjectProperties();
-      populateUserDefinedFieldValues("PROJECT", FieldTypeClass.PROJECT, properties, m_project.getProjectProperties().getUniqueID());
+      populateUserDefinedFieldValues(m_project.getProjectContext(), "PROJECT", FieldTypeClass.PROJECT, properties, m_project.getProjectProperties().getUniqueID());
 
       if (!rows.isEmpty())
       {
@@ -169,36 +166,6 @@ abstract class PrimaveraProjectReader
    }
 
    /**
-    * Process resource code assignments.
-    *
-    * @param assignments resource code assignments
-    */
-   protected void processResourceCodeAssignments(List<Row> assignments)
-   {
-      for (Row row : assignments)
-      {
-         Integer resourceID = row.getInteger("rsrc_id");
-         List<Row> list = m_resourceCodeAssignments.computeIfAbsent(resourceID, k -> new ArrayList<>());
-         list.add(row);
-      }
-   }
-
-   /**
-    * Process role code assignments.
-    *
-    * @param assignments role code assignments
-    */
-   protected void processRoleCodeAssignments(List<Row> assignments)
-   {
-      for (Row row : assignments)
-      {
-         Integer resourceID = row.getInteger("role_id");
-         List<Row> list = m_roleCodeAssignments.computeIfAbsent(resourceID, k -> new ArrayList<>());
-         list.add(row);
-      }
-   }
-
-   /**
     * Process resource assignment code assignments.
     *
     * @param assignments resource assignment code assignments
@@ -214,80 +181,6 @@ abstract class PrimaveraProjectReader
    }
 
    /**
-    * Process User Defined Field (UDF) values.
-    *
-    * @param values field values
-    */
-   protected void processUdfValues(List<Row> values)
-   {
-      for (Row row : values)
-      {
-         FieldType fieldType = m_project.getUserDefinedFields().getByUniqueID(row.getInteger("udf_type_id"));
-         if (fieldType == null)
-         {
-            // UDF values for entities we don't currently support
-            continue;
-         }
-
-         String tableName = FieldTypeClassHelper.getXerFromInstance(fieldType);
-         Map<Integer, List<Row>> tableData = m_udfValues.computeIfAbsent(tableName, k -> new HashMap<>());
-
-         Integer id = row.getInteger("fk_id");
-         List<Row> list = tableData.computeIfAbsent(id, k -> new ArrayList<>());
-         list.add(row);
-      }
-   }
-
-   /**
-    * Process resources.
-    *
-    * @param rows resource data
-    */
-   protected void processResources(List<Row> rows)
-   {
-      for (Row row : rows)
-      {
-         Resource resource = m_project.addResource();
-         processFields(m_resourceFields, row, resource);
-         resource.setCalendar(m_project.getCalendars().getByUniqueID(row.getInteger("clndr_id")));
-
-         // Add User Defined Fields
-         populateUserDefinedFieldValues("RSRC", FieldTypeClass.RESOURCE, resource, resource.getUniqueID());
-
-         resource.setNotesObject(NotesHelper.getNotes(resource.getNotes()));
-
-         // Note: if default units per time is an empty field, this represents a value of zero in P6
-         Number defaultUnitsPerTime = row.getDouble("def_qty_per_hr");
-         defaultUnitsPerTime = defaultUnitsPerTime == null ? NumberHelper.DOUBLE_ZERO : Double.valueOf(defaultUnitsPerTime.doubleValue() * 100.0);
-         resource.setDefaultUnits(defaultUnitsPerTime);
-
-         populateResourceCodeValues(resource);
-
-         m_eventManager.fireResourceReadEvent(resource);
-      }
-   }
-
-   /**
-    * Process roles.
-    *
-    * @param rows resource data
-    */
-   protected void processRoles(List<Row> rows)
-   {
-      for (Row row : rows)
-      {
-         Resource resource = m_project.addResource();
-         processFields(m_roleFields, row, resource);
-         resource.setRole(true);
-         resource.setUniqueID(m_roleClashMap.addID(resource.getUniqueID()));
-         resource.setNotesObject(NotesHelper.getNotes(resource.getNotes()));
-
-         populateRoleCodeValues(resource);
-      }
-   }
-
-
-   /**
     * Return null if string is empty, otherwise return string.
     *
     * @param text string
@@ -296,239 +189,6 @@ abstract class PrimaveraProjectReader
    private String nullIfEmpty(String text)
    {
       return text == null || text.isEmpty() ? null : text;
-   }
-
-   /**
-    * Process resource rates.
-    *
-    * @param rows resource rate data
-    */
-   protected void processResourceRates(List<Row> rows)
-   {
-      // Primavera defines resource cost tables by start dates so sort and define end by next
-      rows.sort((r1, r2) -> {
-         Integer id1 = r1.getInteger("rsrc_id");
-         Integer id2 = r2.getInteger("rsrc_id");
-         int cmp = NumberHelper.compare(id1, id2);
-         if (cmp != 0)
-         {
-            return cmp;
-         }
-         LocalDateTime d1 = r1.getDate("start_date");
-         LocalDateTime d2 = r2.getDate("start_date");
-         return LocalDateTimeHelper.compare(d1, d2);
-      });
-
-      Resource resource = null;
-
-      for (int i = 0; i < rows.size(); ++i)
-      {
-         Row row = rows.get(i);
-
-         Integer resourceID = row.getInteger("rsrc_id");
-         if (resource == null || !resource.getUniqueID().equals(resourceID))
-         {
-            resource = m_project.getResourceByUniqueID(resourceID);
-            if (resource == null)
-            {
-               continue;
-            }
-            resource.getCostRateTable(0).clear();
-         }
-
-         Rate[] values = new Rate[]
-         {
-            readRate(row.getDouble("cost_per_qty")),
-            readRate(row.getDouble("cost_per_qty2")),
-            readRate(row.getDouble("cost_per_qty3")),
-            readRate(row.getDouble("cost_per_qty4")),
-            readRate(row.getDouble("cost_per_qty5")),
-         };
-
-         Double costPerUse = NumberHelper.getDouble(0.0);
-         Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
-         ShiftPeriod period = m_project.getShiftPeriods().getByUniqueID(row.getInteger("shift_period_id"));
-
-         LocalDateTime startDate = row.getDate("start_date");
-         LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
-
-         if (i + 1 < rows.size())
-         {
-            Row nextRow = rows.get(i + 1);
-            int nextResourceID = nextRow.getInt("rsrc_id");
-            if (resourceID.intValue() == nextResourceID)
-            {
-               endDate = nextRow.getDate("start_date").minusMinutes(1);
-            }
-         }
-
-         if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
-         {
-            startDate = LocalDateTimeHelper.START_DATE_NA;
-         }
-
-         if (endDate == null || endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
-         {
-            endDate = LocalDateTimeHelper.END_DATE_NA;
-         }
-
-         resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, period, values));
-         resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
-      }
-   }
-
-   /**
-    * Read a rate value, handle null.
-    *
-    * @param value rate as a double
-    * @return new Rate instance
-    */
-   private Rate readRate(Double value)
-   {
-      if (value == null)
-      {
-         return null;
-      }
-
-      return new Rate(value, TimeUnit.HOURS);
-   }
-
-   /**
-    * Process role rates.
-    *
-    * @param rows role rate data
-    */
-   protected void processRoleRates(List<Row> rows)
-   {
-      sortRoleTableRows(rows);
-
-      Resource resource = null;
-
-      for (int i = 0; i < rows.size(); ++i)
-      {
-         Row row = rows.get(i);
-
-         Integer resourceID = m_roleClashMap.getID(row.getInteger("role_id"));
-         if (resource == null || !resource.getUniqueID().equals(resourceID))
-         {
-            resource = m_project.getResourceByUniqueID(resourceID);
-            if (resource == null)
-            {
-               continue;
-            }
-            resource.getCostRateTable(0).clear();
-         }
-
-         Rate[] values = new Rate[]
-         {
-            readRate(row.getDouble("cost_per_qty")),
-            readRate(row.getDouble("cost_per_qty2")),
-            readRate(row.getDouble("cost_per_qty3")),
-            readRate(row.getDouble("cost_per_qty4")),
-            readRate(row.getDouble("cost_per_qty5")),
-         };
-
-         Double costPerUse = NumberHelper.getDouble(0.0);
-         LocalDateTime startDate = row.getDate("start_date");
-         LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
-
-         if (i + 1 < rows.size())
-         {
-            Row nextRow = rows.get(i + 1);
-            if (NumberHelper.equals(row.getInteger("role_id"), nextRow.getInteger("role_id")))
-            {
-               endDate = nextRow.getDate("start_date").minusMinutes(1);
-            }
-         }
-
-         if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
-         {
-            startDate = LocalDateTimeHelper.START_DATE_NA;
-         }
-
-         if (endDate == null || endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
-         {
-            endDate = LocalDateTimeHelper.END_DATE_NA;
-         }
-
-         resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
-      }
-   }
-
-   /**
-    * Process role availability.
-    *
-    * @param rows role availability data
-    */
-   protected void processRoleAvailability(List<Row> rows)
-   {
-      sortRoleTableRows(rows);
-
-      Resource resource = null;
-
-      for (int i = 0; i < rows.size(); ++i)
-      {
-         Row row = rows.get(i);
-
-         Integer resourceID = m_roleClashMap.getID(row.getInteger("role_id"));
-         if (resource == null || !resource.getUniqueID().equals(resourceID))
-         {
-            resource = m_project.getResourceByUniqueID(resourceID);
-            if (resource == null)
-            {
-               continue;
-            }
-            resource.getAvailability().clear();
-         }
-
-         Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
-         LocalDateTime startDate = row.getDate("start_date");
-         LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
-
-         if (i + 1 < rows.size())
-         {
-            Row nextRow = rows.get(i + 1);
-            if (NumberHelper.equals(row.getInteger("role_id"), nextRow.getInteger("role_id")))
-            {
-               endDate = nextRow.getDate("start_date").minusMinutes(1);
-            }
-         }
-
-         if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
-         {
-            startDate = LocalDateTimeHelper.START_DATE_NA;
-         }
-
-         if (endDate == null || endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
-         {
-            endDate = LocalDateTimeHelper.END_DATE_NA;
-         }
-
-         resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
-      }
-   }
-
-   /**
-    * Primavera defines role tables by role and start dates so sort by start date
-    * to allow us to determine the end date of each entry.
-    *
-    * @param rows role table rows
-    */
-   private void sortRoleTableRows(List<Row> rows)
-   {
-      //
-      rows.sort((r1, r2) -> {
-         Integer id1 = r1.getInteger("role_id");
-         Integer id2 = r2.getInteger("role_id");
-         int cmp = NumberHelper.compare(id1, id2);
-         if (cmp != 0)
-         {
-            return cmp;
-         }
-         LocalDateTime d1 = r1.getDate("start_date");
-         LocalDateTime d2 = r2.getDate("start_date");
-         return LocalDateTimeHelper.compare(d1, d2);
-      });
    }
 
    /**
@@ -556,7 +216,7 @@ abstract class PrimaveraProjectReader
          task.setProject(projectName); // P6 task always belongs to project
          task.setSummary(true);
          processFields(m_wbsFields, row, task);
-         populateUserDefinedFieldValues("PROJWBS", FieldTypeClass.TASK, task, task.getUniqueID());
+         populateUserDefinedFieldValues(m_project.getProjectContext(),"PROJWBS", FieldTypeClass.TASK, task, task.getUniqueID());
          task.setNotesObject(wbsNotes.get(task.getUniqueID()));
          m_activityClashMap.addID(task.getUniqueID());
          wbsTasks.add(task);
@@ -640,7 +300,7 @@ abstract class PrimaveraProjectReader
          Integer originalUniqueID = row.getInteger("task_id");
 
          // Add User Defined Fields - before we handle ID clashes
-         populateUserDefinedFieldValues("TASK", FieldTypeClass.TASK, task, originalUniqueID);
+         populateUserDefinedFieldValues(m_project.getProjectContext(), "TASK", FieldTypeClass.TASK, task, originalUniqueID);
 
          populateActivityCodes(task, originalUniqueID);
 
@@ -795,64 +455,6 @@ abstract class PrimaveraProjectReader
    }
 
    /**
-    * Read details of any resource codes assigned to this resource.
-    *
-    * @param resource parent resource
-    */
-   private void populateResourceCodeValues(Resource resource)
-   {
-      List<Row> list = m_resourceCodeAssignments.get(resource.getUniqueID());
-      if (list == null)
-      {
-         return;
-      }
-
-      for (Row row : list)
-      {
-         ResourceCode code = m_project.getResourceCodes().getByUniqueID(row.getInteger("rsrc_catg_type_id"));
-         if (code == null)
-         {
-            continue;
-         }
-
-         ResourceCodeValue value = code.getValueByUniqueID(row.getInteger("rsrc_catg_id"));
-         if (value != null)
-         {
-            resource.addResourceCodeValue(value);
-         }
-      }
-   }
-
-   /**
-    * Read details of any role codes assigned to this role.
-    *
-    * @param role parent role
-    */
-   private void populateRoleCodeValues(Resource role)
-   {
-      List<Row> list = m_roleCodeAssignments.get(role.getUniqueID());
-      if (list == null)
-      {
-         return;
-      }
-
-      for (Row row : list)
-      {
-         RoleCode code = m_project.getRoleCodes().getByUniqueID(row.getInteger("role_catg_type_id"));
-         if (code == null)
-         {
-            continue;
-         }
-
-         RoleCodeValue value = code.getValueByUniqueID(row.getInteger("role_catg_id"));
-         if (value != null)
-         {
-            role.addRoleCodeValue(value);
-         }
-      }
-   }
-
-   /**
     * Read details of any resource assignment codes assigned to this resource assignment.
     *
     * @param resourceAssignment parent resource assignment
@@ -877,80 +479,6 @@ abstract class PrimaveraProjectReader
          if (value != null)
          {
             resourceAssignment.addResourceAssignmentCodeValue(value);
-         }
-      }
-   }
-
-   /**
-    * Adds a user defined field value to a task.
-    *
-    * @param fieldType field type
-    * @param container FieldContainer instance
-    * @param row UDF data
-    */
-   private void addUDFValue(FieldTypeClass fieldType, FieldContainer container, Row row)
-   {
-      Integer fieldId = row.getInteger("udf_type_id");
-      FieldType field = m_project.getUserDefinedFields().getByUniqueID(fieldId);
-      if (field == null)
-      {
-         return;
-      }
-
-      Object value;
-      DataType fieldDataType = field.getDataType();
-
-      switch (fieldDataType)
-      {
-         case DATE:
-         {
-            value = row.getDate("udf_date");
-            break;
-         }
-
-         case CURRENCY:
-         case NUMERIC:
-         {
-            value = row.getDouble("udf_number");
-            break;
-         }
-
-         case INTEGER:
-         {
-            value = row.getInteger("udf_number");
-            break;
-         }
-
-         default:
-         {
-            value = row.getString("udf_text");
-            break;
-         }
-      }
-
-      container.set(field, value);
-   }
-
-   /**
-    * Populate the UDF values for this entity.
-    *
-    * @param tableName parent table name
-    * @param type entity type
-    * @param container entity
-    * @param uniqueID entity Unique ID
-    */
-   private void populateUserDefinedFieldValues(String tableName, FieldTypeClass type, FieldContainer container, Integer uniqueID)
-   {
-      Map<Integer, List<Row>> tableData = m_udfValues.get(tableName);
-      if (tableData != null)
-      {
-         List<Row> udf = tableData.get(uniqueID);
-         if (udf != null)
-         {
-            for (Row r : udf)
-            {
-               addUDFValue(type, container, r);
-            }
          }
       }
    }
@@ -1418,7 +946,7 @@ abstract class PrimaveraProjectReader
             assignment.setRemainingUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("remain_qty_per_hr")) * 100));
 
             // Add User Defined Fields
-            populateUserDefinedFieldValues("TASKRSRC", FieldTypeClass.ASSIGNMENT, assignment, assignment.getUniqueID());
+            populateUserDefinedFieldValues(m_project.getProjectContext(), "TASKRSRC", FieldTypeClass.ASSIGNMENT, assignment, assignment.getUniqueID());
 
             // Read timephased data
             assignment.setTimephasedPlannedWork(TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getString("target_crv")));
@@ -1683,98 +1211,6 @@ abstract class PrimaveraProjectReader
    }
 
    /**
-    * Generic method to extract Primavera fields and assign to MPXJ fields.
-    *
-    * @param map map of MPXJ field types and Primavera field names
-    * @param row Primavera data container
-    * @param container MPXJ data contain
-    */
-   private void processFields(Map<FieldType, String> map, Row row, FieldContainer container)
-   {
-      for (Map.Entry<FieldType, String> entry : map.entrySet())
-      {
-         FieldType field = entry.getKey();
-         String name = entry.getValue();
-
-         Object value;
-         switch (field.getDataType())
-         {
-            case INTEGER:
-            {
-               value = row.getInteger(name);
-               break;
-            }
-
-            case BOOLEAN:
-            {
-               value = row.getBooleanObject(name);
-               break;
-            }
-
-            case DATE:
-            {
-               value = row.getDate(name);
-               break;
-            }
-
-            case CURRENCY:
-            case NUMERIC:
-            case PERCENTAGE:
-            {
-               value = row.getDouble(name);
-               break;
-            }
-
-            case DELAY:
-            case WORK:
-            case DURATION:
-            {
-               value = row.getDuration(name);
-               break;
-            }
-
-            case RESOURCE_TYPE:
-            {
-               value = ResourceTypeHelper.getInstanceFromXer(row.getString(name));
-               break;
-            }
-
-            case TASK_TYPE:
-            {
-               value = TaskTypeHelper.getInstanceFromXer(row.getString(name));
-               break;
-            }
-
-            case CONSTRAINT:
-            {
-               value = ConstraintTypeHelper.getInstanceFromXer(row.getString(name));
-               break;
-            }
-
-            case PRIORITY:
-            {
-               value = PriorityHelper.getInstanceFromXer(row.getString(name));
-               break;
-            }
-
-            case GUID:
-            {
-               value = row.getUUID(name);
-               break;
-            }
-
-            default:
-            {
-               value = row.getString(name);
-               break;
-            }
-         }
-
-         container.set(field, value);
-      }
-   }
-
-   /**
     * Calculate the physical percent complete.
     *
     * @param row task data
@@ -1953,11 +1389,9 @@ abstract class PrimaveraProjectReader
    }
 
    protected  ProjectFile m_project;
-   protected  EventManager m_eventManager;
+   protected EventManager m_eventManager;
+   protected ClashMap m_roleClashMap;
    private final ClashMap m_activityClashMap = new ClashMap();
-   private final ClashMap m_roleClashMap = new ClashMap();
-   protected Map<FieldType, String> m_resourceFields;
-   protected Map<FieldType, String> m_roleFields;
    protected Map<FieldType, String> m_wbsFields;
    protected Map<FieldType, String> m_taskFields;
    protected Map<FieldType, String> m_assignmentFields;
@@ -1966,10 +1400,7 @@ abstract class PrimaveraProjectReader
    protected boolean m_wbsIsFullPath;
    protected boolean m_ignoreErrors;
 
-   private final Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<>();
    private final Map<Integer, List<Row>> m_activityCodeAssignments = new HashMap<>();
-   private final Map<Integer, List<Row>> m_resourceCodeAssignments = new HashMap<>();
-   private final Map<Integer, List<Row>> m_roleCodeAssignments = new HashMap<>();
    private final Map<Integer, List<Row>> m_resourceAssignmentCodeAssignments = new HashMap<>();
    private final ObjectSequence m_relationObjectID = new ObjectSequence(1);
 

@@ -208,6 +208,16 @@ public class ProjectContext implements UniqueIdObjectSequenceProvider
       return m_calendars;
    }
 
+   /**
+    * Retrieves a list of all resources in this project.
+    *
+    * @return list of all resources
+    */
+   public ResourceContainer getResources()
+   {
+      return m_resources;
+   }
+
    public TimeUnitDefaults getTimeUnitDefaults()
    {
       return m_timeUnitDefaults;
@@ -277,6 +287,8 @@ public class ProjectContext implements UniqueIdObjectSequenceProvider
    private final ShiftPeriodContainer m_shiftPeriods = new ShiftPeriodContainer(this);
    private final CurrencyContainer m_currencies = new CurrencyContainer(this);
    private final ProjectCalendarContainer m_calendars = new ProjectCalendarContainer(this);
+   private final ResourceContainer m_resources = new ResourceContainer(this);
+
    private final TimeUnitDefaults m_timeUnitDefaults = new TimeUnitDefaults();
    private final ProjectConfig m_projectConfig = new ProjectConfig();
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
@@ -304,5 +316,6 @@ public class ProjectContext implements UniqueIdObjectSequenceProvider
          Shift.class.getName(),
          ShiftPeriod.class.getName(),
          Currency.class.getName(),
-         ProjectCalendar.class.getName()));
+         ProjectCalendar.class.getName(),
+         Resource.class.getName()));
 }

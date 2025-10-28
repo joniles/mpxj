@@ -36,18 +36,8 @@ import org.mpxj.listener.FieldListener;
  *
  * @param <T> container type
  */
-public abstract class AbstractFieldContainer<T> extends ProjectEntity implements FieldContainer
+public abstract class AbstractFieldContainer<T> implements FieldContainer
 {
-   /**
-    * Constructor.
-    *
-    * @param file Parent file
-    */
-   protected AbstractFieldContainer(ProjectFile file)
-   {
-      super(file);
-   }
-
    /**
     * Allow the entity to take action in response to the changed field.
     *

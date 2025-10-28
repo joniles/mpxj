@@ -2,10 +2,12 @@ package org.mpxj.primavera;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,10 +17,13 @@ import java.util.stream.Collectors;
 import org.mpxj.ActivityCode;
 import org.mpxj.ActivityCodeContainer;
 import org.mpxj.ActivityCodeValue;
+import org.mpxj.Availability;
 import org.mpxj.CostAccount;
 import org.mpxj.CostAccountContainer;
+import org.mpxj.CostRateTableEntry;
 import org.mpxj.Currency;
 import org.mpxj.CurrencyContainer;
+import org.mpxj.EventManager;
 import org.mpxj.ExpenseCategory;
 import org.mpxj.ExpenseCategoryContainer;
 import org.mpxj.FieldType;
@@ -35,6 +40,8 @@ import org.mpxj.ProjectCodeContainer;
 import org.mpxj.ProjectCodeValue;
 import org.mpxj.ProjectConfig;
 import org.mpxj.ProjectContext;
+import org.mpxj.Rate;
+import org.mpxj.Resource;
 import org.mpxj.ResourceAssignmentCode;
 import org.mpxj.ResourceAssignmentCodeContainer;
 import org.mpxj.ResourceAssignmentCodeValue;
@@ -56,9 +63,10 @@ import org.mpxj.UserDefinedFieldContainer;
 import org.mpxj.common.ColorHelper;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.HierarchyHelper;
+import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 
-abstract class PrimaveraContextReader
+abstract class PrimaveraContextReader extends PrimaveraCommonReader
 {
    protected void configure()
    {
@@ -765,6 +773,386 @@ abstract class PrimaveraContextReader
       }
    }
 
+   /**
+    * Process User Defined Field (UDF) values.
+    *
+    * @param values field values
+    */
+   protected void processUdfValues(List<Row> values)
+   {
+      for (Row row : values)
+      {
+         FieldType fieldType = m_context.getUserDefinedFields().getByUniqueID(row.getInteger("udf_type_id"));
+         if (fieldType == null)
+         {
+            // UDF values for entities we don't currently support
+            continue;
+         }
+
+         String tableName = FieldTypeClassHelper.getXerFromInstance(fieldType);
+         Map<Integer, List<Row>> tableData = m_udfValues.computeIfAbsent(tableName, k -> new HashMap<>());
+
+         Integer id = row.getInteger("fk_id");
+         List<Row> list = tableData.computeIfAbsent(id, k -> new ArrayList<>());
+         list.add(row);
+      }
+   }
+
+   /**
+    * Process resource code assignments.
+    *
+    * @param assignments resource code assignments
+    */
+   protected void processResourceCodeAssignments(List<Row> assignments)
+   {
+      for (Row row : assignments)
+      {
+         Integer resourceID = row.getInteger("rsrc_id");
+         List<Row> list = m_resourceCodeAssignments.computeIfAbsent(resourceID, k -> new ArrayList<>());
+         list.add(row);
+      }
+   }
+
+   /**
+    * Process resources.
+    *
+    * @param rows resource data
+    */
+   protected void processResources(List<Row> rows)
+   {
+      for (Row row : rows)
+      {
+         Resource resource = m_context.getResources().addResource();
+         processFields(m_resourceFields, row, resource);
+         resource.setCalendar(m_context.getCalendars().getByUniqueID(row.getInteger("clndr_id")));
+
+         // Add User Defined Fields
+         populateUserDefinedFieldValues(m_context, "RSRC", FieldTypeClass.RESOURCE, resource, resource.getUniqueID());
+
+         resource.setNotesObject(NotesHelper.getNotes(resource.getNotes()));
+
+         // Note: if default units per time is an empty field, this represents a value of zero in P6
+         Number defaultUnitsPerTime = row.getDouble("def_qty_per_hr");
+         defaultUnitsPerTime = defaultUnitsPerTime == null ? NumberHelper.DOUBLE_ZERO : Double.valueOf(defaultUnitsPerTime.doubleValue() * 100.0);
+         resource.setDefaultUnits(defaultUnitsPerTime);
+
+         populateResourceCodeValues(resource);
+
+         // TODO - add to context?
+         //m_eventManager.fireResourceReadEvent(resource);
+      }
+   }
+
+   /**
+    * Read details of any resource codes assigned to this resource.
+    *
+    * @param resource parent resource
+    */
+   private void populateResourceCodeValues(Resource resource)
+   {
+      List<Row> list = m_resourceCodeAssignments.get(resource.getUniqueID());
+      if (list == null)
+      {
+         return;
+      }
+
+      for (Row row : list)
+      {
+         ResourceCode code = m_context.getResourceCodes().getByUniqueID(row.getInteger("rsrc_catg_type_id"));
+         if (code == null)
+         {
+            continue;
+         }
+
+         ResourceCodeValue value = code.getValueByUniqueID(row.getInteger("rsrc_catg_id"));
+         if (value != null)
+         {
+            resource.addResourceCodeValue(value);
+         }
+      }
+   }
+
+   /**
+    * Process resource rates.
+    *
+    * @param rows resource rate data
+    */
+   protected void processResourceRates(List<Row> rows)
+   {
+      // Primavera defines resource cost tables by start dates so sort and define end by next
+      rows.sort((r1, r2) -> {
+         Integer id1 = r1.getInteger("rsrc_id");
+         Integer id2 = r2.getInteger("rsrc_id");
+         int cmp = NumberHelper.compare(id1, id2);
+         if (cmp != 0)
+         {
+            return cmp;
+         }
+         LocalDateTime d1 = r1.getDate("start_date");
+         LocalDateTime d2 = r2.getDate("start_date");
+         return LocalDateTimeHelper.compare(d1, d2);
+      });
+
+      Resource resource = null;
+
+      for (int i = 0; i < rows.size(); ++i)
+      {
+         Row row = rows.get(i);
+
+         Integer resourceID = row.getInteger("rsrc_id");
+         if (resource == null || !resource.getUniqueID().equals(resourceID))
+         {
+            resource = m_context.getResources().getByUniqueID(resourceID);
+            if (resource == null)
+            {
+               continue;
+            }
+            resource.getCostRateTable(0).clear();
+         }
+
+         Rate[] values = new Rate[]
+            {
+               readRate(row.getDouble("cost_per_qty")),
+               readRate(row.getDouble("cost_per_qty2")),
+               readRate(row.getDouble("cost_per_qty3")),
+               readRate(row.getDouble("cost_per_qty4")),
+               readRate(row.getDouble("cost_per_qty5")),
+            };
+
+         Double costPerUse = NumberHelper.getDouble(0.0);
+         Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
+         ShiftPeriod period = m_context.getShiftPeriods().getByUniqueID(row.getInteger("shift_period_id"));
+
+         LocalDateTime startDate = row.getDate("start_date");
+         LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
+
+         if (i + 1 < rows.size())
+         {
+            Row nextRow = rows.get(i + 1);
+            int nextResourceID = nextRow.getInt("rsrc_id");
+            if (resourceID.intValue() == nextResourceID)
+            {
+               endDate = nextRow.getDate("start_date").minusMinutes(1);
+            }
+         }
+
+         if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
+         {
+            startDate = LocalDateTimeHelper.START_DATE_NA;
+         }
+
+         if (endDate == null || endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
+         {
+            endDate = LocalDateTimeHelper.END_DATE_NA;
+         }
+
+         resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, period, values));
+         resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
+      }
+   }
+
+
+   /**
+    * Process role code assignments.
+    *
+    * @param assignments role code assignments
+    */
+   protected void processRoleCodeAssignments(List<Row> assignments)
+   {
+      for (Row row : assignments)
+      {
+         Integer resourceID = row.getInteger("role_id");
+         List<Row> list = m_roleCodeAssignments.computeIfAbsent(resourceID, k -> new ArrayList<>());
+         list.add(row);
+      }
+   }
+
+   /**
+    * Process roles.
+    *
+    * @param rows resource data
+    */
+   protected void processRoles(List<Row> rows)
+   {
+      for (Row row : rows)
+      {
+         Resource resource = m_context.getResources().add();
+         processFields(m_roleFields, row, resource);
+         resource.setRole(true);
+         resource.setUniqueID(m_roleClashMap.addID(resource.getUniqueID()));
+         resource.setNotesObject(NotesHelper.getNotes(resource.getNotes()));
+
+         populateRoleCodeValues(resource);
+      }
+   }
+
+   /**
+    * Read details of any role codes assigned to this role.
+    *
+    * @param role parent role
+    */
+   private void populateRoleCodeValues(Resource role)
+   {
+      List<Row> list = m_roleCodeAssignments.get(role.getUniqueID());
+      if (list == null)
+      {
+         return;
+      }
+
+      for (Row row : list)
+      {
+         RoleCode code = m_context.getRoleCodes().getByUniqueID(row.getInteger("role_catg_type_id"));
+         if (code == null)
+         {
+            continue;
+         }
+
+         RoleCodeValue value = code.getValueByUniqueID(row.getInteger("role_catg_id"));
+         if (value != null)
+         {
+            role.addRoleCodeValue(value);
+         }
+      }
+   }
+
+   /**
+    * Process role rates.
+    *
+    * @param rows role rate data
+    */
+   protected void processRoleRates(List<Row> rows)
+   {
+      sortRoleTableRows(rows);
+
+      Resource resource = null;
+
+      for (int i = 0; i < rows.size(); ++i)
+      {
+         Row row = rows.get(i);
+
+         Integer resourceID = m_roleClashMap.getID(row.getInteger("role_id"));
+         if (resource == null || !resource.getUniqueID().equals(resourceID))
+         {
+            resource = m_context.getResources().getByUniqueID(resourceID);
+            if (resource == null)
+            {
+               continue;
+            }
+            resource.getCostRateTable(0).clear();
+         }
+
+         Rate[] values = new Rate[]
+            {
+               readRate(row.getDouble("cost_per_qty")),
+               readRate(row.getDouble("cost_per_qty2")),
+               readRate(row.getDouble("cost_per_qty3")),
+               readRate(row.getDouble("cost_per_qty4")),
+               readRate(row.getDouble("cost_per_qty5")),
+            };
+
+         Double costPerUse = NumberHelper.getDouble(0.0);
+         LocalDateTime startDate = row.getDate("start_date");
+         LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
+
+         if (i + 1 < rows.size())
+         {
+            Row nextRow = rows.get(i + 1);
+            if (NumberHelper.equals(row.getInteger("role_id"), nextRow.getInteger("role_id")))
+            {
+               endDate = nextRow.getDate("start_date").minusMinutes(1);
+            }
+         }
+
+         if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
+         {
+            startDate = LocalDateTimeHelper.START_DATE_NA;
+         }
+
+         if (endDate == null || endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
+         {
+            endDate = LocalDateTimeHelper.END_DATE_NA;
+         }
+
+         resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
+      }
+   }
+
+   /**
+    * Process role availability.
+    *
+    * @param rows role availability data
+    */
+   protected void processRoleAvailability(List<Row> rows)
+   {
+      sortRoleTableRows(rows);
+
+      Resource resource = null;
+
+      for (int i = 0; i < rows.size(); ++i)
+      {
+         Row row = rows.get(i);
+
+         Integer resourceID = m_roleClashMap.getID(row.getInteger("role_id"));
+         if (resource == null || !resource.getUniqueID().equals(resourceID))
+         {
+            resource = m_context.getResources().getByUniqueID(resourceID);
+            if (resource == null)
+            {
+               continue;
+            }
+            resource.getAvailability().clear();
+         }
+
+         Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
+         LocalDateTime startDate = row.getDate("start_date");
+         LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
+
+         if (i + 1 < rows.size())
+         {
+            Row nextRow = rows.get(i + 1);
+            if (NumberHelper.equals(row.getInteger("role_id"), nextRow.getInteger("role_id")))
+            {
+               endDate = nextRow.getDate("start_date").minusMinutes(1);
+            }
+         }
+
+         if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
+         {
+            startDate = LocalDateTimeHelper.START_DATE_NA;
+         }
+
+         if (endDate == null || endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
+         {
+            endDate = LocalDateTimeHelper.END_DATE_NA;
+         }
+
+         resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
+      }
+   }
+
+   /**
+    * Primavera defines role tables by role and start dates so sort by start date
+    * to allow us to determine the end date of each entry.
+    *
+    * @param rows role table rows
+    */
+   private void sortRoleTableRows(List<Row> rows)
+   {
+      //
+      rows.sort((r1, r2) -> {
+         Integer id1 = r1.getInteger("role_id");
+         Integer id2 = r2.getInteger("role_id");
+         int cmp = NumberHelper.compare(id1, id2);
+         if (cmp != 0)
+         {
+            return cmp;
+         }
+         LocalDateTime d1 = r1.getDate("start_date");
+         LocalDateTime d2 = r2.getDate("start_date");
+         return LocalDateTimeHelper.compare(d1, d2);
+      });
+   }
+
    protected final ProjectContext m_context = new ProjectContext();
    private final DateTimeFormatter m_twentyFourHourTimeFormat = DateTimeFormatter.ofPattern("H:mm");
    private final DateTimeFormatter m_twelveHourTimeFormat = new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("h:mm a").toFormatter();
@@ -820,6 +1208,12 @@ abstract class PrimaveraContextReader
 
       return map;
    }
+
+   protected Map<FieldType, String> m_resourceFields;
+   protected Map<FieldType, String> m_roleFields;
+   protected ClashMap m_roleClashMap;
+   private final Map<Integer, List<Row>> m_resourceCodeAssignments = new HashMap<>();
+   private final Map<Integer, List<Row>> m_roleCodeAssignments = new HashMap<>();
 
    static final LocalDate EXCEPTION_EPOCH = LocalDate.of(1899, 12, 30);
 }

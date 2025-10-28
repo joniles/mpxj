@@ -14,9 +14,7 @@ import java.util.stream.Collectors;
 import org.mpxj.ActivityCode;
 import org.mpxj.ActivityCodeValue;
 import org.mpxj.AssignmentField;
-import org.mpxj.Availability;
 import org.mpxj.ChildTaskContainer;
-import org.mpxj.CostRateTableEntry;
 import org.mpxj.CriticalActivityType;
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
@@ -33,24 +31,17 @@ import org.mpxj.ProjectCode;
 import org.mpxj.ProjectCodeValue;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
-import org.mpxj.Rate;
 import org.mpxj.Relation;
 import org.mpxj.RelationType;
 import org.mpxj.Resource;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceAssignmentCode;
 import org.mpxj.ResourceAssignmentCodeValue;
-import org.mpxj.ResourceCode;
-import org.mpxj.ResourceCodeValue;
-import org.mpxj.RoleCode;
-import org.mpxj.RoleCodeValue;
-import org.mpxj.ShiftPeriod;
 import org.mpxj.Step;
 import org.mpxj.StructuredNotes;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
-import org.mpxj.UserDefinedField;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.LocalDateTimeHelper;
@@ -70,13 +61,7 @@ import org.mpxj.primavera.schema.ProjectNoteType;
 import org.mpxj.primavera.schema.ProjectType;
 import org.mpxj.primavera.schema.RelationshipType;
 import org.mpxj.primavera.schema.ResourceAssignmentType;
-import org.mpxj.primavera.schema.ResourceRateType;
-import org.mpxj.primavera.schema.ResourceRoleType;
-import org.mpxj.primavera.schema.ResourceType;
-import org.mpxj.primavera.schema.RoleRateType;
-import org.mpxj.primavera.schema.RoleType;
 import org.mpxj.primavera.schema.ScheduleOptionsType;
-import org.mpxj.primavera.schema.UDFAssignmentType;
 import org.mpxj.primavera.schema.WBSType;
 
 class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
@@ -88,7 +73,7 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
       m_eventManager = m_projectFile.getEventManager();
    }
 
-   public ProjectFile read(APIBusinessObjects apibo, Object projectObject)
+   public ProjectFile read(APIBusinessObjects apibo, Object projectObject, ClashMap roleClashMap)
    {
       // TODO
       // addListenersToProject(m_projectFile);
@@ -96,18 +81,11 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
       try
       {
          m_activityClashMap = new ClashMap();
-         m_roleClashMap = new ClashMap();
+         m_roleClashMap = roleClashMap;
 
          m_projectFile.getProjectProperties().setFileApplication("Primavera");
          m_projectFile.getProjectProperties().setFileType("PMXML");
 
-         processResources(apibo);
-         processRoles(apibo);
-         processRoleAssignments(apibo);
-         processResourceRates(apibo);
-         processRoleRates(apibo);
-
-         // Process project specific data
          List<ActivityCodeTypeType> activityCodeTypes;
          List<ActivityCodeType> activityCodes;
          List<WBSType> wbs;
@@ -181,302 +159,6 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
       }
    }
 
-   /**
-    * Process resources.
-    *
-    * @param apibo xml container
-    */
-   private void processResources(APIBusinessObjects apibo)
-   {
-      List<ResourceType> resources = apibo.getResource();
-      for (ResourceType xml : resources)
-      {
-         Resource resource = m_projectFile.addResource();
-         m_roleClashMap.addID(xml.getObjectId());
-
-         Double defaultUnitsPerTime = xml.getDefaultUnitsPerTime();
-         if (defaultUnitsPerTime == null)
-         {
-            // Older versions of P6 appear to use MaxUnitsPerTime, so we'll fall back
-            // to this value if DefaultUnitsPerTime is not present
-            defaultUnitsPerTime = xml.getMaxUnitsPerTime();
-         }
-
-         // Note: if default units per time is an empty field, this represents a value of zero in P6
-         defaultUnitsPerTime = defaultUnitsPerTime == null ? NumberHelper.DOUBLE_ZERO : Double.valueOf(defaultUnitsPerTime.doubleValue() * 100.0);
-
-         resource.setUniqueID(xml.getObjectId());
-         resource.setName(xml.getName());
-         resource.setCode(xml.getEmployeeId());
-         resource.setEmailAddress(xml.getEmailAddress());
-         resource.setGUID(DatatypeConverter.parseUUID(xml.getGUID()));
-         resource.setNotesObject(NotesHelper.getNotes(xml.getResourceNotes()));
-         resource.setCreationDate(xml.getCreateDate());
-         resource.setType(ResourceTypeHelper.getInstanceFromXml(xml.getResourceType()));
-         resource.setDefaultUnits(defaultUnitsPerTime);
-         resource.setParentResourceUniqueID(xml.getParentObjectId());
-         resource.setResourceID(xml.getId());
-         resource.setCalendar(m_projectFile.getCalendars().getByUniqueID(xml.getCalendarObjectId()));
-         resource.setCalculateCostsFromUnits(BooleanHelper.getBoolean(xml.isCalculateCostFromUnits()));
-         resource.setSequenceNumber(xml.getSequenceNumber());
-         resource.setActive(BooleanHelper.getBoolean(xml.isIsActive()));
-         resource.setLocationUniqueID(xml.getLocationObjectId());
-         resource.setUnitOfMeasureUniqueID(xml.getUnitOfMeasureObjectId());
-         resource.setShiftUniqueID(xml.getShiftObjectId());
-         resource.setPrimaryRoleUniqueID(xml.getPrimaryRoleObjectId());
-         resource.setCurrencyUniqueID(xml.getCurrencyObjectId());
-
-         processResourceCodeAssignments(resource, xml.getCode());
-
-         populateUserDefinedFieldValues(resource, xml.getUDF());
-
-         m_eventManager.fireResourceReadEvent(resource);
-      }
-   }
-
-   /**
-    * Process roles.
-    *
-    * @param apibo xml container
-    */
-   private void processRoles(APIBusinessObjects apibo)
-   {
-      for (RoleType role : apibo.getRole())
-      {
-         Resource resource = m_projectFile.addResource();
-         resource.setRole(true);
-         resource.setUniqueID(m_roleClashMap.getID(role.getObjectId()));
-         resource.setName(role.getName());
-         resource.setResourceID(role.getId());
-         resource.setNotesObject(NotesHelper.getHtmlNote(role.getResponsibilities()));
-         resource.setSequenceNumber(role.getSequenceNumber());
-
-         processRoleCodeAssignments(resource, role.getCode());
-      }
-   }
-
-   /**
-    * Process role assignments.
-    *
-    * @param apibo xml container
-    */
-   private void processRoleAssignments(APIBusinessObjects apibo)
-   {
-      for (ResourceRoleType assignment : apibo.getResourceRole())
-      {
-         Resource resource = m_projectFile.getResourceByUniqueID(assignment.getResourceObjectId());
-         if (resource == null)
-         {
-            continue;
-         }
-
-         Resource role = m_projectFile.getResourceByUniqueID(assignment.getRoleObjectId());
-         if (role == null)
-         {
-            continue;
-         }
-
-         resource.addRoleAssignment(role, SkillLevelHelper.getInstanceFromXml(assignment.getProficiency()));
-      }
-   }
-
-   /**
-    * Process resource rates.
-    *
-    * @param apibo xml container
-    */
-   private void processResourceRates(APIBusinessObjects apibo)
-   {
-      List<ResourceRateType> rates = new ArrayList<>(apibo.getResourceRate());
-
-      // Primavera defines resource cost tables by start dates so sort and define end by next
-      rates.sort((r1, r2) -> {
-         Integer id1 = r1.getResourceObjectId();
-         Integer id2 = r2.getResourceObjectId();
-         int cmp = NumberHelper.compare(id1, id2);
-         if (cmp != 0)
-         {
-            return cmp;
-         }
-         LocalDateTime d1 = r1.getEffectiveDate();
-         LocalDateTime d2 = r2.getEffectiveDate();
-         return LocalDateTimeHelper.compare(d1, d2);
-      });
-
-      Resource resource = null;
-
-      for (int i = 0; i < rates.size(); ++i)
-      {
-         ResourceRateType row = rates.get(i);
-
-         Integer resourceID = row.getResourceObjectId();
-         if (resource == null || !resource.getUniqueID().equals(resourceID))
-         {
-            resource = m_projectFile.getResourceByUniqueID(resourceID);
-            if (resource == null)
-            {
-               continue;
-            }
-            resource.getCostRateTable(0).clear();
-         }
-
-         Rate[] values = new Rate[]
-            {
-               readRate(row.getPricePerUnit()),
-               readRate(row.getPricePerUnit2()),
-               readRate(row.getPricePerUnit3()),
-               readRate(row.getPricePerUnit4()),
-               readRate(row.getPricePerUnit5()),
-            };
-
-         Double costPerUse = NumberHelper.getDouble(0.0);
-         Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
-         ShiftPeriod period = m_projectFile.getShiftPeriods().getByUniqueID(row.getShiftPeriodObjectId());
-         LocalDateTime startDate = row.getEffectiveDate();
-         LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
-
-         if (i + 1 < rates.size())
-         {
-            ResourceRateType nextRow = rates.get(i + 1);
-            if (NumberHelper.equals(resourceID, nextRow.getResourceObjectId()))
-            {
-               endDate = nextRow.getEffectiveDate().minusMinutes(1);
-            }
-         }
-
-         if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
-         {
-            startDate = LocalDateTimeHelper.START_DATE_NA;
-         }
-
-         if (endDate == null || endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
-         {
-            endDate = LocalDateTimeHelper.END_DATE_NA;
-         }
-
-         resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, period, values));
-         resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
-      }
-   }
-
-   /**
-    * Read a rate value, handle null.
-    *
-    * @param value rate as a double
-    * @return new Rate instance
-    */
-   private Rate readRate(Double value)
-   {
-      if (value == null)
-      {
-         return null;
-      }
-
-      return new Rate(value, TimeUnit.HOURS);
-   }
-
-   /**
-    * Process role rates.
-    *
-    * @param apibo xml container
-    */
-   private void processRoleRates(APIBusinessObjects apibo)
-   {
-      List<RoleRateType> rates = new ArrayList<>(apibo.getRoleRateNew().isEmpty() ? apibo.getRoleRate() : apibo.getRoleRateNew());
-
-      // Primavera defines resource cost tables by start dates so sort and define end by next
-      rates.sort((r1, r2) -> {
-         Integer id1 = r1.getRoleObjectId();
-         Integer id2 = r2.getRoleObjectId();
-         int cmp = NumberHelper.compare(id1, id2);
-         if (cmp != 0)
-         {
-            return cmp;
-         }
-         LocalDateTime d1 = r1.getEffectiveDate();
-         LocalDateTime d2 = r2.getEffectiveDate();
-         return LocalDateTimeHelper.compare(d1, d2);
-      });
-
-      Resource resource = null;
-
-      for (int i = 0; i < rates.size(); ++i)
-      {
-         RoleRateType row = rates.get(i);
-
-         Integer resourceID = m_roleClashMap.getID(row.getRoleObjectId());
-         if (resource == null || !resource.getUniqueID().equals(resourceID))
-         {
-            resource = m_projectFile.getResourceByUniqueID(resourceID);
-            if (resource == null)
-            {
-               continue;
-            }
-            resource.getCostRateTable(0).clear();
-         }
-
-         Rate[] values = new Rate[]
-            {
-               readRate(row.getPricePerUnit()),
-               readRate(row.getPricePerUnit2()),
-               readRate(row.getPricePerUnit3()),
-               readRate(row.getPricePerUnit4()),
-               readRate(row.getPricePerUnit5()),
-            };
-
-         Double costPerUse = NumberHelper.getDouble(0.0);
-         Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
-         LocalDateTime startDate = row.getEffectiveDate();
-         LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
-
-         if (i + 1 < rates.size())
-         {
-            RoleRateType nextRow = rates.get(i + 1);
-            if (NumberHelper.equals(row.getRoleObjectId(), nextRow.getRoleObjectId()))
-            {
-               endDate = nextRow.getEffectiveDate().minusMinutes(1);
-            }
-         }
-
-         if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
-         {
-            startDate = LocalDateTimeHelper.START_DATE_NA;
-         }
-
-         if (endDate == null || endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
-         {
-            endDate = LocalDateTimeHelper.END_DATE_NA;
-         }
-
-         resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
-         resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
-      }
-   }
-
-
-   /**
-    * Process role code assignments.
-    *
-    * @param resource parent resource
-    * @param codes role code assignments
-    */
-   private void processRoleCodeAssignments(Resource resource, List<CodeAssignmentType> codes)
-   {
-      for (CodeAssignmentType assignment : codes)
-      {
-         RoleCode code = m_projectFile.getRoleCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
-         if (code == null)
-         {
-            continue;
-         }
-
-         RoleCodeValue codeValue = code.getValueByUniqueID(Integer.valueOf(assignment.getValueObjectId()));
-         if (codeValue != null)
-         {
-            resource.addRoleCodeValue(codeValue);
-         }
-      }
-   }
 
    /**
     * Process project properties.
@@ -520,7 +202,7 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
       }
 
       processScheduleOptions(project.getScheduleOptions());
-      populateUserDefinedFieldValues(properties, project.getUDF());
+      populateUserDefinedFieldValues(m_projectFile.getProjectContext(), properties, project.getUDF());
    }
 
    private void processProjectProperties(BaselineProjectType project)
@@ -737,7 +419,7 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
          task.setNotesObject(wbsNotes.get(uniqueID));
          task.setSequenceNumber(row.getSequenceNumber());
 
-         populateUserDefinedFieldValues(task, row.getUDF());
+         populateUserDefinedFieldValues(m_projectFile.getProjectContext(), task, row.getUDF());
       }
 
       //
@@ -943,7 +625,7 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
          //
          task.getCritical();
 
-         populateUserDefinedFieldValues(task, row.getUDF());
+         populateUserDefinedFieldValues(m_projectFile.getProjectContext(), task, row.getUDF());
          readActivityCodes(task, row.getCode());
 
          // For P6 the start date is the relevant date for a Start Milestone, and the
@@ -1109,7 +791,7 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
             assignment.setRemainingUnits(Double.valueOf(NumberHelper.getDouble(row.getRemainingUnitsPerTime()) * 100));
 
             // Add User Defined Fields
-            populateUserDefinedFieldValues(assignment, row.getUDF());
+            populateUserDefinedFieldValues(m_projectFile.getProjectContext(), assignment, row.getUDF());
 
             // Read timephased data
             assignment.setTimephasedPlannedWork(TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getPlannedCurve()));
@@ -1200,31 +882,6 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
       }
    }
 
-   /**
-    * Process resource code assignments.
-    *
-    * @param resource parent resource
-    * @param codes resource code assignments
-    */
-   private void processResourceCodeAssignments(Resource resource, List<CodeAssignmentType> codes)
-   {
-      for (CodeAssignmentType assignment : codes)
-      {
-         ResourceCode code = m_projectFile.getResourceCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
-         if (code == null)
-         {
-            continue;
-         }
-
-         ResourceCodeValue codeValue = code.getValueByUniqueID(Integer.valueOf(assignment.getValueObjectId()));
-         if (codeValue != null)
-         {
-            resource.addResourceCodeValue(codeValue);
-         }
-      }
-   }
-
-
    private void populateWBS(String prefix, ChildTaskContainer container)
    {
       for (Task task : container.getChildTasks())
@@ -1233,24 +890,6 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
          task.setWBS(wbs);
          task.setActivityID(wbs);
          populateWBS(wbs, task);
-      }
-   }
-
-   /**
-    * Process UDFs for a specific object.
-    *
-    * @param mpxj field container
-    * @param udfs UDF values
-    */
-   private void populateUserDefinedFieldValues(FieldContainer mpxj, List<UDFAssignmentType> udfs)
-   {
-      for (UDFAssignmentType udf : udfs)
-      {
-         UserDefinedField fieldType = m_projectFile.getUserDefinedFields().getByUniqueID(Integer.valueOf(udf.getTypeObjectId()));
-         if (fieldType != null)
-         {
-            mpxj.set(fieldType, getUdfValue(udf));
-         }
       }
    }
 
@@ -1334,52 +973,6 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
          id = updateStructure(id, childTask, outlineLevel);
       }
       return id;
-   }
-
-   /**
-    * Retrieve the value of a UDF.
-    *
-    * @param udf UDF value holder
-    * @return UDF value
-    */
-   private Object getUdfValue(UDFAssignmentType udf)
-   {
-      if (udf.getCostValue() != null)
-      {
-         return udf.getCostValue();
-      }
-
-      if (udf.getDoubleValue() != null)
-      {
-         return udf.getDoubleValue();
-      }
-
-      if (udf.getFinishDateValue() != null)
-      {
-         return udf.getFinishDateValue();
-      }
-
-      if (udf.getIndicatorValue() != null)
-      {
-         return udf.getIndicatorValue();
-      }
-
-      if (udf.getIntegerValue() != null)
-      {
-         return udf.getIntegerValue();
-      }
-
-      if (udf.getStartDateValue() != null)
-      {
-         return udf.getStartDateValue();
-      }
-
-      if (udf.getTextValue() != null)
-      {
-         return udf.getTextValue();
-      }
-
-      return null;
    }
 
    private void rollupValues()

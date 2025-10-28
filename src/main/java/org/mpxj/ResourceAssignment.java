@@ -59,14 +59,18 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     */
    public ResourceAssignment(ProjectFile file, Task task)
    {
-      super(file);
-
+      m_parentFile = file;
       if (file.getProjectConfig().getAutoAssignmentUniqueID())
       {
          setUniqueID(file.getUniqueIdObjectSequence(ResourceAssignment.class).getNext());
       }
 
       m_task = task;
+   }
+
+   public ProjectFile getParentFile()
+   {
+      return m_parentFile;
    }
 
    /**
@@ -469,7 +473,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    {
       if (m_task == null)
       {
-         m_task = getParentFile().getTaskByUniqueID(getTaskUniqueID());
+         m_task = m_parentFile.getTaskByUniqueID(getTaskUniqueID());
       }
       return (m_task);
    }
@@ -482,7 +486,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     */
    public Resource getResource()
    {
-      return (getParentFile().getResourceByUniqueID(getResourceUniqueID()));
+      return (m_parentFile.getResourceByUniqueID(getResourceUniqueID()));
    }
 
    /**
@@ -510,7 +514,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     */
    public void remove()
    {
-      getParentFile().getResourceAssignments().remove(this);
+      m_parentFile.getResourceAssignments().remove(this);
    }
 
    /**
@@ -602,7 +606,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     */
    public Resource getRole()
    {
-      return getParentFile().getResourceByUniqueID((Integer) get(AssignmentField.ROLE_UNIQUE_ID));
+      return m_parentFile.getResourceByUniqueID((Integer) get(AssignmentField.ROLE_UNIQUE_ID));
    }
 
    /**
@@ -921,13 +925,13 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
          Duration standardWorkPerDay = standardWork.getAmountPerDay();
          if (standardWorkPerDay.getUnits() != standardRateUnits)
          {
-            standardWorkPerDay = standardWorkPerDay.convertUnits(standardRateUnits, getParentFile().getProjectProperties());
+            standardWorkPerDay = standardWorkPerDay.convertUnits(standardRateUnits, m_parentFile.getProjectProperties());
          }
 
          Duration totalStandardWork = standardWork.getTotalAmount();
          if (totalStandardWork.getUnits() != standardRateUnits)
          {
-            totalStandardWork = totalStandardWork.convertUnits(standardRateUnits, getParentFile().getProjectProperties());
+            totalStandardWork = totalStandardWork.convertUnits(standardRateUnits, m_parentFile.getProjectProperties());
          }
 
          Duration overtimeWorkPerDay;
@@ -943,13 +947,13 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
             overtimeWorkPerDay = overtimeWork.getAmountPerDay();
             if (overtimeWorkPerDay.getUnits() != overtimeRateUnits)
             {
-               overtimeWorkPerDay = overtimeWorkPerDay.convertUnits(overtimeRateUnits, getParentFile().getProjectProperties());
+               overtimeWorkPerDay = overtimeWorkPerDay.convertUnits(overtimeRateUnits, m_parentFile.getProjectProperties());
             }
 
             totalOvertimeWork = overtimeWork.getTotalAmount();
             if (totalOvertimeWork.getUnits() != overtimeRateUnits)
             {
-               totalOvertimeWork = totalOvertimeWork.convertUnits(overtimeRateUnits, getParentFile().getProjectProperties());
+               totalOvertimeWork = totalOvertimeWork.convertUnits(overtimeRateUnits, m_parentFile.getProjectProperties());
             }
          }
 
@@ -2953,7 +2957,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     */
    public CostAccount getCostAccount()
    {
-      return getParentFile().getCostAccounts().getByUniqueID((Integer) get(AssignmentField.COST_ACCOUNT_UNIQUE_ID));
+      return m_parentFile.getCostAccounts().getByUniqueID((Integer) get(AssignmentField.COST_ACCOUNT_UNIQUE_ID));
    }
 
    /**
@@ -3109,7 +3113,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     */
    public Object getFieldByAlias(String alias)
    {
-      return get(getParentFile().getResourceAssignments().getFieldTypeByAlias(alias));
+      return get(m_parentFile.getResourceAssignments().getFieldTypeByAlias(alias));
    }
 
    /**
@@ -3120,7 +3124,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     */
    public void setFieldByAlias(String alias, Object value)
    {
-      set(getParentFile().getResourceAssignments().getFieldTypeByAlias(alias), value);
+      set(m_parentFile.getResourceAssignments().getFieldTypeByAlias(alias), value);
    }
 
    /**
@@ -3166,7 +3170,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    {
       if (field == AssignmentField.UNIQUE_ID)
       {
-         getParentFile().getResourceAssignments().updateUniqueID(this, (Integer) oldValue, (Integer) newValue);
+         m_parentFile.getResourceAssignments().updateUniqueID(this, (Integer) oldValue, (Integer) newValue);
          return;
       }
 
@@ -3231,7 +3235,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
       Duration work = getWork();
       if (actualWork != null && work != null && work.getDuration() != 0)
       {
-         pct = Double.valueOf((actualWork.getDuration() * 100) / work.convertUnits(actualWork.getUnits(), getParentFile().getProjectProperties()).getDuration());
+         pct = Double.valueOf((actualWork.getDuration() * 100) / work.convertUnits(actualWork.getUnits(), m_parentFile.getProjectProperties()).getDuration());
       }
       return pct;
    }
@@ -3243,7 +3247,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
       Duration baselineWork = getBaselineWork();
       if (work != null && baselineWork != null)
       {
-         variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectProperties()).getDuration(), work.getUnits());
+         variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), m_parentFile.getProjectProperties()).getDuration(), work.getUnits());
          set(AssignmentField.WORK_VARIANCE, variance);
       }
       return variance;
@@ -3251,13 +3255,13 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
 
    private Duration calculateStartVariance()
    {
-      TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
+      TimeUnit format = m_parentFile.getProjectProperties().getDefaultDurationUnits();
       return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getBaselineStart(), getStart(), format);
    }
 
    private Duration calculateFinishVariance()
    {
-      TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
+      TimeUnit format = m_parentFile.getProjectProperties().getDefaultDurationUnits();
       return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getBaselineFinish(), getFinish(), format);
    }
 
@@ -3407,6 +3411,8 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
 
    private final TimephasedWorkContainer[] m_timephasedBaselineWork = new TimephasedWorkContainer[11];
    private final TimephasedCostContainer[] m_timephasedBaselineCost = new TimephasedCostContainer[11];
+
+   private final ProjectFile m_parentFile;
 
    /**
     * Reference to the parent task of this assignment.

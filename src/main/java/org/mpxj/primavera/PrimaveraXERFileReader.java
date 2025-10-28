@@ -133,8 +133,10 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
     */
    @Override public List<ProjectFile> readAll(InputStream is) throws MPXJException
    {
+      Map<String, Map<Integer, List<Row>>> udfValues = new HashMap<>();
+      ClashMap roleClashMap = new ClashMap();
       XerFile file = new XerFile(READ_REQUIRED_TABLES, m_charset, m_ignoreErrors).read(is);
-      ProjectContext context = new PrimaveraXERContextReader(file, m_ignoreErrors).read();
+      ProjectContext context = new PrimaveraXERContextReader(file, udfValues, m_ignoreErrors, m_resourceFields, m_roleFields, roleClashMap).read();
 
       List<Row> rows = file.getRows("project", null, null);
       List<ProjectFile> result = new ArrayList<>(rows.size());
@@ -144,7 +146,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       {
          ProjectFile project = new ProjectFile(context);
          addListenersToProject(project);
-         PrimaveraXERProjectReader reader = new PrimaveraXERProjectReader(file, project, row.getInteger("proj_id") , m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
+         PrimaveraXERProjectReader reader = new PrimaveraXERProjectReader(file, project, row.getInteger("proj_id") , udfValues, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors, roleClashMap);
          reader.read();
          externalRelations.addAll(reader.getExternalRelations());
 

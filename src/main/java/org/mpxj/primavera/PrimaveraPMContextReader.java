@@ -1,11 +1,15 @@
 package org.mpxj.primavera;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.mpxj.Availability;
 import org.mpxj.CostAccount;
 import org.mpxj.CostAccountContainer;
+import org.mpxj.CostRateTableEntry;
 import org.mpxj.Currency;
 import org.mpxj.CurrencyContainer;
 import org.mpxj.ExpenseCategory;
@@ -19,6 +23,8 @@ import org.mpxj.ProjectCodeContainer;
 import org.mpxj.ProjectCodeValue;
 import org.mpxj.ProjectConfig;
 import org.mpxj.ProjectContext;
+import org.mpxj.Rate;
+import org.mpxj.Resource;
 import org.mpxj.ResourceAssignmentCode;
 import org.mpxj.ResourceAssignmentCodeContainer;
 import org.mpxj.ResourceAssignmentCodeValue;
@@ -38,8 +44,10 @@ import org.mpxj.UserDefinedField;
 import org.mpxj.WorkContour;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.HierarchyHelper;
+import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.primavera.schema.APIBusinessObjects;
+import org.mpxj.primavera.schema.CodeAssignmentType;
 import org.mpxj.primavera.schema.CostAccountType;
 import org.mpxj.primavera.schema.NotebookTopicType;
 import org.mpxj.primavera.schema.ProjectCodeType;
@@ -50,8 +58,13 @@ import org.mpxj.primavera.schema.ResourceCodeType;
 import org.mpxj.primavera.schema.ResourceCodeTypeType;
 import org.mpxj.primavera.schema.ResourceCurveType;
 import org.mpxj.primavera.schema.ResourceCurveValuesType;
+import org.mpxj.primavera.schema.ResourceRateType;
+import org.mpxj.primavera.schema.ResourceRoleType;
+import org.mpxj.primavera.schema.ResourceType;
 import org.mpxj.primavera.schema.RoleCodeType;
 import org.mpxj.primavera.schema.RoleCodeTypeType;
+import org.mpxj.primavera.schema.RoleRateType;
+import org.mpxj.primavera.schema.RoleType;
 import org.mpxj.primavera.schema.ShiftPeriodType;
 import org.mpxj.primavera.schema.ShiftType;
 import org.mpxj.primavera.schema.UDFTypeType;
@@ -59,9 +72,10 @@ import org.mpxj.primavera.schema.UnitOfMeasureType;
 
 class PrimaveraPMContextReader extends PrimaveraPMCommonReader
 {
-   public PrimaveraPMContextReader(APIBusinessObjects apibo)
+   public PrimaveraPMContextReader(APIBusinessObjects apibo, ClashMap roleClashMap)
    {
       m_apibo = apibo;
+      m_roleClashMap = roleClashMap;
    }
    
    public ProjectContext read()
@@ -82,6 +96,11 @@ class PrimaveraPMContextReader extends PrimaveraPMCommonReader
       processShifts();
       processActivityCodeDefinitions(m_context, m_apibo.getActivityCodeType(), m_apibo.getActivityCode());
       processCalendars(m_context, m_apibo.getCalendar());
+      processResources();
+      processRoles();
+      processRoleAssignments();
+      processResourceRates();
+      processRoleRates();
 
       return m_context;
    }
@@ -487,6 +506,302 @@ class PrimaveraPMContextReader extends PrimaveraPMCommonReader
       m_context.getCustomFields().add(field).setAlias(udf.getTitle()).setUniqueID(udf.getObjectId());
    }
 
+   /**
+    * Process resources.
+    */
+   private void processResources()
+   {
+      List<ResourceType> resources = m_apibo.getResource();
+      for (ResourceType xml : resources)
+      {
+         Resource resource = m_context.getResources().add();
+         m_roleClashMap.addID(xml.getObjectId());
+
+         Double defaultUnitsPerTime = xml.getDefaultUnitsPerTime();
+         if (defaultUnitsPerTime == null)
+         {
+            // Older versions of P6 appear to use MaxUnitsPerTime, so we'll fall back
+            // to this value if DefaultUnitsPerTime is not present
+            defaultUnitsPerTime = xml.getMaxUnitsPerTime();
+         }
+
+         // Note: if default units per time is an empty field, this represents a value of zero in P6
+         defaultUnitsPerTime = defaultUnitsPerTime == null ? NumberHelper.DOUBLE_ZERO : Double.valueOf(defaultUnitsPerTime.doubleValue() * 100.0);
+
+         resource.setUniqueID(xml.getObjectId());
+         resource.setName(xml.getName());
+         resource.setCode(xml.getEmployeeId());
+         resource.setEmailAddress(xml.getEmailAddress());
+         resource.setGUID(DatatypeConverter.parseUUID(xml.getGUID()));
+         resource.setNotesObject(NotesHelper.getNotes(xml.getResourceNotes()));
+         resource.setCreationDate(xml.getCreateDate());
+         resource.setType(ResourceTypeHelper.getInstanceFromXml(xml.getResourceType()));
+         resource.setDefaultUnits(defaultUnitsPerTime);
+         resource.setParentResourceUniqueID(xml.getParentObjectId());
+         resource.setResourceID(xml.getId());
+         resource.setCalendar(m_context.getCalendars().getByUniqueID(xml.getCalendarObjectId()));
+         resource.setCalculateCostsFromUnits(BooleanHelper.getBoolean(xml.isCalculateCostFromUnits()));
+         resource.setSequenceNumber(xml.getSequenceNumber());
+         resource.setActive(BooleanHelper.getBoolean(xml.isIsActive()));
+         resource.setLocationUniqueID(xml.getLocationObjectId());
+         resource.setUnitOfMeasureUniqueID(xml.getUnitOfMeasureObjectId());
+         resource.setShiftUniqueID(xml.getShiftObjectId());
+         resource.setPrimaryRoleUniqueID(xml.getPrimaryRoleObjectId());
+         resource.setCurrencyUniqueID(xml.getCurrencyObjectId());
+
+         processResourceCodeAssignments(resource, xml.getCode());
+
+         populateUserDefinedFieldValues(m_context, resource, xml.getUDF());
+
+         // TODO
+         //m_eventManager.fireResourceReadEvent(resource);
+      }
+   }
+
+   /**
+    * Process roles.
+    */
+   private void processRoles()
+   {
+      for (RoleType role : m_apibo.getRole())
+      {
+         Resource resource = m_context.getResources().add();
+         resource.setRole(true);
+         resource.setUniqueID(m_roleClashMap.getID(role.getObjectId()));
+         resource.setName(role.getName());
+         resource.setResourceID(role.getId());
+         resource.setNotesObject(NotesHelper.getHtmlNote(role.getResponsibilities()));
+         resource.setSequenceNumber(role.getSequenceNumber());
+
+         processRoleCodeAssignments(resource, role.getCode());
+      }
+   }
+
+   /**
+    * Process role assignments.
+    */
+   private void processRoleAssignments()
+   {
+      for (ResourceRoleType assignment : m_apibo.getResourceRole())
+      {
+         Resource resource = m_context.getResources().getByUniqueID(assignment.getResourceObjectId());
+         if (resource == null)
+         {
+            continue;
+         }
+
+         Resource role = m_context.getResources().getByUniqueID(assignment.getRoleObjectId());
+         if (role == null)
+         {
+            continue;
+         }
+
+         resource.addRoleAssignment(role, SkillLevelHelper.getInstanceFromXml(assignment.getProficiency()));
+      }
+   }
+
+   /**
+    * Process resource rates.
+    */
+   private void processResourceRates()
+   {
+      List<ResourceRateType> rates = new ArrayList<>(m_apibo.getResourceRate());
+
+      // Primavera defines resource cost tables by start dates so sort and define end by next
+      rates.sort((r1, r2) -> {
+         Integer id1 = r1.getResourceObjectId();
+         Integer id2 = r2.getResourceObjectId();
+         int cmp = NumberHelper.compare(id1, id2);
+         if (cmp != 0)
+         {
+            return cmp;
+         }
+         LocalDateTime d1 = r1.getEffectiveDate();
+         LocalDateTime d2 = r2.getEffectiveDate();
+         return LocalDateTimeHelper.compare(d1, d2);
+      });
+
+      Resource resource = null;
+
+      for (int i = 0; i < rates.size(); ++i)
+      {
+         ResourceRateType row = rates.get(i);
+
+         Integer resourceID = row.getResourceObjectId();
+         if (resource == null || !resource.getUniqueID().equals(resourceID))
+         {
+            resource = m_context.getResources().getByUniqueID(resourceID);
+            if (resource == null)
+            {
+               continue;
+            }
+            resource.getCostRateTable(0).clear();
+         }
+
+         Rate[] values = new Rate[]
+            {
+               readRate(row.getPricePerUnit()),
+               readRate(row.getPricePerUnit2()),
+               readRate(row.getPricePerUnit3()),
+               readRate(row.getPricePerUnit4()),
+               readRate(row.getPricePerUnit5()),
+            };
+
+         Double costPerUse = NumberHelper.getDouble(0.0);
+         Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
+         ShiftPeriod period = m_context.getShiftPeriods().getByUniqueID(row.getShiftPeriodObjectId());
+         LocalDateTime startDate = row.getEffectiveDate();
+         LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
+
+         if (i + 1 < rates.size())
+         {
+            ResourceRateType nextRow = rates.get(i + 1);
+            if (NumberHelper.equals(resourceID, nextRow.getResourceObjectId()))
+            {
+               endDate = nextRow.getEffectiveDate().minusMinutes(1);
+            }
+         }
+
+         if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
+         {
+            startDate = LocalDateTimeHelper.START_DATE_NA;
+         }
+
+         if (endDate == null || endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
+         {
+            endDate = LocalDateTimeHelper.END_DATE_NA;
+         }
+
+         resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, period, values));
+         resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
+      }
+   }
+
+   /**
+    * Process role rates.
+    */
+   private void processRoleRates()
+   {
+      List<RoleRateType> rates = new ArrayList<>(m_apibo.getRoleRateNew().isEmpty() ? m_apibo.getRoleRate() : m_apibo.getRoleRateNew());
+
+      // Primavera defines resource cost tables by start dates so sort and define end by next
+      rates.sort((r1, r2) -> {
+         Integer id1 = r1.getRoleObjectId();
+         Integer id2 = r2.getRoleObjectId();
+         int cmp = NumberHelper.compare(id1, id2);
+         if (cmp != 0)
+         {
+            return cmp;
+         }
+         LocalDateTime d1 = r1.getEffectiveDate();
+         LocalDateTime d2 = r2.getEffectiveDate();
+         return LocalDateTimeHelper.compare(d1, d2);
+      });
+
+      Resource resource = null;
+
+      for (int i = 0; i < rates.size(); ++i)
+      {
+         RoleRateType row = rates.get(i);
+
+         Integer resourceID = m_roleClashMap.getID(row.getRoleObjectId());
+         if (resource == null || !resource.getUniqueID().equals(resourceID))
+         {
+            resource = m_context.getResources().getByUniqueID(resourceID);
+            if (resource == null)
+            {
+               continue;
+            }
+            resource.getCostRateTable(0).clear();
+         }
+
+         Rate[] values = new Rate[]
+            {
+               readRate(row.getPricePerUnit()),
+               readRate(row.getPricePerUnit2()),
+               readRate(row.getPricePerUnit3()),
+               readRate(row.getPricePerUnit4()),
+               readRate(row.getPricePerUnit5()),
+            };
+
+         Double costPerUse = NumberHelper.getDouble(0.0);
+         Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
+         LocalDateTime startDate = row.getEffectiveDate();
+         LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
+
+         if (i + 1 < rates.size())
+         {
+            RoleRateType nextRow = rates.get(i + 1);
+            if (NumberHelper.equals(row.getRoleObjectId(), nextRow.getRoleObjectId()))
+            {
+               endDate = nextRow.getEffectiveDate().minusMinutes(1);
+            }
+         }
+
+         if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
+         {
+            startDate = LocalDateTimeHelper.START_DATE_NA;
+         }
+
+         if (endDate == null || endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
+         {
+            endDate = LocalDateTimeHelper.END_DATE_NA;
+         }
+
+         resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
+         resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
+      }
+   }
+
+   /**
+    * Process resource code assignments.
+    *
+    * @param resource parent resource
+    * @param codes resource code assignments
+    */
+   private void processResourceCodeAssignments(Resource resource, List<CodeAssignmentType> codes)
+   {
+      for (CodeAssignmentType assignment : codes)
+      {
+         ResourceCode code = m_context.getResourceCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
+         if (code == null)
+         {
+            continue;
+         }
+
+         ResourceCodeValue codeValue = code.getValueByUniqueID(Integer.valueOf(assignment.getValueObjectId()));
+         if (codeValue != null)
+         {
+            resource.addResourceCodeValue(codeValue);
+         }
+      }
+   }
+
+   /**
+    * Process role code assignments.
+    *
+    * @param resource parent resource
+    * @param codes role code assignments
+    */
+   private void processRoleCodeAssignments(Resource resource, List<CodeAssignmentType> codes)
+   {
+      for (CodeAssignmentType assignment : codes)
+      {
+         RoleCode code = m_context.getRoleCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
+         if (code == null)
+         {
+            continue;
+         }
+
+         RoleCodeValue codeValue = code.getValueByUniqueID(Integer.valueOf(assignment.getValueObjectId()));
+         if (codeValue != null)
+         {
+            resource.addRoleCodeValue(codeValue);
+         }
+      }
+   }
+
    private final ProjectContext m_context = new ProjectContext();
    private final APIBusinessObjects m_apibo;
+   private final ClashMap m_roleClashMap;
 }

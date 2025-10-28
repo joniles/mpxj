@@ -10,11 +10,15 @@ import java.util.Map;
 import org.mpxj.ActivityCode;
 import org.mpxj.ActivityCodeContainer;
 import org.mpxj.ActivityCodeValue;
+import org.mpxj.FieldContainer;
 import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectContext;
+import org.mpxj.Rate;
+import org.mpxj.TimeUnit;
+import org.mpxj.UserDefinedField;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.ColorHelper;
 import org.mpxj.common.HierarchyHelper;
@@ -23,6 +27,7 @@ import org.mpxj.common.NumberHelper;
 import org.mpxj.primavera.schema.ActivityCodeType;
 import org.mpxj.primavera.schema.ActivityCodeTypeType;
 import org.mpxj.primavera.schema.CalendarType;
+import org.mpxj.primavera.schema.UDFAssignmentType;
 import org.mpxj.primavera.schema.WorkTimeType;
 
 class PrimaveraPMCommonReader
@@ -288,6 +293,86 @@ class PrimaveraPMCommonReader
    protected LocalTime getEndTime(LocalTime date)
    {
       return date.plusMinutes(1);
+   }
+
+   /**
+    * Process UDFs for a specific object.
+    *
+    * @param mpxj field container
+    * @param udfs UDF values
+    */
+   protected void populateUserDefinedFieldValues(ProjectContext context, FieldContainer mpxj, List<UDFAssignmentType> udfs)
+   {
+      for (UDFAssignmentType udf : udfs)
+      {
+         UserDefinedField fieldType = context.getUserDefinedFields().getByUniqueID(Integer.valueOf(udf.getTypeObjectId()));
+         if (fieldType != null)
+         {
+            mpxj.set(fieldType, getUdfValue(udf));
+         }
+      }
+   }
+
+   /**
+    * Retrieve the value of a UDF.
+    *
+    * @param udf UDF value holder
+    * @return UDF value
+    */
+   private Object getUdfValue(UDFAssignmentType udf)
+   {
+      if (udf.getCostValue() != null)
+      {
+         return udf.getCostValue();
+      }
+
+      if (udf.getDoubleValue() != null)
+      {
+         return udf.getDoubleValue();
+      }
+
+      if (udf.getFinishDateValue() != null)
+      {
+         return udf.getFinishDateValue();
+      }
+
+      if (udf.getIndicatorValue() != null)
+      {
+         return udf.getIndicatorValue();
+      }
+
+      if (udf.getIntegerValue() != null)
+      {
+         return udf.getIntegerValue();
+      }
+
+      if (udf.getStartDateValue() != null)
+      {
+         return udf.getStartDateValue();
+      }
+
+      if (udf.getTextValue() != null)
+      {
+         return udf.getTextValue();
+      }
+
+      return null;
+   }
+
+   /**
+    * Read a rate value, handle null.
+    *
+    * @param value rate as a double
+    * @return new Rate instance
+    */
+   protected Rate readRate(Double value)
+   {
+      if (value == null)
+      {
+         return null;
+      }
+
+      return new Rate(value, TimeUnit.HOURS);
    }
 
    private static final Map<String, DayOfWeek> DAY_MAP = new HashMap<>();

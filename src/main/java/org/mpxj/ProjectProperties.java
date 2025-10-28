@@ -53,7 +53,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    ProjectProperties(ProjectFile file)
    {
-      super(file);
+      m_parentFile = file;
 
       //
       // Configure MPX File Creation Record Settings
@@ -146,6 +146,11 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       setCriticalActivityType(CriticalActivityType.TOTAL_FLOAT);
       setTotalSlackCalculationType(TotalSlackCalculationType.SMALLEST_SLACK);
       setRelationshipLagCalendar(RelationshipLagCalendar.PREDECESSOR);
+   }
+
+   public ProjectFile getParentFile()
+   {
+      return m_parentFile;
    }
 
    /**
@@ -599,7 +604,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public ProjectCalendar getDefaultCalendar()
    {
-      return getParentFile().getCalendars().getByUniqueID((Integer) get(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID));
+      return m_parentFile.getCalendars().getByUniqueID((Integer) get(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID));
    }
 
    /**
@@ -639,7 +644,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public ProjectCalendar getActivityDefaultCalendar()
    {
-      return getParentFile().getCalendars().getByUniqueID((Integer) get(ProjectField.ACTIVITY_DEFAULT_CALENDAR_UNIQUE_ID));
+      return m_parentFile.getCalendars().getByUniqueID((Integer) get(ProjectField.ACTIVITY_DEFAULT_CALENDAR_UNIQUE_ID));
    }
 
    /**
@@ -2868,7 +2873,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public Location getLocation()
    {
-      return getParentFile().getLocations().getByUniqueID(getLocationUniqueID());
+      return m_parentFile.getLocations().getByUniqueID(getLocationUniqueID());
    }
 
    /**
@@ -2909,7 +2914,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public ProjectFile getResourcePoolObject()
    {
-      return getParentFile().readExternalProject(getResourcePoolFile());
+      return m_parentFile.readExternalProject(getResourcePoolFile());
    }
 
    /**
@@ -3701,37 +3706,37 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
          {
             case DEFAULT_CALENDAR_UNIQUE_ID:
             {
-               getParentFile().getCalendars().setDefaultCalendarUniqueID((Integer) newValue);
+               m_parentFile.getCalendars().setDefaultCalendarUniqueID((Integer) newValue);
                break;
             }
 
             case DAYS_PER_MONTH:
             {
-               getParentFile().getProjectContext().getTimeUnitDefaults().setDaysPerMonth((Integer) newValue);
+               m_parentFile.getProjectContext().getTimeUnitDefaults().setDaysPerMonth((Integer) newValue);
                break;
             }
 
             case MINUTES_PER_DAY:
             {
-               getParentFile().getProjectContext().getTimeUnitDefaults().setMinutesPerDay((Integer) newValue);
+               m_parentFile.getProjectContext().getTimeUnitDefaults().setMinutesPerDay((Integer) newValue);
                break;
             }
 
             case MINUTES_PER_WEEK:
             {
-               getParentFile().getProjectContext().getTimeUnitDefaults().setMinutesPerWeek((Integer) newValue);
+               m_parentFile.getProjectContext().getTimeUnitDefaults().setMinutesPerWeek((Integer) newValue);
                break;
             }
 
             case MINUTES_PER_MONTH:
             {
-               getParentFile().getProjectContext().getTimeUnitDefaults().setMinutesPerMonth((Integer) newValue);
+               m_parentFile.getProjectContext().getTimeUnitDefaults().setMinutesPerMonth((Integer) newValue);
                break;
             }
 
             case MINUTES_PER_YEAR:
             {
-               getParentFile().getProjectContext().getTimeUnitDefaults().setMinutesPerYear((Integer) newValue);
+               m_parentFile.getProjectContext().getTimeUnitDefaults().setMinutesPerYear((Integer) newValue);
                break;
             }
             
@@ -3760,7 +3765,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public Set<FieldType> getPopulatedFields()
    {
-      return new PopulatedFields<>(getParentFile(), ProjectField.class, getParentFile().getUserDefinedFields().getProjectFields(), Collections.singletonList(this)).getPopulatedFields();
+      return new PopulatedFields<>(m_parentFile, ProjectField.class, m_parentFile.getUserDefinedFields().getProjectFields(), Collections.singletonList(this)).getPopulatedFields();
    }
 
    /**
@@ -3776,28 +3781,30 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
 
    private LocalDateTime calculateStartDate()
    {
-      return getParentFile().getEarliestStartDate();
+      return m_parentFile.getEarliestStartDate();
    }
 
    private LocalDateTime calculateFinishDate()
    {
-      return getParentFile().getLatestFinishDate();
+      return m_parentFile.getLatestFinishDate();
    }
 
    private LocalDateTime calculateActualStart()
    {
-      return getParentFile().getActualStart();
+      return m_parentFile.getActualStart();
    }
 
    private LocalDateTime calculateActualFinish()
    {
-      return getParentFile().getActualFinish();
+      return m_parentFile.getActualFinish();
    }
 
    private Integer calculateDefaultCalendarUniqueID()
    {
-      return getParentFile().getCalendars().getDefaultCalendarUniqueID();
+      return m_parentFile.getCalendars().getDefaultCalendarUniqueID();
    }
+
+   private final ProjectFile m_parentFile;
 
    /**
     * Default time separator character.
@@ -3914,11 +3921,11 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.ACTUAL_FINISH, ProjectProperties::calculateActualFinish);
 
       CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID, ProjectProperties::calculateDefaultCalendarUniqueID);
-      CALCULATED_FIELD_MAP.put(ProjectField.DAYS_PER_MONTH, p -> p.getParentFile().getProjectContext().getTimeUnitDefaults().getDaysPerMonth());
-      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_DAY, p -> p.getParentFile().getProjectContext().getTimeUnitDefaults().getMinutesPerDay());
-      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_WEEK, p -> p.getParentFile().getProjectContext().getTimeUnitDefaults().getMinutesPerWeek());
-      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_MONTH, p -> p.getParentFile().getProjectContext().getTimeUnitDefaults().getMinutesPerMonth());
-      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_YEAR, p -> p.getParentFile().getProjectContext().getTimeUnitDefaults().getMinutesPerYear());
+      CALCULATED_FIELD_MAP.put(ProjectField.DAYS_PER_MONTH, p -> p.m_parentFile.getProjectContext().getTimeUnitDefaults().getDaysPerMonth());
+      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_DAY, p -> p.m_parentFile.getProjectContext().getTimeUnitDefaults().getMinutesPerDay());
+      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_WEEK, p -> p.m_parentFile.getProjectContext().getTimeUnitDefaults().getMinutesPerWeek());
+      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_MONTH, p -> p.m_parentFile.getProjectContext().getTimeUnitDefaults().getMinutesPerMonth());
+      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_YEAR, p -> p.m_parentFile.getProjectContext().getTimeUnitDefaults().getMinutesPerYear());
 
       CALCULATED_FIELD_MAP.put(ProjectField.DATE_SEPARATOR, p -> Character.valueOf(DEFAULT_DATE_SEPARATOR));
       CALCULATED_FIELD_MAP.put(ProjectField.TIME_SEPARATOR, p -> Character.valueOf(DEFAULT_TIME_SEPARATOR));

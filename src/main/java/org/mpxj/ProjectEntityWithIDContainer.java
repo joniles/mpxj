@@ -42,7 +42,7 @@ public abstract class ProjectEntityWithIDContainer<T extends ProjectEntityWithID
     *
     * @param projectFile parent project
     */
-   public ProjectEntityWithIDContainer(ProjectFile projectFile)
+   public ProjectEntityWithIDContainer(UniqueIdObjectSequenceProvider projectFile)
    {
       super(projectFile);
    }

@@ -2,7 +2,9 @@ package org.mpxj.primavera;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
+import org.mpxj.FieldType;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectContext;
 import org.mpxj.WorkContour;
@@ -10,12 +12,16 @@ import org.mpxj.WorkContourContainer;
 
 class PrimaveraDatabaseContextReader extends PrimaveraContextReader
 {
-   public PrimaveraDatabaseContextReader(PrimaveraDatabaseConnection database, String schema, boolean ignoreErrors, Integer projectID)
+   public PrimaveraDatabaseContextReader(PrimaveraDatabaseConnection database, String schema, Map<String, Map<Integer, List<Row>>> udfValues, boolean ignoreErrors, Integer projectID, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, ClashMap roleClashMap)
    {
       m_database = database;
       m_schema = schema;
+      m_udfValues = udfValues;
       m_ignoreErrors = ignoreErrors;
       m_projectID = projectID;
+      m_resourceFields = resourceFields;
+      m_roleFields = roleFields;
+      m_roleClashMap = roleClashMap;
    }
 
    public ProjectContext read() throws MPXJException
@@ -38,6 +44,14 @@ class PrimaveraDatabaseContextReader extends PrimaveraContextReader
          processResourceAssignmentCodeDefinitions();
          processActivityCodeDefinitions();
          processCalendars();
+         processUdfValues();
+         processResourceCodeAssignments();
+         processResources();
+         processResourceRates();
+         processRoleCodeAssignments();
+         processRoles();
+         processRoleRates();
+         processRoleAvailability();
 
          return m_context;
       }
@@ -293,6 +307,86 @@ class PrimaveraDatabaseContextReader extends PrimaveraContextReader
    {
       List<Row> rows = m_database.getRows("select * from " + m_schema + "calendar where (proj_id is null or proj_id=?) and delete_date is null", m_projectID);
       processCalendars(rows);
+   }
+
+   /**
+    * Process user defined field values.
+    */
+   private void processUdfValues() throws SQLException
+   {
+      List<Row> values = m_database.getRows("select * from " + m_schema + "udfvalue where proj_id=? or proj_id is null", m_projectID);
+      processUdfValues(values);
+   }
+
+   /**
+    * Process resource code assignments.
+    */
+   private void processResourceCodeAssignments() throws SQLException
+   {
+      if (m_database.hasTable("RSRCRCAT"))
+      {
+         List<Row> assignments = m_database.getRows("select * from " + m_schema + "rsrcrcat where rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null)", m_projectID);
+         processResourceCodeAssignments(assignments);
+      }
+   }
+
+   /**
+    * Process resources.
+    */
+   private void processResources() throws SQLException
+   {
+      // TODO: handle exporting parent resources
+      List<Row> rows = m_database.getRows("select * from " + m_schema + "rsrc where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by rsrc_seq_num", m_projectID);
+      processResources(rows);
+   }
+
+   /**
+    * Process resource rates.
+    */
+   private void processResourceRates() throws SQLException
+   {
+      List<Row> rows = m_database.getRows("select * from " + m_schema + "rsrcrate where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by rsrc_rate_id", m_projectID);
+      processResourceRates(rows);
+   }
+
+   /**
+    * Process role code assignments.
+    */
+   private void processRoleCodeAssignments() throws SQLException
+   {
+      if (m_database.hasTable("ROLERCAT"))
+      {
+         List<Row> assignments = m_database.getRows("select * from " + m_schema + "rolercat where role_id in (select distinct role_id from " + m_schema + "rsrcrole where delete_date is null and rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null))", m_projectID);
+         processRoleCodeAssignments(assignments);
+      }
+   }
+
+   /**
+    * Process roles.
+    */
+   private void processRoles() throws SQLException
+   {
+      // TODO: handle exporting parent roles
+      List<Row> rows = m_database.getRows("select * from " + m_schema + "roles where delete_date is null and role_id in (select distinct role_id from " + m_schema + "taskrsrc where proj_id=? and delete_date is null union select distinct role_id from " + m_schema + "rsrc where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc where proj_id=? and delete_date is null)) order by seq_num", m_projectID, m_projectID);
+      processRoles(rows);
+   }
+
+   /**
+    * Process role rates.
+    */
+   private void processRoleRates() throws SQLException
+   {
+      List<Row> rows = m_database.getRows("select * from " + m_schema + "rolerate where delete_date is null and role_id in (select role_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by role_rate_id", m_projectID);
+      processRoleRates(rows);
+   }
+
+   /**
+    * Process role availability.
+    */
+   private void processRoleAvailability() throws SQLException
+   {
+      List<Row> rows = m_database.getRows("select * from " + m_schema + "rolelimit where delete_date is null and role_id in (select role_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by rolelimit_id", m_projectID);
+      processRoleAvailability(rows);
    }
 
    private final PrimaveraDatabaseConnection m_database;

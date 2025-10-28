@@ -52,20 +52,19 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     *
     * @param file the parent file to which this record belongs.
     */
-   Resource(ProjectFile file)
+   Resource(ProjectContext context)
    {
-      super(file);
-
-      ProjectConfig config = file.getProjectConfig();
+      m_context = context;
+      ProjectConfig config = context.getProjectConfig();
 
       if (config.getAutoResourceUniqueID())
       {
-         setUniqueID(file.getUniqueIdObjectSequence(Resource.class).getNext());
+         setUniqueID(context.getUniqueIdObjectSequence(Resource.class).getNext());
       }
 
       if (config.getAutoResourceID())
       {
-         setID(file.getResources().getNextID());
+         setID(context.getResources().getNextID());
       }
 
       m_costRateTables = new CostRateTable[CostRateTable.MAX_TABLES];
@@ -79,11 +78,10 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
 
    @Override public Resource addResource()
    {
-      ProjectFile parent = getParentFile();
-      Resource resource = new Resource(parent);
+      Resource resource = new Resource(m_context);
       resource.setParentResource(this);
       m_children.add(resource);
-      parent.getResources().add(resource);
+      m_context.getResources().add(resource);
       return resource;
    }
 
@@ -1249,7 +1247,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public ProjectCalendar getCalendar()
    {
-      return getParentFile().getCalendars().getByUniqueID(getCalendarUniqueID());
+      return m_context.getCalendars().getByUniqueID(getCalendarUniqueID());
    }
 
    /**
@@ -1283,7 +1281,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
          throw new MPXJException(MPXJException.MAXIMUM_RECORDS);
       }
 
-      ProjectCalendar calendar = getParentFile().addCalendar();
+      ProjectCalendar calendar = m_context.getCalendars().add();
       String name = getName();
       if (name == null || name.isEmpty())
       {
@@ -1336,13 +1334,12 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    @Override public void setID(Integer val)
    {
-      ProjectFile parent = getParentFile();
       Integer previous = getID();
       if (previous != null)
       {
-         parent.getResources().unmapID(previous);
+         m_context.getResources().unmapID(previous);
       }
-      parent.getResources().mapID(val, this);
+      m_context.getResources().mapID(val, this);
 
       set(ResourceField.ID, val);
    }
@@ -1499,7 +1496,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public Resource getParentResource()
    {
-      return getParentFile().getResourceByUniqueID(getParentResourceUniqueID());
+      return m_context.getResources().getByUniqueID(getParentResourceUniqueID());
    }
 
    /**
@@ -1693,7 +1690,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public void remove()
    {
-      getParentFile().removeResource(this);
+      m_context.getResources().remove(this);
    }
 
    /**
@@ -1704,7 +1701,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public Object getFieldByAlias(String alias)
    {
-      return get(getParentFile().getResources().getFieldTypeByAlias(alias));
+      return get(m_context.getResources().getFieldTypeByAlias(alias));
    }
 
    /**
@@ -1715,7 +1712,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public void setFieldByAlias(String alias, Object value)
    {
-      set(getParentFile().getResources().getFieldTypeByAlias(alias), value);
+      set(m_context.getResources().getFieldTypeByAlias(alias), value);
    }
 
    /**
@@ -2562,7 +2559,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public Location getLocation()
    {
-      return getParentFile().getLocations().getByUniqueID(getLocationUniqueID());
+      return m_context.getLocations().getByUniqueID(getLocationUniqueID());
    }
 
    /**
@@ -2602,7 +2599,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public Shift getShift()
    {
-      return getParentFile().getShifts().getByUniqueID(getShiftUniqueID());
+      return m_context.getShifts().getByUniqueID(getShiftUniqueID());
    }
 
    /**
@@ -2642,7 +2639,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public UnitOfMeasure getUnitOfMeasure()
    {
-      return getParentFile().getUnitsOfMeasure().getByUniqueID(getUnitOfMeasureUniqueID());
+      return m_context.getUnitsOfMeasure().getByUniqueID(getUnitOfMeasureUniqueID());
    }
 
    /**
@@ -2682,7 +2679,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public Resource getPrimaryRole()
    {
-      return getParentFile().getResources().getByUniqueID(getPrimaryRoleUniqueID());
+      return m_context.getResources().getByUniqueID(getPrimaryRoleUniqueID());
    }
 
    /**
@@ -2762,7 +2759,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public Currency getCurrency()
    {
-      return getParentFile().getCurrencies().getByUniqueID(getCurrencyUniqueID());
+      return m_context.getCurrencies().getByUniqueID(getCurrencyUniqueID());
    }
 
    /**
@@ -2801,7 +2798,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    {
       if (field == ResourceField.UNIQUE_ID)
       {
-         getParentFile().getResources().updateUniqueID(this, (Integer) oldValue, (Integer) newValue);
+         m_context.getResources().updateUniqueID(this, (Integer) oldValue, (Integer) newValue);
 
          if (!m_assignments.isEmpty())
          {
@@ -2857,7 +2854,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       Duration baselineWork = getBaselineWork();
       if (work != null && baselineWork != null)
       {
-         variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectProperties()).getDuration(), work.getUnits());
+         variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), m_context.getTimeUnitDefaults()).getDuration(), work.getUnits());
       }
       return variance;
    }
@@ -3059,6 +3056,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    /**
     * List of all assignments for this resource.
     */
+   private final ProjectContext m_context;
    private final List<ResourceAssignment> m_assignments = new ArrayList<>();
    private final Map<Resource, SkillLevel> m_roleAssignments = new HashMap<>();
 

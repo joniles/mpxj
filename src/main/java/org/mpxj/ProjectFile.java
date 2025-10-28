@@ -118,7 +118,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    @Override public List<Resource> getChildResources()
    {
-      return m_resources.getChildResources();
+      return m_context.getResources().getChildResources();
    }
 
    /**
@@ -208,7 +208,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    @Override public Resource addResource()
    {
-      return m_resources.add();
+      return m_context.getResources().add();
    }
 
    /**
@@ -218,7 +218,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public void removeResource(Resource resource)
    {
-      m_resources.remove(resource);
+      m_context.getResources().remove(resource);
    }
 
    /**
@@ -228,7 +228,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ResourceContainer getResources()
    {
-      return m_resources;
+      return m_context.getResources();
    }
 
    /**
@@ -309,7 +309,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public Resource getResourceByID(Integer id)
    {
-      return m_resources.getByID(id);
+      return m_context.getResources().getByID(id);
    }
 
    /**
@@ -321,7 +321,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public Resource getResourceByUniqueID(Integer id)
    {
-      return m_resources.getByUniqueID(id);
+      return m_context.getResources().getByUniqueID(id);
    }
 
    /**
@@ -333,7 +333,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    public void updateStructure()
    {
       m_tasks.updateStructure();
-      m_resources.updateStructure();
+      m_context.getResources().updateStructure();
    }
 
    /**
@@ -852,7 +852,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public Set<FieldType> getPopulatedFields()
    {
-      return Stream.of(m_tasks.getPopulatedFields(), m_resources.getPopulatedFields(), m_assignments.getPopulatedFields(), m_properties.getPopulatedFields()).flatMap(Collection::stream).collect(Collectors.toSet());
+      return Stream.of(m_tasks.getPopulatedFields(), m_context.getResources().getPopulatedFields(), m_assignments.getPopulatedFields(), m_properties.getPopulatedFields()).flatMap(Collection::stream).collect(Collectors.toSet());
    }
 
    /**
@@ -1088,7 +1088,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    private final ProjectProperties m_properties = new ProjectProperties(this);
-   private final ResourceContainer m_resources = new ResourceContainer(this);
    private final TaskContainer m_tasks = new TaskContainer(this);
    private final ResourceAssignmentContainer m_assignments = new ResourceAssignmentContainer(this);
    private final RelationContainer m_relations = new RelationContainer(this);

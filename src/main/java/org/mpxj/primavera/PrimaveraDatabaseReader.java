@@ -105,11 +105,13 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    public ProjectFile read() throws MPXJException
    {
-      ProjectContext context = new PrimaveraDatabaseContextReader(m_database, m_schema, m_ignoreErrors, m_projectID).read();
+      Map<String, Map<Integer, List<Row>>> udfValues = new HashMap<>();
+      ClashMap roleClashMap = new ClashMap();
+      ProjectContext context = new PrimaveraDatabaseContextReader(m_database, m_schema, udfValues, m_ignoreErrors, m_projectID, m_resourceFields, m_roleFields, roleClashMap).read();
 
       ProjectFile project = new ProjectFile(context);
       addListenersToProject(project);
-      PrimaveraDatabaseProjectReader reader = new PrimaveraDatabaseProjectReader(m_database, m_schema, project, m_projectID, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
+      PrimaveraDatabaseProjectReader reader = new PrimaveraDatabaseProjectReader(m_database, m_schema, project, m_projectID, udfValues, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors, roleClashMap);
       reader.read();
 
       //
@@ -130,15 +132,17 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    public List<ProjectFile> readAll() throws MPXJException
    {
+      Map<String, Map<Integer, List<Row>>> udfValues = new HashMap<>();
+      ClashMap roleClashMap = new ClashMap();
       Map<Integer, String> projects = listProjects();
       List<ProjectFile> result = new ArrayList<>(projects.size());
-      ProjectContext context = new PrimaveraDatabaseContextReader(m_database, m_schema, m_ignoreErrors, null).read();
+      ProjectContext context = new PrimaveraDatabaseContextReader(m_database, m_schema, udfValues, m_ignoreErrors, null, m_resourceFields, m_roleFields, roleClashMap).read();
 
       for (Integer id : projects.keySet())
       {
          ProjectFile project = new ProjectFile(context);
          addListenersToProject(project);
-         PrimaveraDatabaseProjectReader reader = new PrimaveraDatabaseProjectReader(m_database, m_schema, project, id, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
+         PrimaveraDatabaseProjectReader reader = new PrimaveraDatabaseProjectReader(m_database, m_schema, project, id, udfValues, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors, roleClashMap);
          reader.read();
 
          result.add(project);

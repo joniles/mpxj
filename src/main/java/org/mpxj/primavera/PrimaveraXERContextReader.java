@@ -1,7 +1,9 @@
 package org.mpxj.primavera;
 
 import java.util.List;
+import java.util.Map;
 
+import org.mpxj.FieldType;
 import org.mpxj.ProjectContext;
 import org.mpxj.WorkContour;
 import org.mpxj.WorkContourContainer;
@@ -9,10 +11,14 @@ import org.mpxj.common.NumberHelper;
 
 class PrimaveraXERContextReader extends PrimaveraContextReader
 {
-   public PrimaveraXERContextReader(XerFile file, boolean ignoreErrors)
+   public PrimaveraXERContextReader(XerFile file, Map<String, Map<Integer, List<Row>>> udfValues, boolean ignoreErrors, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, ClashMap roleClashMap)
    {
       m_file= file;
+      m_udfValues = udfValues;
       m_ignoreErrors = ignoreErrors;
+      m_resourceFields = resourceFields;
+      m_roleFields = roleFields;
+      m_roleClashMap = roleClashMap;
    }
 
    public ProjectContext read()
@@ -33,6 +39,13 @@ class PrimaveraXERContextReader extends PrimaveraContextReader
       processResourceAssignmentCodeDefinitions();
       processActivityCodeDefinitions();
       processCalendars();
+      processUdfValues();
+      processResourceCodeAssignments();
+      processResources();
+      processResourceRates();
+      processRoleCodeAssignments();
+      processRoles();
+      processRoleRates();
 
       return m_context;
    }
@@ -204,6 +217,70 @@ class PrimaveraXERContextReader extends PrimaveraContextReader
    {
       List<Row> rows = m_file.getRows("calendar", null, null);
       processCalendars(rows);
+   }
+
+   /**
+    * Process user defined field values.
+    */
+   private void processUdfValues()
+   {
+      List<Row> values = m_file.getRows("udfvalue", null, null);
+      processUdfValues(values);
+   }
+
+   /**
+    * Process resource code assignments.
+    */
+   private void processResourceCodeAssignments()
+   {
+      List<Row> assignments = m_file.getRows("rsrcrcat", null, null);
+      processResourceCodeAssignments(assignments);
+   }
+
+   /**
+    * Process resources.
+    */
+   private void processResources()
+   {
+      List<Row> rows = m_file.getRows("rsrc", null, null);
+      processResources(rows);
+   }
+
+   /**
+    * Process resource rates.
+    */
+   private void processResourceRates()
+   {
+      List<Row> rows = m_file.getRows("rsrcrate", null, null);
+      processResourceRates(rows);
+   }
+
+   /**
+    * Process role code assignments.
+    */
+   private void processRoleCodeAssignments()
+   {
+      List<Row> assignments = m_file.getRows("rolercat", null, null);
+      processRoleCodeAssignments(assignments);
+   }
+
+   /**
+    * Process roles.
+    */
+   private void processRoles()
+   {
+      List<Row> rows = m_file.getRows("roles", null, null);
+      processRoles(rows);
+   }
+
+   /**
+    * Process role rates.
+    */
+   private void processRoleRates()
+   {
+      List<Row> rows = m_file.getRows("rolerate", null, null);
+      processRoleRates(rows);
+      processRoleAvailability(rows);
    }
 
    private final XerFile m_file;

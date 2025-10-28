@@ -9,14 +9,14 @@ import org.mpxj.ProjectFile;
 
 class PrimaveraXERProjectReader extends PrimaveraProjectReader
 {
-   public PrimaveraXERProjectReader(XerFile file, ProjectFile project, Integer projectID, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath, boolean ignoreErrors)
+   public PrimaveraXERProjectReader(XerFile file, ProjectFile project, Integer projectID, Map<String, Map<Integer, List<Row>>> udfValues, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath, boolean ignoreErrors, ClashMap roleClashMap)
    {
       m_file = file;
       m_project = project;
       m_projectID = projectID;
+      m_udfValues = udfValues;
+      m_roleClashMap = roleClashMap;
 
-      m_resourceFields = resourceFields;
-      m_roleFields = roleFields;
       m_wbsFields = wbsFields;
       m_taskFields = taskFields;
       m_assignmentFields = assignmentFields;
@@ -34,15 +34,8 @@ class PrimaveraXERProjectReader extends PrimaveraProjectReader
       m_project.getProjectProperties().setUniqueID(m_projectID);
 
       processActivityCodeAssignments();
-      processResourceCodeAssignments();
-      processRoleCodeAssignments();
       processResourceAssignmentCodeAssignments();
-      processUdfValues();
-      processResources();
-      processRoles();
       processRoleAssignments();
-      processResourceRates();
-      processRoleRates();
 
       processProjectProperties();
       processTasks();
@@ -68,24 +61,6 @@ class PrimaveraXERProjectReader extends PrimaveraProjectReader
    }
 
    /**
-    * Process resource code assignments.
-    */
-   private void processResourceCodeAssignments()
-   {
-      List<Row> assignments = m_file.getRows("rsrcrcat", null, null);
-      processResourceCodeAssignments(assignments);
-   }
-
-   /**
-    * Process role code assignments.
-    */
-   private void processRoleCodeAssignments()
-   {
-      List<Row> assignments = m_file.getRows("rolercat", null, null);
-      processRoleCodeAssignments(assignments);
-   }
-
-   /**
     * Process resource assignment code assignments.
     */
    private void processResourceAssignmentCodeAssignments()
@@ -95,58 +70,12 @@ class PrimaveraXERProjectReader extends PrimaveraProjectReader
    }
 
    /**
-    * Process user defined field values.
-    */
-   private void processUdfValues()
-   {
-      List<Row> values = m_file.getRows("udfvalue", null, null);
-      processUdfValues(values);
-   }
-
-   /**
-    * Process resources.
-    */
-   private void processResources()
-   {
-      List<Row> rows = m_file.getRows("rsrc", null, null);
-      processResources(rows);
-   }
-
-   /**
-    * Process roles.
-    */
-   private void processRoles()
-   {
-      List<Row> rows = m_file.getRows("roles", null, null);
-      processRoles(rows);
-   }
-
-   /**
     * Process role assignments.
     */
    private void processRoleAssignments()
    {
       List<Row> rows = m_file.getRows("rsrcrole", null, null);
       processRoleAssignments(rows);
-   }
-
-   /**
-    * Process resource rates.
-    */
-   private void processResourceRates()
-   {
-      List<Row> rows = m_file.getRows("rsrcrate", null, null);
-      processResourceRates(rows);
-   }
-
-   /**
-    * Process role rates.
-    */
-   private void processRoleRates()
-   {
-      List<Row> rows = m_file.getRows("rolerate", null, null);
-      processRoleRates(rows);
-      processRoleAvailability(rows);
    }
 
    /**
