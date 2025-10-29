@@ -1,5 +1,6 @@
 package org.mpxj.primavera;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -31,6 +32,7 @@ import org.mpxj.ProjectCode;
 import org.mpxj.ProjectCodeValue;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
+import org.mpxj.Rate;
 import org.mpxj.Relation;
 import org.mpxj.RelationType;
 import org.mpxj.Resource;
@@ -64,9 +66,9 @@ import org.mpxj.primavera.schema.ResourceAssignmentType;
 import org.mpxj.primavera.schema.ScheduleOptionsType;
 import org.mpxj.primavera.schema.WBSType;
 
-class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
+class XmlProjectReader
 {
-   public PrimaveraPMProjectReader(ProjectFile projectFile, List<ExternalRelation> externalRelations)
+   public XmlProjectReader(ProjectFile projectFile, List<ExternalRelation> externalRelations)
    {
       m_projectFile = projectFile;
       m_externalRelations = externalRelations;
@@ -101,7 +103,7 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
          if (projectObject instanceof ProjectType)
          {
             ProjectType project = (ProjectType) projectObject;
-            processCalendars(m_projectFile.getProjectContext(), project.getCalendar());
+            XmlReaderHelper.processCalendars(m_projectFile.getProjectContext(), project.getCalendar());
             processProjectProperties(project);
             activityCodeTypes = project.getActivityCodeType();
             activityCodes = project.getActivityCode();
@@ -118,7 +120,7 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
          else
          {
             BaselineProjectType project = (BaselineProjectType) projectObject;
-            processCalendars(m_projectFile.getProjectContext(), project.getCalendar());
+            XmlReaderHelper.processCalendars(m_projectFile.getProjectContext(), project.getCalendar());
             processProjectProperties(project);
             activityCodeTypes = project.getActivityCodeType();
             activityCodes = project.getActivityCode();
@@ -137,7 +139,7 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
          m_projectFile.getProjectProperties().setNotesObject(wbsNotes.get(Integer.valueOf(0)));
 
          processGlobalProperties(apibo);
-         processActivityCodeDefinitions(m_projectFile.getProjectContext(), activityCodeTypes, activityCodes);
+         XmlReaderHelper.processActivityCodeDefinitions(m_projectFile.getProjectContext(), activityCodeTypes, activityCodes);
          processProjectCodeAssignments(codes);
          processTasks(wbs, wbsNotes, activities, getActivityNotes(activityNotes));
          processPredecessors(relationships);
@@ -202,7 +204,7 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
       }
 
       processScheduleOptions(project.getScheduleOptions());
-      populateUserDefinedFieldValues(m_projectFile.getProjectContext(), properties, project.getUDF());
+      XmlReaderHelper.populateUserDefinedFieldValues(m_projectFile.getProjectContext(), properties, project.getUDF());
    }
 
    private void processProjectProperties(BaselineProjectType project)
@@ -419,7 +421,7 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
          task.setNotesObject(wbsNotes.get(uniqueID));
          task.setSequenceNumber(row.getSequenceNumber());
 
-         populateUserDefinedFieldValues(m_projectFile.getProjectContext(), task, row.getUDF());
+         XmlReaderHelper.populateUserDefinedFieldValues(m_projectFile.getProjectContext(), task, row.getUDF());
       }
 
       //
@@ -625,7 +627,7 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
          //
          task.getCritical();
 
-         populateUserDefinedFieldValues(m_projectFile.getProjectContext(), task, row.getUDF());
+         XmlReaderHelper.populateUserDefinedFieldValues(m_projectFile.getProjectContext(), task, row.getUDF());
          readActivityCodes(task, row.getCode());
 
          // For P6 the start date is the relevant date for a Start Milestone, and the
@@ -759,7 +761,7 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
             assignment.setWorkContour(CurveHelper.getWorkContour(m_projectFile, row.getResourceCurveObjectId()));
             assignment.setRateIndex(RateTypeHelper.getInstanceFromXml(row.getRateType()));
             assignment.setRole(m_projectFile.getResourceByUniqueID(roleID));
-            assignment.setOverrideRate(readRate(row.getCostPerQuantity()));
+            assignment.setOverrideRate(Rate.valueOf(row.getCostPerQuantity(), TimeUnit.HOURS));
             assignment.setRateSource(RateSourceHelper.getInstanceFromXml(row.getRateSource()));
             assignment.setCalculateCostsFromUnits(BooleanHelper.getBoolean(row.isIsCostUnitsLinked()));
             assignment.setCostAccount(m_projectFile.getCostAccounts().getByUniqueID(row.getCostAccountObjectId()));
@@ -791,7 +793,7 @@ class PrimaveraPMProjectReader extends PrimaveraPMCommonReader
             assignment.setRemainingUnits(Double.valueOf(NumberHelper.getDouble(row.getRemainingUnitsPerTime()) * 100));
 
             // Add User Defined Fields
-            populateUserDefinedFieldValues(m_projectFile.getProjectContext(), assignment, row.getUDF());
+            XmlReaderHelper.populateUserDefinedFieldValues(m_projectFile.getProjectContext(), assignment, row.getUDF());
 
             // Read timephased data
             assignment.setTimephasedPlannedWork(TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getPlannedCurve()));

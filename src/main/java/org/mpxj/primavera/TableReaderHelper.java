@@ -11,7 +11,7 @@ import org.mpxj.ProjectContext;
 import org.mpxj.Rate;
 import org.mpxj.TimeUnit;
 
-class PrimaveraCommonReader
+class TableReaderHelper
 {
    /**
     * Generic method to extract Primavera fields and assign to MPXJ fields.
@@ -20,7 +20,7 @@ class PrimaveraCommonReader
     * @param row Primavera data container
     * @param container MPXJ data contain
     */
-   protected void processFields(Map<FieldType, String> map, Row row, FieldContainer container)
+   public static void processFields(Map<FieldType, String> map, Row row, FieldContainer container)
    {
       for (Map.Entry<FieldType, String> entry : map.entrySet())
       {
@@ -113,9 +113,9 @@ class PrimaveraCommonReader
     * @param container entity
     * @param uniqueID entity Unique ID
     */
-   protected void populateUserDefinedFieldValues(ProjectContext context, String tableName, FieldTypeClass type, FieldContainer container, Integer uniqueID)
+   public static void populateUserDefinedFieldValues(ProjectContext context, Map<String, Map<Integer, List<Row>>> udfValues, String tableName, FieldTypeClass type, FieldContainer container, Integer uniqueID)
    {
-      Map<Integer, List<Row>> tableData = m_udfValues.get(tableName);
+      Map<Integer, List<Row>> tableData = udfValues.get(tableName);
       if (tableData != null)
       {
          List<Row> udf = tableData.get(uniqueID);
@@ -136,7 +136,7 @@ class PrimaveraCommonReader
     * @param container FieldContainer instance
     * @param row UDF data
     */
-   private void addUDFValue(ProjectContext context, FieldTypeClass fieldType, FieldContainer container, Row row)
+   private static void addUDFValue(ProjectContext context, FieldTypeClass fieldType, FieldContainer container, Row row)
    {
       Integer fieldId = row.getInteger("udf_type_id");
       FieldType field = context.getUserDefinedFields().getByUniqueID(fieldId);
@@ -178,22 +178,4 @@ class PrimaveraCommonReader
 
       container.set(field, value);
    }
-
-   /**
-    * Read a rate value, handle null.
-    *
-    * @param value rate as a double
-    * @return new Rate instance
-    */
-   protected Rate readRate(Double value)
-   {
-      if (value == null)
-      {
-         return null;
-      }
-
-      return new Rate(value, TimeUnit.HOURS);
-   }
-
-   protected Map<String, Map<Integer, List<Row>>> m_udfValues;
 }

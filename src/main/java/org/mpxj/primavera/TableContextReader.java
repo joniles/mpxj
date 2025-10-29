@@ -55,6 +55,7 @@ import org.mpxj.Shift;
 import org.mpxj.ShiftContainer;
 import org.mpxj.ShiftPeriod;
 import org.mpxj.ShiftPeriodContainer;
+import org.mpxj.TimeUnit;
 import org.mpxj.UnitOfMeasure;
 import org.mpxj.UnitOfMeasureContainer;
 import org.mpxj.UserDefinedField;
@@ -65,7 +66,7 @@ import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 
-abstract class PrimaveraContextReader extends PrimaveraCommonReader
+abstract class TableContextReader
 {
    protected void configure()
    {
@@ -822,11 +823,11 @@ abstract class PrimaveraContextReader extends PrimaveraCommonReader
       for (Row row : rows)
       {
          Resource resource = m_context.getResources().addResource();
-         processFields(m_resourceFields, row, resource);
+         TableReaderHelper.processFields(m_resourceFields, row, resource);
          resource.setCalendar(m_context.getCalendars().getByUniqueID(row.getInteger("clndr_id")));
 
          // Add User Defined Fields
-         populateUserDefinedFieldValues(m_context, "RSRC", FieldTypeClass.RESOURCE, resource, resource.getUniqueID());
+         TableReaderHelper.populateUserDefinedFieldValues(m_context, m_udfValues,  "RSRC", FieldTypeClass.RESOURCE, resource, resource.getUniqueID());
 
          resource.setNotesObject(NotesHelper.getNotes(resource.getNotes()));
 
@@ -910,11 +911,11 @@ abstract class PrimaveraContextReader extends PrimaveraCommonReader
 
          Rate[] values = new Rate[]
             {
-               readRate(row.getDouble("cost_per_qty")),
-               readRate(row.getDouble("cost_per_qty2")),
-               readRate(row.getDouble("cost_per_qty3")),
-               readRate(row.getDouble("cost_per_qty4")),
-               readRate(row.getDouble("cost_per_qty5")),
+               Rate.valueOf(row.getDouble("cost_per_qty"), TimeUnit.HOURS),
+               Rate.valueOf(row.getDouble("cost_per_qty2"), TimeUnit.HOURS),
+               Rate.valueOf(row.getDouble("cost_per_qty3"), TimeUnit.HOURS),
+               Rate.valueOf(row.getDouble("cost_per_qty4"), TimeUnit.HOURS),
+               Rate.valueOf(row.getDouble("cost_per_qty5"), TimeUnit.HOURS),
             };
 
          Double costPerUse = NumberHelper.getDouble(0.0);
@@ -975,7 +976,7 @@ abstract class PrimaveraContextReader extends PrimaveraCommonReader
       for (Row row : rows)
       {
          Resource resource = m_context.getResources().add();
-         processFields(m_roleFields, row, resource);
+         TableReaderHelper.processFields(m_roleFields, row, resource);
          resource.setRole(true);
          resource.setUniqueID(m_roleClashMap.addID(resource.getUniqueID()));
          resource.setNotesObject(NotesHelper.getNotes(resource.getNotes()));
@@ -1041,11 +1042,11 @@ abstract class PrimaveraContextReader extends PrimaveraCommonReader
 
          Rate[] values = new Rate[]
             {
-               readRate(row.getDouble("cost_per_qty")),
-               readRate(row.getDouble("cost_per_qty2")),
-               readRate(row.getDouble("cost_per_qty3")),
-               readRate(row.getDouble("cost_per_qty4")),
-               readRate(row.getDouble("cost_per_qty5")),
+               Rate.valueOf(row.getDouble("cost_per_qty"), TimeUnit.HOURS),
+               Rate.valueOf(row.getDouble("cost_per_qty2"), TimeUnit.HOURS),
+               Rate.valueOf(row.getDouble("cost_per_qty3"), TimeUnit.HOURS),
+               Rate.valueOf(row.getDouble("cost_per_qty4"), TimeUnit.HOURS),
+               Rate.valueOf(row.getDouble("cost_per_qty5"), TimeUnit.HOURS),
             };
 
          Double costPerUse = NumberHelper.getDouble(0.0);
@@ -1210,6 +1211,7 @@ abstract class PrimaveraContextReader extends PrimaveraCommonReader
    protected Map<FieldType, String> m_resourceFields;
    protected Map<FieldType, String> m_roleFields;
    protected ClashMap m_roleClashMap;
+   protected Map<String, Map<Integer, List<Row>>> m_udfValues;
    private final Map<Integer, List<Row>> m_resourceCodeAssignments = new HashMap<>();
    private final Map<Integer, List<Row>> m_roleCodeAssignments = new HashMap<>();
 

@@ -172,7 +172,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       ProjectContext context = new ProjectContext();
       addListenersToContext(context);
-      new PrimaveraPMContextReader(context, apibo, roleClashMap).read();
+      new XmlContextReader(context, apibo, roleClashMap).read();
       context.getProjectConfig().setBaselineStrategy(m_baselineStrategy);
 
       projects.forEach(project -> result.add(read(context, apibo, roleClashMap, project, externalRelations)));
@@ -189,7 +189,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    private ProjectFile read(ProjectContext context, APIBusinessObjects apibo, ClashMap roleClashMap, Object projectObject, List<ExternalRelation> externalRelations)
    {
-      return new PrimaveraPMProjectReader(new ProjectFile(context), externalRelations).read(apibo, projectObject, roleClashMap);
+      return new XmlProjectReader(new ProjectFile(context), externalRelations).read(apibo, projectObject, roleClashMap);
    }
 
    private void linkCrossProjectRelations(List<ProjectFile> projects, List<ExternalRelation> externalRelations)

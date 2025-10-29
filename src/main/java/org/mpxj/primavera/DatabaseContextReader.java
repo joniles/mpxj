@@ -10,9 +10,9 @@ import org.mpxj.ProjectContext;
 import org.mpxj.WorkContour;
 import org.mpxj.WorkContourContainer;
 
-class PrimaveraDatabaseContextReader extends PrimaveraContextReader
+class DatabaseContextReader extends TableContextReader
 {
-   public PrimaveraDatabaseContextReader(ProjectContext context, PrimaveraDatabaseConnection database, String schema, Map<String, Map<Integer, List<Row>>> udfValues, boolean ignoreErrors, Integer projectID, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, ClashMap roleClashMap)
+   public DatabaseContextReader(ProjectContext context, PrimaveraDatabaseConnection database, String schema, Map<String, Map<Integer, List<Row>>> udfValues, boolean ignoreErrors, Integer projectID, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, ClashMap roleClashMap)
    {
       m_context = context;
       m_database = database;

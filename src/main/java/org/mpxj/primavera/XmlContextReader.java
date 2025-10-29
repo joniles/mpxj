@@ -38,6 +38,7 @@ import org.mpxj.Shift;
 import org.mpxj.ShiftContainer;
 import org.mpxj.ShiftPeriod;
 import org.mpxj.ShiftPeriodContainer;
+import org.mpxj.TimeUnit;
 import org.mpxj.UnitOfMeasure;
 import org.mpxj.UnitOfMeasureContainer;
 import org.mpxj.UserDefinedField;
@@ -70,9 +71,9 @@ import org.mpxj.primavera.schema.ShiftType;
 import org.mpxj.primavera.schema.UDFTypeType;
 import org.mpxj.primavera.schema.UnitOfMeasureType;
 
-class PrimaveraPMContextReader extends PrimaveraPMCommonReader
+class XmlContextReader
 {
-   public PrimaveraPMContextReader(ProjectContext context, APIBusinessObjects apibo, ClashMap roleClashMap)
+   public XmlContextReader(ProjectContext context, APIBusinessObjects apibo, ClashMap roleClashMap)
    {
       m_context = context;
       m_apibo = apibo;
@@ -95,8 +96,8 @@ class PrimaveraPMContextReader extends PrimaveraPMCommonReader
       processRoleCodeDefinitions();
       processResourceAssignmentCodeDefinitions();
       processShifts();
-      processActivityCodeDefinitions(m_context, m_apibo.getActivityCodeType(), m_apibo.getActivityCode());
-      processCalendars(m_context, m_apibo.getCalendar());
+      XmlReaderHelper.processActivityCodeDefinitions(m_context, m_apibo.getActivityCodeType(), m_apibo.getActivityCode());
+      XmlReaderHelper.processCalendars(m_context, m_apibo.getCalendar());
       processResources();
       processRoles();
       processRoleAssignments();
@@ -550,7 +551,7 @@ class PrimaveraPMContextReader extends PrimaveraPMCommonReader
 
          processResourceCodeAssignments(resource, xml.getCode());
 
-         populateUserDefinedFieldValues(m_context, resource, xml.getUDF());
+         XmlReaderHelper.populateUserDefinedFieldValues(m_context, resource, xml.getUDF());
 
          m_context.getEventManager().fireResourceReadEvent(resource);
       }
@@ -638,11 +639,11 @@ class PrimaveraPMContextReader extends PrimaveraPMCommonReader
 
          Rate[] values = new Rate[]
             {
-               readRate(row.getPricePerUnit()),
-               readRate(row.getPricePerUnit2()),
-               readRate(row.getPricePerUnit3()),
-               readRate(row.getPricePerUnit4()),
-               readRate(row.getPricePerUnit5()),
+               Rate.valueOf(row.getPricePerUnit(), TimeUnit.HOURS),
+               Rate.valueOf(row.getPricePerUnit2(), TimeUnit.HOURS),
+               Rate.valueOf(row.getPricePerUnit3(), TimeUnit.HOURS),
+               Rate.valueOf(row.getPricePerUnit4(), TimeUnit.HOURS),
+               Rate.valueOf(row.getPricePerUnit5(), TimeUnit.HOURS),
             };
 
          Double costPerUse = NumberHelper.getDouble(0.0);
@@ -715,11 +716,11 @@ class PrimaveraPMContextReader extends PrimaveraPMCommonReader
 
          Rate[] values = new Rate[]
             {
-               readRate(row.getPricePerUnit()),
-               readRate(row.getPricePerUnit2()),
-               readRate(row.getPricePerUnit3()),
-               readRate(row.getPricePerUnit4()),
-               readRate(row.getPricePerUnit5()),
+               Rate.valueOf(row.getPricePerUnit(), TimeUnit.HOURS),
+               Rate.valueOf(row.getPricePerUnit2(), TimeUnit.HOURS),
+               Rate.valueOf(row.getPricePerUnit3(), TimeUnit.HOURS),
+               Rate.valueOf(row.getPricePerUnit4(), TimeUnit.HOURS),
+               Rate.valueOf(row.getPricePerUnit5(), TimeUnit.HOURS),
             };
 
          Double costPerUse = NumberHelper.getDouble(0.0);

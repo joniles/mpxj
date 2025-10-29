@@ -138,7 +138,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       XerFile file = new XerFile(READ_REQUIRED_TABLES, m_charset, m_ignoreErrors).read(is);
       ProjectContext context = new ProjectContext();
       addListenersToContext(context);
-      new PrimaveraXERContextReader(context, file, udfValues, m_ignoreErrors, m_resourceFields, m_roleFields, roleClashMap).read();
+      new XerContextReader(context, file, udfValues, m_ignoreErrors, m_resourceFields, m_roleFields, roleClashMap).read();
 
       List<Row> rows = file.getRows("project", null, null);
       List<ProjectFile> result = new ArrayList<>(rows.size());
@@ -147,7 +147,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       for (Row row : rows)
       {
          ProjectFile project = new ProjectFile(context);
-         PrimaveraXERProjectReader reader = new PrimaveraXERProjectReader(file, project, row.getInteger("proj_id") , udfValues, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors, roleClashMap);
+         XerProjectReader reader = new XerProjectReader(file, project, row.getInteger("proj_id") , udfValues, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors, roleClashMap);
          reader.read();
          externalRelations.addAll(reader.getExternalRelations());
          result.add(project);
@@ -357,11 +357,11 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    private boolean m_wbsIsFullPath = true;
    private boolean m_linkCrossProjectRelations;
    private boolean m_ignoreErrors = true;
-   private final Map<FieldType, String> m_resourceFields = PrimaveraContextReader.getDefaultResourceFieldMap();
-   private final Map<FieldType, String> m_roleFields = PrimaveraContextReader.getDefaultRoleFieldMap();
-   private final Map<FieldType, String> m_wbsFields = PrimaveraProjectReader.getDefaultWbsFieldMap();
-   private final Map<FieldType, String> m_taskFields = PrimaveraProjectReader.getDefaultTaskFieldMap();
-   private final Map<FieldType, String> m_assignmentFields = PrimaveraProjectReader.getDefaultAssignmentFieldMap();
+   private final Map<FieldType, String> m_resourceFields = TableContextReader.getDefaultResourceFieldMap();
+   private final Map<FieldType, String> m_roleFields = TableContextReader.getDefaultRoleFieldMap();
+   private final Map<FieldType, String> m_wbsFields = TableProjectReader.getDefaultWbsFieldMap();
+   private final Map<FieldType, String> m_taskFields = TableProjectReader.getDefaultTaskFieldMap();
+   private final Map<FieldType, String> m_assignmentFields = TableProjectReader.getDefaultAssignmentFieldMap();
 
    private static final Set<String> LIST_REQUIRED_TABLES = new HashSet<>();
    static

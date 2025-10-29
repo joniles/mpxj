@@ -12,9 +12,9 @@ import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.common.DayOfWeekHelper;
 
-class PrimaveraDatabaseProjectReader extends PrimaveraProjectReader
+class DatabaseProjectReader extends TableProjectReader
 {
-   public PrimaveraDatabaseProjectReader(PrimaveraDatabaseConnection database, String schema, ProjectFile project, Integer projectID, Map<String, Map<Integer, List<Row>>> udfValues, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath, boolean ignoreErrors, ClashMap roleClashMap)
+   public DatabaseProjectReader(PrimaveraDatabaseConnection database, String schema, ProjectFile project, Integer projectID, Map<String, Map<Integer, List<Row>>> udfValues, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath, boolean ignoreErrors, ClashMap roleClashMap)
    {
       m_database = database;
       m_schema = schema;

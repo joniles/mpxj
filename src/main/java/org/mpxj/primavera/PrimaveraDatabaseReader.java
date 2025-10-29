@@ -109,10 +109,10 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       ClashMap roleClashMap = new ClashMap();
       ProjectContext context = new ProjectContext();
       addListenersToContext(context);
-      new PrimaveraDatabaseContextReader(context, m_database, m_schema, udfValues, m_ignoreErrors, m_projectID, m_resourceFields, m_roleFields, roleClashMap).read();
+      new DatabaseContextReader(context, m_database, m_schema, udfValues, m_ignoreErrors, m_projectID, m_resourceFields, m_roleFields, roleClashMap).read();
 
       ProjectFile project = new ProjectFile(context);
-      PrimaveraDatabaseProjectReader reader = new PrimaveraDatabaseProjectReader(m_database, m_schema, project, m_projectID, udfValues, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors, roleClashMap);
+      DatabaseProjectReader reader = new DatabaseProjectReader(m_database, m_schema, project, m_projectID, udfValues, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors, roleClashMap);
       reader.read();
 
       //
@@ -139,12 +139,12 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       List<ProjectFile> result = new ArrayList<>(projects.size());
       ProjectContext context = new ProjectContext();
       addListenersToContext(context);
-      new PrimaveraDatabaseContextReader(context, m_database, m_schema, udfValues, m_ignoreErrors, null, m_resourceFields, m_roleFields, roleClashMap).read();
+      new DatabaseContextReader(context, m_database, m_schema, udfValues, m_ignoreErrors, null, m_resourceFields, m_roleFields, roleClashMap).read();
 
       for (Integer id : projects.keySet())
       {
          ProjectFile project = new ProjectFile(context);
-         PrimaveraDatabaseProjectReader reader = new PrimaveraDatabaseProjectReader(m_database, m_schema, project, id, udfValues, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors, roleClashMap);
+         DatabaseProjectReader reader = new DatabaseProjectReader(m_database, m_schema, project, id, udfValues, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors, roleClashMap);
          reader.read();
          result.add(project);
       }
@@ -440,9 +440,9 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private boolean m_ignoreErrors = true;
    private PrimaveraDatabaseConnection m_database ;
 
-   private final Map<FieldType, String> m_resourceFields = PrimaveraContextReader.getDefaultResourceFieldMap();
-   private final Map<FieldType, String> m_roleFields = PrimaveraContextReader.getDefaultRoleFieldMap();
-   private final Map<FieldType, String> m_wbsFields = PrimaveraProjectReader.getDefaultWbsFieldMap();
-   private final Map<FieldType, String> m_taskFields = PrimaveraProjectReader.getDefaultTaskFieldMap();
-   private final Map<FieldType, String> m_assignmentFields = PrimaveraProjectReader.getDefaultAssignmentFieldMap();
+   private final Map<FieldType, String> m_resourceFields = TableContextReader.getDefaultResourceFieldMap();
+   private final Map<FieldType, String> m_roleFields = TableContextReader.getDefaultRoleFieldMap();
+   private final Map<FieldType, String> m_wbsFields = TableProjectReader.getDefaultWbsFieldMap();
+   private final Map<FieldType, String> m_taskFields = TableProjectReader.getDefaultTaskFieldMap();
+   private final Map<FieldType, String> m_assignmentFields = TableProjectReader.getDefaultAssignmentFieldMap();
 }

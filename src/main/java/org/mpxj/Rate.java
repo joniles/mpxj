@@ -133,6 +133,12 @@ public final class Rate
       return (m_amount + m_units.toString());
    }
 
+   public static Rate valueOf(Double value, TimeUnit units)
+   {
+      return value == null ? null : new Rate(value, units);
+   }
+
+
    /**
     * Rate amount.
     */

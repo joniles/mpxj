@@ -17,19 +17,15 @@ import java.util.stream.Collectors;
 import org.mpxj.ActivityCode;
 import org.mpxj.ActivityCodeValue;
 import org.mpxj.AssignmentField;
-import org.mpxj.Availability;
-import org.mpxj.CostRateTableEntry;
 import org.mpxj.CriticalActivityType;
 import org.mpxj.CurrencySymbolPosition;
 
 import org.mpxj.ProjectCode;
 import org.mpxj.ProjectCodeValue;
+import org.mpxj.Rate;
 import org.mpxj.ResourceAssignmentCode;
 import org.mpxj.ResourceAssignmentCodeValue;
-import org.mpxj.RoleCode;
-import org.mpxj.RoleCodeValue;
 import org.mpxj.SchedulingProgressedActivities;
-import org.mpxj.ShiftPeriod;
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
 import org.mpxj.ExpenseItem;
@@ -45,7 +41,6 @@ import org.mpxj.PercentCompleteType;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
-import org.mpxj.Rate;
 import org.mpxj.Relation;
 import org.mpxj.RelationType;
 import org.mpxj.Resource;
@@ -61,7 +56,7 @@ import org.mpxj.common.NumberHelper;
 import org.mpxj.common.ObjectSequence;
 import org.mpxj.common.SlackHelper;
 
-abstract class PrimaveraProjectReader extends PrimaveraCommonReader
+abstract class TableProjectReader
 {
    /**
     * Retrieves a list of external predecessors relationships.
@@ -81,7 +76,7 @@ abstract class PrimaveraProjectReader extends PrimaveraCommonReader
    protected void processProjectProperties(List<Row> rows)
    {
       ProjectProperties properties = m_project.getProjectProperties();
-      populateUserDefinedFieldValues(m_project.getProjectContext(), "PROJECT", FieldTypeClass.PROJECT, properties, m_project.getProjectProperties().getUniqueID());
+      TableReaderHelper.populateUserDefinedFieldValues(m_project.getProjectContext(), m_udfValues, "PROJECT", FieldTypeClass.PROJECT, properties, m_project.getProjectProperties().getUniqueID());
 
       if (!rows.isEmpty())
       {
@@ -215,8 +210,8 @@ abstract class PrimaveraProjectReader extends PrimaveraCommonReader
          Task task = m_project.addTask();
          task.setProject(projectName); // P6 task always belongs to project
          task.setSummary(true);
-         processFields(m_wbsFields, row, task);
-         populateUserDefinedFieldValues(m_project.getProjectContext(),"PROJWBS", FieldTypeClass.TASK, task, task.getUniqueID());
+         TableReaderHelper.processFields(m_wbsFields, row, task);
+         TableReaderHelper.populateUserDefinedFieldValues(m_project.getProjectContext(), m_udfValues, "PROJWBS", FieldTypeClass.TASK, task, task.getUniqueID());
          task.setNotesObject(wbsNotes.get(task.getUniqueID()));
          m_activityClashMap.addID(task.getUniqueID());
          wbsTasks.add(task);
@@ -273,7 +268,7 @@ abstract class PrimaveraProjectReader extends PrimaveraCommonReader
          }
          task.setProject(projectName); // P6 task always belongs to project
 
-         processFields(m_taskFields, row, task);
+         TableReaderHelper.processFields(m_taskFields, row, task);
 
          task.setActualWork(WorkHelper.addWork(task.getActualWorkLabor(), task.getActualWorkNonlabor()));
          task.setPlannedWork(WorkHelper.addWork(task.getPlannedWorkLabor(), task.getPlannedWorkNonlabor()));
@@ -300,7 +295,7 @@ abstract class PrimaveraProjectReader extends PrimaveraCommonReader
          Integer originalUniqueID = row.getInteger("task_id");
 
          // Add User Defined Fields - before we handle ID clashes
-         populateUserDefinedFieldValues(m_project.getProjectContext(), "TASK", FieldTypeClass.TASK, task, originalUniqueID);
+         TableReaderHelper.populateUserDefinedFieldValues(m_project.getProjectContext(), m_udfValues, "TASK", FieldTypeClass.TASK, task, originalUniqueID);
 
          populateActivityCodes(task, originalUniqueID);
 
@@ -907,12 +902,12 @@ abstract class PrimaveraProjectReader extends PrimaveraCommonReader
          {
             ProjectCalendar effectiveCalendar = task.getEffectiveCalendar();
             ResourceAssignment assignment = task.addResourceAssignment(resource);
-            processFields(m_assignmentFields, row, assignment);
+            TableReaderHelper.processFields(m_assignmentFields, row, assignment);
 
             assignment.setWorkContour(CurveHelper.getWorkContour(m_project, row.getInteger("curv_id")));
             assignment.setRateIndex(RateTypeHelper.getInstanceFromXer(row.getString("rate_type")));
             assignment.setRole(m_project.getResourceByUniqueID(roleID));
-            assignment.setOverrideRate(readRate(row.getDouble("cost_per_qty")));
+            assignment.setOverrideRate(Rate.valueOf(row.getDouble("cost_per_qty"), TimeUnit.HOURS));
             assignment.setRateSource(RateSourceHelper.getInstanceFromXer(row.getString("cost_per_qty_source_type")));
 
             populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.REMAINING_EARLY_START, AssignmentField.PLANNED_START);
@@ -946,7 +941,7 @@ abstract class PrimaveraProjectReader extends PrimaveraCommonReader
             assignment.setRemainingUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("remain_qty_per_hr")) * 100));
 
             // Add User Defined Fields
-            populateUserDefinedFieldValues(m_project.getProjectContext(), "TASKRSRC", FieldTypeClass.ASSIGNMENT, assignment, assignment.getUniqueID());
+            TableReaderHelper.populateUserDefinedFieldValues(m_project.getProjectContext(), m_udfValues, "TASKRSRC", FieldTypeClass.ASSIGNMENT, assignment, assignment.getUniqueID());
 
             // Read timephased data
             assignment.setTimephasedPlannedWork(TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getString("target_crv")));
@@ -1392,6 +1387,7 @@ abstract class PrimaveraProjectReader extends PrimaveraCommonReader
    protected EventManager m_eventManager;
    protected ClashMap m_roleClashMap;
    private final ClashMap m_activityClashMap = new ClashMap();
+   protected Map<String, Map<Integer, List<Row>>> m_udfValues;
    protected Map<FieldType, String> m_wbsFields;
    protected Map<FieldType, String> m_taskFields;
    protected Map<FieldType, String> m_assignmentFields;

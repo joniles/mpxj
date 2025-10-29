@@ -7,9 +7,9 @@ import org.mpxj.FieldType;
 import org.mpxj.Notes;
 import org.mpxj.ProjectFile;
 
-class PrimaveraXERProjectReader extends PrimaveraProjectReader
+class XerProjectReader extends TableProjectReader
 {
-   public PrimaveraXERProjectReader(XerFile file, ProjectFile project, Integer projectID, Map<String, Map<Integer, List<Row>>> udfValues, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath, boolean ignoreErrors, ClashMap roleClashMap)
+   public XerProjectReader(XerFile file, ProjectFile project, Integer projectID, Map<String, Map<Integer, List<Row>>> udfValues, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath, boolean ignoreErrors, ClashMap roleClashMap)
    {
       m_file = file;
       m_project = project;

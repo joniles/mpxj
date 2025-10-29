@@ -9,9 +9,9 @@ import org.mpxj.WorkContour;
 import org.mpxj.WorkContourContainer;
 import org.mpxj.common.NumberHelper;
 
-class PrimaveraXERContextReader extends PrimaveraContextReader
+class XerContextReader extends TableContextReader
 {
-   public PrimaveraXERContextReader(ProjectContext context, XerFile file, Map<String, Map<Integer, List<Row>>> udfValues, boolean ignoreErrors, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, ClashMap roleClashMap)
+   public XerContextReader(ProjectContext context, XerFile file, Map<String, Map<Integer, List<Row>>> udfValues, boolean ignoreErrors, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, ClashMap roleClashMap)
    {
       m_context = context;
       m_file= file;

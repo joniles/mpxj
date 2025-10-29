@@ -30,7 +30,7 @@ import org.mpxj.primavera.schema.CalendarType;
 import org.mpxj.primavera.schema.UDFAssignmentType;
 import org.mpxj.primavera.schema.WorkTimeType;
 
-class PrimaveraPMCommonReader
+class XmlReaderHelper
 {
 
    /**
@@ -39,7 +39,7 @@ class PrimaveraPMCommonReader
     * @param types list of activity code types
     * @param typeValues list of activity code values
     */
-   protected void processActivityCodeDefinitions(ProjectContext context, List<ActivityCodeTypeType> types, List<ActivityCodeType> typeValues)
+   public static void processActivityCodeDefinitions(ProjectContext context, List<ActivityCodeTypeType> types, List<ActivityCodeType> typeValues)
    {
       ActivityCodeContainer container = context.getActivityCodes();
       Map<Integer, ActivityCode> map = new HashMap<>();
@@ -85,7 +85,7 @@ class PrimaveraPMCommonReader
     *
     * @param calendars list of calendar data
     */
-   protected void processCalendars(ProjectContext context, List<CalendarType> calendars)
+   public static void processCalendars(ProjectContext context, List<CalendarType> calendars)
    {
       //
       // First pass: read calendar definitions
@@ -120,7 +120,7 @@ class PrimaveraPMCommonReader
     * @param row calendar data
     * @return ProjectCalendar instance
     */
-   private ProjectCalendar processCalendar(ProjectContext context, CalendarType row)
+   public static ProjectCalendar processCalendar(ProjectContext context, CalendarType row)
    {
       ProjectCalendar calendar = context.getCalendars().add();
 
@@ -292,7 +292,7 @@ class PrimaveraPMCommonReader
     * @param date Primavera end time
     * @return date MPXJ end time
     */
-   protected LocalTime getEndTime(LocalTime date)
+   public static LocalTime getEndTime(LocalTime date)
    {
       return date.plusMinutes(1);
    }
@@ -303,7 +303,7 @@ class PrimaveraPMCommonReader
     * @param mpxj field container
     * @param udfs UDF values
     */
-   protected void populateUserDefinedFieldValues(ProjectContext context, FieldContainer mpxj, List<UDFAssignmentType> udfs)
+   public static void populateUserDefinedFieldValues(ProjectContext context, FieldContainer mpxj, List<UDFAssignmentType> udfs)
    {
       for (UDFAssignmentType udf : udfs)
       {
@@ -321,7 +321,7 @@ class PrimaveraPMCommonReader
     * @param udf UDF value holder
     * @return UDF value
     */
-   private Object getUdfValue(UDFAssignmentType udf)
+   private static Object getUdfValue(UDFAssignmentType udf)
    {
       if (udf.getCostValue() != null)
       {
@@ -359,22 +359,6 @@ class PrimaveraPMCommonReader
       }
 
       return null;
-   }
-
-   /**
-    * Read a rate value, handle null.
-    *
-    * @param value rate as a double
-    * @return new Rate instance
-    */
-   protected Rate readRate(Double value)
-   {
-      if (value == null)
-      {
-         return null;
-      }
-
-      return new Rate(value, TimeUnit.HOURS);
    }
 
    private static final Map<String, DayOfWeek> DAY_MAP = new HashMap<>();
