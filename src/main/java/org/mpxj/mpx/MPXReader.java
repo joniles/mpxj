@@ -441,10 +441,12 @@ public final class MPXReader extends AbstractProjectStreamReader
          {
             if (m_lastTask != null)
             {
-               m_lastResourceAssignment = m_lastTask.addResourceAssignment((Resource) null);
+               m_lastResourceAssignment = new ResourceAssignment(m_projectFile);
                m_lastResourceAssignment.disableEvents();
+               m_lastResourceAssignment.setTaskUniqueID(m_lastTask.getUniqueID());
                populateResourceAssignment(record, m_lastResourceAssignment);
                m_lastResourceAssignment.enableEvents();
+               m_lastTask.addResourceAssignment(m_lastResourceAssignment);
             }
 
             break;

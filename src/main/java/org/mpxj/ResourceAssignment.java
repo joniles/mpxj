@@ -55,7 +55,6 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * Constructor.
     *
     * @param file The parent file to which this record belongs.
-    * @param task The task to which this assignment is being made
     */
    public ResourceAssignment(ProjectFile file)
    {

@@ -2982,7 +2982,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       {
          return Stream.empty();
       }
-      return m_context.getProjects().stream().flatMap(p -> p.getResourceAssignments().stream()).filter(a -> id.equals(a.getResourceUniqueID()));
+      return m_context.getProjects().stream().flatMap(p -> p.getResourceAssignments().getByResourceUniqueID(id).stream());
    }
 
    private Number calculateMaxUnits()
