@@ -40,7 +40,6 @@ import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.mpxj.BaselineStrategy;
-import org.mpxj.ProjectContext;
 import org.mpxj.common.InputStreamHelper;
 import org.mpxj.primavera.schema.ProjectListType;
 import org.apache.poi.util.ReplacingInputStream;
@@ -163,33 +162,26 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    @Override public List<ProjectFile> readAll(InputStream is) throws MPXJException
    {
       APIBusinessObjects apibo = processFile(is);
+      XmlReaderState state = new XmlReaderState(apibo);
 
       List<ProjectType> projects = apibo.getProject();
       List<BaselineProjectType> baselineProjects = apibo.getBaselineProject();
       List<ProjectFile> result = new ArrayList<>(projects.size() + baselineProjects.size());
-      List<ExternalRelation> externalRelations = new ArrayList<>();
-      ClashMap roleClashMap = new ClashMap();
 
-      ProjectContext context = new ProjectContext();
-      addListenersToContext(context);
-      new XmlContextReader(context, apibo, roleClashMap).read();
-      context.getProjectConfig().setBaselineStrategy(m_baselineStrategy);
+      addListenersToContext(state.getContext());
+      new XmlContextReader(state).read();
+      state.getContext().getProjectConfig().setBaselineStrategy(m_baselineStrategy);
 
-      projects.forEach(project -> result.add(read(context, apibo, roleClashMap, project, externalRelations)));
-      baselineProjects.forEach(project -> result.add(read(context, apibo, roleClashMap, project, externalRelations)));
+      projects.forEach(project -> result.add(new XmlProjectReader(state).read(project)));
+      baselineProjects.forEach(project -> result.add(new XmlProjectReader(state).read(project)));
 
       // Sort to ensure exported project is first
       result.sort((o1, o2) -> Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
 
-      linkCrossProjectRelations(result, externalRelations);
+      linkCrossProjectRelations(result, state.getExternalRelations());
       populateBaselines(apibo, result);
 
       return result;
-   }
-
-   private ProjectFile read(ProjectContext context, APIBusinessObjects apibo, ClashMap roleClashMap, Object projectObject, List<ExternalRelation> externalRelations)
-   {
-      return new XmlProjectReader(new ProjectFile(context), externalRelations).read(apibo, projectObject, roleClashMap);
    }
 
    private void linkCrossProjectRelations(List<ProjectFile> projects, List<ExternalRelation> externalRelations)

@@ -22,7 +22,6 @@ import org.mpxj.ProjectCode;
 import org.mpxj.ProjectCodeContainer;
 import org.mpxj.ProjectCodeValue;
 import org.mpxj.ProjectConfig;
-import org.mpxj.ProjectContext;
 import org.mpxj.Rate;
 import org.mpxj.Resource;
 import org.mpxj.ResourceAssignmentCode;
@@ -47,7 +46,6 @@ import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
-import org.mpxj.primavera.schema.APIBusinessObjects;
 import org.mpxj.primavera.schema.CodeAssignmentType;
 import org.mpxj.primavera.schema.CostAccountType;
 import org.mpxj.primavera.schema.NotebookTopicType;
@@ -73,11 +71,9 @@ import org.mpxj.primavera.schema.UnitOfMeasureType;
 
 class XmlContextReader
 {
-   public XmlContextReader(ProjectContext context, APIBusinessObjects apibo, ClashMap roleClashMap)
+   public XmlContextReader(XmlReaderState state)
    {
-      m_context = context;
-      m_apibo = apibo;
-      m_roleClashMap = roleClashMap;
+      m_state = state;
    }
    
    public void read()
@@ -96,8 +92,8 @@ class XmlContextReader
       processRoleCodeDefinitions();
       processResourceAssignmentCodeDefinitions();
       processShifts();
-      XmlReaderHelper.processActivityCodeDefinitions(m_context, m_apibo.getActivityCodeType(), m_apibo.getActivityCode());
-      XmlReaderHelper.processCalendars(m_context, m_apibo.getCalendar());
+      XmlReaderHelper.processActivityCodeDefinitions(m_state.getContext(), m_state.getApibo().getActivityCodeType(), m_state.getApibo().getActivityCode());
+      XmlReaderHelper.processCalendars(m_state.getContext(), m_state.getApibo().getCalendar());
       processResources();
       processRoles();
       processRoleAssignments();
@@ -107,7 +103,7 @@ class XmlContextReader
 
    private void configure()
    {
-      ProjectConfig config = m_context.getProjectConfig();
+      ProjectConfig config = m_state.getContext().getProjectConfig();
       config.setAutoTaskUniqueID(false);
       config.setAutoResourceUniqueID(false);
       config.setAutoCalendarUniqueID(false);
@@ -121,12 +117,12 @@ class XmlContextReader
     */
    private void processProjectCodeDefinitions()
    {
-      ProjectCodeContainer container = m_context.getProjectCodes();
+      ProjectCodeContainer container = m_state.getContext().getProjectCodes();
       Map<Integer, ProjectCode> map = new HashMap<>();
 
-      for (ProjectCodeTypeType type : m_apibo.getProjectCodeType())
+      for (ProjectCodeTypeType type : m_state.getApibo().getProjectCodeType())
       {
-         ProjectCode code = new ProjectCode.Builder(m_context)
+         ProjectCode code = new ProjectCode.Builder(m_state.getContext())
             .uniqueID(type.getObjectId())
             .sequenceNumber(type.getSequenceNumber())
             .name(type.getName())
@@ -137,13 +133,13 @@ class XmlContextReader
          map.put(code.getUniqueID(), code);
       }
 
-      List<ProjectCodeType> typeValues = HierarchyHelper.sortHierarchy(m_apibo.getProjectCode(), ProjectCodeType::getObjectId, ProjectCodeType::getParentObjectId);
+      List<ProjectCodeType> typeValues = HierarchyHelper.sortHierarchy(m_state.getApibo().getProjectCode(), ProjectCodeType::getObjectId, ProjectCodeType::getParentObjectId);
       for (ProjectCodeType typeValue : typeValues)
       {
          ProjectCode code = map.get(typeValue.getCodeTypeObjectId());
          if (code != null)
          {
-            ProjectCodeValue value = new ProjectCodeValue.Builder(m_context)
+            ProjectCodeValue value = new ProjectCodeValue.Builder(m_state.getContext())
                .projectCode(code)
                .uniqueID(typeValue.getObjectId())
                .sequenceNumber(typeValue.getSequenceNumber())
@@ -161,12 +157,12 @@ class XmlContextReader
     */
    private void processResourceCodeDefinitions()
    {
-      ResourceCodeContainer container = m_context.getResourceCodes();
+      ResourceCodeContainer container = m_state.getContext().getResourceCodes();
       Map<Integer, ResourceCode> map = new HashMap<>();
 
-      for (ResourceCodeTypeType type : m_apibo.getResourceCodeType())
+      for (ResourceCodeTypeType type : m_state.getApibo().getResourceCodeType())
       {
-         ResourceCode code = new ResourceCode.Builder(m_context)
+         ResourceCode code = new ResourceCode.Builder(m_state.getContext())
             .uniqueID(type.getObjectId())
             .sequenceNumber(type.getSequenceNumber())
             .name(type.getName())
@@ -177,13 +173,13 @@ class XmlContextReader
          map.put(code.getUniqueID(), code);
       }
 
-      List<ResourceCodeType> typeValues = HierarchyHelper.sortHierarchy(m_apibo.getResourceCode(), ResourceCodeType::getObjectId, ResourceCodeType::getParentObjectId);
+      List<ResourceCodeType> typeValues = HierarchyHelper.sortHierarchy(m_state.getApibo().getResourceCode(), ResourceCodeType::getObjectId, ResourceCodeType::getParentObjectId);
       for (ResourceCodeType typeValue : typeValues)
       {
          ResourceCode code = map.get(typeValue.getCodeTypeObjectId());
          if (code != null)
          {
-            ResourceCodeValue value = new ResourceCodeValue.Builder(m_context)
+            ResourceCodeValue value = new ResourceCodeValue.Builder(m_state.getContext())
                .resourceCode(code)
                .uniqueID(typeValue.getObjectId())
                .sequenceNumber(typeValue.getSequenceNumber())
@@ -201,12 +197,12 @@ class XmlContextReader
     */
    private void processRoleCodeDefinitions()
    {
-      RoleCodeContainer container = m_context.getRoleCodes();
+      RoleCodeContainer container = m_state.getContext().getRoleCodes();
       Map<Integer, RoleCode> map = new HashMap<>();
 
-      for (RoleCodeTypeType type : m_apibo.getRoleCodeType())
+      for (RoleCodeTypeType type : m_state.getApibo().getRoleCodeType())
       {
-         RoleCode code = new RoleCode.Builder(m_context)
+         RoleCode code = new RoleCode.Builder(m_state.getContext())
             .uniqueID(type.getObjectId())
             .sequenceNumber(type.getSequenceNumber())
             .name(type.getName())
@@ -217,13 +213,13 @@ class XmlContextReader
          map.put(code.getUniqueID(), code);
       }
 
-      List<RoleCodeType> typeValues = HierarchyHelper.sortHierarchy(m_apibo.getRoleCode(), RoleCodeType::getObjectId, RoleCodeType::getParentObjectId);
+      List<RoleCodeType> typeValues = HierarchyHelper.sortHierarchy(m_state.getApibo().getRoleCode(), RoleCodeType::getObjectId, RoleCodeType::getParentObjectId);
       for (RoleCodeType typeValue : typeValues)
       {
          RoleCode code = map.get(typeValue.getCodeTypeObjectId());
          if (code != null)
          {
-            RoleCodeValue value = new RoleCodeValue.Builder(m_context)
+            RoleCodeValue value = new RoleCodeValue.Builder(m_state.getContext())
                .roleCode(code)
                .uniqueID(typeValue.getObjectId())
                .sequenceNumber(typeValue.getSequenceNumber())
@@ -241,12 +237,12 @@ class XmlContextReader
     */
    private void processResourceAssignmentCodeDefinitions()
    {
-      ResourceAssignmentCodeContainer container = m_context.getResourceAssignmentCodes();
+      ResourceAssignmentCodeContainer container = m_state.getContext().getResourceAssignmentCodes();
       Map<Integer, ResourceAssignmentCode> map = new HashMap<>();
 
-      for (ResourceAssignmentCodeTypeType type : m_apibo.getResourceAssignmentCodeType())
+      for (ResourceAssignmentCodeTypeType type : m_state.getApibo().getResourceAssignmentCodeType())
       {
-         ResourceAssignmentCode code = new ResourceAssignmentCode.Builder(m_context)
+         ResourceAssignmentCode code = new ResourceAssignmentCode.Builder(m_state.getContext())
             .uniqueID(type.getObjectId())
             .sequenceNumber(type.getSequenceNumber())
             .name(type.getName())
@@ -257,13 +253,13 @@ class XmlContextReader
          map.put(code.getUniqueID(), code);
       }
 
-      List<ResourceAssignmentCodeType> typeValues = HierarchyHelper.sortHierarchy(m_apibo.getResourceAssignmentCode(), ResourceAssignmentCodeType::getObjectId, ResourceAssignmentCodeType::getParentObjectId);
+      List<ResourceAssignmentCodeType> typeValues = HierarchyHelper.sortHierarchy(m_state.getApibo().getResourceAssignmentCode(), ResourceAssignmentCodeType::getObjectId, ResourceAssignmentCodeType::getParentObjectId);
       for (ResourceAssignmentCodeType typeValue : typeValues)
       {
          ResourceAssignmentCode code = map.get(typeValue.getCodeTypeObjectId());
          if (code != null)
          {
-            ResourceAssignmentCodeValue value = new ResourceAssignmentCodeValue.Builder(m_context)
+            ResourceAssignmentCodeValue value = new ResourceAssignmentCodeValue.Builder(m_state.getContext())
                .resourceAssignmentCode(code)
                .uniqueID(typeValue.getObjectId())
                .sequenceNumber(typeValue.getSequenceNumber())
@@ -281,9 +277,9 @@ class XmlContextReader
     */
    private void processLocations()
    {
-      LocationContainer container = m_context.getLocations();
-      m_apibo.getLocation().forEach(c -> container.add(
-         new Location.Builder(m_context)
+      LocationContainer container = m_state.getContext().getLocations();
+      m_state.getApibo().getLocation().forEach(c -> container.add(
+         new Location.Builder(m_state.getContext())
             .uniqueID(c.getObjectId())
             .name(c.getName())
             .addressLine1(c.getAddressLine1())
@@ -305,10 +301,10 @@ class XmlContextReader
     */
    private void processCurrencies()
    {
-      CurrencyContainer container = m_context.getCurrencies();
+      CurrencyContainer container = m_state.getContext().getCurrencies();
 
-      m_apibo.getCurrency().forEach(c -> container.add(
-         new Currency.Builder(m_context)
+      m_state.getApibo().getCurrency().forEach(c -> container.add(
+         new Currency.Builder(m_state.getContext())
             .uniqueID(c.getObjectId())
             .currencyID(c.getId())
             .name(c.getName())
@@ -327,12 +323,12 @@ class XmlContextReader
     */
    private void processShifts()
    {
-      ShiftContainer shiftContainer = m_context.getShifts();
-      ShiftPeriodContainer shiftPeriodContainer = m_context.getShiftPeriods();
+      ShiftContainer shiftContainer = m_state.getContext().getShifts();
+      ShiftPeriodContainer shiftPeriodContainer = m_state.getContext().getShiftPeriods();
 
-      for (ShiftType xml : m_apibo.getShift())
+      for (ShiftType xml : m_state.getApibo().getShift())
       {
-         Shift shift = new Shift.Builder(m_context)
+         Shift shift = new Shift.Builder(m_state.getContext())
             .name(xml.getName())
             .uniqueID(xml.getObjectId())
             .build();
@@ -340,7 +336,7 @@ class XmlContextReader
 
          for (ShiftPeriodType xmlPeriod : xml.getShiftPeriod())
          {
-            ShiftPeriod period = new ShiftPeriod.Builder(m_context, shift)
+            ShiftPeriod period = new ShiftPeriod.Builder(m_state.getContext(), shift)
                .uniqueID(xmlPeriod.getObjectId())
                .start(xmlPeriod.getStartHour())
                .build();
@@ -354,8 +350,8 @@ class XmlContextReader
     */
    private void processExpenseCategories()
    {
-      ExpenseCategoryContainer container = m_context.getExpenseCategories();
-      m_apibo.getExpenseCategory().forEach(c -> container.add(new ExpenseCategory.Builder(m_context).uniqueID(c.getObjectId()).name(c.getName()).sequenceNumber(c.getSequenceNumber()).build()));
+      ExpenseCategoryContainer container = m_state.getContext().getExpenseCategories();
+      m_state.getApibo().getExpenseCategory().forEach(c -> container.add(new ExpenseCategory.Builder(m_state.getContext()).uniqueID(c.getObjectId()).name(c.getName()).sequenceNumber(c.getSequenceNumber()).build()));
    }
 
    /**
@@ -363,9 +359,9 @@ class XmlContextReader
     */
    private void processCostAccounts()
    {
-      CostAccountContainer container = m_context.getCostAccounts();
-      HierarchyHelper.sortHierarchy(m_apibo.getCostAccount(), CostAccountType::getObjectId, CostAccountType::getParentObjectId).forEach(c -> container.add(
-         new CostAccount.Builder(m_context)
+      CostAccountContainer container = m_state.getContext().getCostAccounts();
+      HierarchyHelper.sortHierarchy(m_state.getApibo().getCostAccount(), CostAccountType::getObjectId, CostAccountType::getParentObjectId).forEach(c -> container.add(
+         new CostAccount.Builder(m_state.getContext())
             .uniqueID(c.getObjectId())
             .id(c.getId())
             .name(c.getName())
@@ -380,8 +376,8 @@ class XmlContextReader
     */
    private void processUnitsOfMeasure()
    {
-      UnitOfMeasureContainer container = m_context.getUnitsOfMeasure();
-      m_apibo.getUnitOfMeasure().forEach(u -> container.add(processUnitOfMeasure(u)));
+      UnitOfMeasureContainer container = m_state.getContext().getUnitsOfMeasure();
+      m_state.getApibo().getUnitOfMeasure().forEach(u -> container.add(processUnitOfMeasure(u)));
    }
 
    /**
@@ -392,7 +388,7 @@ class XmlContextReader
     */
    private UnitOfMeasure processUnitOfMeasure(UnitOfMeasureType u)
    {
-      return new UnitOfMeasure.Builder(m_context)
+      return new UnitOfMeasure.Builder(m_state.getContext())
          .uniqueID(u.getObjectId())
          .abbreviation(u.getAbbreviation())
          .name(u.getName())
@@ -402,12 +398,12 @@ class XmlContextReader
 
    private void processWorkContours()
    {
-      m_apibo.getResourceCurve().forEach(this::processWorkContour);
+      m_state.getApibo().getResourceCurve().forEach(this::processWorkContour);
    }
 
    private void processWorkContour(ResourceCurveType curve)
    {
-      if (m_context.getWorkContours().getByUniqueID(curve.getObjectId()) != null)
+      if (m_state.getContext().getWorkContours().getByUniqueID(curve.getObjectId()) != null)
       {
          return;
       }
@@ -439,7 +435,7 @@ class XmlContextReader
             NumberHelper.getDouble(curveValues.getValue100()),
          };
 
-      m_context.getWorkContours().add(new WorkContour(curve.getObjectId(), curve.getName(), BooleanHelper.getBoolean(curve.isIsDefault()), values));
+      m_state.getContext().getWorkContours().add(new WorkContour(curve.getObjectId(), curve.getName(), BooleanHelper.getBoolean(curve.isIsDefault()), values));
    }
 
    /**
@@ -447,7 +443,7 @@ class XmlContextReader
     */
    private void processNotebookTopics()
    {
-      m_apibo.getNotebookTopic().forEach(this::processNotebookTopic);
+      m_state.getApibo().getNotebookTopic().forEach(this::processNotebookTopic);
    }
 
    /**
@@ -457,7 +453,7 @@ class XmlContextReader
     */
    private void processNotebookTopic(NotebookTopicType xml)
    {
-      NotesTopic topic = new NotesTopic.Builder(m_context)
+      NotesTopic topic = new NotesTopic.Builder(m_state.getContext())
          .uniqueID(xml.getObjectId())
          .sequenceNumber(xml.getSequenceNumber())
          .availableForEPS(BooleanHelper.getBoolean(xml.isAvailableForEPS()))
@@ -467,7 +463,7 @@ class XmlContextReader
          .name(xml.getName())
          .build();
 
-      m_context.getNotesTopics().add(topic);
+      m_state.getContext().getNotesTopics().add(topic);
    }
 
    /**
@@ -475,7 +471,7 @@ class XmlContextReader
     */
    private void processUdfDefintions()
    {
-      for (UDFTypeType udf : m_apibo.getUDFType())
+      for (UDFTypeType udf : m_state.getApibo().getUDFType())
       {
          processUdfDefinition(udf);
       }
@@ -494,7 +490,7 @@ class XmlContextReader
          return;
       }
 
-      UserDefinedField field = new UserDefinedField.Builder(m_context)
+      UserDefinedField field = new UserDefinedField.Builder(m_state.getContext())
          .uniqueID(udf.getObjectId())
          .externalName(udf.getTitle())
          .fieldTypeClass(fieldTypeClass)
@@ -502,8 +498,8 @@ class XmlContextReader
          .dataType(UdfHelper.getDataTypeFromXml(udf.getDataType()))
          .build();
 
-      m_context.getUserDefinedFields().add(field);
-      m_context.getCustomFields().add(field).setAlias(udf.getTitle()).setUniqueID(udf.getObjectId());
+      m_state.getContext().getUserDefinedFields().add(field);
+      m_state.getContext().getCustomFields().add(field).setAlias(udf.getTitle()).setUniqueID(udf.getObjectId());
    }
 
    /**
@@ -511,11 +507,11 @@ class XmlContextReader
     */
    private void processResources()
    {
-      List<ResourceType> resources = m_apibo.getResource();
+      List<ResourceType> resources = m_state.getApibo().getResource();
       for (ResourceType xml : resources)
       {
-         Resource resource = m_context.getResources().add();
-         m_roleClashMap.addID(xml.getObjectId());
+         Resource resource = m_state.getContext().getResources().add();
+         m_state.getRoleClashMap().addID(xml.getObjectId());
 
          Double defaultUnitsPerTime = xml.getDefaultUnitsPerTime();
          if (defaultUnitsPerTime == null)
@@ -539,7 +535,7 @@ class XmlContextReader
          resource.setDefaultUnits(defaultUnitsPerTime);
          resource.setParentResourceUniqueID(xml.getParentObjectId());
          resource.setResourceID(xml.getId());
-         resource.setCalendar(m_context.getCalendars().getByUniqueID(xml.getCalendarObjectId()));
+         resource.setCalendar(m_state.getContext().getCalendars().getByUniqueID(xml.getCalendarObjectId()));
          resource.setCalculateCostsFromUnits(BooleanHelper.getBoolean(xml.isCalculateCostFromUnits()));
          resource.setSequenceNumber(xml.getSequenceNumber());
          resource.setActive(BooleanHelper.getBoolean(xml.isIsActive()));
@@ -551,9 +547,9 @@ class XmlContextReader
 
          processResourceCodeAssignments(resource, xml.getCode());
 
-         XmlReaderHelper.populateUserDefinedFieldValues(m_context, resource, xml.getUDF());
+         XmlReaderHelper.populateUserDefinedFieldValues(m_state.getContext(), resource, xml.getUDF());
 
-         m_context.getEventManager().fireResourceReadEvent(resource);
+         m_state.getContext().getEventManager().fireResourceReadEvent(resource);
       }
    }
 
@@ -562,11 +558,11 @@ class XmlContextReader
     */
    private void processRoles()
    {
-      for (RoleType role : m_apibo.getRole())
+      for (RoleType role : m_state.getApibo().getRole())
       {
-         Resource resource = m_context.getResources().add();
+         Resource resource = m_state.getContext().getResources().add();
          resource.setRole(true);
-         resource.setUniqueID(m_roleClashMap.getID(role.getObjectId()));
+         resource.setUniqueID(m_state.getRoleClashMap().getID(role.getObjectId()));
          resource.setName(role.getName());
          resource.setResourceID(role.getId());
          resource.setNotesObject(NotesHelper.getHtmlNote(role.getResponsibilities()));
@@ -581,15 +577,15 @@ class XmlContextReader
     */
    private void processRoleAssignments()
    {
-      for (ResourceRoleType assignment : m_apibo.getResourceRole())
+      for (ResourceRoleType assignment : m_state.getApibo().getResourceRole())
       {
-         Resource resource = m_context.getResources().getByUniqueID(assignment.getResourceObjectId());
+         Resource resource = m_state.getContext().getResources().getByUniqueID(assignment.getResourceObjectId());
          if (resource == null)
          {
             continue;
          }
 
-         Resource role = m_context.getResources().getByUniqueID(assignment.getRoleObjectId());
+         Resource role = m_state.getContext().getResources().getByUniqueID(assignment.getRoleObjectId());
          if (role == null)
          {
             continue;
@@ -604,7 +600,7 @@ class XmlContextReader
     */
    private void processResourceRates()
    {
-      List<ResourceRateType> rates = new ArrayList<>(m_apibo.getResourceRate());
+      List<ResourceRateType> rates = new ArrayList<>(m_state.getApibo().getResourceRate());
 
       // Primavera defines resource cost tables by start dates so sort and define end by next
       rates.sort((r1, r2) -> {
@@ -629,7 +625,7 @@ class XmlContextReader
          Integer resourceID = row.getResourceObjectId();
          if (resource == null || !resource.getUniqueID().equals(resourceID))
          {
-            resource = m_context.getResources().getByUniqueID(resourceID);
+            resource = m_state.getContext().getResources().getByUniqueID(resourceID);
             if (resource == null)
             {
                continue;
@@ -648,7 +644,7 @@ class XmlContextReader
 
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
-         ShiftPeriod period = m_context.getShiftPeriods().getByUniqueID(row.getShiftPeriodObjectId());
+         ShiftPeriod period = m_state.getContext().getShiftPeriods().getByUniqueID(row.getShiftPeriodObjectId());
          LocalDateTime startDate = row.getEffectiveDate();
          LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
 
@@ -681,7 +677,7 @@ class XmlContextReader
     */
    private void processRoleRates()
    {
-      List<RoleRateType> rates = new ArrayList<>(m_apibo.getRoleRateNew().isEmpty() ? m_apibo.getRoleRate() : m_apibo.getRoleRateNew());
+      List<RoleRateType> rates = new ArrayList<>(m_state.getApibo().getRoleRateNew().isEmpty() ? m_state.getApibo().getRoleRate() : m_state.getApibo().getRoleRateNew());
 
       // Primavera defines resource cost tables by start dates so sort and define end by next
       rates.sort((r1, r2) -> {
@@ -703,10 +699,10 @@ class XmlContextReader
       {
          RoleRateType row = rates.get(i);
 
-         Integer resourceID = m_roleClashMap.getID(row.getRoleObjectId());
+         Integer resourceID = m_state.getRoleClashMap().getID(row.getRoleObjectId());
          if (resource == null || !resource.getUniqueID().equals(resourceID))
          {
-            resource = m_context.getResources().getByUniqueID(resourceID);
+            resource = m_state.getContext().getResources().getByUniqueID(resourceID);
             if (resource == null)
             {
                continue;
@@ -762,7 +758,7 @@ class XmlContextReader
    {
       for (CodeAssignmentType assignment : codes)
       {
-         ResourceCode code = m_context.getResourceCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
+         ResourceCode code = m_state.getContext().getResourceCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
          if (code == null)
          {
             continue;
@@ -786,7 +782,7 @@ class XmlContextReader
    {
       for (CodeAssignmentType assignment : codes)
       {
-         RoleCode code = m_context.getRoleCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
+         RoleCode code = m_state.getContext().getRoleCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
          if (code == null)
          {
             continue;
@@ -800,7 +796,5 @@ class XmlContextReader
       }
    }
 
-   private final ProjectContext m_context;
-   private final APIBusinessObjects m_apibo;
-   private final ClashMap m_roleClashMap;
+   private final XmlReaderState m_state;
 }

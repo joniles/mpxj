@@ -1,6 +1,5 @@
 package org.mpxj.primavera;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -18,7 +17,6 @@ import org.mpxj.AssignmentField;
 import org.mpxj.ChildTaskContainer;
 import org.mpxj.CriticalActivityType;
 import org.mpxj.Duration;
-import org.mpxj.EventManager;
 import org.mpxj.ExpenseItem;
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
@@ -68,22 +66,17 @@ import org.mpxj.primavera.schema.WBSType;
 
 class XmlProjectReader
 {
-   public XmlProjectReader(ProjectFile projectFile, List<ExternalRelation> externalRelations)
+   public XmlProjectReader(XmlReaderState state)
    {
-      m_projectFile = projectFile;
-      m_externalRelations = externalRelations;
-      m_eventManager = m_projectFile.getEventManager();
+      m_state = state;
    }
 
-   public ProjectFile read(APIBusinessObjects apibo, Object projectObject, ClashMap roleClashMap)
+   public ProjectFile read(Object projectObject)
    {
-      // TODO
-      // addListenersToProject(m_projectFile);
-
       try
       {
+         m_projectFile = new ProjectFile(m_state.getContext());
          m_activityClashMap = new ClashMap();
-         m_roleClashMap = roleClashMap;
 
          m_projectFile.getProjectProperties().setFileApplication("Primavera");
          m_projectFile.getProjectProperties().setFileType("PMXML");
@@ -138,7 +131,7 @@ class XmlProjectReader
          Map<Integer, Notes> wbsNotes = getWbsNotes(projectNotes);
          m_projectFile.getProjectProperties().setNotesObject(wbsNotes.get(Integer.valueOf(0)));
 
-         processGlobalProperties(apibo);
+         processGlobalProperties(m_state.getApibo());
          XmlReaderHelper.processActivityCodeDefinitions(m_projectFile.getProjectContext(), activityCodeTypes, activityCodes);
          processProjectCodeAssignments(codes);
          processTasks(wbs, wbsNotes, activities, getActivityNotes(activityNotes));
@@ -156,8 +149,8 @@ class XmlProjectReader
 
       finally
       {
+         m_projectFile = null;
          m_activityClashMap = null;
-         m_roleClashMap = null;
       }
    }
 
@@ -660,7 +653,7 @@ class XmlProjectReader
             populateBaselineFromCurrentProject(task);
          }
 
-         m_eventManager.fireTaskReadEvent(task);
+         m_projectFile.getEventManager().fireTaskReadEvent(task);
       }
 
       new ActivitySorter(wbsTasks).sort(m_projectFile);
@@ -695,7 +688,7 @@ class XmlProjectReader
                .lag(lag)
                .uniqueID(row.getObjectId())
                .notes(comments));
-            m_eventManager.fireRelationReadEvent(relation);
+            m_projectFile.getEventManager().fireRelationReadEvent(relation);
          }
          else
          {
@@ -703,14 +696,14 @@ class XmlProjectReader
             if (successorTask != null && predecessorTask == null)
             {
                ExternalRelation relation = new ExternalRelation(row.getObjectId(), predecessorID, successorTask, type, lag, true, comments);
-               m_externalRelations.add(relation);
+               m_state.getExternalRelations().add(relation);
             }
             else
             {
                if (successorTask == null && predecessorTask != null)
                {
                   ExternalRelation relation = new ExternalRelation(row.getObjectId(), successorID, predecessorTask, type, lag, false, comments);
-                  m_externalRelations.add(relation);
+                  m_state.getExternalRelations().add(relation);
                }
             }
          }
@@ -727,7 +720,7 @@ class XmlProjectReader
       for (ResourceAssignmentType row : assignments)
       {
          Task task = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(row.getActivityObjectId()));
-         Integer roleID = m_roleClashMap.getID(row.getRoleObjectId());
+         Integer roleID = m_state.getRoleClashMap().getID(row.getRoleObjectId());
          Integer resourceID = row.getResourceObjectId();
 
          // If we don't have a resource ID, but we do have a role ID then the task is being assigned to a role
@@ -802,7 +795,7 @@ class XmlProjectReader
 
             processResourceAssignmentCodeAssignments(assignment, row.getCode());
 
-            m_eventManager.fireAssignmentReadEvent(assignment);
+            m_projectFile.getEventManager().fireAssignmentReadEvent(assignment);
          }
       }
    }
@@ -1368,11 +1361,9 @@ class XmlProjectReader
       }
    }
 
-   private final ProjectFile m_projectFile;
-   private final EventManager m_eventManager;
+   private final XmlReaderState m_state;
+   private ProjectFile m_projectFile;
    private ClashMap m_activityClashMap;
-   private ClashMap m_roleClashMap;
-   private final List<ExternalRelation> m_externalRelations;
 
    private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<>();
    static
