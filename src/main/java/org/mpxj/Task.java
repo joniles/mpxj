@@ -413,7 +413,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public void addResourceAssignment(ResourceAssignment assignment)
    {
-      m_assignments.add(assignment);
       m_parentFile.getResourceAssignments().add(assignment);
    }
 
@@ -427,7 +426,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    public ResourceAssignment getExistingResourceAssignment(Resource resource)
    {
       Predicate<ResourceAssignment> filter = (a) -> (resource == null && a.getResource() == null) || (resource != null && NumberHelper.equals(resource.getUniqueID(), a.getResourceUniqueID()));
-      return m_assignments.stream().filter(filter).findFirst().orElse(null);
+      return getResourceAssignments().stream().filter(filter).findFirst().orElse(null);
    }
 
    /**
@@ -438,18 +437,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public List<ResourceAssignment> getResourceAssignments()
    {
-      return (m_assignments);
-   }
-
-   /**
-    * Internal method used as part of the process of removing a
-    * resource assignment.
-    *
-    * @param assignment resource assignment to be removed
-    */
-   void removeResourceAssignment(ResourceAssignment assignment)
-   {
-      m_assignments.remove(assignment);
+      return m_parentFile.getResourceAssignments().getByTaskUniqueID(getUniqueID());
    }
 
    /**
@@ -6115,11 +6103,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * current task as specified by the outline level.
     */
    private final List<Task> m_children = new ArrayList<>();
-
-   /**
-    * List of resource assignments for this task.
-    */
-   private final List<ResourceAssignment> m_assignments = new ArrayList<>();
 
    /**
     * Recurring task details associated with this task.

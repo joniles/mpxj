@@ -23,6 +23,9 @@
 
 package org.mpxj;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -44,10 +47,34 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
       m_projectFile = projectFile;
    }
 
+   @Override protected void added(ResourceAssignment assignment)
+   {
+      super.added(assignment);
+
+      if (assignment.getResourceUniqueID() != null)
+      {
+         m_resourceIndex.computeIfAbsent(assignment.getResourceUniqueID(), k -> new ArrayList<>()).add(assignment);
+      }
+
+      if (assignment.getTaskUniqueID() != null)
+      {
+         m_taskIndex.computeIfAbsent(assignment.getTaskUniqueID(),  k -> new ArrayList<>()).add(assignment);
+      }
+   }
+
    @Override public void removed(ResourceAssignment assignment)
    {
       super.removed(assignment);
-      assignment.getTask().removeResourceAssignment(assignment);
+
+      if (assignment.getResourceUniqueID() != null)
+      {
+         m_resourceIndex.getOrDefault(assignment.getResourceUniqueID(), Collections.emptyList()).remove(assignment);
+      }
+
+      if (assignment.getTaskUniqueID() != null)
+      {
+         m_taskIndex.getOrDefault(assignment.getTaskUniqueID(),  Collections.emptyList()).remove(assignment);
+      }
    }
 
    /**
@@ -81,5 +108,17 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
       return m_projectFile.getCustomFields().getFieldTypeByAlias(FieldTypeClass.ASSIGNMENT, alias);
    }
 
+   public List<ResourceAssignment> getByTaskUniqueID(Integer taskUniqueID)
+   {
+      return m_taskIndex.getOrDefault(taskUniqueID, Collections.emptyList());
+   }
+
+   public List<ResourceAssignment> getByResourceUniqueID(Integer resourceUniqueID)
+   {
+      return m_resourceIndex.getOrDefault(resourceUniqueID, Collections.emptyList());
+   }
+
    private final ProjectFile m_projectFile;
+   private final HashMap<Integer, List<ResourceAssignment>> m_taskIndex = new HashMap<>();
+   private final HashMap<Integer, List<ResourceAssignment>> m_resourceIndex = new HashMap<>();
 }

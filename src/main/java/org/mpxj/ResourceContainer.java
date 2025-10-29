@@ -107,7 +107,6 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource> im
          ResourceAssignment assignment = iter.next();
          if (NumberHelper.equals(assignment.getResourceUniqueID(), resourceUniqueID))
          {
-            assignment.getTask().removeResourceAssignment(assignment);
             iter.remove();
          }
       }
