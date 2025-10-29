@@ -28,7 +28,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,8 +38,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.LocalDateTimeHelper;
@@ -416,6 +413,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public void addResourceAssignment(ResourceAssignment assignment)
    {
+      m_assignments.add(assignment);
       m_parentFile.getResourceAssignments().add(assignment);
    }
 
@@ -429,7 +427,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    public ResourceAssignment getExistingResourceAssignment(Resource resource)
    {
       Predicate<ResourceAssignment> filter = (a) -> (resource == null && a.getResource() == null) || (resource != null && NumberHelper.equals(resource.getUniqueID(), a.getResourceUniqueID()));
-      return getResourceAssignmentStream().filter(filter).findFirst().orElse(null);
+      return m_assignments.stream().filter(filter).findFirst().orElse(null);
    }
 
    /**
@@ -440,24 +438,18 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public List<ResourceAssignment> getResourceAssignments()
    {
-      Integer taskUniqueID = getUniqueID();
-      if (taskUniqueID == null)
-      {
-         return Collections.emptyList();
-      }
-
-      return getResourceAssignmentStream().filter(a -> taskUniqueID.equals(a.getTaskUniqueID())).collect(Collectors.toList());
+      return (m_assignments);
    }
 
-   public Stream<ResourceAssignment> getResourceAssignmentStream()
+   /**
+    * Internal method used as part of the process of removing a
+    * resource assignment.
+    *
+    * @param assignment resource assignment to be removed
+    */
+   void removeResourceAssignment(ResourceAssignment assignment)
    {
-      Integer taskUniqueID = getUniqueID();
-      if (taskUniqueID == null)
-      {
-         return Stream.empty();
-      }
-
-      return m_parentFile.getResourceAssignments().stream().filter(a -> taskUniqueID.equals(a.getTaskUniqueID()));
+      m_assignments.remove(assignment);
    }
 
    /**
@@ -6123,6 +6115,11 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * current task as specified by the outline level.
     */
    private final List<Task> m_children = new ArrayList<>();
+
+   /**
+    * List of resource assignments for this task.
+    */
+   private final List<ResourceAssignment> m_assignments = new ArrayList<>();
 
    /**
     * Recurring task details associated with this task.

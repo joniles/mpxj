@@ -47,6 +47,7 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
    @Override public void removed(ResourceAssignment assignment)
    {
       super.removed(assignment);
+      assignment.getTask().removeResourceAssignment(assignment);
    }
 
    /**
