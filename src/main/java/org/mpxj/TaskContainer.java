@@ -107,7 +107,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task> implements
       while (iter.hasNext())
       {
          ResourceAssignment assignment = iter.next();
-         if (assignment.getTask() == task)
+         if (assignment.getTaskUniqueID().equals(task.getUniqueID()))
          {
             iter.remove();
          }

@@ -57,15 +57,13 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param file The parent file to which this record belongs.
     * @param task The task to which this assignment is being made
     */
-   public ResourceAssignment(ProjectFile file, Task task)
+   public ResourceAssignment(ProjectFile file)
    {
       m_parentFile = file;
       if (file.getProjectConfig().getAutoAssignmentUniqueID())
       {
          setUniqueID(file.getUniqueIdObjectSequence(ResourceAssignment.class).getNext());
       }
-
-      m_task = task;
    }
 
    public ProjectFile getParentFile()
@@ -471,11 +469,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     */
    public Task getTask()
    {
-      if (m_task == null)
-      {
-         m_task = m_parentFile.getTaskByUniqueID(getTaskUniqueID());
-      }
-      return (m_task);
+      return m_parentFile.getTaskByUniqueID(getTaskUniqueID());
    }
 
    /**
@@ -3413,11 +3407,6 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    private final TimephasedCostContainer[] m_timephasedBaselineCost = new TimephasedCostContainer[11];
 
    private final ProjectFile m_parentFile;
-
-   /**
-    * Reference to the parent task of this assignment.
-    */
-   private Task m_task;
 
    /**
     *  Child record for Workgroup fields.

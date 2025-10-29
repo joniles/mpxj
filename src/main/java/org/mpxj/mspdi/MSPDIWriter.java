@@ -2038,7 +2038,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
          double percentComplete = NumberHelper.getDouble(task.getPercentageComplete());
          if (percentComplete != 0 && task.getResourceAssignments().isEmpty())
          {
-            ResourceAssignment dummy = new ResourceAssignment(m_projectFile, task);
+            ResourceAssignment dummy = new ResourceAssignment(m_projectFile);
+            dummy.setTaskUniqueID(task.getUniqueID());
             Duration duration = task.getDuration();
             if (duration == null)
             {

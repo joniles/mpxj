@@ -132,7 +132,7 @@ public class ResourceAssignmentFactory
             data2 = assnFixedData2.getByteArrayValue(assnFixedData.getIndexFromOffset(offset));
          }
 
-         ResourceAssignment assignment = new ResourceAssignment(file, null);
+         ResourceAssignment assignment = new ResourceAssignment(file);
 
          assignment.disableEvents();
 
