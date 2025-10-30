@@ -1,28 +1,20 @@
 package org.mpxj.primavera;
 
 import java.util.List;
-import java.util.Map;
 
-import org.mpxj.FieldType;
-import org.mpxj.ProjectContext;
 import org.mpxj.WorkContour;
 import org.mpxj.WorkContourContainer;
 import org.mpxj.common.NumberHelper;
 
 class XerContextReader extends TableContextReader
 {
-   public XerContextReader(ProjectContext context, XerFile file, Map<String, Map<Integer, List<Row>>> udfValues, boolean ignoreErrors, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, ClashMap roleClashMap)
+   public XerContextReader(XerFile file, TableReaderState state)
    {
-      m_context = context;
+      m_state = state;
       m_file= file;
-      m_udfValues = udfValues;
-      m_ignoreErrors = ignoreErrors;
-      m_resourceFields = resourceFields;
-      m_roleFields = roleFields;
-      m_roleClashMap = roleClashMap;
    }
 
-   public ProjectContext read()
+   public void read()
    {
       configure();
       processCurrencies();
@@ -47,8 +39,6 @@ class XerContextReader extends TableContextReader
       processRoleCodeAssignments();
       processRoles();
       processRoleRates();
-
-      return m_context;
    }
 
    /**
@@ -96,7 +86,7 @@ class XerContextReader extends TableContextReader
     */
    private void processWorkContours()
    {
-      WorkContourContainer contours = m_context.getWorkContours();
+      WorkContourContainer contours = m_state.getContext().getWorkContours();
 
       List<Row> rows = m_file.getRows("rsrccurvdata", null, null);
       for (Row row : rows)

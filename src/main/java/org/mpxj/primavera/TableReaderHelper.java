@@ -113,9 +113,9 @@ class TableReaderHelper
     * @param container entity
     * @param uniqueID entity Unique ID
     */
-   public static void populateUserDefinedFieldValues(ProjectContext context, Map<String, Map<Integer, List<Row>>> udfValues, String tableName, FieldTypeClass type, FieldContainer container, Integer uniqueID)
+   public static void populateUserDefinedFieldValues(TableReaderState state, String tableName, FieldTypeClass type, FieldContainer container, Integer uniqueID)
    {
-      Map<Integer, List<Row>> tableData = udfValues.get(tableName);
+      Map<Integer, List<Row>> tableData = state.getUdfValues().get(tableName);
       if (tableData != null)
       {
          List<Row> udf = tableData.get(uniqueID);
@@ -123,7 +123,7 @@ class TableReaderHelper
          {
             for (Row r : udf)
             {
-               addUDFValue(context, type, container, r);
+               addUDFValue(state.getContext(), type, container, r);
             }
          }
       }

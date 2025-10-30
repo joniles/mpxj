@@ -38,7 +38,6 @@ import org.mpxj.ProjectCode;
 import org.mpxj.ProjectCodeContainer;
 import org.mpxj.ProjectCodeValue;
 import org.mpxj.ProjectConfig;
-import org.mpxj.ProjectContext;
 import org.mpxj.Rate;
 import org.mpxj.Resource;
 import org.mpxj.ResourceAssignmentCode;
@@ -70,7 +69,7 @@ abstract class TableContextReader
 {
    protected void configure()
    {
-      ProjectConfig config = m_context.getProjectConfig();
+      ProjectConfig config = m_state.getContext().getProjectConfig();
       config.setAutoTaskUniqueID(false);
       config.setAutoResourceUniqueID(false);
       config.setAutoAssignmentUniqueID(false);
@@ -86,10 +85,10 @@ abstract class TableContextReader
     */
    protected void processCurrencies(List<Row> currencies)
    {
-      CurrencyContainer container = m_context.getCurrencies();
+      CurrencyContainer container = m_state.getContext().getCurrencies();
       currencies.forEach(
          row -> container.add(
-            new Currency.Builder(m_context)
+            new Currency.Builder(m_state.getContext())
                .uniqueID(row.getInteger("curr_id"))
                .numberOfDecimalPlaces(row.getInteger("decimal_digit_cnt"))
                .symbol(row.getString("curr_symbol"))
@@ -111,10 +110,10 @@ abstract class TableContextReader
     */
    protected void processLocations(List<Row> locations)
    {
-      LocationContainer container = m_context.getLocations();
+      LocationContainer container = m_state.getContext().getLocations();
       locations.forEach(
          row -> container.add(
-            new Location.Builder(m_context)
+            new Location.Builder(m_state.getContext())
                .uniqueID(row.getInteger("location_id"))
                .name(row.getString("location_name"))
                .addressLine1(row.getString("address_line1"))
@@ -141,14 +140,14 @@ abstract class TableContextReader
     */
    protected void processShifts(List<Row> shifts, List<Row> periods)
    {
-      ShiftContainer shiftContainer = m_context.getShifts();
+      ShiftContainer shiftContainer = m_state.getContext().getShifts();
       shifts.forEach(r -> shiftContainer.add(
-         new Shift.Builder(m_context)
+         new Shift.Builder(m_state.getContext())
             .uniqueID(r.getInteger("shift_id"))
             .name(r.getString("shift_name"))
             .build()));
 
-      ShiftPeriodContainer shiftPeriodContainer = m_context.getShiftPeriods();
+      ShiftPeriodContainer shiftPeriodContainer = m_state.getContext().getShiftPeriods();
       for (Row row : periods)
       {
          Shift shift = shiftContainer.getByUniqueID(row.getInteger("shift_id"));
@@ -157,7 +156,7 @@ abstract class TableContextReader
             continue;
          }
 
-         ShiftPeriod period = new ShiftPeriod.Builder(m_context, shift)
+         ShiftPeriod period = new ShiftPeriod.Builder(m_state.getContext(), shift)
             .uniqueID(row.getInteger("shift_period_id"))
             .start(row.getInteger("shift_start_hr_num"))
             .build();
@@ -172,7 +171,7 @@ abstract class TableContextReader
     */
    protected void processUnitsOfMeasure(List<Row> units)
    {
-      UnitOfMeasureContainer container = m_context.getUnitsOfMeasure();
+      UnitOfMeasureContainer container = m_state.getContext().getUnitsOfMeasure();
       units.forEach(row -> container.add(processUnitOfMeasure(row)));
    }
 
@@ -184,7 +183,7 @@ abstract class TableContextReader
     */
    private UnitOfMeasure processUnitOfMeasure(Row row)
    {
-      return new UnitOfMeasure.Builder(m_context)
+      return new UnitOfMeasure.Builder(m_state.getContext())
          .uniqueID(row.getInteger("unit_id"))
          .abbreviation(row.getString("unit_abbrev"))
          .name(row.getString("unit_name"))
@@ -199,8 +198,8 @@ abstract class TableContextReader
     */
    protected void processExpenseCategories(List<Row> categories)
    {
-      ExpenseCategoryContainer container = m_context.getExpenseCategories();
-      categories.forEach(row -> container.add(new ExpenseCategory.Builder(m_context)
+      ExpenseCategoryContainer container = m_state.getContext().getExpenseCategories();
+      categories.forEach(row -> container.add(new ExpenseCategory.Builder(m_state.getContext())
          .uniqueID(row.getInteger("cost_type_id"))
          .name(row.getString("cost_type"))
          .sequenceNumber(row.getInteger("seq_num"))
@@ -214,9 +213,9 @@ abstract class TableContextReader
     */
    protected void processCostAccounts(List<Row> accounts)
    {
-      CostAccountContainer container = m_context.getCostAccounts();
+      CostAccountContainer container = m_state.getContext().getCostAccounts();
       HierarchyHelper.sortHierarchy(accounts, v -> v.getInteger("acct_id"), v -> v.getInteger("parent_acct_id")).forEach(row -> container.add(
-         new CostAccount.Builder(m_context)
+         new CostAccount.Builder(m_state.getContext())
             .uniqueID(row.getInteger("acct_id"))
             .id(row.getString("acct_short_name"))
             .name(row.getString("acct_name"))
@@ -243,7 +242,7 @@ abstract class TableContextReader
     */
    private void processNotebookTopic(Row row)
    {
-      NotesTopic topic = new NotesTopic.Builder(m_context)
+      NotesTopic topic = new NotesTopic.Builder(m_state.getContext())
          .uniqueID(row.getInteger("memo_type_id"))
          .sequenceNumber(row.getInteger("seq_num"))
          .availableForEPS(row.getBoolean("eps_flag"))
@@ -253,7 +252,7 @@ abstract class TableContextReader
          .name(row.getString("memo_type"))
          .build();
 
-      m_context.getNotesTopics().add(topic);
+      m_state.getContext().getNotesTopics().add(topic);
    }
 
    /**
@@ -263,7 +262,7 @@ abstract class TableContextReader
     */
    protected void processUdfDefinitions(List<Row> fields)
    {
-      UserDefinedFieldContainer container = m_context.getUserDefinedFields();
+      UserDefinedFieldContainer container = m_state.getContext().getUserDefinedFields();
 
       for (Row row : fields)
       {
@@ -276,7 +275,7 @@ abstract class TableContextReader
             continue;
          }
 
-         UserDefinedField fieldType = new UserDefinedField.Builder(m_context)
+         UserDefinedField fieldType = new UserDefinedField.Builder(m_state.getContext())
             .uniqueID(fieldId)
             .internalName(row.getString("udf_type_name"))
             .externalName(row.getString("udf_type_label"))
@@ -286,7 +285,7 @@ abstract class TableContextReader
             .build();
 
          container.add(fieldType);
-         m_context.getCustomFields().add(fieldType).setAlias(fieldType.getName()).setUniqueID(fieldId);
+         m_state.getContext().getCustomFields().add(fieldType).setAlias(fieldType.getName()).setUniqueID(fieldId);
       }
    }
 
@@ -298,12 +297,12 @@ abstract class TableContextReader
     */
    protected void processProjectCodeDefinitions(List<Row> types, List<Row> typeValues)
    {
-      ProjectCodeContainer container = m_context.getProjectCodes();
+      ProjectCodeContainer container = m_state.getContext().getProjectCodes();
       Map<Integer, ProjectCode> map = new HashMap<>();
 
       for (Row row : types)
       {
-         ProjectCode code = new ProjectCode.Builder(m_context)
+         ProjectCode code = new ProjectCode.Builder(m_state.getContext())
             .uniqueID(row.getInteger("proj_catg_type_id"))
             .sequenceNumber(row.getInteger("seq_num"))
             .name(row.getString("proj_catg_type"))
@@ -319,7 +318,7 @@ abstract class TableContextReader
          ProjectCode code = map.get(row.getInteger("proj_catg_type_id"));
          if (code != null)
          {
-            ProjectCodeValue value = new ProjectCodeValue.Builder(m_context)
+            ProjectCodeValue value = new ProjectCodeValue.Builder(m_state.getContext())
                .projectCode(code)
                .uniqueID(row.getInteger("proj_catg_id"))
                .sequenceNumber(row.getInteger("seq_num"))
@@ -340,12 +339,12 @@ abstract class TableContextReader
     */
    protected void processResourceCodeDefinitions(List<Row> types, List<Row> typeValues)
    {
-      ResourceCodeContainer container = m_context.getResourceCodes();
+      ResourceCodeContainer container = m_state.getContext().getResourceCodes();
       Map<Integer, ResourceCode> map = new HashMap<>();
 
       for (Row row : types)
       {
-         ResourceCode code = new ResourceCode.Builder(m_context)
+         ResourceCode code = new ResourceCode.Builder(m_state.getContext())
             .uniqueID(row.getInteger("rsrc_catg_type_id"))
             .sequenceNumber(row.getInteger("seq_num"))
             .name(row.getString("rsrc_catg_type"))
@@ -361,7 +360,7 @@ abstract class TableContextReader
          ResourceCode code = map.get(row.getInteger("rsrc_catg_type_id"));
          if (code != null)
          {
-            ResourceCodeValue value = new ResourceCodeValue.Builder(m_context)
+            ResourceCodeValue value = new ResourceCodeValue.Builder(m_state.getContext())
                .resourceCode(code)
                .uniqueID(row.getInteger("rsrc_catg_id"))
                .sequenceNumber(row.getInteger("seq_num"))
@@ -382,12 +381,12 @@ abstract class TableContextReader
     */
    protected void processRoleCodeDefinitions(List<Row> types, List<Row> typeValues)
    {
-      RoleCodeContainer container = m_context.getRoleCodes();
+      RoleCodeContainer container = m_state.getContext().getRoleCodes();
       Map<Integer, RoleCode> map = new HashMap<>();
 
       for (Row row : types)
       {
-         RoleCode code = new RoleCode.Builder(m_context)
+         RoleCode code = new RoleCode.Builder(m_state.getContext())
             .uniqueID(row.getInteger("role_catg_type_id"))
             .sequenceNumber(row.getInteger("seq_num"))
             .name(row.getString("role_catg_type"))
@@ -403,7 +402,7 @@ abstract class TableContextReader
          RoleCode code = map.get(row.getInteger("role_catg_type_id"));
          if (code != null)
          {
-            RoleCodeValue value = new RoleCodeValue.Builder(m_context)
+            RoleCodeValue value = new RoleCodeValue.Builder(m_state.getContext())
                .roleCode(code)
                .uniqueID(row.getInteger("role_catg_id"))
                .sequenceNumber(row.getInteger("seq_num"))
@@ -424,12 +423,12 @@ abstract class TableContextReader
     */
    protected void processResourceAssignmentCodeDefinitions(List<Row> types, List<Row> typeValues)
    {
-      ResourceAssignmentCodeContainer container = m_context.getResourceAssignmentCodes();
+      ResourceAssignmentCodeContainer container = m_state.getContext().getResourceAssignmentCodes();
       Map<Integer, ResourceAssignmentCode> map = new HashMap<>();
 
       for (Row row : types)
       {
-         ResourceAssignmentCode code = new ResourceAssignmentCode.Builder(m_context)
+         ResourceAssignmentCode code = new ResourceAssignmentCode.Builder(m_state.getContext())
             .uniqueID(row.getInteger("asgnmnt_catg_type_id"))
             .sequenceNumber(row.getInteger("seq_num"))
             .name(row.getString("asgnmnt_catg_type"))
@@ -445,7 +444,7 @@ abstract class TableContextReader
          ResourceAssignmentCode code = map.get(row.getInteger("asgnmnt_catg_type_id"));
          if (code != null)
          {
-            ResourceAssignmentCodeValue value = new ResourceAssignmentCodeValue.Builder(m_context)
+            ResourceAssignmentCodeValue value = new ResourceAssignmentCodeValue.Builder(m_state.getContext())
                .resourceAssignmentCode(code)
                .uniqueID(row.getInteger("asgnmnt_catg_id"))
                .sequenceNumber(row.getInteger("seq_num"))
@@ -466,12 +465,12 @@ abstract class TableContextReader
     */
    protected void processActivityCodeDefinitions(List<Row> types, List<Row> typeValues)
    {
-      ActivityCodeContainer container = m_context.getActivityCodes();
+      ActivityCodeContainer container = m_state.getContext().getActivityCodes();
       Map<Integer, ActivityCode> map = new HashMap<>();
 
       for (Row row : types)
       {
-         ActivityCode code = new ActivityCode.Builder(m_context)
+         ActivityCode code = new ActivityCode.Builder(m_state.getContext())
             .uniqueID(row.getInteger("actv_code_type_id"))
             .scope(ActivityCodeScopeHelper.getInstanceFromXer(row.getString("actv_code_type_scope")))
             .scopeEpsUniqueID(row.getInteger("wbs_id"))
@@ -491,7 +490,7 @@ abstract class TableContextReader
          ActivityCode code = map.get(row.getInteger("actv_code_type_id"));
          if (code != null)
          {
-            ActivityCodeValue value = new ActivityCodeValue.Builder(m_context)
+            ActivityCodeValue value = new ActivityCodeValue.Builder(m_state.getContext())
                .activityCode(code)
                .uniqueID(row.getInteger("actv_code_id"))
                .sequenceNumber(row.getInteger("seq_num"))
@@ -531,7 +530,7 @@ abstract class TableContextReader
       //
       for (Map.Entry<ProjectCalendar, Integer> entry : baseCalendarMap.entrySet())
       {
-         ProjectCalendar baseCalendar = m_context.getCalendars().getByUniqueID(entry.getValue());
+         ProjectCalendar baseCalendar = m_state.getContext().getCalendars().getByUniqueID(entry.getValue());
          if (baseCalendar != null)
          {
             entry.getKey().setParent(baseCalendar);
@@ -547,7 +546,7 @@ abstract class TableContextReader
     */
    protected ProjectCalendar processCalendar(Row row)
    {
-      ProjectCalendar calendar = m_context.getCalendars().add();
+      ProjectCalendar calendar = m_state.getContext().getCalendars().add();
       calendar.setUniqueID(row.getInteger("clndr_id"));
       calendar.setName(row.getString("clndr_name"));
       calendar.setType(CalendarTypeHelper.getInstanceFromXer(row.getString("clndr_type")));
@@ -555,7 +554,7 @@ abstract class TableContextReader
       calendar.setPersonal(row.getBoolean("rsrc_private"));
 
       // We may override this later with project properties
-      if (row.getBoolean("default_flag") && m_context.getCalendars().getDefaultCalendarUniqueID() == null)
+      if (row.getBoolean("default_flag") && m_state.getContext().getCalendars().getDefaultCalendarUniqueID() == null)
       {
          calendar.setDefault();
       }
@@ -725,9 +724,9 @@ abstract class TableContextReader
 
       catch (DateTimeParseException ex)
       {
-         if (m_ignoreErrors)
+         if (m_state.getIgnoreErrors())
          {
-            m_context.addIgnoredError(ex);
+            m_state.getContext().addIgnoredError(ex);
          }
          else
          {
@@ -755,9 +754,9 @@ abstract class TableContextReader
 
          catch (NumberFormatException ex)
          {
-            if (m_ignoreErrors)
+            if (m_state.getIgnoreErrors())
             {
-               m_context.addIgnoredError(ex);
+               m_state.getContext().addIgnoredError(ex);
                continue;
             }
             throw ex;
@@ -782,7 +781,7 @@ abstract class TableContextReader
    {
       for (Row row : values)
       {
-         FieldType fieldType = m_context.getUserDefinedFields().getByUniqueID(row.getInteger("udf_type_id"));
+         FieldType fieldType = m_state.getContext().getUserDefinedFields().getByUniqueID(row.getInteger("udf_type_id"));
          if (fieldType == null)
          {
             // UDF values for entities we don't currently support
@@ -790,7 +789,7 @@ abstract class TableContextReader
          }
 
          String tableName = FieldTypeClassHelper.getXerFromInstance(fieldType);
-         Map<Integer, List<Row>> tableData = m_udfValues.computeIfAbsent(tableName, k -> new HashMap<>());
+         Map<Integer, List<Row>> tableData = m_state.getUdfValues().computeIfAbsent(tableName, k -> new HashMap<>());
 
          Integer id = row.getInteger("fk_id");
          List<Row> list = tableData.computeIfAbsent(id, k -> new ArrayList<>());
@@ -822,12 +821,12 @@ abstract class TableContextReader
    {
       for (Row row : rows)
       {
-         Resource resource = m_context.getResources().addResource();
-         TableReaderHelper.processFields(m_resourceFields, row, resource);
-         resource.setCalendar(m_context.getCalendars().getByUniqueID(row.getInteger("clndr_id")));
+         Resource resource = m_state.getContext().getResources().addResource();
+         TableReaderHelper.processFields(m_state.getResourceFields(), row, resource);
+         resource.setCalendar(m_state.getContext().getCalendars().getByUniqueID(row.getInteger("clndr_id")));
 
          // Add User Defined Fields
-         TableReaderHelper.populateUserDefinedFieldValues(m_context, m_udfValues,  "RSRC", FieldTypeClass.RESOURCE, resource, resource.getUniqueID());
+         TableReaderHelper.populateUserDefinedFieldValues(m_state,  "RSRC", FieldTypeClass.RESOURCE, resource, resource.getUniqueID());
 
          resource.setNotesObject(NotesHelper.getNotes(resource.getNotes()));
 
@@ -838,7 +837,7 @@ abstract class TableContextReader
 
          populateResourceCodeValues(resource);
 
-         m_context.getEventManager().fireResourceReadEvent(resource);
+         m_state.getContext().getEventManager().fireResourceReadEvent(resource);
       }
    }
 
@@ -857,7 +856,7 @@ abstract class TableContextReader
 
       for (Row row : list)
       {
-         ResourceCode code = m_context.getResourceCodes().getByUniqueID(row.getInteger("rsrc_catg_type_id"));
+         ResourceCode code = m_state.getContext().getResourceCodes().getByUniqueID(row.getInteger("rsrc_catg_type_id"));
          if (code == null)
          {
             continue;
@@ -901,7 +900,7 @@ abstract class TableContextReader
          Integer resourceID = row.getInteger("rsrc_id");
          if (resource == null || !resource.getUniqueID().equals(resourceID))
          {
-            resource = m_context.getResources().getByUniqueID(resourceID);
+            resource = m_state.getContext().getResources().getByUniqueID(resourceID);
             if (resource == null)
             {
                continue;
@@ -920,7 +919,7 @@ abstract class TableContextReader
 
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
-         ShiftPeriod period = m_context.getShiftPeriods().getByUniqueID(row.getInteger("shift_period_id"));
+         ShiftPeriod period = m_state.getContext().getShiftPeriods().getByUniqueID(row.getInteger("shift_period_id"));
 
          LocalDateTime startDate = row.getDate("start_date");
          LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
@@ -975,10 +974,10 @@ abstract class TableContextReader
    {
       for (Row row : rows)
       {
-         Resource resource = m_context.getResources().add();
-         TableReaderHelper.processFields(m_roleFields, row, resource);
+         Resource resource = m_state.getContext().getResources().add();
+         TableReaderHelper.processFields(m_state.getRoleFields(), row, resource);
          resource.setRole(true);
-         resource.setUniqueID(m_roleClashMap.addID(resource.getUniqueID()));
+         resource.setUniqueID(m_state.getRoleClashMap().addID(resource.getUniqueID()));
          resource.setNotesObject(NotesHelper.getNotes(resource.getNotes()));
 
          populateRoleCodeValues(resource);
@@ -1000,7 +999,7 @@ abstract class TableContextReader
 
       for (Row row : list)
       {
-         RoleCode code = m_context.getRoleCodes().getByUniqueID(row.getInteger("role_catg_type_id"));
+         RoleCode code = m_state.getContext().getRoleCodes().getByUniqueID(row.getInteger("role_catg_type_id"));
          if (code == null)
          {
             continue;
@@ -1029,10 +1028,10 @@ abstract class TableContextReader
       {
          Row row = rows.get(i);
 
-         Integer resourceID = m_roleClashMap.getID(row.getInteger("role_id"));
+         Integer resourceID = m_state.getRoleClashMap().getID(row.getInteger("role_id"));
          if (resource == null || !resource.getUniqueID().equals(resourceID))
          {
-            resource = m_context.getResources().getByUniqueID(resourceID);
+            resource = m_state.getContext().getResources().getByUniqueID(resourceID);
             if (resource == null)
             {
                continue;
@@ -1091,10 +1090,10 @@ abstract class TableContextReader
       {
          Row row = rows.get(i);
 
-         Integer resourceID = m_roleClashMap.getID(row.getInteger("role_id"));
+         Integer resourceID = m_state.getRoleClashMap().getID(row.getInteger("role_id"));
          if (resource == null || !resource.getUniqueID().equals(resourceID))
          {
-            resource = m_context.getResources().getByUniqueID(resourceID);
+            resource = m_state.getContext().getResources().getByUniqueID(resourceID);
             if (resource == null)
             {
                continue;
@@ -1152,10 +1151,9 @@ abstract class TableContextReader
       });
    }
 
-   protected ProjectContext m_context;
+   protected TableReaderState m_state;
    private final DateTimeFormatter m_twentyFourHourTimeFormat = DateTimeFormatter.ofPattern("H:mm");
    private final DateTimeFormatter m_twelveHourTimeFormat = new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("h:mm a").toFormatter();
-   protected boolean m_ignoreErrors;
 
    /**
     * Retrieve the default mapping between MPXJ resource fields and Primavera resource field names.
@@ -1208,10 +1206,6 @@ abstract class TableContextReader
       return map;
    }
 
-   protected Map<FieldType, String> m_resourceFields;
-   protected Map<FieldType, String> m_roleFields;
-   protected ClashMap m_roleClashMap;
-   protected Map<String, Map<Integer, List<Row>>> m_udfValues;
    private final Map<Integer, List<Row>> m_resourceCodeAssignments = new HashMap<>();
    private final Map<Integer, List<Row>> m_roleCodeAssignments = new HashMap<>();
 

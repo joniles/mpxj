@@ -2,27 +2,19 @@ package org.mpxj.primavera;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
-import org.mpxj.FieldType;
 import org.mpxj.MPXJException;
-import org.mpxj.ProjectContext;
 import org.mpxj.WorkContour;
 import org.mpxj.WorkContourContainer;
 
 class DatabaseContextReader extends TableContextReader
 {
-   public DatabaseContextReader(ProjectContext context, PrimaveraDatabaseConnection database, String schema, Map<String, Map<Integer, List<Row>>> udfValues, boolean ignoreErrors, Integer projectID, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, ClashMap roleClashMap)
+   public DatabaseContextReader(PrimaveraDatabaseConnection database, String schema, Integer projectID, TableReaderState state)
    {
-      m_context = context;
       m_database = database;
       m_schema = schema;
-      m_udfValues = udfValues;
-      m_ignoreErrors = ignoreErrors;
       m_projectID = projectID;
-      m_resourceFields = resourceFields;
-      m_roleFields = roleFields;
-      m_roleClashMap = roleClashMap;
+      m_state = state;
    }
 
    public void read() throws MPXJException
@@ -128,7 +120,7 @@ class DatabaseContextReader extends TableContextReader
     */
    private void processWorkContours() throws SQLException
    {
-      WorkContourContainer contours = m_context.getWorkContours();
+      WorkContourContainer contours = m_state.getContext().getWorkContours();
       List<Row> rows = m_database.getRows("select * from " + m_schema + "rsrccurv");
       for (Row row : rows)
       {
@@ -145,10 +137,10 @@ class DatabaseContextReader extends TableContextReader
 
          catch (Exception ex)
          {
-            if (m_ignoreErrors)
+            if (m_state.getIgnoreErrors())
             {
                // Skip any curves we can't read
-               m_context.addIgnoredError(ex);
+               m_state.getContext().addIgnoredError(ex);
             }
             else
             {

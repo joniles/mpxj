@@ -172,8 +172,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       new XmlContextReader(state).read();
       state.getContext().getProjectConfig().setBaselineStrategy(m_baselineStrategy);
 
-      projects.forEach(project -> result.add(new XmlProjectReader(state).read(project)));
-      baselineProjects.forEach(project -> result.add(new XmlProjectReader(state).read(project)));
+      XmlProjectReader reader = new XmlProjectReader(state);
+      projects.forEach(project -> result.add(reader.read(project)));
+      baselineProjects.forEach(project -> result.add(reader.read(project)));
 
       // Sort to ensure exported project is first
       result.sort((o1, o2) -> Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));

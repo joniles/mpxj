@@ -14,23 +14,13 @@ import org.mpxj.common.DayOfWeekHelper;
 
 class DatabaseProjectReader extends TableProjectReader
 {
-   public DatabaseProjectReader(PrimaveraDatabaseConnection database, String schema, ProjectFile project, Integer projectID, Map<String, Map<Integer, List<Row>>> udfValues, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath, boolean ignoreErrors, ClashMap roleClashMap)
+   public DatabaseProjectReader(PrimaveraDatabaseConnection database, String schema, ProjectFile project, Integer projectID, TableReaderState state)
    {
       m_database = database;
       m_schema = schema;
       m_project = project;
       m_projectID = projectID;
-      m_udfValues = udfValues;
-      m_roleClashMap = roleClashMap;
-
-      m_wbsFields = wbsFields;
-      m_taskFields = taskFields;
-      m_assignmentFields = assignmentFields;
-      m_matchPrimaveraWBS = matchPrimaveraWBS;
-      m_wbsIsFullPath = wbsIsFullPath;
-      m_ignoreErrors = ignoreErrors;
-
-      m_eventManager = m_project.getEventManager();
+      m_state = state;
    }
 
    public ProjectFile read() throws MPXJException

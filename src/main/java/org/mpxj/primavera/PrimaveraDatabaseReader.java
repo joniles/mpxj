@@ -107,12 +107,12 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    {
       Map<String, Map<Integer, List<Row>>> udfValues = new HashMap<>();
       ClashMap roleClashMap = new ClashMap();
-      ProjectContext context = new ProjectContext();
-      addListenersToContext(context);
-      new DatabaseContextReader(context, m_database, m_schema, udfValues, m_ignoreErrors, m_projectID, m_resourceFields, m_roleFields, roleClashMap).read();
+      TableReaderState state = new TableReaderState(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
+      addListenersToContext(state.getContext());
+      new DatabaseContextReader(m_database, m_schema, m_projectID, state).read();
 
-      ProjectFile project = new ProjectFile(context);
-      DatabaseProjectReader reader = new DatabaseProjectReader(m_database, m_schema, project, m_projectID, udfValues, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors, roleClashMap);
+      ProjectFile project = new ProjectFile(state.getContext());
+      DatabaseProjectReader reader = new DatabaseProjectReader(m_database, m_schema, project, m_projectID, state);
       reader.read();
 
       //
@@ -120,7 +120,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       // At this point any new calendars we create must be auto numbered. We also need to
       // ensure that the auto numbering starts from an appropriate value.
       //
-      context.getProjectConfig().setAutoCalendarUniqueID(true);
+      state.getContext().getProjectConfig().setAutoCalendarUniqueID(true);
 
       return project;
    }
@@ -137,14 +137,14 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       ClashMap roleClashMap = new ClashMap();
       Map<Integer, String> projects = listProjects();
       List<ProjectFile> result = new ArrayList<>(projects.size());
-      ProjectContext context = new ProjectContext();
-      addListenersToContext(context);
-      new DatabaseContextReader(context, m_database, m_schema, udfValues, m_ignoreErrors, null, m_resourceFields, m_roleFields, roleClashMap).read();
+      TableReaderState state = new TableReaderState(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
+      addListenersToContext(state.getContext());
+      new DatabaseContextReader(m_database, m_schema, null, state).read();
 
       for (Integer id : projects.keySet())
       {
-         ProjectFile project = new ProjectFile(context);
-         DatabaseProjectReader reader = new DatabaseProjectReader(m_database, m_schema, project, id, udfValues, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors, roleClashMap);
+         ProjectFile project = new ProjectFile(state.getContext());
+         DatabaseProjectReader reader = new DatabaseProjectReader(m_database, m_schema, project, id, state);
          reader.read();
          result.add(project);
       }
@@ -154,7 +154,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       // At this point any new calendars we create must be auto numbered. We also need to
       // ensure that the auto numbering starts from an appropriate value.
       //
-      context.getProjectConfig().setAutoCalendarUniqueID(true);
+      state.getContext().getProjectConfig().setAutoCalendarUniqueID(true);
 
       return result;
    }
@@ -438,7 +438,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private boolean m_matchPrimaveraWBS = true;
    private boolean m_wbsIsFullPath = true;
    private boolean m_ignoreErrors = true;
-   private PrimaveraDatabaseConnection m_database ;
+   private PrimaveraDatabaseConnection m_database;
 
    private final Map<FieldType, String> m_resourceFields = TableContextReader.getDefaultResourceFieldMap();
    private final Map<FieldType, String> m_roleFields = TableContextReader.getDefaultRoleFieldMap();

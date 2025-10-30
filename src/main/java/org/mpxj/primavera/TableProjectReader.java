@@ -76,7 +76,7 @@ abstract class TableProjectReader
    protected void processProjectProperties(List<Row> rows)
    {
       ProjectProperties properties = m_project.getProjectProperties();
-      TableReaderHelper.populateUserDefinedFieldValues(m_project.getProjectContext(), m_udfValues, "PROJECT", FieldTypeClass.PROJECT, properties, m_project.getProjectProperties().getUniqueID());
+      TableReaderHelper.populateUserDefinedFieldValues(m_state, "PROJECT", FieldTypeClass.PROJECT, properties, m_project.getProjectProperties().getUniqueID());
 
       if (!rows.isEmpty())
       {
@@ -210,12 +210,12 @@ abstract class TableProjectReader
          Task task = m_project.addTask();
          task.setProject(projectName); // P6 task always belongs to project
          task.setSummary(true);
-         TableReaderHelper.processFields(m_wbsFields, row, task);
-         TableReaderHelper.populateUserDefinedFieldValues(m_project.getProjectContext(), m_udfValues, "PROJWBS", FieldTypeClass.TASK, task, task.getUniqueID());
+         TableReaderHelper.processFields(m_state.getWbsFields(), row, task);
+         TableReaderHelper.populateUserDefinedFieldValues(m_state, "PROJWBS", FieldTypeClass.TASK, task, task.getUniqueID());
          task.setNotesObject(wbsNotes.get(task.getUniqueID()));
          m_activityClashMap.addID(task.getUniqueID());
          wbsTasks.add(task);
-         m_eventManager.fireTaskReadEvent(task);
+         m_project.getEventManager().fireTaskReadEvent(task);
       }
 
       //
@@ -238,7 +238,7 @@ abstract class TableProjectReader
          task.setActivityID(task.getWBS());
       }
 
-      if (m_wbsIsFullPath)
+      if (m_state.getWbsIsFullPath())
       {
          m_project.getChildTasks().forEach(t -> populateWBS(null, t));
       }
@@ -268,7 +268,7 @@ abstract class TableProjectReader
          }
          task.setProject(projectName); // P6 task always belongs to project
 
-         TableReaderHelper.processFields(m_taskFields, row, task);
+         TableReaderHelper.processFields(m_state.getTaskFields(), row, task);
 
          task.setActualWork(WorkHelper.addWork(task.getActualWorkLabor(), task.getActualWorkNonlabor()));
          task.setPlannedWork(WorkHelper.addWork(task.getPlannedWorkLabor(), task.getPlannedWorkNonlabor()));
@@ -287,7 +287,7 @@ abstract class TableProjectReader
          task.setPercentageComplete(calculateDurationPercentComplete(row));
          task.setPhysicalPercentComplete(calculatePhysicalPercentComplete(row));
 
-         if (m_matchPrimaveraWBS && parentTask != null)
+         if (m_state.getMatchPrimaveraWBS() && parentTask != null)
          {
             task.setWBS(parentTask.getWBS());
          }
@@ -295,7 +295,7 @@ abstract class TableProjectReader
          Integer originalUniqueID = row.getInteger("task_id");
 
          // Add User Defined Fields - before we handle ID clashes
-         TableReaderHelper.populateUserDefinedFieldValues(m_project.getProjectContext(), m_udfValues, "TASK", FieldTypeClass.TASK, task, originalUniqueID);
+         TableReaderHelper.populateUserDefinedFieldValues(m_state, "TASK", FieldTypeClass.TASK, task, originalUniqueID);
 
          populateActivityCodes(task, originalUniqueID);
 
@@ -378,7 +378,7 @@ abstract class TableProjectReader
          //
          SlackHelper.inferSlack(task);
 
-         m_eventManager.fireTaskReadEvent(task);
+         m_project.getEventManager().fireTaskReadEvent(task);
       }
 
       new ActivitySorter(wbsTasks).sort(m_project);
@@ -855,7 +855,7 @@ abstract class TableProjectReader
                .uniqueID(uniqueID)
                .notes(comments));
 
-            m_eventManager.fireRelationReadEvent(relation);
+            m_project.getEventManager().fireRelationReadEvent(relation);
          }
          else
          {
@@ -887,7 +887,7 @@ abstract class TableProjectReader
       for (Row row : rows)
       {
          Task task = m_project.getTaskByUniqueID(m_activityClashMap.getID(row.getInteger("task_id")));
-         Integer roleID = m_roleClashMap.getID(row.getInteger("role_id"));
+         Integer roleID = m_state.getRoleClashMap().getID(row.getInteger("role_id"));
          Integer resourceID = row.getInteger("rsrc_id");
 
          // If we don't have a resource ID, but we do have a role ID then the task is being assigned to a role
@@ -902,7 +902,7 @@ abstract class TableProjectReader
          {
             ProjectCalendar effectiveCalendar = task.getEffectiveCalendar();
             ResourceAssignment assignment = task.addResourceAssignment(resource);
-            TableReaderHelper.processFields(m_assignmentFields, row, assignment);
+            TableReaderHelper.processFields(m_state.getAssignmentFields(), row, assignment);
 
             assignment.setWorkContour(CurveHelper.getWorkContour(m_project, row.getInteger("curv_id")));
             assignment.setRateIndex(RateTypeHelper.getInstanceFromXer(row.getString("rate_type")));
@@ -941,7 +941,7 @@ abstract class TableProjectReader
             assignment.setRemainingUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("remain_qty_per_hr")) * 100));
 
             // Add User Defined Fields
-            TableReaderHelper.populateUserDefinedFieldValues(m_project.getProjectContext(), m_udfValues, "TASKRSRC", FieldTypeClass.ASSIGNMENT, assignment, assignment.getUniqueID());
+            TableReaderHelper.populateUserDefinedFieldValues(m_state, "TASKRSRC", FieldTypeClass.ASSIGNMENT, assignment, assignment.getUniqueID());
 
             // Read timephased data
             assignment.setTimephasedPlannedWork(TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getString("target_crv")));
@@ -950,7 +950,7 @@ abstract class TableProjectReader
 
             populateResourceAssignmentCodeValues(assignment);
 
-            m_eventManager.fireAssignmentReadEvent(assignment);
+            m_project.getEventManager().fireAssignmentReadEvent(assignment);
          }
       }
    }
@@ -1384,17 +1384,9 @@ abstract class TableProjectReader
    }
 
    protected  ProjectFile m_project;
-   protected EventManager m_eventManager;
-   protected ClashMap m_roleClashMap;
    private final ClashMap m_activityClashMap = new ClashMap();
-   protected Map<String, Map<Integer, List<Row>>> m_udfValues;
-   protected Map<FieldType, String> m_wbsFields;
-   protected Map<FieldType, String> m_taskFields;
-   protected Map<FieldType, String> m_assignmentFields;
+   protected TableReaderState m_state;
    private final List<ExternalRelation> m_externalRelations = new ArrayList<>();
-   protected boolean m_matchPrimaveraWBS;
-   protected boolean m_wbsIsFullPath;
-   protected boolean m_ignoreErrors;
 
    private final Map<Integer, List<Row>> m_activityCodeAssignments = new HashMap<>();
    private final Map<Integer, List<Row>> m_resourceAssignmentCodeAssignments = new HashMap<>();

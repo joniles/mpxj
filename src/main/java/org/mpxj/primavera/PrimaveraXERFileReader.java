@@ -136,9 +136,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       Map<String, Map<Integer, List<Row>>> udfValues = new HashMap<>();
       ClashMap roleClashMap = new ClashMap();
       XerFile file = new XerFile(READ_REQUIRED_TABLES, m_charset, m_ignoreErrors).read(is);
-      ProjectContext context = new ProjectContext();
-      addListenersToContext(context);
-      new XerContextReader(context, file, udfValues, m_ignoreErrors, m_resourceFields, m_roleFields, roleClashMap).read();
+      TableReaderState state = new TableReaderState(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
+      addListenersToContext(state.getContext());
+      new XerContextReader(file, state).read();
 
       List<Row> rows = file.getRows("project", null, null);
       List<ProjectFile> result = new ArrayList<>(rows.size());
@@ -146,8 +146,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
 
       for (Row row : rows)
       {
-         ProjectFile project = new ProjectFile(context);
-         XerProjectReader reader = new XerProjectReader(file, project, row.getInteger("proj_id") , udfValues, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors, roleClashMap);
+         ProjectFile project = new ProjectFile(state.getContext());
+         XerProjectReader reader = new XerProjectReader(file, project, row.getInteger("proj_id") , state);
          reader.read();
          externalRelations.addAll(reader.getExternalRelations());
          result.add(project);
@@ -158,7 +158,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       // At this point any new calendars we create must be auto numbered. We also need to
       // ensure that the auto numbering starts from an appropriate value.
       //
-      context.getProjectConfig().setAutoCalendarUniqueID(true);
+      state.getContext().getProjectConfig().setAutoCalendarUniqueID(true);
 
       // Sort to ensure exported project is first
       result.sort((o1, o2) -> Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
