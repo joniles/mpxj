@@ -32,12 +32,15 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.mpxj.DayType;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
+import org.mpxj.ProjectProperties;
 import org.mpxj.common.AutoCloseableHelper;
 import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.NumberHelper;
@@ -443,18 +446,33 @@ public class AstaSqliteReader extends AbstractProjectFileReader
    {
       try
       {
-         // We don't need the project_summary join, but this ensures that we know the baseline project exists
-         List<Row> baseline = getRows("select baseline_summary.baseline_project_id from baseline_summary join userr on userr.projid = baseline_summary.projid and userr.current_baseline_id = baseline_summary.baseline_id join project_summary on project_summary.projid = baseline_summary.baseline_project_id where baseline_summary.projid=?", projectID);
-         if (!baseline.isEmpty())
+         LinkedHashMap<Integer, Row> baselineRows = getBaselineSummaryRows(projectID);
+         if (baselineRows.isEmpty())
          {
-            // Ignore the value we get back if it matches the current project
-            Integer baselineProjectID = baseline.get(0).getInteger("BASELINE_PROJECT_ID");
-            if (baselineProjectID != null && !baselineProjectID.equals(projectID))
-            {
-               ProjectFile baselineProject = read(baselineProjectID);
+            return;
+         }
 
-               project.setBaseline(baselineProject);
+         Integer currentBaselineProjectID = getCurrentBaselineProjectID(projectID);
+         int baselineIndex = 0;
+         final int maxBaselines = project.getBaselines().size();
+
+         if (currentBaselineProjectID != null)
+         {
+            Row currentRow = baselineRows.remove(currentBaselineProjectID);
+            if (currentRow != null)
+            {
+               baselineIndex = attachBaseline(project, currentRow, currentBaselineProjectID, baselineIndex);
             }
+         }
+
+         for (Entry<Integer, Row> entry : baselineRows.entrySet())
+         {
+            if (baselineIndex >= maxBaselines)
+            {
+               break;
+            }
+
+            baselineIndex = attachBaseline(project, entry.getValue(), entry.getKey(), baselineIndex);
          }
       }
 
@@ -462,6 +480,61 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       {
          throw new MPXJException("Failed to read baseline data", ex);
       }
+   }
+
+   private Integer getCurrentBaselineProjectID(Integer projectID) throws SQLException
+   {
+      List<Row> baseline = getRows("select baseline_summary.baseline_project_id from baseline_summary join userr on userr.projid = baseline_summary.projid and userr.current_baseline_id = baseline_summary.baseline_id where baseline_summary.projid=?", projectID);
+      if (baseline.isEmpty())
+      {
+         return null;
+      }
+
+      return baseline.get(0).getInteger("BASELINE_PROJECT_ID");
+   }
+
+   private LinkedHashMap<Integer, Row> getBaselineSummaryRows(Integer projectID) throws SQLException
+   {
+      List<Row> rows = getRows("select * from baseline_summary where projid=? order by coalesce(creation_date, update_date), baseline_id", projectID);
+      LinkedHashMap<Integer, Row> map = new LinkedHashMap<>();
+
+      for (Row row : rows)
+      {
+         Integer baselineProjectID = row.getInteger("BASELINE_PROJECT_ID");
+         if (baselineProjectID == null || baselineProjectID.equals(projectID))
+         {
+            continue;
+         }
+
+         map.putIfAbsent(baselineProjectID, row);
+      }
+
+      return map;
+   }
+
+   private int attachBaseline(ProjectFile project, Row summaryRow, Integer baselineProjectID, int index) throws MPXJException
+   {
+      ProjectFile baselineProject = read(baselineProjectID);
+      if (summaryRow != null)
+      {
+         ProjectProperties properties = baselineProject.getProjectProperties();
+         if (properties.getCreationDate() == null)
+         {
+            properties.setCreationDate(summaryRow.getDate("CREATION_DATE"));
+         }
+         if (properties.getLastSaved() == null)
+         {
+            properties.setLastSaved(summaryRow.getDate("UPDATE_DATE"));
+         }
+         String name = summaryRow.getString("NAME");
+         if (name != null && !name.isEmpty())
+         {
+            properties.setName(name);
+         }
+      }
+
+      project.setBaseline(baselineProject, index);
+      return index + 1;
    }
 
    private void processCodeLibraries() throws SQLException
