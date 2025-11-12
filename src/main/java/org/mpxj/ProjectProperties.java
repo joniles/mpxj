@@ -1618,6 +1618,26 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
+    * Retrieve the last schedule date.
+    *
+    * @return last schedule date
+    */
+    public LocalDateTime getLastScheduleDate()
+    {
+       return (LocalDateTime) get(ProjectField.LAST_SCHEDULE_DATE);
+    }
+
+    /**
+     * Set the last schedule date.
+     *
+     * @param lastScheduleDate last schedule date
+     */
+    public void setLastScheduleDate(LocalDateTime lastScheduleDate)
+    {
+       set(ProjectField.LAST_SCHEDULE_DATE, lastScheduleDate);
+    }
+
+   /**
     * Retrieves the move remaining starts back flag.
     *
     * @return move remaining starts back flag

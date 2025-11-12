@@ -1496,6 +1496,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("critical_drtn_hr_cnt", p -> Double.valueOf(p.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, p).getDuration()));
       PROJECT_COLUMNS.put("def_cost_per_qty", p -> new CurrencyValue(Double.valueOf(100.0)));
       PROJECT_COLUMNS.put("last_recalc_date", ProjectProperties::getStatusDate);
+      PROJECT_COLUMNS.put("last_schedule_date", ProjectProperties::getLastScheduleDate);
       PROJECT_COLUMNS.put("plan_start_date", WriterHelper::getProjectPlannedStart);
       PROJECT_COLUMNS.put("plan_end_date", ProjectProperties::getMustFinishBy);
       PROJECT_COLUMNS.put("scd_end_date", ProjectProperties::getScheduledFinish);
