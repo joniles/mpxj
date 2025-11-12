@@ -2204,6 +2204,7 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.AUTO_ADD_NEW_RESOURCES_AND_TASKS.getValue()] = "Auto Add New Resources and Tasks";
       PROJECT_COLUMNS_ARRAY[ProjectField.LAST_SAVED.getValue()] = "Last Saved";
       PROJECT_COLUMNS_ARRAY[ProjectField.STATUS_DATE.getValue()] = "Status Date";
+      PROJECT_COLUMNS_ARRAY[ProjectField.LAST_SCHEDULE_DATE.getValue()] = "Last Scheduled Date";
       PROJECT_COLUMNS_ARRAY[ProjectField.MOVE_REMAINING_STARTS_BACK.getValue()] = "Move Remaining Starts Back";
       PROJECT_COLUMNS_ARRAY[ProjectField.AUTO_LINK.getValue()] = "Auto Link";
       PROJECT_COLUMNS_ARRAY[ProjectField.MICROSOFT_PROJECT_SERVER_URL.getValue()] = "Microsoft Project Server URL";
