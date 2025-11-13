@@ -146,6 +146,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       setCriticalActivityType(CriticalActivityType.TOTAL_FLOAT);
       setTotalSlackCalculationType(TotalSlackCalculationType.SMALLEST_SLACK);
       setRelationshipLagCalendar(RelationshipLagCalendar.PREDECESSOR);
+      setStepCompleteFlag(true);
    }
 
    /**
@@ -1635,6 +1636,26 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     public void setLastScheduleDate(LocalDateTime lastScheduleDate)
     {
        set(ProjectField.LAST_SCHEDULE_DATE, lastScheduleDate);
+    }
+
+   /**
+    * Sets the Step Complete Flag
+    *
+    * @param stepCompleteFlag step complete flag
+    */
+    public void setStepCompleteFlag(boolean stepCompleteFlag)
+    {
+       set(ProjectField.STEP_COMPLETE_FLAG, stepCompleteFlag);
+    }
+
+   /**
+    * Retrieve the Step Complete Flag
+    *
+    * @return step complete flag
+    */
+    public boolean getStepCompleteFlag()
+    {
+       return BooleanHelper.getBoolean((Boolean) get(ProjectField.STEP_COMPLETE_FLAG));
     }
 
    /**
