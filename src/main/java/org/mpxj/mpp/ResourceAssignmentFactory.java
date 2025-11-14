@@ -133,13 +133,13 @@ public class ResourceAssignmentFactory
          }
 
 
-         Task task = file.getTaskByUniqueID(ByteArrayHelper.getInt(data, fieldMap.getFixedDataOffset(AssignmentField.TASK_UNIQUE_ID)));
+         Task task = file.getTaskByUniqueID(Integer.valueOf(ByteArrayHelper.getInt(data, fieldMap.getFixedDataOffset(AssignmentField.TASK_UNIQUE_ID))));
          if (task == null)
          {
             continue;
          }
 
-         Resource resource = file.getResourceByUniqueID(ByteArrayHelper.getInt(data, fieldMap.getFixedDataOffset(AssignmentField.RESOURCE_UNIQUE_ID)));
+         Resource resource = file.getResourceByUniqueID(Integer.valueOf(ByteArrayHelper.getInt(data, fieldMap.getFixedDataOffset(AssignmentField.RESOURCE_UNIQUE_ID))));
          if (task.getExistingResourceAssignment(resource) != null)
          {
             continue;

@@ -72,6 +72,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * Internal constructor.
     *
     * @param context parent ProjectContext
+    * @param temporaryCalendar true if this is a temporary calendar
     */
    protected ProjectCalendar(ProjectContext context, boolean temporaryCalendar)
    {

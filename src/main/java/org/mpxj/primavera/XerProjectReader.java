@@ -52,7 +52,7 @@ class XerProjectReader extends TableProjectReader
    /**
     * Populate a ProjectFile instance by reading data from tables from the XER file.
     */
-   public ProjectFile read()
+   public void read()
    {
       m_project.getProjectProperties().setFileApplication("Primavera");
       m_project.getProjectProperties().setFileType("XER");
@@ -72,8 +72,6 @@ class XerProjectReader extends TableProjectReader
       RollupHelper.rollupValues(m_project);
       m_project.updateStructure();
       m_project.readComplete();
-
-      return m_project;
    }
 
    /**

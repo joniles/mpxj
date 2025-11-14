@@ -217,6 +217,11 @@ public class ProjectContext implements UniqueIdObjectSequenceProvider
       return m_resources;
    }
 
+   /**
+    * Retrieves a list of the projects represented in this context.
+    * 
+    * @return list of projects
+    */
    public List<ProjectFile> getProjects()
    {
       return m_projects;

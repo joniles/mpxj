@@ -102,6 +102,9 @@ class XmlProjectReader
 
    /**
     * Populate a ProjectFile instance by reading data from an XML file.
+    * 
+    * @param projectObject project data source
+    * @return populated ProjectFile instance
     */
    public ProjectFile read(Object projectObject)
    {

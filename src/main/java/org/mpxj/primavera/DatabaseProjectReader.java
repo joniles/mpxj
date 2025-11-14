@@ -59,7 +59,7 @@ class DatabaseProjectReader extends TableProjectReader
    /**
     * Populate a ProjectFile instance by reading data from tables from the database.
     */
-   public ProjectFile read() throws MPXJException
+   public void read() throws MPXJException
    {
       try
       {
@@ -84,8 +84,6 @@ class DatabaseProjectReader extends TableProjectReader
 
          m_project.updateStructure();
          m_project.readComplete();
-
-         return m_project;
       }
 
       catch (SQLException ex)

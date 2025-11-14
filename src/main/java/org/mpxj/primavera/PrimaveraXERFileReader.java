@@ -132,7 +132,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
     */
    @Override public List<ProjectFile> readAll(InputStream is) throws MPXJException
    {
-      Map<String, Map<Integer, List<Row>>> udfValues = new HashMap<>();
       XerFile file = new XerFile(READ_REQUIRED_TABLES, m_charset, m_ignoreErrors).read(is);
       TableReaderState state = new TableReaderState(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
       addListenersToContext(state.getContext());

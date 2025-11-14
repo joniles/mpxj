@@ -58,6 +58,7 @@ class XmlReaderHelper
    /**
     * Process activity code definitions.
     *
+    * @param context project context
     * @param types list of activity code types
     * @param typeValues list of activity code values
     */
@@ -105,6 +106,7 @@ class XmlReaderHelper
    /**
     * Process project calendars.
     *
+    * @param context project context
     * @param calendars list of calendar data
     */
    public static void processCalendars(ProjectContext context, List<CalendarType> calendars)
@@ -139,6 +141,7 @@ class XmlReaderHelper
    /**
     * Process data for an individual calendar.
     *
+    * @param context project context
     * @param row calendar data
     * @return ProjectCalendar instance
     */
@@ -322,6 +325,7 @@ class XmlReaderHelper
    /**
     * Process UDFs for a specific object.
     *
+    * @param context project context
     * @param mpxj field container
     * @param udfs UDF values
     */

@@ -80,11 +80,11 @@ class XmlReaderState
     */
    public List<ExternalRelation> getExternalRelations()
    {
-      return externalRelations;
+      return m_externalRelations;
    }
 
    private final APIBusinessObjects m_apibo;
    private final ProjectContext m_context = new ProjectContext();
    private final ClashMap m_roleClashMap = new ClashMap();
-   private final List<ExternalRelation> externalRelations = new ArrayList<>();
+   private final List<ExternalRelation> m_externalRelations = new ArrayList<>();
 }

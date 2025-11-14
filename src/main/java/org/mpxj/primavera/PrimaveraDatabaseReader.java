@@ -104,8 +104,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    public ProjectFile read() throws MPXJException
    {
-      Map<String, Map<Integer, List<Row>>> udfValues = new HashMap<>();
-      ClashMap roleClashMap = new ClashMap();
       TableReaderState state = new TableReaderState(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
       addListenersToContext(state.getContext());
       new DatabaseContextReader(m_database, m_schema, m_projectID, state).read();
@@ -132,8 +130,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    public List<ProjectFile> readAll() throws MPXJException
    {
-      Map<String, Map<Integer, List<Row>>> udfValues = new HashMap<>();
-      ClashMap roleClashMap = new ClashMap();
       Map<Integer, String> projects = listProjects();
       List<ProjectFile> result = new ArrayList<>(projects.size());
       TableReaderState state = new TableReaderState(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
