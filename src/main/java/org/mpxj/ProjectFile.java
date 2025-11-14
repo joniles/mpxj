@@ -66,7 +66,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
-    * Retrieves the parent ProjectContext for this calendar.
+    * Retrieves the parent ProjectContext for this project.
     *
     * @return parent project context
     */
