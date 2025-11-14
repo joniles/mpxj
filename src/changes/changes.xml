@@ -26,6 +26,7 @@
             <action dev="joniles" type="update">Removed the `Task#addResourceAssignment(ResourceAssignment)` method. Use the `Task#addResourceAssignment(Resource)` method instead.</action>
             <action dev="joniles" type="update">Added the `Rate#valueOf` method.</action>
             <action dev="joniles" type="update">Added the `TimeUnitDefaults` class to allow time unit related default values to be held as part of the `ProjectContext` class.</action>
+            <action dev="joniles" type="update">Updated to use jackcess 4.0.10. Removed explicit Commons Lang 3 dependency.</action>
 		</release>
 		<release date="2025-10-22" version="14.5.2">
             <action dev="joniles" type="update">Fix an issue reading secondary constraint dates and finish constraint dates from Open Plan BK3 files.</action>
