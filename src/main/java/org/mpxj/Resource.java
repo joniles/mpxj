@@ -78,6 +78,16 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       }
    }
 
+   /**
+    * Retrieves the parent ProjectContext for this resource.
+    *
+    * @return parent project context
+    */
+   public ProjectContext getProjectContext()
+   {
+      return m_context;
+   }
+
    @Override public Resource addResource()
    {
       Resource resource = new Resource(m_context);
