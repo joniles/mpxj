@@ -64,8 +64,8 @@ public class ProjectCalendarWeek extends ProjectCalendarDays implements Comparab
     * Converts this working week into a set of equivalent recurring exceptions.
     * Note that this can't be applied to the default working week.
     *
-    * @param earliestStartDate earliest start date for recurring exceptions
-    * @param latestFinishDate latest finish date for recurring exceptions
+    * @param earliestStartDate earliest start date for recurring exceptions, can be null
+    * @param latestFinishDate latest finish date for recurring exceptions, can be null
     * @return recurring exceptions equivalent to this working week
     */
    public List<ProjectCalendarException> convertToRecurringExceptions(LocalDate earliestStartDate, LocalDate latestFinishDate)
@@ -79,13 +79,13 @@ public class ProjectCalendarWeek extends ProjectCalendarDays implements Comparab
       // Avoid generating exceptions beyond the supplied bounds
       List<ProjectCalendarException> result = new ArrayList<>();
       LocalDate fromDate = m_dateRange.getStart();
-      if (LocalDateHelper.compare(earliestStartDate, fromDate) > 0)
+      if (earliestStartDate != null && LocalDateHelper.compare(earliestStartDate, fromDate) > 0)
       {
          fromDate = earliestStartDate;
       }
 
       LocalDate toDate = m_dateRange.getEnd();
-      if (LocalDateHelper.compare(toDate, latestFinishDate) > 0)
+      if (latestFinishDate != null && LocalDateHelper.compare(toDate, latestFinishDate) > 0)
       {
          toDate = latestFinishDate;
       }

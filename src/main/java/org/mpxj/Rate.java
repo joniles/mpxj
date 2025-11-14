@@ -134,6 +134,18 @@ public final class Rate
    }
 
    /**
+    * Create a Rate instance from a value and units.
+    *
+    * @param value rate value
+    * @param units rate units
+    * @return Rate instance
+    */
+   public static Rate valueOf(Double value, TimeUnit units)
+   {
+      return value == null ? null : new Rate(value, units);
+   }
+
+   /**
     * Rate amount.
     */
    private final double m_amount;

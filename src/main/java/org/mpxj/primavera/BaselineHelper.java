@@ -1,8 +1,7 @@
 /*
- * file:       TemporaryCalendar.java
+ * file:       BaselineHelper.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2002-2003
- * date:       28/11/2003
+ * date:       2025-11-12
  */
 
 /*
@@ -21,21 +20,21 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package org.mpxj;
+package org.mpxj.primavera;
+
+import org.mpxj.Task;
 
 /**
- * Represents a temporary calendar which is not intended to form part of the
- * schedule.
+ * Common methods for populating baseline values.
  */
-public class TemporaryCalendar extends ProjectCalendar
+class BaselineHelper
 {
-   /**
-    * Constructor.
-    *
-    * @param context parent project context
-    */
-   public TemporaryCalendar(ProjectContext context)
+   public static void populateBaselineFromCurrentProject(Task task)
    {
-      super(context, true);
+      task.setBaselineCost(task.getPlannedCost());
+      task.setBaselineDuration(task.getPlannedDuration());
+      task.setBaselineFinish(task.getPlannedFinish());
+      task.setBaselineStart(task.getPlannedStart());
+      task.setBaselineWork(task.getPlannedWork());
    }
 }

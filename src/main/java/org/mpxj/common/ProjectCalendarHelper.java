@@ -32,7 +32,6 @@ import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectCalendarWeek;
-import org.mpxj.ProjectFile;
 import org.mpxj.Resource;
 import org.mpxj.TemporaryCalendar;
 
@@ -56,10 +55,11 @@ public final class ProjectCalendarHelper
          return calendar;
       }
 
-      ProjectCalendar newCalendar = new TemporaryCalendar(calendar.getParentFile());
+      ProjectCalendar newCalendar = new TemporaryCalendar(calendar.getProjectContext());
       newCalendar.setName(calendar.getName());
       newCalendar.setUniqueID(calendar.getUniqueID());
       newCalendar.setType(calendar.getType());
+      newCalendar.setProjectUniqueID(calendar.getProjectUniqueID());
       newCalendar.setPersonal(calendar.getPersonal());
       newCalendar.setCalendarMinutesPerDay(calendar.getCalendarMinutesPerDay());
       newCalendar.setCalendarMinutesPerWeek(calendar.getCalendarMinutesPerWeek());
@@ -83,8 +83,7 @@ public final class ProjectCalendarHelper
     */
    public static ProjectCalendar createTemporaryDerivedCalendar(ProjectCalendar baseCalendar, Resource resource)
    {
-      ProjectFile file = baseCalendar.getParentFile();
-      ProjectCalendar derivedCalendar = new TemporaryCalendar(file);
+      ProjectCalendar derivedCalendar = new TemporaryCalendar(baseCalendar.getProjectContext());
       derivedCalendar.setParent(baseCalendar);
       derivedCalendar.setName(resource.getName());
       derivedCalendar.setCalendarDayType(DayOfWeek.SUNDAY, DayType.DEFAULT);
@@ -97,7 +96,7 @@ public final class ProjectCalendarHelper
 
       if (NumberHelper.getInt(derivedCalendar.getUniqueID()) == 0)
       {
-         derivedCalendar.setUniqueID(file.getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
+         derivedCalendar.setUniqueID(baseCalendar.getProjectContext().getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
       }
 
       return derivedCalendar;

@@ -317,7 +317,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeCalendars()
    {
       m_writer.writeTable("CALENDAR", CALENDAR_COLUMNS);
-      m_file.getCalendars().stream().sorted(Comparator.comparing(ProjectCalendar::getUniqueID)).map(ProjectCalendarHelper::normalizeCalendar).forEach(c -> m_writer.writeRecord(CALENDAR_COLUMNS, c));
+      m_file.getCalendarsForProject().stream().sorted(Comparator.comparing(ProjectCalendar::getUniqueID)).map(ProjectCalendarHelper::normalizeCalendar).forEach(c -> m_writer.writeRecord(CALENDAR_COLUMNS, c));
    }
 
    /**
@@ -1579,9 +1579,9 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       CALENDAR_COLUMNS.put("clndr_id", ProjectCalendar::getUniqueID);
-      CALENDAR_COLUMNS.put("default_flag", c -> Boolean.valueOf(c.getParentFile().getProjectProperties().getDefaultCalendar() == c));
+      CALENDAR_COLUMNS.put("default_flag", c -> Boolean.valueOf(c.getDefault()));
       CALENDAR_COLUMNS.put("clndr_name", c -> StringHelper.stripControlCharacters(c.getName()));
-      CALENDAR_COLUMNS.put("proj_id", c -> c.getType() == CalendarType.PROJECT ? getProjectID(c.getParentFile().getProjectProperties().getUniqueID()) : null);
+      CALENDAR_COLUMNS.put("proj_id", c -> c.getType() == CalendarType.PROJECT ? getProjectID(c.getProjectUniqueID()) : null);
       CALENDAR_COLUMNS.put("base_clndr_id", ProjectCalendar::getParentUniqueID);
       CALENDAR_COLUMNS.put("last_chng_date", c -> null);
       CALENDAR_COLUMNS.put("clndr_type", ProjectCalendar::getType);

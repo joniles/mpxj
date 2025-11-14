@@ -64,6 +64,7 @@ import org.mpxj.LocalDateTimeRange;
 import java.time.DayOfWeek;
 
 import org.mpxj.ProjectCalendarDays;
+import org.mpxj.TemporaryResourceAssignment;
 import org.mpxj.TimephasedItem;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.DayType;
@@ -600,13 +601,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       Map<Integer, List<Resource>> resourceCalendarMap = m_projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(Resource::getCalendarUniqueID));
       Set<ProjectCalendar> derivedCalendarSet = m_projectFile.getResources().stream().map(Resource::getCalendar).filter(c -> isValidDerivedCalendar(resourceCalendarMap, c)).collect(Collectors.toSet());
-      List<ProjectCalendar> baseCalendars = m_projectFile.getCalendars().stream().filter(c -> !derivedCalendarSet.contains(c)).collect(Collectors.toList());
+      List<ProjectCalendar> baseCalendars = m_projectFile.getCalendarsForProject().stream().filter(c -> !derivedCalendarSet.contains(c)).collect(Collectors.toList());
 
       //
       // Create temporary flattened base calendars, derived resource calendars
       //
       baseCalendars = baseCalendars.stream().map(ProjectCalendarHelper::createTemporaryFlattenedCalendar).collect(Collectors.toList());
-      baseCalendars.forEach(c -> c.getResources().forEach(r -> derivedCalendarSet.add(createTemporaryDerivedCalendar(c, r))));
+      baseCalendars.forEach(c -> getResourcesAssignedToCalendar(m_projectFile, c).forEach(r -> derivedCalendarSet.add(createTemporaryDerivedCalendar(c, r))));
 
       //
       // Write the calendars, base calendars first, derived calendars second, sorted by unique ID.
@@ -618,6 +619,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       baseCalendars.stream().map(c -> writeCalendar(c, true, baselineCalendarName.equals(c.getName()))).forEach(calendar::add);
       derivedCalendars.stream().map(c -> writeCalendar(c, false, baselineCalendarName.equals(c.getName()))).forEach(calendar::add);
+   }
+
+   private List<Resource> getResourcesAssignedToCalendar(ProjectFile file, ProjectCalendar calendar)
+   {
+      Integer calendarUniqueID = calendar.getUniqueID();
+      return Collections.unmodifiableList(file.getResources().stream().filter(r -> calendarUniqueID.equals(r.getCalendarUniqueID())).collect(Collectors.toList()));
    }
 
    /**
@@ -648,7 +655,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // 1. It is a derived calendar
       // 2. It's not the base calendar for any other derived calendars
       // 3. It is associated with exactly one resource
-      return calendar != null && calendar.isDerived() && calendar.getDerivedCalendars().isEmpty() && resourceCalendarMap.computeIfAbsent(m_calendarMapper.getUniqueID(calendar), k -> Collections.emptyList()).size() == 1;
+      return calendar != null && calendar.isDerived() && !calendar.isParent() && resourceCalendarMap.computeIfAbsent(m_calendarMapper.getUniqueID(calendar), k -> Collections.emptyList()).size() == 1;
    }
 
    /**
@@ -2032,7 +2039,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
          double percentComplete = NumberHelper.getDouble(task.getPercentageComplete());
          if (percentComplete != 0 && task.getResourceAssignments().isEmpty())
          {
-            ResourceAssignment dummy = new ResourceAssignment(m_projectFile, task);
+            ResourceAssignment dummy = new TemporaryResourceAssignment(m_projectFile);
+            dummy.setTaskUniqueID(task.getUniqueID());
             Duration duration = task.getDuration();
             if (duration == null)
             {

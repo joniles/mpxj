@@ -35,12 +35,12 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
    /**
     * Constructor.
     *
-    * @param projectFile parent project
+    * @param context parent context
     */
-   public ProjectCalendarContainer(ProjectFile projectFile)
+   public ProjectCalendarContainer(ProjectContext context)
    {
-      super(projectFile);
-      m_projectFile = projectFile;
+      super(context);
+      m_context = context;
    }
 
    @Override public void removed(ProjectCalendar calendar)
@@ -59,7 +59,7 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
     */
    public ProjectCalendar add()
    {
-      ProjectCalendar calendar = new ProjectCalendar(m_projectFile);
+      ProjectCalendar calendar = new ProjectCalendar(m_context, false);
       add(calendar);
       return calendar;
    }
@@ -126,7 +126,7 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
             result = addDefaultBaseCalendar();
             if (NumberHelper.getInt(result.getUniqueID()) == 0)
             {
-               result.setUniqueID(m_projectFile.getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
+               result.setUniqueID(m_context.getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
             }
          }
       }
@@ -164,5 +164,26 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
       return (calendar);
    }
 
-   private final ProjectFile m_projectFile;
+   /**
+    * Retrieve the unique ID of the default calendar for this project context.
+    *
+    * @return default calendar unique ID
+    */
+   public Integer getDefaultCalendarUniqueID()
+   {
+      return m_defaultCalendarUniqueID;
+   }
+
+   /**
+    * Set the unique ID of the default calendar for this project context.
+    *
+    * @param defaultCalendarUniqueID default calendar unique ID
+    */
+   public void setDefaultCalendarUniqueID(Integer defaultCalendarUniqueID)
+   {
+      m_defaultCalendarUniqueID = defaultCalendarUniqueID;
+   }
+
+   private Integer m_defaultCalendarUniqueID;
+   private final ProjectContext m_context;
 }

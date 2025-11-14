@@ -199,7 +199,7 @@ final class PrimaveraPMProjectWriter
             writeProjectProperties(project);
             writeCodeAssignments(m_projectFile.getProjectProperties().getProjectCodeValues(), project.getCode());
             writeActivityCodeDefinitions(project.getActivityCodeType(), project.getActivityCode());
-            writeCalendars(project.getCalendar());
+            writeProjectCalendars(project.getCalendar());
             writeTasks();
             writeAssignments();
             writeExpenseItems();
@@ -231,14 +231,14 @@ final class PrimaveraPMProjectWriter
             writeResourceAssignmentCodeDefinitions();
             writeCodeAssignments(m_projectFile.getProjectProperties().getProjectCodeValues(), project.getCode());
             writeActivityCodeDefinitions(project.getActivityCodeType(), project.getActivityCode());
-            writeCalendars(project.getCalendar());
+            writeProjectCalendars(project.getCalendar());
             writeUDF();
             writeActivityCodeDefinitions();
             writeUserDefinedFieldDefinitions();
             writeExpenseCategories();
             writeCostAccounts();
             writeResourceCurves();
-            writeCalendars();
+            writeGlobalCalendars();
             writeResources();
             writeRoles();
             writeRoleAssignments();
@@ -791,10 +791,10 @@ final class PrimaveraPMProjectWriter
    /**
     * This method writes calendar data to a PMXML file.
     */
-   private void writeCalendars()
+   private void writeGlobalCalendars()
    {
       List<CalendarType> calendars = m_apibo.getCalendar();
-      m_projectFile.getCalendars().stream().filter(c -> c.getType() != org.mpxj.CalendarType.PROJECT).forEach(c -> writeCalendar(calendars, c));
+      m_projectFile.getCalendarsForProject().stream().filter(c -> c.getType() != org.mpxj.CalendarType.PROJECT).forEach(c -> writeCalendar(calendars, c));
    }
 
    /**
@@ -802,9 +802,9 @@ final class PrimaveraPMProjectWriter
     *
     * @param calendars project calendar container
     */
-   private void writeCalendars(List<CalendarType> calendars)
+   private void writeProjectCalendars(List<CalendarType> calendars)
    {
-      m_projectFile.getCalendars().stream().filter(c -> c.getType() == org.mpxj.CalendarType.PROJECT).forEach(c -> writeCalendar(calendars, c));
+      m_projectFile.getCalendarsForProject().stream().filter(c -> c.getType() == org.mpxj.CalendarType.PROJECT).forEach(c -> writeCalendar(calendars, c));
    }
 
    /**

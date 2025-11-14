@@ -687,7 +687,7 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeCalendars() throws IOException
    {
       m_writer.writeArrayFieldStart("calendars");
-      for (ProjectCalendar calendar : m_projectFile.getCalendars())
+      for (ProjectCalendar calendar : m_projectFile.getCalendarsForProject())
       {
          writeCalendar(calendar);
       }

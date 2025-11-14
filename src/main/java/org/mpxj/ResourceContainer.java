@@ -23,6 +23,7 @@
 
 package org.mpxj;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -33,17 +34,27 @@ import org.mpxj.common.PopulatedFields;
 /**
  * Manages the collection of resources belonging to a project.
  */
-public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
+public class ResourceContainer extends ProjectEntityWithIDContainer<Resource> implements ChildResourceContainer
 {
    /**
     * Constructor.
     *
-    * @param projectFile parent project
+    * @param context parent context
     */
-   public ResourceContainer(ProjectFile projectFile)
+   public ResourceContainer(ProjectContext context)
    {
-      super(projectFile);
-      m_projectFile = projectFile;
+      super(context);
+      m_context = context;
+   }
+
+   @Override public List<Resource> getChildResources()
+   {
+      return m_childResources;
+   }
+
+   @Override public Resource addResource()
+   {
+      return add();
    }
 
    @Override public void removed(Resource resource)
@@ -61,28 +72,32 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
       }
       else
       {
-         m_projectFile.getChildResources().remove(resource);
+         m_childResources.remove(resource);
       }
 
       //
       // Remove all resource assignments
       //
-      Iterator<ResourceAssignment> iter = m_projectFile.getResourceAssignments().iterator();
+      m_context.getProjects().forEach(p -> removeAssignments(p, resource));
+
+      ProjectCalendar calendar = resource.getCalendar();
+      if (calendar != null)
+      {
+         calendar.remove();
+      }
+   }
+
+   private void removeAssignments(ProjectFile project, Resource resource)
+   {
+      Iterator<ResourceAssignment> iter = project.getResourceAssignments().iterator();
       Integer resourceUniqueID = resource.getUniqueID();
       while (iter.hasNext())
       {
          ResourceAssignment assignment = iter.next();
          if (NumberHelper.equals(assignment.getResourceUniqueID(), resourceUniqueID))
          {
-            assignment.getTask().removeResourceAssignment(assignment);
             iter.remove();
          }
-      }
-
-      ProjectCalendar calendar = resource.getCalendar();
-      if (calendar != null)
-      {
-         calendar.remove();
       }
    }
 
@@ -93,9 +108,9 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
     */
    public Resource add()
    {
-      Resource resource = new Resource(m_projectFile);
+      Resource resource = new Resource(m_context);
       add(resource);
-      m_projectFile.getChildResources().add(resource);
+      m_childResources.add(resource);
       return resource;
    }
 
@@ -108,13 +123,13 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
    {
       if (size() > 1)
       {
-         m_projectFile.getChildResources().clear();
+         m_childResources.clear();
          this.forEach(r -> r.getChildResources().clear());
          this.forEach(r -> {
             Resource parent = r.getParentResource();
             if (parent == null)
             {
-               m_projectFile.getChildResources().add(r);
+               m_childResources.add(r);
             }
             else
             {
@@ -131,7 +146,7 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
     */
    public Set<FieldType> getPopulatedFields()
    {
-      return new PopulatedFields<>(m_projectFile, ResourceField.class, m_projectFile.getUserDefinedFields().getResourceFields(), this).getPopulatedFields();
+      return new PopulatedFields<>(null, ResourceField.class, m_context.getUserDefinedFields().getResourceFields(), this).getPopulatedFields();
    }
 
    /**
@@ -141,7 +156,7 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
     */
    public List<CustomField> getCustomFields()
    {
-      return m_projectFile.getCustomFields().getCustomFieldsByFieldTypeClass(FieldTypeClass.RESOURCE);
+      return m_context.getCustomFields().getCustomFieldsByFieldTypeClass(FieldTypeClass.RESOURCE);
    }
 
    /**
@@ -152,8 +167,9 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
     */
    public FieldType getFieldTypeByAlias(String alias)
    {
-      return m_projectFile.getCustomFields().getFieldTypeByAlias(FieldTypeClass.RESOURCE, alias);
+      return m_context.getCustomFields().getFieldTypeByAlias(FieldTypeClass.RESOURCE, alias);
    }
 
-   private final ProjectFile m_projectFile;
+   private final ProjectContext m_context;
+   private final List<Resource> m_childResources = new ArrayList<>();
 }

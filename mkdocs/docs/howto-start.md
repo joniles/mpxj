@@ -13,7 +13,25 @@ formats.
 The diagram below illustrates the key entities represented by the MPXJ
 data structure.
 
-![Diagram of key MPXJ entities](images/mpxj-entities.png)
+<figure markdown="span">
+```mermaid
+graph TD
+    Project(Project)
+    Resource(Resource)
+    ResourceAssignment(Resource Assignment)    
+    Task(Task)
+    Calendar(Calendar)
+    Relation(Relation)
+    Project --> Task
+    Calendar --> Resource
+    Project --> Resource
+    Project --> Calendar
+    Task --> ResourceAssignment
+    Resource --> ResourceAssignment    
+    Calendar --> Task
+    Task --> Relation
+```
+</figure>
 
 MPXJ currently allows project data to be read from a wide variety
 of schedule file formats and databases. You can find details of the 
