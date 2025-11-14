@@ -27,16 +27,17 @@ package org.mpxj;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.Collections;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
 import org.mpxj.common.BooleanHelper;
-import org.mpxj.common.NumberHelper;
 import org.mpxj.common.PopulatedFields;
 import org.mpxj.common.ProjectFieldLists;
 
@@ -52,7 +53,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    ProjectProperties(ProjectFile file)
    {
-      super(file);
+      m_parentFile = file;
 
       //
       // Configure MPX File Creation Record Settings
@@ -87,8 +88,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       setDefaultDurationUnits(TimeUnit.DAYS);
       setDefaultDurationIsFixed(false);
       setDefaultWorkUnits(TimeUnit.HOURS);
-      setMinutesPerDay(DEFAULT_MINUTES_PER_DAY);
-      setMinutesPerWeek(DEFAULT_MINUTES_PER_WEEK);
       setDefaultStandardRate(new Rate(10, TimeUnit.HOURS));
       setDefaultOvertimeRate(new Rate(15, TimeUnit.HOURS));
       setUpdatingTaskStatusUpdatesResourceStatus(true);
@@ -130,9 +129,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       // Configure non-MPX attributes
       //
       setProjectExternallyEdited(false);
-      setMinutesPerDay(DEFAULT_MINUTES_PER_DAY);
-      setDaysPerMonth(DEFAULT_DAYS_PER_MONTH);
-      setMinutesPerWeek(DEFAULT_MINUTES_PER_WEEK);
       setFiscalYearStart(false);
       setDefaultTaskEarnedValueMethod(EarnedValueMethod.PERCENT_COMPLETE);
       setNewTasksEstimated(true);
@@ -150,6 +146,16 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       setCriticalActivityType(CriticalActivityType.TOTAL_FLOAT);
       setTotalSlackCalculationType(TotalSlackCalculationType.SMALLEST_SLACK);
       setRelationshipLagCalendar(RelationshipLagCalendar.PREDECESSOR);
+   }
+
+   /**
+    * Retrieve the parent project.
+    *
+    * @return parent project
+    */
+   public ProjectFile getParentFile()
+   {
+      return m_parentFile;
    }
 
    /**
@@ -603,7 +609,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public ProjectCalendar getDefaultCalendar()
    {
-      return getParentFile().getCalendars().getByUniqueID((Integer) get(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID));
+      return m_parentFile.getCalendars().getByUniqueID((Integer) get(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID));
    }
 
    /**
@@ -643,7 +649,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public ProjectCalendar getActivityDefaultCalendar()
    {
-      return getParentFile().getCalendars().getByUniqueID((Integer) get(ProjectField.ACTIVITY_DEFAULT_CALENDAR_UNIQUE_ID));
+      return m_parentFile.getCalendars().getByUniqueID((Integer) get(ProjectField.ACTIVITY_DEFAULT_CALENDAR_UNIQUE_ID));
    }
 
    /**
@@ -2872,7 +2878,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public Location getLocation()
    {
-      return getParentFile().getLocations().getByUniqueID(getLocationUniqueID());
+      return m_parentFile.getLocations().getByUniqueID(getLocationUniqueID());
    }
 
    /**
@@ -2913,7 +2919,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public ProjectFile getResourcePoolObject()
    {
-      return getParentFile().readExternalProject(getResourcePoolFile());
+      return m_parentFile.readExternalProject(getResourcePoolFile());
    }
 
    /**
@@ -3699,12 +3705,57 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
 
    @Override void handleFieldChange(FieldType field, Object oldValue, Object newValue)
    {
-      // No action required
+      if (field instanceof ProjectField)
+      {
+         switch ((ProjectField)field)
+         {
+            case DEFAULT_CALENDAR_UNIQUE_ID:
+            {
+               m_parentFile.getCalendars().setDefaultCalendarUniqueID((Integer) newValue);
+               break;
+            }
+
+            case DAYS_PER_MONTH:
+            {
+               m_parentFile.getProjectContext().getTimeUnitDefaults().setDaysPerMonth((Integer) newValue);
+               break;
+            }
+
+            case MINUTES_PER_DAY:
+            {
+               m_parentFile.getProjectContext().getTimeUnitDefaults().setMinutesPerDay((Integer) newValue);
+               break;
+            }
+
+            case MINUTES_PER_WEEK:
+            {
+               m_parentFile.getProjectContext().getTimeUnitDefaults().setMinutesPerWeek((Integer) newValue);
+               break;
+            }
+
+            case MINUTES_PER_MONTH:
+            {
+               m_parentFile.getProjectContext().getTimeUnitDefaults().setMinutesPerMonth((Integer) newValue);
+               break;
+            }
+
+            case MINUTES_PER_YEAR:
+            {
+               m_parentFile.getProjectContext().getTimeUnitDefaults().setMinutesPerYear((Integer) newValue);
+               break;
+            }
+            
+            default:
+            {
+               break;
+            }
+         }
+      }
    }
 
    @Override boolean getAlwaysCalculatedField(FieldType field)
    {
-      return false;
+      return ALWAYS_CALCULATED_FIELDS.contains(field);
    }
 
    @Override Function<ProjectProperties, Object> getCalculationMethod(FieldType field)
@@ -3719,7 +3770,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public Set<FieldType> getPopulatedFields()
    {
-      return new PopulatedFields<>(getParentFile(), ProjectField.class, getParentFile().getUserDefinedFields().getProjectFields(), Collections.singletonList(this)).getPopulatedFields();
+      return new PopulatedFields<>(m_parentFile, ProjectField.class, m_parentFile.getUserDefinedFields().getProjectFields(), Collections.singletonList(this)).getPopulatedFields();
    }
 
    /**
@@ -3735,38 +3786,30 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
 
    private LocalDateTime calculateStartDate()
    {
-      return getParentFile().getEarliestStartDate();
+      return m_parentFile.getEarliestStartDate();
    }
 
    private LocalDateTime calculateFinishDate()
    {
-      return getParentFile().getLatestFinishDate();
+      return m_parentFile.getLatestFinishDate();
    }
 
    private LocalDateTime calculateActualStart()
    {
-      return getParentFile().getActualStart();
+      return m_parentFile.getActualStart();
    }
 
    private LocalDateTime calculateActualFinish()
    {
-      return getParentFile().getActualFinish();
+      return m_parentFile.getActualFinish();
    }
 
-   private Integer calculateMinutesPerWeek()
+   private Integer calculateDefaultCalendarUniqueID()
    {
-      return Integer.valueOf(DEFAULT_DAYS_PER_WEEK * NumberHelper.getInt(getMinutesPerDay()));
+      return m_parentFile.getCalendars().getDefaultCalendarUniqueID();
    }
 
-   private Integer calculateMinutesPerMonth()
-   {
-      return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()));
-   }
-
-   private Integer calculateMinutesPerYear()
-   {
-      return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()) * 12);
-   }
+   private final ProjectFile m_parentFile;
 
    /**
     * Default time separator character.
@@ -3858,26 +3901,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    private static final Double DEFAULT_PERCENT_COMPLETE = Double.valueOf(0);
 
-   /**
-    * Default days per week.
-    */
-   private static final int DEFAULT_DAYS_PER_WEEK = 5;
-
-   /**
-    * Default days per month.
-    */
-   private static final Integer DEFAULT_DAYS_PER_MONTH = Integer.valueOf(20);
-
-   /**
-    * Default minutes per day.
-    */
-   private static final Integer DEFAULT_MINUTES_PER_DAY = Integer.valueOf(480);
-
-   /**
-    * Default minutes per week.
-    */
-   private static final Integer DEFAULT_MINUTES_PER_WEEK = Integer.valueOf(2400);
-
    private static final Integer DEFAULT_OTHER_PROJECT_ASSIGNMENT_PRIORITY = Integer.valueOf(5);
 
    private static final Duration DEFAULT_MINIMUM_FLOAT = Duration.getInstance(1, TimeUnit.HOURS);
@@ -3886,6 +3909,14 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
 
    private static final Integer DEFAULT_FLOAT_PATHS = Integer.valueOf(10);
 
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(
+      ProjectField.DEFAULT_CALENDAR_UNIQUE_ID,
+      ProjectField.DAYS_PER_MONTH,
+      ProjectField.MINUTES_PER_DAY,
+      ProjectField.MINUTES_PER_WEEK,
+      ProjectField.MINUTES_PER_MONTH,
+      ProjectField.MINUTES_PER_YEAR));
+
    private static final Map<FieldType, Function<ProjectProperties, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
    {
@@ -3893,12 +3924,14 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.FINISH_DATE, ProjectProperties::calculateFinishDate);
       CALCULATED_FIELD_MAP.put(ProjectField.ACTUAL_START, ProjectProperties::calculateActualStart);
       CALCULATED_FIELD_MAP.put(ProjectField.ACTUAL_FINISH, ProjectProperties::calculateActualFinish);
-      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_WEEK, ProjectProperties::calculateMinutesPerWeek);
-      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_MONTH, ProjectProperties::calculateMinutesPerMonth);
-      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_YEAR, ProjectProperties::calculateMinutesPerYear);
 
-      CALCULATED_FIELD_MAP.put(ProjectField.DAYS_PER_MONTH, p -> DEFAULT_DAYS_PER_MONTH);
-      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_DAY, p -> DEFAULT_MINUTES_PER_DAY);
+      CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID, ProjectProperties::calculateDefaultCalendarUniqueID);
+      CALCULATED_FIELD_MAP.put(ProjectField.DAYS_PER_MONTH, p -> p.m_parentFile.getProjectContext().getTimeUnitDefaults().getDaysPerMonth());
+      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_DAY, p -> p.m_parentFile.getProjectContext().getTimeUnitDefaults().getMinutesPerDay());
+      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_WEEK, p -> p.m_parentFile.getProjectContext().getTimeUnitDefaults().getMinutesPerWeek());
+      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_MONTH, p -> p.m_parentFile.getProjectContext().getTimeUnitDefaults().getMinutesPerMonth());
+      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_YEAR, p -> p.m_parentFile.getProjectContext().getTimeUnitDefaults().getMinutesPerYear());
+
       CALCULATED_FIELD_MAP.put(ProjectField.DATE_SEPARATOR, p -> Character.valueOf(DEFAULT_DATE_SEPARATOR));
       CALCULATED_FIELD_MAP.put(ProjectField.TIME_SEPARATOR, p -> Character.valueOf(DEFAULT_TIME_SEPARATOR));
       CALCULATED_FIELD_MAP.put(ProjectField.THOUSANDS_SEPARATOR, p -> Character.valueOf(DEFAULT_THOUSANDS_SEPARATOR));

@@ -48,6 +48,16 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
    }
 
    /**
+    * Retrieve the sequence provider for this container.
+    *
+    * @return sequence provider
+    */
+   public UniqueIdObjectSequenceProvider getSequenceProvider()
+   {
+      return m_sequenceProvider;
+   }
+
+   /**
     * Returns the value of the first Unique ID to use when renumbering Unique IDs.
     *
     * @return first Unique ID value

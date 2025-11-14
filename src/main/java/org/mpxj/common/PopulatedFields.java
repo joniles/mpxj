@@ -66,11 +66,21 @@ public class PopulatedFields<E extends Enum<E> & FieldType, T extends FieldConta
       m_fields.addAll(userDefinedFields);
       m_collection = collection;
 
-      ProjectProperties props = project.getProjectProperties();
-      m_defaultDurationUnits = props.getDefaultDurationUnits();
-      m_defaultTaskType = props.getDefaultTaskType();
-      m_defaultTaskEarnedValueMethod = props.getDefaultTaskEarnedValueMethod();
-      m_defaultFixedCostAccrual = props.getDefaultFixedCostAccrual();
+      if (project == null)
+      {
+         m_defaultDurationUnits = null;
+         m_defaultTaskType = null;
+         m_defaultTaskEarnedValueMethod = null;
+         m_defaultFixedCostAccrual = null;
+      }
+      else
+      {
+         ProjectProperties props = project.getProjectProperties();
+         m_defaultDurationUnits = props.getDefaultDurationUnits();
+         m_defaultTaskType = props.getDefaultTaskType();
+         m_defaultTaskEarnedValueMethod = props.getDefaultTaskEarnedValueMethod();
+         m_defaultFixedCostAccrual = props.getDefaultFixedCostAccrual();
+      }
    }
 
    /**

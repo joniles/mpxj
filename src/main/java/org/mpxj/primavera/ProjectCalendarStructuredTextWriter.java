@@ -118,7 +118,7 @@ class ProjectCalendarStructuredTextWriter
                continue;
             }
 
-            long dateValue = PrimaveraReader.EXCEPTION_EPOCH.until(exceptionDate, ChronoUnit.DAYS);
+            long dateValue = TableContextReader.EXCEPTION_EPOCH.until(exceptionDate, ChronoUnit.DAYS);
 
             StructuredTextRecord exceptionRecord = new StructuredTextRecord();
             exceptionsRecord.addChild(exceptionRecord);

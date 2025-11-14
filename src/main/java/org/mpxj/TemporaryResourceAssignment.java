@@ -1,9 +1,7 @@
 /*
- * file:       ProjectEntity.java
- * author:     Scott Melville
- *             Jon Iles
- * copyright:  (c) Packwood Software 2002-2003
- * date:       15/08/2002
+ * file:       TemporaryResourceAssignment.java
+ * author:     Jon Iles
+ * date:       2025-11-12
  */
 
 /*
@@ -25,34 +23,17 @@
 package org.mpxj;
 
 /**
- * This is the base class from which all classes representing records found
- * in an MPX file are derived. It contains common functionality and
- * attribute storage used by all of the derived classes.
+ * Represents a temporary resourc eassignment which does not form part f a schedule.
  */
-class ProjectEntity
+public class TemporaryResourceAssignment extends ResourceAssignment
 {
    /**
     * Constructor.
     *
-    * @param mpx Parent MPX file
+    * @param file parent project
     */
-   protected ProjectEntity(ProjectFile mpx)
+   public TemporaryResourceAssignment(ProjectFile file)
    {
-      m_mpx = mpx;
+      super(file);
    }
-
-   /**
-    * Accessor method allowing retrieval of ProjectFile reference.
-    *
-    * @return reference to this the parent ProjectFile instance
-    */
-   public final ProjectFile getParentFile()
-   {
-      return (m_mpx);
-   }
-
-   /**
-    * Reference to parent ProjectFile.
-    */
-   private final ProjectFile m_mpx;
 }

@@ -23,6 +23,7 @@
 
 package org.mpxj;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -34,7 +35,7 @@ import org.mpxj.common.PopulatedFields;
 /**
  * Manages the collection of tasks belonging to a project.
  */
-public class TaskContainer extends ProjectEntityWithIDContainer<Task>
+public class TaskContainer extends ProjectEntityWithIDContainer<Task> implements ChildTaskContainer
 {
    /**
     * Constructor.
@@ -45,6 +46,16 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
    {
       super(projectFile);
       m_projectFile = projectFile;
+   }
+
+   @Override public List<Task> getChildTasks()
+   {
+      return m_childTasks;
+   }
+
+   @Override public Task addTask()
+   {
+      return add();
    }
 
    /**
@@ -85,13 +96,8 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
       while (iter.hasNext())
       {
          ResourceAssignment assignment = iter.next();
-         if (assignment.getTask() == task)
+         if (assignment.getTaskUniqueID().equals(task.getUniqueID()))
          {
-            Resource resource = assignment.getResource();
-            if (resource != null)
-            {
-               resource.removeResourceAssignment(assignment);
-            }
             iter.remove();
          }
       }
@@ -263,4 +269,5 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
    }
 
    private final ProjectFile m_projectFile;
+   private final List<Task> m_childTasks = new ArrayList<>();
 }

@@ -132,7 +132,20 @@ public class ResourceAssignmentFactory
             data2 = assnFixedData2.getByteArrayValue(assnFixedData.getIndexFromOffset(offset));
          }
 
-         ResourceAssignment assignment = new ResourceAssignment(file, null);
+
+         Task task = file.getTaskByUniqueID(ByteArrayHelper.getInt(data, fieldMap.getFixedDataOffset(AssignmentField.TASK_UNIQUE_ID)));
+         if (task == null)
+         {
+            continue;
+         }
+
+         Resource resource = file.getResourceByUniqueID(ByteArrayHelper.getInt(data, fieldMap.getFixedDataOffset(AssignmentField.RESOURCE_UNIQUE_ID)));
+         if (task.getExistingResourceAssignment(resource) != null)
+         {
+            continue;
+         }
+
+         ResourceAssignment assignment = task.addResourceAssignment(resource);
 
          assignment.disableEvents();
 
@@ -171,73 +184,66 @@ public class ResourceAssignmentFactory
             }
          }
 
-         Task task = file.getTaskByUniqueID(assignment.getTaskUniqueID());
-         if (task != null && task.getExistingResourceAssignment(assignment.getResource()) == null)
+         ResourceType resourceType = resource == null ? ResourceType.WORK : resource.getType();
+         ProjectCalendar calendar = assignment.getEffectiveCalendar();
+
+         for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
          {
-            task.addResourceAssignment(assignment);
+            assignment.setTimephasedBaselineWork(index, timephasedFactory.getBaselineWork(calendar, assignment, MPPTimephasedBaselineWorkNormaliser.INSTANCE, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])), !useRawTimephasedData));
+            assignment.setTimephasedBaselineCost(index, timephasedFactory.getBaselineCost(assignment, MPPTimephasedBaselineCostNormaliser.INSTANCE, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])), !useRawTimephasedData));
+         }
 
-            Resource resource = file.getResourceByUniqueID(assignment.getResourceUniqueID());
-            ResourceType resourceType = resource == null ? ResourceType.WORK : resource.getType();
-            ProjectCalendar calendar = assignment.getEffectiveCalendar();
+         byte[] timephasedActualWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_WORK));
+         byte[] timephasedWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_WORK));
+         byte[] timephasedActualOvertimeWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK));
 
-            for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
+         List<TimephasedWork> timephasedActualWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualWorkData);
+         List<TimephasedWork> timephasedWork = timephasedFactory.getPlannedWork(calendar, assignment, timephasedWorkData, timephasedActualWork, resourceType);
+         List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualOvertimeWorkData);
+
+         if (task.getDuration() == null || task.getDuration().getDuration() == 0)
+         {
+            // If we have a zero duration task, we'll set the assignment actual start and finish based on the task actual start and finish
+            assignment.setActualStart(task.getActualStart() != null ? assignment.getStart() : null);
+            assignment.setActualFinish(task.getActualFinish() != null ? assignment.getFinish() : null);
+         }
+         else
+         {
+            // We have a task with a duration, try to determine the assignment actual start and finish values
+            assignment.setActualFinish((task.getActualStart() != null && assignment.getRemainingWork().getDuration() == 0 && resource != null) ? assignment.getFinish() : null);
+            assignment.setActualStart(assignment.getActualFinish() != null || !timephasedActualWork.isEmpty() ? assignment.getStart() : null);
+         }
+
+         // TODO: this assumes that timephased data for all assignments of a task is the same
+         if (!task.getMilestone() && !processedSplits.contains(task))
+         {
+            processedSplits.add(task);
+            SplitTaskFactory.processSplitData(assignment, timephasedActualWork, timephasedWork);
+         }
+
+         createTimephasedData(file, assignment, timephasedWork, timephasedActualWork);
+
+         assignment.setTimephasedWork(new DefaultTimephasedWorkContainer(assignment, MPPTimephasedWorkNormaliser.INSTANCE, timephasedWork, !useRawTimephasedData));
+         assignment.setTimephasedActualWork(new DefaultTimephasedWorkContainer(assignment, MPPTimephasedWorkNormaliser.INSTANCE, timephasedActualWork, !useRawTimephasedData));
+         assignment.setTimephasedActualOvertimeWork(new DefaultTimephasedWorkContainer(assignment, MPPTimephasedWorkNormaliser.INSTANCE, timephasedActualOvertimeWork, !useRawTimephasedData));
+
+         if (timephasedWorkData != null)
+         {
+            // TODO: there is some additional logic around split tasks we need to account for,
+            // the flag alone doesn't seem to be set for contoured split tasks.
+
+            // If the assignment is contoured, this will already have been set by the time we get here.
+            // If we're still set to flat, retrieve the actual work contour setting from the timephased data.
+            if (assignment.getWorkContour() == WorkContour.FLAT)
             {
-               assignment.setTimephasedBaselineWork(index, timephasedFactory.getBaselineWork(calendar, assignment, MPPTimephasedBaselineWorkNormaliser.INSTANCE, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])), !useRawTimephasedData));
-               assignment.setTimephasedBaselineCost(index, timephasedFactory.getBaselineCost(assignment, MPPTimephasedBaselineCostNormaliser.INSTANCE, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])), !useRawTimephasedData));
-            }
-
-            byte[] timephasedActualWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_WORK));
-            byte[] timephasedWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_WORK));
-            byte[] timephasedActualOvertimeWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK));
-
-            List<TimephasedWork> timephasedActualWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualWorkData);
-            List<TimephasedWork> timephasedWork = timephasedFactory.getPlannedWork(calendar, assignment, timephasedWorkData, timephasedActualWork, resourceType);
-            List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualOvertimeWorkData);
-
-            if (task.getDuration() == null || task.getDuration().getDuration() == 0)
-            {
-               // If we have a zero duration task, we'll set the assignment actual start and finish based on the task actual start and finish
-               assignment.setActualStart(task.getActualStart() != null ? assignment.getStart() : null);
-               assignment.setActualFinish(task.getActualFinish() != null ? assignment.getFinish() : null);
-            }
-            else
-            {
-               // We have a task with a duration, try to determine the assignment actual start and finish values
-               assignment.setActualFinish((task.getActualStart() != null && assignment.getRemainingWork().getDuration() == 0 && resource != null) ? assignment.getFinish() : null);
-               assignment.setActualStart(assignment.getActualFinish() != null || !timephasedActualWork.isEmpty() ? assignment.getStart() : null);
-            }
-
-            // TODO: this assumes that timephased data for all assignments of a task is the same
-            if (!task.getMilestone() && !processedSplits.contains(task))
-            {
-               processedSplits.add(task);
-               SplitTaskFactory.processSplitData(assignment, timephasedActualWork, timephasedWork);
-            }
-
-            createTimephasedData(file, assignment, timephasedWork, timephasedActualWork);
-
-            assignment.setTimephasedWork(new DefaultTimephasedWorkContainer(assignment, MPPTimephasedWorkNormaliser.INSTANCE, timephasedWork, !useRawTimephasedData));
-            assignment.setTimephasedActualWork(new DefaultTimephasedWorkContainer(assignment, MPPTimephasedWorkNormaliser.INSTANCE, timephasedActualWork, !useRawTimephasedData));
-            assignment.setTimephasedActualOvertimeWork(new DefaultTimephasedWorkContainer(assignment, MPPTimephasedWorkNormaliser.INSTANCE, timephasedActualOvertimeWork, !useRawTimephasedData));
-
-            if (timephasedWorkData != null)
-            {
-               // TODO: there is some additional logic around split tasks we need to account for,
-               // the flag alone doesn't seem to be set for contoured split tasks.
-
-               // If the assignment is contoured, this will already have been set by the time we get here.
-               // If we're still set to flat, retrieve the actual work contour setting from the timephased data.
-               if (assignment.getWorkContour() == WorkContour.FLAT)
+               if (timephasedWorkData.length >= 30)
                {
-                  if (timephasedWorkData.length >= 30)
-                  {
-                     assignment.setWorkContour(WorkContourHelper.getInstance(file, ByteArrayHelper.getShort(timephasedWorkData, 28)));
-                  }
+                  assignment.setWorkContour(WorkContourHelper.getInstance(file, ByteArrayHelper.getShort(timephasedWorkData, 28)));
                }
             }
-
-            file.getEventManager().fireAssignmentReadEvent(assignment);
          }
+
+         file.getEventManager().fireAssignmentReadEvent(assignment);
       }
    }
 
