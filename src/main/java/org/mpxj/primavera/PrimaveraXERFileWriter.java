@@ -64,6 +64,7 @@ import org.mpxj.PercentCompleteType;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCode;
 import org.mpxj.ProjectCodeValue;
+import org.mpxj.ProjectContext;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.Relation;
@@ -125,6 +126,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    @Override public void write(ProjectFile projectFile, OutputStream outputStream) throws IOException
    {
       m_file = projectFile;
+      m_context = projectFile.getProjectContext();
       m_writer = new XerWriter(projectFile, new OutputStreamWriter(outputStream, getCharset()));
       m_rateObjectID = new ObjectSequence(1);
       m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(projectFile);
@@ -221,13 +223,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeCurrencies()
    {
       m_writer.writeTable("CURRTYPE", CURRENCY_COLUMNS);
-      if (m_file.getCurrencies().isEmpty())
+      if (m_context.getCurrencies().isEmpty())
       {
          m_writer.writeRecord(CURRENCY_COLUMNS, DEFAULT_CURRENCY);
       }
       else
       {
-         m_file.getCurrencies().forEach(c -> m_writer.writeRecord(CURRENCY_COLUMNS, c));
+         m_context.getCurrencies().forEach(c -> m_writer.writeRecord(CURRENCY_COLUMNS, c));
       }
    }
 
@@ -385,7 +387,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeCostAccounts()
    {
       m_writer.writeTable("ACCOUNT", COST_ACCOUNT_COLUMNS);
-      m_file.getCostAccounts().stream().sorted(Comparator.comparing(CostAccount::getUniqueID)).forEach(a -> m_writer.writeRecord(COST_ACCOUNT_COLUMNS, a));
+      m_context.getCostAccounts().stream().sorted(Comparator.comparing(CostAccount::getUniqueID)).forEach(a -> m_writer.writeRecord(COST_ACCOUNT_COLUMNS, a));
    }
 
    /**
@@ -394,7 +396,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeExpenseCategories()
    {
       m_writer.writeTable("COSTTYPE", EXPENSE_CATEGORY_COLUMNS);
-      m_file.getExpenseCategories().stream().sorted(Comparator.comparing(ExpenseCategory::getUniqueID)).forEach(a -> m_writer.writeRecord(EXPENSE_CATEGORY_COLUMNS, a));
+      m_context.getExpenseCategories().stream().sorted(Comparator.comparing(ExpenseCategory::getUniqueID)).forEach(a -> m_writer.writeRecord(EXPENSE_CATEGORY_COLUMNS, a));
    }
 
    /**
@@ -403,7 +405,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeUnitsOfMeasure()
    {
       m_writer.writeTable("UMEASURE", UNIT_OF_MEASURE_COLUMNS);
-      m_file.getUnitsOfMeasure().stream().sorted(Comparator.comparing(UnitOfMeasure::getUniqueID)).forEach(a -> m_writer.writeRecord(UNIT_OF_MEASURE_COLUMNS, a));
+      m_context.getUnitsOfMeasure().stream().sorted(Comparator.comparing(UnitOfMeasure::getUniqueID)).forEach(a -> m_writer.writeRecord(UNIT_OF_MEASURE_COLUMNS, a));
    }
 
    /**
@@ -411,13 +413,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeShifts()
    {
-      if (m_file.getShifts().isEmpty())
+      if (m_context.getShifts().isEmpty())
       {
          return;
       }
 
       m_writer.writeTable("SHIFT", SHIFT_COLUMNS);
-      m_file.getShifts().stream().sorted(Comparator.comparing(Shift::getUniqueID)).forEach(l -> m_writer.writeRecord(SHIFT_COLUMNS, l));
+      m_context.getShifts().stream().sorted(Comparator.comparing(Shift::getUniqueID)).forEach(l -> m_writer.writeRecord(SHIFT_COLUMNS, l));
    }
 
    /**
@@ -425,13 +427,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeShiftPeriods()
    {
-      if (m_file.getShiftPeriods().isEmpty())
+      if (m_context.getShiftPeriods().isEmpty())
       {
          return;
       }
 
       m_writer.writeTable("SHIFTPER", SHIFT_PERIOD_COLUMNS);
-      m_file.getShiftPeriods().stream().sorted(Comparator.comparing(ShiftPeriod::getUniqueID)).forEach(l -> m_writer.writeRecord(SHIFT_PERIOD_COLUMNS, l));
+      m_context.getShiftPeriods().stream().sorted(Comparator.comparing(ShiftPeriod::getUniqueID)).forEach(l -> m_writer.writeRecord(SHIFT_PERIOD_COLUMNS, l));
    }
 
    /**
@@ -439,13 +441,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeLocations()
    {
-      if (m_file.getLocations().isEmpty())
+      if (m_context.getLocations().isEmpty())
       {
          return;
       }
 
       m_writer.writeTable("LOCATION", LOCATION_COLUMNS);
-      m_file.getLocations().stream().sorted(Comparator.comparing(Location::getUniqueID)).forEach(l -> m_writer.writeRecord(LOCATION_COLUMNS, l));
+      m_context.getLocations().stream().sorted(Comparator.comparing(Location::getUniqueID)).forEach(l -> m_writer.writeRecord(LOCATION_COLUMNS, l));
    }
 
    /**
@@ -463,7 +465,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeResourceCurves()
    {
       m_writer.writeTable("RSRCCURVDATA", RESOURCE_CURVE_COLUMNS);
-      m_file.getWorkContours().stream().filter(w -> !w.isContourManual() && !w.isContourFlat()).sorted(Comparator.comparing(WorkContour::getUniqueID)).forEach(r -> m_writer.writeRecord(RESOURCE_CURVE_COLUMNS, r));
+      m_context.getWorkContours().stream().filter(w -> !w.isContourManual() && !w.isContourFlat()).sorted(Comparator.comparing(WorkContour::getUniqueID)).forEach(r -> m_writer.writeRecord(RESOURCE_CURVE_COLUMNS, r));
    }
 
    /**
@@ -481,7 +483,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeActivityCodes()
    {
       m_writer.writeTable("ACTVTYPE", ACTIVITY_CODE_COLUMNS);
-      m_file.getActivityCodes().stream().sorted(Comparator.comparing(ActivityCode::getUniqueID)).forEach(c -> m_writer.writeRecord(ACTIVITY_CODE_COLUMNS, c));
+      m_context.getActivityCodes().stream().sorted(Comparator.comparing(ActivityCode::getUniqueID)).forEach(c -> m_writer.writeRecord(ACTIVITY_CODE_COLUMNS, c));
    }
 
    /**
@@ -490,7 +492,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeActivityCodeValues()
    {
       m_writer.writeTable("ACTVCODE", ACTIVITY_CODE_VALUE_COLUMNS);
-      m_file.getActivityCodes().stream().map(ActivityCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(ACTIVITY_CODE_VALUE_COLUMNS, v));
+      m_context.getActivityCodes().stream().map(ActivityCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(ACTIVITY_CODE_VALUE_COLUMNS, v));
    }
 
    /**
@@ -519,7 +521,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeUdfDefinitions()
    {
       m_writer.writeTable("UDFTYPE", UDF_TYPE_COLUMNS);
-      m_userDefinedFields.stream().map(f -> new Pair<>(f, m_file.getCustomFields().get(f))).sorted(Comparator.comparing(p -> p.getSecond() == null ? Integer.valueOf(FieldTypeHelper.getFieldID(p.getFirst())) : p.getSecond().getUniqueID())).forEach(p -> m_writer.writeRecord(UDF_TYPE_COLUMNS, p));
+      m_userDefinedFields.stream().map(f -> new Pair<>(f, m_context.getCustomFields().get(f))).sorted(Comparator.comparing(p -> p.getSecond() == null ? Integer.valueOf(FieldTypeHelper.getFieldID(p.getFirst())) : p.getSecond().getUniqueID())).forEach(p -> m_writer.writeRecord(UDF_TYPE_COLUMNS, p));
    }
 
    /**
@@ -698,7 +700,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeNoteTypes()
    {
       m_writer.writeTable("MEMOTYPE", NOTE_TYPE_COLUMNS);
-      m_file.getNotesTopics().stream().sorted(Comparator.comparing(NotesTopic::getUniqueID)).forEach(n -> m_writer.writeRecord(NOTE_TYPE_COLUMNS, n));
+      m_context.getNotesTopics().stream().sorted(Comparator.comparing(NotesTopic::getUniqueID)).forEach(n -> m_writer.writeRecord(NOTE_TYPE_COLUMNS, n));
    }
 
    /**
@@ -780,13 +782,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeProjectCodes()
    {
-      if (m_file.getProjectCodes().isEmpty())
+      if (m_context.getProjectCodes().isEmpty())
       {
          return;
       }
 
       m_writer.writeTable("PCATTYPE", PROJECT_CODE_COLUMNS);
-      m_file.getProjectCodes().stream().sorted(Comparator.comparing(ProjectCode::getUniqueID)).forEach(c -> m_writer.writeRecord(PROJECT_CODE_COLUMNS, c));
+      m_context.getProjectCodes().stream().sorted(Comparator.comparing(ProjectCode::getUniqueID)).forEach(c -> m_writer.writeRecord(PROJECT_CODE_COLUMNS, c));
    }
 
    /**
@@ -794,13 +796,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeProjectCodeValues()
    {
-      if (m_file.getProjectCodes().isEmpty())
+      if (m_context.getProjectCodes().isEmpty())
       {
          return;
       }
 
       m_writer.writeTable("PCATVAL", PROJECT_CODE_VALUE_COLUMNS);
-      m_file.getProjectCodes().stream().map(ProjectCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(ProjectCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(PROJECT_CODE_VALUE_COLUMNS, v));
+      m_context.getProjectCodes().stream().map(ProjectCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(ProjectCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(PROJECT_CODE_VALUE_COLUMNS, v));
    }
 
    /**
@@ -840,13 +842,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeResourceCodes()
    {
-      if (m_file.getResourceCodes().isEmpty())
+      if (m_context.getResourceCodes().isEmpty())
       {
          return;
       }
 
       m_writer.writeTable("RCATTYPE", RESOURCE_CODE_COLUMNS);
-      m_file.getResourceCodes().stream().sorted(Comparator.comparing(ResourceCode::getUniqueID)).forEach(c -> m_writer.writeRecord(RESOURCE_CODE_COLUMNS, c));
+      m_context.getResourceCodes().stream().sorted(Comparator.comparing(ResourceCode::getUniqueID)).forEach(c -> m_writer.writeRecord(RESOURCE_CODE_COLUMNS, c));
    }
 
    /**
@@ -854,13 +856,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeResourceCodeValues()
    {
-      if (m_file.getResourceCodes().isEmpty())
+      if (m_context.getResourceCodes().isEmpty())
       {
          return;
       }
 
       m_writer.writeTable("RCATVAL", RESOURCE_CODE_VALUE_COLUMNS);
-      m_file.getResourceCodes().stream().map(ResourceCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(ResourceCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(RESOURCE_CODE_VALUE_COLUMNS, v));
+      m_context.getResourceCodes().stream().map(ResourceCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(ResourceCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(RESOURCE_CODE_VALUE_COLUMNS, v));
    }
 
    /**
@@ -887,13 +889,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeRoleCodes()
    {
-      if (m_file.getRoleCodes().isEmpty())
+      if (m_context.getRoleCodes().isEmpty())
       {
          return;
       }
 
       m_writer.writeTable("ROLECATTYPE", ROLE_CODE_COLUMNS);
-      m_file.getRoleCodes().stream().sorted(Comparator.comparing(RoleCode::getUniqueID)).forEach(c -> m_writer.writeRecord(ROLE_CODE_COLUMNS, c));
+      m_context.getRoleCodes().stream().sorted(Comparator.comparing(RoleCode::getUniqueID)).forEach(c -> m_writer.writeRecord(ROLE_CODE_COLUMNS, c));
    }
 
    /**
@@ -901,13 +903,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeRoleCodeValues()
    {
-      if (m_file.getRoleCodes().isEmpty())
+      if (m_context.getRoleCodes().isEmpty())
       {
          return;
       }
 
       m_writer.writeTable("ROLECATVAL", ROLE_CODE_VALUE_COLUMNS);
-      m_file.getRoleCodes().stream().map(RoleCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(RoleCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(ROLE_CODE_VALUE_COLUMNS, v));
+      m_context.getRoleCodes().stream().map(RoleCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(RoleCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(ROLE_CODE_VALUE_COLUMNS, v));
    }
 
    /**
@@ -934,13 +936,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeResourceAssignmentCodes()
    {
-      if (m_file.getResourceAssignmentCodes().isEmpty())
+      if (m_context.getResourceAssignmentCodes().isEmpty())
       {
          return;
       }
 
       m_writer.writeTable("ASGNMNTCATTYPE", RESOURCE_ASSIGNMENT_CODE_COLUMNS);
-      m_file.getResourceAssignmentCodes().stream().sorted(Comparator.comparing(ResourceAssignmentCode::getUniqueID)).forEach(c -> m_writer.writeRecord(RESOURCE_ASSIGNMENT_CODE_COLUMNS, c));
+      m_context.getResourceAssignmentCodes().stream().sorted(Comparator.comparing(ResourceAssignmentCode::getUniqueID)).forEach(c -> m_writer.writeRecord(RESOURCE_ASSIGNMENT_CODE_COLUMNS, c));
    }
 
    /**
@@ -948,13 +950,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeResourceAssignmentCodeValues()
    {
-      if (m_file.getResourceAssignmentCodes().isEmpty())
+      if (m_context.getResourceAssignmentCodes().isEmpty())
       {
          return;
       }
 
       m_writer.writeTable("ASGNMNTCATVAL", RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS);
-      m_file.getResourceAssignmentCodes().stream().map(ResourceAssignmentCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(ResourceAssignmentCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS, v));
+      m_context.getResourceAssignmentCodes().stream().map(ResourceAssignmentCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(ResourceAssignmentCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS, v));
    }
 
    /**
@@ -1088,7 +1090,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          return (StructuredNotes) notes;
       }
 
-      return new StructuredNotes(m_file, null, m_file.getNotesTopics().getDefaultTopic(), notes);
+      return new StructuredNotes(m_file, null, m_context.getNotesTopics().getDefaultTopic(), notes);
    }
 
    /**
@@ -1214,7 +1216,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private Stream<Resource> getSortedResourceStream()
    {
-      return m_file.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID));
+      return m_context.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID));
    }
 
    /**
@@ -1224,7 +1226,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private Stream<Resource> getSortedRoleStream()
    {
-      return m_file.getResources().stream().filter(r -> r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID));
+      return m_context.getResources().stream().filter(r -> r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID));
    }
 
    /**
@@ -1245,7 +1247,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private Currency getDefaultCurrency()
    {
-      Currency currency = m_file.getCurrencies().getByUniqueID(Integer.valueOf(1));
+      Currency currency = m_context.getCurrencies().getByUniqueID(Integer.valueOf(1));
       if (currency == null)
       {
          return DEFAULT_CURRENCY;
@@ -1375,6 +1377,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
    private Charset m_charset = CharsetHelper.CP1252;
    private ProjectFile m_file;
+   private ProjectContext m_context;
    private XerWriter m_writer;
    private ObjectSequence m_rateObjectID;
    private List<Map<String, Object>> m_wbsNotes;
