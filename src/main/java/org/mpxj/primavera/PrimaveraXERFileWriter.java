@@ -130,7 +130,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       m_writer = new XerWriter(projectFile, new OutputStreamWriter(outputStream, getCharset()));
       m_rateObjectID = new ObjectSequence(1);
       m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(projectFile);
-      m_projectFromPrimavera = "Primavera".equals(m_file.getProjectProperties().getFileApplication());
 
       // We need to do this first to ensure the default topic is created if required
       populateWbsNotes();
@@ -363,8 +362,9 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeResourceAssignments()
    {
+      boolean projectFromPrimavera = "Primavera".equals(m_file.getProjectProperties().getFileApplication());
       Map<String, ExportFunction<ResourceAssignment>> columns;
-      if (m_projectFromPrimavera)
+      if (projectFromPrimavera)
       {
          columns = RESOURCE_ASSIGNMENT_COLUMNS;
       }
@@ -562,8 +562,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private List<Map<String, Object>> writeActivityUdfValues()
    {
       Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "TASK".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
-      Integer projectID = getProjectID(m_file.getProjectProperties().getUniqueID());
-      return getActivityStream().map(t -> writeUdfAssignments(fields, projectID, t.getUniqueID(), t)).flatMap(Collection::stream).collect(Collectors.toList());
+      return getActivityStream().map(t -> writeUdfAssignments(fields, getProjectID(t.getParentFile().getProjectProperties().getUniqueID()), t.getUniqueID(), t)).flatMap(Collection::stream).collect(Collectors.toList());
    }
 
    /**
@@ -574,8 +573,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private List<Map<String, Object>> writeWbsUdfValues()
    {
       Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "PROJWBS".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
-      Integer projectID = getProjectID(m_file.getProjectProperties().getUniqueID());
-      return getWbsStream().map(t -> writeUdfAssignments(fields, projectID, t.getUniqueID(), t)).flatMap(Collection::stream).collect(Collectors.toList());
+      return getWbsStream().map(t -> writeUdfAssignments(fields, getProjectID(t.getParentFile().getProjectProperties().getUniqueID()), t.getUniqueID(), t)).flatMap(Collection::stream).collect(Collectors.toList());
    }
 
    /**
@@ -597,8 +595,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private List<Map<String, Object>> writeResourceAssignmentUdfValues()
    {
       Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "TASKRSRC".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
-      Integer projectID = getProjectID(m_file.getProjectProperties().getUniqueID());
-      return getSortedResourceAssignmentStream().map(a -> writeUdfAssignments(fields, projectID, a.getUniqueID(), a)).flatMap(Collection::stream).collect(Collectors.toList());
+      return getSortedResourceAssignmentStream().map(a -> writeUdfAssignments(fields, getProjectID(a.getParentFile().getProjectProperties().getUniqueID()), a.getUniqueID(), a)).flatMap(Collection::stream).collect(Collectors.toList());
    }
 
    /**
@@ -966,7 +963,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       List<Map<String, Object>> assignments = getSortedResourceAssignmentStream()
          .map(r -> r.getResourceAssignmentCodeValues().values().stream().sorted(Comparator.comparing(ResourceAssignmentCodeValue::getParentCodeUniqueID))
-            .map(v -> populateResourceAssignmentCodeAssignment(r.getUniqueID(), v)).collect(Collectors.toList()))
+            .map(v -> populateResourceAssignmentCodeAssignment(getProjectID(r.getParentFile().getProjectProperties().getUniqueID()), r.getUniqueID(), v)).collect(Collectors.toList()))
          .flatMap(Collection::stream).collect(Collectors.toList());
 
       if (assignments.isEmpty())
@@ -1017,13 +1014,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     * @param value resource assignment code value
     * @return map of fields
     */
-   private Map<String, Object> populateResourceAssignmentCodeAssignment(Integer resourceAssignmentID, ResourceAssignmentCodeValue value)
+   private Map<String, Object> populateResourceAssignmentCodeAssignment(Integer projectID, Integer resourceAssignmentID, ResourceAssignmentCodeValue value)
    {
       Map<String, Object> map = new HashMap<>();
       map.put("taskrsrc_id", resourceAssignmentID);
       map.put("asgnmnt_catg_type_id", value.getParentCodeUniqueID());
       map.put("asgnmnt_catg_id", value.getUniqueID());
-      map.put("proj_id", getProjectID(m_file.getProjectProperties().getUniqueID()));
+      map.put("proj_id", projectID);
       return map;
    }
 
@@ -1090,7 +1087,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          return (StructuredNotes) notes;
       }
 
-      return new StructuredNotes(m_file, null, m_context.getNotesTopics().getDefaultTopic(), notes);
+      return new StructuredNotes(m_context, null, m_context.getNotesTopics().getDefaultTopic(), notes);
    }
 
    /**
@@ -1385,7 +1382,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private Set<FieldType> m_userDefinedFields;
    private Task m_temporaryRootWbs;
    private Integer m_originalOutlineLevel;
-   private boolean m_projectFromPrimavera;
 
    private static final Integer DEFAULT_PROJECT_ID = Integer.valueOf(1);
 

@@ -1018,7 +1018,7 @@ class XmlProjectReader
          topic = m_projectFile.getNotesTopics().getDefaultTopic();
       }
 
-      return new StructuredNotes(m_projectFile, uniqueID, topic, note);
+      return new StructuredNotes(m_state.getContext(), uniqueID, topic, note);
    }
 
    /**

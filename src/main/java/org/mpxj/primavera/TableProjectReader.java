@@ -521,7 +521,7 @@ abstract class TableProjectReader
                topic = topics.getDefaultTopic();
             }
 
-            list.add(new StructuredNotes(m_project, row.getInteger(uniqueIDColumn), topic, notes));
+            list.add(new StructuredNotes(m_state.getContext(), row.getInteger(uniqueIDColumn), topic, notes));
          }
 
          result.put(entry.getKey(), new ParentNotes(list));
