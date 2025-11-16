@@ -125,18 +125,33 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
    @Override public void write(ProjectFile projectFile, OutputStream outputStream) throws IOException
    {
-      m_file = projectFile;
-      m_context = projectFile.getProjectContext();
-      m_writer = new XerWriter(projectFile, new OutputStreamWriter(outputStream, getCharset()));
+      write(Collections.singletonList(projectFile), outputStream);
+   }
+
+   public void write(List<ProjectFile> files, OutputStream outputStream) throws IOException
+   {
+      // Ensure that all projects share the same context
+      m_context = files.get(0).getProjectContext();
+      if (!files.stream().allMatch(f -> m_context == f.getProjectContext()))
+      {
+         throw new IllegalArgumentException("All ProjectFile instances must use the same ProjectContext");
+      }
+
+      // Ensure the all projects have a unique ID
+      m_files = files;
+      List<ProjectFile> temporaryProjectUniqueIdValues = assignTemporaryProjectUniqueIdValues();
+      m_files.sort(Comparator.comparing(o -> o.getProjectProperties().getUniqueID()));
+
+      // Ensure all projects have a WBS hierarchy with a single root node
+      List<TemporaryWbs> temporaryWbs = files.stream().map(this::createValidWbsHierarchy).filter(Objects::nonNull).collect(Collectors.toList());
+
+      m_writer = new XerWriter(m_context.getTimeUnitDefaults(), new OutputStreamWriter(outputStream, getCharset()));
       m_rateObjectID = new ObjectSequence(1);
-      m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(m_file.getProjectContext(), Collections.singletonList(m_file));
+      m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(m_context, files);
 
       // We need to do this first to ensure the default topic is created if required
       populateWbsNotes();
       populateActivityNotes();
-
-      // Ensure the WBS hierarchy has a single root WBS
-      TemporaryWbs temporaryWbs = createValidWbsHierarchy(m_file);
 
       try
       {
@@ -190,7 +205,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
       finally
       {
-         revertWbsHierarchyChange(m_file, temporaryWbs);
+         temporaryWbs.forEach(this::revertWbsHierarchyChange);
+         temporaryProjectUniqueIdValues.forEach(f -> f.getProjectProperties().setUniqueID(null));
          m_writer = null;
       }
    }
@@ -204,7 +220,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       {
          "ERMHDR",
          "20.12",
-         new DateOnly(m_file.getProjectProperties().getCurrentDate()),
+         new DateOnly(m_files.stream().map(f -> f.getProjectProperties().getCurrentDate()).min(Comparator.naturalOrder()).orElse(null)),
          "Project",
          "admin",
          "admin",
@@ -309,7 +325,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeProject()
    {
       m_writer.writeTable("PROJECT", PROJECT_COLUMNS);
-      m_writer.writeRecord(PROJECT_COLUMNS, m_file.getProjectProperties());
+      m_files.forEach(f -> m_writer.writeRecord(PROJECT_COLUMNS, f.getProjectProperties()));
    }
 
    /**
@@ -318,7 +334,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeCalendars()
    {
       m_writer.writeTable("CALENDAR", CALENDAR_COLUMNS);
-      m_file.getCalendarsForProject().stream().sorted(Comparator.comparing(ProjectCalendar::getUniqueID)).map(ProjectCalendarHelper::normalizeCalendar).forEach(c -> m_writer.writeRecord(CALENDAR_COLUMNS, c));
+      Set<ProjectCalendar> calendars = m_files.stream().flatMap(f -> f.getCalendarsForProject().stream()).collect(Collectors.toSet());
+      calendars.stream().sorted(Comparator.comparing(ProjectCalendar::getUniqueID)).map(ProjectCalendarHelper::normalizeCalendar).forEach(c -> m_writer.writeRecord(CALENDAR_COLUMNS, c));
    }
 
    /**
@@ -327,7 +344,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeScheduleOptions()
    {
       m_writer.writeTable("SCHEDOPTIONS", SCHEDULE_OPTIONS_COLUMNS);
-      m_writer.writeRecord(SCHEDULE_OPTIONS_COLUMNS, m_file.getProjectProperties());
+      m_files.forEach(f -> m_writer.writeRecord(SCHEDULE_OPTIONS_COLUMNS, f.getProjectProperties()));
    }
 
    /**
@@ -362,7 +379,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeResourceAssignments()
    {
-      boolean projectFromPrimavera = "Primavera".equals(m_file.getProjectProperties().getFileApplication());
+      boolean projectFromPrimavera = m_files.stream().allMatch(f -> "Primavera".equals(f.getProjectProperties().getFileApplication()));
       Map<String, ExportFunction<ResourceAssignment>> columns;
       if (projectFromPrimavera)
       {
@@ -562,7 +579,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private List<Map<String, Object>> writeActivityUdfValues()
    {
       Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "TASK".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
-      return getActivityStream().map(t -> writeUdfAssignments(fields, getProjectID(t.getParentFile().getProjectProperties().getUniqueID()), t.getUniqueID(), t)).flatMap(Collection::stream).collect(Collectors.toList());
+      return getActivityStream().map(t -> writeUdfAssignments(fields, t.getParentFile().getProjectProperties().getUniqueID(), t.getUniqueID(), t)).flatMap(Collection::stream).collect(Collectors.toList());
    }
 
    /**
@@ -573,7 +590,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private List<Map<String, Object>> writeWbsUdfValues()
    {
       Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "PROJWBS".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
-      return getWbsStream().map(t -> writeUdfAssignments(fields, getProjectID(t.getParentFile().getProjectProperties().getUniqueID()), t.getUniqueID(), t)).flatMap(Collection::stream).collect(Collectors.toList());
+      return getWbsStream().map(t -> writeUdfAssignments(fields, t.getParentFile().getProjectProperties().getUniqueID(), t.getUniqueID(), t)).flatMap(Collection::stream).collect(Collectors.toList());
    }
 
    /**
@@ -595,7 +612,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private List<Map<String, Object>> writeResourceAssignmentUdfValues()
    {
       Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "TASKRSRC".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
-      return getSortedResourceAssignmentStream().map(a -> writeUdfAssignments(fields, getProjectID(a.getParentFile().getProjectProperties().getUniqueID()), a.getUniqueID(), a)).flatMap(Collection::stream).collect(Collectors.toList());
+      return getSortedResourceAssignmentStream().map(a -> writeUdfAssignments(fields, a.getParentFile().getProjectProperties().getUniqueID(), a.getUniqueID(), a)).flatMap(Collection::stream).collect(Collectors.toList());
    }
 
    /**
@@ -606,8 +623,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private List<Map<String, Object>> writeProjectUdfValues()
    {
       Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "PROJECT".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
-      Integer projectID = getProjectID(m_file.getProjectProperties().getUniqueID());
-      return writeUdfAssignments(fields, projectID, projectID, m_file.getProjectProperties());
+      return m_files.stream().flatMap(f -> writeUdfAssignments(fields, f.getProjectProperties().getUniqueID(), f.getProjectProperties().getUniqueID(), f.getProjectProperties()).stream()).collect(Collectors.toList());
    }
 
    /**
@@ -807,15 +823,21 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeProjectCodeAssignments()
    {
-      Map<ProjectCode, ProjectCodeValue> assignments = m_file.getProjectProperties().getProjectCodeValues();
-      if (assignments.isEmpty())
+      List<ProjectFile> files = m_files.stream().filter(f -> !f.getProjectProperties().getProjectCodeValues().isEmpty()).collect(Collectors.toList());
+      if (files.isEmpty())
       {
          return;
       }
 
       m_writer.writeTable("PROJPCAT", PROJECT_CODE_ASSIGNMENT_COLUMNS);
-      Integer projectID = getProjectID(m_file.getProjectProperties().getUniqueID());
-      assignments.values().stream().sorted(Comparator.comparing(ProjectCodeValue::getParentCodeUniqueID)).map(v -> populateProjectCodeAssignment(projectID, v)).forEach(a -> m_writer.writeRecord(PROJECT_CODE_ASSIGNMENT_COLUMNS, a));
+      for (ProjectFile file : files)
+      {
+         Integer projectID = file.getProjectProperties().getUniqueID();
+         file.getProjectProperties().getProjectCodeValues().values().stream()
+            .sorted(Comparator.comparing(ProjectCodeValue::getParentCodeUniqueID))
+            .map(v -> populateProjectCodeAssignment(projectID, v))
+            .forEach(a -> m_writer.writeRecord(PROJECT_CODE_ASSIGNMENT_COLUMNS, a));
+      }
    }
 
    /**
@@ -963,7 +985,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       List<Map<String, Object>> assignments = getSortedResourceAssignmentStream()
          .map(r -> r.getResourceAssignmentCodeValues().values().stream().sorted(Comparator.comparing(ResourceAssignmentCodeValue::getParentCodeUniqueID))
-            .map(v -> populateResourceAssignmentCodeAssignment(getProjectID(r.getParentFile().getProjectProperties().getUniqueID()), r.getUniqueID(), v)).collect(Collectors.toList()))
+            .map(v -> populateResourceAssignmentCodeAssignment(r.getParentFile().getProjectProperties().getUniqueID(), r.getUniqueID(), v)).collect(Collectors.toList()))
          .flatMap(Collection::stream).collect(Collectors.toList());
 
       if (assignments.isEmpty())
@@ -1101,7 +1123,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       Map<String, Object> map = new HashMap<>();
       map.put("entity_memo_id", notes.getUniqueID());
-      map.put("proj_id", getProjectID(task.getParentFile().getProjectProperties().getUniqueID()));
+      map.put("proj_id", task.getParentFile().getProjectProperties().getUniqueID());
       map.put("memo_type_id", notes.getTopicID());
       map.put("entity_id", task.getUniqueID());
       map.put("entity_memo", notes.getNotes());
@@ -1171,7 +1193,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     * Once we're done exporting, if we've created a temporary top level WBS
     * entry, we'll remove it to ensure the data is unchanged.
     */
-   private void revertWbsHierarchyChange(ProjectFile file, TemporaryWbs wbs)
+   private void revertWbsHierarchyChange(TemporaryWbs wbs)
    {
       if (wbs == null)
       {
@@ -1179,6 +1201,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       }
 
       Task temporaryRootWbs = wbs.getTask();
+      ProjectFile file = temporaryRootWbs.getParentFile();
       List<Task> childTasks = new ArrayList<>(temporaryRootWbs.getChildTasks());
       for (Task task : childTasks)
       {
@@ -1196,7 +1219,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private Stream<Task> getActivityStream()
    {
-      return m_file.getTasks().stream().filter(t -> !t.getSummary() && !t.getNull());
+      return m_files.stream().flatMap(f -> f.getTasks().stream()).filter(t -> !t.getSummary() && !t.getNull());
    }
 
    /**
@@ -1206,7 +1229,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private Stream<Task> getWbsStream()
    {
-      return m_file.getTasks().stream().filter(Task::getSummary);
+      return m_files.stream().flatMap(f -> f.getTasks().stream()).filter(Task::getSummary);
    }
 
    /**
@@ -1236,7 +1259,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private Stream<ResourceAssignment> getSortedResourceAssignmentStream()
    {
-      return m_file.getResourceAssignments().stream().filter(WriterHelper::isValidAssignment).sorted(Comparator.comparing(ResourceAssignment::getUniqueID));
+      return m_files.stream().flatMap(f -> f.getResourceAssignments().stream()).filter(WriterHelper::isValidAssignment).sorted(Comparator.comparing(ResourceAssignment::getUniqueID));
    }
 
    /**
@@ -1253,6 +1276,23 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          return DEFAULT_CURRENCY;
       }
       return currency;
+   }
+
+   private List<ProjectFile> assignTemporaryProjectUniqueIdValues()
+   {
+      if (m_files.stream().noneMatch(f -> f.getProjectProperties().getUniqueID() == null))
+      {
+         return Collections.emptyList();
+      }
+
+      ObjectSequence sequence = new ObjectSequence(1);
+      m_files.stream().map(f -> f.getProjectProperties().getUniqueID()).filter(Objects::nonNull).max(Comparator.naturalOrder()).ifPresent(sequence::sync);
+
+      List<ProjectFile> files = m_files.stream().filter(f -> f.getProjectProperties().getUniqueID() == null).collect(Collectors.toList());
+
+      files.forEach(f -> f.getProjectProperties().setUniqueID(sequence.getNext()));
+
+      return files;
    }
 
    /**
@@ -1336,11 +1376,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
                location.getCountryCode() != null && !location.getCountryCode().isEmpty();
    }
 
-   private static Integer getProjectID(Integer id)
-   {
-      return id == null ? DEFAULT_PROJECT_ID : id;
-   }
-
    private static ActivityType getActivityType(Task task)
    {
       ActivityType type = task.getActivityType();
@@ -1376,8 +1411,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    }
 
    private Charset m_charset = CharsetHelper.CP1252;
-   private ProjectFile m_file;
    private ProjectContext m_context;
+   private List<ProjectFile> m_files;
    private XerWriter m_writer;
    private ObjectSequence m_rateObjectID;
    private List<Map<String, Object>> m_wbsNotes;
@@ -1503,7 +1538,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<ProjectProperties>> PROJECT_COLUMNS = new LinkedHashMap<>();
    static
    {
-      PROJECT_COLUMNS.put("proj_id", p -> getProjectID(p.getUniqueID()));
+      PROJECT_COLUMNS.put("proj_id", ProjectProperties::getUniqueID);
       PROJECT_COLUMNS.put("fy_start_month_num", ProjectProperties::getFiscalYearStartMonth);
       PROJECT_COLUMNS.put("rsrc_self_add_flag", p -> Boolean.TRUE);
       PROJECT_COLUMNS.put("allow_complete_flag", p -> Boolean.TRUE);
@@ -1581,7 +1616,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       CALENDAR_COLUMNS.put("clndr_id", ProjectCalendar::getUniqueID);
       CALENDAR_COLUMNS.put("default_flag", c -> Boolean.valueOf(c.getDefault()));
       CALENDAR_COLUMNS.put("clndr_name", c -> StringHelper.stripControlCharacters(c.getName()));
-      CALENDAR_COLUMNS.put("proj_id", c -> c.getType() == CalendarType.PROJECT ? getProjectID(c.getProjectUniqueID()) : null);
+      CALENDAR_COLUMNS.put("proj_id", c -> c.getType() == CalendarType.PROJECT ? c.getProjectUniqueID() : null);
       CALENDAR_COLUMNS.put("base_clndr_id", ProjectCalendar::getParentUniqueID);
       CALENDAR_COLUMNS.put("last_chng_date", c -> null);
       CALENDAR_COLUMNS.put("clndr_type", ProjectCalendar::getType);
@@ -1597,7 +1632,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       WBS_COLUMNS.put("wbs_id", Task::getUniqueID);
-      WBS_COLUMNS.put("proj_id", t -> getProjectID(t.getParentFile().getProjectProperties().getUniqueID()));
+      WBS_COLUMNS.put("proj_id", t -> t.getParentFile().getProjectProperties().getUniqueID());
       WBS_COLUMNS.put("obs_id", t -> "");
       WBS_COLUMNS.put("seq_num", PrimaveraXERFileWriter::getSequenceNumber);
       WBS_COLUMNS.put("est_wt", t -> Integer.valueOf(1));
@@ -1628,7 +1663,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       ACTIVITY_COLUMNS.put("task_id", Task::getUniqueID);
-      ACTIVITY_COLUMNS.put("proj_id", t -> getProjectID(t.getParentFile().getProjectProperties().getUniqueID()));
+      ACTIVITY_COLUMNS.put("proj_id", t -> t.getParentFile().getProjectProperties().getUniqueID());
       ACTIVITY_COLUMNS.put("wbs_id", Task::getParentTaskUniqueID);
       ACTIVITY_COLUMNS.put("clndr_id", Task::getCalendarUniqueID);
       ACTIVITY_COLUMNS.put("phys_complete_pct", Task::getPhysicalPercentComplete);
@@ -1695,8 +1730,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PREDECESSOR_COLUMNS.put("task_pred_id", Relation::getUniqueID);
       PREDECESSOR_COLUMNS.put("task_id", r -> r.getSuccessorTask().getUniqueID());
       PREDECESSOR_COLUMNS.put("pred_task_id", r -> r.getPredecessorTask().getUniqueID());
-      PREDECESSOR_COLUMNS.put("proj_id", r -> getProjectID(r.getSuccessorTask().getParentFile().getProjectProperties().getUniqueID()));
-      PREDECESSOR_COLUMNS.put("pred_proj_id", r -> getProjectID(r.getPredecessorTask().getParentFile().getProjectProperties().getUniqueID()));
+      PREDECESSOR_COLUMNS.put("proj_id", r -> r.getSuccessorTask().getParentFile().getProjectProperties().getUniqueID());
+      PREDECESSOR_COLUMNS.put("pred_proj_id", r -> r.getPredecessorTask().getParentFile().getProjectProperties().getUniqueID());
       PREDECESSOR_COLUMNS.put("pred_type", Relation::getType);
       PREDECESSOR_COLUMNS.put("lag_hr_cnt", Relation::getLag);
       PREDECESSOR_COLUMNS.put("comments", Relation::getNotes);
@@ -1710,7 +1745,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       RESOURCE_ASSIGNMENT_COLUMNS.put("taskrsrc_id", ResourceAssignment::getUniqueID);
       RESOURCE_ASSIGNMENT_COLUMNS.put("task_id", ResourceAssignment::getTaskUniqueID);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("proj_id", r -> getProjectID(r.getParentFile().getProjectProperties().getUniqueID()));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("proj_id", r -> r.getParentFile().getProjectProperties().getUniqueID());
       RESOURCE_ASSIGNMENT_COLUMNS.put("cost_qty_link_flag", r -> Boolean.valueOf(r.getCalculateCostsFromUnits()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("role_id", ResourceAssignment::getRoleUniqueID);
       RESOURCE_ASSIGNMENT_COLUMNS.put("acct_id", ResourceAssignment::getCostAccountUniqueID);
@@ -1803,7 +1838,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       EXPENSE_ITEM_COLUMNS.put("acct_id", ExpenseItem::getAccountUniqueID);
       EXPENSE_ITEM_COLUMNS.put("pobs_id", i -> null);
       EXPENSE_ITEM_COLUMNS.put("cost_type_id", ExpenseItem::getCategoryUniqueID);
-      EXPENSE_ITEM_COLUMNS.put("proj_id", i -> getProjectID(i.getTask().getParentFile().getProjectProperties().getUniqueID()));
+      EXPENSE_ITEM_COLUMNS.put("proj_id", i -> i.getTask().getParentFile().getProjectProperties().getUniqueID());
       EXPENSE_ITEM_COLUMNS.put("task_id", i -> i.getTask().getUniqueID());
       EXPENSE_ITEM_COLUMNS.put("cost_name", i -> StringHelper.stripControlCharacters(i.getName()));
       EXPENSE_ITEM_COLUMNS.put("po_number", ExpenseItem::getDocumentNumber);
@@ -1854,7 +1889,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       ACTIVITY_STEP_COLUMNS.put("proc_id", Step::getUniqueID);
       ACTIVITY_STEP_COLUMNS.put("task_id", s -> s.getTask().getUniqueID());
-      ACTIVITY_STEP_COLUMNS.put("proj_id", s -> getProjectID(s.getTask().getParentFile().getProjectProperties().getUniqueID()));
+      ACTIVITY_STEP_COLUMNS.put("proj_id", s -> s.getTask().getParentFile().getProjectProperties().getUniqueID());
       ACTIVITY_STEP_COLUMNS.put("seq_num", Step::getSequenceNumber);
       ACTIVITY_STEP_COLUMNS.put("proc_name", s -> StringHelper.stripControlCharacters(s.getName()));
       ACTIVITY_STEP_COLUMNS.put("complete_flag", s -> Boolean.valueOf(s.getComplete()));
@@ -1894,7 +1929,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("task_id", p -> p.getFirst().getUniqueID());
       ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("actv_code_type_id", p -> p.getSecond().getParentCodeUniqueID());
       ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("actv_code_id", p -> p.getSecond().getUniqueID());
-      ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("proj_id", p -> getProjectID(p.getFirst().getParentFile().getProjectProperties().getUniqueID()));
+      ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("proj_id", p -> p.getFirst().getParentFile().getProjectProperties().getUniqueID());
    }
 
    private static final Map<String, ExportFunction<Pair<FieldType, CustomField>>> UDF_TYPE_COLUMNS = new LinkedHashMap<>();
@@ -1958,7 +1993,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       SCHEDULE_OPTIONS_COLUMNS.put("schedoptions_id", o -> Integer.valueOf(1));
-      SCHEDULE_OPTIONS_COLUMNS.put("proj_id", o -> getProjectID(o.getUniqueID()));
+      SCHEDULE_OPTIONS_COLUMNS.put("proj_id", ProjectProperties::getUniqueID);
       SCHEDULE_OPTIONS_COLUMNS.put("sched_outer_depend_type", o -> o.getIgnoreRelationshipsToAndFromOtherProjects() ? "SD_None" : "SD_Both");
       SCHEDULE_OPTIONS_COLUMNS.put("sched_open_critical_flag", o -> Boolean.valueOf(o.getMakeOpenEndedActivitiesCritical()));
       SCHEDULE_OPTIONS_COLUMNS.put("sched_lag_early_start_flag", o -> Boolean.valueOf(o.getComputeStartToStartLagFromEarlyStart()));

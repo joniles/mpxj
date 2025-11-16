@@ -50,7 +50,6 @@ import org.mpxj.HtmlNotes;
 import org.mpxj.Notes;
 import org.mpxj.PercentCompleteType;
 import org.mpxj.Priority;
-import org.mpxj.ProjectFile;
 import org.mpxj.Rate;
 import org.mpxj.RateSource;
 import org.mpxj.RelationType;
@@ -58,6 +57,8 @@ import org.mpxj.ResourceType;
 import org.mpxj.SkillLevel;
 import org.mpxj.TaskType;
 import org.mpxj.TimeUnit;
+import org.mpxj.TimeUnitDefaults;
+import org.mpxj.TimeUnitDefaultsContainer;
 import org.mpxj.common.ColorHelper;
 import org.mpxj.common.HtmlHelper;
 import org.mpxj.common.NumberHelper;
@@ -70,12 +71,12 @@ final class XerWriter
    /**
     * Constructor.
     *
-    * @param file project to write
+    * @param defaults time unit defaults
     * @param writer Writer instance to receive XER records
     */
-   public XerWriter(ProjectFile file, OutputStreamWriter writer)
+   public XerWriter(TimeUnitDefaults defaults, OutputStreamWriter writer)
    {
-      m_file = file;
+      m_defaults = defaults;
       m_writer = writer;
    }
 
@@ -271,7 +272,7 @@ final class XerWriter
          return "";
       }
 
-      return m_doubleFormat.format(duration.convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration());
+      return m_doubleFormat.format(duration.convertUnits(TimeUnit.HOURS, m_defaults).getDuration());
    }
 
    /**
@@ -301,7 +302,7 @@ final class XerWriter
       String apply(XerWriter writer, Object source);
    }
 
-   private final ProjectFile m_file;
+   private final TimeUnitDefaultsContainer m_defaults;
    private final OutputStreamWriter m_writer;
    private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
    private final DateTimeFormatter m_timestampFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
