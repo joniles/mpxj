@@ -129,14 +129,14 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       m_context = projectFile.getProjectContext();
       m_writer = new XerWriter(projectFile, new OutputStreamWriter(outputStream, getCharset()));
       m_rateObjectID = new ObjectSequence(1);
-      m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(projectFile);
+      m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(m_file.getProjectContext(), Collections.singletonList(m_file));
 
       // We need to do this first to ensure the default topic is created if required
       populateWbsNotes();
       populateActivityNotes();
 
       // Ensure the WBS hierarchy has a single root WBS
-      createValidWbsHierarchy();
+      TemporaryWbs temporaryWbs = createValidWbsHierarchy(m_file);
 
       try
       {
@@ -190,7 +190,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
       finally
       {
-         revertWbsHierarchyChange();
+         revertWbsHierarchyChange(m_file, temporaryWbs);
          m_writer = null;
       }
    }
@@ -1126,22 +1126,22 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     * than one WBS entry at the top level we'll temporarily create a parent entry
     * to keep P6 happy.
     */
-   private void createValidWbsHierarchy()
+   private TemporaryWbs createValidWbsHierarchy(ProjectFile file)
    {
       List<Task> wbsWithoutParent = getWbsStream().filter(t -> t.getParentTask() == null).collect(Collectors.toList());
       if (wbsWithoutParent.size() < 2)
       {
-         return;
+         return null;
       }
 
-      TaskContainer tasks = m_file.getTasks();
-      ProjectProperties projectProperties = m_file.getProjectProperties();
+      TaskContainer tasks = file.getTasks();
+      ProjectProperties projectProperties = file.getProjectProperties();
 
       // Try to assign a unique ID before the other WBS entries if possible
       Integer uniqueID = tasks.stream().map(Task::getUniqueID).min(Comparator.naturalOrder()).orElse(null);
       if (uniqueID == null || uniqueID.intValue() <= 1)
       {
-         uniqueID = m_file.getUniqueIdObjectSequence(Task.class).getNext();
+         uniqueID = file.getUniqueIdObjectSequence(Task.class).getNext();
       }
       else
       {
@@ -1154,36 +1154,39 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          name = projectProperties.getProjectTitle();
       }
 
-      m_originalOutlineLevel = wbsWithoutParent.get(0).getOutlineLevel();
+      Integer originalOutlineLevel = wbsWithoutParent.get(0).getOutlineLevel();
 
-      m_temporaryRootWbs = m_file.addTask();
-      m_temporaryRootWbs.setUniqueID(uniqueID);
-      m_temporaryRootWbs.setName(StringHelper.stripControlCharacters(name));
-      m_temporaryRootWbs.setSequenceNumber(Integer.valueOf(0));
-      m_temporaryRootWbs.setWBS(getProjectShortName(projectProperties));
+      Task temporaryRootWbs = file.addTask();
+      temporaryRootWbs.setUniqueID(uniqueID);
+      temporaryRootWbs.setName(StringHelper.stripControlCharacters(name));
+      temporaryRootWbs.setSequenceNumber(Integer.valueOf(0));
+      temporaryRootWbs.setWBS(getProjectShortName(projectProperties));
 
-      m_file.getTasks().stream().filter(t -> t != m_temporaryRootWbs && t.getParentTask() == null).forEach(t -> m_temporaryRootWbs.addChildTask(t));
+      file.getTasks().stream().filter(t -> t != temporaryRootWbs && t.getParentTask() == null).forEach(temporaryRootWbs::addChildTask);
+
+      return new TemporaryWbs(temporaryRootWbs, originalOutlineLevel);
    }
 
    /**
     * Once we're done exporting, if we've created a temporary top level WBS
     * entry, we'll remove it to ensure the data is unchanged.
     */
-   private void revertWbsHierarchyChange()
+   private void revertWbsHierarchyChange(ProjectFile file, TemporaryWbs wbs)
    {
-      if (m_temporaryRootWbs == null)
+      if (wbs == null)
       {
          return;
       }
 
-      List<Task> childTasks = new ArrayList<>(m_temporaryRootWbs.getChildTasks());
+      Task temporaryRootWbs = wbs.getTask();
+      List<Task> childTasks = new ArrayList<>(temporaryRootWbs.getChildTasks());
       for (Task task : childTasks)
       {
-         m_temporaryRootWbs.removeChildTask(task);
-         task.setOutlineLevel(m_originalOutlineLevel);
+         temporaryRootWbs.removeChildTask(task);
+         task.setOutlineLevel(wbs.getOutlineLevel());
       }
 
-      m_file.removeTask(m_temporaryRootWbs);
+      file.removeTask(temporaryRootWbs);
    }
 
    /**
@@ -1380,8 +1383,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private List<Map<String, Object>> m_wbsNotes;
    private List<Map<String, Object>> m_activityNotes;
    private Set<FieldType> m_userDefinedFields;
-   private Task m_temporaryRootWbs;
-   private Integer m_originalOutlineLevel;
 
    private static final Integer DEFAULT_PROJECT_ID = Integer.valueOf(1);
 
