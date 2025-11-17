@@ -56,6 +56,7 @@ import java.time.DayOfWeek;
 
 import org.mpxj.ProjectCode;
 import org.mpxj.ProjectCodeValue;
+import org.mpxj.ProjectContext;
 import org.mpxj.ResourceAssignmentCode;
 import org.mpxj.ResourceAssignmentCodeValue;
 import org.mpxj.ResourceCode;
@@ -156,6 +157,7 @@ final class PrimaveraPMProjectWriter
 {
    public PrimaveraPMProjectWriter(APIBusinessObjects apibo, ProjectFile projectFile, Integer projectObjectID, PrimaveraPMObjectSequences sequences)
    {
+      m_context = projectFile.getProjectContext();
       m_projectFile = projectFile;
       m_apibo = apibo;
       m_projectObjectID = projectObjectID;
@@ -224,16 +226,11 @@ final class PrimaveraPMProjectWriter
             writeCurrencies();
             writeLocations();
             writeShifts();
-            writeProjectProperties(project);
             writeUnitsOfMeasure();
             writeProjectCodeDefinitions();
             writeResourceCodeDefinitions();
             writeRoleCodeDefinitions();
             writeResourceAssignmentCodeDefinitions();
-            writeCodeAssignments(m_projectFile.getProjectProperties().getProjectCodeValues(), project.getCode());
-            writeActivityCodeDefinitions(project.getActivityCodeType(), project.getActivityCode());
-            writeProjectCalendars(project.getCalendar());
-            writeUDF();
             writeActivityCodeDefinitions();
             writeUserDefinedFieldDefinitions();
             writeExpenseCategories();
@@ -245,6 +242,12 @@ final class PrimaveraPMProjectWriter
             writeRoleAssignments();
             writeResourceRates();
             writeRoleRates();
+
+            writeProjectProperties(project);
+            writeCodeAssignments(m_projectFile.getProjectProperties().getProjectCodeValues(), project.getCode());
+            writeActivityCodeDefinitions(project.getActivityCodeType(), project.getActivityCode());
+            writeProjectCalendars(project.getCalendar());
+            writeUDF();
             writeTasks();
             writeAssignments();
             writeExpenseItems();
@@ -271,7 +274,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeCurrencies()
    {
-      if (m_projectFile.getCurrencies().isEmpty())
+      if (m_context.getCurrencies().isEmpty())
       {
          // No currencies defined? Write a default currency based on the project properties.
          ProjectProperties props = m_projectFile.getProjectProperties();
@@ -294,7 +297,7 @@ final class PrimaveraPMProjectWriter
          return;
       }
 
-      for (Currency currency : m_projectFile.getCurrencies())
+      for (Currency currency : m_context.getCurrencies())
       {
          CurrencyType xml = m_factory.createCurrencyType();
          xml.setObjectId(currency.getUniqueID());
@@ -430,7 +433,7 @@ final class PrimaveraPMProjectWriter
    private void writeLocations()
    {
       List<LocationType> locations = m_apibo.getLocation();
-      for (Location location : m_projectFile.getLocations())
+      for (Location location : m_context.getLocations())
       {
          LocationType lt = m_factory.createLocationType();
          lt.setObjectId(location.getUniqueID());
@@ -456,7 +459,7 @@ final class PrimaveraPMProjectWriter
    private void writeShifts()
    {
       List<ShiftType> shifts = m_apibo.getShift();
-      for (Shift shift : m_projectFile.getShifts())
+      for (Shift shift : m_context.getShifts())
       {
          ShiftType st = m_factory.createShiftType();
          st.setObjectId(shift.getUniqueID());
@@ -480,7 +483,7 @@ final class PrimaveraPMProjectWriter
    private void writeExpenseCategories()
    {
       List<ExpenseCategoryType> expenseCategories = m_apibo.getExpenseCategory();
-      for (ExpenseCategory category : m_projectFile.getExpenseCategories())
+      for (ExpenseCategory category : m_context.getExpenseCategories())
       {
          ExpenseCategoryType ect = m_factory.createExpenseCategoryType();
          ect.setObjectId(category.getUniqueID());
@@ -496,7 +499,7 @@ final class PrimaveraPMProjectWriter
    private void writeCostAccounts()
    {
       List<CostAccountType> costAccounts = m_apibo.getCostAccount();
-      m_projectFile.getCostAccounts().stream().sorted(Comparator.comparing(CostAccount::getUniqueID)).forEach(c -> writeCostAccount(costAccounts, c));
+      m_context.getCostAccounts().stream().sorted(Comparator.comparing(CostAccount::getUniqueID)).forEach(c -> writeCostAccount(costAccounts, c));
    }
 
    /**
@@ -523,7 +526,7 @@ final class PrimaveraPMProjectWriter
    private void writeUnitsOfMeasure()
    {
       List<UnitOfMeasureType> units = m_apibo.getUnitOfMeasure();
-      for (UnitOfMeasure uom : m_projectFile.getUnitsOfMeasure())
+      for (UnitOfMeasure uom : m_context.getUnitsOfMeasure())
       {
          UnitOfMeasureType unit = m_factory.createUnitOfMeasureType();
          unit.setObjectId(uom.getUniqueID());
@@ -536,7 +539,7 @@ final class PrimaveraPMProjectWriter
 
    private void writeResourceCurves()
    {
-      List<WorkContour> contours = m_projectFile.getWorkContours().stream().filter(w -> !w.isContourManual() && !w.isContourFlat()).sorted(Comparator.comparing(WorkContour::getName)).collect(Collectors.toList());
+      List<WorkContour> contours = m_context.getWorkContours().stream().filter(w -> !w.isContourManual() && !w.isContourFlat()).sorted(Comparator.comparing(WorkContour::getName)).collect(Collectors.toList());
 
       List<ResourceCurveType> curves = m_apibo.getResourceCurve();
       for (WorkContour contour : contours)
@@ -796,7 +799,7 @@ final class PrimaveraPMProjectWriter
    private void writeGlobalCalendars()
    {
       List<CalendarType> calendars = m_apibo.getCalendar();
-      m_projectFile.getCalendarsForProject().stream().filter(c -> c.getType() != org.mpxj.CalendarType.PROJECT).forEach(c -> writeCalendar(calendars, c));
+      m_context.getCalendars().stream().filter(c -> c.getType() != org.mpxj.CalendarType.PROJECT).forEach(c -> writeCalendar(calendars, c));
    }
 
    /**
@@ -910,7 +913,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeResources()
    {
-      m_projectFile.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).forEach(this::writeResource);
+      m_context.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).forEach(this::writeResource);
    }
 
    /**
@@ -968,7 +971,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeRoles()
    {
-      m_projectFile.getResources().stream().filter(r -> r.getRole() && r.getUniqueID().intValue() != 0).forEach(this::writeRole);
+      m_context.getResources().stream().filter(r -> r.getRole() && r.getUniqueID().intValue() != 0).forEach(this::writeRole);
    }
 
    /**
@@ -996,7 +999,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeRoleAssignments()
    {
-      m_projectFile.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(this::writeRoleAssignments);
+      m_context.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(this::writeRoleAssignments);
    }
 
    /**
@@ -1475,7 +1478,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeResourceRates()
    {
-      m_projectFile.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).forEach(this::writeResourceRates);
+      m_context.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).forEach(this::writeResourceRates);
    }
 
    /**
@@ -1539,7 +1542,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeRoleRates()
    {
-      m_projectFile.getResources().stream().filter(Resource::getRole).forEach(this::writeRoleRates);
+      m_context.getResources().stream().filter(Resource::getRole).forEach(this::writeRoleRates);
    }
 
    /**
@@ -1831,7 +1834,7 @@ final class PrimaveraPMProjectWriter
    {
       List<ActivityCodeTypeType> codes = m_apibo.getActivityCodeType();
       List<ActivityCodeType> values = m_apibo.getActivityCode();
-      m_projectFile.getActivityCodes().stream().filter(c -> c.getScope() != ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCodeDefinition(codes, values, c));
+      m_context.getActivityCodes().stream().filter(c -> c.getScope() != ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCodeDefinition(codes, values, c));
    }
 
    /**
@@ -1877,7 +1880,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeProjectCodeDefinitions()
    {
-      for (ProjectCode code : m_projectFile.getProjectCodes())
+      for (ProjectCode code : m_context.getProjectCodes())
       {
          ProjectCodeTypeType xmlCode = m_factory.createProjectCodeTypeType();
          m_apibo.getProjectCodeType().add(xmlCode);
@@ -1907,7 +1910,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeResourceCodeDefinitions()
    {
-      for (ResourceCode code : m_projectFile.getResourceCodes())
+      for (ResourceCode code : m_context.getResourceCodes())
       {
          ResourceCodeTypeType xmlCode = m_factory.createResourceCodeTypeType();
          m_apibo.getResourceCodeType().add(xmlCode);
@@ -1937,7 +1940,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeRoleCodeDefinitions()
    {
-      for (RoleCode code : m_projectFile.getRoleCodes())
+      for (RoleCode code : m_context.getRoleCodes())
       {
          RoleCodeTypeType xmlCode = m_factory.createRoleCodeTypeType();
          m_apibo.getRoleCodeType().add(xmlCode);
@@ -1967,7 +1970,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeResourceAssignmentCodeDefinitions()
    {
-      for (ResourceAssignmentCode code : m_projectFile.getResourceAssignmentCodes())
+      for (ResourceAssignmentCode code : m_context.getResourceAssignmentCodes())
       {
          ResourceAssignmentCodeTypeType xmlCode = m_factory.createResourceAssignmentCodeTypeType();
          m_apibo.getResourceAssignmentCodeType().add(xmlCode);
@@ -2289,6 +2292,7 @@ final class PrimaveraPMProjectWriter
       "Saturday"
    };
 
+   private final ProjectContext m_context;
    private final ProjectFile m_projectFile;
    private final APIBusinessObjects m_apibo;
    private final Integer m_projectObjectID;
