@@ -285,6 +285,11 @@ public class ProjectContext implements UniqueIdObjectSequenceProvider
       return m_uniqueIdObjectSequences.computeIfAbsent(c.getName(), x -> new ObjectSequence(1));
    }
 
+   public void resetUniqueIdObjectSequence(Class<?> c)
+   {
+      m_uniqueIdObjectSequences.remove(c.getName());
+   }
+
    private final LocationContainer m_locations = new LocationContainer(this);
    private final UnitOfMeasureContainer m_unitsOfMeasure = new UnitOfMeasureContainer(this);
    private final ExpenseCategoryContainer m_expenseCategories = new ExpenseCategoryContainer(this);

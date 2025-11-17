@@ -205,8 +205,15 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
       finally
       {
+         // Remove any temporary WBS entries
          temporaryWbs.forEach(this::revertWbsHierarchyChange);
+
+         // Remove any temporary project unique ID values
          temporaryProjectUniqueIdValues.forEach(f -> f.getProjectProperties().setUniqueID(null));
+
+         // Remove any temporary schedule options unique ID values
+         m_context.resetUniqueIdObjectSequence(ProjectProperties.class);
+
          m_writer = null;
       }
    }
