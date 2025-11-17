@@ -2010,7 +2010,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<ProjectProperties>> SCHEDULE_OPTIONS_COLUMNS = new LinkedHashMap<>();
    static
    {
-      SCHEDULE_OPTIONS_COLUMNS.put("schedoptions_id", o -> Integer.valueOf(1));
+      SCHEDULE_OPTIONS_COLUMNS.put("schedoptions_id", o -> o.getParentFile().getUniqueIdObjectSequence(ProjectProperties.class).getNext());
       SCHEDULE_OPTIONS_COLUMNS.put("proj_id", ProjectProperties::getUniqueID);
       SCHEDULE_OPTIONS_COLUMNS.put("sched_outer_depend_type", o -> o.getIgnoreRelationshipsToAndFromOtherProjects() ? "SD_None" : "SD_Both");
       SCHEDULE_OPTIONS_COLUMNS.put("sched_open_critical_flag", o -> Boolean.valueOf(o.getMakeOpenEndedActivitiesCritical()));
