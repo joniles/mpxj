@@ -131,7 +131,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          {
             projectFile.getBaselines().stream().filter(Objects::nonNull).forEach(baseline -> {
                Integer baselineProjectObjectID = baseline.getProjectProperties().getUniqueID() == null ? sequences.getProjectObjectID() : baseline.getProjectProperties().getUniqueID();
-               new PrimaveraPMProjectWriter(apibo, baseline, baselineProjectObjectID, sequences).writeBaseline();
+               new PrimaveraPMProjectWriter(apibo, baseline, baselineProjectObjectID, sequences).writeBaseline(projectFile);
             });
          }
 

@@ -164,15 +164,15 @@ final class PrimaveraPMProjectWriter
 
    public void writeProject()
    {
-      write(false);
+      write(null);
    }
 
-   public void writeBaseline()
+   public void writeBaseline(ProjectFile parentFile)
    {
-      write(true);
+      write(parentFile);
    }
 
-   private void write(boolean baseline)
+   private void write(ProjectFile parent)
    {
       try
       {
@@ -182,7 +182,7 @@ final class PrimaveraPMProjectWriter
          m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(m_projectFile.getProjectContext(), Collections.singletonList(m_projectFile));
          m_projectFromPrimavera = "Primavera".equals(m_projectFile.getProjectProperties().getFileApplication());
 
-         if (baseline)
+         if (parent != null)
          {
             BaselineProjectType project = m_factory.createBaselineProjectType();
             m_apibo.getBaselineProject().add(project);
@@ -197,7 +197,7 @@ final class PrimaveraPMProjectWriter
             m_activityNotes = project.getActivityNote();
             m_udf = project.getUDF();
 
-            writeProjectProperties(project);
+            writeProjectProperties(project, parent);
             writeCodeAssignments(m_projectFile.getProjectProperties().getProjectCodeValues(), project.getCode());
             writeActivityCodeDefinitions(project.getActivityCodeType(), project.getActivityCode());
             writeProjectCalendars(project.getCalendar());
@@ -649,7 +649,7 @@ final class PrimaveraPMProjectWriter
       writeWbsNote(null, mpxj.getNotesObject());
    }
 
-   private void writeProjectProperties(BaselineProjectType project)
+   private void writeProjectProperties(BaselineProjectType project, ProjectFile parent)
    {
       ProjectProperties mpxj = m_projectFile.getProjectProperties();
       String projectID = getProjectID(mpxj);
@@ -690,6 +690,7 @@ final class PrimaveraPMProjectWriter
       project.setMustFinishByDate(mpxj.getMustFinishBy());
       project.setName(mpxj.getName() == null ? projectID : mpxj.getName());
       project.setObjectId(m_projectObjectID);
+      project.setOriginalProjectObjectId(parent.getProjectProperties().getUniqueID());
       project.setPlannedStartDate(WriterHelper.getProjectPlannedStart(mpxj));
       project.setPrimaryResourcesCanMarkActivitiesAsCompleted(Boolean.TRUE);
       project.setResetPlannedToRemainingFlag(Boolean.FALSE);
