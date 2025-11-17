@@ -27,6 +27,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
 import java.util.HashSet;
@@ -178,7 +179,7 @@ final class PrimaveraPMProjectWriter
          m_factory = new ObjectFactory();
          m_activityTypePopulated = m_projectFile.getTasks().getPopulatedFields().contains(TaskField.ACTIVITY_TYPE);
          m_wbsSequence = new ObjectSequence(0);
-         m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(m_projectFile);
+         m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(m_projectFile.getProjectContext(), Collections.singletonList(m_projectFile));
          m_projectFromPrimavera = "Primavera".equals(m_projectFile.getProjectProperties().getFileApplication());
 
          if (baseline)

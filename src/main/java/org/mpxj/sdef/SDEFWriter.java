@@ -94,12 +94,11 @@ public final class SDEFWriter extends AbstractProjectWriter
       return m_charset;
    }
 
-   /**
-    * Write a project file in SDEF format to an output stream.
-    *
-    * @param projectFile ProjectFile instance
-    * @param out output stream
-    */
+   @Override public void write(List<ProjectFile> projects, OutputStream outputStream) throws IOException
+   {
+      throw new UnsupportedOperationException();
+   }
+
    @Override public void write(ProjectFile projectFile, OutputStream out) throws IOException
    {
       m_projectFile = projectFile;

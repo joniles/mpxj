@@ -24,8 +24,10 @@
 package org.mpxj.writer;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 import org.mpxj.ProjectFile;
 
@@ -58,4 +60,28 @@ public interface ProjectWriter
     * @param outputStream OutputStream instance
     */
    void write(ProjectFile projectFile, OutputStream outputStream) throws IOException;
+
+   /**
+    * Create a file containing multiple projects using the supplied file name.
+    *
+    * @param projects projects to write
+    * @param fileName file name
+    */
+   void write(List<ProjectFile> projects, String fileName) throws IOException;
+
+   /**
+    * Create a file containing multiple projects using the supplied File instance.
+    *
+    * @param projects projects to write
+    * @param file File instance
+    */
+   void write(List<ProjectFile> projects, File file) throws IOException;
+
+   /**
+    * Write a file containing multiple projects to the supplied OutputStream instance.
+    *
+    * @param projects projects to write
+    * @param outputStream OutputStream instance
+    */
+   void write(List<ProjectFile> projects, OutputStream outputStream) throws IOException;
 }

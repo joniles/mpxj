@@ -26,6 +26,7 @@ package org.mpxj.writer;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import org.mpxj.ProjectFile;
 
@@ -47,6 +48,22 @@ public abstract class AbstractProjectWriter implements ProjectWriter
    {
       FileOutputStream fos = new FileOutputStream(file);
       write(projectFile, fos);
+      fos.flush();
+      fos.close();
+   }
+
+   @Override public void write(List<ProjectFile> projects, String fileName) throws IOException
+   {
+      FileOutputStream fos = new FileOutputStream(fileName);
+      write(projects, fos);
+      fos.flush();
+      fos.close();
+   }
+
+   @Override public void write(List<ProjectFile> projects, File file) throws IOException
+   {
+      FileOutputStream fos = new FileOutputStream(file);
+      write(projects, fos);
       fos.flush();
       fos.close();
    }

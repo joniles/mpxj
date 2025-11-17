@@ -86,6 +86,11 @@ import org.mpxj.writer.AbstractProjectWriter;
  */
 public final class MPXWriter extends AbstractProjectWriter
 {
+   @Override public void write(List<ProjectFile> projects, OutputStream outputStream) throws IOException
+   {
+      throw new UnsupportedOperationException();
+   }
+
    @Override public void write(ProjectFile projectFile, OutputStream out) throws IOException
    {
       m_projectFile = projectFile;

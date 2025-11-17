@@ -823,7 +823,14 @@ public class ProjectTreeController
             ((MSPDIWriter) writer).setSplitTimephasedAsDays(m_model.getWriteOptions().getSplitTimephasedDataAsDays());
          }
 
-         writer.write(m_projectFile, file);
+         if (m_model.getWriteOptions().getWriteAll())
+         {
+            writer.write(m_projectFile.getProjectContext().getProjects(), file);
+         }
+         else
+         {
+            writer.write(m_projectFile, file);
+         }
       }
 
       catch (Exception ex)

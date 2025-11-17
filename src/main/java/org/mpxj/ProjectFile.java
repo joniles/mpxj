@@ -1065,7 +1065,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    @Override public ObjectSequence getUniqueIdObjectSequence(Class<?> c)
    {
-      return ProjectContext.contains(c) ? m_context.getUniqueIdObjectSequence(c) : m_uniqueIdObjectSequences.computeIfAbsent(c.getName(), x -> new ObjectSequence(1));
+      return m_context.getUniqueIdObjectSequence(c);
    }
 
    /**
@@ -1111,6 +1111,5 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final ProjectFile[] m_baselines = new ProjectFile[11];
    private final Map<Integer, Map<Task, Task>> m_baselineTaskMap = new HashMap<>();
    private final List<Exception> m_ignoredErrors = new ArrayList<>();
-   private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
    private final ProjectContext m_context;
 }

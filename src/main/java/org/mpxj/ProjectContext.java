@@ -24,11 +24,8 @@ package org.mpxj;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.Arrays;
 
 import org.mpxj.common.ObjectSequence;
 
@@ -289,14 +286,13 @@ public class ProjectContext implements UniqueIdObjectSequenceProvider
    }
 
    /**
-    * Indicates if this container is responsible for managing instances of the supplied class.
+    * Remove the ObjectSequence for a given class, allowing sequence generation to be restarted.
     *
-    * @param c class to test
-    * @return true if this container manages instances of the supplied class
+    * @param c target class
     */
-   public static boolean contains(Class<?> c)
+   public void resetUniqueIdObjectSequence(Class<?> c)
    {
-      return HOSTED_CLASS_NAMES.contains(c.getName());
+      m_uniqueIdObjectSequences.remove(c.getName());
    }
 
    private final LocationContainer m_locations = new LocationContainer(this);
@@ -317,37 +313,11 @@ public class ProjectContext implements UniqueIdObjectSequenceProvider
    private final CurrencyContainer m_currencies = new CurrencyContainer(this);
    private final ProjectCalendarContainer m_calendars = new ProjectCalendarContainer(this);
    private final ResourceContainer m_resources = new ResourceContainer(this);
+   private final List<ProjectFile> m_projects = new ArrayList<>();
 
    private final TimeUnitDefaults m_timeUnitDefaults = new TimeUnitDefaults();
    private final ProjectConfig m_projectConfig = new ProjectConfig();
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
    private final List<Exception> m_ignoredErrors = new ArrayList<>();
    private final EventManager m_eventManager = new EventManager();
-
-   private final List<ProjectFile> m_projects = new ArrayList<>();
-
-   private static final Set<String> HOSTED_CLASS_NAMES = new HashSet<>(
-      Arrays.asList(
-         Location.class.getName(),
-         UnitOfMeasure.class.getName(),
-         ExpenseCategory.class.getName(),
-         CostAccount.class.getName(),
-         WorkContour.class.getName(),
-         NotesTopic.class.getName(),
-         UserDefinedField.class.getName(),
-         ActivityCode.class.getName(),
-         ActivityCodeValue.class.getName(),
-         ProjectCode.class.getName(),
-         ProjectCodeValue.class.getName(),
-         ResourceCode.class.getName(),
-         ResourceCodeValue.class.getName(),
-         RoleCode.class.getName(),
-         RoleCodeValue.class.getName(),
-         ResourceAssignmentCode.class.getName(),
-         ResourceAssignmentCodeValue.class.getName(),
-         Shift.class.getName(),
-         ShiftPeriod.class.getName(),
-         Currency.class.getName(),
-         ProjectCalendar.class.getName(),
-         Resource.class.getName()));
 }
