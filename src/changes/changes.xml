@@ -8,7 +8,8 @@
 		<release date="unreleased" version="15.0.0">
             <action dev="joniles" type="update">Updated `PrimaveraXERFileWriter` to allow a list of projects to be written to an XER file.</action>
             <action dev="joniles" type="update">Header rows for empty tables are no longer written to XER files.</action>
-            <action dev="joniles" type="update">Updated to POI 5.5.0</action>
+            <action dev="joniles" type="update">When using the `readAll` method to read PMXML files, only projects will now be returned. Any baseline `ProjectFile` instances will now only be linked to their parent projects, and will not be present in the list returned by `readAll`.</action>
+            <action dev="joniles" type="update">When writing PMXML files, ensure that `OriginalProjectObjectId` is populated for baseline projects.</action>
             <action dev="joniles" type="update">Added the `ProjectContext` class to represent common context data which can (depending on the source application) be shared across multiple projects.</action>
             <action dev="joniles" type="update">Added the `ProjectFile#getProjectContext` method to retrieve the `ProjectContext` instance to which a project belongs.</action>
             <action dev="joniles" type="update">Added the `ProjectFile#getCalendarsForProject` method. This retrieves global calendars, and any project-specific calendars relevant for this project.</action>
@@ -29,7 +30,8 @@
             <action dev="joniles" type="update">Removed the `Task#addResourceAssignment(ResourceAssignment)` method. Use the `Task#addResourceAssignment(Resource)` method instead.</action>
             <action dev="joniles" type="update">Added the `Rate#valueOf` method.</action>
             <action dev="joniles" type="update">Added the `TimeUnitDefaults` class to allow time unit related default values to be held as part of the `ProjectContext` class.</action>
-            <action dev="joniles" type="update">Updated to use jackcess 4.0.10. Removed explicit Commons Lang 3 dependency.</action>
+            <action dev="joniles" type="update">Updated to POI 5.5.0</action>
+            <action dev="joniles" type="update">Updated to Jackcess 4.0.10. Removed explicit Commons Lang 3 dependency.</action>
 		</release>
 		<release date="2025-10-22" version="14.5.2">
             <action dev="joniles" type="update">Fix an issue reading secondary constraint dates and finish constraint dates from Open Plan BK3 files.</action>

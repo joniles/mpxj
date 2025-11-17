@@ -28,7 +28,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -41,6 +43,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.mpxj.BaselineStrategy;
 import org.mpxj.common.InputStreamHelper;
+import org.mpxj.common.Pair;
 import org.mpxj.primavera.schema.ProjectListType;
 import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
@@ -164,25 +167,23 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       APIBusinessObjects apibo = processFile(is);
       XmlReaderState state = new XmlReaderState(apibo);
 
-      List<ProjectType> projects = apibo.getProject();
-      List<BaselineProjectType> baselineProjects = apibo.getBaselineProject();
-      List<ProjectFile> result = new ArrayList<>(projects.size() + baselineProjects.size());
-
       addListenersToContext(state.getContext());
       new XmlContextReader(state).read();
       state.getContext().getProjectConfig().setBaselineStrategy(m_baselineStrategy);
 
       XmlProjectReader reader = new XmlProjectReader(state);
-      projects.forEach(project -> result.add(reader.read(project)));
-      baselineProjects.forEach(project -> result.add(reader.read(project)));
+      List<ProjectFile> projects = apibo.getProject().stream().map(reader::read).collect(Collectors.toList());
+      Map<Integer, List<ProjectFile>> baselines = new HashMap<>();
+      apibo.getBaselineProject().forEach(b -> baselines.computeIfAbsent(b.getOriginalProjectObjectId(), k -> new ArrayList<>()).add(reader.read(b)));
 
       // Sort to ensure exported project is first
-      result.sort((o1, o2) -> Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
+      projects.sort((o1, o2) -> Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
 
-      linkCrossProjectRelations(result, state.getExternalRelations());
-      populateBaselines(apibo, result);
+      linkCrossProjectRelations(projects, state.getExternalRelations());
 
-      return result;
+      projects.forEach(p -> populateBaselines(p, baselines.getOrDefault(p.getProjectProperties().getUniqueID(), Collections.emptyList())));
+
+      return projects;
    }
 
    private void linkCrossProjectRelations(List<ProjectFile> projects, List<ExternalRelation> externalRelations)
@@ -234,70 +235,31 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
-   private void populateBaselines(APIBusinessObjects apibo, List<ProjectFile> projects)
+   private void populateBaselines(ProjectFile project, List<ProjectFile> baselines)
    {
-      if (projects.stream().anyMatch(p -> p.getProjectProperties().getBaselineProjectUniqueID() != null))
+      if (baselines.isEmpty())
       {
-         // We have baseline project unique ID values
-         populateBaselinesByUniqueID(projects);
+         return;
       }
-      else
-      {
-         if (apibo.getProjectList() != null && apibo.getProjectList().getProject().stream().anyMatch(p -> !p.getBaselineProject().isEmpty()))
-         {
-            // We have baselines in the project list
-            populateBaselinesByProjectList(apibo, projects);
-         }
-      }
-   }
 
-   private void populateBaselinesByUniqueID(List<ProjectFile> projects)
-   {
-      Map<Integer, ProjectFile> map = projects.stream().collect(Collectors.toMap(p -> p.getProjectProperties().getUniqueID(), p -> p));
-      for (ProjectFile project : projects)
+      int baselineIndex = 0;
+      Integer baselineProjectUniqueID = project.getProjectProperties().getBaselineProjectUniqueID();
+      if (baselineProjectUniqueID != null)
       {
-         ProjectFile baseline = map.get(project.getProjectProperties().getBaselineProjectUniqueID());
+         ProjectFile baseline = baselines.stream().filter(b -> baselineProjectUniqueID.equals(b.getProjectProperties().getUniqueID())).findFirst().orElse(null);
          if (baseline != null)
          {
-            project.setBaseline(baseline);
+            project.setBaseline(baseline, baselineIndex++);
          }
       }
-   }
 
-   private void populateBaselinesByProjectList(APIBusinessObjects apibo, List<ProjectFile> projects)
-   {
-      Map<Integer, ProjectFile> map = projects.stream().collect(Collectors.toMap(p -> p.getProjectProperties().getUniqueID(), p -> p));
-      for (ProjectListType.Project project : apibo.getProjectList().getProject())
+      for (ProjectFile baseline : baselines)
       {
-         List<ProjectListType.Project.BaselineProject> baselineProjects = project.getBaselineProject();
-         if (baselineProjects.isEmpty())
+         if (baselineProjectUniqueID != null && baselineProjectUniqueID.equals(baseline.getProjectProperties().getUniqueID()))
          {
             continue;
          }
-
-         ProjectFile parentProject = map.get(Integer.valueOf(project.getObjectId()));
-         if (parentProject == null)
-         {
-            continue;
-         }
-
-         int baselineIndex = 0;
-         for (ProjectListType.Project.BaselineProject baseline : baselineProjects)
-         {
-            ProjectFile baselineProject = map.get(Integer.valueOf(baseline.getObjectId()));
-            if (baselineProject == null)
-            {
-               continue;
-            }
-
-            parentProject.setBaseline(baselineProject, baselineIndex++);
-
-            // TODO: allow an arbitrary number of baselines to be captured
-            if (baselineIndex > 10)
-            {
-               break;
-            }
-         }
+         project.setBaseline(baseline, baselineIndex++);
       }
    }
 
