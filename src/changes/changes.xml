@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="15.0.0">
             <action dev="joniles" type="update">Updated `PrimaveraXERFileWriter` to allow a list of projects to be written to an XER file.</action>
+            <action dev="joniles" type="update">Updated to POI 5.5.0</action>
             <action dev="joniles" type="update">Added the `ProjectContext` class to represent common context data which can (depending on the source application) be shared across multiple projects.</action>
             <action dev="joniles" type="update">Added the `ProjectFile#getProjectContext` method to retrieve the `ProjectContext` instance to which a project belongs.</action>
             <action dev="joniles" type="update">Added the `ProjectFile#getCalendarsForProject` method. This retrieves global calendars, and any project-specific calendars relevant for this project.</action>
