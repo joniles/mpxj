@@ -43,6 +43,9 @@ class WriteOptions
       m_splitTimephaseDataAsDays = !m_splitTimephaseDataAsDays;
    }
 
+   /**
+    * Toggle the state of the write all flag.
+    */
    public void toggleWriteAll()
    {
       m_writeAll = !m_writeAll;
@@ -68,6 +71,11 @@ class WriteOptions
       return m_splitTimephaseDataAsDays;
    }
 
+   /**
+    * Retrieve the write all flag.
+    *
+    * @return write all flag
+    */
    public boolean getWriteAll()
    {
       return m_writeAll;

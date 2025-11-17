@@ -285,6 +285,11 @@ public class ProjectContext implements UniqueIdObjectSequenceProvider
       return m_uniqueIdObjectSequences.computeIfAbsent(c.getName(), x -> new ObjectSequence(1));
    }
 
+   /**
+    * Remove the ObjectSequence for a given class, allowing sequence generation to be restarted.
+    *
+    * @param c target class
+    */
    public void resetUniqueIdObjectSequence(Class<?> c)
    {
       m_uniqueIdObjectSequences.remove(c.getName());

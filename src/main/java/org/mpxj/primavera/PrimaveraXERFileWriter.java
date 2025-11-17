@@ -1285,6 +1285,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return currency;
    }
 
+   /**
+    * Assigns unique ID values to ProjectFile instance which do not have them.
+    * Retuens a list of project files which have been updated, so the change can be reverted later.
+    *
+    * @return list of updated ProjectFile instances
+    */
    private List<ProjectFile> assignTemporaryProjectUniqueIdValues()
    {
       if (m_files.stream().noneMatch(f -> f.getProjectProperties().getUniqueID() == null))
