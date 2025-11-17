@@ -23,6 +23,8 @@
 
 package org.mpxj.primavera;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -123,31 +125,47 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return m_charset;
    }
 
-   @Override public void write(ProjectFile projectFile, OutputStream outputStream) throws IOException
+   public void write(List<ProjectFile> projects, String fileName) throws IOException
    {
-      write(Collections.singletonList(projectFile), outputStream);
+      FileOutputStream fos = new FileOutputStream(fileName);
+      write(projects, fos);
+      fos.flush();
+      fos.close();
    }
 
-   public void write(List<ProjectFile> files, OutputStream outputStream) throws IOException
+   public void write(List<ProjectFile> projects, File file) throws IOException
+   {
+      FileOutputStream fos = new FileOutputStream(file);
+      write(projects, fos);
+      fos.flush();
+      fos.close();
+   }
+
+   @Override public void write(ProjectFile project, OutputStream outputStream) throws IOException
+   {
+      write(Collections.singletonList(project), outputStream);
+   }
+
+   public void write(List<ProjectFile> projects, OutputStream outputStream) throws IOException
    {
       // Ensure that all projects share the same context
-      m_context = files.get(0).getProjectContext();
-      if (!files.stream().allMatch(f -> m_context == f.getProjectContext()))
+      m_context = projects.get(0).getProjectContext();
+      if (!projects.stream().allMatch(f -> m_context == f.getProjectContext()))
       {
          throw new IllegalArgumentException("All ProjectFile instances must use the same ProjectContext");
       }
 
       // Ensure the all projects have a unique ID
-      m_files = files;
+      m_files = projects;
       List<ProjectFile> temporaryProjectUniqueIdValues = assignTemporaryProjectUniqueIdValues();
       m_files.sort(Comparator.comparing(o -> o.getProjectProperties().getUniqueID()));
 
       // Ensure all projects have a WBS hierarchy with a single root node
-      List<TemporaryWbs> temporaryWbs = files.stream().map(this::createValidWbsHierarchy).filter(Objects::nonNull).collect(Collectors.toList());
+      List<TemporaryWbs> temporaryWbs = projects.stream().map(this::createValidWbsHierarchy).filter(Objects::nonNull).collect(Collectors.toList());
 
       m_writer = new XerWriter(m_context.getTimeUnitDefaults(), new OutputStreamWriter(outputStream, getCharset()));
       m_rateObjectID = new ObjectSequence(1);
-      m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(m_context, files);
+      m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(m_context, projects);
 
       // We need to do this first to ensure the default topic is created if required
       populateWbsNotes();
@@ -1150,7 +1168,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private TemporaryWbs createValidWbsHierarchy(ProjectFile file)
    {
-      List<Task> wbsWithoutParent = getWbsStream().filter(t -> t.getParentTask() == null).collect(Collectors.toList());
+      List<Task> wbsWithoutParent = file.getTasks().stream().filter(t -> t.getSummary() && t.getParentTask() == null).collect(Collectors.toList());
       if (wbsWithoutParent.size() < 2)
       {
          return null;

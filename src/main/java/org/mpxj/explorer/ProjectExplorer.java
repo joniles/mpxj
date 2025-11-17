@@ -199,6 +199,9 @@ public class ProjectExplorer
 
       mnFile.addSeparator();
 
+      final JMenuItem mntmWriteAll = new JCheckBoxMenuItem("Write All", m_writeOptions.getWriteAll());
+      mnFile.add(mntmWriteAll);
+
       final JMenuItem mntmWriteTimephasedData = new JCheckBoxMenuItem("Write Timephased Data", m_writeOptions.getWriteTimephasedData());
       mnFile.add(mntmWriteTimephasedData);
 
@@ -261,6 +264,11 @@ public class ProjectExplorer
       // Split timephased data as days
       //
       mntmSplitTimephasedAsDays.addActionListener(e -> m_writeOptions.toggleSplitTimephasedDataAsDays());
+
+      //
+      // Write All
+      //
+      mntmWriteAll.addActionListener(e -> m_writeOptions.toggleWriteAll());
 
       m_frame.getContentPane().add(m_tabbedPane);
 
