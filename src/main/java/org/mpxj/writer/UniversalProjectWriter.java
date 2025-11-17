@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -69,6 +70,21 @@ public final class UniversalProjectWriter implements ProjectWriter
    @Override public void write(ProjectFile projectFile, OutputStream outputStream) throws IOException
    {
       getWriter().write(projectFile, outputStream);
+   }
+
+   @Override public void write(List<ProjectFile> projects, String fileName) throws IOException
+   {
+      getWriter().write(projects, fileName);
+   }
+
+   @Override public void write(List<ProjectFile> projects, File file) throws IOException
+   {
+      getWriter().write(projects, file);
+   }
+
+   @Override public void write(List<ProjectFile> projects, OutputStream outputStream) throws IOException
+   {
+      getWriter().write(projects, outputStream);
    }
 
    private ProjectWriter getWriter()

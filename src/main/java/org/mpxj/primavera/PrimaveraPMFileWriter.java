@@ -26,6 +26,7 @@ package org.mpxj.primavera;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.xml.bind.JAXBContext;
@@ -73,6 +74,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    public boolean getWriteBaselines()
    {
       return m_writeBaselines;
+   }
+
+   @Override public void write(List<ProjectFile> projects, OutputStream outputStream) throws IOException
+   {
+      throw new UnsupportedOperationException();
    }
 
    @Override public void write(ProjectFile projectFile, OutputStream stream) throws IOException

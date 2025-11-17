@@ -23,8 +23,6 @@
 
 package org.mpxj.primavera;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -125,28 +123,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return m_charset;
    }
 
-   public void write(List<ProjectFile> projects, String fileName) throws IOException
-   {
-      FileOutputStream fos = new FileOutputStream(fileName);
-      write(projects, fos);
-      fos.flush();
-      fos.close();
-   }
-
-   public void write(List<ProjectFile> projects, File file) throws IOException
-   {
-      FileOutputStream fos = new FileOutputStream(file);
-      write(projects, fos);
-      fos.flush();
-      fos.close();
-   }
-
    @Override public void write(ProjectFile project, OutputStream outputStream) throws IOException
    {
       write(Collections.singletonList(project), outputStream);
    }
 
-   public void write(List<ProjectFile> projects, OutputStream outputStream) throws IOException
+   @Override public void write(List<ProjectFile> projects, OutputStream outputStream) throws IOException
    {
       // Ensure that all projects share the same context
       m_context = projects.get(0).getProjectContext();

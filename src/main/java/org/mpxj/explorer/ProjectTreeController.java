@@ -823,9 +823,9 @@ public class ProjectTreeController
             ((MSPDIWriter) writer).setSplitTimephasedAsDays(m_model.getWriteOptions().getSplitTimephasedDataAsDays());
          }
 
-         if (fileClass == PrimaveraXERFileWriter.class && m_model.getWriteOptions().getWriteAll())
+         if (m_model.getWriteOptions().getWriteAll())
          {
-            ((PrimaveraXERFileWriter)writer).write(m_projectFile.getProjectContext().getProjects(), file);
+            writer.write(m_projectFile.getProjectContext().getProjects(), file);
          }
          else
          {
