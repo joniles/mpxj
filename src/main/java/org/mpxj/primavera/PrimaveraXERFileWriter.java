@@ -437,11 +437,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeShifts()
    {
-      if (m_context.getShifts().isEmpty())
-      {
-         return;
-      }
-
       m_writer.writeTable("SHIFT", SHIFT_COLUMNS);
       m_context.getShifts().stream().sorted(Comparator.comparing(Shift::getUniqueID)).forEach(l -> m_writer.writeRecord(SHIFT_COLUMNS, l));
    }
@@ -451,11 +446,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeShiftPeriods()
    {
-      if (m_context.getShiftPeriods().isEmpty())
-      {
-         return;
-      }
-
       m_writer.writeTable("SHIFTPER", SHIFT_PERIOD_COLUMNS);
       m_context.getShiftPeriods().stream().sorted(Comparator.comparing(ShiftPeriod::getUniqueID)).forEach(l -> m_writer.writeRecord(SHIFT_PERIOD_COLUMNS, l));
    }
@@ -465,11 +455,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeLocations()
    {
-      if (m_context.getLocations().isEmpty())
-      {
-         return;
-      }
-
       m_writer.writeTable("LOCATION", LOCATION_COLUMNS);
       m_context.getLocations().stream().sorted(Comparator.comparing(Location::getUniqueID)).forEach(l -> m_writer.writeRecord(LOCATION_COLUMNS, l));
    }
@@ -746,14 +731,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeRoleAssignments()
    {
-      List<Map<String, Object>> assignments = getSortedResourceStream().flatMap(r -> getRoleAssignments(r).stream()).collect(Collectors.toList());
-      if (assignments.isEmpty())
-      {
-         return;
-      }
-
       m_writer.writeTable("RSRCROLE", ROLE_ASSIGNMENT_COLUMNS);
-      assignments.forEach(a -> m_writer.writeRecord(ROLE_ASSIGNMENT_COLUMNS, a));
+      getSortedResourceStream().flatMap(r -> getRoleAssignments(r).stream()).collect(Collectors.toList()).forEach(a -> m_writer.writeRecord(ROLE_ASSIGNMENT_COLUMNS, a));
    }
 
    /**
@@ -802,11 +781,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeProjectCodes()
    {
-      if (m_context.getProjectCodes().isEmpty())
-      {
-         return;
-      }
-
       m_writer.writeTable("PCATTYPE", PROJECT_CODE_COLUMNS);
       m_context.getProjectCodes().stream().sorted(Comparator.comparing(ProjectCode::getUniqueID)).forEach(c -> m_writer.writeRecord(PROJECT_CODE_COLUMNS, c));
    }
@@ -816,11 +790,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeProjectCodeValues()
    {
-      if (m_context.getProjectCodes().isEmpty())
-      {
-         return;
-      }
-
       m_writer.writeTable("PCATVAL", PROJECT_CODE_VALUE_COLUMNS);
       m_context.getProjectCodes().stream().map(ProjectCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(ProjectCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(PROJECT_CODE_VALUE_COLUMNS, v));
    }
@@ -830,21 +799,17 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeProjectCodeAssignments()
    {
-      List<ProjectFile> files = m_files.stream().filter(f -> !f.getProjectProperties().getProjectCodeValues().isEmpty()).collect(Collectors.toList());
-      if (files.isEmpty())
-      {
-         return;
-      }
-
       m_writer.writeTable("PROJPCAT", PROJECT_CODE_ASSIGNMENT_COLUMNS);
-      for (ProjectFile file : files)
-      {
-         Integer projectID = file.getProjectProperties().getUniqueID();
-         file.getProjectProperties().getProjectCodeValues().values().stream()
-            .sorted(Comparator.comparing(ProjectCodeValue::getParentCodeUniqueID))
-            .map(v -> populateProjectCodeAssignment(projectID, v))
-            .forEach(a -> m_writer.writeRecord(PROJECT_CODE_ASSIGNMENT_COLUMNS, a));
-      }
+      m_files.stream().filter(f -> !f.getProjectProperties().getProjectCodeValues().isEmpty()).forEach(this::writeProjectCodeAssignments);
+   }
+
+   private void writeProjectCodeAssignments(ProjectFile file)
+   {
+      Integer projectID = file.getProjectProperties().getUniqueID();
+      file.getProjectProperties().getProjectCodeValues().values().stream()
+         .sorted(Comparator.comparing(ProjectCodeValue::getParentCodeUniqueID))
+         .map(v -> populateProjectCodeAssignment(projectID, v))
+         .forEach(a -> m_writer.writeRecord(PROJECT_CODE_ASSIGNMENT_COLUMNS, a));
    }
 
    /**
@@ -868,11 +833,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeResourceCodes()
    {
-      if (m_context.getResourceCodes().isEmpty())
-      {
-         return;
-      }
-
       m_writer.writeTable("RCATTYPE", RESOURCE_CODE_COLUMNS);
       m_context.getResourceCodes().stream().sorted(Comparator.comparing(ResourceCode::getUniqueID)).forEach(c -> m_writer.writeRecord(RESOURCE_CODE_COLUMNS, c));
    }
@@ -882,11 +842,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeResourceCodeValues()
    {
-      if (m_context.getResourceCodes().isEmpty())
-      {
-         return;
-      }
-
       m_writer.writeTable("RCATVAL", RESOURCE_CODE_VALUE_COLUMNS);
       m_context.getResourceCodes().stream().map(ResourceCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(ResourceCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(RESOURCE_CODE_VALUE_COLUMNS, v));
    }
@@ -896,18 +851,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeResourceCodeAssignments()
    {
-      List<Map<String, Object>> assignments = getSortedResourceStream()
+      m_writer.writeTable("RSRCRCAT", RESOURCE_CODE_ASSIGNMENT_COLUMNS);
+      getSortedResourceStream()
          .map(r -> r.getResourceCodeValues().values().stream().sorted(Comparator.comparing(ResourceCodeValue::getParentCodeUniqueID))
             .map(v -> populateResourceCodeAssignment(r.getUniqueID(), v)).collect(Collectors.toList()))
-         .flatMap(Collection::stream).collect(Collectors.toList());
-
-      if (assignments.isEmpty())
-      {
-         return;
-      }
-
-      m_writer.writeTable("RSRCRCAT", RESOURCE_CODE_ASSIGNMENT_COLUMNS);
-      assignments.forEach(a -> m_writer.writeRecord(RESOURCE_CODE_ASSIGNMENT_COLUMNS, a));
+         .flatMap(Collection::stream)
+         .forEach(a -> m_writer.writeRecord(RESOURCE_CODE_ASSIGNMENT_COLUMNS, a));
    }
 
    /**
@@ -915,11 +864,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeRoleCodes()
    {
-      if (m_context.getRoleCodes().isEmpty())
-      {
-         return;
-      }
-
       m_writer.writeTable("ROLECATTYPE", ROLE_CODE_COLUMNS);
       m_context.getRoleCodes().stream().sorted(Comparator.comparing(RoleCode::getUniqueID)).forEach(c -> m_writer.writeRecord(ROLE_CODE_COLUMNS, c));
    }
@@ -929,11 +873,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeRoleCodeValues()
    {
-      if (m_context.getRoleCodes().isEmpty())
-      {
-         return;
-      }
-
       m_writer.writeTable("ROLECATVAL", ROLE_CODE_VALUE_COLUMNS);
       m_context.getRoleCodes().stream().map(RoleCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(RoleCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(ROLE_CODE_VALUE_COLUMNS, v));
    }
@@ -943,18 +882,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeRoleCodeAssignments()
    {
-      List<Map<String, Object>> assignments = getSortedRoleStream()
+      m_writer.writeTable("ROLERCAT", ROLE_CODE_ASSIGNMENT_COLUMNS);
+      getSortedRoleStream()
          .map(r -> r.getRoleCodeValues().values().stream().sorted(Comparator.comparing(RoleCodeValue::getParentCodeUniqueID))
             .map(v -> populateRoleCodeAssignment(r.getUniqueID(), v)).collect(Collectors.toList()))
-         .flatMap(Collection::stream).collect(Collectors.toList());
-
-      if (assignments.isEmpty())
-      {
-         return;
-      }
-
-      m_writer.writeTable("ROLERCAT", ROLE_CODE_ASSIGNMENT_COLUMNS);
-      assignments.forEach(a -> m_writer.writeRecord(ROLE_CODE_ASSIGNMENT_COLUMNS, a));
+         .flatMap(Collection::stream)
+         .forEach(a -> m_writer.writeRecord(ROLE_CODE_ASSIGNMENT_COLUMNS, a));
    }
 
    /**
@@ -962,11 +895,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeResourceAssignmentCodes()
    {
-      if (m_context.getResourceAssignmentCodes().isEmpty())
-      {
-         return;
-      }
-
       m_writer.writeTable("ASGNMNTCATTYPE", RESOURCE_ASSIGNMENT_CODE_COLUMNS);
       m_context.getResourceAssignmentCodes().stream().sorted(Comparator.comparing(ResourceAssignmentCode::getUniqueID)).forEach(c -> m_writer.writeRecord(RESOURCE_ASSIGNMENT_CODE_COLUMNS, c));
    }
@@ -976,11 +904,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeResourceAssignmentCodeValues()
    {
-      if (m_context.getResourceAssignmentCodes().isEmpty())
-      {
-         return;
-      }
-
       m_writer.writeTable("ASGNMNTCATVAL", RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS);
       m_context.getResourceAssignmentCodes().stream().map(ResourceAssignmentCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(ResourceAssignmentCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS, v));
    }
@@ -990,18 +913,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeResourceAssignmentCodeAssignments()
    {
-      List<Map<String, Object>> assignments = getSortedResourceAssignmentStream()
+      m_writer.writeTable("ASGNMNTACAT", RESOURCE_ASSIGNMENT_CODE_ASSIGNMENT_COLUMNS);
+      getSortedResourceAssignmentStream()
          .map(r -> r.getResourceAssignmentCodeValues().values().stream().sorted(Comparator.comparing(ResourceAssignmentCodeValue::getParentCodeUniqueID))
             .map(v -> populateResourceAssignmentCodeAssignment(r.getParentFile().getProjectProperties().getUniqueID(), r.getUniqueID(), v)).collect(Collectors.toList()))
-         .flatMap(Collection::stream).collect(Collectors.toList());
-
-      if (assignments.isEmpty())
-      {
-         return;
-      }
-
-      m_writer.writeTable("ASGNMNTACAT", RESOURCE_ASSIGNMENT_CODE_ASSIGNMENT_COLUMNS);
-      assignments.forEach(a -> m_writer.writeRecord(RESOURCE_ASSIGNMENT_CODE_ASSIGNMENT_COLUMNS, a));
+         .flatMap(Collection::stream)
+         .forEach(a -> m_writer.writeRecord(RESOURCE_ASSIGNMENT_CODE_ASSIGNMENT_COLUMNS, a));
    }
 
    /**

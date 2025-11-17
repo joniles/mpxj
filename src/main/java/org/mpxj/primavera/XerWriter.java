@@ -101,18 +101,28 @@ final class XerWriter
 
    /**
     * Write a table definition to an XER file.
-    *
-    * @param name table name
-    * @param map table fields
+    * Note that the definition is cached until the first row of the table is written.
     */
    public void writeTable(String name, Map<String, ?> map)
    {
+      m_currentTableName = name;
+      m_currentTableColumns = map;
+   }
+
+   /**
+    * Write a table definition to an XER file.
+    */
+   private void writeTable()
+   {
       try
       {
-         m_writer.write("%T\t" + name + "\n");
+         m_writer.write("%T\t" + m_currentTableName + "\n");
          m_writer.write("%F\t");
-         m_writer.write(String.join("\t", map.keySet()));
+         m_writer.write(String.join("\t", m_currentTableColumns.keySet()));
          m_writer.write("\n");
+
+         m_currentTableName = null;
+         m_currentTableColumns = null;
       }
 
       catch (IOException ex)
@@ -142,6 +152,11 @@ final class XerWriter
    {
       try
       {
+         if (m_currentTableName != null)
+         {
+            writeTable();
+         }
+
          m_writer.write("%R\t");
          m_writer.write(data.map(this::format).collect(Collectors.joining("\t")));
          m_writer.write("\n");
@@ -301,6 +316,9 @@ final class XerWriter
    {
       String apply(XerWriter writer, Object source);
    }
+
+   private String m_currentTableName;
+   private Map<String, ?> m_currentTableColumns;
 
    private final TimeUnitDefaultsContainer m_defaults;
    private final OutputStreamWriter m_writer;
