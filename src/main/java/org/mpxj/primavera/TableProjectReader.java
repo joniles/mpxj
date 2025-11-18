@@ -109,6 +109,8 @@ abstract class TableProjectReader
          properties.setName(row.getString("proj_short_name")); // Temporary, updated later from the WBS
          properties.setDefaultTaskType(TaskTypeHelper.getInstanceFromXer(row.getString("def_duration_type")));
          properties.setStatusDate(row.getDate("last_recalc_date"));
+         properties.setLastScheduleDate(row.getDate("last_schedule_date"));
+         properties.setStepCompleteFlag(row.getBoolean("step_complete_flag"));
          properties.setFiscalYearStartMonth(row.getInteger("fy_start_month_num"));
          properties.setExportFlag(row.getBoolean("export_flag"));
          properties.setPlannedStart(row.getDate("plan_start_date"));
