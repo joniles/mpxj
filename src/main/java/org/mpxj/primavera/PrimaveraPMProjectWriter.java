@@ -183,6 +183,7 @@ final class PrimaveraPMProjectWriter
          m_wbsSequence = new ObjectSequence(0);
          m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(m_projectFile.getProjectContext(), Collections.singletonList(m_projectFile));
          m_projectFromPrimavera = "Primavera".equals(m_projectFile.getProjectProperties().getFileApplication());
+         Currency defaultCurrency = createDefaultCurrency(m_projectFile);
 
          if (parent != null)
          {
@@ -223,7 +224,7 @@ final class PrimaveraPMProjectWriter
             m_activityNotes = project.getActivityNote();
             m_udf = project.getUDF();
 
-            writeCurrencies();
+            writeCurrencies(defaultCurrency);
             writeLocations();
             writeShifts();
             writeUnitsOfMeasure();
@@ -247,7 +248,7 @@ final class PrimaveraPMProjectWriter
             writeCodeAssignments(m_projectFile.getProjectProperties().getProjectCodeValues(), project.getCode());
             writeActivityCodeDefinitions(project.getActivityCodeType(), project.getActivityCode());
             writeProjectCalendars(project.getCalendar());
-            writeUDF();
+            writeProjectUserDefinedFields();
             writeTasks();
             writeAssignments();
             writeExpenseItems();
@@ -264,7 +265,33 @@ final class PrimaveraPMProjectWriter
       }
    }
 
-   private void writeUDF()
+   private Currency createDefaultCurrency(ProjectFile file)
+   {
+      if (!m_context.getCurrencies().isEmpty())
+      {
+         return null;
+      }
+
+      ProjectProperties props = file.getProjectProperties();
+
+      String positiveSymbol = getCurrencyFormat(props.getSymbolPosition());
+      String negativeSymbol = "(" + positiveSymbol + ")";
+
+      return new Currency.Builder(null)
+         .uniqueID(DEFAULT_CURRENCY_ID)
+         .currencyID("CUR")
+         .name("Default Currency")
+         .symbol(props.getCurrencySymbol())
+         .exchangeRate(Double.valueOf(1.0))
+         .decimalSymbol(String.valueOf(props.getDecimalSeparator()))
+         .numberOfDecimalPlaces(props.getCurrencyDigits())
+         .digitGroupingSymbol(String.valueOf(props.getThousandsSeparator()))
+         .positiveCurrencyFormat(positiveSymbol)
+         .negativeCurrencyFormat(negativeSymbol)
+         .build();
+   }
+
+   private void writeProjectUserDefinedFields()
    {
       m_udf.addAll(writeUserDefinedFieldAssignments(FieldTypeClass.PROJECT, false, m_projectFile.getProjectProperties()));
    }
@@ -272,47 +299,34 @@ final class PrimaveraPMProjectWriter
    /**
     * Write currencies.
     */
-   private void writeCurrencies()
+   private void writeCurrencies(Currency defaultCurrency)
    {
       if (m_context.getCurrencies().isEmpty())
       {
-         // No currencies defined? Write a default currency based on the project properties.
-         ProjectProperties props = m_projectFile.getProjectProperties();
-         CurrencyType currency = m_factory.createCurrencyType();
-         m_apibo.getCurrency().add(currency);
-
-         String positiveSymbol = getCurrencyFormat(props.getSymbolPosition());
-         String negativeSymbol = "(" + positiveSymbol + ")";
-
-         currency.setDecimalPlaces(props.getCurrencyDigits());
-         currency.setDecimalSymbol(getSymbolName(props.getDecimalSeparator()));
-         currency.setDigitGroupingSymbol(getSymbolName(props.getThousandsSeparator()));
-         currency.setExchangeRate(Double.valueOf(1.0));
-         currency.setId("CUR");
-         currency.setName("Default Currency");
-         currency.setNegativeSymbol(negativeSymbol);
-         currency.setObjectId(DEFAULT_CURRENCY_ID);
-         currency.setPositiveSymbol(positiveSymbol);
-         currency.setSymbol(props.getCurrencySymbol());
-         return;
+         writeCurrency(defaultCurrency);
       }
-
-      for (Currency currency : m_context.getCurrencies())
+      else
       {
-         CurrencyType xml = m_factory.createCurrencyType();
-         xml.setObjectId(currency.getUniqueID());
-         xml.setId(currency.getCurrencyID());
-         xml.setName(currency.getName());
-         xml.setSymbol(currency.getSymbol());
-         xml.setExchangeRate(currency.getExchangeRate());
-         xml.setDecimalSymbol(getSymbolName(currency.getDecimalSymbol()));
-         xml.setDecimalPlaces(currency.getNumberOfDecimalPlaces());
-         xml.setDigitGroupingSymbol(getSymbolName(currency.getDigitGroupingSymbol()));
-         xml.setPositiveSymbol(currency.getPositiveCurrencyFormat());
-         xml.setNegativeSymbol(currency.getNegativeCurrencyFormat());
-         m_apibo.getCurrency().add(xml);
+         m_context.getCurrencies().forEach(this::writeCurrency);
       }
    }
+
+   private void writeCurrency(Currency currency)
+   {
+      CurrencyType xml = m_factory.createCurrencyType();
+      xml.setObjectId(currency.getUniqueID());
+      xml.setId(currency.getCurrencyID());
+      xml.setName(currency.getName());
+      xml.setSymbol(currency.getSymbol());
+      xml.setExchangeRate(currency.getExchangeRate());
+      xml.setDecimalSymbol(getSymbolName(currency.getDecimalSymbol()));
+      xml.setDecimalPlaces(currency.getNumberOfDecimalPlaces());
+      xml.setDigitGroupingSymbol(getSymbolName(currency.getDigitGroupingSymbol()));
+      xml.setPositiveSymbol(currency.getPositiveCurrencyFormat());
+      xml.setNegativeSymbol(currency.getNegativeCurrencyFormat());
+      m_apibo.getCurrency().add(xml);
+   }
+
 
    /**
     * Map the currency separator character to a symbol name.
@@ -406,7 +420,7 @@ final class PrimaveraPMProjectWriter
 
       for (FieldType type : m_userDefinedFields)
       {
-         CustomField field = m_projectFile.getCustomFields().get(type);
+         CustomField field = m_context.getCustomFields().get(type);
          String title = field != null && field.getAlias() != null && !field.getAlias().isEmpty() ? field.getAlias() : type.getName();
          Integer uniqueID = field == null ? Integer.valueOf(FieldTypeHelper.getFieldID(type)) : field.getUniqueID();
 
@@ -605,7 +619,7 @@ final class PrimaveraPMProjectWriter
       project.setCriticalActivityPathType(CriticalActivityTypeHelper.getXmlFromInstance(mpxj.getCriticalActivityType()));
       project.setCurrentBaselineProjectObjectId(mpxj.getBaselineProjectUniqueID());
       project.setDateAdded(mpxj.getCreationDate());
-      project.setDataDate(m_projectFile.getProjectProperties().getStatusDate());
+      project.setDataDate(mpxj.getStatusDate());
       project.setDefaultPriceTimeUnits("Hour");
       project.setDiscountApplicationPeriod("Month");
       project.setEarnedValueComputeType("Activity Percent Complete");
@@ -676,7 +690,7 @@ final class PrimaveraPMProjectWriter
       project.setCriticalActivityFloatLimit(Double.valueOf(mpxj.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, mpxj).getDuration()));
       project.setCriticalActivityPathType(CriticalActivityTypeHelper.getXmlFromInstance(mpxj.getCriticalActivityType()));
       project.setDateAdded(mpxj.getCreationDate());
-      project.setDataDate(m_projectFile.getProjectProperties().getStatusDate());
+      project.setDataDate(mpxj.getStatusDate());
       project.setDefaultPriceTimeUnits("Hour");
       project.setDiscountApplicationPeriod("Month");
       project.setEnablePublication(Boolean.valueOf(mpxj.getEnablePublication()));
