@@ -205,7 +205,7 @@ final class PrimaveraPMProjectWriter
             writeActivityCodeDefinitions(project.getActivityCodeType(), project.getActivityCode());
             writeProjectCalendars(project.getCalendar());
             writeTasks();
-            writeAssignments();
+            writeResourceAssignments();
             writeExpenseItems();
             writeActivitySteps();
          }
@@ -250,7 +250,7 @@ final class PrimaveraPMProjectWriter
             writeProjectCalendars(project.getCalendar());
             writeProjectUserDefinedFields();
             writeTasks();
-            writeAssignments();
+            writeResourceAssignments();
             writeExpenseItems();
             writeActivitySteps();
             writeTopics();
@@ -1234,11 +1234,11 @@ final class PrimaveraPMProjectWriter
    /**
     * Writes assignment data to a PMXML file.
     */
-   private void writeAssignments()
+   private void writeResourceAssignments()
    {
       List<ResourceAssignment> assignments = new ArrayList<>();
       m_projectFile.getTasks().forEach(t -> assignments.addAll(t.getResourceAssignments()));
-      assignments.stream().filter(WriterHelper::isValidAssignment).forEach(this::writeAssignment);
+      assignments.stream().filter(WriterHelper::isValidAssignment).forEach(this::writeResourceAssignment);
    }
 
    /**
@@ -1246,7 +1246,7 @@ final class PrimaveraPMProjectWriter
     *
     * @param mpxj MPXJ ResourceAssignment instance
     */
-   private void writeAssignment(ResourceAssignment mpxj)
+   private void writeResourceAssignment(ResourceAssignment mpxj)
    {
       ResourceAssignmentType xml = m_factory.createResourceAssignmentType();
       m_assignments.add(xml);
