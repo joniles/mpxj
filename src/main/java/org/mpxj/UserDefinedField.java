@@ -24,6 +24,7 @@
 package org.mpxj;
 
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * Represents a user defined field.
@@ -105,6 +106,21 @@ public final class UserDefinedField implements FieldType
    @Override public String toString()
    {
       return getName();
+   }
+
+   @Override public boolean equals(Object o)
+   {
+      if (o == null || getClass() != o.getClass())
+      {
+         return false;
+      }
+      UserDefinedField that = (UserDefinedField) o;
+      return Objects.equals(m_uniqueID, that.m_uniqueID);
+   }
+
+   @Override public int hashCode()
+   {
+      return Objects.hashCode(m_uniqueID);
    }
 
    private final Integer m_uniqueID;

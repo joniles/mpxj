@@ -1,13 +1,17 @@
 package org.mpxj.primavera;
 
+import java.util.Set;
+
+import org.mpxj.FieldType;
 import org.mpxj.common.ObjectSequence;
 import org.mpxj.primavera.schema.APIBusinessObjects;
 
 class XmlWriterState
 {
-   public XmlWriterState(APIBusinessObjects apibo)
+   public XmlWriterState(APIBusinessObjects apibo, Set<FieldType> userDefinedFields)
    {
       m_apibo = apibo;
+      m_userDefinedFields = userDefinedFields;
    }
 
    public APIBusinessObjects getApibo()
@@ -30,8 +34,14 @@ class XmlWriterState
       return m_activityNoteObjectID.getNext();
    }
 
+   public Set<FieldType> getUserDefinedFields()
+   {
+      return m_userDefinedFields;
+   }
+
    private final APIBusinessObjects m_apibo;
    private final ObjectSequence m_rateObjectID = new ObjectSequence(1);
    private final ObjectSequence m_wbsNoteObjectID = new ObjectSequence(1);
    private final ObjectSequence m_activityNoteObjectID = new ObjectSequence(1);
+   private final Set<FieldType> m_userDefinedFields;
 }

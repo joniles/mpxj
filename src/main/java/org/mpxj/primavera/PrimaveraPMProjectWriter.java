@@ -27,7 +27,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 import java.util.HashSet;
@@ -159,6 +158,7 @@ final class PrimaveraPMProjectWriter
       m_state = state;
       m_context = projectFile.getProjectContext();
       m_projectFile = projectFile;
+      m_projectFromPrimavera = "Primavera".equals(m_projectFile.getProjectProperties().getFileApplication());
    }
 
    public void writeProject()
@@ -176,9 +176,6 @@ final class PrimaveraPMProjectWriter
       try
       {
          m_factory = new ObjectFactory();
-         m_activityTypePopulated = m_projectFile.getTasks().getPopulatedFields().contains(TaskField.ACTIVITY_TYPE);
-         m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(m_projectFile.getProjectContext(), Collections.singletonList(m_projectFile));
-         m_projectFromPrimavera = "Primavera".equals(m_projectFile.getProjectProperties().getFileApplication());
          Currency defaultCurrency = createDefaultCurrency(m_projectFile);
 
          if (parent != null)
@@ -256,7 +253,6 @@ final class PrimaveraPMProjectWriter
       finally
       {
          m_factory = null;
-         m_userDefinedFields = null;
       }
    }
 
@@ -413,7 +409,7 @@ final class PrimaveraPMProjectWriter
    {
       List<UDFTypeType> fields = m_state.getApibo().getUDFType();
 
-      for (FieldType type : m_userDefinedFields)
+      for (FieldType type : m_state.getUserDefinedFields())
       {
          CustomField field = m_context.getCustomFields().get(type);
          String title = field != null && field.getAlias() != null && !field.getAlias().isEmpty() ? field.getAlias() : type.getName();
@@ -1047,7 +1043,8 @@ final class PrimaveraPMProjectWriter
       // Filter out WBS entries and generate a sequence number.
       // If it's a summary task... it's a WBS entry. If the task has come from P6, and the activity type is not set, it's a WBS entry
       ObjectSequence wbsSequence = new ObjectSequence(0);
-      Map<Task, Integer> wbsSequenceMap = m_projectFile.getTasks().stream().filter(t -> t.getSummary() || (m_activityTypePopulated && t.getActivityType() == null)).collect(Collectors.toMap(t -> t, t -> t.getSequenceNumber() == null ? wbsSequence.getNext() : t.getSequenceNumber()));
+      boolean activityTypePopulated = m_projectFile.getTasks().getPopulatedFields().contains(TaskField.ACTIVITY_TYPE);
+      Map<Task, Integer> wbsSequenceMap = m_projectFile.getTasks().stream().filter(t -> t.getSummary() || (activityTypePopulated && t.getActivityType() == null)).collect(Collectors.toMap(t -> t, t -> t.getSequenceNumber() == null ? wbsSequence.getNext() : t.getSequenceNumber()));
 
       // Sort the tasks into unique ID order
       List<Task> tasks = new ArrayList<>(m_projectFile.getTasks());
@@ -1774,7 +1771,7 @@ final class PrimaveraPMProjectWriter
       List<UDFAssignmentType> out = new ArrayList<>();
       CustomFieldContainer customFields = m_context.getCustomFields();
 
-      for (FieldType fieldType : m_userDefinedFields)
+      for (FieldType fieldType : m_state.getUserDefinedFields())
       {
          if (type != fieldType.getFieldTypeClass())
          {
@@ -2275,6 +2272,7 @@ final class PrimaveraPMProjectWriter
    private final XmlWriterState m_state;
    private final ProjectContext m_context;
    private final ProjectFile m_projectFile;
+   private final boolean m_projectFromPrimavera;
 
    private ObjectFactory m_factory;
    private List<WBSType> m_wbs;
@@ -2286,8 +2284,4 @@ final class PrimaveraPMProjectWriter
    private List<ProjectNoteType> m_projectNotes;
    private List<ActivityNoteType> m_activityNotes;
    private List<UDFAssignmentType> m_udf;
-
-   private Set<FieldType> m_userDefinedFields;
-   private boolean m_activityTypePopulated;
-   private boolean m_projectFromPrimavera;
 }

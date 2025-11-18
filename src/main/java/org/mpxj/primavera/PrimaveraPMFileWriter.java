@@ -129,7 +129,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          Marshaller marshaller = MarshallerHelper.create(CONTEXT);
          marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "");
 
-         XmlWriterState state = new XmlWriterState(new ObjectFactory().createAPIBusinessObjects());
+         XmlWriterState state = new XmlWriterState(new ObjectFactory().createAPIBusinessObjects(), UdfHelper.getUserDefinedFieldsSet(projectFile.getProjectContext(), projectsAndBaselines));
          new PrimaveraPMProjectWriter(state, projectFile).writeProject();
 
          if (m_writeBaselines)
