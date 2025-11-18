@@ -177,7 +177,6 @@ final class PrimaveraPMProjectWriter
       {
          m_factory = new ObjectFactory();
          m_activityTypePopulated = m_projectFile.getTasks().getPopulatedFields().contains(TaskField.ACTIVITY_TYPE);
-         m_wbsSequence = new ObjectSequence(0);
          m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(m_projectFile.getProjectContext(), Collections.singletonList(m_projectFile));
          m_projectFromPrimavera = "Primavera".equals(m_projectFile.getProjectProperties().getFileApplication());
          Currency defaultCurrency = createDefaultCurrency(m_projectFile);
@@ -257,7 +256,6 @@ final class PrimaveraPMProjectWriter
       finally
       {
          m_factory = null;
-         m_wbsSequence = null;
          m_userDefinedFields = null;
       }
    }
@@ -1048,14 +1046,15 @@ final class PrimaveraPMProjectWriter
 
       // Filter out WBS entries and generate a sequence number.
       // If it's a summary task... it's a WBS entry. If the task has come from P6, and the activity type is not set, it's a WBS entry
-      Map<Task, Integer> wbsSequence = m_projectFile.getTasks().stream().filter(t -> t.getSummary() || (m_activityTypePopulated && t.getActivityType() == null)).collect(Collectors.toMap(t -> t, t -> t.getSequenceNumber() == null ? m_wbsSequence.getNext() : t.getSequenceNumber()));
+      ObjectSequence wbsSequence = new ObjectSequence(0);
+      Map<Task, Integer> wbsSequenceMap = m_projectFile.getTasks().stream().filter(t -> t.getSummary() || (m_activityTypePopulated && t.getActivityType() == null)).collect(Collectors.toMap(t -> t, t -> t.getSequenceNumber() == null ? wbsSequence.getNext() : t.getSequenceNumber()));
 
       // Sort the tasks into unique ID order
       List<Task> tasks = new ArrayList<>(m_projectFile.getTasks());
       tasks.sort((t1, t2) -> NumberHelper.compare(t1.getUniqueID(), t2.getUniqueID()));
 
       // Write the tasks
-      tasks.forEach(t -> writeTask(t, wbsSequence.get(t)));
+      tasks.forEach(t -> writeTask(t, wbsSequenceMap.get(t)));
    }
 
    /**
@@ -1500,7 +1499,7 @@ final class PrimaveraPMProjectWriter
             //rate.setLastUpdateDate(value);
             //rate.setLastUpdateUser(value);
             rate.setMaxUnitsPerTime(maxUnits);
-            rate.setObjectId(m_state.getSequences().getRateObjectID());
+            rate.setObjectId(m_state.getRateObjectID());
             rate.setPricePerUnit(writeRate(entry.getRate(0)));
             rate.setPricePerUnit2(writeRate(entry.getRate(1)));
             rate.setPricePerUnit3(writeRate(entry.getRate(2)));
@@ -1564,7 +1563,7 @@ final class PrimaveraPMProjectWriter
             //rate.setLastUpdateDate(value);
             //rate.setLastUpdateUser(value);
             rate.setMaxUnitsPerTime(maxUnits);
-            rate.setObjectId(m_state.getSequences().getRateObjectID());
+            rate.setObjectId(m_state.getRateObjectID());
             rate.setPricePerUnit(writeRate(entry.getRate(0)));
             rate.setPricePerUnit2(writeRate(entry.getRate(1)));
             rate.setPricePerUnit3(writeRate(entry.getRate(2)));
@@ -1658,7 +1657,7 @@ final class PrimaveraPMProjectWriter
 
       xml.setNote(HtmlHelper.getHtmlFromPlainText(notes));
       xml.setNotebookTopicObjectId(m_context.getNotesTopics().getDefaultTopic().getUniqueID());
-      xml.setObjectId(m_state.getSequences().getWbsNoteObjectID());
+      xml.setObjectId(m_state.getWbsNoteObjectID());
       xml.setProjectObjectId(m_projectFile.getProjectProperties().getUniqueID());
       xml.setWBSObjectId(wbsObjectID);
    }
@@ -1721,7 +1720,7 @@ final class PrimaveraPMProjectWriter
 
       xml.setNote(HtmlHelper.getHtmlFromPlainText(task.getNotes()));
       xml.setNotebookTopicObjectId(m_context.getNotesTopics().getDefaultTopic().getUniqueID());
-      xml.setObjectId(m_state.getSequences().getActivityNoteObjectID());
+      xml.setObjectId(m_state.getActivityNoteObjectID());
       xml.setProjectObjectId(m_projectFile.getProjectProperties().getUniqueID());
       xml.setActivityObjectId(task.getUniqueID());
    }
@@ -2288,7 +2287,6 @@ final class PrimaveraPMProjectWriter
    private List<ActivityNoteType> m_activityNotes;
    private List<UDFAssignmentType> m_udf;
 
-   private ObjectSequence m_wbsSequence;
    private Set<FieldType> m_userDefinedFields;
    private boolean m_activityTypePopulated;
    private boolean m_projectFromPrimavera;
