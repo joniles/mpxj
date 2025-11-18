@@ -236,6 +236,7 @@ final class PrimaveraPMProjectWriter
             writeRoleAssignments();
             writeResourceRates();
             writeRoleRates();
+            writeTopics();
 
             writeProjectProperties(project);
             writeCodeAssignments(m_projectFile.getProjectProperties().getProjectCodeValues(), project.getCode());
@@ -246,7 +247,11 @@ final class PrimaveraPMProjectWriter
             writeResourceAssignments();
             writeExpenseItems();
             writeActivitySteps();
-            writeTopics();
+
+            if (m_state.getDefaultNotesTopicUsed())
+            {
+               writeTopic(NotesTopic.DEFAULT);
+            }
          }
       }
 
@@ -1603,19 +1608,21 @@ final class PrimaveraPMProjectWriter
     */
    private void writeTopics()
    {
-      for (NotesTopic entry : m_context.getNotesTopics())
-      {
-         NotebookTopicType xml = m_factory.createNotebookTopicType();
-         m_state.getApibo().getNotebookTopic().add(xml);
+      m_context.getNotesTopics().forEach(this::writeTopic);
+   }
 
-         xml.setAvailableForEPS(Boolean.valueOf(entry.getAvailableForEPS()));
-         xml.setAvailableForProject(Boolean.valueOf(entry.getAvailableForProject()));
-         xml.setAvailableForActivity(Boolean.valueOf(entry.getAvailableForActivity()));
-         xml.setAvailableForWBS(Boolean.valueOf(entry.getAvailableForWBS()));
-         xml.setName(entry.getName());
-         xml.setObjectId(entry.getUniqueID());
-         xml.setSequenceNumber(entry.getSequenceNumber());
-      }
+   void writeTopic(NotesTopic entry)
+   {
+      NotebookTopicType xml = m_factory.createNotebookTopicType();
+      m_state.getApibo().getNotebookTopic().add(xml);
+
+      xml.setAvailableForEPS(Boolean.valueOf(entry.getAvailableForEPS()));
+      xml.setAvailableForProject(Boolean.valueOf(entry.getAvailableForProject()));
+      xml.setAvailableForActivity(Boolean.valueOf(entry.getAvailableForActivity()));
+      xml.setAvailableForWBS(Boolean.valueOf(entry.getAvailableForWBS()));
+      xml.setName(entry.getName());
+      xml.setObjectId(entry.getUniqueID());
+      xml.setSequenceNumber(entry.getSequenceNumber());
    }
 
    /**
@@ -1653,10 +1660,12 @@ final class PrimaveraPMProjectWriter
       m_projectNotes.add(xml);
 
       xml.setNote(HtmlHelper.getHtmlFromPlainText(notes));
-      xml.setNotebookTopicObjectId(m_context.getNotesTopics().getDefaultTopic().getUniqueID());
+      xml.setNotebookTopicObjectId(NotesTopic.DEFAULT.getUniqueID());
       xml.setObjectId(m_state.getWbsNoteObjectID());
       xml.setProjectObjectId(m_projectFile.getProjectProperties().getUniqueID());
       xml.setWBSObjectId(wbsObjectID);
+
+      m_state.defaultNotesTopicUsed();
    }
 
    /**
@@ -1716,10 +1725,12 @@ final class PrimaveraPMProjectWriter
       m_activityNotes.add(xml);
 
       xml.setNote(HtmlHelper.getHtmlFromPlainText(task.getNotes()));
-      xml.setNotebookTopicObjectId(m_context.getNotesTopics().getDefaultTopic().getUniqueID());
+      xml.setNotebookTopicObjectId(NotesTopic.DEFAULT.getUniqueID());
       xml.setObjectId(m_state.getActivityNoteObjectID());
       xml.setProjectObjectId(m_projectFile.getProjectProperties().getUniqueID());
       xml.setActivityObjectId(task.getUniqueID());
+
+      m_state.defaultNotesTopicUsed();
    }
 
    /**

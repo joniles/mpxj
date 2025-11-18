@@ -39,9 +39,20 @@ class XmlWriterState
       return m_userDefinedFields;
    }
 
+   public boolean getDefaultNotesTopicUsed()
+   {
+      return m_defaultNotesTopicUsed;
+   }
+
+   public void defaultNotesTopicUsed()
+   {
+      m_defaultNotesTopicUsed = true;
+   }
+
    private final APIBusinessObjects m_apibo;
    private final ObjectSequence m_rateObjectID = new ObjectSequence(1);
    private final ObjectSequence m_wbsNoteObjectID = new ObjectSequence(1);
    private final ObjectSequence m_activityNoteObjectID = new ObjectSequence(1);
    private final Set<FieldType> m_userDefinedFields;
+   private boolean m_defaultNotesTopicUsed;
 }
