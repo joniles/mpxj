@@ -846,11 +846,11 @@ final class PrimaveraPMProjectWriter
 
       if (calendar.getType() == org.mpxj.CalendarType.PROJECT)
       {
-         xml.setProjectObjectId(m_projectObjectID);
+         xml.setProjectObjectId(mpxj.getProjectUniqueID());
       }
 
       xml.setBaseCalendarObjectId(mpxj.getParentUniqueID());
-      xml.setIsDefault(Boolean.valueOf(mpxj == m_projectFile.getDefaultCalendar()));
+      xml.setIsDefault(Boolean.valueOf(mpxj.getDefault()));
       xml.setIsPersonal(Boolean.valueOf(mpxj.getPersonal()));
       xml.setName(name);
       xml.setObjectId(mpxj.getUniqueID());
@@ -1548,7 +1548,7 @@ final class PrimaveraPMProjectWriter
          return null;
       }
 
-      return Double.valueOf(RateHelper.convertToHours(m_projectFile.getProjectProperties(), rate));
+      return Double.valueOf(RateHelper.convertToHours(m_context.getTimeUnitDefaults(), rate));
    }
 
    /**
@@ -1628,7 +1628,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeTopics()
    {
-      for (NotesTopic entry : m_projectFile.getNotesTopics())
+      for (NotesTopic entry : m_context.getNotesTopics())
       {
          NotebookTopicType xml = m_factory.createNotebookTopicType();
          m_apibo.getNotebookTopic().add(xml);
@@ -1678,7 +1678,7 @@ final class PrimaveraPMProjectWriter
       m_projectNotes.add(xml);
 
       xml.setNote(HtmlHelper.getHtmlFromPlainText(notes));
-      xml.setNotebookTopicObjectId(m_projectFile.getNotesTopics().getDefaultTopic().getUniqueID());
+      xml.setNotebookTopicObjectId(m_context.getNotesTopics().getDefaultTopic().getUniqueID());
       xml.setObjectId(m_sequences.getWbsNoteObjectID());
       xml.setProjectObjectId(m_projectObjectID);
       xml.setWBSObjectId(wbsObjectID);
@@ -1741,7 +1741,7 @@ final class PrimaveraPMProjectWriter
       m_activityNotes.add(xml);
 
       xml.setNote(HtmlHelper.getHtmlFromPlainText(task.getNotes()));
-      xml.setNotebookTopicObjectId(m_projectFile.getNotesTopics().getDefaultTopic().getUniqueID());
+      xml.setNotebookTopicObjectId(m_context.getNotesTopics().getDefaultTopic().getUniqueID());
       xml.setObjectId(m_sequences.getActivityNoteObjectID());
       xml.setProjectObjectId(m_projectObjectID);
       xml.setActivityObjectId(task.getUniqueID());
@@ -1794,7 +1794,7 @@ final class PrimaveraPMProjectWriter
    private List<UDFAssignmentType> writeUserDefinedFieldAssignments(FieldTypeClass type, boolean summaryTaskOnly, FieldContainer mpxj)
    {
       List<UDFAssignmentType> out = new ArrayList<>();
-      CustomFieldContainer customFields = m_projectFile.getCustomFields();
+      CustomFieldContainer customFields = m_context.getCustomFields();
 
       for (FieldType fieldType : m_userDefinedFields)
       {
@@ -1859,7 +1859,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeActivityCodeDefinitions(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values)
    {
-      m_projectFile.getActivityCodes().stream().filter(c -> c.getScope() == ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCodeDefinition(codes, values, c));
+      m_context.getActivityCodes().stream().filter(c -> c.getScope() == ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCodeDefinition(codes, values, c));
    }
 
    /**
@@ -2151,7 +2151,7 @@ final class PrimaveraPMProjectWriter
       {
          if (duration.getUnits() != TimeUnit.HOURS)
          {
-            duration = duration.convertUnits(TimeUnit.HOURS, m_projectFile.getProjectProperties());
+            duration = duration.convertUnits(TimeUnit.HOURS, m_context.getTimeUnitDefaults());
          }
 
          // Round to 2 decimal places which still allows minute accuracy
@@ -2279,17 +2279,6 @@ final class PrimaveraPMProjectWriter
    private LocalTime getEndTime(LocalTime date)
    {
       return date.minusMinutes(1);
-   }
-
-   /**
-    * Package-private accessor method used to retrieve the project file
-    * currently being processed by this writer.
-    *
-    * @return project file instance
-    */
-   ProjectFile getProjectFile()
-   {
-      return m_projectFile;
    }
 
    private static final String DEFAULT_PROJECT_ID = "PROJECT";
