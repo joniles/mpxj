@@ -26,8 +26,12 @@ package org.mpxj.primavera;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -43,7 +47,7 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.mpxj.ProjectFile;
 import org.mpxj.common.MarshallerHelper;
-import org.mpxj.primavera.schema.APIBusinessObjects;
+import org.mpxj.common.ObjectSequence;
 import org.mpxj.primavera.schema.ObjectFactory;
 import org.mpxj.writer.AbstractProjectWriter;
 
@@ -83,6 +87,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    @Override public void write(ProjectFile projectFile, OutputStream stream) throws IOException
    {
+      List<ProjectFile> temporaryProjectUniqueIdValues = assignTemporaryProjectUniqueIdValues(gatherProjectsAndBaselines(Collections.singletonList(projectFile)));
+
       try
       {
          if (CONTEXT == null)
@@ -119,29 +125,63 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          }
 
          Marshaller marshaller = MarshallerHelper.create(CONTEXT);
-
          marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "");
 
-         APIBusinessObjects apibo = new ObjectFactory().createAPIBusinessObjects();
-         PrimaveraPMObjectSequences sequences = new PrimaveraPMObjectSequences();
-         Integer projectObjectID = projectFile.getProjectProperties().getUniqueID() == null ? sequences.getProjectObjectID() : projectFile.getProjectProperties().getUniqueID();
-         new PrimaveraPMProjectWriter(apibo, projectFile, projectObjectID, sequences).writeProject();
+         XmlWriterState state = new XmlWriterState(new ObjectFactory().createAPIBusinessObjects());
+         new PrimaveraPMProjectWriter(state, projectFile).writeProject();
 
          if (m_writeBaselines)
          {
-            projectFile.getBaselines().stream().filter(Objects::nonNull).forEach(baseline -> {
-               Integer baselineProjectObjectID = baseline.getProjectProperties().getUniqueID() == null ? sequences.getProjectObjectID() : baseline.getProjectProperties().getUniqueID();
-               new PrimaveraPMProjectWriter(apibo, baseline, baselineProjectObjectID, sequences).writeBaseline(projectFile);
-            });
+            projectFile.getBaselines().stream().filter(Objects::nonNull).forEach(baseline -> new PrimaveraPMProjectWriter(state, baseline).writeBaseline(projectFile));
          }
 
-         marshaller.marshal(apibo, handler);
+         marshaller.marshal(state.getApibo(), handler);
       }
 
       catch (JAXBException | TransformerConfigurationException ex)
       {
          throw new IOException(ex.toString());
       }
+
+      finally
+      {
+         // Remove any temporary project unique ID values
+         temporaryProjectUniqueIdValues.forEach(f -> f.getProjectProperties().setUniqueID(null));
+      }
+   }
+
+   private List<ProjectFile> gatherProjectsAndBaselines(List<ProjectFile> projects)
+   {
+      List<ProjectFile> result = new ArrayList<>();
+      for (ProjectFile project : projects)
+      {
+         result.add(project);
+         result.addAll(project.getBaselines().stream().filter(Objects::nonNull).collect(Collectors.toList())) ;
+      }
+      return result;
+   }
+
+   /**
+    * Assigns unique ID values to ProjectFile instance which do not have them.
+    * Retuens a list of project files which have been updated, so the change can be reverted later.
+    *
+    * @return list of updated ProjectFile instances
+    */
+   private List<ProjectFile> assignTemporaryProjectUniqueIdValues(List<ProjectFile> projects)
+   {
+      if (projects.stream().noneMatch(f -> f.getProjectProperties().getUniqueID() == null))
+      {
+         return Collections.emptyList();
+      }
+
+      ObjectSequence sequence = new ObjectSequence(1);
+      projects.stream().map(f -> f.getProjectProperties().getUniqueID()).filter(Objects::nonNull).max(Comparator.naturalOrder()).ifPresent(sequence::sync);
+
+      List<ProjectFile> files = projects.stream().filter(f -> f.getProjectProperties().getUniqueID() == null).collect(Collectors.toList());
+
+      files.forEach(f -> f.getProjectProperties().setUniqueID(sequence.getNext()));
+
+      return files;
    }
 
    private boolean m_writeBaselines;
