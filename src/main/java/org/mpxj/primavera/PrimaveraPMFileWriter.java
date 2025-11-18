@@ -87,7 +87,9 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    @Override public void write(ProjectFile projectFile, OutputStream stream) throws IOException
    {
-      List<ProjectFile> temporaryProjectUniqueIdValues = assignTemporaryProjectUniqueIdValues(gatherProjectsAndBaselines(Collections.singletonList(projectFile)));
+      List<ProjectFile> projectsAndBaselines = gatherProjectsAndBaselines(Collections.singletonList(projectFile));
+      List<ProjectFile> temporaryProjectUniqueIdValues = assignTemporaryProjectUniqueIdValues(projectsAndBaselines);
+      List<ProjectFile> temporaryProjectIdValues = assignTemporaryProjectIdValues(projectsAndBaselines);
 
       try
       {
@@ -147,6 +149,9 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       {
          // Remove any temporary project unique ID values
          temporaryProjectUniqueIdValues.forEach(f -> f.getProjectProperties().setUniqueID(null));
+
+         // Remove any temporary project ID values
+         temporaryProjectIdValues.forEach(f -> f.getProjectProperties().setProjectID(null));
       }
    }
 
@@ -184,6 +189,33 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       return files;
    }
 
+   private List<ProjectFile> assignTemporaryProjectIdValues(List<ProjectFile> projects)
+   {
+      if (projects.stream().noneMatch(f -> f.getProjectProperties().getProjectID() == null))
+      {
+         return Collections.emptyList();
+      }
+
+      ObjectSequence sequence = new ObjectSequence(0);
+
+      List<ProjectFile> files = projects.stream().filter(f -> f.getProjectProperties().getProjectID() == null).collect(Collectors.toList());
+
+      files.forEach(f -> f.getProjectProperties().setProjectID(assignProjectID(sequence)));
+
+      return files;
+   }
+
+   private String assignProjectID(ObjectSequence sequence)
+   {
+      int id = sequence.getNext().intValue();
+      if (id == 0)
+      {
+         return DEFAULT_PROJECT_ID;
+      }
+
+      return DEFAULT_PROJECT_ID + "-" + id;
+   }
+
    private boolean m_writeBaselines;
 
    /**
@@ -218,5 +250,6 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       }
    }
 
+   private static final String DEFAULT_PROJECT_ID = "PROJECT";
    private static final String NILLABLE_STYLESHEET = "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><xsl:output method=\"xml\" indent=\"yes\"/><xsl:template match=\"node()[not(@xsi:nil = 'true')]|@*\"><xsl:copy><xsl:apply-templates select=\"node()|@*\"/></xsl:copy></xsl:template></xsl:stylesheet>";
 }

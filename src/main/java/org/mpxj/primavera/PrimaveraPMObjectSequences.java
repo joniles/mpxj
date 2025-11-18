@@ -30,11 +30,6 @@ import org.mpxj.common.ObjectSequence;
  */
 final class PrimaveraPMObjectSequences
 {
-   public Integer getProjectID()
-   {
-      return m_projectID.getNext();
-   }
-
    public Integer getRateObjectID()
    {
       return m_rateObjectID.getNext();
@@ -50,7 +45,6 @@ final class PrimaveraPMObjectSequences
       return m_activityNoteObjectID.getNext();
    }
 
-   private final ObjectSequence m_projectID = new ObjectSequence(0);
    private final ObjectSequence m_rateObjectID = new ObjectSequence(1);
    private final ObjectSequence m_wbsNoteObjectID = new ObjectSequence(1);
    private final ObjectSequence m_activityNoteObjectID = new ObjectSequence(1);

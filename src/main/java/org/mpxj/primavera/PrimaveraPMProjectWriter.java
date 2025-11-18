@@ -593,7 +593,6 @@ final class PrimaveraPMProjectWriter
    private void writeProjectProperties(ProjectType project)
    {
       ProjectProperties mpxj = m_projectFile.getProjectProperties();
-      String projectID = getProjectID(mpxj);
 
       project.setActivityDefaultActivityType(ActivityTypeHelper.getXmlFromInstance(ActivityTypeHelper.NEW_ACTIVITY_DEFAULT_TYPE));
       project.setActivityDefaultCalendarObjectId(mpxj.getActivityDefaultCalendarUniqueID() == null ? mpxj.getDefaultCalendarUniqueID() : mpxj.getActivityDefaultCalendarUniqueID());
@@ -628,14 +627,14 @@ final class PrimaveraPMProjectWriter
       project.setFiscalYearStartMonth(Integer.valueOf(1));
       project.setFinishDate(mpxj.getFinishDate());
       project.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
-      project.setId(projectID);
+      project.setId(mpxj.getProjectID());
       project.setLastUpdateDate(mpxj.getLastSaved());
       project.setLevelingPriority(Integer.valueOf(10));
       project.setLinkActualToActualThisPeriod(Boolean.TRUE);
       project.setLinkPercentCompleteWithActual(Boolean.TRUE);
       project.setLinkPlannedAndAtCompletionFlag(Boolean.TRUE);
       project.setMustFinishByDate(mpxj.getMustFinishBy());
-      project.setName(mpxj.getName() == null ? projectID : mpxj.getName());
+      project.setName(mpxj.getName() == null ? mpxj.getProjectID() : mpxj.getName());
       project.setObjectId(mpxj.getUniqueID());
       project.setPlannedStartDate(WriterHelper.getProjectPlannedStart(mpxj));
       project.setPrimaryResourcesCanMarkActivitiesAsCompleted(Boolean.TRUE);
@@ -666,7 +665,6 @@ final class PrimaveraPMProjectWriter
    private void writeProjectProperties(BaselineProjectType project, ProjectFile parent)
    {
       ProjectProperties mpxj = m_projectFile.getProjectProperties();
-      String projectID = getProjectID(mpxj);
 
       project.setActivityDefaultActivityType(ActivityTypeHelper.getXmlFromInstance(ActivityTypeHelper.NEW_ACTIVITY_DEFAULT_TYPE));
       project.setActivityDefaultCalendarObjectId(mpxj.getActivityDefaultCalendarUniqueID() == null ? mpxj.getDefaultCalendarUniqueID() : mpxj.getActivityDefaultCalendarUniqueID());
@@ -695,14 +693,14 @@ final class PrimaveraPMProjectWriter
       project.setFiscalYearStartMonth(Integer.valueOf(1));
       project.setFinishDate(mpxj.getFinishDate());
       project.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
-      project.setId(projectID);
+      project.setId(mpxj.getProjectID());
       project.setLastUpdateDate(mpxj.getLastSaved());
       project.setLevelingPriority(Integer.valueOf(10));
       project.setLinkActualToActualThisPeriod(Boolean.TRUE);
       project.setLinkPercentCompleteWithActual(Boolean.TRUE);
       project.setLinkPlannedAndAtCompletionFlag(Boolean.TRUE);
       project.setMustFinishByDate(mpxj.getMustFinishBy());
-      project.setName(mpxj.getName() == null ? projectID : mpxj.getName());
+      project.setName(mpxj.getName() == null ? mpxj.getProjectID() : mpxj.getName());
       project.setObjectId(mpxj.getUniqueID());
       project.setOriginalProjectObjectId(parent.getProjectProperties().getUniqueID());
       project.setPlannedStartDate(WriterHelper.getProjectPlannedStart(mpxj));
@@ -784,24 +782,6 @@ final class PrimaveraPMProjectWriter
       options.setMultipleFloatPathsUseTotalFloat(Boolean.valueOf(projectProperties.getCalculateMultipleFloatPathsUsingTotalFloat()));
       options.setMultipleFloatPathsEndingActivityObjectId(projectProperties.getDisplayMultipleFloatPathsEndingWithActivityUniqueID());
       options.setMaximumMultipleFloatPaths(projectProperties.getMaximumNumberOfFloatPathsToCalculate());
-   }
-
-   private String getProjectID(ProjectProperties mpxj)
-   {
-      String result = mpxj.getProjectID();
-      if (result == null)
-      {
-         int id = m_state.getSequences().getProjectID().intValue();
-         if (id == 0)
-         {
-            result = DEFAULT_PROJECT_ID;
-         }
-         else
-         {
-            result = DEFAULT_PROJECT_ID + "-" + id;
-         }
-      }
-      return result;
    }
 
    /**
@@ -2280,7 +2260,6 @@ final class PrimaveraPMProjectWriter
       return date.minusMinutes(1);
    }
 
-   private static final String DEFAULT_PROJECT_ID = "PROJECT";
    private static final Integer DEFAULT_CURRENCY_ID = Integer.valueOf(1);
 
    private static final String[] DAY_NAMES =
