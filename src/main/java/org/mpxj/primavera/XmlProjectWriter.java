@@ -1,8 +1,7 @@
 /*
  * file:       XmlProjectWriter.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2022
- * date:       2022-08-15
+ * date:       2025-11-19
  */
 
 /*
@@ -72,8 +71,17 @@ import org.mpxj.primavera.schema.ScheduleOptionsType;
 import org.mpxj.primavera.schema.UDFAssignmentType;
 import org.mpxj.primavera.schema.WBSType;
 
+/**
+ * Write project data to a PMXML file.
+ */
 final class XmlProjectWriter extends XmlWriter
 {
+   /**
+    * Constructor.
+    *
+    * @param state current writer state
+    * @param projectFile project to write
+    */
    public XmlProjectWriter(XmlWriterState state, ProjectFile projectFile)
    {
       super(state, projectFile.getProjectContext());
@@ -81,76 +89,75 @@ final class XmlProjectWriter extends XmlWriter
       m_projectFromPrimavera = "Primavera".equals(m_projectFile.getProjectProperties().getFileApplication());
    }
 
-   public void write()
+   /**
+    * Write a top level project.
+    */
+   public void writeProject()
    {
-      write(null);
+      ProjectType project = m_factory.createProjectType();
+      m_state.getApibo().getProject().add(project);
+
+      m_wbs = project.getWBS();
+      m_activities = project.getActivity();
+      m_activitySteps = project.getActivityStep();
+      m_assignments = project.getResourceAssignment();
+      m_relationships = project.getRelationship();
+      m_expenses = project.getActivityExpense();
+      m_projectNotes = project.getProjectNote();
+      m_activityNotes = project.getActivityNote();
+      m_udf = project.getUDF();
+
+      writeProjectProperties(project);
+      writeCodeAssignments(m_projectFile.getProjectProperties().getProjectCodeValues(), project.getCode());
+      writeActivityCodeDefinitions(project.getActivityCodeType(), project.getActivityCode());
+      writeProjectCalendars(project.getCalendar());
+      writeProjectUserDefinedFields();
+      writeTasks();
+      writeResourceAssignments();
+      writeExpenseItems();
+      writeActivitySteps();
    }
 
-   public void writeBaseline(ProjectFile parentFile)
+   /**
+    * Write a baseline project.
+    *
+    * @param parent parent project
+    */
+   public void writeBaseline(ProjectFile parent)
    {
-      write(parentFile);
+      BaselineProjectType project = m_factory.createBaselineProjectType();
+      m_state.getApibo().getBaselineProject().add(project);
+
+      m_wbs = project.getWBS();
+      m_activities = project.getActivity();
+      m_activitySteps = project.getActivityStep();
+      m_assignments = project.getResourceAssignment();
+      m_relationships = project.getRelationship();
+      m_expenses = project.getActivityExpense();
+      m_projectNotes = project.getProjectNote();
+      m_activityNotes = project.getActivityNote();
+      m_udf = project.getUDF();
+
+      writeProjectProperties(project, parent);
+      writeCodeAssignments(m_projectFile.getProjectProperties().getProjectCodeValues(), project.getCode());
+      writeActivityCodeDefinitions(project.getActivityCodeType(), project.getActivityCode());
+      writeProjectCalendars(project.getCalendar());
+      writeTasks();
+      writeResourceAssignments();
+      writeExpenseItems();
+      writeActivitySteps();
    }
 
-   private void write(ProjectFile parent)
-   {
-      if (parent != null)
-      {
-         BaselineProjectType project = m_factory.createBaselineProjectType();
-         m_state.getApibo().getBaselineProject().add(project);
-
-         m_wbs = project.getWBS();
-         m_activities = project.getActivity();
-         m_activitySteps = project.getActivityStep();
-         m_assignments = project.getResourceAssignment();
-         m_relationships = project.getRelationship();
-         m_expenses = project.getActivityExpense();
-         m_projectNotes = project.getProjectNote();
-         m_activityNotes = project.getActivityNote();
-         m_udf = project.getUDF();
-
-         writeProjectProperties(project, parent);
-         writeCodeAssignments(m_projectFile.getProjectProperties().getProjectCodeValues(), project.getCode());
-         writeActivityCodeDefinitions(project.getActivityCodeType(), project.getActivityCode());
-         writeProjectCalendars(project.getCalendar());
-         writeTasks();
-         writeResourceAssignments();
-         writeExpenseItems();
-         writeActivitySteps();
-      }
-      else
-      {
-         ProjectType project = m_factory.createProjectType();
-         m_state.getApibo().getProject().add(project);
-
-         m_wbs = project.getWBS();
-         m_activities = project.getActivity();
-         m_activitySteps = project.getActivityStep();
-         m_assignments = project.getResourceAssignment();
-         m_relationships = project.getRelationship();
-         m_expenses = project.getActivityExpense();
-         m_projectNotes = project.getProjectNote();
-         m_activityNotes = project.getActivityNote();
-         m_udf = project.getUDF();
-
-         writeProjectProperties(project);
-         writeCodeAssignments(m_projectFile.getProjectProperties().getProjectCodeValues(), project.getCode());
-         writeActivityCodeDefinitions(project.getActivityCodeType(), project.getActivityCode());
-         writeProjectCalendars(project.getCalendar());
-         writeProjectUserDefinedFields();
-         writeTasks();
-         writeResourceAssignments();
-         writeExpenseItems();
-         writeActivitySteps();
-      }
-   }
-
+   /**
+    * Write project-level user defined values.
+    */
    private void writeProjectUserDefinedFields()
    {
       m_udf.addAll(writeUserDefinedFieldAssignments(FieldTypeClass.PROJECT, false, m_projectFile.getProjectProperties()));
    }
 
    /**
-    * This method writes project properties data to a PMXML file.
+    * This method writes project properties data to a top level project in a PMXML file.
     *
     * @param project project
     */
@@ -226,6 +233,12 @@ final class XmlProjectWriter extends XmlWriter
       writeWbsNote(null, mpxj.getNotesObject());
    }
 
+   /**
+    * This method writes project properties data to a baseline project in a PMXML file.
+    *
+    * @param project baseline project
+    * @param parent parent project
+    */
    private void writeProjectProperties(BaselineProjectType project, ProjectFile parent)
    {
       ProjectProperties mpxj = m_projectFile.getProjectProperties();
@@ -290,6 +303,11 @@ final class XmlProjectWriter extends XmlWriter
       writeWbsNote(null, mpxj.getNotesObject());
    }
 
+   /**
+    * Write schedule options for a project.
+    *
+    * @param list schedule options container
+    */
    private void writeScheduleOptions(List<ScheduleOptionsType> list)
    {
       ProjectProperties projectProperties = m_projectFile.getProjectProperties();
@@ -356,30 +374,6 @@ final class XmlProjectWriter extends XmlWriter
    private void writeProjectCalendars(List<CalendarType> calendars)
    {
       m_projectFile.getCalendarsForProject().stream().filter(c -> c.getType() == org.mpxj.CalendarType.PROJECT).forEach(c -> writeCalendar(calendars, c));
-   }
-
-   /**
-    * Retrieve the resource notes text. If an HTML representation
-    * is already available, use that, otherwise generate HTML from
-    * the plain text of the note.
-    *
-    * @param notes notes text
-    * @return Notes instance
-    */
-   private String getNotes(Notes notes)
-   {
-      String result;
-      if (notes == null || notes.isEmpty())
-      {
-         // TODO: switch to null to remove the tag - check import
-         result = "";
-      }
-      else
-      {
-         result = notes instanceof HtmlNotes ? ((HtmlNotes) notes).getHtml() : HtmlHelper.getHtmlFromPlainText(notes.toString());
-      }
-
-      return result;
    }
 
    /**
@@ -641,7 +635,7 @@ final class XmlProjectWriter extends XmlWriter
       xml.setPlannedUnitsPerTime(unitsHelper.getPlannedUnitsPerTime());
       xml.setRemainingUnits(unitsHelper.getRemainingUnits());
       xml.setRemainingUnitsPerTime(unitsHelper.getRemainingUnitsPerTime());
-      xml.setRemainingDuration(getResourceAssignmentRemainingDuration(task, mpxj));
+      xml.setRemainingDuration(calculateResourceAssignmentRemainingDuration(task, mpxj));
       xml.setUnitsPercentComplete(unitsPercentComplete);
 
       if (m_projectFromPrimavera)
@@ -655,7 +649,14 @@ final class XmlProjectWriter extends XmlWriter
       writeCodeAssignments(mpxj.getResourceAssignmentCodeValues(), xml.getCode());
    }
 
-   private Double getResourceAssignmentRemainingDuration(Task task, ResourceAssignment mpxj)
+   /**
+    * Caculate the remaining duration for a resource assignment.
+    *
+    * @param task parent task
+    * @param mpxj resource assignment
+    * @return remaining duration
+    */
+   private Double calculateResourceAssignmentRemainingDuration(Task task, ResourceAssignment mpxj)
    {
       if (mpxj.getActualFinish() != null)
       {

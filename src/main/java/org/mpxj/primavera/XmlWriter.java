@@ -23,7 +23,9 @@ import org.mpxj.Duration;
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
 import org.mpxj.FieldTypeClass;
+import org.mpxj.HtmlNotes;
 import org.mpxj.LocalTimeRange;
+import org.mpxj.Notes;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectContext;
@@ -33,6 +35,7 @@ import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.ColorHelper;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.FieldTypeHelper;
+import org.mpxj.common.HtmlHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.primavera.schema.ActivityCodeType;
 import org.mpxj.primavera.schema.ActivityCodeTypeType;
@@ -380,6 +383,30 @@ class XmlWriter
    private String getDayName(DayOfWeek day)
    {
       return DAY_NAMES[DayOfWeekHelper.getValue(day) - 1];
+   }
+
+   /**
+    * Retrieve the resource notes text. If an HTML representation
+    * is already available, use that, otherwise generate HTML from
+    * the plain text of the note.
+    *
+    * @param notes notes text
+    * @return Notes instance
+    */
+   protected String getNotes(Notes notes)
+   {
+      String result;
+      if (notes == null || notes.isEmpty())
+      {
+         // TODO: switch to null to remove the tag - check import
+         result = "";
+      }
+      else
+      {
+         result = notes instanceof HtmlNotes ? ((HtmlNotes) notes).getHtml() : HtmlHelper.getHtmlFromPlainText(notes.toString());
+      }
+
+      return result;
    }
 
    protected final XmlWriterState m_state;

@@ -39,9 +39,7 @@ import org.mpxj.DataType;
 import org.mpxj.ExpenseCategory;
 import org.mpxj.FieldType;
 import org.mpxj.FieldTypeClass;
-import org.mpxj.HtmlNotes;
 import org.mpxj.Location;
-import org.mpxj.Notes;
 import org.mpxj.NotesTopic;
 import org.mpxj.ProjectCode;
 import org.mpxj.ProjectCodeValue;
@@ -60,7 +58,6 @@ import org.mpxj.SkillLevel;
 import org.mpxj.UnitOfMeasure;
 import org.mpxj.WorkContour;
 import org.mpxj.common.FieldTypeHelper;
-import org.mpxj.common.HtmlHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.RateHelper;
@@ -100,7 +97,7 @@ final class XmlContextWriter extends XmlWriter
    /**
     * Constructor.
     *
-    * @param state current write state
+    * @param state current writer state
     * @param context current context
     */
    public XmlContextWriter(XmlWriterState state, ProjectContext context)
@@ -516,30 +513,6 @@ final class XmlContextWriter extends XmlWriter
    }
 
    /**
-    * Retrieve the resource notes text. If an HTML representation
-    * is already available, use that, otherwise generate HTML from
-    * the plain text of the note.
-    *
-    * @param notes notes text
-    * @return Notes instance
-    */
-   private String getNotes(Notes notes)
-   {
-      String result;
-      if (notes == null || notes.isEmpty())
-      {
-         // TODO: switch to null to remove the tag - check import
-         result = "";
-      }
-      else
-      {
-         result = notes instanceof HtmlNotes ? ((HtmlNotes) notes).getHtml() : HtmlHelper.getHtmlFromPlainText(notes.toString());
-      }
-
-      return result;
-   }
-
-   /**
     * Write rate information for each resource.
     */
    private void writeResourceRates()
@@ -831,6 +804,6 @@ final class XmlContextWriter extends XmlWriter
          }
       }
    }
-   
+
    public static final Integer DEFAULT_CURRENCY_ID = Integer.valueOf(1);
 }

@@ -143,7 +143,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          XmlContextWriter contextWriter = new XmlContextWriter(state, context);
          contextWriter.write();
 
-         projects.forEach(p -> new XmlProjectWriter(state, p).write());
+         projects.forEach(p -> new XmlProjectWriter(state, p).writeProject());
 
          if (m_writeBaselines)
          {
@@ -325,7 +325,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
       return result;
    }
-   
+
    private boolean m_writeBaselines;
 
    /**
