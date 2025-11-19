@@ -1,5 +1,5 @@
 /*
- * file:       PrimaveraPMProjectWriter.java
+ * file:       XmlContextWriter.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2022
  * date:       2022-08-15
@@ -97,9 +97,9 @@ import org.mpxj.primavera.schema.ShiftType;
 import org.mpxj.primavera.schema.UDFTypeType;
 import org.mpxj.primavera.schema.UnitOfMeasureType;
 
-final class PrimaveraPMContextWriter extends XmlWriter
+final class XmlContextWriter extends XmlWriter
 {
-   public PrimaveraPMContextWriter(XmlWriterState state, ProjectContext context)
+   public XmlContextWriter(XmlWriterState state, ProjectContext context)
    {
       super(state, context);
    }

@@ -133,13 +133,13 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
          XmlWriterState state = new XmlWriterState(UdfHelper.getUserDefinedFieldsSet(projectFile.getProjectContext(), projectsAndBaselines), createDefaultCurrency(projectFile));
 
-         PrimaveraPMContextWriter contextWriter = new PrimaveraPMContextWriter(state, projectFile.getProjectContext());
+         XmlContextWriter contextWriter = new XmlContextWriter(state, projectFile.getProjectContext());
          contextWriter.write();
-         new PrimaveraPMProjectWriter(state, projectFile).write();
+         new XmlProjectWriter(state, projectFile).write();
 
          if (m_writeBaselines)
          {
-            projectFile.getBaselines().stream().filter(Objects::nonNull).forEach(baseline -> new PrimaveraPMProjectWriter(state, baseline).writeBaseline(projectFile));
+            projectFile.getBaselines().stream().filter(Objects::nonNull).forEach(baseline -> new XmlProjectWriter(state, baseline).writeBaseline(projectFile));
          }
 
          if (state.getDefaultNotesTopicUsed())
@@ -234,7 +234,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       String negativeSymbol = "(" + positiveSymbol + ")";
 
       return new Currency.Builder(null)
-         .uniqueID(PrimaveraPMContextWriter.DEFAULT_CURRENCY_ID)
+         .uniqueID(XmlContextWriter.DEFAULT_CURRENCY_ID)
          .currencyID("CUR")
          .name("Default Currency")
          .symbol(props.getCurrencySymbol())

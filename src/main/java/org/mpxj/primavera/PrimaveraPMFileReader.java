@@ -30,7 +30,6 @@ import java.util.ArrayList;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -43,8 +42,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.mpxj.BaselineStrategy;
 import org.mpxj.common.InputStreamHelper;
-import org.mpxj.common.Pair;
-import org.mpxj.primavera.schema.ProjectListType;
 import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -55,7 +52,6 @@ import org.mpxj.Relation;
 import org.mpxj.Task;
 import org.mpxj.common.UnmarshalHelper;
 import org.mpxj.primavera.schema.APIBusinessObjects;
-import org.mpxj.primavera.schema.BaselineProjectType;
 import org.mpxj.primavera.schema.ProjectType;
 import org.mpxj.reader.AbstractProjectStreamReader;
 

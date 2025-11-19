@@ -1,5 +1,5 @@
 /*
- * file:       PrimaveraPMProjectWriter.java
+ * file:       XmlProjectWriter.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2022
  * date:       2022-08-15
@@ -75,9 +75,9 @@ import org.mpxj.primavera.schema.ScheduleOptionsType;
 import org.mpxj.primavera.schema.UDFAssignmentType;
 import org.mpxj.primavera.schema.WBSType;
 
-final class PrimaveraPMProjectWriter extends XmlWriter
+final class XmlProjectWriter extends XmlWriter
 {
-   public PrimaveraPMProjectWriter(XmlWriterState state, ProjectFile projectFile)
+   public XmlProjectWriter(XmlWriterState state, ProjectFile projectFile)
    {
       super(state, projectFile.getProjectContext());
       m_projectFile = projectFile;
