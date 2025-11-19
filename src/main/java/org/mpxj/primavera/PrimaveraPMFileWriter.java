@@ -244,7 +244,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * Creates a new project ID based on the supplied sequence.
     *
     * @param sequence project ID sequence
-    * @return new projevct ID
+    * @return new project ID
     */
    private String generateProjectID(ObjectSequence sequence)
    {

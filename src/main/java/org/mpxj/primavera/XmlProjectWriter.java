@@ -650,7 +650,7 @@ final class XmlProjectWriter extends XmlWriter
    }
 
    /**
-    * Caculate the remaining duration for a resource assignment.
+    * Calculate the remaining duration for a resource assignment.
     *
     * @param task parent task
     * @param mpxj resource assignment
