@@ -176,6 +176,12 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       }
    }
 
+   /**
+    * Create a list of top level projects and their baseline projects.
+    *
+    * @param projects list of top level project
+    * @return list of top level projects and baselines
+    */
    private List<ProjectFile> gatherProjectsAndBaselines(List<ProjectFile> projects)
    {
       List<ProjectFile> result = new ArrayList<>();
@@ -188,8 +194,8 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    }
 
    /**
-    * Assigns unique ID values to ProjectFile instance which do not have them.
-    * Returns a list of project files which have been updated, so the change can be reverted later.
+    * Assigns unique ID values to ProjectFile instances which do not have them.
+    * Returns a list of project files which have been updated so the change can be reverted later.
     *
     * @param projects projects to check for unique ID values
     * @return list of updated ProjectFile instances
@@ -211,6 +217,13 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       return files;
    }
 
+   /**
+    * Assigns project ID values to ProjectFile instances which do not have them.
+    * Returns a list of project files which have been updated so the change can be reverted later.
+    *
+    * @param projects projects to check for project ID values
+    * @return list of updated ProjectFile instances
+    */
    private List<ProjectFile> assignTemporaryProjectIdValues(List<ProjectFile> projects)
    {
       if (projects.stream().noneMatch(f -> f.getProjectProperties().getProjectID() == null))
@@ -222,12 +235,18 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
       List<ProjectFile> files = projects.stream().filter(f -> f.getProjectProperties().getProjectID() == null).collect(Collectors.toList());
 
-      files.forEach(f -> f.getProjectProperties().setProjectID(assignProjectID(sequence)));
+      files.forEach(f -> f.getProjectProperties().setProjectID(generateProjectID(sequence)));
 
       return files;
    }
 
-   private String assignProjectID(ObjectSequence sequence)
+   /**
+    * Creates a new project ID based on the supplied sequence.
+    *
+    * @param sequence project ID sequence
+    * @return new projevct ID
+    */
+   private String generateProjectID(ObjectSequence sequence)
    {
       int id = sequence.getNext().intValue();
       if (id == 0)
@@ -238,6 +257,13 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       return DEFAULT_PROJECT_ID + "-" + id;
    }
 
+   /**
+    * Create a default currency based on the defaults found in the supplied ProjectFile
+    * instance.
+    *
+    * @param file ProjectFile instance
+    * @return new default currency
+    */
    private Currency createDefaultCurrency(ProjectFile file)
    {
       ProjectProperties props = file.getProjectProperties();
@@ -299,8 +325,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
       return result;
    }
-
-
+   
    private boolean m_writeBaselines;
 
    /**
