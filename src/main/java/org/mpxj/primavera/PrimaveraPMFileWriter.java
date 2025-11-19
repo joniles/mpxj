@@ -47,6 +47,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.mpxj.Currency;
 import org.mpxj.CurrencySymbolPosition;
 import org.mpxj.NotesTopic;
+import org.mpxj.ProjectContext;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.common.MarshallerHelper;
@@ -82,14 +83,21 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       return m_writeBaselines;
    }
 
-   @Override public void write(List<ProjectFile> projects, OutputStream outputStream) throws IOException
-   {
-      throw new UnsupportedOperationException();
-   }
-
    @Override public void write(ProjectFile projectFile, OutputStream stream) throws IOException
    {
-      List<ProjectFile> projectsAndBaselines = gatherProjectsAndBaselines(Collections.singletonList(projectFile));
+      write(Collections.singletonList(projectFile), stream);
+   }
+
+   @Override public void write(List<ProjectFile> projects, OutputStream stream) throws IOException
+   {
+      // Ensure that all projects share the same context
+      ProjectContext context = projects.get(0).getProjectContext();
+      if (!projects.stream().allMatch(f -> context == f.getProjectContext()))
+      {
+         throw new IllegalArgumentException("All ProjectFile instances must use the same ProjectContext");
+      }
+
+      List<ProjectFile> projectsAndBaselines = gatherProjectsAndBaselines(projects);
       List<ProjectFile> temporaryProjectUniqueIdValues = assignTemporaryProjectUniqueIdValues(projectsAndBaselines);
       List<ProjectFile> temporaryProjectIdValues = assignTemporaryProjectIdValues(projectsAndBaselines);
 
@@ -131,15 +139,18 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          Marshaller marshaller = MarshallerHelper.create(CONTEXT);
          marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "");
 
-         XmlWriterState state = new XmlWriterState(UdfHelper.getUserDefinedFieldsSet(projectFile.getProjectContext(), projectsAndBaselines), createDefaultCurrency(projectFile));
-
-         XmlContextWriter contextWriter = new XmlContextWriter(state, projectFile.getProjectContext());
+         XmlWriterState state = new XmlWriterState(UdfHelper.getUserDefinedFieldsSet(context, projectsAndBaselines), createDefaultCurrency(projects.get(0)));
+         XmlContextWriter contextWriter = new XmlContextWriter(state, context);
          contextWriter.write();
-         new XmlProjectWriter(state, projectFile).write();
+
+         projects.forEach(p -> new XmlProjectWriter(state, p).write());
 
          if (m_writeBaselines)
          {
-            projectFile.getBaselines().stream().filter(Objects::nonNull).forEach(baseline -> new XmlProjectWriter(state, baseline).writeBaseline(projectFile));
+            for (ProjectFile project : projects)
+            {
+               project.getBaselines().stream().filter(Objects::nonNull).forEach(baseline -> new XmlProjectWriter(state, baseline).writeBaseline(project));
+            }
          }
 
          if (state.getDefaultNotesTopicUsed())
