@@ -1,8 +1,7 @@
 /*
  * file:       XmlContextWriter.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2022
- * date:       2022-08-15
+ * date:       2025-11-19
  */
 
 /*
@@ -31,8 +30,6 @@ import java.util.stream.Collectors;
 import org.mpxj.ActivityCodeScope;
 import org.mpxj.Availability;
 import org.mpxj.AvailabilityTable;
-import org.mpxj.Code;
-import org.mpxj.CodeValue;
 import org.mpxj.CostAccount;
 import org.mpxj.CostRateTable;
 import org.mpxj.CostRateTableEntry;
@@ -70,7 +67,6 @@ import org.mpxj.common.RateHelper;
 import org.mpxj.primavera.schema.ActivityCodeType;
 import org.mpxj.primavera.schema.ActivityCodeTypeType;
 import org.mpxj.primavera.schema.CalendarType;
-import org.mpxj.primavera.schema.CodeAssignmentType;
 import org.mpxj.primavera.schema.CostAccountType;
 import org.mpxj.primavera.schema.CurrencyType;
 import org.mpxj.primavera.schema.ExpenseCategoryType;
@@ -96,13 +92,25 @@ import org.mpxj.primavera.schema.ShiftType;
 import org.mpxj.primavera.schema.UDFTypeType;
 import org.mpxj.primavera.schema.UnitOfMeasureType;
 
+/**
+ * Write common data shared between projects to a PMXML file.
+ */
 final class XmlContextWriter extends XmlWriter
 {
+   /**
+    * Constructor.
+    *
+    * @param state current write state
+    * @param context current context
+    */
    public XmlContextWriter(XmlWriterState state, ProjectContext context)
    {
       super(state, context);
    }
 
+   /**
+    * Write context data.
+    */
    public void write()
    {
       writeCurrencies();
@@ -142,6 +150,11 @@ final class XmlContextWriter extends XmlWriter
       }
    }
 
+   /**
+    * Write a single currency.
+    *
+    * @param currency currency to write.
+    */
    private void writeCurrency(Currency currency)
    {
       CurrencyType xml = m_factory.createCurrencyType();
@@ -157,7 +170,6 @@ final class XmlContextWriter extends XmlWriter
       xml.setNegativeSymbol(currency.getNegativeCurrencyFormat());
       m_state.getApibo().getCurrency().add(xml);
    }
-
 
    /**
     * Map the currency separator character to a symbol name.
@@ -342,6 +354,9 @@ final class XmlContextWriter extends XmlWriter
       }
    }
 
+   /**
+    * Write resource curves.
+    */
    private void writeResourceCurves()
    {
       List<WorkContour> contours = m_context.getWorkContours().stream().filter(w -> !w.isContourManual() && !w.isContourFlat()).sorted(Comparator.comparing(WorkContour::getName)).collect(Collectors.toList());
@@ -524,7 +539,6 @@ final class XmlContextWriter extends XmlWriter
       return result;
    }
 
-
    /**
     * Write rate information for each resource.
     */
@@ -669,18 +683,23 @@ final class XmlContextWriter extends XmlWriter
       m_context.getNotesTopics().forEach(this::writeTopic);
    }
 
-   void writeTopic(NotesTopic entry)
+   /**
+    * Write an individual notes topic.
+    *
+    * @param topic notes topic
+    */
+   void writeTopic(NotesTopic topic)
    {
       NotebookTopicType xml = m_factory.createNotebookTopicType();
       m_state.getApibo().getNotebookTopic().add(xml);
 
-      xml.setAvailableForEPS(Boolean.valueOf(entry.getAvailableForEPS()));
-      xml.setAvailableForProject(Boolean.valueOf(entry.getAvailableForProject()));
-      xml.setAvailableForActivity(Boolean.valueOf(entry.getAvailableForActivity()));
-      xml.setAvailableForWBS(Boolean.valueOf(entry.getAvailableForWBS()));
-      xml.setName(entry.getName());
-      xml.setObjectId(entry.getUniqueID());
-      xml.setSequenceNumber(entry.getSequenceNumber());
+      xml.setAvailableForEPS(Boolean.valueOf(topic.getAvailableForEPS()));
+      xml.setAvailableForProject(Boolean.valueOf(topic.getAvailableForProject()));
+      xml.setAvailableForActivity(Boolean.valueOf(topic.getAvailableForActivity()));
+      xml.setAvailableForWBS(Boolean.valueOf(topic.getAvailableForWBS()));
+      xml.setName(topic.getName());
+      xml.setObjectId(topic.getUniqueID());
+      xml.setSequenceNumber(topic.getSequenceNumber());
    }
 
    /**
@@ -812,31 +831,6 @@ final class XmlContextWriter extends XmlWriter
          }
       }
    }
-
-   /**
-    * Write code assignments.
-    *
-    * @param map code and value mapping
-    * @param assignments code assignments
-    */
-   private void writeCodeAssignments(Map<? extends Code, ? extends CodeValue> map, List<CodeAssignmentType> assignments)
-   {
-      map.values().stream().sorted(Comparator.comparing(CodeValue::getUniqueID)).forEach(v -> writeCodeAssignment(assignments, v));
-   }
-
-   /**
-    * Write a code assignment.
-    *
-    * @param assignments code assignments
-    * @param value project code value
-    */
-   private void writeCodeAssignment(List<CodeAssignmentType> assignments, CodeValue value)
-   {
-      CodeAssignmentType xml = m_factory.createCodeAssignmentType();
-      assignments.add(xml);
-      xml.setTypeObjectId(NumberHelper.getInt(value.getParentCodeUniqueID()));
-      xml.setValueObjectId(NumberHelper.getInt(value.getUniqueID()));
-   }
-
+   
    public static final Integer DEFAULT_CURRENCY_ID = Integer.valueOf(1);
 }

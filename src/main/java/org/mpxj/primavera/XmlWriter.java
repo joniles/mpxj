@@ -8,11 +8,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.mpxj.ActivityCode;
 import org.mpxj.ActivityCodeScope;
 import org.mpxj.ActivityCodeValue;
+import org.mpxj.Code;
+import org.mpxj.CodeValue;
 import org.mpxj.CustomField;
 import org.mpxj.CustomFieldContainer;
 import org.mpxj.DataType;
@@ -34,6 +37,7 @@ import org.mpxj.common.NumberHelper;
 import org.mpxj.primavera.schema.ActivityCodeType;
 import org.mpxj.primavera.schema.ActivityCodeTypeType;
 import org.mpxj.primavera.schema.CalendarType;
+import org.mpxj.primavera.schema.CodeAssignmentType;
 import org.mpxj.primavera.schema.ObjectFactory;
 import org.mpxj.primavera.schema.UDFAssignmentType;
 import org.mpxj.primavera.schema.WorkTimeType;
@@ -327,6 +331,31 @@ class XmlWriter
             }
          }
       }
+   }
+
+   /**
+    * Write code assignments.
+    *
+    * @param map code and value mapping
+    * @param assignments code assignments
+    */
+   protected void writeCodeAssignments(Map<? extends Code, ? extends CodeValue> map, List<CodeAssignmentType> assignments)
+   {
+      map.values().stream().sorted(Comparator.comparing(CodeValue::getUniqueID)).forEach(v -> writeCodeAssignment(assignments, v));
+   }
+
+   /**
+    * Write a code assignment.
+    *
+    * @param assignments code assignments
+    * @param value project code value
+    */
+   protected void writeCodeAssignment(List<CodeAssignmentType> assignments, CodeValue value)
+   {
+      CodeAssignmentType xml = m_factory.createCodeAssignmentType();
+      assignments.add(xml);
+      xml.setTypeObjectId(NumberHelper.getInt(value.getParentCodeUniqueID()));
+      xml.setValueObjectId(NumberHelper.getInt(value.getUniqueID()));
    }
 
    /**

@@ -32,8 +32,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.mpxj.ActivityCodeScope;
-import org.mpxj.Code;
-import org.mpxj.CodeValue;
 import org.mpxj.Duration;
 import org.mpxj.ExpenseItem;
 import org.mpxj.FieldTypeClass;
@@ -66,7 +64,6 @@ import org.mpxj.primavera.schema.ActivityStepType;
 import org.mpxj.primavera.schema.ActivityType;
 import org.mpxj.primavera.schema.BaselineProjectType;
 import org.mpxj.primavera.schema.CalendarType;
-import org.mpxj.primavera.schema.CodeAssignmentType;
 import org.mpxj.primavera.schema.ProjectNoteType;
 import org.mpxj.primavera.schema.ProjectType;
 import org.mpxj.primavera.schema.RelationshipType;
@@ -987,31 +984,6 @@ final class XmlProjectWriter extends XmlWriter
    {
       Integer projectID = m_projectFile.getProjectProperties().getUniqueID();
       m_context.getActivityCodes().stream().filter(c -> c.getScope() == ActivityCodeScope.PROJECT && c.getScopeProjectUniqueID().equals(projectID)).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCodeDefinition(codes, values, c));
-   }
-
-   /**
-    * Write code assignments.
-    *
-    * @param map code and value mapping
-    * @param assignments code assignments
-    */
-   private void writeCodeAssignments(Map<? extends Code, ? extends CodeValue> map, List<CodeAssignmentType> assignments)
-   {
-      map.values().stream().sorted(Comparator.comparing(CodeValue::getUniqueID)).forEach(v -> writeCodeAssignment(assignments, v));
-   }
-
-   /**
-    * Write a code assignment.
-    *
-    * @param assignments code assignments
-    * @param value project code value
-    */
-   private void writeCodeAssignment(List<CodeAssignmentType> assignments, CodeValue value)
-   {
-      CodeAssignmentType xml = m_factory.createCodeAssignmentType();
-      assignments.add(xml);
-      xml.setTypeObjectId(NumberHelper.getInt(value.getParentCodeUniqueID()));
-      xml.setValueObjectId(NumberHelper.getInt(value.getUniqueID()));
    }
 
    /**
