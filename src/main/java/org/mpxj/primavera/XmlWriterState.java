@@ -2,16 +2,18 @@ package org.mpxj.primavera;
 
 import java.util.Set;
 
+import org.mpxj.Currency;
 import org.mpxj.FieldType;
 import org.mpxj.common.ObjectSequence;
 import org.mpxj.primavera.schema.APIBusinessObjects;
+import org.mpxj.primavera.schema.ObjectFactory;
 
 class XmlWriterState
 {
-   public XmlWriterState(APIBusinessObjects apibo, Set<FieldType> userDefinedFields)
+   public XmlWriterState(Set<FieldType> userDefinedFields, Currency defaultCurrency)
    {
-      m_apibo = apibo;
       m_userDefinedFields = userDefinedFields;
+      m_defaultCurrency = defaultCurrency;
    }
 
    public APIBusinessObjects getApibo()
@@ -49,10 +51,16 @@ class XmlWriterState
       m_defaultNotesTopicUsed = true;
    }
 
-   private final APIBusinessObjects m_apibo;
+   public Currency getDefaultCurrency()
+   {
+      return m_defaultCurrency;
+   }
+
+   private final APIBusinessObjects m_apibo = new ObjectFactory().createAPIBusinessObjects();
    private final ObjectSequence m_rateObjectID = new ObjectSequence(1);
    private final ObjectSequence m_wbsNoteObjectID = new ObjectSequence(1);
    private final ObjectSequence m_activityNoteObjectID = new ObjectSequence(1);
    private final Set<FieldType> m_userDefinedFields;
+   private final Currency m_defaultCurrency;
    private boolean m_defaultNotesTopicUsed;
 }

@@ -45,7 +45,9 @@ import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.mpxj.Currency;
 import org.mpxj.ProjectFile;
+import org.mpxj.ProjectProperties;
 import org.mpxj.common.MarshallerHelper;
 import org.mpxj.common.ObjectSequence;
 import org.mpxj.primavera.schema.ObjectFactory;
@@ -129,7 +131,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          Marshaller marshaller = MarshallerHelper.create(CONTEXT);
          marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "");
 
-         XmlWriterState state = new XmlWriterState(new ObjectFactory().createAPIBusinessObjects(), UdfHelper.getUserDefinedFieldsSet(projectFile.getProjectContext(), projectsAndBaselines));
+         XmlWriterState state = new XmlWriterState(UdfHelper.getUserDefinedFieldsSet(projectFile.getProjectContext(), projectsAndBaselines), createDefaultCurrency(projectFile));
          new PrimaveraPMProjectWriter(state, projectFile).writeProject();
 
          if (m_writeBaselines)
@@ -214,6 +216,27 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       }
 
       return DEFAULT_PROJECT_ID + "-" + id;
+   }
+
+   private Currency createDefaultCurrency(ProjectFile file)
+   {
+      ProjectProperties props = file.getProjectProperties();
+
+      String positiveSymbol = CurrencyHelper.getCurrencyFormat(props.getSymbolPosition());
+      String negativeSymbol = "(" + positiveSymbol + ")";
+
+      return new Currency.Builder(null)
+         .uniqueID(CurrencyHelper.DEFAULT_CURRENCY_ID)
+         .currencyID("CUR")
+         .name("Default Currency")
+         .symbol(props.getCurrencySymbol())
+         .exchangeRate(Double.valueOf(1.0))
+         .decimalSymbol(String.valueOf(props.getDecimalSeparator()))
+         .numberOfDecimalPlaces(props.getCurrencyDigits())
+         .digitGroupingSymbol(String.valueOf(props.getThousandsSeparator()))
+         .positiveCurrencyFormat(positiveSymbol)
+         .negativeCurrencyFormat(negativeSymbol)
+         .build();
    }
 
    private boolean m_writeBaselines;

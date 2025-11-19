@@ -176,7 +176,6 @@ final class PrimaveraPMProjectWriter
       try
       {
          m_factory = new ObjectFactory();
-         Currency defaultCurrency = createDefaultCurrency(m_projectFile);
 
          if (parent != null)
          {
@@ -217,7 +216,7 @@ final class PrimaveraPMProjectWriter
             m_activityNotes = project.getActivityNote();
             m_udf = project.getUDF();
 
-            writeCurrencies(defaultCurrency);
+            writeCurrencies();
             writeLocations();
             writeShifts();
             writeUnitsOfMeasure();
@@ -261,32 +260,6 @@ final class PrimaveraPMProjectWriter
       }
    }
 
-   private Currency createDefaultCurrency(ProjectFile file)
-   {
-      if (!m_context.getCurrencies().isEmpty())
-      {
-         return null;
-      }
-
-      ProjectProperties props = file.getProjectProperties();
-
-      String positiveSymbol = getCurrencyFormat(props.getSymbolPosition());
-      String negativeSymbol = "(" + positiveSymbol + ")";
-
-      return new Currency.Builder(null)
-         .uniqueID(DEFAULT_CURRENCY_ID)
-         .currencyID("CUR")
-         .name("Default Currency")
-         .symbol(props.getCurrencySymbol())
-         .exchangeRate(Double.valueOf(1.0))
-         .decimalSymbol(String.valueOf(props.getDecimalSeparator()))
-         .numberOfDecimalPlaces(props.getCurrencyDigits())
-         .digitGroupingSymbol(String.valueOf(props.getThousandsSeparator()))
-         .positiveCurrencyFormat(positiveSymbol)
-         .negativeCurrencyFormat(negativeSymbol)
-         .build();
-   }
-
    private void writeProjectUserDefinedFields()
    {
       m_udf.addAll(writeUserDefinedFieldAssignments(FieldTypeClass.PROJECT, false, m_projectFile.getProjectProperties()));
@@ -295,11 +268,11 @@ final class PrimaveraPMProjectWriter
    /**
     * Write currencies.
     */
-   private void writeCurrencies(Currency defaultCurrency)
+   private void writeCurrencies()
    {
       if (m_context.getCurrencies().isEmpty())
       {
-         writeCurrency(defaultCurrency);
+         writeCurrency(m_state.getDefaultCurrency());
       }
       else
       {
@@ -363,46 +336,6 @@ final class PrimaveraPMProjectWriter
       return result;
    }
 
-   /**
-    * Generate a currency format.
-    *
-    * @param position currency symbol position
-    * @return currency format
-    */
-   private String getCurrencyFormat(CurrencySymbolPosition position)
-   {
-      String result;
-
-      switch (position)
-      {
-         case AFTER:
-         {
-            result = "1.1#";
-            break;
-         }
-
-         case AFTER_WITH_SPACE:
-         {
-            result = "1.1 #";
-            break;
-         }
-
-         case BEFORE_WITH_SPACE:
-         {
-            result = "# 1.1";
-            break;
-         }
-
-         case BEFORE:
-         default:
-         {
-            result = "#1.1";
-            break;
-         }
-      }
-
-      return result;
-   }
 
    /**
     * Add UDFType objects to a PMXML file.
@@ -928,7 +861,7 @@ final class PrimaveraPMProjectWriter
       xml.setAutoComputeActuals(Boolean.TRUE);
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setCalendarObjectId(mpxj.getCalendarUniqueID());
-      xml.setCurrencyObjectId(mpxj.getCurrencyUniqueID() == null ? DEFAULT_CURRENCY_ID : mpxj.getCurrencyUniqueID());
+      xml.setCurrencyObjectId(mpxj.getCurrencyUniqueID() == null ? CurrencyHelper.DEFAULT_CURRENCY_ID : mpxj.getCurrencyUniqueID());
       xml.setEmailAddress(mpxj.getEmailAddress());
       xml.setEmployeeId(mpxj.getCode());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
@@ -2266,8 +2199,6 @@ final class PrimaveraPMProjectWriter
    {
       return date.minusMinutes(1);
    }
-
-   private static final Integer DEFAULT_CURRENCY_ID = Integer.valueOf(1);
 
    private static final String[] DAY_NAMES =
    {
