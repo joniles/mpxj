@@ -48,6 +48,7 @@ final class UdfHelper
     * in a schedule which should be treated as user defined fields when
     * exported to P6.
     *
+    * @param context current project context
     * @param files schedules being exported
     * @return set of FieldType instances
     */
