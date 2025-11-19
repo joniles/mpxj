@@ -986,7 +986,7 @@ final class XmlProjectWriter extends XmlWriter
    private void writeActivityCodeDefinitions(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values)
    {
       Integer projectID = m_projectFile.getProjectProperties().getUniqueID();
-      m_context.getActivityCodes().stream().filter(c -> c.getScope() == ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCodeDefinition(codes, values, c, projectID));
+      m_context.getActivityCodes().stream().filter(c -> c.getScope() == ActivityCodeScope.PROJECT && c.getScopeProjectUniqueID().equals(projectID)).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCodeDefinition(codes, values, c, projectID));
    }
 
    /**
