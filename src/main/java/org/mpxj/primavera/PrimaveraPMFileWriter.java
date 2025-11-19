@@ -44,13 +44,12 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
 import org.mpxj.Currency;
+import org.mpxj.NotesTopic;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.common.MarshallerHelper;
 import org.mpxj.common.ObjectSequence;
-import org.mpxj.primavera.schema.ObjectFactory;
 import org.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -132,11 +131,19 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "");
 
          XmlWriterState state = new XmlWriterState(UdfHelper.getUserDefinedFieldsSet(projectFile.getProjectContext(), projectsAndBaselines), createDefaultCurrency(projectFile));
-         new PrimaveraPMProjectWriter(state, projectFile).writeProject();
+
+         PrimaveraPMContextWriter contextWriter = new PrimaveraPMContextWriter(state, projectFile.getProjectContext());
+         contextWriter.write();
+         new PrimaveraPMProjectWriter(state, projectFile).write();
 
          if (m_writeBaselines)
          {
             projectFile.getBaselines().stream().filter(Objects::nonNull).forEach(baseline -> new PrimaveraPMProjectWriter(state, baseline).writeBaseline(projectFile));
+         }
+
+         if (state.getDefaultNotesTopicUsed())
+         {
+            contextWriter.writeTopic(NotesTopic.DEFAULT);
          }
 
          marshaller.marshal(state.getApibo(), handler);
