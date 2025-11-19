@@ -23,7 +23,6 @@
 
 package org.mpxj.primavera;
 
-import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -837,37 +836,6 @@ final class XmlContextWriter extends XmlWriter
       assignments.add(xml);
       xml.setTypeObjectId(NumberHelper.getInt(value.getParentCodeUniqueID()));
       xml.setValueObjectId(NumberHelper.getInt(value.getUniqueID()));
-   }
-
-   /**
-    * Formats a percentage value.
-    *
-    * @param number MPXJ percentage value
-    * @return Primavera percentage value
-    */
-   private Double getPercentage(Number number)
-   {
-      Double result = null;
-
-      if (number != null)
-      {
-         result = Double.valueOf(number.doubleValue() / 100);
-      }
-
-      return result;
-   }
-
-   /**
-    * The end of a Primavera time range finishes on the last minute
-    * of the period, so a range of 12:00 -> 13:00 is represented by
-    * Primavera as 12:00 -> 12:59.
-    *
-    * @param date MPXJ end time
-    * @return Primavera end time
-    */
-   private LocalTime getEndTime(LocalTime date)
-   {
-      return date.minusMinutes(1);
    }
 
    public static final Integer DEFAULT_CURRENCY_ID = Integer.valueOf(1);

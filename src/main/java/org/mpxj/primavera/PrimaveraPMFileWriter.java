@@ -191,6 +191,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
     * Assigns unique ID values to ProjectFile instance which do not have them.
     * Returns a list of project files which have been updated, so the change can be reverted later.
     *
+    * @param projects projects to check for unique ID values
     * @return list of updated ProjectFile instances
     */
    private List<ProjectFile> assignTemporaryProjectUniqueIdValues(List<ProjectFile> projects)

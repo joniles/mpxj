@@ -220,7 +220,7 @@ public final class JsonWriter extends AbstractProjectWriter
       return m_timeUnits;
    }
 
-   @Override public void write(List<ProjectFile> projects, OutputStream outputStream) throws IOException
+   @Override public void write(List<ProjectFile> projects, OutputStream outputStream)
    {
       throw new UnsupportedOperationException();
    }
