@@ -45,6 +45,7 @@ import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import org.mpxj.Currency;
+import org.mpxj.CurrencySymbolPosition;
 import org.mpxj.NotesTopic;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
@@ -177,7 +178,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    /**
     * Assigns unique ID values to ProjectFile instance which do not have them.
-    * Retuens a list of project files which have been updated, so the change can be reverted later.
+    * Returns a list of project files which have been updated, so the change can be reverted later.
     *
     * @return list of updated ProjectFile instances
     */
@@ -229,11 +230,11 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
    {
       ProjectProperties props = file.getProjectProperties();
 
-      String positiveSymbol = CurrencyHelper.getCurrencyFormat(props.getSymbolPosition());
+      String positiveSymbol = getCurrencyFormat(props.getSymbolPosition());
       String negativeSymbol = "(" + positiveSymbol + ")";
 
       return new Currency.Builder(null)
-         .uniqueID(CurrencyHelper.DEFAULT_CURRENCY_ID)
+         .uniqueID(PrimaveraPMContextWriter.DEFAULT_CURRENCY_ID)
          .currencyID("CUR")
          .name("Default Currency")
          .symbol(props.getCurrencySymbol())
@@ -245,6 +246,48 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          .negativeCurrencyFormat(negativeSymbol)
          .build();
    }
+
+   /**
+    * Generate a currency format.
+    *
+    * @param position currency symbol position
+    * @return currency format
+    */
+   private String getCurrencyFormat(CurrencySymbolPosition position)
+   {
+      String result;
+
+      switch (position)
+      {
+         case AFTER:
+         {
+            result = "1.1#";
+            break;
+         }
+
+         case AFTER_WITH_SPACE:
+         {
+            result = "1.1 #";
+            break;
+         }
+
+         case BEFORE_WITH_SPACE:
+         {
+            result = "# 1.1";
+            break;
+         }
+
+         case BEFORE:
+         default:
+         {
+            result = "#1.1";
+            break;
+         }
+      }
+
+      return result;
+   }
+
 
    private boolean m_writeBaselines;
 

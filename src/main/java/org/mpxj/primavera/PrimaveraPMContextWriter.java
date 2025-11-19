@@ -23,21 +23,13 @@
 
 package org.mpxj.primavera;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.mpxj.ActivityCode;
 import org.mpxj.ActivityCodeScope;
-import org.mpxj.ActivityCodeValue;
 import org.mpxj.Availability;
 import org.mpxj.AvailabilityTable;
 import org.mpxj.Code;
@@ -47,20 +39,14 @@ import org.mpxj.CostRateTable;
 import org.mpxj.CostRateTableEntry;
 import org.mpxj.Currency;
 import org.mpxj.CustomField;
-import org.mpxj.CustomFieldContainer;
 import org.mpxj.DataType;
-import org.mpxj.Duration;
 import org.mpxj.ExpenseCategory;
-import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
 import org.mpxj.FieldTypeClass;
 import org.mpxj.HtmlNotes;
-import org.mpxj.LocalTimeRange;
 import org.mpxj.Location;
 import org.mpxj.Notes;
 import org.mpxj.NotesTopic;
-import org.mpxj.ProjectCalendar;
-import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCode;
 import org.mpxj.ProjectCodeValue;
 import org.mpxj.ProjectContext;
@@ -75,13 +61,8 @@ import org.mpxj.RoleCodeValue;
 import org.mpxj.Shift;
 import org.mpxj.ShiftPeriod;
 import org.mpxj.SkillLevel;
-import org.mpxj.TaskField;
 import org.mpxj.UnitOfMeasure;
-import org.mpxj.UserDefinedField;
 import org.mpxj.WorkContour;
-import org.mpxj.common.BooleanHelper;
-import org.mpxj.common.ColorHelper;
-import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.FieldTypeHelper;
 import org.mpxj.common.HtmlHelper;
 import org.mpxj.common.LocalDateTimeHelper;
@@ -90,17 +71,12 @@ import org.mpxj.common.RateHelper;
 import org.mpxj.primavera.schema.ActivityCodeType;
 import org.mpxj.primavera.schema.ActivityCodeTypeType;
 import org.mpxj.primavera.schema.CalendarType;
-import org.mpxj.primavera.schema.CalendarType.HolidayOrExceptions;
-import org.mpxj.primavera.schema.CalendarType.HolidayOrExceptions.HolidayOrException;
-import org.mpxj.primavera.schema.CalendarType.StandardWorkWeek;
-import org.mpxj.primavera.schema.CalendarType.StandardWorkWeek.StandardWorkHours;
 import org.mpxj.primavera.schema.CodeAssignmentType;
 import org.mpxj.primavera.schema.CostAccountType;
 import org.mpxj.primavera.schema.CurrencyType;
 import org.mpxj.primavera.schema.ExpenseCategoryType;
 import org.mpxj.primavera.schema.LocationType;
 import org.mpxj.primavera.schema.NotebookTopicType;
-import org.mpxj.primavera.schema.ObjectFactory;
 import org.mpxj.primavera.schema.ProjectCodeType;
 import org.mpxj.primavera.schema.ProjectCodeTypeType;
 import org.mpxj.primavera.schema.ResourceAssignmentCodeType;
@@ -118,17 +94,14 @@ import org.mpxj.primavera.schema.RoleRateType;
 import org.mpxj.primavera.schema.RoleType;
 import org.mpxj.primavera.schema.ShiftPeriodType;
 import org.mpxj.primavera.schema.ShiftType;
-import org.mpxj.primavera.schema.UDFAssignmentType;
 import org.mpxj.primavera.schema.UDFTypeType;
 import org.mpxj.primavera.schema.UnitOfMeasureType;
-import org.mpxj.primavera.schema.WorkTimeType;
 
-final class PrimaveraPMContextWriter
+final class PrimaveraPMContextWriter extends XmlWriter
 {
    public PrimaveraPMContextWriter(XmlWriterState state, ProjectContext context)
    {
-      m_state = state;
-      m_context = context;
+      super(state, context);
    }
 
    public void write()
@@ -417,102 +390,6 @@ final class PrimaveraPMContextWriter
    }
 
    /**
-    * This method writes data for an individual calendar to a PMXML file.
-    *
-    * @param calendars calendars container
-    * @param calendar ProjectCalendar instance
-    */
-   private void writeCalendar(List<CalendarType> calendars, ProjectCalendar calendar)
-   {
-      ProjectCalendar mpxj = ProjectCalendarHelper.normalizeCalendar(calendar);
-      CalendarType xml = m_factory.createCalendarType();
-      calendars.add(xml);
-
-      String name = mpxj.getName();
-      if (name == null || name.isEmpty())
-      {
-         name = "(blank)";
-      }
-
-      if (calendar.getType() == org.mpxj.CalendarType.PROJECT)
-      {
-         xml.setProjectObjectId(mpxj.getProjectUniqueID());
-      }
-
-      xml.setBaseCalendarObjectId(mpxj.getParentUniqueID());
-      xml.setIsDefault(Boolean.valueOf(mpxj.getDefault()));
-      xml.setIsPersonal(Boolean.valueOf(mpxj.getPersonal()));
-      xml.setName(name);
-      xml.setObjectId(mpxj.getUniqueID());
-      xml.setType(CalendarTypeHelper.getXmlFromInstance(mpxj.getType()));
-
-      xml.setHoursPerDay(Double.valueOf(NumberHelper.getDouble(mpxj.getMinutesPerDay()) / 60.0));
-      xml.setHoursPerWeek(Double.valueOf(NumberHelper.getDouble(mpxj.getMinutesPerWeek()) / 60.0));
-      xml.setHoursPerMonth(Double.valueOf(NumberHelper.getDouble(mpxj.getMinutesPerMonth()) / 60.0));
-      xml.setHoursPerYear(Double.valueOf(NumberHelper.getDouble(mpxj.getMinutesPerYear()) / 60.0));
-
-      StandardWorkWeek xmlStandardWorkWeek = m_factory.createCalendarTypeStandardWorkWeek();
-      xml.setStandardWorkWeek(xmlStandardWorkWeek);
-
-      for (DayOfWeek day : DayOfWeekHelper.ORDERED_DAYS)
-      {
-         StandardWorkHours xmlHours = m_factory.createCalendarTypeStandardWorkWeekStandardWorkHours();
-         xmlStandardWorkWeek.getStandardWorkHours().add(xmlHours);
-         xmlHours.setDayOfWeek(getDayName(day));
-
-         // Working days/hours are not inherited between calendars, just exceptions.
-         for (LocalTimeRange range : mpxj.getHours(day))
-         {
-            WorkTimeType xmlWorkTime = m_factory.createWorkTimeType();
-            xmlHours.getWorkTime().add(xmlWorkTime);
-
-            xmlWorkTime.setStart(range.getStart());
-            xmlWorkTime.setFinish(getEndTime(range.getEnd()));
-         }
-      }
-
-      HolidayOrExceptions xmlExceptions = m_factory.createCalendarTypeHolidayOrExceptions();
-      xml.setHolidayOrExceptions(xmlExceptions);
-
-      List<ProjectCalendarException> expandedExceptions = mpxj.getExpandedCalendarExceptionsWithWorkWeeks();
-      if (!expandedExceptions.isEmpty())
-      {
-         Set<LocalDate> exceptionDates = new HashSet<>();
-
-         for (ProjectCalendarException mpxjException : expandedExceptions)
-         {
-            LocalDate date = mpxjException.getFromDate();
-            while (!date.isAfter(mpxjException.getToDate()))
-            {
-               // Prevent duplicate exception dates being written.
-               // P6 will fail to import files with duplicate exceptions.
-               if (exceptionDates.add(date))
-               {
-                  HolidayOrException xmlException = m_factory.createCalendarTypeHolidayOrExceptionsHolidayOrException();
-                  xmlExceptions.getHolidayOrException().add(xmlException);
-
-                  xmlException.setDate(date.atStartOfDay());
-
-                  for (LocalTimeRange range : mpxjException)
-                  {
-                     WorkTimeType xmlHours = m_factory.createWorkTimeType();
-                     xmlException.getWorkTime().add(xmlHours);
-
-                     xmlHours.setStart(range.getStart());
-
-                     if (range.getEnd() != null)
-                     {
-                        xmlHours.setFinish(getEndTime(range.getEnd()));
-                     }
-                  }
-               }
-               date = date.plusDays(1);
-            }
-         }
-      }
-   }
-
-   /**
     * This method writes resource data to a PMXML file.
     */
    private void writeResources()
@@ -542,7 +419,7 @@ final class PrimaveraPMContextWriter
       xml.setAutoComputeActuals(Boolean.TRUE);
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setCalendarObjectId(mpxj.getCalendarUniqueID());
-      xml.setCurrencyObjectId(mpxj.getCurrencyUniqueID() == null ? CurrencyHelper.DEFAULT_CURRENCY_ID : mpxj.getCurrencyUniqueID());
+      xml.setCurrencyObjectId(mpxj.getCurrencyUniqueID() == null ? DEFAULT_CURRENCY_ID : mpxj.getCurrencyUniqueID());
       xml.setEmailAddress(mpxj.getEmailAddress());
       xml.setEmployeeId(mpxj.getCode());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
@@ -808,110 +685,13 @@ final class PrimaveraPMContextWriter
    }
 
    /**
-    * Writes a list of UDF types.
-    *
-    * @author lsong
-    * @param type parent entity type
-    * @param summaryTaskOnly true if we're writing assignments for WBS
-    * @param mpxj parent entity
-    * @return list of UDFAssignmentType instances
-    */
-   private List<UDFAssignmentType> writeUserDefinedFieldAssignments(FieldTypeClass type, boolean summaryTaskOnly, FieldContainer mpxj)
-   {
-      List<UDFAssignmentType> out = new ArrayList<>();
-      CustomFieldContainer customFields = m_context.getCustomFields();
-
-      for (FieldType fieldType : m_state.getUserDefinedFields())
-      {
-         if (type != fieldType.getFieldTypeClass())
-         {
-            continue;
-         }
-
-         // For the moment we're restricting writing WBS UDF assignments only to
-         // UserDefinedField instances with summaryTaskOnly set to true
-         // (which will typically be for values read from a P6 schedule originally)
-         // TODO: consider if we can map non task user defined fields from other schedules to WBS UDF
-         if (type == FieldTypeClass.TASK && summaryTaskOnly)
-         {
-            if (fieldType instanceof TaskField || (fieldType instanceof UserDefinedField && !((UserDefinedField) fieldType).getSummaryTaskOnly()))
-            {
-               continue;
-            }
-         }
-
-         Object value = mpxj.getCachedValue(fieldType);
-         if (value == null)
-         {
-            continue;
-         }
-
-         CustomField field = customFields.get(fieldType);
-         int uniqueID = field == null ? FieldTypeHelper.getFieldID(fieldType) : NumberHelper.getInt(field.getUniqueID());
-
-         DataType dataType = fieldType.getDataType();
-         if (dataType == DataType.CUSTOM)
-         {
-            dataType = DataType.BINARY;
-         }
-
-         UDFAssignmentType udf = m_factory.createUDFAssignmentType();
-         udf.setTypeObjectId(uniqueID);
-         setUserFieldValue(udf, dataType, value);
-         out.add(udf);
-      }
-
-      out.sort(Comparator.comparing(UDFAssignmentType::getTypeObjectId));
-
-      return out;
-   }
-
-   /**
     * Write Global and EPS activity code definitions.
     */
    private void writeActivityCodeDefinitions()
    {
       List<ActivityCodeTypeType> codes = m_state.getApibo().getActivityCodeType();
       List<ActivityCodeType> values = m_state.getApibo().getActivityCode();
-      m_context.getActivityCodes().stream().filter(c -> c.getScope() != ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCodeDefinition(codes, values, c));
-   }
-
-   /**
-    * Write Project activity code definitions.
-    *
-    * @param codes activity codes container
-    * @param values activity code values container
-    */
-   private void writeActivityCodeDefinitions(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values)
-   {
-      m_context.getActivityCodes().stream().filter(c -> c.getScope() == ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCodeDefinition(codes, values, c));
-   }
-
-   /**
-    * Write an activity code definition.
-    *
-    * @param codes activity codes container
-    * @param values activity code values container
-    * @param code activity code
-    */
-   private void writeActivityCodeDefinition(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values, ActivityCode code)
-   {
-      ActivityCodeTypeType xml = m_factory.createActivityCodeTypeType();
-      codes.add(xml);
-      xml.setObjectId(code.getUniqueID());
-      xml.setScope(ActivityCodeScopeHelper.getXmlFromInstance(code.getScope()));
-      xml.setSequenceNumber(code.getSequenceNumber());
-      xml.setName(code.getName());
-      xml.setIsSecureCode(Boolean.valueOf(code.getSecure()));
-      xml.setLength(WriterHelper.getCodeMaxLength(code));
-
-      if (code.getScope() != ActivityCodeScope.GLOBAL)
-      {
-         xml.setProjectObjectId(code.getScopeProjectUniqueID());
-      }
-
-      Comparator<ActivityCodeValue> comparator = Comparator.comparing(ActivityCodeValue::getSequenceNumber).thenComparing(ActivityCodeValue::getUniqueID);
-      code.getChildValues().stream().sorted(comparator).forEach(v -> writeActivityCodeValueDefinition(xml, null, values, v, comparator));
+      m_context.getActivityCodes().stream().filter(c -> c.getScope() != ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCodeDefinition(codes, values, c, c.getScopeProjectUniqueID()));
    }
 
    /**
@@ -1060,117 +840,6 @@ final class PrimaveraPMContextWriter
    }
 
    /**
-    * Write an activity code value.
-    *
-    * @param code parent activity code
-    * @param parentValue parent value
-    * @param values value container
-    * @param value value to write
-    * @param comparator sort order for values
-    */
-   private void writeActivityCodeValueDefinition(ActivityCodeTypeType code, ActivityCodeType parentValue, List<ActivityCodeType> values, ActivityCodeValue value, Comparator<ActivityCodeValue> comparator)
-   {
-      ActivityCodeType xml = m_factory.createActivityCodeType();
-      values.add(xml);
-      xml.setObjectId(value.getUniqueID());
-      xml.setProjectObjectId(code.getProjectObjectId());
-      xml.setCodeTypeObjectId(code.getObjectId());
-      xml.setParentObjectId(parentValue == null ? null : parentValue.getObjectId());
-      xml.setSequenceNumber(value.getSequenceNumber());
-      xml.setCodeValue(value.getName());
-      xml.setDescription(value.getDescription());
-      xml.setColor(ColorHelper.getHtmlColor(value.getColor()));
-
-      value.getChildValues().stream().sorted(comparator).forEach(v -> writeActivityCodeValueDefinition(code, xml, values, v, comparator));
-   }
-
-   /**
-    * Sets the value of a UDF.
-    *
-    * @param udf user defined field
-    * @param dataType MPXJ data type
-    * @param value field value
-    */
-   private void setUserFieldValue(UDFAssignmentType udf, DataType dataType, Object value)
-   {
-      switch (dataType)
-      {
-         case DURATION:
-         {
-            udf.setTextValue(((Duration) value).toString());
-            break;
-         }
-
-         case CURRENCY:
-         {
-            if (!(value instanceof Double))
-            {
-               value = Double.valueOf(((Number) value).doubleValue());
-            }
-            udf.setCostValue((Double) value);
-            break;
-         }
-
-         case BINARY:
-         {
-            udf.setTextValue("");
-            break;
-         }
-
-         case STRING:
-         {
-            udf.setTextValue(value == null ? null : value.toString());
-            break;
-         }
-
-         case DATE:
-         {
-            udf.setStartDateValue((LocalDateTime) value);
-            break;
-         }
-
-         case NUMERIC:
-         {
-            if (!(value instanceof Double))
-            {
-               value = Double.valueOf(((Number) value).doubleValue());
-            }
-            udf.setDoubleValue((Double) value);
-            break;
-         }
-
-         case BOOLEAN:
-         {
-            udf.setIntegerValue(BooleanHelper.getBoolean((Boolean) value) ? Integer.valueOf(1) : Integer.valueOf(0));
-            break;
-         }
-
-         case INTEGER:
-         case SHORT:
-         {
-            udf.setIntegerValue(NumberHelper.getInteger((Number) value));
-            break;
-         }
-
-         default:
-         {
-            throw new RuntimeException("Unconvertible data type: " + dataType);
-         }
-      }
-   }
-
-   /**
-    * Formats a day name.
-    *
-    * @param day MPXJ Day instance
-    * @return Primavera day instance
-    */
-   private String getDayName(DayOfWeek day)
-   {
-      return DAY_NAMES[DayOfWeekHelper.getValue(day) - 1];
-   }
-
-   /**
     * Formats a percentage value.
     *
     * @param number MPXJ percentage value
@@ -1201,19 +870,5 @@ final class PrimaveraPMContextWriter
       return date.minusMinutes(1);
    }
 
-   private static final String[] DAY_NAMES =
-   {
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday"
-   };
-
-   private final XmlWriterState m_state;
-   private final ProjectContext m_context;
-
-   private final ObjectFactory m_factory = new ObjectFactory();
+   public static final Integer DEFAULT_CURRENCY_ID = Integer.valueOf(1);
 }
