@@ -53,7 +53,7 @@ class XmlWriter
     * @param values activity code values container
     * @param code activity code
     */
-   protected void writeActivityCodeDefinition(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values, ActivityCode code, Integer scopeProjectID)
+   protected void writeActivityCodeDefinition(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values, ActivityCode code)
    {
       ActivityCodeTypeType xml = m_factory.createActivityCodeTypeType();
       codes.add(xml);
@@ -66,7 +66,7 @@ class XmlWriter
 
       if (code.getScope() != ActivityCodeScope.GLOBAL)
       {
-         xml.setProjectObjectId(scopeProjectID);
+         xml.setProjectObjectId(code.getScopeProjectUniqueID());
       }
 
       Comparator<ActivityCodeValue> comparator = Comparator.comparing(ActivityCodeValue::getSequenceNumber).thenComparing(ActivityCodeValue::getUniqueID);

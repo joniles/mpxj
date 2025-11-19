@@ -690,7 +690,7 @@ final class XmlContextWriter extends XmlWriter
    {
       List<ActivityCodeTypeType> codes = m_state.getApibo().getActivityCodeType();
       List<ActivityCodeType> values = m_state.getApibo().getActivityCode();
-      m_context.getActivityCodes().stream().filter(c -> c.getScope() != ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCodeDefinition(codes, values, c, c.getScopeProjectUniqueID()));
+      m_context.getActivityCodes().stream().filter(c -> c.getScope() != ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCodeDefinition(codes, values, c));
    }
 
    /**
