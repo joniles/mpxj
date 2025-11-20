@@ -454,7 +454,6 @@ public class AstaSqliteReader extends AbstractProjectFileReader
 
          Integer currentBaselineProjectID = getCurrentBaselineProjectID(projectID);
          int baselineIndex = 0;
-         final int maxBaselines = project.getBaselines().size();
 
          if (currentBaselineProjectID != null)
          {
@@ -467,11 +466,6 @@ public class AstaSqliteReader extends AbstractProjectFileReader
 
          for (Entry<Integer, Row> entry : baselineRows.entrySet())
          {
-            if (baselineIndex >= maxBaselines)
-            {
-               break;
-            }
-
             attachBaseline(project, entry.getValue(), entry.getKey(), baselineIndex++);
          }
       }

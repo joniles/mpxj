@@ -149,7 +149,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          {
             for (ProjectFile project : projects)
             {
-               project.getBaselines().stream().filter(Objects::nonNull).forEach(baseline -> new XmlProjectWriter(state, baseline).writeBaseline(project));
+               project.getBaselines().values().forEach(baseline -> new XmlProjectWriter(state, baseline).writeBaseline(project));
             }
          }
 
@@ -188,7 +188,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       for (ProjectFile project : projects)
       {
          result.add(project);
-         result.addAll(project.getBaselines().stream().filter(Objects::nonNull).collect(Collectors.toList())) ;
+         result.addAll(project.getBaselines().values());
       }
       return result;
    }
