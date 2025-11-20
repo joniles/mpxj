@@ -648,6 +648,7 @@ class XerFile
       FIELD_TYPE_MAP.put("shift_start_hr_num", DataType.INTEGER);
       FIELD_TYPE_MAP.put("skill_level", DataType.INTEGER);
       FIELD_TYPE_MAP.put("start_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("step_complete_flag", DataType.BOOLEAN);
       FIELD_TYPE_MAP.put("sum_base_proj_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("super_flag", DataType.STRING);
       FIELD_TYPE_MAP.put("suspend_date", DataType.DATE);

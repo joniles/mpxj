@@ -226,6 +226,7 @@ final class XmlProjectWriter extends XmlWriter
       project.setUseProjectBaselineForEarnedValue(Boolean.TRUE);
       project.setWBSCodeSeparator(mpxj.getWbsCodeSeparator());
       project.setLocationObjectId(mpxj.getLocationUniqueID());
+      project.setLastScheduleDate(mpxj.getLastScheduledDate());
       project.setWebSiteURL(mpxj.getProjectWebsiteUrl());
 
       writeScheduleOptions(project.getScheduleOptions());
@@ -296,6 +297,7 @@ final class XmlProjectWriter extends XmlWriter
       project.setBaselineTypeName(mpxj.getBaselineTypeName());
       project.setBaselineTypeObjectId(mpxj.getBaselineProjectUniqueID());
       project.setLastBaselineUpdateDate(mpxj.getLastBaselineUpdateDate());
+      project.setLastScheduleDate(mpxj.getLastScheduledDate());
       project.setWebSiteURL(mpxj.getProjectWebsiteUrl());
 
       writeScheduleOptions(project.getScheduleOptions());

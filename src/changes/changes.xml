@@ -10,6 +10,7 @@
             <action dev="joniles" type="update">Updated `PrimaveraPMFileWriter` to allow a list of projects to be written to a PMXML file.</action>
             <action dev="joniles" type="update">Include all available baselines when reading Asta Powerproject PP files (Contributed by gitgood88).</action>
             <action dev="joniles" type="update">MPXJ will now store an arbitrary number of baselines rather than the hard limit of 11 previously in place. Only baselines numbered 0-10 will be interpreted by MPXJ, other baselines can just be stored and retrieved.</action>
+            <action dev="joniles" type="update">Added the Last Scheduled Date and Activity Percent Complete Based On Activity Steps attributes to `ProjectProperties` and ensured these are read from and written to P6 schedules (Based on a contribution by danielfromCL).</action>
             <action dev="joniles" type="update">The `ProjectFile#getBaselines` method now returns a `Map` instance keyed by baseline index.</action>
             <action dev="joniles" type="update">Header rows for empty tables are no longer written to XER files.</action>
             <action dev="joniles" type="update">When using the `readAll` method to read PMXML files, only projects will now be returned. Any baseline `ProjectFile` instances will now only be linked to their parent projects, and will not be present in the list returned by `readAll`.</action>

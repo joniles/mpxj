@@ -146,7 +146,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       setCriticalActivityType(CriticalActivityType.TOTAL_FLOAT);
       setTotalSlackCalculationType(TotalSlackCalculationType.SMALLEST_SLACK);
       setRelationshipLagCalendar(RelationshipLagCalendar.PREDECESSOR);
-      setStepCompleteFlag(true);
    }
 
    /**
@@ -1619,43 +1618,43 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
-    * Retrieve the last schedule date.
+    * Retrieve the last scheduled date.
     *
-    * @return last schedule date
+    * @return last scheduled date
     */
-    public LocalDateTime getLastScheduleDate()
+    public LocalDateTime getLastScheduledDate()
     {
-       return (LocalDateTime) get(ProjectField.LAST_SCHEDULE_DATE);
+       return (LocalDateTime) get(ProjectField.LAST_SCHEDULED_DATE);
     }
 
     /**
-     * Set the last schedule date.
+     * Set the last scheduled date.
      *
-     * @param lastScheduleDate last schedule date
+     * @param value last scheduled date
      */
-    public void setLastScheduleDate(LocalDateTime lastScheduleDate)
+    public void setLastScheduledDate(LocalDateTime value)
     {
-       set(ProjectField.LAST_SCHEDULE_DATE, lastScheduleDate);
+       set(ProjectField.LAST_SCHEDULED_DATE, value);
     }
 
    /**
-    * Sets the Step Complete Flag
+    * Sets the activity percent complete based on activity steps flag.
     *
-    * @param stepCompleteFlag step complete flag
+    * @param value true if activity percent complete is based on activity steps
     */
-    public void setStepCompleteFlag(boolean stepCompleteFlag)
+    public void setActivityPercentCompleteBasedOnActivitySteps(boolean value)
     {
-       set(ProjectField.STEP_COMPLETE_FLAG, stepCompleteFlag);
+       set(ProjectField.ACTIVITY_PERCENT_COMPLETE_BASED_ON_ACTIVITY_STEPS, value);
     }
 
    /**
-    * Retrieve the Step Complete Flag
+    * Retrieve the activity percent complete based on activity steps flag.
     *
-    * @return step complete flag
+    * @return true if activity percent complete is based on activity steps
     */
     public boolean getStepCompleteFlag()
     {
-       return BooleanHelper.getBoolean((Boolean) get(ProjectField.STEP_COMPLETE_FLAG));
+       return BooleanHelper.getBoolean((Boolean) get(ProjectField.ACTIVITY_PERCENT_COMPLETE_BASED_ON_ACTIVITY_STEPS));
     }
 
    /**
@@ -4005,5 +4004,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY, p -> Boolean.TRUE);
       CALCULATED_FIELD_MAP.put(ProjectField.PROJECT_IS_BASELINE, p -> Boolean.FALSE);
       CALCULATED_FIELD_MAP.put(ProjectField.PROJECT_CODE_VALUES, p -> new HashMap<>());
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_PERCENT_COMPLETE_BASED_ON_ACTIVITY_STEPS, p -> Boolean.FALSE);
    }
 }

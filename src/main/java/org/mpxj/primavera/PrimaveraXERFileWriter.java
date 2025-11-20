@@ -1500,7 +1500,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("critical_drtn_hr_cnt", p -> Double.valueOf(p.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, p).getDuration()));
       PROJECT_COLUMNS.put("def_cost_per_qty", p -> new CurrencyValue(Double.valueOf(100.0)));
       PROJECT_COLUMNS.put("last_recalc_date", ProjectProperties::getStatusDate);
-      PROJECT_COLUMNS.put("last_schedule_date", ProjectProperties::getLastScheduleDate);
       PROJECT_COLUMNS.put("plan_start_date", WriterHelper::getProjectPlannedStart);
       PROJECT_COLUMNS.put("plan_end_date", ProjectProperties::getMustFinishBy);
       PROJECT_COLUMNS.put("scd_end_date", ProjectProperties::getScheduledFinish);
@@ -1532,6 +1531,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("last_baseline_update_date", p -> "");
       PROJECT_COLUMNS.put("cr_external_key", p -> "");
       PROJECT_COLUMNS.put("apply_actuals_date", p -> "");
+      PROJECT_COLUMNS.put("last_schedule_date", ProjectProperties::getLastScheduledDate);
       PROJECT_COLUMNS.put("location_id", ProjectProperties::getLocationUniqueID);
       PROJECT_COLUMNS.put("loaded_scope_level", p -> Integer.valueOf(7));
       PROJECT_COLUMNS.put("export_flag", p -> Boolean.valueOf(p.getExportFlag()));

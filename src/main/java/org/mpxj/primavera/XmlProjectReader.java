@@ -197,6 +197,7 @@ class XmlProjectReader
    private void processProjectProperties(ProjectType project)
    {
       ProjectProperties properties = m_projectFile.getProjectProperties();
+      properties.setActivityPercentCompleteBasedOnActivitySteps(BooleanHelper.getBoolean(project.isActivityPercentCompleteBasedOnActivitySteps()));
       properties.setBaselineProjectUniqueID(project.getCurrentBaselineProjectObjectId());
       properties.setCreationDate(project.getCreateDate() == null ? project.getDateAdded() : project.getCreateDate());
       properties.setCriticalActivityType(CriticalActivityTypeHelper.getInstanceFromXml(project.getCriticalActivityPathType()));
@@ -238,6 +239,7 @@ class XmlProjectReader
    {
       ProjectProperties properties = m_projectFile.getProjectProperties();
 
+      properties.setActivityPercentCompleteBasedOnActivitySteps(project.isActivityPercentCompleteBasedOnActivitySteps());
       properties.setCreationDate(project.getCreateDate() == null ? project.getDateAdded() : project.getCreateDate());
       properties.setFinishDate(project.getFinishDate());
       properties.setGUID(DatatypeConverter.parseUUID(project.getGUID()));
@@ -254,6 +256,7 @@ class XmlProjectReader
       properties.setBaselineTypeName(project.getBaselineTypeName());
       properties.setBaselineTypeUniqueID(project.getBaselineTypeObjectId());
       properties.setLastBaselineUpdateDate(project.getLastBaselineUpdateDate());
+      properties.setLastScheduledDate(project.getLastScheduleDate());
       properties.setProjectIsBaseline(true);
       properties.setProjectWebsiteUrl(project.getWebSiteURL());
       properties.setEnablePublication(BooleanHelper.getBoolean(project.isEnablePublication()));
