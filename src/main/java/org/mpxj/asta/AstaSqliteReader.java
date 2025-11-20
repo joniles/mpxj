@@ -461,7 +461,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
             Row currentRow = baselineRows.remove(currentBaselineProjectID);
             if (currentRow != null)
             {
-               baselineIndex = attachBaseline(project, currentRow, currentBaselineProjectID, baselineIndex);
+               attachBaseline(project, currentRow, currentBaselineProjectID, baselineIndex++);
             }
          }
 
@@ -472,7 +472,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
                break;
             }
 
-            baselineIndex = attachBaseline(project, entry.getValue(), entry.getKey(), baselineIndex);
+            attachBaseline(project, entry.getValue(), entry.getKey(), baselineIndex++);
          }
       }
 
@@ -512,7 +512,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       return map;
    }
 
-   private int attachBaseline(ProjectFile project, Row summaryRow, Integer baselineProjectID, int index) throws MPXJException
+   private void attachBaseline(ProjectFile project, Row summaryRow, Integer baselineProjectID, int index) throws MPXJException
    {
       ProjectFile baselineProject = read(baselineProjectID);
       if (summaryRow != null)
@@ -534,7 +534,6 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       }
 
       project.setBaseline(baselineProject, index);
-      return index + 1;
    }
 
    private void processCodeLibraries() throws SQLException
