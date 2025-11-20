@@ -735,7 +735,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     * This method returns a Map keyed by the index number of the baselines.
     * Baselines 0-10 are used to populate the BaselineX to BaselineX10 attributes
     * of tasks in this project (e.g. BaselineCost, BaselineCost1 ... BaselineCost10),
-    *  baselines within indexes outside of this range are not interpreted by MPXJ.
+    *  baselines with indexes outside of this range are not interpreted by MPXJ.
     *
     * @return map of baselines for this project
     */
