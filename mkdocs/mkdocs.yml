@@ -21,7 +21,11 @@ extra:
 markdown_extensions:
   - attr_list
   - pymdownx.highlight
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
 
@@ -83,6 +87,7 @@ nav:
     - 'CPM Schedulers': 'howto-use-cpm.md'
     - 'External Projects': 'howto-use-external-projects.md'
     - 'Fields': 'howto-use-fields.md'
+    - 'Project Context': 'howto-use-project-context.md'
     - 'Universal Project Reader': 'howto-use-universal.md'
   - 'Field Guides...':
     - 'Field Guide': 'field-guide.md'

@@ -86,6 +86,11 @@ import org.mpxj.writer.AbstractProjectWriter;
  */
 public final class MPXWriter extends AbstractProjectWriter
 {
+   @Override public void write(List<ProjectFile> projects, OutputStream outputStream)
+   {
+      throw new UnsupportedOperationException();
+   }
+
    @Override public void write(ProjectFile projectFile, OutputStream out) throws IOException
    {
       m_projectFile = projectFile;
@@ -260,7 +265,7 @@ public final class MPXWriter extends AbstractProjectWriter
       //
       // Write project calendars
       //
-      for (ProjectCalendar cal : m_projectFile.getCalendars())
+      for (ProjectCalendar cal : m_projectFile.getCalendarsForProject())
       {
          if (!isResourceCalendar(cal))
          {
@@ -584,7 +589,7 @@ public final class MPXWriter extends AbstractProjectWriter
       // 1. It is a derived calendar
       // 2. It's not the base calendar for any other derived calendars
       // 3. It is associated with exactly one resource
-      return calendar != null && calendar.isDerived() && calendar.getDerivedCalendars().isEmpty() && m_resourceCalendarMap.computeIfAbsent(m_calendarMapper.getUniqueID(calendar), k -> Collections.emptyList()).size() == 1;
+      return calendar != null && calendar.isDerived() && !calendar.isParent() && m_resourceCalendarMap.computeIfAbsent(m_calendarMapper.getUniqueID(calendar), k -> Collections.emptyList()).size() == 1;
    }
 
    /**

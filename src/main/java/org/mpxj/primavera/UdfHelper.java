@@ -24,6 +24,7 @@
 package org.mpxj.primavera;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
 import org.mpxj.CustomField;
 import org.mpxj.DataType;
 import org.mpxj.FieldType;
+import org.mpxj.ProjectContext;
 import org.mpxj.ProjectFile;
 import org.mpxj.common.FieldLists;
 import org.mpxj.common.FieldTypeHelper;
@@ -46,19 +48,20 @@ final class UdfHelper
     * in a schedule which should be treated as user defined fields when
     * exported to P6.
     *
-    * @param file schedule being exported
+    * @param context current project context
+    * @param files schedules being exported
     * @return set of FieldType instances
     */
-   public static Set<FieldType> getUserDefinedFieldsSet(ProjectFile file)
+   public static Set<FieldType> getUserDefinedFieldsSet(ProjectContext context, List<ProjectFile> files)
    {
       // All custom fields with configuration
-      Set<FieldType> set = file.getCustomFields().stream().map(CustomField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
+      Set<FieldType> set = context.getCustomFields().stream().map(CustomField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
 
       // All user defined fields
-      set.addAll(file.getUserDefinedFields());
+      set.addAll(context.getUserDefinedFields());
 
       // All custom fields with values
-      set.addAll(file.getPopulatedFields().stream().filter(FieldLists.CUSTOM_FIELDS_SET::contains).collect(Collectors.toSet()));
+      set.addAll(files.stream().flatMap(f -> f.getPopulatedFields().stream().filter(FieldLists.CUSTOM_FIELDS_SET::contains)).collect(Collectors.toSet()));
 
       // Remove unknown fields
       set.removeIf(f -> FieldTypeHelper.getFieldID(f) == -1);

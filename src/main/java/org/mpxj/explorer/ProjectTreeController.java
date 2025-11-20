@@ -24,6 +24,7 @@
 package org.mpxj.explorer;
 
 import java.io.File;
+import java.time.DayOfWeek;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -35,21 +36,21 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.mpxj.ChildResourceContainer;
-import org.mpxj.Code;
-import org.mpxj.CodeValue;
-import org.mpxj.ProjectCalendarDays;
 import org.mpxj.ActivityCode;
 import org.mpxj.ActivityCodeValue;
+import org.mpxj.ChildResourceContainer;
 import org.mpxj.ChildTaskContainer;
+import org.mpxj.Code;
+import org.mpxj.CodeValue;
 import org.mpxj.Column;
 import org.mpxj.CustomField;
 import org.mpxj.DataLink;
-import java.time.DayOfWeek;
 import org.mpxj.FieldType;
 import org.mpxj.Filter;
 import org.mpxj.Group;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
+import org.mpxj.ProjectCalendarDays;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectCalendarWeek;
@@ -59,7 +60,6 @@ import org.mpxj.Resource;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.Table;
 import org.mpxj.Task;
-import org.mpxj.LocalTimeRange;
 import org.mpxj.UserDefinedField;
 import org.mpxj.View;
 import org.mpxj.json.JsonWriter;
@@ -823,7 +823,19 @@ public class ProjectTreeController
             ((MSPDIWriter) writer).setSplitTimephasedAsDays(m_model.getWriteOptions().getSplitTimephasedDataAsDays());
          }
 
-         writer.write(m_projectFile, file);
+         if (fileClass == PrimaveraPMFileWriter.class)
+         {
+            ((PrimaveraPMFileWriter) writer).setWriteBaselines(true);
+         }
+
+         if (m_model.getWriteOptions().getWriteAll())
+         {
+            writer.write(m_projectFile.getProjectContext().getProjects().stream().filter(p -> !p.getProjectProperties().getProjectIsBaseline()).collect(Collectors.toList()), file);
+         }
+         else
+         {
+            writer.write(m_projectFile, file);
+         }
       }
 
       catch (Exception ex)

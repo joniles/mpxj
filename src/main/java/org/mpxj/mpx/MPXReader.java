@@ -441,7 +441,8 @@ public final class MPXReader extends AbstractProjectStreamReader
          {
             if (m_lastTask != null)
             {
-               m_lastResourceAssignment = m_lastTask.addResourceAssignment((Resource) null);
+               Resource resource = getResourceForAssignment(record);
+               m_lastResourceAssignment = m_lastTask.addResourceAssignment(resource);
                m_lastResourceAssignment.disableEvents();
                populateResourceAssignment(record, m_lastResourceAssignment);
                m_lastResourceAssignment.enableEvents();
@@ -1412,13 +1413,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       //System.out.println(task);
    }
 
-   /**
-    * Populate a resource assignment.
-    *
-    * @param record MPX record
-    * @param assignment resource assignment
-    */
-   private void populateResourceAssignment(Record record, ResourceAssignment assignment) throws MPXJException
+   private Resource getResourceForAssignment(Record record)
    {
       //
       // Handle malformed MPX files - ensure that we can locate the resource
@@ -1430,6 +1425,17 @@ public final class MPXReader extends AbstractProjectStreamReader
          resource = m_projectFile.getResourceByID(record.getInteger(0));
       }
 
+      return resource;
+   }
+
+   /**
+    * Populate a resource assignment.
+    *
+    * @param record MPX record
+    * @param assignment resource assignment
+    */
+   private void populateResourceAssignment(Record record, ResourceAssignment assignment) throws MPXJException
+   {
       assignment.setUnits(record.getUnits(1));
       assignment.setWork(record.getDuration(2));
       assignment.setBaselineWork(record.getDuration(3));
@@ -1455,12 +1461,6 @@ public final class MPXReader extends AbstractProjectStreamReader
          }
 
          assignment.setRemainingWork(Duration.getInstance(work.getDuration() - actualWork.getDuration(), work.getUnits()));
-      }
-
-      if (resource != null)
-      {
-         assignment.setResourceUniqueID(resource.getUniqueID());
-         resource.addResourceAssignment(assignment);
       }
 
       m_eventManager.fireAssignmentReadEvent(assignment);

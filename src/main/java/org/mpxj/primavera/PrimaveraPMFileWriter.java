@@ -26,7 +26,12 @@ package org.mpxj.primavera;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -39,11 +44,14 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
+import org.mpxj.Currency;
+import org.mpxj.CurrencySymbolPosition;
+import org.mpxj.NotesTopic;
+import org.mpxj.ProjectContext;
 import org.mpxj.ProjectFile;
+import org.mpxj.ProjectProperties;
 import org.mpxj.common.MarshallerHelper;
-import org.mpxj.primavera.schema.APIBusinessObjects;
-import org.mpxj.primavera.schema.ObjectFactory;
+import org.mpxj.common.ObjectSequence;
 import org.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -77,6 +85,22 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
 
    @Override public void write(ProjectFile projectFile, OutputStream stream) throws IOException
    {
+      write(Collections.singletonList(projectFile), stream);
+   }
+
+   @Override public void write(List<ProjectFile> projects, OutputStream stream) throws IOException
+   {
+      // Ensure that all projects share the same context
+      ProjectContext context = projects.get(0).getProjectContext();
+      if (!projects.stream().allMatch(f -> context == f.getProjectContext()))
+      {
+         throw new IllegalArgumentException("All ProjectFile instances must use the same ProjectContext");
+      }
+
+      List<ProjectFile> projectsAndBaselines = gatherProjectsAndBaselines(projects);
+      List<ProjectFile> temporaryProjectUniqueIdValues = assignTemporaryProjectUniqueIdValues(projectsAndBaselines);
+      List<ProjectFile> temporaryProjectIdValues = assignTemporaryProjectIdValues(projectsAndBaselines);
+
       try
       {
          if (CONTEXT == null)
@@ -113,29 +137,193 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          }
 
          Marshaller marshaller = MarshallerHelper.create(CONTEXT);
-
          marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "");
 
-         APIBusinessObjects apibo = new ObjectFactory().createAPIBusinessObjects();
-         PrimaveraPMObjectSequences sequences = new PrimaveraPMObjectSequences();
-         Integer projectObjectID = projectFile.getProjectProperties().getUniqueID() == null ? sequences.getProjectObjectID() : projectFile.getProjectProperties().getUniqueID();
-         new PrimaveraPMProjectWriter(apibo, projectFile, projectObjectID, sequences).writeProject();
+         XmlWriterState state = new XmlWriterState(UdfHelper.getUserDefinedFieldsSet(context, projectsAndBaselines), createDefaultCurrency(projects.get(0)));
+         XmlContextWriter contextWriter = new XmlContextWriter(state, context);
+         contextWriter.write();
+
+         projects.forEach(p -> new XmlProjectWriter(state, p).writeProject());
 
          if (m_writeBaselines)
          {
-            projectFile.getBaselines().stream().filter(Objects::nonNull).forEach(baseline -> {
-               Integer baselineProjectObjectID = baseline.getProjectProperties().getUniqueID() == null ? sequences.getProjectObjectID() : baseline.getProjectProperties().getUniqueID();
-               new PrimaveraPMProjectWriter(apibo, baseline, baselineProjectObjectID, sequences).writeBaseline();
-            });
+            for (ProjectFile project : projects)
+            {
+               project.getBaselines().stream().filter(Objects::nonNull).forEach(baseline -> new XmlProjectWriter(state, baseline).writeBaseline(project));
+            }
          }
 
-         marshaller.marshal(apibo, handler);
+         if (state.getDefaultNotesTopicUsed())
+         {
+            contextWriter.writeTopic(NotesTopic.DEFAULT);
+         }
+
+         marshaller.marshal(state.getApibo(), handler);
       }
 
       catch (JAXBException | TransformerConfigurationException ex)
       {
          throw new IOException(ex.toString());
       }
+
+      finally
+      {
+         // Remove any temporary project unique ID values
+         temporaryProjectUniqueIdValues.forEach(f -> f.getProjectProperties().setUniqueID(null));
+
+         // Remove any temporary project ID values
+         temporaryProjectIdValues.forEach(f -> f.getProjectProperties().setProjectID(null));
+      }
+   }
+
+   /**
+    * Create a list of top level projects and their baseline projects.
+    *
+    * @param projects list of top level project
+    * @return list of top level projects and baselines
+    */
+   private List<ProjectFile> gatherProjectsAndBaselines(List<ProjectFile> projects)
+   {
+      List<ProjectFile> result = new ArrayList<>();
+      for (ProjectFile project : projects)
+      {
+         result.add(project);
+         result.addAll(project.getBaselines().stream().filter(Objects::nonNull).collect(Collectors.toList())) ;
+      }
+      return result;
+   }
+
+   /**
+    * Assigns unique ID values to ProjectFile instances which do not have them.
+    * Returns a list of project files which have been updated so the change can be reverted later.
+    *
+    * @param projects projects to check for unique ID values
+    * @return list of updated ProjectFile instances
+    */
+   private List<ProjectFile> assignTemporaryProjectUniqueIdValues(List<ProjectFile> projects)
+   {
+      if (projects.stream().noneMatch(f -> f.getProjectProperties().getUniqueID() == null))
+      {
+         return Collections.emptyList();
+      }
+
+      ObjectSequence sequence = new ObjectSequence(1);
+      projects.stream().map(f -> f.getProjectProperties().getUniqueID()).filter(Objects::nonNull).max(Comparator.naturalOrder()).ifPresent(sequence::sync);
+
+      List<ProjectFile> files = projects.stream().filter(f -> f.getProjectProperties().getUniqueID() == null).collect(Collectors.toList());
+
+      files.forEach(f -> f.getProjectProperties().setUniqueID(sequence.getNext()));
+
+      return files;
+   }
+
+   /**
+    * Assigns project ID values to ProjectFile instances which do not have them.
+    * Returns a list of project files which have been updated so the change can be reverted later.
+    *
+    * @param projects projects to check for project ID values
+    * @return list of updated ProjectFile instances
+    */
+   private List<ProjectFile> assignTemporaryProjectIdValues(List<ProjectFile> projects)
+   {
+      if (projects.stream().noneMatch(f -> f.getProjectProperties().getProjectID() == null))
+      {
+         return Collections.emptyList();
+      }
+
+      ObjectSequence sequence = new ObjectSequence(0);
+
+      List<ProjectFile> files = projects.stream().filter(f -> f.getProjectProperties().getProjectID() == null).collect(Collectors.toList());
+
+      files.forEach(f -> f.getProjectProperties().setProjectID(generateProjectID(sequence)));
+
+      return files;
+   }
+
+   /**
+    * Creates a new project ID based on the supplied sequence.
+    *
+    * @param sequence project ID sequence
+    * @return new project ID
+    */
+   private String generateProjectID(ObjectSequence sequence)
+   {
+      int id = sequence.getNext().intValue();
+      if (id == 0)
+      {
+         return DEFAULT_PROJECT_ID;
+      }
+
+      return DEFAULT_PROJECT_ID + "-" + id;
+   }
+
+   /**
+    * Create a default currency based on the defaults found in the supplied ProjectFile
+    * instance.
+    *
+    * @param file ProjectFile instance
+    * @return new default currency
+    */
+   private Currency createDefaultCurrency(ProjectFile file)
+   {
+      ProjectProperties props = file.getProjectProperties();
+
+      String positiveSymbol = getCurrencyFormat(props.getSymbolPosition());
+      String negativeSymbol = "(" + positiveSymbol + ")";
+
+      return new Currency.Builder(null)
+         .uniqueID(XmlContextWriter.DEFAULT_CURRENCY_ID)
+         .currencyID("CUR")
+         .name("Default Currency")
+         .symbol(props.getCurrencySymbol())
+         .exchangeRate(Double.valueOf(1.0))
+         .decimalSymbol(String.valueOf(props.getDecimalSeparator()))
+         .numberOfDecimalPlaces(props.getCurrencyDigits())
+         .digitGroupingSymbol(String.valueOf(props.getThousandsSeparator()))
+         .positiveCurrencyFormat(positiveSymbol)
+         .negativeCurrencyFormat(negativeSymbol)
+         .build();
+   }
+
+   /**
+    * Generate a currency format.
+    *
+    * @param position currency symbol position
+    * @return currency format
+    */
+   private String getCurrencyFormat(CurrencySymbolPosition position)
+   {
+      String result;
+
+      switch (position)
+      {
+         case AFTER:
+         {
+            result = "1.1#";
+            break;
+         }
+
+         case AFTER_WITH_SPACE:
+         {
+            result = "1.1 #";
+            break;
+         }
+
+         case BEFORE_WITH_SPACE:
+         {
+            result = "# 1.1";
+            break;
+         }
+
+         case BEFORE:
+         default:
+         {
+            result = "#1.1";
+            break;
+         }
+      }
+
+      return result;
    }
 
    private boolean m_writeBaselines;
@@ -172,5 +360,6 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
       }
    }
 
+   private static final String DEFAULT_PROJECT_ID = "PROJECT";
    private static final String NILLABLE_STYLESHEET = "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><xsl:output method=\"xml\" indent=\"yes\"/><xsl:template match=\"node()[not(@xsi:nil = 'true')]|@*\"><xsl:copy><xsl:apply-templates select=\"node()|@*\"/></xsl:copy></xsl:template></xsl:stylesheet>";
 }

@@ -50,7 +50,6 @@ import org.mpxj.HtmlNotes;
 import org.mpxj.Notes;
 import org.mpxj.PercentCompleteType;
 import org.mpxj.Priority;
-import org.mpxj.ProjectFile;
 import org.mpxj.Rate;
 import org.mpxj.RateSource;
 import org.mpxj.RelationType;
@@ -58,6 +57,8 @@ import org.mpxj.ResourceType;
 import org.mpxj.SkillLevel;
 import org.mpxj.TaskType;
 import org.mpxj.TimeUnit;
+import org.mpxj.TimeUnitDefaults;
+import org.mpxj.TimeUnitDefaultsContainer;
 import org.mpxj.common.ColorHelper;
 import org.mpxj.common.HtmlHelper;
 import org.mpxj.common.NumberHelper;
@@ -70,12 +71,12 @@ final class XerWriter
    /**
     * Constructor.
     *
-    * @param file project to write
+    * @param defaults time unit defaults
     * @param writer Writer instance to receive XER records
     */
-   public XerWriter(ProjectFile file, OutputStreamWriter writer)
+   public XerWriter(TimeUnitDefaults defaults, OutputStreamWriter writer)
    {
-      m_file = file;
+      m_defaults = defaults;
       m_writer = writer;
    }
 
@@ -100,18 +101,31 @@ final class XerWriter
 
    /**
     * Write a table definition to an XER file.
-    *
+    * Note that the definition is cached until the first row of the table is written.
+    * 
     * @param name table name
-    * @param map table fields
+    * @param map table columns
     */
    public void writeTable(String name, Map<String, ?> map)
    {
+      m_currentTableName = name;
+      m_currentTableColumns = map;
+   }
+
+   /**
+    * Write a table definition to an XER file.
+    */
+   private void writeTable()
+   {
       try
       {
-         m_writer.write("%T\t" + name + "\n");
+         m_writer.write("%T\t" + m_currentTableName + "\n");
          m_writer.write("%F\t");
-         m_writer.write(String.join("\t", map.keySet()));
+         m_writer.write(String.join("\t", m_currentTableColumns.keySet()));
          m_writer.write("\n");
+
+         m_currentTableName = null;
+         m_currentTableColumns = null;
       }
 
       catch (IOException ex)
@@ -141,6 +155,11 @@ final class XerWriter
    {
       try
       {
+         if (m_currentTableName != null)
+         {
+            writeTable();
+         }
+
          m_writer.write("%R\t");
          m_writer.write(data.map(this::format).collect(Collectors.joining("\t")));
          m_writer.write("\n");
@@ -271,7 +290,7 @@ final class XerWriter
          return "";
       }
 
-      return m_doubleFormat.format(duration.convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration());
+      return m_doubleFormat.format(duration.convertUnits(TimeUnit.HOURS, m_defaults).getDuration());
    }
 
    /**
@@ -301,7 +320,10 @@ final class XerWriter
       String apply(XerWriter writer, Object source);
    }
 
-   private final ProjectFile m_file;
+   private String m_currentTableName;
+   private Map<String, ?> m_currentTableColumns;
+
+   private final TimeUnitDefaultsContainer m_defaults;
    private final OutputStreamWriter m_writer;
    private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
    private final DateTimeFormatter m_timestampFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

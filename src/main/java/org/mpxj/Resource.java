@@ -37,6 +37,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.NumberHelper;
@@ -50,22 +52,21 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    /**
     * Default constructor.
     *
-    * @param file the parent file to which this record belongs.
+    * @param context parent context
     */
-   Resource(ProjectFile file)
+   Resource(ProjectContext context)
    {
-      super(file);
-
-      ProjectConfig config = file.getProjectConfig();
+      m_context = context;
+      ProjectConfig config = context.getProjectConfig();
 
       if (config.getAutoResourceUniqueID())
       {
-         setUniqueID(file.getUniqueIdObjectSequence(Resource.class).getNext());
+         setUniqueID(context.getUniqueIdObjectSequence(Resource.class).getNext());
       }
 
       if (config.getAutoResourceID())
       {
-         setID(file.getResources().getNextID());
+         setID(context.getResources().getNextID());
       }
 
       m_costRateTables = new CostRateTable[CostRateTable.MAX_TABLES];
@@ -77,13 +78,22 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       }
    }
 
+   /**
+    * Retrieves the parent ProjectContext for this resource.
+    *
+    * @return parent project context
+    */
+   public ProjectContext getProjectContext()
+   {
+      return m_context;
+   }
+
    @Override public Resource addResource()
    {
-      ProjectFile parent = getParentFile();
-      Resource resource = new Resource(parent);
+      Resource resource = new Resource(m_context);
       resource.setParentResource(this);
       m_children.add(resource);
-      parent.getResources().add(resource);
+      m_context.getResources().add(resource);
       return resource;
    }
 
@@ -1249,7 +1259,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public ProjectCalendar getCalendar()
    {
-      return getParentFile().getCalendars().getByUniqueID(getCalendarUniqueID());
+      return m_context.getCalendars().getByUniqueID(getCalendarUniqueID());
    }
 
    /**
@@ -1283,7 +1293,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
          throw new MPXJException(MPXJException.MAXIMUM_RECORDS);
       }
 
-      ProjectCalendar calendar = getParentFile().addCalendar();
+      ProjectCalendar calendar = m_context.getCalendars().add();
       String name = getName();
       if (name == null || name.isEmpty())
       {
@@ -1336,13 +1346,12 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    @Override public void setID(Integer val)
    {
-      ProjectFile parent = getParentFile();
       Integer previous = getID();
       if (previous != null)
       {
-         parent.getResources().unmapID(previous);
+         m_context.getResources().unmapID(previous);
       }
-      parent.getResources().mapID(val, this);
+      m_context.getResources().mapID(val, this);
 
       set(ResourceField.ID, val);
    }
@@ -1499,7 +1508,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public Resource getParentResource()
    {
-      return getParentFile().getResourceByUniqueID(getParentResourceUniqueID());
+      return m_context.getResources().getByUniqueID(getParentResourceUniqueID());
    }
 
    /**
@@ -1693,7 +1702,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public void remove()
    {
-      getParentFile().removeResource(this);
+      m_context.getResources().remove(this);
    }
 
    /**
@@ -1704,7 +1713,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public Object getFieldByAlias(String alias)
    {
-      return get(getParentFile().getResources().getFieldTypeByAlias(alias));
+      return get(m_context.getResources().getFieldTypeByAlias(alias));
    }
 
    /**
@@ -1715,29 +1724,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public void setFieldByAlias(String alias, Object value)
    {
-      set(getParentFile().getResources().getFieldTypeByAlias(alias), value);
-   }
-
-   /**
-    * This method is used internally within MPXJ to track tasks which are
-    * assigned to a particular resource.
-    *
-    * @param assignment resource assignment instance
-    */
-   public void addResourceAssignment(ResourceAssignment assignment)
-   {
-      m_assignments.add(assignment);
-   }
-
-   /**
-    * Internal method used as part of the process of removing a resource
-    * assignment.
-    *
-    * @param assignment resource assignment to be removed
-    */
-   void removeResourceAssignment(ResourceAssignment assignment)
-   {
-      m_assignments.remove(assignment);
+      set(m_context.getResources().getFieldTypeByAlias(alias), value);
    }
 
    /**
@@ -1751,7 +1738,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<ResourceAssignment> getTaskAssignments()
    {
-      return (m_assignments);
+      return getResourceAssignmentStream().collect(Collectors.toList());
    }
 
    /**
@@ -2562,7 +2549,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public Location getLocation()
    {
-      return getParentFile().getLocations().getByUniqueID(getLocationUniqueID());
+      return m_context.getLocations().getByUniqueID(getLocationUniqueID());
    }
 
    /**
@@ -2602,7 +2589,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public Shift getShift()
    {
-      return getParentFile().getShifts().getByUniqueID(getShiftUniqueID());
+      return m_context.getShifts().getByUniqueID(getShiftUniqueID());
    }
 
    /**
@@ -2642,7 +2629,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public UnitOfMeasure getUnitOfMeasure()
    {
-      return getParentFile().getUnitsOfMeasure().getByUniqueID(getUnitOfMeasureUniqueID());
+      return m_context.getUnitsOfMeasure().getByUniqueID(getUnitOfMeasureUniqueID());
    }
 
    /**
@@ -2682,7 +2669,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public Resource getPrimaryRole()
    {
-      return getParentFile().getResources().getByUniqueID(getPrimaryRoleUniqueID());
+      return m_context.getResources().getByUniqueID(getPrimaryRoleUniqueID());
    }
 
    /**
@@ -2728,7 +2715,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    /**
     * Assign a role code value to this resource.
     *
-    * @param value resoroleurce code value
+    * @param value role code value
     */
    @SuppressWarnings("unchecked") public void addRoleCodeValue(RoleCodeValue value)
    {
@@ -2762,7 +2749,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public Currency getCurrency()
    {
-      return getParentFile().getCurrencies().getByUniqueID(getCurrencyUniqueID());
+      return m_context.getCurrencies().getByUniqueID(getCurrencyUniqueID());
    }
 
    /**
@@ -2801,16 +2788,8 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    {
       if (field == ResourceField.UNIQUE_ID)
       {
-         getParentFile().getResources().updateUniqueID(this, (Integer) oldValue, (Integer) newValue);
-
-         if (!m_assignments.isEmpty())
-         {
-            for (ResourceAssignment assignment : m_assignments)
-            {
-               assignment.setResourceUniqueID((Integer) newValue);
-            }
-         }
-
+         m_context.getResources().updateUniqueID(this, (Integer) oldValue, (Integer) newValue);
+         getResourceAssignmentStream((Integer)oldValue).forEach(a -> a.setResourceUniqueID((Integer) newValue));
          return;
       }
 
@@ -2857,7 +2836,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       Duration baselineWork = getBaselineWork();
       if (work != null && baselineWork != null)
       {
-         variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectProperties()).getDuration(), work.getUnits());
+         variance = Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), m_context.getTimeUnitDefaults()).getDuration(), work.getUnits());
       }
       return variance;
    }
@@ -2994,12 +2973,26 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
 
    private LocalDateTime calculateStart()
    {
-      return m_assignments.stream().map(ResourceAssignment::getStart).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(null);
+      return getResourceAssignmentStream().map(ResourceAssignment::getStart).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(null);
    }
 
    private LocalDateTime calculateFinish()
    {
-      return m_assignments.stream().map(ResourceAssignment::getFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null);
+      return getResourceAssignmentStream().map(ResourceAssignment::getFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null);
+   }
+
+   private Stream<ResourceAssignment> getResourceAssignmentStream()
+   {
+      return getResourceAssignmentStream(getUniqueID());
+   }
+
+   private Stream<ResourceAssignment> getResourceAssignmentStream(Integer id)
+   {
+      if (id == null)
+      {
+         return Stream.empty();
+      }
+      return m_context.getProjects().stream().flatMap(p -> p.getResourceAssignments().getByResourceUniqueID(id).stream());
    }
 
    private Number calculateMaxUnits()
@@ -3059,7 +3052,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    /**
     * List of all assignments for this resource.
     */
-   private final List<ResourceAssignment> m_assignments = new ArrayList<>();
+   private final ProjectContext m_context;
    private final Map<Resource, SkillLevel> m_roleAssignments = new HashMap<>();
 
    /**

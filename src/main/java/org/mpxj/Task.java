@@ -57,8 +57,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    Task(ProjectFile file, Task parent)
    {
-      super(file);
-
+      m_parentFile = file;
       m_parent = parent;
       ProjectConfig config = file.getProjectConfig();
 
@@ -96,6 +95,16 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Retrieve the parent project.
+    *
+    * @return parent project
+    */
+   public ProjectFile getParentFile()
+   {
+      return m_parentFile;
+   }
+
+   /**
     * This method is used to automatically generate a value
     * for the WBS field of this task.
     *
@@ -113,7 +122,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          }
          else
          {
-            wbs = Integer.toString(getParentFile().getChildTasks().size() + 1);
+            wbs = Integer.toString(m_parentFile.getChildTasks().size() + 1);
          }
       }
       else
@@ -164,7 +173,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          }
          else
          {
-            outline = Integer.toString(getParentFile().getChildTasks().size() + 1);
+            outline = Integer.toString(m_parentFile.getChildTasks().size() + 1);
          }
       }
       else
@@ -220,17 +229,16 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    @Override public Task addTask()
    {
-      ProjectFile parent = getParentFile();
 
-      Task task = new Task(parent, this);
+      Task task = new Task(m_parentFile, this);
 
       m_children.add(task);
 
-      parent.getTasks().add(task);
+      m_parentFile.getTasks().add(task);
 
       setSummary(true);
 
-      return (task);
+      return task;
    }
 
    /**
@@ -274,7 +282,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       m_children.add(child);
       setSummary(true);
 
-      if (getParentFile().getProjectConfig().getAutoOutlineLevel())
+      if (m_parentFile.getProjectConfig().getAutoOutlineLevel())
       {
          child.setOutlineLevel(Integer.valueOf(NumberHelper.getInt(getOutlineLevel()) + 1));
       }
@@ -301,7 +309,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       child.m_parent = this;
       setSummary(true);
 
-      if (getParentFile().getProjectConfig().getAutoOutlineLevel())
+      if (m_parentFile.getProjectConfig().getAutoOutlineLevel())
       {
          child.setOutlineLevel(Integer.valueOf(NumberHelper.getInt(getOutlineLevel()) + 1));
       }
@@ -393,31 +401,13 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public ResourceAssignment addResourceAssignment(Resource resource)
    {
-      ResourceAssignment assignment = new ResourceAssignment(getParentFile(), this);
+      ResourceAssignment assignment = new ResourceAssignment(m_parentFile);
       assignment.setTaskUniqueID(getUniqueID());
       assignment.setResourceUniqueID(resource == null ? null : resource.getUniqueID());
       assignment.setWork(getDuration());
       assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
-      addResourceAssignment(assignment);
-
+      m_parentFile.getResourceAssignments().add(assignment);
       return assignment;
-   }
-
-   /**
-    * Add a resource assignment which has been populated elsewhere.
-    *
-    * @param assignment resource assignment
-    */
-   public void addResourceAssignment(ResourceAssignment assignment)
-   {
-      m_assignments.add(assignment);
-      getParentFile().getResourceAssignments().add(assignment);
-
-      Resource resource = assignment.getResource();
-      if (resource != null)
-      {
-         resource.addResourceAssignment(assignment);
-      }
    }
 
    /**
@@ -430,7 +420,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    public ResourceAssignment getExistingResourceAssignment(Resource resource)
    {
       Predicate<ResourceAssignment> filter = (a) -> (resource == null && a.getResource() == null) || (resource != null && NumberHelper.equals(resource.getUniqueID(), a.getResourceUniqueID()));
-      return m_assignments.stream().filter(filter).findFirst().orElse(null);
+      return getResourceAssignments().stream().filter(filter).findFirst().orElse(null);
    }
 
    /**
@@ -441,18 +431,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public List<ResourceAssignment> getResourceAssignments()
    {
-      return (m_assignments);
-   }
-
-   /**
-    * Internal method used as part of the process of removing a
-    * resource assignment.
-    *
-    * @param assignment resource assignment to be removed
-    */
-   void removeResourceAssignment(ResourceAssignment assignment)
-   {
-      m_assignments.remove(assignment);
+      return m_parentFile.getResourceAssignments().getByTaskUniqueID(getUniqueID());
    }
 
    /**
@@ -464,7 +443,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Relation addPredecessor(Relation.Builder builder)
    {
-      return getParentFile().getRelations().addPredecessor(builder.successorTask(this));
+      return m_parentFile.getRelations().addPredecessor(builder.successorTask(this));
    }
 
    /**
@@ -479,7 +458,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public boolean removePredecessor(Task targetTask, RelationType type, Duration lag)
    {
-      return getParentFile().getRelations().removePredecessor(this, targetTask, type, lag);
+      return m_parentFile.getRelations().removePredecessor(this, targetTask, type, lag);
    }
 
    /**
@@ -1010,15 +989,14 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    @Override public void setID(Integer val)
    {
-      ProjectFile parent = getParentFile();
       Integer previous = getID();
 
       if (previous != null)
       {
-         parent.getTasks().unmapID(previous);
+         m_parentFile.getTasks().unmapID(previous);
       }
 
-      parent.getTasks().mapID(val, this);
+      m_parentFile.getTasks().mapID(val, this);
 
       set(TaskField.ID, val);
    }
@@ -3457,7 +3435,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public ProjectCalendar getCalendar()
    {
-      return getParentFile().getCalendars().getByUniqueID(getCalendarUniqueID());
+      return m_parentFile.getCalendars().getByUniqueID(getCalendarUniqueID());
    }
 
    /**
@@ -3564,7 +3542,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Object getFieldByAlias(String alias)
    {
-      return get(getParentFile().getTasks().getFieldTypeByAlias(alias));
+      return get(m_parentFile.getTasks().getFieldTypeByAlias(alias));
    }
 
    /**
@@ -3575,7 +3553,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public void setFieldByAlias(String alias, Object value)
    {
-      set(getParentFile().getTasks().getFieldTypeByAlias(alias), value);
+      set(m_parentFile.getTasks().getFieldTypeByAlias(alias), value);
    }
 
    /**
@@ -3607,7 +3585,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public void remove()
    {
-      getParentFile().removeTask(this);
+      m_parentFile.removeTask(this);
    }
 
    /**
@@ -3663,7 +3641,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          return null;
       }
 
-      return getParentFile().readExternalProject(getSubprojectFile());
+      return m_parentFile.readExternalProject(getSubprojectFile());
    }
 
    /**
@@ -3674,7 +3652,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public void setSubprojectObject(ProjectFile projectFile)
    {
-      getParentFile().addExternalProject(getSubprojectFile(), projectFile);
+      m_parentFile.addExternalProject(getSubprojectFile(), projectFile);
    }
 
    /**
@@ -4811,7 +4789,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Resource getPrimaryResource()
    {
-      return getParentFile().getResourceByUniqueID(getPrimaryResourceUniqueID());
+      return m_parentFile.getResourceByUniqueID(getPrimaryResourceUniqueID());
    }
 
    /**
@@ -4849,7 +4827,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       String activityID = getActivityID();
       if (getSummary() && activityID != null)
       {
-         String projectID = getParentFile().getProjectProperties().getProjectID();
+         String projectID = m_parentFile.getProjectProperties().getProjectID();
          if (projectID != null && activityID.startsWith(projectID))
          {
             activityID = "PROJECT" + activityID.substring(projectID.length());
@@ -5300,7 +5278,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Location getLocation()
    {
-      return getParentFile().getLocations().getByUniqueID(getLocationUniqueID());
+      return m_parentFile.getLocations().getByUniqueID(getLocationUniqueID());
    }
 
    /**
@@ -5589,7 +5567,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       ProjectCalendar result = getCalendar();
       if (result == null)
       {
-         result = getParentFile().getDefaultCalendar();
+         result = m_parentFile.getDefaultCalendar();
       }
       return result;
    }
@@ -5616,7 +5594,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Task getBaselineTask(int index)
    {
-      return getParentFile().getBaselineTaskMap(index).get(this);
+      return m_parentFile.getBaselineTaskMap(index).get(this);
    }
 
    /**
@@ -5644,7 +5622,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    {
       if (field == TaskField.UNIQUE_ID)
       {
-         getParentFile().getTasks().updateUniqueID(this, (Integer) oldValue, (Integer) newValue);
+         m_parentFile.getTasks().updateUniqueID(this, (Integer) oldValue, (Integer) newValue);
          return;
       }
 
@@ -5718,13 +5696,13 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    private Duration calculateStartVariance()
    {
-      TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
+      TimeUnit format = m_parentFile.getProjectProperties().getDefaultDurationUnits();
       return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getBaselineStart(), getStart(), format);
    }
 
    private Duration calculateFinishVariance()
    {
-      TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
+      TimeUnit format = m_parentFile.getProjectProperties().getDefaultDurationUnits();
       return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getBaselineFinish(), getFinish(), format);
    }
 
@@ -5777,7 +5755,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          return null;
       }
 
-      return Duration.getInstance(duration.getDuration() - baselineDuration.convertUnits(duration.getUnits(), getParentFile().getProjectProperties()).getDuration(), duration.getUnits());
+      return Duration.getInstance(duration.getDuration() - baselineDuration.convertUnits(duration.getUnits(), m_parentFile.getProjectProperties()).getDuration(), duration.getUnits());
    }
 
    private Duration calculateWorkVariance()
@@ -5789,7 +5767,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          return null;
       }
 
-      return Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), getParentFile().getProjectProperties()).getDuration(), work.getUnits());
+      return Duration.getInstance(work.getDuration() - baselineWork.convertUnits(work.getUnits(), m_parentFile.getProjectProperties()).getDuration(), work.getUnits());
    }
 
    private Double calculateCV()
@@ -5895,7 +5873,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       Duration startSlack = getStartSlack();
       Duration finishSlack = getFinishSlack();
 
-      TotalSlackCalculationType calculationType = getParentFile().getProjectProperties().getTotalSlackCalculationType();
+      TotalSlackCalculationType calculationType = m_parentFile.getProjectProperties().getTotalSlackCalculationType();
 
       if (calculationType == TotalSlackCalculationType.START_SLACK)
       {
@@ -5930,12 +5908,12 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       TimeUnit units = duration.getUnits();
       if (startSlack.getUnits() != units)
       {
-         startSlack = startSlack.convertUnits(units, getParentFile().getProjectProperties());
+         startSlack = startSlack.convertUnits(units, m_parentFile.getProjectProperties());
       }
 
       if (finishSlack.getUnits() != units)
       {
-         finishSlack = finishSlack.convertUnits(units, getParentFile().getProjectProperties());
+         finishSlack = finishSlack.convertUnits(units, m_parentFile.getProjectProperties());
       }
 
       Duration totalSlack;
@@ -5967,7 +5945,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          return Boolean.FALSE;
       }
 
-      Duration criticalSlackLimit = getParentFile().getProjectProperties().getCriticalSlackLimit();
+      Duration criticalSlackLimit = m_parentFile.getProjectProperties().getCriticalSlackLimit();
       if (criticalSlackLimit.getDuration() != 0 && totalSlack.getDuration() != 0 && totalSlack.getUnits() != criticalSlackLimit.getUnits())
       {
          totalSlack = totalSlack.convertUnits(criticalSlackLimit.getUnits(), getEffectiveCalendar());
@@ -6002,7 +5980,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
                duration = Duration.getInstance(durationValue, duration.getUnits());
                ProjectCalendar calendar = getEffectiveCalendar();
                value = calendar.getDate(actualStart, duration);
-               if (getParentFile().getProjectConfig().getCompleteThroughIsNextWorkStart())
+               if (m_parentFile.getProjectConfig().getCompleteThroughIsNextWorkStart())
                {
                   value = calendar.getNextWorkStart(value);
                }
@@ -6021,12 +5999,12 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    private List<Relation> calculatePredecessors()
    {
-      return getParentFile().getRelations().getPredecessors(this);
+      return m_parentFile.getRelations().getPredecessors(this);
    }
 
    private List<Relation> calculateSuccessors()
    {
-      return getParentFile().getRelations().getSuccessors(this);
+      return m_parentFile.getRelations().getSuccessors(this);
    }
 
    private Number calculateActivityPercentComplete()
@@ -6106,6 +6084,8 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return Boolean.TRUE;
    }
 
+   private final ProjectFile m_parentFile;
+
    /**
     * This is a reference to the parent task, as specified by the
     * outline level.
@@ -6117,11 +6097,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * current task as specified by the outline level.
     */
    private final List<Task> m_children = new ArrayList<>();
-
-   /**
-    * List of resource assignments for this task.
-    */
-   private final List<ResourceAssignment> m_assignments = new ArrayList<>();
 
    /**
     * Recurring task details associated with this task.

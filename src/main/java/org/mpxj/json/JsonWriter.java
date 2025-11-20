@@ -220,6 +220,11 @@ public final class JsonWriter extends AbstractProjectWriter
       return m_timeUnits;
    }
 
+   @Override public void write(List<ProjectFile> projects, OutputStream outputStream)
+   {
+      throw new UnsupportedOperationException();
+   }
+
    @Override public void write(ProjectFile projectFile, OutputStream stream) throws IOException
    {
       try
@@ -687,7 +692,7 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeCalendars() throws IOException
    {
       m_writer.writeArrayFieldStart("calendars");
-      for (ProjectCalendar calendar : m_projectFile.getCalendars())
+      for (ProjectCalendar calendar : m_projectFile.getCalendarsForProject())
       {
          writeCalendar(calendar);
       }

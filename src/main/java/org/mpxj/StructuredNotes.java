@@ -31,15 +31,15 @@ public class StructuredNotes extends Notes
    /**
     * Constructor.
     *
-    * @param file parent file
+    * @param context project context
     * @param uniqueID unique ID
     * @param topic notes topic
     * @param notes Notes instance
     */
-   public StructuredNotes(ProjectFile file, Integer uniqueID, NotesTopic topic, Notes notes)
+   public StructuredNotes(ProjectContext context, Integer uniqueID, NotesTopic topic, Notes notes)
    {
       super(null);
-      m_uniqueID = file.getUniqueIdObjectSequence(StructuredNotes.class).syncOrGetNext(uniqueID);
+      m_uniqueID = context.getUniqueIdObjectSequence(StructuredNotes.class).syncOrGetNext(uniqueID);
       m_topic = topic;
       m_notes = notes;
    }

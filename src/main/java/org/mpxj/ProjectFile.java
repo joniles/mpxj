@@ -51,17 +51,28 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ProjectFile()
    {
-      m_shared = new ProjectFileSharedData();
+      this(new ProjectContext());
    }
 
    /**
-    * Constructor allowing a ProjectFileSharedData instance to be passed.
+    * Constructor allowing a ProjectContext instance to be passed.
     *
-    * @param shared ProjectFileSharedData instance
+    * @param context ProjectContext instance
     */
-   public ProjectFile(ProjectFileSharedData shared)
+   public ProjectFile(ProjectContext context)
    {
-      m_shared = shared;
+      m_context = context;
+      m_context.getProjects().add(this);
+   }
+
+   /**
+    * Retrieves the parent ProjectContext for this project.
+    *
+    * @return parent project context
+    */
+   public ProjectContext getProjectContext()
+   {
+      return m_context;
    }
 
    /**
@@ -71,7 +82,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ProjectConfig getProjectConfig()
    {
-      return m_config;
+      return m_context.getProjectConfig();
    }
 
    /**
@@ -102,7 +113,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    @Override public List<Task> getChildTasks()
    {
-      return m_childTasks;
+      return m_tasks.getChildTasks();
    }
 
    /**
@@ -113,7 +124,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    @Override public List<Resource> getChildResources()
    {
-      return m_childResources;
+      return m_context.getResources().getChildResources();
    }
 
    /**
@@ -134,7 +145,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ProjectCalendar addCalendar()
    {
-      return m_calendars.add();
+      return m_context.getCalendars().add();
    }
 
    /**
@@ -144,7 +155,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public void removeCalendar(ProjectCalendar calendar)
    {
-      m_calendars.remove(calendar);
+      m_context.getCalendars().remove(calendar);
    }
 
    /**
@@ -156,7 +167,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ProjectCalendar addDefaultBaseCalendar()
    {
-      return m_calendars.addDefaultBaseCalendar();
+      return m_context.getCalendars().addDefaultBaseCalendar();
    }
 
    /**
@@ -167,7 +178,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ProjectCalendar addDefaultDerivedCalendar()
    {
-      return m_calendars.addDefaultDerivedCalendar();
+      return m_context.getCalendars().addDefaultDerivedCalendar();
    }
 
    /**
@@ -178,7 +189,17 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ProjectCalendarContainer getCalendars()
    {
-      return m_calendars;
+      return m_context.getCalendars();
+   }
+
+   /**
+    * Retrieve all global calendars plus any project-specific calendars related to this project.
+    *
+    * @return list of calendars
+    */
+   public List<ProjectCalendar> getCalendarsForProject()
+   {
+      return m_context.getCalendars().stream().filter(c -> c.getType() != CalendarType.PROJECT || c.getProjectUniqueID().equals(m_properties.getUniqueID())).collect(Collectors.toList());
    }
 
    /**
@@ -198,7 +219,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    @Override public Resource addResource()
    {
-      return m_resources.add();
+      return m_context.getResources().add();
    }
 
    /**
@@ -208,7 +229,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public void removeResource(Resource resource)
    {
-      m_resources.remove(resource);
+      m_context.getResources().remove(resource);
    }
 
    /**
@@ -218,7 +239,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ResourceContainer getResources()
    {
-      return m_resources;
+      return m_context.getResources();
    }
 
    /**
@@ -250,7 +271,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ProjectCalendar getCalendarByName(String calendarName)
    {
-      return m_calendars.getByName(calendarName);
+      return m_context.getCalendars().getByName(calendarName);
    }
 
    /**
@@ -263,7 +284,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ProjectCalendar getCalendarByUniqueID(Integer calendarID)
    {
-      return m_calendars.getByUniqueID(calendarID);
+      return m_context.getCalendars().getByUniqueID(calendarID);
    }
 
    /**
@@ -299,7 +320,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public Resource getResourceByID(Integer id)
    {
-      return m_resources.getByID(id);
+      return m_context.getResources().getByID(id);
    }
 
    /**
@@ -311,7 +332,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public Resource getResourceByUniqueID(Integer id)
    {
-      return m_resources.getByUniqueID(id);
+      return m_context.getResources().getByUniqueID(id);
    }
 
    /**
@@ -323,7 +344,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    public void updateStructure()
    {
       m_tasks.updateStructure();
-      m_resources.updateStructure();
+      m_context.getResources().updateStructure();
    }
 
    /**
@@ -488,7 +509,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public EventManager getEventManager()
    {
-      return m_eventManager;
+      return m_context.getEventManager();
    }
 
    /**
@@ -498,7 +519,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public CustomFieldContainer getCustomFields()
    {
-      return m_shared.getCustomFields();
+      return m_context.getCustomFields();
    }
 
    /**
@@ -508,7 +529,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ActivityCodeContainer getActivityCodes()
    {
-      return m_shared.getActivityCodes();
+      return m_context.getActivityCodes();
    }
 
    /**
@@ -518,7 +539,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ProjectCodeContainer getProjectCodes()
    {
-      return m_shared.getProjectCodes();
+      return m_context.getProjectCodes();
    }
 
    /**
@@ -528,7 +549,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ResourceCodeContainer getResourceCodes()
    {
-      return m_shared.getResourceCodes();
+      return m_context.getResourceCodes();
    }
 
    /**
@@ -538,7 +559,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public RoleCodeContainer getRoleCodes()
    {
-      return m_shared.getRoleCodes();
+      return m_context.getRoleCodes();
    }
 
    /**
@@ -548,7 +569,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ResourceAssignmentCodeContainer getResourceAssignmentCodes()
    {
-      return m_shared.getResourceAssignmentCodes();
+      return m_context.getResourceAssignmentCodes();
    }
 
    /**
@@ -558,7 +579,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ShiftContainer getShifts()
    {
-      return m_shared.getShifts();
+      return m_context.getShifts();
    }
 
    /**
@@ -568,7 +589,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ShiftPeriodContainer getShiftPeriods()
    {
-      return m_shared.getShiftPeriods();
+      return m_context.getShiftPeriods();
    }
 
    /**
@@ -578,7 +599,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public CurrencyContainer getCurrencies()
    {
-      return m_shared.getCurrencies();
+      return m_context.getCurrencies();
    }
 
    /**
@@ -598,7 +619,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ExpenseCategoryContainer getExpenseCategories()
    {
-      return m_shared.getExpenseCategories();
+      return m_context.getExpenseCategories();
    }
 
    /**
@@ -608,7 +629,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public CostAccountContainer getCostAccounts()
    {
-      return m_shared.getCostAccounts();
+      return m_context.getCostAccounts();
    }
 
    /**
@@ -618,7 +639,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public UserDefinedFieldContainer getUserDefinedFields()
    {
-      return m_shared.getUserDefinedFields();
+      return m_context.getUserDefinedFields();
    }
 
    /**
@@ -628,7 +649,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public WorkContourContainer getWorkContours()
    {
-      return m_shared.getWorkContours();
+      return m_context.getWorkContours();
    }
 
    /**
@@ -638,7 +659,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public NotesTopicContainer getNotesTopics()
    {
-      return m_shared.getNotesTopics();
+      return m_context.getNotesTopics();
    }
 
    /**
@@ -648,7 +669,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public LocationContainer getLocations()
    {
-      return m_shared.getLocations();
+      return m_context.getLocations();
    }
 
    /**
@@ -658,7 +679,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public UnitOfMeasureContainer getUnitsOfMeasure()
    {
-      return m_shared.getUnitsOfMeasure();
+      return m_context.getUnitsOfMeasure();
    }
 
    /**
@@ -773,7 +794,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
          m_properties.setBaselineDate(index, baseline.getProjectProperties().getCreationDate());
       }
 
-      m_config.getBaselineStrategy().populateBaseline(this, baseline, index);
+      getProjectConfig().getBaselineStrategy().populateBaseline(this, baseline, index);
    }
 
    /**
@@ -807,7 +828,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public void clearBaseline(int index)
    {
-      m_config.getBaselineStrategy().clearBaseline(this, index);
+      getProjectConfig().getBaselineStrategy().clearBaseline(this, index);
    }
 
    /**
@@ -842,7 +863,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public Set<FieldType> getPopulatedFields()
    {
-      return Stream.of(m_tasks.getPopulatedFields(), m_resources.getPopulatedFields(), m_assignments.getPopulatedFields(), m_properties.getPopulatedFields()).flatMap(Collection::stream).collect(Collectors.toSet());
+      return Stream.of(m_tasks.getPopulatedFields(), m_context.getResources().getPopulatedFields(), m_assignments.getPopulatedFields(), m_properties.getPopulatedFields()).flatMap(Collection::stream).collect(Collectors.toSet());
    }
 
    /**
@@ -1044,7 +1065,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    @Override public ObjectSequence getUniqueIdObjectSequence(Class<?> c)
    {
-      return ProjectFileSharedData.contains(c) ? m_shared.getUniqueIdObjectSequence(c) : m_uniqueIdObjectSequences.computeIfAbsent(c.getName(), x -> new ObjectSequence(1));
+      return m_context.getUniqueIdObjectSequence(c);
    }
 
    /**
@@ -1077,25 +1098,18 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       return m_externalProjects.read(fileName);
    }
 
-   private final ProjectConfig m_config = new ProjectConfig();
    private final ProjectProperties m_properties = new ProjectProperties(this);
-   private final ResourceContainer m_resources = new ResourceContainer(this);
    private final TaskContainer m_tasks = new TaskContainer(this);
-   private final List<Task> m_childTasks = new ArrayList<>();
-   private final List<Resource> m_childResources = new ArrayList<>();
    private final ResourceAssignmentContainer m_assignments = new ResourceAssignmentContainer(this);
    private final RelationContainer m_relations = new RelationContainer(this);
-   private final ProjectCalendarContainer m_calendars = new ProjectCalendarContainer(this);
    private final TableContainer m_tables = new TableContainer();
    private final FilterContainer m_filters = new FilterContainer();
    private final GroupContainer m_groups = new GroupContainer();
    private final ViewContainer m_views = new ViewContainer();
-   private final EventManager m_eventManager = new EventManager();
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
    private final ExternalProjectContainer m_externalProjects = new ExternalProjectContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];
    private final Map<Integer, Map<Task, Task>> m_baselineTaskMap = new HashMap<>();
    private final List<Exception> m_ignoredErrors = new ArrayList<>();
-   private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
-   private final ProjectFileSharedData m_shared;
+   private final ProjectContext m_context;
 }

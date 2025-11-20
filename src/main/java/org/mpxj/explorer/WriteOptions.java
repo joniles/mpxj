@@ -44,6 +44,14 @@ class WriteOptions
    }
 
    /**
+    * Toggle the state of the write all flag.
+    */
+   public void toggleWriteAll()
+   {
+      m_writeAll = !m_writeAll;
+   }
+
+   /**
     * Retrieve the write timephased data flag.
     *
     * @return write timephased data flag
@@ -63,6 +71,17 @@ class WriteOptions
       return m_splitTimephaseDataAsDays;
    }
 
+   /**
+    * Retrieve the write all flag.
+    *
+    * @return write all flag
+    */
+   public boolean getWriteAll()
+   {
+      return m_writeAll;
+   }
+
+   private boolean m_writeAll;
    private boolean m_writeTimephasedData;
    private boolean m_splitTimephaseDataAsDays;
 }

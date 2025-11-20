@@ -32,10 +32,10 @@ public class TemporaryCalendar extends ProjectCalendar
    /**
     * Constructor.
     *
-    * @param file the parent file to which this record belongs.
+    * @param context parent project context
     */
-   public TemporaryCalendar(ProjectFile file)
+   public TemporaryCalendar(ProjectContext context)
    {
-      super(file, true);
+      super(context, true);
    }
 }
