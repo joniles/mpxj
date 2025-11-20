@@ -239,7 +239,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       return m_saveVersion;
    }
 
-   @Override public void write(List<ProjectFile> projects, OutputStream outputStream) throws IOException
+   @Override public void write(List<ProjectFile> projects, OutputStream outputStream)
    {
       throw new UnsupportedOperationException();
    }

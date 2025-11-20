@@ -25,16 +25,15 @@ package org.mpxj;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -732,17 +731,17 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
-    * Retrieve the baselines linked to this project.
-    * The baseline at index zero is the default baseline,
-    * the values at the remaining indexes (1-10) are the
-    * numbered baselines. The list will contain null
-    * if a particular baseline has not been set.
+    * Retrieve the baselines associated with this project.
+    * This method returns a Map keyed by the index number of the baselines.
+    * Baselines 0-10 are used to populate the BaselineX to BaselineX10 attributes
+    * of tasks in this project (e.g. BaselineCost, BaselineCost1 ... BaselineCost10),
+    *  baselines with indexes outside of this range are not interpreted by MPXJ.
     *
-    * @return list of baselines
+    * @return map of baselines for this project
     */
-   public List<ProjectFile> getBaselines()
+   public Map<Integer, ProjectFile> getBaselines()
    {
-      return Arrays.asList(m_baselines);
+      return m_baselines;
    }
 
    /**
@@ -771,46 +770,43 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     * Store the supplied project as baselineN, and use it to set the
     * baselineN cost, duration, finish, fixed cost accrual, fixed cost, start and
     * work attributes for the tasks in the current project.
-    * The index argument selects which of the 10 baselines to populate. Passing
-    * an index of 0 populates the default baseline.
+    * The index argument selects which baseline to populate. Passing
+    * an index of 0 populates the default baseline. Indexes 1 to 10
+    * populate baselines 1-10. MPXJ will store but not interpret
+    * baselines with indexes outside of this range.
     *
     * @param baseline baseline project
     * @param index baseline to populate (0-10)
     */
    public void setBaseline(ProjectFile baseline, int index)
    {
-      if (index < 0 || index >= m_baselines.length)
-      {
-         throw new IllegalArgumentException(index + " is not a valid baseline index");
-      }
+      m_baselines.put(Integer.valueOf(index), baseline);
 
-      m_baselines[index] = baseline;
-      if (index == 0)
+      if (index >= 0 && index <= 10)
       {
-         m_properties.setBaselineDate(baseline.getProjectProperties().getCreationDate());
-      }
-      else
-      {
-         m_properties.setBaselineDate(index, baseline.getProjectProperties().getCreationDate());
-      }
+         if (index == 0)
+         {
+            m_properties.setBaselineDate(baseline.getProjectProperties().getCreationDate());
+         }
+         else
+         {
+            m_properties.setBaselineDate(index, baseline.getProjectProperties().getCreationDate());
+         }
 
-      getProjectConfig().getBaselineStrategy().populateBaseline(this, baseline, index);
+         getProjectConfig().getBaselineStrategy().populateBaseline(this, baseline, index);
+      }
    }
 
    /**
     * Retrieve baselineN from Baseline, Baseline1, Baseline2 ... Baseline10.
     * Returns null if the specified baseline has not been set.
     *
-    * @param index 0-10 representing Baseline, Baseline1, Baseline2 ... Baseline10
+    * @param index index representing the baseline to retrieve
     * @return ProjectFile instance or null
     */
    public ProjectFile getBaseline(int index)
    {
-      if (index < 0 || index >= m_baselines.length)
-      {
-         throw new IllegalArgumentException(index + " is not a valid baseline index");
-      }
-      return m_baselines[index];
+      return m_baselines.get(Integer.valueOf(index));
    }
 
    /**
@@ -1108,7 +1104,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final ViewContainer m_views = new ViewContainer();
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
    private final ExternalProjectContainer m_externalProjects = new ExternalProjectContainer(this);
-   private final ProjectFile[] m_baselines = new ProjectFile[11];
+   private final Map<Integer, ProjectFile> m_baselines = new TreeMap<>();
    private final Map<Integer, Map<Task, Task>> m_baselineTaskMap = new HashMap<>();
    private final List<Exception> m_ignoredErrors = new ArrayList<>();
    private final ProjectContext m_context;

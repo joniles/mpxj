@@ -956,6 +956,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    /**
     * Populate a map representing a resource assignment code assignment record.
     *
+    * @param projectID parent project unique ID
     * @param resourceAssignmentID resource assignment ID
     * @param value resource assignment code value
     * @return map of fields
@@ -1071,6 +1072,9 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     * P6 expects XER files to have a single root WBS entry. If we have more
     * than one WBS entry at the top level we'll temporarily create a parent entry
     * to keep P6 happy.
+    * 
+    * @param file project to check
+    * @return temporary wbs entry
     */
    private TemporaryWbs createValidWbsHierarchy(ProjectFile file)
    {
@@ -1116,6 +1120,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    /**
     * Once we're done exporting, if we've created a temporary top level WBS
     * entry, we'll remove it to ensure the data is unchanged.
+    * 
+    * @param wbs temporary wbs entry to revert
     */
    private void revertWbsHierarchyChange(TemporaryWbs wbs)
    {
@@ -1348,8 +1354,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private List<Map<String, Object>> m_wbsNotes;
    private List<Map<String, Object>> m_activityNotes;
    private Set<FieldType> m_userDefinedFields;
-
-   private static final Integer DEFAULT_PROJECT_ID = Integer.valueOf(1);
 
    interface ExportFunction<T>
    {

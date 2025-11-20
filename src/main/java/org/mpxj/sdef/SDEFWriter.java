@@ -94,7 +94,7 @@ public final class SDEFWriter extends AbstractProjectWriter
       return m_charset;
    }
 
-   @Override public void write(List<ProjectFile> projects, OutputStream outputStream) throws IOException
+   @Override public void write(List<ProjectFile> projects, OutputStream outputStream)
    {
       throw new UnsupportedOperationException();
    }
