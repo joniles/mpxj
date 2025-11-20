@@ -149,7 +149,7 @@ public final class PrimaveraPMFileWriter extends AbstractProjectWriter
          {
             for (ProjectFile project : projects)
             {
-               project.getBaselines().values().stream().forEach(baseline -> new XmlProjectWriter(state, baseline).writeBaseline(project));
+               project.getBaselines().values().forEach(baseline -> new XmlProjectWriter(state, baseline).writeBaseline(project));
             }
          }
 
