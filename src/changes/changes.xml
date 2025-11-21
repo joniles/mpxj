@@ -6,37 +6,40 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="15.0.0">
+            <action dev="joniles" type="update">**NEW FEATURES**</action>
             <action dev="joniles" type="update">Updated `PrimaveraXERFileWriter` to allow a list of projects to be written to an XER file.</action>
             <action dev="joniles" type="update">Updated `PrimaveraPMFileWriter` to allow a list of projects to be written to a PMXML file.</action>
+            <action dev="joniles" type="update">**CHANGES**</action>
             <action dev="joniles" type="update">Include all available baselines when reading Asta Powerproject PP files (Contributed by gitgood88).</action>
             <action dev="joniles" type="update">MPXJ will now store an arbitrary number of baselines rather than the hard limit of 11 previously in place. Only baselines numbered 0-10 will be interpreted by MPXJ, other baselines can just be stored and retrieved.</action>
             <action dev="joniles" type="update">Added the Last Scheduled Date and Activity Percent Complete Based On Activity Steps attributes to `ProjectProperties` and ensured these are read from and written to P6 schedules (Based on a contribution by danielfromCL).</action>
-            <action dev="joniles" type="update">The `ProjectFile#getBaselines` method now returns a `Map` instance keyed by baseline index.</action>
             <action dev="joniles" type="update">Header rows for empty tables are no longer written to XER files.</action>
-            <action dev="joniles" type="update">When using the `readAll` method to read PMXML files, only projects will now be returned. Any baseline `ProjectFile` instances will now only be linked to their parent projects, and will not be present in the list returned by `readAll`.</action>
-            <action dev="joniles" type="update">When writing PMXML files, ensure that `OriginalProjectObjectId` is populated for baseline projects.</action>
-            <action dev="joniles" type="update">Added the `ProjectContext` class to represent common context data which can (depending on the source application) be shared across multiple projects.</action>
-            <action dev="joniles" type="update">Added the `ProjectFile#getProjectContext` method to retrieve the `ProjectContext` instance to which a project belongs.</action>
-            <action dev="joniles" type="update">Added the `ProjectFile#getCalendarsForProject` method. This retrieves global calendars, and any project-specific calendars relevant for this project.</action>
-            <action dev="joniles" type="update">For P6 projects the `ProjectFile#getCalendars` method will include all calendars from the file or database being read. To retrieve only calendars relevant to the project use the `ProjectFile#getCalendarsForProject` method.</action>
-            <action dev="joniles" type="update">Removed the `ProjectEntity` class. The `ProjectProperties`, `Resource`, `ResourceAssignment` and `Task` classes no longer inherit from this class. The `ProjectProperties`, `ResourceAssignment` and `Task` classes provide a replacement for the `ProjectEntity#getParentFile` method. The `Resource` class no longer has a `getParentFile` method.</action>
-            <action dev="joniles" type="update">Added the `Resource#getProjectContext` method to retrieve the `ProjectContext` instance to which a resource belongs.</action>
             <action dev="joniles" type="update">Add support for the Project attribute Activity Default Calendar Unique ID.</action>
             <action dev="joniles" type="update">Added the `ProjectCalendar#getDefault` method. This returns true if the current calendar is the default calendar for the project file (e.g. MPP files) or project database (e.g. P6 database).</action>
             <action dev="joniles" type="update">Added the `ProjectCalendar#setDefault` method. Calling this method sets the calendar as the default for the project file or project database.</action>
-            <action dev="joniles" type="update">Removed the `ProjectCalendar#getParentFile` method. Calendars no longer belong directly to projects, but instead belong to a `ProjectContext` instance.</action>
-            <action dev="joniles" type="update">Added the `ProjectCalendar#getProjectContext` method to retrieve the `ProjectContext` instance to which a calendar belongs.</action>
             <action dev="joniles" type="update">Added the `ProjectCalendar#isParent` method.</action>
             <action dev="joniles" type="update">Added the `ProjectCalendar#getDerivedCalendarsForProject` method.</action>
             <action dev="joniles" type="update">Added the `ProjectCalendar#getProjectUniqueID` and `ProjectCalendar#setProjectUniqueID`methods. This attribute is used to indicate that a calendar belongs to a specific project.</action>
-            <action dev="joniles" type="update">For P6 projects the `ProjectCalendar#getDerivedCalendars` method will include all derived calendars from the file or database being read. To retrieve derived calendars relevant to a specific project use the `ProjectCalendar#getDerivedCalendarsForProject` method.</action>
-            <action dev="joniles" type="update">Removed the `Resource#addResourceAssignment` method. This method was originally only intended for internal use within MPXJ.</action>
-            <action dev="joniles" type="update">The `ResourceAssignment` class no longer provides a public constructor. The `Task#addResourceAssignment` method should be used instead.</action>
-            <action dev="joniles" type="update">Removed the `Task#addResourceAssignment(ResourceAssignment)` method. Use the `Task#addResourceAssignment(Resource)` method instead.</action>
+            <action dev="joniles" type="update">When writing PMXML files, ensure that `OriginalProjectObjectId` is populated for baseline projects.</action>
+            <action dev="joniles" type="update">Added the `ProjectContext` class to represent common context data which can (depending on the source application) be shared across multiple projects.</action>
+            <action dev="joniles" type="update">Added the `ProjectFile#getProjectContext` method to retrieve the `ProjectContext` instance to which a project belongs.</action>
+            <action dev="joniles" type="update">Added the `Resource#getProjectContext` method to retrieve the `ProjectContext` instance to which a resource belongs.</action>
+            <action dev="joniles" type="update">Added the `ProjectCalendar#getProjectContext` method to retrieve the `ProjectContext` instance to which a calendar belongs.</action>
+            <action dev="joniles" type="update">Added the `ProjectFile#getCalendarsForProject` method. This retrieves global calendars, and any project-specific calendars relevant for this project.</action>
             <action dev="joniles" type="update">Added the `Rate#valueOf` method.</action>
             <action dev="joniles" type="update">Added the `TimeUnitDefaults` class to allow time unit related default values to be held as part of the `ProjectContext` class.</action>
             <action dev="joniles" type="update">Updated to POI 5.5.0</action>
             <action dev="joniles" type="update">Updated to Jackcess 4.0.10. Removed explicit Commons Lang 3 dependency.</action>
+            <action dev="joniles" type="update">**BREAKING CHANGES**</action>
+            <action dev="joniles" type="update">The `ProjectFile#getBaselines` method now returns a `Map` instance keyed by baseline index.</action>
+            <action dev="joniles" type="update">When using the `readAll` method to read PMXML files, only projects will now be returned. Any baseline `ProjectFile` instances will now only be linked to their parent projects, and will not be present in the list returned by `readAll`.</action>
+            <action dev="joniles" type="update">For P6 projects the `ProjectFile#getCalendars` method will include all calendars from the file or database being read. To retrieve only calendars relevant to the project use the `ProjectFile#getCalendarsForProject` method.</action>
+            <action dev="joniles" type="update">For P6 projects the `ProjectCalendar#getDerivedCalendars` method will include all derived calendars from the file or database being read. To retrieve derived calendars relevant to a specific project use the `ProjectCalendar#getDerivedCalendarsForProject` method.</action>
+            <action dev="joniles" type="update">Removed the `ProjectEntity` class. The `ProjectProperties`, `Resource`, `ResourceAssignment` and `Task` classes no longer inherit from this class. The `ProjectProperties`, `ResourceAssignment` and `Task` classes provide a replacement for the `ProjectEntity#getParentFile` method. The `Resource` class no longer has a `getParentFile` method.</action>
+            <action dev="joniles" type="update">Removed the `ProjectCalendar#getParentFile` method. Calendars no longer belong directly to projects, but instead belong to a `ProjectContext` instance.</action>
+            <action dev="joniles" type="update">Removed the `Resource#addResourceAssignment` method. This method was originally only intended for internal use within MPXJ.</action>
+            <action dev="joniles" type="update">The `ResourceAssignment` class no longer provides a public constructor. The `Task#addResourceAssignment` method should be used instead.</action>
+            <action dev="joniles" type="update">Removed the `Task#addResourceAssignment(ResourceAssignment)` method. Use the `Task#addResourceAssignment(Resource)` method instead.</action>
 		</release>
 		<release date="2025-10-22" version="14.5.2">
             <action dev="joniles" type="update">Fix an issue reading secondary constraint dates and finish constraint dates from Open Plan BK3 files.</action>
