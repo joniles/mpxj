@@ -25,11 +25,13 @@ package org.mpxj.junit;
 
 import java.time.LocalDate;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
 import org.mpxj.mpp.MPPReader;
-import org.junit.Assert;
-import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CalendarExceptionPrecedenceTest
 {
@@ -43,23 +45,23 @@ public class CalendarExceptionPrecedenceTest
       ProjectCalendar calendar = project.getCalendarByName("TEST");
 
       // Fridays in July
-      Assert.assertFalse(calendar.isWorkingDate(LocalDate.of(2022, 7, 8)));
-      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 7, 15)));
-      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 7, 22)));
-      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 7, 29)));
+      assertFalse(calendar.isWorkingDate(LocalDate.of(2022, 7, 8)));
+      assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 7, 15)));
+      assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 7, 22)));
+      assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 7, 29)));
 
       // Fridays in August
-      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 8, 5)));
-      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 8, 12)));
-      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 8, 19)));
-      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 8, 26)));
+      assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 8, 5)));
+      assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 8, 12)));
+      assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 8, 19)));
+      assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 8, 26)));
 
       // Fridays in September
-      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 9, 2)));
-      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 9, 9)));
-      Assert.assertFalse(calendar.isWorkingDate(LocalDate.of(2022, 9, 16)));
-      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 9, 23)));
-      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 9, 30)));
+      assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 9, 2)));
+      assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 9, 9)));
+      assertFalse(calendar.isWorkingDate(LocalDate.of(2022, 9, 16)));
+      assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 9, 23)));
+      assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 9, 30)));
    }
 
    /**
@@ -69,7 +71,7 @@ public class CalendarExceptionPrecedenceTest
    {
       ProjectFile project = new MPPReader().read(MpxjTestData.filePath("calendar-exception-precedence-daily.mpp"));
       ProjectCalendar calendar = project.getCalendarByName("TEST");
-      Assert.assertFalse(calendar.isWorkingDate(LocalDate.of(2023, 5, 12)));
+      assertFalse(calendar.isWorkingDate(LocalDate.of(2023, 5, 12)));
    }
 
    /**
@@ -79,7 +81,7 @@ public class CalendarExceptionPrecedenceTest
    {
       ProjectFile project = new MPPReader().read(MpxjTestData.filePath("calendar-exception-precedence-weekly.mpp"));
       ProjectCalendar calendar = project.getCalendarByName("TEST");
-      Assert.assertFalse(calendar.isWorkingDate(LocalDate.of(2023, 5, 12)));
+      assertFalse(calendar.isWorkingDate(LocalDate.of(2023, 5, 12)));
    }
 
    /**
@@ -89,7 +91,7 @@ public class CalendarExceptionPrecedenceTest
    {
       ProjectFile project = new MPPReader().read(MpxjTestData.filePath("calendar-exception-precedence-monthly.mpp"));
       ProjectCalendar calendar = project.getCalendarByName("TEST");
-      Assert.assertFalse(calendar.isWorkingDate(LocalDate.of(2023, 5, 12)));
+      assertFalse(calendar.isWorkingDate(LocalDate.of(2023, 5, 12)));
    }
 
    /**
@@ -99,6 +101,6 @@ public class CalendarExceptionPrecedenceTest
    {
       ProjectFile project = new MPPReader().read(MpxjTestData.filePath("calendar-exception-precedence-yearly.mpp"));
       ProjectCalendar calendar = project.getCalendarByName("TEST");
-      Assert.assertFalse(calendar.isWorkingDate(LocalDate.of(2023, 5, 12)));
+      assertFalse(calendar.isWorkingDate(LocalDate.of(2023, 5, 12)));
    }
 }

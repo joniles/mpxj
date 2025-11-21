@@ -23,11 +23,12 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.AccrueType;
 import org.mpxj.Duration;
 import org.mpxj.ProjectFile;
@@ -42,7 +43,8 @@ import org.mpxj.mpd.MPDFileReader;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mspdi.MSPDIReader;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Tests to exercise MPP file read functionality for various versions of

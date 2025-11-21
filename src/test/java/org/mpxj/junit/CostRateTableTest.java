@@ -23,11 +23,12 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.CostRateTable;
 import org.mpxj.CostRateTableEntry;
 import org.mpxj.ProjectFile;
@@ -36,7 +37,8 @@ import org.mpxj.TimeUnit;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mspdi.MSPDIReader;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * The tests contained in this class exercise cost rate table functionality.

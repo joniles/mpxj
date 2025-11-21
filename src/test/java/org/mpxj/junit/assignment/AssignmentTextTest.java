@@ -23,17 +23,20 @@
 
 package org.mpxj.junit.assignment;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.reader.UniversalProjectReader;
-import org.junit.Test;
+
 
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
 import org.mpxj.junit.MpxjTestData;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure assignment text fields are read correctly.
@@ -82,7 +85,7 @@ public class AssignmentTextTest
       {
          String expectedValue = index == textFieldIndex ? "Text" + index : null;
          String actualValue = task.getResourceAssignments().get(0).getText(index);
-         assertEquals(file.getName() + " Text" + index, expectedValue, actualValue);
+         assertEquals(expectedValue, actualValue, file.getName() + " Text" + index);
       }
    }
 }

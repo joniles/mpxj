@@ -23,18 +23,21 @@
 
 package org.mpxj.junit.assignment;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.junit.ProjectUtility;
 import org.mpxj.reader.UniversalProjectReader;
-import org.junit.Test;
+
 
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
 import org.mpxj.junit.MpxjTestData;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure assignment flags are read correctly.
@@ -83,7 +86,7 @@ public class AssignmentFlagsTest
       for (int index = 1; index <= maxIndex; index++)
       {
          Boolean flagValue = Boolean.valueOf(task.getResourceAssignments().get(0).getFlag(index));
-         assertEquals(file.getName() + " Flag" + index, Boolean.valueOf(index == trueFlagIndex), flagValue);
+         assertEquals(Boolean.valueOf(index == trueFlagIndex), flagValue, file.getName() + " Flag" + index);
       }
    }
 }

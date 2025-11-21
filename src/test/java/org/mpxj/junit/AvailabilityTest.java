@@ -23,11 +23,12 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.Availability;
 import org.mpxj.AvailabilityTable;
 import org.mpxj.LocalDateTimeRange;
@@ -36,7 +37,9 @@ import org.mpxj.Resource;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mspdi.MSPDIReader;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The tests contained in this class exercise resource availability functionality.

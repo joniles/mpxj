@@ -23,13 +23,15 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
 import java.time.DayOfWeek;
+
+import org.junit.jupiter.api.Test;
 import org.mpxj.DayType;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
@@ -39,7 +41,11 @@ import org.mpxj.LocalTimeRange;
 import org.mpxj.mpd.MPDFileReader;
 import org.mpxj.mpp.MPPReader;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests to exercise MPP file read functionality for various versions of

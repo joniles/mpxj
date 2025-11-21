@@ -23,12 +23,16 @@
 
 package org.mpxj.junit.project;
 
-import static org.junit.Assert.*;
 
-import org.junit.Test;
 
+
+
+import org.junit.jupiter.api.Test;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Test to exercise TaskContainer functionality.

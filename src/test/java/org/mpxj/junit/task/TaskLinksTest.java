@@ -23,13 +23,14 @@
 
 package org.mpxj.junit.task;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.reader.UniversalProjectReader;
-import org.junit.Test;
+
 
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
@@ -39,6 +40,9 @@ import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.junit.MpxjTestData;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests to ensure task links are correctly handled.

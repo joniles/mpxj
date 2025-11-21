@@ -23,7 +23,7 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
 
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Set;
 
 import java.time.DayOfWeek;
+
+import org.junit.jupiter.api.Test;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.ProjectFile;
 import org.mpxj.View;
@@ -46,7 +48,10 @@ import org.mpxj.mpp.NonWorkingTimeStyle;
 import org.mpxj.mpp.ProgressLineDay;
 import org.mpxj.mpp.TableFontStyle;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests to exercise MPP file read functionality for various versions of

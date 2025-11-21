@@ -25,6 +25,7 @@ package org.mpxj.junit.assignment;
 
 import java.time.LocalDateTime;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.ProjectFile;
 import org.mpxj.Rate;
 import org.mpxj.RateSource;
@@ -32,9 +33,8 @@ import org.mpxj.ResourceAssignment;
 import org.mpxj.TimeUnit;
 import org.mpxj.junit.MpxjTestData;
 import org.mpxj.reader.UniversalProjectReader;
-import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure effective rates are determined correctly for data from P6.

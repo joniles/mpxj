@@ -22,13 +22,14 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.Duration;
 import org.mpxj.ProjectCalendar;
@@ -42,7 +43,10 @@ import org.mpxj.mpp.TimescaleUnits;
 import org.mpxj.utility.TimephasedUtility;
 import org.mpxj.utility.TimescaleUtility;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This a test for reading timephased work of manual scheduled tasks from an MPP file.
@@ -102,10 +106,10 @@ public class TimephasedWorkSegmentManualOffsetTest
       {
          String errorMsg = "Invalid or Missing JSON for " + assignment;
          assertNotNull(errorMsg, jsonString);
-         assertFalse(errorMsg, jsonString.isEmpty());
-         assertTrue(errorMsg, jsonString.length() > 3);
-         assertEquals(errorMsg, '[', jsonString.charAt(0));
-         assertEquals(errorMsg, ']', jsonString.charAt(jsonString.length() - 1));
+         assertFalse(jsonString.isEmpty(), errorMsg);
+         assertTrue(jsonString.length() > 3, errorMsg);
+         assertEquals('[', jsonString.charAt(0), errorMsg);
+         assertEquals(']', jsonString.charAt(jsonString.length() - 1), errorMsg);
       }
       jsonString = jsonString.substring(1, jsonString.length() - 1);
 
@@ -121,7 +125,7 @@ public class TimephasedWorkSegmentManualOffsetTest
       int loop = 0;
       while (!jsonString.isEmpty())
       {
-         assertTrue("JSON time scaled data does more data for " + assignment, segmentCount > loop);
+         assertTrue(segmentCount > loop, "JSON time scaled data does more data for " + assignment);
          String jsonValue = jsonString;
          if (jsonValue.indexOf(',') > 0)
          {
@@ -137,12 +141,12 @@ public class TimephasedWorkSegmentManualOffsetTest
          {
             expected = Double.parseDouble(jsonValue);
          }
-         assertEquals("Failed at index " + loop + " assignment index " + assignmentIndex + "=>" + assignment, expected, durationList.get(loop).convertUnits(TimeUnit.MINUTES, unitDefaults).getDuration(), 0.009);
+         assertEquals(expected, durationList.get(loop).convertUnits(TimeUnit.MINUTES, unitDefaults).getDuration(), 0.009, "Failed at index " + loop + " assignment index " + assignmentIndex + "=>" + assignment);
 
          loop++;
       }
-      assertTrue("No Json data found for " + assignment, loop > 0);
-      assertEquals("JSON time scaled data does not contain enough data for " + assignment, segmentCount, loop);
+      assertTrue(loop > 0, "No Json data found for " + assignment);
+      assertEquals(segmentCount, loop, "JSON time scaled data does not contain enough data for " + assignment);
    }
 
    /*

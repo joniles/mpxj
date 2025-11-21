@@ -23,13 +23,12 @@
 
 package org.mpxj.junit.resource;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 import java.util.List;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.Resource;
@@ -37,6 +36,8 @@ import org.mpxj.ResourceType;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.junit.MpxjTestData;
 import org.mpxj.mpp.MPPReader;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure resource type is correctly handled.
@@ -118,7 +119,7 @@ public class MppResourceTypeTest
    private void testResource(File file, ProjectFile project, int id, String expectedName, ResourceType expectedType)
    {
       Resource resource = project.getResourceByID(Integer.valueOf(id));
-      assertEquals(file.getName(), expectedName, resource.getName());
-      assertEquals(file.getName(), expectedType, resource.getType());
+      assertEquals(expectedName, resource.getName(), file.getName());
+      assertEquals(expectedType, resource.getType(), file.getName());
    }
 }

@@ -23,7 +23,8 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.Test;
 import org.mpxj.Duration;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
@@ -32,7 +33,7 @@ import org.mpxj.mpd.MPDFileReader;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mspdi.MSPDIReader;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to exercise reading duration values.

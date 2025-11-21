@@ -23,18 +23,19 @@
 
 package org.mpxj.junit.assignment;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 import java.util.List;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.junit.MpxjTestData;
 import org.mpxj.mpp.MPPReader;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure delete resource assignments are correctly handled.
@@ -85,7 +86,7 @@ public class DeletedAssignmentTest
       MPPReader reader = new MPPReader();
       ProjectFile mpp = reader.read(file);
       List<ResourceAssignment> assignments = mpp.getResourceAssignments();
-      assertEquals(file.getName() + " does not contain 5 resource assignments", 5, assignments.size());
+      assertEquals(5, assignments.size(), file.getName() + " does not contain 5 resource assignments");
 
       testAssignment(assignments, 0, "Task 1", "Resource 1");
       testAssignment(assignments, 1, "Task 1", "Resource 3");

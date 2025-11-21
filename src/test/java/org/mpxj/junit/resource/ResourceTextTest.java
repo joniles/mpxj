@@ -23,18 +23,21 @@
 
 package org.mpxj.junit.resource;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.junit.ProjectUtility;
 import org.mpxj.reader.UniversalProjectReader;
-import org.junit.Test;
+
 
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.Resource;
 import org.mpxj.junit.MpxjTestData;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure resource custom text fields are correctly handled.
@@ -85,7 +88,7 @@ public class ResourceTextTest
          String expectedValue = testIndex == index ? Integer.toString(index) : null;
          String actualValue = resource.getText(index);
 
-         assertEquals(file.getName() + " Text" + index, expectedValue, actualValue);
+         assertEquals( expectedValue, actualValue, file.getName() + " Text" + index);
       }
    }
 }

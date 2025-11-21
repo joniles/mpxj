@@ -23,10 +23,11 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
 
 import java.time.format.DateTimeFormatter;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.CurrencySymbolPosition;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
@@ -35,7 +36,9 @@ import org.mpxj.TimeUnit;
 import org.mpxj.mpd.MPDFileReader;
 import org.mpxj.mpp.MPPReader;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test reading project properties from MPP files.

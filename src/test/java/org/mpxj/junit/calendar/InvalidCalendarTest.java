@@ -23,17 +23,18 @@
 
 package org.mpxj.junit.calendar;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
 import org.mpxj.junit.MpxjTestData;
 import org.mpxj.primavera.PrimaveraXERFileReader;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Ensure that invalid calendar data is handled gracefully.

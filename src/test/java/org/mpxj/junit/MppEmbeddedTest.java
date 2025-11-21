@@ -23,19 +23,21 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+
+
 
 import java.util.List;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import org.mpxj.ProjectFile;
 import org.mpxj.RtfNotes;
 import org.mpxj.Task;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mpp.RTFEmbeddedObject;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Test to handle MPP file content embedded in note fields.

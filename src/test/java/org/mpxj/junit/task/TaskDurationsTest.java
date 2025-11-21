@@ -23,13 +23,14 @@
 
 package org.mpxj.junit.task;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.junit.ProjectUtility;
 import org.mpxj.reader.UniversalProjectReader;
-import org.junit.Test;
+
 
 import org.mpxj.Duration;
 import org.mpxj.MPXJException;
@@ -38,6 +39,8 @@ import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.junit.MpxjTestData;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure task custom durations are correctly handled.
@@ -89,7 +92,7 @@ public class TaskDurationsTest
          String expectedValue = testIndex == index ? index + ".0d" : "0.0d";
          String actualValue = task.getDuration(index) == null ? "0.0d" : task.getDuration(index).toString();
 
-         assertEquals(file.getName() + " " + task.getName() + " Duration" + index, expectedValue, actualValue);
+         assertEquals(expectedValue, actualValue, file.getName() + " " + task.getName() + " Duration" + index);
       }
    }
 
@@ -113,7 +116,7 @@ public class TaskDurationsTest
             String expectedTaskName = "Duration" + fieldIndex + " - Task " + unitsIndex;
             assertEquals(expectedTaskName, task.getName());
             Duration duration = task.getDuration(fieldIndex);
-            assertEquals(file.getName() + " " + expectedTaskName, units[unitsIndex], duration.getUnits());
+            assertEquals(units[unitsIndex], duration.getUnits(), file.getName() + " " + expectedTaskName);
             ++taskID;
          }
       }

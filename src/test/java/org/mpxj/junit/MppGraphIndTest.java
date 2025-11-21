@@ -23,10 +23,11 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
 import org.mpxj.GraphicalIndicator;
@@ -35,7 +36,7 @@ import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.mpp.MPPReader;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * The tests contained in this class exercise the graphical indicator
@@ -156,7 +157,7 @@ public class MppGraphIndTest
       for (int loop = 0; loop < expectedResults.length; loop++)
       {
          int value = indicator.evaluate(rows[loop]);
-         assertEquals("Testing " + fieldType + " row " + loop, expectedResults[loop], value);
+         assertEquals(expectedResults[loop], value, "Testing " + fieldType + " row " + loop);
       }
    }
 

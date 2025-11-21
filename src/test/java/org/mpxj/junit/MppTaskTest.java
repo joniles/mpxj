@@ -23,12 +23,18 @@
 
 package org.mpxj.junit;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mpxj.junit.MpxjAssert.*;
-import static org.junit.Assert.*;
+
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.AccrueType;
 import org.mpxj.ConstraintType;
 import org.mpxj.LocalDateTimeRange;
@@ -46,7 +52,7 @@ import org.mpxj.mpd.MPDFileReader;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mspdi.MSPDIReader;
 
-import org.junit.Test;
+
 
 /**
  * Tests to exercise MPP file read functionality for various versions of
@@ -538,7 +544,7 @@ public class MppTaskTest
       assertEquals(expectedStart, df.format(task.getEarlyStart()));
       assertEquals(expectedFinish, df.format(task.getEarlyFinish()));
       // effort driven
-      assertTrue("Effort Driven does not match", task.getEffortDriven()); // should return true
+      assertTrue(task.getEffortDriven(), "Effort Driven does not match"); // should return true
       // custom start columns
       assertEquals("25/08/2006", df.format(task.getStart(1)));
       assertEquals("26/08/2006", df.format(task.getStart(2)));

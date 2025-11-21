@@ -23,14 +23,15 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.Test;
 import org.mpxj.Duration;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.mpp.MPPReader;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * The tests contained in this class exercise the slack duration functionality.

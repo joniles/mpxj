@@ -22,13 +22,14 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.Duration;
 import org.mpxj.ProjectCalendar;
@@ -41,7 +42,7 @@ import org.mpxj.mpp.TimescaleUnits;
 import org.mpxj.utility.TimephasedUtility;
 import org.mpxj.utility.TimescaleUtility;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * This a test for reading timephased work of manual scheduled tasks from an MPP file.
@@ -1096,7 +1097,7 @@ public class TimephasedWorkSegmentManualTest
       assertEquals(expected.length, durationList.size());
       for (int loop = 0; loop < expected.length; loop++)
       {
-         assertEquals("Failed at index " + loop + " assignment " + assignment, expected[loop], durationList.get(loop).getDuration(), 0.009);
+         assertEquals(expected[loop], durationList.get(loop).getDuration(), 0.009, "Failed at index " + loop + " assignment " + assignment);
       }
    }
 

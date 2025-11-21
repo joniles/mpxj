@@ -23,19 +23,22 @@
 
 package org.mpxj.junit.calendar;
 
-import static org.junit.Assert.assertEquals;
+
 
 import java.io.File;
 import java.time.LocalDateTime;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.reader.UniversalProjectReader;
-import org.junit.Test;
+
 
 import org.mpxj.Duration;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
 import org.mpxj.TimeUnit;
 import org.mpxj.junit.MpxjTestData;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure working day calculations operate as expected across multi-day calendar exceptions.

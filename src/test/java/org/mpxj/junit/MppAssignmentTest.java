@@ -23,12 +23,16 @@
 
 package org.mpxj.junit;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mpxj.junit.MpxjAssert.*;
-import static org.junit.Assert.*;
+
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.Duration;
 import org.mpxj.ProjectFile;
 import org.mpxj.ResourceAssignment;
@@ -39,7 +43,6 @@ import org.mpxj.mpd.MPDFileReader;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mspdi.MSPDIReader;
 
-import org.junit.Test;
 
 /**
  * Tests to exercise file read functionality for various MS project file types.
@@ -139,48 +142,48 @@ public class MppAssignmentTest
 
       for (int loop = 0; loop < 10; loop++)
       {
-         assertEquals("Assignment 1 baseline cost " + (loop + 1), BASELINE_COSTS[0][loop], assignment1.getBaselineCost(loop + 1).intValue());
-         assertEquals("Assignment 2 baseline cost " + (loop + 1), BASELINE_COSTS[1][loop], assignment2.getBaselineCost(loop + 1).intValue());
+         assertEquals(BASELINE_COSTS[0][loop], assignment1.getBaselineCost(loop + 1).intValue(), "Assignment 1 baseline cost " + (loop + 1));
+         assertEquals(BASELINE_COSTS[1][loop], assignment2.getBaselineCost(loop + 1).intValue(), "Assignment 2 baseline cost " + (loop + 1));
 
-         assertEquals("Assignment 1 baseline work " + (loop + 1), BASELINE_WORKS[0][loop], (int) assignment1.getBaselineWork(loop + 1).getDuration());
-         assertEquals("Assignment 2 baseline work " + (loop + 1), BASELINE_WORKS[1][loop], (int) assignment2.getBaselineWork(loop + 1).getDuration());
-         assertEquals("Assignment 1 baseline work " + (loop + 1), TimeUnit.HOURS, assignment1.getBaselineWork(loop + 1).getUnits());
-         assertEquals("Assignment 2 baseline work " + (loop + 1), TimeUnit.HOURS, assignment2.getBaselineWork(loop + 1).getUnits());
+         assertEquals(BASELINE_WORKS[0][loop], (int) assignment1.getBaselineWork(loop + 1).getDuration(), "Assignment 1 baseline work " + (loop + 1));
+         assertEquals(BASELINE_WORKS[1][loop], (int) assignment2.getBaselineWork(loop + 1).getDuration(), "Assignment 2 baseline work " + (loop + 1));
+         assertEquals(TimeUnit.HOURS, assignment1.getBaselineWork(loop + 1).getUnits(), "Assignment 1 baseline work " + (loop + 1));
+         assertEquals(TimeUnit.HOURS, assignment2.getBaselineWork(loop + 1).getUnits(), "Assignment 2 baseline work " + (loop + 1));
 
-         assertEquals("Assignment 1 baseline start " + (loop + 1), BASELINE_STARTS[0][loop], df.format(assignment1.getBaselineStart(loop + 1)));
-         assertEquals("Assignment 2 baseline start " + (loop + 1), BASELINE_STARTS[1][loop], df.format(assignment2.getBaselineStart(loop + 1)));
+         assertEquals(BASELINE_STARTS[0][loop], df.format(assignment1.getBaselineStart(loop + 1)), "Assignment 1 baseline start " + (loop + 1));
+         assertEquals(BASELINE_STARTS[1][loop], df.format(assignment2.getBaselineStart(loop + 1)), "Assignment 2 baseline start " + (loop + 1));
 
-         assertEquals("Assignment 1 baseline finish " + (loop + 1), BASELINE_FINISHES[0][loop], df.format(assignment1.getBaselineFinish(loop + 1)));
-         assertEquals("Assignment 2 baseline finish " + (loop + 1), BASELINE_FINISHES[1][loop], df.format(assignment2.getBaselineFinish(loop + 1)));
+         assertEquals(BASELINE_FINISHES[0][loop], df.format(assignment1.getBaselineFinish(loop + 1)), "Assignment 1 baseline finish " + (loop + 1));
+         assertEquals(BASELINE_FINISHES[1][loop], df.format(assignment2.getBaselineFinish(loop + 1)), "Assignment 2 baseline finish " + (loop + 1));
 
-         assertEquals("Assignment 1 start " + (loop + 1), CUSTOM_START[0][loop], df.format(assignment1.getStart(loop + 1)));
-         assertEquals("Assignment 2 start " + (loop + 1), CUSTOM_START[1][loop], df.format(assignment2.getStart(loop + 1)));
+         assertEquals(CUSTOM_START[0][loop], df.format(assignment1.getStart(loop + 1)), "Assignment 1 start " + (loop + 1));
+         assertEquals(CUSTOM_START[1][loop], df.format(assignment2.getStart(loop + 1)), "Assignment 2 start " + (loop + 1));
 
-         assertEquals("Assignment 1 finish " + (loop + 1), CUSTOM_FINISH[0][loop], df.format(assignment1.getFinish(loop + 1)));
-         assertEquals("Assignment 2 finish " + (loop + 1), CUSTOM_FINISH[1][loop], df.format(assignment2.getFinish(loop + 1)));
+         assertEquals(CUSTOM_FINISH[0][loop], df.format(assignment1.getFinish(loop + 1)), "Assignment 1 finish " + (loop + 1));
+         assertEquals(CUSTOM_FINISH[1][loop], df.format(assignment2.getFinish(loop + 1)), "Assignment 2 finish " + (loop + 1));
 
-         assertEquals("Assignment 1 date " + (loop + 1), CUSTOM_DATE[0][loop], df.format(assignment1.getDate(loop + 1)));
-         assertEquals("Assignment 2 date " + (loop + 1), CUSTOM_DATE[1][loop], df.format(assignment2.getDate(loop + 1)));
+         assertEquals(CUSTOM_DATE[0][loop], df.format(assignment1.getDate(loop + 1)), "Assignment 1 date " + (loop + 1));
+         assertEquals(CUSTOM_DATE[1][loop], df.format(assignment2.getDate(loop + 1)), "Assignment 2 date " + (loop + 1));
 
-         assertEquals("Assignment 1 duration " + (loop + 1), CUSTOM_DURATION[0][loop], assignment1.getDuration(loop + 1).getDuration(), 0.01);
-         assertEquals("Assignment 2 duration " + (loop + 1), CUSTOM_DURATION[1][loop], assignment2.getDuration(loop + 1).getDuration(), 0.01);
-         assertEquals("Assignment 1 duration " + (loop + 1), TimeUnit.DAYS, assignment1.getDuration(loop + 1).getUnits());
-         assertEquals("Assignment 2 duration " + (loop + 1), TimeUnit.DAYS, assignment2.getDuration(loop + 1).getUnits());
+         assertEquals(CUSTOM_DURATION[0][loop], assignment1.getDuration(loop + 1).getDuration(), 0.01, "Assignment 1 duration " + (loop + 1));
+         assertEquals(CUSTOM_DURATION[1][loop], assignment2.getDuration(loop + 1).getDuration(), 0.01, "Assignment 2 duration " + (loop + 1));
+         assertEquals(TimeUnit.DAYS, assignment1.getDuration(loop + 1).getUnits(), "Assignment 1 duration " + (loop + 1));
+         assertEquals(TimeUnit.DAYS, assignment2.getDuration(loop + 1).getUnits(), "Assignment 2 duration " + (loop + 1));
 
-         assertEquals("Assignment 1 cost " + (loop + 1), CUSTOM_COST[0][loop], assignment1.getCost(loop + 1).doubleValue(), 0.01);
-         assertEquals("Assignment 2 cost " + (loop + 1), CUSTOM_COST[1][loop], assignment2.getCost(loop + 1).doubleValue(), 0.01);
+         assertEquals(CUSTOM_COST[0][loop], assignment1.getCost(loop + 1).doubleValue(), 0.01, "Assignment 1 cost " + (loop + 1));
+         assertEquals(CUSTOM_COST[1][loop], assignment2.getCost(loop + 1).doubleValue(), 0.01, "Assignment 2 cost " + (loop + 1));
       }
 
       for (int loop = 0; loop < CUSTOM_TEXT.length; loop++)
       {
-         assertEquals("Assignment 1 text " + (loop + 1), CUSTOM_TEXT[0][loop], assignment1.getText(loop + 1));
-         assertEquals("Assignment 2 text " + (loop + 1), CUSTOM_TEXT[1][loop], assignment2.getText(loop + 1));
+         assertEquals(CUSTOM_TEXT[0][loop], assignment1.getText(loop + 1), "Assignment 1 text " + (loop + 1));
+         assertEquals(CUSTOM_TEXT[1][loop], assignment2.getText(loop + 1), "Assignment 2 text " + (loop + 1));
       }
 
       for (int loop = 0; loop < CUSTOM_NUMBER.length; loop++)
       {
-         assertEquals("Assignment 1 number " + (loop + 1), CUSTOM_NUMBER[0][loop], assignment1.getNumber(loop + 1).intValue());
-         assertEquals("Assignment 2 number " + (loop + 1), CUSTOM_NUMBER[1][loop], assignment2.getNumber(loop + 1).intValue());
+         assertEquals(CUSTOM_NUMBER[0][loop], assignment1.getNumber(loop + 1).intValue(), "Assignment 1 number " + (loop + 1));
+         assertEquals(CUSTOM_NUMBER[1][loop], assignment2.getNumber(loop + 1).intValue(), "Assignment 2 number " + (loop + 1));
       }
 
       for (int loop = 0; loop < CUSTOM_FLAG.length; loop++)
