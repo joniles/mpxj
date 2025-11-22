@@ -88,6 +88,12 @@
             <version>5.14.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>1.14.1</version>
+            <scope>test</scope>
+        </dependency>
 	</dependencies>
 
 	<mailingLists>
