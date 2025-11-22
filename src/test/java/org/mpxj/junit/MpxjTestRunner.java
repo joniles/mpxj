@@ -24,6 +24,11 @@ public class MpxjTestRunner
 {
    public static void main(String[] argv)
    {
+      run();
+   }
+
+   public static void run()
+   {
       Logger logger = Logger.getLogger(LoggingListener.class.getName());
       logger.setLevel(Level.ALL);
 
@@ -39,7 +44,7 @@ public class MpxjTestRunner
       handler.setFormatter(formatter);
       handler.setLevel(Level.ALL);
       logger.addHandler(handler);
-      
+
       TestExecutionListener listener = LoggingListener.forJavaUtilLogging();
       LauncherDiscoveryRequest request = LauncherDiscoveryRequestBuilder.request()
          .selectors(selectPackage("org.mpxj.junit"))
