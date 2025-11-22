@@ -3,6 +3,7 @@ package org.mpxj.junit;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Formatter;
 import java.util.logging.Level;
@@ -29,9 +30,8 @@ public class MpxjTestRunner
       Formatter formatter = new Formatter(){
          @Override public String format(LogRecord record)
          {
-            LocalDateTime date =
-               LocalDateTime.ofInstant(Instant.ofEpochMilli(record.getMillis()), ZoneId.systemDefault());
-            return date + "\t" + record.getMessage() + "\n";
+            LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochMilli(record.getMillis()), ZoneId.systemDefault());
+            return TIME_FORMAT.format(date) + "\t" + record.getMessage() + "\n";
          }
       };
 
@@ -49,4 +49,6 @@ public class MpxjTestRunner
       launcher.registerTestExecutionListeners(listener);
       launcher.execute(request);
    }
+
+   private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
 }
