@@ -5,7 +5,45 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 14.6.0 (unreleased)
+## 15.1.0 (unreleased)
+
+## 15.0.0 (2025-11-24)
+* **NEW FEATURES**
+* Updated `PrimaveraXERFileWriter` to allow a list of projects to be written to an XER file.
+* Updated `PrimaveraPMFileWriter` to allow a list of projects to be written to a PMXML file.
+* **CHANGES**
+* Include all available baselines when reading Asta Powerproject PP files (Contributed by gitgood88).
+* MPXJ will now store an arbitrary number of baselines rather than the hard limit of 11 previously in place. Only baselines numbered 0-10 will be interpreted by MPXJ, other baselines can just be stored and retrieved.
+* Added the Last Scheduled Date and Activity Percent Complete Based On Activity Steps attributes to `ProjectProperties` and ensured these are read from and written to P6 schedules (Based on a contribution by danielfromCL).
+* Header rows for empty tables are no longer written to XER files.
+* Add support for the Project attribute Activity Default Calendar Unique ID.
+* Added the `ProjectCalendar#getDefault` method. This returns true if the current calendar is the default calendar for the project file (e.g. MPP files) or project database (e.g. P6 database).
+* Added the `ProjectCalendar#setDefault` method. Calling this method sets the calendar as the default for the project file or project database.
+* Added the `ProjectCalendar#isParent` method.
+* Added the `ProjectCalendar#getDerivedCalendarsForProject` method.
+* Added the `ProjectCalendar#getProjectUniqueID` and `ProjectCalendar#setProjectUniqueID`methods. This attribute is used to indicate that a calendar belongs to a specific project.
+* When writing PMXML files, ensure that `OriginalProjectObjectId` is populated for baseline projects.
+* Added the `ProjectContext` class to represent common context data which can (depending on the source application) be shared across multiple projects.
+* Added the `ProjectFile#getProjectContext` method to retrieve the `ProjectContext` instance to which a project belongs.
+* Added the `Resource#getProjectContext` method to retrieve the `ProjectContext` instance to which a resource belongs.
+* Added the `ProjectCalendar#getProjectContext` method to retrieve the `ProjectContext` instance to which a calendar belongs.
+* Added the `ProjectFile#getCalendarsForProject` method. This retrieves global calendars, and any project-specific calendars relevant for this project.
+* Added the `Rate#valueOf` method.
+* Added the `TimeUnitDefaults` class to allow time unit related default values to be held as part of the `ProjectContext` class.
+* Updated to POI 5.5.0
+* Updated to Jackcess 4.0.10. Removed explicit Commons Lang 3 dependency.
+* Updated to JUnit 5.14.1
+* **BREAKING CHANGES**
+* The `ProjectFile#getBaselines` method now returns a `Map` instance keyed by baseline index.
+* When using the `readAll` method to read PMXML files, only projects will now be returned. Any baseline `ProjectFile` instances will now only be linked to their parent projects, and will not be present in the list returned by `readAll`.
+* For P6 projects the `ProjectFile#getCalendars` method will include all calendars from the file or database being read. To retrieve only calendars relevant to the project use the `ProjectFile#getCalendarsForProject` method.
+* For P6 projects the `ProjectCalendar#getDerivedCalendars` method will include all derived calendars from the file or database being read. To retrieve derived calendars relevant to a specific project use the `ProjectCalendar#getDerivedCalendarsForProject` method.
+* Removed the `ProjectEntity` class. The `ProjectProperties`, `Resource`, `ResourceAssignment` and `Task` classes no longer inherit from this class. The `ProjectProperties`, `ResourceAssignment` and `Task` classes provide a replacement for the `ProjectEntity#getParentFile` method. The `Resource` class no longer has a `getParentFile` method.
+* Removed the `ProjectCalendar#getParentFile` method. Calendars no longer belong directly to projects, but instead belong to a `ProjectContext` instance.
+* Removed the `Resource#addResourceAssignment` method. This method was originally only intended for internal use within MPXJ.
+* The `ResourceAssignment` class no longer provides a public constructor. The `Task#addResourceAssignment` method should be used instead.
+* Removed the `Task#addResourceAssignment(ResourceAssignment)` method. Use the `Task#addResourceAssignment(Resource)` method instead.
+* Removed the `Task#setSplits` method. This method was originally only intended for internal use.
 
 ## 14.5.2 (2025-10-22)
 * Fix an issue reading secondary constraint dates and finish constraint dates from Open Plan BK3 files.

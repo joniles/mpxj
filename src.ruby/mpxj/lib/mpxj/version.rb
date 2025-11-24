@@ -1,5 +1,5 @@
 # MPXJ gem module
 module MPXJ
   # MPXJ gem version number
-  VERSION = "14.5.2"
+  VERSION = "15.0.0"
 end

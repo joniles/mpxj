@@ -4,6 +4,13 @@ module MPXJ
       base.extend(PropertyClassMethods)
     end
 
+    # Retrieve the Activity Default Calendar Unique ID value
+    #
+    # @return Activity Default Calendar Unique ID value
+    def activity_default_calendar_unique_id
+      get_integer_value(attribute_values['activity_default_calendar_unique_id'])
+    end
+
     # Retrieve the Activity ID Increment value
     #
     # @return Activity ID Increment value
@@ -30,6 +37,13 @@ module MPXJ
     # @return Activity ID Suffix value
     def activity_id_suffix
       get_integer_value(attribute_values['activity_id_suffix'])
+    end
+
+    # Retrieve the Activity Percent Complete Based On Activity Steps value
+    #
+    # @return Activity Percent Complete Based On Activity Steps value
+    def activity_percent_complete_based_on_activity_steps
+      get_boolean_value(attribute_values['activity_percent_complete_based_on_activity_steps'])
     end
 
     # Retrieve the Actuals In Sync value
@@ -739,6 +753,13 @@ module MPXJ
       get_date_value(attribute_values['last_saved'])
     end
 
+    # Retrieve the Last Scheduled Date value
+    #
+    # @return Last Scheduled Date value
+    def last_scheduled_date
+      get_date_value(attribute_values['last_scheduled_date'])
+    end
+
     # Retrieve the Leveling Priorities value
     #
     # @return Leveling Priorities value
@@ -1244,10 +1265,12 @@ module MPXJ
     end
 
     ATTRIBUTE_TYPES = {
+      'activity_default_calendar_unique_id' => :integer,
       'activity_id_increment' => :integer,
       'activity_id_increment_based_on_selected_activity' => :boolean,
       'activity_id_prefix' => :string,
       'activity_id_suffix' => :integer,
+      'activity_percent_complete_based_on_activity_steps' => :boolean,
       'actuals_in_sync' => :boolean,
       'actual_cost' => :currency,
       'actual_duration' => :duration,
@@ -1349,6 +1372,7 @@ module MPXJ
       'last_author' => :string,
       'last_baseline_update_date' => :date,
       'last_saved' => :date,
+      'last_scheduled_date' => :date,
       'leveling_priorities' => :string,
       'level_all_resources' => :boolean,
       'level_resources_only_within_activity_total_float' => :boolean,
