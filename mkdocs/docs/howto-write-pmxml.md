@@ -37,6 +37,49 @@ The sample code below illustrates how to write data to a PMXML file.
 	}
 	```
 
+## Writing Multiple Projects
+
+MPXJ supports writing multiple projects to a PMXML file.
+
+=== "Java"
+	```java
+	package org.mpxj.howto.write;
+	
+	import org.mpxj.ProjectFile;
+	import org.mpxj.writer.FileFormat;
+	import org.mpxj.writer.UniversalProjectWriter;
+	
+	import java.util.List;
+	
+	public class PMXML
+	{	
+		public void write(List<ProjectFile> projects, String fileName) throws Exception
+		{
+			new UniversalProjectWriter(FileFormat.PMXML).write(projects, fileName);
+		}
+	}
+	```
+
+=== "C#"
+	```c#
+	using System.Collections.Generic;
+	using MPXJ.Net;
+	
+	namespace MpxjSamples.HowToWrite;
+	
+	public class PMXML
+	{	
+		public void Write(IList<ProjectFile> projects, string fileName)
+		{
+			new UniversalProjectWriter(FileFormat.PMXML).Write(projects, fileName);
+		}
+	}
+	```
+
+> Note that when writing multiple projects to a PMXML file, all projects
+> must share the sample `ProjectContext`. This is normally the case where
+> the projects have been read from the same source.
+
 ## Using PrimaveraPMFileWriter
 If required, the `PrimaveraPMFileWriter` class can be used directly, which
 provides access to additional options, as described below.
@@ -72,12 +115,12 @@ file by calling the `setWriteBaselines` method as shown below.
 	
 	public class PMXMLBaselines
 	{
-	 	public void Write(ProjectFile project, string fileName)
-	 	{
-		  	var writer = new PrimaveraPMFileWriter();
-		  	writer.WriteBaselines = true;
-		  	writer.Write(project, fileName);
-	 	}
+		public void Write(ProjectFile project, string fileName)
+		{
+			var writer = new PrimaveraPMFileWriter();
+			writer.WriteBaselines = true;
+			writer.Write(project, fileName);
+		}
 	}
 	```
 

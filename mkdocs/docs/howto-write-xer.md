@@ -38,6 +38,50 @@ The sample code below illustrates how to write data to an XER file.
 	}
 	```
 
+
+## Writing Multiple Projects
+
+MPXJ supports writing multiple projects to an XER file.
+
+=== "Java"
+	```java
+	package org.mpxj.howto.write;
+	
+	import org.mpxj.ProjectFile;
+	import org.mpxj.writer.FileFormat;
+	import org.mpxj.writer.UniversalProjectWriter;
+	
+	import java.util.List;
+	
+	public class XER
+	{
+		public void write(List<ProjectFile> projects, String fileName) throws Exception
+		{
+			new UniversalProjectWriter(FileFormat.XER).write(projects, fileName);
+		}
+	}
+	```
+
+=== "C#"
+	```c#
+	using System.Collections.Generic;
+	using MPXJ.Net;
+	
+	namespace MpxjSamples.HowToWrite;
+	
+	public class XER
+	{	
+		public void Write(IList<ProjectFile> projects, string fileName)
+		{
+			new UniversalProjectWriter(FileFormat.XER).Write(projects, fileName);
+		}
+	}
+	```
+
+> Note that when writing multiple projects to an XER file, all projects
+> must share the sample `ProjectContext`. This is normally the case where
+> the projects have been read from the same source.
+
 ## Using PrimaveraXERFileWriter
 If required, the `PrimaveraXERFileWriter` class can be used directly, which
 provides access to additional options, as described below.
@@ -77,11 +121,11 @@ below.
 	
 	public class XERCharset
 	{
-	 	public void Write(ProjectFile project, string fileName)
-	 	{
-		  	var writer = new PrimaveraXERFileWriter();
-		  	writer.Encoding = Encoding.GetEncoding("GB2312");
-		  	writer.Write(project, fileName);
-	 	}
+		public void Write(ProjectFile project, string fileName)
+		{
+			var writer = new PrimaveraXERFileWriter();
+			writer.Encoding = Encoding.GetEncoding("GB2312");
+			writer.Write(project, fileName);
+		}
 	}
 	```
