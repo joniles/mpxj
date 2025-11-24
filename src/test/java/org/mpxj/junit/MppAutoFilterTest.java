@@ -23,14 +23,15 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.Test;
 import org.mpxj.Filter;
 import org.mpxj.ProjectFile;
 import org.mpxj.TaskField;
 import org.mpxj.mpp.GanttChartView;
 import org.mpxj.mpp.MPPReader;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to exercise MPP file read functionality for various versions of

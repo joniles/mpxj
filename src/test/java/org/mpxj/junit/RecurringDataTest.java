@@ -23,16 +23,20 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import org.junit.Test;
+
 
 import java.time.DayOfWeek;
+
+import org.junit.jupiter.api.Test;
 import org.mpxj.RecurrenceType;
 import org.mpxj.RecurringData;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test recurring data functionality.

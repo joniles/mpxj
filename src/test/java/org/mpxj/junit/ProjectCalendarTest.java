@@ -23,7 +23,7 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.DayType;
 import org.mpxj.Duration;
 import org.mpxj.ProjectCalendar;
@@ -43,7 +44,8 @@ import org.mpxj.LocalTimeRange;
 import org.mpxj.TimeUnit;
 import org.mpxj.mpp.MPPReader;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * This class contains tests used to exercise ProjectCalendar functionality.

@@ -1,14 +1,18 @@
 
 package org.mpxj.junit;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mpxj.junit.MpxjAssert.*;
-import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.Test;
 import org.mpxj.ProjectFile;
 import org.mpxj.Resource;
 import org.mpxj.ResourceType;
 import org.mpxj.mpp.MPPReader;
 
-import org.junit.Test;
+
 
 /**
  * Tests reading resource field bit flags from MPP files.

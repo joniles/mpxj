@@ -23,17 +23,20 @@
 
 package org.mpxj.junit.task;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.reader.UniversalProjectReader;
-import org.junit.Test;
+
 
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
 import org.mpxj.junit.MpxjTestData;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure task custom outline codes are correctly handled.
@@ -91,7 +94,7 @@ public class TaskOutlineCodesTest
          String expectedValue = testIndex == index ? "OC" + index + "A" : null;
          String actualValue = task.getOutlineCode(index);
 
-         assertEquals(file.getName() + " Outline Code" + index, expectedValue, actualValue);
+         assertEquals(expectedValue, actualValue, file.getName() + " Outline Code" + index);
       }
    }
 
@@ -110,7 +113,7 @@ public class TaskOutlineCodesTest
          String expectedValue = testIndex == index ? "OC" + index + "A.OC" + index + "B" : null;
          String actualValue = task.getOutlineCode(index);
 
-         assertEquals(file.getName() + " Outline Code" + index, expectedValue, actualValue);
+         assertEquals(expectedValue, actualValue, file.getName() + " Outline Code" + index);
       }
    }
 

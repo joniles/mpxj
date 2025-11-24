@@ -23,12 +23,11 @@
 
 package org.mpxj.junit.task;
 
-import static org.junit.Assert.assertEquals;
+
 
 import java.io.File;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
@@ -36,6 +35,8 @@ import org.mpxj.TaskField;
 import org.mpxj.junit.MpxjTestData;
 import org.mpxj.primavera.PrimaveraPMFileReader;
 import org.mpxj.primavera.PrimaveraXERFileReader;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure task baseline values are correctly handled.

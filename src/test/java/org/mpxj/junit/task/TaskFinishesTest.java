@@ -23,20 +23,23 @@
 
 package org.mpxj.junit.task;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.junit.ProjectUtility;
 import org.mpxj.reader.UniversalProjectReader;
-import org.junit.Test;
+
 
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
 import org.mpxj.junit.MpxjTestData;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure task custom finish dates are correctly handled.
@@ -93,7 +96,7 @@ public class TaskFinishesTest
          }
          LocalDateTime actualValue = task.getFinish(index);
 
-         assertEquals(file.getName() + " Finish" + index, expectedValue, actualValue);
+         assertEquals(expectedValue, actualValue, file.getName() + " Finish" + index);
       }
    }
 

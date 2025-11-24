@@ -23,13 +23,14 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.Duration;
 import org.mpxj.ProjectFile;
@@ -42,7 +43,7 @@ import org.mpxj.mpp.TimescaleUnits;
 import org.mpxj.utility.TimephasedUtility;
 import org.mpxj.utility.TimescaleUtility;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * This example shows an MPP, MPX or MSPDI file being read, and basic
@@ -739,7 +740,7 @@ public class TimephasedWorkCostSegmentTest
       assertEquals(expected.length, durationList.size());
       for (int loop = 0; loop < expected.length; loop++)
       {
-         assertEquals("Failed at index " + loop, expected[loop], durationList.get(loop).getDuration(), 0.009);
+         assertEquals(expected[loop], durationList.get(loop).getDuration(), 0.009, "Failed at index " + loop);
       }
    }
 
@@ -762,7 +763,7 @@ public class TimephasedWorkCostSegmentTest
       assertEquals(expected.length, costList.size());
       for (int loop = 0; loop < expected.length; loop++)
       {
-         assertEquals("Failed at index " + loop, expected[loop], costList.get(loop).doubleValue(), 0.009);
+         assertEquals(expected[loop], costList.get(loop).doubleValue(), 0.009, "Failed at index " + loop);
       }
    }
 
@@ -810,7 +811,7 @@ public class TimephasedWorkCostSegmentTest
       assertEquals(expected.length, costList.size());
       for (int loop = 0; loop < expected.length; loop++)
       {
-         assertEquals("Failed at index " + loop, expected[loop], costList.get(loop).doubleValue(), 0.02);
+         assertEquals(expected[loop], costList.get(loop).doubleValue(), 0.02, "Failed at index " + loop);
       }
    }
 

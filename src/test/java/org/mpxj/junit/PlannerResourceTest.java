@@ -23,11 +23,12 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.Test;
 import org.mpxj.ProjectFile;
 import org.mpxj.planner.PlannerReader;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Tests to exercise Planner file read functionality.

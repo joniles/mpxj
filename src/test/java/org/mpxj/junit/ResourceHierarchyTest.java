@@ -22,10 +22,11 @@
 
 package org.mpxj.junit;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.ProjectFile;
 import org.mpxj.Resource;
-import org.junit.Assert;
-import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Resource hierarchy tests.
@@ -51,26 +52,26 @@ public class ResourceHierarchyTest
       Resource resource4 = file.addResource();
       resource4.setName("Resource 4");
 
-      Assert.assertEquals(4, file.getResources().size());
-      Assert.assertEquals(3, file.getChildResources().size());
-      Assert.assertEquals(0, resource1.getChildResources().size());
-      Assert.assertEquals(1, resource2.getChildResources().size());
-      Assert.assertEquals(0, resource3.getChildResources().size());
-      Assert.assertEquals(0, resource4.getChildResources().size());
+      assertEquals(4, file.getResources().size());
+      assertEquals(3, file.getChildResources().size());
+      assertEquals(0, resource1.getChildResources().size());
+      assertEquals(1, resource2.getChildResources().size());
+      assertEquals(0, resource3.getChildResources().size());
+      assertEquals(0, resource4.getChildResources().size());
 
       file.removeResource(resource1);
 
-      Assert.assertEquals(3, file.getResources().size());
-      Assert.assertEquals(2, file.getChildResources().size());
-      Assert.assertEquals(1, resource2.getChildResources().size());
-      Assert.assertEquals(0, resource3.getChildResources().size());
-      Assert.assertEquals(0, resource4.getChildResources().size());
+      assertEquals(3, file.getResources().size());
+      assertEquals(2, file.getChildResources().size());
+      assertEquals(1, resource2.getChildResources().size());
+      assertEquals(0, resource3.getChildResources().size());
+      assertEquals(0, resource4.getChildResources().size());
 
       file.removeResource(resource3);
 
-      Assert.assertEquals(2, file.getResources().size());
-      Assert.assertEquals(2, file.getChildResources().size());
-      Assert.assertEquals(0, resource2.getChildResources().size());
-      Assert.assertEquals(0, resource4.getChildResources().size());
+      assertEquals(2, file.getResources().size());
+      assertEquals(2, file.getChildResources().size());
+      assertEquals(0, resource2.getChildResources().size());
+      assertEquals(0, resource4.getChildResources().size());
    }
 }

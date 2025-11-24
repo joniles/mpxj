@@ -23,17 +23,20 @@
 
 package org.mpxj.junit.task;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.reader.UniversalProjectReader;
-import org.junit.Test;
+
 
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
 import org.mpxj.junit.MpxjTestData;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure the text versions of Start, Finish and Duration are read correctly.
@@ -59,14 +62,14 @@ public class TaskTextValuesTest
    private void testTaskTextValues(File file) throws MPXJException
    {
       ProjectFile project = new UniversalProjectReader().read(file);
-      assertEquals(file.getName() + " number of tasks", EXPECTED_VALUES.length + 1, project.getTasks().size());
+      assertEquals(EXPECTED_VALUES.length + 1, project.getTasks().size(), file.getName() + " number of tasks");
       for (int loop = 0; loop < EXPECTED_VALUES.length; loop++)
       {
          Task task = project.getTaskByID(Integer.valueOf(loop + 1));
-         assertEquals(file.getName() + " task name", EXPECTED_VALUES[loop][0], task.getName());
-         assertEquals(file.getName() + " start text", EXPECTED_VALUES[loop][1], task.getStartText());
-         assertEquals(file.getName() + " finish text", EXPECTED_VALUES[loop][2], task.getFinishText());
-         assertEquals(file.getName() + " duration text", EXPECTED_VALUES[loop][3], task.getDurationText());
+         assertEquals(EXPECTED_VALUES[loop][0], task.getName(), file.getName() + " task name");
+         assertEquals(EXPECTED_VALUES[loop][1], task.getStartText(), file.getName() + " start text");
+         assertEquals(EXPECTED_VALUES[loop][2], task.getFinishText(), file.getName() + " finish text");
+         assertEquals(EXPECTED_VALUES[loop][3], task.getDurationText(), file.getName() + " duration text");
       }
    }
 

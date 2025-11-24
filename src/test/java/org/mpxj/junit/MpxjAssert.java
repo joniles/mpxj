@@ -26,7 +26,9 @@ package org.mpxj.junit;
 import org.mpxj.Duration;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.JvmHelper;
-import org.junit.Assume;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 /**
  * MPXJ's own unit test assertion methods.
@@ -46,7 +48,7 @@ public final class MpxjAssert
     */
    public static void assumeJvm()
    {
-      Assume.assumeFalse(JvmHelper.isIkvm());
+      assumeFalse(JvmHelper.isIkvm());
    }
 
    /**
@@ -58,7 +60,7 @@ public final class MpxjAssert
     */
    public static void assertBooleanEquals(String message, boolean expected, boolean actual)
    {
-      org.junit.Assert.assertEquals(message, Boolean.valueOf(expected), Boolean.valueOf(actual));
+      assertEquals(Boolean.valueOf(expected), Boolean.valueOf(actual), message);
    }
 
    /**
@@ -69,7 +71,7 @@ public final class MpxjAssert
     */
    public static void assertBooleanEquals(boolean expected, boolean actual)
    {
-      org.junit.Assert.assertEquals(Boolean.valueOf(expected), Boolean.valueOf(actual));
+      assertEquals(Boolean.valueOf(expected), Boolean.valueOf(actual));
    }
 
    /**
@@ -81,7 +83,7 @@ public final class MpxjAssert
     */
    public static void assertDurationEquals(double expectedDuration, TimeUnit expectedUnits, Duration duration)
    {
-      org.junit.Assert.assertEquals(expectedDuration, duration.getDuration(), 0.005);
-      org.junit.Assert.assertEquals(expectedUnits, duration.getUnits());
+      assertEquals(expectedDuration, duration.getDuration(), 0.005);
+      assertEquals(expectedUnits, duration.getUnits());
    }
 }

@@ -23,17 +23,21 @@
 
 package org.mpxj.junit.task;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.reader.UniversalProjectReader;
-import org.junit.Test;
+
 
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
 import org.mpxj.junit.MpxjTestData;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Tests to ensure deleted tasks, both blank and normal, are handled correctly.
@@ -91,8 +95,8 @@ public class TaskDeletionTest
       for (int index = 0; index < expectedNames.length; index++)
       {
          Task task = project.getTaskByID(Integer.valueOf(index + 1));
-         assertNotNull(file.getName() + " Task " + (index + 1), task);
-         assertEquals(file.getName() + " Task " + task.getID(), expectedNames[index], task.getName());
+         assertNotNull(task, file.getName() + " Task " + (index + 1));
+         assertEquals(expectedNames[index], task.getName(), file.getName() + " Task " + task.getID());
       }
    }
    private static final String[] TASK_DELETION1 =

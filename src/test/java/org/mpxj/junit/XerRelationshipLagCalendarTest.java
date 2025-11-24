@@ -22,12 +22,12 @@
 
 package org.mpxj.junit;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.ProjectFile;
 import org.mpxj.RelationshipLagCalendar;
 import org.mpxj.primavera.PrimaveraXERFileReader;
-import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Validate relationship lag calendar read correctly.

@@ -23,7 +23,7 @@
 
 package org.mpxj.junit.legacy;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 import java.nio.file.Files;
@@ -32,8 +32,7 @@ import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import org.mpxj.CustomFieldContainer;
 import org.mpxj.Duration;
 import org.mpxj.MPXJException;
@@ -60,6 +59,13 @@ import org.mpxj.mspdi.MSPDIReader;
 import org.mpxj.mspdi.MSPDIWriter;
 import org.mpxj.planner.PlannerWriter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 /**
  * This class contains a small set of tests to exercise the MPXJ library.
  */
@@ -80,7 +86,7 @@ public class BasicTest
       writer.setUseLocaleDefaults(false);
       writer.write(mpx, out);
       boolean success = FileUtility.equals(in, out);
-      assertTrue("Files are not identical", success);
+      assertTrue(success, "Files are not identical");
       out.deleteOnExit();
    }
 
@@ -97,7 +103,7 @@ public class BasicTest
       File out = Files.createTempFile("junit", ".xml").toFile();
       new MSPDIWriter().write(xml, out);
       boolean success = FileUtility.equals(in, out);
-      assertTrue("Files are not identical", success);
+      assertTrue(success, "Files are not identical");
       out.deleteOnExit();
    }
 
@@ -116,7 +122,7 @@ public class BasicTest
       writer.setUseLocaleDefaults(false);
       writer.write(mpx, out);
       boolean success = FileUtility.equals(in, out);
-      assertTrue("Files are not identical", success);
+      assertTrue(success, "Files are not identical");
       out.deleteOnExit();
    }
 
@@ -134,7 +140,7 @@ public class BasicTest
       writer.setUseLocaleDefaults(false);
       writer.write(mpx, out);
       boolean success = FileUtility.equals(new File(MpxjTestData.filePath("empty.mpx")), out);
-      assertTrue("Files are not identical", success);
+      assertTrue(success, "Files are not identical");
       out.deleteOnExit();
    }
 
@@ -553,7 +559,7 @@ public class BasicTest
 
       for (Task task : mpp.getTasks())
       {
-         assertEquals("Outline levels do not match", task.getOutlineLevel().intValue(), calculateOutlineLevel(task));
+         assertEquals(task.getOutlineLevel().intValue(), calculateOutlineLevel(task), "Outline levels do not match");
       }
    }
 
@@ -600,55 +606,55 @@ public class BasicTest
       File in = new File(MpxjTestData.filePath("legacy/mpp8flags1.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
       List<Task> tasks = mpp.getTasks();
-      assertTrue("Not enough tasks", (!tasks.isEmpty()));
-      assertTrue("Not an even number of tasks", (tasks.size() % 2 == 0));
+      assertTrue((!tasks.isEmpty()), "Not enough tasks");
+      assertTrue((tasks.size() % 2 == 0), "Not an even number of tasks");
 
       Iterator<Task> iter = tasks.iterator();
       Task task;
       while (iter.hasNext())
       {
          task = iter.next();
-         assertFalse(task.getName(), task.getFlag(1));
-         assertFalse(task.getName(), task.getFlag(2));
-         assertFalse(task.getName(), task.getFlag(3));
-         assertFalse(task.getName(), task.getFlag(4));
-         assertFalse(task.getName(), task.getFlag(5));
-         assertFalse(task.getName(), task.getFlag(6));
-         assertFalse(task.getName(), task.getFlag(7));
-         assertFalse(task.getName(), task.getFlag(8));
-         assertFalse(task.getName(), task.getFlag(9));
-         assertFalse(task.getName(), task.getFlag(10));
-         assertFalse(task.getName(), task.getFlag(11));
-         assertFalse(task.getName(), task.getFlag(12));
-         assertFalse(task.getName(), task.getFlag(13));
-         assertFalse(task.getName(), task.getFlag(14));
-         assertFalse(task.getName(), task.getFlag(15));
-         assertFalse(task.getName(), task.getFlag(16));
-         assertFalse(task.getName(), task.getFlag(17));
-         assertFalse(task.getName(), task.getFlag(18));
-         assertFalse(task.getName(), task.getFlag(19));
+         assertFalse(task.getFlag(1), task.getName());
+         assertFalse(task.getFlag(2), task.getName());
+         assertFalse(task.getFlag(3), task.getName());
+         assertFalse(task.getFlag(4), task.getName());
+         assertFalse(task.getFlag(5), task.getName());
+         assertFalse(task.getFlag(6), task.getName());
+         assertFalse(task.getFlag(7), task.getName());
+         assertFalse(task.getFlag(8), task.getName());
+         assertFalse(task.getFlag(9), task.getName());
+         assertFalse(task.getFlag(10), task.getName());
+         assertFalse(task.getFlag(11), task.getName());
+         assertFalse(task.getFlag(12), task.getName());
+         assertFalse(task.getFlag(13), task.getName());
+         assertFalse(task.getFlag(14), task.getName());
+         assertFalse(task.getFlag(15), task.getName());
+         assertFalse(task.getFlag(16), task.getName());
+         assertFalse(task.getFlag(17), task.getName());
+         assertFalse(task.getFlag(18), task.getName());
+         assertFalse(task.getFlag(19), task.getName());
          //assertFalse(task.getName(), task.getFlag(20));
 
          task = iter.next();
-         assertTrue(task.getName(), task.getFlag(1));
-         assertTrue(task.getName(), task.getFlag(2));
-         assertTrue(task.getName(), task.getFlag(3));
-         assertTrue(task.getName(), task.getFlag(4));
-         assertTrue(task.getName(), task.getFlag(5));
-         assertTrue(task.getName(), task.getFlag(6));
-         assertTrue(task.getName(), task.getFlag(7));
-         assertTrue(task.getName(), task.getFlag(8));
-         assertTrue(task.getName(), task.getFlag(9));
-         assertTrue(task.getName(), task.getFlag(10));
-         assertTrue(task.getName(), task.getFlag(11));
-         assertTrue(task.getName(), task.getFlag(12));
-         assertTrue(task.getName(), task.getFlag(13));
-         assertTrue(task.getName(), task.getFlag(14));
-         assertTrue(task.getName(), task.getFlag(15));
-         assertTrue(task.getName(), task.getFlag(16));
-         assertTrue(task.getName(), task.getFlag(17));
-         assertTrue(task.getName(), task.getFlag(18));
-         assertTrue(task.getName(), task.getFlag(19));
+         assertTrue(task.getFlag(1), task.getName());
+         assertTrue(task.getFlag(2), task.getName());
+         assertTrue(task.getFlag(3), task.getName());
+         assertTrue(task.getFlag(4), task.getName());
+         assertTrue(task.getFlag(5), task.getName());
+         assertTrue(task.getFlag(6), task.getName());
+         assertTrue(task.getFlag(7), task.getName());
+         assertTrue(task.getFlag(8), task.getName());
+         assertTrue(task.getFlag(9), task.getName());
+         assertTrue(task.getFlag(10), task.getName());
+         assertTrue(task.getFlag(11), task.getName());
+         assertTrue(task.getFlag(12), task.getName());
+         assertTrue(task.getFlag(13), task.getName());
+         assertTrue(task.getFlag(14), task.getName());
+         assertTrue(task.getFlag(15), task.getName());
+         assertTrue(task.getFlag(16), task.getName());
+         assertTrue(task.getFlag(17), task.getName());
+         assertTrue(task.getFlag(18), task.getName());
+         assertTrue(task.getFlag(19), task.getName());
          //assertTrue(task.getName(), task.getFlag(20));
       }
    }
@@ -670,7 +676,7 @@ public class BasicTest
          if (!task.getName().startsWith("Parent"))
          {
             flags = getFlagArray(task);
-            assertTrue("Incorrect flag set in task " + task.getName(), testSingleFlagTrue(flags, index));
+            assertTrue(testSingleFlagTrue(flags, index), "Incorrect flag set in task " + task.getName());
             ++index;
             if (index == 20)
             {
@@ -690,58 +696,58 @@ public class BasicTest
       File in = new File(MpxjTestData.filePath("legacy/mpp9flags1.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
       Task parentTask = mpp.getTaskByID(Integer.valueOf(0));
-      assertNotNull("Parent task missing", parentTask);
+      assertNotNull(parentTask, "Parent task missing");
       List<Task> tasks = parentTask.getChildTasks();
-      assertTrue("Not enough tasks", (!tasks.isEmpty()));
-      assertTrue("Not an even number of tasks", (tasks.size() % 2 == 0));
+      assertTrue((!tasks.isEmpty()), "Not enough tasks");
+      assertTrue((tasks.size() % 2 == 0), "Not an even number of tasks");
 
       Iterator<Task> iter = tasks.iterator();
       Task task;
       while (iter.hasNext())
       {
          task = iter.next();
-         assertFalse(task.getName(), task.getFlag(1));
-         assertFalse(task.getName(), task.getFlag(2));
-         assertFalse(task.getName(), task.getFlag(3));
-         assertFalse(task.getName(), task.getFlag(4));
-         assertFalse(task.getName(), task.getFlag(5));
-         assertFalse(task.getName(), task.getFlag(6));
-         assertFalse(task.getName(), task.getFlag(7));
-         assertFalse(task.getName(), task.getFlag(8));
-         assertFalse(task.getName(), task.getFlag(9));
-         assertFalse(task.getName(), task.getFlag(10));
-         assertFalse(task.getName(), task.getFlag(11));
-         assertFalse(task.getName(), task.getFlag(12));
-         assertFalse(task.getName(), task.getFlag(13));
-         assertFalse(task.getName(), task.getFlag(14));
-         assertFalse(task.getName(), task.getFlag(15));
-         assertFalse(task.getName(), task.getFlag(16));
-         assertFalse(task.getName(), task.getFlag(17));
-         assertFalse(task.getName(), task.getFlag(18));
-         assertFalse(task.getName(), task.getFlag(19));
-         assertFalse(task.getName(), task.getFlag(20));
+         assertFalse(task.getFlag(1), task.getName());
+         assertFalse(task.getFlag(2), task.getName());
+         assertFalse(task.getFlag(3), task.getName());
+         assertFalse(task.getFlag(4), task.getName());
+         assertFalse(task.getFlag(5), task.getName());
+         assertFalse(task.getFlag(6), task.getName());
+         assertFalse(task.getFlag(7), task.getName());
+         assertFalse(task.getFlag(8), task.getName());
+         assertFalse(task.getFlag(9), task.getName());
+         assertFalse(task.getFlag(10), task.getName());
+         assertFalse(task.getFlag(11), task.getName());
+         assertFalse(task.getFlag(12), task.getName());
+         assertFalse(task.getFlag(13), task.getName());
+         assertFalse(task.getFlag(14), task.getName());
+         assertFalse(task.getFlag(15), task.getName());
+         assertFalse(task.getFlag(16), task.getName());
+         assertFalse(task.getFlag(17), task.getName());
+         assertFalse(task.getFlag(18), task.getName());
+         assertFalse(task.getFlag(19), task.getName());
+         assertFalse(task.getFlag(20), task.getName());
 
          task = iter.next();
-         assertTrue(task.getName(), task.getFlag(1));
-         assertTrue(task.getName(), task.getFlag(2));
-         assertTrue(task.getName(), task.getFlag(3));
-         assertTrue(task.getName(), task.getFlag(4));
-         assertTrue(task.getName(), task.getFlag(5));
-         assertTrue(task.getName(), task.getFlag(6));
-         assertTrue(task.getName(), task.getFlag(7));
-         assertTrue(task.getName(), task.getFlag(8));
-         assertTrue(task.getName(), task.getFlag(9));
-         assertTrue(task.getName(), task.getFlag(10));
-         assertTrue(task.getName(), task.getFlag(11));
-         assertTrue(task.getName(), task.getFlag(12));
-         assertTrue(task.getName(), task.getFlag(13));
-         assertTrue(task.getName(), task.getFlag(14));
-         assertTrue(task.getName(), task.getFlag(15));
-         assertTrue(task.getName(), task.getFlag(16));
-         assertTrue(task.getName(), task.getFlag(17));
-         assertTrue(task.getName(), task.getFlag(18));
-         assertTrue(task.getName(), task.getFlag(19));
-         assertTrue(task.getName(), task.getFlag(20));
+         assertTrue(task.getFlag(1), task.getName());
+         assertTrue(task.getFlag(2), task.getName());
+         assertTrue(task.getFlag(3), task.getName());
+         assertTrue(task.getFlag(4), task.getName());
+         assertTrue(task.getFlag(5), task.getName());
+         assertTrue(task.getFlag(6), task.getName());
+         assertTrue(task.getFlag(7), task.getName());
+         assertTrue(task.getFlag(8), task.getName());
+         assertTrue(task.getFlag(9), task.getName());
+         assertTrue(task.getFlag(10), task.getName());
+         assertTrue(task.getFlag(11), task.getName());
+         assertTrue(task.getFlag(12), task.getName());
+         assertTrue(task.getFlag(13), task.getName());
+         assertTrue(task.getFlag(14), task.getName());
+         assertTrue(task.getFlag(15), task.getName());
+         assertTrue(task.getFlag(16), task.getName());
+         assertTrue(task.getFlag(17), task.getName());
+         assertTrue(task.getFlag(18), task.getName());
+         assertTrue(task.getFlag(19), task.getName());
+         assertTrue(task.getFlag(20), task.getName());
       }
    }
 
@@ -762,7 +768,7 @@ public class BasicTest
          if (task.getUniqueID().intValue() != 0 && !task.getName().startsWith("Parent"))
          {
             flags = getFlagArray(task);
-            assertTrue("Incorrect flag set in task " + task.getName(), testSingleFlagTrue(flags, index));
+            assertTrue(testSingleFlagTrue(flags, index), "Incorrect flag set in task " + task.getName());
             ++index;
             if (index == 20)
             {
@@ -839,11 +845,11 @@ public class BasicTest
    {
       ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("legacy/sample98.mpp"));
       List<View> views = mpp.getViews();
-      assertEquals("Incorrect number of views", 1, views.size());
+      assertEquals(1, views.size(), "Incorrect number of views");
 
       mpp = new MPPReader().read(MpxjTestData.filePath("legacy/sample.mpp"));
       views = mpp.getViews();
-      assertEquals("Incorrect number of views", 3, views.size());
+      assertEquals(3, views.size(), "Incorrect number of views");
    }
 
    /**
@@ -859,7 +865,7 @@ public class BasicTest
       //         System.out.println(iter.next());
       //      }
 
-      assertEquals("Incorrect number of tables", 1, tables.size());
+      assertEquals(1, tables.size(), "Incorrect number of tables");
 
       mpp = new MPPReader().read(MpxjTestData.filePath("legacy/sample.mpp"));
       tables = mpp.getTables();
@@ -869,7 +875,7 @@ public class BasicTest
       //         System.out.println(iter.next());
       //      }
 
-      assertEquals("Incorrect number of tables", 2, tables.size());
+      assertEquals(2, tables.size(), "Incorrect number of tables");
    }
 
    /**
@@ -1741,7 +1747,7 @@ public class BasicTest
       writer.setUseLocaleDefaults(false);
       writer.write(mpx, out);
       boolean success = FileUtility.equals(in, out);
-      assertTrue("Files are not identical", success);
+      assertTrue(success, "Files are not identical");
       out.deleteOnExit();
    }
 }

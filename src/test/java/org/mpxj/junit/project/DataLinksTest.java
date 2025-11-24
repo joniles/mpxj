@@ -23,18 +23,20 @@
 
 package org.mpxj.junit.project;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+
+
 
 import java.io.File;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import org.mpxj.DataLinkContainer;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.junit.MpxjTestData;
 import org.mpxj.reader.UniversalProjectReader;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Very basic test to ensure data links are being read.

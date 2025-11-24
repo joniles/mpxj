@@ -23,9 +23,8 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+
+
 
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +43,9 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.mpxj.EPS;
 import org.mpxj.EpsNode;
 import org.mpxj.EpsProjectNode;
@@ -53,10 +55,8 @@ import org.mpxj.primavera.PrimaveraPMFileReader;
 import org.mpxj.primavera.PrimaveraXERFileReader;
 import org.mpxj.primavera.PrimaveraXERFileWriter;
 import org.mpxj.reader.ProjectReader;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.Before;
+
+
 
 import org.mpxj.ChildTaskContainer;
 import org.mpxj.ProjectFile;
@@ -74,6 +74,10 @@ import org.mpxj.primavera.PrimaveraPMFileWriter;
 import org.mpxj.reader.UniversalProjectReader;
 import org.mpxj.sdef.SDEFWriter;
 import org.mpxj.writer.ProjectWriter;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The tests contained in this class exercise MPXJ
@@ -196,7 +200,7 @@ public class CustomerDataTest
          System.out.println("Test: " + DIFF_TEST_DIR.getPath());
       }
 
-      assertEquals("Failed to read " + failures + " Primavera database projects", 0, failures);
+      assertEquals(0, failures, "Failed to read " + failures + " Primavera database projects");
    }
 
    /**
@@ -347,7 +351,7 @@ public class CustomerDataTest
    /**
     * Clear the field reporter ready to begin collecting data.
     */
-   @BeforeClass public static void initializeFieldReport()
+   @BeforeAll public static void initializeFieldReport()
    {
       if (useFieldReporter())
       {
@@ -359,7 +363,7 @@ public class CustomerDataTest
    /**
     * Report on the data collected by the field reporter.
     */
-   @AfterClass public static void generateFieldReport() throws Exception
+   @AfterAll public static void generateFieldReport() throws Exception
    {
       if (useFieldReporter() && TEST_COUNT == 12)
       {
@@ -371,7 +375,7 @@ public class CustomerDataTest
    /**
     * Increment the counter for the number of tests run.
     */
-   @Before public void incrementTestCount()
+   @BeforeAll public static void incrementTestCount()
    {
       ++TEST_COUNT;
    }
@@ -579,7 +583,7 @@ public class CustomerDataTest
          System.out.println("Test: " + DIFF_TEST_DIR.getPath());
       }
 
-      assertEquals("Failed to read " + failures + " files", 0, failures);
+      assertEquals(0, failures, "Failed to read " + failures + " files");
    }
 
    /**

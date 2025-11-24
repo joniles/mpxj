@@ -23,14 +23,15 @@
 
 package org.mpxj.junit.task;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.reader.UniversalProjectReader;
-import org.junit.Test;
+
 
 import org.mpxj.AccrueType;
 import org.mpxj.Duration;
@@ -41,6 +42,8 @@ import org.mpxj.Task;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.junit.MpxjTestData;
 import org.mpxj.mpp.ApplicationVersion;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure task baseline values are correctly handled.
@@ -58,8 +61,8 @@ public class TaskBaselinesTest
       for (int index = 0; index < SF259_BASELINE_STARTS.length; index++)
       {
          Task task = project.getTaskByID(Integer.valueOf(index + 1));
-         assertEquals(SF259_BASELINE_STARTS[index], m_dateFormat.format(task.getBaselineStart()));
-         assertEquals(SF259_BASELINE_FINISHES[index], m_dateFormat.format(task.getBaselineFinish()));
+         assertEquals(m_dateFormat.format(task.getBaselineStart()), SF259_BASELINE_STARTS[index]);
+         assertEquals(m_dateFormat.format(task.getBaselineFinish()), SF259_BASELINE_FINISHES[index]);
       }
    }
 
@@ -165,7 +168,7 @@ public class TaskBaselinesTest
             value = task.getBaselineDuration(index);
          }
 
-         assertEquals("Baseline" + index, DURATIONS[index], value.toString());
+         assertEquals(DURATIONS[index], value.toString(), "Baseline" + index);
       }
 
       return taskID;

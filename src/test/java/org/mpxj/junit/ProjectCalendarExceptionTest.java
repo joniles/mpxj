@@ -25,12 +25,13 @@ package org.mpxj.junit;
 
 import java.time.LocalDate;
 
-import static org.junit.Assert.*;
-
+import org.junit.jupiter.api.Test;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectFile;
-import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test to exercise {@code ProjectCalendarException} functionality.

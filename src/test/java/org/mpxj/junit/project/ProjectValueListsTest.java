@@ -23,14 +23,15 @@
 
 package org.mpxj.junit.project;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.reader.UniversalProjectReader;
-import org.junit.Test;
+
 
 import org.mpxj.CustomField;
 import org.mpxj.CustomFieldContainer;
@@ -39,6 +40,8 @@ import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.TaskField;
 import org.mpxj.junit.MpxjTestData;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure project custom field value lists are correctly handled.

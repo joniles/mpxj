@@ -23,13 +23,14 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.Test;
 import org.mpxj.Column;
 import org.mpxj.ProjectFile;
 import org.mpxj.Table;
 import org.mpxj.mpp.MPPReader;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test columns read from MPP files.

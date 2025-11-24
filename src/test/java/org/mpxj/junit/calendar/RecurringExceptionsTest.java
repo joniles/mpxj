@@ -23,7 +23,7 @@
 
 package org.mpxj.junit.calendar;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 import java.time.LocalDate;
@@ -32,8 +32,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.reader.UniversalProjectReader;
-import org.junit.Test;
+
 
 import java.time.DayOfWeek;
 import org.mpxj.MPXJException;
@@ -43,6 +44,11 @@ import org.mpxj.ProjectFile;
 import org.mpxj.RecurrenceType;
 import org.mpxj.RecurringData;
 import org.mpxj.junit.MpxjTestData;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests to ensure basic calendar details are read correctly.

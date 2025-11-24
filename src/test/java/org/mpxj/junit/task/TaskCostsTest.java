@@ -23,19 +23,22 @@
 
 package org.mpxj.junit.task;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.junit.ProjectUtility;
 import org.mpxj.reader.UniversalProjectReader;
-import org.junit.Test;
+
 
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.junit.MpxjTestData;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure task custom costs are correctly handled.
@@ -86,7 +89,7 @@ public class TaskCostsTest
          int expectedValue = testIndex == index ? index : 0;
          int actualValue = NumberHelper.getInt(task.getCost(index));
 
-         assertEquals(file.getName() + " Cost" + index, expectedValue, actualValue);
+         assertEquals(expectedValue, actualValue, file.getName() + " Cost" + index);
       }
    }
 }

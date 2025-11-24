@@ -23,10 +23,11 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.Filter;
 import org.mpxj.FilterContainer;
 import org.mpxj.GenericCriteria;
@@ -38,7 +39,10 @@ import org.mpxj.TaskField;
 import org.mpxj.TestOperator;
 import org.mpxj.mpp.MPPReader;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests to exercise MPP file read functionality for various versions of

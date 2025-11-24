@@ -24,13 +24,15 @@
 package org.mpxj.junit.project;
 
 import static org.mpxj.junit.MpxjAssert.*;
+
+import org.junit.jupiter.api.Test;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.junit.MpxjTestData;
 import org.mpxj.mspdi.MSPDIReader;
 
-import org.junit.Test;
+
 
 /**
  * Default duration format test.

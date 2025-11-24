@@ -23,10 +23,11 @@
 
 package org.mpxj.junit.primavera;
 
-import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.Test;
 import org.mpxj.primavera.PrimaveraDatabaseReader;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests for Primavera DatabaseReader functionality.

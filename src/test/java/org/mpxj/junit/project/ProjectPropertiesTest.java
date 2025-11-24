@@ -23,19 +23,22 @@
 
 package org.mpxj.junit.project;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 import java.util.Map;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.reader.UniversalProjectReader;
-import org.junit.Test;
+
 
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.junit.MpxjTestData;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure project properties are correctly handled.
@@ -70,7 +73,7 @@ public class ProjectPropertiesTest
       //
       //assertEquals("Title", properties.getProjectTitle());
 
-      assertEquals(file.getName(), "Subject", properties.getSubject());
+      assertEquals("Subject", properties.getSubject(), file.getName());
       assertEquals("Author", properties.getAuthor());
       assertEquals("Keywords", properties.getKeywords());
       assertEquals("Comments", properties.getComments());

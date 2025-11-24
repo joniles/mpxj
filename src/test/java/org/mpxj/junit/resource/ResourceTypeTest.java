@@ -23,17 +23,20 @@
 
 package org.mpxj.junit.resource;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.reader.UniversalProjectReader;
-import org.junit.Test;
+
 
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.ResourceType;
 import org.mpxj.junit.MpxjTestData;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure task custom costs are correctly handled.
@@ -71,22 +74,22 @@ public class ResourceTypeTest
          expectedType = ResourceType.COST;
       }
 
-      assertEquals(file.getName(), expectedType, project.getResourceByID(Integer.valueOf(1)).getType());
-      assertEquals(file.getName(), expectedType, project.getResourceByID(Integer.valueOf(2)).getType());
-      assertEquals(file.getName(), expectedType, project.getResourceByID(Integer.valueOf(3)).getType());
-      assertEquals(file.getName(), expectedType, project.getResourceByID(Integer.valueOf(4)).getType());
-      assertEquals(file.getName(), expectedType, project.getResourceByID(Integer.valueOf(5)).getType());
+      assertEquals(expectedType, project.getResourceByID(Integer.valueOf(1)).getType(), file.getName());
+      assertEquals(expectedType, project.getResourceByID(Integer.valueOf(2)).getType(), file.getName());
+      assertEquals(expectedType, project.getResourceByID(Integer.valueOf(3)).getType(), file.getName());
+      assertEquals(expectedType, project.getResourceByID(Integer.valueOf(4)).getType(), file.getName());
+      assertEquals(expectedType, project.getResourceByID(Integer.valueOf(5)).getType(), file.getName());
 
-      assertEquals(file.getName(), ResourceType.MATERIAL, project.getResourceByID(Integer.valueOf(6)).getType());
-      assertEquals(file.getName(), ResourceType.MATERIAL, project.getResourceByID(Integer.valueOf(7)).getType());
-      assertEquals(file.getName(), ResourceType.MATERIAL, project.getResourceByID(Integer.valueOf(8)).getType());
-      assertEquals(file.getName(), ResourceType.MATERIAL, project.getResourceByID(Integer.valueOf(9)).getType());
-      assertEquals(file.getName(), ResourceType.MATERIAL, project.getResourceByID(Integer.valueOf(10)).getType());
+      assertEquals(ResourceType.MATERIAL, project.getResourceByID(Integer.valueOf(6)).getType(), file.getName());
+      assertEquals(ResourceType.MATERIAL, project.getResourceByID(Integer.valueOf(7)).getType(), file.getName());
+      assertEquals(ResourceType.MATERIAL, project.getResourceByID(Integer.valueOf(8)).getType(), file.getName());
+      assertEquals(ResourceType.MATERIAL, project.getResourceByID(Integer.valueOf(9)).getType(), file.getName());
+      assertEquals(ResourceType.MATERIAL, project.getResourceByID(Integer.valueOf(10)).getType(), file.getName());
 
-      assertEquals(file.getName(), ResourceType.WORK, project.getResourceByID(Integer.valueOf(11)).getType());
-      assertEquals(file.getName(), ResourceType.WORK, project.getResourceByID(Integer.valueOf(12)).getType());
-      assertEquals(file.getName(), ResourceType.WORK, project.getResourceByID(Integer.valueOf(13)).getType());
-      assertEquals(file.getName(), ResourceType.WORK, project.getResourceByID(Integer.valueOf(14)).getType());
-      assertEquals(file.getName(), ResourceType.WORK, project.getResourceByID(Integer.valueOf(15)).getType());
+      assertEquals(ResourceType.WORK, project.getResourceByID(Integer.valueOf(11)).getType(), file.getName());
+      assertEquals(ResourceType.WORK, project.getResourceByID(Integer.valueOf(12)).getType(), file.getName());
+      assertEquals(ResourceType.WORK, project.getResourceByID(Integer.valueOf(13)).getType(), file.getName());
+      assertEquals(ResourceType.WORK, project.getResourceByID(Integer.valueOf(14)).getType(), file.getName());
+      assertEquals(ResourceType.WORK, project.getResourceByID(Integer.valueOf(15)).getType(), file.getName());
    }
 }

@@ -23,11 +23,12 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
 
 import java.util.HashSet;
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.Column;
 import org.mpxj.ProjectFile;
 import org.mpxj.Table;
@@ -36,7 +37,8 @@ import org.mpxj.ViewType;
 import org.mpxj.mpp.GanttChartView;
 import org.mpxj.mpp.MPPReader;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests to exercise MPP file read functionality for various versions of

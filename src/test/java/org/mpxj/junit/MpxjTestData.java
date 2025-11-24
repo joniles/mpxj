@@ -23,10 +23,13 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 import java.io.IOException;
+
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Simple utility class to provide access to named test data files.
@@ -90,5 +93,4 @@ public class MpxjTestData
       }
       return result;
    }
-
 }

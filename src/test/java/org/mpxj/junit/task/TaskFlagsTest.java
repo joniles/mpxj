@@ -23,18 +23,21 @@
 
 package org.mpxj.junit.task;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.junit.ProjectUtility;
 import org.mpxj.reader.UniversalProjectReader;
-import org.junit.Test;
+
 
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
 import org.mpxj.junit.MpxjTestData;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure task custom flags are correctly handled.
@@ -82,7 +85,7 @@ public class TaskFlagsTest
    {
       for (int index = 1; index <= maxIndex; index++)
       {
-         assertEquals(file.getName() + " Flag" + index, Boolean.valueOf(index == trueFlagIndex), Boolean.valueOf(task.getFlag(index)));
+         assertEquals(Boolean.valueOf(index == trueFlagIndex), Boolean.valueOf(task.getFlag(index)), file.getName() + " Flag" + index);
       }
    }
 }

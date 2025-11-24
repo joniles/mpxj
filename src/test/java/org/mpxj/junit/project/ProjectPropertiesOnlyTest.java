@@ -23,16 +23,18 @@
 
 package org.mpxj.junit.project;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.junit.MpxjTestData;
 import org.mpxj.mpp.MPPReader;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * Validate the behaviour of the "properties only" MPPReader flag.

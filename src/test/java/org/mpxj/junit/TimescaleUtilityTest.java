@@ -27,10 +27,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.mpp.TimescaleUnits;
 import org.mpxj.utility.TimescaleUtility;
-import org.junit.Test;
+
 
 /**
  * Tests to exercise the TimescaleUtility class.
@@ -232,7 +233,7 @@ public class TimescaleUtilityTest
 
    private void assertEquals(String expected, LocalDateTimeRange actual)
    {
-      org.junit.Assert.assertEquals(expected, formatDateRange(actual));
+      org.junit.jupiter.api.Assertions.assertEquals(expected, formatDateRange(actual));
    }
 
    private String formatDateRange(LocalDateTimeRange range)

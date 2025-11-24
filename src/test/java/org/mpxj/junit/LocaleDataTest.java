@@ -23,14 +23,17 @@
 
 package org.mpxj.junit;
 
-import static org.junit.Assert.assertNotNull;
 
-import org.junit.Test;
 
+
+
+import org.junit.jupiter.api.Test;
 import org.mpxj.AssignmentField;
 import org.mpxj.ProjectField;
 import org.mpxj.ResourceField;
 import org.mpxj.TaskField;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * LocaleData tests.
@@ -44,22 +47,22 @@ public class LocaleDataTest
    {
       for (ProjectField field : ProjectField.values())
       {
-         assertNotNull("ProjectField." + field.name() + " name is null", field.getName());
+         assertNotNull(field.getName(), "ProjectField." + field.name() + " name is null");
       }
 
       for (TaskField field : TaskField.values())
       {
-         assertNotNull("TaskField." + field.name() + " name is null", field.getName());
+         assertNotNull(field.getName(), "TaskField." + field.name() + " name is null");
       }
 
       for (ResourceField field : ResourceField.values())
       {
-         assertNotNull("ResourceField." + field.name() + " name is null", field.getName());
+         assertNotNull(field.getName(), "ResourceField." + field.name() + " name is null");
       }
 
       for (AssignmentField field : AssignmentField.values())
       {
-         assertNotNull("AssignmentField." + field.name() + " name is null", field.getName());
+         assertNotNull(field.getName(), "AssignmentField." + field.name() + " name is null");
       }
 
    }
