@@ -30,6 +30,7 @@
             <action dev="joniles" type="update">Added the `TimeUnitDefaults` class to allow time unit related default values to be held as part of the `ProjectContext` class.</action>
             <action dev="joniles" type="update">Updated to POI 5.5.0</action>
             <action dev="joniles" type="update">Updated to Jackcess 4.0.10. Removed explicit Commons Lang 3 dependency.</action>
+            <action dev="joniles" type="update">Updated to JUnit 5.14.1</action>
             <action dev="joniles" type="update">**BREAKING CHANGES**</action>
             <action dev="joniles" type="update">The `ProjectFile#getBaselines` method now returns a `Map` instance keyed by baseline index.</action>
             <action dev="joniles" type="update">When using the `readAll` method to read PMXML files, only projects will now be returned. Any baseline `ProjectFile` instances will now only be linked to their parent projects, and will not be present in the list returned by `readAll`.</action>
