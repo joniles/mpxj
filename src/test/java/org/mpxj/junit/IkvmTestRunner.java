@@ -36,7 +36,6 @@ import java.util.logging.Logger;
 import org.junit.jupiter.engine.JupiterTestEngine;
 import org.junit.platform.launcher.Launcher;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
-import org.junit.platform.launcher.TestPlan;
 import org.junit.platform.launcher.core.LauncherConfig;
 import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
 import org.junit.platform.launcher.core.LauncherFactory;
@@ -108,7 +107,6 @@ public class IkvmTestRunner
       SummaryGeneratingListener listener = new SummaryGeneratingListener();
 
       Launcher launcher = LauncherFactory.create(config);
-      TestPlan testPlan = launcher.discover(request);
       launcher.registerTestExecutionListeners(LoggingListener.forJavaUtilLogging(), listener);
       launcher.execute(request);
 
