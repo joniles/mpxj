@@ -184,7 +184,7 @@ public final class MPPReader extends AbstractProjectStreamReader
             List<LocalDateTimeRange> splits = task.getSplits();
             if (splits != null && splits.isEmpty())
             {
-               task.setSplits(null);
+               task.set(TaskField.SPLITS, null);
             }
             validationRelations(task);
             copyEstimatedBaselineFields(task);

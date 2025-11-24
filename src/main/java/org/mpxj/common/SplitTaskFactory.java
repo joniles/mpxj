@@ -33,6 +33,7 @@ import org.mpxj.LocalDateTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.Task;
+import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedWork;
 
@@ -145,7 +146,7 @@ public final class SplitTaskFactory
       Task task = assignment.getTask();
       if (splits.size() > 2)
       {
-         task.setSplits(splits);
+         task.set(TaskField.SPLITS, splits);
          if (task.getActualFinish() == null)
          {
             // TODO: this is not correct for partially complete splits. It is possible that this value is stored rather than calculated?
@@ -154,7 +155,7 @@ public final class SplitTaskFactory
       }
       else
       {
-         task.setSplits(null);
+         task.set(TaskField.SPLITS, null);
          task.setCompleteThrough(null);
       }
    }

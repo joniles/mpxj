@@ -3571,16 +3571,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Internal method used to set the list of splits.
-    *
-    * @param splits list of split times
-    */
-   public void setSplits(List<LocalDateTimeRange> splits)
-   {
-      set(TaskField.SPLITS, splits);
-   }
-
-   /**
     * Removes this task from the project.
     */
    public void remove()

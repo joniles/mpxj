@@ -41,6 +41,7 @@
             <action dev="joniles" type="update">Removed the `Resource#addResourceAssignment` method. This method was originally only intended for internal use within MPXJ.</action>
             <action dev="joniles" type="update">The `ResourceAssignment` class no longer provides a public constructor. The `Task#addResourceAssignment` method should be used instead.</action>
             <action dev="joniles" type="update">Removed the `Task#addResourceAssignment(ResourceAssignment)` method. Use the `Task#addResourceAssignment(Resource)` method instead.</action>
+            <action dev="joniles" type="update">Removed the `Task#setSplits` method. This method was originally only intended for internal use.</action>
 		</release>
 		<release date="2025-10-22" version="14.5.2">
             <action dev="joniles" type="update">Fix an issue reading secondary constraint dates and finish constraint dates from Open Plan BK3 files.</action>
