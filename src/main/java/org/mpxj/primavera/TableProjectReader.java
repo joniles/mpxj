@@ -1004,6 +1004,7 @@ abstract class TableProjectReader
       map.put(TaskField.WBS, "wbs_short_name");
       map.put(TaskField.SEQUENCE_NUMBER, "seq_num");
       map.put(TaskField.METHODOLOGY_GUID, "tmpl_guid");
+      map.put(TaskField.BASELINE_COST, "orig_cost");
 
       return map;
    }
