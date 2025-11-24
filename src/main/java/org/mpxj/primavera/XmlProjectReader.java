@@ -239,7 +239,7 @@ class XmlProjectReader
    {
       ProjectProperties properties = m_projectFile.getProjectProperties();
 
-      properties.setActivityPercentCompleteBasedOnActivitySteps(project.isActivityPercentCompleteBasedOnActivitySteps());
+      properties.setActivityPercentCompleteBasedOnActivitySteps(BooleanHelper.getBoolean(project.isActivityPercentCompleteBasedOnActivitySteps()));
       properties.setCreationDate(project.getCreateDate() == null ? project.getDateAdded() : project.getCreateDate());
       properties.setFinishDate(project.getFinishDate());
       properties.setGUID(DatatypeConverter.parseUUID(project.getGUID()));
