@@ -1622,40 +1622,40 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return last scheduled date
     */
-    public LocalDateTime getLastScheduledDate()
-    {
-       return (LocalDateTime) get(ProjectField.LAST_SCHEDULED_DATE);
-    }
+   public LocalDateTime getLastScheduledDate()
+   {
+      return (LocalDateTime) get(ProjectField.LAST_SCHEDULED_DATE);
+   }
 
-    /**
-     * Set the last scheduled date.
-     *
-     * @param value last scheduled date
-     */
-    public void setLastScheduledDate(LocalDateTime value)
-    {
-       set(ProjectField.LAST_SCHEDULED_DATE, value);
-    }
+   /**
+    * Set the last scheduled date.
+    *
+    * @param value last scheduled date
+    */
+   public void setLastScheduledDate(LocalDateTime value)
+   {
+      set(ProjectField.LAST_SCHEDULED_DATE, value);
+   }
 
    /**
     * Sets the activity percent complete based on activity steps flag.
     *
     * @param value true if activity percent complete is based on activity steps
     */
-    public void setActivityPercentCompleteBasedOnActivitySteps(boolean value)
-    {
-       set(ProjectField.ACTIVITY_PERCENT_COMPLETE_BASED_ON_ACTIVITY_STEPS, value);
-    }
+   public void setActivityPercentCompleteBasedOnActivitySteps(boolean value)
+   {
+      set(ProjectField.ACTIVITY_PERCENT_COMPLETE_BASED_ON_ACTIVITY_STEPS, value);
+   }
 
    /**
     * Retrieve the activity percent complete based on activity steps flag.
     *
     * @return true if activity percent complete is based on activity steps
     */
-    public boolean getStepCompleteFlag()
-    {
-       return BooleanHelper.getBoolean((Boolean) get(ProjectField.ACTIVITY_PERCENT_COMPLETE_BASED_ON_ACTIVITY_STEPS));
-    }
+   public boolean getStepCompleteFlag()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.ACTIVITY_PERCENT_COMPLETE_BASED_ON_ACTIVITY_STEPS));
+   }
 
    /**
     * Retrieves the move remaining starts back flag.
@@ -3747,7 +3747,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    {
       if (field instanceof ProjectField)
       {
-         switch ((ProjectField)field)
+         switch ((ProjectField) field)
          {
             case DEFAULT_CALENDAR_UNIQUE_ID:
             {
@@ -3784,7 +3784,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
                m_parentFile.getProjectContext().getTimeUnitDefaults().setMinutesPerYear((Integer) newValue);
                break;
             }
-            
+
             default:
             {
                break;

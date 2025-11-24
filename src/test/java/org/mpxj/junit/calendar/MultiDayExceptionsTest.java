@@ -23,14 +23,11 @@
 
 package org.mpxj.junit.calendar;
 
-
-
 import java.io.File;
 import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 import org.mpxj.reader.UniversalProjectReader;
-
 
 import org.mpxj.Duration;
 import org.mpxj.ProjectCalendar;

@@ -23,8 +23,6 @@
 
 package org.mpxj.junit.calendar;
 
-
-
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -34,7 +32,6 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 import org.mpxj.reader.UniversalProjectReader;
-
 
 import java.time.DayOfWeek;
 import org.mpxj.MPXJException;

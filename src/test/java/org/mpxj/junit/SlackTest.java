@@ -23,7 +23,6 @@
 
 package org.mpxj.junit;
 
-
 import org.junit.jupiter.api.Test;
 import org.mpxj.Duration;
 import org.mpxj.ProjectFile;

@@ -58,7 +58,7 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
 
       if (assignment.getTaskUniqueID() != null)
       {
-         m_taskIndex.computeIfAbsent(assignment.getTaskUniqueID(),  k -> new ArrayList<>()).add(assignment);
+         m_taskIndex.computeIfAbsent(assignment.getTaskUniqueID(), k -> new ArrayList<>()).add(assignment);
       }
    }
 
@@ -73,7 +73,7 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
 
       if (assignment.getTaskUniqueID() != null)
       {
-         m_taskIndex.getOrDefault(assignment.getTaskUniqueID(),  Collections.emptyList()).remove(assignment);
+         m_taskIndex.getOrDefault(assignment.getTaskUniqueID(), Collections.emptyList()).remove(assignment);
       }
    }
 

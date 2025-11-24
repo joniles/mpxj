@@ -23,8 +23,6 @@
 
 package org.mpxj.junit;
 
-
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 

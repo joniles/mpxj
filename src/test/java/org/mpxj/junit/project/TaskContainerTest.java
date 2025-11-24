@@ -23,10 +23,6 @@
 
 package org.mpxj.junit.project;
 
-
-
-
-
 import org.junit.jupiter.api.Test;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;

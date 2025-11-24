@@ -23,8 +23,6 @@
 
 package org.mpxj.junit.resource;
 
-
-
 import java.io.File;
 import java.util.List;
 

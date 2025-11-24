@@ -1072,7 +1072,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     * P6 expects XER files to have a single root WBS entry. If we have more
     * than one WBS entry at the top level we'll temporarily create a parent entry
     * to keep P6 happy.
-    * 
+    *
     * @param file project to check
     * @return temporary wbs entry
     */
@@ -1120,7 +1120,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    /**
     * Once we're done exporting, if we've created a temporary top level WBS
     * entry, we'll remove it to ensure the data is unchanged.
-    * 
+    *
     * @param wbs temporary wbs entry to revert
     */
    private void revertWbsHierarchyChange(TemporaryWbs wbs)

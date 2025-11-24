@@ -23,7 +23,6 @@
 
 package org.mpxj.junit;
 
-
 import org.junit.jupiter.api.Test;
 import org.mpxj.Column;
 import org.mpxj.ProjectFile;

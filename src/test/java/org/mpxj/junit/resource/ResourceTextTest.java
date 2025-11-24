@@ -23,14 +23,11 @@
 
 package org.mpxj.junit.resource;
 
-
-
 import java.io.File;
 
 import org.junit.jupiter.api.Test;
 import org.mpxj.junit.ProjectUtility;
 import org.mpxj.reader.UniversalProjectReader;
-
 
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
@@ -88,7 +85,7 @@ public class ResourceTextTest
          String expectedValue = testIndex == index ? Integer.toString(index) : null;
          String actualValue = resource.getText(index);
 
-         assertEquals( expectedValue, actualValue, file.getName() + " Text" + index);
+         assertEquals(expectedValue, actualValue, file.getName() + " Text" + index);
       }
    }
 }

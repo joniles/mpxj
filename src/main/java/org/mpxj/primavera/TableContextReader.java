@@ -159,7 +159,6 @@ abstract class TableContextReader
                .build()));
    }
 
-
    /**
     * Process shifts.
     *
@@ -854,7 +853,7 @@ abstract class TableContextReader
          resource.setCalendar(m_state.getContext().getCalendars().getByUniqueID(row.getInteger("clndr_id")));
 
          // Add User Defined Fields
-         TableReaderHelper.populateUserDefinedFieldValues(m_state,  "RSRC", FieldTypeClass.RESOURCE, resource, resource.getUniqueID());
+         TableReaderHelper.populateUserDefinedFieldValues(m_state, "RSRC", FieldTypeClass.RESOURCE, resource, resource.getUniqueID());
 
          resource.setNotesObject(NotesHelper.getNotes(resource.getNotes()));
 
@@ -937,13 +936,13 @@ abstract class TableContextReader
          }
 
          Rate[] values = new Rate[]
-            {
-               Rate.valueOf(row.getDouble("cost_per_qty"), TimeUnit.HOURS),
-               Rate.valueOf(row.getDouble("cost_per_qty2"), TimeUnit.HOURS),
-               Rate.valueOf(row.getDouble("cost_per_qty3"), TimeUnit.HOURS),
-               Rate.valueOf(row.getDouble("cost_per_qty4"), TimeUnit.HOURS),
-               Rate.valueOf(row.getDouble("cost_per_qty5"), TimeUnit.HOURS),
-            };
+         {
+            Rate.valueOf(row.getDouble("cost_per_qty"), TimeUnit.HOURS),
+            Rate.valueOf(row.getDouble("cost_per_qty2"), TimeUnit.HOURS),
+            Rate.valueOf(row.getDouble("cost_per_qty3"), TimeUnit.HOURS),
+            Rate.valueOf(row.getDouble("cost_per_qty4"), TimeUnit.HOURS),
+            Rate.valueOf(row.getDouble("cost_per_qty5"), TimeUnit.HOURS),
+         };
 
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
@@ -976,7 +975,6 @@ abstract class TableContextReader
          resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
       }
    }
-
 
    /**
     * Process role code assignments.
@@ -1068,13 +1066,13 @@ abstract class TableContextReader
          }
 
          Rate[] values = new Rate[]
-            {
-               Rate.valueOf(row.getDouble("cost_per_qty"), TimeUnit.HOURS),
-               Rate.valueOf(row.getDouble("cost_per_qty2"), TimeUnit.HOURS),
-               Rate.valueOf(row.getDouble("cost_per_qty3"), TimeUnit.HOURS),
-               Rate.valueOf(row.getDouble("cost_per_qty4"), TimeUnit.HOURS),
-               Rate.valueOf(row.getDouble("cost_per_qty5"), TimeUnit.HOURS),
-            };
+         {
+            Rate.valueOf(row.getDouble("cost_per_qty"), TimeUnit.HOURS),
+            Rate.valueOf(row.getDouble("cost_per_qty2"), TimeUnit.HOURS),
+            Rate.valueOf(row.getDouble("cost_per_qty3"), TimeUnit.HOURS),
+            Rate.valueOf(row.getDouble("cost_per_qty4"), TimeUnit.HOURS),
+            Rate.valueOf(row.getDouble("cost_per_qty5"), TimeUnit.HOURS),
+         };
 
          Double costPerUse = NumberHelper.getDouble(0.0);
          LocalDateTime startDate = row.getDate("start_date");

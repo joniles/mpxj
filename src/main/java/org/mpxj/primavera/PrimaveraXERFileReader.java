@@ -144,7 +144,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       for (Row row : rows)
       {
          ProjectFile project = new ProjectFile(state.getContext());
-         XerProjectReader reader = new XerProjectReader(file, project, row.getInteger("proj_id") , state);
+         XerProjectReader reader = new XerProjectReader(file, project, row.getInteger("proj_id"), state);
          reader.read();
          externalRelations.addAll(reader.getExternalRelations());
          result.add(project);

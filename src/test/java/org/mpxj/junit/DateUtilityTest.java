@@ -1,8 +1,6 @@
 
 package org.mpxj.junit;
 
-
-
 import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;

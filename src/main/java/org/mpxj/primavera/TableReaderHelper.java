@@ -131,7 +131,7 @@ class TableReaderHelper
    /**
     * Populate the UDF values for this entity.
     *
-    * @param state shared state data 
+    * @param state shared state data
     * @param tableName parent table name
     * @param type entity type
     * @param container entity

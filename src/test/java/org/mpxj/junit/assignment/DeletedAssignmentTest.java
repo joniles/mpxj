@@ -23,8 +23,6 @@
 
 package org.mpxj.junit.assignment;
 
-
-
 import java.io.File;
 import java.util.List;
 

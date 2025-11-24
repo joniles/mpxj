@@ -13,8 +13,6 @@ import org.mpxj.TaskMode;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.mpp.MPPReader;
 
-
-
 /**
  * Tests reading task field bit flags from MPP files.
  */

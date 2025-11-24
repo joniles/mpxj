@@ -23,9 +23,6 @@
 
 package org.mpxj.junit;
 
-
-
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -55,8 +52,6 @@ import org.mpxj.primavera.PrimaveraPMFileReader;
 import org.mpxj.primavera.PrimaveraXERFileReader;
 import org.mpxj.primavera.PrimaveraXERFileWriter;
 import org.mpxj.reader.ProjectReader;
-
-
 
 import org.mpxj.ChildTaskContainer;
 import org.mpxj.ProjectFile;

@@ -207,7 +207,6 @@ final class XmlContextWriter extends XmlWriter
       return result;
    }
 
-
    /**
     * Add UDFType objects to a PMXML file.
     *

@@ -132,7 +132,6 @@ public class ResourceAssignmentFactory
             data2 = assnFixedData2.getByteArrayValue(assnFixedData.getIndexFromOffset(offset));
          }
 
-
          Task task = file.getTaskByUniqueID(Integer.valueOf(ByteArrayHelper.getInt(data, fieldMap.getFixedDataOffset(AssignmentField.TASK_UNIQUE_ID))));
          if (task == null)
          {

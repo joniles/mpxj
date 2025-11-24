@@ -447,29 +447,29 @@ class XmlContextReader
       ResourceCurveValuesType curveValues = curve.getValues();
 
       double[] values =
-         {
-            NumberHelper.getDouble(curveValues.getValue0()),
-            NumberHelper.getDouble(curveValues.getValue5()),
-            NumberHelper.getDouble(curveValues.getValue10()),
-            NumberHelper.getDouble(curveValues.getValue15()),
-            NumberHelper.getDouble(curveValues.getValue20()),
-            NumberHelper.getDouble(curveValues.getValue25()),
-            NumberHelper.getDouble(curveValues.getValue30()),
-            NumberHelper.getDouble(curveValues.getValue35()),
-            NumberHelper.getDouble(curveValues.getValue40()),
-            NumberHelper.getDouble(curveValues.getValue45()),
-            NumberHelper.getDouble(curveValues.getValue50()),
-            NumberHelper.getDouble(curveValues.getValue55()),
-            NumberHelper.getDouble(curveValues.getValue60()),
-            NumberHelper.getDouble(curveValues.getValue65()),
-            NumberHelper.getDouble(curveValues.getValue70()),
-            NumberHelper.getDouble(curveValues.getValue75()),
-            NumberHelper.getDouble(curveValues.getValue80()),
-            NumberHelper.getDouble(curveValues.getValue85()),
-            NumberHelper.getDouble(curveValues.getValue90()),
-            NumberHelper.getDouble(curveValues.getValue95()),
-            NumberHelper.getDouble(curveValues.getValue100()),
-         };
+      {
+         NumberHelper.getDouble(curveValues.getValue0()),
+         NumberHelper.getDouble(curveValues.getValue5()),
+         NumberHelper.getDouble(curveValues.getValue10()),
+         NumberHelper.getDouble(curveValues.getValue15()),
+         NumberHelper.getDouble(curveValues.getValue20()),
+         NumberHelper.getDouble(curveValues.getValue25()),
+         NumberHelper.getDouble(curveValues.getValue30()),
+         NumberHelper.getDouble(curveValues.getValue35()),
+         NumberHelper.getDouble(curveValues.getValue40()),
+         NumberHelper.getDouble(curveValues.getValue45()),
+         NumberHelper.getDouble(curveValues.getValue50()),
+         NumberHelper.getDouble(curveValues.getValue55()),
+         NumberHelper.getDouble(curveValues.getValue60()),
+         NumberHelper.getDouble(curveValues.getValue65()),
+         NumberHelper.getDouble(curveValues.getValue70()),
+         NumberHelper.getDouble(curveValues.getValue75()),
+         NumberHelper.getDouble(curveValues.getValue80()),
+         NumberHelper.getDouble(curveValues.getValue85()),
+         NumberHelper.getDouble(curveValues.getValue90()),
+         NumberHelper.getDouble(curveValues.getValue95()),
+         NumberHelper.getDouble(curveValues.getValue100()),
+      };
 
       m_state.getContext().getWorkContours().add(new WorkContour(curve.getObjectId(), curve.getName(), BooleanHelper.getBoolean(curve.isIsDefault()), values));
    }
@@ -670,13 +670,13 @@ class XmlContextReader
          }
 
          Rate[] values = new Rate[]
-            {
-               Rate.valueOf(row.getPricePerUnit(), TimeUnit.HOURS),
-               Rate.valueOf(row.getPricePerUnit2(), TimeUnit.HOURS),
-               Rate.valueOf(row.getPricePerUnit3(), TimeUnit.HOURS),
-               Rate.valueOf(row.getPricePerUnit4(), TimeUnit.HOURS),
-               Rate.valueOf(row.getPricePerUnit5(), TimeUnit.HOURS),
-            };
+         {
+            Rate.valueOf(row.getPricePerUnit(), TimeUnit.HOURS),
+            Rate.valueOf(row.getPricePerUnit2(), TimeUnit.HOURS),
+            Rate.valueOf(row.getPricePerUnit3(), TimeUnit.HOURS),
+            Rate.valueOf(row.getPricePerUnit4(), TimeUnit.HOURS),
+            Rate.valueOf(row.getPricePerUnit5(), TimeUnit.HOURS),
+         };
 
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
@@ -747,13 +747,13 @@ class XmlContextReader
          }
 
          Rate[] values = new Rate[]
-            {
-               Rate.valueOf(row.getPricePerUnit(), TimeUnit.HOURS),
-               Rate.valueOf(row.getPricePerUnit2(), TimeUnit.HOURS),
-               Rate.valueOf(row.getPricePerUnit3(), TimeUnit.HOURS),
-               Rate.valueOf(row.getPricePerUnit4(), TimeUnit.HOURS),
-               Rate.valueOf(row.getPricePerUnit5(), TimeUnit.HOURS),
-            };
+         {
+            Rate.valueOf(row.getPricePerUnit(), TimeUnit.HOURS),
+            Rate.valueOf(row.getPricePerUnit2(), TimeUnit.HOURS),
+            Rate.valueOf(row.getPricePerUnit3(), TimeUnit.HOURS),
+            Rate.valueOf(row.getPricePerUnit4(), TimeUnit.HOURS),
+            Rate.valueOf(row.getPricePerUnit5(), TimeUnit.HOURS),
+         };
 
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project

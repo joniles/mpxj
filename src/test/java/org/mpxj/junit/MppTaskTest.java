@@ -30,7 +30,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mpxj.junit.MpxjAssert.*;
 
-
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -51,8 +50,6 @@ import org.mpxj.TimeUnit;
 import org.mpxj.mpd.MPDFileReader;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mspdi.MSPDIReader;
-
-
 
 /**
  * Tests to exercise MPP file read functionality for various versions of

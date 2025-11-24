@@ -23,10 +23,6 @@
 
 package org.mpxj.junit;
 
-
-
-
-
 import org.junit.jupiter.api.Test;
 import org.mpxj.AssignmentField;
 import org.mpxj.ProjectField;

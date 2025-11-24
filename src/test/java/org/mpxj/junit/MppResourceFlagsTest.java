@@ -12,8 +12,6 @@ import org.mpxj.Resource;
 import org.mpxj.ResourceType;
 import org.mpxj.mpp.MPPReader;
 
-
-
 /**
  * Tests reading resource field bit flags from MPP files.
  */

@@ -306,7 +306,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
-
    /**
     * Normally we'd just create an InputSource instance directly from
     * the input stream. Unfortunately P6 doesn't seem to filter out
@@ -342,7 +341,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       return result;
    }
-
 
    /**
     * Cached context to minimise construction cost.

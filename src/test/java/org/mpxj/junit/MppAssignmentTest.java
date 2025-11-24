@@ -28,7 +28,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mpxj.junit.MpxjAssert.*;
 
-
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -42,7 +41,6 @@ import org.mpxj.common.NumberHelper;
 import org.mpxj.mpd.MPDFileReader;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mspdi.MSPDIReader;
-
 
 /**
  * Tests to exercise file read functionality for various MS project file types.

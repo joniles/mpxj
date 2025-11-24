@@ -23,8 +23,6 @@
 
 package org.mpxj.junit.legacy;
 
-
-
 import java.io.File;
 import java.nio.file.Files;
 

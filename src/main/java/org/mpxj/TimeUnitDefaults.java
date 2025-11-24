@@ -52,7 +52,7 @@ public class TimeUnitDefaults implements TimeUnitDefaultsContainer
    {
       if (m_minutesPerWeek == null)
       {
-          m_minutesPerWeek = Integer.valueOf(DEFAULT_DAYS_PER_WEEK * NumberHelper.getInt(getMinutesPerDay()));
+         m_minutesPerWeek = Integer.valueOf(DEFAULT_DAYS_PER_WEEK * NumberHelper.getInt(getMinutesPerDay()));
       }
       return m_minutesPerWeek;
    }

@@ -166,7 +166,6 @@ abstract class TableProjectReader
       }
    }
 
-
    /**
     * Process activity code assignments.
     *
@@ -1096,7 +1095,7 @@ abstract class TableProjectReader
       return map;
    }
 
-   protected  ProjectFile m_project;
+   protected ProjectFile m_project;
    private final ClashMap m_activityClashMap = new ClashMap();
    protected TableReaderState m_state;
    private final List<ExternalRelation> m_externalRelations = new ArrayList<>();

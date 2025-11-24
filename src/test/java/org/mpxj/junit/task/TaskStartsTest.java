@@ -23,8 +23,6 @@
 
 package org.mpxj.junit.task;
 
-
-
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -33,7 +31,6 @@ import java.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.Test;
 import org.mpxj.junit.ProjectUtility;
 import org.mpxj.reader.UniversalProjectReader;
-
 
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;

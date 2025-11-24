@@ -32,8 +32,6 @@ import org.mpxj.TimeUnit;
 import org.mpxj.junit.MpxjTestData;
 import org.mpxj.mspdi.MSPDIReader;
 
-
-
 /**
  * Default duration format test.
  */

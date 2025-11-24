@@ -71,7 +71,8 @@ public class IkvmTestRunner
       Logger logger = Logger.getLogger(LoggingListener.class.getName());
       logger.setLevel(Level.ALL);
 
-      Formatter formatter = new Formatter(){
+      Formatter formatter = new Formatter()
+      {
          @Override public String format(LogRecord record)
          {
             LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochMilli(record.getMillis()), ZoneId.systemDefault());
@@ -102,7 +103,7 @@ public class IkvmTestRunner
             System.out.println("Unable to load " + className);
          }
       }
-      LauncherDiscoveryRequest request =  builder.build();
+      LauncherDiscoveryRequest request = builder.build();
 
       SummaryGeneratingListener listener = new SummaryGeneratingListener();
 

@@ -102,7 +102,7 @@ final class XerWriter
    /**
     * Write a table definition to an XER file.
     * Note that the definition is cached until the first row of the table is written.
-    * 
+    *
     * @param name table name
     * @param map table columns
     */

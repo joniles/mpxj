@@ -23,13 +23,10 @@
 
 package org.mpxj.junit.task;
 
-
-
 import java.io.File;
 
 import org.junit.jupiter.api.Test;
 import org.mpxj.reader.UniversalProjectReader;
-
 
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;

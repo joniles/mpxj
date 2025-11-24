@@ -23,15 +23,12 @@
 
 package org.mpxj.junit.task;
 
-
-
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import org.junit.jupiter.api.Test;
 import org.mpxj.reader.UniversalProjectReader;
-
 
 import org.mpxj.AccrueType;
 import org.mpxj.Duration;

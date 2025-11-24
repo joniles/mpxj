@@ -42,7 +42,7 @@ class XerContextReader extends TableContextReader
    public XerContextReader(XerFile file, TableReaderState state)
    {
       m_state = state;
-      m_file= file;
+      m_file = file;
    }
 
    /**
@@ -132,29 +132,29 @@ class XerContextReader extends TableContextReader
          }
 
          double[] values =
-            {
-               NumberHelper.getDouble(row.getDouble("pct_usage_0")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_1")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_2")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_3")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_4")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_5")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_6")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_7")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_8")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_9")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_10")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_11")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_12")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_13")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_14")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_15")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_16")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_17")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_18")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_19")),
-               NumberHelper.getDouble(row.getDouble("pct_usage_20"))
-            };
+         {
+            NumberHelper.getDouble(row.getDouble("pct_usage_0")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_1")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_2")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_3")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_4")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_5")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_6")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_7")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_8")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_9")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_10")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_11")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_12")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_13")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_14")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_15")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_16")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_17")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_18")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_19")),
+            NumberHelper.getDouble(row.getDouble("pct_usage_20"))
+         };
 
          contours.add(new WorkContour(id, row.getString("curv_name"), row.getBoolean("default_flag"), values));
       }

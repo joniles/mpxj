@@ -2789,7 +2789,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       if (field == ResourceField.UNIQUE_ID)
       {
          m_context.getResources().updateUniqueID(this, (Integer) oldValue, (Integer) newValue);
-         getResourceAssignmentStream((Integer)oldValue).forEach(a -> a.setResourceUniqueID((Integer) newValue));
+         getResourceAssignmentStream((Integer) oldValue).forEach(a -> a.setResourceUniqueID((Integer) newValue));
          return;
       }
 

@@ -32,7 +32,6 @@ import org.mpxj.LocalDateTimeRange;
 import org.mpxj.mpp.TimescaleUnits;
 import org.mpxj.utility.TimescaleUtility;
 
-
 /**
  * Tests to exercise the TimescaleUtility class.
  */

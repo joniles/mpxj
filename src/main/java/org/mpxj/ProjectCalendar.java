@@ -1247,9 +1247,9 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    {
       return Collections.unmodifiableList(
          m_context.getProjects().stream()
-         .flatMap(p -> p.getTasks().stream())
-         .filter(t -> m_uniqueID.equals(t.getCalendarUniqueID()))
-         .collect(Collectors.toList()));
+            .flatMap(p -> p.getTasks().stream())
+            .filter(t -> m_uniqueID.equals(t.getCalendarUniqueID()))
+            .collect(Collectors.toList()));
    }
 
    /**

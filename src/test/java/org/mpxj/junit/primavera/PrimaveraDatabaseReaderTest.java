@@ -23,7 +23,6 @@
 
 package org.mpxj.junit.primavera;
 
-
 import org.junit.jupiter.api.Test;
 import org.mpxj.primavera.PrimaveraDatabaseReader;
 
