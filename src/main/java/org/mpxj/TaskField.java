@@ -644,6 +644,7 @@ public enum TaskField implements FieldType
    IGNORE_WARNINGS(DataType.BOOLEAN),
    PEAK(DataType.UNITS),
    PHYSICAL_PERCENT_COMPLETE(DataType.PERCENTAGE),
+   ESTIMATED_WEIGHT(DataType.NUMERIC),
    PLACEHOLDER(DataType.BOOLEAN),
    PUBLISH(DataType.BOOLEAN),
    REQUEST_DEMAND(DataType.STRING), // Check data type

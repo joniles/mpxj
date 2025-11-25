@@ -3007,6 +3007,27 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Sets the Estimate Weight value.
+    *
+    * @param estimateWeight Estimate Weight value
+    */
+   public void setEstimateWeight(Number estimateWeight)
+   {
+      set(TaskField.ESTIMATED_WEIGHT, estimateWeight);
+   }
+
+
+   /**
+    * Retrieves the Estimate Weight value.
+    *
+    * @return Estimate Weight value
+    */
+   public Number getEstimateWeight()
+   {
+      return (Number) get(TaskField.ESTIMATED_WEIGHT);
+   }
+
+   /**
     * Retrieves the earned value method.
     *
     * @return earned value method

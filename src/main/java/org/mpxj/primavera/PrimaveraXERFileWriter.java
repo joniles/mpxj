@@ -1570,7 +1570,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       WBS_COLUMNS.put("proj_id", t -> t.getParentFile().getProjectProperties().getUniqueID());
       WBS_COLUMNS.put("obs_id", t -> "");
       WBS_COLUMNS.put("seq_num", PrimaveraXERFileWriter::getSequenceNumber);
-      WBS_COLUMNS.put("est_wt", t -> Integer.valueOf(1));
+      WBS_COLUMNS.put("est_wt", t -> t.getEstimateWeight() == null ? Integer.valueOf(1) : t.getEstimateWeight());
       WBS_COLUMNS.put("proj_node_flag", t -> Boolean.valueOf(t.getParentTask() == null));
       WBS_COLUMNS.put("sum_data_flag", t -> Boolean.TRUE);
       WBS_COLUMNS.put("status_code", t -> "WS_Open");
@@ -1603,7 +1603,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("clndr_id", Task::getCalendarUniqueID);
       ACTIVITY_COLUMNS.put("phys_complete_pct", Task::getPhysicalPercentComplete);
       ACTIVITY_COLUMNS.put("rev_fdbk_flag", t -> Boolean.FALSE);
-      ACTIVITY_COLUMNS.put("est_wt", t -> Integer.valueOf(1));
+      ACTIVITY_COLUMNS.put("est_wt", t -> t.getEstimateWeight() == null ? Integer.valueOf(1) : t.getEstimateWeight());
       ACTIVITY_COLUMNS.put("lock_plan_flag", t -> Boolean.FALSE);
       ACTIVITY_COLUMNS.put("auto_compute_act_flag", t -> Boolean.TRUE);
       ACTIVITY_COLUMNS.put("complete_pct_type", PrimaveraXERFileWriter::getPercentCompleteType);
@@ -1647,7 +1647,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("tmpl_guid", Task::getMethodologyGUID);
       ACTIVITY_COLUMNS.put("cstr_date2", Task::getSecondaryConstraintDate);
       ACTIVITY_COLUMNS.put("cstr_type2", Task::getSecondaryConstraintType);
-      ACTIVITY_COLUMNS.put("driving_path_flag", t -> Boolean.FALSE);
+      ACTIVITY_COLUMNS.put("driving_path_flag", Task::getLongestPath);
       ACTIVITY_COLUMNS.put("act_this_per_work_qty", t -> Integer.valueOf(0));
       ACTIVITY_COLUMNS.put("act_this_per_equip_qty", t -> Integer.valueOf(0));
       ACTIVITY_COLUMNS.put("external_early_start_date", Task::getExternalEarlyStart);
