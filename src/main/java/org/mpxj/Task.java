@@ -5700,7 +5700,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          return Double.valueOf(100.0);
       }
 
-      Duration x = getEffectiveCalendar().getWork(dataDate, baselineStart, TimeUnit.HOURS);
+      Duration x = getEffectiveCalendar().getWork(baselineStart, dataDate, TimeUnit.HOURS);
       Duration y = getEffectiveCalendar().getWork(baselineStart, baselineFinish, TimeUnit.HOURS);
 
       Double result = (x.getDuration() * 100.0) / y.getDuration();
@@ -5844,7 +5844,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          {
             if (relation.getPredecessorTask().getActualStart() == null || relation.getSuccessorTask().getActualFinish() != null || scheduleComplete)
             {
-               return calculateFreeSlackVariance(relation, getEarlyFinish(), successorTask.getEarlyStart(), true);
+               return calculateFreeSlackVariance(relation, getEarlyFinish(), successorTask.getEarlyStart());
             }
             return Duration.getInstance(0, TimeUnit.HOURS);
          }
@@ -5858,14 +5858,14 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
             if (relation.getPredecessorTask().getActualStart() == null)
             {
-               return calculateFreeSlackVariance(relation, getEarlyStart(), successorTask.getEarlyStart(), true);
+               return calculateFreeSlackVariance(relation, getEarlyStart(), successorTask.getEarlyStart());
             }
             return Duration.getInstance(0, TimeUnit.HOURS);
          }
 
          case FINISH_FINISH:
          {
-            return calculateFreeSlackVariance(relation, getEarlyFinish(), successorTask.getEarlyFinish(), true);
+            return calculateFreeSlackVariance(relation, getEarlyFinish(), successorTask.getEarlyFinish());
          }
 
          case START_FINISH:
@@ -5877,7 +5877,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return null;
    }
 
-   private Duration calculateFreeSlackVariance(Relation relation, LocalDateTime date1, LocalDateTime date2, boolean removeLag)
+   private Duration calculateFreeSlackVariance(Relation relation, LocalDateTime date1, LocalDateTime date2)
    {
       TimeUnit format = getDuration() == null ? TimeUnit.HOURS : getDuration().getUnits();
 
@@ -5887,7 +5887,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       }
 
       Duration variance = LocalDateTimeHelper.getVariance(getEffectiveCalendar(), date1, date2, format);
-      return removeLag ? removeLag(relation, variance) : variance;
+      return removeLag(relation, variance);
    }
 
    private Duration calculateFreeSlackWithoutSuccessors()
