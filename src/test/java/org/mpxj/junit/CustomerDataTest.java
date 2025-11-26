@@ -314,7 +314,7 @@ public class CustomerDataTest
       comparator.setExcluded(excluded);
       comparator.setNoWbsTest(noWbsTest);
       comparator.setNoResourceAssignmentTest(noResourceAssignmentTest);
-      comparator.setDebug(false);
+      comparator.setDebug(true);
 
       assertTrue(comparator.process(new File(m_privateDirectory, "XER"), ".xer"));
    }

@@ -31,6 +31,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.mpxj.AssignmentField;
+import org.mpxj.Duration;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
 import org.mpxj.ResourceAssignment;
@@ -320,7 +321,10 @@ public class PrimaveraSchedulerComparator
       boolean actualFinishFailed = !compareDates(baseline, working, TaskField.ACTUAL_FINISH);
       boolean remainingEarlyStartFailed = !compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
       boolean remainingEarlyFinishFailed = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
-      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || actualStartFailed || actualFinishFailed || remainingEarlyStartFailed || remainingEarlyFinishFailed)
+      boolean freeFloatFailed = !compareDurations(baseline, working, TaskField.FREE_SLACK);
+      boolean totalFloatFailed = !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
+
+      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || actualStartFailed || actualFinishFailed || remainingEarlyStartFailed || remainingEarlyFinishFailed || freeFloatFailed || totalFloatFailed)
       {
          ++m_forwardErrorCount;
       }
@@ -377,6 +381,23 @@ public class PrimaveraSchedulerComparator
       //result = working.getChildTasks().stream().map(t -> t.getEffectiveCalendar()).anyMatch(c -> c.getNextWorkStart(workingDate).isEqual(baselineDate) || c.getNextWorkStart(baselineDate).isEqual(workingDate));
       result = allChildTasks(working).stream().map(Task::getEffectiveCalendar).anyMatch(c -> c.getNextWorkStart(workingDate).isEqual(baselineDate) || c.getNextWorkStart(baselineDate).isEqual(workingDate));
       return result;
+   }
+
+   private boolean compareDurations(Task baseline, Task working, TaskField field)
+   {
+      Duration baselineDuration =  (Duration) baseline.get(field);
+      if (baselineDuration == null)
+      {
+         return true;
+      }
+
+      Duration workingDuration = (Duration) working.get(field);
+      if (workingDuration == null)
+      {
+         return true;
+      }
+
+      return baselineDuration.equals(workingDuration);
    }
 
    /**
@@ -440,6 +461,8 @@ public class PrimaveraSchedulerComparator
       boolean actualFinishFail = !compareDates(baseline, working, TaskField.ACTUAL_FINISH);
       boolean remainingEarlyStartFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
       boolean remainingEarlyFinishFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
+      boolean freeFloatFailed = !compareDurations(baseline, working, TaskField.FREE_SLACK);
+      boolean totalFloatFailed = !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
 
       System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working);
       System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
@@ -450,6 +473,9 @@ public class PrimaveraSchedulerComparator
       System.out.println("Actual Finish: " + baseline.getActualFinish() + " " + working.getActualFinish() + (actualFinishFail ? " FAIL" : ""));
       System.out.println("Remaining Early Start: " + baseline.getRemainingEarlyStart() + " " + working.getRemainingEarlyStart() + (remainingEarlyStartFail ? " FAIL" : ""));
       System.out.println("Remaining Early Finish: " + baseline.getRemainingEarlyFinish() + " " + working.getRemainingEarlyFinish() + (remainingEarlyFinishFail ? " FAIL" : ""));
+      System.out.println("Free Float: " + baseline.getFreeSlack() + " " + working.getFreeSlack() + (freeFloatFailed ? " FAIL" : ""));
+      System.out.println("Total Float: " + baseline.getTotalSlack() + " " + working.getTotalSlack() + (totalFloatFailed ? " FAIL" : ""));
+
       System.out.println();
    }
 
