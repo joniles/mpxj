@@ -3007,6 +3007,46 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Retrieves the Estimate Weight value.
+    *
+    * @return Estimate Weight value
+    */
+   public Number getEstimateWeight()
+   {
+      return (Number) get(TaskField.ESTIMATED_WEIGHT);
+   }
+
+   /**
+    * Sets the Estimate Weight value.
+    *
+    * @param estimateWeight Estimate Weight value
+    */
+   public void setEstimateWeight(Number estimateWeight)
+   {
+      set(TaskField.ESTIMATED_WEIGHT, estimateWeight);
+   }
+
+   /**
+    * Retrieves the Auto Compute Actuals Flag value.
+    *
+    * @return Auto Compute Actuals Flag value
+    */
+   public boolean getAutoComputeActuals()
+   {
+      return (BooleanHelper.getBoolean((Boolean) get(TaskField.AUTO_COMPUTE_ACTUALS_FLAG)));
+   }
+
+   /**
+    * Sets the Auto Compute Actuals Flag value.
+    *
+    * @param autoComputeActuals Auto Compute Actuals Flag value
+    */
+   public void setAutoComputeActuals(boolean autoComputeActuals)
+   {
+      set(TaskField.AUTO_COMPUTE_ACTUALS_FLAG, autoComputeActuals);
+   }
+
+   /**
     * Retrieves the earned value method.
     *
     * @return earned value method

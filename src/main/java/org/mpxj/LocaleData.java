@@ -634,6 +634,8 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.IGNORE_WARNINGS.getValue()] = "Ignore Warnings";
       TASK_COLUMNS_ARRAY[TaskField.PEAK.getValue()] = "Peak";
       TASK_COLUMNS_ARRAY[TaskField.PHYSICAL_PERCENT_COMPLETE.getValue()] = "Physical % Complete";
+      TASK_COLUMNS_ARRAY[TaskField.ESTIMATED_WEIGHT.getValue()] = "Estimated Weight";
+      TASK_COLUMNS_ARRAY[TaskField.AUTO_COMPUTE_ACTUALS_FLAG.getValue()] = "Auto Compute Actuals";
       TASK_COLUMNS_ARRAY[TaskField.PLACEHOLDER.getValue()] = "Placeholder";
       TASK_COLUMNS_ARRAY[TaskField.PUBLISH.getValue()] = "Publish";
       TASK_COLUMNS_ARRAY[TaskField.REQUEST_DEMAND.getValue()] = "Request/Demand";
