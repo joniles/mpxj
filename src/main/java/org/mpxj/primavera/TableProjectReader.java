@@ -1004,8 +1004,8 @@ abstract class TableProjectReader
       map.put(TaskField.WBS, "wbs_short_name");
       map.put(TaskField.SEQUENCE_NUMBER, "seq_num");
       map.put(TaskField.METHODOLOGY_GUID, "tmpl_guid");
-      map.put(TaskField.BASELINE_COST, "orig_cost");
-      map.put(TaskField.ESTIMATED_WEIGHT, "est_wt");
+      //map.put(TaskField.BASELINE_COST, "orig_cost");
+      //map.put(TaskField.ESTIMATED_WEIGHT, "est_wt");
 
       return map;
    }
@@ -1062,7 +1062,7 @@ abstract class TableProjectReader
       map.put(TaskField.METHODOLOGY_GUID, "tmpl_guid");
       map.put(TaskField.FLOAT_PATH, "float_path");
       map.put(TaskField.FLOAT_PATH_ORDER, "float_path_order");
-      map.put(TaskField.ESTIMATED_WEIGHT, "est_wt");
+      //map.put(TaskField.ESTIMATED_WEIGHT, "est_wt");
       return map;
    }
 
