@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="15.1.0">
+            <action dev="joniles" type="update">Added support for the calculated task attribute Schedule Percent Complete. Note that at present this is not calculated for WBS/Summary Tasks.</action>
 		</release>
 		<release date="2025-11-24" version="15.0.0">
             <action dev="joniles" type="update">**NEW FEATURES**</action>

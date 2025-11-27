@@ -291,4 +291,5 @@ public final class NumberHelper
    }
 
    public static final Double DOUBLE_ZERO = Double.valueOf(0);
+   public static final Double DOUBLE_ONEHUNDRED = Double.valueOf(100);
 }
