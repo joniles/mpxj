@@ -5828,9 +5828,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    private Duration calculateFreeSlack(Relation relation)
    {
-      Number schedulePercentComplete = getSchedulePercentComplete();
-      boolean scheduleComplete = NumberHelper.equals(schedulePercentComplete, 100.0);
-
       if (relation.getPredecessorTask().getConstraintType() == ConstraintType.MUST_FINISH_ON)
       {
          return Duration.getInstance(0, TimeUnit.HOURS);
@@ -5838,11 +5835,18 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
       Task successorTask = relation.getSuccessorTask();
 
-      switch (relation.getType())
+      Number schedulePercentComplete = getSchedulePercentComplete();
+      //boolean scheduleComplete = NumberHelper.equals(schedulePercentComplete, 100.0);
+      boolean schedulePercentCompleteHasValue = schedulePercentComplete != null && schedulePercentComplete.doubleValue() > 0;
+      boolean activityHasNoRemainingDuration = getRemainingDuration() != null && NumberHelper.getDouble(getRemainingDuration().getDuration()) == 0;
+      boolean successorIsStartMilestone = successorTask.getActivityType() == ActivityType.START_MILESTONE;
+
+         switch (relation.getType())
       {
          case FINISH_START:
          {
-            if (relation.getPredecessorTask().getActualStart() == null || relation.getSuccessorTask().getActualFinish() != null || scheduleComplete)
+            //if (relation.getPredecessorTask().getActualStart() == null || relation.getSuccessorTask().getActualFinish() != null || scheduleComplete)
+            if (relation.getPredecessorTask().getActualStart() == null || relation.getSuccessorTask().getActualFinish() != null || schedulePercentCompleteHasValue || activityHasNoRemainingDuration || successorIsStartMilestone)
             {
                return calculateFreeSlackVariance(relation, getEarlyFinish(), successorTask.getEarlyStart());
             }
@@ -5896,6 +5900,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       {
          return null;
       }
+
       return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getEarlyFinish(), getParentFile().getProjectProperties().getFinishDate(), getDuration().getUnits());
    }
 
