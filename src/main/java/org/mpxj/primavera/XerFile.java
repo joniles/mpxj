@@ -554,6 +554,7 @@ class XerFile
       FIELD_TYPE_MAP.put("driving_path_flag", DataType.STRING);
       FIELD_TYPE_MAP.put("early_end_date", DataType.DATE);
       FIELD_TYPE_MAP.put("early_start_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("est_wt", DataType.NUMERIC);
       FIELD_TYPE_MAP.put("expect_end_date", DataType.DATE);
       FIELD_TYPE_MAP.put("external_early_start_date", DataType.DATE);
       FIELD_TYPE_MAP.put("external_late_end_date", DataType.DATE);
