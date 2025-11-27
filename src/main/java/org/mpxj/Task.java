@@ -5546,6 +5546,16 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Retrieve the Schedule Percent Complete value for this task.
+    *
+    * @return schedule percent complete
+    */
+   public Number getSchedulePercentComplete()
+   {
+      return (Number)get(TaskField.SCHEDULE_PERCENT_COMPLETE);
+   }
+
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.
@@ -6024,6 +6034,44 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       }
    }
 
+   private Number calculateSchedulePercentComplete()
+   {
+      // TODO: review and implement Schedule Percent Complete for WBS
+      if (getSummary())
+      {
+         return null;
+      }
+
+      LocalDateTime dataDate = getParentFile().getProjectProperties().getStatusDate();
+      LocalDateTime baselineStart = getBaselineStart();
+      LocalDateTime baselineFinish = getBaselineFinish();
+
+      if (dataDate == null || baselineStart == null || baselineFinish == null)
+      {
+         return null;
+      }
+
+      if (dataDate.isBefore(baselineStart))
+      {
+         return NumberHelper.DOUBLE_ZERO;
+      }
+
+      if (dataDate.isAfter(baselineFinish))
+      {
+         return NumberHelper.DOUBLE_ONEHUNDRED;
+      }
+
+      double totalWork = getEffectiveCalendar().getWork(baselineStart, baselineFinish, TimeUnit.HOURS).getDuration();
+      if (totalWork == 0)
+      {
+         return null;
+      }
+
+      double currentWork = getEffectiveCalendar().getWork(baselineStart, dataDate, TimeUnit.HOURS).getDuration();
+
+      return Double.valueOf((currentWork * 100.0) / totalWork);
+   }
+
    /**
     * Supply a default value for the active flag.
     *
@@ -6093,7 +6141,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    private RecurringTask m_recurringTask;
 
-   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(TaskField.PARENT_TASK_UNIQUE_ID, TaskField.PREDECESSORS, TaskField.SUCCESSORS));
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(TaskField.PARENT_TASK_UNIQUE_ID, TaskField.PREDECESSORS, TaskField.SUCCESSORS, TaskField.SCHEDULE_PERCENT_COMPLETE));
 
    private static final Map<FieldType, Function<Task, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
@@ -6116,6 +6164,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.PREDECESSORS, Task::calculatePredecessors);
       CALCULATED_FIELD_MAP.put(TaskField.SUCCESSORS, Task::calculateSuccessors);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_PERCENT_COMPLETE, Task::calculateActivityPercentComplete);
+      CALCULATED_FIELD_MAP.put(TaskField.SCHEDULE_PERCENT_COMPLETE, Task::calculateSchedulePercentComplete);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);
       CALCULATED_FIELD_MAP.put(TaskField.TYPE, Task::defaultType);
       CALCULATED_FIELD_MAP.put(TaskField.TASK_MODE, Task::defaultTaskMode);
