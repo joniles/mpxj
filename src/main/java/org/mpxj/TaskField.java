@@ -1043,7 +1043,8 @@ public enum TaskField implements FieldType
    ACTIVITY_PERCENT_COMPLETE(DataType.PERCENTAGE),
    METHODOLOGY_GUID(DataType.GUID),
    FLOAT_PATH(DataType.INTEGER),
-   FLOAT_PATH_ORDER(DataType.INTEGER);
+   FLOAT_PATH_ORDER(DataType.INTEGER),
+   SCHEDULE_PERCENT_COMPLETE(DataType.PERCENTAGE);
 
    /**
     * Constructor.

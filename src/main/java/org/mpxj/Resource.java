@@ -3106,5 +3106,5 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       dependencies.calculatedField(ResourceField.MATERIAL_LABEL).dependsOn(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID);
    }
 
-   private static final Number DEFAULT_DEFAULT_UNITS = Double.valueOf(100.0);
+   private static final Number DEFAULT_DEFAULT_UNITS = NumberHelper.DOUBLE_ONEHUNDRED;
 }
