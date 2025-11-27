@@ -450,6 +450,7 @@ class XmlProjectReader
          task.setWBS(row.getCode());
          task.setNotesObject(wbsNotes.get(uniqueID));
          task.setSequenceNumber(row.getSequenceNumber());
+         task.setEstimatedWeight(row.getEstimatedWeight());
 
          XmlReaderHelper.populateUserDefinedFieldValues(m_projectFile.getProjectContext(), task, row.getUDF());
       }
@@ -590,6 +591,7 @@ class XmlProjectReader
          task.setLongestPath(BooleanHelper.getBoolean(row.isIsLongestPath()));
          task.setLocationUniqueID(row.getLocationObjectId());
          task.setExpectedFinish(row.getExpectedFinishDate());
+         task.setEstimatedWeight(row.getEstimatedWeight());
 
          if (parentTask != null)
          {
