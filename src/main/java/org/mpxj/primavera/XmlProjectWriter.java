@@ -451,6 +451,7 @@ final class XmlProjectWriter extends XmlWriter
       xml.setParentObjectId(mpxj.getParentTaskUniqueID());
       xml.setProjectObjectId(m_projectFile.getProjectProperties().getUniqueID());
       xml.setSequenceNumber(sequence);
+      xml.setEstimatedWeight(mpxj.getEstimatedWeight() != null && mpxj.getEstimatedWeight().doubleValue() != 1.0 ? Double.valueOf(mpxj.getEstimatedWeight().doubleValue()) : null);
 
       xml.setStatus("Active");
 
@@ -496,6 +497,7 @@ final class XmlProjectWriter extends XmlWriter
       xml.setCalendarObjectId(effectiveCalendar == null ? null : effectiveCalendar.getUniqueID());
       xml.setDurationPercentComplete(getPercentage(mpxj.getPercentageComplete()));
       xml.setDurationType(TaskTypeHelper.getXmlFromInstance(mpxj.getType()));
+      xml.setEstimatedWeight(mpxj.getEstimatedWeight() == null ? null : Double.valueOf(mpxj.getEstimatedWeight().doubleValue()));
       xml.setExpectedFinishDate(mpxj.getExpectedFinish());
       xml.setExternalEarlyStartDate(mpxj.getExternalEarlyStart());
       xml.setExternalLateFinishDate(mpxj.getExternalLateFinish());
