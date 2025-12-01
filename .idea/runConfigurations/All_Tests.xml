@@ -5,7 +5,7 @@
     <option name="MAIN_CLASS_NAME" value="" />
     <option name="METHOD_NAME" value="" />
     <option name="TEST_OBJECT" value="package" />
-    <option name="VM_PARAMETERS" value="-ea -Dlog4j2.loggerContextFactory=org.apache.logging.log4j.simple.SimpleLoggerContextFactory -Dmpxj.junit.privatedir=&quot;${MPXJ_PRIVATE}/data&quot; -Dmpxj.junit.baselinedir=&quot;${MPXJ_PRIVATE}/baseline&quot; -Dmpxj.junit.primavera.file=&quot;${MPXJ_PRIVATE}/primavera/PPMDBSQLite.db&quot; -Dmpxj.junit.primavera.baselinedir=&quot;${MPXJ_PRIVATE}/primavera/baseline&quot;" />
+    <option name="VM_PARAMETERS" value="-ea -Dlog4j2.loggerContextFactory=org.apache.logging.log4j.simple.SimpleLoggerContextFactory -Dmpxj.junit.privatedir=&quot;${MPXJ_PRIVATE}/data&quot; -Dmpxj.junit.baselinedir=&quot;${MPXJ_PRIVATE}/baseline&quot; -Dmpxj.junit.primavera.file=&quot;${MPXJ_PRIVATE}/primavera/PPMDBSQLite.db&quot; -Dmpxj.junit.primavera.baselinedir=&quot;${MPXJ_PRIVATE}/primavera/baseline&quot; -Duser.timezone=Europe/London" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
