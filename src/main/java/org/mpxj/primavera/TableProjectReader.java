@@ -1063,6 +1063,7 @@ abstract class TableProjectReader
       map.put(TaskField.FLOAT_PATH, "float_path");
       map.put(TaskField.FLOAT_PATH_ORDER, "float_path_order");
       map.put(TaskField.ESTIMATED_WEIGHT, "est_wt");
+      map.put(TaskField.AUTO_COMPUTE_ACTUALS, "auto_compute_act_flag");
 
       return map;
    }

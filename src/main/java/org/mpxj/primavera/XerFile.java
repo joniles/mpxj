@@ -527,6 +527,7 @@ class XerFile
       FIELD_TYPE_MAP.put("asgnmnt_catg_id", DataType.NUMERIC);
       FIELD_TYPE_MAP.put("asgnmnt_catg_short_len", DataType.NUMERIC);
       FIELD_TYPE_MAP.put("asgnmnt_catg_type_id", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("auto_compute_act_flag", DataType.BOOLEAN);
       FIELD_TYPE_MAP.put("base_clndr_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("base_exch_rate", DataType.NUMERIC);
       FIELD_TYPE_MAP.put("clndr_data", DataType.STRING);

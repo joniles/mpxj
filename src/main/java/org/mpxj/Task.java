@@ -3033,7 +3033,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public boolean getAutoComputeActuals()
    {
-      return (BooleanHelper.getBoolean((Boolean) get(TaskField.AUTO_COMPUTE_ACTUALS_FLAG)));
+      return (BooleanHelper.getBoolean((Boolean) get(TaskField.AUTO_COMPUTE_ACTUALS)));
    }
 
    /**
@@ -3043,7 +3043,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public void setAutoComputeActuals(boolean autoComputeActuals)
    {
-      set(TaskField.AUTO_COMPUTE_ACTUALS_FLAG, autoComputeActuals);
+      set(TaskField.AUTO_COMPUTE_ACTUALS, autoComputeActuals);
    }
 
    /**

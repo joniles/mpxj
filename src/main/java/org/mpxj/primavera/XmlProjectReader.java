@@ -592,6 +592,7 @@ class XmlProjectReader
          task.setLocationUniqueID(row.getLocationObjectId());
          task.setExpectedFinish(row.getExpectedFinishDate());
          task.setEstimatedWeight(row.getEstimatedWeight());
+         task.setAutoComputeActuals(BooleanHelper.getBoolean(row.isAutoComputeActuals()));
 
          if (parentTask != null)
          {
