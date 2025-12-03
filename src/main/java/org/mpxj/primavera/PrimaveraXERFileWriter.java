@@ -1606,8 +1606,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("rev_fdbk_flag", t -> Boolean.FALSE);
       ACTIVITY_COLUMNS.put("est_wt", t -> t.getEstimatedWeight() == null ? Integer.valueOf(1) : t.getEstimatedWeight());
       ACTIVITY_COLUMNS.put("lock_plan_flag", t -> Boolean.FALSE);
-      ACTIVITY_COLUMNS.put("auto_compute_act_flag", t -> Boolean.TRUE);
-      //ACTIVITY_COLUMNS.put("auto_compute_act_flag", t -> Boolean.valueOf(t.getAutoComputeActuals()));
+      ACTIVITY_COLUMNS.put("auto_compute_act_flag", t -> Boolean.valueOf(t.getAutoComputeActuals()));
       ACTIVITY_COLUMNS.put("complete_pct_type", PrimaveraXERFileWriter::getPercentCompleteType);
       ACTIVITY_COLUMNS.put("task_type", PrimaveraXERFileWriter::getActivityType);
       ACTIVITY_COLUMNS.put("duration_type", Task::getType);
