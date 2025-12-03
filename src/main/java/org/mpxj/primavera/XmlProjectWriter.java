@@ -494,6 +494,7 @@ final class XmlProjectWriter extends XmlWriter
       xml.setActualLaborUnits(getDurationInHours(WorkHelper.getActualWorkLabor(mpxj)));
       xml.setActualNonLaborUnits(getDurationInHours(WorkHelper.zeroIfNull(mpxj.getActualWorkNonlabor())));
       xml.setAtCompletionDuration(getDurationInHours(mpxj.getDuration()));
+      xml.setAutoComputeActuals(Boolean.valueOf(mpxj.getAutoComputeActuals()));
       xml.setCalendarObjectId(effectiveCalendar == null ? null : effectiveCalendar.getUniqueID());
       xml.setDurationPercentComplete(getPercentage(mpxj.getPercentageComplete()));
       xml.setDurationType(TaskTypeHelper.getXmlFromInstance(mpxj.getType()));

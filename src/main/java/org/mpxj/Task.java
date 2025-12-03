@@ -6162,6 +6162,11 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return Boolean.TRUE;
    }
 
+   private Boolean defaultAutoComputeActuals()
+   {
+      return Boolean.TRUE;
+   }
+
    private final ProjectFile m_parentFile;
 
    /**
@@ -6212,6 +6217,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.EXPENSE_ITEMS, Task::defaultExpenseItems);
       CALCULATED_FIELD_MAP.put(TaskField.STEPS, Task::defaultSteps);
       CALCULATED_FIELD_MAP.put(TaskField.EXPANDED, Task::defaultExpanded);
+      CALCULATED_FIELD_MAP.put(TaskField.AUTO_COMPUTE_ACTUALS, Task::defaultAutoComputeActuals);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
