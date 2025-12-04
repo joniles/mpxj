@@ -1044,7 +1044,8 @@ public enum TaskField implements FieldType
    FLOAT_PATH_ORDER(DataType.INTEGER),
    SCHEDULE_PERCENT_COMPLETE(DataType.PERCENTAGE),
    ESTIMATED_WEIGHT(DataType.NUMERIC),
-   AUTO_COMPUTE_ACTUALS(DataType.BOOLEAN);
+   AUTO_COMPUTE_ACTUALS(DataType.BOOLEAN),
+   ORIGINAL_BUDGET(DataType.CURRENCY);
 
    /**
     * Constructor.

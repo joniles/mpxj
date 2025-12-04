@@ -450,6 +450,7 @@ class XmlProjectReader
          task.setWBS(row.getCode());
          task.setNotesObject(wbsNotes.get(uniqueID));
          task.setSequenceNumber(row.getSequenceNumber());
+         task.setOriginalBudget(row.getOriginalBudget());
          task.setEstimatedWeight(row.getEstimatedWeight());
 
          XmlReaderHelper.populateUserDefinedFieldValues(m_projectFile.getProjectContext(), task, row.getUDF());

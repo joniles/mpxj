@@ -5586,6 +5586,26 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Get the original budget for a WBS entry.
+    *
+    * @return original budget
+    */
+   public Number getOriginalBudget()
+   {
+      return (Number)get(TaskField.ORIGINAL_BUDGET);
+   }
+
+   /**
+    * Get the original budget for a WBS entry.
+    *
+    * @param originalBudget original budget
+    */
+   public void setOriginalBudget(Number originalBudget)
+   {
+      set(TaskField.ORIGINAL_BUDGET, originalBudget);
+   }
+
+   /**
     * Retrieve the Schedule Percent Complete value for this task.
     *
     * @return schedule percent complete

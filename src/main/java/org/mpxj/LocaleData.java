@@ -634,8 +634,6 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.IGNORE_WARNINGS.getValue()] = "Ignore Warnings";
       TASK_COLUMNS_ARRAY[TaskField.PEAK.getValue()] = "Peak";
       TASK_COLUMNS_ARRAY[TaskField.PHYSICAL_PERCENT_COMPLETE.getValue()] = "Physical % Complete";
-      TASK_COLUMNS_ARRAY[TaskField.ESTIMATED_WEIGHT.getValue()] = "Estimated Weight";
-      TASK_COLUMNS_ARRAY[TaskField.AUTO_COMPUTE_ACTUALS.getValue()] = "Auto Compute Actuals";
       TASK_COLUMNS_ARRAY[TaskField.PLACEHOLDER.getValue()] = "Placeholder";
       TASK_COLUMNS_ARRAY[TaskField.PUBLISH.getValue()] = "Publish";
       TASK_COLUMNS_ARRAY[TaskField.REQUEST_DEMAND.getValue()] = "Request/Demand";
@@ -1065,6 +1063,9 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.FLOAT_PATH.getValue()] = "Float Path";
       TASK_COLUMNS_ARRAY[TaskField.FLOAT_PATH_ORDER.getValue()] = "Float Path Order";
       TASK_COLUMNS_ARRAY[TaskField.SCHEDULE_PERCENT_COMPLETE.getValue()] = "Schedule % Complete";
+      TASK_COLUMNS_ARRAY[TaskField.ESTIMATED_WEIGHT.getValue()] = "Estimated Weight";
+      TASK_COLUMNS_ARRAY[TaskField.AUTO_COMPUTE_ACTUALS.getValue()] = "Auto Compute Actuals";
+      TASK_COLUMNS_ARRAY[TaskField.ORIGINAL_BUDGET.getValue()] = "Original Budget";
 
       RESOURCE_COLUMNS_ARRAY[ResourceField.ID.getValue()] = "ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.NAME.getValue()] = "Name";
