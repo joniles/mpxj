@@ -1648,8 +1648,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("tmpl_guid", Task::getMethodologyGUID);
       ACTIVITY_COLUMNS.put("cstr_date2", Task::getSecondaryConstraintDate);
       ACTIVITY_COLUMNS.put("cstr_type2", Task::getSecondaryConstraintType);
-      ACTIVITY_COLUMNS.put("driving_path_flag", t -> Boolean.FALSE);
-      //ACTIVITY_COLUMNS.put("driving_path_flag", Task::getLongestPath);
+      ACTIVITY_COLUMNS.put("driving_path_flag", t -> Boolean.valueOf(t.getLongestPath()));
       ACTIVITY_COLUMNS.put("act_this_per_work_qty", t -> Integer.valueOf(0));
       ACTIVITY_COLUMNS.put("act_this_per_equip_qty", t -> Integer.valueOf(0));
       ACTIVITY_COLUMNS.put("external_early_start_date", Task::getExternalEarlyStart);
