@@ -452,7 +452,7 @@ final class XmlProjectWriter extends XmlWriter
       xml.setProjectObjectId(m_projectFile.getProjectProperties().getUniqueID());
       xml.setSequenceNumber(sequence);
       xml.setEstimatedWeight(mpxj.getEstimatedWeight() != null && mpxj.getEstimatedWeight().doubleValue() != 1.0 ? Double.valueOf(mpxj.getEstimatedWeight().doubleValue()) : null);
-
+      xml.setOriginalBudget(getCurrency(mpxj.getOriginalBudget()));
       xml.setStatus("Active");
 
       xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.TASK, true, mpxj));

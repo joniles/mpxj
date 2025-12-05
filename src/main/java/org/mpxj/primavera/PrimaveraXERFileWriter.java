@@ -1580,8 +1580,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       WBS_COLUMNS.put("parent_wbs_id", Task::getParentTaskUniqueID);
       WBS_COLUMNS.put("ev_user_pct", t -> Integer.valueOf(6));
       WBS_COLUMNS.put("ev_etc_user_value", t -> Double.valueOf(0.88));
-      WBS_COLUMNS.put("orig_cost", t -> CurrencyValue.ZERO);
-      //WBS_COLUMNS.put("orig_cost", t -> t.getBaselineCost() == null ? CurrencyValue.ZERO : CurrencyValue.getInstance(t.getBaselineCost()));
+      WBS_COLUMNS.put("orig_cost", t -> t.getBaselineCost() == null ? CurrencyValue.ZERO : CurrencyValue.getInstance(t.getOriginalBudget()));
       WBS_COLUMNS.put("indep_remain_total_cost", t -> CurrencyValue.ZERO);
       WBS_COLUMNS.put("ann_dscnt_rate_pct", t -> "");
       WBS_COLUMNS.put("dscnt_period_type", t -> "");
