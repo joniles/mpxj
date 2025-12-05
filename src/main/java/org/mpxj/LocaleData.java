@@ -1063,6 +1063,9 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.FLOAT_PATH.getValue()] = "Float Path";
       TASK_COLUMNS_ARRAY[TaskField.FLOAT_PATH_ORDER.getValue()] = "Float Path Order";
       TASK_COLUMNS_ARRAY[TaskField.SCHEDULE_PERCENT_COMPLETE.getValue()] = "Schedule % Complete";
+      TASK_COLUMNS_ARRAY[TaskField.ESTIMATED_WEIGHT.getValue()] = "Estimated Weight";
+      TASK_COLUMNS_ARRAY[TaskField.AUTO_COMPUTE_ACTUALS.getValue()] = "Auto Compute Actuals";
+      TASK_COLUMNS_ARRAY[TaskField.ORIGINAL_BUDGET.getValue()] = "Original Budget";
 
       RESOURCE_COLUMNS_ARRAY[ResourceField.ID.getValue()] = "ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.NAME.getValue()] = "Name";
