@@ -5596,7 +5596,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Get the original budget for a WBS entry.
+    * Set the original budget for a WBS entry.
     *
     * @param originalBudget original budget
     */
