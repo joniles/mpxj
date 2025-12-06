@@ -15,6 +15,7 @@
             <action dev="joniles" type="update">Updated to POI 5.5.1.</action>
             <action dev="joniles" type="update">Updated to Jackson 2.20.1.</action>
             <action dev="joniles" type="update">Updated to jsoup 1.21.2.</action>
+            <action dev="joniles" type="update">Updated to sqlite-jdbc 3.51.1.0</action>
         </release>
 		<release date="2025-11-24" version="15.0.0">
             <action dev="joniles" type="update">**NEW FEATURES**</action>
