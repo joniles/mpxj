@@ -12,7 +12,8 @@
             <action dev="joniles" type="update">Ensure that the Original Budget attribute is read from and written to WBS entries for P6 schedules. (Based on a contribution by danielfromCL)</action>
             <action dev="joniles" type="update">Ensure that the Auto Compute Actuals flag is read from and written to Activities in P6 scheudles. (Based on a contribution by danielfromCL)</action>
             <action dev="joniles" type="update">Fix an issue where the Activity attribute Longest Path was not being written to XER files. (Based on a contribution by danielfromCL)</action>
-            <action dev="joniles" type="update">Updated to POI 5.5.1</action>
+            <action dev="joniles" type="update">Updated to POI 5.5.1.</action>
+            <action dev="joniles" type="update">Updated to Jackson 2.20.1.</action>
         </release>
 		<release date="2025-11-24" version="15.0.0">
             <action dev="joniles" type="update">**NEW FEATURES**</action>
