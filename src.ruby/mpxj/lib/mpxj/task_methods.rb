@@ -165,6 +165,13 @@ module MPXJ
       attribute_values['assignment_units']
     end
 
+    # Retrieve the Auto Compute Actuals value
+    #
+    # @return Auto Compute Actuals value
+    def auto_compute_actuals
+      get_boolean_value(attribute_values['auto_compute_actuals'])
+    end
+
     # Retrieve the Bar Name value
     #
     # @return Bar Name value
@@ -4631,6 +4638,13 @@ module MPXJ
       get_boolean_value(attribute_values['estimated'])
     end
 
+    # Retrieve the Estimated Weight value
+    #
+    # @return Estimated Weight value
+    def estimated_weight
+      get_float_value(attribute_values['estimated_weight'])
+    end
+
     # Retrieve the Expanded value
     #
     # @return Expanded value
@@ -5378,6 +5392,13 @@ module MPXJ
     # @return Objects value
     def objects
       get_float_value(attribute_values['objects'])
+    end
+
+    # Retrieve the Original Budget value
+    #
+    # @return Original Budget value
+    def original_budget
+      get_float_value(attribute_values['original_budget'])
     end
 
     # Retrieve the Outline Code1 value
@@ -6234,6 +6255,13 @@ module MPXJ
       get_date_value(attribute_values['scheduled_start'])
     end
 
+    # Retrieve the Schedule % Complete value
+    #
+    # @return Schedule % Complete value
+    def schedule_percent_complete
+      get_float_value(attribute_values['schedule_percent_complete'])
+    end
+
     # Retrieve the Secondary Constraint Date value
     #
     # @return Secondary Constraint Date value
@@ -6951,6 +6979,7 @@ module MPXJ
       'assignment_delay' => :string,
       'assignment_owner' => :string,
       'assignment_units' => :string,
+      'auto_compute_actuals' => :boolean,
       'bar_name' => :string,
       'baseline10_budget_cost' => :currency,
       'baseline10_budget_work' => :work,
@@ -7589,6 +7618,7 @@ module MPXJ
       'enterprise_text9' => :string,
       'error_message' => :string,
       'estimated' => :boolean,
+      'estimated_weight' => :numeric,
       'expanded' => :boolean,
       'expected_finish' => :date,
       'expense_items' => :expense_item_list,
@@ -7696,6 +7726,7 @@ module MPXJ
       'number8' => :numeric,
       'number9' => :numeric,
       'objects' => :numeric,
+      'original_budget' => :currency,
       'outline_code1' => :string,
       'outline_code10' => :string,
       'outline_code10_index' => :integer,
@@ -7818,6 +7849,7 @@ module MPXJ
       'scheduled_duration' => :duration,
       'scheduled_finish' => :date,
       'scheduled_start' => :date,
+      'schedule_percent_complete' => :percentage,
       'secondary_constraint_date' => :date,
       'secondary_constraint_type' => :constraint,
       'section' => :string,

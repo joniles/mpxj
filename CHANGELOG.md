@@ -5,7 +5,20 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 15.1.0 (unreleased)
+## 15.2.0 (unreleased)
+
+## 15.1.0 (2025-12-08)
+* Improve selection of the default calendar when reading Asta Powerproject PP files.
+* Added support for the calculated task attribute Schedule Percent Complete. Note that at present this is not calculated for WBS/Summary Tasks.
+* Added support for the `Task` attributes Estimated Weight, Auto Compute Actuals, and Original Budget. (Based on a contribution by danielfromCL)
+* Ensure that the Estimated Weight attribute is read from and written to WBS entries and Activities for P6 schedules. (Based on a contribution by danielfromCL)
+* Ensure that the Original Budget attribute is read from and written to WBS entries for P6 schedules. (Based on a contribution by danielfromCL)
+* Ensure that the Auto Compute Actuals flag is read from and written to Activities in P6 scheudles. (Based on a contribution by danielfromCL)
+* Fix an issue where the Activity attribute Longest Path was not being written to XER files. (Based on a contribution by danielfromCL)
+* Updated to POI 5.5.1.
+* Updated to Jackson 2.20.1.
+* Updated to jsoup 1.21.2.
+* Updated to sqlite-jdbc 3.51.1.0
 
 ## 15.0.0 (2025-11-24)
 * **NEW FEATURES**
