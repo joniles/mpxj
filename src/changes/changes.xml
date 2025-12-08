@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="15.1.0">
+            <action dev="joniles" type="update">Improve selection of the default calendar when reading Asta Powerproject PP files.</action>
             <action dev="joniles" type="update">Added support for the calculated task attribute Schedule Percent Complete. Note that at present this is not calculated for WBS/Summary Tasks.</action>
             <action dev="joniles" type="update">Added support for the `Task` attributes Estimated Weight, Auto Compute Actuals, and Original Budget. (Based on a contribution by danielfromCL)</action>
             <action dev="joniles" type="update">Ensure that the Estimated Weight attribute is read from and written to WBS entries and Activities for P6 schedules. (Based on a contribution by danielfromCL)</action>

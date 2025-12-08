@@ -23,11 +23,14 @@
 
 package org.mpxj.asta;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 
 import java.util.HashMap;
@@ -84,6 +87,8 @@ import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.LocalTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.ObjectSequence;
+import org.mpxj.common.ReaderTokenizer;
+import org.mpxj.common.Tokenizer;
 
 /**
  * This class provides a generic front end to read project data from
@@ -154,6 +159,16 @@ final class AstaReader
       else
       {
          currentProgressPeriodID = userSettings.getInteger("CURRENT_PROGRESS_PERIOD");
+
+         // Task default settings are held in an Asta database as comma separated values in a single column.
+         // This appears to be a variable length, 18 "core" columns, with the last being a count, followed
+         // by count number of additional values. This data is also present in a PP text file, but stored
+         // as a distinct table. We don't have names for all of the columns so at present we're just
+         // just extracting them as COLUMN1 to COLUMNn. COLUMN8 contains the default calendar unique ID.
+         // TODO: determine table in text PP file
+         Map<String, String> data = parseRow(userSettings.getString("USER_TASK_DEFAULT"));
+         String defaultCalendarUniqueID = data.get("COLUMN8");
+         ph.setDefaultCalendarUniqueID(defaultCalendarUniqueID == null ? null : Integer.valueOf(defaultCalendarUniqueID));
       }
 
       if (progressPeriods != null)
@@ -1264,51 +1279,53 @@ final class AstaReader
     */
    private void deriveProjectCalendar()
    {
-      //
-      // Count the number of times each calendar is used
-      //
-      Map<ProjectCalendar, Integer> map = new HashMap<>();
-      for (Task task : m_project.getTasks())
-      {
-         ProjectCalendar calendar = task.getCalendar();
-         map.compute(calendar, (k, v) -> v == null ? Integer.valueOf(1) : Integer.valueOf(v.intValue() + 1));
-      }
+      ProjectCalendar defaultCalendar = m_project.getDefaultCalendar();
 
-      //
-      // Find the most frequently used calendar
-      //
-      int maxCount = 0;
-      ProjectCalendar defaultCalendar = null;
-
-      for (Entry<ProjectCalendar, Integer> entry : map.entrySet())
-      {
-         if (entry.getValue().intValue() > maxCount)
-         {
-            maxCount = entry.getValue().intValue();
-            defaultCalendar = entry.getKey();
-         }
-      }
-
-      //
-      // Set the default calendar for the project
-      // and remove its use as a task-specific calendar.
-      //
       if (defaultCalendar == null)
       {
-         defaultCalendar = m_project.getCalendars().findOrCreateDefaultCalendar();
-      }
-      else
-      {
+         //
+         // Count the number of times each calendar is used
+         //
+         Map<ProjectCalendar, Integer> map = new HashMap<>();
          for (Task task : m_project.getTasks())
          {
-            if (task.getCalendar() == defaultCalendar)
+            ProjectCalendar calendar = task.getCalendar();
+            map.compute(calendar, (k, v) -> v == null ? Integer.valueOf(1) : Integer.valueOf(v.intValue() + 1));
+         }
+
+         //
+         // Find the most frequently used calendar
+         //
+         int maxCount = 0;
+
+         for (Entry<ProjectCalendar, Integer> entry : map.entrySet())
+         {
+            if (entry.getValue().intValue() > maxCount)
             {
-               task.setCalendar(null);
+               maxCount = entry.getValue().intValue();
+               defaultCalendar = entry.getKey();
             }
          }
+
+         //
+         // Set the default calendar for the project
+         // and remove its use as a task-specific calendar.
+         //
+         if (defaultCalendar == null)
+         {
+            defaultCalendar = m_project.getCalendars().findOrCreateDefaultCalendar();
+         }
+
+         m_project.setDefaultCalendar(defaultCalendar);
       }
 
-      m_project.setDefaultCalendar(defaultCalendar);
+      for (Task task : m_project.getTasks())
+      {
+         if (task.getCalendar() == defaultCalendar)
+         {
+            task.setCalendar(null);
+         }
+      }
    }
 
    /**
@@ -2187,6 +2204,70 @@ final class AstaReader
       return timeUnit >= 10 && timeUnit <= 18;
    }
 
+   /**
+    * Parse comma separated data into a map.
+    * Items in the map are keyed as COLUMN1 to COLUMNn.
+    *
+    * @param text comma separated values
+    * @return map of values
+    */
+   private Map<String, String> parseRow(String text)
+   {
+      if (text == null || text.isEmpty())
+      {
+         return Collections.emptyMap();
+      }
+
+      try
+      {
+         int index = 1;
+         StringReader reader = new StringReader(text);
+         Tokenizer tk = new ReaderTokenizer(reader)
+         {
+            @Override protected boolean startQuotedIsValid(StringBuilder buffer)
+            {
+               return buffer.length() == 1 && buffer.charAt(0) == '<';
+            }
+         };
+
+         tk.setDelimiter(DELIMITER);
+         Map<String, String> row = new HashMap<>();
+         String nextTokenPrefix = null;
+
+         while (tk.getType() != Tokenizer.TT_EOF)
+         {
+            while (tk.nextToken() == Tokenizer.TT_WORD)
+            {
+               String token = tk.getToken();
+               if (token != null)
+               {
+                  if (token.startsWith("<\"") && !token.endsWith("\">"))
+                  {
+                     nextTokenPrefix = token;
+                  }
+                  else
+                  {
+                     if (nextTokenPrefix != null)
+                     {
+                        token = nextTokenPrefix + DELIMITER + token;
+                        nextTokenPrefix = null;
+                     }
+
+                     row.put("COLUMN" + (index++), token);
+                  }
+               }
+            }
+         }
+
+         return row;
+      }
+
+      catch (IOException ex)
+      {
+         return Collections.emptyMap();
+      }
+   }
+
    private final ProjectFile m_project;
    private final EventManager m_eventManager;
    private final Map<Task, Double> m_weights = new HashMap<>();
@@ -2197,6 +2278,7 @@ final class AstaReader
    private final Map<Integer, Task> m_expandedTaskMap = new HashMap<>();
    private final Map<Integer, Task> m_completedSectionMap = new HashMap<>();
 
+   private static final char DELIMITER = ',';
    private static final Double COMPLETE = Double.valueOf(100);
    private static final Double INCOMPLETE = Double.valueOf(0);
    private static final String LINE_BREAK = "|@|||";
