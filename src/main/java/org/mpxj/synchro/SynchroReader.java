@@ -50,6 +50,7 @@ import org.mpxj.Task;
 import org.mpxj.LocalTimeRange;
 import org.mpxj.common.LocalDateHelper;
 import org.mpxj.common.LocalDateTimeHelper;
+import org.mpxj.common.NumberHelper;
 import org.mpxj.reader.AbstractProjectStreamReader;
 
 /**
@@ -347,7 +348,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
          {
             task.setActualStart(row.getDate("ACTUAL_START"));
             task.setActualFinish(row.getDate("ACTUAL_FINISH"));
-            task.setPercentageComplete(Double.valueOf(100.0));
+            task.setPercentageComplete(NumberHelper.DOUBLE_ONEHUNDRED);
             task.setStart(task.getActualStart());
             task.setFinish(task.getActualFinish());
             break;

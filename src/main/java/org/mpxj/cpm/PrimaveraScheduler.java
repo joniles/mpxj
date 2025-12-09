@@ -3047,8 +3047,9 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
+                  LocalDateTime candidateLateStart = predecessor.getActivityType() == ActivityType.START_MILESTONE ? predecessor.getLateStart() : predecessor.getActualFinish();
                   earlyStartFromPredecessor = updateIfBefore(earlyStartFromPredecessor, AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualFinish())));
-                  lateStartFromPredecessor = updateIfBefore(lateStartFromPredecessor, AnnotatedDateTime.fromActual(addLag(relation, predecessor.getActualFinish())));
+                  lateStartFromPredecessor = updateIfBefore(lateStartFromPredecessor, AnnotatedDateTime.fromActual(addLag(relation, candidateLateStart)));
                }
                break;
             }

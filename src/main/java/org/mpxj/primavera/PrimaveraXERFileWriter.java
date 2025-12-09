@@ -1498,7 +1498,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("strgy_priority_num", p -> Integer.valueOf(100));
       PROJECT_COLUMNS.put("last_checksum", p -> "");
       PROJECT_COLUMNS.put("critical_drtn_hr_cnt", p -> Double.valueOf(p.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, p).getDuration()));
-      PROJECT_COLUMNS.put("def_cost_per_qty", p -> new CurrencyValue(Double.valueOf(100.0)));
+      PROJECT_COLUMNS.put("def_cost_per_qty", p -> new CurrencyValue(NumberHelper.DOUBLE_ONEHUNDRED));
       PROJECT_COLUMNS.put("last_recalc_date", ProjectProperties::getStatusDate);
       PROJECT_COLUMNS.put("plan_start_date", WriterHelper::getProjectPlannedStart);
       PROJECT_COLUMNS.put("plan_end_date", ProjectProperties::getMustFinishBy);
@@ -1570,7 +1570,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       WBS_COLUMNS.put("proj_id", t -> t.getParentFile().getProjectProperties().getUniqueID());
       WBS_COLUMNS.put("obs_id", t -> "");
       WBS_COLUMNS.put("seq_num", PrimaveraXERFileWriter::getSequenceNumber);
-      WBS_COLUMNS.put("est_wt", t -> Integer.valueOf(1));
+      WBS_COLUMNS.put("est_wt", t -> t.getEstimatedWeight() == null ? Integer.valueOf(1) : t.getEstimatedWeight());
       WBS_COLUMNS.put("proj_node_flag", t -> Boolean.valueOf(t.getParentTask() == null));
       WBS_COLUMNS.put("sum_data_flag", t -> Boolean.TRUE);
       WBS_COLUMNS.put("status_code", t -> "WS_Open");
@@ -1580,7 +1580,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       WBS_COLUMNS.put("parent_wbs_id", Task::getParentTaskUniqueID);
       WBS_COLUMNS.put("ev_user_pct", t -> Integer.valueOf(6));
       WBS_COLUMNS.put("ev_etc_user_value", t -> Double.valueOf(0.88));
-      WBS_COLUMNS.put("orig_cost", t -> CurrencyValue.ZERO);
+      WBS_COLUMNS.put("orig_cost", t -> t.getOriginalBudget() == null ? CurrencyValue.ZERO : CurrencyValue.getInstance(t.getOriginalBudget()));
       WBS_COLUMNS.put("indep_remain_total_cost", t -> CurrencyValue.ZERO);
       WBS_COLUMNS.put("ann_dscnt_rate_pct", t -> "");
       WBS_COLUMNS.put("dscnt_period_type", t -> "");
@@ -1603,9 +1603,9 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("clndr_id", Task::getCalendarUniqueID);
       ACTIVITY_COLUMNS.put("phys_complete_pct", Task::getPhysicalPercentComplete);
       ACTIVITY_COLUMNS.put("rev_fdbk_flag", t -> Boolean.FALSE);
-      ACTIVITY_COLUMNS.put("est_wt", t -> Integer.valueOf(1));
+      ACTIVITY_COLUMNS.put("est_wt", t -> t.getEstimatedWeight() == null ? Integer.valueOf(1) : t.getEstimatedWeight());
       ACTIVITY_COLUMNS.put("lock_plan_flag", t -> Boolean.FALSE);
-      ACTIVITY_COLUMNS.put("auto_compute_act_flag", t -> Boolean.TRUE);
+      ACTIVITY_COLUMNS.put("auto_compute_act_flag", t -> Boolean.valueOf(t.getAutoComputeActuals()));
       ACTIVITY_COLUMNS.put("complete_pct_type", PrimaveraXERFileWriter::getPercentCompleteType);
       ACTIVITY_COLUMNS.put("task_type", PrimaveraXERFileWriter::getActivityType);
       ACTIVITY_COLUMNS.put("duration_type", Task::getType);
@@ -1647,7 +1647,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("tmpl_guid", Task::getMethodologyGUID);
       ACTIVITY_COLUMNS.put("cstr_date2", Task::getSecondaryConstraintDate);
       ACTIVITY_COLUMNS.put("cstr_type2", Task::getSecondaryConstraintType);
-      ACTIVITY_COLUMNS.put("driving_path_flag", t -> Boolean.FALSE);
+      ACTIVITY_COLUMNS.put("driving_path_flag", t -> Boolean.valueOf(t.getLongestPath()));
       ACTIVITY_COLUMNS.put("act_this_per_work_qty", t -> Integer.valueOf(0));
       ACTIVITY_COLUMNS.put("act_this_per_equip_qty", t -> Integer.valueOf(0));
       ACTIVITY_COLUMNS.put("external_early_start_date", Task::getExternalEarlyStart);

@@ -328,10 +328,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1510-unreleased" class="md-nav__link">
+  <a href="#1520-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
       
-        15.1.0 (unreleased)
+        15.2.0 (unreleased)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1510-2025-12-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.1.0 (2025-12-08)
       
     </span>
   </a>
@@ -5357,10 +5368,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1510-unreleased" class="md-nav__link">
+  <a href="#1520-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
       
-        15.1.0 (unreleased)
+        15.2.0 (unreleased)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1510-2025-12-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.1.0 (2025-12-08)
       
     </span>
   </a>
@@ -8446,7 +8468,21 @@
 <h2 id="note">NOTE</h2>
 <p>From version 14.0.0 onwards the <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code> and <code>net.sf.mpxj-for-vb</code> packages are
 no longer distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
-<h2 id="1510-unreleased">15.1.0 (unreleased)</h2>
+<h2 id="1520-unreleased">15.2.0 (unreleased)</h2>
+<h2 id="1510-2025-12-08">15.1.0 (2025-12-08)</h2>
+<ul>
+<li>Improve selection of the default calendar when reading Asta Powerproject PP files.</li>
+<li>Added support for the calculated task attribute Schedule Percent Complete. Note that at present this is not calculated for WBS/Summary Tasks.</li>
+<li>Added support for the <code>Task</code> attributes Estimated Weight, Auto Compute Actuals, and Original Budget. (Based on a contribution by danielfromCL)</li>
+<li>Ensure that the Estimated Weight attribute is read from and written to WBS entries and Activities for P6 schedules. (Based on a contribution by danielfromCL)</li>
+<li>Ensure that the Original Budget attribute is read from and written to WBS entries for P6 schedules. (Based on a contribution by danielfromCL)</li>
+<li>Ensure that the Auto Compute Actuals flag is read from and written to Activities in P6 scheudles. (Based on a contribution by danielfromCL)</li>
+<li>Fix an issue where the Activity attribute Longest Path was not being written to XER files. (Based on a contribution by danielfromCL)</li>
+<li>Updated to POI 5.5.1.</li>
+<li>Updated to Jackson 2.20.1.</li>
+<li>Updated to jsoup 1.21.2.</li>
+<li>Updated to sqlite-jdbc 3.51.1.0</li>
+</ul>
 <h2 id="1500-2025-11-24">15.0.0 (2025-11-24)</h2>
 <ul>
 <li><strong>NEW FEATURES</strong></li>
