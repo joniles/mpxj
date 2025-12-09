@@ -5749,35 +5749,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return !m_children.isEmpty();
    }
 
-   public Number getSchedulePercentComplete()
-   {
-      LocalDateTime dataDate = getParentFile().getProjectProperties().getStatusDate();
-      LocalDateTime baselineStart = getBaselineStart();
-      LocalDateTime baselineFinish = getBaselineFinish();
-
-      if (dataDate == null || baselineStart == null || baselineFinish == null)
-      {
-         return null;
-      }
-
-      if (dataDate.isBefore(baselineStart))
-      {
-         return NumberHelper.DOUBLE_ZERO;
-      }
-
-      if (dataDate.isAfter(baselineFinish))
-      {
-         return Double.valueOf(100.0);
-      }
-
-      Duration x = getEffectiveCalendar().getWork(baselineStart, dataDate, TimeUnit.HOURS);
-      Duration y = getEffectiveCalendar().getWork(baselineStart, baselineFinish, TimeUnit.HOURS);
-
-      Double result = (x.getDuration() * 100.0) / y.getDuration();
-
-      return result;
-   }
-
    private Integer calculateParentTaskUniqueID()
    {
       return m_parent == null ? null : m_parent.getUniqueID();
