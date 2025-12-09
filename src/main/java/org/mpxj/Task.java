@@ -5888,30 +5888,19 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       Task successorTask = relation.getSuccessorTask();
 
       Number schedulePercentComplete = getSchedulePercentComplete();
-      //boolean scheduleComplete = NumberHelper.equals(schedulePercentComplete, 100.0);
-      boolean schedulePercentCompleteHasValue = schedulePercentComplete != null && schedulePercentComplete.doubleValue() > 0;
+
       boolean activityHasNoRemainingDuration = getRemainingDuration() != null && NumberHelper.getDouble(getRemainingDuration().getDuration()) == 0;
       boolean successorIsStartMilestone = successorTask.getActivityType() == ActivityType.START_MILESTONE;
 
-         switch (relation.getType())
+      switch (relation.getType())
       {
          case FINISH_START:
          {
-            //if (relation.getPredecessorTask().getActualStart() == null || relation.getSuccessorTask().getActualFinish() != null || scheduleComplete)
-            if (relation.getPredecessorTask().getActualStart() == null || relation.getSuccessorTask().getActualFinish() != null || schedulePercentCompleteHasValue || activityHasNoRemainingDuration || successorIsStartMilestone)
-            {
-               return calculateFreeSlackVariance(relation, getEarlyFinish(), successorTask.getEarlyStart());
-            }
-            return Duration.getInstance(0, TimeUnit.HOURS);
+            return calculateFreeSlackVariance(relation, getEarlyFinish(), successorTask.getEarlyStart());
          }
 
          case START_START:
          {
-
-            // first attempt
-            //return calculateFreeSlackVariance(relation, getEarlyStart(), successorTask.getEarlyStart(), relation.getPredecessorTask().getActualStart() == null);
-
-
             if (relation.getPredecessorTask().getActualStart() == null)
             {
                return calculateFreeSlackVariance(relation, getEarlyStart(), successorTask.getEarlyStart());
