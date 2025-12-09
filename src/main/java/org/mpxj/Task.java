@@ -5910,7 +5910,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
          case START_FINISH:
          {
-            return getTotalSlack();
+            return calculateFreeSlackVariance(relation, getEarlyStart(), successorTask.getEarlyFinish());
          }
       }
 
