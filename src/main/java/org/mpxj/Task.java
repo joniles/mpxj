@@ -38,6 +38,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.LocalDateTimeHelper;
@@ -5857,14 +5858,24 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       }
 
       return getSuccessors().stream()
-         // Ignore completed successors
-         //.filter(r -> r.getSuccessorTask().getActualFinish() == null)
+         // Ignore LOE successors
          .filter(r -> r.getSuccessorTask().getActivityType() != ActivityType.LEVEL_OF_EFFORT)
-         .map(this::calculateFreeSlack)
+         // Handle duplicate successor tasks
+         .collect(Collectors.toMap(Relation::getSuccessorTask, this::calculateFreeSlack, this::mergeFreeSlack))
+         .values().stream()
          .filter(Objects::nonNull)
          .min(Comparator.naturalOrder())
-         //.orElseGet(this::getTotalSlack);
          .orElseGet(this::calculateFreeSlackWithoutSuccessors);
+   }
+
+   private Duration mergeFreeSlack(Duration d1, Duration d2)
+   {
+      if (d1.getDuration() >= 0 && d2.getDuration() >= 0)
+      {
+         return d1.compareTo(d2) < 0 ? d1 : d2;
+      }
+
+      return d1.compareTo(d2) > 0 ? d1 : d2;
    }
 
    private Duration calculateFreeSlack(Relation relation)
