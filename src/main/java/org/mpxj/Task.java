@@ -5932,6 +5932,11 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    private Duration calculateFreeSlackWithoutSuccessors()
    {
+      if (getConstraintType() == ConstraintType.MUST_FINISH_ON)
+      {
+         return Duration.getInstance(0, TimeUnit.HOURS);
+      }
+
       if (getDuration() == null)
       {
          return null;
