@@ -5851,7 +5851,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    private Duration calculateFreeSlack()
    {
       // If the task is complete, free slack is always zero
-      if (getActualFinish() != null || getActivityType() == ActivityType.LEVEL_OF_EFFORT || getSummary()) // TODO - do we want to populate this for WBS?
+      if (getExpectedFinish() != null || getActualFinish() != null || getActivityType() == ActivityType.LEVEL_OF_EFFORT || getSummary()) // TODO - do we want to populate this for WBS?
       {
          Duration duration = getDuration();
          return Duration.getInstance(0, duration == null ? TimeUnit.HOURS : duration.getUnits());
