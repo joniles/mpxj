@@ -402,7 +402,13 @@ public class PrimaveraSchedulerComparator
          return true;
       }
 
-      return baselineDuration.equals(workingDuration);
+
+      // Truncate to two decimal places for comparison.
+      // Avoids issues with small rounding differences.
+      long baselineDurationValue = (long) (baselineDuration.getDuration() * 100.0);
+      long workingDurationValue = (long) (workingDuration.getDuration() * 100.0);
+
+      return baselineDuration.getUnits() == workingDuration.getUnits() && baselineDurationValue == workingDurationValue;
    }
 
    /**
