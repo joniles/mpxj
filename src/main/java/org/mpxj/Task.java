@@ -5887,11 +5887,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
       Task successorTask = relation.getSuccessorTask();
 
-      Number schedulePercentComplete = getSchedulePercentComplete();
-
-      boolean activityHasNoRemainingDuration = getRemainingDuration() != null && NumberHelper.getDouble(getRemainingDuration().getDuration()) == 0;
-      boolean successorIsStartMilestone = successorTask.getActivityType() == ActivityType.START_MILESTONE;
-
       switch (relation.getType())
       {
          case FINISH_START:
