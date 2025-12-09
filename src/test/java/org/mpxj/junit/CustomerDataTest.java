@@ -307,6 +307,7 @@ public class CustomerDataTest
       Set<String> excluded = readFile(new File(m_privateDirectory, "primavera-scheduler-excluded.txt"));
       Set<String> noWbsTest = readFile(new File(m_privateDirectory, "primavera-scheduler-no-wbs-test.txt"));
       Set<String> noResourceAssignmentTest = readFile(new File(m_privateDirectory, "primavera-scheduler-no-assignment-test.txt"));
+      Set<String> noFloatTest = readFile(new File(m_privateDirectory, "primavera-scheduler-no-float-test.txt"));
 
       PrimaveraSchedulerComparator comparator = new PrimaveraSchedulerComparator();
       comparator.setUnreadableFiles(unreadable);
@@ -314,6 +315,7 @@ public class CustomerDataTest
       comparator.setExcluded(excluded);
       comparator.setNoWbsTest(noWbsTest);
       comparator.setNoResourceAssignmentTest(noResourceAssignmentTest);
+      comparator.setNoFloatTest(noFloatTest);
       comparator.setDebug(true);
 
       assertTrue(comparator.process(new File(m_privateDirectory, "XER"), ".xer"));

@@ -134,6 +134,11 @@ public class PrimaveraSchedulerComparator
       m_noResourceAssignmentTest = value;
    }
 
+   public void setNoFloatTest(Set<String> value)
+   {
+      m_noFloatTest = value;
+   }
+
    /**
     * Compare all the files in a directory with a matching suffix.
     *
@@ -239,7 +244,7 @@ public class PrimaveraSchedulerComparator
       }
 
       String fileName = file.getName().toLowerCase();
-      return process(baselineFile, workingFile, !m_noWbsTest.contains(fileName), !m_noResourceAssignmentTest.contains(fileName));
+      return process(baselineFile, workingFile, !m_noWbsTest.contains(fileName), !m_noResourceAssignmentTest.contains(fileName), !m_noFloatTest.contains(fileName));
    }
 
    /**
@@ -251,7 +256,7 @@ public class PrimaveraSchedulerComparator
     * @param analyseResourceAssignments true if resource assignments should be analysed
     * @return true if compared successfully
     */
-   public boolean process(ProjectFile baselineFile, ProjectFile workingFile, boolean analyseWbs, boolean analyseResourceAssignments) throws Exception
+   public boolean process(ProjectFile baselineFile, ProjectFile workingFile, boolean analyseWbs, boolean analyseResourceAssignments, boolean analyseFloats) throws Exception
    {
       m_forwardErrorCount = 0;
       m_backwardErrorCount = 0;
@@ -265,7 +270,7 @@ public class PrimaveraSchedulerComparator
             continue;
          }
 
-         compare(baselineTask, workingTask);
+         compare(baselineTask, workingTask, analyseFloats);
 
          if (analyseResourceAssignments)
          {
@@ -311,7 +316,7 @@ public class PrimaveraSchedulerComparator
     * @param baseline baseline task
     * @param working scheduled task
     */
-   private void compare(Task baseline, Task working)
+   private void compare(Task baseline, Task working, boolean analyseFloats)
    {
       boolean earlyStartFailed = !compareDates(baseline, working, TaskField.EARLY_START);
       boolean earlyFinishFailed = !compareDates(baseline, working, TaskField.EARLY_FINISH);
@@ -321,8 +326,8 @@ public class PrimaveraSchedulerComparator
       boolean actualFinishFailed = !compareDates(baseline, working, TaskField.ACTUAL_FINISH);
       boolean remainingEarlyStartFailed = !compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
       boolean remainingEarlyFinishFailed = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
-      boolean freeFloatFailed = !compareDurations(baseline, working, TaskField.FREE_SLACK);
-      boolean totalFloatFailed = !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
+      boolean freeFloatFailed =  analyseFloats && !compareDurations(baseline, working, TaskField.FREE_SLACK);
+      boolean totalFloatFailed = analyseFloats && !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
 
       if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || actualStartFailed || actualFinishFailed || remainingEarlyStartFailed || remainingEarlyFinishFailed || freeFloatFailed || totalFloatFailed)
       {
@@ -582,4 +587,5 @@ public class PrimaveraSchedulerComparator
    private Set<String> m_excluded = Collections.emptySet();
    private Set<String> m_noWbsTest = Collections.emptySet();
    private Set<String> m_noResourceAssignmentTest = Collections.emptySet();
+   private Set<String> m_noFloatTest = Collections.emptySet();
 }
