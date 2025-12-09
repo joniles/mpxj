@@ -5937,7 +5937,8 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          return null;
       }
 
-      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getEarlyFinish(), getParentFile().getProjectProperties().getFinishDate(), getDuration().getUnits());
+      LocalDateTime projectFinishDate = getParentFile().getProjectProperties().getScheduledFinish();
+      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getEarlyFinish(), projectFinishDate, getDuration().getUnits());
    }
 
    private Duration removeLag(Relation relation, Duration duration)

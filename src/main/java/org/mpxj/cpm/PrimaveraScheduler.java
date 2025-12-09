@@ -114,6 +114,7 @@ public class PrimaveraScheduler implements Scheduler
 
       m_file.getProjectProperties().setStartDate(m_projectStartDate);
       m_file.getProjectProperties().setFinishDate(m_projectFinishDate);
+      m_file.getProjectProperties().setScheduledFinish(earlyFinish);
    }
 
    /**
