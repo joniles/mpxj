@@ -25,7 +25,7 @@ public class PrimaveraSlackCalculator implements SlackCalculator
          return Duration.getInstance(0, TimeUnit.HOURS);
       }
 
-      return task.getSuccessors().stream()
+      Duration freeFloat =  task.getSuccessors().stream()
          // Ignore LOE successors
          .filter(r -> r.getSuccessorTask().getActivityType() != ActivityType.LEVEL_OF_EFFORT)
          // Handle duplicate successor tasks
@@ -34,6 +34,13 @@ public class PrimaveraSlackCalculator implements SlackCalculator
          .filter(Objects::nonNull)
          .min(Comparator.naturalOrder())
          .orElseGet(() -> calculateFreeSlackWithoutSuccessors(task));
+
+      if (freeFloat.getDuration() < 0)
+      {
+         return Duration.getInstance(0, TimeUnit.HOURS);
+      }
+
+      return freeFloat;
    }
 
    @Override public Duration calculateTotalSlack(Task task)
@@ -138,11 +145,7 @@ public class PrimaveraSlackCalculator implements SlackCalculator
 
          case START_START:
          {
-            if (relation.getPredecessorTask().getActualStart() == null)
-            {
-               return calculateFreeSlackVariance(relation, predecessorTask.getEarlyStart(), successorTask.getEarlyStart());
-            }
-            return Duration.getInstance(0, TimeUnit.HOURS);
+            return calculateFreeSlackVariance(relation, predecessorTask.getEarlyStart(), successorTask.getEarlyStart());
          }
 
          case FINISH_FINISH:
