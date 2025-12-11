@@ -39,6 +39,8 @@ import java.util.stream.Stream;
 
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.ObjectSequence;
+import org.mpxj.cpm.MicrosoftSlackCalculator;
+import org.mpxj.cpm.PrimaveraSlackCalculator;
 
 /**
  * This class represents a project plan.
@@ -1084,6 +1086,16 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       return m_ignoredErrors;
    }
 
+   public SlackCalculator getSlackCalculator()
+   {
+      return m_slackCalculator;
+   }
+
+   public void setSlackClaculator(SlackCalculator slackCalculator)
+   {
+      m_slackCalculator = slackCalculator;
+   }
+
    void addExternalProject(String fileName, ProjectFile projectFile)
    {
       m_externalProjects.add(fileName, projectFile);
@@ -1108,4 +1120,5 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final Map<Integer, Map<Task, Task>> m_baselineTaskMap = new HashMap<>();
    private final List<Exception> m_ignoredErrors = new ArrayList<>();
    private final ProjectContext m_context;
+   private SlackCalculator m_slackCalculator = new MicrosoftSlackCalculator(); // TEMP
 }

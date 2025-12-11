@@ -44,6 +44,7 @@ import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.TaskFieldLists;
+import org.mpxj.cpm.PrimaveraSlackCalculator;
 
 /**
  * This class represents a task record from a project file.
@@ -5850,119 +5851,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    private Duration calculateFreeSlack()
    {
-      // If the task is complete, free slack is always zero
-      if (getExpectedFinish() != null || getActualFinish() != null || getActivityType() == ActivityType.LEVEL_OF_EFFORT || getSummary()) // TODO - do we want to populate this for WBS?
-      {
-         Duration duration = getDuration();
-         return Duration.getInstance(0, duration == null ? TimeUnit.HOURS : duration.getUnits());
-      }
-
-      return getSuccessors().stream()
-         // Ignore LOE successors
-         .filter(r -> r.getSuccessorTask().getActivityType() != ActivityType.LEVEL_OF_EFFORT)
-         // Handle duplicate successor tasks
-         .collect(Collectors.toMap(Relation::getSuccessorTask, this::calculateFreeSlack, this::mergeFreeSlack))
-         .values().stream()
-         .filter(Objects::nonNull)
-         .min(Comparator.naturalOrder())
-         .orElseGet(this::calculateFreeSlackWithoutSuccessors);
-   }
-
-   private Duration mergeFreeSlack(Duration d1, Duration d2)
-   {
-      if (d1.getDuration() >= 0 && d2.getDuration() >= 0)
-      {
-         return d1.compareTo(d2) < 0 ? d1 : d2;
-      }
-
-      return d1.compareTo(d2) > 0 ? d1 : d2;
-   }
-
-   private Duration calculateFreeSlack(Relation relation)
-   {
-      if (getConstraintType() == ConstraintType.MUST_FINISH_ON)
-      {
-         return Duration.getInstance(0, TimeUnit.HOURS);
-      }
-
-      Task successorTask = relation.getSuccessorTask();
-
-      switch (relation.getType())
-      {
-         case FINISH_START:
-         {
-            return calculateFreeSlackVariance(relation, getEarlyFinish(), successorTask.getEarlyStart());
-         }
-
-         case START_START:
-         {
-            if (relation.getPredecessorTask().getActualStart() == null)
-            {
-               return calculateFreeSlackVariance(relation, getEarlyStart(), successorTask.getEarlyStart());
-            }
-            return Duration.getInstance(0, TimeUnit.HOURS);
-         }
-
-         case FINISH_FINISH:
-         {
-            return calculateFreeSlackVariance(relation, getEarlyFinish(), successorTask.getEarlyFinish());
-         }
-
-         case START_FINISH:
-         {
-            return calculateFreeSlackVariance(relation, getEarlyStart(), successorTask.getEarlyFinish());
-         }
-      }
-
-      return null;
-   }
-
-   private Duration calculateFreeSlackVariance(Relation relation, LocalDateTime date1, LocalDateTime date2)
-   {
-      TimeUnit format = getDuration() == null ? TimeUnit.HOURS : getDuration().getUnits();
-
-      if (date1 == null || date2 == null)
-      {
-         return Duration.getInstance(0, format);
-      }
-
-      Duration variance = LocalDateTimeHelper.getVariance(getEffectiveCalendar(), date1, date2, format);
-      return removeLag(relation, variance);
-   }
-
-   private Duration calculateFreeSlackWithoutSuccessors()
-   {
-      if (getConstraintType() == ConstraintType.MUST_FINISH_ON || getConstraintType() == ConstraintType.MUST_START_ON)
-      {
-         return Duration.getInstance(0, TimeUnit.HOURS);
-      }
-
-      if (getDuration() == null)
-      {
-         return null;
-      }
-
-      LocalDateTime projectFinishDate = getParentFile().getProjectProperties().getScheduledFinish();
-      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getEarlyFinish(), projectFinishDate, getDuration().getUnits());
-   }
-
-   private Duration removeLag(Relation relation, Duration duration)
-   {
-      Duration lag = relation.getLag();
-      double lagDuration = lag.getDuration();
-      if (lagDuration == 0.0)
-      {
-         return duration;
-      }
-
-      TimeUnit lagUnits = lag.getUnits();
-      TimeUnit durationUnits = duration.getUnits();
-      if (lagUnits != durationUnits)
-      {
-         lag = lag.convertUnits(durationUnits, relation.getPredecessorTask().getEffectiveCalendar());
-      }
-
-      return Duration.getInstance(duration.getDuration() - lag.getDuration(), durationUnits);
+      return getParentFile().getSlackCalculator().calculateFreeSlack(this);
    }
 
    private Duration calculateTotalSlack()

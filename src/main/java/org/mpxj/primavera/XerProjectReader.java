@@ -27,6 +27,7 @@ import java.util.Map;
 
 import org.mpxj.Notes;
 import org.mpxj.ProjectFile;
+import org.mpxj.cpm.PrimaveraSlackCalculator;
 
 /**
  * Populate a ProjectFile instance from tables in an XER file.
@@ -57,6 +58,7 @@ class XerProjectReader extends TableProjectReader
       m_project.getProjectProperties().setFileApplication("Primavera");
       m_project.getProjectProperties().setFileType("XER");
       m_project.getProjectProperties().setUniqueID(m_projectID);
+      m_project.setSlackClaculator(new PrimaveraSlackCalculator());
 
       processActivityCodeAssignments();
       processResourceAssignmentCodeAssignments();
