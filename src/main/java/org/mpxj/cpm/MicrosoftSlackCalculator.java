@@ -9,11 +9,12 @@ import org.mpxj.Relation;
 import org.mpxj.SlackCalculator;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
+import org.mpxj.TotalSlackCalculationType;
 import org.mpxj.common.LocalDateTimeHelper;
 
 public class MicrosoftSlackCalculator implements SlackCalculator
 {
-   public Duration calculateFreeSlack(Task task)
+   @Override public Duration calculateFreeSlack(Task task)
    {
       // If the task is complete, free slack is always zero
       if (task.getActualFinish() != null || task.getSummary()) // TODO - do we want to populate this for summary tasks?
@@ -29,6 +30,72 @@ public class MicrosoftSlackCalculator implements SlackCalculator
          .filter(Objects::nonNull)
          .min(Comparator.naturalOrder())
          .orElseGet(task::getTotalSlack);
+   }
+
+   @Override public Duration calculateTotalSlack(Task task)
+   {
+      // Calculate these first to avoid clearing our total slack value
+      Duration duration = task.getDuration();
+      Duration startSlack = task.getStartSlack();
+      Duration finishSlack = task.getFinishSlack();
+
+      TotalSlackCalculationType calculationType = task.getParentFile().getProjectProperties().getTotalSlackCalculationType();
+
+      if (calculationType == TotalSlackCalculationType.START_SLACK)
+      {
+         return startSlack;
+      }
+
+      if (calculationType == TotalSlackCalculationType.FINISH_SLACK)
+      {
+         return finishSlack;
+      }
+
+      if (task.getActualStart() != null)
+      {
+         return finishSlack;
+      }
+
+      if (duration == null)
+      {
+         return null;
+      }
+
+      if (startSlack == null)
+      {
+         return null;
+      }
+
+      if (finishSlack == null)
+      {
+         return null;
+      }
+
+      TimeUnit units = duration.getUnits();
+      if (startSlack.getUnits() != units)
+      {
+         startSlack = startSlack.convertUnits(units, task.getParentFile().getProjectProperties());
+      }
+
+      if (finishSlack.getUnits() != units)
+      {
+         finishSlack = finishSlack.convertUnits(units, task.getParentFile().getProjectProperties());
+      }
+
+      Duration totalSlack;
+      double startSlackDuration = startSlack.getDuration();
+      double finishSlackDuration = finishSlack.getDuration();
+
+      if (startSlackDuration < finishSlackDuration)
+      {
+         totalSlack = startSlack;
+      }
+      else
+      {
+         totalSlack = finishSlack;
+      }
+
+      return totalSlack;
    }
 
    private Duration calculateFreeSlack(Relation relation)

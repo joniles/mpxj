@@ -5856,74 +5856,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    private Duration calculateTotalSlack()
    {
-      Duration duration = getDuration();
-
-      if (getActualFinish() != null)
-      {
-         return Duration.getInstance(0, duration == null ? TimeUnit.HOURS : duration.getUnits());
-      }
-
-      // Calculate these first to avoid clearing our total slack value
-      Duration startSlack = getStartSlack();
-      Duration finishSlack = getFinishSlack();
-
-      TotalSlackCalculationType calculationType = m_parentFile.getProjectProperties().getTotalSlackCalculationType();
-
-      if (calculationType == TotalSlackCalculationType.START_SLACK)
-      {
-         return startSlack;
-      }
-
-      if (calculationType == TotalSlackCalculationType.FINISH_SLACK)
-      {
-         return finishSlack;
-      }
-
-      if (getActualStart() != null)
-      {
-         return finishSlack;
-      }
-
-      if (duration == null)
-      {
-         return null;
-      }
-
-      if (startSlack == null)
-      {
-         return null;
-      }
-
-      if (finishSlack == null)
-      {
-         return null;
-      }
-
-      TimeUnit units = duration.getUnits();
-      if (startSlack.getUnits() != units)
-      {
-         startSlack = startSlack.convertUnits(units, m_parentFile.getProjectProperties());
-      }
-
-      if (finishSlack.getUnits() != units)
-      {
-         finishSlack = finishSlack.convertUnits(units, m_parentFile.getProjectProperties());
-      }
-
-      Duration totalSlack;
-      double startSlackDuration = startSlack.getDuration();
-      double finishSlackDuration = finishSlack.getDuration();
-
-      if (startSlackDuration < finishSlackDuration)
-      {
-         totalSlack = startSlack;
-      }
-      else
-      {
-         totalSlack = finishSlack;
-      }
-
-      return totalSlack;
+      return getParentFile().getSlackCalculator().calculateTotalSlack(this);
    }
 
    private Boolean calculateCritical()
