@@ -402,7 +402,6 @@ public class PrimaveraSchedulerComparator
          return true;
       }
 
-
       // Truncate to two decimal places for comparison.
       // Avoids issues with small rounding differences.
       long baselineDurationValue = (long) (baselineDuration.getDuration() * 100.0);

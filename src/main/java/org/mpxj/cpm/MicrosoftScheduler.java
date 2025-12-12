@@ -127,6 +127,9 @@ public class MicrosoftScheduler implements Scheduler
       }
 
       m_file.getChildTasks().forEach(this::rollupDates);
+
+      m_file.getProjectProperties().setStartDate(m_projectStartDate);
+      m_file.getProjectProperties().setFinishDate(m_projectFinishDate);
    }
 
    private void validateTasks(List<Task> tasks) throws CpmException
@@ -169,9 +172,15 @@ public class MicrosoftScheduler implements Scheduler
          task.setLateStart(null);
          task.setLateFinish(null);
 
-         // Clear the critical flag to force it to be recalculated
+         // Clear fields to force recalculation
          task.set(TaskField.CRITICAL, null);
+         task.set(TaskField.FREE_SLACK, null);
+         task.set(TaskField.TOTAL_SLACK, null);
       }
+
+      // Force start and finish dates to be recalculated
+      m_file.getProjectProperties().setStartDate(null);
+      m_file.getProjectProperties().setFinishDate(null);
    }
 
    /**

@@ -17,10 +17,15 @@ public class MicrosoftSlackCalculator implements SlackCalculator
    @Override public Duration calculateFreeSlack(Task task)
    {
       // If the task is complete, free slack is always zero
-      if (task.getActualFinish() != null || task.getSummary()) // TODO - do we want to populate this for summary tasks?
+      if (task.getActualFinish() != null)
       {
          Duration duration = task.getDuration();
          return Duration.getInstance(0, duration == null ? TimeUnit.HOURS : duration.getUnits());
+      }
+
+      if (task.getSummary())
+      {
+         return task.getTotalSlack();
       }
 
       return task.getSuccessors().stream()

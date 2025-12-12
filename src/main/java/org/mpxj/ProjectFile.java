@@ -39,8 +39,6 @@ import java.util.stream.Stream;
 
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.ObjectSequence;
-import org.mpxj.cpm.MicrosoftSlackCalculator;
-import org.mpxj.cpm.PrimaveraSlackCalculator;
 
 /**
  * This class represents a project plan.

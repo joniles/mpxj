@@ -288,6 +288,7 @@ public class CustomerDataTest
       comparator.setUnreadableFiles(unreadable);
       comparator.setUseScheduled(useScheduled);
       comparator.setExcluded(excluded);
+      comparator.setDebug(true);
 
       assertTrue(comparator.process(new File(m_privateDirectory, "MPP"), ".mpp"));
    }

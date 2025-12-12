@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.mpxj.Duration;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
@@ -262,8 +263,10 @@ public class MicrosoftSchedulerComparator
       boolean earlyFinishFailed = !compareDates(baseline, working, TaskField.EARLY_FINISH);
       boolean startFailed = !compareDates(baseline, working, TaskField.START);
       boolean finishFailed = !compareDates(baseline, working, TaskField.FINISH);
-      //boolean criticalFailed = baseline.getCritical() != working.getCritical();
-      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed /*|| criticalFailed*/)
+      boolean freeFloatFailed = !compareDurations(baseline, working, TaskField.FREE_SLACK);
+      boolean totalFloatFailed = !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
+
+      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || freeFloatFailed || totalFloatFailed)
       {
          ++m_forwardErrorCount;
       }
@@ -310,6 +313,28 @@ public class MicrosoftSchedulerComparator
       return result < 0.29;
    }
 
+   private boolean compareDurations(Task baseline, Task working, TaskField field)
+   {
+      Duration baselineDuration =  (Duration) baseline.get(field);
+      if (baselineDuration == null)
+      {
+         return true;
+      }
+
+      Duration workingDuration = (Duration) working.get(field);
+      if (workingDuration == null)
+      {
+         return true;
+      }
+
+      // Truncate to two decimal places for comparison.
+      // Avoids issues with small rounding differences.
+      long baselineDurationValue = (long) (baselineDuration.getDuration() * 100.0);
+      long workingDurationValue = (long) (workingDuration.getDuration() * 100.0);
+
+      return baselineDuration.getUnits() == workingDuration.getUnits() && baselineDurationValue == workingDurationValue;
+   }
+
    /**
     * Write debug output to show where the two project differ.
     *
@@ -350,14 +375,17 @@ public class MicrosoftSchedulerComparator
       boolean earlyFinishFail = !compareDates(baseline, working, TaskField.EARLY_FINISH);
       boolean startFail = !compareDates(baseline, working, TaskField.START);
       boolean finishFail = !compareDates(baseline, working, TaskField.FINISH);
-      //boolean criticalFail = baseline.getCritical() != working.getCritical();
+      boolean freeFloatFailed = !compareDurations(baseline, working, TaskField.FREE_SLACK);
+      boolean totalFloatFailed = !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
 
       System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working);
       System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
       System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
       System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (startFail ? " FAIL" : ""));
       System.out.println("Finish: " + baseline.getFinish() + " " + working.getFinish() + (finishFail ? " FAIL" : ""));
-      //System.out.println("Critical: " + baseline.getCritical() + " " + working.getCritical() + (criticalFail ? " FAIL" : ""));
+      System.out.println("Free Float: " + baseline.getFreeSlack() + " " + working.getFreeSlack() + (freeFloatFailed ? " FAIL" : ""));
+      System.out.println("Total Float: " + baseline.getTotalSlack() + " " + working.getTotalSlack() + (totalFloatFailed ? " FAIL" : ""));
+
       System.out.println();
    }
 
