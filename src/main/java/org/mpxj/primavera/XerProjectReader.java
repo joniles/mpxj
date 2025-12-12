@@ -58,7 +58,7 @@ class XerProjectReader extends TableProjectReader
       m_project.getProjectProperties().setFileApplication("Primavera");
       m_project.getProjectProperties().setFileType("XER");
       m_project.getProjectProperties().setUniqueID(m_projectID);
-      m_project.setSlackClaculator(new PrimaveraSlackCalculator());
+      m_project.getProjectConfig().setSlackClaculator(new PrimaveraSlackCalculator());
 
       processActivityCodeAssignments();
       processResourceAssignmentCodeAssignments();

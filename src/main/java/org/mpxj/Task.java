@@ -5851,12 +5851,12 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    private Duration calculateFreeSlack()
    {
-      return getParentFile().getSlackCalculator().calculateFreeSlack(this);
+      return getParentFile().getProjectConfig().getSlackCalculator().calculateFreeSlack(this);
    }
 
    private Duration calculateTotalSlack()
    {
-      return getParentFile().getSlackCalculator().calculateTotalSlack(this);
+      return getParentFile().getProjectConfig().getSlackCalculator().calculateTotalSlack(this);
    }
 
    private Boolean calculateCritical()

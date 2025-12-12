@@ -114,7 +114,7 @@ class XmlProjectReader
          m_projectFile = new ProjectFile(m_state.getContext());
          m_activityClashMap = new ClashMap();
 
-         m_projectFile.setSlackClaculator(new PrimaveraSlackCalculator());
+         m_projectFile.getProjectConfig().setSlackClaculator(new PrimaveraSlackCalculator());
          m_projectFile.getProjectProperties().setFileApplication("Primavera");
          m_projectFile.getProjectProperties().setFileType("PMXML");
 

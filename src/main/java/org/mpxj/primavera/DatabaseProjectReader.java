@@ -68,7 +68,7 @@ class DatabaseProjectReader extends TableProjectReader
          properties.setFileApplication("Primavera");
          properties.setFileType(m_database.getProductName());
          properties.setUniqueID(m_projectID);
-         m_project.setSlackClaculator(new PrimaveraSlackCalculator());
+         m_project.getProjectConfig().setSlackClaculator(new PrimaveraSlackCalculator());
 
          processActivityCodeAssignments();
          processResourceAssignmentCodeAssignments();
