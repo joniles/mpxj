@@ -1435,6 +1435,12 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          return null;
       }
 
+      if (format.isElapsed())
+      {
+         Duration elapsedMinutes = Duration.getInstance(startDate.until(endDate, ChronoUnit.MINUTES), TimeUnit.ELAPSED_MINUTES);
+         return elapsedMinutes.convertUnits(format, this);
+      }
+
       LocalDateTimeRange range = new LocalDateTimeRange(startDate, endDate);
       Long cachedResult = m_workingDateCache.get(range);
       long totalTime = 0;
