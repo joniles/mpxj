@@ -174,8 +174,7 @@ public class MicrosoftSlackCalculator implements SlackCalculator
    private Duration removeLag(Relation relation, Duration duration)
    {
       Duration lag = relation.getLag();
-      double lagDuration = lag.getDuration();
-      if (lagDuration == 0.0)
+      if (lag.getDuration() == 0.0)
       {
          return duration;
       }
@@ -184,7 +183,15 @@ public class MicrosoftSlackCalculator implements SlackCalculator
       TimeUnit durationUnits = duration.getUnits();
       if (lagUnits != durationUnits)
       {
-         lag = lag.convertUnits(durationUnits, relation.getPredecessorTask().getEffectiveCalendar());
+         if (lagUnits == TimeUnit.PERCENT)
+         {
+            Duration predecessorDuration = relation.getPredecessorTask().getDuration();
+            lag = Duration.getInstance((predecessorDuration.getDuration() * lag.getDuration()) / 100.0, predecessorDuration.getUnits());
+         }
+         else
+         {
+            lag = lag.convertUnits(durationUnits, relation.getPredecessorTask().getEffectiveCalendar());
+         }
       }
 
       return Duration.getInstance(duration.getDuration() - lag.getDuration(), durationUnits);
