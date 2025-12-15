@@ -283,11 +283,13 @@ public class CustomerDataTest
       Set<String> unreadable = readFile(new File(m_privateDirectory, "microsoft-scheduler-unreadable.txt"));
       Set<String> useScheduled = readFile(new File(m_privateDirectory, "microsoft-scheduler-use-scheduled.txt"));
       Set<String> excluded = readFile(new File(m_privateDirectory, "microsoft-scheduler-excluded.txt"));
+      Set<String> noFloatTest = readFile(new File(m_privateDirectory, "microsoft-scheduler-no-float-test.txt"));
 
       MicrosoftSchedulerComparator comparator = new MicrosoftSchedulerComparator();
       comparator.setUnreadableFiles(unreadable);
       comparator.setUseScheduled(useScheduled);
       comparator.setExcluded(excluded);
+      comparator.setNoFloatTest(noFloatTest);
       comparator.setDebug(true);
 
       assertTrue(comparator.process(new File(m_privateDirectory, "MPP"), ".mpp"));

@@ -112,6 +112,11 @@ public class MicrosoftSchedulerComparator
       m_excluded = value;
    }
 
+   public void setNoFloatTest(Set<String> value)
+   {
+      m_noFloatTest = value;
+   }
+
    /**
     * Compare all the files in a directory with a matching suffix.
     *
@@ -195,6 +200,8 @@ public class MicrosoftSchedulerComparator
 
       ProjectFile baselineFile = new UniversalProjectReader().read(file);
       ProjectFile workingFile = new UniversalProjectReader().read(file);
+      String name = file.getName().toLowerCase();
+      boolean analyseFloats = !m_noFloatTest.contains(name);
 
       MicrosoftScheduler scheduler = new MicrosoftScheduler();
 
@@ -223,7 +230,7 @@ public class MicrosoftSchedulerComparator
             continue;
          }
 
-         compare(baselineTask, workingTask);
+         compare(baselineTask, workingTask, analyseFloats);
       }
 
       if (m_forwardErrorCount == 0 && m_backwardErrorCount == 0)
@@ -257,14 +264,14 @@ public class MicrosoftSchedulerComparator
     * @param baseline baseline task
     * @param working scheduled task
     */
-   private void compare(Task baseline, Task working)
+   private void compare(Task baseline, Task working, boolean analyseFloats)
    {
       boolean earlyStartFailed = !compareDates(baseline, working, TaskField.EARLY_START);
       boolean earlyFinishFailed = !compareDates(baseline, working, TaskField.EARLY_FINISH);
       boolean startFailed = !compareDates(baseline, working, TaskField.START);
       boolean finishFailed = !compareDates(baseline, working, TaskField.FINISH);
-      boolean freeFloatFailed = !compareDurations(baseline, working, TaskField.FREE_SLACK);
-      boolean totalFloatFailed = !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
+      boolean freeFloatFailed = analyseFloats && !compareDurations(baseline, working, TaskField.FREE_SLACK);
+      boolean totalFloatFailed = analyseFloats && !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
 
       if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || freeFloatFailed || totalFloatFailed)
       {
@@ -419,4 +426,5 @@ public class MicrosoftSchedulerComparator
    private Set<String> m_unreadableFiles = Collections.emptySet();
    private Set<String> m_useScheduled = Collections.emptySet();
    private Set<String> m_excluded = Collections.emptySet();
+   private Set<String> m_noFloatTest = Collections.emptySet();
 }
