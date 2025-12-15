@@ -151,7 +151,7 @@ public class MicrosoftSlackCalculator implements SlackCalculator
 
          case START_FINISH:
          {
-            return predecessorTask.getTotalSlack();
+            return calculateFreeSlackVariance(relation, predecessorTask.getEarlyStart(), successorTask.getEarlyFinish());
          }
       }
 
