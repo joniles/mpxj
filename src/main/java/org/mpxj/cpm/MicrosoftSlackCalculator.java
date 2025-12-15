@@ -25,16 +25,40 @@ public class MicrosoftSlackCalculator implements SlackCalculator
 
       if (task.getSummary())
       {
-         return task.getTotalSlack();
+         return task.getChildTasks().stream().flatMap(t -> t.getSuccessors().stream())
+            // Ignore completed successors
+            .filter(r -> r.getSuccessorTask().getActualFinish() == null)
+            .map(r -> calculateVariance(task, r.getSuccessorTask()))
+            .filter(Objects::nonNull)
+            .min(Comparator.naturalOrder())
+            .orElseGet(task::getTotalSlack);
       }
 
-      return task.getSuccessors().stream()
+      Duration freeFloat = task.getSuccessors().stream()
          // Ignore completed successors
          .filter(r -> r.getSuccessorTask().getActualFinish() == null)
          .map(this::calculateFreeSlack)
          .filter(Objects::nonNull)
          .min(Comparator.naturalOrder())
          .orElseGet(task::getTotalSlack);
+
+
+      if (freeFloat != null && freeFloat.getDuration() < 0)
+      {
+         return Duration.getInstance(0, TimeUnit.HOURS);
+      }
+
+      return freeFloat;
+   }
+
+   private Duration calculateVariance(Task t1, Task t2)
+   {
+      Duration variance =  LocalDateTimeHelper.getVariance(t1.getEffectiveCalendar(), t1.getEarlyFinish(), t1.getEarlyStart(), TimeUnit.HOURS);
+      if (variance.getDuration() < 0)
+      {
+         return null;
+      }
+      return variance;
    }
 
    @Override public Duration calculateTotalSlack(Task task)

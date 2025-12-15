@@ -327,6 +327,11 @@ public class MicrosoftSchedulerComparator
          return true;
       }
 
+      if (baselineDuration.getUnits() !=  workingDuration.getUnits())
+      {
+         workingDuration = workingDuration.convertUnits(baselineDuration.getUnits(), baseline.getEffectiveCalendar());
+      }
+
       // Truncate to two decimal places for comparison.
       // Avoids issues with small rounding differences.
       long baselineDurationValue = (long) (baselineDuration.getDuration() * 100.0);
@@ -379,6 +384,7 @@ public class MicrosoftSchedulerComparator
       boolean totalFloatFailed = !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
 
       System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working);
+      System.out.println("Summary: " + baseline.getSummary());
       System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
       System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
       System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (startFail ? " FAIL" : ""));
