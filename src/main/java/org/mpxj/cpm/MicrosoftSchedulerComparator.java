@@ -193,14 +193,14 @@ public class MicrosoftSchedulerComparator
       m_forwardErrorCount = 0;
       m_backwardErrorCount = 0;
 
-      m_baselineFile = new UniversalProjectReader().read(file);
-      m_workingFile = new UniversalProjectReader().read(file);
+      ProjectFile baselineFile = new UniversalProjectReader().read(file);
+      ProjectFile workingFile = new UniversalProjectReader().read(file);
 
       MicrosoftScheduler scheduler = new MicrosoftScheduler();
 
       try
       {
-         scheduler.schedule(m_workingFile, m_workingFile.getProjectProperties().getStartDate());
+         scheduler.schedule(workingFile, workingFile.getProjectProperties().getStartDate());
       }
 
       catch (CpmException ex)
@@ -213,9 +213,9 @@ public class MicrosoftSchedulerComparator
          return false;
       }
 
-      for (Task baselineTask : m_baselineFile.getTasks())
+      for (Task baselineTask : baselineFile.getTasks())
       {
-         Task workingTask = m_workingFile.getTaskByUniqueID(baselineTask.getUniqueID());
+         Task workingTask = workingFile.getTaskByUniqueID(baselineTask.getUniqueID());
 
          // TODO: investigate rollup logic for project summary task
          if (NumberHelper.getInt(baselineTask.getID()) == 0)
@@ -244,7 +244,7 @@ public class MicrosoftSchedulerComparator
 
       if (!m_directory && m_debug)
       {
-         analyseFailures(scheduler);
+         analyseFailures(scheduler, baselineFile, workingFile);
          System.out.println("DONE");
       }
 
@@ -345,26 +345,26 @@ public class MicrosoftSchedulerComparator
     *
     * @param scheduler MicrosoftScheduler instance
     */
-   private void analyseFailures(MicrosoftScheduler scheduler)
+   private void analyseFailures(MicrosoftScheduler scheduler, ProjectFile baselineFile, ProjectFile workingFile)
    {
       //List<Task> tasks = new DepthFirstGraphSort(m_workingFile, scheduler::isTask).sort();
       List<Task> tasks = scheduler.getSortedTasks();
 
       // Sort so we can see errors at the bottom first, as these are rolled up.
-      List<Task> wbs = m_workingFile.getTasks().stream().filter(Task::getSummary).collect(Collectors.toList());
+      List<Task> wbs = workingFile.getTasks().stream().filter(Task::getSummary).collect(Collectors.toList());
       Collections.reverse(wbs);
 
       if (m_forwardErrorCount != 0)
       {
-         tasks.forEach(this::analyseForwardError);
-         wbs.forEach(this::analyseForwardError);
+         tasks.forEach(t -> analyseForwardError(baselineFile, t));
+         wbs.forEach(t -> analyseForwardError(baselineFile, t));
       }
 
       if (m_backwardErrorCount != 0)
       {
          Collections.reverse(tasks);
-         tasks.forEach(this::analyseBackwardError);
-         wbs.forEach(this::analyseBackwardError);
+         tasks.forEach(t -> analyseBackwardError(baselineFile, t));
+         wbs.forEach(t -> analyseBackwardError(baselineFile, t));
       }
    }
 
@@ -373,9 +373,9 @@ public class MicrosoftSchedulerComparator
     *
     * @param working scheduled task
     */
-   private void analyseForwardError(Task working)
+   private void analyseForwardError(ProjectFile baselineFile, Task working)
    {
-      Task baseline = m_baselineFile.getTaskByUniqueID(working.getUniqueID());
+      Task baseline = baselineFile.getTaskByUniqueID(working.getUniqueID());
       boolean earlyStartFail = !compareDates(baseline, working, TaskField.EARLY_START);
       boolean earlyFinishFail = !compareDates(baseline, working, TaskField.EARLY_FINISH);
       boolean startFail = !compareDates(baseline, working, TaskField.START);
@@ -400,9 +400,9 @@ public class MicrosoftSchedulerComparator
     *
     * @param working scheduled task
     */
-   private void analyseBackwardError(Task working)
+   private void analyseBackwardError(ProjectFile baselineFile, Task working)
    {
-      Task baseline = m_baselineFile.getTaskByUniqueID(working.getUniqueID());
+      Task baseline = baselineFile.getTaskByUniqueID(working.getUniqueID());
       boolean lateStartFail = !compareDates(baseline, working, TaskField.LATE_START);
       boolean lateFinishFail = !compareDates(baseline, working, TaskField.LATE_FINISH);
 
@@ -414,8 +414,6 @@ public class MicrosoftSchedulerComparator
 
    private boolean m_debug;
    private boolean m_directory;
-   private ProjectFile m_baselineFile;
-   private ProjectFile m_workingFile;
    private int m_forwardErrorCount;
    private int m_backwardErrorCount;
    private Set<String> m_unreadableFiles = Collections.emptySet();
