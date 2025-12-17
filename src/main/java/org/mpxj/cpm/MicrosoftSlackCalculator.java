@@ -75,13 +75,20 @@ public class MicrosoftSlackCalculator implements SlackCalculator
 
       if (task.getSummary())
       {
-         return task.getChildTasks().stream().flatMap(t -> t.getSuccessors().stream())
+         Duration freeFloat =  task.getChildTasks().stream().flatMap(t -> t.getSuccessors().stream())
             // Ignore completed successors
             .filter(r -> r.getSuccessorTask().getActualFinish() == null)
             .map(r -> calculateVariance(task, r.getSuccessorTask()))
             .filter(Objects::nonNull)
             .min(Comparator.naturalOrder())
             .orElseGet(task::getTotalSlack);
+
+         if (freeFloat.getDuration() < 0)
+         {
+            return Duration.getInstance(0, freeFloat.getUnits());
+         }
+
+         return freeFloat;
       }
 
       Duration freeFloat = task.getSuccessors().stream()
