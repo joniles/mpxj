@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.Objects;
 import java.time.LocalDateTime;
 
+import org.mpxj.ConstraintType;
 import org.mpxj.Duration;
 import org.mpxj.Relation;
 import org.mpxj.SlackCalculator;
@@ -14,6 +15,55 @@ import org.mpxj.common.LocalDateTimeHelper;
 
 public class MicrosoftSlackCalculator implements SlackCalculator
 {
+   @Override public Duration calculateStartSlack(Task task)
+   {
+      Duration duration = task.getDuration();
+      if (duration == null)
+      {
+         return null;
+      }
+
+      if (task.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE)
+      {
+         return Duration.getInstance(0, duration.getUnits());
+      }
+
+      LocalDateTime lateStart = task.getLateStart();
+      LocalDateTime earlyStart = task.getEarlyStart();
+
+      if (lateStart == null || earlyStart == null)
+      {
+         return null;
+      }
+
+      return LocalDateTimeHelper.getVariance(task.getEffectiveCalendar(), earlyStart, lateStart, duration.getUnits());
+   }
+
+   @Override public Duration calculateFinishSlack(Task task)
+   {
+      Duration duration = task.getDuration();
+      if (duration == null)
+      {
+         return null;
+      }
+
+      if (task.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE)
+      {
+         return Duration.getInstance(0, duration.getUnits());
+      }
+
+      LocalDateTime earlyFinish = task.getEarlyFinish();
+      LocalDateTime lateFinish = task.getLateFinish();
+
+      if (earlyFinish == null || lateFinish == null)
+      {
+         return null;
+      }
+
+      return LocalDateTimeHelper.getVariance(task.getEffectiveCalendar(), earlyFinish, lateFinish, duration.getUnits());
+
+   }
+
    @Override public Duration calculateFreeSlack(Task task)
    {
       // If the task is complete, free slack is always zero
@@ -132,26 +182,31 @@ public class MicrosoftSlackCalculator implements SlackCalculator
       Task predecessorTask = relation.getPredecessorTask();
       Task successorTask = relation.getSuccessorTask();
 
+      LocalDateTime predecessorStart = predecessorTask.getConstraintType()  == ConstraintType.AS_LATE_AS_POSSIBLE ? predecessorTask.getLateStart() : predecessorTask.getEarlyStart();
+      LocalDateTime predecessorFinish = predecessorTask.getConstraintType()  == ConstraintType.AS_LATE_AS_POSSIBLE ? predecessorTask.getLateFinish() : predecessorTask.getEarlyFinish();
+      LocalDateTime successorStart = successorTask.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE ? successorTask.getLateStart() : successorTask.getEarlyStart();
+      LocalDateTime successorFinish = successorTask.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE ? successorTask.getLateFinish() : successorTask.getEarlyFinish();
+
       switch (relation.getType())
       {
          case FINISH_START:
          {
-            return calculateFreeSlackVariance(relation, predecessorTask.getEarlyFinish(), successorTask.getEarlyStart());
+            return calculateFreeSlackVariance(relation, predecessorFinish, successorStart);
          }
 
          case START_START:
          {
-            return calculateFreeSlackVariance(relation, predecessorTask.getEarlyStart(), successorTask.getEarlyStart());
+            return calculateFreeSlackVariance(relation, predecessorStart, successorStart);
          }
 
          case FINISH_FINISH:
          {
-            return calculateFreeSlackVariance(relation, predecessorTask.getEarlyFinish(), successorTask.getEarlyFinish());
+            return calculateFreeSlackVariance(relation, predecessorFinish, successorFinish);
          }
 
          case START_FINISH:
          {
-            return calculateFreeSlackVariance(relation, predecessorTask.getEarlyStart(), successorTask.getEarlyFinish());
+            return calculateFreeSlackVariance(relation, predecessorStart, successorFinish);
          }
       }
 

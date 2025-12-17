@@ -17,7 +17,33 @@ import org.mpxj.common.LocalDateTimeHelper;
 
 public class PrimaveraSlackCalculator implements SlackCalculator
 {
-   public Duration calculateFreeSlack(Task task)
+   @Override public Duration calculateStartSlack(Task task)
+   {
+      LocalDateTime lateStart = task.getLateStart();
+      LocalDateTime earlyStart = task.getEarlyStart();
+
+      if (lateStart == null || earlyStart == null)
+      {
+         return null;
+      }
+
+      return LocalDateTimeHelper.getVariance(task.getEffectiveCalendar(), earlyStart, lateStart, TimeUnit.HOURS);
+   }
+
+   @Override public Duration calculateFinishSlack(Task task)
+   {
+      LocalDateTime earlyFinish = task.getEarlyFinish();
+      LocalDateTime lateFinish = task.getLateFinish();
+
+      if (earlyFinish == null || lateFinish == null)
+      {
+         return null;
+      }
+
+      return LocalDateTimeHelper.getVariance(task.getEffectiveCalendar(), earlyFinish, lateFinish, TimeUnit.HOURS);
+   }
+
+   @Override public Duration calculateFreeSlack(Task task)
    {
       // If the task is complete, free slack is always zero
       if (task.getExpectedFinish() != null || task.getActualFinish() != null || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getSummary()) // TODO - do we want to populate this for WBS?

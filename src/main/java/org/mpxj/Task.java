@@ -5770,30 +5770,12 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    private Duration calculateStartSlack()
    {
-      Duration duration = getDuration();
-      LocalDateTime lateStart = getLateStart();
-      LocalDateTime earlyStart = getEarlyStart();
-
-      if (duration == null || lateStart == null || earlyStart == null)
-      {
-         return null;
-      }
-
-      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), earlyStart, lateStart, duration.getUnits());
+      return getParentFile().getProjectConfig().getSlackCalculator().calculateStartSlack(this);
    }
 
    private Duration calculateFinishSlack()
    {
-      Duration duration = getDuration();
-      LocalDateTime earlyFinish = getEarlyFinish();
-      LocalDateTime lateFinish = getLateFinish();
-
-      if (duration == null || earlyFinish == null || lateFinish == null)
-      {
-         return null;
-      }
-
-      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), earlyFinish, lateFinish, duration.getUnits());
+      return getParentFile().getProjectConfig().getSlackCalculator().calculateFinishSlack(this);
    }
 
    private Double calculateCostVariance()
