@@ -83,7 +83,7 @@ public class MicrosoftSlackCalculator implements SlackCalculator
             .min(Comparator.naturalOrder())
             .orElseGet(task::getTotalSlack);
 
-         if (freeFloat.getDuration() < 0)
+         if (freeFloat != null && freeFloat.getDuration() < 0)
          {
             return Duration.getInstance(0, freeFloat.getUnits());
          }

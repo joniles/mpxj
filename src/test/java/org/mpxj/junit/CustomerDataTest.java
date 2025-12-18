@@ -290,7 +290,7 @@ public class CustomerDataTest
       comparator.setUseScheduled(useScheduled);
       comparator.setExcluded(excluded);
       comparator.setNoFloatTest(noFloatTest);
-      comparator.setDebug(true);
+      comparator.setDebug(false);
 
       assertTrue(comparator.process(new File(m_privateDirectory, "MPP"), ".mpp"));
    }
@@ -319,7 +319,7 @@ public class CustomerDataTest
       comparator.setNoWbsTest(noWbsTest);
       comparator.setNoResourceAssignmentTest(noResourceAssignmentTest);
       comparator.setNoFloatTest(noFloatTest);
-      comparator.setDebug(true);
+      comparator.setDebug(false);
 
       assertTrue(comparator.process(new File(m_privateDirectory, "XER"), ".xer"));
    }
