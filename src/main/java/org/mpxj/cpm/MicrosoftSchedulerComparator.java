@@ -326,6 +326,14 @@ public class MicrosoftSchedulerComparator
       return result < 0.29;
    }
 
+   /**
+    * Compare two duration fields.
+    *
+    * @param baseline baseline task
+    * @param working working task
+    * @param field field to compare
+    * @return true if the durations match
+    */
    private boolean compareDurations(Task baseline, Task working, TaskField field)
    {
       Duration baselineDuration =  (Duration) baseline.get(field);
