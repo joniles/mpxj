@@ -28,12 +28,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
@@ -5768,30 +5766,12 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    private Duration calculateStartSlack()
    {
-      Duration duration = getDuration();
-      LocalDateTime lateStart = getLateStart();
-      LocalDateTime earlyStart = getEarlyStart();
-
-      if (duration == null || lateStart == null || earlyStart == null)
-      {
-         return null;
-      }
-
-      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), earlyStart, lateStart, duration.getUnits());
+      return getParentFile().getProjectConfig().getSlackCalculator().calculateStartSlack(this);
    }
 
    private Duration calculateFinishSlack()
    {
-      Duration duration = getDuration();
-      LocalDateTime earlyFinish = getEarlyFinish();
-      LocalDateTime lateFinish = getLateFinish();
-
-      if (duration == null || earlyFinish == null || lateFinish == null)
-      {
-         return null;
-      }
-
-      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), earlyFinish, lateFinish, duration.getUnits());
+      return getParentFile().getProjectConfig().getSlackCalculator().calculateFinishSlack(this);
    }
 
    private Double calculateCostVariance()
@@ -5849,147 +5829,12 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    private Duration calculateFreeSlack()
    {
-      // If the task is complete, free slack is always zero
-      if (getActualFinish() != null || getActivityType() == ActivityType.LEVEL_OF_EFFORT || getSummary()) // TODO - do we want to populate this for WBS?
-      {
-         Duration duration = getDuration();
-         return Duration.getInstance(0, duration == null ? TimeUnit.HOURS : duration.getUnits());
-      }
-
-      return getSuccessors().stream()
-         // Ignore completed successors
-         .filter(r -> r.getSuccessorTask().getActualFinish() == null)
-         .map(this::calculateFreeSlack)
-         .filter(Objects::nonNull)
-         .min(Comparator.naturalOrder())
-         .orElseGet(this::getTotalSlack);
-   }
-
-   private Duration calculateFreeSlack(Relation relation)
-   {
-      Task successorTask = relation.getSuccessorTask();
-
-      switch (relation.getType())
-      {
-         case FINISH_START:
-         {
-            return calculateFreeSlackVariance(relation, getEarlyFinish(), successorTask.getEarlyStart());
-         }
-
-         case START_START:
-         {
-            return calculateFreeSlackVariance(relation, getEarlyStart(), successorTask.getEarlyStart());
-         }
-
-         case FINISH_FINISH:
-         {
-            return calculateFreeSlackVariance(relation, getEarlyFinish(), successorTask.getEarlyFinish());
-         }
-
-         case START_FINISH:
-         {
-            return getTotalSlack();
-         }
-      }
-
-      return null;
-   }
-
-   private Duration calculateFreeSlackVariance(Relation relation, LocalDateTime date1, LocalDateTime date2)
-   {
-      TimeUnit format = getDuration() == null ? TimeUnit.HOURS : getDuration().getUnits();
-
-      if (date1 == null || date2 == null)
-      {
-         return Duration.getInstance(0, format);
-      }
-
-      return removeLag(relation, LocalDateTimeHelper.getVariance(getEffectiveCalendar(), date1, date2, format));
-   }
-
-   private Duration removeLag(Relation relation, Duration duration)
-   {
-      Duration lag = relation.getLag();
-      double lagDuration = lag.getDuration();
-      if (lagDuration == 0.0)
-      {
-         return duration;
-      }
-
-      TimeUnit lagUnits = lag.getUnits();
-      TimeUnit durationUnits = duration.getUnits();
-      if (lagUnits != durationUnits)
-      {
-         lag = lag.convertUnits(durationUnits, relation.getPredecessorTask().getEffectiveCalendar());
-      }
-
-      return Duration.getInstance(duration.getDuration() - lag.getDuration(), durationUnits);
+      return getParentFile().getProjectConfig().getSlackCalculator().calculateFreeSlack(this);
    }
 
    private Duration calculateTotalSlack()
    {
-      // Calculate these first to avoid clearing our total slack value
-      Duration duration = getDuration();
-      Duration startSlack = getStartSlack();
-      Duration finishSlack = getFinishSlack();
-
-      TotalSlackCalculationType calculationType = m_parentFile.getProjectProperties().getTotalSlackCalculationType();
-
-      if (calculationType == TotalSlackCalculationType.START_SLACK)
-      {
-         return startSlack;
-      }
-
-      if (calculationType == TotalSlackCalculationType.FINISH_SLACK)
-      {
-         return finishSlack;
-      }
-
-      if (getActualStart() != null)
-      {
-         return finishSlack;
-      }
-
-      if (duration == null)
-      {
-         return null;
-      }
-
-      if (startSlack == null)
-      {
-         return null;
-      }
-
-      if (finishSlack == null)
-      {
-         return null;
-      }
-
-      TimeUnit units = duration.getUnits();
-      if (startSlack.getUnits() != units)
-      {
-         startSlack = startSlack.convertUnits(units, m_parentFile.getProjectProperties());
-      }
-
-      if (finishSlack.getUnits() != units)
-      {
-         finishSlack = finishSlack.convertUnits(units, m_parentFile.getProjectProperties());
-      }
-
-      Duration totalSlack;
-      double startSlackDuration = startSlack.getDuration();
-      double finishSlackDuration = finishSlack.getDuration();
-
-      if (startSlackDuration < finishSlackDuration)
-      {
-         totalSlack = startSlack;
-      }
-      else
-      {
-         totalSlack = finishSlack;
-      }
-
-      return totalSlack;
+      return getParentFile().getProjectConfig().getSlackCalculator().calculateTotalSlack(this);
    }
 
    private Boolean calculateCritical()

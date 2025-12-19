@@ -32,6 +32,7 @@ import org.mpxj.Notes;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.common.DayOfWeekHelper;
+import org.mpxj.cpm.PrimaveraSlackCalculator;
 
 /**
  * Populate a ProjectFile instance from tables in a P6 database.
@@ -66,8 +67,8 @@ class DatabaseProjectReader extends TableProjectReader
          ProjectProperties properties = m_project.getProjectProperties();
          properties.setFileApplication("Primavera");
          properties.setFileType(m_database.getProductName());
-
-         m_project.getProjectProperties().setUniqueID(m_projectID);
+         properties.setUniqueID(m_projectID);
+         m_project.getProjectConfig().setSlackClaculator(new PrimaveraSlackCalculator());
 
          processActivityCodeAssignments();
          processResourceAssignmentCodeAssignments();

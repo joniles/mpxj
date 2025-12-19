@@ -111,6 +111,10 @@ public class PrimaveraScheduler implements Scheduler
       m_file.getChildTasks().forEach(this::rollupDates);
 
       wbsSummaryPass();
+
+      m_file.getProjectProperties().setStartDate(m_projectStartDate);
+      m_file.getProjectProperties().setFinishDate(m_projectFinishDate);
+      m_file.getProjectProperties().setScheduledFinish(earlyFinish);
    }
 
    /**
@@ -2793,9 +2797,15 @@ public class PrimaveraScheduler implements Scheduler
          task.setRemainingLateStart(null);
          task.setRemainingLateFinish(null);
 
-         // Clear the critical flag to force it to be recalculated
+         // Clear fields to force recalculation
          task.set(TaskField.CRITICAL, null);
+         task.set(TaskField.FREE_SLACK, null);
+         task.set(TaskField.TOTAL_SLACK, null);
       }
+
+      // Force start and finish dates to be recalculated
+      m_file.getProjectProperties().setStartDate(null);
+      m_file.getProjectProperties().setFinishDate(null);
    }
 
    /**

@@ -283,11 +283,14 @@ public class CustomerDataTest
       Set<String> unreadable = readFile(new File(m_privateDirectory, "microsoft-scheduler-unreadable.txt"));
       Set<String> useScheduled = readFile(new File(m_privateDirectory, "microsoft-scheduler-use-scheduled.txt"));
       Set<String> excluded = readFile(new File(m_privateDirectory, "microsoft-scheduler-excluded.txt"));
+      Set<String> noFloatTest = readFile(new File(m_privateDirectory, "microsoft-scheduler-no-float-test.txt"));
 
       MicrosoftSchedulerComparator comparator = new MicrosoftSchedulerComparator();
       comparator.setUnreadableFiles(unreadable);
       comparator.setUseScheduled(useScheduled);
       comparator.setExcluded(excluded);
+      comparator.setNoFloatTest(noFloatTest);
+      comparator.setDebug(false);
 
       assertTrue(comparator.process(new File(m_privateDirectory, "MPP"), ".mpp"));
    }
@@ -307,6 +310,7 @@ public class CustomerDataTest
       Set<String> excluded = readFile(new File(m_privateDirectory, "primavera-scheduler-excluded.txt"));
       Set<String> noWbsTest = readFile(new File(m_privateDirectory, "primavera-scheduler-no-wbs-test.txt"));
       Set<String> noResourceAssignmentTest = readFile(new File(m_privateDirectory, "primavera-scheduler-no-assignment-test.txt"));
+      Set<String> noFloatTest = readFile(new File(m_privateDirectory, "primavera-scheduler-no-float-test.txt"));
 
       PrimaveraSchedulerComparator comparator = new PrimaveraSchedulerComparator();
       comparator.setUnreadableFiles(unreadable);
@@ -314,6 +318,7 @@ public class CustomerDataTest
       comparator.setExcluded(excluded);
       comparator.setNoWbsTest(noWbsTest);
       comparator.setNoResourceAssignmentTest(noResourceAssignmentTest);
+      comparator.setNoFloatTest(noFloatTest);
       comparator.setDebug(false);
 
       assertTrue(comparator.process(new File(m_privateDirectory, "XER"), ".xer"));

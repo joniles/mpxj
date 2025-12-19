@@ -25,6 +25,8 @@ package org.mpxj;
 
 import java.io.File;
 
+import org.mpxj.cpm.MicrosoftSlackCalculator;
+
 /**
  * Container for configuration details used to control the behaviour of the ProjectFile class.
  */
@@ -309,6 +311,27 @@ public class ProjectConfig
    }
 
    /**
+    * Retrieve the slack values calculator for this project.
+    * The default calculator is the MicrosoftSlackCalculator.
+    *
+    * @return slack values calculator instance
+    */
+   public SlackCalculator getSlackCalculator()
+   {
+      return m_slackCalculator;
+   }
+
+   /**
+    * Set the slack values calculator for this project.
+    *
+    * @param slackCalculator slack values calculator instance
+    */
+   public void setSlackClaculator(SlackCalculator slackCalculator)
+   {
+      m_slackCalculator = slackCalculator;
+   }
+
+   /**
     * Indicating whether WBS value should be calculated on creation, or will
     * be manually set.
     */
@@ -376,4 +399,6 @@ public class ProjectConfig
    private BaselineStrategy m_baselineStrategy = DefaultBaselineStrategy.INSTANCE;
 
    private File m_subprojectWorkingDirectory;
+
+   private SlackCalculator m_slackCalculator = new MicrosoftSlackCalculator();
 }

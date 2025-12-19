@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.mpxj.Duration;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
@@ -112,6 +113,17 @@ public class MicrosoftSchedulerComparator
    }
 
    /**
+    * Tell the comparator to ignore files which MicrosoftScheduler doesn't
+    * currently process to match Microsoft Project.
+    *
+    * @param value set of excluded files
+    */
+   public void setNoFloatTest(Set<String> value)
+   {
+      m_noFloatTest = value;
+   }
+
+   /**
     * Compare all the files in a directory with a matching suffix.
     *
     * @param directory directory
@@ -192,14 +204,16 @@ public class MicrosoftSchedulerComparator
       m_forwardErrorCount = 0;
       m_backwardErrorCount = 0;
 
-      m_baselineFile = new UniversalProjectReader().read(file);
-      m_workingFile = new UniversalProjectReader().read(file);
+      ProjectFile baselineFile = new UniversalProjectReader().read(file);
+      ProjectFile workingFile = new UniversalProjectReader().read(file);
+      String name = file.getName().toLowerCase();
+      boolean analyseFloats = !m_noFloatTest.contains(name);
 
       MicrosoftScheduler scheduler = new MicrosoftScheduler();
 
       try
       {
-         scheduler.schedule(m_workingFile, m_workingFile.getProjectProperties().getStartDate());
+         scheduler.schedule(workingFile, workingFile.getProjectProperties().getStartDate());
       }
 
       catch (CpmException ex)
@@ -212,9 +226,9 @@ public class MicrosoftSchedulerComparator
          return false;
       }
 
-      for (Task baselineTask : m_baselineFile.getTasks())
+      for (Task baselineTask : baselineFile.getTasks())
       {
-         Task workingTask = m_workingFile.getTaskByUniqueID(baselineTask.getUniqueID());
+         Task workingTask = workingFile.getTaskByUniqueID(baselineTask.getUniqueID());
 
          // TODO: investigate rollup logic for project summary task
          if (NumberHelper.getInt(baselineTask.getID()) == 0)
@@ -222,7 +236,7 @@ public class MicrosoftSchedulerComparator
             continue;
          }
 
-         compare(baselineTask, workingTask);
+         compare(baselineTask, workingTask, analyseFloats);
       }
 
       if (m_forwardErrorCount == 0 && m_backwardErrorCount == 0)
@@ -243,7 +257,7 @@ public class MicrosoftSchedulerComparator
 
       if (!m_directory && m_debug)
       {
-         analyseFailures(scheduler);
+         analyseFailures(scheduler, baselineFile, workingFile);
          System.out.println("DONE");
       }
 
@@ -256,14 +270,16 @@ public class MicrosoftSchedulerComparator
     * @param baseline baseline task
     * @param working scheduled task
     */
-   private void compare(Task baseline, Task working)
+   private void compare(Task baseline, Task working, boolean analyseFloats)
    {
       boolean earlyStartFailed = !compareDates(baseline, working, TaskField.EARLY_START);
       boolean earlyFinishFailed = !compareDates(baseline, working, TaskField.EARLY_FINISH);
       boolean startFailed = !compareDates(baseline, working, TaskField.START);
       boolean finishFailed = !compareDates(baseline, working, TaskField.FINISH);
-      //boolean criticalFailed = baseline.getCritical() != working.getCritical();
-      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed /*|| criticalFailed*/)
+      boolean freeFloatFailed = analyseFloats && !compareDurations(baseline, working, TaskField.FREE_SLACK);
+      boolean totalFloatFailed = analyseFloats && !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
+
+      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || freeFloatFailed || totalFloatFailed)
       {
          ++m_forwardErrorCount;
       }
@@ -311,30 +327,65 @@ public class MicrosoftSchedulerComparator
    }
 
    /**
+    * Compare two duration fields.
+    *
+    * @param baseline baseline task
+    * @param working working task
+    * @param field field to compare
+    * @return true if the durations match
+    */
+   private boolean compareDurations(Task baseline, Task working, TaskField field)
+   {
+      Duration baselineDuration =  (Duration) baseline.get(field);
+      if (baselineDuration == null)
+      {
+         return true;
+      }
+
+      Duration workingDuration = (Duration) working.get(field);
+      if (workingDuration == null)
+      {
+         return true;
+      }
+
+      if (baselineDuration.getUnits() !=  workingDuration.getUnits())
+      {
+         workingDuration = workingDuration.convertUnits(baselineDuration.getUnits(), baseline.getEffectiveCalendar());
+      }
+
+      // Truncate to two decimal places for comparison.
+      // Avoids issues with small rounding differences.
+      long baselineDurationValue = (long) (baselineDuration.getDuration() * 100.0);
+      long workingDurationValue = (long) (workingDuration.getDuration() * 100.0);
+
+      return baselineDuration.getUnits() == workingDuration.getUnits() && baselineDurationValue == workingDurationValue;
+   }
+
+   /**
     * Write debug output to show where the two project differ.
     *
     * @param scheduler MicrosoftScheduler instance
     */
-   private void analyseFailures(MicrosoftScheduler scheduler)
+   private void analyseFailures(MicrosoftScheduler scheduler, ProjectFile baselineFile, ProjectFile workingFile)
    {
       //List<Task> tasks = new DepthFirstGraphSort(m_workingFile, scheduler::isTask).sort();
       List<Task> tasks = scheduler.getSortedTasks();
 
       // Sort so we can see errors at the bottom first, as these are rolled up.
-      List<Task> wbs = m_workingFile.getTasks().stream().filter(Task::getSummary).collect(Collectors.toList());
+      List<Task> wbs = workingFile.getTasks().stream().filter(Task::getSummary).collect(Collectors.toList());
       Collections.reverse(wbs);
 
       if (m_forwardErrorCount != 0)
       {
-         tasks.forEach(this::analyseForwardError);
-         wbs.forEach(this::analyseForwardError);
+         tasks.forEach(t -> analyseForwardError(baselineFile, t));
+         wbs.forEach(t -> analyseForwardError(baselineFile, t));
       }
 
       if (m_backwardErrorCount != 0)
       {
          Collections.reverse(tasks);
-         tasks.forEach(this::analyseBackwardError);
-         wbs.forEach(this::analyseBackwardError);
+         tasks.forEach(t -> analyseBackwardError(baselineFile, t));
+         wbs.forEach(t -> analyseBackwardError(baselineFile, t));
       }
    }
 
@@ -343,21 +394,25 @@ public class MicrosoftSchedulerComparator
     *
     * @param working scheduled task
     */
-   private void analyseForwardError(Task working)
+   private void analyseForwardError(ProjectFile baselineFile, Task working)
    {
-      Task baseline = m_baselineFile.getTaskByUniqueID(working.getUniqueID());
+      Task baseline = baselineFile.getTaskByUniqueID(working.getUniqueID());
       boolean earlyStartFail = !compareDates(baseline, working, TaskField.EARLY_START);
       boolean earlyFinishFail = !compareDates(baseline, working, TaskField.EARLY_FINISH);
       boolean startFail = !compareDates(baseline, working, TaskField.START);
       boolean finishFail = !compareDates(baseline, working, TaskField.FINISH);
-      //boolean criticalFail = baseline.getCritical() != working.getCritical();
+      boolean freeFloatFailed = !compareDurations(baseline, working, TaskField.FREE_SLACK);
+      boolean totalFloatFailed = !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
 
       System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working);
+      System.out.println("Summary: " + baseline.getSummary());
       System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
       System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
       System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (startFail ? " FAIL" : ""));
       System.out.println("Finish: " + baseline.getFinish() + " " + working.getFinish() + (finishFail ? " FAIL" : ""));
-      //System.out.println("Critical: " + baseline.getCritical() + " " + working.getCritical() + (criticalFail ? " FAIL" : ""));
+      System.out.println("Free Float: " + baseline.getFreeSlack() + " " + working.getFreeSlack() + (freeFloatFailed ? " FAIL" : ""));
+      System.out.println("Total Float: " + baseline.getTotalSlack() + " " + working.getTotalSlack() + (totalFloatFailed ? " FAIL" : ""));
+
       System.out.println();
    }
 
@@ -366,9 +421,9 @@ public class MicrosoftSchedulerComparator
     *
     * @param working scheduled task
     */
-   private void analyseBackwardError(Task working)
+   private void analyseBackwardError(ProjectFile baselineFile, Task working)
    {
-      Task baseline = m_baselineFile.getTaskByUniqueID(working.getUniqueID());
+      Task baseline = baselineFile.getTaskByUniqueID(working.getUniqueID());
       boolean lateStartFail = !compareDates(baseline, working, TaskField.LATE_START);
       boolean lateFinishFail = !compareDates(baseline, working, TaskField.LATE_FINISH);
 
@@ -380,11 +435,10 @@ public class MicrosoftSchedulerComparator
 
    private boolean m_debug;
    private boolean m_directory;
-   private ProjectFile m_baselineFile;
-   private ProjectFile m_workingFile;
    private int m_forwardErrorCount;
    private int m_backwardErrorCount;
    private Set<String> m_unreadableFiles = Collections.emptySet();
    private Set<String> m_useScheduled = Collections.emptySet();
    private Set<String> m_excluded = Collections.emptySet();
+   private Set<String> m_noFloatTest = Collections.emptySet();
 }

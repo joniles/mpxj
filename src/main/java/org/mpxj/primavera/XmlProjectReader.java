@@ -67,6 +67,7 @@ import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
+import org.mpxj.cpm.PrimaveraSlackCalculator;
 import org.mpxj.primavera.schema.APIBusinessObjects;
 import org.mpxj.primavera.schema.ActivityCodeType;
 import org.mpxj.primavera.schema.ActivityCodeTypeType;
@@ -113,6 +114,7 @@ class XmlProjectReader
          m_projectFile = new ProjectFile(m_state.getContext());
          m_activityClashMap = new ClashMap();
 
+         m_projectFile.getProjectConfig().setSlackClaculator(new PrimaveraSlackCalculator());
          m_projectFile.getProjectProperties().setFileApplication("Primavera");
          m_projectFile.getProjectProperties().setFileType("PMXML");
 
