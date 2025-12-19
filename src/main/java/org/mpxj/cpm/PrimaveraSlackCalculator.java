@@ -245,6 +245,12 @@ public class PrimaveraSlackCalculator implements SlackCalculator
       return removeLag(relation, variance);
    }
 
+   /**
+    * Calculate free slack for an activity without successors.
+    *
+    * @param task activity
+    * @return free slack value
+    */
    private Duration calculateFreeSlackWithoutSuccessors(Task task)
    {
       if (task.getConstraintType() == ConstraintType.MUST_FINISH_ON || task.getConstraintType() == ConstraintType.MUST_START_ON)
@@ -256,6 +262,13 @@ public class PrimaveraSlackCalculator implements SlackCalculator
       return LocalDateTimeHelper.getVariance(task.getEffectiveCalendar(), task.getEarlyFinish(), projectFinishDate, TimeUnit.HOURS);
    }
 
+   /**
+    * Remove lag from a duration.
+    *
+    * @param relation a Relation instance representing the lag to remove
+    * @param duration remve lag from this duration
+    * @return duration without lag
+    */
    private Duration removeLag(Relation relation, Duration duration)
    {
       Duration lag = relation.getLag();
