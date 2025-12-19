@@ -312,6 +312,7 @@ public class ProjectConfig
 
    /**
     * Retrieve the slack values calculator for this project.
+    * The default calculator is the MicrosoftSlackCalculator.
     *
     * @return slack values calculator instance
     */
