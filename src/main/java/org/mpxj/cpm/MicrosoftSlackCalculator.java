@@ -1,3 +1,25 @@
+/*
+ * file:       MicrosoftSlackCalculator.java
+ * author:     Jon Iles
+ * date:       2025-12-18
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 package org.mpxj.cpm;
 
 import java.util.Comparator;
@@ -13,6 +35,9 @@ import org.mpxj.TimeUnit;
 import org.mpxj.TotalSlackCalculationType;
 import org.mpxj.common.LocalDateTimeHelper;
 
+/**
+ * Perform slack calculations to align with Microsoft Project.
+ */
 public class MicrosoftSlackCalculator implements SlackCalculator
 {
    @Override public Duration calculateStartSlack(Task task)
@@ -108,16 +133,6 @@ public class MicrosoftSlackCalculator implements SlackCalculator
       return freeFloat;
    }
 
-   private Duration calculateVariance(Task t1, Task t2)
-   {
-      Duration variance =  LocalDateTimeHelper.getVariance(t1.getEffectiveCalendar(), t1.getEarlyFinish(), t1.getEarlyStart(), TimeUnit.HOURS);
-      if (variance.getDuration() < 0)
-      {
-         return null;
-      }
-      return variance;
-   }
-
    @Override public Duration calculateTotalSlack(Task task)
    {
       // Calculate these first to avoid clearing our total slack value
@@ -184,6 +199,29 @@ public class MicrosoftSlackCalculator implements SlackCalculator
       return totalSlack;
    }
 
+   /**
+    * Calculate the variance between the early finish of one task and the early start of another task.
+    *
+    * @param t1 first task
+    * @param t2 second task
+    * @return variance
+    */
+   private Duration calculateVariance(Task t1, Task t2)
+   {
+      Duration variance =  LocalDateTimeHelper.getVariance(t1.getEffectiveCalendar(), t1.getEarlyFinish(), t1.getEarlyStart(), TimeUnit.HOURS);
+      if (variance.getDuration() < 0)
+      {
+         return null;
+      }
+      return variance;
+   }
+
+   /**
+    * Calculate the free slack between two tasks.
+    *
+    * @param relation relation
+    * @return free slack
+    */
    private Duration calculateFreeSlack(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -220,6 +258,14 @@ public class MicrosoftSlackCalculator implements SlackCalculator
       return null;
    }
 
+   /**
+    * Calculate the variance between two dates in the context of a Relation instance.
+    *
+    * @param relation Relation instance
+    * @param date1 first date
+    * @param date2 second date
+    * @return variance value
+    */
    private Duration calculateFreeSlackVariance(Relation relation, LocalDateTime date1, LocalDateTime date2)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -233,6 +279,13 @@ public class MicrosoftSlackCalculator implements SlackCalculator
       return removeLag(relation, LocalDateTimeHelper.getVariance(predecessorTask.getEffectiveCalendar(), date1, date2, format));
    }
 
+   /**
+    * Remove lag from a duration.
+    *
+    * @param relation a Relation instance representing the lag to remove
+    * @param duration remve lag from this duration
+    * @return duration without lag
+    */
    private Duration removeLag(Relation relation, Duration duration)
    {
       Duration lag = relation.getLag();

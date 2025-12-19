@@ -112,6 +112,12 @@ public class MicrosoftSchedulerComparator
       m_excluded = value;
    }
 
+   /**
+    * Tell the comparator to ignore files which MicrosoftScheduler doesn't
+    * currently process to match Microsoft Project.
+    *
+    * @param value set of excluded files
+    */
    public void setNoFloatTest(Set<String> value)
    {
       m_noFloatTest = value;

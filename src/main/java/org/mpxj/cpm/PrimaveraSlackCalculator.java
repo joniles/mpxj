@@ -1,3 +1,25 @@
+/*
+ * file:       PrimaveraSlackCalculator.java
+ * author:     Jon Iles
+ * date:       2025-12-18
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 package org.mpxj.cpm;
 
 import java.time.LocalDateTime;
@@ -15,6 +37,9 @@ import org.mpxj.TimeUnit;
 import org.mpxj.TotalSlackCalculationType;
 import org.mpxj.common.LocalDateTimeHelper;
 
+/**
+ * Perform slack calculations to align with Primavera P6.
+ */
 public class PrimaveraSlackCalculator implements SlackCalculator
 {
    @Override public Duration calculateStartSlack(Task task)
@@ -141,6 +166,14 @@ public class PrimaveraSlackCalculator implements SlackCalculator
       return totalSlack;
    }
 
+   /**
+    * Determine the free slack value when there are multiple relations
+    * between the same pair of activities.
+    *
+    * @param d1 Duration instance
+    * @param d2 Duration instance
+    * @return selected free slack duration
+    */
    private Duration mergeFreeSlack(Duration d1, Duration d2)
    {
       if (d1.getDuration() >= 0 && d2.getDuration() >= 0)
@@ -151,6 +184,12 @@ public class PrimaveraSlackCalculator implements SlackCalculator
       return d1.compareTo(d2) > 0 ? d1 : d2;
    }
 
+   /**
+    * Calculate the free slack between two tasks.
+    *
+    * @param relation relation
+    * @return free slack
+    */
    private Duration calculateFreeSlack(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
@@ -158,7 +197,6 @@ public class PrimaveraSlackCalculator implements SlackCalculator
       {
          return Duration.getInstance(0, TimeUnit.HOURS);
       }
-
 
       Task successorTask = relation.getSuccessorTask();
 
@@ -188,6 +226,14 @@ public class PrimaveraSlackCalculator implements SlackCalculator
       return null;
    }
 
+   /**
+    * Calculate the variance between two dates in the context of a Relation instance.
+    *
+    * @param relation Relation instance
+    * @param date1 first date
+    * @param date2 second date
+    * @return variance value
+    */
    private Duration calculateFreeSlackVariance(Relation relation, LocalDateTime date1, LocalDateTime date2)
    {
       if (date1 == null || date2 == null)
