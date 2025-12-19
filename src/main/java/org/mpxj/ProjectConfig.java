@@ -310,11 +310,21 @@ public class ProjectConfig
       return m_subprojectWorkingDirectory;
    }
 
+   /**
+    * Retrieve the slack values calculator for this project.
+    *
+    * @return slack values calculator instance
+    */
    public SlackCalculator getSlackCalculator()
    {
       return m_slackCalculator;
    }
 
+   /**
+    * Set the slack values calculator for this project.
+    *
+    * @param slackCalculator slack values calculator instance
+    */
    public void setSlackClaculator(SlackCalculator slackCalculator)
    {
       m_slackCalculator = slackCalculator;
