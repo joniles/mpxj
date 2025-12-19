@@ -134,6 +134,12 @@ public class PrimaveraSchedulerComparator
       m_noResourceAssignmentTest = value;
    }
 
+   /**
+    * Tell the comparator to ignore files which PrimaveraScheduler doesn't
+    * currently process to match P6.
+    *
+    * @param value set of excluded files
+    */
    public void setNoFloatTest(Set<String> value)
    {
       m_noFloatTest = value;
@@ -388,6 +394,14 @@ public class PrimaveraSchedulerComparator
       return result;
    }
 
+   /**
+    * Compare two duration fields.
+    *
+    * @param baseline baseline task
+    * @param working working task
+    * @param field field to compare
+    * @return true if the durations match
+    */
    private boolean compareDurations(Task baseline, Task working, TaskField field)
    {
       Duration baselineDuration =  (Duration) baseline.get(field);
