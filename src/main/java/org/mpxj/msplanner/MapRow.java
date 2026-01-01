@@ -120,6 +120,16 @@ class MapRow extends LinkedHashMap<String, Object>
       return (Integer) getObject(key, DataType.INTEGER);
    }
 
+   public Double getDouble(String key)
+   {
+      return (Double) getObject(key, DataType.NUMERIC);
+   }
+
+   public double getDoubleValue(String key)
+   {
+      return NumberHelper.getDouble(getDouble(key));
+   }
+
    /**
     * Retrieve an int value.
     *
@@ -176,29 +186,14 @@ class MapRow extends LinkedHashMap<String, Object>
 
          case DURATION:
          {
-            if (key.startsWith("LocalCustom"))
-            {
-               return getDurationFromString(String.valueOf(value));
-            }
-
             double time = Double.parseDouble(String.valueOf(value));
-            if (key.endsWith("Milliseconds"))
-            {
-               time = time / (1000.0 * 60.0 * 60.0);
-            }
-
-            return Duration.getInstance(time, TimeUnit.HOURS);
+            return Duration.getInstance(time, TimeUnit.DAYS);
          }
 
          case WORK:
          case DELAY:
          {
             double time = Double.parseDouble(String.valueOf(value));
-            if (key.endsWith("Milliseconds"))
-            {
-               time = time / (1000.0 * 60.0 * 60.0);
-            }
-
             return Duration.getInstance(time, TimeUnit.HOURS);
          }
 
@@ -314,11 +309,6 @@ class MapRow extends LinkedHashMap<String, Object>
     */
    private LocalDateTime getDateFromString(String value)
    {
-      if (value.equals("0001-01-01T00:00:00"))
-      {
-         return null;
-      }
-
       return LocalDateTimeHelper.parseBest(DATE_TIME_FORMAT, value);
    }
 
@@ -338,33 +328,6 @@ class MapRow extends LinkedHashMap<String, Object>
       return UUID.fromString(value);
    }
 
-   /**
-    * Retrieve a Duration instance from a string representation.
-    *
-    * @param value string value
-    * @return Duration instance
-    */
-   private Object getDurationFromString(String value)
-   {
-      Matcher match = DURATION_REGEX.matcher(value);
-      if (!match.matches())
-      {
-         return value;
-      }
-
-      double duration = Double.parseDouble(match.group(1));
-      TimeUnit unit = TIME_UNIT_MAP.get(match.group(2));
-      if (unit == null)
-      {
-         return value;
-      }
-
-      return Duration.getInstance(duration, unit);
-   }
-
    private transient ProjectFile m_project;
-
-   private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'[HH:mm:ss.SSS][HH:mm:ss.SS][HH:mm:ss.S][HH:mm:ss]");
-   private static final Pattern DURATION_REGEX = Pattern.compile("(-?\\d+\\.\\d+|-?\\d+)(emo|mo|em|eh|ed|ew|ey|e%|m|h|d|w|%|y)");
-   private static final Map<String, TimeUnit> TIME_UNIT_MAP = Arrays.stream(TimeUnit.values()).collect(Collectors.toMap(TimeUnit::getName, t -> t));
+   private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 }
