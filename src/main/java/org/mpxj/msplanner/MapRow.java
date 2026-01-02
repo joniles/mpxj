@@ -83,7 +83,8 @@ class MapRow extends LinkedHashMap<String, Object>
     */
    public String getString(String key)
    {
-      return String.valueOf(get(key));
+      Object value = get(key);
+      return value == null ? null : String.valueOf(value);
    }
 
    /**
@@ -95,6 +96,11 @@ class MapRow extends LinkedHashMap<String, Object>
    public UUID getUUID(String key)
    {
       return (UUID) getObject(key, DataType.GUID);
+   }
+
+   public LocalDateTime getDate(String key)
+   {
+      return (LocalDateTime) getObject(key, DataType.DATE);
    }
 
    /**
@@ -286,8 +292,12 @@ class MapRow extends LinkedHashMap<String, Object>
             return new Notes(String.valueOf(value));
          }
 
-         case INTEGER:
          case PERCENTAGE:
+         {
+            return Double.valueOf(Double.parseDouble(String.valueOf(value)) * 100.0);
+         }
+
+         case INTEGER:
          case BOOLEAN:
          case SHORT:
          {
@@ -309,6 +319,11 @@ class MapRow extends LinkedHashMap<String, Object>
     */
    private LocalDateTime getDateFromString(String value)
    {
+      if (value.equals("2000-01-01T00:00:00Z"))
+      {
+         return null;
+      }
+
       return LocalDateTimeHelper.parseBest(DATE_TIME_FORMAT, value);
    }
 

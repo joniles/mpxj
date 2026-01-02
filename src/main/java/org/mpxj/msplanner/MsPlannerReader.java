@@ -6,6 +6,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,15 +25,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
+import org.mpxj.HtmlNotes;
+import org.mpxj.LocalTimeRange;
+import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectField;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
+import org.mpxj.Resource;
+import org.mpxj.ResourceField;
+import org.mpxj.Task;
+import org.mpxj.TaskField;
+import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.NumberHelper;
-import org.mpxj.pwa.PwaException;
+import org.mpxj.explorer.ProjectExplorer;
 
 public class MsPlannerReader
 {
-
    public static void main(String[] argv)
    {
       MsPlannerReader reader = new MsPlannerReader(argv[0], argv[1]);
@@ -39,6 +50,7 @@ public class MsPlannerReader
       for (MsPlannerProject project : projects)
       {
          ProjectFile file = reader.readProject(project.getProjectId());
+         ProjectExplorer.view(file);
       }
    }
 
@@ -87,15 +99,15 @@ public class MsPlannerReader
          m_projectID = id;
          m_project = new ProjectFile();
          m_data = readData();
-         //         m_resourceMap = new HashMap<>();
-         //         m_taskMap = new HashMap<>();
+         m_calendarIndex = 1;
+         m_calendarMap = new HashMap<>();
+         m_resourceMap = new HashMap<>();
+         m_taskMap = new HashMap<>();
          //         m_customFields = new HashMap<>();
          //         m_lookupEntries = new HashMap<>();
          //
          readProjectProperties();
-         //         readCalendars();
-         //         readResources();
-         //         readTasks();
+         readTasks();
          //         readTaskLinks();
 
          return m_project;
@@ -106,8 +118,10 @@ public class MsPlannerReader
          m_projectID = null;
          m_project = null;
          m_data = null;
-         //         m_resourceMap = null;
-         //         m_taskMap = null;
+         m_calendarMap = null;
+         m_resourceMap = null;
+         m_resourceDataMap = null;
+         m_taskMap = null;
          //         m_customFields = null;
          //         m_lookupEntries = null;
       }
@@ -149,11 +163,89 @@ public class MsPlannerReader
       ProjectProperties props = m_project.getProjectProperties();
       populateFieldContainer(props, PROJECT_FIELDS, m_data);
 
+      props.setDefaultCalendar(getCalendar(m_data.getUUID("msdyn_calendarid")));
       props.setDaysPerMonth(m_data.getInteger("msdyn_dayspermonth"));
-      props.setMinutesPerDay(Integer.valueOf((int)(m_data.getDoubleValue("msdyn_hoursperday") * 60)));
-      props.setMinutesPerWeek(Integer.valueOf((int)(m_data.getDoubleValue("msdyn_hoursperweek") * 60)));
+      props.setMinutesPerDay(Integer.valueOf((int) (m_data.getDoubleValue("msdyn_hoursperday") * 60)));
+      props.setMinutesPerWeek(Integer.valueOf((int) (m_data.getDoubleValue("msdyn_hoursperweek") * 60)));
       props.setMinutesPerMonth(Integer.valueOf(NumberHelper.getInt(props.getDaysPerMonth()) * NumberHelper.getInt(props.getMinutesPerDay())));
       props.setMinutesPerYear(Integer.valueOf(NumberHelper.getInt(props.getMinutesPerMonth() * 12)));
+   }
+
+   private void readTasks()
+   {
+      HierarchyHelper.sortHierarchy(
+         m_data.getList("msdyn_msdyn_project_msdyn_projecttask_project"),
+         t -> t.getUUID("msdyn_projecttaskid"),
+         t -> t.getUUID("_msdyn_parenttask_value"),
+         Comparator.comparing(o -> o.getDouble("msdyn_displaysequence"))
+      ).forEach(this::readTask);
+   }
+
+   private void readTask(MapRow data)
+   {
+      UUID parentID = data.getUUID("_msdyn_parenttask_value");
+      Task parentTask = m_taskMap.get(parentID);
+      Task task = (parentTask == null ? m_project : parentTask).addTask();
+
+      populateFieldContainer(task, TASK_FIELDS, data);
+
+      addNotes(task, data);
+      // TODO: priority
+      // TODO: msdyn_ismanual
+      m_taskMap.put(task.getGUID(), task);
+   }
+
+   private void addNotes(Task task, MapRow data)
+   {
+      String html = data.getString("msdyn_description")  ;
+      if (html == null || html.isEmpty())
+      {
+         return;
+      }
+
+      task.setNotesObject(new HtmlNotes(html));
+   }
+
+   private Resource getResource(UUID id)
+   {
+      Resource resource = m_resourceMap.get(id);
+      if (resource != null)
+      {
+         return resource;
+      }
+
+      if (m_resourceDataMap == null)
+      {
+         loadResourceData();
+      }
+
+      MapRow data = m_resourceDataMap.get(id);
+      if (data == null)
+      {
+         return null;
+      }
+
+      resource = m_project.addResource();
+      populateFieldContainer(resource, RESOURCE_FIELDS, data);
+      resource.setCalendar(getCalendar(data.getUUID("_calendarid_value")));
+      return resource;
+   }
+
+   private void loadResourceData()
+   {
+      HttpURLConnection connection = createConnection("bookableresources");
+
+      int code = getResponseCode(connection);
+
+      if (code != 200)
+      {
+         throw new MsPlannerException(getExceptionMessage(connection, code));
+      }
+
+      m_resourceDataMap = getMapRow(connection)
+         .getList("value")
+         .stream()
+         .collect(Collectors.toMap(v -> v.getUUID("bookableresourceid"), v -> v));
    }
 
    /**
@@ -170,6 +262,100 @@ public class MsPlannerReader
       {
          container.set(entry.getValue(), data.getObject(entry.getKey(), entry.getValue().getDataType()));
       }
+   }
+
+   private ProjectCalendar getCalendar(UUID id)
+   {
+      if (id == null)
+      {
+         return null;
+      }
+
+      ProjectCalendar calendar = m_calendarMap.get(id);
+      if (calendar != null)
+      {
+         return calendar;
+      }
+
+      HttpURLConnection connection = createConnection("calendars(" + id + ")?$expand=calendar_calendar_rules");
+      int code = getResponseCode(connection);
+
+      if (code != 200)
+      {
+         throw new MsPlannerException(getExceptionMessage(connection, code));
+      }
+
+      MapRow data = getMapRow(connection);
+      String name = data.getString("name");
+      if (name == null || name.isEmpty())
+      {
+         name = data.getString("description");
+         if (name == null)
+         {
+            name = "Unititled " + (m_calendarIndex++);
+         }
+      }
+
+      calendar = m_project.addCalendar();
+      calendar.setName(name);
+      calendar.setGUID(id);
+
+      final ProjectCalendar finalCalendar = calendar;
+      data.getList("calendar_calendar_rules").forEach(r -> readCalendarRules(finalCalendar, r));
+
+      ProjectCalendar innerCalendar = getCalendar(data.getUUID("_innercalendarid_value"));
+      if (innerCalendar != null)
+      {
+         throw new RuntimeException("inner calendar has value");
+      }
+
+      m_calendarMap.put(id, calendar);
+
+      return calendar;
+   }
+
+   private void readCalendarRules(ProjectCalendar calendar, MapRow data)
+   {
+      if (data.getDate("starttime") == null && data.getDate("endtime") == null)
+      {
+         // Default working hours
+         Map<String, String> pattern = getMapFromPattern(data.getString("pattern"));
+         if ("WEEKLY".equals(pattern.get("FREQ")) && "1".equals(pattern.get("INTERVAL")))
+         {
+            addWorkingDaysWithDefaultHours(calendar, pattern.get("BYDAY"));
+         }
+         else
+         {
+            // TODO - handle exceptions
+            throw new MsPlannerException("Unknown calendar pattern");
+         }
+      }
+      else
+      {
+         // Exception
+         throw new UnsupportedOperationException();
+      }
+   }
+
+   private void addWorkingDaysWithDefaultHours(ProjectCalendar calendar, String days)
+   {
+      for (String dayName : days.split(","))
+      {
+         DayOfWeek dayOfWeek = CALENDAR_DAYS.get(dayName);
+         if (dayOfWeek == null)
+         {
+            throw new MsPlannerException("Unknown day " + dayName);
+         }
+
+         calendar.addCalendarHours(dayOfWeek).add(DEFAULT_HOURS);
+      }
+   }
+
+   private Map<String, String> getMapFromPattern(String pattern)
+   {
+      return Arrays.stream(pattern.split(";"))
+         .map(v -> v.split("="))
+         .collect(Collectors.toMap(k -> k[0], v -> v[1]));
    }
 
    /**
@@ -299,6 +485,25 @@ public class MsPlannerReader
    private UUID m_projectID;
    private ProjectFile m_project;
    private MapRow m_data;
+   private int m_calendarIndex;
+   private Map<UUID, ProjectCalendar> m_calendarMap;
+   private Map<UUID, MapRow> m_resourceDataMap;
+   private Map<UUID, Resource> m_resourceMap;
+   private Map<UUID, Task> m_taskMap;
+
+   private static final LocalTimeRange DEFAULT_HOURS = new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(17, 0));
+
+   private static final Map<String, DayOfWeek> CALENDAR_DAYS = new HashMap<>();
+   static
+   {
+      CALENDAR_DAYS.put("MO", DayOfWeek.MONDAY);
+      CALENDAR_DAYS.put("TU", DayOfWeek.TUESDAY);
+      CALENDAR_DAYS.put("WE", DayOfWeek.WEDNESDAY);
+      CALENDAR_DAYS.put("TH", DayOfWeek.THURSDAY);
+      CALENDAR_DAYS.put("FR", DayOfWeek.FRIDAY);
+      CALENDAR_DAYS.put("SA", DayOfWeek.SATURDAY);
+      CALENDAR_DAYS.put("SU", DayOfWeek.SUNDAY);
+   }
 
    private static final Map<String, ProjectField> PROJECT_FIELDS = new HashMap<>();
    static
@@ -326,7 +531,7 @@ public class MsPlannerReader
       //"msdyn_scheduledstart": "2019-10-15T08:00:00Z",
       //"importsequencenumber": null,
       //"msdyn_businesscase": null,
-      //"msdyn_progress": 0.0000000000,
+      PROJECT_FIELDS.put("msdyn_progress", ProjectField.PERCENTAGE_COMPLETE);
       //"msdyn_valuestatement": null,
       PROJECT_FIELDS.put("msdyn_effort", ProjectField.WORK);
       //"_modifiedonbehalfby_value": null,
@@ -364,5 +569,112 @@ public class MsPlannerReader
       //"msdyn_disablecreateofteammemberformanager": false,
       //"_ownerid_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
       //"timezoneruleversionnumber": 4,
+   }
+
+   private static final Map<String, ResourceField> RESOURCE_FIELDS = new HashMap<>();
+   static
+   {
+      //"@odata.etag": "W/\"1834801\"",
+      //"msdyn_generictype": null,
+      //"_calendarid_value": "de52412c-17b6-4d84-b4f4-15cb995c02e0",
+      //"msdyn_endlocation": 690970002,
+      //"modifiedon": "2024-04-20T17:39:08Z",
+      //"_owninguser_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
+      //"msdyn_pooltype": null,
+      //"_transactioncurrencyid_value": null,
+      //"overriddencreatedon": null,
+      //"stageid": null,
+      //"_msdyn_organizationalunit_value": null,
+      //"timezone": 0,
+      //"msdyn_enableappointments": 192350001,
+      //"importsequencenumber": null,
+      //"_modifiedonbehalfby_value": null,
+      //"msdyn_startlocation": 690970002,
+      //"msdyn_displayonscheduleboard": true,
+      //"exchangerate": null,
+      //"statecode": 0,
+      //"msdyn_displayonscheduleassistant": true,
+      //"msdyn_derivecapacity": false,
+      RESOURCE_FIELDS.put("name", ResourceField.NAME);
+      //"msdyn_isgenericresourceprojectscoped": true,
+      //"versionnumber": 1834801,
+      //"utcconversiontimezonecode": null,
+      //"processid": null,
+      //"_createdonbehalfby_value": null,
+      //"_modifiedby_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
+      RESOURCE_FIELDS.put("createdon", ResourceField.CREATED);
+      //"resourcetype": 1,
+      //"_owningbusinessunit_value": "a3cb50c4-9dfe-ee11-9f8a-000d3a875b5f",
+      //"traversedpath": null,
+      //"msdyn_targetutilization": null,
+      //"_accountid_value": null,
+      //"msdyn_enableoutlookschedules": 192350001,
+      //"msdyn_optimalcrewsize": null,
+      //"_userid_value": null,
+      //"_contactid_value": null,
+      //"statuscode": 1,
+      RESOURCE_FIELDS.put("bookableresourceid", ResourceField.GUID);
+      //"_createdby_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
+      RESOURCE_FIELDS.put("msdyn_primaryemail", ResourceField.EMAIL_ADDRESS);
+      //"_owningteam_value": null,
+      //"_ownerid_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
+      //"timezoneruleversionnumber": null
+   }
+
+   private static final Map<String, TaskField> TASK_FIELDS = new HashMap<>();
+   static
+   {
+      //"@odata.etag": "W/\"8163420\"",
+      //"_msdyn_projectsprint_value": null,
+      TASK_FIELDS.put("msdyn_duration",  TaskField.DURATION);
+      TASK_FIELDS.put("msdyn_finish",  TaskField.FINISH);
+      //"_msdyn_resourceorganizationalunitid_value": null,
+      //"statuscode": 1,
+      //"_createdby_value": "ee4563e5-33ff-ee11-9f8a-000d3a86b5a3",
+      //"_owninguser_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
+      //"msdyn_tzascheduledend": "2019-10-21T17:00:00Z",
+      //"_msdyn_projectbucket_value": "afc97a92-e2e4-f011-89f4-6045bd0b8013",
+      //"_modifiedby_value": "ee4563e5-33ff-ee11-9f8a-000d3a86b5a3",
+      //"msdyn_descriptionplaintext": null,
+      //"msdyn_tzascheduledstart": "2019-10-15T09:00:00Z",
+      //"msdyn_scheduledstart": "2019-10-15T09:00:00Z",
+      //"msdyn_priority": 5,
+      //"msdyn_description": null,
+      TASK_FIELDS.put("msdyn_progress",  TaskField.PERCENT_COMPLETE);
+      //"_modifiedonbehalfby_value": null,
+      //"_ownerid_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
+      //"processid": null,
+      TASK_FIELDS.put("msdyn_projecttaskid",  TaskField.GUID);
+      //"importsequencenumber": null,
+      //"modifiedon": "2025-12-31T14:12:39Z",
+      //"utcconversiontimezonecode": null,
+      TASK_FIELDS.put("msdyn_effort",  TaskField.WORK);
+      //"traversedpath": null,
+      //"_createdonbehalfby_value": null,
+      //"msdyn_displaysequence": 2.0000000000,
+      //"_msdyn_resourcecategory_value": null,
+      //"_msdyn_pfwcreatedby_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
+      //"_owningteam_value": null,
+      //"_owningbusinessunit_value": "a3cb50c4-9dfe-ee11-9f8a-000d3a875b5f",
+      TASK_FIELDS.put("msdyn_ismilestone",  TaskField.MILESTONE);
+      //"msdyn_scheduledend": "2019-10-21T17:00:00Z",
+      //"statecode": 0,
+      TASK_FIELDS.put("msdyn_effortremaining",  TaskField.REMAINING_WORK);
+      TASK_FIELDS.put("msdyn_subject",  TaskField.NAME);
+      //"msdyn_summary": false,
+      TASK_FIELDS.put("msdyn_start",  TaskField.START);
+      //"timezoneruleversionnumber": 4,
+      //"overriddencreatedon": null,
+      TASK_FIELDS.put("msdyn_effortcompleted",  TaskField.ACTUAL_WORK);
+      //"_msdyn_project_value": "18702d8b-e2e4-f011-8406-6045bd0ae75a",
+      //"_stageid_value": null,
+      TASK_FIELDS.put("msdyn_iscritical",  TaskField.CRITICAL);
+      //"_msdyn_parenttask_value": null,
+      //"_msdyn_pfwmodifiedby_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
+      //"msdyn_ismanual": false,
+      //"createdon": "2025-12-29T18:17:48Z",
+      TASK_FIELDS.put("createdon",  TaskField.CREATED);
+      //"versionnumber": 8163420,
+      TASK_FIELDS.put("msdyn_outlinelevel",  TaskField.OUTLINE_LEVEL);
    }
 }

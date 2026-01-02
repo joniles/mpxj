@@ -599,7 +599,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public void setDefaultCalendar(ProjectCalendar calendar)
    {
-      set(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID, calendar.getUniqueID());
+      set(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID, calendar == null ? null : calendar.getUniqueID());
    }
 
    /**
