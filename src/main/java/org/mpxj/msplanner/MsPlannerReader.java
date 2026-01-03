@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -23,6 +24,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.mpxj.Duration;
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
 import org.mpxj.HtmlNotes;
@@ -31,10 +33,13 @@ import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectField;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
+import org.mpxj.Relation;
+import org.mpxj.RelationType;
 import org.mpxj.Resource;
 import org.mpxj.ResourceField;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
+import org.mpxj.TimeUnit;
 import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.explorer.ProjectExplorer;
@@ -103,12 +108,11 @@ public class MsPlannerReader
          m_calendarMap = new HashMap<>();
          m_resourceMap = new HashMap<>();
          m_taskMap = new HashMap<>();
-         //         m_customFields = new HashMap<>();
-         //         m_lookupEntries = new HashMap<>();
-         //
+
          readProjectProperties();
          readTasks();
-         //         readTaskLinks();
+         readDependencies();
+         readResourceAssignments();
 
          return m_project;
       }
@@ -122,8 +126,6 @@ public class MsPlannerReader
          m_resourceMap = null;
          m_resourceDataMap = null;
          m_taskMap = null;
-         //         m_customFields = null;
-         //         m_lookupEntries = null;
       }
    }
 
@@ -193,6 +195,72 @@ public class MsPlannerReader
       // TODO: priority
       // TODO: msdyn_ismanual
       m_taskMap.put(task.getGUID(), task);
+   }
+
+   private void readDependencies()
+   {
+      m_data.getList("msdyn_msdyn_project_msdyn_projecttaskdependency_Project").forEach(this::readDependency);
+   }
+
+   private void readDependency(MapRow data)
+   {
+      Task predecessorTask = m_taskMap.get(data.getUUID("_msdyn_predecessortask_value"));
+      Task successorTask = m_taskMap.get(data.getUUID("_msdyn_successortask_value"));
+      if (predecessorTask == null || successorTask == null)
+      {
+         return;
+      }
+
+      RelationType type = data.getRelationType("msdyn_projecttaskdependencylinktype");
+      Duration lag = Duration.getInstance(data.getInt("msdyn_projecttaskdependencylinklag") / (60.0 * 60.0), TimeUnit.HOURS);
+      successorTask.addPredecessor(new Relation.Builder().predecessorTask(predecessorTask).type(type).lag(lag));
+
+      //"@odata.etag": "W/\"8162366\"",
+      //"_msdyn_predecessortask_value": "a7c97a92-e2e4-f011-89f4-6045bd0b8013",
+      //"msdyn_projecttaskdependencylinktype": 1,
+      //"modifiedon": "2025-12-29T18:17:50Z",
+      //"_owninguser_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
+      //"overriddencreatedon": null,
+      //"_msdyn_successortask_value": "a8c97a92-e2e4-f011-89f4-6045bd0b8013",
+      //"importsequencenumber": null,
+      //"_modifiedonbehalfby_value": null,
+      //"msdyn_projecttaskdependencylinklaginseconds": null,
+      //"statecode": 0,
+      //"versionnumber": 8162366,
+      //"utcconversiontimezonecode": null,
+      //"_createdonbehalfby_value": null,
+      //"_modifiedby_value": "ee4563e5-33ff-ee11-9f8a-000d3a86b5a3",
+      //"createdon": "2025-12-29T18:17:50Z",
+      //"_owningbusinessunit_value": "a3cb50c4-9dfe-ee11-9f8a-000d3a875b5f",
+      //"msdyn_description": null,
+      //"msdyn_projecttaskdependencylinklag": 0,
+      //"statuscode": 1,
+      //"_msdyn_project_value": "18702d8b-e2e4-f011-8406-6045bd0ae75a",
+      //"_ownerid_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
+      //"_owningteam_value": null,
+      //"_createdby_value": "ee4563e5-33ff-ee11-9f8a-000d3a86b5a3",
+      //"timezoneruleversionnumber": null,
+      //"msdyn_projecttaskdependencyid": "aac97a92-e2e4-f011-89f4-6045bd0b8013"
+   }
+
+   private void readResourceAssignments()
+   {
+      m_data.getList("msdyn_msdyn_project_msdyn_resourceassignment_projectid").forEach(this::readResourceAssignment);
+   }
+
+   private void readResourceAssignment(MapRow data)
+   {
+      Task task = m_taskMap.get(data.getUUID("_msdyn_taskid_value"));
+      if (task == null)
+      {
+         return;
+      }
+
+      Resource resource = getResource(data.getUUID("_msdyn_bookableresourceid_value"));
+      if (resource == null)
+      {
+         return;
+      }
    }
 
    private void addNotes(Task task, MapRow data)
@@ -316,10 +384,11 @@ public class MsPlannerReader
 
    private void readCalendarRules(ProjectCalendar calendar, MapRow data)
    {
+      Map<String, String> pattern = getMapFromPattern(data.getString("pattern"));
+
       if (data.getDate("starttime") == null && data.getDate("endtime") == null)
       {
          // Default working hours
-         Map<String, String> pattern = getMapFromPattern(data.getString("pattern"));
          if ("WEEKLY".equals(pattern.get("FREQ")) && "1".equals(pattern.get("INTERVAL")))
          {
             addWorkingDaysWithDefaultHours(calendar, pattern.get("BYDAY"));
@@ -327,13 +396,24 @@ public class MsPlannerReader
          else
          {
             // TODO - handle exceptions
-            throw new MsPlannerException("Unknown calendar pattern");
+            throw new MsPlannerException("Unknown calendar pattern: " + data.getString("pattern"));
          }
       }
       else
       {
-         // Exception
-         throw new UnsupportedOperationException();
+         if ("DAILY".equals(pattern.get("FREQ"))
+            && "1".equals(pattern.get("INTERVAL"))
+            && "1".equals(pattern.get("COUNT")))
+         {
+            // simple single day exception
+            LocalDate exceptionDate = data.getLocalDate("starttime");
+            
+            throw new UnsupportedOperationException();
+         }
+         else
+         {
+            throw new UnsupportedOperationException();
+         }
       }
    }
 

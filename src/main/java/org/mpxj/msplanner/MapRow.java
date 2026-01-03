@@ -25,6 +25,7 @@ import org.mpxj.Notes;
 import org.mpxj.Priority;
 import org.mpxj.ProjectFile;
 import org.mpxj.Rate;
+import org.mpxj.RelationType;
 import org.mpxj.ScheduleFrom;
 import org.mpxj.TaskMode;
 import org.mpxj.TimeUnit;
@@ -156,6 +157,23 @@ class MapRow extends LinkedHashMap<String, Object>
    public boolean getBool(String key)
    {
       return BooleanHelper.getBoolean((Boolean) get(key));
+   }
+
+   public RelationType getRelationType(String key)
+   {
+      Integer value = getInteger(key);
+      if (value == null)
+      {
+         return null;
+      }
+
+      int index = value.intValue();
+      if (index < 0 || index >= RELATION_TYPE.length)
+      {
+         return null;
+      }
+
+      return RELATION_TYPE[index];
    }
 
    /**
@@ -344,5 +362,14 @@ class MapRow extends LinkedHashMap<String, Object>
    }
 
    private transient ProjectFile m_project;
+
    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+   private static final RelationType[] RELATION_TYPE = new RelationType[]
+   {
+      RelationType.FINISH_FINISH,
+      RelationType.FINISH_START,
+      RelationType.START_FINISH,
+      RelationType.START_START
+   };
 }
