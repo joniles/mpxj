@@ -123,27 +123,30 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task> implements
     * represented in MPXJ and renumbers the ID values to ensure that
     * this structure is displayed as expected in Microsoft Project. This
     * is typically used to deal with the case where a hierarchical task
-    * structure has been created programmatically in MPXJ.
+    * structure has been created programmatically.
+    * This method also updates the task's Outline Level attribute
+    * to ensure this is consistent.
     */
    public void synchronizeTaskIDToHierarchy()
    {
       int currentID = (getByID(Integer.valueOf(0)) == null ? 1 : 0);
-      synchroizeTaskIDToHierarchy(m_projectFile, currentID);
+      synchroizeTaskIDToHierarchy(m_projectFile, currentID, currentID);
    }
 
    /**
-    * Called recursively to renumber child task IDs.
+    * Called recursively to renumber child task IDs and update Outline Levels.
     *
     * @param parentTask parent task instance
     * @param currentID current task ID
     * @return updated current task ID
     */
-   private int synchroizeTaskIDToHierarchy(ChildTaskContainer parentTask, int currentID)
+   private int synchroizeTaskIDToHierarchy(ChildTaskContainer parentTask, int currentID, int currentLevel)
    {
       for (Task task : parentTask.getChildTasks())
       {
-         task.setID(Integer.valueOf(currentID++));
-         currentID = synchroizeTaskIDToHierarchy(task, currentID);
+         task.setID(Integer.valueOf(currentID));
+         task.setOutlineLevel(Integer.valueOf(currentLevel));
+         currentID = synchroizeTaskIDToHierarchy(task, currentID + 1, currentLevel + 1);
       }
       return currentID;
    }

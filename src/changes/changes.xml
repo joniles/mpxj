@@ -8,6 +8,7 @@
 		<release date="unreleased" version="15.2.0">
 			<action dev="joniles" type="update">Improve handling of elapsed durations in `ProjectCalendar` calculations.</action>
 			<action dev="joniles" type="update">Improve Free Slack and Total Slack calculations.</action>
+			<action dev="joniles" type="update">Updated the `TaskContainer#synchronizeTaskIDToHierarchy` method to ensure that the task Outline Level attribute is also updated appropriately. (Based on a contribution by Šimon Macharáček)</action>
 		</release>
 		<release date="2025-12-08" version="15.1.0">
             <action dev="joniles" type="update">Improve selection of the default calendar when reading Asta Powerproject PP files.</action>
