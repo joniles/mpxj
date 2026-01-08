@@ -10,6 +10,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -384,6 +385,9 @@ public class MsPlannerReader
 
    private void readCalendarRules(ProjectCalendar calendar, MapRow data)
    {
+      // Calendar rules appears to be the header
+      // inner calendar has offset and duration which gives us the start and end times
+      // is inner calendar a linked list?
       Map<String, String> pattern = getMapFromPattern(data.getString("pattern"));
 
       if (data.getDate("starttime") == null && data.getDate("endtime") == null)
@@ -402,16 +406,19 @@ public class MsPlannerReader
       else
       {
          if ("DAILY".equals(pattern.get("FREQ"))
-            && "1".equals(pattern.get("INTERVAL"))
             && "1".equals(pattern.get("COUNT")))
          {
             // simple single day exception
             LocalDate exceptionDate = data.getLocalDate("starttime");
-            
-            throw new UnsupportedOperationException();
+            String description = data.getString("description");
+            Integer duration = data.getInteger("duration");
+            Integer effort = data.getInteger("effort");
+            System.out.println("here");
+            //throw new UnsupportedOperationException();
          }
          else
          {
+            ProjectCalendar test = getCalendar(data.getUUID("_innercalendarid_value"));
             throw new UnsupportedOperationException();
          }
       }
@@ -433,6 +440,11 @@ public class MsPlannerReader
 
    private Map<String, String> getMapFromPattern(String pattern)
    {
+      if (pattern == null || pattern.isEmpty())
+      {
+         return Collections.emptyMap();
+      }
+
       return Arrays.stream(pattern.split(";"))
          .map(v -> v.split("="))
          .collect(Collectors.toMap(k -> k[0], v -> v[1]));
