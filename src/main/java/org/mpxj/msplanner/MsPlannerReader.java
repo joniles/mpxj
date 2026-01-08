@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.mpxj.AssignmentField;
 import org.mpxj.Duration;
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
@@ -37,6 +38,7 @@ import org.mpxj.ProjectProperties;
 import org.mpxj.Relation;
 import org.mpxj.RelationType;
 import org.mpxj.Resource;
+import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceField;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
@@ -262,11 +264,14 @@ public class MsPlannerReader
       {
          return;
       }
+
+      ResourceAssignment assignment = task.addResourceAssignment(resource);
+      populateFieldContainer(assignment, ASSIGNMENT_FIELDS, data);
    }
 
    private void addNotes(Task task, MapRow data)
    {
-      String html = data.getString("msdyn_description")  ;
+      String html = data.getString("msdyn_description");
       if (html == null || html.isEmpty())
       {
          return;
@@ -369,14 +374,14 @@ public class MsPlannerReader
       calendar.setName(name);
       calendar.setGUID(id);
 
-      final ProjectCalendar finalCalendar = calendar;
-      data.getList("calendar_calendar_rules").forEach(r -> readCalendarRules(finalCalendar, r));
-
-      ProjectCalendar innerCalendar = getCalendar(data.getUUID("_innercalendarid_value"));
-      if (innerCalendar != null)
-      {
-         throw new RuntimeException("inner calendar has value");
-      }
+      //      final ProjectCalendar finalCalendar = calendar;
+      //      data.getList("calendar_calendar_rules").forEach(r -> readCalendarRules(finalCalendar, r));
+      //
+      //      ProjectCalendar innerCalendar = getCalendar(data.getUUID("_innercalendarid_value"));
+      //      if (innerCalendar != null)
+      //      {
+      //         throw new RuntimeException("inner calendar has value");
+      //      }
 
       m_calendarMap.put(id, calendar);
 
@@ -413,7 +418,6 @@ public class MsPlannerReader
             String description = data.getString("description");
             Integer duration = data.getInteger("duration");
             Integer effort = data.getInteger("effort");
-            System.out.println("here");
             //throw new UnsupportedOperationException();
          }
          else
@@ -718,8 +722,8 @@ public class MsPlannerReader
    {
       //"@odata.etag": "W/\"8163420\"",
       //"_msdyn_projectsprint_value": null,
-      TASK_FIELDS.put("msdyn_duration",  TaskField.DURATION);
-      TASK_FIELDS.put("msdyn_finish",  TaskField.FINISH);
+      TASK_FIELDS.put("msdyn_duration", TaskField.DURATION);
+      TASK_FIELDS.put("msdyn_finish", TaskField.FINISH);
       //"_msdyn_resourceorganizationalunitid_value": null,
       //"statuscode": 1,
       //"_createdby_value": "ee4563e5-33ff-ee11-9f8a-000d3a86b5a3",
@@ -732,15 +736,15 @@ public class MsPlannerReader
       //"msdyn_scheduledstart": "2019-10-15T09:00:00Z",
       //"msdyn_priority": 5,
       //"msdyn_description": null,
-      TASK_FIELDS.put("msdyn_progress",  TaskField.PERCENT_COMPLETE);
+      TASK_FIELDS.put("msdyn_progress", TaskField.PERCENT_COMPLETE);
       //"_modifiedonbehalfby_value": null,
       //"_ownerid_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
       //"processid": null,
-      TASK_FIELDS.put("msdyn_projecttaskid",  TaskField.GUID);
+      TASK_FIELDS.put("msdyn_projecttaskid", TaskField.GUID);
       //"importsequencenumber": null,
       //"modifiedon": "2025-12-31T14:12:39Z",
       //"utcconversiontimezonecode": null,
-      TASK_FIELDS.put("msdyn_effort",  TaskField.WORK);
+      TASK_FIELDS.put("msdyn_effort", TaskField.WORK);
       //"traversedpath": null,
       //"_createdonbehalfby_value": null,
       //"msdyn_displaysequence": 2.0000000000,
@@ -748,25 +752,63 @@ public class MsPlannerReader
       //"_msdyn_pfwcreatedby_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
       //"_owningteam_value": null,
       //"_owningbusinessunit_value": "a3cb50c4-9dfe-ee11-9f8a-000d3a875b5f",
-      TASK_FIELDS.put("msdyn_ismilestone",  TaskField.MILESTONE);
+      TASK_FIELDS.put("msdyn_ismilestone", TaskField.MILESTONE);
       //"msdyn_scheduledend": "2019-10-21T17:00:00Z",
       //"statecode": 0,
-      TASK_FIELDS.put("msdyn_effortremaining",  TaskField.REMAINING_WORK);
-      TASK_FIELDS.put("msdyn_subject",  TaskField.NAME);
+      TASK_FIELDS.put("msdyn_effortremaining", TaskField.REMAINING_WORK);
+      TASK_FIELDS.put("msdyn_subject", TaskField.NAME);
       //"msdyn_summary": false,
-      TASK_FIELDS.put("msdyn_start",  TaskField.START);
+      TASK_FIELDS.put("msdyn_start", TaskField.START);
       //"timezoneruleversionnumber": 4,
       //"overriddencreatedon": null,
-      TASK_FIELDS.put("msdyn_effortcompleted",  TaskField.ACTUAL_WORK);
+      TASK_FIELDS.put("msdyn_effortcompleted", TaskField.ACTUAL_WORK);
       //"_msdyn_project_value": "18702d8b-e2e4-f011-8406-6045bd0ae75a",
       //"_stageid_value": null,
-      TASK_FIELDS.put("msdyn_iscritical",  TaskField.CRITICAL);
+      TASK_FIELDS.put("msdyn_iscritical", TaskField.CRITICAL);
       //"_msdyn_parenttask_value": null,
       //"_msdyn_pfwmodifiedby_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
       //"msdyn_ismanual": false,
       //"createdon": "2025-12-29T18:17:48Z",
-      TASK_FIELDS.put("createdon",  TaskField.CREATED);
+      TASK_FIELDS.put("createdon", TaskField.CREATED);
       //"versionnumber": 8163420,
-      TASK_FIELDS.put("msdyn_outlinelevel",  TaskField.OUTLINE_LEVEL);
+      TASK_FIELDS.put("msdyn_outlinelevel", TaskField.OUTLINE_LEVEL);
+   }
+
+   private static final Map<String, AssignmentField> ASSIGNMENT_FIELDS = new HashMap<>();
+   static
+   {
+      //"@odata.etag": "W/\"8163418\"",
+      //"modifiedon": "2025-12-31T14:12:38Z",
+      //"_owninguser_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
+      //"msdyn_plannedwork": "[{\"End\":\"\/Date(1571158800000)\/\",\"Hours\":8,\"Start\":\"\/Date(1571130000000)\/\"},{\"End\":\"\/Date(1571245200000)\/\",\"Hours\":8,\"Start\":\"\/Date(1571216400000)\/\"},{\"End\":\"\/Date(1571331600000)\/\",\"Hours\":8,\"Start\":\"\/Date(1571302800000)\/\"},{\"End\":\"\/Date(1571418000000)\/\",\"Hours\":8,\"Start\":\"\/Date(1571389200000)\/\"},{\"End\":\"\/Date(1571677200000)\/\",\"Hours\":8,\"Start\":\"\/Date(1571648400000)\/\"}]",
+      ASSIGNMENT_FIELDS.put("msdyn_effortcompleted", AssignmentField.ACTUAL_WORK);
+      //"overriddencreatedon": null,
+      //"_msdyn_userresourceid_value": null,
+      ASSIGNMENT_FIELDS.put("msdyn_effortremaining", AssignmentField.REMAINING_WORK);
+      //"_msdyn_projectteamid_value": "1b702d8b-e2e4-f011-8406-6045bd0ae75a",
+      //"importsequencenumber": null,
+      ASSIGNMENT_FIELDS.put("msdyn_effort", AssignmentField.WORK);
+      //"_modifiedonbehalfby_value": null,
+      //"_msdyn_taskid_value": "a7c97a92-e2e4-f011-89f4-6045bd0b8013",
+      ASSIGNMENT_FIELDS.put("msdyn_resourceassignmentid", AssignmentField.GUID);
+      //"statecode": 0,
+      //"versionnumber": 8163418,
+      //"utcconversiontimezonecode": null,
+      //"_msdyn_projectid_value": "18702d8b-e2e4-f011-8406-6045bd0ae75a",
+      //"_msdyn_bookableresourceid_value": "b9b46877-2803-ef11-9f89-6045bd0ac81b",
+      //"_createdonbehalfby_value": null,
+      //"_modifiedby_value": "ee4563e5-33ff-ee11-9f8a-000d3a86b5a3",
+      //"createdon": "2025-12-31T14:12:38Z",
+      ASSIGNMENT_FIELDS.put("createdon", AssignmentField.CREATED);
+      //"_owningbusinessunit_value": "a3cb50c4-9dfe-ee11-9f8a-000d3a875b5f",
+      //"msdyn_name": null,
+      //"statuscode": 1,
+      ASSIGNMENT_FIELDS.put("msdyn_finish", AssignmentField.FINISH);
+      //"_createdby_value": "ee4563e5-33ff-ee11-9f8a-000d3a86b5a3",
+      //"_owningteam_value": null,
+      //"_ownerid_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
+      //"msdyn_committype": 192350001,
+      ASSIGNMENT_FIELDS.put("msdyn_start", AssignmentField.START);
+      //"timezoneruleversionnumber": 4
    }
 }
