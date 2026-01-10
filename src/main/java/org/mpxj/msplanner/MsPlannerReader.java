@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,6 +32,7 @@ import org.mpxj.FieldType;
 import org.mpxj.HtmlNotes;
 import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
+import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectField;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
@@ -45,7 +46,6 @@ import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.NumberHelper;
-import org.mpxj.explorer.ProjectExplorer;
 
 public class MsPlannerReader
 {
@@ -55,11 +55,8 @@ public class MsPlannerReader
       List<MsPlannerProject> projects = reader.getProjects();
       projects.forEach(System.out::println);
 
-      for (MsPlannerProject project : projects)
-      {
-         ProjectFile file = reader.readProject(project.getProjectId());
-         ProjectExplorer.view(file);
-      }
+      List<ProjectFile> projectFiles = projects.stream().map(p -> reader.readProject(p.getProjectId())).collect(Collectors.toList());
+      //projectFiles.forEach(ProjectExplorer::view);
    }
 
    public MsPlannerReader(String host, String token)
@@ -331,7 +328,6 @@ public class MsPlannerReader
     */
    private void populateFieldContainer(FieldContainer container, Map<String, ? extends FieldType> index, MapRow data)
    {
-      data.setProject(m_project);
       for (Map.Entry<String, ? extends FieldType> entry : index.entrySet())
       {
          container.set(entry.getValue(), data.getObject(entry.getKey(), entry.getValue().getDataType()));
@@ -351,15 +347,9 @@ public class MsPlannerReader
          return calendar;
       }
 
-      HttpURLConnection connection = createConnection("calendars(" + id + ")?$expand=calendar_calendar_rules");
-      int code = getResponseCode(connection);
+      //calendarDump(id);
 
-      if (code != 200)
-      {
-         throw new MsPlannerException(getExceptionMessage(connection, code));
-      }
-
-      MapRow data = getMapRow(connection);
+      MapRow data = getCalendarData(id);
       String name = data.getString("name");
       if (name == null || name.isEmpty())
       {
@@ -374,72 +364,139 @@ public class MsPlannerReader
       calendar.setName(name);
       calendar.setGUID(id);
 
-      //      final ProjectCalendar finalCalendar = calendar;
-      //      data.getList("calendar_calendar_rules").forEach(r -> readCalendarRules(finalCalendar, r));
-      //
-      //      ProjectCalendar innerCalendar = getCalendar(data.getUUID("_innercalendarid_value"));
-      //      if (innerCalendar != null)
-      //      {
-      //         throw new RuntimeException("inner calendar has value");
-      //      }
+      final ProjectCalendar finalCalendar = calendar;
+      data.getList("calendar_calendar_rules").forEach(r -> processWorkingPeriod(finalCalendar, r));
 
       m_calendarMap.put(id, calendar);
 
       return calendar;
    }
 
-   private void readCalendarRules(ProjectCalendar calendar, MapRow data)
+   private MapRow getCalendarData(UUID id)
    {
-      // Calendar rules appears to be the header
-      // inner calendar has offset and duration which gives us the start and end times
-      // is inner calendar a linked list?
-      Map<String, String> pattern = getMapFromPattern(data.getString("pattern"));
-
-      if (data.getDate("starttime") == null && data.getDate("endtime") == null)
+      if (id == null)
       {
-         // Default working hours
-         if ("WEEKLY".equals(pattern.get("FREQ")) && "1".equals(pattern.get("INTERVAL")))
+         return null;
+      }
+
+      HttpURLConnection connection = createConnection("calendars(" + id + ")?$expand=calendar_calendar_rules");
+      int code = getResponseCode(connection);
+
+      if (code != 200)
+      {
+         throw new MsPlannerException(getExceptionMessage(connection, code));
+      }
+
+      return getMapRow(connection);
+   }
+
+   /*
+   private void calendarDump(UUID id)
+   {
+      try
+      {
+         MapRow data = getCalendarData(id);
+
+         data.put("_holidayschedulecalendarid_value", getCalendarData(data.getUUID("_holidayschedulecalendarid_value")));
+         for (MapRow rule : data.getList("calendar_calendar_rules"))
          {
-            addWorkingDaysWithDefaultHours(calendar, pattern.get("BYDAY"));
+            rule.put("_innercalendarid_value", getCalendarData(rule.getUUID("_innercalendarid_value")));
          }
-         else
-         {
-            // TODO - handle exceptions
-            throw new MsPlannerException("Unknown calendar pattern: " + data.getString("pattern"));
-         }
+
+         OutputStream out = new ByteArrayOutputStream();
+         System.out.println("BEGIN " + id);
+         m_mapper.writeValue(out, data);
+         System.out.println(out);
+         System.out.println("END");
+         System.err.println();
+      }
+
+      catch (Exception ex)
+      {
+         throw new MsPlannerException(ex);
+      }
+   }
+   */
+
+   private void processWorkingPeriod(ProjectCalendar calendar, MapRow data)
+   {
+      if (data.getDate("starttime") == null)
+      {
+         processDefaultWorkingPeriod(calendar, data);
       }
       else
       {
-         if ("DAILY".equals(pattern.get("FREQ"))
-            && "1".equals(pattern.get("COUNT")))
+         processExceptionWorkingPeriod(calendar, data);
+      }
+   }
+
+   private void processDefaultWorkingPeriod(ProjectCalendar calendar, MapRow data)
+   {
+      // We're assuming that we'll have a weekly recurring pattern for one or more days.
+      // If we don't then raise an exception.
+      Map<String, String> map = getMapFromPattern(data.getString("pattern"));
+      String byDay = map.get("BYDAY");
+
+      if (!"WEEKLY".equals(map.get("FREQ")) || !"1".equals(map.get("INTERVAL")) || byDay == null || byDay.isEmpty())
+      {
+         throw new MsPlannerException("Unexpected calendar pattern: " + data.getString("pattern"));
+      }
+
+      MapRow innerCalendarData = getCalendarData(data.getUUID("_innercalendarid_value"));
+      if (innerCalendarData == null)
+      {
+         throw new MsPlannerException("Missing expected inner calendar");
+      }
+
+      List<LocalTimeRange> ranges = processRanges(innerCalendarData.getList("calendar_calendar_rules"));
+
+      for(DayOfWeek day : DayOfWeek.values())
+      {
+         calendar.setWorkingDay(day, false);
+         calendar.addCalendarHours(day);
+      }
+
+      for(String dayName : byDay.split(","))
+      {
+         DayOfWeek day = CALENDAR_DAYS.get(dayName);
+         if (day == null)
          {
-            // simple single day exception
-            LocalDate exceptionDate = data.getLocalDate("starttime");
-            String description = data.getString("description");
-            Integer duration = data.getInteger("duration");
-            Integer effort = data.getInteger("effort");
-            //throw new UnsupportedOperationException();
+            throw new MsPlannerException("Unexpected calendar pattern: " + data.getString("pattern"));
          }
-         else
+
+         if (!ranges.isEmpty())
          {
-            ProjectCalendar test = getCalendar(data.getUUID("_innercalendarid_value"));
-            throw new UnsupportedOperationException();
+            calendar.setWorkingDay(day, true);
+            calendar.getCalendarHours(day).addAll(ranges);
          }
       }
    }
 
-   private void addWorkingDaysWithDefaultHours(ProjectCalendar calendar, String days)
+   private void processExceptionWorkingPeriod(ProjectCalendar calendar, MapRow data)
    {
-      for (String dayName : days.split(","))
-      {
-         DayOfWeek dayOfWeek = CALENDAR_DAYS.get(dayName);
-         if (dayOfWeek == null)
-         {
-            throw new MsPlannerException("Unknown day " + dayName);
-         }
+      Map<String, String> map = getMapFromPattern(data.getString("pattern"));
 
-         calendar.addCalendarHours(dayOfWeek).add(DEFAULT_HOURS);
+      if (!"DAILY".equals(map.get("FREQ")) || !"1".equals(map.get("COUNT")))
+      {
+         throw new MsPlannerException("Unexpected calendar pattern: " + data.getString("pattern"));
       }
+
+      MapRow innerCalendarData = getCalendarData(data.getUUID("_innercalendarid_value"));
+      if (innerCalendarData == null)
+      {
+         throw new MsPlannerException("Missing expected inner calendar");
+      }
+
+      List<LocalTimeRange> ranges = processRanges(innerCalendarData.getList("calendar_calendar_rules"));
+      LocalDateTime start = data.getDate("starttime");
+      LocalDateTime end = start.plusMinutes(data.getInt("duration"));
+      if (end.toLocalTime().equals(LocalTime.MIDNIGHT))
+      {
+         end = end.minusMinutes(1);
+      }
+
+      ProjectCalendarException exception = calendar.addCalendarException(start.toLocalDate(), end.toLocalDate());
+      exception.addAll(ranges);
    }
 
    private Map<String, String> getMapFromPattern(String pattern)
@@ -452,6 +509,68 @@ public class MsPlannerReader
       return Arrays.stream(pattern.split(";"))
          .map(v -> v.split("="))
          .collect(Collectors.toMap(k -> k[0], v -> v[1]));
+   }
+
+   private List<LocalTimeRange> processRanges(List<MapRow> rules)
+   {
+      if (rules == null)
+      {
+         return Collections.emptyList();
+      }
+
+      List<MapRow> breakItemsData = rules.stream().filter(r -> r.getDoubleValue("effort") == 0.0).collect(Collectors.toList());
+      List<MapRow> workItemsData = rules.stream().filter(r -> r.getDoubleValue("effort") != 0.0).collect(Collectors.toList());
+
+      List<LocalTimeRange> workItems = workItemsData.stream().map(this::createTimeRange).collect(Collectors.toList());
+      if (workItemsData.isEmpty() || breakItemsData.isEmpty())
+      {
+         return workItems;
+      }
+
+      List<LocalTimeRange> breakItems = breakItemsData.stream().map(this::createTimeRange).collect(Collectors.toList());
+
+      for (LocalTimeRange breakItem : breakItems)
+      {
+         for (int index = 0; index < workItems.size(); index++)
+         {
+            LocalTimeRange workItem = workItems.get(index);
+            if (workItemContainsBreakItem(workItem, breakItem))
+            {
+               workItems.remove(index);
+               LocalTimeRange beforeBreak = new LocalTimeRange(workItem.getStart(), breakItem.getStart());
+               LocalTimeRange afterBreak =  new LocalTimeRange(breakItem.getEnd(), workItem.getEnd());
+               workItems.addAll(index, Arrays.asList(beforeBreak, afterBreak));
+               break;
+            }
+         }
+      }
+
+      return workItems;
+   }
+
+   private LocalTimeRange createTimeRange(MapRow row)
+   {
+      Integer offset = row.getInteger("offset");
+      if (offset == null)
+      {
+         throw new MsPlannerException("Missing offset value");
+      }
+
+      Integer duration = row.getInteger("duration");
+      if (duration == null)
+      {
+         throw new MsPlannerException("Missing duration value");
+      }
+
+      LocalTime start = LocalTime.MIDNIGHT.plusMinutes(offset.intValue());
+      LocalTime finish = start.plusMinutes(duration.intValue());
+
+      return new LocalTimeRange(start, finish);
+   }
+
+   private boolean workItemContainsBreakItem(LocalTimeRange workItem, LocalTimeRange breakItem)
+   {
+      return !breakItem.getStart().isBefore(workItem.getStart()) && !breakItem.getEnd().isAfter(workItem.getEnd());
    }
 
    /**

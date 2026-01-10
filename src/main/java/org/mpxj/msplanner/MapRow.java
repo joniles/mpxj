@@ -1,57 +1,25 @@
 
 package org.mpxj.msplanner;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
-import org.mpxj.AccrueType;
-import org.mpxj.BookingType;
-import org.mpxj.ConstraintType;
-import org.mpxj.CurrencySymbolPosition;
 import org.mpxj.DataType;
 import org.mpxj.Duration;
-import org.mpxj.Notes;
-import org.mpxj.Priority;
-import org.mpxj.ProjectFile;
-import org.mpxj.Rate;
 import org.mpxj.RelationType;
-import org.mpxj.ScheduleFrom;
-import org.mpxj.TaskMode;
 import org.mpxj.TimeUnit;
-import org.mpxj.common.BooleanHelper;
-import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
-import org.mpxj.mpp.TaskTypeHelper;
-import org.mpxj.mpp.WorkContourHelper;
-import org.mpxj.pwa.PwaException;
 
 /**
  * Represents data deserialized from JSON. Provides method to return correctly typed values.
  */
 class MapRow extends LinkedHashMap<String, Object>
 {
-   /**
-    * Set the current project this data is being used with.
-    *
-    * @param project current project
-    */
-   public void setProject(ProjectFile project)
-   {
-      m_project = project;
-   }
-
    /**
     * Retrieve a deserialized list as a list of MapRow instances.
     *
@@ -63,17 +31,6 @@ class MapRow extends LinkedHashMap<String, Object>
       @SuppressWarnings("unchecked")
       List<MapRow> row = (List<MapRow>) get(key);
       return row == null ? Collections.emptyList() : row;
-   }
-
-   /**
-    * Retrieve a deserialized object as a MapRow instance.
-    *
-    * @param key map key
-    * @return MapRow instance
-    */
-   public MapRow getMapRow(String key)
-   {
-      return (MapRow) get(key);
    }
 
    /**
@@ -102,18 +59,6 @@ class MapRow extends LinkedHashMap<String, Object>
    public LocalDateTime getDate(String key)
    {
       return (LocalDateTime) getObject(key, DataType.DATE);
-   }
-
-   /**
-    * Retrieve a LocalDate value.
-    *
-    * @param key map key
-    * @return LocalDate value
-    */
-   public LocalDate getLocalDate(String key)
-   {
-      LocalDateTime result = (LocalDateTime) getObject(key, DataType.DATE);
-      return result == null ? null : result.toLocalDate();
    }
 
    /**
@@ -146,17 +91,6 @@ class MapRow extends LinkedHashMap<String, Object>
    public int getInt(String key)
    {
       return NumberHelper.getInt(getInteger(key));
-   }
-
-   /**
-    * Retrieve a boolean value.
-    *
-    * @param key map key
-    * @return boolean value
-    */
-   public boolean getBool(String key)
-   {
-      return BooleanHelper.getBoolean((Boolean) get(key));
    }
 
    public RelationType getRelationType(String key)
@@ -221,76 +155,6 @@ class MapRow extends LinkedHashMap<String, Object>
             return Duration.getInstance(time, TimeUnit.HOURS);
          }
 
-         case CURRENCY:
-         {
-            return Double.valueOf(String.valueOf(value));
-         }
-
-         case SCHEDULE_FROM:
-         {
-            return ((Boolean) value).booleanValue() ? ScheduleFrom.START : ScheduleFrom.FINISH;
-         }
-
-         case ACCRUE:
-         {
-            return AccrueType.getInstance((Integer) value);
-         }
-
-         case DAY:
-         {
-            return DayOfWeekHelper.getInstance(NumberHelper.getInt((Integer) value) + 1);
-         }
-
-         case TIME:
-         {
-            return LocalTime.parse(String.valueOf(value), DATE_TIME_FORMAT);
-         }
-
-         case TASK_TYPE:
-         {
-            return TaskTypeHelper.getInstance(NumberHelper.getInt((Integer) value));
-         }
-
-         case CURRENCY_SYMBOL_POSITION:
-         {
-            return CurrencySymbolPosition.getInstance(NumberHelper.getInt((Integer) value));
-         }
-
-         case RATE:
-         {
-            return new Rate((Number) value, TimeUnit.HOURS);
-         }
-
-         case UNITS:
-         {
-            return Double.valueOf(((Number) value).doubleValue() * 100);
-         }
-
-         case BOOKING_TYPE:
-         {
-            return BookingType.getInstance(NumberHelper.getInt((Integer) value));
-         }
-
-         case RATE_UNITS:
-         {
-            return TimeUnit.getInstance(NumberHelper.getInt((Integer) value) - 1);
-         }
-
-         case TASK_MODE:
-         {
-            return ((Boolean) value).booleanValue() ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED;
-         }
-
-         case PRIORITY:
-         {
-            return Priority.getInstance(NumberHelper.getInt((Integer) value));
-         }
-
-         case CONSTRAINT:
-         {
-            return ConstraintType.getInstance(NumberHelper.getInt((Integer) value) - 1);
-         }
-
          case NUMERIC:
          {
             if (value instanceof String)
@@ -298,16 +162,6 @@ class MapRow extends LinkedHashMap<String, Object>
                return Double.valueOf((String) value);
             }
             return value;
-         }
-
-         case WORK_CONTOUR:
-         {
-            return WorkContourHelper.getInstance(m_project, ((Integer) value).intValue());
-         }
-
-         case NOTES:
-         {
-            return new Notes(String.valueOf(value));
          }
 
          case PERCENTAGE:
@@ -324,7 +178,7 @@ class MapRow extends LinkedHashMap<String, Object>
 
          default:
          {
-            throw new PwaException(type + " not handled");
+            throw new MsPlannerException(type + " not handled");
          }
       }
    }
@@ -360,8 +214,6 @@ class MapRow extends LinkedHashMap<String, Object>
 
       return UUID.fromString(value);
    }
-
-   private transient ProjectFile m_project;
 
    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
