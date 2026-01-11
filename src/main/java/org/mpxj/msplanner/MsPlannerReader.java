@@ -1,3 +1,25 @@
+/*
+ * file:       MsPlannerReader.java
+ * author:     Jon Iles
+ * date:       2026-01-11
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 package org.mpxj.msplanner;
 
 import java.io.BufferedReader;
@@ -47,6 +69,9 @@ import org.mpxj.TimeUnit;
 import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.NumberHelper;
 
+/**
+ * Access schedule data in Microsoft Planner.
+ */
 public class MsPlannerReader
 {
    public static void main(String[] argv)
@@ -59,6 +84,12 @@ public class MsPlannerReader
       //projectFiles.forEach(ProjectExplorer::view);
    }
 
+   /**
+    * Constructor.
+    *
+    * @param host the Microsoft Dynamics URL for your Project Online instance
+    * @param token OAuth bearer token
+    */
    public MsPlannerReader(String host, String token)
    {
       m_host = host;
@@ -74,6 +105,11 @@ public class MsPlannerReader
       }));
    }
 
+   /**
+    * Retrieve a list of projects available in Microsoft Planner for the current user.
+    *
+    * @return list of MsPlannerProject instances
+    */
    public List<MsPlannerProject> getProjects()
    {
       HttpURLConnection connection = createConnection("msdyn_projects?$select=msdyn_projectid,msdyn_subject");
@@ -92,10 +128,10 @@ public class MsPlannerReader
    }
 
    /**
-    * Read a project from PWA using its unique ID.
+    * Read a project from Microsoft Planner using its unique ID.
     *
     * @param id project unique ID
-    * @return ProjectFile instance representing the project in PWA
+    * @return ProjectFile instance representing the project in Microsoft Planner
     */
    public ProjectFile readProject(UUID id)
    {
@@ -173,6 +209,9 @@ public class MsPlannerReader
       props.setMinutesPerYear(Integer.valueOf(NumberHelper.getInt(props.getMinutesPerMonth() * 12)));
    }
 
+   /**
+    * Read tasks from the project data.
+    */
    private void readTasks()
    {
       HierarchyHelper.sortHierarchy(
@@ -183,6 +222,11 @@ public class MsPlannerReader
       ).forEach(this::readTask);
    }
 
+   /**
+    * Read an individual task.
+    *
+    * @param data task data from Microsoft Planner
+    */
    private void readTask(MapRow data)
    {
       UUID parentID = data.getUUID("_msdyn_parenttask_value");
@@ -192,16 +236,26 @@ public class MsPlannerReader
       populateFieldContainer(task, TASK_FIELDS, data);
 
       addNotes(task, data);
+
       // TODO: priority
       // TODO: msdyn_ismanual
+
       m_taskMap.put(task.getGUID(), task);
    }
 
+   /**
+    * Read task dependencies.
+    */
    private void readDependencies()
    {
       m_data.getList("msdyn_msdyn_project_msdyn_projecttaskdependency_Project").forEach(this::readDependency);
    }
 
+   /**
+    * Read a task dependency.
+    *
+    * @param data task dependency data from Microsoft Planner
+    */
    private void readDependency(MapRow data)
    {
       Task predecessorTask = m_taskMap.get(data.getUUID("_msdyn_predecessortask_value"));
@@ -243,11 +297,20 @@ public class MsPlannerReader
       //"msdyn_projecttaskdependencyid": "aac97a92-e2e4-f011-89f4-6045bd0b8013"
    }
 
+   /**
+    * Read resource assignments.
+    */
    private void readResourceAssignments()
    {
-      m_data.getList("msdyn_msdyn_project_msdyn_resourceassignment_projectid").forEach(this::readResourceAssignment);
+      m_data.getList("msdyn_msdyn_project_msdyn_resourceassignment_projectid")
+         .forEach(this::readResourceAssignment);
    }
 
+   /**
+    * Read a resource assignment.
+    *
+    * @param data resource assignment data from Microsoft Planner
+    */
    private void readResourceAssignment(MapRow data)
    {
       Task task = m_taskMap.get(data.getUUID("_msdyn_taskid_value"));
@@ -266,6 +329,12 @@ public class MsPlannerReader
       populateFieldContainer(assignment, ASSIGNMENT_FIELDS, data);
    }
 
+   /**
+    * Extract notes from a task and, if present, create an HtmlNotes instance.
+    *
+    * @param task target task
+    * @param data task data
+    */
    private void addNotes(Task task, MapRow data)
    {
       String html = data.getString("msdyn_description");
@@ -277,6 +346,13 @@ public class MsPlannerReader
       task.setNotesObject(new HtmlNotes(html));
    }
 
+   /**
+    * Retrieve a resource. Resource data is only read from Microsoft Planner
+    * if the project includes resources.
+    *
+    * @param id resource unique ID
+    * @return Resource instance
+    */
    private Resource getResource(UUID id)
    {
       Resource resource = m_resourceMap.get(id);
@@ -299,9 +375,15 @@ public class MsPlannerReader
       resource = m_project.addResource();
       populateFieldContainer(resource, RESOURCE_FIELDS, data);
       resource.setCalendar(getCalendar(data.getUUID("_calendarid_value")));
+
+      m_resourceMap.put(id, resource);
+
       return resource;
    }
 
+   /**
+    * Load all resource data from Microsoft Planner.
+    */
    private void loadResourceData()
    {
       HttpURLConnection connection = createConnection("bookableresources");
@@ -334,6 +416,12 @@ public class MsPlannerReader
       }
    }
 
+   /**
+    * Retrieve a calendar by unique ID.
+    *
+    * @param id calendat unique ID
+    * @return ProjectCalendar instance
+    */
    private ProjectCalendar getCalendar(UUID id)
    {
       if (id == null)
@@ -372,6 +460,12 @@ public class MsPlannerReader
       return calendar;
    }
 
+   /**
+    * Retrieve calendar data from Microsoft Planner.
+    *
+    * @param id calendar unique ID
+    * @return calendar data
+    */
    private MapRow getCalendarData(UUID id)
    {
       if (id == null)
@@ -391,6 +485,11 @@ public class MsPlannerReader
    }
 
    /*
+   // The calendar table used by Microsoft Planner represents both
+   // the calendar itself, working time patterns, and exceptions.
+   // The code below atttempts to dump this data for a calendar as
+   // a single JSON document to try and make it easier to see
+   // how particular features are represented.
    private void calendarDump(UUID id)
    {
       try
@@ -671,7 +770,7 @@ public class MsPlannerReader
    }
 
    /**
-    * Retrieves an InputStream instance from a PWA response.
+    * Retrieves an InputStream instance from a Microsoft Planner API response.
     * Handles gzipped responses.
     *
     * @param connection request connection
@@ -733,7 +832,7 @@ public class MsPlannerReader
       //"_stageid_value": null,
       PROJECT_FIELDS.put("msdyn_duration", ProjectField.DURATION);
       //"msdyn_scheduler": 192350000,
-      //"msdyn_plannerlastsavedrevisiontoken": "msxrm_org7a979f91.crm11.dynamics.com_18702d8b-e2e4-f011-8406-6045bd0ae75a_0000000022",
+      //"msdyn_plannerlastsavedrevisiontoken": "msxrm_example.crm11.dynamics.com_18702d8b-e2e4-f011-8406-6045bd0ae75a_0000000022",
       //"msdyn_calendarid": "19702D8B-E2E4-F011-8406-6045BD0AE75A",
       //"msdyn_teamschannelmappingbackfilled": true,
       //"msdyn_schedulemode": 192350001,
@@ -771,7 +870,7 @@ public class MsPlannerReader
       PROJECT_FIELDS.put("createdon", ProjectField.CREATION_DATE);
       //"_msdyn_projectmanager_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
       //"_owningbusinessunit_value": "a3cb50c4-9dfe-ee11-9f8a-000d3a875b5f",
-      //"msdyn_globalrevisiontoken": "msxrm_org7a979f91.crm11.dynamics.com_18702d8b-e2e4-f011-8406-6045bd0ae75a_0000000022",
+      //"msdyn_globalrevisiontoken": "msxrm_example.crm11.dynamics.com_18702d8b-e2e4-f011-8406-6045bd0ae75a_0000000022",
       //"traversedpath": null,
       //"msdyn_description": null,
       //"msdyn_comments": null,
