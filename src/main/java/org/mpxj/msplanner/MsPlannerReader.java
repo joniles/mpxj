@@ -239,6 +239,7 @@ public class MsPlannerReader
 
       // TODO: priority
       // TODO: msdyn_ismanual
+      // TODO: baselines?
 
       m_taskMap.put(task.getGUID(), task);
    }
