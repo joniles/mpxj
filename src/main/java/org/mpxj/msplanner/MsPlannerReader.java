@@ -517,6 +517,12 @@ public class MsPlannerReader
    }
    */
 
+   /**
+    * Process default working times or a calendar exception.
+    *
+    * @param calendar target calendar
+    * @param data working eriod data
+    */
    private void processWorkingPeriod(ProjectCalendar calendar, MapRow data)
    {
       if (data.getDate("starttime") == null)
@@ -529,6 +535,12 @@ public class MsPlannerReader
       }
    }
 
+   /**
+    * Handle data representing a default working period.
+    *
+    * @param calendar target calendar
+    * @param data working period data
+    */
    private void processDefaultWorkingPeriod(ProjectCalendar calendar, MapRow data)
    {
       // We're assuming that we'll have a weekly recurring pattern for one or more days.
@@ -571,6 +583,12 @@ public class MsPlannerReader
       }
    }
 
+   /**
+    * Process data representing a calendar exception.
+    *
+    * @param calendar target calendar
+    * @param data exception data
+    */
    private void processExceptionWorkingPeriod(ProjectCalendar calendar, MapRow data)
    {
       Map<String, String> map = getMapFromPattern(data.getString("pattern"));
@@ -598,6 +616,13 @@ public class MsPlannerReader
       exception.addAll(ranges);
    }
 
+   /**
+    * Convert a string representing a calendar pattern
+    * into key value pairs in a Map.
+    *
+    * @param pattern string representation of a pattern
+    * @return Map instance
+    */
    private Map<String, String> getMapFromPattern(String pattern)
    {
       if (pattern == null || pattern.isEmpty())
@@ -612,13 +637,15 @@ public class MsPlannerReader
 
    private List<LocalTimeRange> processRanges(List<MapRow> rules)
    {
-      if (rules == null)
+      if (rules == null || rules.isEmpty())
       {
          return Collections.emptyList();
       }
 
-      List<MapRow> breakItemsData = rules.stream().filter(r -> r.getDoubleValue("effort") == 0.0).collect(Collectors.toList());
+      // It looks like there should be one item representing all work from start to finish
+      // with additional items representing breaks during that period.
       List<MapRow> workItemsData = rules.stream().filter(r -> r.getDoubleValue("effort") != 0.0).collect(Collectors.toList());
+      List<MapRow> breakItemsData = rules.stream().filter(r -> r.getDoubleValue("effort") == 0.0).collect(Collectors.toList());
 
       List<LocalTimeRange> workItems = workItemsData.stream().map(this::createTimeRange).collect(Collectors.toList());
       if (workItemsData.isEmpty() || breakItemsData.isEmpty())
@@ -626,8 +653,9 @@ public class MsPlannerReader
          return workItems;
       }
 
+      // For each break item, find the work item it affects and
+      // split it into two to represent the non-working time.
       List<LocalTimeRange> breakItems = breakItemsData.stream().map(this::createTimeRange).collect(Collectors.toList());
-
       for (LocalTimeRange breakItem : breakItems)
       {
          for (int index = 0; index < workItems.size(); index++)
@@ -647,6 +675,12 @@ public class MsPlannerReader
       return workItems;
    }
 
+   /**
+    * Create a LocalTimeRange instance from a start and end time.
+    *
+    * @param row calendar data
+    * @return LocalTimeRange
+    */
    private LocalTimeRange createTimeRange(MapRow row)
    {
       Integer offset = row.getInteger("offset");
@@ -667,6 +701,13 @@ public class MsPlannerReader
       return new LocalTimeRange(start, finish);
    }
 
+   /**
+    * Determine if a break item lies within a work item.
+    *
+    * @param workItem work item
+    * @param breakItem break item
+    * @return true if the break item lies within the work item
+    */
    private boolean workItemContainsBreakItem(LocalTimeRange workItem, LocalTimeRange breakItem)
    {
       return !breakItem.getStart().isBefore(workItem.getStart()) && !breakItem.getEnd().isAfter(workItem.getEnd());
