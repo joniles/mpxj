@@ -659,6 +659,12 @@ public class MsPlannerReader
          .collect(Collectors.toMap(k -> k[0], v -> v[1]));
    }
 
+   /**
+    * Process a list of rules representing working and non-working time.
+    *
+    * @param rules calendar rules
+    * @return working time
+    */
    private List<LocalTimeRange> processRanges(List<MapRow> rules)
    {
       if (rules == null || rules.isEmpty())
@@ -737,8 +743,13 @@ public class MsPlannerReader
       return !breakItem.getStart().isBefore(workItem.getStart()) && !breakItem.getEnd().isAfter(workItem.getEnd());
    }
 
+   /**
+    * Read and apply any baseline data.
+    */
    private void readBaselineData()
    {
+      // We're retrieving the baseline project data as well as the task data,
+      // but we're not currenty making use of the project-level data.
       HttpURLConnection connection = createConnection("msdyn_projectbaselinedatas?$filter=_msdyn_projectid_value%20eq%20" + m_projectID + "&$expand=msdyn_msdyn_projectbaselinedata_msdyn_projectbaselinetaskdata");
       int code = getResponseCode(connection);
 
@@ -757,6 +768,11 @@ public class MsPlannerReader
       projectData.get(0).getList("msdyn_msdyn_projectbaselinedata_msdyn_projectbaselinetaskdata").forEach(d -> readBaselineData(d));
    }
 
+   /**
+    * Populate baseline data for a task.
+    *
+    * @param data task baseline data
+    */
    private void readBaselineData(MapRow data)
    {
       Task task = m_taskMap.get(data.getUUID("msdyn_projecttaskid"));
