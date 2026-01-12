@@ -5590,7 +5590,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Number getOriginalBudget()
    {
-      return (Number)get(TaskField.ORIGINAL_BUDGET);
+      return (Number) get(TaskField.ORIGINAL_BUDGET);
    }
 
    /**
@@ -5610,7 +5610,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Number getSchedulePercentComplete()
    {
-      return (Number)get(TaskField.SCHEDULE_PERCENT_COMPLETE);
+      return (Number) get(TaskField.SCHEDULE_PERCENT_COMPLETE);
    }
 
    /**

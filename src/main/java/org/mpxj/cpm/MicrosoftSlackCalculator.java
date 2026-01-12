@@ -100,7 +100,7 @@ public class MicrosoftSlackCalculator implements SlackCalculator
 
       if (task.getSummary())
       {
-         Duration freeFloat =  task.getChildTasks().stream().flatMap(t -> t.getSuccessors().stream())
+         Duration freeFloat = task.getChildTasks().stream().flatMap(t -> t.getSuccessors().stream())
             // Ignore completed successors
             .filter(r -> r.getSuccessorTask().getActualFinish() == null)
             .map(r -> calculateVariance(task, r.getSuccessorTask()))
@@ -123,7 +123,6 @@ public class MicrosoftSlackCalculator implements SlackCalculator
          .filter(Objects::nonNull)
          .min(Comparator.naturalOrder())
          .orElseGet(task::getTotalSlack);
-
 
       if (freeFloat != null && freeFloat.getDuration() < 0)
       {
@@ -208,7 +207,7 @@ public class MicrosoftSlackCalculator implements SlackCalculator
     */
    private Duration calculateVariance(Task t1, Task t2)
    {
-      Duration variance =  LocalDateTimeHelper.getVariance(t1.getEffectiveCalendar(), t1.getEarlyFinish(), t1.getEarlyStart(), TimeUnit.HOURS);
+      Duration variance = LocalDateTimeHelper.getVariance(t1.getEffectiveCalendar(), t1.getEarlyFinish(), t1.getEarlyStart(), TimeUnit.HOURS);
       if (variance.getDuration() < 0)
       {
          return null;
@@ -227,8 +226,8 @@ public class MicrosoftSlackCalculator implements SlackCalculator
       Task predecessorTask = relation.getPredecessorTask();
       Task successorTask = relation.getSuccessorTask();
 
-      LocalDateTime predecessorStart = predecessorTask.getConstraintType()  == ConstraintType.AS_LATE_AS_POSSIBLE ? predecessorTask.getLateStart() : predecessorTask.getEarlyStart();
-      LocalDateTime predecessorFinish = predecessorTask.getConstraintType()  == ConstraintType.AS_LATE_AS_POSSIBLE ? predecessorTask.getLateFinish() : predecessorTask.getEarlyFinish();
+      LocalDateTime predecessorStart = predecessorTask.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE ? predecessorTask.getLateStart() : predecessorTask.getEarlyStart();
+      LocalDateTime predecessorFinish = predecessorTask.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE ? predecessorTask.getLateFinish() : predecessorTask.getEarlyFinish();
       LocalDateTime successorStart = successorTask.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE ? successorTask.getLateStart() : successorTask.getEarlyStart();
       LocalDateTime successorFinish = successorTask.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE ? successorTask.getLateFinish() : successorTask.getEarlyFinish();
 

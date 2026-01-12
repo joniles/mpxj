@@ -237,12 +237,12 @@ class MapRow extends LinkedHashMap<String, Object>
 
          case TASK_MODE:
          {
-            return ((Boolean)value).booleanValue() ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED;
+            return ((Boolean) value).booleanValue() ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED;
          }
 
          case PRIORITY:
          {
-            int index = ((Integer)value).intValue();
+            int index = ((Integer) value).intValue();
             if (index < 0)
             {
                return Priority.getInstance(Priority.HIGHEST);

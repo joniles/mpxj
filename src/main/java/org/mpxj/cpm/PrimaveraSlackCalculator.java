@@ -76,7 +76,7 @@ public class PrimaveraSlackCalculator implements SlackCalculator
          return Duration.getInstance(0, TimeUnit.HOURS);
       }
 
-      Duration freeFloat =  task.getSuccessors().stream()
+      Duration freeFloat = task.getSuccessors().stream()
          // Ignore LOE successors
          .filter(r -> r.getSuccessorTask().getActivityType() != ActivityType.LEVEL_OF_EFFORT)
          // Handle duplicate successor tasks

@@ -334,7 +334,7 @@ public class PrimaveraSchedulerComparator
       boolean actualFinishFailed = !compareDates(baseline, working, TaskField.ACTUAL_FINISH);
       boolean remainingEarlyStartFailed = !compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
       boolean remainingEarlyFinishFailed = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
-      boolean freeFloatFailed =  analyseFloats && !compareDurations(baseline, working, TaskField.FREE_SLACK);
+      boolean freeFloatFailed = analyseFloats && !compareDurations(baseline, working, TaskField.FREE_SLACK);
       boolean totalFloatFailed = analyseFloats && !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
 
       if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || actualStartFailed || actualFinishFailed || remainingEarlyStartFailed || remainingEarlyFinishFailed || freeFloatFailed || totalFloatFailed)
@@ -406,7 +406,7 @@ public class PrimaveraSchedulerComparator
     */
    private boolean compareDurations(Task baseline, Task working, TaskField field)
    {
-      Duration baselineDuration =  (Duration) baseline.get(field);
+      Duration baselineDuration = (Duration) baseline.get(field);
       if (baselineDuration == null)
       {
          return true;

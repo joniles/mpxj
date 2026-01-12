@@ -337,7 +337,7 @@ public class MicrosoftSchedulerComparator
     */
    private boolean compareDurations(Task baseline, Task working, TaskField field)
    {
-      Duration baselineDuration =  (Duration) baseline.get(field);
+      Duration baselineDuration = (Duration) baseline.get(field);
       if (baselineDuration == null)
       {
          return true;
@@ -349,7 +349,7 @@ public class MicrosoftSchedulerComparator
          return true;
       }
 
-      if (baselineDuration.getUnits() !=  workingDuration.getUnits())
+      if (baselineDuration.getUnits() != workingDuration.getUnits())
       {
          workingDuration = workingDuration.convertUnits(baselineDuration.getUnits(), baseline.getEffectiveCalendar());
       }

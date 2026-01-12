@@ -164,11 +164,11 @@ public class MsPlannerReader
    private MapRow readData()
    {
       String query = "msdyn_projects(" + m_projectID + ")"
-         + "?$expand=" +
-         String.join(",",
-            "msdyn_msdyn_project_msdyn_projecttask_project",
-            "msdyn_msdyn_project_msdyn_projecttaskdependency_Project",
-            "msdyn_msdyn_project_msdyn_resourceassignment_projectid");
+               + "?$expand=" +
+               String.join(",",
+                  "msdyn_msdyn_project_msdyn_projecttask_project",
+                  "msdyn_msdyn_project_msdyn_projecttaskdependency_Project",
+                  "msdyn_msdyn_project_msdyn_resourceassignment_projectid");
 
       //System.out.println(query);
 
@@ -209,8 +209,7 @@ public class MsPlannerReader
          m_data.getList("msdyn_msdyn_project_msdyn_projecttask_project"),
          t -> t.getUUID("msdyn_projecttaskid"),
          t -> t.getUUID("_msdyn_parenttask_value"),
-         Comparator.comparing(o -> o.getDouble("msdyn_displaysequence"))
-      ).forEach(this::readTask);
+         Comparator.comparing(o -> o.getDouble("msdyn_displaysequence"))).forEach(this::readTask);
    }
 
    /**
@@ -493,13 +492,13 @@ public class MsPlannerReader
       try
       {
          MapRow data = getCalendarData(id);
-
+   
          data.put("_holidayschedulecalendarid_value", getCalendarData(data.getUUID("_holidayschedulecalendarid_value")));
          for (MapRow rule : data.getList("calendar_calendar_rules"))
          {
             rule.put("_innercalendarid_value", getCalendarData(rule.getUUID("_innercalendarid_value")));
          }
-
+   
          OutputStream out = new ByteArrayOutputStream();
          System.out.println("BEGIN " + id);
          m_mapper.writeValue(out, data);
@@ -507,7 +506,7 @@ public class MsPlannerReader
          System.out.println("END");
          System.err.println();
       }
-
+   
       catch (Exception ex)
       {
          throw new MsPlannerException(ex);
@@ -559,13 +558,13 @@ public class MsPlannerReader
 
       List<LocalTimeRange> ranges = processRanges(innerCalendarData.getList("calendar_calendar_rules"));
 
-      for(DayOfWeek day : DayOfWeek.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          calendar.setWorkingDay(day, false);
          calendar.addCalendarHours(day);
       }
 
-      for(String dayName : byDay.split(","))
+      for (String dayName : byDay.split(","))
       {
          DayOfWeek day = CALENDAR_DAYS.get(dayName);
          if (day == null)
@@ -669,7 +668,7 @@ public class MsPlannerReader
             {
                workItems.remove(index);
                LocalTimeRange beforeBreak = new LocalTimeRange(workItem.getStart(), breakItem.getStart());
-               LocalTimeRange afterBreak =  new LocalTimeRange(breakItem.getEnd(), workItem.getEnd());
+               LocalTimeRange afterBreak = new LocalTimeRange(breakItem.getEnd(), workItem.getEnd());
                workItems.addAll(index, Arrays.asList(beforeBreak, afterBreak));
                break;
             }
