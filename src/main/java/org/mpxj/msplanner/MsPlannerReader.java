@@ -65,6 +65,7 @@ import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceField;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
+import org.mpxj.TaskMode;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.NumberHelper;
@@ -236,9 +237,9 @@ public class MsPlannerReader
       populateFieldContainer(task, TASK_FIELDS, data);
 
       addNotes(task, data);
+      task.setTaskMode(data.getBool("msdyn_ismanual") ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED);
 
       // TODO: priority
-      // TODO: msdyn_ismanual
       // TODO: baselines?
 
       m_taskMap.put(task.getGUID(), task);

@@ -33,6 +33,7 @@ import org.mpxj.DataType;
 import org.mpxj.Duration;
 import org.mpxj.RelationType;
 import org.mpxj.TimeUnit;
+import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 
@@ -112,6 +113,17 @@ class MapRow extends LinkedHashMap<String, Object>
    public int getInt(String key)
    {
       return NumberHelper.getInt(getInteger(key));
+   }
+
+   /**
+    * Retrieve a boolean value.
+    *
+    * @param key map key
+    * @return boolean value
+    */
+   public boolean getBool(String key)
+   {
+      return BooleanHelper.getBoolean((Boolean) get(key));
    }
 
    public RelationType getRelationType(String key)
