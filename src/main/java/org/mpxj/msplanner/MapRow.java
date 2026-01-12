@@ -102,11 +102,23 @@ class MapRow extends LinkedHashMap<String, Object>
       return (Integer) getObject(key, DataType.INTEGER);
    }
 
+   /**
+    * Retrieve a Double value.
+    *
+    * @param key map key
+    * @return Double value
+    */
    public Double getDouble(String key)
    {
       return (Double) getObject(key, DataType.NUMERIC);
    }
 
+   /**
+    * Retrieve a double value.
+    *
+    * @param key map key
+    * @return double value
+    */
    public double getDoubleValue(String key)
    {
       return NumberHelper.getDouble(getDouble(key));
@@ -134,6 +146,12 @@ class MapRow extends LinkedHashMap<String, Object>
       return BooleanHelper.getBoolean((Boolean) get(key));
    }
 
+   /**
+    * Retrieve a RelationType instance.
+    *
+    * @param key map key
+    * @return RelationType instance
+    */
    public RelationType getRelationType(String key)
    {
       Integer value = getInteger(key);
