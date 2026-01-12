@@ -31,7 +31,9 @@ import java.util.UUID;
 
 import org.mpxj.DataType;
 import org.mpxj.Duration;
+import org.mpxj.Priority;
 import org.mpxj.RelationType;
+import org.mpxj.TaskMode;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.LocalDateTimeHelper;
@@ -209,6 +211,27 @@ class MapRow extends LinkedHashMap<String, Object>
             return value;
          }
 
+         case TASK_MODE:
+         {
+            return ((Boolean)value).booleanValue() ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED;
+         }
+
+         case PRIORITY:
+         {
+            int index = ((Integer)value).intValue();
+            if (index < 0)
+            {
+               return Priority.getInstance(Priority.HIGHEST);
+            }
+
+            if (index >= PRIORITY.length)
+            {
+               return Priority.getInstance(Priority.LOWEST);
+            }
+
+            return PRIORITY[index];
+         }
+
          default:
          {
             throw new MsPlannerException(type + " not handled");
@@ -251,5 +274,19 @@ class MapRow extends LinkedHashMap<String, Object>
       RelationType.FINISH_START,
       RelationType.START_FINISH,
       RelationType.START_START
+   };
+
+   private static final Priority[] PRIORITY = new Priority[]
+   {
+      Priority.getInstance(Priority.HIGHEST),
+      Priority.getInstance(Priority.HIGHEST),
+      Priority.getInstance(Priority.HIGH),
+      Priority.getInstance(Priority.HIGH),
+      Priority.getInstance(Priority.HIGH),
+      Priority.getInstance(Priority.MEDIUM),
+      Priority.getInstance(Priority.MEDIUM),
+      Priority.getInstance(Priority.MEDIUM),
+      Priority.getInstance(Priority.MEDIUM),
+      Priority.getInstance(Priority.LOW)
    };
 }

@@ -65,7 +65,6 @@ import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceField;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
-import org.mpxj.TaskMode;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.NumberHelper;
@@ -261,9 +260,6 @@ public class MsPlannerReader
       }
 
       addNotes(task, data);
-      task.setTaskMode(data.getBool("msdyn_ismanual") ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED);
-
-      // TODO: priority
 
       m_taskMap.put(task.getGUID(), task);
    }
@@ -766,7 +762,7 @@ public class MsPlannerReader
          return;
       }
 
-      projectData.get(0).getList("msdyn_msdyn_projectbaselinedata_msdyn_projectbaselinetaskdata").forEach(d -> readBaselineData(d));
+      projectData.get(0).getList("msdyn_msdyn_projectbaselinedata_msdyn_projectbaselinetaskdata").forEach(this::readBaselineData);
    }
 
    /**
@@ -1064,7 +1060,7 @@ public class MsPlannerReader
       //"msdyn_descriptionplaintext": null,
       //"msdyn_tzascheduledstart": "2019-10-15T09:00:00Z",
       //"msdyn_scheduledstart": "2019-10-15T09:00:00Z",
-      //"msdyn_priority": 5,
+      TASK_FIELDS.put("msdyn_priority", TaskField.PRIORITY);
       //"msdyn_description": null,
       TASK_FIELDS.put("msdyn_progress", TaskField.PERCENT_COMPLETE);
       //"_modifiedonbehalfby_value": null,
@@ -1097,7 +1093,7 @@ public class MsPlannerReader
       TASK_FIELDS.put("msdyn_iscritical", TaskField.CRITICAL);
       //"_msdyn_parenttask_value": null,
       //"_msdyn_pfwmodifiedby_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
-      //"msdyn_ismanual": false,
+      TASK_FIELDS.put("msdyn_ismanual", TaskField.TASK_MODE);
       //"createdon": "2025-12-29T18:17:48Z",
       TASK_FIELDS.put("createdon", TaskField.CREATED);
       //"versionnumber": 8163420,
