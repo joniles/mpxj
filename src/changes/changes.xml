@@ -9,6 +9,8 @@
 			<action dev="joniles" type="update">Implemented support for reading projects from Microsoft Planner.</action>
 			<action dev="joniles" type="update">Improve handling of elapsed durations in `ProjectCalendar` calculations.</action>
 			<action dev="joniles" type="update">Improve Free Slack and Total Slack calculations.</action>
+			<action dev="joniles" type="update">Updated the `TaskContainer#synchronizeTaskIDToHierarchy` method to ensure that the task Outline Level attribute is also updated appropriately. (Based on a contribution by Šimon Macharáček)</action>
+			<action dev="joniles" type="update">Ensure that when reading MPP files and an attribute value from a lookup table is not recognised, null is returned rather than the GUID representing the value.</action>
 		</release>
 		<release date="2025-12-08" version="15.1.0">
             <action dev="joniles" type="update">Improve selection of the default calendar when reading Asta Powerproject PP files.</action>

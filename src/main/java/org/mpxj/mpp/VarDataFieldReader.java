@@ -104,7 +104,7 @@ abstract class VarDataFieldReader
          }
       }
 
-      return item == null ? guid : coerceValue(item.getValue());
+      return item == null ? null : coerceValue(item.getValue());
    }
 
    /**
