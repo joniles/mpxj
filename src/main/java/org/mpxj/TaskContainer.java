@@ -138,6 +138,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task> implements
     *
     * @param parentTask parent task instance
     * @param currentID current task ID
+    * @param currentLevel current outline level
     * @return updated current task ID
     */
    private int synchroizeTaskIDToHierarchy(ChildTaskContainer parentTask, int currentID, int currentLevel)

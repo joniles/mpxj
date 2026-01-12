@@ -68,35 +68,12 @@ import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.NumberHelper;
-import org.mpxj.writer.FileFormat;
-import org.mpxj.writer.UniversalProjectWriter;
 
 /**
  * Access schedule data in Microsoft Planner.
  */
 public class MsPlannerReader
 {
-   public static void main(String[] argv) throws Exception
-   {
-      MsPlannerReader reader = new MsPlannerReader(argv[0], argv[1]);
-      List<MsPlannerProject> projects = reader.getProjects();
-      projects.forEach(System.out::println);
-
-      List<ProjectFile> projectFiles = projects.stream().map(p -> reader.readProject(p.getProjectId())).collect(Collectors.toList());
-      //projectFiles.forEach(ProjectExplorer::view);
-
-      for (ProjectFile file : projectFiles)
-      {
-         new UniversalProjectWriter(FileFormat.JSON).write(file, file.getProjectProperties().getSubject() + ".json");
-         new UniversalProjectWriter(FileFormat.PLANNER).write(file, file.getProjectProperties().getSubject() + ".planner.xml");
-         new UniversalProjectWriter(FileFormat.XER).write(file, file.getProjectProperties().getSubject() + ".xer");
-         new UniversalProjectWriter(FileFormat.PMXML).write(file, file.getProjectProperties().getSubject() + ".pmxml.xml");
-         new UniversalProjectWriter(FileFormat.SDEF).write(file, file.getProjectProperties().getSubject() + ".sdef");
-         new UniversalProjectWriter(FileFormat.MSPDI).write(file, file.getProjectProperties().getSubject() + ".mspdi.xml");
-         new UniversalProjectWriter(FileFormat.MPX).write(file, file.getProjectProperties().getSubject() + ".mpx");
-      }
-   }
-
    /**
     * Constructor.
     *
@@ -220,7 +197,7 @@ public class MsPlannerReader
       props.setMinutesPerDay(Integer.valueOf((int) (m_data.getDoubleValue("msdyn_hoursperday") * 60)));
       props.setMinutesPerWeek(Integer.valueOf((int) (m_data.getDoubleValue("msdyn_hoursperweek") * 60)));
       props.setMinutesPerMonth(Integer.valueOf(NumberHelper.getInt(props.getDaysPerMonth()) * NumberHelper.getInt(props.getMinutesPerDay())));
-      props.setMinutesPerYear(Integer.valueOf(NumberHelper.getInt(props.getMinutesPerMonth() * 12)));
+      props.setMinutesPerYear(Integer.valueOf(NumberHelper.getInt(props.getMinutesPerMonth()) * 12));
    }
 
    /**
@@ -912,8 +889,6 @@ public class MsPlannerReader
    private Map<UUID, MapRow> m_resourceDataMap;
    private Map<UUID, Resource> m_resourceMap;
    private Map<UUID, Task> m_taskMap;
-
-   private static final LocalTimeRange DEFAULT_HOURS = new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(17, 0));
 
    private static final Map<String, DayOfWeek> CALENDAR_DAYS = new HashMap<>();
    static

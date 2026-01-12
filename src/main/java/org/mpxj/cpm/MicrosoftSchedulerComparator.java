@@ -269,6 +269,7 @@ public class MicrosoftSchedulerComparator
     *
     * @param baseline baseline task
     * @param working scheduled task
+    * @param analyseFloats analyse float values if true
     */
    private void compare(Task baseline, Task working, boolean analyseFloats)
    {
@@ -365,6 +366,8 @@ public class MicrosoftSchedulerComparator
     * Write debug output to show where the two project differ.
     *
     * @param scheduler MicrosoftScheduler instance
+    * @param baselineFile baseline data
+    * @param workingFile working data
     */
    private void analyseFailures(MicrosoftScheduler scheduler, ProjectFile baselineFile, ProjectFile workingFile)
    {
@@ -393,6 +396,8 @@ public class MicrosoftSchedulerComparator
     * Write debug information for a forward pass error.
     *
     * @param working scheduled task
+    * @param baselineFile baseline data
+    * @poaram working working task
     */
    private void analyseForwardError(ProjectFile baselineFile, Task working)
    {
@@ -420,6 +425,7 @@ public class MicrosoftSchedulerComparator
     * Write debug information for a backward pass error.
     *
     * @param working scheduled task
+    * @param baselineFile baseline file
     */
    private void analyseBackwardError(ProjectFile baselineFile, Task working)
    {

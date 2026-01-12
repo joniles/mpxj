@@ -260,6 +260,7 @@ public class PrimaveraSchedulerComparator
     * @param workingFile working project
     * @param analyseWbs true if the WBS should be analysed
     * @param analyseResourceAssignments true if resource assignments should be analysed
+    * @param analyseFloats analyse float values if true
     * @return true if compared successfully
     */
    public boolean process(ProjectFile baselineFile, ProjectFile workingFile, boolean analyseWbs, boolean analyseResourceAssignments, boolean analyseFloats) throws Exception
@@ -321,6 +322,7 @@ public class PrimaveraSchedulerComparator
     *
     * @param baseline baseline task
     * @param working scheduled task
+    * @param analyseFloats analyse float values if true
     */
    private void compare(Task baseline, Task working, boolean analyseFloats)
    {
