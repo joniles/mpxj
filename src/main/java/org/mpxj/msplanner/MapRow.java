@@ -80,6 +80,12 @@ class MapRow extends LinkedHashMap<String, Object>
       return (UUID) getObject(key, DataType.GUID);
    }
 
+   /**
+    * Retrieve a LocalDateTime value.
+    *
+    * @param key map key
+    * @return LocalDateTime value
+    */
    public LocalDateTime getDate(String key)
    {
       return (LocalDateTime) getObject(key, DataType.DATE);
