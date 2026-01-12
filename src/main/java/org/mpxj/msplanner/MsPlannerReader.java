@@ -69,13 +69,15 @@ import org.mpxj.TaskMode;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.NumberHelper;
+import org.mpxj.writer.FileFormat;
+import org.mpxj.writer.UniversalProjectWriter;
 
 /**
  * Access schedule data in Microsoft Planner.
  */
 public class MsPlannerReader
 {
-   public static void main(String[] argv)
+   public static void main(String[] argv) throws Exception
    {
       MsPlannerReader reader = new MsPlannerReader(argv[0], argv[1]);
       List<MsPlannerProject> projects = reader.getProjects();
@@ -83,6 +85,17 @@ public class MsPlannerReader
 
       List<ProjectFile> projectFiles = projects.stream().map(p -> reader.readProject(p.getProjectId())).collect(Collectors.toList());
       //projectFiles.forEach(ProjectExplorer::view);
+
+      for (ProjectFile file : projectFiles)
+      {
+         new UniversalProjectWriter(FileFormat.JSON).write(file, file.getProjectProperties().getSubject() + ".json");
+         new UniversalProjectWriter(FileFormat.PLANNER).write(file, file.getProjectProperties().getSubject() + ".planner.xml");
+         new UniversalProjectWriter(FileFormat.XER).write(file, file.getProjectProperties().getSubject() + ".xer");
+         new UniversalProjectWriter(FileFormat.PMXML).write(file, file.getProjectProperties().getSubject() + ".pmxml.xml");
+         new UniversalProjectWriter(FileFormat.SDEF).write(file, file.getProjectProperties().getSubject() + ".sdef");
+         new UniversalProjectWriter(FileFormat.MSPDI).write(file, file.getProjectProperties().getSubject() + ".mspdi.xml");
+         new UniversalProjectWriter(FileFormat.MPX).write(file, file.getProjectProperties().getSubject() + ".mpx");
+      }
    }
 
    /**
@@ -150,6 +163,7 @@ public class MsPlannerReader
          readTasks();
          readDependencies();
          readResourceAssignments();
+         readBaselineData();
 
          return m_project;
       }
@@ -236,11 +250,20 @@ public class MsPlannerReader
 
       populateFieldContainer(task, TASK_FIELDS, data);
 
+      if (task.getStart() == null)
+      {
+         task.setStart(data.getDate("msdyn_scheduledstart"));
+      }
+
+      if (task.getFinish() == null)
+      {
+         task.setFinish(data.getDate("msdyn_scheduledend"));
+      }
+
       addNotes(task, data);
       task.setTaskMode(data.getBool("msdyn_ismanual") ? TaskMode.MANUALLY_SCHEDULED : TaskMode.AUTO_SCHEDULED);
 
       // TODO: priority
-      // TODO: baselines?
 
       m_taskMap.put(task.getGUID(), task);
    }
@@ -637,6 +660,12 @@ public class MsPlannerReader
          .collect(Collectors.toMap(k -> k[0], v -> v[1]));
    }
 
+   /**
+    * Process a list of rules representing working and non-working time.
+    *
+    * @param rules calendar rules
+    * @return working time
+    */
    private List<LocalTimeRange> processRanges(List<MapRow> rules)
    {
       if (rules == null || rules.isEmpty())
@@ -713,6 +742,46 @@ public class MsPlannerReader
    private boolean workItemContainsBreakItem(LocalTimeRange workItem, LocalTimeRange breakItem)
    {
       return !breakItem.getStart().isBefore(workItem.getStart()) && !breakItem.getEnd().isAfter(workItem.getEnd());
+   }
+
+   /**
+    * Read and apply any baseline data.
+    */
+   private void readBaselineData()
+   {
+      // We're retrieving the baseline project data as well as the task data,
+      // but we're not currenty making use of the project-level data.
+      HttpURLConnection connection = createConnection("msdyn_projectbaselinedatas?$filter=_msdyn_projectid_value%20eq%20" + m_projectID + "&$expand=msdyn_msdyn_projectbaselinedata_msdyn_projectbaselinetaskdata");
+      int code = getResponseCode(connection);
+
+      if (code != 200)
+      {
+         throw new MsPlannerException(getExceptionMessage(connection, code));
+      }
+
+      MapRow data = getMapRow(connection);
+      List<MapRow> projectData = data.getList("value");
+      if (projectData.isEmpty())
+      {
+         return;
+      }
+
+      projectData.get(0).getList("msdyn_msdyn_projectbaselinedata_msdyn_projectbaselinetaskdata").forEach(d -> readBaselineData(d));
+   }
+
+   /**
+    * Populate baseline data for a task.
+    *
+    * @param data task baseline data
+    */
+   private void readBaselineData(MapRow data)
+   {
+      Task task = m_taskMap.get(data.getUUID("msdyn_projecttaskid"));
+      if (task == null)
+      {
+         return;
+      }
+      populateFieldContainer(task, BASELINE_TASK_FIELDS, data);
    }
 
    /**
@@ -1070,6 +1139,42 @@ public class MsPlannerReader
       //"_ownerid_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
       //"msdyn_committype": 192350001,
       ASSIGNMENT_FIELDS.put("msdyn_start", AssignmentField.START);
+      //"timezoneruleversionnumber": 4
+   }
+
+   private static final Map<String, TaskField> BASELINE_TASK_FIELDS = new HashMap<>();
+   static
+   {
+      //"@odata.etag": "W/\"8209301\"",
+      //"_msdyn_projectbaselinedataid_value": "94682ecc-04ef-f011-aa22-6045bd0e7f36",
+      //"msdyn_projectbaselinetaskdataid": "d3f1b586-1a3b-42bc-b80f-08b20edc51fa",
+      //"modifiedon": "2026-01-11T15:47:23Z",
+      //"_owninguser_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
+      //"overriddencreatedon": null,
+      BASELINE_TASK_FIELDS.put("msdyn_taskfinishdate", TaskField.BASELINE_FINISH);
+      //"msdyn_taskeffort": 0.0,
+      BASELINE_TASK_FIELDS.put("msdyn_taskeffort", TaskField.BASELINE_WORK);
+      //"importsequencenumber": null,
+      //"_modifiedonbehalfby_value": null,
+      BASELINE_TASK_FIELDS.put("msdyn_taskstartdate", TaskField.BASELINE_START);
+      //"msdyn_taskpercentcomplete": 0.0000000000,
+      //"statecode": 0,
+      //"msdyn_taskeffortremaining": 0.0000000000,
+      //"versionnumber": 8209301,
+      //"utcconversiontimezonecode": null,
+      //"_createdonbehalfby_value": null,
+      //"_modifiedby_value": "ee4563e5-33ff-ee11-9f8a-000d3a86b5a3",
+      //"msdyn_projecttaskid": "e28df8f8-a58c-4907-a285-d088cdbdd0a5",
+      //"msdyn_taskduration": 2.0,
+      BASELINE_TASK_FIELDS.put("msdyn_taskduration", TaskField.BASELINE_DURATION);
+      //"createdon": "2026-01-11T15:47:23Z",
+      //"_owningbusinessunit_value": "a3cb50c4-9dfe-ee11-9f8a-000d3a875b5f",
+      //"msdyn_taskeffortcompleted": 0.0000000000,
+      //"msdyn_name": null,
+      //"statuscode": 1,
+      //"_owningteam_value": null,
+      //"_createdby_value": "ee4563e5-33ff-ee11-9f8a-000d3a86b5a3",
+      //"_ownerid_value": "96d250c4-9dfe-ee11-9f8a-000d3a875b5f",
       //"timezoneruleversionnumber": 4
    }
 }
