@@ -152,7 +152,7 @@ allow us to authenticate with delegated permissions as a Sharepoint user. This
 means that once authenticated we'll be making API calls "on behalf of"
 the user who provided their credentials.
 
-For convenience you'll find [some sample code on GitHub](https://github.com/joniles/mpxj-java-samples/blob/main/src/main/java/org/mpxj/howto/use/pwa/DesktopMicrosoftAuthenticator.java)
+For convenience you'll find [some sample code on GitHub](https://github.com/joniles/mpxj-java-samples/blob/main/src/main/java/org/mpxj/howto/use/microsoft/DesktopMicrosoftAuthenticator.java)
 which uses the configuration I'm describing here to retrieve an access token.
 This sample code is purely provided as a simple working example to get you
 started. In production you'd need to use a version of
@@ -179,6 +179,6 @@ instance is `https://example.sharepoint.com/sites/pwa`, the
 resource we need to use will be `https://example.sharepoint.com`.
 
 With the App Registration in Entra configured as described above, you should be
-able to use the details noted above with the [sample authentication code](https://github.com/joniles/mpxj-java-samples/blob/main/src/main/java/org/mpxj/howto/use/pwa/DesktopMicrosoftAuthenticator.java)
+able to use the details noted above with the [sample authentication code](https://github.com/joniles/mpxj-java-samples/blob/main/src/main/java/org/mpxj/howto/use/microsoft/DesktopMicrosoftAuthenticator.java)
 to authenticate with Microsoft and retrieve an access token. Once you have an
 access token you can use `PwaReader` to read project data!
