@@ -1,11 +1,12 @@
 # How To: Read Microsoft Planner
 
-## Microsoft Planner 
-Microsoft Planner is Microsoft's replacement for the now retired 
-Project Online service. It provides a browser-based interface allowing you to
+## Microsoft Planner
+Microsoft Planner is Microsoft's replacement for  Project Online, which has now
+been discontinued. It provides a browser-based interface allowing you to
 create, manage and collaborate on project plans. Various subscription tiers are
-available, the lowest of which only provides basic "task list" functionality.
-Higher tiers provide functionality closer to that provided by Microsoft Project.
+available, the lowest of which only offers basic "task list" functionality.
+Higher tiers include functionality closer to that provided by Microsoft
+Project.
 
 ## Reading Projects
 MPXJ uses the Microsoft Dynamics API to read project data from Planner.
