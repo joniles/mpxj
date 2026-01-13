@@ -339,6 +339,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#1520-2026-01-13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.2.0 (2026-01-13)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#1510-2025-12-08" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4024,6 +4035,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../howto-read-msplanner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microsoft Planner
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../howto-read-pwa/" class="md-nav__link">
         
   
@@ -5372,6 +5411,17 @@
     <span class="md-ellipsis">
       
         15.2.0 (unreleased)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1520-2026-01-13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.2.0 (2026-01-13)
       
     </span>
   </a>
@@ -8469,6 +8519,14 @@
 <p>From version 14.0.0 onwards the <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code> and <code>net.sf.mpxj-for-vb</code> packages are
 no longer distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
 <h2 id="1520-unreleased">15.2.0 (unreleased)</h2>
+<h2 id="1520-2026-01-13">15.2.0 (2026-01-13)</h2>
+<ul>
+<li>Implemented support for reading projects from Microsoft Planner.</li>
+<li>Improve handling of elapsed durations in <code>ProjectCalendar</code> calculations.</li>
+<li>Improve Free Slack and Total Slack calculations.</li>
+<li>Updated the <code>TaskContainer#synchronizeTaskIDToHierarchy</code> method to ensure that the task Outline Level attribute is also updated appropriately. (Based on a contribution by Šimon Macharáček)</li>
+<li>Ensure that when reading MPP files and an attribute value from a lookup table is not recognised, null is returned rather than the GUID representing the value.</li>
+</ul>
 <h2 id="1510-2025-12-08">15.1.0 (2025-12-08)</h2>
 <ul>
 <li>Improve selection of the default calendar when reading Asta Powerproject PP files.</li>

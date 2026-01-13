@@ -11,7 +11,7 @@
         <link rel="canonical" href="http://www.mpxj.org/howto-read-pwa/">
       
       
-        <link rel="prev" href="../howto-read-merlin/">
+        <link rel="prev" href="../howto-read-msplanner/">
       
       
         <link rel="next" href="../howto-read-mpd/">
@@ -868,6 +868,34 @@
     
   
     Merlin files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-read-msplanner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microsoft Planner
   
 
     
@@ -2515,7 +2543,7 @@ can be found at <a href="https://entra.microsoft.com/">https://entra.microsoft.c
 allow us to authenticate with delegated permissions as a Sharepoint user. This
 means that once authenticated we'll be making API calls "on behalf of"
 the user who provided their credentials.</p>
-<p>For convenience you'll find <a href="https://github.com/joniles/mpxj-java-samples/blob/main/src/main/java/org/mpxj/howto/use/pwa/DesktopMicrosoftAuthenticator.java">some sample code on GitHub</a>
+<p>For convenience you'll find <a href="https://github.com/joniles/mpxj-java-samples/blob/main/src/main/java/org/mpxj/howto/use/microsoft/DesktopMicrosoftAuthenticator.java">some sample code on GitHub</a>
 which uses the configuration I'm describing here to retrieve an access token.
 This sample code is purely provided as a simple working example to get you
 started. In production you'd need to use a version of
@@ -2539,7 +2567,7 @@ when we authenticate. In this case, if the URL to access your Project Server
 instance is <code>https://example.sharepoint.com/sites/pwa</code>, the 
 resource we need to use will be <code>https://example.sharepoint.com</code>.</p>
 <p>With the App Registration in Entra configured as described above, you should be
-able to use the details noted above with the <a href="https://github.com/joniles/mpxj-java-samples/blob/main/src/main/java/org/mpxj/howto/use/pwa/DesktopMicrosoftAuthenticator.java">sample authentication code</a>
+able to use the details noted above with the <a href="https://github.com/joniles/mpxj-java-samples/blob/main/src/main/java/org/mpxj/howto/use/microsoft/DesktopMicrosoftAuthenticator.java">sample authentication code</a>
 to authenticate with Microsoft and retrieve an access token. Once you have an
 access token you can use <code>PwaReader</code> to read project data!</p>
 
