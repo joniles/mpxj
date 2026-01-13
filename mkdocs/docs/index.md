@@ -63,8 +63,8 @@ Gantt Designer, SDEF, Sage 100 Contractor Schedule Grid, Project Commander,
 Deltek Open Plan BK3, and Edraw Project EDPX.
 
 As well as file-based project data, MPXJ can also read project data from
-Microsoft Project Server, Primavera P6 Web Services (P6 EPPM), and Oracle
-Primavera Cloud (OPC).
+Microsoft Project Server, Microsoft Planner, Primavera P6 Web Services
+(P6 EPPM), and Oracle Primavera Cloud (OPC).
 
 Finally, MPXJ can also write schedule data as MPX, MSPDI, PMXML, XER, Planner
 and SDEF files.

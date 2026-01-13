@@ -145,6 +145,9 @@ written by Edraw Project.
 is a centralized project management platform that enables organizations to plan,
 manage, and track projects, resources, and portfolios.
 
+* **MICROSOFT PLANNER** [Microsoft Planner](https://planner.cloud.microsoft/)
+is a browser-based project planning tool.
+
 * **PRIMAVERA P6 WEB SERVICES** [Primavera P6 Web Services](https://www.oracle.com/construction-engineering/primavera-p6/)
 is a component typically made available as part of a Primavera P6 Enterprise
 Project Portfolio Management (EPPM) installation. EPPM is a centralized

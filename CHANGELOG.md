@@ -7,6 +7,13 @@ no longer distributed. Please use the `MPXJ.Net` package instead.
 
 ## 15.2.0 (unreleased)
 
+## 15.2.0 (2026-01-13)
+* Implemented support for reading projects from Microsoft Planner.
+* Improve handling of elapsed durations in `ProjectCalendar` calculations.
+* Improve Free Slack and Total Slack calculations.
+* Updated the `TaskContainer#synchronizeTaskIDToHierarchy` method to ensure that the task Outline Level attribute is also updated appropriately. (Based on a contribution by Šimon Macharáček)
+* Ensure that when reading MPP files and an attribute value from a lookup table is not recognised, null is returned rather than the GUID representing the value.
+
 ## 15.1.0 (2025-12-08)
 * Improve selection of the default calendar when reading Asta Powerproject PP files.
 * Added support for the calculated task attribute Schedule Percent Complete. Note that at present this is not calculated for WBS/Summary Tasks.
