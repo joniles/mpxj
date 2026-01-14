@@ -100,40 +100,45 @@ public final class ByteArrayHelper
     */
    public static final String hexdump(byte[] buffer, int offset, int length, boolean ascii)
    {
+      if (buffer == null)
+      {
+         return "";
+      }
+
       StringBuilder sb = new StringBuilder();
 
-      if (buffer != null)
+      char c;
+      int loop;
+      int count = offset + length;
+
+      for (loop = offset; loop < count; loop++)
       {
-         char c;
-         int loop;
-         int count = offset + length;
+         if (sb.length() != 0)
+         {
+            sb.append(" ");
+         }
+         sb.append(HEX_DIGITS[(buffer[loop] & 0xF0) >> 4]);
+         sb.append(HEX_DIGITS[buffer[loop] & 0x0F]);
+      }
+
+      if (ascii)
+      {
+         sb.append("   ");
 
          for (loop = offset; loop < count; loop++)
          {
-            sb.append(" ");
-            sb.append(HEX_DIGITS[(buffer[loop] & 0xF0) >> 4]);
-            sb.append(HEX_DIGITS[buffer[loop] & 0x0F]);
-         }
+            c = (char) buffer[loop];
 
-         if (ascii)
-         {
-            sb.append("   ");
-
-            for (loop = offset; loop < count; loop++)
+            if ((c > 200) || (c < 27))
             {
-               c = (char) buffer[loop];
-
-               if ((c > 200) || (c < 27))
-               {
-                  c = ' ';
-               }
-
-               sb.append(c);
+               c = ' ';
             }
+
+            sb.append(c);
          }
       }
 
-      return (sb.toString());
+      return sb.toString();
    }
 
    /**
@@ -235,6 +240,36 @@ public final class ByteArrayHelper
       }
 
       return (sb.toString());
+   }
+
+   /**
+    * Generates a formatted version of the data in a bute arry, broken down into blocks.
+    *
+    * @param buffer data to be displayed
+    * @param offset offset into buffer
+    * @param length number of bytes to display
+    * @param blockStarts start of each block to delimit
+    * @return fiormatted string
+    */
+   public static final String hexdump(byte[] buffer, int offset, int length, int... blockStarts)
+   {
+      StringBuilder sb = new StringBuilder();
+
+      int bufferIndex = 0;
+      int blockIndex = 0;
+
+      while (bufferIndex < length)
+      {
+         int blockStart = blockIndex == 0 && blockStarts[0] != 0 ? 0 : blockStarts[blockIndex++];
+         int blockEnd = blockIndex ==  blockStarts.length ? length : blockStarts[blockIndex];
+         int blockLength= blockEnd-bufferIndex;
+         sb.append("[");
+         sb.append(hexdump(buffer, offset+bufferIndex, blockEnd-bufferIndex, false));
+         sb.append("]");
+         bufferIndex += blockLength;
+      }
+
+      return sb.toString();
    }
 
    /**
