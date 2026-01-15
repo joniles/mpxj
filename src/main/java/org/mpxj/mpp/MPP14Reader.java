@@ -999,7 +999,7 @@ final class MPP14Reader implements MPPVariantReader
 
       //      System.out.println(taskFixedMeta);
       //      System.out.println(taskFixedData);
-      //      System.out.println(taskVarMeta);
+      //      System.out.println(taskVarMeta.toString(fieldMap));
       //      System.out.println(taskVarData);
       //      System.out.println(taskFixed2Meta);
       //      System.out.println(taskFixed2Data);
