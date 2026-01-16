@@ -186,6 +186,12 @@ final class TimephasedDataFactory
       for(int count=0; count < regularDataCount; count++)
       {
          double totalWorkMinutesAtPeriodEnd = MPPUtility.getDouble(regularData, test) / 1000.0;
+         if (totalWorkMinutesAtPeriodEnd < 1)
+         {
+            // Problem! Bail out early - data probably not valid!
+            break;
+         }
+
          double totalWorkMinutesThisPeriod = totalWorkMinutesAtPeriodEnd -  totalWorkMinutes;
          double workPerHourThisPeriod = (Math.round(MPPUtility.getDouble(regularData, test+8) * 60.0) / 1000.0) / 10.0;
          int elapsedMinutesAtPeriodEnd = ByteArrayHelper.getInt(regularData, test+16) / 80;
