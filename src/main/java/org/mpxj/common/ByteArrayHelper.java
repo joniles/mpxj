@@ -110,6 +110,10 @@ public final class ByteArrayHelper
       char c;
       int loop;
       int count = offset + length;
+      if (count > buffer.length)
+      {
+         count = buffer.length;
+      }
 
       for (loop = offset; loop < count; loop++)
       {

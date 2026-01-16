@@ -162,6 +162,7 @@ public final class MPPAssignmentField
       FIELD_ARRAY[74] = AssignmentField.UPDATE_NEEDED;
       FIELD_ARRAY[75] = AssignmentField.TEAM_STATUS_PENDING;
       FIELD_ARRAY[80] = AssignmentField.COST_RATE_TABLE;
+      FIELD_ARRAY[87] = AssignmentField.TIMEPHASED_ACTUAL_IRREGULAR_WORK;
       FIELD_ARRAY[88] = AssignmentField.TEXT1;
       FIELD_ARRAY[89] = AssignmentField.TEXT2;
       FIELD_ARRAY[90] = AssignmentField.TEXT3;
