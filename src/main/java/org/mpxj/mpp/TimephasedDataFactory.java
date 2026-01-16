@@ -136,7 +136,7 @@ final class TimephasedDataFactory
       LocalDateTime calendarPeriodStart = resourceAssignment.getStart();
 
 //      System.out.println();
-      System.out.println(resourceAssignment);
+
 //      System.out.println();
 
 //      System.out.println(ByteArrayHelper.hexdump(regularData, 0, 16, false));
@@ -149,17 +149,21 @@ final class TimephasedDataFactory
       if (irregularData != null)
       {
 //         System.out.println();
-         System.out.println("Irregular data");
-         System.out.println(ByteArrayHelper.hexdump(irregularData, 0, 16, false));
-         for (int test = 16; test < irregularData.length; test += 8)
+         //System.out.println("Irregular data");
+         //System.out.println(ByteArrayHelper.hexdump(irregularData, 0, 16, false));
+         int irregularDataCount = ByteArrayHelper.getShort(irregularData, 0);
+         int test = 16;
+         for (int count = 0; count < irregularDataCount; count++)
          {
             LocalDateTime start = MPPUtility.getTimestamp(irregularData, test);
             LocalDateTime end = MPPUtility.getTimestamp(irregularData, test+4);
 //            System.out.println(calendarPeriodStart.until(start, ChronoUnit.MINUTES) + ": " + start + " " + end);
             irregularRanges.add(new LocalDateTimeRange(start, end));
+            test += 8;
          }
          //System.out.println();
       }
+      boolean hasIrregularData = !irregularRanges.isEmpty();
 
       // Dump everything
 //      for(int test=16; test < data.length; test +=20)
@@ -233,9 +237,12 @@ final class TimephasedDataFactory
          test += 20;
       }
 
-      regularList.forEach(System.out::println);
-      System.out.println();
-
+      if (hasIrregularData)
+      {
+         System.out.println(resourceAssignment);
+         regularList.forEach(System.out::println);
+         System.out.println();
+      }
 
       int index = 32;
       int currentBlock = 0;
@@ -309,8 +316,6 @@ final class TimephasedDataFactory
          index += 20;
          ++currentBlock;
       }
-
-      System.out.println(startDate.plusMinutes((long)(ByteArrayHelper.getInt(regularData, regularData.length-4) / 80.0)));
 
       if (previousAssignment != null)
       {
