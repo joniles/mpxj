@@ -207,7 +207,7 @@ final class TimephasedDataFactory
 
          if (!irregularRanges.isEmpty())
          {
-            while (item != null)
+            while (item != null && !irregularRanges.isEmpty())
             {
                LocalDateTimeRange nextIrregularRange = irregularRanges.get(0);
                if (!item.getStart().isAfter(nextIrregularRange.getStart()) && !item.getEnd().isBefore(nextIrregularRange.getEnd()))
@@ -233,7 +233,41 @@ final class TimephasedDataFactory
                      }
                      else
                      {
+                        // I think in this case there will be multiple irregular ranges applying to this item as moves
+                        // so we'll need to work through them all.
                         System.out.println("item is longer than range");
+
+                        while (item != null && !irregularRanges.isEmpty())
+                        {
+                           irregularRanges.remove(0);
+                           regularList.remove(regularList.size() - 1);
+
+                           WorkTest startItem = new WorkTest();
+                           startItem.setStart(nextIrregularRange.getStart());
+                           startItem.setEnd(nextIrregularRange.getEnd());
+                           startItem.setWorkPerHour(item.getWorkPerHour());
+                           long startItemMinutes = startItem.getStart().until(startItem.getEnd(), ChronoUnit.MINUTES);
+                           double startItemWork = (startItemMinutes * startItem.getWorkPerHour().getDuration()) / 60.0;
+                           startItem.setWork(Duration.getInstance(startItemWork, TimeUnit.MINUTES));
+                           regularList.add(startItem);
+                           calendarPeriodEnd = startItem.getEnd();
+
+                           double remainingWork = item.getWork().getDuration() - startItemWork;
+                           if (remainingWork > 0)
+                           {
+                              item.setStart(startItem.getStart().plusMinutes(startItemMinutes));
+                              item.setWork(Duration.getInstance(remainingWork, TimeUnit.MINUTES));
+                              regularList.add(item);
+                              if (!irregularRanges.isEmpty())
+                              {
+                                 nextIrregularRange = irregularRanges.get(0);
+                              }
+                           }
+                           else
+                           {
+                              item = null;
+                           }
+                        }
                      }
                   }
                   else
