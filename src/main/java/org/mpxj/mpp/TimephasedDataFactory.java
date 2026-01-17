@@ -51,7 +51,7 @@ import org.mpxj.common.TimephasedNormaliser;
  */
 final class TimephasedDataFactory
 {
-   class WorkTest
+   static class WorkTest
    {
       public LocalDateTime getStart()
       {
@@ -207,30 +207,38 @@ final class TimephasedDataFactory
 
          if (!irregularRanges.isEmpty())
          {
-            LocalDateTimeRange nextIrregularRange = irregularRanges.get(0);
-            if (!item.getStart().isAfter(nextIrregularRange.getStart()) && !item.getEnd().isBefore(nextIrregularRange.getEnd()))
+            while (item != null)
             {
-               splitItem(calendar, regularList, irregularRanges);
-               calendarPeriodEnd = regularList.get(regularList.size()-1).getEnd();
-            }
-            else
-            {
-               if (!item.getStart().isBefore(nextIrregularRange.getEnd()))
+               LocalDateTimeRange nextIrregularRange = irregularRanges.get(0);
+               if (!item.getStart().isAfter(nextIrregularRange.getStart()) && !item.getEnd().isBefore(nextIrregularRange.getEnd()))
                {
-                  long itemDuration = item.getStart().until(item.getEnd(), ChronoUnit.MINUTES);
-                  long rangeDuration = nextIrregularRange.getStart().until(nextIrregularRange.getEnd(), ChronoUnit.MINUTES);
-                  if (itemDuration == rangeDuration)
+                  item = splitItem(calendar, regularList, irregularRanges);
+                  calendarPeriodEnd = item.getEnd();
+               }
+               else
+               {
+                  if (!item.getStart().isBefore(nextIrregularRange.getEnd()))
                   {
-                     irregularRanges.remove(0);
-                     regularList.remove(regularList.size()-1);
-                     item.setStart(nextIrregularRange.getStart());
-                     item.setEnd(nextIrregularRange.getEnd());
-                     regularList.add(item);
-                     calendarPeriodEnd = item.getEnd();
+                     long itemDuration = item.getStart().until(item.getEnd(), ChronoUnit.MINUTES);
+                     long rangeDuration = nextIrregularRange.getStart().until(nextIrregularRange.getEnd(), ChronoUnit.MINUTES);
+                     if (itemDuration == rangeDuration)
+                     {
+                        irregularRanges.remove(0);
+                        regularList.remove(regularList.size() - 1);
+                        item.setStart(nextIrregularRange.getStart());
+                        item.setEnd(nextIrregularRange.getEnd());
+                        regularList.add(item);
+                        calendarPeriodEnd = item.getEnd();
+                        item = null;
+                     }
+                     else
+                     {
+                        System.out.println("item is longer than range");
+                     }
                   }
                   else
                   {
-                     System.out.println("item is longer than range");
+                     item = null;
                   }
                }
             }
@@ -340,58 +348,51 @@ final class TimephasedDataFactory
    }
 
 
-   private void splitItem(ProjectCalendar calendar, List<WorkTest> regularList, List<LocalDateTimeRange> irregularRanges)
+   private WorkTest splitItem(ProjectCalendar calendar, List<WorkTest> regularList, List<LocalDateTimeRange> irregularRanges)
    {
-      WorkTest item = regularList.get(regularList.size()-1);
+      WorkTest item = regularList.remove(regularList.size()-1);
 
-      while (!irregularRanges.isEmpty()
-         && !item.getStart().isAfter(irregularRanges.get(0).getStart())
-         && !item.getEnd().isBefore(irregularRanges.get(0).getEnd()))
+      double allocatedWorkInMinutes = 0;
+      LocalDateTimeRange range = irregularRanges.remove(0);
+
+      // Start Range
+      if (item.getStart().isBefore(range.getStart()))
       {
-         regularList.remove(regularList.size()-1);
-
-         double allocatedWorkInMinutes = 0;
-         LocalDateTimeRange range = irregularRanges.remove(0);
-
-         // Start Range
-         if (item.getStart().isBefore(range.getStart()))
-         {
-            WorkTest startItem = new WorkTest();
-            startItem.setStart(item.getStart());
-            startItem.setEnd(calendar.getPreviousWorkFinish(range.getStart()));
-            startItem.setWorkPerHour(item.getWorkPerHour());
-            double workHours = calendar.getWork(startItem.getStart(), startItem.getEnd(), TimeUnit.HOURS).getDuration();
-            startItem.setWork(Duration.getInstance(workHours * item.getWorkPerHour().getDuration(), TimeUnit.MINUTES));
-            allocatedWorkInMinutes += startItem.getWork().getDuration();
-            regularList.add(startItem);
-         }
-
-         // Inserted Range
-         WorkTest insertedItem =  new WorkTest();
-         insertedItem.setStart(range.getStart());
-         insertedItem.setEnd(range.getEnd());
-         insertedItem.setWorkPerHour(item.getWorkPerHour());
-         double insertedRangeWorkingHours = range.getStart().until(range.getEnd(), ChronoUnit.HOURS); // expecting this to always be 1
-         insertedItem.setWork(Duration.getInstance(insertedRangeWorkingHours * item.getWorkPerHour().getDuration(), TimeUnit.MINUTES));
-         allocatedWorkInMinutes += insertedItem.getWork().getDuration();
-         regularList.add(insertedItem);
-
-         // End Range
-         if (item.getEnd().isAfter(range.getEnd()))
-         {
-            WorkTest endItem = new WorkTest();
-            endItem.setStart(range.getEnd());
-            endItem.setWorkPerHour(item.getWorkPerHour());
-            double workMinutes = item.getWork().getDuration() - allocatedWorkInMinutes;
-            endItem.setWork(Duration.getInstance(workMinutes, TimeUnit.MINUTES));
-            //endItem.setEnd(item.getEnd());
-            endItem.setEnd(calendar.getDate(endItem.getStart(), endItem.getWork()));
-
-            regularList.add(endItem);
-         }
-
-         item = regularList.get(regularList.size()-1);
+         WorkTest startItem = new WorkTest();
+         startItem.setStart(item.getStart());
+         startItem.setEnd(calendar.getPreviousWorkFinish(range.getStart()));
+         startItem.setWorkPerHour(item.getWorkPerHour());
+         double workHours = calendar.getWork(startItem.getStart(), startItem.getEnd(), TimeUnit.HOURS).getDuration();
+         startItem.setWork(Duration.getInstance(workHours * item.getWorkPerHour().getDuration(), TimeUnit.MINUTES));
+         allocatedWorkInMinutes += startItem.getWork().getDuration();
+         regularList.add(startItem);
       }
+
+      // Inserted Range
+      WorkTest insertedItem =  new WorkTest();
+      insertedItem.setStart(range.getStart());
+      insertedItem.setEnd(range.getEnd());
+      insertedItem.setWorkPerHour(item.getWorkPerHour());
+      double insertedRangeWorkingHours = range.getStart().until(range.getEnd(), ChronoUnit.HOURS); // expecting this to always be 1
+      insertedItem.setWork(Duration.getInstance(insertedRangeWorkingHours * item.getWorkPerHour().getDuration(), TimeUnit.MINUTES));
+      allocatedWorkInMinutes += insertedItem.getWork().getDuration();
+      regularList.add(insertedItem);
+
+      // End Range
+      if (item.getEnd().isAfter(range.getEnd()))
+      {
+         WorkTest endItem = new WorkTest();
+         endItem.setStart(range.getEnd());
+         endItem.setWorkPerHour(item.getWorkPerHour());
+         double workMinutes = item.getWork().getDuration() - allocatedWorkInMinutes;
+         endItem.setWork(Duration.getInstance(workMinutes, TimeUnit.MINUTES));
+         //endItem.setEnd(item.getEnd());
+         endItem.setEnd(calendar.getDate(endItem.getStart(), endItem.getWork()));
+
+         regularList.add(endItem);
+      }
+
+      return regularList.get(regularList.size()-1);
    }
 
    /**
