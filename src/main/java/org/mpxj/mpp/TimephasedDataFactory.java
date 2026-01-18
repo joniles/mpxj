@@ -122,10 +122,9 @@ final class TimephasedDataFactory
     */
    public List<TimephasedWork> getCompleteWork(ProjectCalendar calendar, ResourceAssignment resourceAssignment, byte[] regularData, byte[] irregularData)
    {
-      List<TimephasedWork> list = new ArrayList<>();
       if (calendar == null || regularData == null || regularData.length <= 26 || ByteArrayHelper.getShort(regularData, 0) == 0 || resourceAssignment.getTask().getDuration() == null || resourceAssignment.getTask().getDuration().getDuration() == 0)
       {
-         return list;
+         return new ArrayList<>();
       }
 
       {
@@ -287,7 +286,6 @@ final class TimephasedDataFactory
       //return regularList.stream().map(w -> populateTimephasedWork(w)).collect(Collectors.toList());
 
       int regularBlockCount = ByteArrayHelper.getShort(regularData, 0);
-      List<TimephasedWork> newList = new ArrayList<>();
       List<NewTimephasedWork> newList2 = new ArrayList<>();
 
       int index = 36;
@@ -317,7 +315,7 @@ final class TimephasedDataFactory
          Duration totalWork = Duration.getInstance(assignmentDuration, TimeUnit.MINUTES);
          double elapsedMinutesThisPeriod = elapsedMinutesAtPeriodEnd - elapsedMinutes;
 
-         LocalDateTime finish = null;
+         LocalDateTime finish;
          if (currentBlock+1 == regularBlockCount && resourceAssignment.getActualFinish() != null)
          {
             finish = resourceAssignment.getActualFinish();
@@ -329,12 +327,6 @@ final class TimephasedDataFactory
 
          double calculatedWorkPerHour = (currentCumulativeWork * 60.0) / (elapsedMinutesAtPeriodEnd * 1000);
 
-         TimephasedWork assignment = new TimephasedWork();
-         assignment.setStart(start);
-         assignment.setTotalAmount(totalWork);
-         assignment.setFinish(finish);
-         newList.add(assignment);
-
          NewTimephasedWork item = new NewTimephasedWork();
          item.setStart(start);
          item.setEnd(finish);
@@ -342,22 +334,15 @@ final class TimephasedDataFactory
          item.setWorkPerHour(Duration.getInstance(calculatedWorkPerHour, TimeUnit.MINUTES));
          newList2.add(item);
 
-         start = calendar.getNextWorkStart(assignment.getFinish());
+         start = calendar.getNextWorkStart(item.getEnd());
          elapsedMinutes = elapsedMinutesAtPeriodEnd;
 
          index += 20;
          ++currentBlock;
       }
 
-      calculateAmountPerDay(calendar, newList);
-
-      List<TimephasedWork> newList3 = newList2.stream().map(w -> populateTimephasedWork(w)).collect(Collectors.toList());
+      List<TimephasedWork> newList3 = newList2.stream().map(this::populateTimephasedWork).collect(Collectors.toList());
       calculateAmountPerDay(calendar, newList3);
-
-      if (!newList.equals(newList3))
-      {
-         System.out.println("Mismatch");
-      }
 
       return newList3;
    }
@@ -369,7 +354,6 @@ final class TimephasedDataFactory
       work.setStart(newWork.getStart());
       work.setFinish(newWork.getEnd());
       work.setTotalAmount(newWork.getWork());
-      //work.setAmountPerDay(Duration.getInstance(newWork.getWorkPerHour().getDuration() * 8.0, TimeUnit.MINUTES));
       return work;
    }
 
