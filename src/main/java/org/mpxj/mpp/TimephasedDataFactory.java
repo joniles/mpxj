@@ -171,8 +171,8 @@ final class TimephasedDataFactory
 
          List<NewTimephasedWork> regularList = new ArrayList<>();
          int offset = 36;
-
          int regularBlockCount = ByteArrayHelper.getShort(regularData, 0);
+
          for (int count = 0; count < regularBlockCount; count++)
          {
             double totalWorkMinutesAtPeriodEnd = MPPUtility.getDouble(regularData, offset) / 1000.0;
@@ -284,23 +284,20 @@ final class TimephasedDataFactory
       }
 
       //return regularList.stream().map(w -> populateTimephasedWork(w)).collect(Collectors.toList());
+      LocalDateTime calendarPeriodStart = resourceAssignment.getStart();
 
-      int regularBlockCount = ByteArrayHelper.getShort(regularData, 0);
-      List<NewTimephasedWork> newList2 = new ArrayList<>();
-
-      int index = 36;
-      int currentBlock = 0;
-      LocalDateTime assignmentStartDate = resourceAssignment.getStart();
-      double finishTime = ByteArrayHelper.getInt(regularData, 24);
-      double previousCumulativeWork = 0;
-      TimephasedWork previousAssignment = null;
-      LocalDateTime start = assignmentStartDate;
+      double totalWorkMinutes = 0;
       double elapsedMinutes = 0;
 
-      while (currentBlock < regularBlockCount && index + 20 <= regularData.length)
+      List<NewTimephasedWork> regularList = new ArrayList<>();
+      int offset = 36;
+      int regularBlockCount = ByteArrayHelper.getShort(regularData, 0);
+      double finishTime = ByteArrayHelper.getInt(regularData, 24);
+
+      for (int count = 0; count < regularBlockCount; count++)
       {
-         double currentCumulativeWork = (long) MPPUtility.getDouble(regularData, index);
-         double elapsedMinutesAtPeriodEnd = ByteArrayHelper.getInt(regularData, index + 16);
+         double totalWorkMinutesAtPeriodEnd = (long) MPPUtility.getDouble(regularData, offset);
+         double elapsedMinutesAtPeriodEnd = ByteArrayHelper.getInt(regularData, offset + 16);
          if (elapsedMinutesAtPeriodEnd < 0 || elapsedMinutesAtPeriodEnd > finishTime)
          {
             elapsedMinutesAtPeriodEnd = 0;
@@ -310,38 +307,37 @@ final class TimephasedDataFactory
             elapsedMinutesAtPeriodEnd = elapsedMinutesAtPeriodEnd / 80.0;
          }
 
-         double assignmentDuration = (currentCumulativeWork - previousCumulativeWork) / 1000;
-         previousCumulativeWork = currentCumulativeWork;
-         Duration totalWork = Duration.getInstance(assignmentDuration, TimeUnit.MINUTES);
+         double totalWorkMinutesThisPeriod = (totalWorkMinutesAtPeriodEnd - totalWorkMinutes) / 1000;
          double elapsedMinutesThisPeriod = elapsedMinutesAtPeriodEnd - elapsedMinutes;
 
          LocalDateTime finish;
-         if (currentBlock+1 == regularBlockCount && resourceAssignment.getActualFinish() != null)
+         if (count+1 == regularBlockCount && resourceAssignment.getActualFinish() != null)
          {
             finish = resourceAssignment.getActualFinish();
          }
          else
          {
-            finish = calendar.getDate(start, Duration.getInstance(elapsedMinutesThisPeriod, TimeUnit.MINUTES));
+            finish = calendar.getDate(calendarPeriodStart, Duration.getInstance(elapsedMinutesThisPeriod, TimeUnit.MINUTES));
          }
 
-         double calculatedWorkPerHour = (currentCumulativeWork * 60.0) / (elapsedMinutesAtPeriodEnd * 1000);
+         double calculatedWorkPerHour = (totalWorkMinutesAtPeriodEnd * 60.0) / (elapsedMinutesAtPeriodEnd * 1000);
 
          NewTimephasedWork item = new NewTimephasedWork();
-         item.setStart(start);
+         item.setStart(calendarPeriodStart);
          item.setEnd(finish);
-         item.setWork(totalWork);
+         item.setWork(Duration.getInstance(totalWorkMinutesThisPeriod, TimeUnit.MINUTES));
          item.setWorkPerHour(Duration.getInstance(calculatedWorkPerHour, TimeUnit.MINUTES));
-         newList2.add(item);
+         regularList.add(item);
 
-         start = calendar.getNextWorkStart(item.getEnd());
+
+         totalWorkMinutes = totalWorkMinutesAtPeriodEnd;
          elapsedMinutes = elapsedMinutesAtPeriodEnd;
+         calendarPeriodStart = calendar.getNextWorkStart(item.getEnd());
 
-         index += 20;
-         ++currentBlock;
+         offset += 20;
       }
 
-      List<TimephasedWork> newList3 = newList2.stream().map(this::populateTimephasedWork).collect(Collectors.toList());
+      List<TimephasedWork> newList3 = regularList.stream().map(this::populateTimephasedWork).collect(Collectors.toList());
       calculateAmountPerDay(calendar, newList3);
 
       return newList3;
