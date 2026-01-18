@@ -195,8 +195,7 @@ public class TimephasedWorkSegmentManualTest
       }, false);
       testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
       {
-         4.5,
-         4.0,
+         8.5,
          1.5,
          0.0,
          0.0,
