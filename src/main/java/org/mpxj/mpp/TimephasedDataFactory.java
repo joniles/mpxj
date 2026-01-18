@@ -283,7 +283,13 @@ final class TimephasedDataFactory
          }
       }
 
-      //return regularList.stream().map(w -> populateTimephasedWork(w)).collect(Collectors.toList());
+      // The regular data block starts with a 16 byte header. The first
+      // two bytes of the header indicate the number of records. Following the
+      // header are 20 byte records. Each record contains the following items.
+      // Offset 0: double representing cumulative work at the end of this period (1000ths/minute)
+      // Offset 8: double representing work per hour this period (10000ths/hour)
+      // Offset 16: double representing elapsed minutes at period end (80ths/minute)
+      // The first block appears to contain totals for the resource assignment, and is skipped.
       LocalDateTime calendarPeriodStart = resourceAssignment.getStart();
 
       double totalWorkMinutes = 0;
@@ -337,19 +343,33 @@ final class TimephasedDataFactory
          offset += 20;
       }
 
-      List<TimephasedWork> newList3 = regularList.stream().map(this::populateTimephasedWork).collect(Collectors.toList());
-      calculateAmountPerDay(calendar, newList3);
-
-      return newList3;
+      return regularList.stream().map(w -> populateTimephasedWork(calendar, w)).collect(Collectors.toList());
    }
 
 
-   private TimephasedWork populateTimephasedWork(NewTimephasedWork newWork)
+   private TimephasedWork populateTimephasedWork(ProjectCalendar calendar, NewTimephasedWork newWork)
    {
       TimephasedWork work = new TimephasedWork();
       work.setStart(newWork.getStart());
       work.setFinish(newWork.getEnd());
       work.setTotalAmount(newWork.getWork());
+
+      // from calculateAmountPerDay
+      Duration amountPerDay;
+      if (work.getTotalAmount().getDuration() == 0)
+      {
+         amountPerDay = Duration.getInstance(0, TimeUnit.MINUTES);
+      }
+      else
+      {
+         Duration totalWorkInMinutes = work.getTotalAmount();
+         Duration calculatedTotalWorkInMinutes = calendar.getWork(work.getStart(), work.getFinish(), TimeUnit.MINUTES);
+         double minutesPerDay = 8.0 * 60.0;
+         double calculatedAmountPerDay = (minutesPerDay * totalWorkInMinutes.getDuration()) / calculatedTotalWorkInMinutes.getDuration();
+         amountPerDay = Duration.getInstance(calculatedAmountPerDay, TimeUnit.MINUTES);
+      }
+      work.setAmountPerDay(amountPerDay);
+
       return work;
    }
 
