@@ -28,7 +28,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.mpxj.Duration;
 import org.mpxj.LocalDateTimeRange;
@@ -288,150 +287,58 @@ final class TimephasedDataFactory
 
       int regularBlockCount = ByteArrayHelper.getShort(regularData, 0);
       List<TimephasedWork> newList = new ArrayList<>();
-      {
-         int index = 36;
-         int currentBlock = 0;
-         LocalDateTime assignmentStartDate = resourceAssignment.getStart();
-         double finishTime = ByteArrayHelper.getInt(regularData, 24);
-         double previousCumulativeWork = 0;
-         TimephasedWork previousAssignment = null;
-         LocalDateTime start = assignmentStartDate;
-         double elapsedMinutes = 0;
 
-         while (currentBlock < regularBlockCount && index + 20 <= regularData.length)
-         {
-            double currentCumulativeWork = (long) MPPUtility.getDouble(regularData, index);
-            double elapsedMinutesAtPeriodEnd = ByteArrayHelper.getInt(regularData, index + 16);
-            if (elapsedMinutesAtPeriodEnd < 0 || elapsedMinutesAtPeriodEnd > finishTime)
-            {
-               elapsedMinutesAtPeriodEnd = 0;
-            }
-            else
-            {
-               elapsedMinutesAtPeriodEnd = elapsedMinutesAtPeriodEnd / 80.0;
-            }
-
-            double assignmentDuration = currentCumulativeWork - previousCumulativeWork;
-            previousCumulativeWork = currentCumulativeWork;
-            assignmentDuration /= 1000;
-            Duration totalWork = Duration.getInstance(assignmentDuration, TimeUnit.MINUTES);
-            double elapsedMinutesThisPeriod = elapsedMinutesAtPeriodEnd - elapsedMinutes;
-
-            TimephasedWork assignment = new TimephasedWork();
-            assignment.setStart(start);
-            assignment.setTotalAmount(totalWork);
-
-            LocalDateTime finish = null;
-            if (currentBlock+1 == regularBlockCount && resourceAssignment.getActualFinish() != null)
-            {
-               //finish = resourceAssignment.getActualFinish() == null ? resourceAssignment.getResume() : resourceAssignment.getActualFinish();
-               finish = resourceAssignment.getActualFinish();
-            }
-
-            if (finish == null)
-            {
-               finish = calendar.getDate(start, Duration.getInstance(elapsedMinutesThisPeriod, TimeUnit.MINUTES));
-            }
-
-            assignment.setFinish(finish);
-
-            newList.add(assignment);
-            start = calendar.getNextWorkStart(assignment.getFinish());
-            elapsedMinutes = elapsedMinutesAtPeriodEnd;
-
-            index += 20;
-            ++currentBlock;
-         }
-
-         calculateAmountPerDay(calendar, newList);
-      }
-
-      int index = 32;
+      int index = 36;
       int currentBlock = 0;
       LocalDateTime assignmentStartDate = resourceAssignment.getStart();
       double finishTime = ByteArrayHelper.getInt(regularData, 24);
       double previousCumulativeWork = 0;
       TimephasedWork previousAssignment = null;
+      LocalDateTime start = assignmentStartDate;
+      double elapsedMinutes = 0;
 
       while (currentBlock < regularBlockCount && index + 20 <= regularData.length)
       {
-         double time = ByteArrayHelper.getInt(regularData, index);
-         Duration cumulativeWork = Duration.getInstance(MPPUtility.getDouble(regularData, index + 4) / 1000.0, TimeUnit.MINUTES);
-         Duration workPerHourInThisPeriod = Duration.getInstance((Math.round(MPPUtility.getDouble(regularData, index + 12) * 60.0) / 1000.0) / 10.0, TimeUnit.MINUTES);
-         // If the start of this block is before the start of the assignment, or after the end of the assignment
-         // the values don't make sense, so we'll just set the start of this block to be the start of the assignment.
-         // This deals with an issue where odd timephased data like this was causing an MPP file to be read
-         // extremely slowly.
-         if (time < 0 || time > finishTime)
+         double currentCumulativeWork = (long) MPPUtility.getDouble(regularData, index);
+         double elapsedMinutesAtPeriodEnd = ByteArrayHelper.getInt(regularData, index + 16);
+         if (elapsedMinutesAtPeriodEnd < 0 || elapsedMinutesAtPeriodEnd > finishTime)
          {
-            time = 0;
+            elapsedMinutesAtPeriodEnd = 0;
          }
          else
          {
-            time /= 80;
+            elapsedMinutesAtPeriodEnd = elapsedMinutesAtPeriodEnd / 80.0;
          }
-         Duration startWork = Duration.getInstance(time, TimeUnit.MINUTES);
 
-         double currentCumulativeWork = (long) MPPUtility.getDouble(regularData, index + 4);
-         double assignmentDuration = currentCumulativeWork - previousCumulativeWork;
+         double assignmentDuration = (currentCumulativeWork - previousCumulativeWork) / 1000;
          previousCumulativeWork = currentCumulativeWork;
-         assignmentDuration /= 1000;
          Duration totalWork = Duration.getInstance(assignmentDuration, TimeUnit.MINUTES);
+         double elapsedMinutesThisPeriod = elapsedMinutesAtPeriodEnd - elapsedMinutes;
 
-         // Originally this value was used to calculate the amount per day,
-         // but the value proved to be unreliable in some circumstances resulting
-         // in negative durations.
-         // MPPUtility.getDouble(data, index + 12);
-
-         LocalDateTime start;
-         if (startWork.getDuration() == 0)
+         LocalDateTime finish = null;
+         if (currentBlock+1 == regularBlockCount && resourceAssignment.getActualFinish() != null)
          {
-            start = assignmentStartDate;
+            finish = resourceAssignment.getActualFinish();
          }
          else
          {
-            start = calendar.getNextWorkStart(calendar.getDate(assignmentStartDate, startWork));
+            finish = calendar.getDate(start, Duration.getInstance(elapsedMinutesThisPeriod, TimeUnit.MINUTES));
          }
 
          TimephasedWork assignment = new TimephasedWork();
          assignment.setStart(start);
          assignment.setTotalAmount(totalWork);
+         assignment.setFinish(finish);
 
-         if (previousAssignment != null)
-         {
-            LocalDateTime finish = calendar.getDate(assignmentStartDate, startWork);
-            previousAssignment.setFinish(finish);
-            if (previousAssignment.getStart().equals(previousAssignment.getFinish()))
-            {
-               list.remove(list.size() - 1);
-            }
-         }
-
-         list.add(assignment);
-         previousAssignment = assignment;
+         newList.add(assignment);
+         start = calendar.getNextWorkStart(assignment.getFinish());
+         elapsedMinutes = elapsedMinutesAtPeriodEnd;
 
          index += 20;
          ++currentBlock;
       }
 
-      if (previousAssignment != null)
-      {
-         Duration finishWork = Duration.getInstance(finishTime / 80, TimeUnit.MINUTES);
-         LocalDateTime finish = calendar.getDate(assignmentStartDate, finishWork);
-         previousAssignment.setFinish(finish);
-         if (previousAssignment.getStart().equals(previousAssignment.getFinish()))
-         {
-            list.remove(list.size() - 1);
-         }
-      }
-
-      calculateAmountPerDay(calendar, list);
-
-      if (!list.equals(newList))
-      {
-         System.out.println("Mismatch!");
-      }
-
+      calculateAmountPerDay(calendar, newList);
 
       return newList;
    }
