@@ -28,6 +28,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.mpxj.Duration;
 import org.mpxj.LocalDateTimeRange;
@@ -287,6 +288,7 @@ final class TimephasedDataFactory
 
       int regularBlockCount = ByteArrayHelper.getShort(regularData, 0);
       List<TimephasedWork> newList = new ArrayList<>();
+      List<NewTimephasedWork> newList2 = new ArrayList<>();
 
       int index = 36;
       int currentBlock = 0;
@@ -325,12 +327,21 @@ final class TimephasedDataFactory
             finish = calendar.getDate(start, Duration.getInstance(elapsedMinutesThisPeriod, TimeUnit.MINUTES));
          }
 
+         double calculatedWorkPerHour = (currentCumulativeWork * 60.0) / (elapsedMinutesAtPeriodEnd * 1000);
+
          TimephasedWork assignment = new TimephasedWork();
          assignment.setStart(start);
          assignment.setTotalAmount(totalWork);
          assignment.setFinish(finish);
-
          newList.add(assignment);
+
+         NewTimephasedWork item = new NewTimephasedWork();
+         item.setStart(start);
+         item.setEnd(finish);
+         item.setWork(totalWork);
+         item.setWorkPerHour(Duration.getInstance(calculatedWorkPerHour, TimeUnit.MINUTES));
+         newList2.add(item);
+
          start = calendar.getNextWorkStart(assignment.getFinish());
          elapsedMinutes = elapsedMinutesAtPeriodEnd;
 
@@ -340,7 +351,15 @@ final class TimephasedDataFactory
 
       calculateAmountPerDay(calendar, newList);
 
-      return newList;
+      List<TimephasedWork> newList3 = newList2.stream().map(w -> populateTimephasedWork(w)).collect(Collectors.toList());
+      calculateAmountPerDay(calendar, newList3);
+
+      if (!newList.equals(newList3))
+      {
+         System.out.println("Mismatch");
+      }
+
+      return newList3;
    }
 
 
@@ -350,7 +369,7 @@ final class TimephasedDataFactory
       work.setStart(newWork.getStart());
       work.setFinish(newWork.getEnd());
       work.setTotalAmount(newWork.getWork());
-      work.setAmountPerDay(Duration.getInstance(newWork.getWorkPerHour().getDuration() * 8.0, TimeUnit.MINUTES));
+      //work.setAmountPerDay(Duration.getInstance(newWork.getWorkPerHour().getDuration() * 8.0, TimeUnit.MINUTES));
       return work;
    }
 
