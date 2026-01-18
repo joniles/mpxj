@@ -310,21 +310,21 @@ final class TimephasedDataFactory
          double totalWorkMinutesThisPeriod = (totalWorkMinutesAtPeriodEnd - totalWorkMinutes) / 1000;
          double elapsedMinutesThisPeriod = elapsedMinutesAtPeriodEnd - elapsedMinutes;
 
-         LocalDateTime finish;
+         LocalDateTime calendarPeriodEnd;
          if (count+1 == regularBlockCount && resourceAssignment.getActualFinish() != null)
          {
-            finish = resourceAssignment.getActualFinish();
+            calendarPeriodEnd = resourceAssignment.getActualFinish();
          }
          else
          {
-            finish = calendar.getDate(calendarPeriodStart, Duration.getInstance(elapsedMinutesThisPeriod, TimeUnit.MINUTES));
+            calendarPeriodEnd = calendar.getDate(calendarPeriodStart, Duration.getInstance(elapsedMinutesThisPeriod, TimeUnit.MINUTES));
          }
 
          double calculatedWorkPerHour = (totalWorkMinutesAtPeriodEnd * 60.0) / (elapsedMinutesAtPeriodEnd * 1000);
 
          NewTimephasedWork item = new NewTimephasedWork();
          item.setStart(calendarPeriodStart);
-         item.setEnd(finish);
+         item.setEnd(calendarPeriodEnd);
          item.setWork(Duration.getInstance(totalWorkMinutesThisPeriod, TimeUnit.MINUTES));
          item.setWorkPerHour(Duration.getInstance(calculatedWorkPerHour, TimeUnit.MINUTES));
          regularList.add(item);
