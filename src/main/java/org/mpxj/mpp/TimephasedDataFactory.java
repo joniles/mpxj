@@ -130,7 +130,7 @@ final class TimephasedDataFactory
       {
          // Rather than Colection.emptyList() we're returning a mutable list.
          // For the moment this will allow changes to be applied to the timephased data.
-         // We may look at organising this differently later.
+         // We may look at organizing this differently later.
          return new ArrayList<>();
       }
 
@@ -529,7 +529,7 @@ final class TimephasedDataFactory
     *
     * @param calendar effective calendar for the resource assignment
     * @param assignment parent assignment
-    * @param normaliser normaliser associated with this data
+    * @param normaliser normalizer associated with this data
     * @param data timephased baseline work data block
     * @param raw flag indicating if this data is to be treated as raw
     * @return timephased work
@@ -619,7 +619,7 @@ final class TimephasedDataFactory
     * a list of timephased work items.
     *
     * @param assignment resource assignment
-    * @param normaliser normaliser associated with this data
+    * @param normaliser normalizer associated with this data
     * @param data timephased baseline work data block
     * @param raw flag indicating if this data is to be treated as raw
     * @return timephased work
