@@ -380,7 +380,6 @@ final class TimephasedDataFactory
                if (!item.getStart().isAfter(nextIrregularRange.getStart()) && !item.getEnd().isBefore(nextIrregularRange.getEnd()))
                {
                   item = splitItem(calendar, regularList, irregularRanges);
-                  calendarPeriodEnd = item.getEnd();
                }
                else
                {
@@ -395,7 +394,6 @@ final class TimephasedDataFactory
                         item.setStart(nextIrregularRange.getStart());
                         item.setEnd(nextIrregularRange.getEnd());
                         regularList.add(item);
-                        calendarPeriodEnd = item.getEnd();
                         item = null;
                      }
                      else
@@ -413,7 +411,6 @@ final class TimephasedDataFactory
                            irregularRanges.remove(0);
                            regularList.remove(regularList.size() - 1);
 
-
                            NewTimephasedWork startItem = new NewTimephasedWork();
                            startItem.setStart(nextIrregularRange.getStart());
                            startItem.setEnd(nextIrregularRange.getEnd());
@@ -422,7 +419,6 @@ final class TimephasedDataFactory
                            double startItemWork = (startItemMinutes * startItem.getWorkPerHour().getDuration()) / 60.0;
                            startItem.setWork(Duration.getInstance(startItemWork, TimeUnit.MINUTES));
                            regularList.add(startItem);
-                           calendarPeriodEnd = startItem.getEnd();
 
                            double remainingWork = item.getWork().getDuration() - startItemWork;
                            if (remainingWork > 0)
