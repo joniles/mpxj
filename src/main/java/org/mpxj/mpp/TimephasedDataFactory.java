@@ -411,69 +411,74 @@ final class TimephasedDataFactory
     */
    public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, ResourceAssignment assignment, byte[] data, List<TimephasedWork> timephasedComplete, ResourceType resourceType)
    {
-      List<TimephasedWork> list = new ArrayList<>();
       if (data == null || data.length < 24 || assignment.getTask().getDuration() == null || assignment.getTask().getDuration().getDuration() == 0)
       {
-         return list;
+         return new ArrayList<>();
       }
 
+      // The timephased planned work data has a 16 byte header, followed by 28 byte blocks.
+      // The first two bytes of the header are a count of the number of blocks. The first
+      // block is a summary block, which is not counted, so a count of N means there are N+1
+      // blocks.
+      // Each 28 bute block contains the following
+      // Offset 0: 8 byte double - cumulative work (1000th/minute)
+      // Offset 8: 8 byte double - hours per day (20000th/hour) unreliable value, not used
+      // Offset 16: 8 byte double? - unknown
+      // Offset 24: 4 byte int - cumulative elapsed minutes (80th/minute)
 
-      List<TimephasedWork> newList2;
+      List<NewTimephasedWork> newList = new ArrayList<>();
+      int blockCount = ByteArrayHelper.getShort(data, 0);
 
-      //System.out.println(ByteArrayHelper.hexdump(data, false, 16, " "));
-
-//      System.out.println(ByteArrayHelper.hexdump(data, 0, 16, false, 16, " "));
-//      System.out.println(ByteArrayHelper.hexdump(data, 16, data.length-16, false, 28, " "));
-//
-//      System.out.println(ByteArrayHelper.getShort(data, 0));
-//      System.out.println(ByteArrayHelper.getShort(data, 2));
-//      System.out.println(ByteArrayHelper.getShort(data, 4));
-//      System.out.println(ByteArrayHelper.getInt(data, 2));
-//      System.out.println(MPPUtility.getDouble(data, 8));
-
+      if (blockCount == 0)
       {
-         List<NewTimephasedWork> newList = new ArrayList<>();
-         int blockCount = ByteArrayHelper.getShort(data, 0);
-
-//         System.out.println();
-//         int offset = 16 + 28; // skip the summary block
-//         double previousWorkMinutes = 0;
-//         double previousElapsedMinutes = 0;
-//
-//         for (int count=0; count < blockCount; count++)
-//         {
-//            double cumulativeWorkMinutes = MPPUtility.getDouble(data, offset) / 1000.0;
-//            double workMinutesThisPeriod = cumulativeWorkMinutes - previousWorkMinutes;
-//            double cumulativeElapsedMinutes = ByteArrayHelper.getInt(data, offset+24) / 80.0;
-//            double elapsedMinutesThisPeriod = cumulativeElapsedMinutes - previousElapsedMinutes;
-//            double workPerHour = workMinutesThisPeriod * 60.0 / elapsedMinutesThisPeriod;
-//
-//            System.out.println(cumulativeWorkMinutes + "\t" // Cumulative work minutes at block end
-//               + (MPPUtility.getDouble(data, offset+8) / 20000.0) + "\t" // Hours per day - unreliable
-//               + MPPUtility.getDouble(data, offset+16) + "\t" // Unknown
-//               + cumulativeElapsedMinutes + "\t" // Cumulative elapsed minutes at block end
-//               + workMinutesThisPeriod + "\t"
-//               + elapsedMinutesThisPeriod + "\t"
-//               + workPerHour);
-//
-//            previousWorkMinutes = cumulativeWorkMinutes;
-//            previousElapsedMinutes = cumulativeElapsedMinutes;
-//
-//            offset += 28;
-//         }
-
-
-         if (blockCount == 0)
+         // If we have a block count of zero, there is just one entry for the whole assignment.
+         // We the value for this entry from the summary block.
+         // If the total work for the block is zero it's not valid so we skip it.
+         double totalWorkInMinutes = MPPUtility.getDouble(data, 16) / 1000.0;
+         if (totalWorkInMinutes != 0.0)
          {
-            double totalWorkInMinutes = MPPUtility.getDouble(data, 16) / 1000.0;
-            if (totalWorkInMinutes != 0.0)
-            {
-               LocalDateTime start = timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume();
-               LocalDateTime end = assignment.getFinish();
-               Duration work = Duration.getInstance(totalWorkInMinutes, TimeUnit.MINUTES);
-               double assignmentWork = calendar.getWork(start, end , TimeUnit.MINUTES).getDuration();
-               Duration workPerHour = Duration.getInstance((totalWorkInMinutes * 60.0) / assignmentWork, TimeUnit.MINUTES);
+            LocalDateTime start = timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume();
+            LocalDateTime end = assignment.getFinish();
+            Duration work = Duration.getInstance(totalWorkInMinutes, TimeUnit.MINUTES);
+            double assignmentWork = calendar.getWork(start, end , TimeUnit.MINUTES).getDuration();
+            Duration workPerHour = Duration.getInstance((totalWorkInMinutes * 60.0) / assignmentWork, TimeUnit.MINUTES);
 
+            NewTimephasedWork item = new NewTimephasedWork();
+            item.setStart(start);
+            item.setEnd(end);
+            item.setWork(work);
+            item.setWorkPerHour(workPerHour);
+            newList.add(item);
+         }
+      }
+      else
+      {
+         // We ahve block data, we ignore the summary block and generate an entry
+         // for each subsequent block.
+         int offset = 16 + 28; // skip the summary block
+         double previousWorkMinutes = 0;
+         double previousElapsedMinutes = 0;
+         LocalDateTime start = timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume();
+
+         for (int count=0; count < blockCount; count++)
+         {
+            if (offset + 28 > data.length)
+            {
+               // Bail out if we don't have all the data for the block
+               break;
+            }
+
+            double cumulativeWorkMinutes = MPPUtility.getDouble(data, offset) / 1000.0;
+            double workMinutesThisPeriod = cumulativeWorkMinutes - previousWorkMinutes;
+            double cumulativeElapsedMinutes = ByteArrayHelper.getInt(data, offset+24) / 80.0;
+            double elapsedMinutesThisPeriod = cumulativeElapsedMinutes - previousElapsedMinutes;
+            Duration workPerHour = Duration.getInstance(workMinutesThisPeriod * 60.0 / elapsedMinutesThisPeriod, TimeUnit.MINUTES);
+            LocalDateTime end = calendar.getDate(start, Duration.getInstance(elapsedMinutesThisPeriod, TimeUnit.MINUTES));
+            Duration work =  Duration.getInstance(workMinutesThisPeriod, TimeUnit.MINUTES);
+
+            // Occasionally we appear to have blocks which represent zero work and zero time - we skip these
+            if (workMinutesThisPeriod >= 1 || !start.isEqual(end))
+            {
                NewTimephasedWork item = new NewTimephasedWork();
                item.setStart(start);
                item.setEnd(end);
@@ -481,156 +486,16 @@ final class TimephasedDataFactory
                item.setWorkPerHour(workPerHour);
                newList.add(item);
             }
-         }
-         else
-         {
-            int offset = 16 + 28; // skip the summary block
-            double previousWorkMinutes = 0;
-            double previousElapsedMinutes = 0;
-            LocalDateTime start = timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume();
 
-            for (int count=0; count < blockCount; count++)
-            {
-               if (offset + 28 > data.length)
-               {
-                  // Bail out if we don't have all the data for the block
-                  break;
-               }
+            start = calendar.getNextWorkStart(end);
+            previousWorkMinutes = cumulativeWorkMinutes;
+            previousElapsedMinutes = cumulativeElapsedMinutes;
 
-               double cumulativeWorkMinutes = MPPUtility.getDouble(data, offset) / 1000.0;
-               double workMinutesThisPeriod = cumulativeWorkMinutes - previousWorkMinutes;
-               double cumulativeElapsedMinutes = ByteArrayHelper.getInt(data, offset+24) / 80.0;
-               double elapsedMinutesThisPeriod = cumulativeElapsedMinutes - previousElapsedMinutes;
-               Duration workPerHour = Duration.getInstance(workMinutesThisPeriod * 60.0 / elapsedMinutesThisPeriod, TimeUnit.MINUTES);
-               LocalDateTime end = calendar.getDate(start, Duration.getInstance(elapsedMinutesThisPeriod, TimeUnit.MINUTES));
-               Duration work =  Duration.getInstance(workMinutesThisPeriod, TimeUnit.MINUTES);
-
-               // Occasionally we appear to have blocks which represent zero work and zero time - we skip these
-               if (workMinutesThisPeriod >= 1 || !start.isEqual(end))
-               {
-                  NewTimephasedWork item = new NewTimephasedWork();
-                  item.setStart(start);
-                  item.setEnd(end);
-                  item.setWork(work);
-                  item.setWorkPerHour(workPerHour);
-                  newList.add(item);
-               }
-
-               start = calendar.getNextWorkStart(end);
-               previousWorkMinutes = cumulativeWorkMinutes;
-               previousElapsedMinutes = cumulativeElapsedMinutes;
-
-               offset += 28;
-            }
-         }
-
-         //newList.forEach(System.out::println);
-         newList2 = newList.stream().map(w -> populateTimephasedWork(calendar, w)).collect(Collectors.toList());
-      }
-
-      int blockCount = ByteArrayHelper.getShort(data, 0);
-      if (blockCount == 0)
-      {
-         if (data.length >= 24)
-         {
-            double time = MPPUtility.getDouble(data, 16);
-            if (time != 0.0)
-            {
-               time /= 1000;
-               Duration totalWork = Duration.getInstance(time, TimeUnit.MINUTES);
-
-               // Originally this value was used to calculate the amount per day,
-               // but the value proved to be unreliable in some circumstances resulting
-               // in negative durations.
-               // MPPUtility.getDouble(data, 8);
-
-               TimephasedWork work = new TimephasedWork();
-               work.setStart(timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume());
-
-               work.setFinish(assignment.getFinish());
-               work.setTotalAmount(totalWork);
-               list.add(work);
-            }
-         }
-      }
-      else
-      {
-         LocalDateTime offset = timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume();
-         int index = 40;
-         double previousCumulativeWork = 0;
-         TimephasedWork previousAssignment = null;
-         int currentBlock = 0;
-         int previousModifiedFlag = 0;
-
-         while (currentBlock < blockCount && index + 28 <= data.length)
-         {
-            double time = ByteArrayHelper.getInt(data, index);
-            time /= 80;
-            Duration blockDuration = Duration.getInstance(time, TimeUnit.MINUTES);
-            LocalDateTime start;
-            if (blockDuration.getDuration() == 0)
-            {
-               start = offset;
-            }
-            else
-            {
-               start = calendar.getNextWorkStart(calendar.getDate(offset, blockDuration));
-            }
-
-            double currentCumulativeWork = MPPUtility.getDouble(data, index + 4);
-            double assignmentDuration = currentCumulativeWork - previousCumulativeWork;
-            assignmentDuration /= 1000;
-            Duration totalWork = Duration.getInstance(assignmentDuration, TimeUnit.MINUTES);
-            previousCumulativeWork = currentCumulativeWork;
-
-            // Originally this value was used to calculate the amount per day,
-            // but the value proved to be unreliable in some circumstances resulting
-            // in negative durations.
-            // MPPUtility.getDouble(data, index + 12);
-
-            int currentModifiedFlag = ByteArrayHelper.getShort(data, index + 22);
-            boolean modified = (currentBlock > 0 && previousModifiedFlag != 0 && currentModifiedFlag == 0) || ((currentModifiedFlag & 0x3000) != 0);
-            previousModifiedFlag = currentModifiedFlag;
-
-            TimephasedWork work = new TimephasedWork();
-            work.setStart(start);
-            work.setModified(modified);
-            work.setTotalAmount(totalWork);
-
-            if (previousAssignment != null)
-            {
-               LocalDateTime finish = calendar.getDate(offset, blockDuration);
-               previousAssignment.setFinish(finish);
-               if (previousAssignment.getStart().equals(previousAssignment.getFinish()))
-               {
-                  list.remove(list.size() - 1);
-               }
-            }
-
-            list.add(work);
-            previousAssignment = work;
-
-            index += 28;
-            ++currentBlock;
-         }
-
-         if (previousAssignment != null)
-         {
-            double time = ByteArrayHelper.getInt(data, 24);
-            time /= 80;
-            Duration blockDuration = Duration.getInstance(time, TimeUnit.MINUTES);
-            LocalDateTime finish = calendar.getDate(offset, blockDuration);
-            previousAssignment.setFinish(finish);
-            if (previousAssignment.getStart().equals(previousAssignment.getFinish()))
-            {
-               list.remove(list.size() - 1);
-            }
+            offset += 28;
          }
       }
 
-      calculateAmountPerDay(calendar, list);
-
-      return newList2;
+      return newList.stream().map(w -> populateTimephasedWork(calendar, w)).collect(Collectors.toList());
    }
 
    /**
