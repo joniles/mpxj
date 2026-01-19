@@ -412,9 +412,120 @@ final class TimephasedDataFactory
    public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, ResourceAssignment assignment, byte[] data, List<TimephasedWork> timephasedComplete, ResourceType resourceType)
    {
       List<TimephasedWork> list = new ArrayList<>();
-      if (data == null || data.length == 0 || assignment.getTask().getDuration() == null || assignment.getTask().getDuration().getDuration() == 0)
+      if (data == null || data.length < 24 || assignment.getTask().getDuration() == null || assignment.getTask().getDuration().getDuration() == 0)
       {
          return list;
+      }
+
+
+      List<TimephasedWork> newList2;
+
+      //System.out.println(ByteArrayHelper.hexdump(data, false, 16, " "));
+
+//      System.out.println(ByteArrayHelper.hexdump(data, 0, 16, false, 16, " "));
+//      System.out.println(ByteArrayHelper.hexdump(data, 16, data.length-16, false, 28, " "));
+//
+//      System.out.println(ByteArrayHelper.getShort(data, 0));
+//      System.out.println(ByteArrayHelper.getShort(data, 2));
+//      System.out.println(ByteArrayHelper.getShort(data, 4));
+//      System.out.println(ByteArrayHelper.getInt(data, 2));
+//      System.out.println(MPPUtility.getDouble(data, 8));
+
+      {
+         List<NewTimephasedWork> newList = new ArrayList<>();
+         int blockCount = ByteArrayHelper.getShort(data, 0);
+
+//         System.out.println();
+//         int offset = 16 + 28; // skip the summary block
+//         double previousWorkMinutes = 0;
+//         double previousElapsedMinutes = 0;
+//
+//         for (int count=0; count < blockCount; count++)
+//         {
+//            double cumulativeWorkMinutes = MPPUtility.getDouble(data, offset) / 1000.0;
+//            double workMinutesThisPeriod = cumulativeWorkMinutes - previousWorkMinutes;
+//            double cumulativeElapsedMinutes = ByteArrayHelper.getInt(data, offset+24) / 80.0;
+//            double elapsedMinutesThisPeriod = cumulativeElapsedMinutes - previousElapsedMinutes;
+//            double workPerHour = workMinutesThisPeriod * 60.0 / elapsedMinutesThisPeriod;
+//
+//            System.out.println(cumulativeWorkMinutes + "\t" // Cumulative work minutes at block end
+//               + (MPPUtility.getDouble(data, offset+8) / 20000.0) + "\t" // Hours per day - unreliable
+//               + MPPUtility.getDouble(data, offset+16) + "\t" // Unknown
+//               + cumulativeElapsedMinutes + "\t" // Cumulative elapsed minutes at block end
+//               + workMinutesThisPeriod + "\t"
+//               + elapsedMinutesThisPeriod + "\t"
+//               + workPerHour);
+//
+//            previousWorkMinutes = cumulativeWorkMinutes;
+//            previousElapsedMinutes = cumulativeElapsedMinutes;
+//
+//            offset += 28;
+//         }
+
+
+         if (blockCount == 0)
+         {
+            double totalWorkInMinutes = MPPUtility.getDouble(data, 16) / 1000.0;
+            if (totalWorkInMinutes != 0.0)
+            {
+               LocalDateTime start = timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume();
+               LocalDateTime end = assignment.getFinish();
+               Duration work = Duration.getInstance(totalWorkInMinutes, TimeUnit.MINUTES);
+               double assignmentWork = calendar.getWork(start, end , TimeUnit.MINUTES).getDuration();
+               Duration workPerHour = Duration.getInstance((totalWorkInMinutes * 60.0) / assignmentWork, TimeUnit.MINUTES);
+
+               NewTimephasedWork item = new NewTimephasedWork();
+               item.setStart(start);
+               item.setEnd(end);
+               item.setWork(work);
+               item.setWorkPerHour(workPerHour);
+               newList.add(item);
+            }
+         }
+         else
+         {
+            int offset = 16 + 28; // skip the summary block
+            double previousWorkMinutes = 0;
+            double previousElapsedMinutes = 0;
+            LocalDateTime start = timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume();
+
+            for (int count=0; count < blockCount; count++)
+            {
+               if (offset + 28 > data.length)
+               {
+                  // Bail out if we don't have all the data for the block
+                  break;
+               }
+
+               double cumulativeWorkMinutes = MPPUtility.getDouble(data, offset) / 1000.0;
+               double workMinutesThisPeriod = cumulativeWorkMinutes - previousWorkMinutes;
+               double cumulativeElapsedMinutes = ByteArrayHelper.getInt(data, offset+24) / 80.0;
+               double elapsedMinutesThisPeriod = cumulativeElapsedMinutes - previousElapsedMinutes;
+               Duration workPerHour = Duration.getInstance(workMinutesThisPeriod * 60.0 / elapsedMinutesThisPeriod, TimeUnit.MINUTES);
+               LocalDateTime end = calendar.getDate(start, Duration.getInstance(elapsedMinutesThisPeriod, TimeUnit.MINUTES));
+               Duration work =  Duration.getInstance(workMinutesThisPeriod, TimeUnit.MINUTES);
+
+               // Occasionally we appear to have blocks which represent zero work and zero time - we skip these
+               if (workMinutesThisPeriod >= 1 || !start.isEqual(end))
+               {
+                  NewTimephasedWork item = new NewTimephasedWork();
+                  item.setStart(start);
+                  item.setEnd(end);
+                  item.setWork(work);
+                  item.setWorkPerHour(workPerHour);
+                  newList.add(item);
+               }
+
+               start = calendar.getNextWorkStart(end);
+               previousWorkMinutes = cumulativeWorkMinutes;
+               previousElapsedMinutes = cumulativeElapsedMinutes;
+
+               offset += 28;
+            }
+         }
+
+         //newList.forEach(System.out::println);
+         newList2 = newList.stream().map(w -> populateTimephasedWork(calendar, w)).collect(Collectors.toList());
       }
 
       int blockCount = ByteArrayHelper.getShort(data, 0);
@@ -519,7 +630,7 @@ final class TimephasedDataFactory
 
       calculateAmountPerDay(calendar, list);
 
-      return list;
+      return newList2;
    }
 
    /**
