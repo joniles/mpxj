@@ -6,7 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="15.2.0">
-			<action dev="joniles" type="update">Improve handling of timpehased actual work when redaing MPP files.</action>
+			<action dev="joniles" type="update">Improve handling of timpehased actual work when reading MPP files.</action>
 		</release>
 		<release date="2026-01-13" version="15.2.0">
 			<action dev="joniles" type="update">Implemented support for reading projects from Microsoft Planner.</action>
