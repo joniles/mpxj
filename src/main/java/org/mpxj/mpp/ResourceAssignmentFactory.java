@@ -183,7 +183,7 @@ public class ResourceAssignmentFactory
             }
          }
 
-         ResourceType resourceType = resource == null ? ResourceType.WORK : resource.getType();
+
          ProjectCalendar calendar = assignment.getEffectiveCalendar();
 
          for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
@@ -197,6 +197,7 @@ public class ResourceAssignmentFactory
          byte[] timephasedActualOvertimeWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK));
          byte[] timephasedWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_WORK));
 
+         ResourceType resourceType = resource == null ? ResourceType.WORK : resource.getType();
          List<TimephasedWork> timephasedActualWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualRegularWorkData, timephasedActualIrregularWorkData);
          List<TimephasedWork> timephasedWork = timephasedFactory.getPlannedWork(calendar, assignment, timephasedWorkData, timephasedActualWork, resourceType);
          List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualOvertimeWorkData, timephasedActualIrregularWorkData);
