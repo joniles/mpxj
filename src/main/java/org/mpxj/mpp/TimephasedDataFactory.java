@@ -34,17 +34,14 @@ import java.util.stream.Collectors;
 import org.mpxj.Duration;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.ProjectCalendar;
-import org.mpxj.ProjectFile;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceType;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedCost;
 import org.mpxj.TimephasedCostContainer;
 import org.mpxj.TimephasedWork;
-import org.mpxj.TimephasedWorkContainer;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DefaultTimephasedCostContainer;
-import org.mpxj.common.DefaultTimephasedWorkContainer;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.TimephasedNormaliser;
 
@@ -504,11 +501,10 @@ final class TimephasedDataFactory
     *
     * @param baselineCalendar baseline calendar
     * @param assignment parent assignment
-    * @param normaliser normalizer associated with this data
     * @param data timephased baseline work data block
     * @return timephased work
     */
-   public List<TimephasedWork> getBaselineWork(ProjectCalendar baselineCalendar, ResourceAssignment assignment, TimephasedNormaliser<TimephasedWork> normaliser, byte[] data)
+   public List<TimephasedWork> getBaselineWork(ProjectCalendar baselineCalendar, ResourceAssignment assignment, byte[] data)
    {
       if (data == null || data.length == 0)
       {
@@ -527,13 +523,9 @@ final class TimephasedDataFactory
       // Offset 16: end of period timestamp (10th/minute)
       // Note that the baseline timephased data is all relative to the project's baseline
       // calendar, and not the original resource assignment calendar.
-
-      List<TimephasedWork> newList2;
-      List<NewTimephasedWork> newList = new ArrayList<>();
-
+      List<NewTimephasedWork> list = new ArrayList<>();
       int blockCount = ByteArrayHelper.getShort(data, 0);
       LocalDateTime start = MPPUtility.getTimestampFromTenths(data, 44);
-
       int offset = 48; // skip header and first two blocks
       double cumulativeWorkInMinutes = 0;
 
@@ -566,7 +558,7 @@ final class TimephasedDataFactory
          item.setEnd(end);
          item.setWork(Duration.getInstance(workMinutesThisPeriod, TimeUnit.MINUTES));
          item.setWorkPerHour(Duration.getInstance(workPerHour, TimeUnit.MINUTES));
-         newList.add(item);
+         list.add(item);
 
          start = end;
          cumulativeWorkInMinutes = currentCumulativeWorkInMinutes;
@@ -578,7 +570,7 @@ final class TimephasedDataFactory
          return Collections.emptyList();
       }
 
-      return newList.stream().map(w -> populateTimephasedWork(baselineCalendar, w)).collect(Collectors.toList());
+      return list.stream().map(w -> populateTimephasedWork(baselineCalendar, w)).collect(Collectors.toList());
    }
 
    /**
