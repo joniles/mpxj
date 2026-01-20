@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 import org.mpxj.Duration;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.ProjectCalendar;
+import org.mpxj.ProjectFile;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceType;
 import org.mpxj.TimeUnit;
@@ -514,6 +515,93 @@ final class TimephasedDataFactory
          return null;
       }
 
+//      System.out.println(assignment);
+//      System.out.println(ByteArrayHelper.hexdump(data, 0, 8, false));
+//      System.out.println(ByteArrayHelper.hexdump(data, 8, data.length-8, false, 20, ""));
+//      System.out.println();
+//
+//      {
+//         // header.
+//         // leading summary block
+//         // actual data blocks (first just used to get start timestamp)
+//         // trailing summary block
+//
+//         int blockCount = ByteArrayHelper.getShort(data, 0);
+//         System.out.println("blocks: " + blockCount);
+//         int offset = 8;
+//         for (int index = 0; index <= blockCount; index++)
+//         {
+//            System.out.println(
+//               Math.round(MPPUtility.getDouble(data, offset)) / 1000.0 + "\t" // cumulative work - includes overtime
+//               + ByteArrayHelper.getInt(data, offset+8) / 10.0 + "\t" // normal work in minutes this period, excludes overtime
+//               + ByteArrayHelper.getInt(data, offset+12) + "\t"// working/ non-working flag?
+//               + MPPUtility.getTimestampFromTenths(data, offset+16) + "\t" //
+//            );
+//            offset += 20;
+//         }
+//         System.out.println();
+//      }
+
+      List<TimephasedWork> newList2;
+      List<NewTimephasedWork> newList = new ArrayList<>();
+
+      {
+         ProjectFile file = assignment.getParentFile();
+         ProjectCalendar baselineCalendar = file.getCalendarByName(file.getProjectProperties().getBaselineCalendarName());
+         if (baselineCalendar == null)
+         {
+            System.out.println("No default calendar");
+            baselineCalendar = file.getDefaultCalendar();
+         }
+
+         int blockCount = ByteArrayHelper.getShort(data, 0);
+         LocalDateTime start = MPPUtility.getTimestampFromTenths(data, 44);
+
+         int offset = 48; // skip header and first two blocks
+         double previousCumulativeWorkInminutes = 0;
+
+         for (int index = 0; index < blockCount-2; index++)
+         {
+            double currentCumulativeWorkInMinutes = MPPUtility.getDouble(data, offset) / 1000.0;
+            //double workMinutesThisPeriod = ByteArrayHelper.getInt(data, offset+8) / 10.0;
+            double workMinutesThisPeriod = currentCumulativeWorkInMinutes - previousCumulativeWorkInminutes;
+            int flag = ByteArrayHelper.getInt(data, offset+12);
+            LocalDateTime end = MPPUtility.getTimestampFromTenths(data, offset+16);
+            double workPerHour;
+            if (workMinutesThisPeriod == 0)
+            {
+               workPerHour = workMinutesThisPeriod;
+            }
+            else
+            {
+               double calendarWorkMinutesThisPeriod = baselineCalendar.getWork(start, end, TimeUnit.MINUTES).getDuration();
+               if (calendarWorkMinutesThisPeriod == 0)
+               {
+                  workPerHour = (workMinutesThisPeriod * 60.0) / start.until(end, ChronoUnit.MINUTES);
+               }
+               else
+               {
+                  workPerHour =  (workMinutesThisPeriod * 60.0) / calendarWorkMinutesThisPeriod;
+               }
+
+
+            }
+
+            NewTimephasedWork item = new NewTimephasedWork();
+            item.setStart(start);
+            item.setEnd(end);
+            item.setWork(Duration.getInstance(workMinutesThisPeriod, TimeUnit.MINUTES));
+            item.setWorkPerHour(Duration.getInstance(workPerHour, TimeUnit.MINUTES));
+            newList.add(item);
+
+            start = end;
+            previousCumulativeWorkInminutes = currentCumulativeWorkInMinutes;
+            offset += 20;
+         }
+
+         newList2 = newList.stream().map(w -> populateTimephasedWork(calendar, w)).collect(Collectors.toList());
+      }
+
       // 8 byte header
       int blockCount = ByteArrayHelper.getShort(data, 0);
       //int timephasedDataType = MPPUtility.getShort(data, 2);
@@ -583,7 +671,13 @@ final class TimephasedDataFactory
 
       calculateAmountPerDay(calendar, list);
 
-      return new DefaultTimephasedWorkContainer(assignment, normaliser, list, true);
+//      if (!list.equals(newList2))
+//      {
+//         System.out.println("Mismatch");
+//      }
+
+      //return new DefaultTimephasedWorkContainer(assignment, normaliser, list, true);
+      return new DefaultTimephasedWorkContainer(assignment, normaliser, newList2, true);
    }
 
    /**

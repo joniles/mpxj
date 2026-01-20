@@ -194,7 +194,7 @@ public final class ByteArrayHelper
 
             sb.append(prefix);
             sb.append(df.format(index));
-            sb.append(":");
+            sb.append(": ");
             sb.append(hexdump(buffer, index, columns, ascii));
             sb.append('\n');
 
@@ -235,7 +235,7 @@ public final class ByteArrayHelper
 
             sb.append(prefix);
             sb.append(df.format(index - offset));
-            sb.append(":");
+            sb.append(": ");
             sb.append(hexdump(buffer, index, columns, ascii));
             sb.append('\n');
 
