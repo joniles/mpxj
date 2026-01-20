@@ -501,14 +501,14 @@ final class TimephasedDataFactory
     * Returns null if no baseline work is present, otherwise returns
     * a list of timephased work items.
     *
-    * @param calendar effective calendar for the resource assignment
+    * @param baselineCalendar baseline calendar
     * @param assignment parent assignment
     * @param normaliser normalizer associated with this data
     * @param data timephased baseline work data block
     * @param raw flag indicating if this data is to be treated as raw
     * @return timephased work
     */
-   public TimephasedWorkContainer getBaselineWork(ProjectCalendar calendar, ResourceAssignment assignment, TimephasedNormaliser<TimephasedWork> normaliser, byte[] data, boolean raw)
+   public TimephasedWorkContainer getBaselineWork(ProjectCalendar baselineCalendar, ResourceAssignment assignment, TimephasedNormaliser<TimephasedWork> normaliser, byte[] data, boolean raw)
    {
       if (data == null || data.length == 0)
       {
@@ -531,14 +531,6 @@ final class TimephasedDataFactory
       List<TimephasedWork> newList2;
       List<NewTimephasedWork> newList = new ArrayList<>();
 
-      ProjectFile file = assignment.getParentFile();
-      ProjectCalendar baselineCalendar = file.getCalendarByName(file.getProjectProperties().getBaselineCalendarName());
-      if (baselineCalendar == null)
-      {
-         // The project has no baseline calendar, use the default calendar instead
-         baselineCalendar = file.getDefaultCalendar();
-      }
-
       int blockCount = ByteArrayHelper.getShort(data, 0);
       LocalDateTime start = MPPUtility.getTimestampFromTenths(data, 44);
 
@@ -548,7 +540,6 @@ final class TimephasedDataFactory
       for (int index = 0; index < blockCount-2; index++)
       {
          double currentCumulativeWorkInMinutes = MPPUtility.getDouble(data, offset) / 1000.0;
-         //double workMinutesThisPeriod = ByteArrayHelper.getInt(data, offset+8) / 10.0;
          double workMinutesThisPeriod = currentCumulativeWorkInMinutes - cumulativeWorkInMinutes;
          int flag = ByteArrayHelper.getInt(data, offset+12);
          LocalDateTime end = MPPUtility.getTimestampFromTenths(data, offset+16);
@@ -587,8 +578,7 @@ final class TimephasedDataFactory
          return null;
       }
 
-      newList2 = newList.stream().map(w -> populateTimephasedWork(calendar, w)).collect(Collectors.toList());
-
+      newList2 = newList.stream().map(w -> populateTimephasedWork(baselineCalendar, w)).collect(Collectors.toList());
 
 
       return new DefaultTimephasedWorkContainer(assignment, normaliser, newList2, true);

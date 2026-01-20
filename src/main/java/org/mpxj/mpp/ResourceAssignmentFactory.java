@@ -184,11 +184,16 @@ public class ResourceAssignmentFactory
          }
 
 
-         ProjectCalendar calendar = assignment.getEffectiveCalendar();
+         ProjectCalendar baselineCalendar = file.getCalendarByName(file.getProjectProperties().getBaselineCalendarName());
+         if (baselineCalendar == null)
+         {
+            // The project has no baseline calendar, use the default calendar instead
+            baselineCalendar = file.getDefaultCalendar();
+         }
 
          for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
          {
-            assignment.setTimephasedBaselineWork(index, timephasedFactory.getBaselineWork(calendar, assignment, MPPTimephasedBaselineWorkNormaliser.INSTANCE, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])), !useRawTimephasedData));
+            assignment.setTimephasedBaselineWork(index, timephasedFactory.getBaselineWork(baselineCalendar, assignment, MPPTimephasedBaselineWorkNormaliser.INSTANCE, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])), !useRawTimephasedData));
             assignment.setTimephasedBaselineCost(index, timephasedFactory.getBaselineCost(assignment, MPPTimephasedBaselineCostNormaliser.INSTANCE, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])), !useRawTimephasedData));
          }
 
@@ -198,6 +203,7 @@ public class ResourceAssignmentFactory
          byte[] timephasedWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_WORK));
 
          ResourceType resourceType = resource == null ? ResourceType.WORK : resource.getType();
+         ProjectCalendar calendar = assignment.getEffectiveCalendar();
          List<TimephasedWork> timephasedActualWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualRegularWorkData, timephasedActualIrregularWorkData);
          List<TimephasedWork> timephasedWork = timephasedFactory.getPlannedWork(calendar, assignment, timephasedWorkData, timephasedActualWork, resourceType);
          List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualOvertimeWorkData, timephasedActualIrregularWorkData);
