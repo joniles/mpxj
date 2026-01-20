@@ -432,7 +432,7 @@ final class TimephasedDataFactory
       if (blockCount == 0)
       {
          // If we have a block count of zero, there is just one entry for the whole assignment.
-         // We the value for this entry from the summary block.
+         // We read the values for this entry from the summary block.
          // If the total work for the block is zero it's not valid so we skip it.
          double totalWorkInMinutes = MPPUtility.getDouble(data, 16) / 1000.0;
          if (totalWorkInMinutes != 0.0)
@@ -453,8 +453,7 @@ final class TimephasedDataFactory
       }
       else
       {
-         // We ahve block data, we ignore the summary block and generate an entry
-         // for each subsequent block.
+         // We have block data, we ignore the summary block and generate an entry for each subsequent block.
          int offset = 16 + 28; // skip the summary block
          double previousWorkMinutes = 0;
          double previousElapsedMinutes = 0;
