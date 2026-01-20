@@ -430,7 +430,7 @@ final class TimephasedDataFactory
       if (blockCount == 0)
       {
          // If we have a block count of zero, there is just one entry for the whole assignment.
-         // We read the values for this entry from the summary block.
+         // We read the values for this entry from this summary block.
          // If the total work for the block is zero it's not valid so we skip it.
          double totalWorkInMinutes = MPPUtility.getDouble(data, 16) / 1000.0;
          if (totalWorkInMinutes != 0.0)
