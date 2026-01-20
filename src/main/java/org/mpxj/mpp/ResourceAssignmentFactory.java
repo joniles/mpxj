@@ -183,12 +183,22 @@ public class ResourceAssignmentFactory
             }
          }
 
-         ResourceType resourceType = resource == null ? ResourceType.WORK : resource.getType();
-         ProjectCalendar calendar = assignment.getEffectiveCalendar();
+
+         ProjectCalendar baselineCalendar = file.getCalendarByName(file.getProjectProperties().getBaselineCalendarName());
+         if (baselineCalendar == null)
+         {
+            // The project has no baseline calendar, use the default calendar instead
+            baselineCalendar = file.getDefaultCalendar();
+         }
 
          for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
          {
-            assignment.setTimephasedBaselineWork(index, timephasedFactory.getBaselineWork(calendar, assignment, MPPTimephasedBaselineWorkNormaliser.INSTANCE, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])), !useRawTimephasedData));
+            List<TimephasedWork> baselineWork = timephasedFactory.getBaselineWork(baselineCalendar, assignment, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])));
+            if (!baselineWork.isEmpty())
+            {
+               assignment.setTimephasedBaselineWork(index, new DefaultTimephasedWorkContainer(assignment, MPPTimephasedBaselineWorkNormaliser.INSTANCE, baselineWork, true));
+            }
+
             assignment.setTimephasedBaselineCost(index, timephasedFactory.getBaselineCost(assignment, MPPTimephasedBaselineCostNormaliser.INSTANCE, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])), !useRawTimephasedData));
          }
 
@@ -197,6 +207,8 @@ public class ResourceAssignmentFactory
          byte[] timephasedActualOvertimeWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK));
          byte[] timephasedWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_WORK));
 
+         ResourceType resourceType = resource == null ? ResourceType.WORK : resource.getType();
+         ProjectCalendar calendar = assignment.getEffectiveCalendar();
          List<TimephasedWork> timephasedActualWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualRegularWorkData, timephasedActualIrregularWorkData);
          List<TimephasedWork> timephasedWork = timephasedFactory.getPlannedWork(calendar, assignment, timephasedWorkData, timephasedActualWork, resourceType);
          List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualOvertimeWorkData, timephasedActualIrregularWorkData);

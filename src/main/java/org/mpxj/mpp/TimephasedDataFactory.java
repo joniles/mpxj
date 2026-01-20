@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,10 +40,8 @@ import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedCost;
 import org.mpxj.TimephasedCostContainer;
 import org.mpxj.TimephasedWork;
-import org.mpxj.TimephasedWorkContainer;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DefaultTimephasedCostContainer;
-import org.mpxj.common.DefaultTimephasedWorkContainer;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.TimephasedNormaliser;
 
@@ -500,90 +499,78 @@ final class TimephasedDataFactory
     * Returns null if no baseline work is present, otherwise returns
     * a list of timephased work items.
     *
-    * @param calendar effective calendar for the resource assignment
+    * @param baselineCalendar baseline calendar
     * @param assignment parent assignment
-    * @param normaliser normalizer associated with this data
     * @param data timephased baseline work data block
-    * @param raw flag indicating if this data is to be treated as raw
     * @return timephased work
     */
-   public TimephasedWorkContainer getBaselineWork(ProjectCalendar calendar, ResourceAssignment assignment, TimephasedNormaliser<TimephasedWork> normaliser, byte[] data, boolean raw)
+   public List<TimephasedWork> getBaselineWork(ProjectCalendar baselineCalendar, ResourceAssignment assignment, byte[] data)
    {
       if (data == null || data.length == 0)
       {
-         return null;
+         return Collections.emptyList();
       }
 
-      // 8 byte header
+      // Baseline work data is represented by an 8 byte header, followed by 20 byte blocks.
+      // The first and last block appear to be summary blocks, and are ignored. The first
+      // block after the summary is only used to provide the start timestamp for the data,
+      // the remaining block up to the trailing summary block provide the timephased items.
+      // The header contains the block count at offset 0.
+      // The 20 byte blocks following the header contain:
+      // Offset 0: cumulative work, including overtime, as a double (1000th/minute)
+      // Offset 8: work in minutes for this period, excluding overtime, as an int (10th/minute)
+      // Offset 12: unknown int, possibly a flag
+      // Offset 16: end of period timestamp (10th/minute)
+      // Note that the baseline timephased data is all relative to the project's baseline
+      // calendar, and not the original resource assignment calendar.
+      List<NewTimephasedWork> list = new ArrayList<>();
       int blockCount = ByteArrayHelper.getShort(data, 0);
-      //int timephasedDataType = MPPUtility.getShort(data, 2);
-      int offset = ByteArrayHelper.getShort(data, 4);
-      //int unknown = MPPUtility.getShort(data, 6);
+      LocalDateTime start = MPPUtility.getTimestampFromTenths(data, 44);
+      int offset = 48; // skip header and first two blocks
+      double cumulativeWorkInMinutes = 0;
 
-      // We need at least 3 blocks
-      if (blockCount < 3)
+      for (int index = 0; index < blockCount-2; index++)
       {
-         return null;
-      }
-
-      // 20 byte blocks
-      // Each block contains the block end date, which is also then the start of the next block
-      // First block only used to give us the start of the first timephased data
-      // Last block is ignored
-      //
-      // 0 - 7: cumulative work; double 1/1000 minute
-      // 8 - 11: expected work this period; int 1/10 minute
-      // 12 - 15: unknown
-      // 16 - 19: block end date; int timestamp in 1/10 minute
-
-      LocalDateTime blockEndDate = null;
-      long previousTotalWorkInMinutes = 0;
-      List<TimephasedWork> list = new ArrayList<>();
-      long totalWork = 0;
-
-      for (int blockIndex = 0; blockIndex < blockCount - 1; blockIndex++)
-      {
-         if (offset + 20 > data.length)
+         double currentCumulativeWorkInMinutes = MPPUtility.getDouble(data, offset) / 1000.0;
+         double workMinutesThisPeriod = currentCumulativeWorkInMinutes - cumulativeWorkInMinutes;
+         int flag = ByteArrayHelper.getInt(data, offset+12);
+         LocalDateTime end = MPPUtility.getTimestampFromTenths(data, offset+16);
+         double workPerHour;
+         if (workMinutesThisPeriod == 0)
          {
-            break;
-         }
-
-         if (blockIndex == 0)
-         {
-            blockEndDate = MPPUtility.getTimestampFromTenths(data, offset + 16);
+            workPerHour = workMinutesThisPeriod;
          }
          else
          {
-            LocalDateTime blockStartDate = blockEndDate;
-            long currentCumulativeWorkInMinutes = (long) (MPPUtility.getDouble(data, offset) / 1000.0);
-            int expectedWorkThisPeriodInMinutes = ByteArrayHelper.getInt(data, offset + 8) / 10;
-            //int unknown = MPPUtility.getInt(data, offset + 12);
-            blockEndDate = MPPUtility.getTimestampFromTenths(data, offset + 16);
-
-            long workThisPeriodInMinutes = currentCumulativeWorkInMinutes - previousTotalWorkInMinutes;
-            totalWork += workThisPeriodInMinutes;
-
-            TimephasedWork work = new TimephasedWork();
-            work.setStart(blockStartDate);
-            work.setFinish(blockEndDate);
-            work.setTotalAmount(Duration.getInstance(workThisPeriodInMinutes, TimeUnit.MINUTES));
-            work.setModified(workThisPeriodInMinutes != expectedWorkThisPeriodInMinutes);
-            list.add(work);
-
-            previousTotalWorkInMinutes = currentCumulativeWorkInMinutes;
+            double calendarWorkMinutesThisPeriod = baselineCalendar.getWork(start, end, TimeUnit.MINUTES).getDuration();
+            if (calendarWorkMinutesThisPeriod == 0)
+            {
+               workPerHour = (workMinutesThisPeriod * 60.0) / start.until(end, ChronoUnit.MINUTES);
+            }
+            else
+            {
+               workPerHour =  (workMinutesThisPeriod * 60.0) / calendarWorkMinutesThisPeriod;
+            }
          }
 
+         NewTimephasedWork item = new NewTimephasedWork();
+         item.setStart(start);
+         item.setEnd(end);
+         item.setWork(Duration.getInstance(workMinutesThisPeriod, TimeUnit.MINUTES));
+         item.setWorkPerHour(Duration.getInstance(workPerHour, TimeUnit.MINUTES));
+         list.add(item);
+
+         start = end;
+         cumulativeWorkInMinutes = currentCumulativeWorkInMinutes;
          offset += 20;
       }
 
-      if (totalWork == 0)
+      if (cumulativeWorkInMinutes == 0)
       {
-         return null;
+         return Collections.emptyList();
       }
 
-      calculateAmountPerDay(calendar, list);
-
-      return new DefaultTimephasedWorkContainer(assignment, normaliser, list, true);
+      return list.stream().map(w -> populateTimephasedWork(baselineCalendar, w)).collect(Collectors.toList());
    }
 
    /**
