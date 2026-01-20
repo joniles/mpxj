@@ -418,14 +418,12 @@ final class TimephasedDataFactory
 
       // The timephased planned work data has a 16 byte header, followed by 28 byte blocks.
       // The first two bytes of the header are a count of the number of blocks. The first
-      // block is a summary block, which is not counted, so a count of N means there are N+1
-      // blocks.
-      // Each 28 bute block contains the following
+      // block is a summary block, which is not counted, so a count of N means there are N+1 blocks.
+      // Each 28 byte block contains the following:
       // Offset 0: 8 byte double - cumulative work (1000th/minute)
       // Offset 8: 8 byte double - hours per day (20000th/hour) unreliable value, not used
       // Offset 16: 8 byte double? - unknown
       // Offset 24: 4 byte int - cumulative elapsed minutes (80th/minute)
-
       List<NewTimephasedWork> newList = new ArrayList<>();
       int blockCount = ByteArrayHelper.getShort(data, 0);
 
