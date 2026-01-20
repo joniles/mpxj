@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -505,14 +506,13 @@ final class TimephasedDataFactory
     * @param assignment parent assignment
     * @param normaliser normalizer associated with this data
     * @param data timephased baseline work data block
-    * @param raw flag indicating if this data is to be treated as raw
     * @return timephased work
     */
-   public TimephasedWorkContainer getBaselineWork(ProjectCalendar baselineCalendar, ResourceAssignment assignment, TimephasedNormaliser<TimephasedWork> normaliser, byte[] data, boolean raw)
+   public List<TimephasedWork> getBaselineWork(ProjectCalendar baselineCalendar, ResourceAssignment assignment, TimephasedNormaliser<TimephasedWork> normaliser, byte[] data)
    {
       if (data == null || data.length == 0)
       {
-         return null;
+         return Collections.emptyList();
       }
 
       // Baseline work data is represented by an 8 byte header, followed by 20 byte blocks.
@@ -575,13 +575,10 @@ final class TimephasedDataFactory
 
       if (cumulativeWorkInMinutes == 0)
       {
-         return null;
+         return Collections.emptyList();
       }
 
-      newList2 = newList.stream().map(w -> populateTimephasedWork(baselineCalendar, w)).collect(Collectors.toList());
-
-
-      return new DefaultTimephasedWorkContainer(assignment, normaliser, newList2, true);
+      return newList.stream().map(w -> populateTimephasedWork(baselineCalendar, w)).collect(Collectors.toList());
    }
 
    /**

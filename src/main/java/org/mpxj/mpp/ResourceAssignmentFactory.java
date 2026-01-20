@@ -39,6 +39,7 @@ import org.mpxj.ResourceType;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedWork;
+import org.mpxj.TimephasedWorkContainer;
 import org.mpxj.WorkContour;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DefaultTimephasedWorkContainer;
@@ -193,7 +194,12 @@ public class ResourceAssignmentFactory
 
          for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
          {
-            assignment.setTimephasedBaselineWork(index, timephasedFactory.getBaselineWork(baselineCalendar, assignment, MPPTimephasedBaselineWorkNormaliser.INSTANCE, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])), !useRawTimephasedData));
+            List<TimephasedWork> baselineWork = timephasedFactory.getBaselineWork(baselineCalendar, assignment, MPPTimephasedBaselineWorkNormaliser.INSTANCE, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])));
+            if (!baselineWork.isEmpty())
+            {
+               assignment.setTimephasedBaselineWork(index, new DefaultTimephasedWorkContainer(assignment, MPPTimephasedBaselineWorkNormaliser.INSTANCE, baselineWork, true));
+            }
+
             assignment.setTimephasedBaselineCost(index, timephasedFactory.getBaselineCost(assignment, MPPTimephasedBaselineCostNormaliser.INSTANCE, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])), !useRawTimephasedData));
          }
 
