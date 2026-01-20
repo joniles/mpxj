@@ -579,20 +579,17 @@ final class TimephasedDataFactory
     * a list of timephased work items.
     *
     * @param assignment resource assignment
-    * @param normaliser normalizer associated with this data
     * @param data timephased baseline work data block
-    * @param raw flag indicating if this data is to be treated as raw
     * @return timephased work
     */
-   public TimephasedCostContainer getBaselineCost(ResourceAssignment assignment, TimephasedNormaliser<TimephasedCost> normaliser, byte[] data, boolean raw)
+   public List<TimephasedCost> getBaselineCost(ResourceAssignment assignment, byte[] data)
    {
-      TimephasedCostContainer result = null;
       if (data == null || data.length == 0)
       {
-         return result;
+         return Collections.emptyList();
       }
 
-      List<TimephasedCost> list = null;
+      List<TimephasedCost> list = new ArrayList<>();
 
       //System.out.println(ByteArrayHelper.hexdump(data, false));
       int index = 16; // 16 byte header
@@ -612,14 +609,7 @@ final class TimephasedDataFactory
             cost.setStart(blockStartDate);
             cost.setFinish(blockEndDate);
             cost.setTotalAmount(Double.valueOf(currentTotalCost - previousTotalCost));
-
-            if (list == null)
-            {
-               list = new ArrayList<>();
-            }
             list.add(cost);
-            //System.out.println(cost);
-
             previousTotalCost = currentTotalCost;
          }
 
@@ -627,12 +617,7 @@ final class TimephasedDataFactory
          index += blockSize;
       }
 
-      if (list != null)
-      {
-         result = new DefaultTimephasedCostContainer(assignment, normaliser, list, raw);
-      }
-
-      return result;
+      return list;
    }
 
    /**

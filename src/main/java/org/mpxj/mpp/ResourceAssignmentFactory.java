@@ -38,9 +38,11 @@ import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceType;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
+import org.mpxj.TimephasedCost;
 import org.mpxj.TimephasedWork;
 import org.mpxj.WorkContour;
 import org.mpxj.common.ByteArrayHelper;
+import org.mpxj.common.DefaultTimephasedCostContainer;
 import org.mpxj.common.DefaultTimephasedWorkContainer;
 import org.mpxj.common.MicrosoftProjectConstants;
 import org.mpxj.common.NumberHelper;
@@ -199,7 +201,11 @@ public class ResourceAssignmentFactory
                assignment.setTimephasedBaselineWork(index, new DefaultTimephasedWorkContainer(assignment, MPPTimephasedBaselineWorkNormaliser.INSTANCE, baselineWork, true));
             }
 
-            assignment.setTimephasedBaselineCost(index, timephasedFactory.getBaselineCost(assignment, MPPTimephasedBaselineCostNormaliser.INSTANCE, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])), !useRawTimephasedData));
+            List<TimephasedCost> baselineCost = timephasedFactory.getBaselineCost(assignment, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])));
+            if (!baselineCost.isEmpty())
+            {
+               assignment.setTimephasedBaselineCost(index, new DefaultTimephasedCostContainer(assignment, MPPTimephasedBaselineCostNormaliser.INSTANCE, baselineCost, !useRawTimephasedData));
+            }
          }
 
          byte[] timephasedActualRegularWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_WORK));
