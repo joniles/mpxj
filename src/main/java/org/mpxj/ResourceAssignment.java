@@ -827,12 +827,13 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<TimephasedCost> getTimephasedCost()
    {
-      if (m_timephasedCost == null)
+      TimephasedCostContainer costContainer = (TimephasedCostContainer) get(AssignmentField.TIMEPHASED_COST);
+      if (costContainer == null)
       {
          Resource r = getResource();
          ResourceType type = r != null ? r.getType() : ResourceType.WORK;
 
-         //for Work and Material resources, we will calculate in the normal way
+         // For Work and Material resources, we will calculate in the normal way
          if (type != ResourceType.COST)
          {
             TimephasedWorkContainer timephasedWork =  (TimephasedWorkContainer)get(AssignmentField.TIMEPHASED_WORK);
@@ -840,21 +841,21 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
             {
                if (hasMultipleCostRates())
                {
-                  m_timephasedCost = getTimephasedCostMultipleRates(getTimephasedWork(), getTimephasedOvertimeWork());
+                  costContainer = getTimephasedCostMultipleRates(getTimephasedWork(), getTimephasedOvertimeWork());
                }
                else
                {
-                  m_timephasedCost = getTimephasedCostSingleRate(getTimephasedWork(), getTimephasedOvertimeWork());
+                  costContainer = getTimephasedCostSingleRate(getTimephasedWork(), getTimephasedOvertimeWork());
                }
             }
          }
          else
          {
-            m_timephasedCost = getTimephasedCostFixedAmount();
+            costContainer = getTimephasedCostFixedAmount();
          }
 
       }
-      return m_timephasedCost == null ? null : m_timephasedCost.getData();
+      return costContainer == null ? null : costContainer.getData();
    }
 
    /**
@@ -864,12 +865,13 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<TimephasedCost> getTimephasedActualCost()
    {
-      if (m_timephasedActualCost == null)
+      TimephasedCostContainer actualCost = (TimephasedCostContainer) get(AssignmentField.TIMEPHASED_ACTUAL_COST);
+      if (actualCost == null)
       {
          Resource r = getResource();
          ResourceType type = r != null ? r.getType() : ResourceType.WORK;
 
-         //for Work and Material resources, we will calculate in the normal way
+         // For Work and Material resources, we will calculate in the normal way
          if (type != ResourceType.COST)
          {
             TimephasedWorkContainer actualWorkContainer = (TimephasedWorkContainer)get(AssignmentField.TIMEPHASED_ACTUAL_WORK);
@@ -877,22 +879,22 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
             {
                if (hasMultipleCostRates())
                {
-                  m_timephasedActualCost = getTimephasedCostMultipleRates(getTimephasedActualWork(), getTimephasedActualOvertimeWork());
+                  actualCost = getTimephasedCostMultipleRates(getTimephasedActualWork(), getTimephasedActualOvertimeWork());
                }
                else
                {
-                  m_timephasedActualCost = getTimephasedCostSingleRate(getTimephasedActualWork(), getTimephasedActualOvertimeWork());
+                  actualCost = getTimephasedCostSingleRate(getTimephasedActualWork(), getTimephasedActualOvertimeWork());
                }
             }
          }
          else
          {
-            m_timephasedActualCost = getTimephasedActualCostFixedAmount();
+            actualCost = getTimephasedActualCostFixedAmount();
          }
 
       }
 
-      return m_timephasedActualCost == null ? null : m_timephasedActualCost.getData();
+      return actualCost == null ? null : actualCost.getData();
    }
 
    /**
@@ -3409,9 +3411,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          }
       };
    }
-
-   private TimephasedCostContainer m_timephasedActualCost;
-   private TimephasedCostContainer m_timephasedCost;
 
    private final TimephasedWorkContainer[] m_timephasedBaselineWork = new TimephasedWorkContainer[11];
    private final TimephasedCostContainer[] m_timephasedBaselineCost = new TimephasedCostContainer[11];
