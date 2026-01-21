@@ -699,7 +699,8 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<TimephasedWork> getTimephasedActualWork()
    {
-      return m_timephasedActualWork == null ? null : m_timephasedActualWork.getData();
+      TimephasedWorkContainer container = (TimephasedWorkContainer)get(AssignmentField.TIMEPHASED_ACTUAL_WORK);
+      return container == null ? null : container.getData();
    }
 
    /**
@@ -710,7 +711,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public void setTimephasedActualWork(TimephasedWorkContainer data)
    {
-      m_timephasedActualWork = data;
+      set(AssignmentField.TIMEPHASED_ACTUAL_WORK, data);
    }
 
    /**
@@ -721,7 +722,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public void setTimephasedActualWork(List<TimephasedWork> data)
    {
-      m_timephasedActualWork = createTimephasedWorkContainer(data);
+      set(AssignmentField.TIMEPHASED_ACTUAL_WORK, createTimephasedWorkContainer(data));
    }
 
    /**
@@ -732,7 +733,8 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<TimephasedWork> getTimephasedWork()
    {
-      return m_timephasedWork == null ? null : m_timephasedWork.getData();
+      TimephasedWorkContainer container = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_WORK);
+      return container == null ? null : container.getData();
    }
 
    /**
@@ -743,7 +745,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public void setTimephasedWork(TimephasedWorkContainer data)
    {
-      m_timephasedWork = data;
+      set(AssignmentField.TIMEPHASED_WORK, data);
    }
 
    /**
@@ -754,7 +756,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public void setTimephasedWork(List<TimephasedWork> data)
    {
-      m_timephasedWork = createTimephasedWorkContainer(data);
+      set(AssignmentField.TIMEPHASED_WORK, createTimephasedWorkContainer(data));
    }
 
    /**
@@ -765,7 +767,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<TimephasedWork> getTimephasedOvertimeWork()
    {
-      if (m_timephasedOvertimeWork == null && m_timephasedWork != null && getOvertimeWork() != null)
+      TimephasedWorkContainer workContainer = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_WORK);
+
+      if (m_timephasedOvertimeWork == null && workContainer != null && getOvertimeWork() != null)
       {
          double perDayFactor = getRemainingOvertimeWork().getDuration() / (getRemainingWork().getDuration() - getRemainingOvertimeWork().getDuration());
          double totalFactor = getRemainingOvertimeWork().getDuration() / getRemainingWork().getDuration();
@@ -773,7 +777,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          perDayFactor = Double.isNaN(perDayFactor) ? 0 : perDayFactor;
          totalFactor = Double.isNaN(totalFactor) ? 0 : totalFactor;
 
-         m_timephasedOvertimeWork = m_timephasedWork.applyFactor(perDayFactor, totalFactor);
+         m_timephasedOvertimeWork = workContainer.applyFactor(perDayFactor, totalFactor);
       }
       return m_timephasedOvertimeWork == null ? null : m_timephasedOvertimeWork.getData();
    }
@@ -826,7 +830,8 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          //for Work and Material resources, we will calculate in the normal way
          if (type != ResourceType.COST)
          {
-            if (m_timephasedWork != null && m_timephasedWork.hasData())
+            TimephasedWorkContainer timephasedWork =  (TimephasedWorkContainer)get(AssignmentField.TIMEPHASED_WORK);
+            if (timephasedWork != null && timephasedWork.hasData())
             {
                if (hasMultipleCostRates())
                {
@@ -862,7 +867,8 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          //for Work and Material resources, we will calculate in the normal way
          if (type != ResourceType.COST)
          {
-            if (m_timephasedActualWork != null && m_timephasedActualWork.hasData())
+            TimephasedWorkContainer actualWorkContainer = (TimephasedWorkContainer)get(AssignmentField.TIMEPHASED_ACTUAL_WORK);
+            if (actualWorkContainer != null && actualWorkContainer.hasData())
             {
                if (hasMultipleCostRates())
                {
@@ -1350,7 +1356,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public boolean getHasTimephasedData()
    {
-      return (m_timephasedWork != null && m_timephasedWork.hasData()) || (m_timephasedActualWork != null && m_timephasedActualWork.hasData());
+      TimephasedWorkContainer workContainer = (TimephasedWorkContainer)get(AssignmentField.TIMEPHASED_WORK);
+      TimephasedWorkContainer actualWorkContainer = (TimephasedWorkContainer)get(AssignmentField.TIMEPHASED_ACTUAL_WORK);
+      return (workContainer != null && workContainer.hasData()) || (actualWorkContainer != null && actualWorkContainer.hasData());
    }
 
    /**
@@ -3397,13 +3405,8 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       };
    }
 
-
-   private TimephasedWorkContainer m_timephasedActualWork;
    private TimephasedCostContainer m_timephasedActualCost;
-
-   private TimephasedWorkContainer m_timephasedWork;
    private TimephasedCostContainer m_timephasedCost;
-
    private TimephasedWorkContainer m_timephasedOvertimeWork;
    private TimephasedWorkContainer m_timephasedActualOvertimeWork;
 
