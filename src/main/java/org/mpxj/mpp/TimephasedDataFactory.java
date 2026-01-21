@@ -38,12 +38,9 @@ import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceType;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedCost;
-import org.mpxj.TimephasedCostContainer;
 import org.mpxj.TimephasedWork;
 import org.mpxj.common.ByteArrayHelper;
-import org.mpxj.common.DefaultTimephasedCostContainer;
 import org.mpxj.common.NumberHelper;
-import org.mpxj.common.TimephasedNormaliser;
 
 /**
  * This class contains methods to create lists of TimephasedWork
@@ -111,6 +108,68 @@ final class TimephasedDataFactory
       private LocalDateTime m_end;
       private Duration m_work;
       private Duration m_workPerHour;
+   }
+
+   /**
+    * The TimephasedItem class hierarchy will be more like this
+    * once the big refactoring is done!
+    */
+   private static class NewTimephasedCost
+   {
+      public LocalDateTime getStart()
+      {
+         return m_start;
+      }
+
+      public void setStart(LocalDateTime start)
+      {
+         m_start = start;
+      }
+
+      public LocalDateTime getEnd()
+      {
+         return m_end;
+      }
+
+      public void setEnd(LocalDateTime end)
+      {
+         m_end = end;
+      }
+
+      public Double getCost()
+      {
+         return m_cost;
+      }
+
+      public void setCost(Double Cost)
+      {
+         m_cost = Cost;
+      }
+
+      public Double getCostPerHour()
+      {
+         return m_costPerHour;
+      }
+
+      public void setCostPerHour(Double CostPerHour)
+      {
+         m_costPerHour = CostPerHour;
+      }
+
+      @Override public String toString()
+      {
+         return "NewTimephasedCost[" +
+            "start=" + m_start +
+            ", end=" + m_end +
+            ", cost=" + m_cost +
+            ", costPerHour=" + m_costPerHour +
+            ']';
+      }
+
+      private LocalDateTime m_start;
+      private LocalDateTime m_end;
+      private Double m_cost;
+      private Double m_costPerHour;
    }
 
    /**
@@ -339,6 +398,38 @@ final class TimephasedDataFactory
    }
 
    /**
+    * This method transforms our new timephased item representation back to the original representation.
+    *
+    * @param calendar effective calendar
+    * @param item new timephased cost item
+    * @return TimephasedWork instance
+    */
+   private TimephasedCost populateTimephasedCost(ProjectCalendar calendar, NewTimephasedCost item)
+   {
+      TimephasedCost cost = new TimephasedCost();
+      cost.setStart(item.getStart());
+      cost.setFinish(item.getEnd());
+      cost.setTotalAmount(item.getCost());
+
+      Double amountPerDay;
+      if (cost.getTotalAmount().doubleValue() == 0)
+      {
+         amountPerDay = Double.valueOf(0);
+      }
+      else
+      {
+         double totalCost = cost.getTotalAmount().doubleValue();
+         Duration calculatedTotalWorkInMinutes = calendar.getWork(cost.getStart(), cost.getFinish(), TimeUnit.MINUTES);
+         double minutesPerDay = 8.0 * 60.0;
+         double calculatedAmountPerDay = (minutesPerDay * totalCost) / calculatedTotalWorkInMinutes.getDuration();
+         amountPerDay = Double.valueOf(calculatedAmountPerDay);
+      }
+      cost.setAmountPerDay(amountPerDay);
+
+      return cost;
+   }
+
+   /**
     * Split an existing regular item to apply an irregular item.
     *
     * @param calendar effective calendar
@@ -500,11 +591,10 @@ final class TimephasedDataFactory
     * a list of timephased work items.
     *
     * @param baselineCalendar baseline calendar
-    * @param assignment parent assignment
     * @param data timephased baseline work data block
     * @return timephased work
     */
-   public List<TimephasedWork> getBaselineWork(ProjectCalendar baselineCalendar, ResourceAssignment assignment, byte[] data)
+   public List<TimephasedWork> getBaselineWork(ProjectCalendar baselineCalendar, byte[] data)
    {
       if (data == null || data.length == 0)
       {
@@ -582,7 +672,7 @@ final class TimephasedDataFactory
     * @param data timephased baseline work data block
     * @return timephased work
     */
-   public List<TimephasedCost> getBaselineCost(ResourceAssignment assignment, byte[] data)
+   public List<TimephasedCost> getBaselineCost(ResourceAssignment assignment, ProjectCalendar baselineCalendar, byte[] data)
    {
       if (data == null || data.length == 0)
       {
@@ -591,7 +681,79 @@ final class TimephasedDataFactory
 
       List<TimephasedCost> list = new ArrayList<>();
 
-      //System.out.println(ByteArrayHelper.hexdump(data, false));
+//      System.out.println(assignment);
+//      System.out.println(ByteArrayHelper.hexdump(data, 0, 16, false));
+//      System.out.println(ByteArrayHelper.hexdump(data, 16, data.length-16, false, 20, ""));
+//      System.out.println();
+//
+//      {
+//         int blockCount = ByteArrayHelper.getShort(data, 0);
+//         int offset = 16;
+//         double previousCost = 0;
+//
+//         for (int count = 0; count < blockCount; count++)
+//         {
+//            System.out.println(
+//               ByteArrayHelper.getShort(data, offset) + "\t" // 2 byte short
+//               + ByteArrayHelper.getInt(data, offset+2) + "\t"
+//               + MPPUtility.getDouble(data, offset+8) + "\t"
+//               + MPPUtility.getTimestampFromTenths(data, offset + 16) + "\t"
+//            );
+//
+//            offset += 20;
+//         }
+//      }
+
+      List<NewTimephasedCost> newList = new ArrayList<>();
+
+      {
+         int blockCount = ByteArrayHelper.getShort(data, 0);
+         LocalDateTime start = MPPUtility.getTimestampFromTenths(data, 32);
+         double cumulativeCost = 0;
+         int offset = 16 + 20; // skip header and first block
+
+         for (int count = 0; count < blockCount-2; count++)
+         {
+            LocalDateTime end = MPPUtility.getTimestampFromTenths(data, offset + 16);
+            double cumulativeCostThisPeriod = MPPUtility.getDouble(data, offset+8);
+            double costThisPeriod = cumulativeCostThisPeriod - cumulativeCost;
+            double costPerHour;
+
+            if (costThisPeriod == 0)
+            {
+               costPerHour = 0;
+            }
+            else
+            {
+               double calendarWorkMinutesThisPeriod = baselineCalendar.getWork(start, end, TimeUnit.MINUTES).getDuration();
+               if (calendarWorkMinutesThisPeriod == 0)
+               {
+                  costPerHour = (costThisPeriod * 60.0) / start.until(end, ChronoUnit.MINUTES);
+               }
+               else
+               {
+                  costPerHour = (costThisPeriod * 60.0) / calendarWorkMinutesThisPeriod;
+               }
+            }
+
+            NewTimephasedCost item = new NewTimephasedCost();
+            item.setStart(start);
+            item.setEnd(end);
+            item.setCost(Double.valueOf(costThisPeriod / 100.0));
+            item.setCostPerHour(Double.valueOf(costPerHour / 100.0));
+            newList.add(item);
+
+            cumulativeCost = cumulativeCostThisPeriod;
+            offset += 20;
+            start = end;
+         }
+
+         if (cumulativeCost == 0)
+         {
+            newList = Collections.emptyList();
+         }
+      }
+
       int index = 16; // 16 byte header
       int blockSize = 20;
       double previousTotalCost = 0;
@@ -617,7 +779,36 @@ final class TimephasedDataFactory
          index += blockSize;
       }
 
-      return list;
+      List<TimephasedCost> newList2 = newList.stream().map(c -> populateTimephasedCost(baselineCalendar, c)).collect(Collectors.toList());
+//      if (!tempListComparator(list, newList2))
+//      {
+//         System.out.println("Mismatch!");
+//      }
+
+      //return list;
+      return newList2;
+   }
+
+   private boolean tempListComparator(List<TimephasedCost> l1, List<TimephasedCost> l2)
+   {
+      if (l1.size() != l2.size())
+      {
+         return false;
+      }
+      for (int index=0; index <  l1.size(); index++)
+      {
+         if (!tempCostComparator(l1.get(index), l2.get(index)))
+         {
+            return false;
+         }
+      }
+
+      return true;
+   }
+
+   private boolean tempCostComparator(TimephasedCost c1, TimephasedCost c2)
+   {
+      return c1.getStart().equals(c2.getStart()) && c1.getFinish().equals(c2.getFinish()) && c1.getTotalAmount().equals(c2.getTotalAmount());
    }
 
    /**

@@ -195,13 +195,13 @@ public class ResourceAssignmentFactory
 
          for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
          {
-            List<TimephasedWork> baselineWork = timephasedFactory.getBaselineWork(baselineCalendar, assignment, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])));
+            List<TimephasedWork> baselineWork = timephasedFactory.getBaselineWork(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])));
             if (!baselineWork.isEmpty())
             {
                assignment.setTimephasedBaselineWork(index, new DefaultTimephasedWorkContainer(assignment, MPPTimephasedBaselineWorkNormaliser.INSTANCE, baselineWork, true));
             }
 
-            List<TimephasedCost> baselineCost = timephasedFactory.getBaselineCost(assignment, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])));
+            List<TimephasedCost> baselineCost = timephasedFactory.getBaselineCost(assignment, baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])));
             if (!baselineCost.isEmpty())
             {
                assignment.setTimephasedBaselineCost(index, new DefaultTimephasedCostContainer(assignment, MPPTimephasedBaselineCostNormaliser.INSTANCE, baselineCost, !useRawTimephasedData));
