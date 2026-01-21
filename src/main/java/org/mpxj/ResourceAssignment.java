@@ -665,7 +665,8 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<TimephasedWork> getTimephasedPlannedWork()
    {
-      return m_timephasedPlannedWork == null ? null : m_timephasedPlannedWork.getData();
+      TimephasedWorkContainer container = (TimephasedWorkContainer)get(AssignmentField.TIMEPHASED_PLANNED_WORK);
+      return container == null ? null : container.getData();
    }
 
    /**
@@ -676,7 +677,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public void setTimephasedPlannedWork(TimephasedWorkContainer data)
    {
-      m_timephasedPlannedWork = data;
+      set(AssignmentField.TIMEPHASED_PLANNED_WORK, data);
    }
 
    /**
@@ -687,7 +688,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public void setTimephasedPlannedWork(List<TimephasedWork> data)
    {
-      m_timephasedPlannedWork = createTimephasedWorkContainer(data);
+      set(AssignmentField.TIMEPHASED_PLANNED_WORK, createTimephasedWorkContainer(data));
    }
 
    /**
@@ -3396,7 +3397,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       };
    }
 
-   private TimephasedWorkContainer m_timephasedPlannedWork;
 
    private TimephasedWorkContainer m_timephasedActualWork;
    private TimephasedCostContainer m_timephasedActualCost;
