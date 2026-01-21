@@ -635,12 +635,9 @@ final class TimephasedDataFactory
             double calendarWorkMinutesThisPeriod = baselineCalendar.getWork(start, end, TimeUnit.MINUTES).getDuration();
             if (calendarWorkMinutesThisPeriod == 0)
             {
-               workPerHour = (workMinutesThisPeriod * 60.0) / start.until(end, ChronoUnit.MINUTES);
+               calendarWorkMinutesThisPeriod = start.until(end, ChronoUnit.MINUTES);
             }
-            else
-            {
-               workPerHour =  (workMinutesThisPeriod * 60.0) / calendarWorkMinutesThisPeriod;
-            }
+            workPerHour =  (workMinutesThisPeriod * 60.0) / calendarWorkMinutesThisPeriod;
          }
 
          NewTimephasedWork item = new NewTimephasedWork();
@@ -679,138 +676,63 @@ final class TimephasedDataFactory
          return Collections.emptyList();
       }
 
-      List<TimephasedCost> list = new ArrayList<>();
 
-//      System.out.println(assignment);
-//      System.out.println(ByteArrayHelper.hexdump(data, 0, 16, false));
-//      System.out.println(ByteArrayHelper.hexdump(data, 16, data.length-16, false, 20, ""));
-//      System.out.println();
-//
-//      {
-//         int blockCount = ByteArrayHelper.getShort(data, 0);
-//         int offset = 16;
-//         double previousCost = 0;
-//
-//         for (int count = 0; count < blockCount; count++)
-//         {
-//            System.out.println(
-//               ByteArrayHelper.getShort(data, offset) + "\t" // 2 byte short
-//               + ByteArrayHelper.getInt(data, offset+2) + "\t"
-//               + MPPUtility.getDouble(data, offset+8) + "\t"
-//               + MPPUtility.getTimestampFromTenths(data, offset + 16) + "\t"
-//            );
-//
-//            offset += 20;
-//         }
-//      }
+      // Timephased baseline cost date is represented by a 16 byte header, followed by 20 byte blocks
+      // The number of blocks is stored as a short at offset 0 in the header.
+      // Each 20 byte block consists of:
+      // Offset 0: flag? short int
+      // Offset 2: unknown 6 bytes
+      // Offset 8: cumulative cost as a double (100th/current unit)
+      // Offset 16: end of period timestamp (10th/minute)
+      // The first and last blocks contain summary data and are ignored. The start date is
+      // obtained from the first summary block.
+      List<NewTimephasedCost> list = new ArrayList<>();
+      int blockCount = ByteArrayHelper.getShort(data, 0);
+      LocalDateTime start = MPPUtility.getTimestampFromTenths(data, 32);
+      double cumulativeCost = 0;
+      int offset = 16 + 20; // skip header and first block
 
-      List<NewTimephasedCost> newList = new ArrayList<>();
-
+      for (int count = 0; count < blockCount-2; count++)
       {
-         int blockCount = ByteArrayHelper.getShort(data, 0);
-         LocalDateTime start = MPPUtility.getTimestampFromTenths(data, 32);
-         double cumulativeCost = 0;
-         int offset = 16 + 20; // skip header and first block
+         LocalDateTime end = MPPUtility.getTimestampFromTenths(data, offset + 16);
+         double cumulativeCostThisPeriod = MPPUtility.getDouble(data, offset+8);
+         double costThisPeriod = cumulativeCostThisPeriod - cumulativeCost;
+         double costPerHour;
 
-         for (int count = 0; count < blockCount-2; count++)
+         if (costThisPeriod == 0)
          {
-            LocalDateTime end = MPPUtility.getTimestampFromTenths(data, offset + 16);
-            double cumulativeCostThisPeriod = MPPUtility.getDouble(data, offset+8);
-            double costThisPeriod = cumulativeCostThisPeriod - cumulativeCost;
-            double costPerHour;
-
-            if (costThisPeriod == 0)
+            costPerHour = 0;
+         }
+         else
+         {
+            double calendarWorkMinutesThisPeriod = baselineCalendar.getWork(start, end, TimeUnit.MINUTES).getDuration();
+            if (calendarWorkMinutesThisPeriod == 0)
             {
-               costPerHour = 0;
+               calendarWorkMinutesThisPeriod =  start.until(end, ChronoUnit.MINUTES);
             }
-            else
-            {
-               double calendarWorkMinutesThisPeriod = baselineCalendar.getWork(start, end, TimeUnit.MINUTES).getDuration();
-               if (calendarWorkMinutesThisPeriod == 0)
-               {
-                  costPerHour = (costThisPeriod * 60.0) / start.until(end, ChronoUnit.MINUTES);
-               }
-               else
-               {
-                  costPerHour = (costThisPeriod * 60.0) / calendarWorkMinutesThisPeriod;
-               }
-            }
-
-            NewTimephasedCost item = new NewTimephasedCost();
-            item.setStart(start);
-            item.setEnd(end);
-            item.setCost(Double.valueOf(costThisPeriod / 100.0));
-            item.setCostPerHour(Double.valueOf(costPerHour / 100.0));
-            newList.add(item);
-
-            cumulativeCost = cumulativeCostThisPeriod;
-            offset += 20;
-            start = end;
+            costPerHour = (costThisPeriod * 60.0) / calendarWorkMinutesThisPeriod;
          }
 
-         if (cumulativeCost == 0)
-         {
-            newList = Collections.emptyList();
-         }
+         NewTimephasedCost item = new NewTimephasedCost();
+         item.setStart(start);
+         item.setEnd(end);
+         item.setCost(Double.valueOf(costThisPeriod / 100.0));
+         item.setCostPerHour(Double.valueOf(costPerHour / 100.0));
+         list.add(item);
+
+         cumulativeCost = cumulativeCostThisPeriod;
+         offset += 20;
+         start = end;
       }
 
-      int index = 16; // 16 byte header
-      int blockSize = 20;
-      double previousTotalCost = 0;
-
-      LocalDateTime blockStartDate = MPPUtility.getTimestampFromTenths(data, index + 16);
-      index += blockSize;
-
-      while (index + blockSize <= data.length)
+      if (cumulativeCost == 0)
       {
-         LocalDateTime blockEndDate = MPPUtility.getTimestampFromTenths(data, index + 16);
-         double currentTotalCost = (double) ((long) MPPUtility.getDouble(data, index + 8)) / 100;
-         if (!costEquals(previousTotalCost, currentTotalCost))
-         {
-            TimephasedCost cost = new TimephasedCost();
-            cost.setStart(blockStartDate);
-            cost.setFinish(blockEndDate);
-            cost.setTotalAmount(Double.valueOf(currentTotalCost - previousTotalCost));
-            list.add(cost);
-            previousTotalCost = currentTotalCost;
-         }
-
-         blockStartDate = blockEndDate;
-         index += blockSize;
+         return Collections.emptyList();
       }
 
-      List<TimephasedCost> newList2 = newList.stream().map(c -> populateTimephasedCost(baselineCalendar, c)).collect(Collectors.toList());
-//      if (!tempListComparator(list, newList2))
-//      {
-//         System.out.println("Mismatch!");
-//      }
-
-      //return list;
-      return newList2;
+      return list.stream().map(c -> populateTimephasedCost(baselineCalendar, c)).collect(Collectors.toList());
    }
-
-   private boolean tempListComparator(List<TimephasedCost> l1, List<TimephasedCost> l2)
-   {
-      if (l1.size() != l2.size())
-      {
-         return false;
-      }
-      for (int index=0; index <  l1.size(); index++)
-      {
-         if (!tempCostComparator(l1.get(index), l2.get(index)))
-         {
-            return false;
-         }
-      }
-
-      return true;
-   }
-
-   private boolean tempCostComparator(TimephasedCost c1, TimephasedCost c2)
-   {
-      return c1.getStart().equals(c2.getStart()) && c1.getFinish().equals(c2.getFinish()) && c1.getTotalAmount().equals(c2.getTotalAmount());
-   }
-
+   
    /**
     * Equality test cost values.
     *
