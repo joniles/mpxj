@@ -39,7 +39,9 @@ import org.mpxj.ResourceType;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedCost;
+import org.mpxj.TimephasedCostContainer;
 import org.mpxj.TimephasedWork;
+import org.mpxj.TimephasedWorkContainer;
 import org.mpxj.WorkContour;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DefaultTimephasedCostContainer;
@@ -196,16 +198,12 @@ public class ResourceAssignmentFactory
          for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
          {
             List<TimephasedWork> baselineWork = timephasedFactory.getBaselineWork(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])));
-            if (!baselineWork.isEmpty())
-            {
-               assignment.setTimephasedBaselineWork(index, new DefaultTimephasedWorkContainer(assignment, MPPTimephasedBaselineWorkNormaliser.INSTANCE, baselineWork, true));
-            }
+            TimephasedWorkContainer workContainer = baselineWork.isEmpty() ? null : new DefaultTimephasedWorkContainer(assignment, MPPTimephasedBaselineWorkNormaliser.INSTANCE, baselineWork, true);
+            assignment.setTimephasedBaselineWork(index, workContainer);
 
             List<TimephasedCost> baselineCost = timephasedFactory.getBaselineCost(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])));
-            if (!baselineCost.isEmpty())
-            {
-               assignment.setTimephasedBaselineCost(index, new DefaultTimephasedCostContainer(assignment, MPPTimephasedBaselineCostNormaliser.INSTANCE, baselineCost, !useRawTimephasedData));
-            }
+            TimephasedCostContainer costContainer = baselineCost.isEmpty() ? null : new DefaultTimephasedCostContainer(assignment, MPPTimephasedBaselineCostNormaliser.INSTANCE, baselineCost, !useRawTimephasedData);
+            assignment.setTimephasedBaselineCost(index, costContainer);
          }
 
          byte[] timephasedActualRegularWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_WORK));

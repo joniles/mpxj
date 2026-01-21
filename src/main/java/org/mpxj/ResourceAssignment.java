@@ -1377,7 +1377,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public void setTimephasedBaselineWork(int index, TimephasedWorkContainer data)
    {
-      m_timephasedBaselineWork[index] = data;
+      set(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index], data);
    }
 
    /**
@@ -1389,7 +1389,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public void setTimephasedBaselineWork(int index, List<TimephasedWork> data)
    {
-      m_timephasedBaselineWork[index] = createTimephasedWorkContainer(data);
+      set(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index], createTimephasedWorkContainer(data));
    }
 
    /**
@@ -1401,7 +1401,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public void setTimephasedBaselineCost(int index, TimephasedCostContainer data)
    {
-      m_timephasedBaselineCost[index] = data;
+      set(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index], data);
    }
 
    /**
@@ -1413,7 +1413,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public void setTimephasedBaselineCost(int index, List<TimephasedCost> data)
    {
-      m_timephasedBaselineCost[index] = createTimephasedCostContainer(data);
+      set(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index], createTimephasedCostContainer(data));
    }
 
    /**
@@ -1425,7 +1425,8 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<TimephasedWork> getTimephasedBaselineWork(int index)
    {
-      return m_timephasedBaselineWork[index] == null ? null : m_timephasedBaselineWork[index].getData();
+      TimephasedWorkContainer container =  (TimephasedWorkContainer)get(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index]);
+      return container == null ? null : container.getData();
    }
 
    /**
@@ -1437,7 +1438,8 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<TimephasedCost> getTimephasedBaselineCost(int index)
    {
-      return m_timephasedBaselineCost[index] == null ? null : m_timephasedBaselineCost[index].getData();
+      TimephasedCostContainer container = (TimephasedCostContainer) get(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index]);
+      return container == null ? null : container.getData();
    }
 
    /**
@@ -3411,9 +3413,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          }
       };
    }
-
-   private final TimephasedWorkContainer[] m_timephasedBaselineWork = new TimephasedWorkContainer[11];
-   private final TimephasedCostContainer[] m_timephasedBaselineCost = new TimephasedCostContainer[11];
 
    private final ProjectFile m_parentFile;
 
