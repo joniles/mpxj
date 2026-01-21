@@ -665,17 +665,16 @@ final class TimephasedDataFactory
     * Returns null if no baseline cost is present, otherwise returns
     * a list of timephased work items.
     *
-    * @param assignment resource assignment
+    * @param baselineCalendar baseline calendar
     * @param data timephased baseline work data block
     * @return timephased work
     */
-   public List<TimephasedCost> getBaselineCost(ResourceAssignment assignment, ProjectCalendar baselineCalendar, byte[] data)
+   public List<TimephasedCost> getBaselineCost(ProjectCalendar baselineCalendar, byte[] data)
    {
       if (data == null || data.length == 0)
       {
          return Collections.emptyList();
       }
-
 
       // Timephased baseline cost date is represented by a 16 byte header, followed by 20 byte blocks
       // The number of blocks is stored as a short at offset 0 in the header.
@@ -732,7 +731,7 @@ final class TimephasedDataFactory
 
       return list.stream().map(c -> populateTimephasedCost(baselineCalendar, c)).collect(Collectors.toList());
    }
-   
+
    /**
     * Equality test cost values.
     *
