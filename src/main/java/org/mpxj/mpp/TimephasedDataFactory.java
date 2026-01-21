@@ -64,50 +64,50 @@ final class TimephasedDataFactory
          m_start = start;
       }
 
-      public LocalDateTime getEnd()
+      public LocalDateTime getFinish()
       {
-         return m_end;
+         return m_finish;
       }
 
-      public void setEnd(LocalDateTime end)
+      public void setFinish(LocalDateTime finish)
       {
-         m_end = end;
+         m_finish = finish;
       }
 
-      public Duration getWork()
+      public Duration getTotalAmount()
       {
-         return m_work;
+         return m_totalAmount;
       }
 
-      public void setWork(Duration work)
+      public void setTotalAmount(Duration totalAmount)
       {
-         m_work = work;
+         m_totalAmount = totalAmount;
       }
 
-      public Duration getWorkPerHour()
+      public Duration getAmountPerHour()
       {
-         return m_workPerHour;
+         return m_amountPerHour;
       }
 
-      public void setWorkPerHour(Duration workPerHour)
+      public void setAmountPerHour(Duration amountPerHour)
       {
-         m_workPerHour = workPerHour;
+         m_amountPerHour = amountPerHour;
       }
 
       @Override public String toString()
       {
          return "NewTimephasedWork[" +
             "start=" + m_start +
-            ", end=" + m_end +
-            ", work=" + m_work +
-            ", workPerHour=" + m_workPerHour +
+            ", finish=" + m_finish +
+            ", totalAmount=" + m_totalAmount +
+            ", amountPerHour=" + m_amountPerHour +
             ']';
       }
 
       private LocalDateTime m_start;
-      private LocalDateTime m_end;
-      private Duration m_work;
-      private Duration m_workPerHour;
+      private LocalDateTime m_finish;
+      private Duration m_totalAmount;
+      private Duration m_amountPerHour;
    }
 
    /**
@@ -126,50 +126,50 @@ final class TimephasedDataFactory
          m_start = start;
       }
 
-      public LocalDateTime getEnd()
+      public LocalDateTime getFinish()
       {
-         return m_end;
+         return m_finish;
       }
 
-      public void setEnd(LocalDateTime end)
+      public void setFinish(LocalDateTime finish)
       {
-         m_end = end;
+         m_finish = finish;
       }
 
-      public Double getCost()
+      public Double getTotalAmount()
       {
-         return m_cost;
+         return m_totalAmount;
       }
 
-      public void setCost(Double Cost)
+      public void setTotalAmount(Double Cost)
       {
-         m_cost = Cost;
+         m_totalAmount = Cost;
       }
 
-      public Double getCostPerHour()
+      public Double getAmountPerHour()
       {
-         return m_costPerHour;
+         return m_amountPerHour;
       }
 
-      public void setCostPerHour(Double CostPerHour)
+      public void setAmountPerHour(Double CostPerHour)
       {
-         m_costPerHour = CostPerHour;
+         m_amountPerHour = CostPerHour;
       }
 
       @Override public String toString()
       {
          return "NewTimephasedCost[" +
             "start=" + m_start +
-            ", end=" + m_end +
-            ", cost=" + m_cost +
-            ", costPerHour=" + m_costPerHour +
+            ", finish=" + m_finish +
+            ", totalAmount=" + m_totalAmount +
+            ", amountPerHour=" + m_amountPerHour +
             ']';
       }
 
       private LocalDateTime m_start;
-      private LocalDateTime m_end;
-      private Double m_cost;
-      private Double m_costPerHour;
+      private LocalDateTime m_finish;
+      private Double m_totalAmount;
+      private Double m_amountPerHour;
    }
 
    /**
@@ -267,9 +267,9 @@ final class TimephasedDataFactory
 
          NewTimephasedWork item = new NewTimephasedWork();
          item.setStart(calendarPeriodStart);
-         item.setEnd(calendarPeriodEnd);
-         item.setWork(Duration.getInstance(totalWorkMinutesThisPeriod, TimeUnit.MINUTES));
-         item.setWorkPerHour(Duration.getInstance(calculatedWorkPerHour, TimeUnit.MINUTES));
+         item.setFinish(calendarPeriodEnd);
+         item.setTotalAmount(Duration.getInstance(totalWorkMinutesThisPeriod, TimeUnit.MINUTES));
+         item.setAmountPerHour(Duration.getInstance(calculatedWorkPerHour, TimeUnit.MINUTES));
          regularList.add(item);
 
          if (!irregularRanges.isEmpty())
@@ -278,14 +278,14 @@ final class TimephasedDataFactory
             {
                LocalDateTimeRange nextIrregularRange = irregularRanges.get(0);
 
-               if (item.getStart().equals(nextIrregularRange.getStart()) && item.getEnd().equals(nextIrregularRange.getEnd()))
+               if (item.getStart().equals(nextIrregularRange.getStart()) && item.getFinish().equals(nextIrregularRange.getEnd()))
                {
                   irregularRanges.remove(0);
                   item = null;
                   continue;
                }
 
-               if (!item.getStart().isAfter(nextIrregularRange.getStart()) && !item.getEnd().isBefore(nextIrregularRange.getEnd()))
+               if (!item.getStart().isAfter(nextIrregularRange.getStart()) && !item.getFinish().isBefore(nextIrregularRange.getEnd()))
                {
                   item = splitItem(calendar, regularList, irregularRanges);
                }
@@ -293,14 +293,14 @@ final class TimephasedDataFactory
                {
                   if (!item.getStart().isBefore(nextIrregularRange.getEnd()))
                   {
-                     long itemDuration = item.getStart().until(item.getEnd(), ChronoUnit.MINUTES);
+                     long itemDuration = item.getStart().until(item.getFinish(), ChronoUnit.MINUTES);
                      long rangeDuration = nextIrregularRange.getStart().until(nextIrregularRange.getEnd(), ChronoUnit.MINUTES);
                      if (itemDuration == rangeDuration)
                      {
                         irregularRanges.remove(0);
                         regularList.remove(regularList.size() - 1);
                         item.setStart(nextIrregularRange.getStart());
-                        item.setEnd(nextIrregularRange.getEnd());
+                        item.setFinish(nextIrregularRange.getEnd());
                         regularList.add(item);
                         item = null;
                      }
@@ -308,11 +308,11 @@ final class TimephasedDataFactory
                      {
                         // I think in this case there will be multiple irregular ranges applying to this item as moves
                         // so we'll need to work through them all.
-                        Duration itemMinutes = calendar.getWork(item.getStart(), item.getEnd(), TimeUnit.MINUTES);
-                        Duration itemWorkPerHour = Duration.getInstance(item.getWork().getDuration() * 60.0 / itemMinutes.getDuration(), TimeUnit.MINUTES);
+                        Duration itemMinutes = calendar.getWork(item.getStart(), item.getFinish(), TimeUnit.MINUTES);
+                        Duration itemWorkPerHour = Duration.getInstance(item.getTotalAmount().getDuration() * 60.0 / itemMinutes.getDuration(), TimeUnit.MINUTES);
 
                         // We're setting this here as the original value seems unreliable for irregular blocks?
-                        item.setWorkPerHour(itemWorkPerHour);
+                        item.setAmountPerHour(itemWorkPerHour);
 
                         while (item != null && !irregularRanges.isEmpty())
                         {
@@ -321,18 +321,18 @@ final class TimephasedDataFactory
 
                            NewTimephasedWork startItem = new NewTimephasedWork();
                            startItem.setStart(nextIrregularRange.getStart());
-                           startItem.setEnd(nextIrregularRange.getEnd());
-                           startItem.setWorkPerHour(item.getWorkPerHour());
-                           long startItemMinutes = startItem.getStart().until(startItem.getEnd(), ChronoUnit.MINUTES);
-                           double startItemWork = (startItemMinutes * startItem.getWorkPerHour().getDuration()) / 60.0;
-                           startItem.setWork(Duration.getInstance(startItemWork, TimeUnit.MINUTES));
+                           startItem.setFinish(nextIrregularRange.getEnd());
+                           startItem.setAmountPerHour(item.getAmountPerHour());
+                           long startItemMinutes = startItem.getStart().until(startItem.getFinish(), ChronoUnit.MINUTES);
+                           double startItemWork = (startItemMinutes * startItem.getAmountPerHour().getDuration()) / 60.0;
+                           startItem.setTotalAmount(Duration.getInstance(startItemWork, TimeUnit.MINUTES));
                            regularList.add(startItem);
 
-                           double remainingWork = item.getWork().getDuration() - startItemWork;
+                           double remainingWork = item.getTotalAmount().getDuration() - startItemWork;
                            if (remainingWork > 0)
                            {
                               item.setStart(startItem.getStart().plusMinutes(startItemMinutes));
-                              item.setWork(Duration.getInstance(remainingWork, TimeUnit.MINUTES));
+                              item.setTotalAmount(Duration.getInstance(remainingWork, TimeUnit.MINUTES));
                               regularList.add(item);
                               if (!irregularRanges.isEmpty())
                               {
@@ -356,7 +356,7 @@ final class TimephasedDataFactory
 
          totalWorkMinutes = totalWorkMinutesAtPeriodEnd;
          elapsedMinutes = elapsedMinutesAtPeriodEnd;
-         calendarPeriodStart = calendar.getNextWorkStart(regularList.get(regularList.size()-1).getEnd());
+         calendarPeriodStart = calendar.getNextWorkStart(regularList.get(regularList.size()-1).getFinish());
 
          offset += 20;
       }
@@ -375,8 +375,8 @@ final class TimephasedDataFactory
    {
       TimephasedWork work = new TimephasedWork();
       work.setStart(item.getStart());
-      work.setFinish(item.getEnd());
-      work.setTotalAmount(item.getWork());
+      work.setFinish(item.getFinish());
+      work.setTotalAmount(item.getTotalAmount());
 
       // from calculateAmountPerDay
       Duration amountPerDay;
@@ -408,8 +408,8 @@ final class TimephasedDataFactory
    {
       TimephasedCost cost = new TimephasedCost();
       cost.setStart(item.getStart());
-      cost.setFinish(item.getEnd());
-      cost.setTotalAmount(item.getCost());
+      cost.setFinish(item.getFinish());
+      cost.setTotalAmount(item.getTotalAmount());
 
       Double amountPerDay;
       if (cost.getTotalAmount().doubleValue() == 0)
@@ -452,34 +452,34 @@ final class TimephasedDataFactory
 
          NewTimephasedWork startItem = new NewTimephasedWork();
          startItem.setStart(item.getStart());
-         startItem.setEnd(finish);
-         startItem.setWorkPerHour(item.getWorkPerHour());
-         double workHours = calendar.getWork(startItem.getStart(), startItem.getEnd(), TimeUnit.HOURS).getDuration();
-         startItem.setWork(Duration.getInstance(workHours * item.getWorkPerHour().getDuration(), TimeUnit.MINUTES));
-         allocatedWorkInMinutes += startItem.getWork().getDuration();
+         startItem.setFinish(finish);
+         startItem.setAmountPerHour(item.getAmountPerHour());
+         double workHours = calendar.getWork(startItem.getStart(), startItem.getFinish(), TimeUnit.HOURS).getDuration();
+         startItem.setTotalAmount(Duration.getInstance(workHours * item.getAmountPerHour().getDuration(), TimeUnit.MINUTES));
+         allocatedWorkInMinutes += startItem.getTotalAmount().getDuration();
          regularList.add(startItem);
       }
 
       // Inserted Range
       NewTimephasedWork insertedItem =  new NewTimephasedWork();
       insertedItem.setStart(range.getStart());
-      insertedItem.setEnd(range.getEnd());
-      insertedItem.setWorkPerHour(item.getWorkPerHour());
+      insertedItem.setFinish(range.getEnd());
+      insertedItem.setAmountPerHour(item.getAmountPerHour());
       double insertedRangeWorkingHours = range.getStart().until(range.getEnd(), ChronoUnit.HOURS); // expecting this to always be 1
-      insertedItem.setWork(Duration.getInstance(insertedRangeWorkingHours * item.getWorkPerHour().getDuration(), TimeUnit.MINUTES));
-      allocatedWorkInMinutes += insertedItem.getWork().getDuration();
+      insertedItem.setTotalAmount(Duration.getInstance(insertedRangeWorkingHours * item.getAmountPerHour().getDuration(), TimeUnit.MINUTES));
+      allocatedWorkInMinutes += insertedItem.getTotalAmount().getDuration();
       regularList.add(insertedItem);
 
       // End Range
-      if (item.getEnd().isAfter(range.getEnd()))
+      if (item.getFinish().isAfter(range.getEnd()))
       {
          NewTimephasedWork endItem = new NewTimephasedWork();
          endItem.setStart(range.getEnd());
-         endItem.setWorkPerHour(item.getWorkPerHour());
-         double workMinutes = item.getWork().getDuration() - allocatedWorkInMinutes;
-         endItem.setWork(Duration.getInstance(workMinutes, TimeUnit.MINUTES));
+         endItem.setAmountPerHour(item.getAmountPerHour());
+         double workMinutes = item.getTotalAmount().getDuration() - allocatedWorkInMinutes;
+         endItem.setTotalAmount(Duration.getInstance(workMinutes, TimeUnit.MINUTES));
          //endItem.setEnd(item.getEnd());
-         endItem.setEnd(calendar.getDate(endItem.getStart(), endItem.getWork()));
+         endItem.setFinish(calendar.getDate(endItem.getStart(), endItem.getTotalAmount()));
 
          regularList.add(endItem);
       }
@@ -533,9 +533,9 @@ final class TimephasedDataFactory
 
             NewTimephasedWork item = new NewTimephasedWork();
             item.setStart(start);
-            item.setEnd(end);
-            item.setWork(work);
-            item.setWorkPerHour(workPerHour);
+            item.setFinish(end);
+            item.setTotalAmount(work);
+            item.setAmountPerHour(workPerHour);
             newList.add(item);
          }
       }
@@ -568,9 +568,9 @@ final class TimephasedDataFactory
             {
                NewTimephasedWork item = new NewTimephasedWork();
                item.setStart(start);
-               item.setEnd(end);
-               item.setWork(work);
-               item.setWorkPerHour(workPerHour);
+               item.setFinish(end);
+               item.setTotalAmount(work);
+               item.setAmountPerHour(workPerHour);
                newList.add(item);
             }
 
@@ -642,9 +642,9 @@ final class TimephasedDataFactory
 
          NewTimephasedWork item = new NewTimephasedWork();
          item.setStart(start);
-         item.setEnd(end);
-         item.setWork(Duration.getInstance(workMinutesThisPeriod, TimeUnit.MINUTES));
-         item.setWorkPerHour(Duration.getInstance(workPerHour, TimeUnit.MINUTES));
+         item.setFinish(end);
+         item.setTotalAmount(Duration.getInstance(workMinutesThisPeriod, TimeUnit.MINUTES));
+         item.setAmountPerHour(Duration.getInstance(workPerHour, TimeUnit.MINUTES));
          list.add(item);
 
          start = end;
@@ -714,9 +714,9 @@ final class TimephasedDataFactory
 
          NewTimephasedCost item = new NewTimephasedCost();
          item.setStart(start);
-         item.setEnd(end);
-         item.setCost(Double.valueOf(costThisPeriod / 100.0));
-         item.setCostPerHour(Double.valueOf(costPerHour / 100.0));
+         item.setFinish(end);
+         item.setTotalAmount(Double.valueOf(costThisPeriod / 100.0));
+         item.setAmountPerHour(Double.valueOf(costPerHour / 100.0));
          list.add(item);
 
          cumulativeCost = cumulativeCostThisPeriod;
