@@ -767,19 +767,23 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<TimephasedWork> getTimephasedOvertimeWork()
    {
-      TimephasedWorkContainer workContainer = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_WORK);
-
-      if (m_timephasedOvertimeWork == null && workContainer != null && getOvertimeWork() != null)
+      TimephasedWorkContainer overtimeWorkContainer = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_OVERTIME_WORK);
+      if (overtimeWorkContainer == null)
       {
-         double perDayFactor = getRemainingOvertimeWork().getDuration() / (getRemainingWork().getDuration() - getRemainingOvertimeWork().getDuration());
-         double totalFactor = getRemainingOvertimeWork().getDuration() / getRemainingWork().getDuration();
+         TimephasedWorkContainer workContainer = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_WORK);
+         if (workContainer != null && getOvertimeWork() != null)
+         {
+            double perDayFactor = getRemainingOvertimeWork().getDuration() / (getRemainingWork().getDuration() - getRemainingOvertimeWork().getDuration());
+            double totalFactor = getRemainingOvertimeWork().getDuration() / getRemainingWork().getDuration();
 
-         perDayFactor = Double.isNaN(perDayFactor) ? 0 : perDayFactor;
-         totalFactor = Double.isNaN(totalFactor) ? 0 : totalFactor;
+            perDayFactor = Double.isNaN(perDayFactor) ? 0 : perDayFactor;
+            totalFactor = Double.isNaN(totalFactor) ? 0 : totalFactor;
 
-         m_timephasedOvertimeWork = workContainer.applyFactor(perDayFactor, totalFactor);
+            overtimeWorkContainer = workContainer.applyFactor(perDayFactor, totalFactor);
+         }
       }
-      return m_timephasedOvertimeWork == null ? null : m_timephasedOvertimeWork.getData();
+
+      return overtimeWorkContainer == null ? null : overtimeWorkContainer.getData();
    }
 
    /**
@@ -790,7 +794,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public void setTimephasedActualOvertimeWork(TimephasedWorkContainer data)
    {
-      m_timephasedActualOvertimeWork = data;
+      set(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK, data);
    }
 
    /**
@@ -801,7 +805,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public void setTimephasedActualOvertimeWork(List<TimephasedWork> data)
    {
-      m_timephasedActualOvertimeWork = createTimephasedWorkContainer(data);
+      set(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK, createTimephasedWorkContainer(data));
    }
 
    /**
@@ -812,7 +816,8 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<TimephasedWork> getTimephasedActualOvertimeWork()
    {
-      return m_timephasedActualOvertimeWork == null ? null : m_timephasedActualOvertimeWork.getData();
+      TimephasedWorkContainer container = (TimephasedWorkContainer)get(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK);
+      return container == null ? null : container.getData();
    }
 
    /**
@@ -3407,8 +3412,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    private TimephasedCostContainer m_timephasedActualCost;
    private TimephasedCostContainer m_timephasedCost;
-   private TimephasedWorkContainer m_timephasedOvertimeWork;
-   private TimephasedWorkContainer m_timephasedActualOvertimeWork;
 
    private final TimephasedWorkContainer[] m_timephasedBaselineWork = new TimephasedWorkContainer[11];
    private final TimephasedCostContainer[] m_timephasedBaselineCost = new TimephasedCostContainer[11];

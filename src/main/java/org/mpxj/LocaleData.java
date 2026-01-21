@@ -2136,6 +2136,7 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION10_UNITS.getValue()] = "Duration10 Units";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_ACTUAL_IRREGULAR_WORK.getValue()] = "Timephased Actual Irregular Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_PLANNED_WORK.getValue()] = "Timephased Planned Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_OVERTIME_WORK.getValue()] = "Timephased Overtime Work";
 
       CONSTRAINT_COLUMNS_ARRAY[ConstraintField.UNIQUE_ID.getValue()] = "Unique ID";
       CONSTRAINT_COLUMNS_ARRAY[ConstraintField.TASK1.getValue()] = "Task 1";
