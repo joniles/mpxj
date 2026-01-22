@@ -265,10 +265,10 @@ public final class ByteArrayHelper
       while (bufferIndex < length)
       {
          int blockStart = blockIndex == 0 && blockStarts[0] != 0 ? 0 : blockStarts[blockIndex++];
-         int blockEnd = blockIndex == blockStarts.length ? length : blockStarts[blockIndex];
-         int blockLength = blockEnd - bufferIndex;
+         int blockEnd = blockIndex ==  blockStarts.length ? length : blockStarts[blockIndex];
+         int blockLength= blockEnd-bufferIndex;
          sb.append("[");
-         sb.append(hexdump(buffer, offset + bufferIndex, blockEnd - bufferIndex, false));
+         sb.append(hexdump(buffer, offset+bufferIndex, blockEnd-bufferIndex, false));
          sb.append("]");
          bufferIndex += blockLength;
       }

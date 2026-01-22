@@ -187,6 +187,7 @@ public class ResourceAssignmentFactory
             }
          }
 
+
          ProjectCalendar baselineCalendar = file.getCalendarByName(file.getProjectProperties().getBaselineCalendarName());
          if (baselineCalendar == null)
          {
