@@ -715,12 +715,12 @@ abstract class TableContextReader
       }
       else
       {
-         calendar.setWorkingDay(day, true);
          // Read hours
          for (StructuredTextRecord recWorkingHours : recHours)
          {
             addHours(hours, recWorkingHours);
          }
+         calendar.setWorkingDay(day, !calendar.getHours(day).isEmpty());
       }
    }
 
