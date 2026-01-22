@@ -780,11 +780,23 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
             perDayFactor = Double.isNaN(perDayFactor) ? 0 : perDayFactor;
             totalFactor = Double.isNaN(totalFactor) ? 0 : totalFactor;
 
-            overtimeWorkContainer = workContainer.applyFactor(perDayFactor, totalFactor);
+            overtimeWorkContainer = applyFactor(workContainer, perDayFactor, totalFactor);
          }
       }
 
       return overtimeWorkContainer == null ? null : overtimeWorkContainer.getData();
+   }
+
+   private TimephasedWorkContainer applyFactor(TimephasedWorkContainer source, double perDayFactor, double totalFactor)
+   {
+      List<TimephasedWork> data = new ArrayList<>();
+
+      for (TimephasedWork sourceItem : source.getData())
+      {
+         data.add(new TimephasedWork(sourceItem, totalFactor, perDayFactor));
+      }
+
+      return new DefaultTimephasedWorkContainer(data);
    }
 
    /**
@@ -3379,11 +3391,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          @Override public boolean hasData()
          {
             return true;
-         }
-
-         @Override public TimephasedWorkContainer applyFactor(double perDayFactor, double totalFactor)
-         {
-            throw new UnsupportedOperationException();
          }
       };
    }

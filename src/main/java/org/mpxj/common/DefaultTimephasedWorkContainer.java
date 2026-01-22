@@ -81,10 +81,5 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
       return !m_data.isEmpty();
    }
 
-   @Override public TimephasedWorkContainer applyFactor(double perDayFactor, double totalFactor)
-   {
-      return new DefaultTimephasedWorkContainer(this, perDayFactor, totalFactor);
-   }
-
    private final List<TimephasedWork> m_data;
 }
