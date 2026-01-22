@@ -42,6 +42,7 @@ import org.mpxj.common.AssignmentFieldLists;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.CombinedCalendar;
 import org.mpxj.common.DefaultTimephasedCostContainer;
+import org.mpxj.common.DefaultTimephasedWorkContainer;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.LocalTimeHelper;
 import org.mpxj.common.NumberHelper;
@@ -910,7 +911,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       //just return an empty list if there is no timephased work passed in
       if (standardWorkList == null)
       {
-         return new DefaultTimephasedCostContainer(this, null, Collections.emptyList(), false);
+         return new DefaultTimephasedCostContainer(Collections.emptyList());
       }
 
       List<TimephasedCost> result = new ArrayList<>();
@@ -994,7 +995,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
       }
 
-      return new DefaultTimephasedCostContainer(this, null, result, false);
+      return new DefaultTimephasedCostContainer(result);
    }
 
    /**
@@ -1112,7 +1113,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
             }
       }
 
-      return new DefaultTimephasedCostContainer(this, null, result, false);
+      return new DefaultTimephasedCostContainer(result);
    }
 
    /**
@@ -1150,7 +1151,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
             }
       }
 
-      return new DefaultTimephasedCostContainer(this, null, result, false);
+      return new DefaultTimephasedCostContainer(result);
    }
 
    /**

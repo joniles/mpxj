@@ -62,7 +62,6 @@ import org.mpxj.common.DefaultTimephasedCostContainer;
 import org.mpxj.common.LocalDateHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.ObjectSequence;
-import org.mpxj.mpp.MPPTimephasedBaselineCostNormaliser;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -107,7 +106,6 @@ import org.mpxj.common.DefaultTimephasedWorkContainer;
 import org.mpxj.common.FieldTypeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.Pair;
-import org.mpxj.common.SplitTaskFactory;
 import org.mpxj.common.UnmarshalHelper;
 import org.mpxj.mpp.CustomFieldValueItem;
 import org.mpxj.mspdi.schema.Project;
@@ -1989,8 +1987,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
 //               raw = false;
 //            }
 
-            DefaultTimephasedWorkContainer timephasedCompleteData = new DefaultTimephasedWorkContainer(mpx, MSPDITimephasedWorkNormaliser.INSTANCE, timephasedComplete, raw);
-            DefaultTimephasedWorkContainer timephasedPlannedData = new DefaultTimephasedWorkContainer(mpx, MSPDITimephasedWorkNormaliser.INSTANCE, timephasedPlanned, raw);
+            DefaultTimephasedWorkContainer timephasedCompleteData = new DefaultTimephasedWorkContainer(timephasedComplete);
+            DefaultTimephasedWorkContainer timephasedPlannedData = new DefaultTimephasedWorkContainer(timephasedPlanned);
 
             mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));
             mpx.setActualFinish(assignment.getActualFinish());
@@ -2059,7 +2057,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
                List<TimephasedWork> timephasedData = readTimephasedWork(assignment, entry.getKey().intValue());
                if (!timephasedData.isEmpty())
                {
-                  entry.getValue().apply(mpx, new DefaultTimephasedWorkContainer(mpx, MSPDITimephasedWorkNormaliser.INSTANCE, timephasedData, true));
+                  entry.getValue().apply(mpx, new DefaultTimephasedWorkContainer(timephasedData));
                }
             }
 
@@ -2069,7 +2067,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
                List<TimephasedCost> timephasedData = readTimephasedCost(assignment, entry.getKey().intValue());
                if (!timephasedData.isEmpty())
                {
-                  entry.getValue().apply(mpx, new DefaultTimephasedCostContainer(mpx, MPPTimephasedBaselineCostNormaliser.INSTANCE, timephasedData, true));
+                  entry.getValue().apply(mpx, new DefaultTimephasedCostContainer(timephasedData));
                }
             }
 

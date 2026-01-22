@@ -38,17 +38,11 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
    /**
     * Constructor.
     *
-    * @param assignment resource assignment to which the timephased data relates
-    * @param normaliser normaliser used to process this data
     * @param data timephased data
-    * @param raw flag indicating if this data is raw
     */
-   public DefaultTimephasedWorkContainer(ResourceAssignment assignment, TimephasedNormaliser<TimephasedWork> normaliser, List<TimephasedWork> data, boolean raw)
+   public DefaultTimephasedWorkContainer(List<TimephasedWork> data)
    {
       m_data = data;
-      m_raw = raw;
-      m_assignment = assignment;
-      m_normaliser = normaliser;
    }
 
    /**
@@ -62,9 +56,6 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
    private DefaultTimephasedWorkContainer(DefaultTimephasedWorkContainer source, double perDayFactor, double totalFactor)
    {
       m_data = new ArrayList<>();
-      m_raw = source.m_raw;
-      m_assignment = source.m_assignment;
-      m_normaliser = source.m_normaliser;
 
       for (TimephasedWork sourceItem : source.m_data)
       {
@@ -77,11 +68,6 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
     */
    @Override public List<TimephasedWork> getData()
    {
-//      if (m_raw)
-//      {
-//         m_normaliser.normalise(m_assignment.getEffectiveCalendar(), m_assignment, m_data);
-//         m_raw = false;
-//      }
       return m_data;
    }
 
@@ -101,7 +87,4 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
    }
 
    private final List<TimephasedWork> m_data;
-   private boolean m_raw;
-   private final TimephasedNormaliser<TimephasedWork> m_normaliser;
-   private final ResourceAssignment m_assignment;
 }

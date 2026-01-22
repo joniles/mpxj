@@ -48,7 +48,6 @@ import org.mpxj.common.DefaultTimephasedCostContainer;
 import org.mpxj.common.DefaultTimephasedWorkContainer;
 import org.mpxj.common.MicrosoftProjectConstants;
 import org.mpxj.common.NumberHelper;
-import org.mpxj.common.SplitTaskFactory;
 
 /**
  * Common implementation detail to extract resource assignment data from
@@ -197,11 +196,11 @@ public class ResourceAssignmentFactory
          for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
          {
             List<TimephasedWork> baselineWork = timephasedFactory.getBaselineWork(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])));
-            TimephasedWorkContainer workContainer = baselineWork.isEmpty() ? null : new DefaultTimephasedWorkContainer(assignment, MPPTimephasedBaselineWorkNormaliser.INSTANCE, baselineWork, true);
+            TimephasedWorkContainer workContainer = baselineWork.isEmpty() ? null : new DefaultTimephasedWorkContainer(baselineWork);
             assignment.setTimephasedBaselineWork(index, workContainer);
 
             List<TimephasedCost> baselineCost = timephasedFactory.getBaselineCost(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])));
-            TimephasedCostContainer costContainer = baselineCost.isEmpty() ? null : new DefaultTimephasedCostContainer(assignment, MPPTimephasedBaselineCostNormaliser.INSTANCE, baselineCost, !useRawTimephasedData);
+            TimephasedCostContainer costContainer = baselineCost.isEmpty() ? null : new DefaultTimephasedCostContainer(baselineCost);
             assignment.setTimephasedBaselineCost(index, costContainer);
          }
 
@@ -238,9 +237,9 @@ public class ResourceAssignmentFactory
 
          createTimephasedData(file, assignment, timephasedWork, timephasedActualWork);
 
-         assignment.setTimephasedWork(new DefaultTimephasedWorkContainer(assignment, MPPTimephasedWorkNormaliser.INSTANCE, timephasedWork, !useRawTimephasedData));
-         assignment.setTimephasedActualWork(new DefaultTimephasedWorkContainer(assignment, MPPTimephasedWorkNormaliser.INSTANCE, timephasedActualWork, !useRawTimephasedData));
-         assignment.setTimephasedActualOvertimeWork(new DefaultTimephasedWorkContainer(assignment, MPPTimephasedWorkNormaliser.INSTANCE, timephasedActualOvertimeWork, !useRawTimephasedData));
+         assignment.setTimephasedWork(new DefaultTimephasedWorkContainer(timephasedWork));
+         assignment.setTimephasedActualWork(new DefaultTimephasedWorkContainer(timephasedActualWork));
+         assignment.setTimephasedActualOvertimeWork(new DefaultTimephasedWorkContainer(timephasedActualOvertimeWork));
 
          if (timephasedWorkData != null)
          {

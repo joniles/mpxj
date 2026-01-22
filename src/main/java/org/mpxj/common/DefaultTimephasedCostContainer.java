@@ -37,17 +37,11 @@ public class DefaultTimephasedCostContainer implements TimephasedCostContainer
    /**
     * Constructor.
     *
-    * @param assignment resource assignment to which the timephased data relates
-    * @param normaliser normaliser used to process this data
     * @param data timephased data
-    * @param raw flag indicating if this data is raw
     */
-   public DefaultTimephasedCostContainer(ResourceAssignment assignment, TimephasedNormaliser<TimephasedCost> normaliser, List<TimephasedCost> data, boolean raw)
+   public DefaultTimephasedCostContainer(List<TimephasedCost> data)
    {
       m_data = data;
-      m_raw = raw;
-      m_assignment = assignment;
-      m_normaliser = normaliser;
    }
 
    /* (non-Javadoc)
@@ -55,11 +49,6 @@ public class DefaultTimephasedCostContainer implements TimephasedCostContainer
     */
    @Override public List<TimephasedCost> getData()
    {
-//      if (m_raw)
-//      {
-//         m_normaliser.normalise(m_assignment.getEffectiveCalendar(), m_assignment, m_data);
-//         m_raw = false;
-//      }
       return m_data;
    }
 
@@ -74,7 +63,4 @@ public class DefaultTimephasedCostContainer implements TimephasedCostContainer
    }
 
    private final List<TimephasedCost> m_data;
-   private boolean m_raw;
-   private final TimephasedNormaliser<TimephasedCost> m_normaliser;
-   private final ResourceAssignment m_assignment;
 }
