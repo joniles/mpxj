@@ -165,11 +165,11 @@
 
 	<target name="xjc-pmxml" depends="init" description="PMXML schema code generation">
 		<property name="classes.dir" value="${basedir}/target/classes" />
-		<copy file="${env.MPXJ_SCHEMA_DIR}/pmxml/p6v2412-p6apibo-corrected.xsd" toDir="${basedir}/jaxb"/>
+		<copy file="${env.MPXJ_SCHEMA_DIR}/pmxml/p6v2512-p6apibo-corrected.xsd" toDir="${basedir}/jaxb"/>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
-			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b pm-binding.xjb -p org.mpxj.primavera.schema p6v2412-p6apibo-corrected.xsd" />
+			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b pm-binding.xjb -p org.mpxj.primavera.schema p6v2512-p6apibo-corrected.xsd" />
 		</exec>
-		<delete file="${basedir}/jaxb/p6v2412-p6apibo-corrected.xsd"/>
+		<delete file="${basedir}/jaxb/p6v2512-p6apibo-corrected.xsd"/>
 	</target>
 
 	<target name="xjc-mspdi" depends="init" description="MSPDI schema code generation">
