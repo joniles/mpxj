@@ -74,5 +74,5 @@ class NamespaceFilter extends XMLFilterImpl
       ELEMENT_MAP.put("BusinessObjects", "APIBusinessObjects");
    }
 
-   private static final String NAMESPACE = "http://xmlns.oracle.com/Primavera/P6/V24.12/API/BusinessObjects";
+   private static final String NAMESPACE = "http://xmlns.oracle.com/Primavera/P6/V25.12/API/BusinessObjects";
 }

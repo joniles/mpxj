@@ -1,6 +1,6 @@
 <jxb:bindings version="3.0" xmlns:jxb="https://jakarta.ee/xml/ns/jaxb" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <!-- note that the schemaLocation will need to be changed to be correct for your system -->
-  <jxb:bindings node="/xsd:schema" schemaLocation="file:p6v2412-p6apibo-corrected.xsd">
+  <jxb:bindings node="/xsd:schema" schemaLocation="file:p6v2512-p6apibo-corrected.xsd">
     <jxb:globalBindings generateElementProperty="false">
       <jxb:javaType name="java.time.LocalDateTime" parseMethod="org.mpxj.primavera.DatatypeConverter.parseDateTime" printMethod="org.mpxj.primavera.DatatypeConverter.printDateTime" xmlType="xsd:dateTime"/>
       <jxb:javaType name="java.time.LocalTime" parseMethod="org.mpxj.primavera.DatatypeConverter.parseTime" printMethod="org.mpxj.primavera.DatatypeConverter.printTime" xmlType="xsd:time"/>
