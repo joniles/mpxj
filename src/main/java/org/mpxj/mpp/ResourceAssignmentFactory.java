@@ -230,11 +230,11 @@ public class ResourceAssignmentFactory
          }
 
          // TODO: this assumes that timephased data for all assignments of a task is the same
-         if (!task.getMilestone() && !processedSplits.contains(task))
-         {
-            processedSplits.add(task);
-            SplitTaskFactory.processSplitData(assignment, timephasedActualWork, timephasedWork);
-         }
+//         if (!task.getMilestone() && !processedSplits.contains(task))
+//         {
+//            processedSplits.add(task);
+//            SplitTaskFactory.processSplitData(assignment, timephasedActualWork, timephasedWork);
+//         }
 
          createTimephasedData(file, assignment, timephasedWork, timephasedActualWork);
 

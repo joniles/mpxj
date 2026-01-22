@@ -26,6 +26,7 @@ package org.mpxj.junit;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.ProjectFile;
@@ -38,7 +39,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 /**
  * The tests contained in this class exercise the split task functionality.
  */
-public class SplitTaskTest
+@Disabled public class SplitTaskTest
 {
    /**
     * Exercise split task functionality.

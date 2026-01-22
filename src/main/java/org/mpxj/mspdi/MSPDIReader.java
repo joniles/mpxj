@@ -1981,13 +1981,13 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
             boolean raw = true;
 
             // TODO: this assumes that timephased data for all assignments of a task is the same
-            if (isSplit(calendar, timephasedComplete) || isSplit(calendar, timephasedPlanned))
-            {
-               MSPDITimephasedWorkNormaliser.INSTANCE.normalise(calendar, mpx, timephasedComplete);
-               MSPDITimephasedWorkNormaliser.INSTANCE.normalise(calendar, mpx, timephasedPlanned);
-               SplitTaskFactory.processSplitData(mpx, timephasedComplete, timephasedPlanned);
-               raw = false;
-            }
+//            if (isSplit(calendar, timephasedComplete) || isSplit(calendar, timephasedPlanned))
+//            {
+//               MSPDITimephasedWorkNormaliser.INSTANCE.normalise(calendar, mpx, timephasedComplete);
+//               MSPDITimephasedWorkNormaliser.INSTANCE.normalise(calendar, mpx, timephasedPlanned);
+//               SplitTaskFactory.processSplitData(mpx, timephasedComplete, timephasedPlanned);
+//               raw = false;
+//            }
 
             DefaultTimephasedWorkContainer timephasedCompleteData = new DefaultTimephasedWorkContainer(mpx, MSPDITimephasedWorkNormaliser.INSTANCE, timephasedComplete, raw);
             DefaultTimephasedWorkContainer timephasedPlannedData = new DefaultTimephasedWorkContainer(mpx, MSPDITimephasedWorkNormaliser.INSTANCE, timephasedPlanned, raw);
