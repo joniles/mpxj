@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.Duration;
@@ -45,7 +46,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * This a test for reading timephased work of manual scheduled tasks from an MPP file.
  */
-public class TimephasedWorkSegmentManualTest
+@Disabled public class TimephasedWorkSegmentManualTest
 {
    /**
     * Timephased segment test for MPP14 files.

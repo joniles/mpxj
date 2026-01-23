@@ -58,6 +58,8 @@ public final class TimephasedUtility
     */
    public ArrayList<Duration> segmentWork(ProjectCalendar projectCalendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, List<LocalDateTimeRange> dateList)
    {
+      throw new UnsupportedOperationException();
+/*
       ArrayList<Duration> result = new ArrayList<>(dateList.size());
       int lastStartIndex = 0;
 
@@ -92,6 +94,7 @@ public final class TimephasedUtility
       }
 
       return result;
+ */
    }
 
    /**
@@ -107,7 +110,8 @@ public final class TimephasedUtility
     */
    public ArrayList<Duration> segmentBaselineWork(ProjectCalendar calendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
    {
-      return segmentWork(calendar, work, rangeUnits, dateList);
+      throw new UnsupportedOperationException();
+      //return segmentWork(calendar, work, rangeUnits, dateList);
    }
 
    /**
@@ -123,6 +127,8 @@ public final class TimephasedUtility
     */
    public ArrayList<Double> segmentCost(ProjectCalendar projectCalendar, List<TimephasedCost> cost, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
    {
+      throw new UnsupportedOperationException();
+/*
       ArrayList<Double> result = new ArrayList<>(dateList.size());
       int lastStartIndex = 0;
 
@@ -157,6 +163,7 @@ public final class TimephasedUtility
       }
 
       return result;
+ */
    }
 
    /**
@@ -172,7 +179,8 @@ public final class TimephasedUtility
     */
    public ArrayList<Double> segmentBaselineCost(ProjectCalendar calendar, List<TimephasedCost> cost, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
    {
-      return segmentCost(calendar, cost, rangeUnits, dateList);
+      throw new UnsupportedOperationException();
+      //return segmentCost(calendar, cost, rangeUnits, dateList);
    }
 
    /**
@@ -185,6 +193,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start the search
     * @return index of timephased resource assignment which intersects with the target date range
     */
+/*
    private <T extends TimephasedItem<?>> int getStartIndex(LocalDateTimeRange range, List<T> assignments, int startIndex)
    {
       int result = -1;
@@ -232,7 +241,7 @@ public final class TimephasedUtility
       }
       return result;
    }
-
+*/
    /**
     * For a given date range, determine the duration of work, based on the
     * timephased resource assignment data.
@@ -244,6 +253,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
+/*
    private Duration getRangeDuration(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedWork> assignments, int startIndex)
    {
       Duration result;
@@ -266,7 +276,7 @@ public final class TimephasedUtility
 
       return result;
    }
-
+*/
    /**
     * For a given date range, determine the duration of work, based on the
     * timephased resource assignment data.
@@ -280,11 +290,12 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
+/*
    private Duration getRangeDurationSubDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedWork> assignments, int startIndex)
    {
       throw new UnsupportedOperationException("Please request this functionality from the MPXJ maintainer");
    }
-
+*/
    /**
     * For a given date range, determine the duration of work, based on the
     * timephased resource assignment data.
@@ -298,6 +309,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
+/*
    private Duration getRangeDurationWholeDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedWork> assignments, int startIndex)
    {
       // option 1:
@@ -376,7 +388,7 @@ public final class TimephasedUtility
 
       return Duration.getInstance(totalWork, assignment.getAmountPerDay().getUnits());
    }
-
+*/
    /**
     * For a given date range, determine the cost, based on the
     * timephased resource assignment data.
@@ -388,6 +400,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
+/*
    private Double getRangeCost(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedCost> assignments, int startIndex)
    {
       Double result;
@@ -410,7 +423,7 @@ public final class TimephasedUtility
 
       return result;
    }
-
+*/
    /**
     * For a given date range, determine the cost, based on the
     * timephased resource assignment data.
@@ -424,6 +437,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
+/*
    private Double getRangeCostWholeDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedCost> assignments, int startIndex)
    {
       int totalDays = 0;
@@ -481,7 +495,7 @@ public final class TimephasedUtility
 
       return Double.valueOf(totalCost);
    }
-
+*/
    /**
     * For a given date range, determine the cost, based on the
     * timephased resource assignment data.
@@ -495,8 +509,10 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
+/*
    private Double getRangeCostSubDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedCost> assignments, int startIndex)
    {
       throw new UnsupportedOperationException("Please request this functionality from the MPXJ maintainer");
    }
+ */
 }

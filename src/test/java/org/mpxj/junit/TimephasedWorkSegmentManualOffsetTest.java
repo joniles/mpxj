@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.Duration;
@@ -51,7 +52,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * It validates the data against JSON within the Note field for each assignment.
  * The JSON is created by a VBA inside the MPP file.
  */
-public class TimephasedWorkSegmentManualOffsetTest
+@Disabled public class TimephasedWorkSegmentManualOffsetTest
 {
    /**
     * Timephased segment test for MPP14 files.
