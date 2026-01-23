@@ -56,9 +56,6 @@ import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.LocalDateRange;
 import org.mpxj.LocalTimeRange;
 import org.mpxj.TimephasedCost;
-import org.mpxj.TimephasedCostContainer;
-import org.mpxj.TimephasedWorkContainer;
-import org.mpxj.common.DefaultTimephasedCostContainer;
 import org.mpxj.common.LocalDateHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.ObjectSequence;
@@ -102,7 +99,6 @@ import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedWork;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.CharsetHelper;
-import org.mpxj.common.DefaultTimephasedWorkContainer;
 import org.mpxj.common.FieldTypeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.Pair;
@@ -1987,9 +1983,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
 //               raw = false;
 //            }
 
-            DefaultTimephasedWorkContainer timephasedCompleteData = new DefaultTimephasedWorkContainer(timephasedComplete);
-            DefaultTimephasedWorkContainer timephasedPlannedData = new DefaultTimephasedWorkContainer(timephasedPlanned);
-
             mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));
             mpx.setActualFinish(assignment.getActualFinish());
             mpx.setActualOvertimeCost(DatatypeConverter.parseCurrency(assignment.getActualOvertimeCost()));
@@ -2034,8 +2027,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
             mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getWork()));
             mpx.setWorkContour(assignment.getWorkContour());
 
-            mpx.setTimephasedActualWork(timephasedCompleteData);
-            mpx.setTimephasedWork(timephasedPlannedData);
+            mpx.setTimephasedActualWork(timephasedComplete);
+            mpx.setTimephasedWork(timephasedPlanned);
 
             readAssignmentExtendedAttributes(assignment, mpx);
 
@@ -2057,7 +2050,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
                List<TimephasedWork> timephasedData = readTimephasedWork(assignment, entry.getKey().intValue());
                if (!timephasedData.isEmpty())
                {
-                  entry.getValue().apply(mpx, new DefaultTimephasedWorkContainer(timephasedData));
+                  entry.getValue().apply(mpx, timephasedData);
                }
             }
 
@@ -2067,7 +2060,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
                List<TimephasedCost> timephasedData = readTimephasedCost(assignment, entry.getKey().intValue());
                if (!timephasedData.isEmpty())
                {
-                  entry.getValue().apply(mpx, new DefaultTimephasedCostContainer(timephasedData));
+                  entry.getValue().apply(mpx, timephasedData);
                }
             }
 
@@ -2338,12 +2331,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
 
    interface TimephasedWorkAssignmentFunction
    {
-      void apply(ResourceAssignment assignment, TimephasedWorkContainer container);
+      void apply(ResourceAssignment assignment, List<TimephasedWork> container);
    }
 
    interface TimephasedCostAssignmentFunction
    {
-      void apply(ResourceAssignment assignment, TimephasedCostContainer container);
+      void apply(ResourceAssignment assignment, List<TimephasedCost> container);
    }
 
    private static final Map<Integer, TimephasedWorkAssignmentFunction> TIMEPHASED_BASELINE_WORK_MAP = new HashMap<>();

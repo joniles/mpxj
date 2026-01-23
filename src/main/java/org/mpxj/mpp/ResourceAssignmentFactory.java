@@ -39,13 +39,9 @@ import org.mpxj.ResourceType;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedCost;
-import org.mpxj.TimephasedCostContainer;
 import org.mpxj.TimephasedWork;
-import org.mpxj.TimephasedWorkContainer;
 import org.mpxj.WorkContour;
 import org.mpxj.common.ByteArrayHelper;
-import org.mpxj.common.DefaultTimephasedCostContainer;
-import org.mpxj.common.DefaultTimephasedWorkContainer;
 import org.mpxj.common.MicrosoftProjectConstants;
 import org.mpxj.common.NumberHelper;
 
@@ -196,11 +192,11 @@ public class ResourceAssignmentFactory
          for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
          {
             List<TimephasedWork> baselineWork = timephasedFactory.getBaselineWork(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])));
-            TimephasedWorkContainer workContainer = baselineWork.isEmpty() ? null : new DefaultTimephasedWorkContainer(baselineWork);
+            List<TimephasedWork> workContainer = baselineWork.isEmpty() ? null : baselineWork;
             assignment.setTimephasedBaselineWork(index, workContainer);
 
             List<TimephasedCost> baselineCost = timephasedFactory.getBaselineCost(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])));
-            TimephasedCostContainer costContainer = baselineCost.isEmpty() ? null : new DefaultTimephasedCostContainer(baselineCost);
+            List<TimephasedCost> costContainer = baselineCost.isEmpty() ? null : baselineCost;
             assignment.setTimephasedBaselineCost(index, costContainer);
          }
 
@@ -237,9 +233,9 @@ public class ResourceAssignmentFactory
 
          createTimephasedData(file, assignment, timephasedWork, timephasedActualWork);
 
-         assignment.setTimephasedWork(new DefaultTimephasedWorkContainer(timephasedWork));
-         assignment.setTimephasedActualWork(new DefaultTimephasedWorkContainer(timephasedActualWork));
-         assignment.setTimephasedActualOvertimeWork(new DefaultTimephasedWorkContainer(timephasedActualOvertimeWork));
+         assignment.setTimephasedWork(timephasedWork);
+         assignment.setTimephasedActualWork(timephasedActualWork);
+         assignment.setTimephasedActualOvertimeWork(timephasedActualOvertimeWork);
 
          if (timephasedWorkData != null)
          {

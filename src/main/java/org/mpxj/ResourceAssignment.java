@@ -41,8 +41,6 @@ import java.util.function.Function;
 import org.mpxj.common.AssignmentFieldLists;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.CombinedCalendar;
-import org.mpxj.common.DefaultTimephasedCostContainer;
-import org.mpxj.common.DefaultTimephasedWorkContainer;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.LocalTimeHelper;
 import org.mpxj.common.NumberHelper;
@@ -664,21 +662,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased planned work
     */
-   public List<TimephasedWork> getTimephasedPlannedWork()
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getTimephasedPlannedWork()
    {
-      TimephasedWorkContainer container = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_PLANNED_WORK);
-      return container == null ? null : container.getData();
-   }
-
-   /**
-    * Sets the timephased breakdown of the planned work for this
-    * resource assignment.
-    *
-    * @param data timephased data
-    */
-   public void setTimephasedPlannedWork(TimephasedWorkContainer data)
-   {
-      set(AssignmentField.TIMEPHASED_PLANNED_WORK, data);
+      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_PLANNED_WORK);
    }
 
    /**
@@ -689,7 +675,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public void setTimephasedPlannedWork(List<TimephasedWork> data)
    {
-      set(AssignmentField.TIMEPHASED_PLANNED_WORK, createTimephasedWorkContainer(data));
+      set(AssignmentField.TIMEPHASED_PLANNED_WORK, data);
    }
 
    /**
@@ -698,21 +684,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased completed work
     */
-   public List<TimephasedWork> getTimephasedActualWork()
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getTimephasedActualWork()
    {
-      TimephasedWorkContainer container = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_ACTUAL_WORK);
-      return container == null ? null : container.getData();
-   }
-
-   /**
-    * Sets the timephased breakdown of the completed work for this
-    * resource assignment.
-    *
-    * @param data timephased data
-    */
-   public void setTimephasedActualWork(TimephasedWorkContainer data)
-   {
-      set(AssignmentField.TIMEPHASED_ACTUAL_WORK, data);
+      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_WORK);
    }
 
    /**
@@ -723,7 +697,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public void setTimephasedActualWork(List<TimephasedWork> data)
    {
-      set(AssignmentField.TIMEPHASED_ACTUAL_WORK, createTimephasedWorkContainer(data));
+      set(AssignmentField.TIMEPHASED_ACTUAL_WORK, data);
    }
 
    /**
@@ -732,21 +706,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased planned work
     */
-   public List<TimephasedWork> getTimephasedWork()
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getTimephasedWork()
    {
-      TimephasedWorkContainer container = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_WORK);
-      return container == null ? null : container.getData();
-   }
-
-   /**
-    * Sets the timephased breakdown of the planned work for this
-    * resource assignment.
-    *
-    * @param data timephased data
-    */
-   public void setTimephasedWork(TimephasedWorkContainer data)
-   {
-      set(AssignmentField.TIMEPHASED_WORK, data);
+      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_WORK);
    }
 
    /**
@@ -757,7 +719,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public void setTimephasedWork(List<TimephasedWork> data)
    {
-      set(AssignmentField.TIMEPHASED_WORK, createTimephasedWorkContainer(data));
+      set(AssignmentField.TIMEPHASED_WORK, data);
    }
 
    /**
@@ -766,12 +728,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased planned work
     */
-   public List<TimephasedWork> getTimephasedOvertimeWork()
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getTimephasedOvertimeWork()
    {
-      TimephasedWorkContainer overtimeWorkContainer = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_OVERTIME_WORK);
+      List<TimephasedWork> overtimeWorkContainer = (List<TimephasedWork>)get(AssignmentField.TIMEPHASED_OVERTIME_WORK);
       if (overtimeWorkContainer == null)
       {
-         TimephasedWorkContainer workContainer = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_WORK);
+         List<TimephasedWork> workContainer = getTimephasedWork();
          if (workContainer != null && getOvertimeWork() != null)
          {
             double perDayFactor = getRemainingOvertimeWork().getDuration() / (getRemainingWork().getDuration() - getRemainingOvertimeWork().getDuration());
@@ -784,30 +746,19 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          }
       }
 
-      return overtimeWorkContainer == null ? null : overtimeWorkContainer.getData();
+      return overtimeWorkContainer;
    }
 
-   private TimephasedWorkContainer applyFactor(TimephasedWorkContainer source, double perDayFactor, double totalFactor)
+   private List<TimephasedWork> applyFactor(List<TimephasedWork> source, double perDayFactor, double totalFactor)
    {
       List<TimephasedWork> data = new ArrayList<>();
 
-      for (TimephasedWork sourceItem : source.getData())
+      for (TimephasedWork sourceItem : source)
       {
          data.add(new TimephasedWork(sourceItem, totalFactor, perDayFactor));
       }
 
-      return new DefaultTimephasedWorkContainer(data);
-   }
-
-   /**
-    * Sets the timephased breakdown of the actual overtime work
-    * for this assignment.
-    *
-    * @param data timephased work
-    */
-   public void setTimephasedActualOvertimeWork(TimephasedWorkContainer data)
-   {
-      set(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK, data);
+      return data;
    }
 
    /**
@@ -818,7 +769,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public void setTimephasedActualOvertimeWork(List<TimephasedWork> data)
    {
-      set(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK, createTimephasedWorkContainer(data));
+      set(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK, data);
    }
 
    /**
@@ -827,10 +778,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased planned work
     */
-   public List<TimephasedWork> getTimephasedActualOvertimeWork()
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getTimephasedActualOvertimeWork()
    {
-      TimephasedWorkContainer container = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK);
-      return container == null ? null : container.getData();
+      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK);
    }
 
    /**
@@ -838,9 +788,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased cost
     */
-   public List<TimephasedCost> getTimephasedCost()
+   @SuppressWarnings("unchecked") public List<TimephasedCost> getTimephasedCost()
    {
-      TimephasedCostContainer costContainer = (TimephasedCostContainer) get(AssignmentField.TIMEPHASED_COST);
+      List<TimephasedCost> costContainer = (List<TimephasedCost>)get(AssignmentField.TIMEPHASED_COST);
       if (costContainer == null)
       {
          Resource r = getResource();
@@ -849,16 +799,16 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          // For Work and Material resources, we will calculate in the normal way
          if (type != ResourceType.COST)
          {
-            TimephasedWorkContainer timephasedWork = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_WORK);
-            if (timephasedWork != null && timephasedWork.hasData())
+            List<TimephasedWork> timephasedWork = getTimephasedWork();
+            if (timephasedWork != null && !timephasedWork.isEmpty())
             {
                if (hasMultipleCostRates())
                {
-                  costContainer = getTimephasedCostMultipleRates(getTimephasedWork(), getTimephasedOvertimeWork());
+                  costContainer = getTimephasedCostMultipleRates(timephasedWork, getTimephasedOvertimeWork());
                }
                else
                {
-                  costContainer = getTimephasedCostSingleRate(getTimephasedWork(), getTimephasedOvertimeWork());
+                  costContainer = getTimephasedCostSingleRate(timephasedWork, getTimephasedOvertimeWork());
                }
             }
          }
@@ -868,7 +818,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          }
 
       }
-      return costContainer == null ? null : costContainer.getData();
+      return costContainer;
    }
 
    /**
@@ -876,9 +826,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased actual cost
     */
-   public List<TimephasedCost> getTimephasedActualCost()
+   @SuppressWarnings("unchecked") public List<TimephasedCost> getTimephasedActualCost()
    {
-      TimephasedCostContainer actualCost = (TimephasedCostContainer) get(AssignmentField.TIMEPHASED_ACTUAL_COST);
+      List<TimephasedCost> actualCost = (List<TimephasedCost>) get(AssignmentField.TIMEPHASED_ACTUAL_COST);
       if (actualCost == null)
       {
          Resource r = getResource();
@@ -887,16 +837,16 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          // For Work and Material resources, we will calculate in the normal way
          if (type != ResourceType.COST)
          {
-            TimephasedWorkContainer actualWorkContainer = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_ACTUAL_WORK);
-            if (actualWorkContainer != null && actualWorkContainer.hasData())
+            List<TimephasedWork> actualWorkContainer = getTimephasedActualWork();
+            if (actualWorkContainer != null && !actualWorkContainer.isEmpty())
             {
                if (hasMultipleCostRates())
                {
-                  actualCost = getTimephasedCostMultipleRates(getTimephasedActualWork(), getTimephasedActualOvertimeWork());
+                  actualCost = getTimephasedCostMultipleRates(actualWorkContainer, getTimephasedActualOvertimeWork());
                }
                else
                {
-                  actualCost = getTimephasedCostSingleRate(getTimephasedActualWork(), getTimephasedActualOvertimeWork());
+                  actualCost = getTimephasedCostSingleRate(actualWorkContainer, getTimephasedActualOvertimeWork());
                }
             }
          }
@@ -907,7 +857,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
       }
 
-      return actualCost == null ? null : actualCost.getData();
+      return actualCost;
    }
 
    /**
@@ -918,12 +868,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     * @param overtimeWorkList timephased work
     * @return timephased cost
     */
-   private TimephasedCostContainer getTimephasedCostSingleRate(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
+   private List<TimephasedCost> getTimephasedCostSingleRate(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
    {
       //just return an empty list if there is no timephased work passed in
       if (standardWorkList == null)
       {
-         return new DefaultTimephasedCostContainer(Collections.emptyList());
+         return Collections.emptyList();
       }
 
       List<TimephasedCost> result = new ArrayList<>();
@@ -1007,7 +957,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
       }
 
-      return new DefaultTimephasedCostContainer(result);
+      return result;
    }
 
    /**
@@ -1018,7 +968,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     * @param overtimeWorkList timephased work
     * @return timephased cost
     */
-   private TimephasedCostContainer getTimephasedCostMultipleRates(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
+   private List<TimephasedCost> getTimephasedCostMultipleRates(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
    {
       List<TimephasedWork> standardWorkResult = new ArrayList<>();
       List<TimephasedWork> overtimeWorkResult = new ArrayList<>();
@@ -1059,7 +1009,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased cost
     */
-   private TimephasedCostContainer getTimephasedCostFixedAmount()
+   private List<TimephasedCost> getTimephasedCostFixedAmount()
    {
       List<TimephasedCost> result = new ArrayList<>();
 
@@ -1125,7 +1075,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
             }
       }
 
-      return new DefaultTimephasedCostContainer(result);
+      return result;
    }
 
    /**
@@ -1133,7 +1083,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased cost
     */
-   private TimephasedCostContainer getTimephasedActualCostFixedAmount()
+   private List<TimephasedCost> getTimephasedActualCostFixedAmount()
    {
       List<TimephasedCost> result = new ArrayList<>();
 
@@ -1163,7 +1113,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
             }
       }
 
-      return new DefaultTimephasedCostContainer(result);
+      return result;
    }
 
    /**
@@ -1376,21 +1326,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public boolean getHasTimephasedData()
    {
-      TimephasedWorkContainer workContainer = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_WORK);
-      TimephasedWorkContainer actualWorkContainer = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_ACTUAL_WORK);
-      return (workContainer != null && workContainer.hasData()) || (actualWorkContainer != null && actualWorkContainer.hasData());
-   }
-
-   /**
-    * Set timephased baseline work. Note that index 0 represents "Baseline",
-    * index 1 represents "Baseline1" and so on.
-    *
-    * @param index baseline index
-    * @param data timephased data
-    */
-   public void setTimephasedBaselineWork(int index, TimephasedWorkContainer data)
-   {
-      set(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index], data);
+      List<TimephasedWork> workContainer = getTimephasedWork();
+      List<TimephasedWork> actualWorkContainer = getTimephasedActualWork();
+      return (workContainer != null && !workContainer.isEmpty()) || (actualWorkContainer != null && !actualWorkContainer.isEmpty());
    }
 
    /**
@@ -1402,19 +1340,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public void setTimephasedBaselineWork(int index, List<TimephasedWork> data)
    {
-      set(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index], createTimephasedWorkContainer(data));
-   }
-
-   /**
-    * Set timephased baseline cost. Note that index 0 represents "Baseline",
-    * index 1 represents "Baseline1" and so on.
-    *
-    * @param index baseline index
-    * @param data timephased data
-    */
-   public void setTimephasedBaselineCost(int index, TimephasedCostContainer data)
-   {
-      set(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index], data);
+      set(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index], data);
    }
 
    /**
@@ -1426,7 +1352,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public void setTimephasedBaselineCost(int index, List<TimephasedCost> data)
    {
-      set(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index], createTimephasedCostContainer(data));
+      set(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index], data);
    }
 
    /**
@@ -1436,10 +1362,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     * @param index baseline index
     * @return timephased work, or null if no baseline is present
     */
-   public List<TimephasedWork> getTimephasedBaselineWork(int index)
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getTimephasedBaselineWork(int index)
    {
-      TimephasedWorkContainer container = (TimephasedWorkContainer) get(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index]);
-      return container == null ? null : container.getData();
+      return (List<TimephasedWork>) get(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index]);
    }
 
    /**
@@ -1449,10 +1374,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     * @param index baseline index
     * @return timephased work, or null if no baseline is present
     */
-   public List<TimephasedCost> getTimephasedBaselineCost(int index)
+   @SuppressWarnings("unchecked") public List<TimephasedCost> getTimephasedBaselineCost(int index)
    {
-      TimephasedCostContainer container = (TimephasedCostContainer) get(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index]);
-      return container == null ? null : container.getData();
+      return (List<TimephasedCost>) get(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index]);
    }
 
    /**
@@ -3368,59 +3292,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return new HashMap<>();
    }
 
-   /**
-    * Wrap a list of TimephasedWork instances in a TimephasedWorkContainer.
-    *
-    * @param data timephased work data
-    * @return TimephasedWorkContainer instance
-    */
-   private TimephasedWorkContainer createTimephasedWorkContainer(List<TimephasedWork> data)
-   {
-      if (data == null)
-      {
-         return null;
-      }
-
-      return new TimephasedWorkContainer()
-      {
-         @Override public List<TimephasedWork> getData()
-         {
-            return data;
-         }
-
-         @Override public boolean hasData()
-         {
-            return true;
-         }
-      };
-   }
-
-   /**
-    * Wrap a list of TimephasedCost instances in a TimephasedCostContainer.
-    *
-    * @param data timephased cost data
-    * @return TimephasedCostContainer instance
-    */
-   private TimephasedCostContainer createTimephasedCostContainer(List<TimephasedCost> data)
-   {
-      if (data == null)
-      {
-         return null;
-      }
-
-      return new TimephasedCostContainer()
-      {
-         @Override public List<TimephasedCost> getData()
-         {
-            return data;
-         }
-
-         @Override public boolean hasData()
-         {
-            return true;
-         }
-      };
-   }
 
    private final ProjectFile m_parentFile;
 
