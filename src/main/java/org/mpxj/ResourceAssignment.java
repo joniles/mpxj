@@ -895,12 +895,10 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
             overtimeRateUnits = rate.getOvertimeRate().getUnits();
          }
 
-         TimephasedWork overtimeWork = overtimeIterator.hasNext() ? overtimeIterator.next() : null;
-
-         Duration standardWorkPerDay = standardWork.getAmountPerDay();
-         if (standardWorkPerDay.getUnits() != standardRateUnits)
+         Duration standardWorkPerHour = standardWork.getAmountPerHour();
+         if (standardWorkPerHour.getUnits() != standardRateUnits)
          {
-            standardWorkPerDay = standardWorkPerDay.convertUnits(standardRateUnits, m_parentFile.getProjectProperties());
+            standardWorkPerHour = standardWorkPerHour.convertUnits(standardRateUnits, m_parentFile.getProjectProperties());
          }
 
          Duration totalStandardWork = standardWork.getTotalAmount();
@@ -909,20 +907,21 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
             totalStandardWork = totalStandardWork.convertUnits(standardRateUnits, m_parentFile.getProjectProperties());
          }
 
-         Duration overtimeWorkPerDay;
+         TimephasedWork overtimeWork = overtimeIterator.hasNext() ? overtimeIterator.next() : null;
+         Duration overtimeWorkPerHour;
          Duration totalOvertimeWork;
 
          if (overtimeWork == null || overtimeWork.getTotalAmount().getDuration() == 0)
          {
-            overtimeWorkPerDay = Duration.getInstance(0, standardWorkPerDay.getUnits());
-            totalOvertimeWork = Duration.getInstance(0, standardWorkPerDay.getUnits());
+            overtimeWorkPerHour = Duration.getInstance(0, standardWorkPerHour.getUnits());
+            totalOvertimeWork = Duration.getInstance(0, standardWorkPerHour.getUnits());
          }
          else
          {
-            overtimeWorkPerDay = overtimeWork.getAmountPerDay();
-            if (overtimeWorkPerDay.getUnits() != overtimeRateUnits)
+            overtimeWorkPerHour = overtimeWork.getAmountPerHour();
+            if (overtimeWorkPerHour.getUnits() != overtimeRateUnits)
             {
-               overtimeWorkPerDay = overtimeWorkPerDay.convertUnits(overtimeRateUnits, m_parentFile.getProjectProperties());
+               overtimeWorkPerHour = overtimeWorkPerHour.convertUnits(overtimeRateUnits, m_parentFile.getProjectProperties());
             }
 
             totalOvertimeWork = overtimeWork.getTotalAmount();
@@ -932,7 +931,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
             }
          }
 
-         double costPerDay = (standardWorkPerDay.getDuration() * standardRateValue) + (overtimeWorkPerDay.getDuration() * overtimeRateValue);
+         double costPerHour = (standardWorkPerHour.getDuration() * standardRateValue) + (overtimeWorkPerHour.getDuration() * overtimeRateValue);
          double totalCost = (totalStandardWork.getDuration() * standardRateValue) + (totalOvertimeWork.getDuration() * overtimeRateValue);
 
          //if the overtime work does not span the same number of days as the work,
@@ -944,7 +943,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
             cost.setStart(standardWork.getStart());
             cost.setFinish(standardWork.getFinish());
             cost.setModified(standardWork.getModified());
-            cost.setAmountPerDay(Double.valueOf(costPerDay));
+            cost.setAmountPerHour(Double.valueOf(costPerHour));
             cost.setTotalAmount(Double.valueOf(totalCost));
             result.add(cost);
 
@@ -952,7 +951,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          else
          {
             //prorated way
-            result.addAll(splitCostProrated(getEffectiveCalendar(), totalCost, costPerDay, standardWork.getStart()));
+            result.addAll(splitCostProrated(getEffectiveCalendar(), totalCost, costPerHour, standardWork.getStart()));
          }
 
       }
@@ -1131,8 +1130,8 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    {
       TimephasedCost cost = new TimephasedCost();
       cost.setStart(start);
-      cost.setFinish(calendar.getDate(start, Duration.getInstance(1, TimeUnit.DAYS)));
-      cost.setAmountPerDay(Double.valueOf(totalAmount));
+      cost.setFinish(calendar.getDate(start, Duration.getInstance(1, TimeUnit.HOURS)));
+      cost.setAmountPerHour(Double.valueOf(totalAmount));
       cost.setTotalAmount(Double.valueOf(totalAmount));
 
       return cost;
@@ -1152,12 +1151,11 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    private TimephasedCost splitCostEnd(ProjectCalendar calendar, double totalAmount, LocalDateTime finish)
    {
       TimephasedCost cost = new TimephasedCost();
-      ProjectCalendarHours hours = calendar.getHours(finish);
-      cost.setStart(LocalTimeHelper.setTime(finish, hours.get(0).getStart()));
+      LocalDateTime start = calendar.getDate(finish, Duration.getInstance(-1.0, TimeUnit.HOURS));
+      cost.setStart(start);
       cost.setFinish(finish);
-      cost.setAmountPerDay(Double.valueOf(totalAmount));
+      cost.setAmountPerHour(Double.valueOf(totalAmount));
       cost.setTotalAmount(Double.valueOf(totalAmount));
-
       return cost;
    }
 
@@ -1171,28 +1169,28 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @param calendar calendar used by this assignment
     * @param totalAmount cost amount to be prorated
-    * @param standardAmountPerDay cost amount for a normal working day
+    * @param standardAmountPerHour cost amount for a normal working day
     * @param start date of the first timephased cost block
     * @return timephased cost
     */
-   private List<TimephasedCost> splitCostProrated(ProjectCalendar calendar, double totalAmount, double standardAmountPerDay, LocalDateTime start)
+   private List<TimephasedCost> splitCostProrated(ProjectCalendar calendar, double totalAmount, double standardAmountPerHour, LocalDateTime start)
    {
       List<TimephasedCost> result = new ArrayList<>();
 
-      double numStandardAmountDays = Math.floor(totalAmount / standardAmountPerDay);
-      double amountForLastDay = totalAmount % standardAmountPerDay;
+      double numStandardAmountHours = Math.floor(totalAmount / standardAmountPerHour);
+      double amountForLastDay = totalAmount % standardAmountPerHour;
 
       //first block contains all the normal work at the beginning of the assignment's life, if any
 
-      if (numStandardAmountDays > 0)
+      if (numStandardAmountHours > 0)
       {
-         LocalDateTime finishStandardBlock = calendar.getDate(start, Duration.getInstance(numStandardAmountDays, TimeUnit.DAYS));
+         LocalDateTime finishStandardBlock = calendar.getDate(start, Duration.getInstance(numStandardAmountHours, TimeUnit.HOURS));
 
          TimephasedCost standardBlock = new TimephasedCost();
-         standardBlock.setAmountPerDay(Double.valueOf(standardAmountPerDay));
+         standardBlock.setAmountPerHour(Double.valueOf(standardAmountPerHour));
          standardBlock.setStart(start);
          standardBlock.setFinish(finishStandardBlock);
-         standardBlock.setTotalAmount(Double.valueOf(numStandardAmountDays * standardAmountPerDay));
+         standardBlock.setTotalAmount(Double.valueOf(numStandardAmountHours * standardAmountPerHour));
 
          result.add(standardBlock);
 
@@ -1203,7 +1201,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       if (amountForLastDay > 0)
       {
          TimephasedCost nextBlock = new TimephasedCost();
-         nextBlock.setAmountPerDay(Double.valueOf(amountForLastDay));
+         nextBlock.setAmountPerHour(Double.valueOf(standardAmountPerHour));
          nextBlock.setTotalAmount(Double.valueOf(amountForLastDay));
          nextBlock.setStart(start);
          nextBlock.setFinish(calendar.getDate(start, Duration.getInstance(1, TimeUnit.DAYS)));
@@ -1228,7 +1226,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    private List<TimephasedWork> splitWork(CostRateTable table, ProjectCalendar calendar, TimephasedWork work, int rateIndex)
    {
       List<TimephasedWork> result = new ArrayList<>();
-      work.setTotalAmount(Duration.getInstance(0, work.getAmountPerDay().getUnits()));
+      work.setTotalAmount(Duration.getInstance(0, work.getAmountPerHour().getUnits()));
 
       while (true)
       {

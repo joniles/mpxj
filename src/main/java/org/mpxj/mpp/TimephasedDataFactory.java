@@ -48,130 +48,6 @@ import org.mpxj.common.ByteArrayHelper;
 final class TimephasedDataFactory
 {
    /**
-    * The TimephasedItem class hierarchy will be more like this
-    * once the big refactoring is done!
-    */
-   private static final class NewTimephasedWork
-   {
-      public LocalDateTime getStart()
-      {
-         return m_start;
-      }
-
-      public void setStart(LocalDateTime start)
-      {
-         m_start = start;
-      }
-
-      public LocalDateTime getFinish()
-      {
-         return m_finish;
-      }
-
-      public void setFinish(LocalDateTime finish)
-      {
-         m_finish = finish;
-      }
-
-      public Duration getTotalAmount()
-      {
-         return m_totalAmount;
-      }
-
-      public void setTotalAmount(Duration totalAmount)
-      {
-         m_totalAmount = totalAmount;
-      }
-
-      public Duration getAmountPerHour()
-      {
-         return m_amountPerHour;
-      }
-
-      public void setAmountPerHour(Duration amountPerHour)
-      {
-         m_amountPerHour = amountPerHour;
-      }
-
-      @Override public String toString()
-      {
-         return "NewTimephasedWork[" +
-                  "start=" + m_start +
-                  ", finish=" + m_finish +
-                  ", totalAmount=" + m_totalAmount +
-                  ", amountPerHour=" + m_amountPerHour +
-                  ']';
-      }
-
-      private LocalDateTime m_start;
-      private LocalDateTime m_finish;
-      private Duration m_totalAmount;
-      private Duration m_amountPerHour;
-   }
-
-   /**
-    * The TimephasedItem class hierarchy will be more like this
-    * once the big refactoring is done!
-    */
-   private static final class NewTimephasedCost
-   {
-      public LocalDateTime getStart()
-      {
-         return m_start;
-      }
-
-      public void setStart(LocalDateTime start)
-      {
-         m_start = start;
-      }
-
-      public LocalDateTime getFinish()
-      {
-         return m_finish;
-      }
-
-      public void setFinish(LocalDateTime finish)
-      {
-         m_finish = finish;
-      }
-
-      public Double getTotalAmount()
-      {
-         return m_totalAmount;
-      }
-
-      public void setTotalAmount(Double cost)
-      {
-         m_totalAmount = cost;
-      }
-
-      public Double getAmountPerHour()
-      {
-         return m_amountPerHour;
-      }
-
-      public void setAmountPerHour(Double costPerHour)
-      {
-         m_amountPerHour = costPerHour;
-      }
-
-      @Override public String toString()
-      {
-         return "NewTimephasedCost[" +
-                  "start=" + m_start +
-                  ", finish=" + m_finish +
-                  ", totalAmount=" + m_totalAmount +
-                  ", amountPerHour=" + m_amountPerHour +
-                  ']';
-      }
-
-      private LocalDateTime m_start;
-      private LocalDateTime m_finish;
-      private Double m_totalAmount;
-      private Double m_amountPerHour;
-   }
-
-   /**
     * Given a block of data representing completed work, this method will
     * retrieve a set of TimephasedWork instances which represent
     * the day by day work carried out for a specific resource assignment.
@@ -232,7 +108,7 @@ final class TimephasedDataFactory
       double totalWorkMinutes = 0;
       double elapsedMinutes = 0;
 
-      List<NewTimephasedWork> regularList = new ArrayList<>();
+      List<TimephasedWork> regularList = new ArrayList<>();
       int regularBlockCount = ByteArrayHelper.getShort(regularData, 0);
       double finishTime = ByteArrayHelper.getInt(regularData, 24);
       int offset = 36;
@@ -265,7 +141,7 @@ final class TimephasedDataFactory
 
          double calculatedWorkPerHour = (totalWorkMinutesAtPeriodEnd * 60.0) / (elapsedMinutesAtPeriodEnd * 1000);
 
-         NewTimephasedWork item = new NewTimephasedWork();
+         TimephasedWork item = new TimephasedWork();
          item.setStart(calendarPeriodStart);
          item.setFinish(calendarPeriodEnd);
          item.setTotalAmount(Duration.getInstance(totalWorkMinutesThisPeriod, TimeUnit.MINUTES));
@@ -319,7 +195,7 @@ final class TimephasedDataFactory
                            irregularRanges.remove(0);
                            regularList.remove(regularList.size() - 1);
 
-                           NewTimephasedWork startItem = new NewTimephasedWork();
+                           TimephasedWork startItem = new TimephasedWork();
                            startItem.setStart(nextIrregularRange.getStart());
                            startItem.setFinish(nextIrregularRange.getEnd());
                            startItem.setAmountPerHour(item.getAmountPerHour());
@@ -361,73 +237,9 @@ final class TimephasedDataFactory
          offset += 20;
       }
 
-      return regularList.stream().map(w -> populateTimephasedWork(calendar, w)).collect(Collectors.toList());
+      return regularList;
    }
 
-   /**
-    * This method transforms our new timephased item representation back to the original representation.
-    *
-    * @param calendar effective calendar
-    * @param item new timephased work item
-    * @return TimephasedWork instance
-    */
-   private TimephasedWork populateTimephasedWork(ProjectCalendar calendar, NewTimephasedWork item)
-   {
-      TimephasedWork work = new TimephasedWork();
-      work.setStart(item.getStart());
-      work.setFinish(item.getFinish());
-      work.setTotalAmount(item.getTotalAmount());
-
-      // from calculateAmountPerDay
-      Duration amountPerDay;
-      if (work.getTotalAmount().getDuration() == 0)
-      {
-         amountPerDay = Duration.getInstance(0, TimeUnit.MINUTES);
-      }
-      else
-      {
-         Duration totalWorkInMinutes = work.getTotalAmount();
-         Duration calculatedTotalWorkInMinutes = calendar.getWork(work.getStart(), work.getFinish(), TimeUnit.MINUTES);
-         double minutesPerDay = 8.0 * 60.0;
-         double calculatedAmountPerDay = (minutesPerDay * totalWorkInMinutes.getDuration()) / calculatedTotalWorkInMinutes.getDuration();
-         amountPerDay = Duration.getInstance(calculatedAmountPerDay, TimeUnit.MINUTES);
-      }
-      work.setAmountPerDay(amountPerDay);
-
-      return work;
-   }
-
-   /**
-    * This method transforms our new timephased item representation back to the original representation.
-    *
-    * @param calendar effective calendar
-    * @param item new timephased cost item
-    * @return TimephasedWork instance
-    */
-   private TimephasedCost populateTimephasedCost(ProjectCalendar calendar, NewTimephasedCost item)
-   {
-      TimephasedCost cost = new TimephasedCost();
-      cost.setStart(item.getStart());
-      cost.setFinish(item.getFinish());
-      cost.setTotalAmount(item.getTotalAmount());
-
-      Double amountPerDay;
-      if (cost.getTotalAmount().doubleValue() == 0)
-      {
-         amountPerDay = Double.valueOf(0);
-      }
-      else
-      {
-         double totalCost = cost.getTotalAmount().doubleValue();
-         Duration calculatedTotalWorkInMinutes = calendar.getWork(cost.getStart(), cost.getFinish(), TimeUnit.MINUTES);
-         double minutesPerDay = 8.0 * 60.0;
-         double calculatedAmountPerDay = (minutesPerDay * totalCost) / calculatedTotalWorkInMinutes.getDuration();
-         amountPerDay = Double.valueOf(calculatedAmountPerDay);
-      }
-      cost.setAmountPerDay(amountPerDay);
-
-      return cost;
-   }
 
    /**
     * Split an existing regular item to apply an irregular item.
@@ -437,9 +249,9 @@ final class TimephasedDataFactory
     * @param irregularRanges irregular range list
     * @return last timephased item after the split
     */
-   private NewTimephasedWork splitItem(ProjectCalendar calendar, List<NewTimephasedWork> regularList, List<LocalDateTimeRange> irregularRanges)
+   private TimephasedWork splitItem(ProjectCalendar calendar, List<TimephasedWork> regularList, List<LocalDateTimeRange> irregularRanges)
    {
-      NewTimephasedWork item = regularList.remove(regularList.size() - 1);
+      TimephasedWork item = regularList.remove(regularList.size() - 1);
 
       double allocatedWorkInMinutes = 0;
       LocalDateTimeRange range = irregularRanges.remove(0);
@@ -450,7 +262,7 @@ final class TimephasedDataFactory
          LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(range.getStart());
          LocalDateTime finish = calendar.getWork(previousWorkFinish, range.getStart(), TimeUnit.MINUTES).getDuration() == 0 ? previousWorkFinish : range.getStart();
 
-         NewTimephasedWork startItem = new NewTimephasedWork();
+         TimephasedWork startItem = new TimephasedWork();
          startItem.setStart(item.getStart());
          startItem.setFinish(finish);
          startItem.setAmountPerHour(item.getAmountPerHour());
@@ -461,7 +273,7 @@ final class TimephasedDataFactory
       }
 
       // Inserted Range
-      NewTimephasedWork insertedItem = new NewTimephasedWork();
+      TimephasedWork insertedItem = new TimephasedWork();
       insertedItem.setStart(range.getStart());
       insertedItem.setFinish(range.getEnd());
       insertedItem.setAmountPerHour(item.getAmountPerHour());
@@ -473,12 +285,11 @@ final class TimephasedDataFactory
       // End Range
       if (item.getFinish().isAfter(range.getEnd()))
       {
-         NewTimephasedWork endItem = new NewTimephasedWork();
+         TimephasedWork endItem = new TimephasedWork();
          endItem.setStart(range.getEnd());
          endItem.setAmountPerHour(item.getAmountPerHour());
          double workMinutes = item.getTotalAmount().getDuration() - allocatedWorkInMinutes;
          endItem.setTotalAmount(Duration.getInstance(workMinutes, TimeUnit.MINUTES));
-         //endItem.setEnd(item.getEnd());
          endItem.setFinish(calendar.getDate(endItem.getStart(), endItem.getTotalAmount()));
 
          regularList.add(endItem);
@@ -514,7 +325,7 @@ final class TimephasedDataFactory
       // Offset 8: 8 byte double - hours per day (20000th/hour) unreliable value, not used
       // Offset 16: 8 byte double? - unknown
       // Offset 24: 4 byte int - cumulative elapsed minutes (80th/minute)
-      List<NewTimephasedWork> newList = new ArrayList<>();
+      List<TimephasedWork> newList = new ArrayList<>();
       int blockCount = ByteArrayHelper.getShort(data, 0);
 
       if (blockCount == 0)
@@ -531,7 +342,7 @@ final class TimephasedDataFactory
             double assignmentWork = calendar.getWork(start, end, TimeUnit.MINUTES).getDuration();
             Duration workPerHour = Duration.getInstance((totalWorkInMinutes * 60.0) / assignmentWork, TimeUnit.MINUTES);
 
-            NewTimephasedWork item = new NewTimephasedWork();
+            TimephasedWork item = new TimephasedWork();
             item.setStart(start);
             item.setFinish(end);
             item.setTotalAmount(work);
@@ -566,7 +377,7 @@ final class TimephasedDataFactory
             // Occasionally we appear to have blocks which represent zero work and zero time - we skip these
             if (workMinutesThisPeriod >= 1 || !start.isEqual(end))
             {
-               NewTimephasedWork item = new NewTimephasedWork();
+               TimephasedWork item = new TimephasedWork();
                item.setStart(start);
                item.setFinish(end);
                item.setTotalAmount(work);
@@ -582,7 +393,7 @@ final class TimephasedDataFactory
          }
       }
 
-      return newList.stream().map(w -> populateTimephasedWork(calendar, w)).collect(Collectors.toList());
+      return newList;
    }
 
    /**
@@ -613,7 +424,7 @@ final class TimephasedDataFactory
       // Offset 16: end of period timestamp (10th/minute)
       // Note that the baseline timephased data is all relative to the project's baseline
       // calendar, and not the original resource assignment calendar.
-      List<NewTimephasedWork> list = new ArrayList<>();
+      List<TimephasedWork> list = new ArrayList<>();
       int blockCount = ByteArrayHelper.getShort(data, 0);
       LocalDateTime start = MPPUtility.getTimestampFromTenths(data, 44);
       int offset = 48; // skip header and first two blocks
@@ -639,7 +450,7 @@ final class TimephasedDataFactory
             workPerHour = (workMinutesThisPeriod * 60.0) / calendarWorkMinutesThisPeriod;
          }
 
-         NewTimephasedWork item = new NewTimephasedWork();
+         TimephasedWork item = new TimephasedWork();
          item.setStart(start);
          item.setFinish(end);
          item.setTotalAmount(Duration.getInstance(workMinutesThisPeriod, TimeUnit.MINUTES));
@@ -656,7 +467,7 @@ final class TimephasedDataFactory
          return Collections.emptyList();
       }
 
-      return list.stream().map(w -> populateTimephasedWork(baselineCalendar, w)).collect(Collectors.toList());
+      return list;
    }
 
    /**
@@ -684,7 +495,7 @@ final class TimephasedDataFactory
       // Offset 16: end of period timestamp (10th/minute)
       // The first and last blocks contain summary data and are ignored. The start date is
       // obtained from the first summary block.
-      List<NewTimephasedCost> list = new ArrayList<>();
+      List<TimephasedCost> list = new ArrayList<>();
       int blockCount = ByteArrayHelper.getShort(data, 0);
       LocalDateTime start = MPPUtility.getTimestampFromTenths(data, 32);
       double cumulativeCost = 0;
@@ -711,7 +522,7 @@ final class TimephasedDataFactory
             costPerHour = (costThisPeriod * 60.0) / calendarWorkMinutesThisPeriod;
          }
 
-         NewTimephasedCost item = new NewTimephasedCost();
+         TimephasedCost item = new TimephasedCost();
          item.setStart(start);
          item.setFinish(end);
          item.setTotalAmount(Double.valueOf(costThisPeriod / 100.0));
@@ -728,6 +539,6 @@ final class TimephasedDataFactory
          return Collections.emptyList();
       }
 
-      return list.stream().map(c -> populateTimephasedCost(baselineCalendar, c)).collect(Collectors.toList());
+      return list;
    }
 }

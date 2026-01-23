@@ -272,36 +272,30 @@ public class ResourceAssignmentFactory
          return;
       }
 
-      Duration totalMinutes = assignment.getWork().convertUnits(TimeUnit.MINUTES, file.getProjectProperties());
+      Duration totalWorkMinutes = assignment.getWork().convertUnits(TimeUnit.MINUTES, file.getProjectProperties());
 
-      Duration workPerDay;
+      Duration workPerHour;
 
       if (assignment.getResource() == null || assignment.getResource().getType() == ResourceType.WORK)
       {
-         workPerDay = totalMinutes.getDuration() == 0 ? totalMinutes : ResourceAssignmentFactory.DEFAULT_NORMALIZER_WORK_PER_DAY;
-         int units = NumberHelper.getInt(assignment.getUnits());
-         if (units != 100)
-         {
-            workPerDay = Duration.getInstance((workPerDay.getDuration() * units) / 100.0, workPerDay.getUnits());
-         }
+         double units = NumberHelper.getDouble(assignment.getUnits());
+         double workPerHourValue = ((totalWorkMinutes.getDuration() == 0 ? 0 : 60) * units) / 100.0;
+         workPerHour = Duration.getInstance(workPerHourValue, TimeUnit.MINUTES);
       }
       else
       {
          if (assignment.getVariableRateUnits() == null)
          {
-            Duration workingDays = assignment.getEffectiveCalendar().getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.DAYS);
+            Duration workingHours = assignment.getEffectiveCalendar().getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.HOURS);
             double units = NumberHelper.getDouble(assignment.getUnits());
-            double unitsPerDayAsMinutes = (units * 60) / (workingDays.getDuration() * 100);
-            workPerDay = Duration.getInstance(unitsPerDayAsMinutes, TimeUnit.MINUTES);
+            double unitsPerHourAsMinutes = units / (workingHours.getDuration() * 100);
+            workPerHour = Duration.getInstance(unitsPerHourAsMinutes, TimeUnit.MINUTES);
          }
          else
          {
-            double unitsPerHour = NumberHelper.getDouble(assignment.getUnits());
-            workPerDay = ResourceAssignmentFactory.DEFAULT_NORMALIZER_WORK_PER_DAY;
-            Duration hoursPerDay = workPerDay.convertUnits(TimeUnit.HOURS, file.getProjectProperties());
-            double unitsPerDayAsHours = (unitsPerHour * hoursPerDay.getDuration()) / 100;
-            double unitsPerDayAsMinutes = unitsPerDayAsHours * 60;
-            workPerDay = Duration.getInstance(unitsPerDayAsMinutes, TimeUnit.MINUTES);
+            double units = NumberHelper.getDouble(assignment.getUnits());
+            double workPerHourValue = ((totalWorkMinutes.getDuration() == 0 ? 0 : 60) * units) / 100.0;
+            workPerHour = Duration.getInstance(workPerHourValue, TimeUnit.MINUTES);
          }
       }
 
@@ -309,15 +303,15 @@ public class ResourceAssignmentFactory
       if (overtimeWork != null && overtimeWork.getDuration() != 0)
       {
          Duration totalOvertimeMinutes = overtimeWork.convertUnits(TimeUnit.MINUTES, file.getProjectProperties());
-         totalMinutes = Duration.getInstance(totalMinutes.getDuration() - totalOvertimeMinutes.getDuration(), TimeUnit.MINUTES);
+         totalWorkMinutes = Duration.getInstance(totalWorkMinutes.getDuration() - totalOvertimeMinutes.getDuration(), TimeUnit.MINUTES);
       }
 
       TimephasedWork tra = new TimephasedWork();
       tra.setStart(assignment.getStart());
-      tra.setAmountPerDay(workPerDay);
+      tra.setAmountPerHour(workPerHour);
       tra.setModified(false);
       tra.setFinish(assignment.getFinish());
-      tra.setTotalAmount(totalMinutes);
+      tra.setTotalAmount(totalWorkMinutes);
       timephasedPlanned.add(tra);
    }
 
@@ -439,6 +433,4 @@ public class ResourceAssignmentFactory
       AssignmentField.TIMEPHASED_BASELINE9_COST,
       AssignmentField.TIMEPHASED_BASELINE10_COST
    };
-
-   private static final Duration DEFAULT_NORMALIZER_WORK_PER_DAY = Duration.getInstance(480, TimeUnit.MINUTES);
 }

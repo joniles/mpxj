@@ -68,8 +68,11 @@ final class TimephasedHelper
             return null;
          }
 
-         Duration workHours = Duration.getInstance(Double.parseDouble(item[0]), TimeUnit.HOURS);
-         Duration periodHours = Duration.getInstance(Double.parseDouble(item[1]), TimeUnit.HOURS);
+         double workHoursValue = Double.parseDouble(item[0]);
+         double periodHoursValue = Double.parseDouble(item[1]);
+         Duration workHours = Duration.getInstance(workHoursValue, TimeUnit.HOURS);
+         Duration periodHours = Duration.getInstance(periodHoursValue, TimeUnit.HOURS);
+         Duration workPerHour = Duration.getInstance((workHoursValue * 60.0) / periodHoursValue, TimeUnit.MINUTES);
          LocalDateTime currentFinish = calendar.getDate(currentStart, periodHours);
          double days = calendar.getDuration(currentStart, currentFinish).getDuration();
 
@@ -77,7 +80,7 @@ final class TimephasedHelper
          timephasedItem.setStart(currentStart);
          timephasedItem.setFinish(currentFinish);
          timephasedItem.setTotalAmount(workHours);
-         timephasedItem.setAmountPerDay(Duration.getInstance(workHours.getDuration() / days, TimeUnit.HOURS));
+         timephasedItem.setAmountPerHour(workPerHour);
          list.add(timephasedItem);
 
          currentStart = calendar.getNextWorkStart(currentFinish);

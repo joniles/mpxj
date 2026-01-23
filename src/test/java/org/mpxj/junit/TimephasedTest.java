@@ -1238,18 +1238,18 @@ public class TimephasedTest
     * @param start start date for this assignment
     * @param finish finish date for this assignment
     * @param totalWork total work for this assignment
-    * @param workPerDay work per day for this assignment
+    * @param workPerHour work per day for this assignment
     */
-   private void testTimephased(TimephasedWork assignment, String start, String finish, double totalWork, double workPerDay)
+   private void testTimephased(TimephasedWork assignment, String start, String finish, double totalWork, double workPerHour)
    {
       assertEquals(start, m_df.format(assignment.getStart()));
       assertEquals(finish, m_df.format(assignment.getFinish()));
       assertEquals(totalWork, assignment.getTotalAmount().getDuration(), 0.02);
       assertEquals(TimeUnit.MINUTES, assignment.getTotalAmount().getUnits());
-      if (workPerDay != -1)
+      if (workPerHour != -1)
       {
-         assertEquals(workPerDay, assignment.getAmountPerDay().getDuration(), 0.02);
-         assertEquals(TimeUnit.MINUTES, assignment.getAmountPerDay().getUnits());
+         assertEquals(workPerHour, assignment.getAmountPerHour().getDuration(), 0.02);
+         assertEquals(TimeUnit.MINUTES, assignment.getAmountPerHour().getUnits());
       }
    }
 
