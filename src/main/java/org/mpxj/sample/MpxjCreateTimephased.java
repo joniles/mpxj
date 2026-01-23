@@ -150,9 +150,6 @@ public class MpxjCreateTimephased
       // By default, timephased data is not written so we need to enable it here
       writer.setWriteTimephasedData(true);
 
-      // Also, tell the writer not to get clever with our timephased data, just write it as it is...
-      writer.setSplitTimephasedAsDays(false);
-
       //
       // If you look at the resulting project in the Resource Usage view in MS Project
       // you should see the work split as 20j, 8h and 8h over the three days of the task.

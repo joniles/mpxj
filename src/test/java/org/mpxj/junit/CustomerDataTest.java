@@ -721,7 +721,6 @@ public class CustomerDataTest
       Consumer<ProjectWriter> mpxConfig = (w) -> ((MPXWriter) w).setUseLocaleDefaults(false);
       Consumer<ProjectWriter> mspdiConfig = (w) -> {
          ((MSPDIWriter) w).setWriteTimephasedData(true);
-         ((MSPDIWriter) w).setSplitTimephasedAsDays(false);
       };
 
       // TODO: randomise order of execution

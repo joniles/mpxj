@@ -820,7 +820,6 @@ public class ProjectTreeController
          if (fileClass == MSPDIWriter.class)
          {
             ((MSPDIWriter) writer).setWriteTimephasedData(m_model.getWriteOptions().getWriteTimephasedData());
-            ((MSPDIWriter) writer).setSplitTimephasedAsDays(m_model.getWriteOptions().getSplitTimephasedDataAsDays());
          }
 
          if (fileClass == PrimaveraPMFileWriter.class)
