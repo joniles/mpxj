@@ -139,7 +139,7 @@ final class TimephasedDataFactory
             calendarPeriodEnd = calendar.getDate(calendarPeriodStart, Duration.getInstance(elapsedMinutesThisPeriod, TimeUnit.MINUTES));
          }
 
-         double calculatedWorkPerHour = (totalWorkMinutesAtPeriodEnd * 60.0) / (elapsedMinutesAtPeriodEnd * 1000);
+         double calculatedWorkPerHour = totalWorkMinutesThisPeriod == 0 ? 0 : (totalWorkMinutesAtPeriodEnd * 60.0) / (elapsedMinutesAtPeriodEnd * 1000);
 
          TimephasedWork item = new TimephasedWork();
          item.setStart(calendarPeriodStart);
@@ -435,10 +435,11 @@ final class TimephasedDataFactory
          double currentCumulativeWorkInMinutes = MPPUtility.getDouble(data, offset) / 1000.0;
          double workMinutesThisPeriod = currentCumulativeWorkInMinutes - cumulativeWorkInMinutes;
          LocalDateTime end = MPPUtility.getTimestampFromTenths(data, offset + 16);
+
          double workPerHour;
          if (workMinutesThisPeriod == 0)
          {
-            workPerHour = workMinutesThisPeriod;
+            workPerHour = 0;
          }
          else
          {
