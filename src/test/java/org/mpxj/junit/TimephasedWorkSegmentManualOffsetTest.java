@@ -112,11 +112,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
       }
       jsonString = jsonString.substring(1, jsonString.length() - 1);
 
-      ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, segmentCount);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, segmentCount);
       //System.out.println(dateList);
       ProjectCalendar calendar = assignment.getEffectiveCalendar();
       List<TimephasedWork> assignments = (complete ? assignment.getTimephasedActualWork() : assignment.getTimephasedWork());
-      ArrayList<Duration> durationList = m_timephased.segmentWork(calendar, assignments, units, dateList);
+      List<Duration> durationList = m_timephased.segmentWork(calendar, assignments, units, dateList);
       //dumpExpectedData(assignment, durationList);
       assertEquals(segmentCount, durationList.size());
       TimeUnitDefaultsContainer unitDefaults = assignment.getParentFile().getProjectProperties();

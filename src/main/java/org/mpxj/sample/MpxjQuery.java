@@ -326,10 +326,10 @@ public class MpxjQuery
          DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yy");
 
          TimescaleUtility timescale = new TimescaleUtility();
-         ArrayList<LocalDateTimeRange> dates = timescale.createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
+         List<LocalDateTimeRange> dates = timescale.createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
          TimephasedUtility timephased = new TimephasedUtility();
 
-         ArrayList<Duration> durations = timephased.segmentWork(assignment.getEffectiveCalendar(), assignment.getTimephasedWork(), TimescaleUnits.DAYS, dates);
+         List<Duration> durations = timephased.segmentWork(assignment.getEffectiveCalendar(), assignment.getTimephasedWork(), TimescaleUnits.DAYS, dates);
          for (LocalDateTimeRange range : dates)
          {
             System.out.print(df.format(range.getStart()) + "\t");

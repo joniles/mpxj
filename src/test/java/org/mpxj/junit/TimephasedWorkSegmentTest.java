@@ -1098,11 +1098,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    private void testSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, double[] expected, boolean complete)
    {
-      ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
       ProjectCalendar calendar = assignment.getEffectiveCalendar();
       List<TimephasedWork> assignments = (complete ? assignment.getTimephasedActualWork() : assignment.getTimephasedWork());
-      ArrayList<Duration> durationList = m_timephased.segmentWork(calendar, assignments, units, dateList);
+      List<Duration> durationList = m_timephased.segmentWork(calendar, assignments, units, dateList);
       //dumpExpectedData(assignment, durationList);
       assertEquals(expected.length, durationList.size());
       for (int loop = 0; loop < expected.length; loop++)

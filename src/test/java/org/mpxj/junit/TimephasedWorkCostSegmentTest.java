@@ -731,10 +731,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    private void testBaselineWorkSegments(ProjectFile file, ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, double[] expected)
    {
-      ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
       List<TimephasedWork> assignments = assignment.getTimephasedBaselineWork(0);
-      ArrayList<Duration> durationList = m_timephased.segmentBaselineWork(assignment.getEffectiveCalendar(), assignments, units, dateList);
+      List<Duration> durationList = m_timephased.segmentBaselineWork(assignment.getEffectiveCalendar(), assignments, units, dateList);
       //dumpExpectedData(assignment, durationList);
       assertEquals(expected.length, durationList.size());
       for (int loop = 0; loop < expected.length; loop++)
@@ -754,10 +754,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    private void testBaselineCostSegments(ProjectFile file, ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, double[] expected)
    {
-      ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
       List<TimephasedCost> assignments = assignment.getTimephasedBaselineCost(0);
-      ArrayList<Double> costList = m_timephased.segmentBaselineCost(assignment.getEffectiveCalendar(), assignments, units, dateList);
+      List<Double> costList = m_timephased.segmentBaselineCost(assignment.getEffectiveCalendar(), assignments, units, dateList);
       //dumpExpectedData(assignment, durationList);
       assertEquals(expected.length, costList.size());
       for (int loop = 0; loop < expected.length; loop++)
@@ -803,9 +803,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    private void testCostSegments(ResourceAssignment assignment, List<TimephasedCost> assignments, LocalDateTime startDate, TimescaleUnits units, double[] expected)
    {
-      ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
-      ArrayList<Double> costList = m_timephased.segmentCost(assignment.getEffectiveCalendar(), assignments, units, dateList);
+      List<Double> costList = m_timephased.segmentCost(assignment.getEffectiveCalendar(), assignments, units, dateList);
       //dumpExpectedData(assignment, costList);
       assertEquals(expected.length, costList.size());
       for (int loop = 0; loop < expected.length; loop++)

@@ -56,7 +56,7 @@ public final class TimephasedUtility
     * @param dateList timescale date ranges
     * @return list of durations, one per timescale date range
     */
-   public ArrayList<Duration> segmentWork(ProjectCalendar projectCalendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, List<LocalDateTimeRange> dateList)
+   public List<Duration> segmentWork(ProjectCalendar projectCalendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, List<LocalDateTimeRange> dateList)
    {
       throw new UnsupportedOperationException();
 /*
@@ -108,7 +108,7 @@ public final class TimephasedUtility
     * @param dateList timescale date ranges
     * @return list of durations, one per timescale date range
     */
-   public ArrayList<Duration> segmentBaselineWork(ProjectCalendar calendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
+   public ArrayList<Duration> segmentBaselineWork(ProjectCalendar calendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, List<LocalDateTimeRange> dateList)
    {
       throw new UnsupportedOperationException();
       //return segmentWork(calendar, work, rangeUnits, dateList);
@@ -125,7 +125,7 @@ public final class TimephasedUtility
     * @param dateList timescale date ranges
     * @return list of durations, one per timescale date range
     */
-   public ArrayList<Double> segmentCost(ProjectCalendar projectCalendar, List<TimephasedCost> cost, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
+   public ArrayList<Double> segmentCost(ProjectCalendar projectCalendar, List<TimephasedCost> cost, TimescaleUnits rangeUnits, List<LocalDateTimeRange> dateList)
    {
       throw new UnsupportedOperationException();
 /*
@@ -177,7 +177,7 @@ public final class TimephasedUtility
     * @param dateList timescale date ranges
     * @return list of durations, one per timescale date range
     */
-   public ArrayList<Double> segmentBaselineCost(ProjectCalendar calendar, List<TimephasedCost> cost, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
+   public ArrayList<Double> segmentBaselineCost(ProjectCalendar calendar, List<TimephasedCost> cost, TimescaleUnits rangeUnits, List<LocalDateTimeRange> dateList)
    {
       throw new UnsupportedOperationException();
       //return segmentCost(calendar, cost, rangeUnits, dateList);
