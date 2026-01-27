@@ -289,8 +289,8 @@ final class TimephasedDataFactory
          endItem.setAmountPerHour(item.getAmountPerHour());
          double workMinutes = item.getTotalAmount().getDuration() - allocatedWorkInMinutes;
          endItem.setTotalAmount(Duration.getInstance(workMinutes, TimeUnit.MINUTES));
-         endItem.setFinish(calendar.getDate(endItem.getStart(), endItem.getTotalAmount()));
-
+         Duration remainingMinutes = Duration.getInstance((workMinutes * 60.0) / item.getAmountPerHour().getDuration(),  TimeUnit.MINUTES);
+         endItem.setFinish(calendar.getDate(endItem.getStart(), remainingMinutes));
          regularList.add(endItem);
       }
 

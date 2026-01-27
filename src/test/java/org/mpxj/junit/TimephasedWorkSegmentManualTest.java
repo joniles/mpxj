@@ -26,27 +26,24 @@ import java.time.LocalDateTime;
 
 import java.util.List;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.Duration;
-import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
-import org.mpxj.TimephasedWork;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mpp.TimescaleUnits;
-import org.mpxj.utility.TimephasedUtility;
 import org.mpxj.utility.TimescaleUtility;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * This a test for reading timephased work of manual scheduled tasks from an MPP file.
  */
-@Disabled public class TimephasedWorkSegmentManualTest
+public class TimephasedWorkSegmentManualTest
 {
    /**
     * Timephased segment test for MPP14 files.
@@ -79,32 +76,32 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task One", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
       {
          9.0,
          8.0,
          8.0,
          8.0,
          7.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+         null,
+         null,
+         null,
+         null,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
       {
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0
-      }, true);
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      });
 
       //
       // Task Two - 5 day assignment at 50% utilisation
@@ -113,32 +110,32 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task Two", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
       {
          4.5,
          4.0,
          4.0,
          4.0,
          3.5,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+         null,
+         null,
+         null,
+         null,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
       {
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0
-      }, true);
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      });
 
       //
       // Task Three - 5 day assignment at 100% utilisation, 50% complete
@@ -147,32 +144,32 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task Three", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
       {
-         0.0,
-         0.0,
+         null,
+         null,
          5.0,
          8.0,
          7.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+         null,
+         null,
+         null,
+         null,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
       {
          9.0,
          8.0,
          3.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0
-      }, true);
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      });
 
       //
       // Task Four - 5 day assignment at 50% utilisation, 50% complete
@@ -181,31 +178,31 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task Four", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
       {
-         0.0,
-         0.0,
+         null,
+         null,
          2.5,
          4.0,
          3.5,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+         null,
+         null,
+         null,
+         null,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
       {
-         8.5,
+         4.5,
+         4.0,
          1.5,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0
-      }, true);
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      });
 
       //
       // Task Five - 10 day assignment at 100% utilisation
@@ -214,42 +211,42 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task Five", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
       {
          9.0,
          8.0,
          8.0,
          8.0,
          8.0,
-         0.0,
-         0.0,
+         null,
+         null,
          8.0,
          8.0,
          8.0,
          8.0,
          7.0,
-         0.0,
-         0.0,
-         0.0
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+         null,
+         null,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
       {
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0
-      }, true);
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      });
 
       //
       // Task Six - 10 day assignment at 50% utilisation
@@ -258,42 +255,42 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task Six", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
       {
          4.5,
          4.0,
          4.0,
          4.0,
          4.0,
-         0.0,
-         0.0,
+         null,
+         null,
          4.0,
          4.0,
          4.0,
          4.0,
          3.5,
-         0.0,
-         0.0,
-         0.0
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+         null,
+         null,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
       {
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0
-      }, true);
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      });
 
       //
       // Task Seven - 10 day assignment at 100% utilisation with a resource calendar non-working day and a non-default working day
@@ -302,42 +299,42 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task Seven", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
       {
          9.0,
-         0.0,
+         null,
          8.0,
          8.0,
          8.0,
          8.0,
-         0.0,
+         null,
          8.0,
          8.0,
          8.0,
          8.0,
          7.0,
-         0.0,
-         0.0,
-         0.0
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+         null,
+         null,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
       {
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0
-      }, true);
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      });
 
       //
       // Task Eight - 10 day assignment at 100% utilisation with a task calendar, ignoring resource calendar
@@ -346,12 +343,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task Eight", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
       {
          9.0,
-         0.0,
+         null,
          8.0,
-         0.0,
+         null,
          8.0,
          8.0,
          8.0,
@@ -360,28 +357,28 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
          8.0,
          8.0,
          7.0,
-         0.0,
-         0.0,
-         0.0
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+         null,
+         null,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
       {
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0
-      }, true);
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      });
 
       //
       // Task Nine - 10 day assignment at 100% utilisation front loaded
@@ -390,62 +387,62 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task Nine", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
       {
          9.0,
          8.0,
          8.0,
          8.0,
          7.75,
-         0.0,
-         0.0,
+         null,
+         null,
          6.0,
          6.0,
          6.0,
          4.42,
          4.0,
-         0.0,
-         0.0,
+         null,
+         null,
          4.0,
          3.08,
          2.0,
          1.37,
          1.15,
-         0.0,
-         0.0,
+         null,
+         null,
          0.8,
          0.43,
-         0.0,
-         0.0
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+         null,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
       {
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0
-      }, true);
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      });
 
       //
       // Task Ten - 10 day assignment at 100% utilisation back loaded
@@ -454,60 +451,60 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task Ten", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
       {
          0.90,
          0.98,
          1.20,
          1.83,
          2.25,
-         0.00,
-         0.00,
+         null,
+         null,
          4.00,
          4.00,
          4.00,
          5.58,
          6.00,
-         0.00,
-         0.00,
+         null,
+         null,
          6.00,
          6.92,
          8.00,
          8.00,
          8.00,
-         0.00,
-         0.00,
+         null,
+         null,
          8.00,
          4.33,
-         0.00
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
       {
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00
-      }, true);
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      });
 
       //
       // Task Eleven - 10 day assignment at 100% utilisation double peak
@@ -516,70 +513,70 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task Eleven", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
       {
          2.25,
          2.25,
          4.00,
          4.50,
          8.00,
-         0.00,
-         0.00,
+         null,
+         null,
          7.50,
          4.00,
          3.75,
          2.00,
          2.00,
-         0.00,
-         0.00,
+         null,
+         null,
          2.00,
          2.25,
          4.00,
          4.50,
          8.00,
-         0.00,
-         0.00,
+         null,
+         null,
          7.50,
          4.00,
          3.75,
          2.00,
          1.75,
-         0.00,
-         0.00,
-         0.00
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+         null,
+         null,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
       {
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00
-      }, true);
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      });
 
       //
       // Task Twelve - 10 day assignment at 100% utilisation early peak
@@ -588,70 +585,70 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task Twelve", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
       {
          2.25,
          2.25,
          4.00,
          4.50,
          8.00,
-         0.00,
-         0.00,
+         null,
+         null,
          8.00,
          8.00,
          7.75,
          6.00,
          5.75,
-         0.00,
-         0.00,
+         null,
+         null,
          4.00,
          4.00,
          4.00,
          3.75,
          2.00,
-         0.00,
-         0.00,
+         null,
+         null,
          1.90,
          1.20,
          1.15,
          0.80,
          0.70,
-         0.00,
-         0.00,
-         0.00
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+         null,
+         null,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
       {
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00
-      }, true);
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      });
 
       //
       // Task Thirteen - 10 day assignment at 100% utilisation late peak
@@ -660,70 +657,70 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task Thirteen", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
       {
          0.90,
          0.85,
          1.20,
          1.30,
          2.00,
-         0.00,
-         0.00,
+         null,
+         null,
          2.25,
          4.00,
          4.00,
          4.00,
          4.25,
-         0.00,
-         0.00,
+         null,
+         null,
          6.00,
          6.25,
          8.00,
          8.00,
          8.00,
-         0.00,
-         0.00,
+         null,
+         null,
          7.50,
          4.00,
          3.75,
          2.00,
          1.75,
-         0.00,
-         0.00,
-         0.00
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+         null,
+         null,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
       {
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00
-      }, true);
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      });
 
       //
       // Task Fourteen - 10 day assignment at 100% utilisation bell
@@ -732,70 +729,70 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task Fourteen", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
       {
          0.90,
          0.90,
          1.60,
          1.80,
          3.20,
-         0.00,
-         0.00,
+         null,
+         null,
          3.60,
          6.40,
          6.60,
          8.00,
          8.00,
-         0.00,
-         0.00,
+         null,
+         null,
          8.00,
          7.80,
          6.40,
          6.00,
          3.20,
-         0.00,
-         0.00,
+         null,
+         null,
          3.00,
          1.60,
          1.50,
          0.80,
          0.70,
-         0.00,
-         0.00,
-         0.00
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+         null,
+         null,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
       {
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00
-      }, true);
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      });
 
       //
       // Task Fifteen - 10 day assignment at 100% utilisation turtle
@@ -804,56 +801,56 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task Fifteen", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
       {
          2.25,
          3.39,
          4.54,
          6.00,
          7.68,
-         0.00,
-         0.00,
+         null,
+         null,
          8.00,
          8.00,
          8.00,
          8.00,
          7.75,
-         0.00,
-         0.00,
+         null,
+         null,
          6.00,
          4.61,
          3.46,
          2.00,
          0.32,
-         0.00,
-         0.00,
-         0.00
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+         null,
+         null,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
       {
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00
-      }, true);
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      });
 
       //
       // Task Sixteen - 10 day assignment at 100% utilisation hand edited and moved
@@ -862,42 +859,42 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task Sixteen", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
       {
          1.25,
          2.13,
          3.13,
          4.13,
          5.13,
-         0.00,
-         0.00,
+         null,
+         null,
          6.13,
          7.13,
          8.13,
          9.13,
          8.75,
-         0.00,
-         0.00,
-         0.00
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+         null,
+         null,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
       {
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00
-      }, true);
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      });
 
       //
       // Task Sixteen v2 - 10 day assignment at 100% utilisation hand edited
@@ -906,42 +903,42 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task Sixteen v2", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
       {
          1.00,
          2.00,
          3.00,
          4.00,
          5.00,
-         0.00,
-         0.00,
+         null,
+         null,
          6.00,
          7.00,
          8.00,
          9.00,
          10.00,
-         0.00,
-         0.00,
-         0.00
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+         null,
+         null,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
       {
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00
-      }, true);
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      });
 
       //
       // Task Seventeen - 10 day assignment at 100% utilisation contoured with a resource calendar non-working day
@@ -950,66 +947,66 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task Seventeen", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
       {
          9.00,
          8.00,
-         0.00,
+         null,
          8.00,
          8.00,
-         0.00,
-         0.00,
+         null,
+         null,
          7.75,
          6.00,
          6.00,
          6.00,
          4.42,
-         0.00,
-         0.00,
+         null,
+         null,
          4.00,
          4.00,
          3.08,
          2.00,
          1.37,
-         0.00,
-         0.00,
+         null,
+         null,
          1.15,
          0.80,
          0.43,
-         0.00,
-         0.00,
-         0.00
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+         null,
+         null,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
       {
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00,
-         0.00
-      }, true);
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
+      });
 
       //
       // Tests of timescale units
@@ -1018,61 +1015,61 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Task Eighteen", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.WEEKS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.WEEKS, false, new Double[]
       {
-         41,
-         40,
-         40,
-         40,
-         40,
-         39,
-         0
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.THIRDS_OF_MONTHS, new double[]
+         41.0,
+         40.0,
+         40.0,
+         40.0,
+         40.0,
+         39.0,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.THIRDS_OF_MONTHS, false, new Double[]
       {
-         33,
-         48,
-         48,
-         64,
-         47,
-         0
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.MONTHS, new double[]
+         33.0,
+         48.0,
+         48.0,
+         64.0,
+         47.0,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.MONTHS, false, new Double[]
       {
-         129,
-         111,
-         0
-      }, false);
+         129.0,
+         111.0,
+         null
+      });
 
       task = file.getTaskByID(Integer.valueOf(19));
       assertEquals("Task Nineteen", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.QUARTERS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.QUARTERS, false, new Double[]
       {
-         313,
-         520,
-         528,
-         159,
-         0
-      }, false);
-      testSegments(assignment, startDate, TimescaleUnits.HALF_YEARS, new double[]
+         313.0,
+         520.0,
+         528.0,
+         159.0,
+         null
+      });
+      testSegments(assignment, startDate, TimescaleUnits.HALF_YEARS, false, new Double[]
       {
-         833,
-         687,
-         0
-      }, false);
+         833.0,
+         687.0,
+         null
+      });
 
       task = file.getTaskByID(Integer.valueOf(20));
       assertEquals("Task Twenty", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.YEARS, new double[]
+      testSegments(assignment, startDate, TimescaleUnits.YEARS, false, new Double[]
       {
-         1881,
-         1159,
-         0
-      }, false);
+         1881.0,
+         1159.0,
+         null
+      });
    }
 
    /**
@@ -1081,21 +1078,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     * @param assignment parent resource assignment
     * @param startDate start date for segments
     * @param units units of duration for each segment
-    * @param expected array of expected durations for each segment
     * @param complete flag indicating if planned or complete work is required
+    * @param expected array of expected durations for each segment
     */
-   private void testSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, double[] expected, boolean complete)
+   private void testSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, boolean complete, Double[] expected)
    {
       List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
-      ProjectCalendar calendar = assignment.getEffectiveCalendar();
-      List<TimephasedWork> assignments = (complete ? assignment.getTimephasedActualWork() : assignment.getTimephasedWork());
-      List<Duration> durationList = m_timephased.segmentWork(calendar, assignments, dateList, TimeUnit.HOURS);
+      List<Duration> durationList = complete ? assignment.getSegmentedTimephasedActualWork(dateList, TimeUnit.HOURS) : assignment.getSegmentedTimephasedWork(dateList, TimeUnit.HOURS);
       //dumpExpectedData(assignment, durationList);
       assertEquals(expected.length, durationList.size());
       for (int loop = 0; loop < expected.length; loop++)
       {
-         assertEquals(expected[loop], durationList.get(loop).getDuration(), 0.009, "Failed at index " + loop + " assignment " + assignment);
+         if (expected[loop] == null)
+         {
+            assertNull(durationList.get(loop));
+         }
+         else
+         {
+            assertEquals(expected[loop], durationList.get(loop).getDuration(), 0.009, "Failed at index " + loop + " assignment " + assignment);
+         }
       }
    }
 
@@ -1104,7 +1106,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     * creating new test cases.
     *
     * @param assignment parent assignment
-    * @param list list of durations
+    * @param list a list of durations
     */
    /*
       private void dumpExpectedData(ResourceAssignment assignment, ArrayList<Duration> list)
@@ -1129,5 +1131,4 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
    */
 
    private final TimescaleUtility m_timescale = new TimescaleUtility();
-   private final TimephasedUtility m_timephased = new TimephasedUtility();
 }
