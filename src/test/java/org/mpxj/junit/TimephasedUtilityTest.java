@@ -168,7 +168,7 @@ public class TimephasedUtilityTest
       assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(9));
       assertNull(result.get(10));
 
-      // Multiple work items
+      // Multiple normal work items
       items = new ArrayList<>();
 
       item = new TimephasedWork();
@@ -219,5 +219,61 @@ public class TimephasedUtilityTest
       result = TimephasedUtility.segmentWork(calendar, items, ranges);
       assertEquals(1,  result.size());
       assertEquals(Duration.getInstance(6 * 60, TimeUnit.MINUTES), result.get(0));
+
+
+      // work in non-working time
+      items.clear();
+
+      item = new TimephasedWork();
+      item.setStart(LocalDateTime.of(2026, 1, 28, 7, 0));
+      item.setFinish(LocalDateTime.of(2026, 1, 28, 8, 0));
+      item.setTotalAmount(Duration.getInstance(1, TimeUnit.HOURS));
+      item.setAmountPerHour(Duration.getInstance(60, TimeUnit.MINUTES));
+      items.add(item);
+
+      item = new TimephasedWork();
+      item.setStart(LocalDateTime.of(2026, 1, 28, 8, 0));
+      item.setFinish(LocalDateTime.of(2026, 1, 28, 17, 0));
+      item.setTotalAmount(Duration.getInstance(8, TimeUnit.HOURS));
+      item.setAmountPerHour(Duration.getInstance(60, TimeUnit.MINUTES));
+      items.add(item);
+
+      // Hourly ranges
+      ranges.clear();
+      ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 6, 0), LocalDateTime.of(2026, 1, 28, 7, 0)));
+      ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 7, 0), LocalDateTime.of(2026, 1, 28, 8, 0)));
+      ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 8, 0), LocalDateTime.of(2026, 1, 28, 9, 0)));
+      ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 9, 0), LocalDateTime.of(2026, 1, 28, 10, 0)));
+
+      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      assertEquals(4,  result.size());
+      assertNull(result.get(0));
+      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(1));
+      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(2));
+      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(3));
+
+      // no work in working time
+      items.clear();
+
+      item = new TimephasedWork();
+      item.setStart(LocalDateTime.of(2026, 1, 28, 8, 0));
+      item.setFinish(LocalDateTime.of(2026, 1, 28, 9, 0));
+      item.setTotalAmount(Duration.getInstance(0, TimeUnit.HOURS));
+      item.setAmountPerHour(Duration.getInstance(0, TimeUnit.MINUTES));
+      items.add(item);
+
+      item = new TimephasedWork();
+      item.setStart(LocalDateTime.of(2026, 1, 28, 9, 0));
+      item.setFinish(LocalDateTime.of(2026, 1, 28, 17, 0));
+      item.setTotalAmount(Duration.getInstance(7, TimeUnit.HOURS));
+      item.setAmountPerHour(Duration.getInstance(60, TimeUnit.MINUTES));
+      items.add(item);
+
+      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      assertEquals(4,  result.size());
+      assertNull(result.get(0));
+      assertNull(result.get(1));
+      assertEquals(Duration.getInstance(0, TimeUnit.MINUTES), result.get(2));
+      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(3));
    }
 }
