@@ -115,7 +115,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
       //System.out.println(dateList);
       ProjectCalendar calendar = assignment.getEffectiveCalendar();
       List<TimephasedWork> assignments = (complete ? assignment.getTimephasedActualWork() : assignment.getTimephasedWork());
-      List<Duration> durationList = m_timephased.segmentWork(calendar, assignments, dateList);
+      List<Duration> durationList = m_timephased.segmentWork(calendar, assignments, dateList, TimeUnit.HOURS);
       //dumpExpectedData(assignment, durationList);
       assertEquals(segmentCount, durationList.size());
       TimeUnitDefaultsContainer unitDefaults = assignment.getParentFile().getProjectProperties();

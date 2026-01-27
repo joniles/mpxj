@@ -35,6 +35,7 @@ import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.Task;
+import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedWork;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mpp.TimescaleUnits;
@@ -1101,7 +1102,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       //System.out.println(dateList);
       ProjectCalendar calendar = assignment.getEffectiveCalendar();
       List<TimephasedWork> assignments = (complete ? assignment.getTimephasedActualWork() : assignment.getTimephasedWork());
-      List<Duration> durationList = m_timephased.segmentWork(calendar, assignments, dateList);
+      List<Duration> durationList = m_timephased.segmentWork(calendar, assignments, dateList, TimeUnit.HOURS);
       //dumpExpectedData(assignment, durationList);
       assertEquals(expected.length, durationList.size());
       for (int loop = 0; loop < expected.length; loop++)

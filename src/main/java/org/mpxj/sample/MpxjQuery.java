@@ -48,6 +48,7 @@ import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceField;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
+import org.mpxj.TimeUnit;
 import org.mpxj.mpp.TimescaleUnits;
 import org.mpxj.reader.UniversalProjectReader;
 import org.mpxj.utility.TimephasedUtility;
@@ -328,7 +329,7 @@ public class MpxjQuery
          List<LocalDateTimeRange> dates = timescale.createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
          TimephasedUtility timephased = new TimephasedUtility();
 
-         List<Duration> durations = timephased.segmentWork(assignment.getEffectiveCalendar(), assignment.getTimephasedWork(), dates);
+         List<Duration> durations = timephased.segmentWork(assignment.getEffectiveCalendar(), assignment.getTimephasedWork(), dates, TimeUnit.HOURS);
          for (LocalDateTimeRange range : dates)
          {
             System.out.print(df.format(range.getStart()) + "\t");

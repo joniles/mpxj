@@ -55,7 +55,7 @@ public final class TimephasedUtility
     * @param ranges timescale date ranges
     * @return list of durations, one per timescale date range
     */
-   public static List<Duration> segmentWork(ProjectCalendar calendar, List<TimephasedWork> work, List<LocalDateTimeRange> ranges)
+   public static List<Duration> segmentWork(ProjectCalendar calendar, List<TimephasedWork> work, List<LocalDateTimeRange> ranges, TimeUnit targetUnits)
    {
       validateTimephased(work);
       validateRanges(ranges);
@@ -142,7 +142,8 @@ public final class TimephasedUtility
          }
       }
 
-      return Arrays.stream(result).mapToObj(d -> d == -1 ? null : Duration.getInstance(d, units)).collect(Collectors.toList());
+
+      return Arrays.stream(result).mapToObj(d -> d == -1 ? null : Duration.getInstance(d, units).convertUnits(targetUnits, calendar)).collect(Collectors.toList());
    }
 
    /**

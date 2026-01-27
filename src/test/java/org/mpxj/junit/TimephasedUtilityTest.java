@@ -1,6 +1,5 @@
 package org.mpxj.junit;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,7 +30,7 @@ public class TimephasedUtilityTest
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 27, 7, 0), LocalDateTime.of(2026, 1, 27, 8, 0)));
 
       // No work
-      List<Duration> result = TimephasedUtility.segmentWork(calendar, Collections.emptyList(), ranges);
+      List<Duration> result = TimephasedUtility.segmentWork(calendar, Collections.emptyList(), ranges, TimeUnit.HOURS);
       assertEquals(2,  result.size());
       assertNull(result.get(0));
       assertNull(result.get(1));
@@ -44,7 +43,7 @@ public class TimephasedUtilityTest
       item.setAmountPerHour(Duration.getInstance(60, TimeUnit.MINUTES));
       List<TimephasedWork> items = Collections.singletonList(item);
 
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(2,  result.size());
       assertNull(result.get(0));
       assertNull(result.get(1));
@@ -52,93 +51,93 @@ public class TimephasedUtilityTest
       // Range overlaps work start
       ranges.clear();
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 7, 0), LocalDateTime.of(2026, 1, 28, 9, 0)));
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(1,  result.size());
-      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(0));
+      assertEquals(Duration.getInstance(1, TimeUnit.HOURS), result.get(0));
 
       // Range starts at work start
       ranges.clear();
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 8, 0), LocalDateTime.of(2026, 1, 28, 9, 0)));
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.MINUTES);
       assertEquals(1,  result.size());
       assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(0));
 
       // Range starts at work start, with multiple hours
       ranges.clear();
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 8, 0), LocalDateTime.of(2026, 1, 28, 10, 0)));
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(1,  result.size());
-      assertEquals(Duration.getInstance(120, TimeUnit.MINUTES), result.get(0));
+      assertEquals(Duration.getInstance(2, TimeUnit.HOURS), result.get(0));
 
       // Range is within the work item
       ranges.clear();
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 9, 0), LocalDateTime.of(2026, 1, 28, 10, 0)));
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(1,  result.size());
-      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(0));
+      assertEquals(Duration.getInstance(1, TimeUnit.HOURS), result.get(0));
 
       // Range is within the work item with multiple hours
       ranges.clear();
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 9, 0), LocalDateTime.of(2026, 1, 28, 11, 0)));
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(1,  result.size());
-      assertEquals(Duration.getInstance(120, TimeUnit.MINUTES), result.get(0));
+      assertEquals(Duration.getInstance(2, TimeUnit.HOURS), result.get(0));
 
       // Range crosses non-working time start
       ranges.clear();
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 11, 0), LocalDateTime.of(2026, 1, 28, 13, 0)));
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(1,  result.size());
-      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(0));
+      assertEquals(Duration.getInstance(1, TimeUnit.HOURS), result.get(0));
 
       // Range is exactly non-working time
       ranges.clear();
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 12, 0), LocalDateTime.of(2026, 1, 28, 13, 0)));
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(1,  result.size());
       assertNull(result.get(0));
 
       // Range is within non-working time
       ranges.clear();
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 12, 15), LocalDateTime.of(2026, 1, 28, 12, 45)));
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(1,  result.size());
       assertNull(result.get(0));
 
       // Range crosses non-working time end
       ranges.clear();
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 12, 0), LocalDateTime.of(2026, 1, 28, 14, 0)));
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(1,  result.size());
-      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(0));
+      assertEquals(Duration.getInstance(1, TimeUnit.HOURS), result.get(0));
 
       // Range is exactly work
       ranges.clear();
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 8, 0), LocalDateTime.of(2026, 1, 28, 17, 0)));
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(1,  result.size());
-      assertEquals(Duration.getInstance(8*60, TimeUnit.MINUTES), result.get(0));
+      assertEquals(Duration.getInstance(8, TimeUnit.HOURS), result.get(0));
 
       // Range ends at work end
       ranges.clear();
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 16, 0), LocalDateTime.of(2026, 1, 28, 17, 0)));
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(1,  result.size());
-      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(0));
+      assertEquals(Duration.getInstance(1, TimeUnit.HOURS), result.get(0));
 
       // Range ends at work end with multiple hours
       ranges.clear();
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 15, 0), LocalDateTime.of(2026, 1, 28, 17, 0)));
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(1,  result.size());
-      assertEquals(Duration.getInstance(120, TimeUnit.MINUTES), result.get(0));
+      assertEquals(Duration.getInstance(2, TimeUnit.HOURS), result.get(0));
 
       // Range overlaps work end
       ranges.clear();
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 16, 0), LocalDateTime.of(2026, 1, 28, 18, 0)));
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(1,  result.size());
-      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(0));
+      assertEquals(Duration.getInstance(1, TimeUnit.HOURS), result.get(0));
 
       // Hourly ranges overlapping the whole work item
       ranges.clear();
@@ -154,18 +153,18 @@ public class TimephasedUtilityTest
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 16, 0), LocalDateTime.of(2026, 1, 28, 17, 0)));
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 17, 0), LocalDateTime.of(2026, 1, 28, 18, 0)));
 
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(11,  result.size());
       assertNull(result.get(0));
-      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(1));
-      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(2));
-      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(3));
-      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(4));
+      assertEquals(Duration.getInstance(1, TimeUnit.HOURS), result.get(1));
+      assertEquals(Duration.getInstance(1, TimeUnit.HOURS), result.get(2));
+      assertEquals(Duration.getInstance(1, TimeUnit.HOURS), result.get(3));
+      assertEquals(Duration.getInstance(1, TimeUnit.HOURS), result.get(4));
       assertNull(result.get(5));
-      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(6));
-      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(7));
-      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(8));
-      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(9));
+      assertEquals(Duration.getInstance(1, TimeUnit.HOURS), result.get(6));
+      assertEquals(Duration.getInstance(1, TimeUnit.HOURS), result.get(7));
+      assertEquals(Duration.getInstance(1, TimeUnit.HOURS), result.get(8));
+      assertEquals(Duration.getInstance(1, TimeUnit.HOURS), result.get(9));
       assertNull(result.get(10));
 
       // Multiple normal work items
@@ -202,23 +201,23 @@ public class TimephasedUtilityTest
       // Overlaps first two ranges
       ranges.clear();
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 0, 0), LocalDateTime.of(2026, 1, 28, 12, 0)));
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(1,  result.size());
-      assertEquals(Duration.getInstance(3 * 60, TimeUnit.MINUTES), result.get(0));
+      assertEquals(Duration.getInstance(3, TimeUnit.HOURS), result.get(0));
 
       // Overlaps last two ranges
       ranges.clear();
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 12, 0), LocalDateTime.of(2026, 1, 29, 0, 0)));
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(1,  result.size());
-      assertEquals(Duration.getInstance(3 * 60, TimeUnit.MINUTES), result.get(0));
+      assertEquals(Duration.getInstance(3, TimeUnit.HOURS), result.get(0));
 
       // Overlaps all ranges
       ranges.clear();
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 0, 0), LocalDateTime.of(2026, 1, 29, 0, 0)));
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(1,  result.size());
-      assertEquals(Duration.getInstance(6 * 60, TimeUnit.MINUTES), result.get(0));
+      assertEquals(Duration.getInstance(6, TimeUnit.HOURS), result.get(0));
 
 
       // work in non-working time
@@ -245,12 +244,12 @@ public class TimephasedUtilityTest
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 8, 0), LocalDateTime.of(2026, 1, 28, 9, 0)));
       ranges.add(new LocalDateTimeRange(LocalDateTime.of(2026, 1, 28, 9, 0), LocalDateTime.of(2026, 1, 28, 10, 0)));
 
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(4,  result.size());
       assertNull(result.get(0));
-      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(1));
-      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(2));
-      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(3));
+      assertEquals(Duration.getInstance(1, TimeUnit.HOURS), result.get(1));
+      assertEquals(Duration.getInstance(1, TimeUnit.HOURS), result.get(2));
+      assertEquals(Duration.getInstance(1, TimeUnit.HOURS), result.get(3));
 
       // no work in working time
       items.clear();
@@ -269,11 +268,11 @@ public class TimephasedUtilityTest
       item.setAmountPerHour(Duration.getInstance(60, TimeUnit.MINUTES));
       items.add(item);
 
-      result = TimephasedUtility.segmentWork(calendar, items, ranges);
+      result = TimephasedUtility.segmentWork(calendar, items, ranges, TimeUnit.HOURS);
       assertEquals(4,  result.size());
       assertNull(result.get(0));
       assertNull(result.get(1));
-      assertEquals(Duration.getInstance(0, TimeUnit.MINUTES), result.get(2));
-      assertEquals(Duration.getInstance(60, TimeUnit.MINUTES), result.get(3));
+      assertEquals(Duration.getInstance(0, TimeUnit.HOURS), result.get(2));
+      assertEquals(Duration.getInstance(1, TimeUnit.HOURS), result.get(3));
    }
 }
