@@ -29,7 +29,6 @@ import java.util.ArrayList;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.mpxj.Duration;
 import org.mpxj.LocalDateTimeRange;

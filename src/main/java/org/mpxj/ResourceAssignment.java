@@ -44,6 +44,7 @@ import org.mpxj.common.CombinedCalendar;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.LocalTimeHelper;
 import org.mpxj.common.NumberHelper;
+import org.mpxj.utility.TimephasedUtility;
 
 /**
  * This class represents a resource assignment record from an MPX file.
@@ -678,6 +679,11 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       set(AssignmentField.TIMEPHASED_PLANNED_WORK, data);
    }
 
+   public List<Duration> getSegmentedTimephasedPlannedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getTimephasedPlannedWork(), ranges, units);
+   }
+
    /**
     * Retrieves the timephased breakdown of the completed work for this
     * resource assignment.
@@ -700,6 +706,11 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       set(AssignmentField.TIMEPHASED_ACTUAL_WORK, data);
    }
 
+   public List<Duration> getSegmentedTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getTimephasedActualWork(), ranges, units);
+   }
+
    /**
     * Retrieves the timephased breakdown of the planned work for this
     * resource assignment.
@@ -720,6 +731,11 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    public void setTimephasedWork(List<TimephasedWork> data)
    {
       set(AssignmentField.TIMEPHASED_WORK, data);
+   }
+
+   public List<Duration> getSegmentedTimephasedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getTimephasedWork(), ranges, units);
    }
 
    /**
@@ -761,6 +777,11 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return data;
    }
 
+   public List<Duration> getSegmentedTimephasedOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getTimephasedOvertimeWork(), ranges, units);
+   }
+
    /**
     * Sets the timephased breakdown of the actual overtime work
     * for this assignment.
@@ -781,6 +802,11 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    @SuppressWarnings("unchecked") public List<TimephasedWork> getTimephasedActualOvertimeWork()
    {
       return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK);
+   }
+
+   public List<Duration> getSegmentedTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getTimephasedActualOvertimeWork(), ranges, units);
    }
 
    /**
@@ -1363,6 +1389,11 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    @SuppressWarnings("unchecked") public List<TimephasedWork> getTimephasedBaselineWork(int index)
    {
       return (List<TimephasedWork>) get(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index]);
+   }
+
+   public List<Duration> getSegmentedTimephasedBaselineWork(int index, List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(m_parentFile.getBaselineCalendar(), getTimephasedBaselineWork(index), ranges, units);
    }
 
    /**

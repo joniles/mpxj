@@ -182,13 +182,7 @@ public class ResourceAssignmentFactory
             }
          }
 
-         ProjectCalendar baselineCalendar = file.getCalendarByName(file.getProjectProperties().getBaselineCalendarName());
-         if (baselineCalendar == null)
-         {
-            // The project has no baseline calendar, use the default calendar instead
-            baselineCalendar = file.getDefaultCalendar();
-         }
-
+         ProjectCalendar baselineCalendar = file.getBaselineCalendar();
          for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
          {
             List<TimephasedWork> baselineWork = timephasedFactory.getBaselineWork(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])));
