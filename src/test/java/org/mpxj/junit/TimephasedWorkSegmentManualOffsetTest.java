@@ -23,7 +23,6 @@
 package org.mpxj.junit;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import java.util.List;
 
@@ -116,7 +115,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
       //System.out.println(dateList);
       ProjectCalendar calendar = assignment.getEffectiveCalendar();
       List<TimephasedWork> assignments = (complete ? assignment.getTimephasedActualWork() : assignment.getTimephasedWork());
-      List<Duration> durationList = m_timephased.segmentWork(calendar, assignments, units, dateList);
+      List<Duration> durationList = m_timephased.segmentWork(calendar, assignments, dateList);
       //dumpExpectedData(assignment, durationList);
       assertEquals(segmentCount, durationList.size());
       TimeUnitDefaultsContainer unitDefaults = assignment.getParentFile().getProjectProperties();

@@ -26,7 +26,6 @@ package org.mpxj.sample;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import java.util.List;
@@ -329,7 +328,7 @@ public class MpxjQuery
          List<LocalDateTimeRange> dates = timescale.createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
          TimephasedUtility timephased = new TimephasedUtility();
 
-         List<Duration> durations = timephased.segmentWork(assignment.getEffectiveCalendar(), assignment.getTimephasedWork(), TimescaleUnits.DAYS, dates);
+         List<Duration> durations = timephased.segmentWork(assignment.getEffectiveCalendar(), assignment.getTimephasedWork(), dates);
          for (LocalDateTimeRange range : dates)
          {
             System.out.print(df.format(range.getStart()) + "\t");

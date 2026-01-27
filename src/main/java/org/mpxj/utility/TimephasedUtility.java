@@ -24,9 +24,12 @@
 package org.mpxj.utility;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.Duration;
@@ -35,9 +38,6 @@ import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedCost;
 import org.mpxj.TimephasedItem;
 import org.mpxj.TimephasedWork;
-import org.mpxj.common.LocalDateHelper;
-import org.mpxj.common.LocalDateTimeHelper;
-import org.mpxj.common.NumberHelper;
 import org.mpxj.mpp.TimescaleUnits;
 
 /**
@@ -50,51 +50,99 @@ public final class TimephasedUtility
     * of timephased work into an external form which can
     * be displayed to the user.
     *
-    * @param projectCalendar calendar used by the resource assignment
+    * @param calendar calendar used by the resource assignment
     * @param work timephased resource assignment data
-    * @param rangeUnits timescale units
-    * @param dateList timescale date ranges
+    * @param ranges timescale date ranges
     * @return list of durations, one per timescale date range
     */
-   public List<Duration> segmentWork(ProjectCalendar projectCalendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, List<LocalDateTimeRange> dateList)
+   public static List<Duration> segmentWork(ProjectCalendar calendar, List<TimephasedWork> work, List<LocalDateTimeRange> ranges)
    {
-      throw new UnsupportedOperationException();
-/*
-      ArrayList<Duration> result = new ArrayList<>(dateList.size());
-      int lastStartIndex = 0;
+      validateTimephased(work);
+      validateRanges(ranges);
 
-      //
-      // Iterate through the list of dates range we are interested in.
-      // Each date range in this list corresponds to a column
-      // shown on the "timescale" view by MS Project
-      //
-      for (LocalDateTimeRange range : dateList)
+      if (work.isEmpty())
       {
-         //
-         // If the current date range does not intersect with any of the
-         // assignment date ranges in the list, then we show a zero
-         // duration for this date range.
-         //
-         int startIndex = lastStartIndex == -1 ? -1 : getStartIndex(range, work, lastStartIndex);
-         if (startIndex == -1)
+         return Arrays.asList(new Duration[ranges.size()]);
+      }
+
+      // We use -1 to represent null and map this later when we generate
+      double[] result = new double[ranges.size()];
+      Arrays.fill(result, -1);
+
+      int currentItemIndex = 0;
+      TimephasedWork currentItem = work.get(0);
+      TimeUnit units = currentItem.getAmountPerHour().getUnits();
+      boolean currentItemIsNonWorking = itemIsNonWorking(calendar, currentItem);
+      double currentItemWorkPerHour = currentItem.getAmountPerHour().getDuration();
+
+      int currentRangeIndex = 0;
+      LocalDateTimeRange currentRange = ranges.get(0);
+
+      while(true)
+      {
+         if (!currentRange.getEnd().isAfter(currentItem.getStart()))
          {
-            result.add(Duration.getInstance(0, TimeUnit.HOURS));
+            // The range is before the current timephased item: there is no work for this range.
+            currentRangeIndex++;
+            if (currentRangeIndex == ranges.size())
+            {
+               break;
+            }
+            currentRange = ranges.get(currentRangeIndex);
+            continue;
+         }
+
+         while (!currentRange.getStart().isBefore(currentItem.getFinish()))
+         {
+            // We are at the last work item
+            if (currentItemIndex+1 == work.size())
+            {
+               // There are no more work items, so there is no work for this range
+               // or any subsequent ranges.
+               currentRangeIndex = -1;
+               break;
+            }
+
+            // Try the next work item
+            currentItem = work.get(++currentItemIndex);
+            currentItemIsNonWorking = itemIsNonWorking(calendar, currentItem);
+            currentItemWorkPerHour = currentItem.getAmountPerHour().getDuration();
+         }
+
+         if (currentRangeIndex == -1)
+         {
+            break;
+         }
+
+         // Our range intersects with this work
+         LocalDateTime workStart = currentRange.getStart().isAfter(currentItem.getStart()) ? currentRange.getStart() : currentItem.getStart();
+         LocalDateTime workFinish = currentRange.getEnd().isAfter(currentItem.getFinish()) ? currentItem.getFinish() : currentRange.getEnd();
+         double workHours = currentItemIsNonWorking ? workStart.until(workFinish, ChronoUnit.HOURS) : calendar.getWork(workStart, workFinish, TimeUnit.HOURS).getDuration();
+         if (workHours != 0.0)
+         {
+            double workAmount = currentItemWorkPerHour * workHours;
+            double currentRangeWork = result[currentRangeIndex] == -1 ? 0 : result[currentRangeIndex];
+            result[currentRangeIndex] = currentRangeWork + workAmount;
+         }
+
+         if (workFinish.isBefore(currentRange.getEnd()))
+         {
+            // We still have some time to account for in the current range
+            currentRange = new LocalDateTimeRange(workFinish, currentRange.getEnd());
          }
          else
          {
-            //
-            // We have found an assignment which intersects with the current
-            // date range, call the method below to determine how
-            // much time from this resource assignment can be allocated
-            // to the current date range.
-            //
-            result.add(getRangeDuration(projectCalendar, rangeUnits, range, work, startIndex));
-            lastStartIndex = startIndex;
+            // We have completed the current range, move forward
+            currentRangeIndex++;
+            if (currentRangeIndex == ranges.size())
+            {
+               break;
+            }
+            currentRange = ranges.get(currentRangeIndex);
          }
       }
 
-      return result;
- */
+      return Arrays.stream(result).mapToObj(d -> d == -1 ? null : Duration.getInstance(d, units)).collect(Collectors.toList());
    }
 
    /**
@@ -424,95 +472,56 @@ public final class TimephasedUtility
       return result;
    }
 */
-   /**
-    * For a given date range, determine the cost, based on the
-    * timephased resource assignment data.
-    *
-    * This method deals with timescale units of one day or more.
-    *
-    * @param projectCalendar calendar used for the resource assignment calendar
-    * @param rangeUnits timescale units
-    * @param range target date range
-    * @param assignments timephased resource assignments
-    * @param startIndex index at which to start searching through the timephased resource assignments
-    * @return work duration
-    */
-/*
-   private Double getRangeCostWholeDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedCost> assignments, int startIndex)
+
+
+   private static void validateRanges(List<LocalDateTimeRange> ranges)
    {
-      int totalDays = 0;
-      double totalCost = 0;
-      TimephasedCost assignment = assignments.get(startIndex);
-      boolean done;
-
-      do
+      LocalDateTimeRange previousRange = null;
+      for (LocalDateTimeRange range : ranges)
       {
-         //
-         // Select the correct start date
-         //
-         LocalDateTime startDate = range.getStart();
-         LocalDateTime assignmentStart = assignment.getStart();
-         if (startDate.isBefore(assignmentStart))
+         if (!range.getStart().isBefore(range.getEnd()))
          {
-            startDate = assignmentStart;
+            throw new IllegalArgumentException("Range start must be before range end: " + range);
          }
 
-         LocalDateTime rangeEndDate = range.getEnd();
-         LocalDateTime traEndDate = assignment.getFinish();
-         LocalDateTime calendarDate = startDate;
-
-         //
-         // Start counting forwards
-         //
-         while (startDate.isBefore(rangeEndDate) && startDate.isBefore(traEndDate))
+         if (previousRange != null && !previousRange.getEnd().isBefore(range.getStart()))
          {
-            if (projectCalendar == null || projectCalendar.isWorkingDate(LocalDateHelper.getLocalDate(calendarDate)))
-            {
-               ++totalDays;
-            }
-            startDate = startDate.plusDays(1);
-            calendarDate = startDate;
-         }
-
-         //
-         // If we still haven't reached the end of our range
-         // check to see if the next TRA can be used.
-         //
-         done = true;
-         totalCost += (assignment.getAmountPerDay().doubleValue() * totalDays);
-         if (startDate.isBefore(rangeEndDate))
-         {
-            ++startIndex;
-            if (startIndex < assignments.size())
-            {
-               assignment = assignments.get(startIndex);
-               totalDays = 0;
-               done = false;
-            }
+            throw new IllegalArgumentException("Ranges must be non-overlapping and in order: " + previousRange + " " + range);
          }
       }
-      while (!done);
+   }
 
-      return Double.valueOf(totalCost);
-   }
-*/
-   /**
-    * For a given date range, determine the cost, based on the
-    * timephased resource assignment data.
-    *
-    * This method deals with timescale units of less than a day.
-    *
-    * @param projectCalendar calendar used for the resource assignment calendar
-    * @param rangeUnits timescale units
-    * @param range target date range
-    * @param assignments timephased resource assignments
-    * @param startIndex index at which to start searching through the timephased resource assignments
-    * @return work duration
-    */
-/*
-   private Double getRangeCostSubDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedCost> assignments, int startIndex)
+   private static void validateTimephased(List<TimephasedWork> items)
    {
-      throw new UnsupportedOperationException("Please request this functionality from the MPXJ maintainer");
+      if (items.isEmpty())
+      {
+         return;
+      }
+
+      TimephasedWork previousItem = null;
+      TimeUnit amountPerHourUnits = items.get(0).getAmountPerHour().getUnits();
+
+      for (TimephasedWork item : items)
+      {
+         if (amountPerHourUnits != item.getAmountPerHour().getUnits())
+         {
+            throw new IllegalArgumentException("Timephased work per hour expressed in different units");
+         }
+
+         if (!item.getStart().isBefore(item.getFinish()))
+         {
+            throw new IllegalArgumentException("Item start must be before item end: " + item);
+         }
+
+         if (previousItem != null && !previousItem.getFinish().isBefore(item.getStart()))
+         {
+            throw new IllegalArgumentException("Items must be non-overlapping and in order: " + previousItem + " " + item);
+         }
+      }
    }
- */
+
+   private static <T extends TimephasedItem<?>> boolean itemIsNonWorking(ProjectCalendar calendar, T item)
+   {
+      return calendar.getWork(item.getStart(), item.getFinish(), TimeUnit.HOURS).getDuration() == 0.0;
+   }
 }
