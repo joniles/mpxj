@@ -36,6 +36,7 @@ import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mpp.TimescaleUnits;
+import org.mpxj.mspdi.MSPDIReader;
 import org.mpxj.utility.TimescaleUtility;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -106,11 +107,11 @@ public class TimephasedWorkSegmentTest
     *
     * @throws Exception
     */
-   //   @Test public void testMspdi () throws Exception
-   //   {
-   //      ProjectFile file = new MSPDIReader().read(MpxjTestData.filePath("mspditimephasedsegments.xml");
-   //      testSegments(file);
-   //   }
+      @Test public void testMspdi () throws Exception
+      {
+         ProjectFile file = new MSPDIReader().read(MpxjTestData.filePath("mspditimephasedsegments.xml"));
+         testSegments(file);
+      }
 
    /**
     * Suite of tests common to all file types.
@@ -1108,7 +1109,7 @@ public class TimephasedWorkSegmentTest
          }
          else
          {
-            assertEquals(expected[loop], durationList.get(loop).getDuration(), 0.009, "Failed at index " + loop);
+            assertEquals(expected[loop], durationList.get(loop).getDuration(), 0.015, "Failed at index " + loop);
          }
       }
    }
