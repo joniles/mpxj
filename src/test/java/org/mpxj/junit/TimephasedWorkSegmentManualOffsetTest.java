@@ -26,7 +26,6 @@ import java.time.LocalDateTime;
 
 import java.util.List;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.Duration;
@@ -47,11 +46,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * This a test for reading timephased work of manual scheduled tasks from an MPP file.
+ * This a test for reading timephased work of manually scheduled tasks from an MPP file.
  * It validates the data against JSON within the Note field for each assignment.
  * The JSON is created by a VBA inside the MPP file.
  */
-@Disabled public class TimephasedWorkSegmentManualOffsetTest
+public class TimephasedWorkSegmentManualOffsetTest
 {
    /**
     * Timephased segment test for MPP14 files.
@@ -115,7 +114,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
       //System.out.println(dateList);
       ProjectCalendar calendar = assignment.getEffectiveCalendar();
       List<TimephasedWork> assignments = (complete ? assignment.getTimephasedActualWork() : assignment.getTimephasedWork());
-      List<Duration> durationList = m_timephased.segmentWork(calendar, assignments, dateList, TimeUnit.HOURS);
+      List<Duration> durationList = TimephasedUtility.segmentWork(calendar, assignments, dateList, TimeUnit.HOURS);
       //dumpExpectedData(assignment, durationList);
       assertEquals(segmentCount, durationList.size());
       TimeUnitDefaultsContainer unitDefaults = assignment.getParentFile().getProjectProperties();
@@ -139,7 +138,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
          {
             expected = Double.parseDouble(jsonValue);
          }
-         assertEquals(expected, durationList.get(loop).convertUnits(TimeUnit.MINUTES, unitDefaults).getDuration(), 0.009, "Failed at index " + loop + " assignment index " + assignmentIndex + "=>" + assignment);
+
+         Duration actual = durationList.get(loop);
+         if (actual == null)
+         {
+            // Slight hack to avoid having to regenerate the JSON data.
+            // Segmentation will now produce null for non-working segments, rather than zero.
+            actual = Duration.getInstance(0, TimeUnit.MINUTES);
+         }
+
+         assertEquals(expected, actual.convertUnits(TimeUnit.MINUTES, unitDefaults).getDuration(), 0.009, "Failed at index " + loop + " assignment index " + assignmentIndex + "=>" + assignment);
 
          loop++;
       }
@@ -177,5 +185,4 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
    */
 
    private final TimescaleUtility m_timescale = new TimescaleUtility();
-   private final TimephasedUtility m_timephased = new TimephasedUtility();
 }
