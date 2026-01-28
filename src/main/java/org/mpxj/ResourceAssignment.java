@@ -37,12 +37,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.mpxj.common.AssignmentFieldLists;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.CombinedCalendar;
 import org.mpxj.common.LocalDateTimeHelper;
-import org.mpxj.common.LocalTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.utility.TimephasedUtility;
 
@@ -746,35 +746,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    @SuppressWarnings("unchecked") public List<TimephasedWork> getTimephasedOvertimeWork()
    {
-      List<TimephasedWork> overtimeWorkContainer = (List<TimephasedWork>)get(AssignmentField.TIMEPHASED_OVERTIME_WORK);
-      if (overtimeWorkContainer == null)
-      {
-         List<TimephasedWork> workContainer = getTimephasedWork();
-         if (workContainer != null && getOvertimeWork() != null)
-         {
-            double perDayFactor = getRemainingOvertimeWork().getDuration() / (getRemainingWork().getDuration() - getRemainingOvertimeWork().getDuration());
-            double totalFactor = getRemainingOvertimeWork().getDuration() / getRemainingWork().getDuration();
-
-            perDayFactor = Double.isNaN(perDayFactor) ? 0 : perDayFactor;
-            totalFactor = Double.isNaN(totalFactor) ? 0 : totalFactor;
-
-            overtimeWorkContainer = applyFactor(workContainer, perDayFactor, totalFactor);
-         }
-      }
-
-      return overtimeWorkContainer;
-   }
-
-   private List<TimephasedWork> applyFactor(List<TimephasedWork> source, double perDayFactor, double totalFactor)
-   {
-      List<TimephasedWork> data = new ArrayList<>();
-
-      for (TimephasedWork sourceItem : source)
-      {
-         data.add(new TimephasedWork(sourceItem, totalFactor, perDayFactor));
-      }
-
-      return data;
+      return (List<TimephasedWork>)get(AssignmentField.TIMEPHASED_OVERTIME_WORK);
    }
 
    public List<Duration> getSegmentedTimephasedOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
@@ -3281,6 +3253,18 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return getUnits();
    }
 
+   private List<TimephasedWork> calculateTimephasedOvertimeWork()
+   {
+      double regularMinutes = getRegularWork().convertUnits(TimeUnit.MINUTES, getEffectiveCalendar()).getDuration();
+      double overtimeMinutes = getOvertimeWork().convertUnits(TimeUnit.MINUTES, getEffectiveCalendar()).getDuration();
+      if (regularMinutes == 0 || overtimeMinutes == 0)
+      {
+         return Collections.emptyList();
+      }
+      double factor = overtimeMinutes / regularMinutes;
+      return getTimephasedWork().stream().map(i -> new TimephasedWork(i, factor)).collect(Collectors.toList());
+   }
+
    /**
     * Supply a default value for the rate index.
     *
@@ -3350,6 +3334,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       CALCULATED_FIELD_MAP.put(AssignmentField.START, ResourceAssignment::calculateStart);
       CALCULATED_FIELD_MAP.put(AssignmentField.FINISH, ResourceAssignment::calculateFinish);
       CALCULATED_FIELD_MAP.put(AssignmentField.REMAINING_ASSIGNMENT_UNITS, ResourceAssignment::calculateRemainingAssignmentUnits);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_OVERTIME_WORK, ResourceAssignment::calculateTimephasedOvertimeWork);
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_INDEX, ResourceAssignment::defaultRateIndex);
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_SOURCE, ResourceAssignment::defaultRateSource);
       CALCULATED_FIELD_MAP.put(AssignmentField.CALCULATE_COSTS_FROM_UNITS, ResourceAssignment::defaultCalculateCostsFromUnits);

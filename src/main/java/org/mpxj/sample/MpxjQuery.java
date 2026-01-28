@@ -51,7 +51,6 @@ import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
 import org.mpxj.mpp.TimescaleUnits;
 import org.mpxj.reader.UniversalProjectReader;
-import org.mpxj.utility.TimephasedUtility;
 import org.mpxj.utility.TimescaleUtility;
 
 /**
@@ -87,7 +86,7 @@ public class MpxjQuery
 
    /**
     * This method performs a set of queries to retrieve information
-    * from the an MPP or an MPX file.
+    * from an MPP or an MPX file.
     *
     * @param filename name of the MPX file
     * @throws Exception on file read error
@@ -327,9 +326,8 @@ public class MpxjQuery
 
          TimescaleUtility timescale = new TimescaleUtility();
          List<LocalDateTimeRange> dates = timescale.createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
-         TimephasedUtility timephased = new TimephasedUtility();
 
-         List<Duration> durations = timephased.segmentWork(assignment.getEffectiveCalendar(), assignment.getTimephasedWork(), dates, TimeUnit.HOURS);
+         List<Duration> durations = assignment.getSegmentedTimephasedWork(dates, TimeUnit.HOURS);
          for (LocalDateTimeRange range : dates)
          {
             System.out.print(df.format(range.getStart()) + "\t");
