@@ -3255,12 +3255,20 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    private List<TimephasedWork> calculateTimephasedOvertimeWork()
    {
-      double regularMinutes = getRegularWork().convertUnits(TimeUnit.MINUTES, getEffectiveCalendar()).getDuration();
-      double overtimeMinutes = getOvertimeWork().convertUnits(TimeUnit.MINUTES, getEffectiveCalendar()).getDuration();
+      Duration regularWork = getRegularWork();
+      Duration overtimeWork = getOvertimeWork();
+      if (regularWork == null || overtimeWork == null)
+      {
+         return Collections.emptyList();
+      }
+
+      double regularMinutes = regularWork.convertUnits(TimeUnit.MINUTES, getEffectiveCalendar()).getDuration();
+      double overtimeMinutes = overtimeWork.convertUnits(TimeUnit.MINUTES, getEffectiveCalendar()).getDuration();
       if (regularMinutes == 0 || overtimeMinutes == 0)
       {
          return Collections.emptyList();
       }
+
       double factor = overtimeMinutes / regularMinutes;
       return getTimephasedWork().stream().map(i -> new TimephasedWork(i, factor)).collect(Collectors.toList());
    }

@@ -100,7 +100,7 @@ final class TimephasedDataFactory
       // header are 20 byte records. Each record contains the following items.
       // Offset 0: double representing cumulative work at the end of this period (1000ths/minute)
       // Offset 8: double representing work per hour this period (10000ths/hour)
-      // Offset 16: double representing elapsed minutes at period end (80ths/minute)
+      // Offset 16: int representing elapsed minutes at period end (80ths/minute)
       // The first block appears to contain totals for the resource assignment, and is skipped.
       LocalDateTime calendarPeriodStart = resourceAssignment.getStart();
 
@@ -138,7 +138,7 @@ final class TimephasedDataFactory
             calendarPeriodEnd = calendar.getDate(calendarPeriodStart, Duration.getInstance(elapsedMinutesThisPeriod, TimeUnit.MINUTES));
          }
 
-         double calculatedWorkPerHour = totalWorkMinutesThisPeriod == 0 ? 0 : (totalWorkMinutesAtPeriodEnd * 60.0) / (elapsedMinutesAtPeriodEnd * 1000);
+         double calculatedWorkPerHour = (totalWorkMinutesThisPeriod * 60.0) / elapsedMinutesThisPeriod;
 
          TimephasedWork item = new TimephasedWork();
          item.setStart(calendarPeriodStart);
