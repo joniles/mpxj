@@ -786,9 +786,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased cost
     */
-   @SuppressWarnings("unchecked") public List<TimephasedCost> getTimephasedCost()
+   @SuppressWarnings("unchecked") public List<TimephasedCost> getTimephasedRemainingCost()
    {
-      List<TimephasedCost> costContainer = (List<TimephasedCost>)get(AssignmentField.TIMEPHASED_COST);
+      List<TimephasedCost> costContainer = (List<TimephasedCost>)get(AssignmentField.TIMEPHASED_REMAINING_COST);
       if (costContainer == null)
       {
          Resource r = getResource();
@@ -812,7 +812,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          }
          else
          {
-            costContainer = getTimephasedCostFixedAmount();
+            costContainer = getTimephasedCostResourceRemainingCost();
          }
 
       }
@@ -821,7 +821,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    public List<Number> getSegmentedTimephasedCost(List<LocalDateTimeRange> ranges)
    {
-      return TimephasedUtility.segmentCost(getEffectiveCalendar(), getTimephasedCost(), ranges);
+      return TimephasedUtility.segmentCost(getEffectiveCalendar(), getTimephasedRemainingCost(), ranges);
    }
 
    /**
@@ -1016,73 +1016,112 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased cost
     */
-   private List<TimephasedCost> getTimephasedCostFixedAmount()
+   private List<TimephasedCost> getTimephasedCostResourceRemainingCost()
    {
-      List<TimephasedCost> result = new ArrayList<>();
+      // For Start and Finish Accrued resources, we can't rely on the actual finish
+      // date to determine if an assignment is complete.
+      // MS Project seems to populate this with a value for in progress assignments,
+      // and doesn't clear it when the assignment is complete.
+      // We can't rely on the resume date either.
 
       ProjectCalendar cal = getEffectiveCalendar();
-
-      double remainingCost = getRemainingCost().doubleValue();
-
-      if (remainingCost > 0)
+      switch(getResource().getAccrueAt())
       {
-         AccrueType accrueAt = getResource().getAccrueAt();
-
-         if (accrueAt == AccrueType.START)
+         case START:
          {
-            result.add(splitCostStart(cal, remainingCost, getStart()));
+            if (NumberHelper.getDouble(getRemainingCost()) == 0)
+            {
+               // The assignment has started, so there will already
+               // be actual cost timephased data for the entire cost.
+               return Collections.emptyList();
+            }
+
+            // The resource assignment has not started.
+            // The cost is allocated to the first hour of the assignment.
+            // The remainder of the assignment has zero cost.
+            List<TimephasedCost> list = new  ArrayList<>();
+            LocalDateTime costFinish = cal.getDate(getStart(), Duration.getInstance(1, TimeUnit.HOURS));
+            costFinish = costFinish.isAfter(getFinish()) ? getFinish() : costFinish;
+
+            TimephasedCost item = new TimephasedCost();
+            item.setStart(getStart());
+            item.setFinish(costFinish);
+            item.setTotalAmount(getCost());
+            item.setAmountPerHour(getCost());
+            list.add(item);
+
+            if (costFinish.isBefore(getFinish()))
+            {
+               // If the assignment is longer than 1 hour,
+               // add a zero cost item to cover the rest of the assignment.
+               item = new TimephasedCost();
+               item.setStart(costFinish);
+               item.setFinish(getFinish());
+               item.setTotalAmount(Double.valueOf(0));
+               item.setAmountPerHour(Double.valueOf(0));
+               list.add(item);
+            }
+
+            return list;
          }
-         else
-            if (accrueAt == AccrueType.END)
+
+         case END:
+         {
+            if (NumberHelper.getDouble(getRemainingCost()) == 0)
             {
-               result.add(splitCostEnd(cal, remainingCost, getFinish()));
+               // The assignment has finished, so there will already
+               // be actual cost timephased data for the entire cost.
+               return Collections.emptyList();
             }
-            else
+
+            List<TimephasedCost> list = new  ArrayList<>();
+            LocalDateTime start = getResume() == null ? getStart() : getResume();
+            LocalDateTime costStart = cal.getDate(getFinish(), Duration.getInstance(-1, TimeUnit.HOURS));
+            costStart = costStart.isBefore(start) ? start : costStart;
+
+            TimephasedCost item;
+
+            if (costStart.isAfter(start))
             {
-               //for prorated, we have to deal with it differently depending on whether
-               //any actual has been entered, since we want to mimic the other timephased data
-               //where planned and actual values do not overlap
-               double numWorkingDays = cal.getWork(getStart(), getFinish(), TimeUnit.DAYS).getDuration();
-               double standardAmountPerDay = getCost().doubleValue() / numWorkingDays;
-
-               if (getActualCost().intValue() > 0)
-               {
-                  //need to get three possible blocks of data: one for the possible partial amount
-                  //overlap with timephased actual cost; one with all the standard amount days
-                  //that happen after the actual cost stops; and one with any remaining
-                  //partial day cost amount
-
-                  int numActualDaysUsed = (int) Math.ceil(getActualCost().doubleValue() / standardAmountPerDay);
-                  LocalDateTime actualWorkFinish = cal.getDate(getStart(), Duration.getInstance(numActualDaysUsed, TimeUnit.DAYS));
-
-                  double partialDayActualAmount = getActualCost().doubleValue() % standardAmountPerDay;
-
-                  if (partialDayActualAmount > 0)
-                  {
-                     double dayAmount = standardAmountPerDay < remainingCost ? standardAmountPerDay - partialDayActualAmount : remainingCost;
-
-                     result.add(splitCostEnd(cal, dayAmount, actualWorkFinish));
-
-                     remainingCost -= dayAmount;
-                  }
-
-                  //see if there's anything left to work with
-                  if (remainingCost > 0)
-                  {
-                     //have to split up the amount into standard prorated amount days and whatever is left
-                     result.addAll(splitCostProrated(cal, remainingCost, standardAmountPerDay, cal.getNextWorkStart(actualWorkFinish)));
-                  }
-
-               }
-               else
-               {
-                  //no actual cost to worry about, so just a standard split from the beginning of the assignment
-                  result.addAll(splitCostProrated(cal, remainingCost, standardAmountPerDay, getStart()));
-               }
+               // The remaining duration is longer than 1 hour,
+               // add a zero cost item to cover everything but
+               // the last hour of the assignment.
+               item = new TimephasedCost();
+               item.setStart(start);
+               item.setFinish(costStart);
+               item.setTotalAmount(Double.valueOf(0));
+               item.setAmountPerHour(Double.valueOf(0));
+               list.add(item);
             }
+
+            item = new TimephasedCost();
+            item.setStart(costStart);
+            item.setFinish(getFinish());
+            item.setTotalAmount(getCost());
+            item.setAmountPerHour(getCost());
+            list.add(item);
+
+            return list;
+         }
+
+         default:
+         {
+            if (NumberHelper.getDouble(getRemainingCost()) == 0)
+            {
+               return Collections.emptyList();
+            }
+
+            double workingHours = cal.getWork(getStart(), getFinish(), TimeUnit.HOURS).getDuration();
+            double amountPerHour = getCost().doubleValue() / workingHours;
+
+            TimephasedCost item = new TimephasedCost();
+            item.setStart(getResume() == null ? getStart() : getResume());
+            item.setFinish(getFinish());
+            item.setTotalAmount(getRemainingCost());
+            item.setAmountPerHour(amountPerHour);
+            return Collections.singletonList(item);
+         }
       }
-
-      return result;
    }
 
    /**
