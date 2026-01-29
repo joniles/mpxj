@@ -819,6 +819,11 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return costContainer;
    }
 
+   public List<Number> getSegmentedTimephasedCost(List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.segmentCost(getEffectiveCalendar(), getTimephasedCost(), ranges);
+   }
+
    /**
     * Retrieves the timephased breakdown of actual cost.
     *
@@ -856,6 +861,11 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
 
       return actualCost;
+   }
+
+   public List<Number> getSegmentedTimephasedActualCost(List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.segmentCost(getEffectiveCalendar(), getTimephasedActualCost(), ranges);
    }
 
    /**
@@ -1378,6 +1388,11 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    @SuppressWarnings("unchecked") public List<TimephasedCost> getTimephasedBaselineCost(int index)
    {
       return (List<TimephasedCost>) get(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index]);
+   }
+
+   public List<Number> getSegmentedTimephasedBaselineCost(int index, List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.segmentCost(m_parentFile.getBaselineCalendar(), getTimephasedBaselineCost(index), ranges);
    }
 
    /**
