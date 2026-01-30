@@ -646,9 +646,9 @@ final class XmlProjectWriter extends XmlWriter
       if (m_projectFromPrimavera)
       {
          ProjectCalendar calendar = task.getEffectiveCalendar();
-         xml.setPlannedCurve(TimephasedHelper.write(calendar, mpxj.getTimephasedPlannedWork()));
-         xml.setActualCurve(TimephasedHelper.write(calendar, mpxj.getTimephasedActualWork()));
-         xml.setRemainingCurve(TimephasedHelper.write(calendar, mpxj.getTimephasedWork()));
+         xml.setPlannedCurve(TimephasedHelper.write(calendar, mpxj.getRawTimephasedPlannedWork()));
+         xml.setActualCurve(TimephasedHelper.write(calendar, mpxj.getRawTimephasedActualWork()));
+         xml.setRemainingCurve(TimephasedHelper.write(calendar, mpxj.getRawTimephasedWork()));
       }
 
       writeCodeAssignments(mpxj.getResourceAssignmentCodeValues(), xml.getCode());

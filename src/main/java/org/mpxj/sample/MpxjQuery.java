@@ -327,7 +327,7 @@ public class MpxjQuery
          TimescaleUtility timescale = new TimescaleUtility();
          List<LocalDateTimeRange> dates = timescale.createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
 
-         List<Duration> durations = assignment.getSegmentedTimephasedWork(dates, TimeUnit.HOURS);
+         List<Duration> durations = assignment.getTimephasedWork(dates, TimeUnit.HOURS);
          for (LocalDateTimeRange range : dates)
          {
             System.out.print(df.format(range.getStart()) + "\t");

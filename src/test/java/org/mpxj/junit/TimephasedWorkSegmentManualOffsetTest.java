@@ -113,7 +113,7 @@ public class TimephasedWorkSegmentManualOffsetTest
       List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, segmentCount);
       //System.out.println(dateList);
       ProjectCalendar calendar = assignment.getEffectiveCalendar();
-      List<TimephasedWork> assignments = (complete ? assignment.getTimephasedActualWork() : assignment.getTimephasedWork());
+      List<TimephasedWork> assignments = (complete ? assignment.getRawTimephasedActualWork() : assignment.getRawTimephasedWork());
       List<Duration> durationList = TimephasedUtility.segmentWork(calendar, assignments, dateList, TimeUnit.HOURS);
       //dumpExpectedData(assignment, durationList);
       assertEquals(segmentCount, durationList.size());

@@ -27,7 +27,6 @@ import java.time.LocalDateTime;
 
 import java.util.List;
 
-import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
@@ -730,7 +729,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
    {
       List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
       //System.out.println(dateList);
-      List<Duration> durationList = assignment.getSegmentedTimephasedBaselineWork(0, dateList, TimeUnit.HOURS);
+      List<Duration> durationList = assignment.getTimephasedBaselineWork(0, dateList, TimeUnit.HOURS);
       //dumpExpectedData(assignment, durationList);
       assertEquals(expected.length, durationList.size());
       for (int loop = 0; loop < expected.length; loop++)

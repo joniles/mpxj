@@ -663,14 +663,14 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased planned work
     */
-   @SuppressWarnings("unchecked") public List<TimephasedWork> getTimephasedPlannedWork()
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedPlannedWork()
    {
       return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_PLANNED_WORK);
    }
 
-   public List<Duration> getSegmentedTimephasedPlannedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   public List<Duration> getTimephasedPlannedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getTimephasedPlannedWork(), ranges, units);
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedPlannedWork(), ranges, units);
    }
 
    /**
@@ -679,14 +679,14 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased completed work
     */
-   @SuppressWarnings("unchecked") public List<TimephasedWork> getTimephasedActualWork()
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedActualWork()
    {
       return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_WORK);
    }
 
-   public List<Duration> getSegmentedTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   public List<Duration> getTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getTimephasedActualWork(), ranges, units);
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualWork(), ranges, units);
    }
 
    /**
@@ -695,14 +695,14 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased planned work
     */
-   @SuppressWarnings("unchecked") public List<TimephasedWork> getTimephasedWork()
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedWork()
    {
       return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_REMAINING_WORK);
    }
 
-   public List<Duration> getSegmentedTimephasedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   public List<Duration> getTimephasedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getTimephasedWork(), ranges, units);
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedWork(), ranges, units);
    }
 
    /**
@@ -711,14 +711,14 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased planned work
     */
-   @SuppressWarnings("unchecked") public List<TimephasedWork> getTimephasedOvertimeWork()
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedOvertimeWork()
    {
       return (List<TimephasedWork>)get(AssignmentField.TIMEPHASED_OVERTIME_WORK);
    }
 
-   public List<Duration> getSegmentedTimephasedOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   public List<Duration> getTimephasedOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getTimephasedOvertimeWork(), ranges, units);
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedOvertimeWork(), ranges, units);
    }
 
    /**
@@ -727,68 +727,20 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased planned work
     */
-   @SuppressWarnings("unchecked") public List<TimephasedWork> getTimephasedActualOvertimeWork()
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedActualOvertimeWork()
    {
       return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK);
    }
 
-   public List<Duration> getSegmentedTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getTimephasedActualOvertimeWork(), ranges, units);
-   }
-
-   /**
-    * Retrieves the timephased breakdown of cost.
-    *
-    * @return timephased cost
-    */
-   @SuppressWarnings("unchecked") public List<TimephasedCost> getTimephasedRemainingCost()
-   {
-      List<TimephasedCost> costContainer = (List<TimephasedCost>)get(AssignmentField.TIMEPHASED_REMAINING_COST);
-      if (costContainer == null)
-      {
-         Resource r = getResource();
-         ResourceType type = r != null ? r.getType() : ResourceType.WORK;
-
-         // For Work and Material resources, we will calculate in the normal way
-         if (type != ResourceType.COST)
-         {
-            List<TimephasedWork> timephasedWork = getTimephasedWork();
-            if (timephasedWork != null && !timephasedWork.isEmpty())
-            {
-               if (hasMultipleCostRates())
-               {
-                  costContainer = getTimephasedCostMultipleRates(timephasedWork, getTimephasedOvertimeWork());
-               }
-               else
-               {
-                  costContainer = getTimephasedCostSingleRate(timephasedWork, getTimephasedOvertimeWork());
-               }
-            }
-         }
-         else
-         {
-            costContainer = getTimephasedCostResourceRemainingCost();
-         }
-
-      }
-      return costContainer;
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualOvertimeWork(), ranges, units);
    }
 
    public List<Number> getSegmentedTimephasedCost(List<LocalDateTimeRange> ranges)
    {
-      return TimephasedUtility.segmentCost(getEffectiveCalendar(), getTimephasedRemainingCost(), ranges);
-   }
-
-   /**
-    * Retrieves the timephased breakdown of actual cost.
-    *
-    * @return timephased actual cost
-    */
-   @SuppressWarnings("unchecked") public List<TimephasedCost> getTimephasedActualCost()
-   {
-      List<TimephasedCost> actualCost = (List<TimephasedCost>) get(AssignmentField.TIMEPHASED_ACTUAL_COST);
-      if (actualCost == null)
+      @SuppressWarnings("unchecked") List<TimephasedCost> list = (List<TimephasedCost>)get(AssignmentField.TIMEPHASED_REMAINING_COST);
+      if (list == null)
       {
          Resource r = getResource();
          ResourceType type = r != null ? r.getType() : ResourceType.WORK;
@@ -796,32 +748,60 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          // For Work and Material resources, we will calculate in the normal way
          if (type != ResourceType.COST)
          {
-            List<TimephasedWork> actualWorkContainer = getTimephasedActualWork();
-            if (actualWorkContainer != null && !actualWorkContainer.isEmpty())
+            List<TimephasedWork> timephasedWork = getRawTimephasedWork();
+            if (timephasedWork != null && !timephasedWork.isEmpty())
             {
                if (hasMultipleCostRates())
                {
-                  actualCost = getTimephasedCostMultipleRates(actualWorkContainer, getTimephasedActualOvertimeWork());
+                  list = getTimephasedCostMultipleRates(timephasedWork, getRawTimephasedOvertimeWork());
                }
                else
                {
-                  actualCost = getTimephasedCostSingleRate(actualWorkContainer, getTimephasedActualOvertimeWork());
+                  list = getTimephasedCostSingleRate(timephasedWork, getRawTimephasedOvertimeWork());
                }
             }
          }
          else
          {
-            actualCost = getTimephasedActualCostFixedAmount();
+            list = getTimephasedCostResourceRemainingCost();
          }
 
       }
 
-      return actualCost;
+      return TimephasedUtility.segmentCost(getEffectiveCalendar(), list, ranges);
    }
 
-   public List<Number> getSegmentedTimephasedActualCost(List<LocalDateTimeRange> ranges)
+   public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
    {
-      return TimephasedUtility.segmentCost(getEffectiveCalendar(), getTimephasedActualCost(), ranges);
+      @SuppressWarnings("unchecked") List<TimephasedCost> list = (List<TimephasedCost>) get(AssignmentField.TIMEPHASED_ACTUAL_COST);
+      if (list == null)
+      {
+         Resource r = getResource();
+         ResourceType type = r != null ? r.getType() : ResourceType.WORK;
+
+         // For Work and Material resources, we will calculate in the normal way
+         if (type != ResourceType.COST)
+         {
+            List<TimephasedWork> actualWorkContainer = getRawTimephasedActualWork();
+            if (actualWorkContainer != null && !actualWorkContainer.isEmpty())
+            {
+               if (hasMultipleCostRates())
+               {
+                  list = getTimephasedCostMultipleRates(actualWorkContainer, getRawTimephasedActualOvertimeWork());
+               }
+               else
+               {
+                  list = getTimephasedCostSingleRate(actualWorkContainer, getRawTimephasedActualOvertimeWork());
+               }
+            }
+         }
+         else
+         {
+            list = getTimephasedActualCostFixedAmount();
+         }
+      }
+
+      return TimephasedUtility.segmentCost(getEffectiveCalendar(), list, ranges);
    }
 
    /**
@@ -1327,8 +1307,8 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public boolean getHasTimephasedData()
    {
-      List<TimephasedWork> workContainer = getTimephasedWork();
-      List<TimephasedWork> actualWorkContainer = getTimephasedActualWork();
+      List<TimephasedWork> workContainer = getRawTimephasedWork();
+      List<TimephasedWork> actualWorkContainer = getRawTimephasedActualWork();
       return (workContainer != null && !workContainer.isEmpty()) || (actualWorkContainer != null && !actualWorkContainer.isEmpty());
    }
 
@@ -1339,14 +1319,14 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     * @param index baseline index
     * @return timephased work, or null if no baseline is present
     */
-   @SuppressWarnings("unchecked") public List<TimephasedWork> getTimephasedBaselineWork(int index)
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedBaselineWork(int index)
    {
       return (List<TimephasedWork>) get(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index]);
    }
 
-   public List<Duration> getSegmentedTimephasedBaselineWork(int index, List<LocalDateTimeRange> ranges, TimeUnit units)
+   public List<Duration> getTimephasedBaselineWork(int index, List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(m_parentFile.getBaselineCalendar(), getTimephasedBaselineWork(index), ranges, units);
+      return TimephasedUtility.segmentWork(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineWork(index), ranges, units);
    }
 
    /**
@@ -1356,14 +1336,14 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     * @param index baseline index
     * @return timephased work, or null if no baseline is present
     */
-   @SuppressWarnings("unchecked") public List<TimephasedCost> getTimephasedBaselineCost(int index)
+   @SuppressWarnings("unchecked") public List<TimephasedCost> getRawTimephasedBaselineCost(int index)
    {
       return (List<TimephasedCost>) get(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index]);
    }
 
-   public List<Number> getSegmentedTimephasedBaselineCost(int index, List<LocalDateTimeRange> ranges)
+   public List<Number> getTimephasedBaselineCost(int index, List<LocalDateTimeRange> ranges)
    {
-      return TimephasedUtility.segmentCost(m_parentFile.getBaselineCalendar(), getTimephasedBaselineCost(index), ranges);
+      return TimephasedUtility.segmentCost(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineCost(index), ranges);
    }
 
    /**
@@ -3256,7 +3236,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
 
       double factor = overtimeMinutes / regularMinutes;
-      return getTimephasedWork().stream().map(i -> new TimephasedWork(i, factor)).collect(Collectors.toList());
+      return getRawTimephasedWork().stream().map(i -> new TimephasedWork(i, factor)).collect(Collectors.toList());
    }
 
    /**

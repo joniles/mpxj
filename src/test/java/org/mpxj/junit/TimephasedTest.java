@@ -121,10 +121,10 @@ public class TimephasedTest
       List<ResourceAssignment> assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       ResourceAssignment assignment = assignments.get(0);
-      List<TimephasedWork> timephasedPlanned = assignment.getTimephasedWork();
+      List<TimephasedWork> timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(1, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 09:00", "03/12/2008 12:00", 4500.0, 60.0);
-      List<TimephasedWork> timephasedComplete = assignment.getTimephasedActualWork();
+      List<TimephasedWork> timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
       //
@@ -135,7 +135,7 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(6, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 09:00", "26/11/2008 15:30", 2250.0, 60.0);
       testTimephased(timephasedPlanned, 1, "26/11/2008 15:30", "01/12/2008 16:30", 1125.0, 45.0);
@@ -144,7 +144,7 @@ public class TimephasedTest
       testTimephased(timephasedPlanned, 4, "08/12/2008 14:00", "10/12/2008 09:30", 112.5, 9.0);
       testTimephased(timephasedPlanned, 5, "10/12/2008 09:30", "11/12/2008 15:00", 75.0, 6.0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
       //
@@ -154,10 +154,10 @@ public class TimephasedTest
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
 
       assertEquals(6, timephasedPlanned.size());
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 09:00", "21/11/2008 14:30", 75.0, 6.0);
       testTimephased(timephasedPlanned, 1, "21/11/2008 14:30", "25/11/2008 10:00", 112.5, 9.0);
@@ -174,11 +174,11 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(1, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 09:00", "26/11/2008 15:30", 2250.0, 60.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(1, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "26/11/2008 15:30", "03/12/2008 12:00", 2250.0, 60.0);
 
@@ -190,10 +190,10 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(3, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 09:00", "26/11/2008 09:00", 1920.0, 60.0);
       testTimephased(timephasedPlanned, 1, "26/11/2008 09:00", "01/12/2008 09:00", 0.0, 0.0);
@@ -207,13 +207,13 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(3, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 09:00", "26/11/2008 09:00", 1920.0, 60.0);
       testTimephased(timephasedComplete, 1, "26/11/2008 09:00", "01/12/2008 09:00", 0.0, 0.0);
       testTimephased(timephasedComplete, 2, "01/12/2008 09:00", "02/12/2008 15:00", 780.0, 60.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(1, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "02/12/2008 15:00", "08/12/2008 12:00", 1800.0, 60.0);
 
@@ -225,11 +225,11 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(1, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 09:00", "03/12/2008 12:00", 4500.0, 60.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(0, timephasedPlanned.size());
 
       //
@@ -240,13 +240,13 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(3, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 09:00", "26/11/2008 09:00", 1920.0, 60.0);
       testTimephased(timephasedComplete, 1, "26/11/2008 09:00", "01/12/2008 09:00", 0.0, 0.0);
       testTimephased(timephasedComplete, 2, "01/12/2008 09:00", "08/12/2008 12:00", 2580.0, 60.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(0, timephasedPlanned.size());
 
       //
@@ -257,10 +257,10 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(1, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 23:00", "04/12/2008 02:00", 4500.0, 60.0);
 
@@ -273,10 +273,10 @@ public class TimephasedTest
       assignment = assignments.get(0);
 
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(6, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 23:00", "27/11/2008 05:30", 2250.0, 60.0);
       testTimephased(timephasedPlanned, 1, "27/11/2008 05:30", "02/12/2008 06:30", 1125.0, 45.0);
@@ -293,10 +293,10 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(6, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 23:00", "22/11/2008 04:30", 75.0, 6.0);
       testTimephased(timephasedPlanned, 1, "22/11/2008 04:30", "26/11/2008 00:00", 112.5, 9.0);
@@ -314,11 +314,11 @@ public class TimephasedTest
       assignment = assignments.get(0);
 
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(1, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 23:00", "27/11/2008 05:30", 2250.0, 60.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(1, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "27/11/2008 05:30", "04/12/2008 02:00", 2250.0, 60.0);
 
@@ -330,10 +330,10 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(3, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 23:00", "26/11/2008 08:00", 1920.0, 60.0);
       testTimephased(timephasedPlanned, 1, "26/11/2008 23:00", "29/11/2008 08:00", 0.0, 0.0);
@@ -347,13 +347,13 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(3, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 23:00", "26/11/2008 08:00", 1920.0, 60.0);
       testTimephased(timephasedComplete, 1, "26/11/2008 23:00", "29/11/2008 08:00", 0.0, 0.0);
       testTimephased(timephasedComplete, 2, "01/12/2008 23:00", "03/12/2008 05:00", 780.0, 60.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(1, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "03/12/2008 05:00", "09/12/2008 02:00", 1800.0, 60.0);
 
@@ -366,11 +366,11 @@ public class TimephasedTest
       assignment = assignments.get(0);
 
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(1, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 23:00", "04/12/2008 02:00", 4500.0, 60.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(0, timephasedPlanned.size());
 
       //
@@ -381,13 +381,13 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(3, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 23:00", "26/11/2008 08:00", 1920.0, 60.0);
       testTimephased(timephasedComplete, 1, "26/11/2008 23:00", "29/11/2008 08:00", 0.0, 0.0);
       testTimephased(timephasedComplete, 2, "01/12/2008 23:00", "09/12/2008 02:00", 2580.0, 60.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(0, timephasedPlanned.size());
 
       //
@@ -398,10 +398,10 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(1, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 09:00", "23/11/2008 12:00", 4500.0, 60.0);
 
@@ -413,10 +413,10 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(6, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 09:00", "21/11/2008 22:30", 2250.0, 60.0);
       testTimephased(timephasedPlanned, 1, "21/11/2008 22:30", "22/11/2008 23:30", 1125.0, 45.0);
@@ -433,10 +433,10 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(6, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 09:00", "20/11/2008 21:30", 75.0, 6.0);
       testTimephased(timephasedPlanned, 1, "20/11/2008 21:30", "21/11/2008 10:00", 112.5, 9.0);
@@ -453,11 +453,11 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(1, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 09:00", "21/11/2008 22:30", 2250.0, 60.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(1, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "21/11/2008 22:30", "23/11/2008 12:00", 2250.0, 60.0);
 
@@ -471,10 +471,10 @@ public class TimephasedTest
       assignment = assignments.get(0);
 
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(3, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 09:00", "21/11/2008 09:00", 1440.0, 60.0);
       testTimephased(timephasedPlanned, 1, "21/11/2008 09:00", "25/11/2008 09:00", 0.0, 0.0);
@@ -488,13 +488,13 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(3, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 09:00", "21/11/2008 09:00", 1440.0, 60.0);
       testTimephased(timephasedComplete, 1, "21/11/2008 09:00", "25/11/2008 09:00", 0.0, 0.0);
       testTimephased(timephasedComplete, 2, "25/11/2008 09:00", "25/11/2008 22:30", 810.0, 60.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(1, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "25/11/2008 22:30", "27/11/2008 12:00", 2250.0, 60.0);
 
@@ -506,11 +506,11 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(1, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 09:00", "23/11/2008 12:00", 4500.0, 60.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(0, timephasedPlanned.size());
 
       //
@@ -521,13 +521,13 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(3, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 09:00", "21/11/2008 09:00", 1440.0, 60.0);
       testTimephased(timephasedComplete, 1, "21/11/2008 09:00", "25/11/2008 09:00", 0.0, 0.0);
       testTimephased(timephasedComplete, 2, "25/11/2008 09:00", "27/11/2008 12:00", 3060.0, 60);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(0, timephasedPlanned.size());
 
       //
@@ -538,10 +538,10 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(1, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 09:00", "16/12/2008 16:00", 4500.0, 30.0);
 
@@ -554,10 +554,10 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(6, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 09:00", "03/12/2008 12:00", 2250.0, 30.0);
       testTimephased(timephasedPlanned, 1, "03/12/2008 13:00", "11/12/2008 15:00", 1125.0, 22.5);
@@ -574,10 +574,10 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(6, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 09:00", "25/11/2008 10:00", 75.0, 3.0);
       testTimephased(timephasedPlanned, 1, "25/11/2008 10:00", "28/11/2008 11:00", 112.5, 4.5);
@@ -594,11 +594,11 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(1, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 09:00", "03/12/2008 12:00", 2250.0, 30.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(1, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "03/12/2008 13:00", "16/12/2008 16:00", 2250.0, 30.0);
 
@@ -610,10 +610,10 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(3, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 09:00", "02/12/2008 09:00", 1920.0, 30.0);
       testTimephased(timephasedPlanned, 1, "02/12/2008 09:00", "05/12/2008 09:00", 0.0, 0.0);
@@ -627,13 +627,13 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(3, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 09:00", "02/12/2008 09:00", 1920.0, 30.0);
       testTimephased(timephasedComplete, 1, "02/12/2008 09:00", "04/12/2008 17:00", 0.0, 0);
       testTimephased(timephasedComplete, 2, "05/12/2008 08:00", "10/12/2008 10:00", 780.0, 30.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(1, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "10/12/2008 10:00", "19/12/2008 15:00", 1800.0, 30.0);
 
@@ -645,11 +645,11 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(1, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 09:00", "16/12/2008 16:00", 4500.0, 30.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(0, timephasedPlanned.size());
 
       //
@@ -660,13 +660,13 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(3, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 09:00", "02/12/2008 09:00", 1920.0, 30.0);
       testTimephased(timephasedComplete, 1, "02/12/2008 09:00", "05/12/2008 09:00", 0.0, 0.0);
       testTimephased(timephasedComplete, 2, "05/12/2008 09:00", "19/12/2008 16:00", 2580.0, 30.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(0, timephasedPlanned.size());
 
       //
@@ -677,10 +677,10 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(1, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 09:00", "28/11/2008 11:00", 4500.0, 90.0);
 
@@ -692,10 +692,10 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(6, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 09:00", "27/11/2008 10:40", 3750.0, 90.0);
       testTimephased(timephasedPlanned, 1, "27/11/2008 10:40", "02/12/2008 15:26", 1875.0, 67.5027001080043);
@@ -712,10 +712,10 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(6, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 09:00", "21/11/2008 15:53", 125.0, 9.000360014400577);
       testTimephased(timephasedPlanned, 1, "21/11/2008 15:53", "25/11/2008 13:46", 187.5, 13.500540021600864);
@@ -732,11 +732,11 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(1, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 09:00", "25/11/2008 10:00", 2250.0, 90.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(1, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "25/11/2008 10:00", "28/11/2008 11:00", 2250.0, 90.0);
 
@@ -749,10 +749,10 @@ public class TimephasedTest
       assignment = assignments.get(0);
 
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(3, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 09:00", "24/11/2008 15:20", 1920.0, 90.0);
       testTimephased(timephasedPlanned, 1, "24/11/2008 15:20", "27/11/2008 15:20", 0.0, 0.0);
@@ -766,13 +766,13 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(3, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 09:00", "24/11/2008 15:20", 1920.0, 90.0);
       testTimephased(timephasedComplete, 1, "24/11/2008 15:20", "27/11/2008 14:20", 0.0, 0.0);
       testTimephased(timephasedComplete, 2, "27/11/2008 14:20", "28/11/2008 15:00", 780.0, 90.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(1, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "28/11/2008 15:00", "03/12/2008 10:00", 1800.0, 90.0);
 
@@ -784,11 +784,11 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(1, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 09:00", "03/12/2008 12:00", 6750.0, 90.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(0, timephasedPlanned.size());
 
       //
@@ -799,13 +799,13 @@ public class TimephasedTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-      timephasedComplete = assignment.getTimephasedActualWork();
+      timephasedComplete = assignment.getRawTimephasedActualWork();
       assertEquals(3, timephasedComplete.size());
       testTimephased(timephasedComplete, 0, "20/11/2008 09:00", "26/11/2008 09:00", 2880.0, 90.0);
       testTimephased(timephasedComplete, 1, "26/11/2008 09:00", "01/12/2008 09:00", 0.0, 0.0);
       testTimephased(timephasedComplete, 2, "01/12/2008 09:00", "08/12/2008 12:00", 3870.0, 90.0);
 
-      timephasedPlanned = assignment.getTimephasedWork();
+      timephasedPlanned = assignment.getRawTimephasedWork();
       assertEquals(0, timephasedPlanned.size());
    }
 

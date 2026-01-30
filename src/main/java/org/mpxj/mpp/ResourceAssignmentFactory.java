@@ -193,11 +193,11 @@ public class ResourceAssignmentFactory
          {
             List<TimephasedWork> baselineWork = timephasedFactory.getBaselineWork(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])));
             assignment.set(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index], null);
-            assignment.getTimephasedBaselineWork(index).addAll(baselineWork);
+            assignment.getRawTimephasedBaselineWork(index).addAll(baselineWork);
 
             List<TimephasedCost> baselineCost = timephasedFactory.getBaselineCost(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])));
             assignment.set(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index], null);
-            assignment.getTimephasedBaselineCost(index).addAll(baselineCost);
+            assignment.getRawTimephasedBaselineCost(index).addAll(baselineCost);
          }
 
          byte[] timephasedActualRegularWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_WORK));
@@ -234,13 +234,13 @@ public class ResourceAssignmentFactory
          createTimephasedData(file, assignment, timephasedWork, timephasedActualWork);
 
          assignment.set(AssignmentField.TIMEPHASED_REMAINING_WORK, null);
-         assignment.getTimephasedWork().addAll(timephasedWork);
+         assignment.getRawTimephasedWork().addAll(timephasedWork);
 
          assignment.set(AssignmentField.TIMEPHASED_ACTUAL_WORK, null);
-         assignment.getTimephasedActualWork().addAll(timephasedActualWork);
+         assignment.getRawTimephasedActualWork().addAll(timephasedActualWork);
 
          assignment.set(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK, null);
-         assignment.getTimephasedActualOvertimeWork().addAll(timephasedActualOvertimeWork);
+         assignment.getRawTimephasedActualOvertimeWork().addAll(timephasedActualOvertimeWork);
 
          if (timephasedWorkData != null)
          {

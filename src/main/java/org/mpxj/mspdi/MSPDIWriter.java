@@ -28,7 +28,6 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -2301,9 +2300,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
 
       ProjectCalendar calendar = getCalendar(mpx);
-      List<TimephasedWork> actualWork = mpx.getTimephasedActualWork();
-      List<TimephasedWork> remainingRegularWork = mpx.getTimephasedWork();
-      List<TimephasedWork> actualOvertimeWork = mpx.getTimephasedActualOvertimeWork();
+      List<TimephasedWork> actualWork = mpx.getRawTimephasedActualWork();
+      List<TimephasedWork> remainingRegularWork = mpx.getRawTimephasedWork();
+      List<TimephasedWork> actualOvertimeWork = mpx.getRawTimephasedActualOvertimeWork();
 
       if ((remainingRegularWork == null || remainingRegularWork.isEmpty()) && m_generateMissingTimephasedData)
       {
@@ -2324,12 +2323,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // Write the baselines
       for (int index = 0; index < TIMEPHASED_BASELINE_WORK_TYPES.length; index++)
       {
-         writeAssignmentTimephasedWorkData(assignmentID, list, mpx.getTimephasedBaselineWork(index), TIMEPHASED_BASELINE_WORK_TYPES[index]);
+         writeAssignmentTimephasedWorkData(assignmentID, list, mpx.getRawTimephasedBaselineWork(index), TIMEPHASED_BASELINE_WORK_TYPES[index]);
       }
 
       for (int index = 0; index < TIMEPHASED_BASELINE_COST_TYPES.length; index++)
       {
-         writeAssignmentTimephasedCostData(assignmentID, list, mpx.getTimephasedBaselineCost(index), TIMEPHASED_BASELINE_COST_TYPES[index]);
+         writeAssignmentTimephasedCostData(assignmentID, list, mpx.getRawTimephasedBaselineCost(index), TIMEPHASED_BASELINE_COST_TYPES[index]);
       }
    }
 
