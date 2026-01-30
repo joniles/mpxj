@@ -709,9 +709,9 @@ abstract class TableProjectReader
             TableReaderHelper.populateUserDefinedFieldValues(m_state, "TASKRSRC", FieldTypeClass.ASSIGNMENT, assignment, assignment.getUniqueID());
 
             // Read timephased data
-            assignment.setTimephasedPlannedWork(TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getString("target_crv")));
-            assignment.setTimephasedActualWork(TimephasedHelper.read(effectiveCalendar, assignment.getActualStart(), row.getString("actual_crv")));
-            assignment.setTimephasedWork(TimephasedHelper.read(effectiveCalendar, assignment.getRemainingEarlyStart(), row.getString("remain_crv")));
+            assignment.getTimephasedPlannedWork().addAll(TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getString("target_crv")));
+            assignment.getTimephasedActualWork().addAll(TimephasedHelper.read(effectiveCalendar, assignment.getActualStart(), row.getString("actual_crv")));
+            assignment.getTimephasedWork().addAll(TimephasedHelper.read(effectiveCalendar, assignment.getRemainingEarlyStart(), row.getString("remain_crv")));
 
             populateResourceAssignmentCodeValues(assignment);
 

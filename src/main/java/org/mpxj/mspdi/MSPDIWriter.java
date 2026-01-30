@@ -2408,7 +2408,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeAssignmentTimephasedWorkData(BigInteger assignmentID, List<TimephasedDataType> list, List<TimephasedWork> data, int type)
    {
-      if (data == null)
+      if (data.isEmpty())
       {
          return;
       }

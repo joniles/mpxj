@@ -25,6 +25,7 @@ package org.mpxj.primavera;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.mpxj.Duration;
@@ -49,12 +50,12 @@ final class TimephasedHelper
    {
       if (start == null || values == null || values.isEmpty())
       {
-         return null;
+         return Collections.emptyList();
       }
 
       if (values.indexOf(':') == -1)
       {
-         return null;
+         return Collections.emptyList();
       }
 
       List<TimephasedWork> list = new ArrayList<>();
@@ -65,7 +66,7 @@ final class TimephasedHelper
          String[] item = value.split(":");
          if (item.length != 2)
          {
-            return null;
+            return Collections.emptyList();
          }
 
          double workHoursValue = Double.parseDouble(item[0]);
