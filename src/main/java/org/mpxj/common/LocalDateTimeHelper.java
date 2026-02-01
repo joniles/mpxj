@@ -82,6 +82,23 @@ public final class LocalDateTimeHelper
       return result;
    }
 
+   public static int compare(LocalDateTime startRange1, LocalDateTime endRange1, LocalDateTime startRange2, LocalDateTime endRange2)
+   {
+      // Range 1 ends before range 2 starts
+      if (!endRange1.isAfter(startRange2))
+      {
+         return -1;
+      }
+
+      // Range 1 starts after range 2 ends
+      if (!startRange1.isBefore(endRange2))
+      {
+         return 1;
+      }
+
+      return 0;
+   }
+
    /**
     * Compare two dates, handling null values.
     * TODO: correct the comparison order to align with Date.compareTo

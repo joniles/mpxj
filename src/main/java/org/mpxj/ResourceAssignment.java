@@ -737,7 +737,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualOvertimeWork(), ranges, units);
    }
 
-   public List<Number> getSegmentedTimephasedCost(List<LocalDateTimeRange> ranges)
+   public List<Number> getTimephasedRemainingCost(List<LocalDateTimeRange> ranges)
    {
       @SuppressWarnings("unchecked") List<TimephasedCost> list = (List<TimephasedCost>)get(AssignmentField.TIMEPHASED_REMAINING_COST);
       if (list == null)
@@ -746,7 +746,11 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          ResourceType type = r != null ? r.getType() : ResourceType.WORK;
 
          // For Work and Material resources, we will calculate in the normal way
-         if (type != ResourceType.COST)
+         if (type == ResourceType.COST)
+         {
+            return getTimephasedCostResourceRemainingCost(ranges);
+         }
+         else
          {
             List<TimephasedWork> timephasedWork = getRawTimephasedWork();
             if (timephasedWork != null && !timephasedWork.isEmpty())
@@ -754,21 +758,17 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
                if (hasMultipleCostRates())
                {
                   list = getTimephasedCostMultipleRates(timephasedWork, getRawTimephasedOvertimeWork());
+                  //return TimephasedUtility.segmentCost(getEffectiveCalendar(), list, ranges);
                }
                else
                {
                   list = getTimephasedCostSingleRate(timephasedWork, getRawTimephasedOvertimeWork());
+                  //return TimephasedUtility.segmentCost(getEffectiveCalendar(), list, ranges);
                }
             }
          }
-         else
-         {
-            list = getTimephasedCostResourceRemainingCost();
-         }
-
       }
-
-      return TimephasedUtility.segmentCost(getEffectiveCalendar(), list, ranges);
+      return Collections.emptyList();
    }
 
    public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
@@ -952,8 +952,30 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased cost
     */
-   private List<TimephasedCost> getTimephasedCostResourceRemainingCost()
+   private List<Number> getTimephasedCostResourceRemainingCost(List<LocalDateTimeRange> ranges)
    {
+      // If we have no ranges, return an empty list.
+      if (ranges.isEmpty())
+      {
+         return Collections.emptyList();
+      }
+
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      Number[] result = new Number[ranges.size()];
+
+      // If the ranges are outside the assignment, return null values
+      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
+      {
+         return Arrays.asList(result);
+      }
+
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         ++rangeIndex;
+      }
+
       // For Start and Finish Accrued resources, we can't rely on the actual finish
       // date to determine if an assignment is complete.
       // MS Project seems to populate this with a value for in progress assignments,
@@ -969,75 +991,48 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
             {
                // The assignment has started, so there will already
                // be actual cost timephased data for the entire cost.
-               return Collections.emptyList();
+               // Return zero remaining cost for the whole assignment.
+               while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+               {
+                  result[rangeIndex] = Double.valueOf(0);
+                  rangeIndex++;
+               }
+               return Arrays.asList(result);
             }
 
             // The resource assignment has not started.
-            // The cost is allocated to the first hour of the assignment.
+            // The cost is allocated to the first segment of the assignment.
             // The remainder of the assignment has zero cost.
-            List<TimephasedCost> list = new  ArrayList<>();
-            LocalDateTime costFinish = cal.getDate(getStart(), Duration.getInstance(1, TimeUnit.HOURS));
-            costFinish = costFinish.isAfter(getFinish()) ? getFinish() : costFinish;
-
-            TimephasedCost item = new TimephasedCost();
-            item.setStart(getStart());
-            item.setFinish(costFinish);
-            item.setTotalAmount(getCost());
-            item.setAmountPerHour(getCost());
-            list.add(item);
-
-            if (costFinish.isBefore(getFinish()))
+            result[rangeIndex++] = getCost();
+            while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
             {
-               // If the assignment is longer than 1 hour,
-               // add a zero cost item to cover the rest of the assignment.
-               item = new TimephasedCost();
-               item.setStart(costFinish);
-               item.setFinish(getFinish());
-               item.setTotalAmount(Double.valueOf(0));
-               item.setAmountPerHour(Double.valueOf(0));
-               list.add(item);
+               result[rangeIndex] = Double.valueOf(0);
+               rangeIndex++;
             }
 
-            return list;
+            return Arrays.asList(result);
          }
 
          case END:
          {
+            // Fill the ranges covering the assignment with zero cost
+            while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+            {
+               result[rangeIndex] = Double.valueOf(0);
+               rangeIndex++;
+            }
+
             if (NumberHelper.getDouble(getRemainingCost()) == 0)
             {
                // The assignment has finished, so there will already
-               // be actual cost timephased data for the entire cost.
-               return Collections.emptyList();
+               // be actual cost timephased data for the entire cost
+               // so we'll just return;
+               return Arrays.asList(result);
             }
 
-            List<TimephasedCost> list = new  ArrayList<>();
-            LocalDateTime start = getResume() == null ? getStart() : getResume();
-            LocalDateTime costStart = cal.getDate(getFinish(), Duration.getInstance(-1, TimeUnit.HOURS));
-            costStart = costStart.isBefore(start) ? start : costStart;
+            result[rangeIndex-1] = getCost();
 
-            TimephasedCost item;
-
-            if (costStart.isAfter(start))
-            {
-               // The remaining duration is longer than 1 hour,
-               // add a zero cost item to cover everything but
-               // the last hour of the assignment.
-               item = new TimephasedCost();
-               item.setStart(start);
-               item.setFinish(costStart);
-               item.setTotalAmount(Double.valueOf(0));
-               item.setAmountPerHour(Double.valueOf(0));
-               list.add(item);
-            }
-
-            item = new TimephasedCost();
-            item.setStart(costStart);
-            item.setFinish(getFinish());
-            item.setTotalAmount(getCost());
-            item.setAmountPerHour(getCost());
-            list.add(item);
-
-            return list;
+            return Arrays.asList(result);
          }
 
          default:
@@ -1050,12 +1045,20 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
             double workingHours = cal.getWork(getStart(), getFinish(), TimeUnit.HOURS).getDuration();
             double amountPerHour = getCost().doubleValue() / workingHours;
 
-            TimephasedCost item = new TimephasedCost();
-            item.setStart(getResume() == null ? getStart() : getResume());
-            item.setFinish(getFinish());
-            item.setTotalAmount(getRemainingCost());
-            item.setAmountPerHour(amountPerHour);
-            return Collections.singletonList(item);
+            while (rangeIndex < ranges.size())
+            {
+               LocalDateTimeRange intersection = assignmentRange.intersection(ranges.get(rangeIndex));
+               if (intersection == null)
+               {
+                  break;
+               }
+
+               double intersectionHours = cal.getWork(intersection.getStart(), intersection.getEnd(), TimeUnit.HOURS).getDuration();
+               result[rangeIndex] = Double.valueOf(intersectionHours * amountPerHour);
+               rangeIndex++;
+            }
+
+            return Arrays.asList(result);
          }
       }
    }
