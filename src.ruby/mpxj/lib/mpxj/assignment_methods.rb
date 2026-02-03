@@ -3301,6 +3301,20 @@ module MPXJ
       attribute_values['text9']
     end
 
+    # Retrieve the Timephased Actual Cost value
+    #
+    # @return Timephased Actual Cost value
+    def timephased_actual_cost
+      attribute_values['timephased_actual_cost']
+    end
+
+    # Retrieve the Timephased Actual Irregular Work value
+    #
+    # @return Timephased Actual Irregular Work value
+    def timephased_actual_irregular_work
+      attribute_values['timephased_actual_irregular_work']
+    end
+
     # Retrieve the Timephased Actual Overtime Work value
     #
     # @return Timephased Actual Overtime Work value
@@ -3467,6 +3481,27 @@ module MPXJ
     # @return Timephased Baseline Work value
     def timephased_baseline_work
       attribute_values['timephased_baseline_work']
+    end
+
+    # Retrieve the Timephased Cost value
+    #
+    # @return Timephased Cost value
+    def timephased_cost
+      attribute_values['timephased_cost']
+    end
+
+    # Retrieve the Timephased Overtime Work value
+    #
+    # @return Timephased Overtime Work value
+    def timephased_overtime_work
+      attribute_values['timephased_overtime_work']
+    end
+
+    # Retrieve the Timephased Planned Work value
+    #
+    # @return Timephased Planned Work value
+    def timephased_planned_work
+      attribute_values['timephased_planned_work']
     end
 
     # Retrieve the Timephased Work value
@@ -4011,6 +4046,8 @@ module MPXJ
       'text7' => :string,
       'text8' => :string,
       'text9' => :string,
+      'timephased_actual_cost' => :binary,
+      'timephased_actual_irregular_work' => :binary,
       'timephased_actual_overtime_work' => :binary,
       'timephased_actual_work' => :binary,
       'timephased_baseline10_cost' => :binary,
@@ -4035,6 +4072,9 @@ module MPXJ
       'timephased_baseline9_work' => :binary,
       'timephased_baseline_cost' => :binary,
       'timephased_baseline_work' => :binary,
+      'timephased_cost' => :binary,
+      'timephased_overtime_work' => :binary,
+      'timephased_planned_work' => :binary,
       'timephased_work' => :binary,
       'unavailable' => :string,
       'unique_id' => :integer,

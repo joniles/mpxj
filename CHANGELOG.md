@@ -5,7 +5,14 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 15.2.0 (unreleased)
+## 15.3.1 (unreleased)
+
+## 15.3.0 (2026-02-02)
+* Updated PMXML schema to version 25.12.
+* Improve handling of timephased actual work, baseline work, and baseline cost when reading MPP files.
+* When reading XER files and P6 databases, ensure that calendar days are set as non-working if no working hours are present.
+* Updated MPXJ.Net to avoid an `InvalidCastException` when attempting to wrap an empty list attribute with `ProxyList`.
+* Fixed an issue writing JSON using `JsonWriter` when the Write Attribute Types option was set to true.
 
 ## 15.2.0 (2026-01-13)
 * Implemented support for reading projects from Microsoft Planner.

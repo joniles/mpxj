@@ -929,7 +929,6 @@ public final class JsonWriter extends AbstractProjectWriter
       if (m_writeAttributeTypes)
       {
          m_writer.writeObjectFieldStart(name);
-         m_writer.writeStartObject();
          for (FieldType field : types)
          {
             m_writer.writeNumberField(field.name().toLowerCase(), field.getDataType().getValue());
