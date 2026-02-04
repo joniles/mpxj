@@ -44,7 +44,6 @@ import java.util.stream.Collectors;
 import org.mpxj.common.AssignmentFieldLists;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.CombinedCalendar;
-import org.mpxj.common.DoubleBiFunction;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.RateHelper;
@@ -811,6 +810,11 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
    }
 
+   public List<Number> getTimephasedRemainingCost(List<LocalDateTimeRange> ranges)
+   {
+      return addTimephasedCost(getTimephasedRemainingRegularCost(ranges), getTimephasedRemainingOvertimeCost(ranges));
+   }
+
    public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
    {
       List<TimephasedCost> list = Collections.emptyList();
@@ -1480,38 +1484,35 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    private List<Duration> addTimephasedWork(List<Duration> w1, List<Duration> w2)
    {
-      return mergeTimephasedWork(w1, w2, (v1, v2) -> v1 + v2);
+      return mergeTimephasedValues(w1, w2, (v1, v2) -> Duration.getInstance((v1 == null ? 0 : v1.getDuration()) + (v2 == null ? 0 : v2.getDuration()), v1 == null ? v2.getUnits() : v1.getUnits()));
    }
 
    private List<Duration> subtractTimephasedWork(List<Duration> w1, List<Duration> w2)
    {
-      return mergeTimephasedWork(w1, w2, (v1, v2) -> v1 - v2);
+      return mergeTimephasedValues(w1, w2, (v1, v2) -> Duration.getInstance((v1 == null ? 0 : v1.getDuration()) - (v2 == null ? 0 : v2.getDuration()), v1 == null ? v2.getUnits() : v1.getUnits()));
    }
 
-   private List<Duration> mergeTimephasedWork(List<Duration> w1, List<Duration> w2, DoubleBiFunction fn)
+   private List<Number> addTimephasedCost(List<Number> w1, List<Number> w2)
+   {
+      return mergeTimephasedValues(w1, w2, (v1, v2) -> Double.valueOf((v1 == null ? 0 : v1.doubleValue()) + (v2 == null ? 0 : v2.doubleValue())));
+   }
+
+   private <T> List<T> mergeTimephasedValues(List<T> w1, List<T> w2, BiFunction<T, T, T> fn)
    {
       if (w1.size() != w2.size())
       {
-         throw new RuntimeException("Timephased work lists not the same length");
+         throw new RuntimeException("Timephased lists not the same length");
       }
 
-      Duration[] result =  new Duration[w1.size()];
+      List<T> result = new ArrayList<>();
       for (int index = 0; index < w1.size(); ++index)
       {
-         Duration d1 = w1.get(index);
-         Duration d2 = w2.get(index);
-         if (d1 ==null && d2 == null)
-         {
-            continue;
-         }
-
-         double v1 = d1 == null ? 0 : d1.getDuration();
-         double v2 = d2 == null ? 0 : d2.getDuration();
-
-         result[index] = Duration.getInstance(fn.apply(v1, v2), d1 == null ? d2.getUnits() : d1.getUnits());
+         T d1 = w1.get(index);
+         T d2 = w2.get(index);
+         result.add(d1 == null && d2 == null ? null : fn.apply(d1, d2));
       }
 
-      return Arrays.asList(result);
+      return result;
    }
 
    /**
