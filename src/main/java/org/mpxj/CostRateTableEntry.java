@@ -72,8 +72,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     */
    public CostRateTableEntry(LocalDateTime startDate, LocalDateTime endDate, Number costPerUse, ShiftPeriod shiftPeriod, Rate... rates)
    {
-      m_startDate = startDate;
-      m_endDate = endDate;
+      m_range = new LocalDateTimeRange(startDate, endDate);
       m_costPerUse = costPerUse;
       m_shiftPeriod = shiftPeriod;
       Arrays.fill(m_rates, Rate.ZERO);
@@ -87,7 +86,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     */
    public LocalDateTime getStartDate()
    {
-      return m_startDate;
+      return m_range.getStart();
    }
 
    /**
@@ -97,7 +96,12 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     */
    public LocalDateTime getEndDate()
    {
-      return m_endDate;
+      return m_range.getEnd();
+   }
+
+   public LocalDateTimeRange getRange()
+   {
+      return m_range;
    }
 
    /**
@@ -153,17 +157,16 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
 
    @Override public int compareTo(CostRateTableEntry o)
    {
-      return LocalDateTimeHelper.compare(m_endDate, o.m_endDate);
+      return LocalDateTimeHelper.compare(getEndDate(), o.getEndDate());
    }
 
    @Override public String toString()
    {
       String rates = Stream.of(m_rates).map(String::valueOf).collect(Collectors.joining(", "));
-      return "[CostRateTableEntry startDate=" + m_startDate + " endDate=" + m_endDate + " costPerUse=" + m_costPerUse + " rates=" + rates + "]";
+      return "[CostRateTableEntry range=" + m_range + " costPerUse=" + m_costPerUse + " rates=" + rates + "]";
    }
 
-   private final LocalDateTime m_startDate;
-   private final LocalDateTime m_endDate;
+   private final LocalDateTimeRange m_range;
    private final Number m_costPerUse;
    private final Rate[] m_rates = new Rate[MAX_RATES];
    private final ShiftPeriod m_shiftPeriod;

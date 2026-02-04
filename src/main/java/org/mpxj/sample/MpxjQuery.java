@@ -48,7 +48,6 @@ import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceField;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
-import org.mpxj.TimeUnit;
 import org.mpxj.mpp.TimescaleUnits;
 import org.mpxj.reader.UniversalProjectReader;
 import org.mpxj.utility.TimescaleUtility;
@@ -99,35 +98,35 @@ public class MpxjQuery
          throw new Exception("Unable to read file");
       }
 
-      listProjectProperties(mpx);
-
-      listResources(mpx);
-
-      listTasks(mpx);
+//      listProjectProperties(mpx);
+//
+//      listResources(mpx);
+//
+//      listTasks(mpx);
 
       listAssignments(mpx);
 
-      listAssignmentsByTask(mpx);
-
-      listAssignmentsByResource(mpx);
-
-      listTaskHierarchy(mpx, "");
-
-      listResourceHierarchy(mpx, "");
-
-      listTaskNotes(mpx);
-
-      listResourceNotes(mpx);
-
-      listRelationships(mpx);
-
-      listSlack(mpx);
-
-      listCalendars(mpx);
-
-      listPopulatedFields(mpx);
-
-      listTasksPercentComplete(mpx);
+//      listAssignmentsByTask(mpx);
+//
+//      listAssignmentsByResource(mpx);
+//
+//      listTaskHierarchy(mpx, "");
+//
+//      listResourceHierarchy(mpx, "");
+//
+//      listTaskNotes(mpx);
+//
+//      listResourceNotes(mpx);
+//
+//      listRelationships(mpx);
+//
+//      listSlack(mpx);
+//
+//      listCalendars(mpx);
+//
+//      listPopulatedFields(mpx);
+//
+//      listTasksPercentComplete(mpx);
    }
 
    /**
@@ -318,27 +317,29 @@ public class MpxjQuery
    private static void listTimephasedWork(ResourceAssignment assignment)
    {
       Task task = assignment.getTask();
-
       int days = (int) ((task.getStart().until(task.getFinish(), ChronoUnit.MILLIS)) / (1000 * 60 * 60 * 24)) + 1;
-      if (days > 1)
-      {
-         DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yy");
+      List<LocalDateTimeRange> dates = new TimescaleUtility().createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
+      System.out.println(assignment.getTimephasedRemainingRegularCost(dates));
 
-         TimescaleUtility timescale = new TimescaleUtility();
-         List<LocalDateTimeRange> dates = timescale.createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
-
-         List<Duration> durations = assignment.getTimephasedWork(dates, TimeUnit.HOURS);
-         for (LocalDateTimeRange range : dates)
-         {
-            System.out.print(df.format(range.getStart()) + "\t");
-         }
-         System.out.println();
-         for (Duration duration : durations)
-         {
-            System.out.print(duration.toString() + "        ".substring(0, 7) + "\t");
-         }
-         System.out.println();
-      }
+//      if (days > 1)
+//      {
+//         DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yy");
+//
+//         TimescaleUtility timescale = new TimescaleUtility();
+//         List<LocalDateTimeRange> dates = timescale.createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
+//
+//         List<Duration> durations = assignment.getTimephasedWork(dates, TimeUnit.HOURS);
+//         for (LocalDateTimeRange range : dates)
+//         {
+//            System.out.print(df.format(range.getStart()) + "\t");
+//         }
+//         System.out.println();
+//         for (Duration duration : durations)
+//         {
+//            System.out.print(duration.toString() + "        ".substring(0, 7) + "\t");
+//         }
+//         System.out.println();
+//      }
    }
 
    /**

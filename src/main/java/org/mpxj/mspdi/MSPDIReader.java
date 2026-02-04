@@ -2029,7 +2029,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
             mpx.setWorkContour(assignment.getWorkContour());
 
             mpx.getRawTimephasedActualWork().addAll(timephasedComplete);
-            mpx.getRawTimephasedWork().addAll(timephasedPlanned);
+            mpx.getRawTimephasedRemainingRegularWork().addAll(timephasedPlanned);
 
             readAssignmentExtendedAttributes(assignment, mpx);
 

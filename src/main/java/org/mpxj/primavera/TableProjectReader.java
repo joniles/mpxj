@@ -711,7 +711,7 @@ abstract class TableProjectReader
             // Read timephased data
             assignment.getRawTimephasedPlannedWork().addAll(TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getString("target_crv")));
             assignment.getRawTimephasedActualWork().addAll(TimephasedHelper.read(effectiveCalendar, assignment.getActualStart(), row.getString("actual_crv")));
-            assignment.getRawTimephasedWork().addAll(TimephasedHelper.read(effectiveCalendar, assignment.getRemainingEarlyStart(), row.getString("remain_crv")));
+            assignment.getRawTimephasedRemainingRegularWork().addAll(TimephasedHelper.read(effectiveCalendar, assignment.getRemainingEarlyStart(), row.getString("remain_crv")));
 
             populateResourceAssignmentCodeValues(assignment);
 

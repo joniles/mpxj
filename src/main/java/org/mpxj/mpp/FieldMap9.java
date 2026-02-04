@@ -477,7 +477,7 @@ class FieldMap9 extends FieldMap
          new FieldItem(AssignmentField.ACTUAL_OVERTIME_COST, FieldLocation.VAR_DATA, 0, 65535, 4, 0, 0),
          new FieldItem(AssignmentField.REMAINING_OVERTIME_COST, FieldLocation.VAR_DATA, 0, 65535, 5, 0, 0),
          new FieldItem(AssignmentField.NOTES, FieldLocation.VAR_DATA, 0, 65535, 6, 0, 0),
-         new FieldItem(AssignmentField.TIMEPHASED_REMAINING_WORK, FieldLocation.VAR_DATA, 0, 65535, 7, 0, 0),
+         new FieldItem(AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK, FieldLocation.VAR_DATA, 0, 65535, 7, 0, 0),
          new FieldItem(AssignmentField.TIMEPHASED_ACTUAL_WORK, FieldLocation.VAR_DATA, 0, 65535, 9, 0, 0),
          new FieldItem(AssignmentField.TEXT1, FieldLocation.VAR_DATA, 0, 65535, 15, 0, 0),
          new FieldItem(AssignmentField.TEXT2, FieldLocation.VAR_DATA, 0, 65535, 16, 0, 0),

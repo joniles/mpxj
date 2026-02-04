@@ -140,7 +140,7 @@ public class MpxjCreateTimephased
       //
       // Add the timephased data to the assignment
       //
-      assignment3.getRawTimephasedWork().addAll(Arrays.asList(day1, day2, day3));
+      assignment3.getRawTimephasedRemainingRegularWork().addAll(Arrays.asList(day1, day2, day3));
 
       //
       // Write the file

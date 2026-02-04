@@ -203,7 +203,7 @@ public class ResourceAssignmentFactory
          byte[] timephasedActualRegularWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_WORK));
          byte[] timephasedActualIrregularWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_IRREGULAR_WORK));
          byte[] timephasedActualOvertimeWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK));
-         byte[] timephasedWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_REMAINING_WORK));
+         byte[] timephasedWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK));
 
          ResourceType resourceType = resource == null ? ResourceType.WORK : resource.getType();
          ProjectCalendar calendar = assignment.getEffectiveCalendar();
@@ -233,8 +233,8 @@ public class ResourceAssignmentFactory
 
          createTimephasedData(file, assignment, timephasedWork, timephasedActualWork);
 
-         assignment.set(AssignmentField.TIMEPHASED_REMAINING_WORK, null);
-         assignment.getRawTimephasedWork().addAll(timephasedWork);
+         assignment.set(AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK, null);
+         assignment.getRawTimephasedRemainingRegularWork().addAll(timephasedWork);
 
          assignment.set(AssignmentField.TIMEPHASED_ACTUAL_WORK, null);
          assignment.getRawTimephasedActualWork().addAll(timephasedActualWork);
