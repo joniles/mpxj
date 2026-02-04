@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -43,6 +44,7 @@ import java.util.stream.Collectors;
 import org.mpxj.common.AssignmentFieldLists;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.CombinedCalendar;
+import org.mpxj.common.DoubleBiFunction;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.RateHelper;
@@ -686,11 +688,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_WORK);
    }
 
-   public List<Duration> getTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualWork(), ranges, units);
-   }
-
    /**
     * Retrieves the timephased breakdown of the planned work for this
     * resource assignment.
@@ -700,11 +697,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedRemainingRegularWork()
    {
       return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK);
-   }
-
-   public List<Duration> getTimephasedRemainingRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedRemainingRegularWork(), ranges, units);
    }
 
    /**
@@ -718,9 +710,34 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return (List<TimephasedWork>)get(AssignmentField.TIMEPHASED_REMAINING_OVERTIME_WORK);
    }
 
+   public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualOvertimeWork(), ranges, units);
+   }
+
+   public List<Duration> getTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualWork(), ranges, units);
+   }
+
+   public List<Duration> getTimephasedRemainingRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedRemainingRegularWork(), ranges, units);
+   }
+
    public List<Duration> getTimephasedRemainingOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedRemainingOvertimeWork(), ranges, units);
+   }
+
+   public List<Duration> getTimephasedRemainingWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return addTimephasedWork(getTimephasedRemainingRegularWork(ranges, units), getTimephasedRemainingOvertimeWork(ranges, units));
+   }
+
+   public List<Duration> getTimephasedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return addTimephasedWork(getTimephasedActualWork(ranges, units), getTimephasedRemainingWork(ranges, units));
    }
 
    /**
@@ -732,11 +749,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedActualOvertimeWork()
    {
       return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK);
-   }
-
-   public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualOvertimeWork(), ranges, units);
    }
 
    public List<Number> getTimephasedRemainingRegularCost(List<LocalDateTimeRange> ranges)
@@ -798,7 +810,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          }
       }
    }
-
 
    public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
    {
@@ -1465,6 +1476,42 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    {
       CostRateTable table = getCostRateTable();
       return table.size() == 1 ? 0 : table.getIndexByDate(date);
+   }
+
+   private List<Duration> addTimephasedWork(List<Duration> w1, List<Duration> w2)
+   {
+      return mergeTimephasedWork(w1, w2, (v1, v2) -> v1 + v2);
+   }
+
+   private List<Duration> subtractTimephasedWork(List<Duration> w1, List<Duration> w2)
+   {
+      return mergeTimephasedWork(w1, w2, (v1, v2) -> v1 - v2);
+   }
+
+   private List<Duration> mergeTimephasedWork(List<Duration> w1, List<Duration> w2, DoubleBiFunction fn)
+   {
+      if (w1.size() != w2.size())
+      {
+         throw new RuntimeException("Timephased work lists not the same length");
+      }
+
+      Duration[] result =  new Duration[w1.size()];
+      for (int index = 0; index < w1.size(); ++index)
+      {
+         Duration d1 = w1.get(index);
+         Duration d2 = w2.get(index);
+         if (d1 ==null && d2 == null)
+         {
+            continue;
+         }
+
+         double v1 = d1 == null ? 0 : d1.getDuration();
+         double v2 = d2 == null ? 0 : d2.getDuration();
+
+         result[index] = Duration.getInstance(fn.apply(v1, v2), d1 == null ? d2.getUnits() : d1.getUnits());
+      }
+
+      return Arrays.asList(result);
    }
 
    /**
