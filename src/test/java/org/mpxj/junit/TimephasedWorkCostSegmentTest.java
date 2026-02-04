@@ -46,7 +46,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * This example shows an MPP, MPX or MSPDI file being read, and basic
  * task and resource data being extracted.
  */
-@Disabled public class TimephasedWorkCostSegmentTest
+public class TimephasedWorkCostSegmentTest
 {
    /**
     * Timephased segment test for MPP9 files.
