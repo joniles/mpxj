@@ -1650,7 +1650,7 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TASK_UNIQUE_ID.getValue()] = "Task Unique ID";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RESOURCE_UNIQUE_ID.getValue()] = "Resource Unique ID";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK.getValue()] = "Timephased Remaining Regular Work";
-      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_ACTUAL_WORK.getValue()] = "Timephased Actual Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_ACTUAL_REGULAR_WORK.getValue()] = "Timephased Actual Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK.getValue()] = "Timephased Actual Overtime Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE_WORK.getValue()] = "Timephased Baseline Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE1_WORK.getValue()] = "Timephased Baseline1 Work";

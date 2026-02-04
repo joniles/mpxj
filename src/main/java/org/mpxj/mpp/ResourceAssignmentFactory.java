@@ -200,7 +200,7 @@ public class ResourceAssignmentFactory
             assignment.getRawTimephasedBaselineCost(index).addAll(baselineCost);
          }
 
-         byte[] timephasedActualRegularWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_WORK));
+         byte[] timephasedActualRegularWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_REGULAR_WORK));
          byte[] timephasedActualIrregularWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_IRREGULAR_WORK));
          byte[] timephasedActualOvertimeWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK));
          byte[] timephasedWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK));
@@ -236,8 +236,8 @@ public class ResourceAssignmentFactory
          assignment.set(AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK, null);
          assignment.getRawTimephasedRemainingRegularWork().addAll(timephasedWork);
 
-         assignment.set(AssignmentField.TIMEPHASED_ACTUAL_WORK, null);
-         assignment.getRawTimephasedActualWork().addAll(timephasedActualWork);
+         assignment.set(AssignmentField.TIMEPHASED_ACTUAL_REGULAR_WORK, null);
+         assignment.getRawTimephasedActualRegularWork().addAll(timephasedActualWork);
 
          assignment.set(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK, null);
          assignment.getRawTimephasedActualOvertimeWork().addAll(timephasedActualOvertimeWork);

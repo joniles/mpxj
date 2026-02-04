@@ -682,9 +682,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased completed work
     */
-   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedActualWork()
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedActualRegularWork()
    {
-      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_WORK);
+      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_REGULAR_WORK);
    }
 
    /**
@@ -709,6 +709,11 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return (List<TimephasedWork>)get(AssignmentField.TIMEPHASED_REMAINING_OVERTIME_WORK);
    }
 
+   public List<Duration> getTimephasedActualRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualRegularWork(), ranges, units);
+   }
+
    public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualOvertimeWork(), ranges, units);
@@ -716,7 +721,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    public List<Duration> getTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualWork(), ranges, units);
+      return addTimephasedWork(getTimephasedActualRegularWork(ranges, units), getTimephasedActualOvertimeWork(ranges, units));
    }
 
    public List<Duration> getTimephasedRemainingRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
@@ -824,7 +829,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       // For Work and Material resources, we will calculate in the normal way
       if (type != ResourceType.COST)
       {
-         List<TimephasedWork> actualWorkContainer = getRawTimephasedActualWork();
+         List<TimephasedWork> actualWorkContainer = getRawTimephasedActualRegularWork();
          if (actualWorkContainer != null && !actualWorkContainer.isEmpty())
          {
             if (hasMultipleCostRates())
@@ -1524,7 +1529,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    public boolean getHasTimephasedData()
    {
       List<TimephasedWork> workContainer = getRawTimephasedRemainingRegularWork();
-      List<TimephasedWork> actualWorkContainer = getRawTimephasedActualWork();
+      List<TimephasedWork> actualWorkContainer = getRawTimephasedActualRegularWork();
       return (workContainer != null && !workContainer.isEmpty()) || (actualWorkContainer != null && !actualWorkContainer.isEmpty());
    }
 
@@ -3539,7 +3544,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       CALCULATED_FIELD_MAP.put(AssignmentField.CALCULATE_COSTS_FROM_UNITS, ResourceAssignment::defaultCalculateCostsFromUnits);
       CALCULATED_FIELD_MAP.put(AssignmentField.RESOURCE_ASSIGNMENT_CODE_VALUES, ResourceAssignment::defaultResourceAssignmentCodeValues);
       CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_PLANNED_WORK, ResourceAssignment::defaultTimephasedWork);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_ACTUAL_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_ACTUAL_REGULAR_WORK, ResourceAssignment::defaultTimephasedWork);
       CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK, ResourceAssignment::defaultTimephasedWork);
       CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK, ResourceAssignment::defaultTimephasedWork);
       CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE_WORK, ResourceAssignment::defaultTimephasedWork);

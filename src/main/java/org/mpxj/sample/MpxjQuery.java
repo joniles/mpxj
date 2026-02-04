@@ -48,6 +48,7 @@ import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceField;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
+import org.mpxj.TimeUnit;
 import org.mpxj.mpp.TimescaleUnits;
 import org.mpxj.reader.UniversalProjectReader;
 import org.mpxj.utility.TimescaleUtility;
@@ -319,7 +320,10 @@ public class MpxjQuery
       Task task = assignment.getTask();
       int days = (int) ((task.getStart().until(task.getFinish(), ChronoUnit.MILLIS)) / (1000 * 60 * 60 * 24)) + 1;
       List<LocalDateTimeRange> dates = new TimescaleUtility().createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
-      System.out.println(assignment.getTimephasedRemainingRegularCost(dates));
+//      System.out.println(assignment.getTimephasedRemainingRegularCost(dates));
+//      System.out.println(assignment.getTimephasedRemainingOvertimeCost(dates));
+      System.out.println(assignment.getTimephasedWork(dates, TimeUnit.HOURS));
+
 
 //      if (days > 1)
 //      {

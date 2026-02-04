@@ -1098,7 +1098,7 @@ public class TimephasedWorkSegmentTest
    {
       List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
-      List<Duration> durationList = complete ? assignment.getTimephasedActualWork(dateList, TimeUnit.HOURS) : assignment.getTimephasedRemainingRegularWork(dateList, TimeUnit.HOURS);
+      List<Duration> durationList = complete ? assignment.getTimephasedActualRegularWork(dateList, TimeUnit.HOURS) : assignment.getTimephasedRemainingRegularWork(dateList, TimeUnit.HOURS);
       //dumpExpectedData(assignment, durationList);
       assertEquals(expected.length, durationList.size());
       for (int loop = 0; loop < expected.length; loop++)

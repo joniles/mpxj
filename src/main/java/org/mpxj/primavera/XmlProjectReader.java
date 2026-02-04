@@ -833,7 +833,7 @@ class XmlProjectReader
 
             // Read timephased data
             assignment.getRawTimephasedPlannedWork().addAll(TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getPlannedCurve()));
-            assignment.getRawTimephasedActualWork().addAll(TimephasedHelper.read(effectiveCalendar, assignment.getActualStart(), row.getActualCurve()));
+            assignment.getRawTimephasedActualRegularWork().addAll(TimephasedHelper.read(effectiveCalendar, assignment.getActualStart(), row.getActualCurve()));
             assignment.getRawTimephasedRemainingRegularWork().addAll(TimephasedHelper.read(effectiveCalendar, assignment.getRemainingEarlyStart(), row.getRemainingCurve()));
 
             processResourceAssignmentCodeAssignments(assignment, row.getCode());

@@ -2300,7 +2300,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
 
       ProjectCalendar calendar = getCalendar(mpx);
-      List<TimephasedWork> actualWork = mpx.getRawTimephasedActualWork();
+      List<TimephasedWork> actualWork = mpx.getRawTimephasedActualRegularWork();
       List<TimephasedWork> remainingRegularWork = mpx.getRawTimephasedRemainingRegularWork();
       List<TimephasedWork> actualOvertimeWork = mpx.getRawTimephasedActualOvertimeWork();
 
