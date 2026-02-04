@@ -820,34 +820,39 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return addTimephasedCost(getTimephasedRemainingRegularCost(ranges), getTimephasedRemainingOvertimeCost(ranges));
    }
 
-   public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
+   public List<Number> getTimephasedActualRegularCost(List<LocalDateTimeRange> ranges)
    {
-      List<TimephasedCost> list = Collections.emptyList();
-      Resource r = getResource();
-      ResourceType type = r != null ? r.getType() : ResourceType.WORK;
+      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
 
-      // For Work and Material resources, we will calculate in the normal way
-      if (type != ResourceType.COST)
+      if (type == ResourceType.COST)
       {
-         List<TimephasedWork> actualWorkContainer = getRawTimephasedActualRegularWork();
-         if (actualWorkContainer != null && !actualWorkContainer.isEmpty())
+         //return getTimephasedCostResourceCost(ranges, this::getCost, this::getRemainingCost);
+         throw new UnsupportedOperationException();
+      }
+
+      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
+      switch(accrueAt)
+      {
+         case START:
          {
-            if (hasMultipleCostRates())
-            {
-               list = getTimephasedCostMultipleRates(actualWorkContainer, getRawTimephasedActualOvertimeWork());
-            }
-            else
-            {
-               list = getTimephasedCostSingleRate(actualWorkContainer, getRawTimephasedActualOvertimeWork());
-            }
+//            return getTimephasedCostAccruedAtStart(ranges,
+//               () -> Double.valueOf(NumberHelper.getDouble(getCost()) - NumberHelper.getDouble(getOvertimeCost())),
+//               () -> Double.valueOf(NumberHelper.getDouble(getRemainingCost()) - NumberHelper.getDouble(getRemainingOvertimeCost())));
+            throw new UnsupportedOperationException();
+         }
+         case END:
+         {
+//            return getTimephasedCostAccruedAtEnd(ranges,
+//               () -> Double.valueOf(NumberHelper.getDouble(getCost()) - NumberHelper.getDouble(getOvertimeCost())),
+//               () -> Double.valueOf(NumberHelper.getDouble(getRemainingCost()) - NumberHelper.getDouble(getRemainingOvertimeCost())));
+            throw new UnsupportedOperationException();
+         }
+
+         default:
+         {
+            return getTimephasedCost(ranges, 0, (List<LocalDateTimeRange> r) -> getTimephasedActualRegularWork(r, TimeUnit.HOURS));
          }
       }
-      else
-      {
-         list = getTimephasedActualCostFixedAmount();
-      }
-
-      return TimephasedUtility.segmentCost(getEffectiveCalendar(), list, ranges);
    }
 
    private List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges, int rateIndex, Function<List<LocalDateTimeRange>, List<Duration>> timephasedWork)
