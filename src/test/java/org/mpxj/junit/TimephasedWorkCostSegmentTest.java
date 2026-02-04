@@ -144,18 +144,18 @@ import static org.junit.jupiter.api.Assertions.assertNull;
          88.0,
          88.0,
          88.0,
-         0.0,
-         0.0,
+         null,
+         null,
          88.0,
          88.0,
          88.0,
          88.0,
          88.0,
-         0.0,
-         0.0,
+         null,
+         null,
          88.0,
          88.0,
-         0.0
+         null
       });
       testRemainingRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
@@ -208,18 +208,18 @@ import static org.junit.jupiter.api.Assertions.assertNull;
          96.0,
          96.0,
          96.0,
-         0.0,
-         0.0,
+         null,
+         null,
          96.0,
          96.0,
          96.0,
          96.0,
          96.0,
-         0.0,
-         0.0,
+         null,
+         null,
          96.0,
          96.0,
-         0.0
+         null
       });
       testRemainingRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
@@ -272,18 +272,18 @@ import static org.junit.jupiter.api.Assertions.assertNull;
          104.0,
          104.0,
          104.0,
-         0.0,
-         0.0,
+         null,
+         null,
          104.0,
          104.0,
          104.0,
          104.0,
          104.0,
-         0.0,
-         0.0,
+         null,
+         null,
          104.0,
          104.0,
-         0.0
+         null
       });
       testRemainingRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
@@ -337,19 +337,19 @@ import static org.junit.jupiter.api.Assertions.assertNull;
          112.0,
          112.0,
          112.0,
-         0.0,
-         0.0,
+         null,
+         null,
          112.0,
          112.0,
          0.0,
          112.0,
          112.0,
-         0.0,
-         0.0,
+         null,
+         null,
          112.0,
          112.0,
          112.0,
-         0.0
+         null
       });
       testRemainingRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
@@ -404,19 +404,19 @@ import static org.junit.jupiter.api.Assertions.assertNull;
          120.0,
          120.0,
          120.0,
-         0.0,
-         0.0,
+         null,
+         null,
          120.0,
          120.0,
          0.0,
          120.0,
          120.0,
-         0.0,
-         0.0,
+         null,
+         null,
          120.0,
          120.0,
          120.0,
-         0.0
+         null
       });
       testRemainingRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
@@ -471,19 +471,19 @@ import static org.junit.jupiter.api.Assertions.assertNull;
          128.0,
          128.0,
          128.0,
-         0.0,
-         0.0,
+         null,
+         null,
          128.0,
          128.0,
          0.0,
          128.0,
          128.0,
-         0.0,
-         0.0,
+         null,
+         null,
          128.0,
          128.0,
          128.0,
-         0.0
+         null
       });
       testRemainingRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
@@ -536,17 +536,17 @@ import static org.junit.jupiter.api.Assertions.assertNull;
          166.86,
          166.86,
          166.86,
-         0.0,
-         0.0,
+         null,
+         null,
          166.86,
          166.86,
          166.86,
          166.86,
          166.86,
-         0.0,
-         0.0,
+         null,
+         null,
          125.14,
-         0.0
+         null
       });
       testRemainingCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
@@ -597,17 +597,17 @@ import static org.junit.jupiter.api.Assertions.assertNull;
          176.0,
          176.0,
          176.0,
-         0.0,
-         0.0,
+         null,
+         null,
          176.0,
          176.0,
          176.0,
          176.0,
          176.0,
-         0.0,
-         0.0,
+         null,
+         null,
          132.0,
-         0.0
+         null
       });
       testRemainingCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
@@ -670,17 +670,17 @@ import static org.junit.jupiter.api.Assertions.assertNull;
          152.00,
          152.00,
          194.96,
-         0.0,
-         0.0,
+         null,
+         null,
          194.96,
          194.96,
          194.96,
          194.96,
          194.96,
-         0.0,
-         0.0,
+         null,
+         null,
          146.22,
-         0.0
+         null
       });
       testRemainingCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
@@ -754,10 +754,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
     */
    private void testBaselineCostSegments(ResourceAssignment assignment, LocalDateTime startDate, Double[] expected)
    {
-      System.out.println("TEST SKIPPED");
-//      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
-//      List<Number> costList = assignment.getSegmentedTimephasedBaselineCost(0, dateList);
-//      testCostSegments(costList, expected);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
+      List<Number> costList = assignment.getTimephasedBaselineCost(0, dateList);
+      testCostSegments(costList, expected);
    }
 
    /**
@@ -811,7 +810,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
       {
          if (expected[loop] == null)
          {
-            assertNull(costList.get(loop));
+            assertNull(costList.get(loop), "Failed at index " + loop);
          }
          else
          {

@@ -25,7 +25,6 @@ package org.mpxj.utility;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +37,6 @@ import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedCost;
 import org.mpxj.TimephasedItem;
 import org.mpxj.TimephasedWork;
-import org.mpxj.mpp.TimescaleUnits;
 
 /**
  * This class contains methods relating to manipulating timephased data.
@@ -57,7 +55,7 @@ public final class TimephasedUtility
     */
    public static List<Duration> segmentWork(ProjectCalendar calendar, List<TimephasedWork> work, List<LocalDateTimeRange> ranges, TimeUnit targetUnits)
    {
-      validateTimephased(work);
+      validateTimephasedWork(work);
       validateRanges(ranges);
 
       if (work.isEmpty())
@@ -158,43 +156,91 @@ public final class TimephasedUtility
     */
    public static List<Number> segmentCost(ProjectCalendar calendar, List<TimephasedCost> cost, List<LocalDateTimeRange> ranges)
    {
-      throw new UnsupportedOperationException();
-/*
-      ArrayList<Double> result = new ArrayList<>(dateList.size());
-      int lastStartIndex = 0;
+      validateTimephasedCost(cost);
+      validateRanges(ranges);
 
-      //
-      // Iterate through the list of dates range we are interested in.
-      // Each date range in this list corresponds to a column
-      // shown on the "timescale" view by MS Project
-      //
-      for (LocalDateTimeRange range : dateList)
+      if (cost.isEmpty())
       {
-         //
-         // If the current date range does not intersect with any of the
-         // assignment date ranges in the list, then we show a zero
-         // duration for this date range.
-         //
-         int startIndex = lastStartIndex == -1 ? -1 : getStartIndex(range, cost, lastStartIndex);
-         if (startIndex == -1)
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      // We use -1 to represent null and map this later when we generate
+      double[] result = new double[ranges.size()];
+      Arrays.fill(result, -1);
+
+      int currentItemIndex = 0;
+      TimephasedCost currentItem = cost.get(0);
+      boolean currentItemIsNonWorking = itemIsNonWorking(calendar, currentItem);
+      double currentItemCostPerHour = currentItem.getAmountPerHour().doubleValue();
+
+      int currentRangeIndex = 0;
+      LocalDateTimeRange currentRange = ranges.get(0);
+
+      while(true)
+      {
+         if (!currentRange.getEnd().isAfter(currentItem.getStart()))
          {
-            result.add(NumberHelper.DOUBLE_ZERO);
+            // The range is before the current timephased item: there is no work for this range.
+            currentRangeIndex++;
+            if (currentRangeIndex == ranges.size())
+            {
+               break;
+            }
+            currentRange = ranges.get(currentRangeIndex);
+            continue;
+         }
+
+         while (!currentRange.getStart().isBefore(currentItem.getFinish()))
+         {
+            // We are at the last work item
+            if (currentItemIndex+1 == cost.size())
+            {
+               // There are no more work items, so there is no work for this range
+               // or any subsequent ranges.
+               currentRangeIndex = -1;
+               break;
+            }
+
+            // Try the next work item
+            currentItem = cost.get(++currentItemIndex);
+            currentItemIsNonWorking = itemIsNonWorking(calendar, currentItem);
+            currentItemCostPerHour = currentItem.getAmountPerHour().doubleValue();
+         }
+
+         if (currentRangeIndex == -1)
+         {
+            break;
+         }
+
+         // Our range intersects with this work
+         LocalDateTime workStart = currentRange.getStart().isAfter(currentItem.getStart()) ? currentRange.getStart() : currentItem.getStart();
+         LocalDateTime workFinish = currentRange.getEnd().isAfter(currentItem.getFinish()) ? currentItem.getFinish() : currentRange.getEnd();
+         double workHours = currentItemIsNonWorking ? workStart.until(workFinish, ChronoUnit.HOURS) : calendar.getWork(workStart, workFinish, TimeUnit.HOURS).getDuration();
+         if (workHours != 0.0)
+         {
+            double costAmount = currentItemCostPerHour * workHours;
+            double currentRangeWork = result[currentRangeIndex] == -1 ? 0 : result[currentRangeIndex];
+            result[currentRangeIndex] = currentRangeWork + costAmount;
+         }
+
+         if (workFinish.isBefore(currentRange.getEnd()))
+         {
+            // We still have some time to account for in the current range
+            currentRange = new LocalDateTimeRange(workFinish, currentRange.getEnd());
          }
          else
          {
-            //
-            // We have found an assignment which intersects with the current
-            // date range, call the method below to determine how
-            // much time from this resource assignment can be allocated
-            // to the current date range.
-            //
-            result.add(getRangeCost(projectCalendar, rangeUnits, range, cost, startIndex));
-            lastStartIndex = startIndex;
+            // We have completed the current range, move forward
+            currentRangeIndex++;
+            if (currentRangeIndex == ranges.size())
+            {
+               break;
+            }
+            currentRange = ranges.get(currentRangeIndex);
          }
       }
 
-      return result;
- */
+      return Arrays.stream(result).mapToObj(d -> d == -1 ? null : Double.valueOf(d)).collect(Collectors.toList());
    }
 
 
@@ -215,7 +261,7 @@ public final class TimephasedUtility
       }
    }
 
-   private static void validateTimephased(List<TimephasedWork> items)
+   private static void validateTimephasedWork(List<TimephasedWork> items)
    {
       if (items.isEmpty())
       {
@@ -232,6 +278,29 @@ public final class TimephasedUtility
             throw new IllegalArgumentException("Timephased work per hour expressed in different units");
          }
 
+         if (!item.getStart().isBefore(item.getFinish()))
+         {
+            throw new IllegalArgumentException("Item start must be before item end: " + item);
+         }
+
+         if (previousItem != null && !previousItem.getFinish().isBefore(item.getStart()))
+         {
+            throw new IllegalArgumentException("Items must be non-overlapping and in order: " + previousItem + " " + item);
+         }
+      }
+   }
+
+   private static void validateTimephasedCost(List<TimephasedCost> items)
+   {
+      if (items.isEmpty())
+      {
+         return;
+      }
+
+      TimephasedWork previousItem = null;
+
+      for (TimephasedCost item : items)
+      {
          if (!item.getStart().isBefore(item.getFinish()))
          {
             throw new IllegalArgumentException("Item start must be before item end: " + item);
