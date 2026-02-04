@@ -3442,21 +3442,24 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    private List<TimephasedWork> calculateTimephasedOvertimeWork()
    {
-      Duration regularWork = getRegularWork();
-      Duration overtimeWork = getOvertimeWork();
-      if (regularWork == null || overtimeWork == null)
+      Duration totalRemainingWork = getRemainingWork();
+      Duration remainingOvertimeWork = getRemainingOvertimeWork();
+
+      if (totalRemainingWork == null ||  remainingOvertimeWork == null)
       {
          return Collections.emptyList();
       }
 
-      double regularMinutes = regularWork.convertUnits(TimeUnit.MINUTES, getEffectiveCalendar()).getDuration();
-      double overtimeMinutes = overtimeWork.convertUnits(TimeUnit.MINUTES, getEffectiveCalendar()).getDuration();
-      if (regularMinutes == 0 || overtimeMinutes == 0)
+      double totalRemainingMinutes = totalRemainingWork.convertUnits(TimeUnit.MINUTES, getEffectiveCalendar()).getDuration();
+      double remainingOvertimeMinutes = remainingOvertimeWork.convertUnits(TimeUnit.MINUTES, getEffectiveCalendar()).getDuration();
+      double remainingRegularMinutes = totalRemainingMinutes - remainingOvertimeMinutes;
+
+      if (remainingRegularMinutes == 0 || remainingOvertimeMinutes == 0)
       {
          return Collections.emptyList();
       }
 
-      double factor = overtimeMinutes / regularMinutes;
+      double factor = remainingOvertimeMinutes / remainingRegularMinutes;
       return getRawTimephasedRemainingRegularWork().stream().map(i -> new TimephasedWork(i, factor)).collect(Collectors.toList());
    }
 
