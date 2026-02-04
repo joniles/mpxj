@@ -630,18 +630,18 @@ import static org.junit.jupiter.api.Assertions.assertNull;
       {
          176.0,
          132.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
       });
 
       task = file.getTaskByID(Integer.valueOf(9));
@@ -798,10 +798,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
    private void testActualCostSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, Double[] expected)
    {
-      System.out.println("TEST SKIPPED");
-//      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
-//      List<Number> costList = assignment.getTimephasedActualCost(dateList);
-//      testCostSegments(costList, expected);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
+      List<Number> costList = assignment.getTimephasedActualCost(dateList);
+      testCostSegments(costList, expected);
    }
 
    /**

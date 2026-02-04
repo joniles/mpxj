@@ -855,6 +855,47 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
    }
 
+   public List<Number> getTimephasedActualOvertimeCost(List<LocalDateTimeRange> ranges)
+   {
+      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
+
+      if (type == ResourceType.COST)
+      {
+         //return getTimephasedCostResourceCost(ranges, this::getOvertimeCost, this::getRemainingOvertimeCost);
+         throw new UnsupportedOperationException();
+      }
+
+      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
+      switch(accrueAt)
+      {
+         case START:
+         {
+            //return getTimephasedCostAccruedAtStart(ranges, this::getOvertimeCost, this::getRemainingOvertimeCost);
+            throw new UnsupportedOperationException();
+         }
+         case END:
+         {
+            //return getTimephasedCostAccruedAtEnd(ranges, this::getOvertimeCost, this::getRemainingOvertimeCost);
+            throw new UnsupportedOperationException();
+         }
+
+         default:
+         {
+            return getTimephasedCost(ranges, 1, (List<LocalDateTimeRange> r) -> getTimephasedActualOvertimeWork(r, TimeUnit.HOURS));
+         }
+      }
+   }
+
+   public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
+   {
+      return addTimephasedCost(getTimephasedActualRegularCost(ranges), getTimephasedActualOvertimeCost(ranges));
+   }
+
+   public List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges)
+   {
+      return addTimephasedCost(getTimephasedActualCost(ranges), getTimephasedRemainingCost(ranges));
+   }
+
    private List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges, int rateIndex, Function<List<LocalDateTimeRange>, List<Duration>> timephasedWork)
    {
       if (ranges == null || ranges.isEmpty())
