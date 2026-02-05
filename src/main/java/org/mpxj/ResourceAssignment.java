@@ -835,11 +835,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       {
          case START:
          {
-//            return getTimephasedCostAccruedAtStart(ranges,
-//               () -> Double.valueOf(NumberHelper.getDouble(getCost()) - NumberHelper.getDouble(getOvertimeCost())),
-//               () -> Double.valueOf(NumberHelper.getDouble(getRemainingCost()) - NumberHelper.getDouble(getRemainingOvertimeCost())));
-            throw new UnsupportedOperationException();
+            return getTimephasedActualCostAccruedAtStart(ranges, () -> Double.valueOf(NumberHelper.getDouble(getActualCost()) - NumberHelper.getDouble(getActualOvertimeCost())) );
          }
+
          case END:
          {
 //            return getTimephasedCostAccruedAtEnd(ranges,
@@ -861,8 +859,8 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
       if (type == ResourceType.COST)
       {
-         //return getTimephasedCostResourceCost(ranges, this::getOvertimeCost, this::getRemainingOvertimeCost);
-         throw new UnsupportedOperationException();
+         // Cost resources don't have overtime
+         return Arrays.asList(new Number[ranges.size()]);
       }
 
       AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
@@ -870,8 +868,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       {
          case START:
          {
-            //return getTimephasedCostAccruedAtStart(ranges, this::getOvertimeCost, this::getRemainingOvertimeCost);
-            throw new UnsupportedOperationException();
+            return getTimephasedActualCostAccruedAtStart(ranges, this::getActualOvertimeCost);
          }
          case END:
          {
