@@ -321,6 +321,7 @@ public class MpxjQuery
       int days = (int) ((task.getStart().until(task.getFinish(), ChronoUnit.MILLIS)) / (1000 * 60 * 60 * 24)) + 1;
       List<LocalDateTimeRange> dates = new TimescaleUtility().createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
       System.out.println(assignment.getTimephasedActualRegularCost(dates));
+      System.out.println(assignment.getTimephasedRemainingRegularCost(dates));
 //      System.out.println(assignment.getTimephasedRemainingOvertimeCost(dates));
       //System.out.println(assignment.getTimephasedWork(dates, TimeUnit.HOURS));
 

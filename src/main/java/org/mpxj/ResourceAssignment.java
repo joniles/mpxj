@@ -764,27 +764,33 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return getTimephasedCostResourceRemainingCost(ranges);
       }
 
+      List<Number> result;
       AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
       switch(accrueAt)
       {
          case START:
          {
-            return getTimephasedRemainingCostAccruedAtStart(ranges,
+            result = getTimephasedRemainingCostAccruedAtStart(ranges,
                () -> Double.valueOf(NumberHelper.getDouble(getCost()) - NumberHelper.getDouble(getOvertimeCost())),
                () -> Double.valueOf(NumberHelper.getDouble(getRemainingCost()) - NumberHelper.getDouble(getRemainingOvertimeCost())));
+            break;
          }
          case END:
          {
-            return getTimephasedRemainingCostAccruedAtEnd(ranges,
+            result = getTimephasedRemainingCostAccruedAtEnd(ranges,
                () -> Double.valueOf(NumberHelper.getDouble(getCost()) - NumberHelper.getDouble(getOvertimeCost())),
                () -> Double.valueOf(NumberHelper.getDouble(getRemainingCost()) - NumberHelper.getDouble(getRemainingOvertimeCost())));
+            break;
          }
 
          default:
          {
-            return getTimephasedCost(ranges, 0, (List<LocalDateTimeRange> r) -> getTimephasedRemainingRegularWork(r, TimeUnit.HOURS));
+            result = getTimephasedCost(ranges, 0, (List<LocalDateTimeRange> r) -> getTimephasedRemainingRegularWork(r, TimeUnit.HOURS));
+            break;
          }
       }
+
+      return addTimephasedRemainingCostPerUse(ranges, result);
    }
 
    public List<Number> getTimephasedRemainingOvertimeCost(List<LocalDateTimeRange> ranges)
@@ -830,24 +836,30 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return getTimephasedCostResourceActualCost(ranges);
       }
 
+      List<Number> result;
       AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
       switch(accrueAt)
       {
          case START:
          {
-            return getTimephasedActualCostAccruedAtStart(ranges, () -> Double.valueOf(NumberHelper.getDouble(getActualCost()) - NumberHelper.getDouble(getActualOvertimeCost())));
+            result = getTimephasedActualCostAccruedAtStart(ranges, () -> Double.valueOf(NumberHelper.getDouble(getActualCost()) - NumberHelper.getDouble(getActualOvertimeCost())));
+            break;
          }
 
          case END:
          {
-            return getTimephasedActualCostAccruedAtEnd(ranges, () -> Double.valueOf(NumberHelper.getDouble(getActualCost()) - NumberHelper.getDouble(getActualOvertimeCost())));
+            result = getTimephasedActualCostAccruedAtEnd(ranges, () -> Double.valueOf(NumberHelper.getDouble(getActualCost()) - NumberHelper.getDouble(getActualOvertimeCost())));
+            break;
          }
 
          default:
          {
-            return getTimephasedCost(ranges, 0, (List<LocalDateTimeRange> r) -> getTimephasedActualRegularWork(r, TimeUnit.HOURS));
+            result = getTimephasedCost(ranges, 0, (List<LocalDateTimeRange> r) -> getTimephasedActualRegularWork(r, TimeUnit.HOURS));
+            break;
          }
       }
+
+      return addTimephasedActualCostPerUse(ranges, result);
    }
 
    public List<Number> getTimephasedActualOvertimeCost(List<LocalDateTimeRange> ranges)
@@ -1343,6 +1355,72 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
 
       return result;
+   }
+
+   private List<Number> addTimephasedRemainingCostPerUse(List<LocalDateTimeRange> ranges, List<Number> costs)
+   {
+      // If we have started, the cost per use will
+      // be accounted for in the actual costs.
+      if (getActualStart() != null)
+      {
+         return costs;
+      }
+
+      Resource resource = getResource();
+      if (resource == null)
+      {
+         return costs;
+      }
+
+      Number costPerUse = resource.getCostPerUse();
+      if (costPerUse == null || costPerUse.doubleValue() == 0.0)
+      {
+         return costs;
+      }
+
+      for (int rangeIndex=0; rangeIndex < ranges.size(); ++rangeIndex)
+      {
+         if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
+         {
+            costs.set(rangeIndex, Double.valueOf(NumberHelper.getDouble(costs.get(rangeIndex)) + costPerUse.doubleValue()));
+            break;
+         }
+      }
+
+      return costs;
+   }
+
+   private List<Number> addTimephasedActualCostPerUse(List<LocalDateTimeRange> ranges, List<Number> costs)
+   {
+      // If we not have started, the cost per use will
+      // be accounted for in the remaining costs.
+      if (getActualStart() == null)
+      {
+         return costs;
+      }
+
+      Resource resource = getResource();
+      if (resource == null)
+      {
+         return costs;
+      }
+
+      Number costPerUse = resource.getCostPerUse();
+      if (costPerUse == null || costPerUse.doubleValue() == 0.0)
+      {
+         return costs;
+      }
+
+      for (int rangeIndex=0; rangeIndex < ranges.size(); ++rangeIndex)
+      {
+         if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
+         {
+            costs.set(rangeIndex, Double.valueOf(NumberHelper.getDouble(costs.get(rangeIndex)) + costPerUse.doubleValue()));
+            break;
+         }
+      }
+
+      return costs;
    }
 
    /**
