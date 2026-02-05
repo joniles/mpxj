@@ -25,6 +25,7 @@
 package org.mpxj;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -826,7 +827,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
       if (type == ResourceType.COST)
       {
-         return getTimephasedCostResourceActualCost(ranges, this::getActualCost);
+         return getTimephasedCostResourceActualCost(ranges);
       }
 
       AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
@@ -1070,7 +1071,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
    }
 
-   private List<Number> getTimephasedCostResourceActualCost(List<LocalDateTimeRange> ranges, Supplier<Number> actualCost)
+   private List<Number> getTimephasedCostResourceActualCost(List<LocalDateTimeRange> ranges)
    {
       // If we have no ranges, return an empty list.
       if (ranges.isEmpty())
@@ -1096,48 +1097,17 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       {
          case START:
          {
-            return getTimephasedActualCostAccruedAtStart(ranges, actualCost);
+            return getTimephasedActualCostAccruedAtStart(ranges, this::getActualCost);
          }
 
          case END:
          {
-            return getTimephasedActualCostAccruedAtEnd(ranges, actualCost);
+            return getTimephasedActualCostAccruedAtEnd(ranges, this::getActualCost);
          }
 
          default:
          {
-//            Number[] result = new Number[ranges.size()];
-//
-//            if (NumberHelper.getDouble(remainingCost.get()) == 0)
-//            {
-//               return Arrays.asList(result);
-//            }
-//
-//            // Find the first range which intersects with the assignment
-//            int rangeIndex = 0;
-//            while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
-//            {
-//               ++rangeIndex;
-//            }
-//
-//            double workingHours = cal.getWork(getStart(), getFinish(), TimeUnit.HOURS).getDuration();
-//            double amountPerHour = totalCost.get().doubleValue() / workingHours;
-//
-//            while (rangeIndex < ranges.size())
-//            {
-//               LocalDateTimeRange intersection = assignmentRange.intersection(ranges.get(rangeIndex));
-//               if (intersection == null)
-//               {
-//                  break;
-//               }
-//
-//               double intersectionHours = cal.getWork(intersection.getStart(), intersection.getEnd(), TimeUnit.HOURS).getDuration();
-//               result[rangeIndex] = Double.valueOf(intersectionHours * amountPerHour);
-//               rangeIndex++;
-//            }
-//
-//            return Arrays.asList(result);
-            throw new UnsupportedOperationException();
+            return getTimephasedActualCostProrata(assignmentRange, ranges);
          }
       }
    }
@@ -1291,6 +1261,74 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          result[rangeIndex-1] = cost == null ? Double.valueOf(0) : cost;
       }
 
+      return Arrays.asList(result);
+   }
+
+   private List<Number> getTimephasedActualCostProrata(LocalDateTimeRange assignmentRange, List<LocalDateTimeRange> ranges)
+   {
+      if (NumberHelper.getDouble(getActualCost()) == 0)
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      // Find the start date for ranges which are aligned with the caller-supplied ranges, and cover the whole assignment
+      long minutesPerRange = ranges.get(0).getStart().until(ranges.get(0).getEnd(), ChronoUnit.MINUTES);
+      LocalDateTime assignmentStartRange = ranges.get(0).getStart();
+      if (ranges.get(0).getStart().isAfter(getStart()))
+      {
+         while (assignmentStartRange.isAfter(getStart()))
+         {
+            assignmentStartRange = assignmentStartRange.minusMinutes(minutesPerRange);
+         }
+      }
+      else
+      {
+         while (assignmentStartRange.plusMinutes(minutesPerRange).isBefore(getStart()))
+         {
+            assignmentStartRange = assignmentStartRange.plusMinutes(minutesPerRange);
+         }
+      }
+
+      // Create the ranges
+      List<LocalDateTimeRange> assignmentRanges = new ArrayList<>();
+      while (true)
+      {
+         LocalDateTimeRange range = new LocalDateTimeRange(assignmentStartRange, assignmentStartRange.plusMinutes(minutesPerRange));
+         assignmentRanges.add(range);
+         if (range.compareTo(getFinish()) == 0)
+         {
+            break;
+         }
+         assignmentStartRange = range.getEnd();
+      }
+
+      // Count the number of ranges which contain calendar working hours
+      ProjectCalendar calendar = getEffectiveCalendar();
+      long workingRanges = assignmentRanges.stream()
+         .mapToDouble(r -> calendar.getWork(r.getStart(), r.getEnd(), TimeUnit.HOURS).getDuration())
+         .filter(h -> h != 0.0)
+         .count();
+
+      // Determine the prorata cost per range with working hours
+      Double costPerWorkingRange = Double.valueOf(getCost().doubleValue() /workingRanges);
+
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         ++rangeIndex;
+      }
+
+      Number[] result = new Number[ranges.size()];
+      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         LocalDateTimeRange range = ranges.get(rangeIndex);
+         if (calendar.getWork(range.getStart(), range.getEnd(), TimeUnit.HOURS).getDuration() != 0.0)
+         {
+            result[rangeIndex] = costPerWorkingRange;
+         }
+         ++rangeIndex;
+      }
       return Arrays.asList(result);
    }
 
