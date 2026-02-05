@@ -835,15 +835,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       {
          case START:
          {
-            return getTimephasedActualCostAccruedAtStart(ranges, () -> Double.valueOf(NumberHelper.getDouble(getActualCost()) - NumberHelper.getDouble(getActualOvertimeCost())) );
+            return getTimephasedActualCostAccruedAtStart(ranges, () -> Double.valueOf(NumberHelper.getDouble(getActualCost()) - NumberHelper.getDouble(getActualOvertimeCost())));
          }
 
          case END:
          {
-//            return getTimephasedCostAccruedAtEnd(ranges,
-//               () -> Double.valueOf(NumberHelper.getDouble(getCost()) - NumberHelper.getDouble(getOvertimeCost())),
-//               () -> Double.valueOf(NumberHelper.getDouble(getRemainingCost()) - NumberHelper.getDouble(getRemainingOvertimeCost())));
-            throw new UnsupportedOperationException();
+            return getTimephasedActualCostAccruedAtEnd(ranges, () -> Double.valueOf(NumberHelper.getDouble(getActualCost()) - NumberHelper.getDouble(getActualOvertimeCost())));
          }
 
          default:
@@ -872,8 +869,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          }
          case END:
          {
-            //return getTimephasedCostAccruedAtEnd(ranges, this::getOvertimeCost, this::getRemainingOvertimeCost);
-            throw new UnsupportedOperationException();
+            return getTimephasedActualCostAccruedAtEnd(ranges, this::getActualOvertimeCost);
          }
 
          default:
