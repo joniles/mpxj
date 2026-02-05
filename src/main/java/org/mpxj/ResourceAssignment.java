@@ -1015,13 +1015,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Arrays.asList(new Number[ranges.size()]);
       }
 
-      // For Start and Finish Accrued resources, we can't rely on the actual finish
-      // date to determine if an assignment is complete.
-      // MS Project seems to populate this with a value for in progress assignments,
-      // and doesn't clear it when the assignment is complete.
-      // We can't rely on the resume date either.
-
-      ProjectCalendar cal = getEffectiveCalendar();
       switch(getResource().getAccrueAt())
       {
          case START:
@@ -1036,37 +1029,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
          default:
          {
-            Number[] result = new Number[ranges.size()];
-
-            if (NumberHelper.getDouble(getRemainingCost()) == 0)
-            {
-               return Arrays.asList(result);
-            }
-
-            // Find the first range which intersects with the assignment
-            int rangeIndex = 0;
-            while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
-            {
-               ++rangeIndex;
-            }
-
-            double workingHours = cal.getWork(getStart(), getFinish(), TimeUnit.HOURS).getDuration();
-            double amountPerHour = getCost().doubleValue() / workingHours;
-
-            while (rangeIndex < ranges.size())
-            {
-               LocalDateTimeRange intersection = assignmentRange.intersection(ranges.get(rangeIndex));
-               if (intersection == null)
-               {
-                  break;
-               }
-
-               double intersectionHours = cal.getWork(intersection.getStart(), intersection.getEnd(), TimeUnit.HOURS).getDuration();
-               result[rangeIndex] = Double.valueOf(intersectionHours * amountPerHour);
-               rangeIndex++;
-            }
-
-            return Arrays.asList(result);
+            return getTimephasedRemainingCostProrata(assignmentRange, ranges);
          }
       }
    }
@@ -1086,13 +1049,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Arrays.asList(new Number[ranges.size()]);
       }
 
-      // For Start and Finish Accrued resources, we can't rely on the actual finish
-      // date to determine if an assignment is complete.
-      // MS Project seems to populate this with a value for in progress assignments,
-      // and doesn't clear it when the assignment is complete.
-      // We can't rely on the resume date either.
-
-      ProjectCalendar cal = getEffectiveCalendar();
       switch(getResource().getAccrueAt())
       {
          case START:
@@ -1187,6 +1143,42 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       if (ranges.get(rangeIndex-1).compareTo(getFinish()) == 0)
       {
          result[rangeIndex - 1] = totalCost.get();
+      }
+
+      return Arrays.asList(result);
+   }
+
+   private List<Number> getTimephasedRemainingCostProrata(LocalDateTimeRange assignmentRange, List<LocalDateTimeRange> ranges)
+   {
+      Number[] result = new Number[ranges.size()];
+
+      if (NumberHelper.getDouble(getRemainingCost()) == 0)
+      {
+         return Arrays.asList(result);
+      }
+
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         ++rangeIndex;
+      }
+
+      ProjectCalendar cal = getEffectiveCalendar();
+      double workingHours = cal.getWork(getStart(), getFinish(), TimeUnit.HOURS).getDuration();
+      double amountPerHour = getCost().doubleValue() / workingHours;
+
+      while (rangeIndex < ranges.size())
+      {
+         LocalDateTimeRange intersection = assignmentRange.intersection(ranges.get(rangeIndex));
+         if (intersection == null)
+         {
+            break;
+         }
+
+         double intersectionHours = cal.getWork(intersection.getStart(), intersection.getEnd(), TimeUnit.HOURS).getDuration();
+         result[rangeIndex] = Double.valueOf(intersectionHours * amountPerHour);
+         rangeIndex++;
       }
 
       return Arrays.asList(result);
@@ -1309,7 +1301,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          .filter(h -> h != 0.0)
          .count();
 
-      // Determine the prorata cost per range with working hours
+      // Determine the pro rata cost per range with working hours
       Double costPerWorkingRange = Double.valueOf(getCost().doubleValue() /workingRanges);
 
       // Find the first range which intersects with the assignment
