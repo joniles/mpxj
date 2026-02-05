@@ -1275,20 +1275,20 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Arrays.asList(result);
       }
 
-      // Our first range includes the start of the assignment.
-      // Assign the actual cost to this range.
-      if (ranges.get(rangeIndex).getStart().isEqual(getStart()))
-      {
-         Number cost = actualCost.get();
-         result[rangeIndex++] = cost == null ? Double.valueOf(0) : cost;
-      }
-
-      // The remainder of the ranges which intersect with
+      // The ranges which intersect with
       // the assignment have zero cost.
       while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
       {
          result[rangeIndex] = Double.valueOf(0);
          rangeIndex++;
+      }
+
+      // Our last range includes the end of the assignment.
+      // Assign the actual cost to this range.
+      if (ranges.get(rangeIndex-1).compareTo(getFinish()) == 0)
+      {
+         Number cost = actualCost.get();
+         result[rangeIndex-1] = cost == null ? Double.valueOf(0) : cost;
       }
 
       return Arrays.asList(result);
