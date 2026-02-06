@@ -1395,19 +1395,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    }
 
    /**
-    * Retrieve a flag indicating if this resource assignment has timephased
-    * data associated with it.
-    *
-    * @return true if this resource assignment has timephased data
-    */
-   public boolean getHasTimephasedData()
-   {
-      List<TimephasedWork> workContainer = getRawTimephasedRemainingRegularWork();
-      List<TimephasedWork> actualWorkContainer = getRawTimephasedActualRegularWork();
-      return (workContainer != null && !workContainer.isEmpty()) || (actualWorkContainer != null && !actualWorkContainer.isEmpty());
-   }
-
-   /**
     * Retrieve timephased baseline work. Note that index 0 represents "Baseline",
     * index 1 represents "Baseline1" and so on.
     *

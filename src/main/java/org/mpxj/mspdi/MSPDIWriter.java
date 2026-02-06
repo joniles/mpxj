@@ -2294,15 +2294,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
          return;
       }
 
-      if (!mpx.getHasTimephasedData() && !m_generateMissingTimephasedData)
+      List<TimephasedWork> actualWork = mpx.getRawTimephasedActualRegularWork();
+      List<TimephasedWork> remainingRegularWork = mpx.getRawTimephasedRemainingRegularWork();
+
+      boolean hasTimephasedData = (actualWork != null && !actualWork.isEmpty()) || (remainingRegularWork != null && !remainingRegularWork.isEmpty()));
+      if (!hasTimephasedData && !m_generateMissingTimephasedData)
       {
          return;
       }
-
-      ProjectCalendar calendar = getCalendar(mpx);
-      List<TimephasedWork> actualWork = mpx.getRawTimephasedActualRegularWork();
-      List<TimephasedWork> remainingRegularWork = mpx.getRawTimephasedRemainingRegularWork();
-      List<TimephasedWork> actualOvertimeWork = mpx.getRawTimephasedActualOvertimeWork();
 
       if ((remainingRegularWork == null || remainingRegularWork.isEmpty()) && m_generateMissingTimephasedData)
       {
@@ -2318,7 +2317,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<TimephasedDataType> list = xml.getTimephasedData();
       writeAssignmentTimephasedWorkData(assignmentID, list, actualWork, 2);
       writeAssignmentTimephasedWorkData(assignmentID, list, remainingRegularWork, 1);
-      writeAssignmentTimephasedWorkData(assignmentID, list, actualOvertimeWork, 3);
+      writeAssignmentTimephasedWorkData(assignmentID, list, mpx.getRawTimephasedActualOvertimeWork(), 3);
 
       // Write the baselines
       for (int index = 0; index < TIMEPHASED_BASELINE_WORK_TYPES.length; index++)
