@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -721,7 +720,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    public List<Duration> getTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return addTimephasedWork(getTimephasedActualRegularWork(ranges, units), getTimephasedActualOvertimeWork(ranges, units));
+      return TimephasedUtility.addTimephasedWork(getTimephasedActualRegularWork(ranges, units), getTimephasedActualOvertimeWork(ranges, units));
    }
 
    public List<Duration> getTimephasedRemainingRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
@@ -736,12 +735,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    public List<Duration> getTimephasedRemainingWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return addTimephasedWork(getTimephasedRemainingRegularWork(ranges, units), getTimephasedRemainingOvertimeWork(ranges, units));
+      return TimephasedUtility.addTimephasedWork(getTimephasedRemainingRegularWork(ranges, units), getTimephasedRemainingOvertimeWork(ranges, units));
    }
 
    public List<Duration> getTimephasedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return addTimephasedWork(getTimephasedActualWork(ranges, units), getTimephasedRemainingWork(ranges, units));
+      return TimephasedUtility.addTimephasedWork(getTimephasedActualWork(ranges, units), getTimephasedRemainingWork(ranges, units));
    }
 
    /**
@@ -824,7 +823,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    public List<Number> getTimephasedRemainingCost(List<LocalDateTimeRange> ranges)
    {
-      return addTimephasedCost(getTimephasedRemainingRegularCost(ranges), getTimephasedRemainingOvertimeCost(ranges));
+      return TimephasedUtility.addTimephasedCost(getTimephasedRemainingRegularCost(ranges), getTimephasedRemainingOvertimeCost(ranges));
    }
 
    public List<Number> getTimephasedActualRegularCost(List<LocalDateTimeRange> ranges)
@@ -893,12 +892,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
    {
-      return addTimephasedCost(getTimephasedActualRegularCost(ranges), getTimephasedActualOvertimeCost(ranges));
+      return TimephasedUtility.addTimephasedCost(getTimephasedActualRegularCost(ranges), getTimephasedActualOvertimeCost(ranges));
    }
 
    public List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges)
    {
-      return addTimephasedCost(getTimephasedActualCost(ranges), getTimephasedRemainingCost(ranges));
+      return TimephasedUtility.addTimephasedCost(getTimephasedActualCost(ranges), getTimephasedRemainingCost(ranges));
    }
 
    private List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges, int rateIndex, Function<List<LocalDateTimeRange>, List<Duration>> timephasedWork)
@@ -1327,34 +1326,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          ++rangeIndex;
       }
       return Arrays.asList(result);
-   }
-
-   private List<Duration> addTimephasedWork(List<Duration> w1, List<Duration> w2)
-   {
-      return mergeTimephasedValues(w1, w2, (v1, v2) -> Duration.getInstance((v1 == null ? 0 : v1.getDuration()) + (v2 == null ? 0 : v2.getDuration()), v1 == null ? v2.getUnits() : v1.getUnits()));
-   }
-
-   private List<Number> addTimephasedCost(List<Number> w1, List<Number> w2)
-   {
-      return mergeTimephasedValues(w1, w2, (v1, v2) -> Double.valueOf((v1 == null ? 0 : v1.doubleValue()) + (v2 == null ? 0 : v2.doubleValue())));
-   }
-
-   private <T> List<T> mergeTimephasedValues(List<T> w1, List<T> w2, BiFunction<T, T, T> fn)
-   {
-      if (w1.size() != w2.size())
-      {
-         throw new RuntimeException("Timephased lists not the same length");
-      }
-
-      List<T> result = new ArrayList<>();
-      for (int index = 0; index < w1.size(); ++index)
-      {
-         T d1 = w1.get(index);
-         T d2 = w2.get(index);
-         result.add(d1 == null && d2 == null ? null : fn.apply(d1, d2));
-      }
-
-      return result;
    }
 
    private List<Number> addTimephasedRemainingCostPerUse(List<LocalDateTimeRange> ranges, List<Number> costs)

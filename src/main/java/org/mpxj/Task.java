@@ -41,6 +41,7 @@ import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.TaskFieldLists;
+import org.mpxj.utility.TimephasedUtility;
 
 /**
  * This class represents a task record from a project file.
@@ -5653,6 +5654,48 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    public Task getBaselineTask(int index)
    {
       return m_parentFile.getBaselineTaskMap(index).get(this);
+   }
+
+   public List<Duration> getTimephasedActualRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedActualRegularWork(ranges, units));
+   }
+
+   public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedActualOvertimeWork(ranges, units));
+   }
+
+   public List<Duration> getTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.addTimephasedWork(getTimephasedActualRegularWork(ranges, units), getTimephasedActualOvertimeWork(ranges, units));
+   }
+
+   public List<Duration> getTimephasedRemainingRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedRemainingRegularWork(ranges, units));
+   }
+
+   public List<Duration> getTimephasedRemainingOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedRemainingOvertimeWork(ranges, units));
+   }
+
+   public List<Duration> getTimephasedRemainingWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.addTimephasedWork(getTimephasedRemainingRegularWork(ranges, units), getTimephasedRemainingOvertimeWork(ranges, units));
+   }
+
+   public List<Duration> getTimephasedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.addTimephasedWork(getTimephasedActualWork(ranges, units), getTimephasedRemainingWork(ranges, units));
+   }
+
+  private List<Duration> reduceTimephasedWork(List<LocalDateTimeRange> ranges, Function<ResourceAssignment, List<Duration>> fn)
+   {
+      return getResourceAssignments().stream()
+         .map(fn)
+         .reduce(TimephasedUtility::addTimephasedWork).orElseGet(() -> Arrays.asList(new Duration[ranges.size()]));
    }
 
    /**
