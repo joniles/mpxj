@@ -224,13 +224,6 @@ public class ResourceAssignmentFactory
             assignment.setActualStart(assignment.getActualFinish() != null || !timephasedActualWork.isEmpty() ? assignment.getStart() : null);
          }
 
-         // TODO: this assumes that timephased data for all assignments of a task is the same
-//         if (!task.getMilestone() && !processedSplits.contains(task))
-//         {
-//            processedSplits.add(task);
-//            SplitTaskFactory.processSplitData(assignment, timephasedActualWork, timephasedWork);
-//         }
-
          createTimephasedData(file, assignment, timephasedWork, timephasedActualWork);
 
          assignment.set(AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK, null);

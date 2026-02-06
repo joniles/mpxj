@@ -103,9 +103,9 @@ public class MpxjQuery
 //
 //      listResources(mpx);
 //
-//      listTasks(mpx);
+      listTasks(mpx);
 
-      listAssignments(mpx);
+      //listAssignments(mpx);
 
 //      listAssignmentsByTask(mpx);
 //
@@ -204,6 +204,8 @@ public class MpxjQuery
          }
 
          System.out.println("Task: " + task.getName() + " ID=" + task.getID() + " Unique ID=" + task.getUniqueID() + " (Start Date=" + startDate + " Finish Date=" + finishDate + " Duration=" + duration + " Actual Duration" + actualDuration + " Baseline Duration=" + baselineDuration + " Outline Level=" + task.getOutlineLevel() + " Outline Number=" + task.getOutlineNumber() + " Recurring=" + task.getRecurring() + ")");
+         System.out.println(task.getWorkSplits());
+         System.out.println();
       }
       System.out.println();
    }

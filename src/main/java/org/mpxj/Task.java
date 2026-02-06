@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -3609,6 +3610,89 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    {
       return (List<LocalDateTimeRange>) get(TaskField.SPLITS);
    }
+
+   // TODO use normal get method caching once fully implemented
+   public List<LocalDateTimeRange> getWorkSplits()
+   {
+      if (getSummary())
+      {
+         return Collections.emptyList();
+      }
+
+      return getResourceAssignments().stream()
+         .map(ResourceAssignment::getWorkSplits)
+         .reduce(this::reduceWorkSplits)
+         .orElse(Collections.emptyList());
+   }
+
+   private List<LocalDateTimeRange> reduceWorkSplits(List<LocalDateTimeRange> l1, List<LocalDateTimeRange> l2)
+   {
+      if (l1.equals(l2))
+      {
+         return l1;
+      }
+
+      int index1 = 0;
+      int index2 = 0;
+      LocalDateTimeRange range1 =  l1.get(index1);
+      LocalDateTimeRange range2 =  l1.get(index2);
+      List<LocalDateTimeRange> result = new ArrayList<>();
+
+      while (index1 < l1.size() && index2 < l2.size())
+      {
+         if (range1.isBefore(range2))
+         {
+            addWorkSplit(result, range1);
+            range1 = l1.get(++index1);
+            continue;
+         }
+
+         if (range2.isBefore(range1))
+         {
+            addWorkSplit(result, range2);
+            range2 = l2.get(++index2);
+            continue;
+         }
+
+         if (range1.compareTo(range2) == 0)
+         {
+            addWorkSplit(result, range1);
+            range1 = l1.get(++index1);
+            range2 = l2.get(++index2);
+            continue;
+         }
+
+         addWorkSplit(result, new LocalDateTimeRange(LocalDateTimeHelper.min(range1.getStart(), range2.getStart()), LocalDateTimeHelper.max(range1.getEnd(), range2.getEnd())));
+         ++index1;
+         ++index2;
+      }
+
+      if (index1 != l1.size())
+      {
+         result.addAll(l1.subList(index1, l1.size()));
+      }
+      else
+      {
+         if (index2 != l2.size())
+         {
+            result.addAll(l2.subList(index2, l2.size()));
+         }
+      }
+
+      return result;
+   }
+
+   private void addWorkSplit(List<LocalDateTimeRange> ranges, LocalDateTimeRange range)
+   {
+      if (ranges.get(ranges.size()-1).getEnd().isEqual(range.getStart()))
+      {
+         LocalDateTimeRange oldRange = ranges.remove(ranges.size()-1);
+         ranges.add(new LocalDateTimeRange(oldRange.getStart(), range.getEnd()));
+         return;
+      }
+      ranges.add(range);
+   }
+
 
    /**
     * Removes this task from the project.
