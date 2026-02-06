@@ -2297,7 +2297,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<TimephasedWork> actualWork = mpx.getRawTimephasedActualRegularWork();
       List<TimephasedWork> remainingRegularWork = mpx.getRawTimephasedRemainingRegularWork();
 
-      boolean hasTimephasedData = (actualWork != null && !actualWork.isEmpty()) || (remainingRegularWork != null && !remainingRegularWork.isEmpty()));
+      boolean hasTimephasedData = (actualWork != null && !actualWork.isEmpty()) || (remainingRegularWork != null && !remainingRegularWork.isEmpty());
       if (!hasTimephasedData && !m_generateMissingTimephasedData)
       {
          return;
