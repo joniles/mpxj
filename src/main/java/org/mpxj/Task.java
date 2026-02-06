@@ -36,6 +36,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.LocalDateTimeHelper;
@@ -5658,44 +5659,84 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    public List<Duration> getTimephasedActualRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedActualRegularWork(ranges, units));
+      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedActualRegularWork(ranges, units), (r) -> r.getTimephasedActualRegularWork(ranges, units));
    }
 
    public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedActualOvertimeWork(ranges, units));
+      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedActualOvertimeWork(ranges, units), (r) -> r.getTimephasedActualOvertimeWork(ranges, units));
    }
 
    public List<Duration> getTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.addTimephasedWork(getTimephasedActualRegularWork(ranges, units), getTimephasedActualOvertimeWork(ranges, units));
+      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedActualWork(ranges, units), (r) -> r.getTimephasedActualWork(ranges, units));
    }
 
    public List<Duration> getTimephasedRemainingRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedRemainingRegularWork(ranges, units));
+      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedRemainingRegularWork(ranges, units), (r) -> r.getTimephasedRemainingRegularWork(ranges, units));
    }
 
    public List<Duration> getTimephasedRemainingOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedRemainingOvertimeWork(ranges, units));
+      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedRemainingOvertimeWork(ranges, units), (r) -> r.getTimephasedRemainingOvertimeWork(ranges, units));
    }
 
    public List<Duration> getTimephasedRemainingWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.addTimephasedWork(getTimephasedRemainingRegularWork(ranges, units), getTimephasedRemainingOvertimeWork(ranges, units));
+      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedRemainingWork(ranges, units), (r) -> r.getTimephasedRemainingWork(ranges, units));
    }
 
    public List<Duration> getTimephasedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.addTimephasedWork(getTimephasedActualWork(ranges, units), getTimephasedRemainingWork(ranges, units));
+      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedWork(ranges, units), (r) -> r.getTimephasedWork(ranges, units));
    }
 
-  private List<Duration> reduceTimephasedWork(List<LocalDateTimeRange> ranges, Function<ResourceAssignment, List<Duration>> fn)
+   public List<Number> getTimephasedActualRegularCost(List<LocalDateTimeRange> ranges)
    {
-      return getResourceAssignments().stream()
-         .map(fn)
+      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedActualRegularCost(ranges), (r) -> r.getTimephasedActualRegularCost(ranges));
+   }
+
+   public List<Number> getTimephasedActualOvertimeCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedActualOvertimeCost(ranges), (r) -> r.getTimephasedActualOvertimeCost(ranges));
+   }
+
+   public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedActualCost(ranges), (r) -> r.getTimephasedActualCost(ranges));
+   }
+
+   public List<Number> getTimephasedRemainingRegularCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedRemainingRegularCost(ranges), (r) -> r.getTimephasedRemainingRegularCost(ranges));
+   }
+
+   public List<Number> getTimephasedRemainingOvertimeCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedRemainingOvertimeCost(ranges), (r) -> r.getTimephasedRemainingOvertimeCost(ranges));
+   }
+
+   public List<Number> getTimephasedRemainingCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedRemainingCost(ranges), (r) -> r.getTimephasedRemainingCost(ranges));
+   }
+
+   public List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedCost(ranges), (r) -> r.getTimephasedCost(ranges));
+   }
+
+   private List<Duration> reduceTimephasedWork(List<LocalDateTimeRange> ranges, Function<Task, List<Duration>> taskFn, Function<ResourceAssignment, List<Duration>> assignmentFn)
+   {
+      return Stream.concat(getResourceAssignments().stream().map(assignmentFn), getChildTasks().stream().map(taskFn))
          .reduce(TimephasedUtility::addTimephasedWork).orElseGet(() -> Arrays.asList(new Duration[ranges.size()]));
+   }
+
+   private List<Number> reduceTimephasedCost(List<LocalDateTimeRange> ranges, Function<Task, List<Number>> taskFn, Function<ResourceAssignment, List<Number>> assignmentFn)
+   {
+      return Stream.concat(getResourceAssignments().stream().map(assignmentFn), getChildTasks().stream().map(taskFn))
+         .reduce(TimephasedUtility::addTimephasedCost).orElseGet(() -> Arrays.asList(new Number[ranges.size()]));
    }
 
    /**
