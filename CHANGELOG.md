@@ -5,7 +5,10 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 15.3.1 (unreleased)
+## 15.3.2 (unreleased)
+
+## 15.3.1 (2026-02-06)
+* Fix a `NullPointerException` raised when a PMXML file does not have a default calendar defined.
 
 ## 15.3.0 (2026-02-02)
 * Updated PMXML schema to version 25.12.
