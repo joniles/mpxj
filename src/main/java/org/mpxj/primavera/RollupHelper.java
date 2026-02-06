@@ -260,68 +260,76 @@ class RollupHelper
       }
 
       Duration plannedDuration = null;
-      if (plannedStartDate != null && plannedFinishDate != null)
-      {
-         plannedDuration = parentTask.getEffectiveCalendar().getWork(plannedStartDate, plannedFinishDate, TimeUnit.HOURS);
-         parentTask.setPlannedDuration(plannedDuration);
-      }
-
       Duration actualDuration = null;
       Duration remainingDuration = null;
-      if (parentTask.getActualFinish() == null)
+      Duration duration = null;
+
+      ProjectCalendar effectiveCalendar = parentTask.getEffectiveCalendar();
+      if (effectiveCalendar != null)
       {
-         LocalDateTime taskStartDate = parentTask.getRemainingEarlyStart();
-         if (taskStartDate == null)
+         if (plannedStartDate != null && plannedFinishDate != null)
          {
-            taskStartDate = parentTask.getEarlyStart();
+            plannedDuration = effectiveCalendar.getWork(plannedStartDate, plannedFinishDate, TimeUnit.HOURS);
+            parentTask.setPlannedDuration(plannedDuration);
+         }
+
+         if (parentTask.getActualFinish() == null)
+         {
+            LocalDateTime taskStartDate = parentTask.getRemainingEarlyStart();
             if (taskStartDate == null)
             {
-               taskStartDate = plannedStartDate;
+               taskStartDate = parentTask.getEarlyStart();
+               if (taskStartDate == null)
+               {
+                  taskStartDate = plannedStartDate;
+               }
             }
-         }
 
-         LocalDateTime taskFinishDate = parentTask.getRemainingEarlyFinish();
-         if (taskFinishDate == null)
-         {
-            taskFinishDate = parentTask.getEarlyFinish();
+            LocalDateTime taskFinishDate = parentTask.getRemainingEarlyFinish();
             if (taskFinishDate == null)
             {
-               taskFinishDate = plannedFinishDate;
+               taskFinishDate = parentTask.getEarlyFinish();
+               if (taskFinishDate == null)
+               {
+                  taskFinishDate = plannedFinishDate;
+               }
+            }
+
+            if (taskStartDate != null)
+            {
+               if (parentTask.getActualStart() != null)
+               {
+                  actualDuration = effectiveCalendar.getWork(parentTask.getActualStart(), taskStartDate, TimeUnit.HOURS);
+               }
+
+               if (taskFinishDate != null)
+               {
+                  remainingDuration = effectiveCalendar.getWork(taskStartDate, taskFinishDate, TimeUnit.HOURS);
+               }
             }
          }
-
-         if (taskStartDate != null)
+         else
          {
-            if (parentTask.getActualStart() != null)
-            {
-               actualDuration = parentTask.getEffectiveCalendar().getWork(parentTask.getActualStart(), taskStartDate, TimeUnit.HOURS);
-            }
-
-            if (taskFinishDate != null)
-            {
-               remainingDuration = parentTask.getEffectiveCalendar().getWork(taskStartDate, taskFinishDate, TimeUnit.HOURS);
-            }
+            actualDuration = effectiveCalendar.getWork(parentTask.getActualStart(), parentTask.getActualFinish(), TimeUnit.HOURS);
+            remainingDuration = Duration.getInstance(0, TimeUnit.HOURS);
          }
-      }
-      else
-      {
-         actualDuration = parentTask.getEffectiveCalendar().getWork(parentTask.getActualStart(), parentTask.getActualFinish(), TimeUnit.HOURS);
-         remainingDuration = Duration.getInstance(0, TimeUnit.HOURS);
-      }
 
-      if (actualDuration != null && actualDuration.getDuration() < 0)
-      {
-         actualDuration = null;
-      }
+         if (actualDuration != null && actualDuration.getDuration() < 0)
+         {
+            actualDuration = null;
+         }
 
-      if (remainingDuration != null && remainingDuration.getDuration() < 0)
-      {
-         remainingDuration = null;
+         if (remainingDuration != null && remainingDuration.getDuration() < 0)
+         {
+            remainingDuration = null;
+         }
+
+         duration = Duration.add(actualDuration, remainingDuration, effectiveCalendar);
       }
 
       parentTask.setActualDuration(actualDuration);
       parentTask.setRemainingDuration(remainingDuration);
-      parentTask.setDuration(Duration.add(actualDuration, remainingDuration, parentTask.getEffectiveCalendar()));
+      parentTask.setDuration(duration);
 
       if (plannedDuration != null && remainingDuration != null && plannedDuration.getDuration() != 0)
       {
