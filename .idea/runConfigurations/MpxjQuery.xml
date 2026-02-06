@@ -2,7 +2,7 @@
   <configuration default="false" name="MpxjQuery" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="org.mpxj.sample.MpxjQuery" />
     <module name="mpxj" />
-    <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/../Downloads/timephased-cost-per-use.mpp" />
+    <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/../Downloads/timephased-splits.mpp" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="org.mpxj.sample.*" />

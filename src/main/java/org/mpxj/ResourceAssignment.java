@@ -3087,6 +3087,65 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return entry.getRate(getRateIndex().intValue());
    }
 
+   public List<LocalDateTimeRange> getWorkSplits()
+   {
+      List<TimephasedWork> actualWork = getRawTimephasedActualRegularWork();
+      List<TimephasedWork> remainingWork = getRawTimephasedRemainingRegularWork();
+      if (actualWork.isEmpty() && remainingWork.isEmpty())
+      {
+         return Collections.emptyList();
+      }
+
+      List<LocalDateTimeRange> result = new ArrayList<>();
+      LocalDateTimeRange lastRange = null;
+      ProjectCalendar calendar = getEffectiveCalendar();
+      for (TimephasedWork work : actualWork)
+      {
+         // If we have a block representing non-working time, move on.
+         if (work.getTotalAmount().getDuration() == 0.0)
+         {
+            lastRange = null;
+            continue;
+         }
+
+         // We have a previous working range, and the current range can be merged with it
+         if (lastRange != null && (lastRange.getEnd().isEqual(work.getStart()) || calendar.getWork(lastRange.getEnd(), work.getStart(), TimeUnit.HOURS).getDuration() == 0.0))
+         {
+            result.remove(result.size()-1);
+            lastRange = new LocalDateTimeRange(lastRange.getStart(), work.getFinish());
+            result.add(lastRange);
+            continue;
+         }
+
+         lastRange = new LocalDateTimeRange(work.getStart(), work.getFinish());
+         result.add(lastRange);
+      }
+
+      for (TimephasedWork work : remainingWork)
+      {
+         // If we have a block representing non-working time, move on.
+         if (work.getTotalAmount().getDuration() == 0.0)
+         {
+            lastRange = null;
+            continue;
+         }
+
+         // We have a previous working range, and the current range can be merged with it
+         if (lastRange != null && (lastRange.getEnd().isEqual(work.getStart()) || calendar.getWork(lastRange.getEnd(), work.getStart(), TimeUnit.HOURS).getDuration() == 0.0))
+         {
+            result.remove(result.size()-1);
+            lastRange = new LocalDateTimeRange(lastRange.getStart(), work.getFinish());
+            result.add(lastRange);
+            continue;
+         }
+
+         lastRange = new LocalDateTimeRange(work.getStart(), work.getFinish());
+         result.add(lastRange);
+      }
+
+      return result;
+   }
+
    /**
     * Retrieve the resource assignment code values associated with this resource assignment.
     *
