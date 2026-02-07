@@ -3634,61 +3634,67 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
       int index1 = 0;
       int index2 = 0;
-      LocalDateTimeRange range1 =  l1.get(index1);
-      LocalDateTimeRange range2 =  l1.get(index2);
       List<LocalDateTimeRange> result = new ArrayList<>();
+      ProjectCalendar calendar = getEffectiveCalendar();
 
       while (index1 < l1.size() && index2 < l2.size())
       {
+         LocalDateTimeRange range1 =  l1.get(index1);
+         LocalDateTimeRange range2 =  l2.get(index2);
+
          if (range1.isBefore(range2))
          {
-            addWorkSplit(result, range1);
-            range1 = l1.get(++index1);
+            addWorkSplit(calendar, result, range1);
+            index1++;
             continue;
          }
 
          if (range2.isBefore(range1))
          {
-            addWorkSplit(result, range2);
-            range2 = l2.get(++index2);
+            addWorkSplit(calendar, result, range2);
+            index2++;
             continue;
          }
 
          if (range1.compareTo(range2) == 0)
          {
-            addWorkSplit(result, range1);
-            range1 = l1.get(++index1);
-            range2 = l2.get(++index2);
+            addWorkSplit(calendar, result, range1);
+            index1++;
+            index2++;
             continue;
          }
 
-         addWorkSplit(result, new LocalDateTimeRange(LocalDateTimeHelper.min(range1.getStart(), range2.getStart()), LocalDateTimeHelper.max(range1.getEnd(), range2.getEnd())));
-         ++index1;
-         ++index2;
+         addWorkSplit(calendar, result, new LocalDateTimeRange(LocalDateTimeHelper.min(range1.getStart(), range2.getStart()), LocalDateTimeHelper.max(range1.getEnd(), range2.getEnd())));
+         index1++;
+         index2++;
       }
 
       if (index1 != l1.size())
       {
-         result.addAll(l1.subList(index1, l1.size()));
+         l1.subList(index1, l1.size()).forEach(r -> addWorkSplit(calendar, result, r));
       }
       else
       {
          if (index2 != l2.size())
          {
-            result.addAll(l2.subList(index2, l2.size()));
+            l2.subList(index2, l2.size()).forEach(r -> addWorkSplit(calendar, result, r));
          }
       }
 
       return result;
    }
 
-   private void addWorkSplit(List<LocalDateTimeRange> ranges, LocalDateTimeRange range)
+   private void addWorkSplit(ProjectCalendar calendar, List<LocalDateTimeRange> ranges, LocalDateTimeRange range)
    {
-      if (ranges.get(ranges.size()-1).getEnd().isEqual(range.getStart()))
+      if (!ranges.isEmpty())
       {
-         LocalDateTimeRange oldRange = ranges.remove(ranges.size()-1);
-         ranges.add(new LocalDateTimeRange(oldRange.getStart(), range.getEnd()));
-         return;
+         LocalDateTime lastRangeEnd = ranges.get(ranges.size() - 1).getEnd();
+         if (lastRangeEnd.isEqual(range.getStart()) || calendar.getWork(lastRangeEnd, range.getStart(), TimeUnit.HOURS).getDuration() == 0)
+         {
+            LocalDateTimeRange oldRange = ranges.remove(ranges.size() - 1);
+            ranges.add(new LocalDateTimeRange(oldRange.getStart(), range.getEnd()));
+            return;
+         }
       }
       ranges.add(range);
    }
