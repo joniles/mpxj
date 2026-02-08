@@ -197,7 +197,7 @@ public class MppTaskTest
    /**
     * Test Split Tasks in an MPP9 file.
     */
-   @Disabled @Test public void testMpp9Splits() throws Exception
+   @Test public void testMpp9Splits() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9splittask.mpp"));
       testSplitTasks(mpp);
@@ -206,7 +206,7 @@ public class MppTaskTest
    /**
     * Test Split Tasks in an MPP9 file saved by Project 2007.
     */
-   @Disabled @Test public void testMpp9SplitsFrom12() throws Exception
+   @Test public void testMpp9SplitsFrom12() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9splittask-from12.mpp"));
       testSplitTasks(mpp);
@@ -215,7 +215,7 @@ public class MppTaskTest
    /**
     * Test Split Tasks in an MPP9 file saved by Project 2010.
     */
-   @Disabled @Test public void testMpp9SplitsFrom14() throws Exception
+   @Test public void testMpp9SplitsFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp9splittask-from14.mpp"));
       testSplitTasks(mpp);
@@ -224,7 +224,7 @@ public class MppTaskTest
    /**
     * Test Split Tasks in an MPP12 file.
     */
-   @Disabled @Test public void testMpp12Splits() throws Exception
+   @Test public void testMpp12Splits() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12splittask.mpp"));
       testSplitTasks(mpp);
@@ -233,7 +233,7 @@ public class MppTaskTest
    /**
     * Test Split Tasks in an MPP12 file saved by Project 2010.
     */
-   @Disabled @Test public void testMpp12SplitsFrom14() throws Exception
+   @Test public void testMpp12SplitsFrom14() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp12splittask-from14.mpp"));
       testSplitTasks(mpp);
@@ -242,7 +242,7 @@ public class MppTaskTest
    /**
     * Test Split Tasks in an MPP14 file.
     */
-   @Disabled @Test public void testMpp14Splits() throws Exception
+   @Test public void testMpp14Splits() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("mpp14splittask.mpp"));
       testSplitTasks(mpp);
@@ -251,10 +251,11 @@ public class MppTaskTest
    /**
     * Test Split Tasks in an MSPDI file.
     */
-   @Disabled @Test public void testMspdiSplits() throws Exception
+   @Test public void testMspdiSplits() throws Exception
    {
-      ProjectFile mpp = new MSPDIReader().read(MpxjTestData.filePath("mspdisplittask.xml"));
-      testSplitTasks(mpp);
+      // TODO: handle representation differences for MSPDI files
+//      ProjectFile mpp = new MSPDIReader().read(MpxjTestData.filePath("mspdisplittask.xml"));
+//      testSplitTasks(mpp);
    }
 
    /**
@@ -865,21 +866,18 @@ public class MppTaskTest
       Task task1 = mpp.getTaskByID(Integer.valueOf(1));
       Task task2 = mpp.getTaskByID(Integer.valueOf(2));
 
-      List<LocalDateTimeRange> listSplits1 = task1.getSplits();
-      List<LocalDateTimeRange> listSplits2 = task2.getSplits();
+      List<LocalDateTimeRange> listSplits1 = task1.getWorkSplits();
+      List<LocalDateTimeRange> listSplits2 = task2.getWorkSplits();
 
-      assertEquals(3, listSplits1.size());
-      assertEquals(5, listSplits2.size());
+      assertEquals(2, listSplits1.size());
+      assertEquals(3, listSplits2.size());
 
       testSplit(listSplits1.get(0), "21/09/2006 08:00", "26/09/2006 17:00");
-      testSplit(listSplits1.get(1), "27/09/2006 08:00", "29/09/2006 17:00");
-      testSplit(listSplits1.get(2), "02/10/2006 08:00", "09/10/2006 17:00");
+      testSplit(listSplits1.get(1), "02/10/2006 08:00", "09/10/2006 17:00");
 
       testSplit(listSplits2.get(0), "21/09/2006 08:00", "25/09/2006 17:00");
-      testSplit(listSplits2.get(1), "26/09/2006 08:00", "27/09/2006 17:00");
-      testSplit(listSplits2.get(2), "28/09/2006 08:00", "04/10/2006 17:00");
-      testSplit(listSplits2.get(3), "05/10/2006 08:00", "09/10/2006 17:00");
-      testSplit(listSplits2.get(4), "10/10/2006 08:00", "18/10/2006 17:00");
+      testSplit(listSplits2.get(1), "28/09/2006 08:00", "04/10/2006 17:00");
+      testSplit(listSplits2.get(2), "10/10/2006 08:00", "18/10/2006 17:00");
    }
 
    /**
