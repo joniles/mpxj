@@ -727,6 +727,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       {
          result = getDefaultCalendar();
       }
+
       return result;
    }
 

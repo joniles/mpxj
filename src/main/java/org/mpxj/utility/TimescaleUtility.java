@@ -29,6 +29,7 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.mpp.TimescaleUnits;
@@ -44,16 +45,19 @@ public final class TimescaleUtility
     * selected as the timescale units, this method will create an array of
     * ranges, each one representing a month. The number of entries in the
     * array is determined by the segment count.
-    *
+    * <p/>
     * Each of these date ranges is equivalent one of the columns displayed by
     * MS Project when viewing data with a "timescale" at the top of the page.
+    * <p/>
+    * Note that the ranges returned by this method are "half open". So for time
+    * t to be within a range the following must be true: start <= t < end.
     *
     * @param startDate start date
     * @param segmentUnit units to be represented by each segment (column)
     * @param segmentCount number of segments (columns) required
     * @return list of date ranges
     */
-   public final ArrayList<LocalDateTimeRange> createTimescale(LocalDateTime startDate, TimescaleUnits segmentUnit, int segmentCount)
+   public final List<LocalDateTimeRange> createTimescale(LocalDateTime startDate, TimescaleUnits segmentUnit, int segmentCount)
    {
       ArrayList<LocalDateTimeRange> result = new ArrayList<>(segmentCount);
 
@@ -154,8 +158,7 @@ public final class TimescaleUtility
             cal = cal.plus(calendarIncrementAmount, calendarIncrementUnit);
          }
 
-         LocalDateTime rangeEnd = cal.minus(1, ChronoUnit.MILLIS);
-         result.add(new LocalDateTimeRange(rangeStart, rangeEnd));
+         result.add(new LocalDateTimeRange(rangeStart, cal));
       }
 
       return result;

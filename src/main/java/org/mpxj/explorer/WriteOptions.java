@@ -36,14 +36,6 @@ class WriteOptions
    }
 
    /**
-    * Toggle the state of the split timephased data as days flag.
-    */
-   public void toggleSplitTimephasedDataAsDays()
-   {
-      m_splitTimephaseDataAsDays = !m_splitTimephaseDataAsDays;
-   }
-
-   /**
     * Toggle the state of the write all flag.
     */
    public void toggleWriteAll()
@@ -62,16 +54,6 @@ class WriteOptions
    }
 
    /**
-    * Retrieve the split timephased data as days flag.
-    *
-    * @return split timephased data as days flag
-    */
-   public boolean getSplitTimephasedDataAsDays()
-   {
-      return m_splitTimephaseDataAsDays;
-   }
-
-   /**
     * Retrieve the write all flag.
     *
     * @return write all flag
@@ -83,5 +65,4 @@ class WriteOptions
 
    private boolean m_writeAll;
    private boolean m_writeTimephasedData;
-   private boolean m_splitTimephaseDataAsDays;
 }

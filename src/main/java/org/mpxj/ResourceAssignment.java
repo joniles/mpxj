@@ -25,26 +25,28 @@
 package org.mpxj;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import org.mpxj.common.AssignmentFieldLists;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.CombinedCalendar;
-import org.mpxj.common.DefaultTimephasedCostContainer;
 import org.mpxj.common.LocalDateTimeHelper;
-import org.mpxj.common.LocalTimeHelper;
 import org.mpxj.common.NumberHelper;
+import org.mpxj.common.RateHelper;
+import org.mpxj.utility.TimephasedUtility;
 
 /**
  * This class represents a resource assignment record from an MPX file.
@@ -663,32 +665,14 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased planned work
     */
-   public List<TimephasedWork> getTimephasedPlannedWork()
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedPlannedWork()
    {
-      TimephasedWorkContainer container = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_PLANNED_WORK);
-      return container == null ? null : container.getData();
+      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_PLANNED_WORK);
    }
 
-   /**
-    * Sets the timephased breakdown of the planned work for this
-    * resource assignment.
-    *
-    * @param data timephased data
-    */
-   public void setTimephasedPlannedWork(TimephasedWorkContainer data)
+   public List<Duration> getTimephasedPlannedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      set(AssignmentField.TIMEPHASED_PLANNED_WORK, data);
-   }
-
-   /**
-    * Sets the timephased breakdown of the planned work for this
-    * resource assignment.
-    *
-    * @param data timephased data
-    */
-   public void setTimephasedPlannedWork(List<TimephasedWork> data)
-   {
-      set(AssignmentField.TIMEPHASED_PLANNED_WORK, createTimephasedWorkContainer(data));
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedPlannedWork(), ranges, units);
    }
 
    /**
@@ -697,32 +681,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased completed work
     */
-   public List<TimephasedWork> getTimephasedActualWork()
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedActualRegularWork()
    {
-      TimephasedWorkContainer container = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_ACTUAL_WORK);
-      return container == null ? null : container.getData();
-   }
-
-   /**
-    * Sets the timephased breakdown of the completed work for this
-    * resource assignment.
-    *
-    * @param data timephased data
-    */
-   public void setTimephasedActualWork(TimephasedWorkContainer data)
-   {
-      set(AssignmentField.TIMEPHASED_ACTUAL_WORK, data);
-   }
-
-   /**
-    * Sets the timephased breakdown of the completed work for this
-    * resource assignment.
-    *
-    * @param data timephased data
-    */
-   public void setTimephasedActualWork(List<TimephasedWork> data)
-   {
-      set(AssignmentField.TIMEPHASED_ACTUAL_WORK, createTimephasedWorkContainer(data));
+      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_REGULAR_WORK);
    }
 
    /**
@@ -731,32 +692,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased planned work
     */
-   public List<TimephasedWork> getTimephasedWork()
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedRemainingRegularWork()
    {
-      TimephasedWorkContainer container = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_WORK);
-      return container == null ? null : container.getData();
-   }
-
-   /**
-    * Sets the timephased breakdown of the planned work for this
-    * resource assignment.
-    *
-    * @param data timephased data
-    */
-   public void setTimephasedWork(TimephasedWorkContainer data)
-   {
-      set(AssignmentField.TIMEPHASED_WORK, data);
-   }
-
-   /**
-    * Sets the timephased breakdown of the planned work for this
-    * resource assignment.
-    *
-    * @param data timephased data
-    */
-   public void setTimephasedWork(List<TimephasedWork> data)
-   {
-      set(AssignmentField.TIMEPHASED_WORK, createTimephasedWorkContainer(data));
+      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK);
    }
 
    /**
@@ -765,47 +703,44 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased planned work
     */
-   public List<TimephasedWork> getTimephasedOvertimeWork()
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedRemainingOvertimeWork()
    {
-      TimephasedWorkContainer overtimeWorkContainer = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_OVERTIME_WORK);
-      if (overtimeWorkContainer == null)
-      {
-         TimephasedWorkContainer workContainer = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_WORK);
-         if (workContainer != null && getOvertimeWork() != null)
-         {
-            double perDayFactor = getRemainingOvertimeWork().getDuration() / (getRemainingWork().getDuration() - getRemainingOvertimeWork().getDuration());
-            double totalFactor = getRemainingOvertimeWork().getDuration() / getRemainingWork().getDuration();
-
-            perDayFactor = Double.isNaN(perDayFactor) ? 0 : perDayFactor;
-            totalFactor = Double.isNaN(totalFactor) ? 0 : totalFactor;
-
-            overtimeWorkContainer = workContainer.applyFactor(perDayFactor, totalFactor);
-         }
-      }
-
-      return overtimeWorkContainer == null ? null : overtimeWorkContainer.getData();
+      return (List<TimephasedWork>)get(AssignmentField.TIMEPHASED_REMAINING_OVERTIME_WORK);
    }
 
-   /**
-    * Sets the timephased breakdown of the actual overtime work
-    * for this assignment.
-    *
-    * @param data timephased work
-    */
-   public void setTimephasedActualOvertimeWork(TimephasedWorkContainer data)
+   public List<Duration> getTimephasedActualRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      set(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK, data);
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualRegularWork(), ranges, units);
    }
 
-   /**
-    * Sets the timephased breakdown of the actual overtime work
-    * for this assignment.
-    *
-    * @param data timephased work
-    */
-   public void setTimephasedActualOvertimeWork(List<TimephasedWork> data)
+   public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      set(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK, createTimephasedWorkContainer(data));
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualOvertimeWork(), ranges, units);
+   }
+
+   public List<Duration> getTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.addTimephasedWork(getTimephasedActualRegularWork(ranges, units), getTimephasedActualOvertimeWork(ranges, units));
+   }
+
+   public List<Duration> getTimephasedRemainingRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedRemainingRegularWork(), ranges, units);
+   }
+
+   public List<Duration> getTimephasedRemainingOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedRemainingOvertimeWork(), ranges, units);
+   }
+
+   public List<Duration> getTimephasedRemainingWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.addTimephasedWork(getTimephasedRemainingRegularWork(ranges, units), getTimephasedRemainingOvertimeWork(ranges, units));
+   }
+
+   public List<Duration> getTimephasedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.addTimephasedWork(getTimephasedActualWork(ranges, units), getTimephasedRemainingWork(ranges, units));
    }
 
    /**
@@ -814,231 +749,254 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased planned work
     */
-   public List<TimephasedWork> getTimephasedActualOvertimeWork()
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedActualOvertimeWork()
    {
-      TimephasedWorkContainer container = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK);
-      return container == null ? null : container.getData();
+      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK);
    }
 
-   /**
-    * Retrieves the timephased breakdown of cost.
-    *
-    * @return timephased cost
-    */
-   public List<TimephasedCost> getTimephasedCost()
+   public List<Number> getTimephasedRemainingRegularCost(List<LocalDateTimeRange> ranges)
    {
-      TimephasedCostContainer costContainer = (TimephasedCostContainer) get(AssignmentField.TIMEPHASED_COST);
-      if (costContainer == null)
+      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
+
+      if (type == ResourceType.COST)
       {
-         Resource r = getResource();
-         ResourceType type = r != null ? r.getType() : ResourceType.WORK;
-
-         // For Work and Material resources, we will calculate in the normal way
-         if (type != ResourceType.COST)
-         {
-            TimephasedWorkContainer timephasedWork = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_WORK);
-            if (timephasedWork != null && timephasedWork.hasData())
-            {
-               if (hasMultipleCostRates())
-               {
-                  costContainer = getTimephasedCostMultipleRates(getTimephasedWork(), getTimephasedOvertimeWork());
-               }
-               else
-               {
-                  costContainer = getTimephasedCostSingleRate(getTimephasedWork(), getTimephasedOvertimeWork());
-               }
-            }
-         }
-         else
-         {
-            costContainer = getTimephasedCostFixedAmount();
-         }
-
+         return getTimephasedCostResourceRemainingCost(ranges);
       }
-      return costContainer == null ? null : costContainer.getData();
+
+      List<Number> result;
+      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
+      switch(accrueAt)
+      {
+         case START:
+         {
+            result = getTimephasedRemainingCostAccruedAtStart(ranges,
+               () -> Double.valueOf(NumberHelper.getDouble(getCost()) - NumberHelper.getDouble(getOvertimeCost())),
+               () -> Double.valueOf(NumberHelper.getDouble(getRemainingCost()) - NumberHelper.getDouble(getRemainingOvertimeCost())));
+            break;
+         }
+         case END:
+         {
+            result = getTimephasedRemainingCostAccruedAtEnd(ranges,
+               () -> Double.valueOf(NumberHelper.getDouble(getCost()) - NumberHelper.getDouble(getOvertimeCost())),
+               () -> Double.valueOf(NumberHelper.getDouble(getRemainingCost()) - NumberHelper.getDouble(getRemainingOvertimeCost())));
+            break;
+         }
+
+         default:
+         {
+            result = getTimephasedCost(ranges, 0, (List<LocalDateTimeRange> r) -> getTimephasedRemainingRegularWork(r, TimeUnit.HOURS));
+            break;
+         }
+      }
+
+      return addTimephasedRemainingCostPerUse(ranges, result);
    }
 
-   /**
-    * Retrieves the timephased breakdown of actual cost.
-    *
-    * @return timephased actual cost
-    */
-   public List<TimephasedCost> getTimephasedActualCost()
+   public List<Number> getTimephasedRemainingOvertimeCost(List<LocalDateTimeRange> ranges)
    {
-      TimephasedCostContainer actualCost = (TimephasedCostContainer) get(AssignmentField.TIMEPHASED_ACTUAL_COST);
-      if (actualCost == null)
+      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
+
+      if (type == ResourceType.COST)
       {
-         Resource r = getResource();
-         ResourceType type = r != null ? r.getType() : ResourceType.WORK;
-
-         // For Work and Material resources, we will calculate in the normal way
-         if (type != ResourceType.COST)
-         {
-            TimephasedWorkContainer actualWorkContainer = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_ACTUAL_WORK);
-            if (actualWorkContainer != null && actualWorkContainer.hasData())
-            {
-               if (hasMultipleCostRates())
-               {
-                  actualCost = getTimephasedCostMultipleRates(getTimephasedActualWork(), getTimephasedActualOvertimeWork());
-               }
-               else
-               {
-                  actualCost = getTimephasedCostSingleRate(getTimephasedActualWork(), getTimephasedActualOvertimeWork());
-               }
-            }
-         }
-         else
-         {
-            actualCost = getTimephasedActualCostFixedAmount();
-         }
-
+         // Cost resources don't have overtime
+         return Arrays.asList(new Number[ranges.size()]);
       }
 
-      return actualCost == null ? null : actualCost.getData();
+      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
+      switch(accrueAt)
+      {
+         case START:
+         {
+            return getTimephasedRemainingCostAccruedAtStart(ranges, this::getOvertimeCost, this::getRemainingOvertimeCost);
+         }
+         case END:
+         {
+            return getTimephasedRemainingCostAccruedAtEnd(ranges, this::getOvertimeCost, this::getRemainingOvertimeCost);
+         }
+
+         default:
+         {
+            return getTimephasedCost(ranges, 1, (List<LocalDateTimeRange> r) -> getTimephasedRemainingOvertimeWork(r, TimeUnit.HOURS));
+         }
+      }
    }
 
-   /**
-    * Generates timephased costs from timephased work where a single cost rate
-    * applies to the whole assignment.
-    *
-    * @param standardWorkList timephased work
-    * @param overtimeWorkList timephased work
-    * @return timephased cost
-    */
-   private TimephasedCostContainer getTimephasedCostSingleRate(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
+   public List<Number> getTimephasedRemainingCost(List<LocalDateTimeRange> ranges)
    {
-      //just return an empty list if there is no timephased work passed in
-      if (standardWorkList == null)
-      {
-         return new DefaultTimephasedCostContainer(this, null, Collections.emptyList(), false);
-      }
-
-      List<TimephasedCost> result = new ArrayList<>();
-
-      //takes care of the situation where there is no timephased overtime work
-      Iterator<TimephasedWork> overtimeIterator = overtimeWorkList == null ? Collections.emptyIterator() : overtimeWorkList.iterator();
-
-      for (TimephasedWork standardWork : standardWorkList)
-      {
-         CostRateTableEntry rate = getCostRateTableEntry(standardWork.getStart());
-         double standardRateValue = rate.getStandardRate().getAmount();
-         TimeUnit standardRateUnits = rate.getStandardRate().getUnits();
-         double overtimeRateValue = 0;
-         TimeUnit overtimeRateUnits = standardRateUnits;
-
-         if (rate.getOvertimeRate() != null)
-         {
-            overtimeRateValue = rate.getOvertimeRate().getAmount();
-            overtimeRateUnits = rate.getOvertimeRate().getUnits();
-         }
-
-         TimephasedWork overtimeWork = overtimeIterator.hasNext() ? overtimeIterator.next() : null;
-
-         Duration standardWorkPerDay = standardWork.getAmountPerDay();
-         if (standardWorkPerDay.getUnits() != standardRateUnits)
-         {
-            standardWorkPerDay = standardWorkPerDay.convertUnits(standardRateUnits, m_parentFile.getProjectProperties());
-         }
-
-         Duration totalStandardWork = standardWork.getTotalAmount();
-         if (totalStandardWork.getUnits() != standardRateUnits)
-         {
-            totalStandardWork = totalStandardWork.convertUnits(standardRateUnits, m_parentFile.getProjectProperties());
-         }
-
-         Duration overtimeWorkPerDay;
-         Duration totalOvertimeWork;
-
-         if (overtimeWork == null || overtimeWork.getTotalAmount().getDuration() == 0)
-         {
-            overtimeWorkPerDay = Duration.getInstance(0, standardWorkPerDay.getUnits());
-            totalOvertimeWork = Duration.getInstance(0, standardWorkPerDay.getUnits());
-         }
-         else
-         {
-            overtimeWorkPerDay = overtimeWork.getAmountPerDay();
-            if (overtimeWorkPerDay.getUnits() != overtimeRateUnits)
-            {
-               overtimeWorkPerDay = overtimeWorkPerDay.convertUnits(overtimeRateUnits, m_parentFile.getProjectProperties());
-            }
-
-            totalOvertimeWork = overtimeWork.getTotalAmount();
-            if (totalOvertimeWork.getUnits() != overtimeRateUnits)
-            {
-               totalOvertimeWork = totalOvertimeWork.convertUnits(overtimeRateUnits, m_parentFile.getProjectProperties());
-            }
-         }
-
-         double costPerDay = (standardWorkPerDay.getDuration() * standardRateValue) + (overtimeWorkPerDay.getDuration() * overtimeRateValue);
-         double totalCost = (totalStandardWork.getDuration() * standardRateValue) + (totalOvertimeWork.getDuration() * overtimeRateValue);
-
-         //if the overtime work does not span the same number of days as the work,
-         //then we have to split this into two TimephasedCost values
-         if (overtimeWork == null || (overtimeWork.getFinish().equals(standardWork.getFinish())))
-         {
-            //normal way
-            TimephasedCost cost = new TimephasedCost();
-            cost.setStart(standardWork.getStart());
-            cost.setFinish(standardWork.getFinish());
-            cost.setModified(standardWork.getModified());
-            cost.setAmountPerDay(Double.valueOf(costPerDay));
-            cost.setTotalAmount(Double.valueOf(totalCost));
-            result.add(cost);
-
-         }
-         else
-         {
-            //prorated way
-            result.addAll(splitCostProrated(getEffectiveCalendar(), totalCost, costPerDay, standardWork.getStart()));
-         }
-
-      }
-
-      return new DefaultTimephasedCostContainer(this, null, result, false);
+      return TimephasedUtility.addTimephasedCost(getTimephasedRemainingRegularCost(ranges), getTimephasedRemainingOvertimeCost(ranges));
    }
 
-   /**
-    * Generates timephased costs from timephased work where multiple cost rates
-    * apply to the assignment.
-    *
-    * @param standardWorkList timephased work
-    * @param overtimeWorkList timephased work
-    * @return timephased cost
-    */
-   private TimephasedCostContainer getTimephasedCostMultipleRates(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
+   public List<Number> getTimephasedActualRegularCost(List<LocalDateTimeRange> ranges)
    {
-      List<TimephasedWork> standardWorkResult = new ArrayList<>();
-      List<TimephasedWork> overtimeWorkResult = new ArrayList<>();
-      CostRateTable table = getCostRateTable();
-      ProjectCalendar calendar = getEffectiveCalendar();
+      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
 
-      Iterator<TimephasedWork> iter = overtimeWorkList.iterator();
-      for (TimephasedWork standardWork : standardWorkList)
+      if (type == ResourceType.COST)
       {
-         TimephasedWork overtimeWork = iter.hasNext() ? iter.next() : null;
+         return getTimephasedCostResourceActualCost(ranges);
+      }
 
-         int startIndex = getCostRateTableEntryIndex(standardWork.getStart());
-         int finishIndex = getCostRateTableEntryIndex(standardWork.getFinish());
-
-         if (startIndex == finishIndex)
+      List<Number> result;
+      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
+      switch(accrueAt)
+      {
+         case START:
          {
-            standardWorkResult.add(standardWork);
-            if (overtimeWork != null)
-            {
-               overtimeWorkResult.add(overtimeWork);
-            }
+            result = getTimephasedActualCostAccruedAtStart(ranges, () -> Double.valueOf(NumberHelper.getDouble(getActualCost()) - NumberHelper.getDouble(getActualOvertimeCost())));
+            break;
          }
-         else
+
+         case END:
          {
-            standardWorkResult.addAll(splitWork(table, calendar, standardWork, startIndex));
-            if (overtimeWork != null)
-            {
-               overtimeWorkResult.addAll(splitWork(table, calendar, overtimeWork, startIndex));
-            }
+            result = getTimephasedActualCostAccruedAtEnd(ranges, () -> Double.valueOf(NumberHelper.getDouble(getActualCost()) - NumberHelper.getDouble(getActualOvertimeCost())));
+            break;
+         }
+
+         default:
+         {
+            result = getTimephasedCost(ranges, 0, (List<LocalDateTimeRange> r) -> getTimephasedActualRegularWork(r, TimeUnit.HOURS));
+            break;
          }
       }
 
-      return getTimephasedCostSingleRate(standardWorkResult, overtimeWorkResult);
+      return addTimephasedActualCostPerUse(ranges, result);
+   }
+
+   public List<Number> getTimephasedActualOvertimeCost(List<LocalDateTimeRange> ranges)
+   {
+      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
+
+      if (type == ResourceType.COST)
+      {
+         // Cost resources don't have overtime
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
+      switch(accrueAt)
+      {
+         case START:
+         {
+            return getTimephasedActualCostAccruedAtStart(ranges, this::getActualOvertimeCost);
+         }
+         case END:
+         {
+            return getTimephasedActualCostAccruedAtEnd(ranges, this::getActualOvertimeCost);
+         }
+
+         default:
+         {
+            return getTimephasedCost(ranges, 1, (List<LocalDateTimeRange> r) -> getTimephasedActualOvertimeWork(r, TimeUnit.HOURS));
+         }
+      }
+   }
+
+   public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.addTimephasedCost(getTimephasedActualRegularCost(ranges), getTimephasedActualOvertimeCost(ranges));
+   }
+
+   public List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.addTimephasedCost(getTimephasedActualCost(ranges), getTimephasedRemainingCost(ranges));
+   }
+
+   private List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges, int rateIndex, Function<List<LocalDateTimeRange>, List<Duration>> timephasedWork)
+   {
+      if (ranges == null || ranges.isEmpty())
+      {
+         return Collections.emptyList();
+      }
+
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      Number[] result = new Number[ranges.size()];
+
+      // If the ranges are outside the assignment, return null values
+      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
+      {
+         return Arrays.asList(result);
+      }
+
+      // If there is no work, return null values
+      List<Duration> hours = timephasedWork.apply(ranges);
+      if (hours == null || hours.isEmpty())
+      {
+         return Arrays.asList(result);
+      }
+
+      List<CostRateTableEntry> rates = getCostRateTable().getEntriesByRange(new LocalDateTimeRange(ranges.get(0).getStart(), ranges.get(ranges.size()-1).getEnd()));
+      if (rates.isEmpty())
+      {
+         return Arrays.asList(result);
+      }
+
+      // We're assuming that the cost rate table entries are in order
+      int costRateTableEntryIndex = 0;
+      CostRateTableEntry currentRate = rates.get(costRateTableEntryIndex);
+
+      for (int index=0; index <  ranges.size(); index++)
+      {
+         Duration work = hours.get(index);
+         if (work == null)
+         {
+            continue;
+         }
+
+         if (work.getDuration() == 0.0)
+         {
+            result[index] = Double.valueOf(0);
+         }
+
+         LocalDateTimeRange range = ranges.get(index);
+         while (!currentRate.getEndDate().isAfter(range.getStart()) && costRateTableEntryIndex < rates.size())
+         {
+            currentRate = rates.get(++costRateTableEntryIndex);
+         }
+
+         // The cost rate table entries end before our ranges end - just return what we have
+         if (costRateTableEntryIndex == rates.size())
+         {
+            break;
+         }
+
+         // Our range doesn't pass the end of this cost rate table entry - we can perform the calculation in one go
+         if (!range.getEnd().isAfter(currentRate.getEndDate()))
+         {
+            Rate rate = getRatePerHour(currentRate.getRate(rateIndex));
+            result[index] = Double.valueOf(work.getDuration() * rate.getAmount());
+            continue;
+         }
+
+         // Multiple rates are in operation over this range.
+         double total = 0;
+         LocalDateTimeRange subRange = new LocalDateTimeRange(range.getStart(), currentRate.getEndDate());
+         while (true)
+         {
+            work = timephasedWork.apply(Collections.singletonList(subRange)).get(0);
+            Rate rate = getRatePerHour(currentRate.getRate(rateIndex));
+            total += (work.getDuration() * rate.getAmount());
+            if (subRange.getEnd().equals(range.getEnd()))
+            {
+               break;
+            }
+
+            currentRate = rates.get(++costRateTableEntryIndex);
+            subRange =  new LocalDateTimeRange(currentRate.getStartDate(), currentRate.getEndDate().isAfter(range.getEnd()) ? range.getEnd() : currentRate.getEndDate());
+         }
+
+         result[index] = Double.valueOf(total);
+      }
+
+      return Arrays.asList(result);
+   }
+
+   private Rate getRatePerHour(Rate rate)
+   {
+      if (rate.getUnits() == TimeUnit.HOURS)
+      {
+         return rate;
+      }
+
+      return Rate.valueOf(RateHelper.convertToHours(getEffectiveCalendar(), rate), TimeUnit.HOURS);
    }
 
    /**
@@ -1046,374 +1004,394 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @return timephased cost
     */
-   private TimephasedCostContainer getTimephasedCostFixedAmount()
+   private List<Number> getTimephasedCostResourceRemainingCost(List<LocalDateTimeRange> ranges)
    {
-      List<TimephasedCost> result = new ArrayList<>();
+      // If we have no ranges, return an empty list.
+      if (ranges.isEmpty())
+      {
+         return Collections.emptyList();
+      }
+
+      // If the ranges are outside the assignment, return null values
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      switch(getResource().getAccrueAt())
+      {
+         case START:
+         {
+            return getTimephasedRemainingCostAccruedAtStart(ranges, this::getCost, this::getRemainingCost);
+         }
+
+         case END:
+         {
+            return getTimephasedRemainingCostAccruedAtEnd(ranges, this::getCost, this::getRemainingCost);
+         }
+
+         default:
+         {
+            return getTimephasedRemainingCostProrata(assignmentRange, ranges);
+         }
+      }
+   }
+
+   private List<Number> getTimephasedCostResourceActualCost(List<LocalDateTimeRange> ranges)
+   {
+      // If we have no ranges, return an empty list.
+      if (ranges.isEmpty())
+      {
+         return Collections.emptyList();
+      }
+
+      // If the ranges are outside the assignment, return null values
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      switch(getResource().getAccrueAt())
+      {
+         case START:
+         {
+            return getTimephasedActualCostAccruedAtStart(ranges, this::getActualCost);
+         }
+
+         case END:
+         {
+            return getTimephasedActualCostAccruedAtEnd(ranges, this::getActualCost);
+         }
+
+         default:
+         {
+            return getTimephasedActualCostProrata(assignmentRange, ranges);
+         }
+      }
+   }
+
+   private List<Number> getTimephasedRemainingCostAccruedAtStart(List<LocalDateTimeRange> ranges, Supplier<Number> totalCost, Supplier<Number> remainingCost)
+   {
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      Number[] result = new Number[ranges.size()];
+
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         ++rangeIndex;
+      }
+
+      if (rangeIndex ==  ranges.size())
+      {
+         return Arrays.asList(result);
+      }
+
+      if (NumberHelper.getDouble(remainingCost.get()) == 0)
+      {
+         // The assignment has started, so there will already
+         // be actual cost timephased data for the entire cost.
+         // Return zero remaining cost for the whole assignment.
+         while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+         {
+            result[rangeIndex] = Double.valueOf(0);
+            rangeIndex++;
+         }
+         return Arrays.asList(result);
+      }
+
+      // The resource assignment has not started.
+      // The cost is allocated to the first segment of the assignment.
+      // The remainder of the assignment has zero cost.
+      result[rangeIndex++] = totalCost.get();
+      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         result[rangeIndex] = Double.valueOf(0);
+         rangeIndex++;
+      }
+
+      return Arrays.asList(result);
+   }
+
+   private List<Number> getTimephasedRemainingCostAccruedAtEnd(List<LocalDateTimeRange> ranges, Supplier<Number> totalCost, Supplier<Number> remainingCost)
+   {
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      Number[] result = new Number[ranges.size()];
+
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         ++rangeIndex;
+      }
+
+      // Fill the ranges covering the assignment with zero cost
+      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         result[rangeIndex] = Double.valueOf(0);
+         rangeIndex++;
+      }
+
+      if (NumberHelper.getDouble(remainingCost.get()) == 0)
+      {
+         // The assignment has finished, so there will already
+         // be actual cost timephased data for the entire cost
+         // so we'll just return;
+         return Arrays.asList(result);
+      }
+
+      // The last intersecting range includes the end of the assignment
+      // so we populate it with the cost.
+      if (ranges.get(rangeIndex-1).compareTo(getFinish()) == 0)
+      {
+         result[rangeIndex - 1] = totalCost.get();
+      }
+
+      return Arrays.asList(result);
+   }
+
+   private List<Number> getTimephasedRemainingCostProrata(LocalDateTimeRange assignmentRange, List<LocalDateTimeRange> ranges)
+   {
+      Number[] result = new Number[ranges.size()];
+
+      if (NumberHelper.getDouble(getRemainingCost()) == 0)
+      {
+         return Arrays.asList(result);
+      }
+
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         ++rangeIndex;
+      }
 
       ProjectCalendar cal = getEffectiveCalendar();
+      double workingHours = cal.getWork(getStart(), getFinish(), TimeUnit.HOURS).getDuration();
+      double amountPerHour = getCost().doubleValue() / workingHours;
 
-      double remainingCost = getRemainingCost().doubleValue();
-
-      if (remainingCost > 0)
+      while (rangeIndex < ranges.size())
       {
-         AccrueType accrueAt = getResource().getAccrueAt();
-
-         if (accrueAt == AccrueType.START)
+         LocalDateTimeRange intersection = assignmentRange.intersection(ranges.get(rangeIndex));
+         if (intersection == null)
          {
-            result.add(splitCostStart(cal, remainingCost, getStart()));
-         }
-         else
-            if (accrueAt == AccrueType.END)
-            {
-               result.add(splitCostEnd(cal, remainingCost, getFinish()));
-            }
-            else
-            {
-               //for prorated, we have to deal with it differently depending on whether
-               //any actual has been entered, since we want to mimic the other timephased data
-               //where planned and actual values do not overlap
-               double numWorkingDays = cal.getWork(getStart(), getFinish(), TimeUnit.DAYS).getDuration();
-               double standardAmountPerDay = getCost().doubleValue() / numWorkingDays;
-
-               if (getActualCost().intValue() > 0)
-               {
-                  //need to get three possible blocks of data: one for the possible partial amount
-                  //overlap with timephased actual cost; one with all the standard amount days
-                  //that happen after the actual cost stops; and one with any remaining
-                  //partial day cost amount
-
-                  int numActualDaysUsed = (int) Math.ceil(getActualCost().doubleValue() / standardAmountPerDay);
-                  LocalDateTime actualWorkFinish = cal.getDate(getStart(), Duration.getInstance(numActualDaysUsed, TimeUnit.DAYS));
-
-                  double partialDayActualAmount = getActualCost().doubleValue() % standardAmountPerDay;
-
-                  if (partialDayActualAmount > 0)
-                  {
-                     double dayAmount = standardAmountPerDay < remainingCost ? standardAmountPerDay - partialDayActualAmount : remainingCost;
-
-                     result.add(splitCostEnd(cal, dayAmount, actualWorkFinish));
-
-                     remainingCost -= dayAmount;
-                  }
-
-                  //see if there's anything left to work with
-                  if (remainingCost > 0)
-                  {
-                     //have to split up the amount into standard prorated amount days and whatever is left
-                     result.addAll(splitCostProrated(cal, remainingCost, standardAmountPerDay, cal.getNextWorkStart(actualWorkFinish)));
-                  }
-
-               }
-               else
-               {
-                  //no actual cost to worry about, so just a standard split from the beginning of the assignment
-                  result.addAll(splitCostProrated(cal, remainingCost, standardAmountPerDay, getStart()));
-               }
-            }
-      }
-
-      return new DefaultTimephasedCostContainer(this, null, result, false);
-   }
-
-   /**
-    * Generates timephased actual costs from the assignment's cost value. Used for Cost type Resources.
-    *
-    * @return timephased cost
-    */
-   private TimephasedCostContainer getTimephasedActualCostFixedAmount()
-   {
-      List<TimephasedCost> result = new ArrayList<>();
-
-      double actualCost = getActualCost().doubleValue();
-
-      if (actualCost > 0)
-      {
-         AccrueType accrueAt = getResource().getAccrueAt();
-
-         if (accrueAt == AccrueType.START)
-         {
-            result.add(splitCostStart(getEffectiveCalendar(), actualCost, getActualStart()));
-         }
-         else
-            if (accrueAt == AccrueType.END)
-            {
-               result.add(splitCostEnd(getEffectiveCalendar(), actualCost, getActualFinish()));
-            }
-            else
-            {
-               //for prorated, we have to deal with it differently; have to 'fill up' each
-               //day with the standard amount before going to the next one
-               double numWorkingDays = getEffectiveCalendar().getWork(getStart(), getFinish(), TimeUnit.DAYS).getDuration();
-               double standardAmountPerDay = getCost().doubleValue() / numWorkingDays;
-
-               result.addAll(splitCostProrated(getEffectiveCalendar(), actualCost, standardAmountPerDay, getActualStart()));
-            }
-      }
-
-      return new DefaultTimephasedCostContainer(this, null, result, false);
-   }
-
-   /**
-    * Used for Cost type Resources.
-    *
-    * Generates a TimephasedCost block for the total amount on the start date. This is useful
-    * for Cost resources that have an AccrueAt value of Start.
-    *
-    * @param calendar calendar used by this assignment
-    * @param totalAmount cost amount for this block
-    * @param start start date of the timephased cost block
-    * @return timephased cost
-    */
-   private TimephasedCost splitCostStart(ProjectCalendar calendar, double totalAmount, LocalDateTime start)
-   {
-      TimephasedCost cost = new TimephasedCost();
-      cost.setStart(start);
-      cost.setFinish(calendar.getDate(start, Duration.getInstance(1, TimeUnit.DAYS)));
-      cost.setAmountPerDay(Double.valueOf(totalAmount));
-      cost.setTotalAmount(Double.valueOf(totalAmount));
-
-      return cost;
-   }
-
-   /**
-    * Used for Cost type Resources.
-    *
-    * Generates a TimephasedCost block for the total amount on the finish date. This is useful
-    * for Cost resources that have an AccrueAt value of End.
-    *
-    * @param calendar calendar used by this assignment
-    * @param totalAmount cost amount for this block
-    * @param finish finish date of the timephased cost block
-    * @return timephased cost
-    */
-   private TimephasedCost splitCostEnd(ProjectCalendar calendar, double totalAmount, LocalDateTime finish)
-   {
-      TimephasedCost cost = new TimephasedCost();
-      ProjectCalendarHours hours = calendar.getHours(finish);
-      cost.setStart(LocalTimeHelper.setTime(finish, hours.get(0).getStart()));
-      cost.setFinish(finish);
-      cost.setAmountPerDay(Double.valueOf(totalAmount));
-      cost.setTotalAmount(Double.valueOf(totalAmount));
-
-      return cost;
-   }
-
-   /**
-    * Used for Cost type Resources.
-    *
-    * Generates up to two TimephasedCost blocks for a cost amount. The first block will contain
-    * all the days using the standardAmountPerDay, and a second block will contain any
-    * final amount that is not enough for a complete day. This is useful for Cost resources
-    * who have an AccrueAt value of Prorated.
-    *
-    * @param calendar calendar used by this assignment
-    * @param totalAmount cost amount to be prorated
-    * @param standardAmountPerDay cost amount for a normal working day
-    * @param start date of the first timephased cost block
-    * @return timephased cost
-    */
-   private List<TimephasedCost> splitCostProrated(ProjectCalendar calendar, double totalAmount, double standardAmountPerDay, LocalDateTime start)
-   {
-      List<TimephasedCost> result = new ArrayList<>();
-
-      double numStandardAmountDays = Math.floor(totalAmount / standardAmountPerDay);
-      double amountForLastDay = totalAmount % standardAmountPerDay;
-
-      //first block contains all the normal work at the beginning of the assignment's life, if any
-
-      if (numStandardAmountDays > 0)
-      {
-         LocalDateTime finishStandardBlock = calendar.getDate(start, Duration.getInstance(numStandardAmountDays, TimeUnit.DAYS));
-
-         TimephasedCost standardBlock = new TimephasedCost();
-         standardBlock.setAmountPerDay(Double.valueOf(standardAmountPerDay));
-         standardBlock.setStart(start);
-         standardBlock.setFinish(finishStandardBlock);
-         standardBlock.setTotalAmount(Double.valueOf(numStandardAmountDays * standardAmountPerDay));
-
-         result.add(standardBlock);
-
-         start = calendar.getNextWorkStart(finishStandardBlock);
-      }
-
-      //next block contains the partial day amount, if any
-      if (amountForLastDay > 0)
-      {
-         TimephasedCost nextBlock = new TimephasedCost();
-         nextBlock.setAmountPerDay(Double.valueOf(amountForLastDay));
-         nextBlock.setTotalAmount(Double.valueOf(amountForLastDay));
-         nextBlock.setStart(start);
-         nextBlock.setFinish(calendar.getDate(start, Duration.getInstance(1, TimeUnit.DAYS)));
-
-         result.add(nextBlock);
-      }
-
-      return result;
-   }
-
-   /**
-    * Splits timephased work segments in line with cost rates. Note that this is
-    * an approximation - where a rate changes during a working day, the second
-    * rate is used for the whole day.
-    *
-    * @param table cost rate table
-    * @param calendar calendar used by this assignment
-    * @param work timephased work segment
-    * @param rateIndex rate applicable at the start of the timephased work segment
-    * @return list of segments which replace the one supplied by the caller
-    */
-   private List<TimephasedWork> splitWork(CostRateTable table, ProjectCalendar calendar, TimephasedWork work, int rateIndex)
-   {
-      List<TimephasedWork> result = new ArrayList<>();
-      work.setTotalAmount(Duration.getInstance(0, work.getAmountPerDay().getUnits()));
-
-      while (true)
-      {
-         CostRateTableEntry rate = table.get(rateIndex);
-         LocalDateTime splitDate = rate.getEndDate();
-         if (!splitDate.isBefore(work.getFinish()))
-         {
-            result.add(work);
             break;
          }
 
-         LocalDateTime currentPeriodEnd = calendar.getPreviousWorkFinish(splitDate);
-
-         TimephasedWork currentPeriod = new TimephasedWork(work);
-         currentPeriod.setFinish(currentPeriodEnd);
-         result.add(currentPeriod);
-
-         LocalDateTime nextPeriodStart = calendar.getNextWorkStart(splitDate);
-         work.setStart(nextPeriodStart);
-
-         ++rateIndex;
+         double intersectionHours = cal.getWork(intersection.getStart(), intersection.getEnd(), TimeUnit.HOURS).getDuration();
+         result[rangeIndex] = Double.valueOf(intersectionHours * amountPerHour);
+         rangeIndex++;
       }
 
-      return result;
+      return Arrays.asList(result);
    }
 
-   /**
-    * Used to determine if multiple cost rates apply to this assignment.
-    *
-    * @return true if multiple cost rates apply to this assignment
-    */
-   private boolean hasMultipleCostRates()
+   private List<Number> getTimephasedActualCostAccruedAtStart(List<LocalDateTimeRange> ranges, Supplier<Number> actualCost)
    {
-      boolean result = false;
-      CostRateTable table = getCostRateTable();
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      Number[] result = new Number[ranges.size()];
 
-      //
-      // We assume here that if there is just one entry in the cost rate
-      // table, this is an open-ended rate which covers any work, it won't
-      // have specific dates attached to it.
-      //
-      if (table != null && table.size() > 1)
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
       {
-         //
-         // If we have multiple rates in the table, see if the same rate
-         // is in force at the start and the end of the assignment.
-         //
-         CostRateTableEntry startEntry = table.getEntryByDate(getStart());
-         CostRateTableEntry finishEntry = table.getEntryByDate(getFinish());
-         result = (startEntry != finishEntry);
+         ++rangeIndex;
       }
 
-      return result;
-   }
-
-   /**
-    * Retrieves the cost rate table entry active on a given date.
-    *
-    * @param date target date
-    * @return cost rate table entry
-    */
-   private CostRateTableEntry getCostRateTableEntry(LocalDateTime date)
-   {
-      CostRateTable table = getCostRateTable();
-      if (table == null)
+      if (rangeIndex == ranges.size())
       {
-         return CostRateTableEntry.DEFAULT_ENTRY;
+         return Arrays.asList(result);
       }
 
-      CostRateTableEntry entry = table.size() == 1 ? table.get(0) : table.getEntryByDate(date);
-      if (entry == null)
+      // If our first intersecting range includes the start of the assignment.
+      // Assign the actual cost to this range.
+      if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
       {
-         entry = CostRateTableEntry.DEFAULT_ENTRY;
+         Number cost = actualCost.get();
+         result[rangeIndex++] = cost == null ? Double.valueOf(0) : cost;
       }
-      return entry;
+
+      // The remainder of the ranges which intersect with
+      // the assignment have zero cost.
+      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         result[rangeIndex] = Double.valueOf(0);
+         rangeIndex++;
+      }
+
+      return Arrays.asList(result);
    }
 
-   /**
-    * Retrieves the index of a cost rate table entry active on a given date.
-    *
-    * @param date target date
-    * @return cost rate table entry index
-    */
-   private int getCostRateTableEntryIndex(LocalDateTime date)
+   private List<Number> getTimephasedActualCostAccruedAtEnd(List<LocalDateTimeRange> ranges, Supplier<Number> actualCost)
    {
-      CostRateTable table = getCostRateTable();
-      return table.size() == 1 ? 0 : table.getIndexByDate(date);
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      Number[] result = new Number[ranges.size()];
+
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         ++rangeIndex;
+      }
+
+      if (rangeIndex == ranges.size())
+      {
+         return Arrays.asList(result);
+      }
+
+      // The ranges which intersect with
+      // the assignment have zero cost.
+      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         result[rangeIndex] = Double.valueOf(0);
+         rangeIndex++;
+      }
+
+      // Our last range includes the end of the assignment.
+      // Assign the actual cost to this range.
+      if (ranges.get(rangeIndex-1).compareTo(getFinish()) == 0)
+      {
+         Number cost = actualCost.get();
+         result[rangeIndex-1] = cost == null ? Double.valueOf(0) : cost;
+      }
+
+      return Arrays.asList(result);
    }
 
-   /**
-    * Retrieve a flag indicating if this resource assignment has timephased
-    * data associated with it.
-    *
-    * @return true if this resource assignment has timephased data
-    */
-   public boolean getHasTimephasedData()
+   private List<Number> getTimephasedActualCostProrata(LocalDateTimeRange assignmentRange, List<LocalDateTimeRange> ranges)
    {
-      TimephasedWorkContainer workContainer = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_WORK);
-      TimephasedWorkContainer actualWorkContainer = (TimephasedWorkContainer) get(AssignmentField.TIMEPHASED_ACTUAL_WORK);
-      return (workContainer != null && workContainer.hasData()) || (actualWorkContainer != null && actualWorkContainer.hasData());
+      if (NumberHelper.getDouble(getActualCost()) == 0)
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      // Find the start date for ranges which are aligned with the caller-supplied ranges, and cover the whole assignment
+      long minutesPerRange = ranges.get(0).getStart().until(ranges.get(0).getEnd(), ChronoUnit.MINUTES);
+      LocalDateTime assignmentStartRange = ranges.get(0).getStart();
+      if (ranges.get(0).getStart().isAfter(getStart()))
+      {
+         while (assignmentStartRange.isAfter(getStart()))
+         {
+            assignmentStartRange = assignmentStartRange.minusMinutes(minutesPerRange);
+         }
+      }
+      else
+      {
+         while (assignmentStartRange.plusMinutes(minutesPerRange).isBefore(getStart()))
+         {
+            assignmentStartRange = assignmentStartRange.plusMinutes(minutesPerRange);
+         }
+      }
+
+      // Create the ranges
+      List<LocalDateTimeRange> assignmentRanges = new ArrayList<>();
+      while (true)
+      {
+         LocalDateTimeRange range = new LocalDateTimeRange(assignmentStartRange, assignmentStartRange.plusMinutes(minutesPerRange));
+         assignmentRanges.add(range);
+         if (range.compareTo(getFinish()) == 0)
+         {
+            break;
+         }
+         assignmentStartRange = range.getEnd();
+      }
+
+      // Count the number of ranges which contain calendar working hours
+      ProjectCalendar calendar = getEffectiveCalendar();
+      long workingRanges = assignmentRanges.stream()
+         .mapToDouble(r -> calendar.getWork(r.getStart(), r.getEnd(), TimeUnit.HOURS).getDuration())
+         .filter(h -> h != 0.0)
+         .count();
+
+      // Determine the pro rata cost per range with working hours
+      Double costPerWorkingRange = Double.valueOf(getCost().doubleValue() /workingRanges);
+
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         ++rangeIndex;
+      }
+
+      Number[] result = new Number[ranges.size()];
+      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         LocalDateTimeRange range = ranges.get(rangeIndex);
+         if (calendar.getWork(range.getStart(), range.getEnd(), TimeUnit.HOURS).getDuration() != 0.0)
+         {
+            result[rangeIndex] = costPerWorkingRange;
+         }
+         ++rangeIndex;
+      }
+      return Arrays.asList(result);
    }
 
-   /**
-    * Set timephased baseline work. Note that index 0 represents "Baseline",
-    * index 1 represents "Baseline1" and so on.
-    *
-    * @param index baseline index
-    * @param data timephased data
-    */
-   public void setTimephasedBaselineWork(int index, TimephasedWorkContainer data)
+   private List<Number> addTimephasedRemainingCostPerUse(List<LocalDateTimeRange> ranges, List<Number> costs)
    {
-      set(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index], data);
+      // If we have started, the cost per use will
+      // be accounted for in the actual costs.
+      if (getActualStart() != null)
+      {
+         return costs;
+      }
+
+      Resource resource = getResource();
+      if (resource == null)
+      {
+         return costs;
+      }
+
+      Number costPerUse = resource.getCostPerUse();
+      if (costPerUse == null || costPerUse.doubleValue() == 0.0)
+      {
+         return costs;
+      }
+
+      for (int rangeIndex=0; rangeIndex < ranges.size(); ++rangeIndex)
+      {
+         if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
+         {
+            costs.set(rangeIndex, Double.valueOf(NumberHelper.getDouble(costs.get(rangeIndex)) + costPerUse.doubleValue()));
+            break;
+         }
+      }
+
+      return costs;
    }
 
-   /**
-    * Set timephased baseline work. Note that index 0 represents "Baseline",
-    * index 1 represents "Baseline1" and so on.
-    *
-    * @param index baseline index
-    * @param data timephased data
-    */
-   public void setTimephasedBaselineWork(int index, List<TimephasedWork> data)
+   private List<Number> addTimephasedActualCostPerUse(List<LocalDateTimeRange> ranges, List<Number> costs)
    {
-      set(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index], createTimephasedWorkContainer(data));
-   }
+      // If we not have started, the cost per use will
+      // be accounted for in the remaining costs.
+      if (getActualStart() == null)
+      {
+         return costs;
+      }
 
-   /**
-    * Set timephased baseline cost. Note that index 0 represents "Baseline",
-    * index 1 represents "Baseline1" and so on.
-    *
-    * @param index baseline index
-    * @param data timephased data
-    */
-   public void setTimephasedBaselineCost(int index, TimephasedCostContainer data)
-   {
-      set(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index], data);
-   }
+      Resource resource = getResource();
+      if (resource == null)
+      {
+         return costs;
+      }
 
-   /**
-    * Set timephased baseline cost. Note that index 0 represents "Baseline",
-    * index 1 represents "Baseline1" and so on.
-    *
-    * @param index baseline index
-    * @param data timephased data
-    */
-   public void setTimephasedBaselineCost(int index, List<TimephasedCost> data)
-   {
-      set(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index], createTimephasedCostContainer(data));
+      Number costPerUse = resource.getCostPerUse();
+      if (costPerUse == null || costPerUse.doubleValue() == 0.0)
+      {
+         return costs;
+      }
+
+      for (int rangeIndex=0; rangeIndex < ranges.size(); ++rangeIndex)
+      {
+         if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
+         {
+            costs.set(rangeIndex, Double.valueOf(NumberHelper.getDouble(costs.get(rangeIndex)) + costPerUse.doubleValue()));
+            break;
+         }
+      }
+
+      return costs;
    }
 
    /**
@@ -1423,10 +1401,14 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     * @param index baseline index
     * @return timephased work, or null if no baseline is present
     */
-   public List<TimephasedWork> getTimephasedBaselineWork(int index)
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedBaselineWork(int index)
    {
-      TimephasedWorkContainer container = (TimephasedWorkContainer) get(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index]);
-      return container == null ? null : container.getData();
+      return (List<TimephasedWork>) get(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index]);
+   }
+
+   public List<Duration> getTimephasedBaselineWork(int index, List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineWork(index), ranges, units);
    }
 
    /**
@@ -1436,10 +1418,14 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     * @param index baseline index
     * @return timephased work, or null if no baseline is present
     */
-   public List<TimephasedCost> getTimephasedBaselineCost(int index)
+   @SuppressWarnings("unchecked") public List<TimephasedCost> getRawTimephasedBaselineCost(int index)
    {
-      TimephasedCostContainer container = (TimephasedCostContainer) get(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index]);
-      return container == null ? null : container.getData();
+      return (List<TimephasedCost>) get(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index]);
+   }
+
+   public List<Number> getTimephasedBaselineCost(int index, List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.segmentCost(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineCost(index), ranges);
    }
 
    /**
@@ -3101,6 +3087,65 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return entry.getRate(getRateIndex().intValue());
    }
 
+   public List<LocalDateTimeRange> getWorkSplits()
+   {
+      List<TimephasedWork> actualWork = getRawTimephasedActualRegularWork();
+      List<TimephasedWork> remainingWork = getRawTimephasedRemainingRegularWork();
+      if (actualWork.isEmpty() && remainingWork.isEmpty())
+      {
+         return Collections.emptyList();
+      }
+
+      List<LocalDateTimeRange> result = new ArrayList<>();
+      LocalDateTimeRange lastRange = null;
+      ProjectCalendar calendar = getEffectiveCalendar();
+      for (TimephasedWork work : actualWork)
+      {
+         // If we have a block representing non-working time, move on.
+         if (work.getTotalAmount().getDuration() == 0.0)
+         {
+            lastRange = null;
+            continue;
+         }
+
+         // We have a previous working range, and the current range can be merged with it
+         if (lastRange != null && (lastRange.getEnd().isEqual(work.getStart()) || calendar.getWork(lastRange.getEnd(), work.getStart(), TimeUnit.HOURS).getDuration() == 0.0))
+         {
+            result.remove(result.size()-1);
+            lastRange = new LocalDateTimeRange(lastRange.getStart(), work.getFinish());
+            result.add(lastRange);
+            continue;
+         }
+
+         lastRange = new LocalDateTimeRange(work.getStart(), work.getFinish());
+         result.add(lastRange);
+      }
+
+      for (TimephasedWork work : remainingWork)
+      {
+         // If we have a block representing non-working time, move on.
+         if (work.getTotalAmount().getDuration() == 0.0)
+         {
+            lastRange = null;
+            continue;
+         }
+
+         // We have a previous working range, and the current range can be merged with it
+         if (lastRange != null && (lastRange.getEnd().isEqual(work.getStart()) || calendar.getWork(lastRange.getEnd(), work.getStart(), TimeUnit.HOURS).getDuration() == 0.0))
+         {
+            result.remove(result.size()-1);
+            lastRange = new LocalDateTimeRange(lastRange.getStart(), work.getFinish());
+            result.add(lastRange);
+            continue;
+         }
+
+         lastRange = new LocalDateTimeRange(work.getStart(), work.getFinish());
+         result.add(lastRange);
+      }
+
+      return result;
+   }
+
    /**
     * Retrieve the resource assignment code values associated with this resource assignment.
     *
@@ -3315,6 +3360,29 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return getUnits();
    }
 
+   private List<TimephasedWork> calculateTimephasedOvertimeWork()
+   {
+      Duration totalRemainingWork = getRemainingWork();
+      Duration remainingOvertimeWork = getRemainingOvertimeWork();
+
+      if (totalRemainingWork == null ||  remainingOvertimeWork == null)
+      {
+         return Collections.emptyList();
+      }
+
+      double totalRemainingMinutes = totalRemainingWork.convertUnits(TimeUnit.MINUTES, getEffectiveCalendar()).getDuration();
+      double remainingOvertimeMinutes = remainingOvertimeWork.convertUnits(TimeUnit.MINUTES, getEffectiveCalendar()).getDuration();
+      double remainingRegularMinutes = totalRemainingMinutes - remainingOvertimeMinutes;
+
+      if (remainingRegularMinutes == 0 || remainingOvertimeMinutes == 0)
+      {
+         return Collections.emptyList();
+      }
+
+      double factor = remainingOvertimeMinutes / remainingRegularMinutes;
+      return getRawTimephasedRemainingRegularWork().stream().map(i -> new TimephasedWork(i, factor)).collect(Collectors.toList());
+   }
+
    /**
     * Supply a default value for the rate index.
     *
@@ -3355,63 +3423,14 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return new HashMap<>();
    }
 
-   /**
-    * Wrap a list of TimephasedWork instances in a TimephasedWorkContainer.
-    *
-    * @param data timephased work data
-    * @return TimephasedWorkContainer instance
-    */
-   private TimephasedWorkContainer createTimephasedWorkContainer(List<TimephasedWork> data)
+   private List<TimephasedWork> defaultTimephasedWork()
    {
-      if (data == null)
-      {
-         return null;
-      }
-
-      return new TimephasedWorkContainer()
-      {
-         @Override public List<TimephasedWork> getData()
-         {
-            return data;
-         }
-
-         @Override public boolean hasData()
-         {
-            return true;
-         }
-
-         @Override public TimephasedWorkContainer applyFactor(double perDayFactor, double totalFactor)
-         {
-            throw new UnsupportedOperationException();
-         }
-      };
+      return new ArrayList<>();
    }
 
-   /**
-    * Wrap a list of TimephasedCost instances in a TimephasedCostContainer.
-    *
-    * @param data timephased cost data
-    * @return TimephasedCostContainer instance
-    */
-   private TimephasedCostContainer createTimephasedCostContainer(List<TimephasedCost> data)
+   private List<TimephasedCost> defaultTimephasedCost()
    {
-      if (data == null)
-      {
-         return null;
-      }
-
-      return new TimephasedCostContainer()
-      {
-         @Override public List<TimephasedCost> getData()
-         {
-            return data;
-         }
-
-         @Override public boolean hasData()
-         {
-            return true;
-         }
-      };
+      return new ArrayList<>();
    }
 
    private final ProjectFile m_parentFile;
@@ -3442,10 +3461,37 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       CALCULATED_FIELD_MAP.put(AssignmentField.START, ResourceAssignment::calculateStart);
       CALCULATED_FIELD_MAP.put(AssignmentField.FINISH, ResourceAssignment::calculateFinish);
       CALCULATED_FIELD_MAP.put(AssignmentField.REMAINING_ASSIGNMENT_UNITS, ResourceAssignment::calculateRemainingAssignmentUnits);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_REMAINING_OVERTIME_WORK, ResourceAssignment::calculateTimephasedOvertimeWork);
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_INDEX, ResourceAssignment::defaultRateIndex);
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_SOURCE, ResourceAssignment::defaultRateSource);
       CALCULATED_FIELD_MAP.put(AssignmentField.CALCULATE_COSTS_FROM_UNITS, ResourceAssignment::defaultCalculateCostsFromUnits);
       CALCULATED_FIELD_MAP.put(AssignmentField.RESOURCE_ASSIGNMENT_CODE_VALUES, ResourceAssignment::defaultResourceAssignmentCodeValues);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_PLANNED_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_ACTUAL_REGULAR_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE1_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE2_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE3_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE4_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE5_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE6_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE7_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE8_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE9_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE10_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE1_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE2_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE3_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE4_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE5_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE6_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE7_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE8_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE9_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE10_COST, ResourceAssignment::defaultTimephasedCost);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();

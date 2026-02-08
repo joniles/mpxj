@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,11 +37,13 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.TaskFieldLists;
+import org.mpxj.utility.TimephasedUtility;
 
 /**
  * This class represents a task record from a project file.
@@ -3608,6 +3611,95 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return (List<LocalDateTimeRange>) get(TaskField.SPLITS);
    }
 
+   // TODO use normal get method caching once fully implemented
+   public List<LocalDateTimeRange> getWorkSplits()
+   {
+      if (getSummary())
+      {
+         return Collections.emptyList();
+      }
+
+      return getResourceAssignments().stream()
+         .map(ResourceAssignment::getWorkSplits)
+         .reduce(this::reduceWorkSplits)
+         .orElse(Collections.emptyList());
+   }
+
+   private List<LocalDateTimeRange> reduceWorkSplits(List<LocalDateTimeRange> l1, List<LocalDateTimeRange> l2)
+   {
+      if (l1.equals(l2))
+      {
+         return l1;
+      }
+
+      int index1 = 0;
+      int index2 = 0;
+      List<LocalDateTimeRange> result = new ArrayList<>();
+      ProjectCalendar calendar = getEffectiveCalendar();
+
+      while (index1 < l1.size() && index2 < l2.size())
+      {
+         LocalDateTimeRange range1 =  l1.get(index1);
+         LocalDateTimeRange range2 =  l2.get(index2);
+
+         if (range1.isBefore(range2))
+         {
+            addWorkSplit(calendar, result, range1);
+            index1++;
+            continue;
+         }
+
+         if (range2.isBefore(range1))
+         {
+            addWorkSplit(calendar, result, range2);
+            index2++;
+            continue;
+         }
+
+         if (range1.compareTo(range2) == 0)
+         {
+            addWorkSplit(calendar, result, range1);
+            index1++;
+            index2++;
+            continue;
+         }
+
+         addWorkSplit(calendar, result, new LocalDateTimeRange(LocalDateTimeHelper.min(range1.getStart(), range2.getStart()), LocalDateTimeHelper.max(range1.getEnd(), range2.getEnd())));
+         index1++;
+         index2++;
+      }
+
+      if (index1 != l1.size())
+      {
+         l1.subList(index1, l1.size()).forEach(r -> addWorkSplit(calendar, result, r));
+      }
+      else
+      {
+         if (index2 != l2.size())
+         {
+            l2.subList(index2, l2.size()).forEach(r -> addWorkSplit(calendar, result, r));
+         }
+      }
+
+      return result;
+   }
+
+   private void addWorkSplit(ProjectCalendar calendar, List<LocalDateTimeRange> ranges, LocalDateTimeRange range)
+   {
+      if (!ranges.isEmpty())
+      {
+         LocalDateTime lastRangeEnd = ranges.get(ranges.size() - 1).getEnd();
+         if (lastRangeEnd.isEqual(range.getStart()) || calendar.getWork(lastRangeEnd, range.getStart(), TimeUnit.HOURS).getDuration() == 0)
+         {
+            LocalDateTimeRange oldRange = ranges.remove(ranges.size() - 1);
+            ranges.add(new LocalDateTimeRange(oldRange.getStart(), range.getEnd()));
+            return;
+         }
+      }
+      ranges.add(range);
+   }
+
+
    /**
     * Removes this task from the project.
     */
@@ -5653,6 +5745,88 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    public Task getBaselineTask(int index)
    {
       return m_parentFile.getBaselineTaskMap(index).get(this);
+   }
+
+   public List<Duration> getTimephasedActualRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedActualRegularWork(ranges, units), (r) -> r.getTimephasedActualRegularWork(ranges, units));
+   }
+
+   public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedActualOvertimeWork(ranges, units), (r) -> r.getTimephasedActualOvertimeWork(ranges, units));
+   }
+
+   public List<Duration> getTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedActualWork(ranges, units), (r) -> r.getTimephasedActualWork(ranges, units));
+   }
+
+   public List<Duration> getTimephasedRemainingRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedRemainingRegularWork(ranges, units), (r) -> r.getTimephasedRemainingRegularWork(ranges, units));
+   }
+
+   public List<Duration> getTimephasedRemainingOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedRemainingOvertimeWork(ranges, units), (r) -> r.getTimephasedRemainingOvertimeWork(ranges, units));
+   }
+
+   public List<Duration> getTimephasedRemainingWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedRemainingWork(ranges, units), (r) -> r.getTimephasedRemainingWork(ranges, units));
+   }
+
+   public List<Duration> getTimephasedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedWork(ranges, units), (r) -> r.getTimephasedWork(ranges, units));
+   }
+
+   public List<Number> getTimephasedActualRegularCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedActualRegularCost(ranges), (r) -> r.getTimephasedActualRegularCost(ranges));
+   }
+
+   public List<Number> getTimephasedActualOvertimeCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedActualOvertimeCost(ranges), (r) -> r.getTimephasedActualOvertimeCost(ranges));
+   }
+
+   public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedActualCost(ranges), (r) -> r.getTimephasedActualCost(ranges));
+   }
+
+   public List<Number> getTimephasedRemainingRegularCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedRemainingRegularCost(ranges), (r) -> r.getTimephasedRemainingRegularCost(ranges));
+   }
+
+   public List<Number> getTimephasedRemainingOvertimeCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedRemainingOvertimeCost(ranges), (r) -> r.getTimephasedRemainingOvertimeCost(ranges));
+   }
+
+   public List<Number> getTimephasedRemainingCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedRemainingCost(ranges), (r) -> r.getTimephasedRemainingCost(ranges));
+   }
+
+   public List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedCost(ranges), (r) -> r.getTimephasedCost(ranges));
+   }
+
+   private List<Duration> reduceTimephasedWork(List<LocalDateTimeRange> ranges, Function<Task, List<Duration>> taskFn, Function<ResourceAssignment, List<Duration>> assignmentFn)
+   {
+      return Stream.concat(getResourceAssignments().stream().map(assignmentFn), getChildTasks().stream().map(taskFn))
+         .reduce(TimephasedUtility::addTimephasedWork).orElseGet(() -> Arrays.asList(new Duration[ranges.size()]));
+   }
+
+   private List<Number> reduceTimephasedCost(List<LocalDateTimeRange> ranges, Function<Task, List<Number>> taskFn, Function<ResourceAssignment, List<Number>> assignmentFn)
+   {
+      return Stream.concat(getResourceAssignments().stream().map(assignmentFn), getChildTasks().stream().map(taskFn))
+         .reduce(TimephasedUtility::addTimephasedCost).orElseGet(() -> Arrays.asList(new Number[ranges.size()]));
    }
 
    /**

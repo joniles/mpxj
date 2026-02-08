@@ -28,7 +28,6 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -149,28 +148,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
    public boolean getMicrosoftProjectCompatibleOutput()
    {
       return m_compatibleOutput;
-   }
-
-   /**
-    * Sets a flag to control whether timephased assignment data is split
-    * into days. The default is true.
-    *
-    * @param flag boolean flag
-    */
-   public void setSplitTimephasedAsDays(boolean flag)
-   {
-      m_splitTimephasedAsDays = flag;
-   }
-
-   /**
-    * Retrieves a flag to control whether timephased assignment data is split
-    * into days. The default is true.
-    *
-    * @return boolean true
-    */
-   public boolean getSplitTimephasedAsDays()
-   {
-      return m_splitTimephasedAsDays;
    }
 
    /**
@@ -2317,45 +2294,40 @@ public final class MSPDIWriter extends AbstractProjectWriter
          return;
       }
 
-      if (!mpx.getHasTimephasedData() && !m_generateMissingTimephasedData)
+      List<TimephasedWork> actualWork = mpx.getRawTimephasedActualRegularWork();
+      List<TimephasedWork> remainingRegularWork = mpx.getRawTimephasedRemainingRegularWork();
+
+      boolean hasTimephasedData = (actualWork != null && !actualWork.isEmpty()) || (remainingRegularWork != null && !remainingRegularWork.isEmpty());
+      if (!hasTimephasedData && !m_generateMissingTimephasedData)
       {
          return;
       }
 
-      ProjectCalendar calendar = getCalendar(mpx);
-      List<TimephasedWork> complete = mpx.getTimephasedActualWork();
-      List<TimephasedWork> planned = mpx.getTimephasedWork();
-      List<TimephasedWork> completeOvertime = mpx.getTimephasedActualOvertimeWork();
-
-      if ((planned == null || planned.isEmpty()) && m_generateMissingTimephasedData)
+      if ((remainingRegularWork == null || remainingRegularWork.isEmpty()) && m_generateMissingTimephasedData)
       {
-         planned = generateTimephasedPlannedWork(mpx);
+         remainingRegularWork = generateTimephasedPlannedWork(mpx);
       }
 
-      if ((complete == null || complete.isEmpty()) && m_generateMissingTimephasedData)
+      if ((actualWork == null || actualWork.isEmpty()) && m_generateMissingTimephasedData)
       {
-         complete = generateTimephasedCompleteWork(mpx);
+         actualWork = generateTimephasedCompleteWork(mpx);
       }
-
-      complete = splitCompleteWork(calendar, planned, complete);
-      planned = splitPlannedWork(calendar, planned, complete);
-      completeOvertime = splitDays(calendar, completeOvertime, null, null);
 
       BigInteger assignmentID = xml.getUID();
       List<TimephasedDataType> list = xml.getTimephasedData();
-      writeAssignmentTimephasedWorkData(assignmentID, list, complete, 2);
-      writeAssignmentTimephasedWorkData(assignmentID, list, planned, 1);
-      writeAssignmentTimephasedWorkData(assignmentID, list, completeOvertime, 3);
+      writeAssignmentTimephasedWorkData(assignmentID, list, actualWork, 2);
+      writeAssignmentTimephasedWorkData(assignmentID, list, remainingRegularWork, 1);
+      writeAssignmentTimephasedWorkData(assignmentID, list, mpx.getRawTimephasedActualOvertimeWork(), 3);
 
       // Write the baselines
       for (int index = 0; index < TIMEPHASED_BASELINE_WORK_TYPES.length; index++)
       {
-         writeAssignmentTimephasedWorkData(assignmentID, list, splitDays(calendar, mpx.getTimephasedBaselineWork(index), null, null), TIMEPHASED_BASELINE_WORK_TYPES[index]);
+         writeAssignmentTimephasedWorkData(assignmentID, list, mpx.getRawTimephasedBaselineWork(index), TIMEPHASED_BASELINE_WORK_TYPES[index]);
       }
 
       for (int index = 0; index < TIMEPHASED_BASELINE_COST_TYPES.length; index++)
       {
-         writeAssignmentTimephasedCostData(assignmentID, list, splitDays(calendar, mpx.getTimephasedBaselineCost(index)), TIMEPHASED_BASELINE_COST_TYPES[index]);
+         writeAssignmentTimephasedCostData(assignmentID, list, mpx.getRawTimephasedBaselineCost(index), TIMEPHASED_BASELINE_COST_TYPES[index]);
       }
    }
 
@@ -2382,7 +2354,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       work.setStart(start);
       work.setFinish(assignment.getFinish());
       work.setTotalAmount(assignment.getRemainingWork());
-      work.setAmountPerDay(Duration.getInstance(NumberHelper.getInt(calendar.getMinutesPerDay()), TimeUnit.MINUTES));
+      work.setAmountPerHour(Duration.getInstance(60, TimeUnit.MINUTES));
       return Collections.singletonList(work);
    }
 
@@ -2409,40 +2381,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       work.setStart(assignment.getActualStart());
       work.setFinish(finish);
       work.setTotalAmount(assignment.getActualWork());
-      work.setAmountPerDay(Duration.getInstance(NumberHelper.getInt(calendar.getMinutesPerDay()), TimeUnit.MINUTES));
+      work.setAmountPerHour(Duration.getInstance(60, TimeUnit.MINUTES));
       return Collections.singletonList(work);
-   }
-
-   private List<TimephasedWork> splitCompleteWork(ProjectCalendar calendar, List<TimephasedWork> planned, List<TimephasedWork> complete)
-   {
-      if (!m_splitTimephasedAsDays || complete == null)
-      {
-         return complete;
-      }
-
-      TimephasedWork firstPlanned = null;
-      if (planned != null && !planned.isEmpty())
-      {
-         firstPlanned = planned.get(0);
-      }
-
-      return splitDays(calendar, complete, firstPlanned, null);
-   }
-
-   private List<TimephasedWork> splitPlannedWork(ProjectCalendar calendar, List<TimephasedWork> planned, List<TimephasedWork> complete)
-   {
-      if (!m_splitTimephasedAsDays || planned == null)
-      {
-         return planned;
-      }
-
-      TimephasedWork lastComplete = null;
-      if (complete != null && !complete.isEmpty())
-      {
-         lastComplete = complete.get(complete.size() - 1);
-      }
-
-      return splitDays(calendar, planned, null, lastComplete);
    }
 
    /**
@@ -2457,215 +2397,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    /**
-    * Splits timephased data into individual days.
-    *
-    * @param calendar current calendar
-    * @param list list of timephased assignment data
-    * @param first first planned assignment
-    * @param last last completed assignment
-    * @return list of timephased data ready for output
-    */
-   private List<TimephasedWork> splitDays(ProjectCalendar calendar, List<TimephasedWork> list, TimephasedWork first, TimephasedWork last)
-   {
-      if (!m_splitTimephasedAsDays || list == null || list.isEmpty())
-      {
-         return list;
-      }
-
-      List<TimephasedWork> result = new ArrayList<>();
-      for (TimephasedWork assignment : list)
-      {
-         LocalDateTime startDate = assignment.getStart();
-         LocalDateTime finishDate = assignment.getFinish();
-         LocalDateTime startDay = LocalDateTimeHelper.getDayStartDate(startDate);
-         LocalDateTime finishDay = LocalDateTimeHelper.getDayStartDate(finishDate);
-         if (startDay.equals(finishDay))
-         {
-            LocalTime startTime = calendar.getStartTime(LocalDateHelper.getLocalDate(startDay));
-            LocalDateTime currentStart = startTime == null ? null : LocalDateTime.of(startDay.toLocalDate(), startTime);
-            if (currentStart != null && startDate.isAfter(currentStart))
-            {
-               boolean paddingRequired = true;
-
-               if (last != null)
-               {
-                  LocalDateTime lastFinish = last.getFinish();
-                  if (lastFinish.equals(startDate))
-                  {
-                     paddingRequired = false;
-                  }
-                  else
-                  {
-                     LocalDateTime lastFinishDay = LocalDateTimeHelper.getDayStartDate(lastFinish);
-                     if (startDay.equals(lastFinishDay))
-                     {
-                        currentStart = lastFinish;
-                     }
-                  }
-               }
-
-               if (paddingRequired)
-               {
-                  Duration zeroHours = Duration.getInstance(0, TimeUnit.HOURS);
-                  TimephasedWork padding = new TimephasedWork();
-                  padding.setStart(currentStart);
-                  padding.setFinish(startDate);
-                  padding.setTotalAmount(zeroHours);
-                  padding.setAmountPerDay(zeroHours);
-                  result.add(padding);
-               }
-            }
-
-            result.add(assignment);
-
-            LocalTime finishTime = calendar.getFinishTime(LocalDateHelper.getLocalDate(startDay));
-            LocalDateTime currentFinish = finishTime == null ? null : LocalDateTime.of(startDay.toLocalDate(), finishTime);
-            if (currentFinish != null && finishDate.isBefore(currentFinish))
-            {
-               boolean paddingRequired = true;
-
-               if (first != null)
-               {
-                  LocalDateTime firstStart = first.getStart();
-                  if (firstStart.equals(finishDate))
-                  {
-                     paddingRequired = false;
-                  }
-                  else
-                  {
-                     LocalDateTime firstStartDay = LocalDateTimeHelper.getDayStartDate(firstStart);
-                     if (finishDay.equals(firstStartDay))
-                     {
-                        currentFinish = firstStart;
-                     }
-                  }
-               }
-
-               if (paddingRequired)
-               {
-                  Duration zeroHours = Duration.getInstance(0, TimeUnit.HOURS);
-                  TimephasedWork padding = new TimephasedWork();
-                  padding.setStart(finishDate);
-                  padding.setFinish(currentFinish);
-                  padding.setTotalAmount(zeroHours);
-                  padding.setAmountPerDay(zeroHours);
-                  result.add(padding);
-               }
-            }
-         }
-         else
-         {
-            LocalDateTime currentStart = startDate;
-            boolean isWorking = calendar.isWorkingDate(LocalDateHelper.getLocalDate(currentStart));
-            while (currentStart.isBefore(finishDate))
-            {
-               if (isWorking)
-               {
-                  LocalDateTime currentFinish = LocalDateTime.of(currentStart.toLocalDate(), calendar.getFinishTime(LocalDateHelper.getLocalDate(currentStart)));
-                  if (currentFinish.isAfter(finishDate))
-                  {
-                     currentFinish = finishDate;
-                  }
-
-                  TimephasedWork split = new TimephasedWork();
-                  split.setStart(currentStart);
-                  split.setFinish(currentFinish);
-                  split.setTotalAmount(assignment.getAmountPerDay());
-                  split.setAmountPerDay(assignment.getAmountPerDay());
-                  result.add(split);
-               }
-
-               currentStart = currentStart.plusDays(1);
-               isWorking = calendar.isWorkingDate(LocalDateHelper.getLocalDate(currentStart));
-               if (isWorking)
-               {
-                  currentStart = LocalDateTime.of(currentStart.toLocalDate(), calendar.getStartTime(LocalDateHelper.getLocalDate(currentStart)));
-               }
-            }
-         }
-      }
-
-      return result;
-   }
-
-   private List<TimephasedCost> splitDays(ProjectCalendar calendar, List<TimephasedCost> list)
-   {
-      if (!m_splitTimephasedAsDays || list == null || list.isEmpty())
-      {
-         return list;
-      }
-
-      List<TimephasedCost> result = new ArrayList<>();
-      for (TimephasedCost assignment : list)
-      {
-         LocalDateTime startDate = assignment.getStart();
-         LocalDateTime finishDate = assignment.getFinish();
-         LocalDateTime startDay = LocalDateTimeHelper.getDayStartDate(startDate);
-         LocalDateTime finishDay = LocalDateTimeHelper.getDayStartDate(finishDate);
-         if (startDay.equals(finishDay))
-         {
-            LocalTime startTime = calendar.getStartTime(LocalDateHelper.getLocalDate(startDay));
-            LocalDateTime currentStart = startTime == null ? null : LocalDateTime.of(startDay.toLocalDate(), startTime);
-            if (currentStart != null && startDate.isAfter(currentStart))
-            {
-               TimephasedCost padding = new TimephasedCost();
-               padding.setStart(currentStart);
-               padding.setFinish(startDate);
-               padding.setTotalAmount(Integer.valueOf(0));
-               padding.setAmountPerDay(Integer.valueOf(0));
-               result.add(padding);
-            }
-
-            result.add(assignment);
-
-            LocalTime finishTime = calendar.getFinishTime(LocalDateHelper.getLocalDate(startDay));
-            LocalDateTime currentFinish = finishTime == null ? null : LocalDateTime.of(startDay.toLocalDate(), finishTime);
-            if (currentFinish != null && finishDate.isBefore(currentFinish))
-            {
-               TimephasedCost padding = new TimephasedCost();
-               padding.setStart(finishDate);
-               padding.setFinish(currentFinish);
-               padding.setTotalAmount(Integer.valueOf(0));
-               padding.setAmountPerDay(Integer.valueOf(0));
-               result.add(padding);
-            }
-         }
-         else
-         {
-            LocalDateTime currentStart = startDate;
-            boolean isWorking = calendar.isWorkingDate(LocalDateHelper.getLocalDate(currentStart));
-            while (currentStart.isBefore(finishDate))
-            {
-               if (isWorking)
-               {
-                  LocalDateTime currentFinish = LocalDateTime.of(currentStart.toLocalDate(), calendar.getFinishTime(LocalDateHelper.getLocalDate(currentStart)));
-                  if (currentFinish.isAfter(finishDate))
-                  {
-                     currentFinish = finishDate;
-                  }
-
-                  TimephasedCost split = new TimephasedCost();
-                  split.setStart(currentStart);
-                  split.setFinish(currentFinish);
-                  split.setTotalAmount(assignment.getAmountPerDay());
-                  split.setAmountPerDay(assignment.getAmountPerDay());
-                  result.add(split);
-               }
-
-               currentStart = currentStart.plusDays(1);
-               isWorking = calendar.isWorkingDate(LocalDateHelper.getLocalDate(currentStart));
-               if (isWorking)
-               {
-                  currentStart = LocalDateTime.of(currentStart.toLocalDate(), calendar.getStartTime(LocalDateHelper.getLocalDate(currentStart)));
-               }
-            }
-         }
-      }
-
-      return result;
-   }
-
-   /**
     * Writes a list of timephased data to the MSPDI file.
     *
     * @param assignmentID current assignment ID
@@ -2675,7 +2406,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeAssignmentTimephasedWorkData(BigInteger assignmentID, List<TimephasedDataType> list, List<TimephasedWork> data, int type)
    {
-      if (data == null)
+      if (data.isEmpty())
       {
          return;
       }
@@ -2899,8 +2630,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private UserDefinedFieldMap m_userDefinedFieldMap;
 
    private boolean m_compatibleOutput = true;
-
-   private boolean m_splitTimephasedAsDays = true;
 
    private boolean m_writeTimephasedData;
 

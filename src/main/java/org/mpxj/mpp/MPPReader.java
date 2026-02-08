@@ -181,11 +181,6 @@ public final class MPPReader extends AbstractProjectStreamReader
          for (Task task : projectFile.getTasks())
          {
             task.setSummary(task.hasChildTasks() || task.getExternalProject());
-            List<LocalDateTimeRange> splits = task.getSplits();
-            if (splits != null && splits.isEmpty())
-            {
-               task.set(TaskField.SPLITS, null);
-            }
             validationRelations(task);
             copyEstimatedBaselineFields(task);
          }

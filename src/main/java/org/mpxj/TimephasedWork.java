@@ -47,22 +47,21 @@ public final class TimephasedWork extends TimephasedItem<Duration>
       setFinish(sourceItem.getFinish());
       setModified(sourceItem.getModified());
       setTotalAmount(sourceItem.getTotalAmount());
-      setAmountPerDay(sourceItem.getAmountPerDay());
+      setAmountPerHour(sourceItem.getAmountPerHour());
    }
 
    /**
-    * Copy constructor, allowing scaling.
+    * Copy constructor, scales by  the factor provided.
     *
     * @param sourceItem item to copy
-    * @param totalFactor total amount factor
-    * @param perDayFactor per day factor
+    * @param factor scaling factor
     */
-   public TimephasedWork(TimephasedWork sourceItem, double totalFactor, double perDayFactor)
+   public TimephasedWork(TimephasedWork sourceItem, double factor)
    {
       setStart(sourceItem.getStart());
       setFinish(sourceItem.getFinish());
       setModified(sourceItem.getModified());
-      setTotalAmount(Duration.getInstance(sourceItem.getTotalAmount().getDuration() * totalFactor, sourceItem.getTotalAmount().getUnits()));
-      setAmountPerDay(Duration.getInstance(sourceItem.getAmountPerDay().getDuration() * perDayFactor, sourceItem.getAmountPerDay().getUnits()));
+      setTotalAmount(Duration.getInstance(sourceItem.getTotalAmount().getDuration() * factor, sourceItem.getTotalAmount().getUnits()));
+      setAmountPerHour(Duration.getInstance(sourceItem.getAmountPerHour().getDuration() * factor, sourceItem.getAmountPerHour().getUnits()));
    }
 }

@@ -117,21 +117,21 @@ public class MpxjCreateTimephased
       // We split this as 20h, 2h and 2h
       //
       final TimephasedWork day1 = new TimephasedWork();
-      day1.setAmountPerDay(Duration.getInstance(20, TimeUnit.HOURS));
+      day1.setAmountPerHour(Duration.getInstance(60, TimeUnit.MINUTES));
       day1.setStart(LocalDateTime.of(2003, 1, 1, 3, 0));
       day1.setFinish(LocalDateTime.of(2003, 1, 1, 23, 0));
       day1.setModified(true);
       day1.setTotalAmount(Duration.getInstance(20, TimeUnit.HOURS));
 
       final TimephasedWork day2 = new TimephasedWork();
-      day2.setAmountPerDay(Duration.getInstance(2, TimeUnit.HOURS));
+      day2.setAmountPerHour(Duration.getInstance(60, TimeUnit.MINUTES));
       day2.setStart(LocalDateTime.of(2003, 1, 2, 8, 0));
       day2.setFinish(LocalDateTime.of(2003, 1, 1, 10, 0));
       day2.setModified(true);
       day2.setTotalAmount(Duration.getInstance(2, TimeUnit.HOURS));
 
       final TimephasedWork day3 = new TimephasedWork();
-      day3.setAmountPerDay(Duration.getInstance(2, TimeUnit.HOURS));
+      day3.setAmountPerHour(Duration.getInstance(60, TimeUnit.MINUTES));
       day3.setStart(LocalDateTime.of(2003, 1, 3, 8, 0));
       day3.setFinish(LocalDateTime.of(2003, 1, 1, 10, 0));
       day3.setModified(true);
@@ -140,7 +140,7 @@ public class MpxjCreateTimephased
       //
       // Add the timephased data to the assignment
       //
-      assignment3.setTimephasedWork(Arrays.asList(day1, day2, day3));
+      assignment3.getRawTimephasedRemainingRegularWork().addAll(Arrays.asList(day1, day2, day3));
 
       //
       // Write the file
@@ -149,9 +149,6 @@ public class MpxjCreateTimephased
 
       // By default, timephased data is not written so we need to enable it here
       writer.setWriteTimephasedData(true);
-
-      // Also, tell the writer not to get clever with our timephased data, just write it as it is...
-      writer.setSplitTimephasedAsDays(false);
 
       //
       // If you look at the resulting project in the Resource Usage view in MS Project

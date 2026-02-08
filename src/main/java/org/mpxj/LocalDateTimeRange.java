@@ -65,6 +65,43 @@ public final class LocalDateTimeRange implements Comparable<LocalDateTimeRange>
       return m_end;
    }
 
+   public boolean isBefore(LocalDateTimeRange range)
+   {
+      return LocalDateTimeHelper.compare(m_start, m_end, range.getStart(), range.getEnd()) < 0;
+   }
+
+   public boolean isAfter(LocalDateTimeRange range)
+   {
+      return LocalDateTimeHelper.compare(m_start, m_end, range.getStart(), range.getEnd()) > 0;
+   }
+
+   public boolean intersectsWith(LocalDateTimeRange range)
+   {
+      return LocalDateTimeHelper.compare(m_start, m_end, range.getStart(), range.getEnd()) == 0;
+   }
+
+   public LocalDateTimeRange intersection(LocalDateTimeRange range)
+   {
+      // No intersection - return null
+      if (!intersectsWith(range))
+      {
+         return null;
+      }
+
+      // range is completely within this range, return range
+      if (!range.getStart().isBefore(m_start) && !range.getEnd().isAfter(m_end))
+      {
+         return range;
+      }
+
+      // determine the intersection
+      LocalDateTime start = range.getStart().isBefore(m_start) ? m_start : range.getStart();
+      LocalDateTime end = range.getEnd().isAfter(m_end) ? m_end : range.getEnd();
+
+      // return this if entirely within range, otherwise create an intersection range
+      return start == m_start && end == m_end ? this : new LocalDateTimeRange(start, end);
+   }
+
    /**
     * This method compares a target date with a date range. The method will
     * return 0 if the date is within the range, less than zero if the date

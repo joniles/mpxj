@@ -1649,8 +1649,8 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.UNIQUE_ID.getValue()] = "Unique ID";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TASK_UNIQUE_ID.getValue()] = "Task Unique ID";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RESOURCE_UNIQUE_ID.getValue()] = "Resource Unique ID";
-      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_WORK.getValue()] = "Timephased Work";
-      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_ACTUAL_WORK.getValue()] = "Timephased Actual Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK.getValue()] = "Timephased Remaining Regular Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_ACTUAL_REGULAR_WORK.getValue()] = "Timephased Actual Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK.getValue()] = "Timephased Actual Overtime Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE_WORK.getValue()] = "Timephased Baseline Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE1_WORK.getValue()] = "Timephased Baseline1 Work";
@@ -2136,9 +2136,7 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION10_UNITS.getValue()] = "Duration10 Units";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_ACTUAL_IRREGULAR_WORK.getValue()] = "Timephased Actual Irregular Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_PLANNED_WORK.getValue()] = "Timephased Planned Work";
-      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_OVERTIME_WORK.getValue()] = "Timephased Overtime Work";
-      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_COST.getValue()] = "Timephased Cost";
-      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_ACTUAL_COST.getValue()] = "Timephased Actual Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_REMAINING_OVERTIME_WORK.getValue()] = "Timephased Remaining Overtime Work";
 
       CONSTRAINT_COLUMNS_ARRAY[ConstraintField.UNIQUE_ID.getValue()] = "Unique ID";
       CONSTRAINT_COLUMNS_ARRAY[ConstraintField.TASK1.getValue()] = "Task 1";

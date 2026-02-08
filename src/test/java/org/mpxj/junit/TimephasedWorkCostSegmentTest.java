@@ -24,24 +24,23 @@
 package org.mpxj.junit;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.Duration;
 import org.mpxj.ProjectFile;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.Task;
-import org.mpxj.TimephasedCost;
-import org.mpxj.TimephasedWork;
+import org.mpxj.TimeUnit;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mpp.TimescaleUnits;
-import org.mpxj.utility.TimephasedUtility;
 import org.mpxj.utility.TimescaleUtility;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * This example shows an MPP, MPX or MSPDI file being read, and basic
@@ -122,646 +121,627 @@ public class TimephasedWorkCostSegmentTest
       assertEquals("Planned task", task.getName());
       List<ResourceAssignment> assignments = task.getResourceAssignments();
       ResourceAssignment assignment = assignments.get(0);
-      testBaselineWorkSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testBaselineWorkSegments(assignment, startDate, new Double[]
       {
          8.0,
          8.0,
          8.0,
-         0.0,
-         0.0,
+         null,
+         null,
          8.0,
          8.0,
          8.0,
          8.0,
          8.0,
-         0.0,
-         0.0,
+         null,
+         null,
          8.0,
          8.0,
-         0.0
+         null
       });
-      testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testBaselineCostSegments(assignment, startDate, new Double[]
       {
          88.0,
          88.0,
          88.0,
-         0.0,
-         0.0,
+         null,
+         null,
          88.0,
          88.0,
          88.0,
          88.0,
          88.0,
-         0.0,
-         0.0,
+         null,
+         null,
          88.0,
          88.0,
-         0.0
+         null
       });
-      testCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testRemainingRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
          88.0,
          88.0,
          88.0,
-         0.0,
-         0.0,
+         null,
+         null,
          88.0,
          88.0,
          88.0,
          88.0,
          88.0,
-         0.0,
-         0.0,
+         null,
+         null,
          88.0,
          88.0,
-         0.0
+         null
       });
-      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testActualRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
-         0.0,
-         0.0
+         null,
+         null
       });
 
       task = file.getTaskByID(Integer.valueOf(2));
       assertEquals("Partially complete task", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testBaselineWorkSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testBaselineWorkSegments(assignment, startDate, new Double[]
       {
          8.0,
          8.0,
          8.0,
-         0.0,
-         0.0,
+         null,
+         null,
          8.0,
          8.0,
          8.0,
          8.0,
          8.0,
-         0.0,
-         0.0,
+         null,
+         null,
          8.0,
          8.0,
-         0.0
+         null
       });
-      testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testBaselineCostSegments(assignment, startDate, new Double[]
       {
          96.0,
          96.0,
          96.0,
-         0.0,
-         0.0,
+         null,
+         null,
          96.0,
          96.0,
          96.0,
          96.0,
          96.0,
-         0.0,
-         0.0,
+         null,
+         null,
          96.0,
          96.0,
-         0.0
+         null
       });
-      testCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testRemainingRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
-         0.0,
+         null,
          96.0,
          96.0,
-         0.0,
-         0.0,
+         null,
+         null,
          96.0,
          96.0,
          96.0,
          96.0,
          96.0,
-         0.0,
-         0.0,
+         null,
+         null,
          96.0,
          96.0,
-         0.0
+         null
       });
-      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testActualRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
          96.0,
-         0.0
+         null
       });
 
       task = file.getTaskByID(Integer.valueOf(3));
       assertEquals("Complete task", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testBaselineWorkSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testBaselineWorkSegments(assignment, startDate, new Double[]
       {
          8.0,
          8.0,
          8.0,
-         0.0,
-         0.0,
+         null,
+         null,
          8.0,
          8.0,
          8.0,
          8.0,
          8.0,
-         0.0,
-         0.0,
+         null,
+         null,
          8.0,
          8.0,
-         0.0
+         null
       });
-      testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testBaselineCostSegments(assignment, startDate, new Double[]
       {
          104.0,
          104.0,
          104.0,
-         0.0,
-         0.0,
+         null,
+         null,
          104.0,
          104.0,
          104.0,
          104.0,
          104.0,
-         0.0,
-         0.0,
+         null,
+         null,
          104.0,
          104.0,
-         0.0
+         null
       });
-      testCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testRemainingRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
-         0.0,
-         0.0
+         null,
+         null
       });
-      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testActualRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
          104.0,
          104.0,
          104.0,
-         0.0,
-         0.0,
+         null,
+         null,
          104.0,
          104.0,
          104.0,
          104.0,
          104.0,
-         0.0,
-         0.0,
+         null,
+         null,
          104.0,
          104.0,
-         0.0
+         null
       });
 
       task = file.getTaskByID(Integer.valueOf(4));
       assertEquals("Planned task with resource holiday", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testBaselineWorkSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testBaselineWorkSegments(assignment, startDate, new Double[]
       {
          8.0,
          8.0,
          8.0,
-         0.0,
-         0.0,
+         null,
+         null,
          8.0,
          8.0,
          0.0,
          8.0,
          8.0,
-         0.0,
-         0.0,
+         null,
+         null,
          8.0,
          8.0,
          8.0,
-         0.0
+         null
       });
-      testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testBaselineCostSegments(assignment, startDate, new Double[]
       {
          112.0,
          112.0,
          112.0,
-         0.0,
-         0.0,
+         null,
+         null,
          112.0,
          112.0,
          0.0,
          112.0,
          112.0,
-         0.0,
-         0.0,
+         null,
+         null,
          112.0,
          112.0,
          112.0,
-         0.0
+         null
       });
-      testCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testRemainingRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
          112.0,
          112.0,
          112.0,
-         0.0,
-         0.0,
+         null,
+         null,
          112.0,
          112.0,
-         0.0,
+         null,
          112.0,
          112.0,
-         0.0,
-         0.0,
+         null,
+         null,
          112.0,
          112.0,
          112.0,
-         0.0
+         null
       });
-      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testActualRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
-         0.0,
-         0.0
+         null,
+         null
       });
 
       task = file.getTaskByID(Integer.valueOf(5));
       assertEquals("Partially complete task with resource holiday", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testBaselineWorkSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testBaselineWorkSegments(assignment, startDate, new Double[]
       {
          8.0,
          8.0,
          8.0,
-         0.0,
-         0.0,
+         null,
+         null,
          8.0,
          8.0,
          0.0,
          8.0,
          8.0,
-         0.0,
-         0.0,
+         null,
+         null,
          8.0,
          8.0,
          8.0,
-         0.0
+         null
       });
-      testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testBaselineCostSegments(assignment, startDate, new Double[]
       {
          120.0,
          120.0,
          120.0,
-         0.0,
-         0.0,
+         null,
+         null,
          120.0,
          120.0,
          0.0,
          120.0,
          120.0,
-         0.0,
-         0.0,
+         null,
+         null,
          120.0,
          120.0,
          120.0,
-         0.0
+         null
       });
-      testCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testRemainingRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
-         0.0,
+         null,
          120.0,
          120.0,
-         0.0,
-         0.0,
+         null,
+         null,
          120.0,
          120.0,
-         0.0,
+         null,
          120.0,
          120.0,
-         0.0,
-         0.0,
+         null,
+         null,
          120.0,
          120.0,
          120.0,
-         0.0
+         null
       });
-      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testActualRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
          120.0,
-         0.0
+         null
       });
 
       task = file.getTaskByID(Integer.valueOf(6));
       assertEquals("Complete task with resource holiday", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testBaselineWorkSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testBaselineWorkSegments(assignment, startDate, new Double[]
       {
          8.0,
          8.0,
          8.0,
-         0.0,
-         0.0,
+         null,
+         null,
          8.0,
          8.0,
          0.0,
          8.0,
          8.0,
-         0.0,
-         0.0,
+         null,
+         null,
          8.0,
          8.0,
          8.0,
-         0.0
+         null
       });
-      testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testBaselineCostSegments(assignment, startDate, new Double[]
       {
          128.0,
          128.0,
          128.0,
-         0.0,
-         0.0,
+         null,
+         null,
          128.0,
          128.0,
          0.0,
          128.0,
          128.0,
-         0.0,
-         0.0,
+         null,
+         null,
          128.0,
          128.0,
          128.0,
-         0.0
+         null
       });
-      testCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testRemainingRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
-         0.0,
-         0.0
+         null,
+         null
       });
-      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testActualRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
          128.0,
          128.0,
          128.0,
-         0.0,
-         0.0,
+         null,
+         null,
          128.0,
          128.0,
-         0.0,
+         null,
          128.0,
          128.0,
-         0.0,
-         0.0,
+         null,
+         null,
          128.0,
          128.0,
          128.0,
-         0.0
+         null
       });
 
       task = file.getTaskByID(Integer.valueOf(7));
       assertEquals("Planned task with overtime", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testBaselineWorkSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testBaselineWorkSegments(assignment, startDate, new Double[]
       {
          9.15,
          9.15,
          9.15,
-         0.0,
-         0.0,
+         null,
+         null,
          9.15,
          9.15,
          9.15,
          9.15,
          9.15,
-         0.0,
-         0.0,
+         null,
+         null,
          6.85,
-         0.0
+         null
       });
-      testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testBaselineCostSegments(assignment, startDate, new Double[]
       {
          166.86,
          166.86,
          166.86,
-         0.0,
-         0.0,
+         null,
+         null,
          166.86,
          166.86,
          166.86,
          166.86,
          166.86,
-         0.0,
-         0.0,
+         null,
+         null,
          125.14,
-         0.0
+         null
       });
-      testCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testRemainingCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
          166.86,
          166.86,
          166.86,
-         0.0,
-         0.0,
+         null,
+         null,
          166.86,
          166.86,
          166.86,
          166.86,
          166.86,
-         0.0,
-         0.0,
+         null,
+         null,
          125.14,
-         0.0
+         null
       });
-      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testActualRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
-         0.0,
-         0.0
+         null,
+         null
       });
 
       task = file.getTaskByID(Integer.valueOf(8));
       assertEquals("Partially complete task with overtime", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testBaselineWorkSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testBaselineWorkSegments(assignment, startDate, new Double[]
       {
          9.15,
          9.15,
          9.15,
-         0.0,
-         0.0,
+         null,
+         null,
          9.15,
          9.15,
          9.15,
          9.15,
          9.15,
-         0.0,
-         0.0,
+         null,
+         null,
          6.85,
-         0.0
+         null
       });
-      testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testBaselineCostSegments(assignment, startDate, new Double[]
       {
          176.0,
          176.0,
          176.0,
-         0.0,
-         0.0,
+         null,
+         null,
          176.0,
          176.0,
          176.0,
          176.0,
          176.0,
-         0.0,
-         0.0,
+         null,
+         null,
          132.0,
-         0.0
+         null
       });
-      testCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testRemainingCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
-         0.0,
+         null,
          44.0,
          176.0,
-         0.0,
-         0.0,
+         null,
+         null,
          176.0,
          176.0,
          176.0,
          176.0,
          176.0,
-         0.0,
-         0.0,
+         null,
+         null,
          132.0,
-         0.0
+         null
       });
-      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
          176.0,
          132.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
       });
 
       task = file.getTaskByID(Integer.valueOf(9));
       assertEquals("Partially complete task with overtime added", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testBaselineWorkSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testBaselineWorkSegments(assignment, startDate, new Double[]
       {
          8.0,
          8.0,
          9.48,
-         0.0,
-         0.0,
+         null,
+         null,
          9.48,
          9.48,
          9.48,
          9.48,
          9.48,
-         0.0,
-         0.0,
+         null,
+         null,
          7.12,
-         0.0
+         null
       });
-      testBaselineCostSegments(file, assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testBaselineCostSegments(assignment, startDate, new Double[]
       {
          152.00,
          152.00,
          194.96,
-         0.0,
-         0.0,
+         null,
+         null,
          194.96,
          194.96,
          194.96,
          194.96,
          194.96,
-         0.0,
-         0.0,
+         null,
+         null,
          146.22,
-         0.0
+         null
       });
-      testCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testRemainingCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
-         0.0,
-         0.0,
+         null,
+         null,
          194.96,
-         0.0,
-         0.0,
-         194.96,
-         194.96,
+         null,
+         null,
          194.96,
          194.96,
          194.96,
-         0.0,
-         0.0,
+         194.96,
+         194.96,
+         null,
+         null,
          146.22,
-         0.0
+         null
       });
-      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new double[]
+      testActualRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]
       {
          152.0,
          152.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0,
-         0.0
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null,
+         null
       });
    }
 
    /**
     * Common method used to test timephased assignment segments against expected data.
     *
-    * @param file parent project file
     * @param assignment parent resource assignment
     * @param startDate start date for segments
-    * @param units units of duration for each segment
     * @param expected array of expected durations for each segment
     */
-   private void testBaselineWorkSegments(ProjectFile file, ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, double[] expected)
+   private void testBaselineWorkSegments(ResourceAssignment assignment, LocalDateTime startDate, Double[] expected)
    {
-      ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
       //System.out.println(dateList);
-      List<TimephasedWork> assignments = assignment.getTimephasedBaselineWork(0);
-      ArrayList<Duration> durationList = m_timephased.segmentBaselineWork(assignment.getEffectiveCalendar(), assignments, units, dateList);
+      List<Duration> durationList = assignment.getTimephasedBaselineWork(0, dateList, TimeUnit.HOURS);
       //dumpExpectedData(assignment, durationList);
       assertEquals(expected.length, durationList.size());
       for (int loop = 0; loop < expected.length; loop++)
       {
-         assertEquals(expected[loop], durationList.get(loop).getDuration(), 0.009, "Failed at index " + loop);
-      }
-   }
-
-   /**
-    * Common method used to test timephased assignment segments against expected data.
-    *
-    * @param file parent project file
-    * @param assignment parent resource assignment
-    * @param startDate start date for segments
-    * @param units units of duration for each segment
-    * @param expected array of expected durations for each segment
-    */
-   private void testBaselineCostSegments(ProjectFile file, ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, double[] expected)
-   {
-      ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
-      //System.out.println(dateList);
-      List<TimephasedCost> assignments = assignment.getTimephasedBaselineCost(0);
-      ArrayList<Double> costList = m_timephased.segmentBaselineCost(assignment.getEffectiveCalendar(), assignments, units, dateList);
-      //dumpExpectedData(assignment, durationList);
-      assertEquals(expected.length, costList.size());
-      for (int loop = 0; loop < expected.length; loop++)
-      {
-         assertEquals(expected[loop], costList.get(loop).doubleValue(), 0.009, "Failed at index " + loop);
+         if (expected[loop] == null)
+         {
+            assertNull(durationList.get(loop));
+         }
+         else
+         {
+            assertEquals(expected[loop], durationList.get(loop).getDuration(), 0.009, "Failed at index " + loop);
+         }
       }
    }
 
@@ -770,12 +750,13 @@ public class TimephasedWorkCostSegmentTest
     *
     * @param assignment parent resource assignment
     * @param startDate start date for segments
-    * @param units units of duration for each segment
     * @param expected array of expected durations for each segment
     */
-   private void testCostSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, double[] expected)
+   private void testBaselineCostSegments(ResourceAssignment assignment, LocalDateTime startDate, Double[] expected)
    {
-      testCostSegments(assignment, assignment.getTimephasedCost(), startDate, units, expected);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
+      List<Number> costList = assignment.getTimephasedBaselineCost(0, dateList);
+      testCostSegments(costList, expected);
    }
 
    /**
@@ -786,30 +767,61 @@ public class TimephasedWorkCostSegmentTest
     * @param units units of duration for each segment
     * @param expected array of expected durations for each segment
     */
-   private void testActualCostSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, double[] expected)
+   private void testRemainingRegularCostSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, Double[] expected)
    {
-      testCostSegments(assignment, assignment.getTimephasedActualCost(), startDate, units, expected);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
+      List<Number> costList = assignment.getTimephasedRemainingRegularCost(dateList);
+      testCostSegments(costList, expected);
+   }
+
+   private void testRemainingCostSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, Double[] expected)
+   {
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
+      List<Number> costList = assignment.getTimephasedRemainingCost(dateList);
+      testCostSegments(costList, expected);
    }
 
    /**
     * Common method used to test timephased assignment segments against expected data.
     *
     * @param assignment parent resource assignment
-    * @param assignments timephased cost data
     * @param startDate start date for segments
     * @param units units of duration for each segment
     * @param expected array of expected durations for each segment
     */
-   private void testCostSegments(ResourceAssignment assignment, List<TimephasedCost> assignments, LocalDateTime startDate, TimescaleUnits units, double[] expected)
+   private void testActualRegularCostSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, Double[] expected)
    {
-      ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
-      //System.out.println(dateList);
-      ArrayList<Double> costList = m_timephased.segmentCost(assignment.getEffectiveCalendar(), assignments, units, dateList);
-      //dumpExpectedData(assignment, costList);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
+      List<Number> costList = assignment.getTimephasedActualRegularCost(dateList);
+      testCostSegments(costList, expected);
+   }
+
+   private void testActualCostSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, Double[] expected)
+   {
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
+      List<Number> costList = assignment.getTimephasedActualCost(dateList);
+      testCostSegments(costList, expected);
+   }
+
+   /**
+    * Common method used to test timephased assignment segments against expected data.
+    *
+    * @param costList segmented timephased costs
+    * @param expected array of expected durations for each segment
+    */
+   private void testCostSegments(List<Number> costList, Double[] expected)
+   {
       assertEquals(expected.length, costList.size());
       for (int loop = 0; loop < expected.length; loop++)
       {
-         assertEquals(expected[loop], costList.get(loop).doubleValue(), 0.02, "Failed at index " + loop);
+         if (expected[loop] == null)
+         {
+            assertNull(costList.get(loop), "Failed at index " + loop);
+         }
+         else
+         {
+            assertEquals(expected[loop], costList.get(loop).doubleValue(), 0.02, "Failed at index " + loop);
+         }
       }
    }
 
@@ -818,13 +830,13 @@ public class TimephasedWorkCostSegmentTest
     * creating new test cases.
     *
     * @param assignment parent assignment
-    * @param list list of durations
+    * @param list a list of durations
     */
    /*
       private void dumpExpectedData(ResourceAssignment assignment, ArrayList<Duration> list)
       {
          //System.out.println(assignment);
-         System.out.print("new double[]{");
+         System.out.print("new Double[]{");
          boolean first = true;
          for (Duration d : list)
          {
@@ -844,7 +856,7 @@ public class TimephasedWorkCostSegmentTest
       private void dumpExpectedData(ResourceAssignment assignment, ArrayList<Double> list)
       {
          //System.out.println(assignment);
-         System.out.print("new double[]{");
+         System.out.print("new Double[]{");
          boolean first = true;
          for (Double d : list)
          {
@@ -862,5 +874,4 @@ public class TimephasedWorkCostSegmentTest
       }
    */
    private final TimescaleUtility m_timescale = new TimescaleUtility();
-   private final TimephasedUtility m_timephased = new TimephasedUtility();
 }

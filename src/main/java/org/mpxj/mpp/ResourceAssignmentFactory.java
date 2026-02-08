@@ -39,16 +39,12 @@ import org.mpxj.ResourceType;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedCost;
-import org.mpxj.TimephasedCostContainer;
 import org.mpxj.TimephasedWork;
-import org.mpxj.TimephasedWorkContainer;
 import org.mpxj.WorkContour;
+import org.mpxj.common.AssignmentFieldLists;
 import org.mpxj.common.ByteArrayHelper;
-import org.mpxj.common.DefaultTimephasedCostContainer;
-import org.mpxj.common.DefaultTimephasedWorkContainer;
 import org.mpxj.common.MicrosoftProjectConstants;
 import org.mpxj.common.NumberHelper;
-import org.mpxj.common.SplitTaskFactory;
 
 /**
  * Common implementation detail to extract resource assignment data from
@@ -187,28 +183,27 @@ public class ResourceAssignmentFactory
             }
          }
 
-         ProjectCalendar baselineCalendar = file.getCalendarByName(file.getProjectProperties().getBaselineCalendarName());
-         if (baselineCalendar == null)
-         {
-            // The project has no baseline calendar, use the default calendar instead
-            baselineCalendar = file.getDefaultCalendar();
-         }
+         // Note: in the code below we are explicitly setting the timephased fields to null before writing to them.
+         // The populateContainer method may have written byte arrays to these fields which we need to clear to ensure
+         // the default value for the field is used.
+         // TODO: switch from marking these fields as binary. Introduce a specific type and skip populating them based on the type
 
+         ProjectCalendar baselineCalendar = file.getBaselineCalendar();
          for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
          {
             List<TimephasedWork> baselineWork = timephasedFactory.getBaselineWork(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])));
-            TimephasedWorkContainer workContainer = baselineWork.isEmpty() ? null : new DefaultTimephasedWorkContainer(assignment, MPPTimephasedBaselineWorkNormaliser.INSTANCE, baselineWork, true);
-            assignment.setTimephasedBaselineWork(index, workContainer);
+            assignment.set(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index], null);
+            assignment.getRawTimephasedBaselineWork(index).addAll(baselineWork);
 
             List<TimephasedCost> baselineCost = timephasedFactory.getBaselineCost(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])));
-            TimephasedCostContainer costContainer = baselineCost.isEmpty() ? null : new DefaultTimephasedCostContainer(assignment, MPPTimephasedBaselineCostNormaliser.INSTANCE, baselineCost, !useRawTimephasedData);
-            assignment.setTimephasedBaselineCost(index, costContainer);
+            assignment.set(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index], null);
+            assignment.getRawTimephasedBaselineCost(index).addAll(baselineCost);
          }
 
-         byte[] timephasedActualRegularWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_WORK));
+         byte[] timephasedActualRegularWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_REGULAR_WORK));
          byte[] timephasedActualIrregularWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_IRREGULAR_WORK));
          byte[] timephasedActualOvertimeWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK));
-         byte[] timephasedWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_WORK));
+         byte[] timephasedWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK));
 
          ResourceType resourceType = resource == null ? ResourceType.WORK : resource.getType();
          ProjectCalendar calendar = assignment.getEffectiveCalendar();
@@ -229,18 +224,16 @@ public class ResourceAssignmentFactory
             assignment.setActualStart(assignment.getActualFinish() != null || !timephasedActualWork.isEmpty() ? assignment.getStart() : null);
          }
 
-         // TODO: this assumes that timephased data for all assignments of a task is the same
-         if (!task.getMilestone() && !processedSplits.contains(task))
-         {
-            processedSplits.add(task);
-            SplitTaskFactory.processSplitData(assignment, timephasedActualWork, timephasedWork);
-         }
-
          createTimephasedData(file, assignment, timephasedWork, timephasedActualWork);
 
-         assignment.setTimephasedWork(new DefaultTimephasedWorkContainer(assignment, MPPTimephasedWorkNormaliser.INSTANCE, timephasedWork, !useRawTimephasedData));
-         assignment.setTimephasedActualWork(new DefaultTimephasedWorkContainer(assignment, MPPTimephasedWorkNormaliser.INSTANCE, timephasedActualWork, !useRawTimephasedData));
-         assignment.setTimephasedActualOvertimeWork(new DefaultTimephasedWorkContainer(assignment, MPPTimephasedWorkNormaliser.INSTANCE, timephasedActualOvertimeWork, !useRawTimephasedData));
+         assignment.set(AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK, null);
+         assignment.getRawTimephasedRemainingRegularWork().addAll(timephasedWork);
+
+         assignment.set(AssignmentField.TIMEPHASED_ACTUAL_REGULAR_WORK, null);
+         assignment.getRawTimephasedActualRegularWork().addAll(timephasedActualWork);
+
+         assignment.set(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK, null);
+         assignment.getRawTimephasedActualOvertimeWork().addAll(timephasedActualOvertimeWork);
 
          if (timephasedWorkData != null)
          {
@@ -277,36 +270,30 @@ public class ResourceAssignmentFactory
          return;
       }
 
-      Duration totalMinutes = assignment.getWork().convertUnits(TimeUnit.MINUTES, file.getProjectProperties());
+      Duration totalWorkMinutes = assignment.getWork().convertUnits(TimeUnit.MINUTES, file.getProjectProperties());
 
-      Duration workPerDay;
+      Duration workPerHour;
 
       if (assignment.getResource() == null || assignment.getResource().getType() == ResourceType.WORK)
       {
-         workPerDay = totalMinutes.getDuration() == 0 ? totalMinutes : ResourceAssignmentFactory.DEFAULT_NORMALIZER_WORK_PER_DAY;
-         int units = NumberHelper.getInt(assignment.getUnits());
-         if (units != 100)
-         {
-            workPerDay = Duration.getInstance((workPerDay.getDuration() * units) / 100.0, workPerDay.getUnits());
-         }
+         double units = NumberHelper.getDouble(assignment.getUnits());
+         double workPerHourValue = ((totalWorkMinutes.getDuration() == 0 ? 0 : 60) * units) / 100.0;
+         workPerHour = Duration.getInstance(workPerHourValue, TimeUnit.MINUTES);
       }
       else
       {
          if (assignment.getVariableRateUnits() == null)
          {
-            Duration workingDays = assignment.getEffectiveCalendar().getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.DAYS);
+            Duration workingHours = assignment.getEffectiveCalendar().getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.HOURS);
             double units = NumberHelper.getDouble(assignment.getUnits());
-            double unitsPerDayAsMinutes = (units * 60) / (workingDays.getDuration() * 100);
-            workPerDay = Duration.getInstance(unitsPerDayAsMinutes, TimeUnit.MINUTES);
+            double unitsPerHourAsMinutes = units / (workingHours.getDuration() * 100);
+            workPerHour = Duration.getInstance(unitsPerHourAsMinutes, TimeUnit.MINUTES);
          }
          else
          {
-            double unitsPerHour = NumberHelper.getDouble(assignment.getUnits());
-            workPerDay = ResourceAssignmentFactory.DEFAULT_NORMALIZER_WORK_PER_DAY;
-            Duration hoursPerDay = workPerDay.convertUnits(TimeUnit.HOURS, file.getProjectProperties());
-            double unitsPerDayAsHours = (unitsPerHour * hoursPerDay.getDuration()) / 100;
-            double unitsPerDayAsMinutes = unitsPerDayAsHours * 60;
-            workPerDay = Duration.getInstance(unitsPerDayAsMinutes, TimeUnit.MINUTES);
+            double units = NumberHelper.getDouble(assignment.getUnits());
+            double workPerHourValue = ((totalWorkMinutes.getDuration() == 0 ? 0 : 60) * units) / 100.0;
+            workPerHour = Duration.getInstance(workPerHourValue, TimeUnit.MINUTES);
          }
       }
 
@@ -314,15 +301,15 @@ public class ResourceAssignmentFactory
       if (overtimeWork != null && overtimeWork.getDuration() != 0)
       {
          Duration totalOvertimeMinutes = overtimeWork.convertUnits(TimeUnit.MINUTES, file.getProjectProperties());
-         totalMinutes = Duration.getInstance(totalMinutes.getDuration() - totalOvertimeMinutes.getDuration(), TimeUnit.MINUTES);
+         totalWorkMinutes = Duration.getInstance(totalWorkMinutes.getDuration() - totalOvertimeMinutes.getDuration(), TimeUnit.MINUTES);
       }
 
       TimephasedWork tra = new TimephasedWork();
       tra.setStart(assignment.getStart());
-      tra.setAmountPerDay(workPerDay);
+      tra.setAmountPerHour(workPerHour);
       tra.setModified(false);
       tra.setFinish(assignment.getFinish());
-      tra.setTotalAmount(totalMinutes);
+      tra.setTotalAmount(totalWorkMinutes);
       timephasedPlanned.add(tra);
    }
 
@@ -444,6 +431,4 @@ public class ResourceAssignmentFactory
       AssignmentField.TIMEPHASED_BASELINE9_COST,
       AssignmentField.TIMEPHASED_BASELINE10_COST
    };
-
-   private static final Duration DEFAULT_NORMALIZER_WORK_PER_DAY = Duration.getInstance(480, TimeUnit.MINUTES);
 }

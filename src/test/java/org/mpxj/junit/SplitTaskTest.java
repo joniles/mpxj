@@ -1,8 +1,7 @@
 /*
  * file:       SplitTaskTest.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2005
- * date:       02-Mar-2006
+ * date:       2006-03-02
  */
 
 /*
@@ -26,6 +25,7 @@ package org.mpxj.junit;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.ProjectFile;
@@ -48,29 +48,26 @@ public class SplitTaskTest
       ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("splits9a.mpp"));
 
       Task task = mpp.getTaskByUniqueID(Integer.valueOf(1));
-      assertNull(task.getSplits());
+      List<LocalDateTimeRange>  taskSplits = task.getWorkSplits();
+      assertEquals(1, taskSplits.size());
 
-      List<LocalDateTimeRange> taskSplits;
       for (int taskID = 2; taskID <= 6; taskID++)
       {
          task = mpp.getTaskByUniqueID(Integer.valueOf(taskID));
-         taskSplits = task.getSplits();
-         assertEquals(3, taskSplits.size());
+         taskSplits = task.getWorkSplits();
+         assertEquals(2, taskSplits.size());
          testSplit(taskSplits.get(0), "06/01/2006 08:00", "11/01/2006 17:00");
-         //testSplit(taskSplits.get(1), "12/01/2006 08:00", "12/01/2006 17:00");
-         testSplit(taskSplits.get(2), "13/01/2006 08:00", "20/01/2006 17:00");
+         testSplit(taskSplits.get(1), "13/01/2006 08:00", "20/01/2006 17:00");
       }
 
       for (int taskID = 7; taskID <= 13; taskID++)
       {
          task = mpp.getTaskByUniqueID(Integer.valueOf(taskID));
-         taskSplits = task.getSplits();
-         assertEquals(5, taskSplits.size());
+         taskSplits = task.getWorkSplits();
+         assertEquals(3, taskSplits.size());
          testSplit(taskSplits.get(0), "06/01/2006 08:00", "09/01/2006 17:00");
-         //testSplit(taskSplits.get(1), "10/01/2006 08:00", "13/01/2006 17:00");
-         testSplit(taskSplits.get(2), "16/01/2006 08:00", "20/01/2006 17:00");
-         //testSplit(taskSplits.get(3), "23/01/2006 08:00", "24/01/2006 17:00");
-         testSplit(taskSplits.get(4), "25/01/2006 08:00", "27/01/2006 17:00");
+         testSplit(taskSplits.get(1), "16/01/2006 08:00", "20/01/2006 17:00");
+         testSplit(taskSplits.get(2), "25/01/2006 08:00", "27/01/2006 17:00");
       }
    }
 
@@ -82,30 +79,28 @@ public class SplitTaskTest
       ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("splits9b.mpp"));
       List<LocalDateTimeRange> taskSplits;
       Task task = mpp.getTaskByUniqueID(Integer.valueOf(1));
-      taskSplits = task.getSplits();
-      assertEquals(5, taskSplits.size());
+      taskSplits = task.getWorkSplits();
+      assertEquals(3, taskSplits.size());
       testSplit(taskSplits.get(0), "26/08/2005 08:00", "29/08/2005 17:00");
-      testSplit(taskSplits.get(1), "30/08/2005 08:00", "01/09/2005 17:00");
-      testSplit(taskSplits.get(2), "02/09/2005 08:00", "06/09/2005 17:00");
-      testSplit(taskSplits.get(3), "07/09/2005 08:00", "09/09/2005 17:00");
-      testSplit(taskSplits.get(4), "12/09/2005 08:00", "16/09/2005 17:00");
+      testSplit(taskSplits.get(1), "02/09/2005 08:00", "06/09/2005 17:00");
+      testSplit(taskSplits.get(2), "12/09/2005 08:00", "16/09/2005 17:00");
 
       task = mpp.getTaskByUniqueID(Integer.valueOf(3));
-      assertNull(task.getSplits());
+      taskSplits = task.getWorkSplits();
+      assertEquals(1, taskSplits.size());
+      testSplit(taskSplits.get(0), "12/09/2005 08:00", "16/09/2005 12:00");
 
       task = mpp.getTaskByUniqueID(Integer.valueOf(4));
-      taskSplits = task.getSplits();
-      assertEquals(3, taskSplits.size());
+      taskSplits = task.getWorkSplits();
+      assertEquals(2, taskSplits.size());
       testSplit(taskSplits.get(0), "29/08/2005 08:00", "31/08/2005 17:00");
-      testSplit(taskSplits.get(1), "01/09/2005 08:00", "02/09/2005 17:00");
-      testSplit(taskSplits.get(2), "05/09/2005 08:00", "13/09/2005 17:00");
+      testSplit(taskSplits.get(1), "05/09/2005 08:00", "13/09/2005 17:00");
 
       task = mpp.getTaskByUniqueID(Integer.valueOf(5));
-      taskSplits = task.getSplits();
-      assertEquals(3, taskSplits.size());
+      taskSplits = task.getWorkSplits();
+      assertEquals(2, taskSplits.size());
       testSplit(taskSplits.get(0), "26/08/2005 08:00", "07/09/2005 17:00");
-      testSplit(taskSplits.get(1), "08/09/2005 08:00", "09/09/2005 17:00");
-      testSplit(taskSplits.get(2), "12/09/2005 08:00", "26/09/2005 17:00");
+      testSplit(taskSplits.get(1), "12/09/2005 08:00", "26/09/2005 17:00");
    }
 
    /**

@@ -150,8 +150,8 @@ public final class MPPAssignmentField
       FIELD_ARRAY[39] = AssignmentField.WORK_CONTOUR;
       FIELD_ARRAY[43] = AssignmentField.PERCENT_WORK_COMPLETE;
       FIELD_ARRAY[44] = AssignmentField.PROJECT;
-      FIELD_ARRAY[49] = AssignmentField.TIMEPHASED_WORK;
-      FIELD_ARRAY[50] = AssignmentField.TIMEPHASED_ACTUAL_WORK;
+      FIELD_ARRAY[49] = AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK;
+      FIELD_ARRAY[50] = AssignmentField.TIMEPHASED_ACTUAL_REGULAR_WORK;
       FIELD_ARRAY[51] = AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK;
       FIELD_ARRAY[52] = AssignmentField.TIMEPHASED_BASELINE_WORK;
       FIELD_ARRAY[53] = AssignmentField.TIMEPHASED_BASELINE_COST;
