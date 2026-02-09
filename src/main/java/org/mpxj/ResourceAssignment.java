@@ -761,6 +761,13 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Collections.emptyList();
       }
 
+      // If the ranges are outside the assignment, return null values
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
       ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
       if (type == ResourceType.COST)
       {
@@ -804,6 +811,13 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Collections.emptyList();
       }
 
+      // If the ranges are outside the assignment, return null values
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
       ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
       if (type == ResourceType.COST)
       {
@@ -841,6 +855,13 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       if (ranges.isEmpty())
       {
          return Collections.emptyList();
+      }
+
+      // If the ranges are outside the assignment, return null values
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
+      {
+         return Arrays.asList(new Number[ranges.size()]);
       }
 
       ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
@@ -883,6 +904,13 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Collections.emptyList();
       }
 
+      // If the ranges are outside the assignment, return null values
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
       ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
       if (type == ResourceType.COST)
       {
@@ -923,12 +951,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    {
       LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
       Number[] result = new Number[ranges.size()];
-
-      // If the ranges are outside the assignment, return null values
-      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
-      {
-         return Arrays.asList(result);
-      }
 
       // If there is no work, return null values
       List<Duration> hours = timephasedWork.apply(ranges);
@@ -1020,13 +1042,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    private List<Number> getTimephasedCostResourceRemainingCost(List<LocalDateTimeRange> ranges)
    {
-      // If the ranges are outside the assignment, return null values
-      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
-      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
-      {
-         return Arrays.asList(new Number[ranges.size()]);
-      }
-
       switch(getResource().getAccrueAt())
       {
          case START:
@@ -1048,14 +1063,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    private List<Number> getTimephasedCostResourceActualCost(List<LocalDateTimeRange> ranges)
    {
-      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
-
-      // If the ranges are outside the assignment, return null values
-      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
-      {
-         return Arrays.asList(new Number[ranges.size()]);
-      }
-
       switch(getResource().getAccrueAt())
       {
          case START:

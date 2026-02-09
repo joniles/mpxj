@@ -47,7 +47,6 @@ public class TimephasedWorkResourceTest
       testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeOverlapsEnd), new Double[] {null, null, null});
       testCostSegments(assignment.getTimephasedCost(rangeOverlapsEnd), new Double[] {80.0, 80.0, null});
 
-
       task = file.getTaskByID(2);
       assertEquals("Task 2", task.getName());
       assertEquals(1, task.getResourceAssignments().size());
@@ -57,13 +56,11 @@ public class TimephasedWorkResourceTest
       testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeCoversAssignment), new Double[] {null, 80.0, null, null, null});
       testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeCoversAssignment), new Double[] {null, 0.0, null, null, null});
       testCostSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 80.0, null, null, null});
-
       testCostSegments(assignment.getTimephasedActualRegularCost(rangeOverlapsStart), new Double[] {null, 0.0, null});
       testCostSegments(assignment.getTimephasedActualOvertimeCost(rangeOverlapsStart), new Double[] {null, 0.0, null});
       testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeOverlapsStart), new Double[] {null, 80.0, null});
       testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeOverlapsStart), new Double[] {null, 0.0, null});
       testCostSegments(assignment.getTimephasedCost(rangeOverlapsStart), new Double[] {null, 80.0, null});
-
       testCostSegments(assignment.getTimephasedActualRegularCost(rangeOverlapsEnd), new Double[] {null, null, null});
       testCostSegments(assignment.getTimephasedActualOvertimeCost(rangeOverlapsEnd), new Double[] {null, null, null});
       testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeOverlapsEnd), new Double[] {null, null, null});
@@ -80,6 +77,16 @@ public class TimephasedWorkResourceTest
       testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeCoversAssignment), new Double[] {null, 160.0, 0.0, null, null});
       testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, null, null});
       testCostSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 160.0, 0.0, null, null});
+      testCostSegments(assignment.getTimephasedActualRegularCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedActualOvertimeCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeOverlapsStart), new Double[] {null, 160.0, 0.0});
+      testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsStart), new Double[] {null, 160.0, 0.0});
+      testCostSegments(assignment.getTimephasedActualRegularCost(rangeOverlapsEnd), new Double[] {0.0, null, null});
+      testCostSegments(assignment.getTimephasedActualOvertimeCost(rangeOverlapsEnd), new Double[] {0.0, null, null});
+      testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeOverlapsEnd), new Double[] {0.0, null, null});
+      testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeOverlapsEnd), new Double[] {0.0, null, null});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsEnd), new Double[] {0.0, null, null});
 
       task = file.getTaskByID(4);
       assertEquals("Task 4", task.getName());
@@ -90,6 +97,16 @@ public class TimephasedWorkResourceTest
       testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeCoversAssignment), new Double[] {null, 80.0, 0.0, null, null});
       testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, null, null});
       testCostSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 80.0, 0.0, null, null});
+      testCostSegments(assignment.getTimephasedActualRegularCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedActualOvertimeCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeOverlapsStart), new Double[] {null, 80.0, 0.0});
+      testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsStart), new Double[] {null, 80.0, 0.0});
+      testCostSegments(assignment.getTimephasedActualRegularCost(rangeOverlapsEnd), new Double[] {0.0, null, null});
+      testCostSegments(assignment.getTimephasedActualOvertimeCost(rangeOverlapsEnd), new Double[] {0.0, null, null});
+      testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeOverlapsEnd), new Double[] {0.0, null, null});
+      testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeOverlapsEnd), new Double[] {0.0, null, null});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsEnd), new Double[] {0.0, null, null});
 
       task = file.getTaskByID(5);
       assertEquals("Task 5", task.getName());
@@ -100,6 +117,16 @@ public class TimephasedWorkResourceTest
       testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeCoversAssignment), new Double[] {null, 140.0, 0.0, null, null});
       testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeCoversAssignment), new Double[] {null, 22.0, 0.0, null, null});
       testCostSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 162.0, 0.0, null, null});
+      testCostSegments(assignment.getTimephasedActualRegularCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedActualOvertimeCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeOverlapsStart), new Double[] {null, 140.0, 0.0});
+      testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeOverlapsStart), new Double[] {null, 22.0, 0.0});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsStart), new Double[] {null, 162.0, 0.0});
+      testCostSegments(assignment.getTimephasedActualRegularCost(rangeOverlapsEnd), new Double[] {0.0, null, null});
+      testCostSegments(assignment.getTimephasedActualOvertimeCost(rangeOverlapsEnd), new Double[] {0.0, null, null});
+      testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeOverlapsEnd), new Double[] {0.0, null, null});
+      testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeOverlapsEnd), new Double[] {0.0, null, null});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsEnd), new Double[] {0.0, null, null});
 
       task = file.getTaskByID(6);
       assertEquals("Task 6", task.getName());
@@ -110,6 +137,16 @@ public class TimephasedWorkResourceTest
       testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 240.0, null});
       testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, null});
       testCostSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 240.0, null});
+      testCostSegments(assignment.getTimephasedActualRegularCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedActualOvertimeCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedActualRegularCost(rangeOverlapsEnd), new Double[] {0.0, 0.0, null});
+      testCostSegments(assignment.getTimephasedActualOvertimeCost(rangeOverlapsEnd), new Double[] {0.0, 0.0, null});
+      testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeOverlapsEnd), new Double[] {0.0, 240.0, null});
+      testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeOverlapsEnd), new Double[] {0.0, 0.0, null});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsEnd), new Double[] {0.0, 240.0, null});
 
       task = file.getTaskByID(7);
       assertEquals("Task 7", task.getName());
@@ -120,6 +157,16 @@ public class TimephasedWorkResourceTest
       testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 210.0, null});
       testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 33.0, null});
       testCostSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 243.0, null});
+      testCostSegments(assignment.getTimephasedActualRegularCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedActualOvertimeCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedActualRegularCost(rangeOverlapsEnd), new Double[] {0.0, 0.0, null});
+      testCostSegments(assignment.getTimephasedActualOvertimeCost(rangeOverlapsEnd), new Double[] {0.0, 0.0, null});
+      testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeOverlapsEnd), new Double[] {0.0, 210.0, null});
+      testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeOverlapsEnd), new Double[] {0.0, 33.0, null});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsEnd), new Double[] {0.0, 243.0, null});
 
       task = file.getTaskByID(8);
       assertEquals("Task 8", task.getName());
@@ -130,6 +177,16 @@ public class TimephasedWorkResourceTest
       testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeCoversAssignment), new Double[] {null, 80.0, 80.0, 80.0, null});
       testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeCoversAssignment), new Double[] {null, 7.333333333333333, 7.333333333333333, 7.333333333333333, null});
       testCostSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 87.33333333333333, 87.33333333333333, 87.33333333333333, null});
+      testCostSegments(assignment.getTimephasedActualRegularCost(rangeOverlapsStart), new Double[] {null, null, null});
+      testCostSegments(assignment.getTimephasedActualOvertimeCost(rangeOverlapsStart), new Double[] {null, null, null});
+      testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeOverlapsStart), new Double[] {null, 80.0, 80.0});
+      testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeOverlapsStart), new Double[] {null, 7.333333333333333, 7.333333333333333});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsStart), new Double[] {null, 87.33333333333333, 87.33333333333333});
+      testCostSegments(assignment.getTimephasedActualRegularCost(rangeOverlapsEnd), new Double[] {null, null, null});
+      testCostSegments(assignment.getTimephasedActualOvertimeCost(rangeOverlapsEnd), new Double[] {null, null, null});
+      testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeOverlapsEnd), new Double[] {80.0, 80.0, null});
+      testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeOverlapsEnd), new Double[] {7.333333333333333, 7.333333333333333, null});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsEnd), new Double[] {87.33333333333333, 87.33333333333333, null});
 
       task = file.getTaskByID(9);
       assertEquals("Task 9", task.getName());
@@ -140,8 +197,18 @@ public class TimephasedWorkResourceTest
       testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeCoversAssignment), new Double[] {null, 40.0, 40.0, 40.0, null});
       testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeCoversAssignment), new Double[] {null, null, null, null, null});
       testCostSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 40.0, 40.0, 40.0, null});
+      testCostSegments(assignment.getTimephasedActualRegularCost(rangeOverlapsStart), new Double[] {null, null, null});
+      testCostSegments(assignment.getTimephasedActualOvertimeCost(rangeOverlapsStart), new Double[] {null, null, null});
+      testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeOverlapsStart), new Double[] {null, 40.0, 40.0});
+      testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeOverlapsStart), new Double[] {null, null, null});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsStart), new Double[] {null, 40.0, 40.0});
+      testCostSegments(assignment.getTimephasedActualRegularCost(rangeOverlapsEnd), new Double[] {null, null, null});
+      testCostSegments(assignment.getTimephasedActualOvertimeCost(rangeOverlapsEnd), new Double[] {null, null, null});
+      testCostSegments(assignment.getTimephasedRemainingRegularCost(rangeOverlapsEnd), new Double[] {40.0, 40.0, null});
+      testCostSegments(assignment.getTimephasedRemainingOvertimeCost(rangeOverlapsEnd), new Double[] {null, null, null});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsEnd), new Double[] {40.0, 40.0, null});
 
-//      Task finalTask = task;
+      //      Task finalTask = task;
 //      dumpExpectedData(task, rangeCoversAssignment, "getTimephasedActualRegularCost", true, () -> finalTask.getResourceAssignments().get(0).getTimephasedActualRegularCost(rangeCoversAssignment));
 //      dumpExpectedData(task, rangeCoversAssignment, "getTimephasedActualOvertimeCost", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedActualOvertimeCost(rangeCoversAssignment));
 //      dumpExpectedData(task, rangeCoversAssignment, "getTimephasedRemainingRegularCost", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedRemainingRegularCost(rangeCoversAssignment));
