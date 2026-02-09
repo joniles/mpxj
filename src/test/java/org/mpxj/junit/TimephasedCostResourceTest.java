@@ -192,6 +192,67 @@ public class TimephasedCostResourceTest
  */
    }
 
+
+   @Test public void testAccrueAtEndCostResource() throws Exception
+   {
+      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 1, 28, 0, 0), TimescaleUnits.DAYS, 7);
+      List<LocalDateTimeRange> rangeOverlapsStart = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 1, 28, 0, 0), TimescaleUnits.DAYS, 3);
+      List<LocalDateTimeRange> rangeOverlapsEnd = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 2, 0, 0), TimescaleUnits.DAYS, 2);
+
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("timephased-end-cost-resource.mpp"));
+
+      Task task = file.getTaskByID(1);
+      assertEquals("No Progress", task.getName());
+      assertEquals(1, task.getResourceAssignments().size());
+      ResourceAssignment assignment = task.getResourceAssignments().get(0);
+      testCostSegments(assignment.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, 0.0, 0.0, null});
+      testCostSegments(assignment.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, 0.0, 90.0, null});
+      testCostSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, 0.0, 90.0, null});
+      testCostSegments(assignment.getTimephasedActualCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedRemainingCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedActualCost(rangeOverlapsEnd), new Double[] {0.0, null});
+      testCostSegments(assignment.getTimephasedRemainingCost(rangeOverlapsEnd), new Double[] {90.0, null});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsEnd), new Double[] {90.0, null});
+      testCostSegments(task.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, 0.0, 90.0, null});
+      testCostSegments(task.getTimephasedCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(task.getTimephasedCost(rangeOverlapsEnd), new Double[] {90.0, null});
+
+      task = file.getTaskByID(2);
+      assertEquals("No Progress - Actual Cost", task.getName());
+      assertEquals(1, task.getResourceAssignments().size());
+      assignment = task.getResourceAssignments().get(0);
+      testCostSegments(assignment.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, 0.0, 90.0, null});
+      testCostSegments(assignment.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, 0.0, 0.0, null});
+      testCostSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, 0.0, 90.0, null});
+      testCostSegments(assignment.getTimephasedActualCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedRemainingCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedActualCost(rangeOverlapsEnd), new Double[] {90.0, null});
+      testCostSegments(assignment.getTimephasedRemainingCost(rangeOverlapsEnd), new Double[] {0.0, null});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsEnd), new Double[] {90.0, null});
+      testCostSegments(task.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, 0.0, 90.0, null});
+      testCostSegments(task.getTimephasedCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(task.getTimephasedCost(rangeOverlapsEnd), new Double[] {90.0, null});
+
+      task = file.getTaskByID(3);
+      assertEquals("Some Progress", task.getName());
+      assertEquals(2, task.getResourceAssignments().size());
+      assignment = task.getResourceAssignments().get(0);
+      testCostSegments(assignment.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, 0.0, 0.0, null});
+      testCostSegments(assignment.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, 0.0, 90.0, null});
+      testCostSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, 0.0, 90.0, null});
+      testCostSegments(assignment.getTimephasedActualCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedRemainingCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(assignment.getTimephasedActualCost(rangeOverlapsEnd), new Double[] {0.0, null});
+      testCostSegments(assignment.getTimephasedRemainingCost(rangeOverlapsEnd), new Double[] {90.0, null});
+      testCostSegments(assignment.getTimephasedCost(rangeOverlapsEnd), new Double[] {90.0, null});
+      testCostSegments(task.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, 0.0, 0.0, null});
+      testCostSegments(task.getTimephasedActualCost(rangeOverlapsStart), new Double[] {null, 0.0, 0.0});
+      testCostSegments(task.getTimephasedActualCost(rangeOverlapsEnd), new Double[] {0.0, null});
+   }
+
    private void dumpExpectedData(Task task, List<LocalDateTimeRange> ranges, String method, boolean includeAsserts, Supplier<List<Number>> fn)
    {
       if (includeAsserts)

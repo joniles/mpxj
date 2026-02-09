@@ -755,8 +755,13 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    public List<Number> getTimephasedRemainingRegularCost(List<LocalDateTimeRange> ranges)
    {
-      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
+      // If we have no ranges, return an empty list.
+      if (ranges.isEmpty())
+      {
+         return Collections.emptyList();
+      }
 
+      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
       if (type == ResourceType.COST)
       {
          return getTimephasedCostResourceRemainingCost(ranges);
@@ -793,8 +798,13 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    public List<Number> getTimephasedRemainingOvertimeCost(List<LocalDateTimeRange> ranges)
    {
-      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
+      // If we have no ranges, return an empty list.
+      if (ranges.isEmpty())
+      {
+         return Collections.emptyList();
+      }
 
+      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
       if (type == ResourceType.COST)
       {
          // Cost resources don't have overtime
@@ -827,8 +837,13 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    public List<Number> getTimephasedActualRegularCost(List<LocalDateTimeRange> ranges)
    {
-      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
+      // If we have no ranges, return an empty list.
+      if (ranges.isEmpty())
+      {
+         return Collections.emptyList();
+      }
 
+      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
       if (type == ResourceType.COST)
       {
          return getTimephasedCostResourceActualCost(ranges);
@@ -862,8 +877,13 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    public List<Number> getTimephasedActualOvertimeCost(List<LocalDateTimeRange> ranges)
    {
-      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
+      // If we have no ranges, return an empty list.
+      if (ranges.isEmpty())
+      {
+         return Collections.emptyList();
+      }
 
+      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
       if (type == ResourceType.COST)
       {
          // Cost resources don't have overtime
@@ -901,11 +921,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    private List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges, int rateIndex, Function<List<LocalDateTimeRange>, List<Duration>> timephasedWork)
    {
-      if (ranges == null || ranges.isEmpty())
-      {
-         return Collections.emptyList();
-      }
-
       LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
       Number[] result = new Number[ranges.size()];
 
@@ -1005,12 +1020,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    private List<Number> getTimephasedCostResourceRemainingCost(List<LocalDateTimeRange> ranges)
    {
-      // If we have no ranges, return an empty list.
-      if (ranges.isEmpty())
-      {
-         return Collections.emptyList();
-      }
-
       // If the ranges are outside the assignment, return null values
       LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
       if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
@@ -1039,12 +1048,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    private List<Number> getTimephasedCostResourceActualCost(List<LocalDateTimeRange> ranges)
    {
-      // If we have no ranges, return an empty list.
-      if (ranges.isEmpty())
-      {
-         return Collections.emptyList();
-      }
-
       LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
 
       // If the ranges are outside the assignment, return null values
