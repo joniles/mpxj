@@ -21,7 +21,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package org.mpxj.utility;
+package org.mpxj;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -32,18 +32,10 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
-import org.mpxj.LocalDateTimeRange;
-import org.mpxj.Duration;
-import org.mpxj.ProjectCalendar;
-import org.mpxj.TimeUnit;
-import org.mpxj.TimephasedCost;
-import org.mpxj.TimephasedItem;
-import org.mpxj.TimephasedWork;
-
 /**
  * This class contains methods relating to manipulating timephased data.
  */
-public final class TimephasedUtility
+final class TimephasedUtility
 {
    /**
     * This is the main entry point used to convert the internal representation
@@ -347,5 +339,4 @@ public final class TimephasedUtility
 
       return result;
    }
-
 }

@@ -46,7 +46,6 @@ import org.mpxj.common.CombinedCalendar;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.RateHelper;
-import org.mpxj.utility.TimephasedUtility;
 
 /**
  * This class represents a resource assignment record from an MPX file.

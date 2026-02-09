@@ -43,7 +43,6 @@ import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.TaskFieldLists;
-import org.mpxj.utility.TimephasedUtility;
 
 /**
  * This class represents a task record from a project file.

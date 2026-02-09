@@ -43,7 +43,6 @@ import java.util.stream.Stream;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.ResourceFieldLists;
-import org.mpxj.utility.TimephasedUtility;
 
 /**
  * This class represents a resource used in a project.

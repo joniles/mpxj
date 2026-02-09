@@ -37,7 +37,6 @@ import org.mpxj.TimeUnitDefaultsContainer;
 import org.mpxj.TimephasedWork;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mpp.TimescaleUnits;
-import org.mpxj.utility.TimephasedUtility;
 import org.mpxj.utility.TimescaleUtility;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -113,8 +112,7 @@ public class TimephasedWorkSegmentManualOffsetTest
       List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, segmentCount);
       //System.out.println(dateList);
       ProjectCalendar calendar = assignment.getEffectiveCalendar();
-      List<TimephasedWork> assignments = (complete ? assignment.getRawTimephasedActualRegularWork() : assignment.getRawTimephasedRemainingRegularWork());
-      List<Duration> durationList = TimephasedUtility.segmentWork(calendar, assignments, dateList, TimeUnit.HOURS);
+      List<Duration> durationList = (complete ? assignment.getTimephasedActualRegularWork(dateList, TimeUnit.HOURS) : assignment.getTimephasedRemainingRegularWork(dateList, TimeUnit.HOURS));
       //dumpExpectedData(assignment, durationList);
       assertEquals(segmentCount, durationList.size());
       TimeUnitDefaultsContainer unitDefaults = assignment.getParentFile().getProjectProperties();
