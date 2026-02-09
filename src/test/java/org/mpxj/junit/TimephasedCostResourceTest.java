@@ -253,6 +253,24 @@ public class TimephasedCostResourceTest
       testCostSegments(task.getTimephasedActualCost(rangeOverlapsEnd), new Double[] {0.0, null});
    }
 
+   private void testCostSegments(List<Number> costList, Double[] expected)
+   {
+      assertEquals(expected.length, costList.size());
+      for (int loop = 0; loop < expected.length; loop++)
+      {
+         if (expected[loop] == null)
+         {
+            assertNull(costList.get(loop), "Failed at index " + loop);
+         }
+         else
+         {
+            assertNotNull(costList.get(loop), "Failed at index " + loop);
+            assertEquals(expected[loop], costList.get(loop).doubleValue(), 0.02, "Failed at index " + loop);
+         }
+      }
+   }
+
+   /*
    private void dumpExpectedData(Task task, List<LocalDateTimeRange> ranges, String method, boolean includeAsserts, Supplier<List<Number>> fn)
    {
       if (includeAsserts)
@@ -279,22 +297,5 @@ public class TimephasedCostResourceTest
       }
       System.out.println("});");
    }
-
-   private void testCostSegments(List<Number> costList, Double[] expected)
-   {
-      assertEquals(expected.length, costList.size());
-      for (int loop = 0; loop < expected.length; loop++)
-      {
-         if (expected[loop] == null)
-         {
-            assertNull(costList.get(loop), "Failed at index " + loop);
-         }
-         else
-         {
-            assertNotNull(costList.get(loop), "Failed at index " + loop);
-            assertEquals(expected[loop], costList.get(loop).doubleValue(), 0.02, "Failed at index " + loop);
-         }
-      }
-   }
-
+*/
 }
