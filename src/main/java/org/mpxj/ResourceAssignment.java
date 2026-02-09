@@ -1032,7 +1032,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
          default:
          {
-            return getTimephasedRemainingCostProrata(assignmentRange, ranges);
+            return getTimephasedRemainingCostProrata(ranges);
          }
       }
    }
@@ -1045,8 +1045,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Collections.emptyList();
       }
 
-      // If the ranges are outside the assignment, return null values
       LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+
+      // If the ranges are outside the assignment, return null values
       if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
       {
          return Arrays.asList(new Number[ranges.size()]);
@@ -1066,7 +1067,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
          default:
          {
-            return getTimephasedActualCostProrata(assignmentRange, ranges);
+            return getTimephasedActualCostProrata(ranges);
          }
       }
    }
@@ -1151,7 +1152,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return Arrays.asList(result);
    }
 
-   private List<Number> getTimephasedRemainingCostProrata(LocalDateTimeRange assignmentRange, List<LocalDateTimeRange> ranges)
+   private List<Number> getTimephasedRemainingCostProrata(List<LocalDateTimeRange> ranges)
    {
       Number[] result = new Number[ranges.size()];
 
@@ -1160,11 +1161,13 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Arrays.asList(result);
       }
 
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getResume(), getFinish());
+
       // Find the first range which intersects with the assignment
       int rangeIndex = 0;
       while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
       {
-         ++rangeIndex;
+         rangeIndex++;
       }
 
       ProjectCalendar cal = getEffectiveCalendar();
@@ -1180,7 +1183,10 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          }
 
          double intersectionHours = cal.getWork(intersection.getStart(), intersection.getEnd(), TimeUnit.HOURS).getDuration();
-         result[rangeIndex] = Double.valueOf(intersectionHours * amountPerHour);
+         if (intersectionHours != 0.0)
+         {
+            result[rangeIndex] = Double.valueOf(intersectionHours * amountPerHour);
+         }
          rangeIndex++;
       }
 
@@ -1259,12 +1265,14 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return Arrays.asList(result);
    }
 
-   private List<Number> getTimephasedActualCostProrata(LocalDateTimeRange assignmentRange, List<LocalDateTimeRange> ranges)
+   private List<Number> getTimephasedActualCostProrata(List<LocalDateTimeRange> ranges)
    {
       if (NumberHelper.getDouble(getActualCost()) == 0)
       {
          return Arrays.asList(new Number[ranges.size()]);
       }
+
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getActualStart(), getResume());
 
       // Find the start date for ranges which are aligned with the caller-supplied ranges, and cover the whole assignment
       long minutesPerRange = ranges.get(0).getStart().until(ranges.get(0).getEnd(), ChronoUnit.MINUTES);
@@ -1318,7 +1326,8 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
       {
          LocalDateTimeRange range = ranges.get(rangeIndex);
-         if (calendar.getWork(range.getStart(), range.getEnd(), TimeUnit.HOURS).getDuration() != 0.0)
+         LocalDateTime end = range.getEnd().isAfter(assignmentRange.getEnd()) ? assignmentRange.getEnd() : range.getEnd();
+         if (calendar.getWork(range.getStart(), end, TimeUnit.HOURS).getDuration() != 0.0)
          {
             result[rangeIndex] = costPerWorkingRange;
          }

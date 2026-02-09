@@ -1,8 +1,7 @@
 /*
- * file:       TimephasedTest.java
+ * file:       TimephasedRawTest.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2008
- * date:       20/11/2008
+ * date:       2008-11-20
  */
 
 /*
@@ -26,7 +25,6 @@ package org.mpxj.junit;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mpxj.ProjectFile;
 import org.mpxj.ResourceAssignment;
@@ -34,7 +32,6 @@ import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedWork;
 import org.mpxj.mpp.MPPReader;
-import org.mpxj.mspdi.MSPDIReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -42,7 +39,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * The tests contained in this class exercise the timephased
  * resource assignment functionality.
  */
-public class TimephasedTest
+public class TimephasedRawTest
 {
    /**
     * Test MPP9 file timephased resource assignments.

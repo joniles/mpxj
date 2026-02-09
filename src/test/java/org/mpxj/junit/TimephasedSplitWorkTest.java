@@ -1,5 +1,5 @@
 /*
- * file:       SplitTaskTest.java
+ * file:       TimephasedSplitWorkTest.java
  * author:     Jon Iles
  * date:       2006-03-02
  */
@@ -25,7 +25,6 @@ package org.mpxj.junit;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.ProjectFile;
@@ -38,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 /**
  * The tests contained in this class exercise the split task functionality.
  */
-public class SplitTaskTest
+public class TimephasedSplitWorkTest
 {
    /**
     * Exercise split task functionality.

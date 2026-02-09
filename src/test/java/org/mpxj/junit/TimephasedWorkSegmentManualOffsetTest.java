@@ -34,7 +34,6 @@ import org.mpxj.ProjectFile;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimeUnitDefaultsContainer;
-import org.mpxj.TimephasedWork;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mpp.TimescaleUnits;
 import org.mpxj.utility.TimescaleUtility;
@@ -78,10 +77,7 @@ public class TimephasedWorkSegmentManualOffsetTest
 
       for (ResourceAssignment assignment : file.getResourceAssignments())
       {
-         //if (assignmentIndex == 22)
-         {
-            testSegments(assignment, assignmentIndex, startDate, segmentCount, TimescaleUnits.DAYS, false);
-         }
+         testSegments(assignment, assignmentIndex, startDate, segmentCount, TimescaleUnits.DAYS, false);
          assignmentIndex++;
       }
    }
@@ -152,35 +148,6 @@ public class TimephasedWorkSegmentManualOffsetTest
       assertTrue(loop > 0, "No Json data found for " + assignment);
       assertEquals(segmentCount, loop, "JSON time scaled data does not contain enough data for " + assignment);
    }
-
-   /*
-    * Method used to print segment durations as an array - useful for
-    * creating new test cases.
-    *
-    * @param assignment parent assignment
-    * @param list list of durations
-    */
-   /*
-      private void dumpExpectedData(ResourceAssignment assignment, ArrayList<Duration> list)
-      {
-         //System.out.println(assignment);
-         System.out.print("new double[]{");
-         boolean first = true;
-         for(Duration d : list)
-         {
-            if (!first)
-            {
-               System.out.print(", ");
-            }
-            else
-            {
-               first = false;
-            }
-            System.out.print(d.getDuration());
-         }
-         System.out.println("}");
-      }
-   */
 
    private final TimescaleUtility m_timescale = new TimescaleUtility();
 }
