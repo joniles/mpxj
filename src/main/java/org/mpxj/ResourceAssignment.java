@@ -1032,7 +1032,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
          default:
          {
-            return getTimephasedRemainingCostProrata(ranges);
+            return getTimephasedRemainingCostProRata(ranges);
          }
       }
    }
@@ -1084,11 +1084,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          ++rangeIndex;
       }
 
-      if (rangeIndex ==  ranges.size())
-      {
-         return Arrays.asList(result);
-      }
-
       if (NumberHelper.getDouble(remainingCost.get()) == 0)
       {
          // The assignment has started, so there will already
@@ -1104,8 +1099,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
       // The resource assignment has not started.
       // The cost is allocated to the first segment of the assignment.
+      if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
+      {
+         result[rangeIndex++] = totalCost.get();
+      }
+
       // The remainder of the assignment has zero cost.
-      result[rangeIndex++] = totalCost.get();
       while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
       {
          result[rangeIndex] = Double.valueOf(0);
@@ -1152,7 +1151,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return Arrays.asList(result);
    }
 
-   private List<Number> getTimephasedRemainingCostProrata(List<LocalDateTimeRange> ranges)
+   private List<Number> getTimephasedRemainingCostProRata(List<LocalDateTimeRange> ranges)
    {
       Number[] result = new Number[ranges.size()];
 
