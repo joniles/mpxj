@@ -3597,108 +3597,10 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       set(m_parentFile.getTasks().getFieldTypeByAlias(alias), value);
    }
 
-   /**
-    * This method retrieves a list of task splits. Each split is represented
-    * by a DateRange instance. The list will always follow the pattern
-    * task range, split range, task range and so on.
-    *
-    * Note that this method will return null if the task is not split.
-    *
-    * @return list of split times
-    */
-   @SuppressWarnings("unchecked") public List<LocalDateTimeRange> getSplits()
+   @SuppressWarnings("unchecked") public List<LocalDateTimeRange> getWorkSplits()
    {
-      return (List<LocalDateTimeRange>) get(TaskField.SPLITS);
+      return (List<LocalDateTimeRange>) get(TaskField.WORK_SPLITS);
    }
-
-   // TODO use normal get method caching once fully implemented
-   public List<LocalDateTimeRange> getWorkSplits()
-   {
-      if (getSummary())
-      {
-         return Collections.emptyList();
-      }
-
-      return getResourceAssignments().stream()
-         .map(ResourceAssignment::getWorkSplits)
-         .reduce(this::reduceWorkSplits)
-         .orElse(Collections.emptyList());
-   }
-
-   private List<LocalDateTimeRange> reduceWorkSplits(List<LocalDateTimeRange> l1, List<LocalDateTimeRange> l2)
-   {
-      if (l1.equals(l2))
-      {
-         return l1;
-      }
-
-      int index1 = 0;
-      int index2 = 0;
-      List<LocalDateTimeRange> result = new ArrayList<>();
-      ProjectCalendar calendar = getEffectiveCalendar();
-
-      while (index1 < l1.size() && index2 < l2.size())
-      {
-         LocalDateTimeRange range1 =  l1.get(index1);
-         LocalDateTimeRange range2 =  l2.get(index2);
-
-         if (range1.isBefore(range2))
-         {
-            addWorkSplit(calendar, result, range1);
-            index1++;
-            continue;
-         }
-
-         if (range2.isBefore(range1))
-         {
-            addWorkSplit(calendar, result, range2);
-            index2++;
-            continue;
-         }
-
-         if (range1.compareTo(range2) == 0)
-         {
-            addWorkSplit(calendar, result, range1);
-            index1++;
-            index2++;
-            continue;
-         }
-
-         addWorkSplit(calendar, result, new LocalDateTimeRange(LocalDateTimeHelper.min(range1.getStart(), range2.getStart()), LocalDateTimeHelper.max(range1.getEnd(), range2.getEnd())));
-         index1++;
-         index2++;
-      }
-
-      if (index1 != l1.size())
-      {
-         l1.subList(index1, l1.size()).forEach(r -> addWorkSplit(calendar, result, r));
-      }
-      else
-      {
-         if (index2 != l2.size())
-         {
-            l2.subList(index2, l2.size()).forEach(r -> addWorkSplit(calendar, result, r));
-         }
-      }
-
-      return result;
-   }
-
-   private void addWorkSplit(ProjectCalendar calendar, List<LocalDateTimeRange> ranges, LocalDateTimeRange range)
-   {
-      if (!ranges.isEmpty())
-      {
-         LocalDateTime lastRangeEnd = ranges.get(ranges.size() - 1).getEnd();
-         if (lastRangeEnd.isEqual(range.getStart()) || calendar.getWork(lastRangeEnd, range.getStart(), TimeUnit.HOURS).getDuration() == 0)
-         {
-            LocalDateTimeRange oldRange = ranges.remove(ranges.size() - 1);
-            ranges.add(new LocalDateTimeRange(oldRange.getStart(), range.getEnd()));
-            return;
-         }
-      }
-      ranges.add(range);
-   }
-
 
    /**
     * Removes this task from the project.
@@ -6151,6 +6053,94 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return Double.valueOf((currentWork * 100.0) / totalWork);
    }
 
+
+   private List<LocalDateTimeRange> calculateWorkSplits()
+   {
+      if (getSummary())
+      {
+         return Collections.emptyList();
+      }
+
+      return getResourceAssignments().stream()
+         .map(ResourceAssignment::getWorkSplits)
+         .reduce(this::reduceWorkSplits)
+         .orElse(Collections.emptyList());
+   }
+
+   private List<LocalDateTimeRange> reduceWorkSplits(List<LocalDateTimeRange> l1, List<LocalDateTimeRange> l2)
+   {
+      if (l1.equals(l2))
+      {
+         return l1;
+      }
+
+      int index1 = 0;
+      int index2 = 0;
+      List<LocalDateTimeRange> result = new ArrayList<>();
+      ProjectCalendar calendar = getEffectiveCalendar();
+
+      while (index1 < l1.size() && index2 < l2.size())
+      {
+         LocalDateTimeRange range1 =  l1.get(index1);
+         LocalDateTimeRange range2 =  l2.get(index2);
+
+         if (range1.isBefore(range2))
+         {
+            addWorkSplit(calendar, result, range1);
+            index1++;
+            continue;
+         }
+
+         if (range2.isBefore(range1))
+         {
+            addWorkSplit(calendar, result, range2);
+            index2++;
+            continue;
+         }
+
+         if (range1.compareTo(range2) == 0)
+         {
+            addWorkSplit(calendar, result, range1);
+            index1++;
+            index2++;
+            continue;
+         }
+
+         addWorkSplit(calendar, result, new LocalDateTimeRange(LocalDateTimeHelper.min(range1.getStart(), range2.getStart()), LocalDateTimeHelper.max(range1.getEnd(), range2.getEnd())));
+         index1++;
+         index2++;
+      }
+
+      if (index1 != l1.size())
+      {
+         l1.subList(index1, l1.size()).forEach(r -> addWorkSplit(calendar, result, r));
+      }
+      else
+      {
+         if (index2 != l2.size())
+         {
+            l2.subList(index2, l2.size()).forEach(r -> addWorkSplit(calendar, result, r));
+         }
+      }
+
+      return result;
+   }
+
+   private void addWorkSplit(ProjectCalendar calendar, List<LocalDateTimeRange> ranges, LocalDateTimeRange range)
+   {
+      if (!ranges.isEmpty())
+      {
+         LocalDateTime lastRangeEnd = ranges.get(ranges.size() - 1).getEnd();
+         if (lastRangeEnd.isEqual(range.getStart()) || calendar.getWork(lastRangeEnd, range.getStart(), TimeUnit.HOURS).getDuration() == 0)
+         {
+            LocalDateTimeRange oldRange = ranges.remove(ranges.size() - 1);
+            ranges.add(new LocalDateTimeRange(oldRange.getStart(), range.getEnd()));
+            return;
+         }
+      }
+      ranges.add(range);
+   }
+
    /**
     * Supply a default value for the active flag.
     *
@@ -6225,7 +6215,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    private RecurringTask m_recurringTask;
 
-   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(TaskField.PARENT_TASK_UNIQUE_ID, TaskField.PREDECESSORS, TaskField.SUCCESSORS, TaskField.SCHEDULE_PERCENT_COMPLETE));
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(TaskField.PARENT_TASK_UNIQUE_ID, TaskField.PREDECESSORS, TaskField.SUCCESSORS, TaskField.SCHEDULE_PERCENT_COMPLETE, TaskField.WORK_SPLITS));
 
    private static final Map<FieldType, Function<Task, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
@@ -6249,6 +6239,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.SUCCESSORS, Task::calculateSuccessors);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_PERCENT_COMPLETE, Task::calculateActivityPercentComplete);
       CALCULATED_FIELD_MAP.put(TaskField.SCHEDULE_PERCENT_COMPLETE, Task::calculateSchedulePercentComplete);
+      CALCULATED_FIELD_MAP.put(TaskField.WORK_SPLITS, Task::calculateWorkSplits);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);
       CALCULATED_FIELD_MAP.put(TaskField.TYPE, Task::defaultType);
       CALCULATED_FIELD_MAP.put(TaskField.TASK_MODE, Task::defaultTaskMode);

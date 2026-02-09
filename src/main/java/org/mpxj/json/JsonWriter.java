@@ -1594,6 +1594,11 @@ public final class JsonWriter extends AbstractProjectWriter
 
       @SuppressWarnings("unchecked")
       List<LocalDateTimeRange> list = (List<LocalDateTimeRange>) value;
+      if (list.isEmpty())
+      {
+         return;
+      }
+
       m_writer.writeArrayFieldStart(fieldName);
       for (LocalDateTimeRange entry : list)
       {

@@ -660,7 +660,7 @@ public enum TaskField implements FieldType
    TCPI(DataType.NUMERIC),
    WARNING(DataType.BOOLEAN),
    UNAVAILABLE(DataType.STRING), // Dummy entry
-   SPLITS(DataType.DATE_RANGE_LIST),
+   WORK_SPLITS(DataType.DATE_RANGE_LIST),
    START_TEXT(DataType.STRING),
    FINISH_TEXT(DataType.STRING),
    DURATION_TEXT(DataType.STRING),
