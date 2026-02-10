@@ -6137,6 +6137,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
             return;
          }
       }
+
       ranges.add(range);
    }
 
