@@ -516,15 +516,35 @@ public class TimephasedWorkResourceTest
       testWorkSegments(assignment.getTimephasedRemainingOvertimeWork(rangeOverlapsEnd, TimeUnit.HOURS), new Double[] {2.0, 2.0, null, null, 1.0, null});
       testWorkSegments(assignment.getTimephasedWork(rangeOverlapsEnd, TimeUnit.HOURS), new Double[] {10.0, 10.0, null, null, 5.0, null});
 
-
       task = file.getTaskByID(2);
-      Task finalTask = task;
-      dumpExpectedWorkData(task, rangeCoversAssignment, "getTimephasedActualRegularWork", true, () -> finalTask.getResourceAssignments().get(0).getTimephasedActualRegularWork(rangeCoversAssignment, TimeUnit.HOURS));
-      dumpExpectedWorkData(task, rangeCoversAssignment, "getTimephasedActualOvertimeWork", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedActualOvertimeWork(rangeCoversAssignment, TimeUnit.HOURS));
-      dumpExpectedWorkData(task, rangeCoversAssignment, "getTimephasedActualWork", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedActualWork(rangeCoversAssignment, TimeUnit.HOURS));
-      dumpExpectedWorkData(task, rangeCoversAssignment, "getTimephasedRemainingRegularWork", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedRemainingRegularWork(rangeCoversAssignment, TimeUnit.HOURS));
-      dumpExpectedWorkData(task, rangeCoversAssignment, "getTimephasedRemainingOvertimeWork", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedRemainingOvertimeWork(rangeCoversAssignment, TimeUnit.HOURS));
-      dumpExpectedWorkData(task, rangeCoversAssignment, "getTimephasedWork", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedWork(rangeCoversAssignment, TimeUnit.HOURS));
+      assertEquals("Task 2", task.getName());
+      assertEquals(1, task.getResourceAssignments().size());
+      assignment = task.getResourceAssignments().get(0);
+      testWorkSegments(assignment.getTimephasedActualRegularWork(rangeCoversAssignment, TimeUnit.HOURS), new Double[] {null, 5.0, null, null, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedActualOvertimeWork(rangeCoversAssignment, TimeUnit.HOURS), new Double[] {null, 0.8, null, null, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedActualWork(rangeCoversAssignment, TimeUnit.HOURS), new Double[] {null, 5.8, null, null, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedRemainingRegularWork(rangeCoversAssignment, TimeUnit.HOURS), new Double[] {null, 3.0, 8.0, 8.0, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedRemainingOvertimeWork(rangeCoversAssignment, TimeUnit.HOURS), new Double[] {null, 0.8210526315789475, 2.1894736842105265, 2.1894736842105265, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedWork(rangeCoversAssignment, TimeUnit.HOURS), new Double[] {null, 9.621052631578948, 10.189473684210526, 10.189473684210526, null, null, null, null});
+
+      task = file.getTaskByID(3);
+      assertEquals("Task 3", task.getName());
+      assertEquals(1, task.getResourceAssignments().size());
+      assignment = task.getResourceAssignments().get(0);
+      testWorkSegments(assignment.getTimephasedActualRegularWork(rangeCoversAssignment, TimeUnit.HOURS), new Double[] {null, 4.0, null, null, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedActualOvertimeWork(rangeCoversAssignment, TimeUnit.HOURS), new Double[] {null, 0.0, null, null, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedActualWork(rangeCoversAssignment, TimeUnit.HOURS), new Double[] {null, 4.0, null, null, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedRemainingRegularWork(rangeCoversAssignment, TimeUnit.HOURS), new Double[] {null, 2.0, 2.0, null, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedRemainingOvertimeWork(rangeCoversAssignment, TimeUnit.HOURS), new Double[] {null, null, null, null, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedWork(rangeCoversAssignment, TimeUnit.HOURS), new Double[] {null, 6.0, 2.0, null, null, null, null, null});
+
+//      Task finalTask = task;
+//      dumpExpectedWorkData(task, rangeCoversAssignment, "getTimephasedActualRegularWork", true, () -> finalTask.getResourceAssignments().get(0).getTimephasedActualRegularWork(rangeCoversAssignment, TimeUnit.HOURS));
+//      dumpExpectedWorkData(task, rangeCoversAssignment, "getTimephasedActualOvertimeWork", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedActualOvertimeWork(rangeCoversAssignment, TimeUnit.HOURS));
+//      dumpExpectedWorkData(task, rangeCoversAssignment, "getTimephasedActualWork", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedActualWork(rangeCoversAssignment, TimeUnit.HOURS));
+//      dumpExpectedWorkData(task, rangeCoversAssignment, "getTimephasedRemainingRegularWork", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedRemainingRegularWork(rangeCoversAssignment, TimeUnit.HOURS));
+//      dumpExpectedWorkData(task, rangeCoversAssignment, "getTimephasedRemainingOvertimeWork", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedRemainingOvertimeWork(rangeCoversAssignment, TimeUnit.HOURS));
+//      dumpExpectedWorkData(task, rangeCoversAssignment, "getTimephasedWork", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedWork(rangeCoversAssignment, TimeUnit.HOURS));
    }
 
    private void testCostSegments(List<Number> costList, Double[] expected)
@@ -589,30 +609,30 @@ public class TimephasedWorkResourceTest
 //      System.out.println("});");
 //   }
 
-      private void dumpExpectedWorkData(Task task, List<LocalDateTimeRange> ranges, String method, boolean includeAsserts, Supplier<List<Duration>> fn)
-      {
-         if (includeAsserts)
-         {
-            System.out.println("assertEquals(\"" + task.getName() + "\", task.getName());");
-            System.out.println("assertEquals(" + task.getResourceAssignments().size() + ", task.getResourceAssignments().size());");
-            System.out.println("assignment = task.getResourceAssignments().get(0);");
-         }
-         System.out.print("testWorkSegments(assignment."+method+"(rangeCoversAssignment, TimeUnit.HOURS), ");
-
-         System.out.print("new Double[] {");
-         boolean first = true;
-         for(Duration d : fn.get())
-         {
-            if (!first)
-            {
-               System.out.print(", ");
-            }
-            else
-            {
-               first = false;
-            }
-            System.out.print(d == null ? "null" : d.getDuration());
-         }
-         System.out.println("});");
-      }
+//      private void dumpExpectedWorkData(Task task, List<LocalDateTimeRange> ranges, String method, boolean includeAsserts, Supplier<List<Duration>> fn)
+//      {
+//         if (includeAsserts)
+//         {
+//            System.out.println("assertEquals(\"" + task.getName() + "\", task.getName());");
+//            System.out.println("assertEquals(" + task.getResourceAssignments().size() + ", task.getResourceAssignments().size());");
+//            System.out.println("assignment = task.getResourceAssignments().get(0);");
+//         }
+//         System.out.print("testWorkSegments(assignment."+method+"(rangeCoversAssignment, TimeUnit.HOURS), ");
+//
+//         System.out.print("new Double[] {");
+//         boolean first = true;
+//         for(Duration d : fn.get())
+//         {
+//            if (!first)
+//            {
+//               System.out.print(", ");
+//            }
+//            else
+//            {
+//               first = false;
+//            }
+//            System.out.print(d == null ? "null" : d.getDuration());
+//         }
+//         System.out.println("});");
+//      }
 }

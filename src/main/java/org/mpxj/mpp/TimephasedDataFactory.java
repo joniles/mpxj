@@ -287,14 +287,17 @@ final class TimephasedDataFactory
       // End Range
       if (item.getFinish().isAfter(range.getEnd()))
       {
-         TimephasedWork endItem = new TimephasedWork();
-         endItem.setStart(range.getEnd());
-         endItem.setAmountPerHour(item.getAmountPerHour());
          double workMinutes = item.getTotalAmount().getDuration() - allocatedWorkInMinutes;
-         endItem.setTotalAmount(Duration.getInstance(workMinutes, TimeUnit.MINUTES));
-         Duration remainingMinutes = Duration.getInstance((workMinutes * 60.0) / item.getAmountPerHour().getDuration(),  TimeUnit.MINUTES);
-         endItem.setFinish(calendar.getDate(endItem.getStart(), remainingMinutes));
-         regularList.add(endItem);
+         if (workMinutes != 0.0)
+         {
+            TimephasedWork endItem = new TimephasedWork();
+            endItem.setStart(range.getEnd());
+            endItem.setAmountPerHour(item.getAmountPerHour());
+            endItem.setTotalAmount(Duration.getInstance(workMinutes, TimeUnit.MINUTES));
+            Duration remainingMinutes = Duration.getInstance((workMinutes * 60.0) / item.getAmountPerHour().getDuration(), TimeUnit.MINUTES);
+            endItem.setFinish(calendar.getDate(endItem.getStart(), remainingMinutes));
+            regularList.add(endItem);
+         }
       }
 
       return regularList.get(regularList.size() - 1);
