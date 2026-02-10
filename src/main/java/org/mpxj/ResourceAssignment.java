@@ -857,6 +857,14 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Collections.emptyList();
       }
 
+      // If we haven't started, we have no actual cost... unless we're working with a cost resource,
+      // which can have an actual cost without progress.
+      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
+      if (getActualStart() == null && type !=  ResourceType.COST)
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
       // If the ranges are outside the assignment, return null values
       LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
       if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
@@ -864,7 +872,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Arrays.asList(new Number[ranges.size()]);
       }
 
-      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
       if (type == ResourceType.COST)
       {
          return getTimephasedCostResourceActualCost(ranges);
@@ -904,6 +911,14 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Collections.emptyList();
       }
 
+      // If we haven't started, we have no actual cost... unless we're working with a cost resource,
+      // which can have an actual cost without progress.
+      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
+      if (getActualStart() == null && type !=  ResourceType.COST)
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
       // If the ranges are outside the assignment, return null values
       LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
       if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
@@ -911,7 +926,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Arrays.asList(new Number[ranges.size()]);
       }
 
-      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
       if (type == ResourceType.COST)
       {
          // Cost resources don't have overtime
@@ -1098,6 +1112,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          ++rangeIndex;
       }
 
+      List<Duration> remainingWork = getTimephasedRemainingWork(ranges, TimeUnit.HOURS);
       if (NumberHelper.getDouble(remainingCost.get()) == 0)
       {
          // The assignment has started, so there will already
@@ -1105,7 +1120,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          // Return zero remaining cost for the whole assignment.
          while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
          {
-            result[rangeIndex] = Double.valueOf(0);
+            result[rangeIndex] = remainingWork.get(rangeIndex) == null ? null : Double.valueOf(0);
             rangeIndex++;
          }
          return Arrays.asList(result);
@@ -1121,7 +1136,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       // The remainder of the assignment has zero cost.
       while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
       {
-         result[rangeIndex] = Double.valueOf(0);
+         result[rangeIndex] = remainingWork.get(rangeIndex) == null ? null : Double.valueOf(0);
          rangeIndex++;
       }
 
@@ -1141,9 +1156,10 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
 
       // Fill the ranges covering the assignment with zero cost
+      List<Duration> remainingWork = getTimephasedRemainingWork(ranges, TimeUnit.HOURS);
       while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
       {
-         result[rangeIndex] = Double.valueOf(0);
+         result[rangeIndex] = remainingWork.get(rangeIndex) == null ? null : Double.valueOf(0);
          rangeIndex++;
       }
 
@@ -1228,9 +1244,10 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
       // The remainder of the ranges which intersect with
       // the assignment have zero cost.
+      List<Duration> actualWork = getTimephasedActualWork(ranges, TimeUnit.HOURS);
       while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
       {
-         result[rangeIndex] = Double.valueOf(0);
+         result[rangeIndex] = actualWork.get(rangeIndex) == null ? null : Double.valueOf(0);
          rangeIndex++;
       }
 
@@ -1251,15 +1268,17 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
       // The ranges which intersect with
       // the assignment have zero cost.
+      List<Duration> actualWork = getTimephasedActualWork(ranges, TimeUnit.HOURS);
       while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
       {
-         result[rangeIndex] = Double.valueOf(0);
+         boolean firstAssignmentRange = ranges.get(rangeIndex).compareTo(getStart()) == 0;
+         result[rangeIndex] = !firstAssignmentRange && actualWork.get(rangeIndex) == null ? null : Double.valueOf(0);
          rangeIndex++;
       }
 
       // Our last range includes the end of the assignment.
       // Assign the actual cost to this range.
-      if (ranges.get(rangeIndex-1).compareTo(getFinish()) == 0)
+      if (ranges.get(rangeIndex-1).compareTo(getFinish()) == 0 && actualWork.get(rangeIndex-1) != null)
       {
          Number cost = actualCost.get();
          result[rangeIndex-1] = cost == null ? Double.valueOf(0) : cost;
