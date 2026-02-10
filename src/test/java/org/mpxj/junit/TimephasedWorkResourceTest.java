@@ -526,6 +526,18 @@ public class TimephasedWorkResourceTest
       testWorkSegments(assignment.getTimephasedRemainingRegularWork(rangeCoversAssignment, TimeUnit.HOURS), new Double[] {null, 3.0, 8.0, 8.0, null, null, null, null});
       testWorkSegments(assignment.getTimephasedRemainingOvertimeWork(rangeCoversAssignment, TimeUnit.HOURS), new Double[] {null, 0.8210526315789475, 2.1894736842105265, 2.1894736842105265, null, null, null, null});
       testWorkSegments(assignment.getTimephasedWork(rangeCoversAssignment, TimeUnit.HOURS), new Double[] {null, 9.621052631578948, 10.189473684210526, 10.189473684210526, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedActualRegularWork(rangeOverlapsStart, TimeUnit.HOURS), new Double[] {null, 5.0, null});
+      testWorkSegments(assignment.getTimephasedActualOvertimeWork(rangeOverlapsStart, TimeUnit.HOURS), new Double[] {null, 0.8, null});
+      testWorkSegments(assignment.getTimephasedActualWork(rangeOverlapsStart, TimeUnit.HOURS), new Double[] {null, 5.8, null});
+      testWorkSegments(assignment.getTimephasedRemainingRegularWork(rangeOverlapsStart, TimeUnit.HOURS), new Double[] {null, 3.0, 8.0});
+      testWorkSegments(assignment.getTimephasedRemainingOvertimeWork(rangeOverlapsStart, TimeUnit.HOURS), new Double[] {null, 0.8210526315789475, 2.1894736842105265});
+      testWorkSegments(assignment.getTimephasedWork(rangeOverlapsStart, TimeUnit.HOURS), new Double[] {null, 9.621052631578948, 10.189473684210526});
+      testWorkSegments(assignment.getTimephasedActualRegularWork(rangeOverlapsEnd, TimeUnit.HOURS), new Double[] {null, null, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedActualOvertimeWork(rangeOverlapsEnd, TimeUnit.HOURS), new Double[] {null, null, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedActualWork(rangeOverlapsEnd, TimeUnit.HOURS), new Double[] {null, null, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedRemainingRegularWork(rangeOverlapsEnd, TimeUnit.HOURS), new Double[] {8.0, 8.0, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedRemainingOvertimeWork(rangeOverlapsEnd, TimeUnit.HOURS), new Double[] {2.1894736842105265, 2.1894736842105265, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedWork(rangeOverlapsEnd, TimeUnit.HOURS), new Double[] {10.189473684210526, 10.189473684210526, null, null, null, null});
 
       task = file.getTaskByID(3);
       assertEquals("Task 3", task.getName());
@@ -537,8 +549,20 @@ public class TimephasedWorkResourceTest
       testWorkSegments(assignment.getTimephasedRemainingRegularWork(rangeCoversAssignment, TimeUnit.HOURS), new Double[] {null, 2.0, 2.0, null, null, null, null, null});
       testWorkSegments(assignment.getTimephasedRemainingOvertimeWork(rangeCoversAssignment, TimeUnit.HOURS), new Double[] {null, null, null, null, null, null, null, null});
       testWorkSegments(assignment.getTimephasedWork(rangeCoversAssignment, TimeUnit.HOURS), new Double[] {null, 6.0, 2.0, null, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedActualRegularWork(rangeOverlapsStart, TimeUnit.HOURS), new Double[] {null, 4.0, null});
+      testWorkSegments(assignment.getTimephasedActualOvertimeWork(rangeOverlapsStart, TimeUnit.HOURS), new Double[] {null, 0.0, null});
+      testWorkSegments(assignment.getTimephasedActualWork(rangeOverlapsStart, TimeUnit.HOURS), new Double[] {null, 4.0, null});
+      testWorkSegments(assignment.getTimephasedRemainingRegularWork(rangeOverlapsStart, TimeUnit.HOURS), new Double[] {null, 2.0, 2.0});
+      testWorkSegments(assignment.getTimephasedRemainingOvertimeWork(rangeOverlapsStart, TimeUnit.HOURS), new Double[] {null, null, null});
+      testWorkSegments(assignment.getTimephasedWork(rangeOverlapsStart, TimeUnit.HOURS), new Double[] {null, 6.0, 2.0});
+      testWorkSegments(assignment.getTimephasedActualRegularWork(rangeOverlapsEnd, TimeUnit.HOURS), new Double[] {null, null, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedActualOvertimeWork(rangeOverlapsEnd, TimeUnit.HOURS), new Double[] {null, null, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedActualWork(rangeOverlapsEnd, TimeUnit.HOURS), new Double[] {null, null, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedRemainingRegularWork(rangeOverlapsEnd, TimeUnit.HOURS), new Double[] {2.0, null, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedRemainingOvertimeWork(rangeOverlapsEnd, TimeUnit.HOURS), new Double[] {null, null, null, null, null, null});
+      testWorkSegments(assignment.getTimephasedWork(rangeOverlapsEnd, TimeUnit.HOURS), new Double[] {2.0, null, null, null, null, null});
 
-//      Task finalTask = task;
+      //      Task finalTask = task;
 //      dumpExpectedWorkData(task, rangeCoversAssignment, "getTimephasedActualRegularWork", true, () -> finalTask.getResourceAssignments().get(0).getTimephasedActualRegularWork(rangeCoversAssignment, TimeUnit.HOURS));
 //      dumpExpectedWorkData(task, rangeCoversAssignment, "getTimephasedActualOvertimeWork", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedActualOvertimeWork(rangeCoversAssignment, TimeUnit.HOURS));
 //      dumpExpectedWorkData(task, rangeCoversAssignment, "getTimephasedActualWork", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedActualWork(rangeCoversAssignment, TimeUnit.HOURS));
