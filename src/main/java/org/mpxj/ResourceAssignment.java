@@ -1214,11 +1214,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          ++rangeIndex;
       }
 
-      if (rangeIndex == ranges.size())
-      {
-         return Arrays.asList(result);
-      }
-
       // If our first intersecting range includes the start of the assignment.
       // Assign the actual cost to this range.
       if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
@@ -1249,12 +1244,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       {
          ++rangeIndex;
       }
-
-      if (rangeIndex == ranges.size())
-      {
-         return Arrays.asList(result);
-      }
-
+      
       // The ranges which intersect with
       // the assignment have zero cost.
       while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
