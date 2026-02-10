@@ -756,7 +756,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    public List<Number> getTimephasedRemainingRegularCost(List<LocalDateTimeRange> ranges)
    {
       // If we have no ranges, return an empty list.
-      if (ranges.isEmpty())
+      if (ranges == null || ranges.isEmpty())
       {
          return Collections.emptyList();
       }
@@ -806,7 +806,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    public List<Number> getTimephasedRemainingOvertimeCost(List<LocalDateTimeRange> ranges)
    {
       // If we have no ranges, return an empty list.
-      if (ranges.isEmpty())
+      if (ranges == null || ranges.isEmpty())
       {
          return Collections.emptyList();
       }
@@ -852,7 +852,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    public List<Number> getTimephasedActualRegularCost(List<LocalDateTimeRange> ranges)
    {
       // If we have no ranges, return an empty list.
-      if (ranges.isEmpty())
+      if (ranges == null || ranges.isEmpty())
       {
          return Collections.emptyList();
       }
@@ -899,7 +899,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    public List<Number> getTimephasedActualOvertimeCost(List<LocalDateTimeRange> ranges)
    {
       // If we have no ranges, return an empty list.
-      if (ranges.isEmpty())
+      if (ranges == null || ranges.isEmpty())
       {
          return Collections.emptyList();
       }
@@ -1008,8 +1008,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          while (true)
          {
             work = timephasedWork.apply(Collections.singletonList(subRange)).get(0);
-            Rate rate = getRatePerHour(currentRate.getRate(rateIndex));
-            total += (work.getDuration() * rate.getAmount());
+            if (work != null)
+            {
+               Rate rate = getRatePerHour(currentRate.getRate(rateIndex));
+               total += (work.getDuration() * rate.getAmount());
+            }
+
             if (subRange.getEnd().equals(range.getEnd()))
             {
                break;
@@ -1244,7 +1248,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       {
          ++rangeIndex;
       }
-      
+
       // The ranges which intersect with
       // the assignment have zero cost.
       while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
