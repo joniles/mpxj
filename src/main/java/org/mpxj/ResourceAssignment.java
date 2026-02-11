@@ -795,12 +795,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
          default:
          {
-            result = getTimephasedCost(ranges, 0, (List<LocalDateTimeRange> r) -> getTimephasedRemainingRegularWork(r, TimeUnit.HOURS));
+            result = addTimephasedRemainingCostPerUse(ranges, getTimephasedCost(ranges, 0, (List<LocalDateTimeRange> r) -> getTimephasedRemainingRegularWork(r, TimeUnit.HOURS)));
             break;
          }
       }
 
-      return addTimephasedRemainingCostPerUse(ranges, result);
+      return result;
    }
 
    public List<Number> getTimephasedRemainingOvertimeCost(List<LocalDateTimeRange> ranges)
@@ -895,12 +895,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
          default:
          {
-            result = getTimephasedCost(ranges, 0, (List<LocalDateTimeRange> r) -> getTimephasedActualRegularWork(r, TimeUnit.HOURS));
+            result = addTimephasedActualCostPerUse(ranges, getTimephasedCost(ranges, 0, (List<LocalDateTimeRange> r) -> getTimephasedActualRegularWork(r, TimeUnit.HOURS)));
             break;
          }
       }
 
-      return addTimephasedActualCostPerUse(ranges, result);
+      return result;
    }
 
    public List<Number> getTimephasedActualOvertimeCost(List<LocalDateTimeRange> ranges)
