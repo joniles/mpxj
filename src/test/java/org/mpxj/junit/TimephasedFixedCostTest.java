@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TimephasedFixedCostTest
 {
-   @Test public void testCostPerUse() throws Exception
+   @Test public void testFixedCost() throws Exception
    {
       List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 10, 0, 0), TimescaleUnits.DAYS, 9);
 
