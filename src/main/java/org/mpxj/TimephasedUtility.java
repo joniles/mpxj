@@ -47,12 +47,7 @@ final class TimephasedUtility
     * @param ranges timescale date ranges
     * @return list of durations, one per timescale date range
     */
-   public static List<Duration> segmentWork(ResourceAssignment assignment, ProjectCalendar calendar, List<TimephasedWork> work, List<LocalDateTimeRange> ranges, TimeUnit targetUnits)
-   {
-      return assignment.getResource() == null || assignment.getResource().getType() != ResourceType.MATERIAL ? segmentWork(calendar, work, ranges, targetUnits) : Arrays.asList(new Duration[ranges.size()]);
-   }
-
-   private static List<Duration> segmentWork(ProjectCalendar calendar, List<TimephasedWork> work, List<LocalDateTimeRange> ranges, TimeUnit targetUnits)
+   public static List<Duration> segmentWork(ProjectCalendar calendar, List<TimephasedWork> work, List<LocalDateTimeRange> ranges, TimeUnit targetUnits)
    {
       validateTimephasedWork(work);
       validateRanges(ranges);
@@ -242,9 +237,9 @@ final class TimephasedUtility
       return Arrays.stream(result).mapToObj(d -> d == -1 ? null : Double.valueOf(d)).collect(Collectors.toList());
    }
 
-   public static List<Number> segmentMaterial(ResourceAssignment assignment, ProjectCalendar calendar, List<TimephasedWork> work, List<LocalDateTimeRange> ranges)
+   public static List<Number> segmentMaterial(ProjectCalendar calendar, List<TimephasedWork> work, List<LocalDateTimeRange> ranges)
    {
-      return assignment.getResource() != null && assignment.getResource().getType() == ResourceType.MATERIAL ? segmentWork(calendar, work, ranges, TimeUnit.HOURS).stream().map(d -> d == null ? null: Double.valueOf(d.getDuration())).collect(Collectors.toList()) : Arrays.asList(new Number[ranges.size()]);
+      return segmentWork(calendar, work, ranges, TimeUnit.HOURS).stream().map(d -> d == null ? null: Double.valueOf(d.getDuration())).collect(Collectors.toList());
    }
 
    private static void validateRanges(List<LocalDateTimeRange> ranges)

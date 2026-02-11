@@ -671,7 +671,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    public List<Duration> getTimephasedPlannedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(this, getEffectiveCalendar(), getRawTimephasedPlannedWork(), ranges, units);
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedPlannedWork(), ranges, units);
    }
 
    /**
@@ -709,12 +709,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    public List<Duration> getTimephasedActualRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(this, getEffectiveCalendar(), getRawTimephasedActualRegularWork(), ranges, units);
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualRegularWork(), ranges, units);
    }
 
    public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(this, getEffectiveCalendar(), getRawTimephasedActualOvertimeWork(), ranges, units);
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualOvertimeWork(), ranges, units);
    }
 
    public List<Duration> getTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
@@ -724,12 +724,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    public List<Duration> getTimephasedRemainingRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(this, getEffectiveCalendar(), getRawTimephasedRemainingRegularWork(), ranges, units);
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedRemainingRegularWork(), ranges, units);
    }
 
    public List<Duration> getTimephasedRemainingOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(this, getEffectiveCalendar(), getRawTimephasedRemainingOvertimeWork(), ranges, units);
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedRemainingOvertimeWork(), ranges, units);
    }
 
    public List<Duration> getTimephasedRemainingWork(List<LocalDateTimeRange> ranges, TimeUnit units)
@@ -963,12 +963,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    public List<Number> getTimephasedActualMaterial(List<LocalDateTimeRange> ranges)
    {
-      return TimephasedUtility.segmentMaterial(this, getEffectiveCalendar(), getRawTimephasedActualRegularWork(), ranges);
+      return TimephasedUtility.segmentMaterial(getEffectiveCalendar(), getRawTimephasedActualRegularWork(), ranges);
    }
 
    public List<Number> getTimephasedRemainingMaterial(List<LocalDateTimeRange> ranges)
    {
-      return TimephasedUtility.segmentMaterial(this, getEffectiveCalendar(), getRawTimephasedRemainingRegularWork(), ranges);
+      return TimephasedUtility.segmentMaterial(getEffectiveCalendar(), getRawTimephasedRemainingRegularWork(), ranges);
    }
 
    public List<Number> getTimephasedMaterial(List<LocalDateTimeRange> ranges)
@@ -1453,7 +1453,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    public List<Duration> getTimephasedBaselineWork(int index, List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(this, m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineWork(index), ranges, units);
+      return TimephasedUtility.segmentWork(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineWork(index), ranges, units);
    }
 
    /**
