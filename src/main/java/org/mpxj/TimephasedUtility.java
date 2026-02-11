@@ -47,7 +47,12 @@ final class TimephasedUtility
     * @param ranges timescale date ranges
     * @return list of durations, one per timescale date range
     */
-   public static List<Duration> segmentWork(ProjectCalendar calendar, List<TimephasedWork> work, List<LocalDateTimeRange> ranges, TimeUnit targetUnits)
+   public static List<Duration> segmentWork(ResourceAssignment assignment, ProjectCalendar calendar, List<TimephasedWork> work, List<LocalDateTimeRange> ranges, TimeUnit targetUnits)
+   {
+      return assignment.getResource() == null || assignment.getResource().getType() != ResourceType.MATERIAL ? segmentWork(calendar, work, ranges, targetUnits) : Arrays.asList(new Duration[ranges.size()]);
+   }
+
+   private static List<Duration> segmentWork(ProjectCalendar calendar, List<TimephasedWork> work, List<LocalDateTimeRange> ranges, TimeUnit targetUnits)
    {
       validateTimephasedWork(work);
       validateRanges(ranges);
@@ -237,6 +242,10 @@ final class TimephasedUtility
       return Arrays.stream(result).mapToObj(d -> d == -1 ? null : Double.valueOf(d)).collect(Collectors.toList());
    }
 
+   public static List<Number> segmentMaterial(ResourceAssignment assignment, ProjectCalendar calendar, List<TimephasedWork> work, List<LocalDateTimeRange> ranges)
+   {
+      return assignment.getResource() != null && assignment.getResource().getType() == ResourceType.MATERIAL ? segmentWork(calendar, work, ranges, TimeUnit.HOURS).stream().map(d -> d == null ? null: Double.valueOf(d.getDuration())).collect(Collectors.toList()) : Arrays.asList(new Number[ranges.size()]);
+   }
 
    private static void validateRanges(List<LocalDateTimeRange> ranges)
    {
@@ -312,12 +321,12 @@ final class TimephasedUtility
       return calendar.getWork(item.getStart(), item.getFinish(), TimeUnit.HOURS).getDuration() == 0.0;
    }
 
-   public static List<Duration> addTimephasedWork(List<Duration> w1, List<Duration> w2)
+   public static List<Duration> addTimephasedDurations(List<Duration> w1, List<Duration> w2)
    {
       return mergeTimephasedValues(w1, w2, (v1, v2) -> Duration.getInstance((v1 == null ? 0 : v1.getDuration()) + (v2 == null ? 0 : v2.getDuration()), v1 == null ? v2.getUnits() : v1.getUnits()));
    }
 
-   public static List<Number> addTimephasedCost(List<Number> w1, List<Number> w2)
+   public static List<Number> addTimephasedNumbers(List<Number> w1, List<Number> w2)
    {
       return mergeTimephasedValues(w1, w2, (v1, v2) -> Double.valueOf((v1 == null ? 0 : v1.doubleValue()) + (v2 == null ? 0 : v2.doubleValue())));
    }

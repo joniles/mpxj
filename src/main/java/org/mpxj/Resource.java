@@ -2835,14 +2835,14 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    private List<Duration> reduceTimephasedWork(List<LocalDateTimeRange> ranges, Function<ResourceAssignment, List<Duration>> fn)
    {
       return getResourceAssignmentStream().map(fn)
-         .reduce(TimephasedUtility::addTimephasedWork)
+         .reduce(TimephasedUtility::addTimephasedDurations)
          .orElseGet(() -> Arrays.asList(new Duration[ranges.size()]));
    }
 
    private List<Number> reduceTimephasedCost(List<LocalDateTimeRange> ranges, Function<ResourceAssignment, List<Number>> fn)
    {
       return getResourceAssignmentStream().map(fn)
-         .reduce(TimephasedUtility::addTimephasedCost)
+         .reduce(TimephasedUtility::addTimephasedNumbers)
          .orElseGet(() -> Arrays.asList(new Number[ranges.size()]));
    }
 
