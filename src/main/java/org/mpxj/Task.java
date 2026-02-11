@@ -5696,7 +5696,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
    {
-      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedActualCost(ranges), (r) -> r.getTimephasedActualCost(ranges));
+      return TimephasedUtility.addTimephasedNumbers(getTimephasedActualFixedCost(ranges), reduceTimephasedCost(ranges, (t) -> t.getTimephasedActualCost(ranges), (r) -> r.getTimephasedActualCost(ranges)));
    }
 
    public List<Number> getTimephasedRemainingRegularCost(List<LocalDateTimeRange> ranges)
@@ -5711,17 +5711,24 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    public List<Number> getTimephasedRemainingCost(List<LocalDateTimeRange> ranges)
    {
-      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedRemainingCost(ranges), (r) -> r.getTimephasedRemainingCost(ranges));
+      return TimephasedUtility.addTimephasedNumbers(getTimephasedRemainingFixedCost(ranges), reduceTimephasedCost(ranges, (t) -> t.getTimephasedRemainingCost(ranges), (r) -> r.getTimephasedRemainingCost(ranges)));
    }
 
    public List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges)
    {
-      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedCost(ranges), (r) -> r.getTimephasedCost(ranges));
+      return TimephasedUtility.addTimephasedNumbers(getTimephasedFixedCost(ranges), reduceTimephasedCost(ranges, (t) -> t.getTimephasedCost(ranges), (r) -> r.getTimephasedCost(ranges)));
    }
 
    public List<Number> getTimephasedActualFixedCost(List<LocalDateTimeRange> ranges)
    {
+      // Do nothing if there is no fixed cost
       if (NumberHelper.getDouble(getFixedCost()) == 0.0)
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      // Tasks with cost resource assignments don't have fixed costs applied
+      if (getResourceAssignments().stream().anyMatch(r -> r.getResource() != null && r.getResource().getType() == ResourceType.COST))
       {
          return Arrays.asList(new Number[ranges.size()]);
       }
@@ -5747,7 +5754,14 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    public List<Number> getTimephasedRemainingFixedCost(List<LocalDateTimeRange> ranges)
    {
+      // Do nothing if there is no fixed cost
       if (NumberHelper.getDouble(getFixedCost()) == 0.0)
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      // Tasks with cost resource assignments don't have fixed costs applied
+      if (getResourceAssignments().stream().anyMatch(r -> r.getResource() != null && r.getResource().getType() == ResourceType.COST))
       {
          return Arrays.asList(new Number[ranges.size()]);
       }

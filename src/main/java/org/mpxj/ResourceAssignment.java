@@ -988,7 +988,13 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Arrays.asList(result);
       }
 
-      List<CostRateTableEntry> rates = getCostRateTable().getEntriesByRange(new LocalDateTimeRange(ranges.get(0).getStart(), ranges.get(ranges.size()-1).getEnd()));
+      CostRateTable costRateTable = getCostRateTable();
+      if (costRateTable == null)
+      {
+         return Arrays.asList(result);
+      }
+
+      List<CostRateTableEntry> rates = costRateTable.getEntriesByRange(new LocalDateTimeRange(ranges.get(0).getStart(), ranges.get(ranges.size()-1).getEnd()));
       if (rates.isEmpty())
       {
          return Arrays.asList(result);

@@ -29,6 +29,8 @@ public class TimephasedFixedCostTest
       assertEquals(1, task.getResourceAssignments().size());
       testNumericSegments(task.getTimephasedActualFixedCost(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
       testNumericSegments(task.getTimephasedRemainingFixedCost(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
+      testNumericSegments(task.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
+      testNumericSegments(task.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
 
       // Fixed cost prorated
       task = file.getTaskByID(2);
@@ -36,6 +38,9 @@ public class TimephasedFixedCostTest
       assertEquals(1, task.getResourceAssignments().size());
       testNumericSegments(task.getTimephasedActualFixedCost(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
       testNumericSegments(task.getTimephasedRemainingFixedCost(rangeCoversAssignment), new Double[] {null, 20.0, 20.0, 20.0, null, null, 20.0, 20.0, null});
+      testNumericSegments(task.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
+      testNumericSegments(task.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, 20.0, 20.0, 20.0, null, null, 20.0, 20.0, null});
+
 
       // Fixed cost accrued at start
       task = file.getTaskByID(3);
@@ -43,6 +48,9 @@ public class TimephasedFixedCostTest
       assertEquals(1, task.getResourceAssignments().size());
       testNumericSegments(task.getTimephasedActualFixedCost(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
       testNumericSegments(task.getTimephasedRemainingFixedCost(rangeCoversAssignment), new Double[] {null, 100.0, 0.0, 0.0, null, null, 0.0, 0.0, null});
+      testNumericSegments(task.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
+      testNumericSegments(task.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, 100.0, 0.0, 0.0, null, null, 0.0, 0.0, null});
+
 
       // Fixed cost accrued at end
       task = file.getTaskByID(4);
@@ -50,6 +58,8 @@ public class TimephasedFixedCostTest
       assertEquals(1, task.getResourceAssignments().size());
       testNumericSegments(task.getTimephasedActualFixedCost(rangeCoversAssignment), new Double[] {null, 0.0, null, null, null, null, null, null, null});
       testNumericSegments(task.getTimephasedRemainingFixedCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, null, null, 0.0, 100.0, null});
+      testNumericSegments(task.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, 0.0, null, null, null, null, null, null, null});
+      testNumericSegments(task.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, null, null, 0.0, 100.0, null});
 
       // Fixed cost prorated 50% complete
       task = file.getTaskByID(5);
@@ -57,6 +67,8 @@ public class TimephasedFixedCostTest
       assertEquals(1, task.getResourceAssignments().size());
       testNumericSegments(task.getTimephasedActualFixedCost(rangeCoversAssignment), new Double[] {null, 20.0, 20.0, 10.0, null, null, null, null, null});
       testNumericSegments(task.getTimephasedRemainingFixedCost(rangeCoversAssignment), new Double[] {null, null, null, 10.0, null, null, 20.0, 20.0, null});
+      testNumericSegments(task.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, 20.0, 20.0, 10.0, null, null, null, null, null});
+      testNumericSegments(task.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, null, null, 10.0, null, null, 20.0, 20.0, null});
 
       // Fixed cost prorated 100% complete
       task = file.getTaskByID(6);
@@ -64,34 +76,56 @@ public class TimephasedFixedCostTest
       assertEquals(1, task.getResourceAssignments().size());
       testNumericSegments(task.getTimephasedActualFixedCost(rangeCoversAssignment), new Double[] {null, 20.0, 20.0, 20.0, null, null, 20.0, 20.0, null});
       testNumericSegments(task.getTimephasedRemainingFixedCost(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
+      testNumericSegments(task.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, 20.0, 20.0, 20.0, null, null, 20.0, 20.0, null});
+      testNumericSegments(task.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
 
       task = file.getTaskByID(7);
       assertEquals("Task 7", task.getName());
       assertEquals(1, task.getResourceAssignments().size());
       testNumericSegments(task.getTimephasedActualFixedCost(rangeCoversAssignment), new Double[] {null, 100.0, 0.0, 0.0, null, null, null, null, null});
       testNumericSegments(task.getTimephasedRemainingFixedCost(rangeCoversAssignment), new Double[] {null, null, null, 0.0, null, null, 0.0, 0.0, null});
+      testNumericSegments(task.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, 100.0, 0.0, 0.0, null, null, null, null, null});
+      testNumericSegments(task.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, null, null, 0.0, null, null, 0.0, 0.0, null});
 
       task = file.getTaskByID(8);
       assertEquals("Task 8", task.getName());
       assertEquals(1, task.getResourceAssignments().size());
       testNumericSegments(task.getTimephasedActualFixedCost(rangeCoversAssignment), new Double[] {null, 100.0, 0.0, 0.0, null, null, 0.0, 0.0, null});
       testNumericSegments(task.getTimephasedRemainingFixedCost(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
+      testNumericSegments(task.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, 100.0, 0.0, 0.0, null, null, 0.0, 0.0, null});
+      testNumericSegments(task.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
 
       task = file.getTaskByID(9);
       assertEquals("Task 9", task.getName());
       assertEquals(1, task.getResourceAssignments().size());
       testNumericSegments(task.getTimephasedActualFixedCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, null, null, null, null, null});
       testNumericSegments(task.getTimephasedRemainingFixedCost(rangeCoversAssignment), new Double[] {null, null, null, 0.0, null, null, 0.0, 100.0, null});
+      testNumericSegments(task.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, null, null, null, null, null});
+      testNumericSegments(task.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, null, null, 0.0, null, null, 0.0, 100.0, null});
 
       task = file.getTaskByID(10);
       assertEquals("Task 10", task.getName());
       assertEquals(1, task.getResourceAssignments().size());
       testNumericSegments(task.getTimephasedActualFixedCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, null, null, 0.0, 100.0, null});
       testNumericSegments(task.getTimephasedRemainingFixedCost(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
+      testNumericSegments(task.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, null, null, 0.0, 100.0, null});
+      testNumericSegments(task.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
+
+      task = file.getTaskByID(11);
+      assertEquals("Task 11", task.getName());
+      assertEquals(1, task.getResourceAssignments().size());
+      testNumericSegments(task.getTimephasedActualFixedCost(rangeCoversAssignment), new Double[] {null, 20.0, 20.0, 10.0, null, null, null, null, null});
+      testNumericSegments(task.getTimephasedRemainingFixedCost(rangeCoversAssignment), new Double[] {null, null, null, 10.0, null, null, 20.0, 20.0, null});
+      testNumericSegments(task.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, 129.0, 124.0, 62.0, null, null, null, null, null});
+      testNumericSegments(task.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, null, null, 62.0, null, null, 124.0, 124.0, null});
+      testNumericSegments(task.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 129.0, 124.0, 124.0, null, null, 124.0, 124.0, null});
 
 //      Task finalTask = task;
 //      dumpExpectedNumericlData(task, rangeCoversAssignment, "getTimephasedActualFixedCost", true, () -> finalTask.getTimephasedActualFixedCost(rangeCoversAssignment));
 //      dumpExpectedNumericlData(task, rangeCoversAssignment, "getTimephasedRemainingFixedCost", false, () -> finalTask.getTimephasedRemainingFixedCost(rangeCoversAssignment));
+//      dumpExpectedNumericlData(task, rangeCoversAssignment, "getTimephasedActualCost", false, () -> finalTask.getTimephasedActualCost(rangeCoversAssignment));
+//      dumpExpectedNumericlData(task, rangeCoversAssignment, "getTimephasedRemainingCost", false, () -> finalTask.getTimephasedRemainingCost(rangeCoversAssignment));
+//      dumpExpectedNumericlData(task, rangeCoversAssignment, "getTimephasedCost", false, () -> finalTask.getTimephasedCost(rangeCoversAssignment));
    }
 
    private void testNumericSegments(List<Number> list, Double[] expected)
