@@ -37,6 +37,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.mpxj.common.BooleanHelper;
@@ -5716,6 +5717,242 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    public List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges)
    {
       return reduceTimephasedCost(ranges, (t) -> t.getTimephasedCost(ranges), (r) -> r.getTimephasedCost(ranges));
+   }
+
+   public List<Number> getTimephasedActualFixedCost(List<LocalDateTimeRange> ranges)
+   {
+      if (NumberHelper.getDouble(getFixedCost()) == 0.0)
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      switch (getFixedCostAccrual())
+      {
+         case START:
+         {
+            return getTimephasedActualFixedCostAccruedAtStart(ranges);
+         }
+
+         case END:
+         {
+            return getTimephasedActualFixedCostAccruedAtEnd(ranges);
+         }
+
+         default:
+         {
+            return getTimephasedFixedCostProRata(ranges, (List<LocalDateTimeRange> r) -> getTimephasedActualWork(r, TimeUnit.HOURS));
+         }
+      }
+   }
+
+   public List<Number> getTimephasedRemainingFixedCost(List<LocalDateTimeRange> ranges)
+   {
+      if (NumberHelper.getDouble(getFixedCost()) == 0.0)
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      switch (getFixedCostAccrual())
+      {
+         case START:
+         {
+            return getTimephasedRemainingFixedCostAccruedAtStart(ranges);
+         }
+
+         case END:
+         {
+            return getTimephasedRemainingFixedCostAccruedAtEnd(ranges);
+         }
+
+         default:
+         {
+            return getTimephasedFixedCostProRata(ranges, (List<LocalDateTimeRange> r) -> getTimephasedRemainingWork(r, TimeUnit.HOURS));
+         }
+      }
+   }
+
+   public List<Number> getTimephasedFixedCost(List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.addTimephasedNumbers(getTimephasedActualFixedCost(ranges), getTimephasedRemainingFixedCost(ranges));
+   }
+
+   private List<Number> getTimephasedFixedCostProRata(List<LocalDateTimeRange> ranges, Function<List<LocalDateTimeRange>, List<Duration>> timephasedWork)
+   {
+      Number[] result = new Number[ranges.size()];
+
+      // If there is no work, return null values
+      List<Duration> hours = timephasedWork.apply(ranges);
+      if (hours == null || hours.isEmpty())
+      {
+         return Arrays.asList(result);
+      }
+
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      double workingHours = getEffectiveCalendar().getWork(getStart(), getFinish(), TimeUnit.HOURS).getDuration();
+      double amountPerHour = getFixedCost().doubleValue() / workingHours;
+
+      for (int index=0; index <  ranges.size(); index++)
+      {
+         Duration work = hours.get(index);
+         if (work == null)
+         {
+            continue;
+         }
+
+         if (work.getDuration() == 0.0)
+         {
+            result[index] = Double.valueOf(0);
+         }
+
+         result[index] = Double.valueOf(work.getDuration() * amountPerHour);
+      }
+
+      return Arrays.asList(result);
+   }
+
+   private List<Number> getTimephasedActualFixedCostAccruedAtStart(List<LocalDateTimeRange> ranges)
+   {
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      Number[] result = new Number[ranges.size()];
+
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         ++rangeIndex;
+      }
+
+      // If our first intersecting range includes the start of the assignment.
+      // Assign the actual cost to this range.
+      if (ranges.get(rangeIndex).compareTo(getStart()) == 0 && getActualStart() != null)
+      {
+         result[rangeIndex++] = getFixedCost();
+      }
+
+      // The remainder of the ranges which intersect with
+      // the assignment have zero cost.
+      List<Duration> actualWork = getTimephasedActualWork(ranges, TimeUnit.HOURS);
+      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         result[rangeIndex] = actualWork.get(rangeIndex) == null ? null : Double.valueOf(0);
+         rangeIndex++;
+      }
+
+      return Arrays.asList(result);
+   }
+
+   private List<Number> getTimephasedActualFixedCostAccruedAtEnd(List<LocalDateTimeRange> ranges)
+   {
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      Number[] result = new Number[ranges.size()];
+
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         ++rangeIndex;
+      }
+
+      // The ranges which intersect with
+      // the assignment have zero cost.
+      List<Duration> actualWork = getTimephasedActualWork(ranges, TimeUnit.HOURS);
+      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         boolean firstAssignmentRange = ranges.get(rangeIndex).compareTo(getStart()) == 0;
+         result[rangeIndex] = !firstAssignmentRange && actualWork.get(rangeIndex) == null ? null : Double.valueOf(0);
+         rangeIndex++;
+      }
+
+      // Our last range includes the end of the assignment.
+      // Assign the actual cost to this range.
+      if (ranges.get(rangeIndex-1).compareTo(getFinish()) == 0 && actualWork.get(rangeIndex-1) != null)
+      {
+         Number cost = getFixedCost();
+         result[rangeIndex-1] = cost == null ? Double.valueOf(0) : cost;
+      }
+
+      return Arrays.asList(result);
+   }
+
+   private List<Number> getTimephasedRemainingFixedCostAccruedAtStart(List<LocalDateTimeRange> ranges)
+   {
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      Number[] result = new Number[ranges.size()];
+
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         ++rangeIndex;
+      }
+
+      List<Duration> remainingWork = getTimephasedRemainingWork(ranges, TimeUnit.HOURS);
+      if (getActualStart() != null)
+      {
+         // The task has started, so there will already
+         // be actual cost timephased data for the entire cost.
+         // Return zero remaining cost for the whole assignment.
+         while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+         {
+            result[rangeIndex] = remainingWork.get(rangeIndex) == null ? null : Double.valueOf(0);
+            rangeIndex++;
+         }
+         return Arrays.asList(result);
+      }
+
+      // The resource assignment has not started.
+      // The cost is allocated to the first segment of the assignment.
+      if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
+      {
+         result[rangeIndex++] = getFixedCost();
+      }
+
+      // The remainder of the assignment has zero cost.
+      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         result[rangeIndex] = remainingWork.get(rangeIndex) == null ? null : Double.valueOf(0);
+         rangeIndex++;
+      }
+
+      return Arrays.asList(result);
+   }
+
+   private List<Number> getTimephasedRemainingFixedCostAccruedAtEnd(List<LocalDateTimeRange> ranges)
+   {
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      Number[] result = new Number[ranges.size()];
+
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         ++rangeIndex;
+      }
+
+      // Fill the ranges covering the assignment with zero cost
+      List<Duration> remainingWork = getTimephasedRemainingWork(ranges, TimeUnit.HOURS);
+      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         result[rangeIndex] = remainingWork.get(rangeIndex) == null ? null : Double.valueOf(0);
+         rangeIndex++;
+      }
+
+      if (getActualFinish() != null)
+      {
+         // The task has finished, so there will already
+         // be actual cost timephased data for the entire cost
+         // so we'll just return;
+         return Arrays.asList(result);
+      }
+
+      // The last intersecting range includes the end of the assignment
+      // so we populate it with the cost.
+      if (ranges.get(rangeIndex-1).compareTo(getFinish()) == 0)
+      {
+         result[rangeIndex - 1] = getFixedCost();
+      }
+
+      return Arrays.asList(result);
    }
 
    private List<Duration> reduceTimephasedWork(List<LocalDateTimeRange> ranges, Function<Task, List<Duration>> taskFn, Function<ResourceAssignment, List<Duration>> assignmentFn)
