@@ -69,7 +69,7 @@ public class TimephasedMaterialResourceTest
       testNumericSegments(assignment.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, null, 12.0, 24.0, 24.0, null, null, 24.0, null});
       testNumericSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 24.0, 24.0, 24.0, 24.0, null, null, 24.0, null});
 
-      // Material accrued at start
+      // Material accrued at start, no progress
       task = file.getTaskByID(3);
       assertEquals("Task 3", task.getName());
       assertEquals(1, task.getResourceAssignments().size());
@@ -81,16 +81,49 @@ public class TimephasedMaterialResourceTest
       testNumericSegments(assignment.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, 120.0, 0.0, 0.0, 0.0, null, null, 0.0, null});
       testNumericSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 120.0, 0.0, 0.0, 0.0, null, null, 0.0, null});
 
-      // TODO: accrued at start and end
+      // Material accrued at start, progress
+      task = file.getTaskByID(4);
+      assertEquals("Task 4", task.getName());
+      assertEquals(1, task.getResourceAssignments().size());
+      assignment = task.getResourceAssignments().get(0);
+      testNumericSegments(assignment.getTimephasedActualMaterial(rangeCoversAssignment), new Double[] {null, 3.0, 1.5, null, null, null, null, null, null});
+      testNumericSegments(assignment.getTimephasedRemainingMaterial(rangeCoversAssignment), new Double[] {null, null, 1.5, 3.0, 3.0, null, null, 3.0, null});
+      testNumericSegments(assignment.getTimephasedMaterial(rangeCoversAssignment), new Double[] {null, 3.0, 3.0, 3.0, 3.0, null, null, 3.0, null});
+      testNumericSegments(assignment.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, 180.0, 0.0, null, null, null, null, null, null});
+      testNumericSegments(assignment.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, null, 0.0, 0.0, 0.0, null, null, 0.0, null});
+      testNumericSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 180.0, 0.0, 0.0, 0.0, null, null, 0.0, null});
 
-      Task finalTask = task;
+      // Material accrued at end, no progress
+      task = file.getTaskByID(5);
+      assertEquals("Task 5", task.getName());
+      assertEquals(1, task.getResourceAssignments().size());
+      assignment = task.getResourceAssignments().get(0);
+      testNumericSegments(assignment.getTimephasedActualMaterial(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
+      testNumericSegments(assignment.getTimephasedRemainingMaterial(rangeCoversAssignment), new Double[] {null, 4.0, 4.0, 4.0, 4.0, null, null, 4.0, null});
+      testNumericSegments(assignment.getTimephasedMaterial(rangeCoversAssignment), new Double[] {null, 4.0, 4.0, 4.0, 4.0, null, null, 4.0, null});
+      testNumericSegments(assignment.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
+      testNumericSegments(assignment.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, 0.0, null, null, 240.0, null});
+      testNumericSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, 0.0, null, null, 240.0, null});
 
-      dumpExpectedMaterialData(task, rangeCoversAssignment, "getTimephasedActualMaterial", true, () -> finalTask.getResourceAssignments().get(0).getTimephasedActualMaterial(rangeCoversAssignment));
-      dumpExpectedMaterialData(task, rangeCoversAssignment, "getTimephasedRemainingMaterial", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedRemainingMaterial(rangeCoversAssignment));
-      dumpExpectedMaterialData(task, rangeCoversAssignment, "getTimephasedMaterial", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedMaterial(rangeCoversAssignment));
-      dumpExpectedMaterialData(task, rangeCoversAssignment, "getTimephasedActualCost", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedActualCost(rangeCoversAssignment));
-      dumpExpectedMaterialData(task, rangeCoversAssignment, "getTimephasedRemainingCost", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedRemainingCost(rangeCoversAssignment));
-      dumpExpectedMaterialData(task, rangeCoversAssignment, "getTimephasedCost", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedCost(rangeCoversAssignment));
+      // Material accrued at end, progress
+      task = file.getTaskByID(6);
+      assertEquals("Task 6", task.getName());
+      assertEquals(1, task.getResourceAssignments().size());
+      assignment = task.getResourceAssignments().get(0);
+      testNumericSegments(assignment.getTimephasedActualMaterial(rangeCoversAssignment), new Double[] {null, 4.0, 2.0, null, null, null, null, null, null});
+      testNumericSegments(assignment.getTimephasedRemainingMaterial(rangeCoversAssignment), new Double[] {null, null, 2.0, 4.0, 4.0, null, null, 4.0, null});
+      testNumericSegments(assignment.getTimephasedMaterial(rangeCoversAssignment), new Double[] {null, 4.0, 4.0, 4.0, 4.0, null, null, 4.0, null});
+      testNumericSegments(assignment.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, null, null, null, null, null, null});
+      testNumericSegments(assignment.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, null, 0.0, 0.0, 0.0, null, null, 240.0, null});
+      testNumericSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, 0.0, 0.0, null, null, 240.0, null});
+
+//      Task finalTask = task;
+//      dumpExpectedNumericlData(task, rangeCoversAssignment, "getTimephasedActualMaterial", true, () -> finalTask.getResourceAssignments().get(0).getTimephasedActualMaterial(rangeCoversAssignment));
+//      dumpExpectedNumericlData(task, rangeCoversAssignment, "getTimephasedRemainingMaterial", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedRemainingMaterial(rangeCoversAssignment));
+//      dumpExpectedNumericlData(task, rangeCoversAssignment, "getTimephasedMaterial", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedMaterial(rangeCoversAssignment));
+//      dumpExpectedNumericlData(task, rangeCoversAssignment, "getTimephasedActualCost", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedActualCost(rangeCoversAssignment));
+//      dumpExpectedNumericlData(task, rangeCoversAssignment, "getTimephasedRemainingCost", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedRemainingCost(rangeCoversAssignment));
+//      dumpExpectedNumericlData(task, rangeCoversAssignment, "getTimephasedCost", false, () -> finalTask.getResourceAssignments().get(0).getTimephasedCost(rangeCoversAssignment));
    }
 
    private void testDurationSegments(List<Duration> list, Double[] expected)
@@ -127,57 +160,57 @@ public class TimephasedMaterialResourceTest
       }
    }
 
-   private void dumpExpectedWorkData(Task task, List<LocalDateTimeRange> ranges, String method, boolean includeAsserts, Supplier<List<Duration>> fn)
-   {
-      if (includeAsserts)
-      {
-         System.out.println("assertEquals(\"" + task.getName() + "\", task.getName());");
-         System.out.println("assertEquals(" + task.getResourceAssignments().size() + ", task.getResourceAssignments().size());");
-         System.out.println("assignment = task.getResourceAssignments().get(0);");
-      }
-      System.out.print("testWorkSegments(assignment."+method+"(rangeCoversAssignment, TimeUnit.HOURS), ");
+//   private void dumpExpectedDurationData(Task task, List<LocalDateTimeRange> ranges, String method, boolean includeAsserts, Supplier<List<Duration>> fn)
+//   {
+//      if (includeAsserts)
+//      {
+//         System.out.println("assertEquals(\"" + task.getName() + "\", task.getName());");
+//         System.out.println("assertEquals(" + task.getResourceAssignments().size() + ", task.getResourceAssignments().size());");
+//         System.out.println("assignment = task.getResourceAssignments().get(0);");
+//      }
+//      System.out.print("testWorkSegments(assignment." + method + "(rangeCoversAssignment, TimeUnit.HOURS), ");
+//
+//      System.out.print("new Double[] {");
+//      boolean first = true;
+//      for (Duration d : fn.get())
+//      {
+//         if (!first)
+//         {
+//            System.out.print(", ");
+//         }
+//         else
+//         {
+//            first = false;
+//         }
+//         System.out.print(d == null ? "null" : d.getDuration());
+//      }
+//      System.out.println("});");
+//   }
 
-      System.out.print("new Double[] {");
-      boolean first = true;
-      for(Duration d : fn.get())
-      {
-         if (!first)
-         {
-            System.out.print(", ");
-         }
-         else
-         {
-            first = false;
-         }
-         System.out.print(d == null ? "null" : d.getDuration());
-      }
-      System.out.println("});");
-   }
-
-      private void dumpExpectedMaterialData(Task task, List<LocalDateTimeRange> ranges, String method, boolean includeAsserts, Supplier<List<Number>> fn)
-      {
-         if (includeAsserts)
-         {
-            System.out.println("assertEquals(\"" + task.getName() + "\", task.getName());");
-            System.out.println("assertEquals(" + task.getResourceAssignments().size() + ", task.getResourceAssignments().size());");
-            System.out.println("assignment = task.getResourceAssignments().get(0);");
-         }
-         System.out.print("testNumericSegments(assignment."+method+"(rangeCoversAssignment), ");
-
-         System.out.print("new Double[] {");
-         boolean first = true;
-         for(Number d : fn.get())
-         {
-            if (!first)
-            {
-               System.out.print(", ");
-            }
-            else
-            {
-               first = false;
-            }
-            System.out.print(d);
-         }
-         System.out.println("});");
-      }
+//   private void dumpExpectedNumericlData(Task task, List<LocalDateTimeRange> ranges, String method, boolean includeAsserts, Supplier<List<Number>> fn)
+//   {
+//      if (includeAsserts)
+//      {
+//         System.out.println("assertEquals(\"" + task.getName() + "\", task.getName());");
+//         System.out.println("assertEquals(" + task.getResourceAssignments().size() + ", task.getResourceAssignments().size());");
+//         System.out.println("assignment = task.getResourceAssignments().get(0);");
+//      }
+//      System.out.print("testNumericSegments(assignment." + method + "(rangeCoversAssignment), ");
+//
+//      System.out.print("new Double[] {");
+//      boolean first = true;
+//      for (Number d : fn.get())
+//      {
+//         if (!first)
+//         {
+//            System.out.print(", ");
+//         }
+//         else
+//         {
+//            first = false;
+//         }
+//         System.out.print(d);
+//      }
+//      System.out.println("});");
+//   }
 }
