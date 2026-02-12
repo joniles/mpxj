@@ -26,7 +26,6 @@ package org.mpxj;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiFunction;
@@ -339,14 +338,13 @@ final class TimephasedUtility
          throw new RuntimeException("Timephased lists not the same length");
       }
 
-      List<T> result = new ArrayList<>();
       for (int index = 0; index < list1.size(); ++index)
       {
          T d1 = list1.get(index);
          T d2 = list2.get(index);
-         result.add(d1 == null && d2 == null ? null : mergeFunction.apply(d1, d2));
+         list1.set(index, d1 == null && d2 == null ? null : mergeFunction.apply(d1, d2));
       }
 
-      return result;
+      return list1;
    }
 }
