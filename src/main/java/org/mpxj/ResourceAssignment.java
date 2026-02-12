@@ -978,7 +978,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    private List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges, int rateIndex, Function<List<LocalDateTimeRange>, List<Duration>> timephasedWork)
    {
-      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
       Number[] result = new Number[ranges.size()];
 
       // If there is no work, return null values

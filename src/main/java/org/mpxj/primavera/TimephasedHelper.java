@@ -75,7 +75,6 @@ final class TimephasedHelper
          Duration periodHours = Duration.getInstance(periodHoursValue, TimeUnit.HOURS);
          Duration workPerHour = Duration.getInstance((workHoursValue * 60.0) / periodHoursValue, TimeUnit.MINUTES);
          LocalDateTime currentFinish = calendar.getDate(currentStart, periodHours);
-         double days = calendar.getDuration(currentStart, currentFinish).getDuration();
 
          TimephasedWork timephasedItem = new TimephasedWork();
          timephasedItem.setStart(currentStart);

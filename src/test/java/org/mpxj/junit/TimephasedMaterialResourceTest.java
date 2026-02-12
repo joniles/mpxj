@@ -2,7 +2,6 @@ package org.mpxj.junit;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.function.Supplier;
 
 import org.junit.jupiter.api.Test;
 import org.mpxj.Duration;

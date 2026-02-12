@@ -32,7 +32,6 @@ import org.mpxj.Task;
 import org.mpxj.mpp.MPPReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * The tests contained in this class exercise the split task functionality.

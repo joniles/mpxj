@@ -2386,17 +2386,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    /**
-    * Determine the calendar to use when working with timephased resource assignment data.
-    *
-    * @param assignment resource assignment
-    * @return calendar to use
-    */
-   private ProjectCalendar getCalendar(ResourceAssignment assignment)
-   {
-      return assignment.getEffectiveCalendar();
-   }
-
-   /**
     * Writes a list of timephased data to the MSPDI file.
     *
     * @param assignmentID current assignment ID

@@ -1973,16 +1973,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
 
             List<TimephasedWork> timephasedComplete = readTimephasedWork(calendar, assignment, 2);
             List<TimephasedWork> timephasedPlanned = readTimephasedWork(calendar, assignment, 1);
-            boolean raw = true;
-
-            // TODO: this assumes that timephased data for all assignments of a task is the same
-//            if (isSplit(calendar, timephasedComplete) || isSplit(calendar, timephasedPlanned))
-//            {
-//               MSPDITimephasedWorkNormaliser.INSTANCE.normalise(calendar, mpx, timephasedComplete);
-//               MSPDITimephasedWorkNormaliser.INSTANCE.normalise(calendar, mpx, timephasedPlanned);
-//               SplitTaskFactory.processSplitData(mpx, timephasedComplete, timephasedPlanned);
-//               raw = false;
-//            }
 
             mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));
             mpx.setActualFinish(assignment.getActualFinish());
@@ -2123,31 +2113,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(attrib.getDurationFormat(), null);
          DatatypeConverter.parseCustomField(m_projectFile, mpx, attrib.getValue(), mpxFieldID, durationFormat);
       }
-   }
-
-   /**
-    * Test to determine if this is a split task.
-    *
-    * @param calendar current calendar
-    * @param list timephased resource assignment list
-    * @return boolean flag
-    */
-   private boolean isSplit(ProjectCalendar calendar, List<TimephasedWork> list)
-   {
-      boolean result = false;
-      for (TimephasedWork assignment : list)
-      {
-         if (calendar != null && assignment.getTotalAmount().getDuration() == 0)
-         {
-            Duration calendarWork = calendar.getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.MINUTES);
-            if (calendarWork.getDuration() != 0)
-            {
-               result = true;
-               break;
-            }
-         }
-      }
-      return result;
    }
 
    /**

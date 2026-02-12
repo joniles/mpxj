@@ -95,8 +95,6 @@ public class ResourceAssignmentFactory
          metaDataBitFlags = ASSIGNMENT_META_DATA_BIT_FLAGS;
       }
 
-      Set<Task> processedSplits = new HashSet<>();
-
       for (int loop = 0; loop < count; loop++)
       {
          byte[] meta = assnFixedMeta.getByteArrayValue(loop);
