@@ -26,7 +26,6 @@ package org.mpxj.sample;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import java.util.List;
@@ -49,9 +48,9 @@ import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceField;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
+import org.mpxj.TimeUnit;
 import org.mpxj.mpp.TimescaleUnits;
 import org.mpxj.reader.UniversalProjectReader;
-import org.mpxj.utility.TimephasedUtility;
 import org.mpxj.utility.TimescaleUtility;
 
 /**
@@ -87,7 +86,7 @@ public class MpxjQuery
 
    /**
     * This method performs a set of queries to retrieve information
-    * from the an MPP or an MPX file.
+    * from a project.
     *
     * @param filename name of the MPX file
     * @throws Exception on file read error
@@ -326,10 +325,9 @@ public class MpxjQuery
          DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yy");
 
          TimescaleUtility timescale = new TimescaleUtility();
-         ArrayList<LocalDateTimeRange> dates = timescale.createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
-         TimephasedUtility timephased = new TimephasedUtility();
+         List<LocalDateTimeRange> dates = timescale.createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
 
-         ArrayList<Duration> durations = timephased.segmentWork(assignment.getEffectiveCalendar(), assignment.getTimephasedWork(), TimescaleUnits.DAYS, dates);
+         List<Duration> durations = assignment.getTimephasedWork(dates, TimeUnit.HOURS);
          for (LocalDateTimeRange range : dates)
          {
             System.out.print(df.format(range.getStart()) + "\t");
