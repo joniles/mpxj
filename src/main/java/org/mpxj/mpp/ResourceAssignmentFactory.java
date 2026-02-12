@@ -304,7 +304,6 @@ public class ResourceAssignmentFactory
       TimephasedWork tra = new TimephasedWork();
       tra.setStart(assignment.getStart());
       tra.setAmountPerHour(workPerHour);
-      tra.setModified(false);
       tra.setFinish(assignment.getFinish());
       tra.setTotalAmount(totalWorkMinutes);
       timephasedPlanned.add(tra);

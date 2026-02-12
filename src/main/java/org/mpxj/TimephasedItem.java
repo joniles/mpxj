@@ -73,26 +73,6 @@ public abstract class TimephasedItem<T>
    }
 
    /**
-    * Retrieve the modified flag.
-    *
-    * @return modified flag
-    */
-   public boolean getModified()
-   {
-      return m_modified;
-   }
-
-   /**
-    * Set the modified flag.
-    *
-    * @param modified modified flag
-    */
-   public void setModified(boolean modified)
-   {
-      m_modified = modified;
-   }
-
-   /**
     * Retrieve the total amount.
     *
     * @return total amount
@@ -134,7 +114,7 @@ public abstract class TimephasedItem<T>
 
    @Override public String toString()
    {
-      return "[TimephasedItem start=" + m_start + " totalAmount=" + m_totalAmount + " finish=" + m_finish + " amountPerHour=" + m_amountPerHour + " modified=" + m_modified + "]";
+      return "[TimephasedItem start=" + m_start + " totalAmount=" + m_totalAmount + " finish=" + m_finish + " amountPerHour=" + m_amountPerHour + "]";
    }
 
    @SuppressWarnings("unchecked") @Override public boolean equals(Object o)
@@ -159,5 +139,4 @@ public abstract class TimephasedItem<T>
    private T m_totalAmount;
    private LocalDateTime m_finish;
    private T m_amountPerHour;
-   private boolean m_modified;
 }

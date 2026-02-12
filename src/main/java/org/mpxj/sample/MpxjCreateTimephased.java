@@ -120,21 +120,18 @@ public class MpxjCreateTimephased
       day1.setAmountPerHour(Duration.getInstance(60, TimeUnit.MINUTES));
       day1.setStart(LocalDateTime.of(2003, 1, 1, 3, 0));
       day1.setFinish(LocalDateTime.of(2003, 1, 1, 23, 0));
-      day1.setModified(true);
       day1.setTotalAmount(Duration.getInstance(20, TimeUnit.HOURS));
 
       final TimephasedWork day2 = new TimephasedWork();
       day2.setAmountPerHour(Duration.getInstance(60, TimeUnit.MINUTES));
       day2.setStart(LocalDateTime.of(2003, 1, 2, 8, 0));
       day2.setFinish(LocalDateTime.of(2003, 1, 1, 10, 0));
-      day2.setModified(true);
       day2.setTotalAmount(Duration.getInstance(2, TimeUnit.HOURS));
 
       final TimephasedWork day3 = new TimephasedWork();
       day3.setAmountPerHour(Duration.getInstance(60, TimeUnit.MINUTES));
       day3.setStart(LocalDateTime.of(2003, 1, 3, 8, 0));
       day3.setFinish(LocalDateTime.of(2003, 1, 1, 10, 0));
-      day3.setModified(true);
       day3.setTotalAmount(Duration.getInstance(2, TimeUnit.HOURS));
 
       //

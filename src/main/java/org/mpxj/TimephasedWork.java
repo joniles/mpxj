@@ -45,7 +45,6 @@ public final class TimephasedWork extends TimephasedItem<Duration>
    {
       setStart(sourceItem.getStart());
       setFinish(sourceItem.getFinish());
-      setModified(sourceItem.getModified());
       setTotalAmount(sourceItem.getTotalAmount());
       setAmountPerHour(sourceItem.getAmountPerHour());
    }
@@ -60,7 +59,6 @@ public final class TimephasedWork extends TimephasedItem<Duration>
    {
       setStart(sourceItem.getStart());
       setFinish(sourceItem.getFinish());
-      setModified(sourceItem.getModified());
       setTotalAmount(Duration.getInstance(sourceItem.getTotalAmount().getDuration() * factor, sourceItem.getTotalAmount().getUnits()));
       setAmountPerHour(Duration.getInstance(sourceItem.getAmountPerHour().getDuration() * factor, sourceItem.getAmountPerHour().getUnits()));
    }
