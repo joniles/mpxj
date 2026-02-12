@@ -727,9 +727,7 @@ public class TimephasedWorkCostSegmentTest
    private void testBaselineWorkSegments(ResourceAssignment assignment, LocalDateTime startDate, Double[] expected)
    {
       List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
-      //System.out.println(dateList);
       List<Duration> durationList = assignment.getTimephasedBaselineWork(0, dateList, TimeUnit.HOURS);
-      //dumpExpectedData(assignment, durationList);
       assertEquals(expected.length, durationList.size());
       for (int loop = 0; loop < expected.length; loop++)
       {
@@ -824,53 +822,5 @@ public class TimephasedWorkCostSegmentTest
       }
    }
 
-   /*
-    * Method used to print segment durations as an array - useful for
-    * creating new test cases.
-    *
-    * @param assignment parent assignment
-    * @param list a list of durations
-    */
-   /*
-      private void dumpExpectedData(ResourceAssignment assignment, ArrayList<Duration> list)
-      {
-         //System.out.println(assignment);
-         System.out.print("new Double[]{");
-         boolean first = true;
-         for (Duration d : list)
-         {
-            if (!first)
-            {
-               System.out.print(", ");
-            }
-            else
-            {
-               first = false;
-            }
-            System.out.print(d.getDuration());
-         }
-         System.out.println("}");
-      }
-   
-      private void dumpExpectedData(ResourceAssignment assignment, ArrayList<Double> list)
-      {
-         //System.out.println(assignment);
-         System.out.print("new Double[]{");
-         boolean first = true;
-         for (Double d : list)
-         {
-            if (!first)
-            {
-               System.out.print(", ");
-            }
-            else
-            {
-               first = false;
-            }
-            System.out.print(d.doubleValue());
-         }
-         System.out.println("}");
-      }
-   */
    private final TimescaleUtility m_timescale = new TimescaleUtility();
 }

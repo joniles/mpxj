@@ -1086,7 +1086,6 @@ public class TimephasedWorkSegmentManualTest
       List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
       List<Duration> durationList = complete ? assignment.getTimephasedActualRegularWork(dateList, TimeUnit.HOURS) : assignment.getTimephasedRemainingRegularWork(dateList, TimeUnit.HOURS);
-      //dumpExpectedData(assignment, durationList);
       assertEquals(expected.length, durationList.size());
       for (int loop = 0; loop < expected.length; loop++)
       {
@@ -1100,35 +1099,6 @@ public class TimephasedWorkSegmentManualTest
          }
       }
    }
-
-   /*
-    * Method used to print segment durations as an array - useful for
-    * creating new test cases.
-    *
-    * @param assignment parent assignment
-    * @param list a list of durations
-    */
-   /*
-      private void dumpExpectedData(ResourceAssignment assignment, ArrayList<Duration> list)
-      {
-         //System.out.println(assignment);
-         System.out.print("new double[]{");
-         boolean first = true;
-         for(Duration d : list)
-         {
-            if (!first)
-            {
-               System.out.print(", ");
-            }
-            else
-            {
-               first = false;
-            }
-            System.out.print(d.getDuration());
-         }
-         System.out.println("}");
-      }
-   */
 
    private final TimescaleUtility m_timescale = new TimescaleUtility();
 }
