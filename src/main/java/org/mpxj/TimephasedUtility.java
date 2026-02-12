@@ -322,29 +322,29 @@ final class TimephasedUtility
       return calendar.getWork(item.getStart(), item.getFinish(), TimeUnit.HOURS).getDuration() == 0.0;
    }
 
-   public static List<Duration> addTimephasedDurations(List<Duration> w1, List<Duration> w2)
+   public static List<Duration> addTimephasedDurations(List<Duration> list1, List<Duration> list2)
    {
-      return mergeTimephasedValues(w1, w2, (v1, v2) -> Duration.getInstance((v1 == null ? 0 : v1.getDuration()) + (v2 == null ? 0 : v2.getDuration()), v1 == null ? v2.getUnits() : v1.getUnits()));
+      return mergeTimephasedValues(list1, list2, (v1, v2) -> Duration.getInstance((v1 == null ? 0 : v1.getDuration()) + (v2 == null ? 0 : v2.getDuration()), v1 == null ? v2.getUnits() : v1.getUnits()));
    }
 
-   public static List<Number> addTimephasedNumbers(List<Number> w1, List<Number> w2)
+   public static List<Number> addTimephasedNumbers(List<Number> list1, List<Number> list2)
    {
-      return mergeTimephasedValues(w1, w2, (v1, v2) -> Double.valueOf((v1 == null ? 0 : v1.doubleValue()) + (v2 == null ? 0 : v2.doubleValue())));
+      return mergeTimephasedValues(list1, list2, (v1, v2) -> Double.valueOf((v1 == null ? 0 : v1.doubleValue()) + (v2 == null ? 0 : v2.doubleValue())));
    }
 
-   public static <T> List<T> mergeTimephasedValues(List<T> w1, List<T> w2, BiFunction<T, T, T> fn)
+   public static <T> List<T> mergeTimephasedValues(List<T> list1, List<T> list2, BiFunction<T, T, T> mergeFunction)
    {
-      if (w1.size() != w2.size())
+      if (list1.size() != list2.size())
       {
          throw new RuntimeException("Timephased lists not the same length");
       }
 
       List<T> result = new ArrayList<>();
-      for (int index = 0; index < w1.size(); ++index)
+      for (int index = 0; index < list1.size(); ++index)
       {
-         T d1 = w1.get(index);
-         T d2 = w2.get(index);
-         result.add(d1 == null && d2 == null ? null : fn.apply(d1, d2));
+         T d1 = list1.get(index);
+         T d2 = list2.get(index);
+         result.add(d1 == null && d2 == null ? null : mergeFunction.apply(d1, d2));
       }
 
       return result;
