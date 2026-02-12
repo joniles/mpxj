@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import org.mpxj.Duration;
-import org.mpxj.LocalDateTimeRange;
 import org.mpxj.Task;
 import org.mpxj.common.NumberHelper;
 
@@ -48,7 +47,7 @@ public class TimephasedTestHelper
       }
    }
 
-   public static void dumpExpectedDurationData(Task task, List<LocalDateTimeRange> ranges, String method, boolean includeAsserts, Supplier<List<Duration>> fn)
+   public static void dumpExpectedDurationData(Task task, String method, boolean includeAsserts, Supplier<List<Duration>> fn)
    {
       if (includeAsserts)
       {
@@ -75,7 +74,7 @@ public class TimephasedTestHelper
       System.out.println("});");
    }
 
-   public static void dumpExpectedNumericData(Task task, List<LocalDateTimeRange> ranges, String method, boolean includeAsserts, Supplier<List<Number>> fn)
+   public static void dumpExpectedNumericData(Task task, String method, boolean includeAsserts, Supplier<List<Number>> fn)
    {
       if (includeAsserts)
       {

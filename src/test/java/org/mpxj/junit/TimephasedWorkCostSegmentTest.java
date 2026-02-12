@@ -39,7 +39,6 @@ import org.mpxj.mpp.TimescaleUnits;
 import org.mpxj.utility.TimescaleUtility;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * This example shows an MPP, MPX or MSPDI file being read, and basic
@@ -176,7 +175,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
       assignment = assignments.get(0);
       testBaselineWorkSegments(assignment, startDate, new Double[]{9.15, 9.15, 9.15, null, null, 9.15, 9.15, 9.15, 9.15, 9.15, null, null, 6.85, null});
       testBaselineCostSegments(assignment, startDate, new Double[]{166.86, 166.86, 166.86, null, null, 166.86, 166.86, 166.86, 166.86, 166.86, null, null, 125.14, null});
-      testRemainingCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]{166.86, 166.86, 166.86, null, null, 166.86, 166.86, 166.86, 166.86, 166.86, null, null, 125.14, null});
+      testRemainingCostSegments(assignment, startDate, new Double[]{166.86, 166.86, 166.86, null, null, 166.86, 166.86, 166.86, 166.86, 166.86, null, null, 125.14, null});
       testActualRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]{null, null});
 
       task = file.getTaskByID(Integer.valueOf(8));
@@ -185,8 +184,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
       assignment = assignments.get(0);
       testBaselineWorkSegments(assignment, startDate, new Double[]{9.15, 9.15, 9.15, null, null, 9.15, 9.15, 9.15, 9.15, 9.15, null, null, 6.85, null});
       testBaselineCostSegments(assignment, startDate, new Double[]{176.0, 176.0, 176.0, null, null, 176.0, 176.0, 176.0, 176.0, 176.0, null, null, 132.0, null});
-      testRemainingCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]{null, 44.0, 176.0, null, null, 176.0, 176.0, 176.0, 176.0, 176.0, null, null, 132.0, null});
-      testActualCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]{176.0, 132.0, null, null, null, null, null, null, null, null, null, null, null, null});
+      testRemainingCostSegments(assignment, startDate, new Double[]{null, 44.0, 176.0, null, null, 176.0, 176.0, 176.0, 176.0, 176.0, null, null, 132.0, null});
+      testActualCostSegments(assignment, startDate, new Double[]{176.0, 132.0, null, null, null, null, null, null, null, null, null, null, null, null});
 
       task = file.getTaskByID(Integer.valueOf(9));
       assertEquals("Partially complete task with overtime added", task.getName());
@@ -194,7 +193,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
       assignment = assignments.get(0);
       testBaselineWorkSegments(assignment, startDate, new Double[]{8.0, 8.0, 9.48, null, null, 9.48, 9.48, 9.48, 9.48, 9.48, null, null, 7.12, null});
       testBaselineCostSegments(assignment, startDate, new Double[]{152.00, 152.00, 194.96, null, null, 194.96, 194.96, 194.96, 194.96, 194.96, null, null, 146.22, null});
-      testRemainingCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]{null, null, 194.96, null, null, 194.96, 194.96, 194.96, 194.96, 194.96, null, null, 146.22, null});
+      testRemainingCostSegments(assignment, startDate, new Double[]{null, null, 194.96, null, null, 194.96, 194.96, 194.96, 194.96, 194.96, null, null, 146.22, null});
       testActualRegularCostSegments(assignment, startDate, TimescaleUnits.DAYS, new Double[]{152.0, 152.0, null, null, null, null, null, null, null, null, null, null, null, null});
    }
 
@@ -241,7 +240,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
       TimephasedTestHelper.testNumericSegments(costList, expected);
    }
 
-   private void testRemainingCostSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, Double[] expected)
+   private void testRemainingCostSegments(ResourceAssignment assignment, LocalDateTime startDate, Double[] expected)
    {
       List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
       List<Number> costList = assignment.getTimephasedRemainingCost(dateList);
@@ -263,7 +262,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
       TimephasedTestHelper.testNumericSegments(costList, expected);
    }
 
-   private void testActualCostSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, Double[] expected)
+   private void testActualCostSegments(ResourceAssignment assignment, LocalDateTime startDate, Double[] expected)
    {
       List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
       List<Number> costList = assignment.getTimephasedActualCost(dateList);
