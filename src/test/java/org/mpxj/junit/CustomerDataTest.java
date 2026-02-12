@@ -719,9 +719,7 @@ public class CustomerDataTest
       };
       Consumer<ProjectWriter> pmxmlConfig = (w) -> ((PrimaveraPMFileWriter) w).setWriteBaselines(true);
       Consumer<ProjectWriter> mpxConfig = (w) -> ((MPXWriter) w).setUseLocaleDefaults(false);
-      Consumer<ProjectWriter> mspdiConfig = (w) -> {
-         ((MSPDIWriter) w).setWriteTimephasedData(true);
-      };
+      Consumer<ProjectWriter> mspdiConfig = (w) -> ((MSPDIWriter) w).setWriteTimephasedData(true);
 
       // TODO: randomise order of execution
       boolean pmxml = testBaseline(name, project, baselineDirectory, "pmxml", ".xml", PrimaveraPMFileWriter.class, pmxmlConfig);
