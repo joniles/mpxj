@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
+import org.mpxj.common.NumberHelper;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mpp.TimescaleUnits;
 import org.mpxj.utility.TimescaleUtility;
@@ -112,7 +113,7 @@ public class TimephasedCostPerUseTest
          else
          {
             assertNotNull(list.get(loop), "Failed at index " + loop);
-            assertEquals(expected[loop], list.get(loop).doubleValue(), 0.02, "Failed at index " + loop);
+            assertEquals(NumberHelper.getDouble(expected[loop]), list.get(loop).doubleValue(), 0.02, "Failed at index " + loop);
          }
       }
    }

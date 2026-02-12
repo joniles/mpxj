@@ -29,7 +29,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.Duration;
-import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.TimeUnit;

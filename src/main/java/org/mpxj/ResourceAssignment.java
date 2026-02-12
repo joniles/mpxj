@@ -1070,7 +1070,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return rate;
       }
 
-      return Rate.valueOf(RateHelper.convertToHours(getEffectiveCalendar(), rate), TimeUnit.HOURS);
+      return Rate.valueOf(Double.valueOf(RateHelper.convertToHours(getEffectiveCalendar(), rate)), TimeUnit.HOURS);
    }
 
    /**
