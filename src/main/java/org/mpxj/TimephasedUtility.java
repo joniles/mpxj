@@ -252,10 +252,12 @@ final class TimephasedUtility
             throw new IllegalArgumentException("Range start must be before range end: " + range);
          }
 
-         if (previousRange != null && !previousRange.getEnd().isBefore(range.getStart()))
+         if (previousRange != null && previousRange.getEnd().isAfter(range.getStart()))
          {
             throw new IllegalArgumentException("Ranges must be non-overlapping and in order: " + previousRange + " " + range);
          }
+
+         previousRange = range;
       }
    }
 
