@@ -15,7 +15,7 @@ import org.mpxj.utility.TimescaleUtility;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TimephasedMaterialResourceTest
+@SuppressWarnings("boxing") public class TimephasedMaterialResourceTest
 {
    @Test public void testMaterialResource() throws Exception
    {

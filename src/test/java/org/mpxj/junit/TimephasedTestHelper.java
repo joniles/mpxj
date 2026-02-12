@@ -43,7 +43,7 @@ public class TimephasedTestHelper
          else
          {
             assertNotNull(list.get(loop), "Failed at index " + loop);
-            assertEquals(expected[loop], list.get(loop).getDuration(), 0.02, "Failed at index " + loop);
+            assertEquals(expected[loop].doubleValue(), list.get(loop).getDuration(), 0.02, "Failed at index " + loop);
          }
       }
    }
@@ -70,7 +70,7 @@ public class TimephasedTestHelper
          {
             first = false;
          }
-         System.out.print(d == null ? "null" : d.getDuration());
+         System.out.print(d == null ? "null" : String.valueOf(d.getDuration()));
       }
       System.out.println("});");
    }

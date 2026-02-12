@@ -13,7 +13,7 @@ import org.mpxj.utility.TimescaleUtility;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TimephasedCostPerUseTest
+@SuppressWarnings("boxing")  public class TimephasedCostPerUseTest
 {
    @Test public void testCostPerUse() throws Exception
    {

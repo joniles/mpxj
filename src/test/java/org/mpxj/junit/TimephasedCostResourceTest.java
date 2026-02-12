@@ -15,7 +15,7 @@ import org.mpxj.utility.TimescaleUtility;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TimephasedCostResourceTest
+@SuppressWarnings("boxing") public class TimephasedCostResourceTest
 {
    @Test public void testProratedCostResource() throws Exception
    {
