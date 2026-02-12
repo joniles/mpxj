@@ -879,10 +879,10 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-   * The date the resource is scheduled to finish the remaining work for the activity.
-   *
-   * @param date Date value
-   */
+    * The date the resource is scheduled to finish the remaining work for the activity.
+    *
+    * @param date Date value
+    */
    public void setRemainingEarlyFinish(LocalDateTime date)
    {
       set(TaskField.REMAINING_EARLY_FINISH, date);
@@ -901,10 +901,10 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-   * The date the resource is scheduled to begin the remaining work for the activity.
-   *
-   * @param date Date value
-   */
+    * The date the resource is scheduled to begin the remaining work for the activity.
+    *
+    * @param date Date value
+    */
    public void setRemainingEarlyStart(LocalDateTime date)
    {
       set(TaskField.REMAINING_EARLY_START, date);
@@ -1907,10 +1907,10 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-   * The date the resource is scheduled to finish the remaining work for the activity.
-   *
-   * @return Date
-   */
+    * The date the resource is scheduled to finish the remaining work for the activity.
+    *
+    * @return Date
+    */
    public LocalDateTime getRemainingEarlyFinish()
    {
       return (LocalDateTime) get(TaskField.REMAINING_EARLY_FINISH);
@@ -1929,10 +1929,10 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-   * The date the resource is scheduled to start the remaining work for the activity.
-   *
-   * @return Date
-   */
+    * The date the resource is scheduled to start the remaining work for the activity.
+    *
+    * @return Date
+    */
    public LocalDateTime getRemainingEarlyStart()
    {
       return (LocalDateTime) get(TaskField.REMAINING_EARLY_START);
@@ -5650,37 +5650,37 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    public List<Duration> getTimephasedActualRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedActualRegularWork(ranges, units), (r) -> r.getTimephasedActualRegularWork(ranges, units));
+      return reduceTimephasedWork(ranges, (t) -> t.getTimephasedActualRegularWork(ranges, units), (r) -> r.getTimephasedActualRegularWork(ranges, units));
    }
 
    public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedActualOvertimeWork(ranges, units), (r) -> r.getTimephasedActualOvertimeWork(ranges, units));
+      return reduceTimephasedWork(ranges, (t) -> t.getTimephasedActualOvertimeWork(ranges, units), (r) -> r.getTimephasedActualOvertimeWork(ranges, units));
    }
 
    public List<Duration> getTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedActualWork(ranges, units), (r) -> r.getTimephasedActualWork(ranges, units));
+      return reduceTimephasedWork(ranges, (t) -> t.getTimephasedActualWork(ranges, units), (r) -> r.getTimephasedActualWork(ranges, units));
    }
 
    public List<Duration> getTimephasedRemainingRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedRemainingRegularWork(ranges, units), (r) -> r.getTimephasedRemainingRegularWork(ranges, units));
+      return reduceTimephasedWork(ranges, (t) -> t.getTimephasedRemainingRegularWork(ranges, units), (r) -> r.getTimephasedRemainingRegularWork(ranges, units));
    }
 
    public List<Duration> getTimephasedRemainingOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedRemainingOvertimeWork(ranges, units), (r) -> r.getTimephasedRemainingOvertimeWork(ranges, units));
+      return reduceTimephasedWork(ranges, (t) -> t.getTimephasedRemainingOvertimeWork(ranges, units), (r) -> r.getTimephasedRemainingOvertimeWork(ranges, units));
    }
 
    public List<Duration> getTimephasedRemainingWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedRemainingWork(ranges, units), (r) -> r.getTimephasedRemainingWork(ranges, units));
+      return reduceTimephasedWork(ranges, (t) -> t.getTimephasedRemainingWork(ranges, units), (r) -> r.getTimephasedRemainingWork(ranges, units));
    }
 
    public List<Duration> getTimephasedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (t)-> t.getTimephasedWork(ranges, units), (r) -> r.getTimephasedWork(ranges, units));
+      return reduceTimephasedWork(ranges, (t) -> t.getTimephasedWork(ranges, units), (r) -> r.getTimephasedWork(ranges, units));
    }
 
    public List<Number> getTimephasedActualRegularCost(List<LocalDateTimeRange> ranges)
@@ -5803,7 +5803,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       double workingHours = getTimephasedWork(Collections.singletonList(new LocalDateTimeRange(getStart(), getFinish())), TimeUnit.HOURS).get(0).getDuration();
       double amountPerHour = getFixedCost().doubleValue() / workingHours;
 
-      for (int index=0; index <  ranges.size(); index++)
+      for (int index = 0; index < ranges.size(); index++)
       {
          Duration work = hours.get(index);
          if (work == null)
@@ -5877,10 +5877,10 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
       // Our last range includes the end of the assignment.
       // Assign the actual cost to this range.
-      if (ranges.get(rangeIndex-1).compareTo(getFinish()) == 0 && actualWork.get(rangeIndex-1) != null)
+      if (ranges.get(rangeIndex - 1).compareTo(getFinish()) == 0 && actualWork.get(rangeIndex - 1) != null)
       {
          Number cost = getFixedCost();
-         result[rangeIndex-1] = cost == null ? Double.valueOf(0) : cost;
+         result[rangeIndex - 1] = cost == null ? Double.valueOf(0) : cost;
       }
 
       return Arrays.asList(result);
@@ -5959,7 +5959,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
       // The last intersecting range includes the end of the assignment
       // so we populate it with the cost.
-      if (ranges.get(rangeIndex-1).compareTo(getFinish()) == 0)
+      if (ranges.get(rangeIndex - 1).compareTo(getFinish()) == 0)
       {
          result[rangeIndex - 1] = getFixedCost();
       }
@@ -5972,7 +5972,8 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return Stream.concat(getResourceAssignments().stream()
          .filter(r -> r.getResource() == null || r.getResource().getType() == ResourceType.WORK)
          .map(assignmentFn), getChildTasks().stream().map(taskFn))
-         .reduce(TimephasedUtility::addTimephasedDurations).orElseGet(() -> Arrays.asList(new Duration[ranges.size()]));
+         .reduce(TimephasedUtility::addTimephasedDurations)
+         .orElseGet(() -> Arrays.asList(new Duration[ranges.size()]));
    }
 
    private List<Number> reduceTimephasedCost(List<LocalDateTimeRange> ranges, Function<Task, List<Number>> taskFn, Function<ResourceAssignment, List<Number>> assignmentFn)
@@ -6303,7 +6304,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return Double.valueOf((currentWork * 100.0) / totalWork);
    }
 
-
    private List<LocalDateTimeRange> calculateWorkSplits()
    {
       if (getSummary())
@@ -6331,8 +6331,8 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
       while (index1 < l1.size() && index2 < l2.size())
       {
-         LocalDateTimeRange range1 =  l1.get(index1);
-         LocalDateTimeRange range2 =  l2.get(index2);
+         LocalDateTimeRange range1 = l1.get(index1);
+         LocalDateTimeRange range2 = l2.get(index2);
 
          if (range1.isBefore(range2))
          {

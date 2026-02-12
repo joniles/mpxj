@@ -40,7 +40,6 @@ import org.mpxj.mspdi.MSPDIReader;
 import org.mpxj.utility.TimescaleUtility;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * This example shows an MPP, MPX or MSPDI file being read, and basic
@@ -107,11 +106,11 @@ public class TimephasedWorkSegmentTest
     *
     * @throws Exception
     */
-      @Test public void testMspdi () throws Exception
-      {
-         ProjectFile file = new MSPDIReader().read(MpxjTestData.filePath("mspditimephasedsegments.xml"));
-         testSegments(file);
-      }
+   @Test public void testMspdi() throws Exception
+   {
+      ProjectFile file = new MSPDIReader().read(MpxjTestData.filePath("mspditimephasedsegments.xml"));
+      testSegments(file);
+   }
 
    /**
     * Suite of tests common to all file types.
@@ -132,32 +131,8 @@ public class TimephasedWorkSegmentTest
       assertEquals("Task One", task.getName());
       List<ResourceAssignment> assignments = task.getResourceAssignments();
       ResourceAssignment assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
-      {
-         8.0,
-         8.0,
-         8.0,
-         8.0,
-         8.0,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
-      {
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]{8.0, 8.0, 8.0, 8.0, 8.0, null, null, null, null, null});
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]{null, null, null, null, null, null, null, null, null, null});
 
       //
       // Task Two - 5 day assignment at 50% utilisation
@@ -166,32 +141,8 @@ public class TimephasedWorkSegmentTest
       assertEquals("Task Two", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
-      {
-         4.0,
-         4.0,
-         4.0,
-         4.0,
-         4.0,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
-      {
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]{4.0, 4.0, 4.0, 4.0, 4.0, null, null, null, null, null});
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]{null, null, null, null, null, null, null, null, null, null});
 
       //
       // Task Three - 5 day assignment at 100% utilisation, 50% complete
@@ -200,32 +151,8 @@ public class TimephasedWorkSegmentTest
       assertEquals("Task Three", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
-      {
-         null,
-         null,
-         4.0,
-         8.0,
-         8.0,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
-      {
-         8.0,
-         8.0,
-         4.0,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]{null, null, 4.0, 8.0, 8.0, null, null, null, null, null});
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]{8.0, 8.0, 4.0, null, null, null, null, null, null, null});
 
       //
       // Task Four - 5 day assignment at 50% utilisation, 50% complete
@@ -234,32 +161,8 @@ public class TimephasedWorkSegmentTest
       assertEquals("Task Four", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
-      {
-         null,
-         null,
-         2.0,
-         4.0,
-         4.0,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
-      {
-         4.0,
-         4.0,
-         2.0,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]{null, null, 2.0, 4.0, 4.0, null, null, null, null, null});
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]{4.0, 4.0, 2.0, null, null, null, null, null, null, null});
 
       //
       // Task Five - 10 day assignment at 100% utilisation
@@ -268,42 +171,8 @@ public class TimephasedWorkSegmentTest
       assertEquals("Task Five", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
-      {
-         8.0,
-         8.0,
-         8.0,
-         8.0,
-         8.0,
-         null,
-         null,
-         8.0,
-         8.0,
-         8.0,
-         8.0,
-         8.0,
-         null,
-         null,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
-      {
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]{8.0, 8.0, 8.0, 8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0, 8.0, null, null, null});
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null});
 
       //
       // Task Six - 10 day assignment at 50% utilisation
@@ -312,42 +181,8 @@ public class TimephasedWorkSegmentTest
       assertEquals("Task Six", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
-      {
-         4.0,
-         4.0,
-         4.0,
-         4.0,
-         4.0,
-         null,
-         null,
-         4.0,
-         4.0,
-         4.0,
-         4.0,
-         4.0,
-         null,
-         null,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
-      {
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]{4.0, 4.0, 4.0, 4.0, 4.0, null, null, 4.0, 4.0, 4.0, 4.0, 4.0, null, null, null});
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null});
 
       //
       // Task Seven - 10 day assignment at 100% utilisation with a resource calendar non-working day and a non-default working day
@@ -356,42 +191,8 @@ public class TimephasedWorkSegmentTest
       assertEquals("Task Seven", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
-      {
-         8.0,
-         null,
-         8.0,
-         8.0,
-         8.0,
-         8.0,
-         null,
-         8.0,
-         8.0,
-         8.0,
-         8.0,
-         8.0,
-         null,
-         null,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
-      {
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]{8.0, null, 8.0, 8.0, 8.0, 8.0, null, 8.0, 8.0, 8.0, 8.0, 8.0, null, null, null});
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null});
 
       //
       // Task Eight - 10 day assignment at 100% utilisation with a task calendar, ignoring resource calendar
@@ -400,42 +201,8 @@ public class TimephasedWorkSegmentTest
       assertEquals("Task Eight", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
-      {
-         8.0,
-         null,
-         8.0,
-         null,
-         8.0,
-         8.0,
-         8.0,
-         8.0,
-         8.0,
-         8.0,
-         8.0,
-         8.0,
-         null,
-         null,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
-      {
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]{8.0, null, 8.0, null, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, null, null, null});
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null});
 
       //
       // Task Nine - 10 day assignment at 100% utilisation front loaded
@@ -444,62 +211,8 @@ public class TimephasedWorkSegmentTest
       assertEquals("Task Nine", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
-      {
-         8.0,
-         8.0,
-         8.0,
-         8.0,
-         8.0,
-         null,
-         null,
-         6.0,
-         6.0,
-         6.0,
-         4.67,
-         4.0,
-         null,
-         null,
-         4.0,
-         3.33,
-         2.0,
-         1.47,
-         1.2,
-         null,
-         null,
-         0.8,
-         0.53,
-         null,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
-      {
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]{8.0, 8.0, 8.0, 8.0, 8.0, null, null, 6.0, 6.0, 6.0, 4.67, 4.0, null, null, 4.0, 3.33, 2.0, 1.47, 1.2, null, null, 0.8, 0.53, null, null});
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null});
 
       //
       // Task Ten - 10 day assignment at 100% utilisation back loaded
@@ -508,60 +221,8 @@ public class TimephasedWorkSegmentTest
       assertEquals("Task Ten", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
-      {
-         0.80,
-         0.93,
-         1.20,
-         1.73,
-         2.00,
-         null,
-         null,
-         4.00,
-         4.00,
-         4.00,
-         5.33,
-         6.00,
-         null,
-         null,
-         6.00,
-         6.67,
-         8.00,
-         8.00,
-         8.00,
-         null,
-         null,
-         8.00,
-         5.33,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
-      {
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]{0.80, 0.93, 1.20, 1.73, 2.00, null, null, 4.00, 4.00, 4.00, 5.33, 6.00, null, null, 6.00, 6.67, 8.00, 8.00, 8.00, null, null, 8.00, 5.33, null});
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null});
 
       //
       // Task Eleven - 10 day assignment at 100% utilisation double peak
@@ -570,70 +231,8 @@ public class TimephasedWorkSegmentTest
       assertEquals("Task Eleven", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
-      {
-         2.00,
-         2.00,
-         4.00,
-         4.00,
-         8.00,
-         null,
-         null,
-         8.00,
-         4.00,
-         4.00,
-         2.00,
-         2.00,
-         null,
-         null,
-         2.00,
-         2.00,
-         4.00,
-         4.00,
-         8.00,
-         null,
-         null,
-         8.00,
-         4.00,
-         4.00,
-         2.00,
-         2.00,
-         null,
-         null,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
-      {
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]{2.00, 2.00, 4.00, 4.00, 8.00, null, null, 8.00, 4.00, 4.00, 2.00, 2.00, null, null, 2.00, 2.00, 4.00, 4.00, 8.00, null, null, 8.00, 4.00, 4.00, 2.00, 2.00, null, null, null});
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null});
 
       //
       // Task Twelve - 10 day assignment at 100% utilisation early peak
@@ -642,70 +241,8 @@ public class TimephasedWorkSegmentTest
       assertEquals("Task Twelve", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
-      {
-         2.00,
-         2.00,
-         4.00,
-         4.00,
-         8.00,
-         null,
-         null,
-         8.00,
-         8.00,
-         8.00,
-         6.00,
-         6.00,
-         null,
-         null,
-         4.00,
-         4.00,
-         4.00,
-         4.00,
-         2.00,
-         null,
-         null,
-         2.00,
-         1.20,
-         1.20,
-         0.80,
-         0.80,
-         null,
-         null,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
-      {
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]{2.00, 2.00, 4.00, 4.00, 8.00, null, null, 8.00, 8.00, 8.00, 6.00, 6.00, null, null, 4.00, 4.00, 4.00, 4.00, 2.00, null, null, 2.00, 1.20, 1.20, 0.80, 0.80, null, null, null});
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null});
 
       //
       // Task Thirteen - 10 day assignment at 100% utilisation late peak
@@ -714,70 +251,8 @@ public class TimephasedWorkSegmentTest
       assertEquals("Task Thirteen", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
-      {
-         0.80,
-         0.80,
-         1.20,
-         1.20,
-         2.00,
-         null,
-         null,
-         2.00,
-         4.00,
-         4.00,
-         4.00,
-         4.00,
-         null,
-         null,
-         6.00,
-         6.00,
-         8.00,
-         8.00,
-         8.00,
-         null,
-         null,
-         8.00,
-         4.00,
-         4.00,
-         2.00,
-         2.00,
-         null,
-         null,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
-      {
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]{0.80, 0.80, 1.20, 1.20, 2.00, null, null, 2.00, 4.00, 4.00, 4.00, 4.00, null, null, 6.00, 6.00, 8.00, 8.00, 8.00, null, null, 8.00, 4.00, 4.00, 2.00, 2.00, null, null, null});
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null});
 
       //
       // Task Fourteen - 10 day assignment at 100% utilisation bell
@@ -786,70 +261,8 @@ public class TimephasedWorkSegmentTest
       assertEquals("Task Fourteen", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
-      {
-         0.80,
-         0.80,
-         1.60,
-         1.60,
-         3.20,
-         null,
-         null,
-         3.20,
-         6.40,
-         6.40,
-         8.00,
-         8.00,
-         null,
-         null,
-         8.00,
-         8.00,
-         6.40,
-         6.40,
-         3.20,
-         null,
-         null,
-         3.20,
-         1.60,
-         1.60,
-         0.80,
-         0.80,
-         null,
-         null,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
-      {
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]{0.80, 0.80, 1.60, 1.60, 3.20, null, null, 3.20, 6.40, 6.40, 8.00, 8.00, null, null, 8.00, 8.00, 6.40, 6.40, 3.20, null, null, 3.20, 1.60, 1.60, 0.80, 0.80, null, null, null});
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null});
 
       //
       // Task Fifteen - 10 day assignment at 100% utilisation turtle
@@ -858,56 +271,8 @@ public class TimephasedWorkSegmentTest
       assertEquals("Task Fifteen", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
-      {
-         2.00,
-         3.15,
-         4.28,
-         6.00,
-         7.43,
-         null,
-         null,
-         8.00,
-         8.00,
-         8.00,
-         8.00,
-         8.00,
-         null,
-         null,
-         6.00,
-         4.85,
-         3.72,
-         2.00,
-         0.57,
-         null,
-         null,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
-      {
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]{2.00, 3.15, 4.28, 6.00, 7.43, null, null, 8.00, 8.00, 8.00, 8.00, 8.00, null, null, 6.00, 4.85, 3.72, 2.00, 0.57, null, null, null});
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null});
 
       //
       // Task Sixteen - 10 day assignment at 100% utilisation hand edited
@@ -916,42 +281,8 @@ public class TimephasedWorkSegmentTest
       assertEquals("Task Sixteen", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
-      {
-         1.00,
-         2.00,
-         3.00,
-         4.00,
-         5.00,
-         null,
-         null,
-         6.00,
-         7.00,
-         8.00,
-         9.00,
-         10.00,
-         null,
-         null,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
-      {
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]{1.00, 2.00, 3.00, 4.00, 5.00, null, null, 6.00, 7.00, 8.00, 9.00, 10.00, null, null, null});
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null});
 
       //
       // Task Seventeen - 10 day assignment at 100% utilisation contoured with a resource calendar non-working day
@@ -960,66 +291,8 @@ public class TimephasedWorkSegmentTest
       assertEquals("Task Seventeen", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]
-      {
-         8.00,
-         8.00,
-         null,
-         8.00,
-         8.00,
-         null,
-         null,
-         8.00,
-         6.00,
-         6.00,
-         6.00,
-         4.67,
-         null,
-         null,
-         4.00,
-         4.00,
-         3.33,
-         2.00,
-         1.47,
-         null,
-         null,
-         1.20,
-         0.80,
-         0.53,
-         null,
-         null,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]
-      {
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, false, new Double[]{8.00, 8.00, null, 8.00, 8.00, null, null, 8.00, 6.00, 6.00, 6.00, 4.67, null, null, 4.00, 4.00, 3.33, 2.00, 1.47, null, null, 1.20, 0.80, 0.53, null, null, null});
+      testSegments(assignment, startDate, TimescaleUnits.DAYS, true, new Double[]{null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null});
 
       //
       // Tests of timescale units
@@ -1028,61 +301,22 @@ public class TimephasedWorkSegmentTest
       assertEquals("Task Eighteen", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.WEEKS, false, new Double[]
-      {
-         40.0,
-         40.0,
-         40.0,
-         40.0,
-         40.0,
-         40.0,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.THIRDS_OF_MONTHS, false, new Double[]
-      {
-         32.0,
-         48.0,
-         48.0,
-         64.0,
-         48.0,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.MONTHS, false, new Double[]
-      {
-         128.0,
-         112.0,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.WEEKS, false, new Double[]{40.0, 40.0, 40.0, 40.0, 40.0, 40.0, null});
+      testSegments(assignment, startDate, TimescaleUnits.THIRDS_OF_MONTHS, false, new Double[]{32.0, 48.0, 48.0, 64.0, 48.0, null});
+      testSegments(assignment, startDate, TimescaleUnits.MONTHS, false, new Double[]{128.0, 112.0, null});
 
       task = file.getTaskByID(Integer.valueOf(19));
       assertEquals("Task Nineteen", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.QUARTERS, false, new Double[]
-      {
-         312.0,
-         520.0,
-         528.0,
-         160.0,
-         null
-      });
-      testSegments(assignment, startDate, TimescaleUnits.HALF_YEARS, false, new Double[]
-      {
-         832.0,
-         688.0,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.QUARTERS, false, new Double[]{312.0, 520.0, 528.0, 160.0, null});
+      testSegments(assignment, startDate, TimescaleUnits.HALF_YEARS, false, new Double[]{832.0, 688.0, null});
 
       task = file.getTaskByID(Integer.valueOf(20));
       assertEquals("Task Twenty", task.getName());
       assignments = task.getResourceAssignments();
       assignment = assignments.get(0);
-      testSegments(assignment, startDate, TimescaleUnits.YEARS, false, new Double[]
-      {
-         1880.0,
-         1160.0,
-         null
-      });
+      testSegments(assignment, startDate, TimescaleUnits.YEARS, false, new Double[]{1880.0, 1160.0, null});
    }
 
    /**
@@ -1098,18 +332,7 @@ public class TimephasedWorkSegmentTest
    {
       List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       List<Duration> durationList = complete ? assignment.getTimephasedActualRegularWork(dateList, TimeUnit.HOURS) : assignment.getTimephasedRemainingRegularWork(dateList, TimeUnit.HOURS);
-      assertEquals(expected.length, durationList.size());
-      for (int loop = 0; loop < expected.length; loop++)
-      {
-         if (expected[loop] == null)
-         {
-            assertNull(durationList.get(loop));
-         }
-         else
-         {
-            assertEquals(expected[loop], durationList.get(loop).getDuration(), 0.015, "Failed at index " + loop);
-         }
-      }
+      TimephasedTestHelper.testDurationSegments(durationList, expected);
    }
 
    private final TimescaleUtility m_timescale = new TimescaleUtility();
