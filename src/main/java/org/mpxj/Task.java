@@ -5801,8 +5801,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          return Arrays.asList(result);
       }
 
-      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
-      double workingHours = getEffectiveCalendar().getWork(getStart(), getFinish(), TimeUnit.HOURS).getDuration();
+      double workingHours = getTimephasedWork(Collections.singletonList(new LocalDateTimeRange(getStart(), getFinish())), TimeUnit.HOURS).get(0).getDuration();
       double amountPerHour = getFixedCost().doubleValue() / workingHours;
 
       for (int index=0; index <  ranges.size(); index++)

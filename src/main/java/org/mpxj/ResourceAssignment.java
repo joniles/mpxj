@@ -1394,17 +1394,23 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return costs;
       }
 
-      Number costPerUse = resource.getCostPerUse();
-      if (costPerUse == null || costPerUse.doubleValue() == 0.0)
+      double costPerUse = NumberHelper.getDouble(resource.getCostPerUse());
+      if (costPerUse == 0.0)
       {
          return costs;
+      }
+
+      double units = NumberHelper.getDouble(getUnits());
+      if ((getResource() == null || getResource().getType() == ResourceType.WORK) && units != 100.0)
+      {
+         costPerUse = (costPerUse * units) / 100.0;
       }
 
       for (int rangeIndex=0; rangeIndex < ranges.size(); ++rangeIndex)
       {
          if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
          {
-            costs.set(rangeIndex, Double.valueOf(NumberHelper.getDouble(costs.get(rangeIndex)) + costPerUse.doubleValue()));
+            costs.set(rangeIndex, Double.valueOf(NumberHelper.getDouble(costs.get(rangeIndex)) + costPerUse));
             break;
          }
       }
