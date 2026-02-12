@@ -58,6 +58,8 @@ import org.mpxj.GenericCriteria;
 import org.mpxj.GraphicalIndicator;
 import org.mpxj.GraphicalIndicatorCriteria;
 import org.mpxj.SkillLevel;
+import org.mpxj.TimephasedCost;
+import org.mpxj.TimephasedWork;
 import org.mpxj.UnitOfMeasure;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.ExpenseItem;
@@ -197,6 +199,16 @@ public final class JsonWriter extends AbstractProjectWriter
    public void setWriteAttributeTypes(boolean writeAttributeTypes)
    {
       m_writeAttributeTypes = writeAttributeTypes;
+   }
+
+   public boolean getWriteTimephasedData()
+   {
+      return m_writeTimephasedData;
+   }
+
+   public void setWriteTimephasedData(boolean writeTimephasedData)
+   {
+      m_writeTimephasedData = writeTimephasedData;
    }
 
    /**
@@ -1252,6 +1264,18 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
+         case TIMEPHASED_WORK_LIST:
+         {
+            writeTimephasedWorkList(fieldName, value);
+            break;
+         }
+
+         case TIMEPHASED_COST_LIST:
+         {
+            writeTimephasedCostList(fieldName, value);
+            break;
+         }
+
          default:
          {
             // If we have an enum, ensure we write the name as it appears in the code.
@@ -1960,6 +1984,60 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeEndArray();
    }
 
+   private void writeTimephasedWorkList(String fieldName, Object value) throws IOException
+   {
+      if (!m_writeTimephasedData || !(value instanceof List))
+      {
+         return;
+      }
+
+      @SuppressWarnings("unchecked")
+      List<TimephasedWork> list = (List<TimephasedWork>) value;
+      if (list.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeArrayFieldStart(fieldName);
+      for (TimephasedWork item : list)
+      {
+         m_writer.writeStartObject();
+         writeTimestampField("start", item.getStart());
+         writeTimestampField("finish", item.getFinish());
+         writeDurationField(null, "amount_per_hour", item.getAmountPerHour());
+         writeDurationField(null, "total_amount", item.getTotalAmount());
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndArray();
+   }
+
+   private void writeTimephasedCostList(String fieldName, Object value) throws IOException
+   {
+      if (!m_writeTimephasedData || !(value instanceof List))
+      {
+         return;
+      }
+
+      @SuppressWarnings("unchecked")
+      List<TimephasedCost> list = (List<TimephasedCost>) value;
+      if (list.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeArrayFieldStart(fieldName);
+      for (TimephasedCost item : list)
+      {
+         m_writer.writeStartObject();
+         writeTimestampField("start", item.getStart());
+         writeTimestampField("finish", item.getFinish());
+         writeDoubleField("amount_per_hour", item.getAmountPerHour());
+         writeDoubleField("total_amount", item.getTotalAmount());
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndArray();
+   }
+
    private void writeTables() throws IOException
    {
       if (m_projectFile.getTables().isEmpty())
@@ -2175,6 +2253,7 @@ public final class JsonWriter extends AbstractProjectWriter
    private boolean m_includeLayoutData;
    private Charset m_charset = DEFAULT_CHARSET;
    private boolean m_writeAttributeTypes;
+   private boolean m_writeTimephasedData;
    private TimeUnit m_timeUnits;
    private final StringBuilder m_buffer = new StringBuilder();
 
