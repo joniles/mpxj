@@ -283,10 +283,12 @@ final class TimephasedUtility
             throw new IllegalArgumentException("Item start must be before item end: " + item);
          }
 
-         if (previousItem != null && !previousItem.getFinish().isBefore(item.getStart()))
+         if (previousItem != null && previousItem.getFinish().isAfter(item.getStart()))
          {
             throw new IllegalArgumentException("Items must be non-overlapping and in order: " + previousItem + " " + item);
          }
+
+         previousItem = item;
       }
    }
 
