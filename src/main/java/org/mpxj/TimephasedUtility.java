@@ -1,7 +1,6 @@
 /*
  * file:       TimephasedUtility.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2011
  * date:       2011-02-12
  */
 
@@ -69,7 +68,7 @@ final class TimephasedUtility
       int currentRangeIndex = 0;
       LocalDateTimeRange currentRange = ranges.get(0);
 
-      while(true)
+      while (true)
       {
          if (!currentRange.getEnd().isAfter(currentItem.getStart()))
          {
@@ -86,7 +85,7 @@ final class TimephasedUtility
          while (!currentRange.getStart().isBefore(currentItem.getFinish()))
          {
             // We are at the last work item
-            if (currentItemIndex+1 == work.size())
+            if (currentItemIndex + 1 == work.size())
             {
                // There are no more work items, so there is no work for this range
                // or any subsequent ranges.
@@ -133,7 +132,6 @@ final class TimephasedUtility
          }
       }
 
-
       return Arrays.stream(result).mapToObj(d -> d == -1 ? null : Duration.getInstance(d, units).convertUnits(targetUnits, calendar)).collect(Collectors.toList());
    }
 
@@ -169,7 +167,7 @@ final class TimephasedUtility
       int currentRangeIndex = 0;
       LocalDateTimeRange currentRange = ranges.get(0);
 
-      while(true)
+      while (true)
       {
          if (!currentRange.getEnd().isAfter(currentItem.getStart()))
          {
@@ -186,7 +184,7 @@ final class TimephasedUtility
          while (!currentRange.getStart().isBefore(currentItem.getFinish()))
          {
             // We are at the last work item
-            if (currentItemIndex+1 == cost.size())
+            if (currentItemIndex + 1 == cost.size())
             {
                // There are no more work items, so there is no work for this range
                // or any subsequent ranges.
@@ -236,11 +234,26 @@ final class TimephasedUtility
       return Arrays.stream(result).mapToObj(d -> d == -1 ? null : Double.valueOf(d)).collect(Collectors.toList());
    }
 
+   /**
+    * This is the main entry point used to convert the internal representation
+    * of timephased material utilization into an external form which can
+    * be displayed to the user.
+    *
+    * @param calendar calendar used by the resource assignment
+    * @param work timephased resource assignment data
+    * @param ranges timescale date ranges
+    * @return list of amounts, one per timescale date range
+    */
    public static List<Number> segmentMaterial(ProjectCalendar calendar, List<TimephasedWork> work, List<LocalDateTimeRange> ranges)
    {
-      return segmentWork(calendar, work, ranges, TimeUnit.HOURS).stream().map(d -> d == null ? null: Double.valueOf(d.getDuration())).collect(Collectors.toList());
+      return segmentWork(calendar, work, ranges, TimeUnit.HOURS).stream().map(d -> d == null ? null : Double.valueOf(d.getDuration())).collect(Collectors.toList());
    }
 
+   /**
+    * Ensure that the supplied ranges are valid.
+    *
+    * @param ranges timescale date ranges
+    */
    private static void validateRanges(List<LocalDateTimeRange> ranges)
    {
       LocalDateTimeRange previousRange = null;
@@ -260,6 +273,11 @@ final class TimephasedUtility
       }
    }
 
+   /**
+    * Ensure that the supplied raw timephased work is valid.
+    *
+    * @param items raw timephased work
+    */
    private static void validateTimephasedWork(List<TimephasedWork> items)
    {
       if (items.isEmpty())
@@ -291,6 +309,11 @@ final class TimephasedUtility
       }
    }
 
+   /**
+    * Ensure that the supplied raw timephased cost is valid.
+    *
+    * @param items raw timephased work
+    */
    private static void validateTimephasedCost(List<TimephasedCost> items)
    {
       if (items.isEmpty())
@@ -316,22 +339,56 @@ final class TimephasedUtility
       }
    }
 
+   /**
+    * Determine if a timephased item covers non-working time.
+    *
+    * @param calendar effective calendar
+    * @param item item to test
+    * @return true if the item represents non-working time
+    * @param <T> item type
+    */
    private static <T extends TimephasedItem<?>> boolean itemIsNonWorking(ProjectCalendar calendar, T item)
    {
       return calendar.getWork(item.getStart(), item.getFinish(), TimeUnit.HOURS).getDuration() == 0.0;
    }
 
+   /**
+    * Merge two lists of timephased durations. The first supplied list is updated,
+    * and is also returned to allow method chaining.
+    *
+    * @param list1 first list
+    * @param list2 second list
+    * @return result
+    */
    public static List<Duration> addTimephasedDurations(List<Duration> list1, List<Duration> list2)
    {
       return mergeTimephasedValues(list1, list2, (v1, v2) -> Duration.getInstance((v1 == null ? 0 : v1.getDuration()) + (v2 == null ? 0 : v2.getDuration()), v1 == null ? v2.getUnits() : v1.getUnits()));
    }
 
+   /**
+    * Merge two lists of timephased numeric values. The first supplied list is updated,
+    * and is also returned to allow method chaining.
+    *
+    * @param list1 first list
+    * @param list2 second list
+    * @return result
+    */
    public static List<Number> addTimephasedNumbers(List<Number> list1, List<Number> list2)
    {
       return mergeTimephasedValues(list1, list2, (v1, v2) -> Double.valueOf((v1 == null ? 0 : v1.doubleValue()) + (v2 == null ? 0 : v2.doubleValue())));
    }
 
-   public static <T> List<T> mergeTimephasedValues(List<T> list1, List<T> list2, BiFunction<T, T, T> mergeFunction)
+   /**
+    * Merge two lists of timephased values. The first supplied list is updated,
+    * and is also returned to allow method chaining.
+    *
+    * @param list1 first list
+    * @param list2 second list
+    * @param mergeFunction function used to merge values
+    * @return result
+    * @param <T> item type
+    */
+   private static <T> List<T> mergeTimephasedValues(List<T> list1, List<T> list2, BiFunction<T, T, T> mergeFunction)
    {
       if (list1.size() != list2.size())
       {

@@ -19,7 +19,7 @@
 			<action dev="joniles" type="update">The `Task` class now supports the following methods to retrieve timephased work: `getTimephasedActualRegularWork`, `getTimephasedActualOvertimeWork`, `getTimephasedActualWork`, `getTimephasedRemainingRegularWork`, `getTimephasedRemainingOvertimeWork`, `getTimephasedRemainingWork`, `getTimephasedWork`.</action>
 			<action dev="joniles" type="update">The `Task` class now supports the following methods to retrieve timephased cost: `getTimephasedActualRegularCost`, `getTimephasedActualOvertimeCost`, `getTimephasedActualCost`, `getTimephasedRemainingRegularCost`, `getTimephasedRemainingOvertimeCost`, `getTimephasedRemainingCost`, `getTimephasedCost`, `getTimephasedActualFixedCost`, `getTimephasedRemainingFixedCost`, `getTimephasedFixedCost`.</action>
 
-
+			<action dev="joniles" type="update">The `TimephasedItem`, `TimephasedWork`, and `TimephasedCost` classes have a new `getAmountPerHour` method, which replaces the original `getAmountPerDay` method.</action>
 
 			<action dev="joniles" type="update">**BREAKING CHANGES**</action>
 			<action dev="joniles" type="update">`MSPDIWriter` no longer provides the `setSplitTimephasedAsDays` and `getSplitTimephasedAsDays` methods. Timephased data is always written to the file exactly as MPXJ originally read it.</action>
@@ -29,6 +29,10 @@
 			<action dev="joniles" type="update">The following `ResourceAssignment` timephased work methods have been removed without replacement: `setTimephasedPlannedWork`, `setTimephasedActualWork`, `setTimephasedWork`, `setTimephasedActualOvertimeWork`, `setTimephasedBaselineWork`, `setTimephasedBaselineCost`.</action>
 			<action dev="joniles" type="update">The following `ResourceAssignment` timephased cost methods have been removed and replaced by the cost methods noted above: `getTimephasedCost`, `getTimephasedActualCost`.</action>
 			<action dev="joniles" type="update">The `Task#getSplits` method has been removed, used the `Task#getWorkSplits` method instead. Note that `Task#getWorkSplits` only returns ranges representing working time.</action>
+
+			<action dev="joniles" type="update">The `getAmountPerDay` method on the `TimephasedItem`, `TimephasedWork`, and `TimephasedCost` classes has been removed. Use the new `getAmountPerHour` method instead.</action>
+			<action dev="joniles" type="update">The `getModified` method on the `TimephasedItem`, `TimephasedWork`, and `TimephasedCost` classes has been removed. There is currently no replacement.</action>
+
 
 		</release>
 		<release date="unreleased" version="15.3.2">
