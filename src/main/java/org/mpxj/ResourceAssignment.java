@@ -2367,7 +2367,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          // We have a previous working range, and the current range can be merged with it
          if (lastRange != null && (lastRange.getEnd().isEqual(work.getStart()) || calendar.getWork(lastRange.getEnd(), work.getStart(), TimeUnit.HOURS).getDuration() == 0.0))
          {
-            result.remove(result.size()-1);
+            result.remove(result.size() - 1);
             lastRange = new LocalDateTimeRange(lastRange.getStart(), work.getFinish());
             result.add(lastRange);
             continue;
@@ -2389,7 +2389,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          // We have a previous working range, and the current range can be merged with it
          if (lastRange != null && (lastRange.getEnd().isEqual(work.getStart()) || calendar.getWork(lastRange.getEnd(), work.getStart(), TimeUnit.HOURS).getDuration() == 0.0))
          {
-            result.remove(result.size()-1);
+            result.remove(result.size() - 1);
             lastRange = new LocalDateTimeRange(lastRange.getStart(), work.getFinish());
             result.add(lastRange);
             continue;
@@ -2439,7 +2439,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedRemainingOvertimeWork()
    {
-      return (List<TimephasedWork>)get(AssignmentField.TIMEPHASED_REMAINING_OVERTIME_WORK);
+      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_REMAINING_OVERTIME_WORK);
    }
 
    /**
@@ -2615,7 +2615,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
       List<Number> result;
       AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
-      switch(accrueAt)
+      switch (accrueAt)
       {
          case START:
          {
@@ -2671,7 +2671,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
 
       AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
-      switch(accrueAt)
+      switch (accrueAt)
       {
          case START:
          {
@@ -2717,7 +2717,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       // If we haven't started, we have no actual cost... unless we're working with a cost resource,
       // which can have an actual cost without progress.
       ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
-      if (getActualStart() == null && type !=  ResourceType.COST)
+      if (getActualStart() == null && type != ResourceType.COST)
       {
          return Arrays.asList(new Number[ranges.size()]);
       }
@@ -2736,7 +2736,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
       List<Number> result;
       AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
-      switch(accrueAt)
+      switch (accrueAt)
       {
          case START:
          {
@@ -2777,7 +2777,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       // If we haven't started, we have no actual cost... unless we're working with a cost resource,
       // which can have an actual cost without progress.
       ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
-      if (getActualStart() == null && type !=  ResourceType.COST)
+      if (getActualStart() == null && type != ResourceType.COST)
       {
          return Arrays.asList(new Number[ranges.size()]);
       }
@@ -2796,7 +2796,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
 
       AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
-      switch(accrueAt)
+      switch (accrueAt)
       {
          case START:
          {
@@ -2920,7 +2920,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Arrays.asList(result);
       }
 
-      List<CostRateTableEntry> rates = costRateTable.getEntriesByRange(new LocalDateTimeRange(ranges.get(0).getStart(), ranges.get(ranges.size()-1).getEnd()));
+      List<CostRateTableEntry> rates = costRateTable.getEntriesByRange(new LocalDateTimeRange(ranges.get(0).getStart(), ranges.get(ranges.size() - 1).getEnd()));
       if (rates.isEmpty())
       {
          return Arrays.asList(result);
@@ -2930,7 +2930,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       int costRateTableEntryIndex = 0;
       CostRateTableEntry currentRate = rates.get(costRateTableEntryIndex);
 
-      for (int index=0; index <  ranges.size(); index++)
+      for (int index = 0; index < ranges.size(); index++)
       {
          Duration work = hours.get(index);
          if (work == null)
@@ -2981,7 +2981,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
             }
 
             currentRate = rates.get(++costRateTableEntryIndex);
-            subRange =  new LocalDateTimeRange(currentRate.getStartDate(), currentRate.getEndDate().isAfter(range.getEnd()) ? range.getEnd() : currentRate.getEndDate());
+            subRange = new LocalDateTimeRange(currentRate.getStartDate(), currentRate.getEndDate().isAfter(range.getEnd()) ? range.getEnd() : currentRate.getEndDate());
          }
 
          result[index] = Double.valueOf(total);
@@ -3014,7 +3014,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    private List<Number> getTimephasedCostResourceRemainingCost(List<LocalDateTimeRange> ranges)
    {
-      switch(getResource().getAccrueAt())
+      switch (getResource().getAccrueAt())
       {
          case START:
          {
@@ -3041,7 +3041,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    private List<Number> getTimephasedCostResourceActualCost(List<LocalDateTimeRange> ranges)
    {
-      switch(getResource().getAccrueAt())
+      switch (getResource().getAccrueAt())
       {
          case START:
          {
@@ -3149,7 +3149,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
       // The last intersecting range includes the end of the assignment
       // so we populate it with the cost.
-      if (ranges.get(rangeIndex-1).compareTo(getFinish()) == 0)
+      if (ranges.get(rangeIndex - 1).compareTo(getFinish()) == 0)
       {
          result[rangeIndex - 1] = totalCost.get();
       }
@@ -3274,10 +3274,10 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
       // Our last range includes the end of the assignment.
       // Assign the actual cost to this range.
-      if (ranges.get(rangeIndex-1).compareTo(getFinish()) == 0 && actualWork.get(rangeIndex-1) != null)
+      if (ranges.get(rangeIndex - 1).compareTo(getFinish()) == 0 && actualWork.get(rangeIndex - 1) != null)
       {
          Number cost = actualCost.get();
-         result[rangeIndex-1] = cost == null ? Double.valueOf(0) : cost;
+         result[rangeIndex - 1] = cost == null ? Double.valueOf(0) : cost;
       }
 
       return Arrays.asList(result);
@@ -3337,7 +3337,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          .count();
 
       // Determine the pro rata cost per range with working hours
-      Double costPerWorkingRange = Double.valueOf(getCost().doubleValue() /workingRanges);
+      Double costPerWorkingRange = Double.valueOf(getCost().doubleValue() / workingRanges);
 
       // Find the first range which intersects with the assignment
       int rangeIndex = 0;
@@ -3394,7 +3394,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          costPerUse = (costPerUse * units) / 100.0;
       }
 
-      for (int rangeIndex=0; rangeIndex < ranges.size(); ++rangeIndex)
+      for (int rangeIndex = 0; rangeIndex < ranges.size(); ++rangeIndex)
       {
          if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
          {
@@ -3434,7 +3434,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return costs;
       }
 
-      for (int rangeIndex=0; rangeIndex < ranges.size(); ++rangeIndex)
+      for (int rangeIndex = 0; rangeIndex < ranges.size(); ++rangeIndex)
       {
          if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
          {
@@ -3645,7 +3645,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       Duration totalRemainingWork = getRemainingWork();
       Duration remainingOvertimeWork = getRemainingOvertimeWork();
 
-      if (totalRemainingWork == null ||  remainingOvertimeWork == null)
+      if (totalRemainingWork == null || remainingOvertimeWork == null)
       {
          return Collections.emptyList();
       }
