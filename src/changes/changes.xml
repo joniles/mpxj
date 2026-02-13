@@ -19,7 +19,7 @@
 			<action dev="joniles" type="update">The `Task` class now supports the following methods to retrieve timephased work: `getTimephasedActualRegularWork`, `getTimephasedActualOvertimeWork`, `getTimephasedActualWork`, `getTimephasedRemainingRegularWork`, `getTimephasedRemainingOvertimeWork`, `getTimephasedRemainingWork`, `getTimephasedWork`.</action>
 			<action dev="joniles" type="update">The `Task` class now supports the following methods to retrieve timephased cost: `getTimephasedActualRegularCost`, `getTimephasedActualOvertimeCost`, `getTimephasedActualCost`, `getTimephasedRemainingRegularCost`, `getTimephasedRemainingOvertimeCost`, `getTimephasedRemainingCost`, `getTimephasedCost`, `getTimephasedActualFixedCost`, `getTimephasedRemainingFixedCost`, `getTimephasedFixedCost`.</action>
 
-			
+
 
 			<action dev="joniles" type="update">**BREAKING CHANGES**</action>
 			<action dev="joniles" type="update">`MSPDIWriter` no longer provides the `setSplitTimephasedAsDays` and `getSplitTimephasedAsDays` methods. Timephased data is always written to the file exactly as MPXJ originally read it.</action>

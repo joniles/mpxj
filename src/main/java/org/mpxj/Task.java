@@ -6124,8 +6124,8 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    private List<Duration> reduceTimephasedWork(List<LocalDateTimeRange> ranges, Function<Task, List<Duration>> taskFn, Function<ResourceAssignment, List<Duration>> assignmentFn)
    {
       return Stream.concat(getResourceAssignments().stream()
-         .filter(r -> r.getResource() == null || r.getResource().getType() == ResourceType.WORK)
-         .map(assignmentFn), getChildTasks().stream().map(taskFn))
+            .filter(r -> r.getResource() == null || r.getResource().getType() == ResourceType.WORK)
+            .map(assignmentFn), getChildTasks().stream().map(taskFn))
          .reduce(TimephasedUtility::addTimephasedDurations)
          .orElseGet(() -> Arrays.asList(new Duration[ranges.size()]));
    }
