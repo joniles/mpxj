@@ -1,3 +1,25 @@
+/*
+ * file:       TimephasedTestHelper.java
+ * author:     Jon Iles
+ * date:       2026-02-13
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 package org.mpxj.junit;
 
 import java.util.List;
@@ -11,42 +33,65 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class TimephasedTestHelper
+/**
+ * Helper methods for timephased tests.
+ */
+public final class TimephasedTestHelper
 {
-   public static void testNumericSegments(List<Number> list, Double[] expected)
+   /**
+    * Validate numeric segments.
+    *
+    * @param actual actual values
+    * @param expected expected values
+    */
+   public static void testNumericSegments(List<Number> actual, Double[] expected)
    {
-      assertEquals(expected.length, list.size());
+      assertEquals(expected.length, actual.size());
       for (int loop = 0; loop < expected.length; loop++)
       {
          if (expected[loop] == null)
          {
-            assertNull(list.get(loop), "Failed at index " + loop);
+            assertNull(actual.get(loop), "Failed at index " + loop);
          }
          else
          {
-            assertNotNull(list.get(loop), "Failed at index " + loop);
-            assertEquals(NumberHelper.getDouble(expected[loop]), list.get(loop).doubleValue(), 0.02, "Failed at index " + loop);
+            assertNotNull(actual.get(loop), "Failed at index " + loop);
+            assertEquals(NumberHelper.getDouble(expected[loop]), actual.get(loop).doubleValue(), 0.02, "Failed at index " + loop);
          }
       }
    }
 
-   public static void testDurationSegments(List<Duration> list, Double[] expected)
+   /**
+    * Validate duration segments.
+    *
+    * @param actual actual values
+    * @param expected expected values
+    */
+   public static void testDurationSegments(List<Duration> actual, Double[] expected)
    {
-      assertEquals(expected.length, list.size());
+      assertEquals(expected.length, actual.size());
       for (int loop = 0; loop < expected.length; loop++)
       {
          if (expected[loop] == null)
          {
-            assertNull(list.get(loop), "Failed at index " + loop);
+            assertNull(actual.get(loop), "Failed at index " + loop);
          }
          else
          {
-            assertNotNull(list.get(loop), "Failed at index " + loop);
-            assertEquals(expected[loop].doubleValue(), list.get(loop).getDuration(), 0.02, "Failed at index " + loop);
+            assertNotNull(actual.get(loop), "Failed at index " + loop);
+            assertEquals(expected[loop].doubleValue(), actual.get(loop).getDuration(), 0.02, "Failed at index " + loop);
          }
       }
    }
 
+   /**
+    * Dump timephased data ready to be used as a test case.
+    *
+    * @param task task data
+    * @param method method under test
+    * @param includeAsserts include task assertions if true
+    * @param fn function to generate data
+    */
    public static void dumpExpectedDurationData(Task task, String method, boolean includeAsserts, Supplier<List<Duration>> fn)
    {
       if (includeAsserts)
@@ -74,6 +119,14 @@ public class TimephasedTestHelper
       System.out.println("});");
    }
 
+   /**
+    * Dump timephased data ready to be used as a test case.
+    *
+    * @param task task data
+    * @param method method under test
+    * @param includeAsserts include task assertions if true
+    * @param fn function to generate data
+    */
    public static void dumpExpectedNumericData(Task task, String method, boolean includeAsserts, Supplier<List<Number>> fn)
    {
       if (includeAsserts)
