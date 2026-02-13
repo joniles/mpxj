@@ -716,6 +716,7 @@ public class CustomerDataTest
       Consumer<ProjectWriter> jsonConfig = (w) -> {
          ((JsonWriter) w).setPretty(true);
          ((JsonWriter) w).setIncludeLayoutData(true);
+         ((JsonWriter) w).setWriteTimephasedData(true);
       };
       Consumer<ProjectWriter> pmxmlConfig = (w) -> ((PrimaveraPMFileWriter) w).setWriteBaselines(true);
       Consumer<ProjectWriter> mpxConfig = (w) -> ((MPXWriter) w).setUseLocaleDefaults(false);
