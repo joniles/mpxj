@@ -2433,16 +2433,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    }
 
    /**
-    * Retrieves raw timephased remaining overtime work for this resource assignment.
-    *
-    * @return raw timephased remaining overtime work
-    */
-   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedRemainingOvertimeWork()
-   {
-      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_REMAINING_OVERTIME_WORK);
-   }
-
-   /**
     * Retrieves raw timephased actual overtime work for this resource assignment.
     *
     * @return raw timephased actual overtime work
@@ -2450,6 +2440,16 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedActualOvertimeWork()
    {
       return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK);
+   }
+
+   /**
+    * Retrieves raw timephased remaining overtime work for this resource assignment.
+    *
+    * @return raw timephased remaining overtime work
+    */
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedRemainingOvertimeWork()
+   {
+      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_REMAINING_OVERTIME_WORK);
    }
 
    /**

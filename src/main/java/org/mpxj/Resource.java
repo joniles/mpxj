@@ -2763,6 +2763,18 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
+    * Retrieve timephased planned work for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedPlannedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedPlannedWork(ranges, units));
+   }
+
+   /**
     * Retrieve timephased actual regular work for this resource for the supplied time ranges.
     *
     * @param ranges time ranges over which timephased work is summarized
