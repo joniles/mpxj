@@ -82,6 +82,18 @@ public final class LocalDateTimeHelper
       return result;
    }
 
+   /**
+    * This method compares two ranges.
+    * If range 1 ends before range 2 starts, return -1.
+    * If range 2 starts after range 2 ends, return 1.
+    * Return 0 if the ranges intersect.
+    *
+    * @param startRange1 range 1 start
+    * @param endRange1 range 1 end
+    * @param startRange2 range 2 start
+    * @param endRange2 range 2 end
+    * @return -1 if range 1 ends before range 2 starts, 1 if range 2 starts after range 2 ends, 0 if the ranges intersect
+    */
    public static int compare(LocalDateTime startRange1, LocalDateTime endRange1, LocalDateTime startRange2, LocalDateTime endRange2)
    {
       // Range 1 ends before range 2 starts
