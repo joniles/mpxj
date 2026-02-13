@@ -659,1050 +659,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    }
 
    /**
-    * Retrieves raw timephased planned work for this resource assignment.
-    *
-    * @return raw timephased planned work
-    */
-   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedPlannedWork()
-   {
-      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_PLANNED_WORK);
-   }
-
-   /**
-    * Retrieves raw timephased actual regular work for this resource assignment.
-    *
-    * @return raw timephased actual regular work
-    */
-   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedActualRegularWork()
-   {
-      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_REGULAR_WORK);
-   }
-
-   /**
-    * Retrieves raw timephased remaining regular work for this resource assignment.
-    *
-    * @return raw timephased remaining regular work
-    */
-   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedRemainingRegularWork()
-   {
-      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK);
-   }
-
-   /**
-    * Retrieves raw timephased remaining overtime work for this resource assignment.
-    *
-    * @return raw timephased remaining overtime work
-    */
-   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedRemainingOvertimeWork()
-   {
-      return (List<TimephasedWork>)get(AssignmentField.TIMEPHASED_REMAINING_OVERTIME_WORK);
-   }
-
-   /**
-    * Retrieves raw timephased actual overtime work for this resource assignment.
-    *
-    * @return raw timephased actual overtime work
-    */
-   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedActualOvertimeWork()
-   {
-      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK);
-   }
-
-   /**
-    * Retrieve raw timephased baseline work for this resource assignment.
-    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
-    *
-    * @param index baseline index
-    * @return raw timephased baseline work
-    */
-   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedBaselineWork(int index)
-   {
-      return (List<TimephasedWork>) get(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index]);
-   }
-
-   /**
-    * Retrieve raw timephased baseline cost for this resource assignment.
-    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
-    *
-    * @param index baseline index
-    * @return raw timephased baseline cost
-    */
-   @SuppressWarnings("unchecked") public List<TimephasedCost> getRawTimephasedBaselineCost(int index)
-   {
-      return (List<TimephasedCost>) get(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index]);
-   }
-
-   /**
-    * Retrieve timephased planned work for this resource assignment for the supplied time ranges.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @param units units in which to express the timephased work
-    * @return list of Duration instances representing timephased work for the supplied ranges
-    */
-   public List<Duration> getTimephasedPlannedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedPlannedWork(), ranges, units);
-   }
-
-   /**
-    * Retrieve timephased actual regular work for this resource assignment for the supplied time ranges.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @param units units in which to express the timephased work
-    * @return list of Duration instances representing timephased work for the supplied ranges
-    */
-   public List<Duration> getTimephasedActualRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualRegularWork(), ranges, units);
-   }
-
-   /**
-    * Retrieve timephased actual overtime work for this resource assignment for the supplied time ranges.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @param units units in which to express the timephased work
-    * @return list of Duration instances representing timephased work for the supplied ranges
-    */
-   public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualOvertimeWork(), ranges, units);
-   }
-
-   /**
-    * Retrieve timephased actual work (regular+overtime) for this resource assignment for the supplied time ranges.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @param units units in which to express the timephased work
-    * @return list of Duration instances representing timephased work for the supplied ranges
-    */
-   public List<Duration> getTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.addTimephasedDurations(getTimephasedActualRegularWork(ranges, units), getTimephasedActualOvertimeWork(ranges, units));
-   }
-
-   /**
-    * Retrieve timephased remaining regular work for this resource assignment for the supplied time ranges.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @param units units in which to express the timephased work
-    * @return list of Duration instances representing timephased work for the supplied ranges
-    */
-   public List<Duration> getTimephasedRemainingRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedRemainingRegularWork(), ranges, units);
-   }
-
-   /**
-    * Retrieve timephased remaining overtime work for this resource assignment for the supplied time ranges.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @param units units in which to express the timephased work
-    * @return list of Duration instances representing timephased work for the supplied ranges
-    */
-   public List<Duration> getTimephasedRemainingOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedRemainingOvertimeWork(), ranges, units);
-   }
-
-   /**
-    * Retrieve timephased remaining work (regular+overtime) for this resource assignment for the supplied time ranges.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @param units units in which to express the timephased work
-    * @return list of Duration instances representing timephased work for the supplied ranges
-    */
-   public List<Duration> getTimephasedRemainingWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.addTimephasedDurations(getTimephasedRemainingRegularWork(ranges, units), getTimephasedRemainingOvertimeWork(ranges, units));
-   }
-
-   /**
-    * Retrieve timephased work (actual+remaining) for this resource assignment for the supplied time ranges.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @param units units in which to express the timephased work
-    * @return list of Duration instances representing timephased work for the supplied ranges
-    */
-   public List<Duration> getTimephasedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.addTimephasedDurations(getTimephasedActualWork(ranges, units), getTimephasedRemainingWork(ranges, units));
-   }
-
-   /**
-    * Retrieve the timephased baseline work for the supplied time ranges.
-    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
-    *
-    * @param index baseline index
-    * @param ranges time ranges over which timephased work is summarized
-    * @param units units in which to express the timephased work
-    * @return list of Duration instances representing timephased work for the supplied ranges
-    */
-   public List<Duration> getTimephasedBaselineWork(int index, List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.segmentWork(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineWork(index), ranges, units);
-   }
-
-   /**
-    * Retrieve timephased remaining regular cost for this resource assignment for the supplied time ranges.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @return list of Number instances representing timephased cost for the supplied ranges
-    */
-   public List<Number> getTimephasedRemainingRegularCost(List<LocalDateTimeRange> ranges)
-   {
-      // If we have no ranges, return an empty list.
-      if (ranges == null || ranges.isEmpty())
-      {
-         return Collections.emptyList();
-      }
-
-      // If the ranges are outside the assignment, return null values
-      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
-      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
-      {
-         return Arrays.asList(new Number[ranges.size()]);
-      }
-
-      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
-      if (type == ResourceType.COST)
-      {
-         return getTimephasedCostResourceRemainingCost(ranges);
-      }
-
-      List<Number> result;
-      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
-      switch(accrueAt)
-      {
-         case START:
-         {
-            result = getTimephasedRemainingCostAccruedAtStart(ranges,
-               () -> Double.valueOf(NumberHelper.getDouble(getCost()) - NumberHelper.getDouble(getOvertimeCost())),
-               () -> Double.valueOf(NumberHelper.getDouble(getRemainingCost()) - NumberHelper.getDouble(getRemainingOvertimeCost())));
-            break;
-         }
-         case END:
-         {
-            result = getTimephasedRemainingCostAccruedAtEnd(ranges,
-               () -> Double.valueOf(NumberHelper.getDouble(getCost()) - NumberHelper.getDouble(getOvertimeCost())),
-               () -> Double.valueOf(NumberHelper.getDouble(getRemainingCost()) - NumberHelper.getDouble(getRemainingOvertimeCost())));
-            break;
-         }
-
-         default:
-         {
-            result = addTimephasedRemainingCostPerUse(ranges, getTimephasedCost(ranges, 0, (List<LocalDateTimeRange> r) -> getTimephasedRemainingRegularWork(r, TimeUnit.HOURS)));
-            break;
-         }
-      }
-
-      return result;
-   }
-
-   /**
-    * Retrieve timephased remaining regular overtime cost for this resource assignment for the supplied time ranges.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @return list of Number instances representing timephased cost for the supplied ranges
-    */
-   public List<Number> getTimephasedRemainingOvertimeCost(List<LocalDateTimeRange> ranges)
-   {
-      // If we have no ranges, return an empty list.
-      if (ranges == null || ranges.isEmpty())
-      {
-         return Collections.emptyList();
-      }
-
-      // If the ranges are outside the assignment, return null values
-      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
-      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
-      {
-         return Arrays.asList(new Number[ranges.size()]);
-      }
-
-      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
-      if (type == ResourceType.COST)
-      {
-         // Cost resources don't have overtime
-         return Arrays.asList(new Number[ranges.size()]);
-      }
-
-      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
-      switch(accrueAt)
-      {
-         case START:
-         {
-            return getTimephasedRemainingCostAccruedAtStart(ranges, this::getOvertimeCost, this::getRemainingOvertimeCost);
-         }
-         case END:
-         {
-            return getTimephasedRemainingCostAccruedAtEnd(ranges, this::getOvertimeCost, this::getRemainingOvertimeCost);
-         }
-
-         default:
-         {
-            return getTimephasedCost(ranges, 1, (List<LocalDateTimeRange> r) -> getTimephasedRemainingOvertimeWork(r, TimeUnit.HOURS));
-         }
-      }
-   }
-
-   /**
-    * Retrieve timephased remaining cost (regular+overtime) for this resource assignment for the supplied time ranges.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @return list of Number instances representing timephased cost for the supplied ranges
-    */
-   public List<Number> getTimephasedRemainingCost(List<LocalDateTimeRange> ranges)
-   {
-      return TimephasedUtility.addTimephasedNumbers(getTimephasedRemainingRegularCost(ranges), getTimephasedRemainingOvertimeCost(ranges));
-   }
-
-   /**
-    * Retrieve timephased actual regular cost for this resource assignment for the supplied time ranges.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @return list of Number instances representing timephased cost for the supplied ranges
-    */
-   public List<Number> getTimephasedActualRegularCost(List<LocalDateTimeRange> ranges)
-   {
-      // If we have no ranges, return an empty list.
-      if (ranges == null || ranges.isEmpty())
-      {
-         return Collections.emptyList();
-      }
-
-      // If we haven't started, we have no actual cost... unless we're working with a cost resource,
-      // which can have an actual cost without progress.
-      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
-      if (getActualStart() == null && type !=  ResourceType.COST)
-      {
-         return Arrays.asList(new Number[ranges.size()]);
-      }
-
-      // If the ranges are outside the assignment, return null values
-      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
-      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
-      {
-         return Arrays.asList(new Number[ranges.size()]);
-      }
-
-      if (type == ResourceType.COST)
-      {
-         return getTimephasedCostResourceActualCost(ranges);
-      }
-
-      List<Number> result;
-      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
-      switch(accrueAt)
-      {
-         case START:
-         {
-            result = getTimephasedActualCostAccruedAtStart(ranges, () -> Double.valueOf(NumberHelper.getDouble(getActualCost()) - NumberHelper.getDouble(getActualOvertimeCost())));
-            break;
-         }
-
-         case END:
-         {
-            result = getTimephasedActualCostAccruedAtEnd(ranges, () -> Double.valueOf(NumberHelper.getDouble(getActualCost()) - NumberHelper.getDouble(getActualOvertimeCost())));
-            break;
-         }
-
-         default:
-         {
-            result = addTimephasedActualCostPerUse(ranges, getTimephasedCost(ranges, 0, (List<LocalDateTimeRange> r) -> getTimephasedActualRegularWork(r, TimeUnit.HOURS)));
-            break;
-         }
-      }
-
-      return result;
-   }
-
-   /**
-    * Retrieve timephased actual overtime cost for this resource assignment for the supplied time ranges.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @return list of Number instances representing timephased cost for the supplied ranges
-    */
-   public List<Number> getTimephasedActualOvertimeCost(List<LocalDateTimeRange> ranges)
-   {
-      // If we have no ranges, return an empty list.
-      if (ranges == null || ranges.isEmpty())
-      {
-         return Collections.emptyList();
-      }
-
-      // If we haven't started, we have no actual cost... unless we're working with a cost resource,
-      // which can have an actual cost without progress.
-      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
-      if (getActualStart() == null && type !=  ResourceType.COST)
-      {
-         return Arrays.asList(new Number[ranges.size()]);
-      }
-
-      // If the ranges are outside the assignment, return null values
-      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
-      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
-      {
-         return Arrays.asList(new Number[ranges.size()]);
-      }
-
-      if (type == ResourceType.COST)
-      {
-         // Cost resources don't have overtime
-         return Arrays.asList(new Number[ranges.size()]);
-      }
-
-      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
-      switch(accrueAt)
-      {
-         case START:
-         {
-            return getTimephasedActualCostAccruedAtStart(ranges, this::getActualOvertimeCost);
-         }
-         case END:
-         {
-            return getTimephasedActualCostAccruedAtEnd(ranges, this::getActualOvertimeCost);
-         }
-
-         default:
-         {
-            return getTimephasedCost(ranges, 1, (List<LocalDateTimeRange> r) -> getTimephasedActualOvertimeWork(r, TimeUnit.HOURS));
-         }
-      }
-   }
-
-   /**
-    * Retrieve timephased actual cost (regular+overtime) for this resource assignment for the supplied time ranges.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @return list of Number instances representing timephased cost for the supplied ranges
-    */
-   public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
-   {
-      return TimephasedUtility.addTimephasedNumbers(getTimephasedActualRegularCost(ranges), getTimephasedActualOvertimeCost(ranges));
-   }
-
-   /**
-    * Retrieve timephased cost (actual+remaining) for this resource assignment for the supplied time ranges.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @return list of Number instances representing timephased cost for the supplied ranges
-    */
-   public List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges)
-   {
-      return TimephasedUtility.addTimephasedNumbers(getTimephasedActualCost(ranges), getTimephasedRemainingCost(ranges));
-   }
-
-   /**
-    * Retrieve the timephased baseline cost for the supplied time ranges.
-    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
-    *
-    * @param index baseline index
-    * @param ranges time ranges over which timephased work is summarized
-    * @return list of Number instances representing timephased cost for the supplied ranges
-    */
-   public List<Number> getTimephasedBaselineCost(int index, List<LocalDateTimeRange> ranges)
-   {
-      return TimephasedUtility.segmentCost(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineCost(index), ranges);
-   }
-
-   /**
-    * Retrieve timephased actual material utilization for this resource assignment for the supplied time ranges.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @return list of Number instances representing timephased material utilization for the supplied ranges
-    */
-   public List<Number> getTimephasedActualMaterial(List<LocalDateTimeRange> ranges)
-   {
-      return TimephasedUtility.segmentMaterial(getEffectiveCalendar(), getRawTimephasedActualRegularWork(), ranges);
-   }
-
-   /**
-    * Retrieve timephased remaining material utilization for this resource assignment for the supplied time ranges.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @return list of Number instances representing timephased material utilization for the supplied ranges
-    */
-   public List<Number> getTimephasedRemainingMaterial(List<LocalDateTimeRange> ranges)
-   {
-      return TimephasedUtility.segmentMaterial(getEffectiveCalendar(), getRawTimephasedRemainingRegularWork(), ranges);
-   }
-
-   /**
-    * Retrieve timephased material utilization (actual+remaining) for this resource assignment for the supplied time ranges.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @return list of Number instances representing timephased material utilization for the supplied ranges
-    */
-   public List<Number> getTimephasedMaterial(List<LocalDateTimeRange> ranges)
-   {
-      return TimephasedUtility.addTimephasedNumbers(getTimephasedActualMaterial(ranges), getTimephasedRemainingMaterial(ranges));
-   }
-
-   /**
-    * Retrieve the timephased baseline material utilization for the supplied time ranges.
-    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
-    *
-    * @param index baseline index
-    * @param ranges time ranges over which timephased work is summarized
-    * @return list of Number instances representing timephased material utilization for the supplied ranges
-    */
-   public List<Number> getTimephasedBaselineMaterial(int index, List<LocalDateTimeRange> ranges)
-   {
-      return TimephasedUtility.segmentMaterial(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineWork(index), ranges);
-   }
-
-   /**
-    * Retrieves timephased cost using data from the provided functions.
-    *
-    * @param ranges time ranges over which timephased cost is summarized
-    * @param rateIndex index of the cost rate table to use
-    * @param timephasedWork function providing timephased work
-    * @return list of Number instances representing timephased cost for the supplied ranges
-    */
-   private List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges, int rateIndex, Function<List<LocalDateTimeRange>, List<Duration>> timephasedWork)
-   {
-      Number[] result = new Number[ranges.size()];
-
-      // If there is no work, return null values
-      List<Duration> hours = timephasedWork.apply(ranges);
-      if (hours == null || hours.isEmpty())
-      {
-         return Arrays.asList(result);
-      }
-
-      CostRateTable costRateTable = getCostRateTable();
-      if (costRateTable == null)
-      {
-         return Arrays.asList(result);
-      }
-
-      List<CostRateTableEntry> rates = costRateTable.getEntriesByRange(new LocalDateTimeRange(ranges.get(0).getStart(), ranges.get(ranges.size()-1).getEnd()));
-      if (rates.isEmpty())
-      {
-         return Arrays.asList(result);
-      }
-
-      // We're assuming that the cost rate table entries are in order
-      int costRateTableEntryIndex = 0;
-      CostRateTableEntry currentRate = rates.get(costRateTableEntryIndex);
-
-      for (int index=0; index <  ranges.size(); index++)
-      {
-         Duration work = hours.get(index);
-         if (work == null)
-         {
-            continue;
-         }
-
-         if (work.getDuration() == 0.0)
-         {
-            result[index] = Double.valueOf(0);
-         }
-
-         LocalDateTimeRange range = ranges.get(index);
-         while (!currentRate.getEndDate().isAfter(range.getStart()) && costRateTableEntryIndex < rates.size())
-         {
-            currentRate = rates.get(++costRateTableEntryIndex);
-         }
-
-         // The cost rate table entries end before our ranges end - just return what we have
-         if (costRateTableEntryIndex == rates.size())
-         {
-            break;
-         }
-
-         // Our range doesn't pass the end of this cost rate table entry - we can perform the calculation in one go
-         if (!range.getEnd().isAfter(currentRate.getEndDate()))
-         {
-            Rate rate = getRatePerHour(currentRate.getRate(rateIndex));
-            result[index] = Double.valueOf(work.getDuration() * rate.getAmount());
-            continue;
-         }
-
-         // Multiple rates are in operation over this range.
-         double total = 0;
-         LocalDateTimeRange subRange = new LocalDateTimeRange(range.getStart(), currentRate.getEndDate());
-         while (true)
-         {
-            work = timephasedWork.apply(Collections.singletonList(subRange)).get(0);
-            if (work != null)
-            {
-               Rate rate = getRatePerHour(currentRate.getRate(rateIndex));
-               total += (work.getDuration() * rate.getAmount());
-            }
-
-            if (subRange.getEnd().equals(range.getEnd()))
-            {
-               break;
-            }
-
-            currentRate = rates.get(++costRateTableEntryIndex);
-            subRange =  new LocalDateTimeRange(currentRate.getStartDate(), currentRate.getEndDate().isAfter(range.getEnd()) ? range.getEnd() : currentRate.getEndDate());
-         }
-
-         result[index] = Double.valueOf(total);
-      }
-
-      return Arrays.asList(result);
-   }
-
-   /**
-    * Convert a rate into a rate per hour.
-    *
-    * @param rate rate to convert
-    * @return rate per hour
-    */
-   private Rate getRatePerHour(Rate rate)
-   {
-      if (rate.getUnits() == TimeUnit.HOURS)
-      {
-         return rate;
-      }
-
-      return Rate.valueOf(Double.valueOf(RateHelper.convertToHours(getEffectiveCalendar(), rate)), TimeUnit.HOURS);
-   }
-
-   /**
-    * Retrieve timephased remaining cost for a cost resource.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @return list of Number instances representing timephased cost for the supplied ranges
-    */
-   private List<Number> getTimephasedCostResourceRemainingCost(List<LocalDateTimeRange> ranges)
-   {
-      switch(getResource().getAccrueAt())
-      {
-         case START:
-         {
-            return getTimephasedRemainingCostAccruedAtStart(ranges, this::getCost, this::getRemainingCost);
-         }
-
-         case END:
-         {
-            return getTimephasedRemainingCostAccruedAtEnd(ranges, this::getCost, this::getRemainingCost);
-         }
-
-         default:
-         {
-            return getTimephasedRemainingCostProRata(ranges);
-         }
-      }
-   }
-
-   /**
-    * Retrieve timephased actual cost for a cost resource.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @return list of Number instances representing timephased cost for the supplied ranges
-    */
-   private List<Number> getTimephasedCostResourceActualCost(List<LocalDateTimeRange> ranges)
-   {
-      switch(getResource().getAccrueAt())
-      {
-         case START:
-         {
-            return getTimephasedActualCostAccruedAtStart(ranges, this::getActualCost);
-         }
-
-         case END:
-         {
-            return getTimephasedActualCostAccruedAtEnd(ranges, this::getActualCost);
-         }
-
-         default:
-         {
-            return getTimephasedActualCostProrata(ranges);
-         }
-      }
-   }
-
-   /**
-    * Retrieve the timephased remaining cost accrued at the start of the resource assignment.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @param totalCost total cost value
-    * @param remainingCost remaining cost value
-    * @return list of Number instances representing timephased cost for the supplied ranges
-    */
-   private List<Number> getTimephasedRemainingCostAccruedAtStart(List<LocalDateTimeRange> ranges, Supplier<Number> totalCost, Supplier<Number> remainingCost)
-   {
-      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
-      Number[] result = new Number[ranges.size()];
-
-      // Find the first range which intersects with the assignment
-      int rangeIndex = 0;
-      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
-      {
-         ++rangeIndex;
-      }
-
-      List<Duration> remainingWork = getTimephasedRemainingWork(ranges, TimeUnit.HOURS);
-      if (NumberHelper.getDouble(remainingCost.get()) == 0)
-      {
-         // The assignment has started, so there will already
-         // be actual cost timephased data for the entire cost.
-         // Return zero remaining cost for the whole assignment.
-         while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
-         {
-            result[rangeIndex] = remainingWork.get(rangeIndex) == null ? null : Double.valueOf(0);
-            rangeIndex++;
-         }
-         return Arrays.asList(result);
-      }
-
-      // The resource assignment has not started.
-      // The cost is allocated to the first segment of the assignment.
-      if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
-      {
-         result[rangeIndex++] = totalCost.get();
-      }
-
-      // The remainder of the assignment has zero cost.
-      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
-      {
-         result[rangeIndex] = remainingWork.get(rangeIndex) == null ? null : Double.valueOf(0);
-         rangeIndex++;
-      }
-
-      return Arrays.asList(result);
-   }
-
-   /**
-    * Retrieve the timephased remaining cost accrued at the end of the resource assignment.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @param totalCost total cost value
-    * @param remainingCost remaining cost value
-    * @return list of Number instances representing timephased cost for the supplied ranges
-    */
-   private List<Number> getTimephasedRemainingCostAccruedAtEnd(List<LocalDateTimeRange> ranges, Supplier<Number> totalCost, Supplier<Number> remainingCost)
-   {
-      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
-      Number[] result = new Number[ranges.size()];
-
-      // Find the first range which intersects with the assignment
-      int rangeIndex = 0;
-      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
-      {
-         ++rangeIndex;
-      }
-
-      // Fill the ranges covering the assignment with zero cost
-      List<Duration> remainingWork = getTimephasedRemainingWork(ranges, TimeUnit.HOURS);
-      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
-      {
-         result[rangeIndex] = remainingWork.get(rangeIndex) == null ? null : Double.valueOf(0);
-         rangeIndex++;
-      }
-
-      if (NumberHelper.getDouble(remainingCost.get()) == 0)
-      {
-         // The assignment has finished, so there will already
-         // be actual cost timephased data for the entire cost
-         // so we'll just return;
-         return Arrays.asList(result);
-      }
-
-      // The last intersecting range includes the end of the assignment
-      // so we populate it with the cost.
-      if (ranges.get(rangeIndex-1).compareTo(getFinish()) == 0)
-      {
-         result[rangeIndex - 1] = totalCost.get();
-      }
-
-      return Arrays.asList(result);
-   }
-
-   /**
-    * Retrieve the timephased remaining cost accrued pro rata over the duration of the resource assignment.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @return list of Number instances representing timephased cost for the supplied ranges
-    */
-   private List<Number> getTimephasedRemainingCostProRata(List<LocalDateTimeRange> ranges)
-   {
-      Number[] result = new Number[ranges.size()];
-
-      if (NumberHelper.getDouble(getRemainingCost()) == 0)
-      {
-         return Arrays.asList(result);
-      }
-
-      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getResume(), getFinish());
-
-      // Find the first range which intersects with the assignment
-      int rangeIndex = 0;
-      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
-      {
-         rangeIndex++;
-      }
-
-      ProjectCalendar cal = getEffectiveCalendar();
-      double workingHours = cal.getWork(getStart(), getFinish(), TimeUnit.HOURS).getDuration();
-      double amountPerHour = getCost().doubleValue() / workingHours;
-
-      while (rangeIndex < ranges.size())
-      {
-         LocalDateTimeRange intersection = assignmentRange.intersection(ranges.get(rangeIndex));
-         if (intersection == null)
-         {
-            break;
-         }
-
-         double intersectionHours = cal.getWork(intersection.getStart(), intersection.getEnd(), TimeUnit.HOURS).getDuration();
-         if (intersectionHours != 0.0)
-         {
-            result[rangeIndex] = Double.valueOf(intersectionHours * amountPerHour);
-         }
-         rangeIndex++;
-      }
-
-      return Arrays.asList(result);
-   }
-
-   /**
-    * Retrieve the timephased actual cost accrued at the start of the resource assignment.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @param actualCost function supplying the actual cost
-    * @return list of Number instances representing timephased cost for the supplied ranges
-    */
-   private List<Number> getTimephasedActualCostAccruedAtStart(List<LocalDateTimeRange> ranges, Supplier<Number> actualCost)
-   {
-      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
-      Number[] result = new Number[ranges.size()];
-
-      // Find the first range which intersects with the assignment
-      int rangeIndex = 0;
-      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
-      {
-         ++rangeIndex;
-      }
-
-      // If our first intersecting range includes the start of the assignment.
-      // Assign the actual cost to this range.
-      if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
-      {
-         Number cost = actualCost.get();
-         result[rangeIndex++] = cost == null ? Double.valueOf(0) : cost;
-      }
-
-      // The remainder of the ranges which intersect with
-      // the assignment have zero cost.
-      List<Duration> actualWork = getTimephasedActualWork(ranges, TimeUnit.HOURS);
-      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
-      {
-         result[rangeIndex] = actualWork.get(rangeIndex) == null ? null : Double.valueOf(0);
-         rangeIndex++;
-      }
-
-      return Arrays.asList(result);
-   }
-
-   /**
-    * Retrieve the timephased actual cost accrued at the end of the resource assignment.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @param actualCost function supplying the actual cost
-    * @return list of Number instances representing timephased cost for the supplied ranges
-    */
-   private List<Number> getTimephasedActualCostAccruedAtEnd(List<LocalDateTimeRange> ranges, Supplier<Number> actualCost)
-   {
-      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
-      Number[] result = new Number[ranges.size()];
-
-      // Find the first range which intersects with the assignment
-      int rangeIndex = 0;
-      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
-      {
-         ++rangeIndex;
-      }
-
-      // The ranges which intersect with
-      // the assignment have zero cost.
-      List<Duration> actualWork = getTimephasedActualWork(ranges, TimeUnit.HOURS);
-      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
-      {
-         boolean firstAssignmentRange = ranges.get(rangeIndex).compareTo(getStart()) == 0;
-         result[rangeIndex] = !firstAssignmentRange && actualWork.get(rangeIndex) == null ? null : Double.valueOf(0);
-         rangeIndex++;
-      }
-
-      // Our last range includes the end of the assignment.
-      // Assign the actual cost to this range.
-      if (ranges.get(rangeIndex-1).compareTo(getFinish()) == 0 && actualWork.get(rangeIndex-1) != null)
-      {
-         Number cost = actualCost.get();
-         result[rangeIndex-1] = cost == null ? Double.valueOf(0) : cost;
-      }
-
-      return Arrays.asList(result);
-   }
-
-   /**
-    * Retrieve the timephased actual cost accrued pro rata over the duration of the resource assignment.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @return list of Number instances representing timephased cost for the supplied ranges
-    */
-   private List<Number> getTimephasedActualCostProrata(List<LocalDateTimeRange> ranges)
-   {
-      if (NumberHelper.getDouble(getActualCost()) == 0)
-      {
-         return Arrays.asList(new Number[ranges.size()]);
-      }
-
-      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getActualStart(), getResume());
-
-      // Find the start date for ranges which are aligned with the caller-supplied ranges, and cover the whole assignment
-      long minutesPerRange = ranges.get(0).getStart().until(ranges.get(0).getEnd(), ChronoUnit.MINUTES);
-      LocalDateTime assignmentStartRange = ranges.get(0).getStart();
-      if (ranges.get(0).getStart().isAfter(getStart()))
-      {
-         while (assignmentStartRange.isAfter(getStart()))
-         {
-            assignmentStartRange = assignmentStartRange.minusMinutes(minutesPerRange);
-         }
-      }
-      else
-      {
-         while (assignmentStartRange.plusMinutes(minutesPerRange).isBefore(getStart()))
-         {
-            assignmentStartRange = assignmentStartRange.plusMinutes(minutesPerRange);
-         }
-      }
-
-      // Create the ranges
-      List<LocalDateTimeRange> assignmentRanges = new ArrayList<>();
-      while (true)
-      {
-         LocalDateTimeRange range = new LocalDateTimeRange(assignmentStartRange, assignmentStartRange.plusMinutes(minutesPerRange));
-         assignmentRanges.add(range);
-         if (range.compareTo(getFinish()) == 0)
-         {
-            break;
-         }
-         assignmentStartRange = range.getEnd();
-      }
-
-      // Count the number of ranges which contain calendar working hours
-      ProjectCalendar calendar = getEffectiveCalendar();
-      long workingRanges = assignmentRanges.stream()
-         .mapToDouble(r -> calendar.getWork(r.getStart(), r.getEnd(), TimeUnit.HOURS).getDuration())
-         .filter(h -> h != 0.0)
-         .count();
-
-      // Determine the pro rata cost per range with working hours
-      Double costPerWorkingRange = Double.valueOf(getCost().doubleValue() /workingRanges);
-
-      // Find the first range which intersects with the assignment
-      int rangeIndex = 0;
-      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
-      {
-         ++rangeIndex;
-      }
-
-      Number[] result = new Number[ranges.size()];
-      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
-      {
-         LocalDateTimeRange range = ranges.get(rangeIndex);
-         LocalDateTime end = range.getEnd().isAfter(assignmentRange.getEnd()) ? assignmentRange.getEnd() : range.getEnd();
-         if (calendar.getWork(range.getStart(), end, TimeUnit.HOURS).getDuration() != 0.0)
-         {
-            result[rangeIndex] = costPerWorkingRange;
-         }
-         ++rangeIndex;
-      }
-      return Arrays.asList(result);
-   }
-
-   /**
-    * Add remaining cost per use to timephased costs.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @param costs timephased costs
-    * @return timephased costs including remaining cost per use
-    */
-   private List<Number> addTimephasedRemainingCostPerUse(List<LocalDateTimeRange> ranges, List<Number> costs)
-   {
-      // If we have started, the cost per use will
-      // be accounted for in the actual costs.
-      if (getActualStart() != null)
-      {
-         return costs;
-      }
-
-      Resource resource = getResource();
-      if (resource == null)
-      {
-         return costs;
-      }
-
-      double costPerUse = NumberHelper.getDouble(resource.getCostPerUse());
-      if (costPerUse == 0.0)
-      {
-         return costs;
-      }
-
-      double units = NumberHelper.getDouble(getUnits());
-      if ((getResource() == null || getResource().getType() == ResourceType.WORK) && units != 100.0)
-      {
-         costPerUse = (costPerUse * units) / 100.0;
-      }
-
-      for (int rangeIndex=0; rangeIndex < ranges.size(); ++rangeIndex)
-      {
-         if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
-         {
-            costs.set(rangeIndex, Double.valueOf(NumberHelper.getDouble(costs.get(rangeIndex)) + costPerUse));
-            break;
-         }
-      }
-
-      return costs;
-   }
-
-   /**
-    * Add remaactualining cost per use to timephased costs.
-    *
-    * @param ranges time ranges over which timephased work is summarized
-    * @param costs timephased costs
-    * @return timephased costs including actual cost per use
-    */
-   private List<Number> addTimephasedActualCostPerUse(List<LocalDateTimeRange> ranges, List<Number> costs)
-   {
-      // If we not have started, the cost per use will
-      // be accounted for in the remaining costs.
-      if (getActualStart() == null)
-      {
-         return costs;
-      }
-
-      Resource resource = getResource();
-      if (resource == null)
-      {
-         return costs;
-      }
-
-      Number costPerUse = resource.getCostPerUse();
-      if (costPerUse == null || costPerUse.doubleValue() == 0.0)
-      {
-         return costs;
-      }
-
-      for (int rangeIndex=0; rangeIndex < ranges.size(); ++rangeIndex)
-      {
-         if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
-         {
-            costs.set(rangeIndex, Double.valueOf(NumberHelper.getDouble(costs.get(rangeIndex)) + costPerUse.doubleValue()));
-            break;
-         }
-      }
-
-      return costs;
-   }
-
-   /**
     * Retrieves the effective calendar used for this resource assignment.
     *
     * @return ProjectCalendar instance
@@ -3361,6 +2317,32 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return entry.getRate(getRateIndex().intValue());
    }
 
+   /**
+    * Retrieve the resource assignment code values associated with this resource assignment.
+    *
+    * @return map of resource assignment code values
+    */
+   @SuppressWarnings("unchecked") public Map<ResourceAssignmentCode, ResourceAssignmentCodeValue> getResourceAssignmentCodeValues()
+   {
+      return (Map<ResourceAssignmentCode, ResourceAssignmentCodeValue>) get(AssignmentField.RESOURCE_ASSIGNMENT_CODE_VALUES);
+   }
+
+   /**
+    * Assign a resource assignment code value to this resource assignment.
+    *
+    * @param value resource assignment code value
+    */
+   @SuppressWarnings("unchecked") public void addResourceAssignmentCodeValue(ResourceAssignmentCodeValue value)
+   {
+      ((Map<ResourceAssignmentCode, ResourceAssignmentCodeValue>) get(AssignmentField.RESOURCE_ASSIGNMENT_CODE_VALUES)).put(value.getParentCode(), value);
+   }
+
+   /**
+    * Retrieve a list of LocalDateTimeRange instances representing working time over the duration
+    * of this resource assignment.
+    *
+    * @return working time as LocalDateTimeRange instances
+    */
    public List<LocalDateTimeRange> getWorkSplits()
    {
       List<TimephasedWork> actualWork = getRawTimephasedActualRegularWork();
@@ -3421,23 +2403,1047 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    }
 
    /**
-    * Retrieve the resource assignment code values associated with this resource assignment.
+    * Retrieves raw timephased planned work for this resource assignment.
     *
-    * @return map of resource assignment code values
+    * @return raw timephased planned work
     */
-   @SuppressWarnings("unchecked") public Map<ResourceAssignmentCode, ResourceAssignmentCodeValue> getResourceAssignmentCodeValues()
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedPlannedWork()
    {
-      return (Map<ResourceAssignmentCode, ResourceAssignmentCodeValue>) get(AssignmentField.RESOURCE_ASSIGNMENT_CODE_VALUES);
+      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_PLANNED_WORK);
    }
 
    /**
-    * Assign a resource assignment code value to this resource assignment.
+    * Retrieves raw timephased actual regular work for this resource assignment.
     *
-    * @param value resource assignment code value
+    * @return raw timephased actual regular work
     */
-   @SuppressWarnings("unchecked") public void addResourceAssignmentCodeValue(ResourceAssignmentCodeValue value)
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedActualRegularWork()
    {
-      ((Map<ResourceAssignmentCode, ResourceAssignmentCodeValue>) get(AssignmentField.RESOURCE_ASSIGNMENT_CODE_VALUES)).put(value.getParentCode(), value);
+      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_REGULAR_WORK);
+   }
+
+   /**
+    * Retrieves raw timephased remaining regular work for this resource assignment.
+    *
+    * @return raw timephased remaining regular work
+    */
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedRemainingRegularWork()
+   {
+      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK);
+   }
+
+   /**
+    * Retrieves raw timephased remaining overtime work for this resource assignment.
+    *
+    * @return raw timephased remaining overtime work
+    */
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedRemainingOvertimeWork()
+   {
+      return (List<TimephasedWork>)get(AssignmentField.TIMEPHASED_REMAINING_OVERTIME_WORK);
+   }
+
+   /**
+    * Retrieves raw timephased actual overtime work for this resource assignment.
+    *
+    * @return raw timephased actual overtime work
+    */
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedActualOvertimeWork()
+   {
+      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK);
+   }
+
+   /**
+    * Retrieve raw timephased baseline work for this resource assignment.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @return raw timephased baseline work
+    */
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedBaselineWork(int index)
+   {
+      return (List<TimephasedWork>) get(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index]);
+   }
+
+   /**
+    * Retrieve raw timephased baseline cost for this resource assignment.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @return raw timephased baseline cost
+    */
+   @SuppressWarnings("unchecked") public List<TimephasedCost> getRawTimephasedBaselineCost(int index)
+   {
+      return (List<TimephasedCost>) get(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index]);
+   }
+
+   /**
+    * Retrieve timephased planned work for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedPlannedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedPlannedWork(), ranges, units);
+   }
+
+   /**
+    * Retrieve timephased actual regular work for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedActualRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualRegularWork(), ranges, units);
+   }
+
+   /**
+    * Retrieve timephased actual overtime work for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualOvertimeWork(), ranges, units);
+   }
+
+   /**
+    * Retrieve timephased actual work (regular+overtime) for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.addTimephasedDurations(getTimephasedActualRegularWork(ranges, units), getTimephasedActualOvertimeWork(ranges, units));
+   }
+
+   /**
+    * Retrieve timephased remaining regular work for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedRemainingRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedRemainingRegularWork(), ranges, units);
+   }
+
+   /**
+    * Retrieve timephased remaining overtime work for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedRemainingOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedRemainingOvertimeWork(), ranges, units);
+   }
+
+   /**
+    * Retrieve timephased remaining work (regular+overtime) for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedRemainingWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.addTimephasedDurations(getTimephasedRemainingRegularWork(ranges, units), getTimephasedRemainingOvertimeWork(ranges, units));
+   }
+
+   /**
+    * Retrieve timephased work (actual+remaining) for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.addTimephasedDurations(getTimephasedActualWork(ranges, units), getTimephasedRemainingWork(ranges, units));
+   }
+
+   /**
+    * Retrieve the timephased baseline work for the supplied time ranges.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedBaselineWork(int index, List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineWork(index), ranges, units);
+   }
+
+   /**
+    * Retrieve timephased remaining regular cost for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedRemainingRegularCost(List<LocalDateTimeRange> ranges)
+   {
+      // If we have no ranges, return an empty list.
+      if (ranges == null || ranges.isEmpty())
+      {
+         return Collections.emptyList();
+      }
+
+      // If the ranges are outside the assignment, return null values
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
+      if (type == ResourceType.COST)
+      {
+         return getTimephasedCostResourceRemainingCost(ranges);
+      }
+
+      List<Number> result;
+      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
+      switch(accrueAt)
+      {
+         case START:
+         {
+            result = getTimephasedRemainingCostAccruedAtStart(ranges,
+               () -> Double.valueOf(NumberHelper.getDouble(getCost()) - NumberHelper.getDouble(getOvertimeCost())),
+               () -> Double.valueOf(NumberHelper.getDouble(getRemainingCost()) - NumberHelper.getDouble(getRemainingOvertimeCost())));
+            break;
+         }
+         case END:
+         {
+            result = getTimephasedRemainingCostAccruedAtEnd(ranges,
+               () -> Double.valueOf(NumberHelper.getDouble(getCost()) - NumberHelper.getDouble(getOvertimeCost())),
+               () -> Double.valueOf(NumberHelper.getDouble(getRemainingCost()) - NumberHelper.getDouble(getRemainingOvertimeCost())));
+            break;
+         }
+
+         default:
+         {
+            result = addTimephasedRemainingCostPerUse(ranges, getTimephasedCost(ranges, 0, (List<LocalDateTimeRange> r) -> getTimephasedRemainingRegularWork(r, TimeUnit.HOURS)));
+            break;
+         }
+      }
+
+      return result;
+   }
+
+   /**
+    * Retrieve timephased remaining regular overtime cost for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedRemainingOvertimeCost(List<LocalDateTimeRange> ranges)
+   {
+      // If we have no ranges, return an empty list.
+      if (ranges == null || ranges.isEmpty())
+      {
+         return Collections.emptyList();
+      }
+
+      // If the ranges are outside the assignment, return null values
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
+      if (type == ResourceType.COST)
+      {
+         // Cost resources don't have overtime
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
+      switch(accrueAt)
+      {
+         case START:
+         {
+            return getTimephasedRemainingCostAccruedAtStart(ranges, this::getOvertimeCost, this::getRemainingOvertimeCost);
+         }
+         case END:
+         {
+            return getTimephasedRemainingCostAccruedAtEnd(ranges, this::getOvertimeCost, this::getRemainingOvertimeCost);
+         }
+
+         default:
+         {
+            return getTimephasedCost(ranges, 1, (List<LocalDateTimeRange> r) -> getTimephasedRemainingOvertimeWork(r, TimeUnit.HOURS));
+         }
+      }
+   }
+
+   /**
+    * Retrieve timephased remaining cost (regular+overtime) for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedRemainingCost(List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.addTimephasedNumbers(getTimephasedRemainingRegularCost(ranges), getTimephasedRemainingOvertimeCost(ranges));
+   }
+
+   /**
+    * Retrieve timephased actual regular cost for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedActualRegularCost(List<LocalDateTimeRange> ranges)
+   {
+      // If we have no ranges, return an empty list.
+      if (ranges == null || ranges.isEmpty())
+      {
+         return Collections.emptyList();
+      }
+
+      // If we haven't started, we have no actual cost... unless we're working with a cost resource,
+      // which can have an actual cost without progress.
+      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
+      if (getActualStart() == null && type !=  ResourceType.COST)
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      // If the ranges are outside the assignment, return null values
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      if (type == ResourceType.COST)
+      {
+         return getTimephasedCostResourceActualCost(ranges);
+      }
+
+      List<Number> result;
+      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
+      switch(accrueAt)
+      {
+         case START:
+         {
+            result = getTimephasedActualCostAccruedAtStart(ranges, () -> Double.valueOf(NumberHelper.getDouble(getActualCost()) - NumberHelper.getDouble(getActualOvertimeCost())));
+            break;
+         }
+
+         case END:
+         {
+            result = getTimephasedActualCostAccruedAtEnd(ranges, () -> Double.valueOf(NumberHelper.getDouble(getActualCost()) - NumberHelper.getDouble(getActualOvertimeCost())));
+            break;
+         }
+
+         default:
+         {
+            result = addTimephasedActualCostPerUse(ranges, getTimephasedCost(ranges, 0, (List<LocalDateTimeRange> r) -> getTimephasedActualRegularWork(r, TimeUnit.HOURS)));
+            break;
+         }
+      }
+
+      return result;
+   }
+
+   /**
+    * Retrieve timephased actual overtime cost for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedActualOvertimeCost(List<LocalDateTimeRange> ranges)
+   {
+      // If we have no ranges, return an empty list.
+      if (ranges == null || ranges.isEmpty())
+      {
+         return Collections.emptyList();
+      }
+
+      // If we haven't started, we have no actual cost... unless we're working with a cost resource,
+      // which can have an actual cost without progress.
+      ResourceType type = getResource() != null ? getResource().getType() : ResourceType.WORK;
+      if (getActualStart() == null && type !=  ResourceType.COST)
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      // If the ranges are outside the assignment, return null values
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      if (ranges.get(ranges.size() - 1).isBefore(assignmentRange) || ranges.get(0).isAfter(assignmentRange))
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      if (type == ResourceType.COST)
+      {
+         // Cost resources don't have overtime
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
+      switch(accrueAt)
+      {
+         case START:
+         {
+            return getTimephasedActualCostAccruedAtStart(ranges, this::getActualOvertimeCost);
+         }
+         case END:
+         {
+            return getTimephasedActualCostAccruedAtEnd(ranges, this::getActualOvertimeCost);
+         }
+
+         default:
+         {
+            return getTimephasedCost(ranges, 1, (List<LocalDateTimeRange> r) -> getTimephasedActualOvertimeWork(r, TimeUnit.HOURS));
+         }
+      }
+   }
+
+   /**
+    * Retrieve timephased actual cost (regular+overtime) for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.addTimephasedNumbers(getTimephasedActualRegularCost(ranges), getTimephasedActualOvertimeCost(ranges));
+   }
+
+   /**
+    * Retrieve timephased cost (actual+remaining) for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.addTimephasedNumbers(getTimephasedActualCost(ranges), getTimephasedRemainingCost(ranges));
+   }
+
+   /**
+    * Retrieve the timephased baseline cost for the supplied time ranges.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedBaselineCost(int index, List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.segmentCost(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineCost(index), ranges);
+   }
+
+   /**
+    * Retrieve timephased actual material utilization for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased material utilization for the supplied ranges
+    */
+   public List<Number> getTimephasedActualMaterial(List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.segmentMaterial(getEffectiveCalendar(), getRawTimephasedActualRegularWork(), ranges);
+   }
+
+   /**
+    * Retrieve timephased remaining material utilization for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased material utilization for the supplied ranges
+    */
+   public List<Number> getTimephasedRemainingMaterial(List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.segmentMaterial(getEffectiveCalendar(), getRawTimephasedRemainingRegularWork(), ranges);
+   }
+
+   /**
+    * Retrieve timephased material utilization (actual+remaining) for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased material utilization for the supplied ranges
+    */
+   public List<Number> getTimephasedMaterial(List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.addTimephasedNumbers(getTimephasedActualMaterial(ranges), getTimephasedRemainingMaterial(ranges));
+   }
+
+   /**
+    * Retrieve the timephased baseline material utilization for the supplied time ranges.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased material utilization for the supplied ranges
+    */
+   public List<Number> getTimephasedBaselineMaterial(int index, List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.segmentMaterial(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineWork(index), ranges);
+   }
+
+   /**
+    * Retrieves timephased cost using data from the provided functions.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @param rateIndex index of the cost rate table to use
+    * @param timephasedWork function providing timephased work
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   private List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges, int rateIndex, Function<List<LocalDateTimeRange>, List<Duration>> timephasedWork)
+   {
+      Number[] result = new Number[ranges.size()];
+
+      // If there is no work, return null values
+      List<Duration> hours = timephasedWork.apply(ranges);
+      if (hours == null || hours.isEmpty())
+      {
+         return Arrays.asList(result);
+      }
+
+      CostRateTable costRateTable = getCostRateTable();
+      if (costRateTable == null)
+      {
+         return Arrays.asList(result);
+      }
+
+      List<CostRateTableEntry> rates = costRateTable.getEntriesByRange(new LocalDateTimeRange(ranges.get(0).getStart(), ranges.get(ranges.size()-1).getEnd()));
+      if (rates.isEmpty())
+      {
+         return Arrays.asList(result);
+      }
+
+      // We're assuming that the cost rate table entries are in order
+      int costRateTableEntryIndex = 0;
+      CostRateTableEntry currentRate = rates.get(costRateTableEntryIndex);
+
+      for (int index=0; index <  ranges.size(); index++)
+      {
+         Duration work = hours.get(index);
+         if (work == null)
+         {
+            continue;
+         }
+
+         if (work.getDuration() == 0.0)
+         {
+            result[index] = Double.valueOf(0);
+         }
+
+         LocalDateTimeRange range = ranges.get(index);
+         while (!currentRate.getEndDate().isAfter(range.getStart()) && costRateTableEntryIndex < rates.size())
+         {
+            currentRate = rates.get(++costRateTableEntryIndex);
+         }
+
+         // The cost rate table entries end before our ranges end - just return what we have
+         if (costRateTableEntryIndex == rates.size())
+         {
+            break;
+         }
+
+         // Our range doesn't pass the end of this cost rate table entry - we can perform the calculation in one go
+         if (!range.getEnd().isAfter(currentRate.getEndDate()))
+         {
+            Rate rate = getRatePerHour(currentRate.getRate(rateIndex));
+            result[index] = Double.valueOf(work.getDuration() * rate.getAmount());
+            continue;
+         }
+
+         // Multiple rates are in operation over this range.
+         double total = 0;
+         LocalDateTimeRange subRange = new LocalDateTimeRange(range.getStart(), currentRate.getEndDate());
+         while (true)
+         {
+            work = timephasedWork.apply(Collections.singletonList(subRange)).get(0);
+            if (work != null)
+            {
+               Rate rate = getRatePerHour(currentRate.getRate(rateIndex));
+               total += (work.getDuration() * rate.getAmount());
+            }
+
+            if (subRange.getEnd().equals(range.getEnd()))
+            {
+               break;
+            }
+
+            currentRate = rates.get(++costRateTableEntryIndex);
+            subRange =  new LocalDateTimeRange(currentRate.getStartDate(), currentRate.getEndDate().isAfter(range.getEnd()) ? range.getEnd() : currentRate.getEndDate());
+         }
+
+         result[index] = Double.valueOf(total);
+      }
+
+      return Arrays.asList(result);
+   }
+
+   /**
+    * Convert a rate into a rate per hour.
+    *
+    * @param rate rate to convert
+    * @return rate per hour
+    */
+   private Rate getRatePerHour(Rate rate)
+   {
+      if (rate.getUnits() == TimeUnit.HOURS)
+      {
+         return rate;
+      }
+
+      return Rate.valueOf(Double.valueOf(RateHelper.convertToHours(getEffectiveCalendar(), rate)), TimeUnit.HOURS);
+   }
+
+   /**
+    * Retrieve timephased remaining cost for a cost resource.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   private List<Number> getTimephasedCostResourceRemainingCost(List<LocalDateTimeRange> ranges)
+   {
+      switch(getResource().getAccrueAt())
+      {
+         case START:
+         {
+            return getTimephasedRemainingCostAccruedAtStart(ranges, this::getCost, this::getRemainingCost);
+         }
+
+         case END:
+         {
+            return getTimephasedRemainingCostAccruedAtEnd(ranges, this::getCost, this::getRemainingCost);
+         }
+
+         default:
+         {
+            return getTimephasedRemainingCostProRata(ranges);
+         }
+      }
+   }
+
+   /**
+    * Retrieve timephased actual cost for a cost resource.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   private List<Number> getTimephasedCostResourceActualCost(List<LocalDateTimeRange> ranges)
+   {
+      switch(getResource().getAccrueAt())
+      {
+         case START:
+         {
+            return getTimephasedActualCostAccruedAtStart(ranges, this::getActualCost);
+         }
+
+         case END:
+         {
+            return getTimephasedActualCostAccruedAtEnd(ranges, this::getActualCost);
+         }
+
+         default:
+         {
+            return getTimephasedActualCostProrata(ranges);
+         }
+      }
+   }
+
+   /**
+    * Retrieve the timephased remaining cost accrued at the start of the resource assignment.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param totalCost total cost value
+    * @param remainingCost remaining cost value
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   private List<Number> getTimephasedRemainingCostAccruedAtStart(List<LocalDateTimeRange> ranges, Supplier<Number> totalCost, Supplier<Number> remainingCost)
+   {
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      Number[] result = new Number[ranges.size()];
+
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         ++rangeIndex;
+      }
+
+      List<Duration> remainingWork = getTimephasedRemainingWork(ranges, TimeUnit.HOURS);
+      if (NumberHelper.getDouble(remainingCost.get()) == 0)
+      {
+         // The assignment has started, so there will already
+         // be actual cost timephased data for the entire cost.
+         // Return zero remaining cost for the whole assignment.
+         while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+         {
+            result[rangeIndex] = remainingWork.get(rangeIndex) == null ? null : Double.valueOf(0);
+            rangeIndex++;
+         }
+         return Arrays.asList(result);
+      }
+
+      // The resource assignment has not started.
+      // The cost is allocated to the first segment of the assignment.
+      if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
+      {
+         result[rangeIndex++] = totalCost.get();
+      }
+
+      // The remainder of the assignment has zero cost.
+      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         result[rangeIndex] = remainingWork.get(rangeIndex) == null ? null : Double.valueOf(0);
+         rangeIndex++;
+      }
+
+      return Arrays.asList(result);
+   }
+
+   /**
+    * Retrieve the timephased remaining cost accrued at the end of the resource assignment.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param totalCost total cost value
+    * @param remainingCost remaining cost value
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   private List<Number> getTimephasedRemainingCostAccruedAtEnd(List<LocalDateTimeRange> ranges, Supplier<Number> totalCost, Supplier<Number> remainingCost)
+   {
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      Number[] result = new Number[ranges.size()];
+
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         ++rangeIndex;
+      }
+
+      // Fill the ranges covering the assignment with zero cost
+      List<Duration> remainingWork = getTimephasedRemainingWork(ranges, TimeUnit.HOURS);
+      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         result[rangeIndex] = remainingWork.get(rangeIndex) == null ? null : Double.valueOf(0);
+         rangeIndex++;
+      }
+
+      if (NumberHelper.getDouble(remainingCost.get()) == 0)
+      {
+         // The assignment has finished, so there will already
+         // be actual cost timephased data for the entire cost
+         // so we'll just return;
+         return Arrays.asList(result);
+      }
+
+      // The last intersecting range includes the end of the assignment
+      // so we populate it with the cost.
+      if (ranges.get(rangeIndex-1).compareTo(getFinish()) == 0)
+      {
+         result[rangeIndex - 1] = totalCost.get();
+      }
+
+      return Arrays.asList(result);
+   }
+
+   /**
+    * Retrieve the timephased remaining cost accrued pro rata over the duration of the resource assignment.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   private List<Number> getTimephasedRemainingCostProRata(List<LocalDateTimeRange> ranges)
+   {
+      Number[] result = new Number[ranges.size()];
+
+      if (NumberHelper.getDouble(getRemainingCost()) == 0)
+      {
+         return Arrays.asList(result);
+      }
+
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getResume(), getFinish());
+
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         rangeIndex++;
+      }
+
+      ProjectCalendar cal = getEffectiveCalendar();
+      double workingHours = cal.getWork(getStart(), getFinish(), TimeUnit.HOURS).getDuration();
+      double amountPerHour = getCost().doubleValue() / workingHours;
+
+      while (rangeIndex < ranges.size())
+      {
+         LocalDateTimeRange intersection = assignmentRange.intersection(ranges.get(rangeIndex));
+         if (intersection == null)
+         {
+            break;
+         }
+
+         double intersectionHours = cal.getWork(intersection.getStart(), intersection.getEnd(), TimeUnit.HOURS).getDuration();
+         if (intersectionHours != 0.0)
+         {
+            result[rangeIndex] = Double.valueOf(intersectionHours * amountPerHour);
+         }
+         rangeIndex++;
+      }
+
+      return Arrays.asList(result);
+   }
+
+   /**
+    * Retrieve the timephased actual cost accrued at the start of the resource assignment.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param actualCost function supplying the actual cost
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   private List<Number> getTimephasedActualCostAccruedAtStart(List<LocalDateTimeRange> ranges, Supplier<Number> actualCost)
+   {
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      Number[] result = new Number[ranges.size()];
+
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         ++rangeIndex;
+      }
+
+      // If our first intersecting range includes the start of the assignment.
+      // Assign the actual cost to this range.
+      if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
+      {
+         Number cost = actualCost.get();
+         result[rangeIndex++] = cost == null ? Double.valueOf(0) : cost;
+      }
+
+      // The remainder of the ranges which intersect with
+      // the assignment have zero cost.
+      List<Duration> actualWork = getTimephasedActualWork(ranges, TimeUnit.HOURS);
+      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         result[rangeIndex] = actualWork.get(rangeIndex) == null ? null : Double.valueOf(0);
+         rangeIndex++;
+      }
+
+      return Arrays.asList(result);
+   }
+
+   /**
+    * Retrieve the timephased actual cost accrued at the end of the resource assignment.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param actualCost function supplying the actual cost
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   private List<Number> getTimephasedActualCostAccruedAtEnd(List<LocalDateTimeRange> ranges, Supplier<Number> actualCost)
+   {
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
+      Number[] result = new Number[ranges.size()];
+
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         ++rangeIndex;
+      }
+
+      // The ranges which intersect with
+      // the assignment have zero cost.
+      List<Duration> actualWork = getTimephasedActualWork(ranges, TimeUnit.HOURS);
+      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         boolean firstAssignmentRange = ranges.get(rangeIndex).compareTo(getStart()) == 0;
+         result[rangeIndex] = !firstAssignmentRange && actualWork.get(rangeIndex) == null ? null : Double.valueOf(0);
+         rangeIndex++;
+      }
+
+      // Our last range includes the end of the assignment.
+      // Assign the actual cost to this range.
+      if (ranges.get(rangeIndex-1).compareTo(getFinish()) == 0 && actualWork.get(rangeIndex-1) != null)
+      {
+         Number cost = actualCost.get();
+         result[rangeIndex-1] = cost == null ? Double.valueOf(0) : cost;
+      }
+
+      return Arrays.asList(result);
+   }
+
+   /**
+    * Retrieve the timephased actual cost accrued pro rata over the duration of the resource assignment.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   private List<Number> getTimephasedActualCostProrata(List<LocalDateTimeRange> ranges)
+   {
+      if (NumberHelper.getDouble(getActualCost()) == 0)
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
+      LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getActualStart(), getResume());
+
+      // Find the start date for ranges which are aligned with the caller-supplied ranges, and cover the whole assignment
+      long minutesPerRange = ranges.get(0).getStart().until(ranges.get(0).getEnd(), ChronoUnit.MINUTES);
+      LocalDateTime assignmentStartRange = ranges.get(0).getStart();
+      if (ranges.get(0).getStart().isAfter(getStart()))
+      {
+         while (assignmentStartRange.isAfter(getStart()))
+         {
+            assignmentStartRange = assignmentStartRange.minusMinutes(minutesPerRange);
+         }
+      }
+      else
+      {
+         while (assignmentStartRange.plusMinutes(minutesPerRange).isBefore(getStart()))
+         {
+            assignmentStartRange = assignmentStartRange.plusMinutes(minutesPerRange);
+         }
+      }
+
+      // Create the ranges
+      List<LocalDateTimeRange> assignmentRanges = new ArrayList<>();
+      while (true)
+      {
+         LocalDateTimeRange range = new LocalDateTimeRange(assignmentStartRange, assignmentStartRange.plusMinutes(minutesPerRange));
+         assignmentRanges.add(range);
+         if (range.compareTo(getFinish()) == 0)
+         {
+            break;
+         }
+         assignmentStartRange = range.getEnd();
+      }
+
+      // Count the number of ranges which contain calendar working hours
+      ProjectCalendar calendar = getEffectiveCalendar();
+      long workingRanges = assignmentRanges.stream()
+         .mapToDouble(r -> calendar.getWork(r.getStart(), r.getEnd(), TimeUnit.HOURS).getDuration())
+         .filter(h -> h != 0.0)
+         .count();
+
+      // Determine the pro rata cost per range with working hours
+      Double costPerWorkingRange = Double.valueOf(getCost().doubleValue() /workingRanges);
+
+      // Find the first range which intersects with the assignment
+      int rangeIndex = 0;
+      while (rangeIndex < ranges.size() && !ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         ++rangeIndex;
+      }
+
+      Number[] result = new Number[ranges.size()];
+      while (rangeIndex < ranges.size() && ranges.get(rangeIndex).intersectsWith(assignmentRange))
+      {
+         LocalDateTimeRange range = ranges.get(rangeIndex);
+         LocalDateTime end = range.getEnd().isAfter(assignmentRange.getEnd()) ? assignmentRange.getEnd() : range.getEnd();
+         if (calendar.getWork(range.getStart(), end, TimeUnit.HOURS).getDuration() != 0.0)
+         {
+            result[rangeIndex] = costPerWorkingRange;
+         }
+         ++rangeIndex;
+      }
+      return Arrays.asList(result);
+   }
+
+   /**
+    * Add remaining cost per use to timephased costs.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param costs timephased costs
+    * @return timephased costs including remaining cost per use
+    */
+   private List<Number> addTimephasedRemainingCostPerUse(List<LocalDateTimeRange> ranges, List<Number> costs)
+   {
+      // If we have started, the cost per use will
+      // be accounted for in the actual costs.
+      if (getActualStart() != null)
+      {
+         return costs;
+      }
+
+      Resource resource = getResource();
+      if (resource == null)
+      {
+         return costs;
+      }
+
+      double costPerUse = NumberHelper.getDouble(resource.getCostPerUse());
+      if (costPerUse == 0.0)
+      {
+         return costs;
+      }
+
+      double units = NumberHelper.getDouble(getUnits());
+      if ((getResource() == null || getResource().getType() == ResourceType.WORK) && units != 100.0)
+      {
+         costPerUse = (costPerUse * units) / 100.0;
+      }
+
+      for (int rangeIndex=0; rangeIndex < ranges.size(); ++rangeIndex)
+      {
+         if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
+         {
+            costs.set(rangeIndex, Double.valueOf(NumberHelper.getDouble(costs.get(rangeIndex)) + costPerUse));
+            break;
+         }
+      }
+
+      return costs;
+   }
+
+   /**
+    * Add remaactualining cost per use to timephased costs.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param costs timephased costs
+    * @return timephased costs including actual cost per use
+    */
+   private List<Number> addTimephasedActualCostPerUse(List<LocalDateTimeRange> ranges, List<Number> costs)
+   {
+      // If we not have started, the cost per use will
+      // be accounted for in the remaining costs.
+      if (getActualStart() == null)
+      {
+         return costs;
+      }
+
+      Resource resource = getResource();
+      if (resource == null)
+      {
+         return costs;
+      }
+
+      Number costPerUse = resource.getCostPerUse();
+      if (costPerUse == null || costPerUse.doubleValue() == 0.0)
+      {
+         return costs;
+      }
+
+      for (int rangeIndex=0; rangeIndex < ranges.size(); ++rangeIndex)
+      {
+         if (ranges.get(rangeIndex).compareTo(getStart()) == 0)
+         {
+            costs.set(rangeIndex, Double.valueOf(NumberHelper.getDouble(costs.get(rangeIndex)) + costPerUse.doubleValue()));
+            break;
+         }
+      }
+
+      return costs;
    }
 
    /**
