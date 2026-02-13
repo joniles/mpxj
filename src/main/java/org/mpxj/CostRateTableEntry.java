@@ -99,6 +99,12 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
       return m_range.getEnd();
    }
 
+   /**
+    * Retrieve the time period represented by this cost rate table entry
+    * as a LocalDateTimeRange instance.
+    *
+    * @return time period represented by this entry
+    */
    public LocalDateTimeRange getRange()
    {
       return m_range;
