@@ -11,6 +11,8 @@
 			<action dev="joniles" type="update">**CHANGES**</action>
 			<action dev="joniles" type="update">**BREAKING CHANGES**</action>
 			<action dev="joniles" type="update">`MSPDIWriter` no longer provides the `setSplitTimephasedAsDays` and `getSplitTimephasedAsDays` methods. Timephased data is always written to the file exactly as MPXJ originally read it.</action>
+			<action dev="joniles" type="update">The `TimescaleUtility#createTimescale` method now returns a `List&lt;LocalDateTimeRange&gt;` rather than an `ArrayList&lt;LocalDateTimeRange&gt;`</action>
+			<action dev="joniles" type="update">The `TimescaleUtility#createTimescale` method now returns half open ranges, for example a range representing 1st January 2026 would be expressed as `2026-01-01 00:00 to 2026-01-02 00:00` rather than `2026-01-01 00:00 to 2026-01-01 23:59`.</action>
 		</release>
 		<release date="unreleased" version="15.3.2">
 		</release>

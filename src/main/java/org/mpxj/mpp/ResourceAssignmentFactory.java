@@ -215,13 +215,8 @@ public class ResourceAssignmentFactory
 
          createTimephasedData(file, assignment, timephasedWork, timephasedActualWork);
 
-         assignment.set(AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK, null);
          assignment.getRawTimephasedRemainingRegularWork().addAll(timephasedWork);
-
-         assignment.set(AssignmentField.TIMEPHASED_ACTUAL_REGULAR_WORK, null);
          assignment.getRawTimephasedActualRegularWork().addAll(timephasedActualWork);
-
-         assignment.set(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK, null);
          assignment.getRawTimephasedActualOvertimeWork().addAll(timephasedActualOvertimeWork);
 
          if (timephasedWorkData != null)
