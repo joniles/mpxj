@@ -40,7 +40,6 @@ import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedCost;
 import org.mpxj.TimephasedWork;
 import org.mpxj.WorkContour;
-import org.mpxj.common.AssignmentFieldLists;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.MicrosoftProjectConstants;
 import org.mpxj.common.NumberHelper;
@@ -180,20 +179,13 @@ public class ResourceAssignmentFactory
             }
          }
 
-         // Note: in the code below we are explicitly setting the timephased fields to null before writing to them.
-         // The populateContainer method may have written byte arrays to these fields which we need to clear to ensure
-         // the default value for the field is used.
-         // TODO: switch from marking these fields as binary. Introduce a specific type and skip populating them based on the type
-
          ProjectCalendar baselineCalendar = file.getBaselineCalendar();
          for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
          {
             List<TimephasedWork> baselineWork = timephasedFactory.getBaselineWork(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])));
-            assignment.set(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index], null);
             assignment.getRawTimephasedBaselineWork(index).addAll(baselineWork);
 
             List<TimephasedCost> baselineCost = timephasedFactory.getBaselineCost(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])));
-            assignment.set(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index], null);
             assignment.getRawTimephasedBaselineCost(index).addAll(baselineCost);
          }
 

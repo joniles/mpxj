@@ -201,11 +201,22 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writeAttributeTypes = writeAttributeTypes;
    }
 
+   /**
+    * Returns true if the JSON output will include timephased data.
+    * False by default.
+    *
+    * @return true if timephased data is written
+    */
    public boolean getWriteTimephasedData()
    {
       return m_writeTimephasedData;
    }
 
+   /**
+    * Set to true if the JSON output should include timephased data.
+    *
+    * @param writeTimephasedData true if timephased should be written
+    */
    public void setWriteTimephasedData(boolean writeTimephasedData)
    {
       m_writeTimephasedData = writeTimephasedData;

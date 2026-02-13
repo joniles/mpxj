@@ -5,6 +5,13 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
+		<release date="unreleased" version="16.0.0">
+			<action dev="joniles" type="update">**NEW FEATURES**</action>
+			<action dev="joniles" type="update">`JsonWriter` now provides `getWriteTimephasedData` and `setWriteTimephasedData` methods. Setting this property to true will include timephased data in the JSON output. This property is set to false by default.</action>
+			<action dev="joniles" type="update">**CHANGES**</action>
+			<action dev="joniles" type="update">**BREAKING CHANGES**</action>
+			<action dev="joniles" type="update">`MSPDIWriter` no longer provides the `setSplitTimephasedAsDays` and `getSplitTimephasedAsDays` methods. Timephased data is always written to the file exactly as MPXJ originally read it.</action>
+		</release>
 		<release date="unreleased" version="15.3.2">
 		</release>
 		<release date="2026-02-06" version="15.3.1">
