@@ -6466,8 +6466,14 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return Double.valueOf((currentWork * 100.0) / totalWork);
    }
 
+   /**
+    * Merge and return work splits from resource assignments.
+    *
+    * @return work splits
+    */
    private List<LocalDateTimeRange> calculateWorkSplits()
    {
+      // In MS Project, summary tasks do not show splits.
       if (getSummary())
       {
          return Collections.emptyList();
@@ -6479,11 +6485,18 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          .orElse(Collections.emptyList());
    }
 
-   private List<LocalDateTimeRange> reduceWorkSplits(List<LocalDateTimeRange> l1, List<LocalDateTimeRange> l2)
+   /**
+    * Merge two sets of work splits.
+    *
+    * @param list1 list of work splits
+    * @param list2 list of work splits
+    * @return merged list of work splits
+    */
+   private List<LocalDateTimeRange> reduceWorkSplits(List<LocalDateTimeRange> list1, List<LocalDateTimeRange> list2)
    {
-      if (l1.equals(l2))
+      if (list1.equals(list2))
       {
-         return l1;
+         return list1;
       }
 
       int index1 = 0;
@@ -6491,10 +6504,10 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       List<LocalDateTimeRange> result = new ArrayList<>();
       ProjectCalendar calendar = getEffectiveCalendar();
 
-      while (index1 < l1.size() && index2 < l2.size())
+      while (index1 < list1.size() && index2 < list2.size())
       {
-         LocalDateTimeRange range1 = l1.get(index1);
-         LocalDateTimeRange range2 = l2.get(index2);
+         LocalDateTimeRange range1 = list1.get(index1);
+         LocalDateTimeRange range2 = list2.get(index2);
 
          if (range1.isBefore(range2))
          {
@@ -6523,21 +6536,28 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          index2++;
       }
 
-      if (index1 != l1.size())
+      if (index1 != list1.size())
       {
-         l1.subList(index1, l1.size()).forEach(r -> addWorkSplit(calendar, result, r));
+         list1.subList(index1, list1.size()).forEach(r -> addWorkSplit(calendar, result, r));
       }
       else
       {
-         if (index2 != l2.size())
+         if (index2 != list2.size())
          {
-            l2.subList(index2, l2.size()).forEach(r -> addWorkSplit(calendar, result, r));
+            list2.subList(index2, list2.size()).forEach(r -> addWorkSplit(calendar, result, r));
          }
       }
 
       return result;
    }
 
+   /**
+    * Add a work split to the result list, merging if necessary.
+    *
+    * @param calendar effective calendar
+    * @param ranges result list
+    * @param range range to add
+    */
    private void addWorkSplit(ProjectCalendar calendar, List<LocalDateTimeRange> ranges, LocalDateTimeRange range)
    {
       if (!ranges.isEmpty())
