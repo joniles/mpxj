@@ -2771,7 +2771,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<Duration> getTimephasedPlannedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedPlannedWork(ranges, units));
+      return reduceTimephasedDurationValues(ranges, (r) -> r.getTimephasedPlannedWork(ranges, units));
    }
 
    /**
@@ -2783,7 +2783,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<Duration> getTimephasedActualRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedActualRegularWork(ranges, units));
+      return reduceTimephasedDurationValues(ranges, (r) -> r.getTimephasedActualRegularWork(ranges, units));
    }
 
    /**
@@ -2795,7 +2795,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedActualOvertimeWork(ranges, units));
+      return reduceTimephasedDurationValues(ranges, (r) -> r.getTimephasedActualOvertimeWork(ranges, units));
    }
 
    /**
@@ -2807,7 +2807,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<Duration> getTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedActualWork(ranges, units));
+      return reduceTimephasedDurationValues(ranges, (r) -> r.getTimephasedActualWork(ranges, units));
    }
 
    /**
@@ -2819,7 +2819,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<Duration> getTimephasedRemainingRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedRemainingRegularWork(ranges, units));
+      return reduceTimephasedDurationValues(ranges, (r) -> r.getTimephasedRemainingRegularWork(ranges, units));
    }
 
    /**
@@ -2831,7 +2831,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<Duration> getTimephasedRemainingOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedRemainingOvertimeWork(ranges, units));
+      return reduceTimephasedDurationValues(ranges, (r) -> r.getTimephasedRemainingOvertimeWork(ranges, units));
    }
 
    /**
@@ -2843,7 +2843,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<Duration> getTimephasedRemainingWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedRemainingWork(ranges, units));
+      return reduceTimephasedDurationValues(ranges, (r) -> r.getTimephasedRemainingWork(ranges, units));
    }
 
    /**
@@ -2855,7 +2855,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<Duration> getTimephasedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedWork(ranges, units));
+      return reduceTimephasedDurationValues(ranges, (r) -> r.getTimephasedWork(ranges, units));
    }
 
    /**
@@ -2869,7 +2869,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<Duration> getTimephasedBaselineWork(int index, List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedBaselineWork(index, ranges, units));
+      return reduceTimephasedDurationValues(ranges, (r) -> r.getTimephasedBaselineWork(index, ranges, units));
    }
 
    /**
@@ -2880,7 +2880,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<Number> getTimephasedActualRegularCost(List<LocalDateTimeRange> ranges)
    {
-      return reduceTimephasedCost(ranges, (r) -> r.getTimephasedActualRegularCost(ranges));
+      return reduceTimephasedNumericValues(ranges, (r) -> r.getTimephasedActualRegularCost(ranges));
    }
 
    /**
@@ -2891,7 +2891,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<Number> getTimephasedActualOvertimeCost(List<LocalDateTimeRange> ranges)
    {
-      return reduceTimephasedCost(ranges, (r) -> r.getTimephasedActualOvertimeCost(ranges));
+      return reduceTimephasedNumericValues(ranges, (r) -> r.getTimephasedActualOvertimeCost(ranges));
    }
 
    /**
@@ -2902,7 +2902,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
    {
-      return reduceTimephasedCost(ranges, (r) -> r.getTimephasedActualCost(ranges));
+      return reduceTimephasedNumericValues(ranges, (r) -> r.getTimephasedActualCost(ranges));
    }
 
    /**
@@ -2913,7 +2913,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<Number> getTimephasedRemainingRegularCost(List<LocalDateTimeRange> ranges)
    {
-      return reduceTimephasedCost(ranges, (r) -> r.getTimephasedRemainingRegularCost(ranges));
+      return reduceTimephasedNumericValues(ranges, (r) -> r.getTimephasedRemainingRegularCost(ranges));
    }
 
    /**
@@ -2924,7 +2924,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<Number> getTimephasedRemainingOvertimeCost(List<LocalDateTimeRange> ranges)
    {
-      return reduceTimephasedCost(ranges, (r) -> r.getTimephasedRemainingOvertimeCost(ranges));
+      return reduceTimephasedNumericValues(ranges, (r) -> r.getTimephasedRemainingOvertimeCost(ranges));
    }
 
    /**
@@ -2935,7 +2935,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<Number> getTimephasedRemainingCost(List<LocalDateTimeRange> ranges)
    {
-      return reduceTimephasedCost(ranges, (r) -> r.getTimephasedRemainingCost(ranges));
+      return reduceTimephasedNumericValues(ranges, (r) -> r.getTimephasedRemainingCost(ranges));
    }
 
    /**
@@ -2946,7 +2946,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges)
    {
-      return reduceTimephasedCost(ranges, (r) -> r.getTimephasedCost(ranges));
+      return reduceTimephasedNumericValues(ranges, (r) -> r.getTimephasedCost(ranges));
    }
 
    /**
@@ -2959,17 +2959,63 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public List<Number> getTimephasedBaselineCost(int index, List<LocalDateTimeRange> ranges)
    {
-      return reduceTimephasedCost(ranges, (r) -> r.getTimephasedBaselineCost(index, ranges));
+      return reduceTimephasedNumericValues(ranges, (r) -> r.getTimephasedBaselineCost(index, ranges));
    }
 
    /**
-    * Summarize work from resource assignments.
+    * Retrieve timephased actual material utilization for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased material utilization is summarized
+    * @return list of Number instances representing timephased material utilization for the supplied ranges
+    */
+   public List<Number> getTimephasedActualMaterial(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedNumericValues(ranges, (r) -> r.getTimephasedActualMaterial(ranges));
+   }
+
+   /**
+    * Retrieve timephased remaining material utilization for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased material utilization is summarized
+    * @return list of Number instances representing timephased material utilization for the supplied ranges
+    */
+   public List<Number> getTimephasedRemainingMaterial(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedNumericValues(ranges, (r) -> r.getTimephasedRemainingMaterial(ranges));
+   }
+
+   /**
+    * Retrieve timephased material utilization (actual+remaining) for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased material utilization is summarized
+    * @return list of Number instances representing timephased material utilization for the supplied ranges
+    */
+   public List<Number> getTimephasedMaterial(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedNumericValues(ranges, (r) -> r.getTimephasedMaterial(ranges));
+   }
+
+   /**
+    * Retrieve the timephased baseline material utilization for the supplied time ranges.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @param ranges time ranges over which timephased material utilization is summarized
+    * @return list of Number instances representing timephased material utilization for the supplied ranges
+    */
+   public List<Number> getTimephasedBaselineMaterial(int index, List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedNumericValues(ranges, (r) -> r.getTimephasedBaselineMaterial(index, ranges));
+   }
+
+   /**
+    * Summarize duration values from resource assignments.
     *
     * @param ranges target ranges
     * @param fn function to retrieve work from resource assignments
     * @return timephased work for the supplied ranges
     */
-   private List<Duration> reduceTimephasedWork(List<LocalDateTimeRange> ranges, Function<ResourceAssignment, List<Duration>> fn)
+   private List<Duration> reduceTimephasedDurationValues(List<LocalDateTimeRange> ranges, Function<ResourceAssignment, List<Duration>> fn)
    {
       return getResourceAssignmentStream().map(fn)
          .reduce(TimephasedUtility::addTimephasedDurations)
@@ -2977,13 +3023,13 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
-    * Summarize cost from resource assignments.
+    * Summarize numeric values from resource assignments.
     *
     * @param ranges target ranges
     * @param fn function to retrieve cost from resource assignments
     * @return timephased cost for the supplied ranges
     */
-   private List<Number> reduceTimephasedCost(List<LocalDateTimeRange> ranges, Function<ResourceAssignment, List<Number>> fn)
+   private List<Number> reduceTimephasedNumericValues(List<LocalDateTimeRange> ranges, Function<ResourceAssignment, List<Number>> fn)
    {
       return getResourceAssignmentStream().map(fn)
          .reduce(TimephasedUtility::addTimephasedNumbers)
