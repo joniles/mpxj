@@ -1,3 +1,24 @@
+/*
+ * file:       TimephasedWorkResourceTest.java
+ * author:     Jon Iles
+ * date:       2026-02-13
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 package org.mpxj.junit;
 
 import java.time.LocalDateTime;
@@ -17,8 +38,14 @@ import org.mpxj.utility.TimescaleUtility;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Testing timephased data for work resources.
+ */
 @SuppressWarnings("boxing") public class TimephasedWorkResourceTest
 {
+   /**
+    * Generating timephased data where a single rate applies.
+    */
    @Test public void testSingleRateCost() throws Exception
    {
       List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 3, 0, 0), TimescaleUnits.DAYS, 5);
@@ -272,6 +299,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       TimephasedTestHelper.testNumericSegments(resource.getTimephasedCost(rangeOverlapsEnd), new Double[] {40.0, 40.0, null});
    }
 
+   /**
+    * Generating timephased data where multiple rates apply.
+    */
    @Test public void testMultiRateCost() throws Exception
    {
       List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 3, 0, 0), TimescaleUnits.DAYS, 5);
@@ -411,7 +441,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals(0, assignment.getTimephasedCost(null).size());
    }
 
-   @Test public void testActualCost() throws Exception
+   /**
+    * Tests for costs.
+    */
+   @Test public void testCosts() throws Exception
    {
       List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 4, 0, 0), TimescaleUnits.DAYS, 7);
 
@@ -472,7 +505,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedActualOvertimeCost(rangeWithoutOverlap), new Double[] {null, null, null, null, null});
    }
 
-   @Test public void testActualOvertimeWork() throws Exception
+   /**
+    * trests for work.
+    */
+   @Test public void testWork() throws Exception
    {
       List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 1, 27, 0, 0), TimescaleUnits.DAYS, 8);
       List<LocalDateTimeRange> rangeOverlapsStart = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 1, 27, 0, 0), TimescaleUnits.DAYS, 3);
