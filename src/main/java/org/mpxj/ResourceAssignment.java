@@ -2589,7 +2589,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    /**
     * Retrieve timephased remaining regular cost for this resource assignment for the supplied time ranges.
     *
-    * @param ranges time ranges over which timephased work is summarized
+    * @param ranges time ranges over which timephased cost is summarized
     * @return list of Number instances representing timephased cost for the supplied ranges
     */
    public List<Number> getTimephasedRemainingRegularCost(List<LocalDateTimeRange> ranges)
@@ -2645,7 +2645,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    /**
     * Retrieve timephased remaining regular overtime cost for this resource assignment for the supplied time ranges.
     *
-    * @param ranges time ranges over which timephased work is summarized
+    * @param ranges time ranges over which timephased cost is summarized
     * @return list of Number instances representing timephased cost for the supplied ranges
     */
    public List<Number> getTimephasedRemainingOvertimeCost(List<LocalDateTimeRange> ranges)
@@ -2692,7 +2692,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    /**
     * Retrieve timephased remaining cost (regular+overtime) for this resource assignment for the supplied time ranges.
     *
-    * @param ranges time ranges over which timephased work is summarized
+    * @param ranges time ranges over which timephased cost is summarized
     * @return list of Number instances representing timephased cost for the supplied ranges
     */
    public List<Number> getTimephasedRemainingCost(List<LocalDateTimeRange> ranges)
@@ -2703,7 +2703,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    /**
     * Retrieve timephased actual regular cost for this resource assignment for the supplied time ranges.
     *
-    * @param ranges time ranges over which timephased work is summarized
+    * @param ranges time ranges over which timephased cost is summarized
     * @return list of Number instances representing timephased cost for the supplied ranges
     */
    public List<Number> getTimephasedActualRegularCost(List<LocalDateTimeRange> ranges)
@@ -2763,7 +2763,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    /**
     * Retrieve timephased actual overtime cost for this resource assignment for the supplied time ranges.
     *
-    * @param ranges time ranges over which timephased work is summarized
+    * @param ranges time ranges over which timephased cost is summarized
     * @return list of Number instances representing timephased cost for the supplied ranges
     */
    public List<Number> getTimephasedActualOvertimeCost(List<LocalDateTimeRange> ranges)
@@ -2817,7 +2817,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    /**
     * Retrieve timephased actual cost (regular+overtime) for this resource assignment for the supplied time ranges.
     *
-    * @param ranges time ranges over which timephased work is summarized
+    * @param ranges time ranges over which timephased cost is summarized
     * @return list of Number instances representing timephased cost for the supplied ranges
     */
    public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
@@ -2828,7 +2828,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    /**
     * Retrieve timephased cost (actual+remaining) for this resource assignment for the supplied time ranges.
     *
-    * @param ranges time ranges over which timephased work is summarized
+    * @param ranges time ranges over which timephased cost is summarized
     * @return list of Number instances representing timephased cost for the supplied ranges
     */
    public List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges)
@@ -2841,7 +2841,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
     *
     * @param index baseline index
-    * @param ranges time ranges over which timephased work is summarized
+    * @param ranges time ranges over which timephased cost is summarized
     * @return list of Number instances representing timephased cost for the supplied ranges
     */
    public List<Number> getTimephasedBaselineCost(int index, List<LocalDateTimeRange> ranges)
@@ -2852,7 +2852,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    /**
     * Retrieve timephased actual material utilization for this resource assignment for the supplied time ranges.
     *
-    * @param ranges time ranges over which timephased work is summarized
+    * @param ranges time ranges over which timephased material utilization is summarized
     * @return list of Number instances representing timephased material utilization for the supplied ranges
     */
    public List<Number> getTimephasedActualMaterial(List<LocalDateTimeRange> ranges)
@@ -2863,7 +2863,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    /**
     * Retrieve timephased remaining material utilization for this resource assignment for the supplied time ranges.
     *
-    * @param ranges time ranges over which timephased work is summarized
+    * @param ranges time ranges over which timephased material utilization is summarized
     * @return list of Number instances representing timephased material utilization for the supplied ranges
     */
    public List<Number> getTimephasedRemainingMaterial(List<LocalDateTimeRange> ranges)
@@ -2874,7 +2874,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    /**
     * Retrieve timephased material utilization (actual+remaining) for this resource assignment for the supplied time ranges.
     *
-    * @param ranges time ranges over which timephased work is summarized
+    * @param ranges time ranges over which timephased material utilization is summarized
     * @return list of Number instances representing timephased material utilization for the supplied ranges
     */
    public List<Number> getTimephasedMaterial(List<LocalDateTimeRange> ranges)
@@ -2887,7 +2887,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
     *
     * @param index baseline index
-    * @param ranges time ranges over which timephased work is summarized
+    * @param ranges time ranges over which timephased material utilization is summarized
     * @return list of Number instances representing timephased material utilization for the supplied ranges
     */
    public List<Number> getTimephasedBaselineMaterial(int index, List<LocalDateTimeRange> ranges)

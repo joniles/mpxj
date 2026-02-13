@@ -3596,6 +3596,12 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       set(m_parentFile.getTasks().getFieldTypeByAlias(alias), value);
    }
 
+   /**
+    * Retrieves a list of LocalDateTimeRange instances representing how
+    * working time is distributed across the duration of this task.
+    *
+    * @return list of LocalDateTimeRange instances
+    */
    @SuppressWarnings("unchecked") public List<LocalDateTimeRange> getWorkSplits()
    {
       return (List<LocalDateTimeRange>) get(TaskField.WORK_SPLITS);
@@ -5648,76 +5654,173 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return m_parentFile.getBaselineTaskMap(index).get(this);
    }
 
+   /**
+    * Retrieve timephased actual regular work for this task for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
    public List<Duration> getTimephasedActualRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       return reduceTimephasedWork(ranges, (t) -> t.getTimephasedActualRegularWork(ranges, units), (r) -> r.getTimephasedActualRegularWork(ranges, units));
    }
 
+   /**
+    * Retrieve timephased actual overtime work for this task for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
    public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       return reduceTimephasedWork(ranges, (t) -> t.getTimephasedActualOvertimeWork(ranges, units), (r) -> r.getTimephasedActualOvertimeWork(ranges, units));
    }
 
+   /**
+    * Retrieve timephased actual work (regular+overtime) for this task for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
    public List<Duration> getTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       return reduceTimephasedWork(ranges, (t) -> t.getTimephasedActualWork(ranges, units), (r) -> r.getTimephasedActualWork(ranges, units));
    }
 
+   /**
+    * Retrieve timephased remaining regular work for this task for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
    public List<Duration> getTimephasedRemainingRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       return reduceTimephasedWork(ranges, (t) -> t.getTimephasedRemainingRegularWork(ranges, units), (r) -> r.getTimephasedRemainingRegularWork(ranges, units));
    }
 
+   /**
+    * Retrieve timephased remaining overtime work for this task for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
    public List<Duration> getTimephasedRemainingOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       return reduceTimephasedWork(ranges, (t) -> t.getTimephasedRemainingOvertimeWork(ranges, units), (r) -> r.getTimephasedRemainingOvertimeWork(ranges, units));
    }
 
+   /**
+    * Retrieve timephased remaining work (regular+overtime) for this task for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
    public List<Duration> getTimephasedRemainingWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       return reduceTimephasedWork(ranges, (t) -> t.getTimephasedRemainingWork(ranges, units), (r) -> r.getTimephasedRemainingWork(ranges, units));
    }
 
+   /**
+    * Retrieve timephased work (actual+remaining) for this task for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
    public List<Duration> getTimephasedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       return reduceTimephasedWork(ranges, (t) -> t.getTimephasedWork(ranges, units), (r) -> r.getTimephasedWork(ranges, units));
    }
 
+   /**
+    * Retrieve timephased actual regular cost for this task for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    public List<Number> getTimephasedActualRegularCost(List<LocalDateTimeRange> ranges)
    {
       return reduceTimephasedCost(ranges, (t) -> t.getTimephasedActualRegularCost(ranges), (r) -> r.getTimephasedActualRegularCost(ranges));
    }
 
+   /**
+    * Retrieve timephased actual overtime cost for this task for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    public List<Number> getTimephasedActualOvertimeCost(List<LocalDateTimeRange> ranges)
    {
       return reduceTimephasedCost(ranges, (t) -> t.getTimephasedActualOvertimeCost(ranges), (r) -> r.getTimephasedActualOvertimeCost(ranges));
    }
 
+   /**
+    * Retrieve timephased actual cost (regular+overtime) for this task for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
    {
       return TimephasedUtility.addTimephasedNumbers(getTimephasedActualFixedCost(ranges), reduceTimephasedCost(ranges, (t) -> t.getTimephasedActualCost(ranges), (r) -> r.getTimephasedActualCost(ranges)));
    }
 
+   /**
+    * Retrieve timephased remaining regular cost for this task for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    public List<Number> getTimephasedRemainingRegularCost(List<LocalDateTimeRange> ranges)
    {
       return reduceTimephasedCost(ranges, (t) -> t.getTimephasedRemainingRegularCost(ranges), (r) -> r.getTimephasedRemainingRegularCost(ranges));
    }
 
+   /**
+    * Retrieve timephased remaining overtime cost for this task for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    public List<Number> getTimephasedRemainingOvertimeCost(List<LocalDateTimeRange> ranges)
    {
       return reduceTimephasedCost(ranges, (t) -> t.getTimephasedRemainingOvertimeCost(ranges), (r) -> r.getTimephasedRemainingOvertimeCost(ranges));
    }
 
+   /**
+    * Retrieve timephased remaining cost (regular+overtime) for this task for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    public List<Number> getTimephasedRemainingCost(List<LocalDateTimeRange> ranges)
    {
       return TimephasedUtility.addTimephasedNumbers(getTimephasedRemainingFixedCost(ranges), reduceTimephasedCost(ranges, (t) -> t.getTimephasedRemainingCost(ranges), (r) -> r.getTimephasedRemainingCost(ranges)));
    }
 
+   /**
+    * Retrieve timephased cost (actual+remaining) for this task for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    public List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges)
    {
       return TimephasedUtility.addTimephasedNumbers(getTimephasedFixedCost(ranges), reduceTimephasedCost(ranges, (t) -> t.getTimephasedCost(ranges), (r) -> r.getTimephasedCost(ranges)));
    }
 
+   /**
+    * Retrieve timephased actual fixed cost for this task for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    public List<Number> getTimephasedActualFixedCost(List<LocalDateTimeRange> ranges)
    {
       // Do nothing if there is no fixed cost
@@ -5751,6 +5854,12 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       }
    }
 
+   /**
+    * Retrieve timephased remaining fixed cost for this task for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    public List<Number> getTimephasedRemainingFixedCost(List<LocalDateTimeRange> ranges)
    {
       // Do nothing if there is no fixed cost
@@ -5784,11 +5893,24 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       }
    }
 
+   /**
+    * Retrieve timephased fixed cost (actual+remaining) for this task for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    public List<Number> getTimephasedFixedCost(List<LocalDateTimeRange> ranges)
    {
       return TimephasedUtility.addTimephasedNumbers(getTimephasedActualFixedCost(ranges), getTimephasedRemainingFixedCost(ranges));
    }
 
+   /**
+    * Retrieves the fixed cost distributed pro rata over the duration of this task.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @param timephasedWork function supplying timephased work
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    private List<Number> getTimephasedFixedCostProRata(List<LocalDateTimeRange> ranges, Function<List<LocalDateTimeRange>, List<Duration>> timephasedWork)
    {
       Number[] result = new Number[ranges.size()];
@@ -5822,6 +5944,12 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return Arrays.asList(result);
    }
 
+   /**
+    * Retrieves actual the fixed cost accrued at the start of this task.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    private List<Number> getTimephasedActualFixedCostAccruedAtStart(List<LocalDateTimeRange> ranges)
    {
       LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
@@ -5853,6 +5981,12 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return Arrays.asList(result);
    }
 
+   /**
+    * Retrieves actual the fixed cost accrued at the end of this task.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    private List<Number> getTimephasedActualFixedCostAccruedAtEnd(List<LocalDateTimeRange> ranges)
    {
       LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
@@ -5886,6 +6020,12 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return Arrays.asList(result);
    }
 
+   /**
+    * Retrieves the remaining fixed cost accrued at the start of this task.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    private List<Number> getTimephasedRemainingFixedCostAccruedAtStart(List<LocalDateTimeRange> ranges)
    {
       LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
@@ -5929,6 +6069,12 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return Arrays.asList(result);
    }
 
+   /**
+    * Retrieves the remaining fixed cost accrued at the end of this task.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    private List<Number> getTimephasedRemainingFixedCostAccruedAtEnd(List<LocalDateTimeRange> ranges)
    {
       LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
@@ -5967,6 +6113,14 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return Arrays.asList(result);
    }
 
+   /**
+    * Merge timephased work.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param taskFn function to retrieve timephased work from child tasks
+    * @param assignmentFn function to retreve timephased work from resource assignments
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
    private List<Duration> reduceTimephasedWork(List<LocalDateTimeRange> ranges, Function<Task, List<Duration>> taskFn, Function<ResourceAssignment, List<Duration>> assignmentFn)
    {
       return Stream.concat(getResourceAssignments().stream()
@@ -5976,6 +6130,14 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          .orElseGet(() -> Arrays.asList(new Duration[ranges.size()]));
    }
 
+   /**
+    * Merge timephased cost.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @param taskFn function to retrieve timephased cost from child tasks
+    * @param assignmentFn function to retreve timephased cost from resource assignments
+    * @return list of Duration instances representing timephased cost for the supplied ranges
+    */
    private List<Number> reduceTimephasedCost(List<LocalDateTimeRange> ranges, Function<Task, List<Number>> taskFn, Function<ResourceAssignment, List<Number>> assignmentFn)
    {
       return Stream.concat(getResourceAssignments().stream().map(assignmentFn), getChildTasks().stream().map(taskFn))
