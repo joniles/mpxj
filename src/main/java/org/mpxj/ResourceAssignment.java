@@ -829,6 +829,20 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    }
 
    /**
+    * Retrieve the timephased baseline work for the supplied time ranges.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedBaselineWork(int index, List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineWork(index), ranges, units);
+   }
+
+   /**
     * Retrieve timephased remaining regular cost for this resource assignment for the supplied time ranges.
     *
     * @param ranges time ranges over which timephased work is summarized
@@ -1079,6 +1093,19 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    }
 
    /**
+    * Retrieve the timephased baseline cost for the supplied time ranges.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedBaselineCost(int index, List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.segmentCost(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineCost(index), ranges);
+   }
+
+   /**
     * Retrieve timephased actual material utilization for this resource assignment for the supplied time ranges.
     *
     * @param ranges time ranges over which timephased work is summarized
@@ -1109,6 +1136,19 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    public List<Number> getTimephasedMaterial(List<LocalDateTimeRange> ranges)
    {
       return TimephasedUtility.addTimephasedNumbers(getTimephasedActualMaterial(ranges), getTimephasedRemainingMaterial(ranges));
+   }
+
+   /**
+    * Retrieve the timephased baseline material utilization for the supplied time ranges.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased material utilization for the supplied ranges
+    */
+   public List<Number> getTimephasedBaselineMaterial(int index, List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.segmentMaterial(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineWork(index), ranges);
    }
 
    /**
@@ -1276,6 +1316,14 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
    }
 
+   /**
+    * Retrieve the timephased remaining cost accrued at the start of the resource assignment.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param totalCost total cost value
+    * @param remainingCost remaining cost value
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    private List<Number> getTimephasedRemainingCostAccruedAtStart(List<LocalDateTimeRange> ranges, Supplier<Number> totalCost, Supplier<Number> remainingCost)
    {
       LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
@@ -1319,6 +1367,14 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return Arrays.asList(result);
    }
 
+   /**
+    * Retrieve the timephased remaining cost accrued at the end of the resource assignment.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param totalCost total cost value
+    * @param remainingCost remaining cost value
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    private List<Number> getTimephasedRemainingCostAccruedAtEnd(List<LocalDateTimeRange> ranges, Supplier<Number> totalCost, Supplier<Number> remainingCost)
    {
       LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
@@ -1357,6 +1413,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return Arrays.asList(result);
    }
 
+   /**
+    * Retrieve the timephased remaining cost accrued pro rata over the duration of the resource assignment.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    private List<Number> getTimephasedRemainingCostProRata(List<LocalDateTimeRange> ranges)
    {
       Number[] result = new Number[ranges.size()];
@@ -1398,6 +1460,13 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return Arrays.asList(result);
    }
 
+   /**
+    * Retrieve the timephased actual cost accrued at the start of the resource assignment.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param actualCost function supplying the actual cost
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    private List<Number> getTimephasedActualCostAccruedAtStart(List<LocalDateTimeRange> ranges, Supplier<Number> actualCost)
    {
       LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
@@ -1430,6 +1499,13 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return Arrays.asList(result);
    }
 
+   /**
+    * Retrieve the timephased actual cost accrued at the end of the resource assignment.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param actualCost function supplying the actual cost
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    private List<Number> getTimephasedActualCostAccruedAtEnd(List<LocalDateTimeRange> ranges, Supplier<Number> actualCost)
    {
       LocalDateTimeRange assignmentRange = new LocalDateTimeRange(getStart(), getFinish());
@@ -1463,6 +1539,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return Arrays.asList(result);
    }
 
+   /**
+    * Retrieve the timephased actual cost accrued pro rata over the duration of the resource assignment.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    private List<Number> getTimephasedActualCostProrata(List<LocalDateTimeRange> ranges)
    {
       if (NumberHelper.getDouble(getActualCost()) == 0)
@@ -1534,6 +1616,13 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return Arrays.asList(result);
    }
 
+   /**
+    * Add remaining cost per use to timephased costs.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param costs timephased costs
+    * @return timephased costs including remaining cost per use
+    */
    private List<Number> addTimephasedRemainingCostPerUse(List<LocalDateTimeRange> ranges, List<Number> costs)
    {
       // If we have started, the cost per use will
@@ -1573,6 +1662,13 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return costs;
    }
 
+   /**
+    * Add remaactualining cost per use to timephased costs.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param costs timephased costs
+    * @return timephased costs including actual cost per use
+    */
    private List<Number> addTimephasedActualCostPerUse(List<LocalDateTimeRange> ranges, List<Number> costs)
    {
       // If we not have started, the cost per use will
@@ -1604,18 +1700,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
 
       return costs;
-   }
-
-
-   public List<Duration> getTimephasedBaselineWork(int index, List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.segmentWork(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineWork(index), ranges, units);
-   }
-
-
-   public List<Number> getTimephasedBaselineCost(int index, List<LocalDateTimeRange> ranges)
-   {
-      return TimephasedUtility.segmentCost(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineCost(index), ranges);
    }
 
    /**
