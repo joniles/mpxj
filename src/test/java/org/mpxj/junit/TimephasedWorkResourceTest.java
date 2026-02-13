@@ -506,7 +506,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
    }
 
    /**
-    * trests for work.
+    * Tests for work.
     */
    @Test public void testWork() throws Exception
    {
