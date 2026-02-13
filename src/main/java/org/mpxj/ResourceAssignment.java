@@ -659,26 +659,19 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    }
 
    /**
-    * Retrieves the timephased breakdown of the planned work for this
-    * resource assignment.
+    * Retrieves raw timephased planned work for this resource assignment.
     *
-    * @return timephased planned work
+    * @return raw timephased planned work
     */
    @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedPlannedWork()
    {
       return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_PLANNED_WORK);
    }
 
-   public List<Duration> getTimephasedPlannedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedPlannedWork(), ranges, units);
-   }
-
    /**
-    * Retrieves the timephased breakdown of the completed work for this
-    * resource assignment.
+    * Retrieves raw timephased actual regular work for this resource assignment.
     *
-    * @return timephased completed work
+    * @return raw timephased actual regular work
     */
    @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedActualRegularWork()
    {
@@ -686,10 +679,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    }
 
    /**
-    * Retrieves the timephased breakdown of the planned work for this
-    * resource assignment.
+    * Retrieves raw timephased remaining regular work for this resource assignment.
     *
-    * @return timephased planned work
+    * @return raw timephased remaining regular work
     */
    @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedRemainingRegularWork()
    {
@@ -697,62 +689,151 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    }
 
    /**
-    * Retrieves the timephased breakdown of the planned overtime work for this
-    * resource assignment.
+    * Retrieves raw timephased remaining overtime work for this resource assignment.
     *
-    * @return timephased planned work
+    * @return raw timephased remaining overtime work
     */
    @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedRemainingOvertimeWork()
    {
       return (List<TimephasedWork>)get(AssignmentField.TIMEPHASED_REMAINING_OVERTIME_WORK);
    }
 
-   public List<Duration> getTimephasedActualRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualRegularWork(), ranges, units);
-   }
-
-   public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualOvertimeWork(), ranges, units);
-   }
-
-   public List<Duration> getTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.addTimephasedDurations(getTimephasedActualRegularWork(ranges, units), getTimephasedActualOvertimeWork(ranges, units));
-   }
-
-   public List<Duration> getTimephasedRemainingRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedRemainingRegularWork(), ranges, units);
-   }
-
-   public List<Duration> getTimephasedRemainingOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedRemainingOvertimeWork(), ranges, units);
-   }
-
-   public List<Duration> getTimephasedRemainingWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.addTimephasedDurations(getTimephasedRemainingRegularWork(ranges, units), getTimephasedRemainingOvertimeWork(ranges, units));
-   }
-
-   public List<Duration> getTimephasedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.addTimephasedDurations(getTimephasedActualWork(ranges, units), getTimephasedRemainingWork(ranges, units));
-   }
-
    /**
-    * Retrieves the timephased breakdown of the actual overtime work for this
-    * resource assignment.
+    * Retrieves raw timephased actual overtime work for this resource assignment.
     *
-    * @return timephased planned work
+    * @return raw timephased actual overtime work
     */
    @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedActualOvertimeWork()
    {
       return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK);
    }
 
+   /**
+    * Retrieve raw timephased baseline work for this resource assignment.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @return raw timephased baseline work
+    */
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedBaselineWork(int index)
+   {
+      return (List<TimephasedWork>) get(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index]);
+   }
+
+   /**
+    * Retrieve raw timephased baseline cost for this resource assignment.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @return raw timephased baseline cost
+    */
+   @SuppressWarnings("unchecked") public List<TimephasedCost> getRawTimephasedBaselineCost(int index)
+   {
+      return (List<TimephasedCost>) get(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index]);
+   }
+
+   /**
+    * Retrieve timephased planned work for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedPlannedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedPlannedWork(), ranges, units);
+   }
+
+   /**
+    * Retrieve timephased actual regular work for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedActualRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualRegularWork(), ranges, units);
+   }
+
+   /**
+    * Retrieve timephased actual overtime work for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualOvertimeWork(), ranges, units);
+   }
+
+   /**
+    * Retrieve timephased actual work (regular+overtime) for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.addTimephasedDurations(getTimephasedActualRegularWork(ranges, units), getTimephasedActualOvertimeWork(ranges, units));
+   }
+
+   /**
+    * Retrieve timephased remaining regular work for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedRemainingRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedRemainingRegularWork(), ranges, units);
+   }
+
+   /**
+    * Retrieve timephased remaining overtime work for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedRemainingOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedRemainingOvertimeWork(), ranges, units);
+   }
+
+   /**
+    * Retrieve timephased remaining work (regular+overtime) for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedRemainingWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.addTimephasedDurations(getTimephasedRemainingRegularWork(ranges, units), getTimephasedRemainingOvertimeWork(ranges, units));
+   }
+
+   /**
+    * Retrieve timephased work (actual+remaining) for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.addTimephasedDurations(getTimephasedActualWork(ranges, units), getTimephasedRemainingWork(ranges, units));
+   }
+
+   /**
+    * Retrieve timephased remaining regular cost for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    public List<Number> getTimephasedRemainingRegularCost(List<LocalDateTimeRange> ranges)
    {
       // If we have no ranges, return an empty list.
@@ -803,6 +884,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return result;
    }
 
+   /**
+    * Retrieve timephased remaining regular overtime cost for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    public List<Number> getTimephasedRemainingOvertimeCost(List<LocalDateTimeRange> ranges)
    {
       // If we have no ranges, return an empty list.
@@ -844,11 +931,23 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
    }
 
+   /**
+    * Retrieve timephased remaining cost (regular+overtime) for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    public List<Number> getTimephasedRemainingCost(List<LocalDateTimeRange> ranges)
    {
       return TimephasedUtility.addTimephasedNumbers(getTimephasedRemainingRegularCost(ranges), getTimephasedRemainingOvertimeCost(ranges));
    }
 
+   /**
+    * Retrieve timephased actual regular cost for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    public List<Number> getTimephasedActualRegularCost(List<LocalDateTimeRange> ranges)
    {
       // If we have no ranges, return an empty list.
@@ -903,6 +1002,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return result;
    }
 
+   /**
+    * Retrieve timephased actual overtime cost for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    public List<Number> getTimephasedActualOvertimeCost(List<LocalDateTimeRange> ranges)
    {
       // If we have no ranges, return an empty list.
@@ -951,31 +1056,69 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
    }
 
+   /**
+    * Retrieve timephased actual cost (regular+overtime) for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
    {
       return TimephasedUtility.addTimephasedNumbers(getTimephasedActualRegularCost(ranges), getTimephasedActualOvertimeCost(ranges));
    }
 
+   /**
+    * Retrieve timephased cost (actual+remaining) for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    public List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges)
    {
       return TimephasedUtility.addTimephasedNumbers(getTimephasedActualCost(ranges), getTimephasedRemainingCost(ranges));
    }
 
+   /**
+    * Retrieve timephased actual material utilization for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased material utilization for the supplied ranges
+    */
    public List<Number> getTimephasedActualMaterial(List<LocalDateTimeRange> ranges)
    {
       return TimephasedUtility.segmentMaterial(getEffectiveCalendar(), getRawTimephasedActualRegularWork(), ranges);
    }
 
+   /**
+    * Retrieve timephased remaining material utilization for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased material utilization for the supplied ranges
+    */
    public List<Number> getTimephasedRemainingMaterial(List<LocalDateTimeRange> ranges)
    {
       return TimephasedUtility.segmentMaterial(getEffectiveCalendar(), getRawTimephasedRemainingRegularWork(), ranges);
    }
 
+   /**
+    * Retrieve timephased material utilization (actual+remaining) for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased material utilization for the supplied ranges
+    */
    public List<Number> getTimephasedMaterial(List<LocalDateTimeRange> ranges)
    {
       return TimephasedUtility.addTimephasedNumbers(getTimephasedActualMaterial(ranges), getTimephasedRemainingMaterial(ranges));
    }
 
+   /**
+    * Retrieves timephased cost using data from the provided functions.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @param rateIndex index of the cost rate table to use
+    * @param timephasedWork function providing timephased work
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    private List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges, int rateIndex, Function<List<LocalDateTimeRange>, List<Duration>> timephasedWork)
    {
       Number[] result = new Number[ranges.size()];
@@ -1063,6 +1206,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return Arrays.asList(result);
    }
 
+   /**
+    * Convert a rate into a rate per hour.
+    *
+    * @param rate rate to convert
+    * @return rate per hour
+    */
    private Rate getRatePerHour(Rate rate)
    {
       if (rate.getUnits() == TimeUnit.HOURS)
@@ -1074,9 +1223,10 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    }
 
    /**
-    * Generates timephased costs from the assignment's cost value. Used for Cost type Resources.
+    * Retrieve timephased remaining cost for a cost resource.
     *
-    * @return timephased cost
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
     */
    private List<Number> getTimephasedCostResourceRemainingCost(List<LocalDateTimeRange> ranges)
    {
@@ -1099,6 +1249,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
    }
 
+   /**
+    * Retrieve timephased actual cost for a cost resource.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    private List<Number> getTimephasedCostResourceActualCost(List<LocalDateTimeRange> ranges)
    {
       switch(getResource().getAccrueAt())
@@ -1450,34 +1606,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return costs;
    }
 
-   /**
-    * Retrieve timephased baseline work. Note that index 0 represents "Baseline",
-    * index 1 represents "Baseline1" and so on.
-    *
-    * @param index baseline index
-    * @return timephased work, or null if no baseline is present
-    */
-   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedBaselineWork(int index)
-   {
-      return (List<TimephasedWork>) get(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index]);
-   }
 
    public List<Duration> getTimephasedBaselineWork(int index, List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       return TimephasedUtility.segmentWork(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineWork(index), ranges, units);
    }
 
-   /**
-    * Retrieve timephased baseline cost. Note that index 0 represents "Baseline",
-    * index 1 represents "Baseline1" and so on.
-    *
-    * @param index baseline index
-    * @return timephased work, or null if no baseline is present
-    */
-   @SuppressWarnings("unchecked") public List<TimephasedCost> getRawTimephasedBaselineCost(int index)
-   {
-      return (List<TimephasedCost>) get(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index]);
-   }
 
    public List<Number> getTimephasedBaselineCost(int index, List<LocalDateTimeRange> ranges)
    {
