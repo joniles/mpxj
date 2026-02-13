@@ -252,20 +252,18 @@ public class MppTaskTest
     */
    @Test public void testMspdiSplits() throws Exception
    {
-      // TODO: handle representation differences for MSPDI files
-//      ProjectFile mpp = new MSPDIReader().read(MpxjTestData.filePath("mspdisplittask.xml"));
-//      testSplitTasks(mpp);
+      ProjectFile mpp = new MSPDIReader().read(MpxjTestData.filePath("mspdisplittask.xml"));
+      testMspdiSplitTasks(mpp);
    }
 
    /**
     * Test Split Tasks in an MPD9 file.
-    *
-    * Currently split tasks are not supported in MPD files.
     */
    @Test public void testMpd9Splits()
    {
-      //       ProjectFile mpp = new MPDDatabaseReader().read (MpxjTestData.filePath("mpp9splittask.mpd");
-      //       testSplitTasks(mpp);
+      // Reading split tasks from MPD files is not currently supported.
+      // ProjectFile mpp = new MPDDatabaseReader().read (MpxjTestData.filePath("mpp9splittask.mpd");
+      // testSplitTasks(mpp);
    }
 
    /**
@@ -877,6 +875,30 @@ public class MppTaskTest
       testSplit(listSplits2.get(0), "21/09/2006 08:00", "25/09/2006 17:00");
       testSplit(listSplits2.get(1), "28/09/2006 08:00", "04/10/2006 17:00");
       testSplit(listSplits2.get(2), "10/10/2006 08:00", "18/10/2006 17:00");
+   }
+
+   /**
+    * Tests Split Tasks from MSPDI files.
+    *
+    * @param mpp MPP file
+    */
+   private void testMspdiSplitTasks(ProjectFile mpp)
+   {
+      Task task1 = mpp.getTaskByID(Integer.valueOf(1));
+      Task task2 = mpp.getTaskByID(Integer.valueOf(2));
+
+      List<LocalDateTimeRange> listSplits1 = task1.getWorkSplits();
+      List<LocalDateTimeRange> listSplits2 = task2.getWorkSplits();
+
+      assertEquals(2, listSplits1.size());
+      assertEquals(3, listSplits2.size());
+
+      testSplit(listSplits1.get(0), "21/09/2006 08:00", "26/09/2006 17:00");
+      testSplit(listSplits1.get(1), "01/10/2006 17:00", "09/10/2006 17:00");
+
+      testSplit(listSplits2.get(0), "21/09/2006 08:00", "25/09/2006 17:00");
+      testSplit(listSplits2.get(1), "27/09/2006 17:00", "04/10/2006 17:00");
+      testSplit(listSplits2.get(2), "09/10/2006 17:00", "18/10/2006 17:00");
    }
 
    /**
