@@ -7,7 +7,6 @@
 	<body>
 		<release date="unreleased" version="16.0.0">
 			<action dev="joniles" type="update">**NEW FEATURES**</action>
-
 			<action dev="joniles" type="update">`JsonWriter` now provides `getWriteTimephasedData` and `setWriteTimephasedData` methods. Setting this property to true will include timephased data in the JSON output. This property is set to false by default.</action>
 			<action dev="joniles" type="update">The `Resource` class now supports the following timephased data methods: `getTimephasedActualRegularWork`, `getTimephasedActualOvertimeWork`, `getTimephasedActualWork`, `getTimephasedRemainingRegularWork`, `getTimephasedRemainingOvertimeWork`, `getTimephasedRemainingWork`, `getTimephasedWork`, `getTimephasedActualRegularCost`, `getTimephasedActualOvertimeCost`, `getTimephasedActualCost`, `getTimephasedRemainingRegularCost`, `getTimephasedRemainingOvertimeCost`, `getTimephasedRemainingCost`, `getTimephasedCost`.</action>
 			<action dev="joniles" type="update">The `ResourceAssignment` class now provides the following methods to retrieve the raw representation of timephased work: `getRawTimephasedPlannedWork`, `getRawTimephasedActualRegularWork`, `getRawTimephasedRemainingRegularWork`, `getRawTimephasedRemainingOvertimeWork`, `getRawTimephasedActualOvertimeWork`</action>
@@ -18,9 +17,7 @@
 			<action dev="joniles" type="update">The `Task` class now supports the `getWorkSplits` method, which summarises timephased work into contiguous working periods.</action>
 			<action dev="joniles" type="update">The `Task` class now supports the following methods to retrieve timephased work: `getTimephasedActualRegularWork`, `getTimephasedActualOvertimeWork`, `getTimephasedActualWork`, `getTimephasedRemainingRegularWork`, `getTimephasedRemainingOvertimeWork`, `getTimephasedRemainingWork`, `getTimephasedWork`.</action>
 			<action dev="joniles" type="update">The `Task` class now supports the following methods to retrieve timephased cost: `getTimephasedActualRegularCost`, `getTimephasedActualOvertimeCost`, `getTimephasedActualCost`, `getTimephasedRemainingRegularCost`, `getTimephasedRemainingOvertimeCost`, `getTimephasedRemainingCost`, `getTimephasedCost`, `getTimephasedActualFixedCost`, `getTimephasedRemainingFixedCost`, `getTimephasedFixedCost`.</action>
-
 			<action dev="joniles" type="update">The `TimephasedItem`, `TimephasedWork`, and `TimephasedCost` classes have a new `getAmountPerHour` method, which replaces the original `getAmountPerDay` method.</action>
-
 			<action dev="joniles" type="update">**BREAKING CHANGES**</action>
 			<action dev="joniles" type="update">`MSPDIWriter` no longer provides the `setSplitTimephasedAsDays` and `getSplitTimephasedAsDays` methods. Timephased data is always written to the file exactly as MPXJ originally read it.</action>
 			<action dev="joniles" type="update">The `TimescaleUtility#createTimescale` method now returns a `List&lt;LocalDateTimeRange&gt;` rather than an `ArrayList&lt;LocalDateTimeRange&gt;`</action>
@@ -29,11 +26,8 @@
 			<action dev="joniles" type="update">The following `ResourceAssignment` timephased work methods have been removed without replacement: `setTimephasedPlannedWork`, `setTimephasedActualWork`, `setTimephasedWork`, `setTimephasedActualOvertimeWork`, `setTimephasedBaselineWork`, `setTimephasedBaselineCost`.</action>
 			<action dev="joniles" type="update">The following `ResourceAssignment` timephased cost methods have been removed and replaced by the cost methods noted above: `getTimephasedCost`, `getTimephasedActualCost`.</action>
 			<action dev="joniles" type="update">The `Task#getSplits` method has been removed, used the `Task#getWorkSplits` method instead. Note that `Task#getWorkSplits` only returns ranges representing working time.</action>
-
 			<action dev="joniles" type="update">The `getAmountPerDay` method on the `TimephasedItem`, `TimephasedWork`, and `TimephasedCost` classes has been removed. Use the new `getAmountPerHour` method instead.</action>
 			<action dev="joniles" type="update">The `getModified` method on the `TimephasedItem`, `TimephasedWork`, and `TimephasedCost` classes has been removed. There is currently no replacement.</action>
-
-
 		</release>
 		<release date="unreleased" version="15.3.2">
 		</release>
