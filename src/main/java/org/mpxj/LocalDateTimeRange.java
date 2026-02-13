@@ -65,21 +65,45 @@ public final class LocalDateTimeRange implements Comparable<LocalDateTimeRange>
       return m_end;
    }
 
+   /**
+    * Returns true if this range is before the supplied range.
+    *
+    * @param range range to test
+    * @return true if this range is before the supplied range
+    */
    public boolean isBefore(LocalDateTimeRange range)
    {
       return LocalDateTimeHelper.compare(m_start, m_end, range.getStart(), range.getEnd()) < 0;
    }
 
+   /**
+    * Returns true if this range is after the supplied range.
+    *
+    * @param range range to test
+    * @return true if this range is after the supplied range
+    */
    public boolean isAfter(LocalDateTimeRange range)
    {
       return LocalDateTimeHelper.compare(m_start, m_end, range.getStart(), range.getEnd()) > 0;
    }
 
+   /**
+    * Returns true if this range intersects with the supplied range.
+    *
+    * @param range range to test
+    * @return true if this range intersects with the supplied range
+    */
    public boolean intersectsWith(LocalDateTimeRange range)
    {
       return LocalDateTimeHelper.compare(m_start, m_end, range.getStart(), range.getEnd()) == 0;
    }
 
+   /**
+    * return a range representing the intersection between this range and the supplied range.
+    *
+    * @param range range to test
+    * @return intersection between this range and the supplied range
+    */
    public LocalDateTimeRange intersection(LocalDateTimeRange range)
    {
       // No intersection - return null
