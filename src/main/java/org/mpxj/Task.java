@@ -5751,6 +5751,20 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Retrieve timephased baseline work for this task for the supplied time ranges.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedBaselineWork(int index, List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, (t) -> t.getTimephasedBaselineWork(index, ranges, units), (r) -> r.getTimephasedBaselineWork(index, ranges, units));
+   }
+
+   /**
     * Retrieve timephased actual regular cost for this task for the supplied time ranges.
     *
     * @param ranges time ranges over which timephased cost is summarized
@@ -5825,6 +5839,19 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    public List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges)
    {
       return TimephasedUtility.addTimephasedNumbers(getTimephasedFixedCost(ranges), reduceTimephasedCost(ranges, (t) -> t.getTimephasedCost(ranges), (r) -> r.getTimephasedCost(ranges)));
+   }
+
+   /**
+    * Retrieve timephased baseline cost for this task for the supplied time ranges.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedBaselineCost(int index, List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedBaselineCost(index, ranges), (r) -> r.getTimephasedBaselineCost(index, ranges));
    }
 
    /**
