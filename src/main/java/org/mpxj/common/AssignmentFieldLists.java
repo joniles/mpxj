@@ -526,33 +526,33 @@ public final class AssignmentFieldLists
       CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_MULTI_VALUE));
    }
 
-   public static final AssignmentField[] TIMEPHASED_BASELINE_WORKS =
+   public static final AssignmentField[] RAW_TIMEPHASED_BASELINE_WORKS =
    {
-      AssignmentField.TIMEPHASED_BASELINE_WORK,
-      AssignmentField.TIMEPHASED_BASELINE1_WORK,
-      AssignmentField.TIMEPHASED_BASELINE2_WORK,
-      AssignmentField.TIMEPHASED_BASELINE3_WORK,
-      AssignmentField.TIMEPHASED_BASELINE4_WORK,
-      AssignmentField.TIMEPHASED_BASELINE5_WORK,
-      AssignmentField.TIMEPHASED_BASELINE6_WORK,
-      AssignmentField.TIMEPHASED_BASELINE7_WORK,
-      AssignmentField.TIMEPHASED_BASELINE8_WORK,
-      AssignmentField.TIMEPHASED_BASELINE9_WORK,
-      AssignmentField.TIMEPHASED_BASELINE10_WORK
+      AssignmentField.RAW_TIMEPHASED_BASELINE_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE1_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE2_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE3_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE4_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE5_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE6_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE7_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE8_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE9_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE10_WORK
    };
 
-   public static final AssignmentField[] TIMEPHASED_BASELINE_COSTS =
+   public static final AssignmentField[] RAW_TIMEPHASED_BASELINE_COSTS =
    {
-      AssignmentField.TIMEPHASED_BASELINE_COST,
-      AssignmentField.TIMEPHASED_BASELINE1_COST,
-      AssignmentField.TIMEPHASED_BASELINE2_COST,
-      AssignmentField.TIMEPHASED_BASELINE3_COST,
-      AssignmentField.TIMEPHASED_BASELINE4_COST,
-      AssignmentField.TIMEPHASED_BASELINE5_COST,
-      AssignmentField.TIMEPHASED_BASELINE6_COST,
-      AssignmentField.TIMEPHASED_BASELINE7_COST,
-      AssignmentField.TIMEPHASED_BASELINE8_COST,
-      AssignmentField.TIMEPHASED_BASELINE9_COST,
-      AssignmentField.TIMEPHASED_BASELINE10_COST
+      AssignmentField.RAW_TIMEPHASED_BASELINE_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE1_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE2_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE3_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE4_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE5_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE6_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE7_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE8_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE9_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE10_COST
    };
 }

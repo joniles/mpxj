@@ -189,10 +189,10 @@ public class ResourceAssignmentFactory
             assignment.getRawTimephasedBaselineCost(index).addAll(baselineCost);
          }
 
-         byte[] timephasedActualRegularWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_REGULAR_WORK));
+         byte[] timephasedActualRegularWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.RAW_TIMEPHASED_ACTUAL_REGULAR_WORK));
          byte[] timephasedActualIrregularWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_IRREGULAR_WORK));
-         byte[] timephasedActualOvertimeWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK));
-         byte[] timephasedWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK));
+         byte[] timephasedActualOvertimeWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.RAW_TIMEPHASED_ACTUAL_OVERTIME_WORK));
+         byte[] timephasedWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.RAW_TIMEPHASED_REMAINING_REGULAR_WORK));
 
          ResourceType resourceType = resource == null ? ResourceType.WORK : resource.getType();
          ProjectCalendar calendar = assignment.getEffectiveCalendar();
@@ -387,31 +387,31 @@ public class ResourceAssignmentFactory
 
    private static final AssignmentField[] TIMEPHASED_BASELINE_WORK =
    {
-      AssignmentField.TIMEPHASED_BASELINE_WORK,
-      AssignmentField.TIMEPHASED_BASELINE1_WORK,
-      AssignmentField.TIMEPHASED_BASELINE2_WORK,
-      AssignmentField.TIMEPHASED_BASELINE3_WORK,
-      AssignmentField.TIMEPHASED_BASELINE4_WORK,
-      AssignmentField.TIMEPHASED_BASELINE5_WORK,
-      AssignmentField.TIMEPHASED_BASELINE6_WORK,
-      AssignmentField.TIMEPHASED_BASELINE7_WORK,
-      AssignmentField.TIMEPHASED_BASELINE8_WORK,
-      AssignmentField.TIMEPHASED_BASELINE9_WORK,
-      AssignmentField.TIMEPHASED_BASELINE10_WORK
+      AssignmentField.RAW_TIMEPHASED_BASELINE_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE1_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE2_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE3_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE4_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE5_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE6_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE7_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE8_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE9_WORK,
+      AssignmentField.RAW_TIMEPHASED_BASELINE10_WORK
    };
 
    private static final AssignmentField[] TIMEPHASED_BASELINE_COST =
    {
-      AssignmentField.TIMEPHASED_BASELINE_COST,
-      AssignmentField.TIMEPHASED_BASELINE1_COST,
-      AssignmentField.TIMEPHASED_BASELINE2_COST,
-      AssignmentField.TIMEPHASED_BASELINE3_COST,
-      AssignmentField.TIMEPHASED_BASELINE4_COST,
-      AssignmentField.TIMEPHASED_BASELINE5_COST,
-      AssignmentField.TIMEPHASED_BASELINE6_COST,
-      AssignmentField.TIMEPHASED_BASELINE7_COST,
-      AssignmentField.TIMEPHASED_BASELINE8_COST,
-      AssignmentField.TIMEPHASED_BASELINE9_COST,
-      AssignmentField.TIMEPHASED_BASELINE10_COST
+      AssignmentField.RAW_TIMEPHASED_BASELINE_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE1_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE2_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE3_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE4_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE5_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE6_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE7_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE8_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE9_COST,
+      AssignmentField.RAW_TIMEPHASED_BASELINE10_COST
    };
 }

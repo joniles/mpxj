@@ -2409,7 +2409,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedPlannedWork()
    {
-      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_PLANNED_WORK);
+      return (List<TimephasedWork>) get(AssignmentField.RAW_TIMEPHASED_PLANNED_WORK);
    }
 
    /**
@@ -2419,7 +2419,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedActualRegularWork()
    {
-      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_REGULAR_WORK);
+      return (List<TimephasedWork>) get(AssignmentField.RAW_TIMEPHASED_ACTUAL_REGULAR_WORK);
    }
 
    /**
@@ -2429,7 +2429,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedRemainingRegularWork()
    {
-      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK);
+      return (List<TimephasedWork>) get(AssignmentField.RAW_TIMEPHASED_REMAINING_REGULAR_WORK);
    }
 
    /**
@@ -2439,7 +2439,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedActualOvertimeWork()
    {
-      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK);
+      return (List<TimephasedWork>) get(AssignmentField.RAW_TIMEPHASED_ACTUAL_OVERTIME_WORK);
    }
 
    /**
@@ -2449,7 +2449,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedRemainingOvertimeWork()
    {
-      return (List<TimephasedWork>) get(AssignmentField.TIMEPHASED_REMAINING_OVERTIME_WORK);
+      return (List<TimephasedWork>) get(AssignmentField.RAW_TIMEPHASED_REMAINING_OVERTIME_WORK);
    }
 
    /**
@@ -2461,7 +2461,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedBaselineWork(int index)
    {
-      return (List<TimephasedWork>) get(AssignmentFieldLists.TIMEPHASED_BASELINE_WORKS[index]);
+      return (List<TimephasedWork>) get(AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_WORKS[index]);
    }
 
    /**
@@ -2473,7 +2473,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    @SuppressWarnings("unchecked") public List<TimephasedCost> getRawTimephasedBaselineCost(int index)
    {
-      return (List<TimephasedCost>) get(AssignmentFieldLists.TIMEPHASED_BASELINE_COSTS[index]);
+      return (List<TimephasedCost>) get(AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_COSTS[index]);
    }
 
    /**
@@ -3741,37 +3741,37 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       CALCULATED_FIELD_MAP.put(AssignmentField.START, ResourceAssignment::calculateStart);
       CALCULATED_FIELD_MAP.put(AssignmentField.FINISH, ResourceAssignment::calculateFinish);
       CALCULATED_FIELD_MAP.put(AssignmentField.REMAINING_ASSIGNMENT_UNITS, ResourceAssignment::calculateRemainingAssignmentUnits);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_REMAINING_OVERTIME_WORK, ResourceAssignment::calculateTimephasedOvertimeWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_REMAINING_OVERTIME_WORK, ResourceAssignment::calculateTimephasedOvertimeWork);
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_INDEX, ResourceAssignment::defaultRateIndex);
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_SOURCE, ResourceAssignment::defaultRateSource);
       CALCULATED_FIELD_MAP.put(AssignmentField.CALCULATE_COSTS_FROM_UNITS, ResourceAssignment::defaultCalculateCostsFromUnits);
       CALCULATED_FIELD_MAP.put(AssignmentField.RESOURCE_ASSIGNMENT_CODE_VALUES, ResourceAssignment::defaultResourceAssignmentCodeValues);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_PLANNED_WORK, ResourceAssignment::defaultTimephasedWork);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_ACTUAL_REGULAR_WORK, ResourceAssignment::defaultTimephasedWork);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_REMAINING_REGULAR_WORK, ResourceAssignment::defaultTimephasedWork);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK, ResourceAssignment::defaultTimephasedWork);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE_WORK, ResourceAssignment::defaultTimephasedWork);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE1_WORK, ResourceAssignment::defaultTimephasedWork);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE2_WORK, ResourceAssignment::defaultTimephasedWork);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE3_WORK, ResourceAssignment::defaultTimephasedWork);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE4_WORK, ResourceAssignment::defaultTimephasedWork);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE5_WORK, ResourceAssignment::defaultTimephasedWork);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE6_WORK, ResourceAssignment::defaultTimephasedWork);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE7_WORK, ResourceAssignment::defaultTimephasedWork);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE8_WORK, ResourceAssignment::defaultTimephasedWork);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE9_WORK, ResourceAssignment::defaultTimephasedWork);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE10_WORK, ResourceAssignment::defaultTimephasedWork);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE_COST, ResourceAssignment::defaultTimephasedCost);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE1_COST, ResourceAssignment::defaultTimephasedCost);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE2_COST, ResourceAssignment::defaultTimephasedCost);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE3_COST, ResourceAssignment::defaultTimephasedCost);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE4_COST, ResourceAssignment::defaultTimephasedCost);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE5_COST, ResourceAssignment::defaultTimephasedCost);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE6_COST, ResourceAssignment::defaultTimephasedCost);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE7_COST, ResourceAssignment::defaultTimephasedCost);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE8_COST, ResourceAssignment::defaultTimephasedCost);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE9_COST, ResourceAssignment::defaultTimephasedCost);
-      CALCULATED_FIELD_MAP.put(AssignmentField.TIMEPHASED_BASELINE10_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_PLANNED_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_ACTUAL_REGULAR_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_REMAINING_REGULAR_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_ACTUAL_OVERTIME_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE1_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE2_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE3_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE4_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE5_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE6_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE7_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE8_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE9_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE10_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE1_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE2_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE3_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE4_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE5_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE6_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE7_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE8_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE9_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE10_COST, ResourceAssignment::defaultTimephasedCost);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
