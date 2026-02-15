@@ -2338,6 +2338,26 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    }
 
    /**
+    * Returns the remaining regular cost  of this resource assignment.
+    *
+    * @return remaining regular cost
+    */
+   public Number getRemainingRegularCost()
+   {
+      return (Number) get(AssignmentField.REMAINING_REGULAR_COST);
+   }
+
+   /**
+    * Returns the actual regular cost  of this resource assignment.
+    *
+    * @return actual regular cost
+    */
+   public Number getActualRegularCost()
+   {
+      return (Number) get(AssignmentField.ACTUAL_REGULAR_COST);
+   }
+
+   /**
     * Retrieve a list of LocalDateTimeRange instances representing working time over the duration
     * of this resource assignment.
     *
@@ -3419,7 +3439,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    }
 
    /**
-    * Add remaactualining cost per use to timephased costs.
+    * Add actual cost per use to timephased costs.
     *
     * @param ranges time ranges over which timephased work is summarized
     * @param costs timephased costs
@@ -3675,6 +3695,81 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return getRawTimephasedRemainingRegularWork().stream().map(i -> new TimephasedWork(i, factor)).collect(Collectors.toList());
    }
 
+   private Number calculateRemainingRegularCost()
+   {
+      Number remainingCost = getRemainingCost();
+      Number remainingOvertimeCost = getRemainingOvertimeCost();
+      if (remainingCost == null && remainingOvertimeCost == null)
+      {
+         return null;
+      }
+
+      return Double.valueOf(NumberHelper.getDouble(remainingCost) - NumberHelper.getDouble(remainingOvertimeCost));
+   }
+
+   private Number calculateActualRegularCost()
+   {
+      Number actuaCost = getActualCost();
+      Number actualOvertimeCost = getActualOvertimeCost();
+      if (actuaCost == null && actualOvertimeCost == null)
+      {
+         return null;
+      }
+
+      return Double.valueOf(NumberHelper.getDouble(actuaCost) - NumberHelper.getDouble(actualOvertimeCost));
+   }
+
+//   private Number calculateActualMaterial()
+//   {
+//      if (getResource() == null || getResource().getType() != ResourceType.MATERIAL)
+//      {
+//         return null;
+//      }
+//
+//      Duration work = getActualWork();
+//      if (work == null)
+//      {
+//         return null;
+//      }
+//
+//      // TODO: verify
+//      return Double.valueOf(work.getDuration());
+//   }
+//
+//   private Number calculateRemainingMaterial()
+//   {
+//      if (getResource() == null || getResource().getType() != ResourceType.MATERIAL)
+//      {
+//         return null;
+//      }
+//
+//      Duration work = getRemainingWork();
+//      if (work == null)
+//      {
+//         return null;
+//      }
+//
+//      // TODO: verify
+//      return Double.valueOf(work.getDuration());
+//   }
+
+   private Number calculateMaterial(Supplier<Duration> fn)
+   {
+      if (getResource() == null || getResource().getType() != ResourceType.MATERIAL)
+      {
+         return null;
+      }
+
+      Duration work = fn.get();
+      if (work == null)
+      {
+         return null;
+      }
+
+      // TODO: verify
+      return Double.valueOf(work.getDuration());
+   }
+
    /**
     * Supply a default value for the rate index.
     *
@@ -3774,16 +3869,16 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    private static final Map<FieldType, TimephasedNumericFunction> TIMEPHASED_NUMERIC_FUNCTIONS = new HashMap<>();
    static
    {
-      //TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.REMAINING_REGULAR_COST, ResourceAssignment::getTimephasedRemainingRegularCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.REMAINING_REGULAR_COST, ResourceAssignment::getTimephasedRemainingRegularCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.REMAINING_OVERTIME_COST, ResourceAssignment::getTimephasedRemainingOvertimeCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.REMAINING_COST, ResourceAssignment::getTimephasedRemainingCost);
-      //TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.ACTUAL_REGULAR_COST, ResourceAssignment::getTimephasedActualRegularCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.ACTUAL_REGULAR_COST, ResourceAssignment::getTimephasedActualRegularCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.ACTUAL_OVERTIME_COST, ResourceAssignment::getTimephasedActualOvertimeCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.ACTUAL_COST, ResourceAssignment::getTimephasedActualCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.COST, ResourceAssignment::getTimephasedCost);
-      //TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.ACTUAL_MATERIAL, ResourceAssignment::getTimephasedActualMaterial);
-      //TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.REMAINING_MATERIAL, ResourceAssignment::getTimephasedRemainingMaterial);
-      //TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.MATERIAL, ResourceAssignment::getTimephasedMaterial);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.ACTUAL_MATERIAL, ResourceAssignment::getTimephasedActualMaterial);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.REMAINING_MATERIAL, ResourceAssignment::getTimephasedRemainingMaterial);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.MATERIAL, ResourceAssignment::getTimephasedMaterial);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE_COST, (a, r) -> a.getTimephasedBaselineCost(0, r));
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE1_COST, (a, r) -> a.getTimephasedBaselineCost(1, r));
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE2_COST, (a, r) -> a.getTimephasedBaselineCost(2, r));
@@ -3825,6 +3920,11 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       CALCULATED_FIELD_MAP.put(AssignmentField.FINISH, ResourceAssignment::calculateFinish);
       CALCULATED_FIELD_MAP.put(AssignmentField.REMAINING_ASSIGNMENT_UNITS, ResourceAssignment::calculateRemainingAssignmentUnits);
       CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_REMAINING_OVERTIME_WORK, ResourceAssignment::calculateTimephasedOvertimeWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.REMAINING_REGULAR_COST, ResourceAssignment::calculateRemainingRegularCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.ACTUAL_REGULAR_COST, ResourceAssignment::calculateActualRegularCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.ACTUAL_MATERIAL, a -> a.calculateMaterial(a::getActualWork));
+      CALCULATED_FIELD_MAP.put(AssignmentField.REMAINING_MATERIAL, a -> a.calculateMaterial(a::getRemainingWork));
+      CALCULATED_FIELD_MAP.put(AssignmentField.MATERIAL, a -> a.calculateMaterial(a::getWork));
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_INDEX, ResourceAssignment::defaultRateIndex);
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_SOURCE, ResourceAssignment::defaultRateSource);
       CALCULATED_FIELD_MAP.put(AssignmentField.CALCULATE_COSTS_FROM_UNITS, ResourceAssignment::defaultCalculateCostsFromUnits);
@@ -3869,5 +3969,10 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       dependencies.calculatedField(AssignmentField.FINISH_VARIANCE).dependsOn(AssignmentField.FINISH, AssignmentField.BASELINE_FINISH);
       dependencies.calculatedField(AssignmentField.PERCENT_WORK_COMPLETE).dependsOn(AssignmentField.ACTUAL_WORK, AssignmentField.WORK);
       dependencies.calculatedField(AssignmentField.WORK_VARIANCE).dependsOn(AssignmentField.WORK, AssignmentField.BASELINE_WORK);
+      dependencies.calculatedField(AssignmentField.REMAINING_REGULAR_COST).dependsOn(AssignmentField.REMAINING_COST, AssignmentField.REMAINING_OVERTIME_COST);
+      dependencies.calculatedField(AssignmentField.ACTUAL_REGULAR_COST).dependsOn(AssignmentField.ACTUAL_COST, AssignmentField.ACTUAL_OVERTIME_COST);
+      dependencies.calculatedField(AssignmentField.ACTUAL_MATERIAL).dependsOn(AssignmentField.ACTUAL_WORK);
+      dependencies.calculatedField(AssignmentField.REMAINING_MATERIAL).dependsOn(AssignmentField.REMAINING_WORK);
+      dependencies.calculatedField(AssignmentField.MATERIAL).dependsOn(AssignmentField.WORK);
    }
 }

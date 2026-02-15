@@ -1677,7 +1677,6 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.VARIABLE_RATE_UNITS.getValue()] = "Variable Rate Units";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.LEVELING_DELAY_UNITS.getValue()] = "Leveling Delay Units";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RESOURCE_ASSIGNMENT_CODE_VALUES.getValue()] = "Resource Assignment Code Values";
-
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TASK_ID.getValue()] = "Task ID";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RESOURCE_ID.getValue()] = "Resource ID";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TASK_NAME.getValue()] = "Task Name";
@@ -2137,6 +2136,11 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_ACTUAL_IRREGULAR_WORK.getValue()] = "Timephased Actual Irregular Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RAW_TIMEPHASED_PLANNED_WORK.getValue()] = "Raw Timephased Planned Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RAW_TIMEPHASED_REMAINING_OVERTIME_WORK.getValue()] = "Raw Timephased Remaining Overtime Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.REMAINING_REGULAR_COST.getValue()] = "Remaining Regular Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ACTUAL_REGULAR_COST.getValue()] = "Actual Regular Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ACTUAL_MATERIAL.getValue()] = "Actual Material";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.REMAINING_MATERIAL.getValue()] = "Remaining Material";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.MATERIAL.getValue()] = "Material";
 
       CONSTRAINT_COLUMNS_ARRAY[ConstraintField.UNIQUE_ID.getValue()] = "Unique ID";
       CONSTRAINT_COLUMNS_ARRAY[ConstraintField.TASK1.getValue()] = "Task 1";
