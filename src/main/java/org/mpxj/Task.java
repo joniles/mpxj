@@ -6611,13 +6611,19 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    private void addWorkSplit(ProjectCalendar calendar, List<LocalDateTimeRange> ranges, LocalDateTimeRange range)
    {
+      // TODO - look at inflating the ranges as they come from the assignment before we start reducing
       if (!ranges.isEmpty())
       {
-         LocalDateTime lastRangeEnd = ranges.get(ranges.size() - 1).getEnd();
-         if (lastRangeEnd.isEqual(range.getStart()) || calendar.getWork(lastRangeEnd, range.getStart(), TimeUnit.HOURS).getDuration() == 0)
+         LocalDateTimeRange lastRange = ranges.get(ranges.size() - 1);
+         if (lastRange.getEnd().isEqual(range.getStart()) ||
+            lastRange.intersectsWith(range) ||
+            calendar.getWork(lastRange.getEnd(), range.getStart(), TimeUnit.HOURS).getDuration() == 0)
          {
-            LocalDateTimeRange oldRange = ranges.remove(ranges.size() - 1);
-            ranges.add(new LocalDateTimeRange(oldRange.getStart(), range.getEnd()));
+            if (lastRange.compareTo(range) != 0)
+            {
+               ranges.remove(ranges.size() - 1);
+               ranges.add(new LocalDateTimeRange(lastRange.getStart(), range.getEnd()));
+            }
             return;
          }
       }
