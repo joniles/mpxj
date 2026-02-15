@@ -2762,6 +2762,18 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       setCurrencyUniqueID(currency == null ? null : currency.getUniqueID());
    }
 
+   @Override public List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      TimephasedDurationFunction fn = TIMEPHASED_WORK_FUNCTIONS.get(field);
+      return fn == null ? Arrays.asList(new Duration[ranges.size()]) : fn.apply(this, ranges, units);
+   }
+
+   @Override public List<Number> getTimephasedNumericValues(FieldType field, List<LocalDateTimeRange> ranges)
+   {
+      TimephasedNumericFunction fn = TIMEPHASED_NUMERIC_FUNCTIONS.get(field);
+      return fn == null ? Arrays.asList(new Number[ranges.size()]) : fn.apply(this, ranges);
+   }
+
    /**
     * Retrieve timephased planned work for this resource for the supplied time ranges.
     *
@@ -3340,6 +3352,77 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
 
    private final CostRateTable[] m_costRateTables;
    private final AvailabilityTable m_availability = new AvailabilityTable();
+
+   private interface TimephasedDurationFunction
+   {
+      List<Duration> apply(Resource resource, List<LocalDateTimeRange> ranges, TimeUnit units);
+   }
+
+   private interface TimephasedNumericFunction
+   {
+      List<Number> apply(Resource resource, List<LocalDateTimeRange> ranges);
+   }
+
+   private static final Map<FieldType, TimephasedDurationFunction> TIMEPHASED_WORK_FUNCTIONS = new HashMap<>();
+   static
+   {
+      //TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.PLANNED_WORK, Resource::getTimephasedPlannedWork);
+      //TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.ACTUAL_REGULAR_WORK, Resource::getTimephasedActualRegularWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.ACTUAL_OVERTIME_WORK, Resource::getTimephasedActualOvertimeWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.ACTUAL_WORK, Resource::getTimephasedActualWork);
+      //TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.REMAINING_REGULAR_WORK, Resource::getTimephasedRemainingRegularWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.REMAINING_OVERTIME_WORK, Resource::getTimephasedRemainingOvertimeWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.REMAINING_WORK, Resource::getTimephasedRemainingWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.WORK, Resource::getTimephasedWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE_WORK, (a, r, t) -> a.getTimephasedBaselineWork(0, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE1_WORK,(a, r, t) -> a.getTimephasedBaselineWork(1, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE2_WORK,(a, r, t) -> a.getTimephasedBaselineWork(2, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE3_WORK,(a, r, t) -> a.getTimephasedBaselineWork(3, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE4_WORK,(a, r, t) -> a.getTimephasedBaselineWork(4, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE5_WORK,(a, r, t) -> a.getTimephasedBaselineWork(5, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE6_WORK,(a, r, t) -> a.getTimephasedBaselineWork(6, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE7_WORK,(a, r, t) -> a.getTimephasedBaselineWork(7, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE8_WORK,(a, r, t) -> a.getTimephasedBaselineWork(8, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE9_WORK,(a, r, t) -> a.getTimephasedBaselineWork(9, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE10_WORK, (a, r, t) -> a.getTimephasedBaselineWork(10, r, t));
+   }
+
+   private static final Map<FieldType, TimephasedNumericFunction> TIMEPHASED_NUMERIC_FUNCTIONS = new HashMap<>();
+   static
+   {
+      //TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.REMAINING_REGULAR_COST, Resource::getTimephasedRemainingRegularCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.REMAINING_OVERTIME_COST, Resource::getTimephasedRemainingOvertimeCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.REMAINING_COST, Resource::getTimephasedRemainingCost);
+      //TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.ACTUAL_REGULAR_COST, Resource::getTimephasedActualRegularCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.ACTUAL_OVERTIME_COST, Resource::getTimephasedActualOvertimeCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.ACTUAL_COST, Resource::getTimephasedActualCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.COST, Resource::getTimephasedCost);
+      //TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.ACTUAL_MATERIAL, Resource::getTimephasedActualMaterial);
+      //TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.REMAINING_MATERIAL, Resource::getTimephasedRemainingMaterial);
+      //TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.MATERIAL, Resource::getTimephasedMaterial);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE_COST, (a, r) -> a.getTimephasedBaselineCost(0, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE1_COST, (a, r) -> a.getTimephasedBaselineCost(1, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE2_COST, (a, r) -> a.getTimephasedBaselineCost(2, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE3_COST, (a, r) -> a.getTimephasedBaselineCost(3, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE4_COST, (a, r) -> a.getTimephasedBaselineCost(4, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE5_COST, (a, r) -> a.getTimephasedBaselineCost(5, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE6_COST, (a, r) -> a.getTimephasedBaselineCost(6, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE7_COST, (a, r) -> a.getTimephasedBaselineCost(7, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE8_COST, (a, r) -> a.getTimephasedBaselineCost(8, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE9_COST, (a, r) -> a.getTimephasedBaselineCost(9, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE10_COST, (a, r) -> a.getTimephasedBaselineCost(10, r));
+      //      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(0, r));
+      //      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE1_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(1, r));
+      //      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE2_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(2, r));
+      //      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE3_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(3, r));
+      //      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE4_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(4, r));
+      //      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE5_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(5, r));
+      //      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE6_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(6, r));
+      //      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE7_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(7, r));
+      //      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE8_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(8, r));
+      //      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE9_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(9, r));
+      //      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE10_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(10, r));
+   }
 
    private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(ResourceField.STANDARD_RATE, ResourceField.OVERTIME_RATE, ResourceField.COST_PER_USE, ResourceField.START, ResourceField.FINISH, ResourceField.MAX_UNITS, ResourceField.AVAILABLE_FROM, ResourceField.AVAILABLE_TO));
 

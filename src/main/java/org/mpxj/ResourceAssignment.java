@@ -2476,6 +2476,18 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return (List<TimephasedCost>) get(AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_COSTS[index]);
    }
 
+   @Override public List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      TimephasedDurationFunction fn = TIMEPHASED_WORK_FUNCTIONS.get(field);
+      return fn == null ? Arrays.asList(new Duration[ranges.size()]) : fn.apply(this, ranges, units);
+   }
+
+   @Override public List<Number> getTimephasedNumericValues(FieldType field, List<LocalDateTimeRange> ranges)
+   {
+      TimephasedNumericFunction fn = TIMEPHASED_NUMERIC_FUNCTIONS.get(field);
+      return fn == null ? Arrays.asList(new Number[ranges.size()]) : fn.apply(this, ranges);
+   }
+
    /**
     * Retrieve timephased planned work for this resource assignment for the supplied time ranges.
     *
@@ -3724,6 +3736,77 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     * Default units value: 100%.
     */
    public static final Double DEFAULT_UNITS = Double.valueOf(100);
+
+   private interface TimephasedDurationFunction
+   {
+      List<Duration> apply(ResourceAssignment assignment, List<LocalDateTimeRange> ranges, TimeUnit units);
+   }
+
+   private interface TimephasedNumericFunction
+   {
+      List<Number> apply(ResourceAssignment assignment, List<LocalDateTimeRange> ranges);
+   }
+
+   private static final Map<FieldType, TimephasedDurationFunction> TIMEPHASED_WORK_FUNCTIONS = new HashMap<>();
+   static
+   {
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.PLANNED_WORK, ResourceAssignment::getTimephasedPlannedWork);
+      //TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.ACTUAL_REGULAR_WORK, ResourceAssignment::getTimephasedActualRegularWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.ACTUAL_OVERTIME_WORK, ResourceAssignment::getTimephasedActualOvertimeWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.ACTUAL_WORK, ResourceAssignment::getTimephasedActualWork);
+      //TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.REMAINING_REGULAR_WORK, ResourceAssignment::getTimephasedRemainingRegularWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.REMAINING_OVERTIME_WORK, ResourceAssignment::getTimephasedRemainingOvertimeWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.REMAINING_WORK, ResourceAssignment::getTimephasedRemainingWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.WORK, ResourceAssignment::getTimephasedWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE_WORK, (a, r, t) -> a.getTimephasedBaselineWork(0, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE1_WORK,(a, r, t) -> a.getTimephasedBaselineWork(1, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE2_WORK,(a, r, t) -> a.getTimephasedBaselineWork(2, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE3_WORK,(a, r, t) -> a.getTimephasedBaselineWork(3, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE4_WORK,(a, r, t) -> a.getTimephasedBaselineWork(4, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE5_WORK,(a, r, t) -> a.getTimephasedBaselineWork(5, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE6_WORK,(a, r, t) -> a.getTimephasedBaselineWork(6, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE7_WORK,(a, r, t) -> a.getTimephasedBaselineWork(7, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE8_WORK,(a, r, t) -> a.getTimephasedBaselineWork(8, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE9_WORK,(a, r, t) -> a.getTimephasedBaselineWork(9, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE10_WORK, (a, r, t) -> a.getTimephasedBaselineWork(10, r, t));
+   }
+
+   private static final Map<FieldType, TimephasedNumericFunction> TIMEPHASED_NUMERIC_FUNCTIONS = new HashMap<>();
+   static
+   {
+      //TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.REMAINING_REGULAR_COST, ResourceAssignment::getTimephasedRemainingRegularCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.REMAINING_OVERTIME_COST, ResourceAssignment::getTimephasedRemainingOvertimeCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.REMAINING_COST, ResourceAssignment::getTimephasedRemainingCost);
+      //TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.ACTUAL_REGULAR_COST, ResourceAssignment::getTimephasedActualRegularCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.ACTUAL_OVERTIME_COST, ResourceAssignment::getTimephasedActualOvertimeCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.ACTUAL_COST, ResourceAssignment::getTimephasedActualCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.COST, ResourceAssignment::getTimephasedCost);
+      //TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.ACTUAL_MATERIAL, ResourceAssignment::getTimephasedActualMaterial);
+      //TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.REMAINING_MATERIAL, ResourceAssignment::getTimephasedRemainingMaterial);
+      //TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.MATERIAL, ResourceAssignment::getTimephasedMaterial);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE_COST, (a, r) -> a.getTimephasedBaselineCost(0, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE1_COST, (a, r) -> a.getTimephasedBaselineCost(1, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE2_COST, (a, r) -> a.getTimephasedBaselineCost(2, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE3_COST, (a, r) -> a.getTimephasedBaselineCost(3, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE4_COST, (a, r) -> a.getTimephasedBaselineCost(4, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE5_COST, (a, r) -> a.getTimephasedBaselineCost(5, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE6_COST, (a, r) -> a.getTimephasedBaselineCost(6, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE7_COST, (a, r) -> a.getTimephasedBaselineCost(7, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE8_COST, (a, r) -> a.getTimephasedBaselineCost(8, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE9_COST, (a, r) -> a.getTimephasedBaselineCost(9, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE10_COST, (a, r) -> a.getTimephasedBaselineCost(10, r));
+//      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(0, r));
+//      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE1_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(1, r));
+//      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE2_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(2, r));
+//      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE3_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(3, r));
+//      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE4_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(4, r));
+//      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE5_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(5, r));
+//      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE6_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(6, r));
+//      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE7_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(7, r));
+//      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE8_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(8, r));
+//      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE9_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(9, r));
+//      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE10_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(10, r));
+   }
 
    private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(AssignmentField.START, AssignmentField.FINISH));
 

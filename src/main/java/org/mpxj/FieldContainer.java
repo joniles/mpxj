@@ -23,6 +23,8 @@
 
 package org.mpxj;
 
+import java.util.List;
+
 import org.mpxj.listener.FieldListener;
 
 /**
@@ -56,6 +58,10 @@ public interface FieldContainer
     * @return field value
     */
    Object getCachedValue(FieldType field);
+
+   List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units);
+
+   List<Number> getTimephasedNumericValues(FieldType field, List<LocalDateTimeRange> ranges);
 
    /**
     * Add a listener to receive field events.

@@ -5654,6 +5654,18 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return m_parentFile.getBaselineTaskMap(index).get(this);
    }
 
+   @Override public List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      TimephasedDurationFunction fn = TIMEPHASED_WORK_FUNCTIONS.get(field);
+      return fn == null ? Arrays.asList(new Duration[ranges.size()]) : fn.apply(this, ranges, units);
+   }
+
+   @Override public List<Number> getTimephasedNumericValues(FieldType field, List<LocalDateTimeRange> ranges)
+   {
+      TimephasedNumericFunction fn = TIMEPHASED_NUMERIC_FUNCTIONS.get(field);
+      return fn == null ? Arrays.asList(new Number[ranges.size()]) : fn.apply(this, ranges);
+   }
+
    /**
     * Retrieve timephased planned work for this task for the supplied time ranges.
     *
@@ -6686,6 +6698,66 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * Recurring task details associated with this task.
     */
    private RecurringTask m_recurringTask;
+
+   private interface TimephasedDurationFunction
+   {
+      List<Duration> apply(Task task, List<LocalDateTimeRange> ranges, TimeUnit units);
+   }
+
+   private interface TimephasedNumericFunction
+   {
+      List<Number> apply(Task task, List<LocalDateTimeRange> ranges);
+   }
+
+   private static final Map<FieldType, TimephasedDurationFunction> TIMEPHASED_WORK_FUNCTIONS = new HashMap<>();
+   static
+   {
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.PLANNED_WORK, Task::getTimephasedPlannedWork);
+      //TIMEPHASED_WORK_FUNCTIONS.put(TaskField.ACTUAL_REGULAR_WORK, Task::getTimephasedActualRegularWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.ACTUAL_OVERTIME_WORK, Task::getTimephasedActualOvertimeWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.ACTUAL_WORK, Task::getTimephasedActualWork);
+      //TIMEPHASED_WORK_FUNCTIONS.put(TaskField.REMAINING_REGULAR_WORK, Task::getTimephasedRemainingRegularWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.REMAINING_OVERTIME_WORK, Task::getTimephasedRemainingOvertimeWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.REMAINING_WORK, Task::getTimephasedRemainingWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.WORK, Task::getTimephasedWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE_WORK, (a, r, t) -> a.getTimephasedBaselineWork(0, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE1_WORK,(a, r, t) -> a.getTimephasedBaselineWork(1, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE2_WORK,(a, r, t) -> a.getTimephasedBaselineWork(2, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE3_WORK,(a, r, t) -> a.getTimephasedBaselineWork(3, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE4_WORK,(a, r, t) -> a.getTimephasedBaselineWork(4, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE5_WORK,(a, r, t) -> a.getTimephasedBaselineWork(5, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE6_WORK,(a, r, t) -> a.getTimephasedBaselineWork(6, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE7_WORK,(a, r, t) -> a.getTimephasedBaselineWork(7, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE8_WORK,(a, r, t) -> a.getTimephasedBaselineWork(8, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE9_WORK,(a, r, t) -> a.getTimephasedBaselineWork(9, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE10_WORK, (a, r, t) -> a.getTimephasedBaselineWork(10, r, t));
+   }
+
+   private static final Map<FieldType, TimephasedNumericFunction> TIMEPHASED_NUMERIC_FUNCTIONS = new HashMap<>();
+   static
+   {
+      //TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.REMAINING_REGULAR_COST, Task::getTimephasedRemainingRegularCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.REMAINING_OVERTIME_COST, Task::getTimephasedRemainingOvertimeCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.REMAINING_COST, Task::getTimephasedRemainingCost);
+      //TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.ACTUAL_REGULAR_COST, Task::getTimephasedActualRegularCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.ACTUAL_OVERTIME_COST, Task::getTimephasedActualOvertimeCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.ACTUAL_COST, Task::getTimephasedActualCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.COST, Task::getTimephasedCost);
+      //TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.ACTUAL_MATERIAL, Task::getTimephasedActualMaterial);
+      //TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.REMAINING_MATERIAL, Task::getTimephasedRemainingMaterial);
+      //TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.MATERIAL, Task::getTimephasedMaterial);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE_COST, (a, r) -> a.getTimephasedBaselineCost(0, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE1_COST, (a, r) -> a.getTimephasedBaselineCost(1, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE2_COST, (a, r) -> a.getTimephasedBaselineCost(2, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE3_COST, (a, r) -> a.getTimephasedBaselineCost(3, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE4_COST, (a, r) -> a.getTimephasedBaselineCost(4, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE5_COST, (a, r) -> a.getTimephasedBaselineCost(5, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE6_COST, (a, r) -> a.getTimephasedBaselineCost(6, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE7_COST, (a, r) -> a.getTimephasedBaselineCost(7, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE8_COST, (a, r) -> a.getTimephasedBaselineCost(8, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE9_COST, (a, r) -> a.getTimephasedBaselineCost(9, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE10_COST, (a, r) -> a.getTimephasedBaselineCost(10, r));
+   }
 
    private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(TaskField.PARENT_TASK_UNIQUE_ID, TaskField.PREDECESSORS, TaskField.SUCCESSORS, TaskField.SCHEDULE_PERCENT_COMPLETE, TaskField.WORK_SPLITS));
 
