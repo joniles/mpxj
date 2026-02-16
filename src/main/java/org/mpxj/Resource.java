@@ -2774,16 +2774,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
-    * Set the planned work field.
-    *
-    * @param value planned work value
-    */
-   public void setPlannedWork(Duration value)
-   {
-      set(ResourceField.PLANNED_WORK, value);
-   }
-
-   /**
     * Returns the actual regular work of this resource.
     *
     * @return actual regular work
@@ -2823,21 +2813,41 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       return (Number) get(ResourceField.REMAINING_REGULAR_COST);
    }
 
+   /**
+    * Returns the planned material utilization for a material resource.
+    *
+    * @return planned material utilization
+    */
    public Number getPlannedMaterial()
    {
       return (Number) get(ResourceField.PLANNED_MATERIAL);
    }
 
+   /**
+    * Retrieve s the actual material utilization for a material resource.
+    *
+    * @return actual material utilization
+    */
    public Number getActualMaterial()
    {
       return (Number) get(ResourceField.ACTUAL_MATERIAL);
    }
 
+   /**
+    * Returns the remaining material utilization for a material resource.
+    *
+    * @return remaining material utilisation
+    */
    public Number getRemainingMaterial()
    {
       return (Number) get(ResourceField.REMAINING_MATERIAL);
    }
 
+   /**
+    * Retrieves the material utilization for a material resource.
+    *
+    * @return material utilization
+    */
    public Number getMaterial()
    {
       return (Number) get(ResourceField.MATERIAL);
