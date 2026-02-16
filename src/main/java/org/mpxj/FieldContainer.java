@@ -59,8 +59,23 @@ public interface FieldContainer
     */
    Object getCachedValue(FieldType field);
 
+   /**
+    * Retrieve timephased data expressed as Duration values.
+    *
+    * @param field type of timephased data to retrieve
+    * @param ranges time ranges over which the data is distributed
+    * @param units units to use for the timephased duration values
+    * @return list of Duration instances
+    */
    List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units);
 
+   /**
+    * Retrieve timephased data expressed as Number values.
+    *
+    * @param field type of timephased data to retrieve
+    * @param ranges time ranges over which the data is distributed
+    * @return list of Number instances
+    */
    List<Number> getTimephasedNumericValues(FieldType field, List<LocalDateTimeRange> ranges);
 
    /**
