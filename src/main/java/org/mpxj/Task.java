@@ -37,6 +37,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.mpxj.common.BooleanHelper;
@@ -5654,6 +5655,46 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return m_parentFile.getBaselineTaskMap(index).get(this);
    }
 
+   /**
+    * Returns the actual regular work of this resource.
+    *
+    * @return actual regular work
+    */
+   public Duration getActualRegularWork()
+   {
+      return (Duration) get(TaskField.ACTUAL_REGULAR_WORK);
+   }
+
+   /**
+    * Returns the remaining regular work of this resource.
+    *
+    * @return remaining regular work
+    */
+   public Duration getRemainingRegularWork()
+   {
+      return (Duration) get(TaskField.REMAINING_REGULAR_WORK);
+   }
+
+   /**
+    * Returns the actual regular cost  of this resource.
+    *
+    * @return actual regular cost
+    */
+   public Number getActualRegularCost()
+   {
+      return (Number) get(TaskField.ACTUAL_REGULAR_COST);
+   }
+
+   /**
+    * Returns the remaining regular cost of this resource assignment.
+    *
+    * @return remaining regular cost
+    */
+   public Number getRemainingRegularCost()
+   {
+      return (Number) get(TaskField.REMAINING_REGULAR_COST);
+   }
+
    @Override public List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       TimephasedDurationFunction fn = TIMEPHASED_WORK_FUNCTIONS.get(field);
@@ -6536,6 +6577,34 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          .orElse(Collections.emptyList());
    }
 
+   private Number calculateRegularCost(Supplier<Number> totalCostSupplier, Supplier<Number> overtimeCostSupplier)
+   {
+      Number totalCost = totalCostSupplier.get();
+      Number overtimeCost = overtimeCostSupplier.get();
+      if (totalCost == null && overtimeCost == null)
+      {
+         return null;
+      }
+
+      return Double.valueOf(NumberHelper.getDouble(totalCost) - NumberHelper.getDouble(overtimeCost));
+   }
+
+   private Duration calculateRegularWork(Supplier<Duration> totalWorkSupplier, Supplier<Duration> overtimeWorkSupplier)
+   {
+      Duration totalWork = totalWorkSupplier.get();
+      Duration overtimeWork = overtimeWorkSupplier.get();
+      if (totalWork == null && overtimeWork == null)
+      {
+         return null;
+      }
+
+      TimeUnit units = totalWork == null ? overtimeWork.getUnits() : totalWork.getUnits();
+      double total = totalWork == null ? 0 : totalWork.convertUnits(units, getCalendar()).getDuration();
+      double overtime = overtimeWork == null ? 0 : overtimeWork.convertUnits(units, getCalendar()).getDuration();
+
+      return Duration.getInstance(total-overtime, units);
+   }
+
    /**
     * Merge two sets of work splits.
     *
@@ -6719,10 +6788,10 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    static
    {
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.PLANNED_WORK, Task::getTimephasedPlannedWork);
-      //TIMEPHASED_WORK_FUNCTIONS.put(TaskField.ACTUAL_REGULAR_WORK, Task::getTimephasedActualRegularWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.ACTUAL_REGULAR_WORK, Task::getTimephasedActualRegularWork);
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.ACTUAL_OVERTIME_WORK, Task::getTimephasedActualOvertimeWork);
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.ACTUAL_WORK, Task::getTimephasedActualWork);
-      //TIMEPHASED_WORK_FUNCTIONS.put(TaskField.REMAINING_REGULAR_WORK, Task::getTimephasedRemainingRegularWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.REMAINING_REGULAR_WORK, Task::getTimephasedRemainingRegularWork);
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.REMAINING_OVERTIME_WORK, Task::getTimephasedRemainingOvertimeWork);
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.REMAINING_WORK, Task::getTimephasedRemainingWork);
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.WORK, Task::getTimephasedWork);
@@ -6742,16 +6811,13 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    private static final Map<FieldType, TimephasedNumericFunction> TIMEPHASED_NUMERIC_FUNCTIONS = new HashMap<>();
    static
    {
-      //TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.REMAINING_REGULAR_COST, Task::getTimephasedRemainingRegularCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.REMAINING_REGULAR_COST, Task::getTimephasedRemainingRegularCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.REMAINING_OVERTIME_COST, Task::getTimephasedRemainingOvertimeCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.REMAINING_COST, Task::getTimephasedRemainingCost);
-      //TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.ACTUAL_REGULAR_COST, Task::getTimephasedActualRegularCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.ACTUAL_REGULAR_COST, Task::getTimephasedActualRegularCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.ACTUAL_OVERTIME_COST, Task::getTimephasedActualOvertimeCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.ACTUAL_COST, Task::getTimephasedActualCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.COST, Task::getTimephasedCost);
-      //TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.ACTUAL_MATERIAL, Task::getTimephasedActualMaterial);
-      //TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.REMAINING_MATERIAL, Task::getTimephasedRemainingMaterial);
-      //TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.MATERIAL, Task::getTimephasedMaterial);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE_COST, (a, r) -> a.getTimephasedBaselineCost(0, r));
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE1_COST, (a, r) -> a.getTimephasedBaselineCost(1, r));
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE2_COST, (a, r) -> a.getTimephasedBaselineCost(2, r));
@@ -6790,6 +6856,10 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_PERCENT_COMPLETE, Task::calculateActivityPercentComplete);
       CALCULATED_FIELD_MAP.put(TaskField.SCHEDULE_PERCENT_COMPLETE, Task::calculateSchedulePercentComplete);
       CALCULATED_FIELD_MAP.put(TaskField.WORK_SPLITS, Task::calculateWorkSplits);
+      CALCULATED_FIELD_MAP.put(TaskField.ACTUAL_REGULAR_COST, a -> a.calculateRegularCost(a::getActualCost, a::getActualOvertimeCost));
+      CALCULATED_FIELD_MAP.put(TaskField.REMAINING_REGULAR_COST, a -> a.calculateRegularCost(a::getRemainingCost, a::getRemainingOvertimeCost));
+      CALCULATED_FIELD_MAP.put(TaskField.ACTUAL_REGULAR_WORK, a -> a.calculateRegularWork(a::getActualWork, a::getActualOvertimeWork));
+      CALCULATED_FIELD_MAP.put(TaskField.REMAINING_REGULAR_WORK, a ->  a.calculateRegularWork(a::getRemainingWork, a::getRemainingOvertimeWork));
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);
       CALCULATED_FIELD_MAP.put(TaskField.TYPE, Task::defaultType);
       CALCULATED_FIELD_MAP.put(TaskField.TASK_MODE, Task::defaultTaskMode);
@@ -6820,5 +6890,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       dependencies.calculatedField(TaskField.COMPLETE_THROUGH).dependsOn(TaskField.DURATION, TaskField.ACTUAL_START, TaskField.PERCENT_COMPLETE);
       dependencies.calculatedField(TaskField.EXTERNAL_PROJECT).dependsOn(TaskField.SUBPROJECT_FILE, TaskField.EXTERNAL_TASK);
       dependencies.calculatedField(TaskField.ACTIVITY_PERCENT_COMPLETE).dependsOn(TaskField.PERCENT_COMPLETE_TYPE, TaskField.PERCENT_COMPLETE, TaskField.PERCENT_WORK_COMPLETE, TaskField.PHYSICAL_PERCENT_COMPLETE);
+      dependencies.calculatedField(TaskField.REMAINING_REGULAR_COST).dependsOn(TaskField.REMAINING_COST, TaskField.REMAINING_OVERTIME_COST);
+      dependencies.calculatedField(TaskField.ACTUAL_REGULAR_COST).dependsOn(TaskField.ACTUAL_COST, TaskField.ACTUAL_OVERTIME_COST);
+      dependencies.calculatedField(TaskField.REMAINING_REGULAR_WORK).dependsOn(TaskField.REMAINING_WORK, TaskField.REMAINING_OVERTIME_WORK);
+      dependencies.calculatedField(TaskField.ACTUAL_REGULAR_WORK).dependsOn(TaskField.ACTUAL_WORK, TaskField.ACTUAL_OVERTIME_WORK);
    }
 }

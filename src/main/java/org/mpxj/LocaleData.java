@@ -1066,6 +1066,10 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.ESTIMATED_WEIGHT.getValue()] = "Estimated Weight";
       TASK_COLUMNS_ARRAY[TaskField.AUTO_COMPUTE_ACTUALS.getValue()] = "Auto Compute Actuals";
       TASK_COLUMNS_ARRAY[TaskField.ORIGINAL_BUDGET.getValue()] = "Original Budget";
+      TASK_COLUMNS_ARRAY[TaskField.ACTUAL_REGULAR_WORK.getValue()] = "Actual Regular Work";
+      TASK_COLUMNS_ARRAY[TaskField.REMAINING_REGULAR_WORK.getValue()] = "Remaining Regular Work";
+      TASK_COLUMNS_ARRAY[TaskField.ACTUAL_REGULAR_COST.getValue()] = "Actual Regular Cost";
+      TASK_COLUMNS_ARRAY[TaskField.REMAINING_REGULAR_COST.getValue()] = "Remaining Regular Cost";
 
       RESOURCE_COLUMNS_ARRAY[ResourceField.ID.getValue()] = "ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.NAME.getValue()] = "Name";

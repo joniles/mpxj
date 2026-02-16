@@ -4027,8 +4027,21 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       dependencies.calculatedField(AssignmentField.WORK_VARIANCE).dependsOn(AssignmentField.WORK, AssignmentField.BASELINE_WORK);
       dependencies.calculatedField(AssignmentField.REMAINING_REGULAR_COST).dependsOn(AssignmentField.REMAINING_COST, AssignmentField.REMAINING_OVERTIME_COST);
       dependencies.calculatedField(AssignmentField.ACTUAL_REGULAR_COST).dependsOn(AssignmentField.ACTUAL_COST, AssignmentField.ACTUAL_OVERTIME_COST);
+      dependencies.calculatedField(AssignmentField.REMAINING_REGULAR_WORK).dependsOn(AssignmentField.REMAINING_WORK, AssignmentField.REMAINING_OVERTIME_WORK);
+      dependencies.calculatedField(AssignmentField.ACTUAL_REGULAR_WORK).dependsOn(AssignmentField.ACTUAL_WORK, AssignmentField.ACTUAL_OVERTIME_WORK);
       dependencies.calculatedField(AssignmentField.ACTUAL_MATERIAL).dependsOn(AssignmentField.ACTUAL_WORK);
       dependencies.calculatedField(AssignmentField.REMAINING_MATERIAL).dependsOn(AssignmentField.REMAINING_WORK);
       dependencies.calculatedField(AssignmentField.MATERIAL).dependsOn(AssignmentField.WORK);
+      dependencies.calculatedField(AssignmentField.BASELINE_MATERIAL).dependsOn(AssignmentField.BASELINE_WORK);
+      dependencies.calculatedField(AssignmentField.BASELINE1_MATERIAL).dependsOn(AssignmentField.BASELINE1_WORK);
+      dependencies.calculatedField(AssignmentField.BASELINE2_MATERIAL).dependsOn(AssignmentField.BASELINE2_WORK);
+      dependencies.calculatedField(AssignmentField.BASELINE3_MATERIAL).dependsOn(AssignmentField.BASELINE3_WORK);
+      dependencies.calculatedField(AssignmentField.BASELINE4_MATERIAL).dependsOn(AssignmentField.BASELINE4_WORK);
+      dependencies.calculatedField(AssignmentField.BASELINE5_MATERIAL).dependsOn(AssignmentField.BASELINE5_WORK);
+      dependencies.calculatedField(AssignmentField.BASELINE6_MATERIAL).dependsOn(AssignmentField.BASELINE6_WORK);
+      dependencies.calculatedField(AssignmentField.BASELINE7_MATERIAL).dependsOn(AssignmentField.BASELINE7_WORK);
+      dependencies.calculatedField(AssignmentField.BASELINE8_MATERIAL).dependsOn(AssignmentField.BASELINE8_WORK);
+      dependencies.calculatedField(AssignmentField.BASELINE9_MATERIAL).dependsOn(AssignmentField.BASELINE9_WORK);
+      dependencies.calculatedField(AssignmentField.BASELINE10_MATERIAL).dependsOn(AssignmentField.BASELINE10_WORK);
    }
 }

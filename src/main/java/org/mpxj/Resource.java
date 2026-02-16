@@ -2804,16 +2804,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
-    * Returns the remaining regular cost of this resource assignment.
-    *
-    * @return remaining regular cost
-    */
-   public Number getRemainingRegularCost()
-   {
-      return (Number) get(ResourceField.REMAINING_REGULAR_COST);
-   }
-
-   /**
     * Returns the actual regular cost  of this resource.
     *
     * @return actual regular cost
@@ -2821,6 +2811,16 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    public Number getActualRegularCost()
    {
       return (Number) get(ResourceField.ACTUAL_REGULAR_COST);
+   }
+
+   /**
+    * Returns the remaining regular cost of this resource assignment.
+    *
+    * @return remaining regular cost
+    */
+   public Number getRemainingRegularCost()
+   {
+      return (Number) get(ResourceField.REMAINING_REGULAR_COST);
    }
 
    public Number getPlannedMaterial()
@@ -3645,9 +3645,22 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       dependencies.calculatedField(ResourceField.MATERIAL_LABEL).dependsOn(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID);
       dependencies.calculatedField(ResourceField.REMAINING_REGULAR_COST).dependsOn(ResourceField.REMAINING_COST, ResourceField.REMAINING_OVERTIME_COST);
       dependencies.calculatedField(ResourceField.ACTUAL_REGULAR_COST).dependsOn(ResourceField.ACTUAL_COST, ResourceField.ACTUAL_OVERTIME_COST);
+      dependencies.calculatedField(ResourceField.REMAINING_REGULAR_WORK).dependsOn(ResourceField.REMAINING_WORK, ResourceField.REMAINING_OVERTIME_WORK);
+      dependencies.calculatedField(ResourceField.ACTUAL_REGULAR_WORK).dependsOn(ResourceField.ACTUAL_WORK, ResourceField.ACTUAL_OVERTIME_WORK);
       dependencies.calculatedField(ResourceField.ACTUAL_MATERIAL).dependsOn(ResourceField.ACTUAL_WORK);
       dependencies.calculatedField(ResourceField.REMAINING_MATERIAL).dependsOn(ResourceField.REMAINING_WORK);
       dependencies.calculatedField(ResourceField.MATERIAL).dependsOn(ResourceField.WORK);
+      dependencies.calculatedField(ResourceField.BASELINE_MATERIAL).dependsOn(ResourceField.BASELINE_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE1_MATERIAL).dependsOn(ResourceField.BASELINE1_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE2_MATERIAL).dependsOn(ResourceField.BASELINE2_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE3_MATERIAL).dependsOn(ResourceField.BASELINE3_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE4_MATERIAL).dependsOn(ResourceField.BASELINE4_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE5_MATERIAL).dependsOn(ResourceField.BASELINE5_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE6_MATERIAL).dependsOn(ResourceField.BASELINE6_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE7_MATERIAL).dependsOn(ResourceField.BASELINE7_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE8_MATERIAL).dependsOn(ResourceField.BASELINE8_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE9_MATERIAL).dependsOn(ResourceField.BASELINE9_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE10_MATERIAL).dependsOn(ResourceField.BASELINE10_WORK);
    }
 
    private static final Number DEFAULT_DEFAULT_UNITS = NumberHelper.DOUBLE_ONEHUNDRED;
