@@ -41,6 +41,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.mpxj.common.AssignmentFieldLists;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.ResourceFieldLists;
@@ -2851,6 +2852,27 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    public Number getMaterial()
    {
       return (Number) get(ResourceField.MATERIAL);
+   }
+
+   /**
+    * Retrieves the baseline material utilization for a material resource.
+    *
+    * @return baseline material utilization
+    */
+   public Number getBaselineMaterial()
+   {
+      return (Number) get(AssignmentField.BASELINE_MATERIAL);
+   }
+
+   /**
+    * Retrieve a baseline material utilization value.
+    *
+    * @param baselineNumber baseline index (1-10)
+    * @return baseline utilization value
+    */
+   public Number getBaselineMaterial(int baselineNumber)
+   {
+      return (Number) get(selectField(ResourceFieldLists.BASELINE_MATERIALS, baselineNumber));
    }
 
    @Override public List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units)

@@ -276,11 +276,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       set(AssignmentField.BASELINE_WORK, val);
    }
 
-   public Number getBaselineMaterial()
-   {
-      return (Number) get(AssignmentField.BASELINE_MATERIAL);
-   }
-
    /**
     * Returns the actual completed work of this resource assignment.
     *
@@ -860,17 +855,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    public Duration getBaselineWork(int baselineNumber)
    {
       return (Duration) get(selectField(AssignmentFieldLists.BASELINE_WORKS, baselineNumber));
-   }
-
-   /**
-    * Retrieve a baseline value.
-    *
-    * @param baselineNumber baseline index (1-10)
-    * @return baseline value
-    */
-   public Number getBaselineMaterial(int baselineNumber)
-   {
-      return (Number) get(selectField(AssignmentFieldLists.BASELINE_MATERIALS, baselineNumber));
    }
 
    /**
@@ -2354,6 +2338,16 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    }
 
    /**
+    * Returns the actual regular cost  of this resource assignment.
+    *
+    * @return actual regular cost
+    */
+   public Number getActualRegularCost()
+   {
+      return (Number) get(AssignmentField.ACTUAL_REGULAR_COST);
+   }
+
+   /**
     * Returns the remaining regular cost of this resource assignment.
     *
     * @return remaining regular cost
@@ -2364,13 +2358,13 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    }
 
    /**
-    * Returns the actual regular cost  of this resource assignment.
+    * Returns the actual regular work of this resource assignment.
     *
-    * @return actual regular cost
+    * @return actual regular work
     */
-   public Number getActualRegularCost()
+   public Duration getActualRegularWork()
    {
-      return (Number) get(AssignmentField.ACTUAL_REGULAR_COST);
+      return (Duration) get(AssignmentField.ACTUAL_REGULAR_WORK);
    }
 
    /**
@@ -2384,33 +2378,64 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    }
 
    /**
-    * Returns the actual regular work of this resource assignment.
+    * Retrieves the planned material utilization for a material resource.
     *
-    * @return actual regular work
+    * @return planned material utilization
     */
-   public Duration getActualRegularWork()
-   {
-      return (Duration) get(AssignmentField.ACTUAL_REGULAR_WORK);
-   }
-
    public Number getPlannedMaterial()
    {
       return (Number) get(AssignmentField.PLANNED_MATERIAL);
    }
 
+   /**
+    * Retrieves the actual material utilization for a material resource.
+    *
+    * @return actual material utilization
+    */
    public Number getActualMaterial()
    {
       return (Number) get(AssignmentField.ACTUAL_MATERIAL);
    }
 
+   /**
+    * Retrieves the remaining material utilization for a material resource.
+    *
+    * @return remaining material utilization
+    */
    public Number getRemainingMaterial()
    {
       return (Number) get(AssignmentField.REMAINING_MATERIAL);
    }
 
+   /**
+    * Retrieves the material utilization for a material resource.
+    *
+    * @return material utilization
+    */
    public Number getMaterial()
    {
       return (Number) get(AssignmentField.MATERIAL);
+   }
+
+   /**
+    * Retrieves the baseline material utilization for a material resource.
+    *
+    * @return baseline material utilization
+    */
+   public Number getBaselineMaterial()
+   {
+      return (Number) get(AssignmentField.BASELINE_MATERIAL);
+   }
+
+   /**
+    * Retrieve a baseline material utilization value for a material resource.
+    *
+    * @param baselineNumber baseline index (1-10)
+    * @return baseline material utilization value
+    */
+   public Number getBaselineMaterial(int baselineNumber)
+   {
+      return (Number) get(selectField(AssignmentFieldLists.BASELINE_MATERIALS, baselineNumber));
    }
 
    /**

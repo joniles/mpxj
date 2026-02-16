@@ -402,6 +402,20 @@ public final class ResourceFieldLists
       ResourceField.BASELINE10_WORK
    };
 
+   public static final ResourceField[] BASELINE_MATERIALS =
+   {
+      ResourceField.BASELINE1_MATERIAL,
+      ResourceField.BASELINE2_MATERIAL,
+      ResourceField.BASELINE3_MATERIAL,
+      ResourceField.BASELINE4_MATERIAL,
+      ResourceField.BASELINE5_MATERIAL,
+      ResourceField.BASELINE6_MATERIAL,
+      ResourceField.BASELINE7_MATERIAL,
+      ResourceField.BASELINE8_MATERIAL,
+      ResourceField.BASELINE9_MATERIAL,
+      ResourceField.BASELINE10_MATERIAL
+   };
+
    public static final ResourceField[] CUSTOM_OUTLINE_CODE =
    {
       ResourceField.OUTLINE_CODE1,
