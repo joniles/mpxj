@@ -62,6 +62,20 @@ public final class AssignmentFieldLists
       AssignmentField.BASELINE10_WORK
    };
 
+   public static final AssignmentField[] BASELINE_MATERIALS =
+   {
+      AssignmentField.BASELINE1_MATERIAL,
+      AssignmentField.BASELINE2_MATERIAL,
+      AssignmentField.BASELINE3_MATERIAL,
+      AssignmentField.BASELINE4_MATERIAL,
+      AssignmentField.BASELINE5_MATERIAL,
+      AssignmentField.BASELINE6_MATERIAL,
+      AssignmentField.BASELINE7_MATERIAL,
+      AssignmentField.BASELINE8_MATERIAL,
+      AssignmentField.BASELINE9_MATERIAL,
+      AssignmentField.BASELINE10_MATERIAL
+   };
+
    public static final AssignmentField[] BASELINE_STARTS =
    {
       AssignmentField.BASELINE1_START,
