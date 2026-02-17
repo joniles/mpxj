@@ -123,11 +123,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals(1, task.getResourceAssignments().size());
       assignment = task.getResourceAssignments().get(0);
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedActualMaterial(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedNumericValues(AssignmentField.ACTUAL_MATERIAL, rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedRemainingMaterial(rangeCoversAssignment), new Double[] {null, 2.0, 2.0, 2.0, 2.0, null, null, 2.0, null});
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedNumericValues(AssignmentField.REMAINING_MATERIAL, rangeCoversAssignment), new Double[] {null, 2.0, 2.0, 2.0, 2.0, null, null, 2.0, null});
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedMaterial(rangeCoversAssignment), new Double[] {null, 2.0, 2.0, 2.0, 2.0, null, null, 2.0, null});
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedNumericValues(AssignmentField.MATERIAL, rangeCoversAssignment), new Double[] {null, 2.0, 2.0, 2.0, 2.0, null, null, 2.0, null});
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedNumericValues(AssignmentField.ACTUAL_COST, rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null, null});
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, 120.0, 0.0, 0.0, 0.0, null, null, 0.0, null});
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedNumericValues(AssignmentField.REMAINING_COST, rangeCoversAssignment), new Double[] {null, 120.0, 0.0, 0.0, 0.0, null, null, 0.0, null});
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 120.0, 0.0, 0.0, 0.0, null, null, 0.0, null});
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedNumericValues(AssignmentField.COST, rangeCoversAssignment), new Double[] {null, 120.0, 0.0, 0.0, 0.0, null, null, 0.0, null});
 
       // Material accrued at start, progress
       task = file.getTaskByID(4);
@@ -135,11 +141,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals(1, task.getResourceAssignments().size());
       assignment = task.getResourceAssignments().get(0);
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedActualMaterial(rangeCoversAssignment), new Double[] {null, 3.0, 1.5, null, null, null, null, null, null});
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedNumericValues(AssignmentField.ACTUAL_MATERIAL, rangeCoversAssignment), new Double[] {null, 3.0, 1.5, null, null, null, null, null, null});
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedRemainingMaterial(rangeCoversAssignment), new Double[] {null, null, 1.5, 3.0, 3.0, null, null, 3.0, null});
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedNumericValues(AssignmentField.REMAINING_MATERIAL, rangeCoversAssignment), new Double[] {null, null, 1.5, 3.0, 3.0, null, null, 3.0, null});
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedMaterial(rangeCoversAssignment), new Double[] {null, 3.0, 3.0, 3.0, 3.0, null, null, 3.0, null});
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedNumericValues(AssignmentField.MATERIAL, rangeCoversAssignment), new Double[] {null, 3.0, 3.0, 3.0, 3.0, null, null, 3.0, null});
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedActualCost(rangeCoversAssignment), new Double[] {null, 180.0, 0.0, null, null, null, null, null, null});
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedNumericValues(AssignmentField.ACTUAL_COST, rangeCoversAssignment), new Double[] {null, 180.0, 0.0, null, null, null, null, null, null});
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedRemainingCost(rangeCoversAssignment), new Double[] {null, null, 0.0, 0.0, 0.0, null, null, 0.0, null});
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedNumericValues(AssignmentField.REMAINING_COST, rangeCoversAssignment), new Double[] {null, null, 0.0, 0.0, 0.0, null, null, 0.0, null});
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 180.0, 0.0, 0.0, 0.0, null, null, 0.0, null});
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedNumericValues(AssignmentField.COST, rangeCoversAssignment), new Double[] {null, 180.0, 0.0, 0.0, 0.0, null, null, 0.0, null});
 
       // Material accrued at end, no progress
       task = file.getTaskByID(5);
