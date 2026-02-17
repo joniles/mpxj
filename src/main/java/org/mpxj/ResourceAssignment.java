@@ -2699,11 +2699,6 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return TimephasedUtility.segmentWork(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineWork(index), ranges, units);
    }
 
-   public List<Number> getTimephasedBaselineMaterial(int index, List<LocalDateTimeRange> ranges, TimeUnit units)
-   {
-      return TimephasedUtility.segmentMaterial(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineWork(index), ranges);
-   }
-
    /**
     * Retrieve timephased remaining regular cost for this resource assignment for the supplied time ranges.
     *

@@ -2118,6 +2118,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
    /**
     * Reads timephased work data.
     *
+    * @param calendar calendar to use for this timephased data
     * @param assignment assignment data
     * @param type flag indicating the type of timephased data to read
     * @return list of TimephasedWork instances

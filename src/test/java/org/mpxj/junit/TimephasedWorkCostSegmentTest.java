@@ -30,7 +30,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mpxj.AssignmentField;
 import org.mpxj.LocalDateTimeRange;
-import org.mpxj.Duration;
 import org.mpxj.ProjectFile;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.Task;

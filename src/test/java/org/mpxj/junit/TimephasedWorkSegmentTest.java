@@ -101,7 +101,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       testSegments(file);
    }
 
-   /*
+   /**
     * Timephased segment test for MSPDI files.
     *
     * @throws Exception

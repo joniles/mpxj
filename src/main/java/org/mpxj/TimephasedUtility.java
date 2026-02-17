@@ -43,6 +43,7 @@ final class TimephasedUtility
     * @param calendar calendar used by the resource assignment
     * @param work timephased resource assignment data
     * @param ranges timescale date ranges
+    * @param targetUnits required units
     * @return list of durations, one per timescale date range
     */
    public static List<Duration> segmentWork(ProjectCalendar calendar, List<TimephasedWork> work, List<LocalDateTimeRange> ranges, TimeUnit targetUnits)

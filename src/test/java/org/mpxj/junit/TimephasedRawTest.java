@@ -812,6 +812,7 @@ public class TimephasedRawTest
     * assignment.
     *
     * @param items TimephasedWork instance to test
+    * @param index item to test
     * @param start start date for this assignment
     * @param finish finish date for this assignment
     * @param totalWork total work for this assignment
