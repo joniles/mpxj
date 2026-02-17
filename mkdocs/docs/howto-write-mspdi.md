@@ -159,23 +159,8 @@ the older style of calendar exceptions is written to the MSPDI file:
 ### Timephased Data
 By default `MSPDIWriter` does not write timephased data to an MSPDI file. To
 enable writing timephased data, you can call the `setWriteTimephasedData`
-method.
+method. The example below illustrates this:
 
-When this setting is enabled, the default behaviour is for the timephased data
-is broken down into days when written to the file. If it better suits your use
-case (or you need a more compact file) you can choose to write an aggregated
-form of the timephased data by calling the `setSplitTimephasedAsDays` method and
-passing `false`. The difference between the two formats is that if for example
-you have a 10 day block with 8 hours work per day, this can either be
-represented as 10 entries in the file each for a single day with a value of 8
-hours, or a single entry for a 10 day range with a value of 80 hours. Although
-the latter case is more compact, if you are consuming the MSPDI timephased data
-yourself you will need to differentiate between working and non-working days in
-order to break the single block down into smaller ranges. The default day-by-day
-format MPXJ writes does this for you automatically.
-
-In the first example below we're enabling timephased data, and using the default
-day-by-dat breakdown:
 
 === "Java"
 	```java
@@ -212,42 +197,3 @@ day-by-dat breakdown:
 	}
 	```
 
-In this second example we're overriding the default behaviour as asking MPXJ to
-write an aggregated form of the timephased data: 
-
-=== "Java"
-	```java
-	package org.mpxj.howto.write;
-	
-	import org.mpxj.ProjectFile;
-	import org.mpxj.mspdi.MSPDIWriter;
-	
-	public class MSPDITimephasedAggregate
-	{
-		public void write(ProjectFile project, String fileName) throws Exception
-		{
-			MSPDIWriter writer = new MSPDIWriter();
-			writer.setWriteTimephasedData(true);
-			writer.setSplitTimephasedAsDays(false);
-			writer.write(project, fileName);
-		}
-	}
-	```
-
-=== "C#"
-	```c#
-	using MPXJ.Net;
-	
-	namespace MPXJ.Samples.HowToWrite;
-	
-	public class MSPDITimephasedAggregate
-	{
-	 	public void Write(ProjectFile project, string fileName)
-	 	{
-		  	var writer = new MSPDIWriter();
-		  	writer.WriteTimephasedData = true;
-		  	writer.SplitTimephasedAsDays = true;
-		  	writer.Write(project, fileName);
-	 	}
-	}
-	```
