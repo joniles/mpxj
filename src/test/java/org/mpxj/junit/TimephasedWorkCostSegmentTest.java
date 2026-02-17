@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.mpxj.AssignmentField;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.Duration;
 import org.mpxj.ProjectFile;
@@ -207,8 +208,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
    private void testBaselineWorkSegments(ResourceAssignment assignment, LocalDateTime startDate, Double[] expected)
    {
       List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
-      List<Duration> durationList = assignment.getTimephasedBaselineWork(0, dateList, TimeUnit.HOURS);
-      TimephasedTestHelper.testDurationSegments(durationList, expected);
+      TimephasedTestHelper.testDurationSegments(assignment.getTimephasedBaselineWork(0, dateList, TimeUnit.HOURS), expected);
+      TimephasedTestHelper.testDurationSegments(assignment.getTimephasedDurationValues(AssignmentField.BASELINE_WORK,  dateList, TimeUnit.HOURS), expected);
    }
 
    /**
@@ -221,8 +222,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
    private void testBaselineCostSegments(ResourceAssignment assignment, LocalDateTime startDate, Double[] expected)
    {
       List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
-      List<Number> costList = assignment.getTimephasedBaselineCost(0, dateList);
-      TimephasedTestHelper.testNumericSegments(costList, expected);
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedBaselineCost(0, dateList), expected);
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedNumericValues(AssignmentField.BASELINE_COST, dateList), expected);
    }
 
    /**
