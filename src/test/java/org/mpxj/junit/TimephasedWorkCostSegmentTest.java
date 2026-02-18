@@ -206,7 +206,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    private void testBaselineWorkSegments(ResourceAssignment assignment, LocalDateTime startDate, Double[] expected)
    {
-      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, expected.length, TimescaleUnits.DAYS);
       TimephasedTestHelper.testDurationSegments(assignment.getTimephasedBaselineWork(0, dateList, TimeUnit.HOURS), expected);
       TimephasedTestHelper.testDurationSegments(assignment.getTimephasedDurationValues(AssignmentField.BASELINE_WORK,  dateList, TimeUnit.HOURS), expected);
    }
@@ -220,7 +220,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    private void testBaselineCostSegments(ResourceAssignment assignment, LocalDateTime startDate, Double[] expected)
    {
-      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, expected.length, TimescaleUnits.DAYS);
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedBaselineCost(0, dateList), expected);
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedNumericValues(AssignmentField.BASELINE_COST, dateList), expected);
    }
@@ -235,14 +235,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    private void testRemainingRegularCostSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, Double[] expected)
    {
-      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, expected.length, TimescaleUnits.DAYS);
       List<Number> costList = assignment.getTimephasedRemainingRegularCost(dateList);
       TimephasedTestHelper.testNumericSegments(costList, expected);
    }
 
    private void testRemainingCostSegments(ResourceAssignment assignment, LocalDateTime startDate, Double[] expected)
    {
-      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, expected.length, TimescaleUnits.DAYS);
       List<Number> costList = assignment.getTimephasedRemainingCost(dateList);
       TimephasedTestHelper.testNumericSegments(costList, expected);
    }
@@ -257,14 +257,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    private void testActualRegularCostSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, Double[] expected)
    {
-      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, expected.length, TimescaleUnits.DAYS);
       List<Number> costList = assignment.getTimephasedActualRegularCost(dateList);
       TimephasedTestHelper.testNumericSegments(costList, expected);
    }
 
    private void testActualCostSegments(ResourceAssignment assignment, LocalDateTime startDate, Double[] expected)
    {
-      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, TimescaleUnits.DAYS, expected.length);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, expected.length, TimescaleUnits.DAYS);
       List<Number> costList = assignment.getTimephasedActualCost(dateList);
       TimephasedTestHelper.testNumericSegments(costList, expected);
    }

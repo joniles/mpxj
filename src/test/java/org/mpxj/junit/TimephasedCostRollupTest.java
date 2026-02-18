@@ -45,7 +45,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    @Test public void testTaskCostRollup() throws Exception
    {
-      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 11, 0, 0), TimescaleUnits.DAYS, 10);
+      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 11, 0, 0), 10, TimescaleUnits.DAYS);
 
       ProjectFile file = new MPPReader().read(MpxjTestData.filePath("timephased-cost-rollup.mpp"));
 

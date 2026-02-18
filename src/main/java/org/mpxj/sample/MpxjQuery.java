@@ -325,7 +325,7 @@ public class MpxjQuery
          DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yy");
 
          TimescaleUtility timescale = new TimescaleUtility();
-         List<LocalDateTimeRange> dates = timescale.createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
+         List<LocalDateTimeRange> dates = timescale.createTimescale(task.getStart(), days, TimescaleUnits.DAYS);
 
          List<Duration> durations = assignment.getTimephasedWork(dates, TimeUnit.HOURS);
          for (LocalDateTimeRange range : dates)

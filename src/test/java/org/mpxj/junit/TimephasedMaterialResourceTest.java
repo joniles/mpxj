@@ -51,7 +51,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    @Test public void testMaterialResource() throws Exception
    {
-      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 9, 0, 0), TimescaleUnits.DAYS, 9);
+      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 9, 0, 0), 9, TimescaleUnits.DAYS);
 
       ProjectFile file = new MPPReader().read(MpxjTestData.filePath("timephased-material-resource.mpp"));
 
@@ -124,7 +124,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       TimephasedTestHelper.testNumericSegments(resource.getTimephasedNumericValues(ResourceField.REMAINING_COST, rangeCoversAssignment), new Double[] {null, 24.0, 24.0, 24.0, 24.0, null, null, 24.0, null});
       TimephasedTestHelper.testNumericSegments(resource.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 24.0, 24.0, 24.0, 24.0, null, null, 24.0, null});
       TimephasedTestHelper.testNumericSegments(resource.getTimephasedNumericValues(ResourceField.COST, rangeCoversAssignment), new Double[] {null, 24.0, 24.0, 24.0, 24.0, null, null, 24.0, null});
-      
+
       // Task with progress
       task = file.getTaskByID(2);
       assertEquals("Task 2", task.getName());

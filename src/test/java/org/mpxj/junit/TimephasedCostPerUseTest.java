@@ -45,7 +45,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    @Test public void testCostPerUse() throws Exception
    {
-      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 10, 0, 0), TimescaleUnits.DAYS, 9);
+      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 10, 0, 0), 9, TimescaleUnits.DAYS);
 
       ProjectFile file = new MPPReader().read(MpxjTestData.filePath("timephased-cost-per-use.mpp"));
 

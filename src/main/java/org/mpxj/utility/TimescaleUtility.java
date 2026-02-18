@@ -1,7 +1,6 @@
 /*
  * file:       TimescaleUtility.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2011
  * date:       2011-02-12
  */
 
@@ -40,7 +39,7 @@ import org.mpxj.mpp.TimescaleUnits;
 public final class TimescaleUtility
 {
    /**
-    * Given a start date, a timescale unit, and a number of segments, this
+    * Given a start date, a timescale unit, and a number of ranges, this
     * method creates an array of date ranges. For example, if "Months" is
     * selected as the timescale units, this method will create an array of
     * ranges, each one representing a month. The number of entries in the
@@ -53,113 +52,62 @@ public final class TimescaleUtility
     * t to be within a range the following must be true: start <= t < end.
     *
     * @param startDate start date
-    * @param segmentUnit units to be represented by each segment (column)
-    * @param segmentCount number of segments (columns) required
+    * @param count number of ranges (columns) required
+    * @param units units to be represented by each range (column)
     * @return list of date ranges
     */
-   public final List<LocalDateTimeRange> createTimescale(LocalDateTime startDate, TimescaleUnits segmentUnit, int segmentCount)
+   public final List<LocalDateTimeRange> createTimescale(LocalDateTime startDate, int count, TimescaleUnits units)
    {
-      ArrayList<LocalDateTimeRange> result = new ArrayList<>(segmentCount);
+      configureStartDate(startDate, units);
+      configureIncrements(units);
 
-      LocalDateTime cal = LocalDateTime.of(startDate.toLocalDate(), LocalTime.MIDNIGHT);
-
-      TemporalUnit calendarIncrementUnit;
-      int calendarIncrementAmount;
-
-      switch (segmentUnit)
+      LocalDateTime rangeStart = m_startDate;
+      List<LocalDateTimeRange> result = new ArrayList<>(count);
+      for (int index = 0; index < count; index++)
       {
-         case MINUTES:
+         LocalDateTime rangeEnd;
+         if (units == TimescaleUnits.THIRDS_OF_MONTHS && (index + 1) % 3 == 0)
          {
-            calendarIncrementUnit = ChronoUnit.MINUTES;
-            calendarIncrementAmount = 1;
-            break;
-         }
-
-         case HOURS:
-         {
-            calendarIncrementUnit = ChronoUnit.HOURS;
-            calendarIncrementAmount = 1;
-            break;
-         }
-
-         case WEEKS:
-         {
-            cal = cal.plusDays(m_weekStartDay.getValue() - cal.getDayOfWeek().getValue());
-            calendarIncrementUnit = ChronoUnit.DAYS;
-            calendarIncrementAmount = 7;
-            break;
-         }
-
-         case THIRDS_OF_MONTHS:
-         {
-            cal = LocalDateTime.of(cal.getYear(), cal.getMonth(), 1, 0, 0, 0);
-            calendarIncrementUnit = ChronoUnit.DAYS;
-            calendarIncrementAmount = 10;
-            break;
-         }
-
-         case MONTHS:
-         {
-            cal = LocalDateTime.of(cal.getYear(), cal.getMonth(), 1, 0, 0, 0);
-            calendarIncrementUnit = ChronoUnit.MONTHS;
-            calendarIncrementAmount = 1;
-            break;
-         }
-
-         case QUARTERS:
-         {
-            int currentMonth = cal.getMonthValue() - 1;
-            int currentQuarter = currentMonth / 3;
-            int startMonth = (currentQuarter * 3) + 1;
-            cal = LocalDateTime.of(cal.getYear(), startMonth, 1, 0, 0, 0);
-            calendarIncrementUnit = ChronoUnit.MONTHS;
-            calendarIncrementAmount = 3;
-            break;
-         }
-
-         case HALF_YEARS: // align to jan, jun
-         {
-            int currentMonth = cal.getMonthValue() - 1;
-            int currentHalf = currentMonth / 6;
-            int startMonth = (currentHalf * 6) + 1;
-            cal = LocalDateTime.of(cal.getYear(), startMonth, 1, 0, 0, 0);
-            calendarIncrementUnit = ChronoUnit.MONTHS;
-            calendarIncrementAmount = 6;
-            break;
-         }
-
-         case YEARS: // align to 1 jan
-         {
-            cal = LocalDateTime.of(cal.getYear(), 1, 1, 0, 0, 0);
-            calendarIncrementUnit = ChronoUnit.YEARS;
-            calendarIncrementAmount = 1;
-            break;
-         }
-
-         case DAYS:
-         default:
-         {
-            calendarIncrementUnit = ChronoUnit.DAYS;
-            calendarIncrementAmount = 1;
-            break;
-         }
-      }
-
-      for (int loop = 0; loop < segmentCount; loop++)
-      {
-         LocalDateTime rangeStart = cal;
-
-         if (segmentUnit == TimescaleUnits.THIRDS_OF_MONTHS && (loop + 1) % 3 == 0)
-         {
-            cal = LocalDateTime.of(cal.getYear(), cal.getMonth(), 1, 0, 0, 0).plusMonths(1);
+            rangeEnd = LocalDateTime.of(rangeStart.getYear(), rangeStart.getMonth(), 1, 0, 0, 0).plusMonths(1);
          }
          else
          {
-            cal = cal.plus(calendarIncrementAmount, calendarIncrementUnit);
+            rangeEnd = rangeStart.plus(m_incrementAmount, m_incrementUnit);
          }
 
-         result.add(new LocalDateTimeRange(rangeStart, cal));
+         result.add(new LocalDateTimeRange(rangeStart, rangeEnd));
+         rangeStart = rangeEnd;
       }
+
+      return result;
+   }
+
+   public final List<LocalDateTimeRange> createTimescale(LocalDateTime startDate, LocalDateTime endDate, TimescaleUnits units)
+   {
+      configureStartDate(startDate, units);
+      configureIncrements(units);
+
+      LocalDateTime rangeStart = m_startDate;
+      LocalDateTime rangeEnd;
+      int index = 0;
+      List<LocalDateTimeRange> result = new ArrayList<>();
+
+      do
+      {
+         if (units == TimescaleUnits.THIRDS_OF_MONTHS && (index + 1) % 3 == 0)
+         {
+            rangeEnd = LocalDateTime.of(rangeStart.getYear(), rangeStart.getMonth(), 1, 0, 0, 0).plusMonths(1);
+         }
+         else
+         {
+            rangeEnd = rangeStart.plus(m_incrementAmount, m_incrementUnit);
+         }
+
+         result.add(new LocalDateTimeRange(rangeStart, rangeEnd));
+         rangeStart = rangeEnd;
+         ++index;
+      }
+      while (endDate.isAfter(rangeEnd));
 
       return result;
    }
@@ -184,5 +132,117 @@ public final class TimescaleUtility
       return m_weekStartDay;
    }
 
+   private void configureStartDate(LocalDateTime startDate, TimescaleUnits units)
+   {
+      switch (units)
+      {
+         case MINUTES:
+         {
+            // Align minutes to the nearest minute
+            m_startDate =  LocalDateTime.of(startDate.toLocalDate(), LocalTime.of(startDate.getHour(), startDate.getMinute(), 0));
+            break;
+         }
+
+         case HOURS:
+         {
+            // Align hours to the nearest hour
+            m_startDate =  LocalDateTime.of(startDate.toLocalDate(), LocalTime.of(startDate.getHour(), 0, 0));
+            break;
+         }
+
+         default:
+         {
+            // Everything else is aligned to the start of the day
+            m_startDate = LocalDateTime.of(startDate.toLocalDate(), LocalTime.MIDNIGHT);
+            break;
+         }
+      }
+   }
+
+   private void configureIncrements(TimescaleUnits units)
+   {
+      switch (units)
+      {
+         case MINUTES:
+         {
+            m_incrementUnit = ChronoUnit.MINUTES;
+            m_incrementAmount = 1;
+            break;
+         }
+
+         case HOURS:
+         {
+            m_incrementUnit = ChronoUnit.HOURS;
+            m_incrementAmount = 1;
+            break;
+         }
+
+         case WEEKS:
+         {
+            m_startDate = m_startDate.plusDays(m_weekStartDay.getValue() - m_startDate.getDayOfWeek().getValue());
+            m_incrementUnit = ChronoUnit.DAYS;
+            m_incrementAmount = 7;
+            break;
+         }
+
+         case THIRDS_OF_MONTHS:
+         {
+            m_startDate = LocalDateTime.of(m_startDate.getYear(), m_startDate.getMonth(), 1, 0, 0, 0);
+            m_incrementUnit = ChronoUnit.DAYS;
+            m_incrementAmount = 10;
+            break;
+         }
+
+         case MONTHS:
+         {
+            m_startDate = LocalDateTime.of(m_startDate.getYear(), m_startDate.getMonth(), 1, 0, 0, 0);
+            m_incrementUnit = ChronoUnit.MONTHS;
+            m_incrementAmount = 1;
+            break;
+         }
+
+         case QUARTERS:
+         {
+            int currentMonth = m_startDate.getMonthValue() - 1;
+            int currentQuarter = currentMonth / 3;
+            int startMonth = (currentQuarter * 3) + 1;
+            m_startDate = LocalDateTime.of(m_startDate.getYear(), startMonth, 1, 0, 0, 0);
+            m_incrementUnit = ChronoUnit.MONTHS;
+            m_incrementAmount = 3;
+            break;
+         }
+
+         case HALF_YEARS: // align to jan, jun
+         {
+            int currentMonth = m_startDate.getMonthValue() - 1;
+            int currentHalf = currentMonth / 6;
+            int startMonth = (currentHalf * 6) + 1;
+            m_startDate = LocalDateTime.of(m_startDate.getYear(), startMonth, 1, 0, 0, 0);
+            m_incrementUnit = ChronoUnit.MONTHS;
+            m_incrementAmount = 6;
+            break;
+         }
+
+         case YEARS: // align to 1 jan
+         {
+            m_startDate = LocalDateTime.of(m_startDate.getYear(), 1, 1, 0, 0, 0);
+            m_incrementUnit = ChronoUnit.YEARS;
+            m_incrementAmount = 1;
+            break;
+         }
+
+         case DAYS:
+         default:
+         {
+            m_incrementUnit = ChronoUnit.DAYS;
+            m_incrementAmount = 1;
+            break;
+         }
+      }
+   }
+
    private DayOfWeek m_weekStartDay = DayOfWeek.MONDAY;
+   private TemporalUnit m_incrementUnit;
+   private int m_incrementAmount;
+   private LocalDateTime m_startDate;
 }

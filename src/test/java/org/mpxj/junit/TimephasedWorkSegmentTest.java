@@ -330,7 +330,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    private void testSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, boolean complete, Double[] expected)
    {
-      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, expected.length, units);
       List<Duration> durationList = complete ? assignment.getTimephasedActualRegularWork(dateList, TimeUnit.HOURS) : assignment.getTimephasedRemainingRegularWork(dateList, TimeUnit.HOURS);
       TimephasedTestHelper.testDurationSegments(durationList, expected);
    }
