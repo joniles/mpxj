@@ -39,42 +39,44 @@ import org.mpxj.mpp.TimescaleUnits;
 public final class TimescaleUtility
 {
    /**
-    * Given a start date, a timescale unit, and a number of ranges, this
-    * method creates an array of date ranges. For example, if "Months" is
-    * selected as the timescale units, this method will create an array of
+    * Given a start date, the number of ranges required, and a timescale unit, this
+    * method creates a list of date ranges. For example, if "Months" is
+    * selected as the timescale units, this method will create a list of
     * ranges, each one representing a month. The number of entries in the
-    * array is determined by the segment count.
+    * list is determined by the count.
     * <p/>
     * Each of these date ranges is equivalent one of the columns displayed by
     * MS Project when viewing data with a "timescale" at the top of the page.
     * <p/>
-    * Note that the ranges returned by this method are "half open". So for time
+    * Note: that the ranges returned by this method are "half open". So for time
     * t to be within a range the following must be true: start <= t < end.
+    * <p/>
+    * Note: the first range start date will be aligned as follows baseed on the requested units:
+    * MINUTES: first second of the supplied minute,
+    * HOURS: first minute of the supplied hour,
+    * DAYS: midnight on the supplied start date,
+    * WEEKS: midnight on the week start day before the supplied start date,
+    * THIRDS_OF_MONTHS: midnight on the first day of the supplied month,
+    * MONTHS: midnight on the first day of the supplied month,
+    * QUARTERS: midnight on the first day of the quarter containing the supplied date,
+    * HALF_YEARS: midnight on the first day of the half year containing the supplied date,
+    * YEARS: midnight on the 1st of January in the year containing the supplied date.
     *
     * @param startDate start date
-    * @param count number of ranges (columns) required
-    * @param units units to be represented by each range (column)
-    * @return list of date ranges
+    * @param count number of ranges required
+    * @param units units to be represented by each range
+    * @return list of ranges
     */
    public final List<LocalDateTimeRange> createTimescale(LocalDateTime startDate, int count, TimescaleUnits units)
    {
-      configureStartDate(startDate, units);
-      configureIncrements(units);
+      m_startDate = startDate;
+      configureStartDateAndIncrements(units);
 
       LocalDateTime rangeStart = m_startDate;
       List<LocalDateTimeRange> result = new ArrayList<>(count);
       for (int index = 0; index < count; index++)
       {
-         LocalDateTime rangeEnd;
-         if (units == TimescaleUnits.THIRDS_OF_MONTHS && (index + 1) % 3 == 0)
-         {
-            rangeEnd = LocalDateTime.of(rangeStart.getYear(), rangeStart.getMonth(), 1, 0, 0, 0).plusMonths(1);
-         }
-         else
-         {
-            rangeEnd = rangeStart.plus(m_incrementAmount, m_incrementUnit);
-         }
-
+         LocalDateTime rangeEnd = calculateRangeEnd(rangeStart, index, units);
          result.add(new LocalDateTimeRange(rangeStart, rangeEnd));
          rangeStart = rangeEnd;
       }
@@ -82,10 +84,40 @@ public final class TimescaleUtility
       return result;
    }
 
+   /**
+    * Given a start date, an end date, and a timescale unit, this
+    * method creates a list of date ranges. For example, if "Months" is
+    * selected as the timescale units, this method will create a list of
+    * ranges, each one representing a month. The number of entries in the
+    * will be sufficient to ensure that the supplied end date falls within
+    * the final range.
+    * <p/>
+    * Each of these date ranges is equivalent one of the columns displayed by
+    * MS Project when viewing data with a "timescale" at the top of the page.
+    * <p/>
+    * Note: that the ranges returned by this method are "half open". So for time
+    * t to be within a range the following must be true: start <= t < end.
+    * <p/>
+    * Note: the first range start date will be aligned as follows baseed on the requested units:
+    * MINUTES: first second of the supplied minute,
+    * HOURS: first minute of the supplied hour,
+    * DAYS: midnight on the supplied start date,
+    * WEEKS: midnight on the week start day before the supplied start date,
+    * THIRDS_OF_MONTHS: midnight on the first day of the supplied month,
+    * MONTHS: midnight on the first day of the supplied month,
+    * QUARTERS: midnight on the first day of the quarter containing the supplied date,
+    * HALF_YEARS: midnight on the first day of the half year containing the supplied date,
+    * YEARS: midnight on the 1st of January in the year containing the supplied date.
+    *
+    * @param startDate start date
+    * @param endDate end date
+    * @param units units to be represented by each range
+    * @return list of ranges
+    */
    public final List<LocalDateTimeRange> createTimescale(LocalDateTime startDate, LocalDateTime endDate, TimescaleUnits units)
    {
-      configureStartDate(startDate, units);
-      configureIncrements(units);
+      m_startDate = startDate;
+      configureStartDateAndIncrements(units);
 
       LocalDateTime rangeStart = m_startDate;
       LocalDateTime rangeEnd;
@@ -94,15 +126,7 @@ public final class TimescaleUtility
 
       do
       {
-         if (units == TimescaleUnits.THIRDS_OF_MONTHS && (index + 1) % 3 == 0)
-         {
-            rangeEnd = LocalDateTime.of(rangeStart.getYear(), rangeStart.getMonth(), 1, 0, 0, 0).plusMonths(1);
-         }
-         else
-         {
-            rangeEnd = rangeStart.plus(m_incrementAmount, m_incrementUnit);
-         }
-
+         rangeEnd = calculateRangeEnd(rangeStart, index, units);
          result.add(new LocalDateTimeRange(rangeStart, rangeEnd));
          rangeStart = rangeEnd;
          ++index;
@@ -132,39 +156,18 @@ public final class TimescaleUtility
       return m_weekStartDay;
    }
 
-   private void configureStartDate(LocalDateTime startDate, TimescaleUnits units)
+   /**
+    * Determine the start date and increments based on the supplied units.
+    *
+    * @param units required units
+    */
+   private void configureStartDateAndIncrements(TimescaleUnits units)
    {
       switch (units)
       {
          case MINUTES:
          {
-            // Align minutes to the nearest minute
-            m_startDate =  LocalDateTime.of(startDate.toLocalDate(), LocalTime.of(startDate.getHour(), startDate.getMinute(), 0));
-            break;
-         }
-
-         case HOURS:
-         {
-            // Align hours to the nearest hour
-            m_startDate =  LocalDateTime.of(startDate.toLocalDate(), LocalTime.of(startDate.getHour(), 0, 0));
-            break;
-         }
-
-         default:
-         {
-            // Everything else is aligned to the start of the day
-            m_startDate = LocalDateTime.of(startDate.toLocalDate(), LocalTime.MIDNIGHT);
-            break;
-         }
-      }
-   }
-
-   private void configureIncrements(TimescaleUnits units)
-   {
-      switch (units)
-      {
-         case MINUTES:
-         {
+            m_startDate =  LocalDateTime.of(m_startDate.toLocalDate(), LocalTime.of(m_startDate.getHour(), m_startDate.getMinute(), 0));
             m_incrementUnit = ChronoUnit.MINUTES;
             m_incrementAmount = 1;
             break;
@@ -172,6 +175,7 @@ public final class TimescaleUtility
 
          case HOURS:
          {
+            m_startDate =  LocalDateTime.of(m_startDate.toLocalDate(), LocalTime.of(m_startDate.getHour(), 0, 0));
             m_incrementUnit = ChronoUnit.HOURS;
             m_incrementAmount = 1;
             break;
@@ -179,6 +183,7 @@ public final class TimescaleUtility
 
          case WEEKS:
          {
+            m_startDate =  LocalDateTime.of(m_startDate.toLocalDate(), LocalTime.MIDNIGHT);
             m_startDate = m_startDate.plusDays(m_weekStartDay.getValue() - m_startDate.getDayOfWeek().getValue());
             m_incrementUnit = ChronoUnit.DAYS;
             m_incrementAmount = 7;
@@ -234,11 +239,29 @@ public final class TimescaleUtility
          case DAYS:
          default:
          {
+            m_startDate =  LocalDateTime.of(m_startDate.toLocalDate(), LocalTime.MIDNIGHT);
             m_incrementUnit = ChronoUnit.DAYS;
             m_incrementAmount = 1;
             break;
          }
       }
+   }
+
+   /**
+    * Calculate the range end.
+    *
+    * @param rangeStart range start date
+    * @param index index of the current range
+    * @param units required units
+    * @return range end date
+    */
+   private LocalDateTime calculateRangeEnd(LocalDateTime rangeStart, int index, TimescaleUnits units)
+   {
+      if (units == TimescaleUnits.THIRDS_OF_MONTHS && (index + 1) % 3 == 0)
+      {
+         return LocalDateTime.of(rangeStart.getYear(), rangeStart.getMonth(), 1, 0, 0, 0).plusMonths(1);
+      }
+      return rangeStart.plus(m_incrementAmount, m_incrementUnit);
    }
 
    private DayOfWeek m_weekStartDay = DayOfWeek.MONDAY;
