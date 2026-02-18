@@ -104,14 +104,73 @@ extend until midnight on the 20th February:
 	```
 
 Fortunately, you don't need to worry about constructing a timescale for
-yourself: MPXJ provides a class to do this for you.
+yourself: MPXJ provides the `TimescaleUtility`. class to do this for you. To
+generate a timescale to match the one shown in the samples from Microsoft
+Project shown above, we can use the following code:
 
-## Timephased Data in MPXJ
+=== "Java"
+	```java
+	LocalDateTime startDate = LocalDateTime.of(2026, 2, 16, 0, 0, 0);
+	List<LocalDateTimeRange> ranges = new TimescaleUtility()
+		.createTimescale(startDate, 5, TimescaleUnits.DAYS);
+	```
+=== "C#"
+	```c#
+	// TBC
+	```
+
+This creates a timescale in days starting on the 16th February and running for 5
+days. Alternatively you can provide start and end dates rather than counting
+the number of ranges. This is useful when you won't know exactly how many
+ranges will be generated to cover the period you are interested in.
+
+=== "Java"
+	```java
+	LocalDateTime startDate = LocalDateTime.of(2026, 2, 16, 0, 0, 0);
+	LocalDateTime endDate = LocalDateTime.of(2026, 2, 20, 0, 0, 0);
+	List<LocalDateTimeRange> ranges = new TimescaleUtility()
+		.createTimescale(startDate, endDate, TimescaleUnits.DAYS);
+	```
+=== "C#"
+	```c#
+	// TBC
+	```
+
+The `TimescaleUnits` enumeration provides a variety of options to allow you to
+break down time periods into ranges from `MINUTES` all the way up yo `YEARS`.
+The list of `LocalDateTimeRange` instances we have just created is what we'll
+use in the next step to generate our timephased data.
+
+## Timephased Data
 
 Timephased data in MPXJ starts life in resource assignments, and can then be
 rolled up through both the task hierarchy and also the resource hierarchy. This
 gives you the ability to look at the "big picture" view of work, cost, and
-material consumption then drill down into the detail.
+material consumption then drill down into the detail at the individual resource
+assignment level.
+
+Three types of timephased data are available using MPXJ: Work, Cost, and Material.
+
+### Timephased Work
+
+The following timephased work values are available on assignments for Work
+Resources and are expressed as `Duration` values. These values are not relevant
+for Cost or Material resource assignments: these types of resources do not
+represent work.
+
+* **Actual Regular Work**: actual regular (non overtime) work for a resource assignment
+* **Actual Overtime Work**: actual overtime work for a resource assignment
+* **Actual Work**: the total of actual regular work plus actual overtime work for a resource assignment
+* **Remaining Regular Work**: the remaining regular (non-overtime) work to complete a resource assignment
+* **Remaining Overtime Work**: the remaining overtime work to complete a resource assignment
+* **Remaining Work**: the total of remaining regular work plus remaining overtime work to complete a resource assignment
+* **Work**: the total of actual work and remaining work for a resource assignment
+* **Baseline Work**: work captured as a baseline for a resource assignment
+
+There are two distinct ways you can retrieve timephased data: via a dedicated
+method, or via a parameterized method.
+
+**TODO** _add code to sample project for the existing examples, and create a more fully-featured sample using the 3 day task shown in the project screenshots_
 
 === "Java"
 	```java
