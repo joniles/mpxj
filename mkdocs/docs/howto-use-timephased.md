@@ -155,7 +155,7 @@ Three types of timephased data are available using MPXJ: Work, Cost, and Materia
 
 The following timephased work values are available on assignments for Work
 Resources and are expressed as `Duration` values. These values are not relevant
-for Cost or Material resource assignments: these types of resources do not
+for Cost or Material resource assignments as these types of resources do not
 represent work.
 
 * **Actual Regular Work**: actual regular (non overtime) work for a resource assignment
@@ -167,8 +167,41 @@ represent work.
 * **Work**: the total of actual work and remaining work for a resource assignment
 * **Baseline Work**: work captured as a baseline for a resource assignment
 
-There are two distinct ways you can retrieve timephased data: via a dedicated
-method, or via a parameterized method.
+We'll work through some examples here, using a sample MPP file containing
+a variety of resource assignments.
+
+First we'll set up our timescale which will cover the time occupied by the
+resource assignment we are working with:
+
+=== "Java"
+	```java
+	List<LocalDateTimeRange> ranges = new TimescaleUtility()
+		.createTimescale(LocalDateTime.of(2026, 2, 18, 0, 0), 7, TimescaleUnits.DAYS);
+
+	```
+=== "C#"
+	```c#
+	// TBC
+	```
+
+Now we can locate the resource assignemnt we are interested in, and use the
+`getTimephasedWork` method to retrieve the ttal of the actual and remaining work:
+
+
+=== "Java"
+	```java
+	ResourceAssignment assignment = file.getResourceAssignments().getByUniqueID(6);
+	List<Duration> work = assignment.getTimephasedWork(ranges, TimeUnit.HOURS);
+	```
+=== "C#"
+	```c#
+	// TBC
+	```
+
+
+**TODO** note the use of the HOURS argument, and the specfic method
+adjust the same to have 1.5 days of progress to show overlap between
+actual and remaining work.
 
 **TODO** _add code to sample project for the existing examples, and create a more fully-featured sample using the 3 day task shown in the project screenshots_
 
