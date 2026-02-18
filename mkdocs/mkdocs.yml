@@ -89,7 +89,7 @@ nav:
     - 'External Projects': 'howto-use-external-projects.md'
     - 'Fields': 'howto-use-fields.md'
     - 'Project Context': 'howto-use-project-context.md'
-    - 'Timephased Data': 'howto-use-timephased.xml'
+    - 'Timephased Data': 'howto-use-timephased.md'
     - 'Universal Project Reader': 'howto-use-universal.md'
   - 'Field Guides...':
     - 'Field Guide': 'field-guide.md'
