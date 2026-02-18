@@ -121,10 +121,7 @@ public class TimescaleUtilityTest
     */
    @Test public void testWeeks()
    {
-      LocalDateTime startDate = LocalDateTime.of(2026, 2, 16, 0, 0, 0);
-      List<LocalDateTimeRange> ranges = new TimescaleUtility().createTimescale(startDate, 5, TimescaleUnits.DAYS);
-
-      //LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:00", m_basicDateFormat);
+      LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:00", m_basicDateFormat);
       TimescaleUtility ts = new TimescaleUtility();
 
       // Week start Sunday
