@@ -171,7 +171,8 @@ We'll work through some examples here, using a sample MPP file containing
 a variety of resource assignments.
 
 First we'll set up our timescale which will cover the time occupied by the
-resource assignment we are working with:
+resource assignment we are working with. In this case we're asking MPXJ to 
+show our timephased data split into days:
 
 === "Java"
 	```java
@@ -184,8 +185,8 @@ resource assignment we are working with:
 	// TBC
 	```
 
-Now we can locate the resource assignemnt we are interested in, and use the
-`getTimephasedWork` method to retrieve the ttal of the actual and remaining work:
+Now we can locate the resource assignment we are interested in, and use the
+`getTimephasedWork` method to retrieve the total of the actual and remaining work:
 
 
 === "Java"
@@ -198,43 +199,103 @@ Now we can locate the resource assignemnt we are interested in, and use the
 	// TBC
 	```
 
-
-**TODO** note the use of the HOURS argument, and the specfic method
-adjust the same to have 1.5 days of progress to show overlap between
-actual and remaining work.
-
-**TODO** _add code to sample project for the existing examples, and create a more fully-featured sample using the 3 day task shown in the project screenshots_
+You can see that we're calling the method and passing `ranges` which represents
+our timescale. We also passing `TimeUnit.HOURS` to tell MPXJ what units we'd
+like the work to be returned as. Finally we can add a couple of methods to help
+us format the data MPXJ has returned to make it easier to read:
 
 === "Java"
 	```java
-	package org.mpxj.howto.use.universal;
-	
-	import org.mpxj.ProjectFile;
-	import org.mpxj.reader.ProjectReader;
-	import org.mpxj.reader.UniversalProjectReader;
-	
-	public class SimpleExample
+	private void writeTableHeader(List<LocalDateTimeRange> ranges)
 	{
-		public void process() throws Exception
-		{
-			ProjectReader reader = new UniversalProjectReader();
-			ProjectFile project = reader.read("example.mpp");
-		}
+		String labels = ranges.stream()
+			.map(r -> r.getStart().getDayOfWeek().name().substring(0, 1))
+			.collect(Collectors.joining("|"));
+		System.out.println("||" + labels + "|");
+		
+		String separator = ranges.stream()
+			.map(r -> "---")
+			.collect(Collectors.joining("|"));
+		System.out.println("|---|" + separator+ "|");
+	}
+
+	private void writeTableRow(String label, List<?> data)
+	{
+		String values = data.stream()
+			.map(String::valueOf)
+			.collect(Collectors.joining("|"));
+		System.out.println("|" + label + "|" + values + "|");
 	}
 	```
 === "C#"
 	```c#
-	namespace MpxjSamples.HowToUse.Universal;
-
-	using MPXJ.Net;
-		 
-	public class SimpleExample
-	{
-		 public void Process()
-		 {
-			  var reader = new UniversalProjectReader();
-			  var project = reader.Read("example.mpp");
-		 }
-	}
+	// TBC
 	```
 
+We'll call our new helper methods like this:
+
+=== "Java"
+	```java
+	writeTableHeader(ranges);
+	writeTableRow(assignment.getResource().getName(), work);
+	```
+=== "C#"
+	```c#
+	// TBC
+	```
+
+Which will return a Markdown table as shown below, with the initial letter of
+the day name as the header, and a label as the first cell in each row:
+
+```
+||W|T|F|S|S|M|T|
+|---|---|---|---|---|---|---|---|
+|Work|8.0h|8.0h|8.0h|null|null|8.0h|8.0h|
+```
+
+For the remainder of the documentation we'll render the Markdown tables we
+produce from our samples to make them easier to read:
+
+
+||W|T|F|S|S|M|T|
+|---|---|---|---|---|---|---|---|
+|Work|8.0h|8.0h|8.0h|null|null|8.0h|8.0h|
+
+
+We can see that for this resource assignment we have 5 working days, each with 8
+hours of work per day. Note that the resource assignment spans a weekend. On
+the weekend days MPXJ has returned a `null` value. This indicates that this is
+non-working time, so no work is expected. Typically if MPXJ returns a zero
+duration for a period, this indicates that the period contains working time,
+but that no work has been performed.
+
+This example resource assignment we're using here is in progress, so rather than
+retrieving timephased Work, which combines both Actual and Remaining Work, we
+can request Actual and Remaining Work separately:
+
+
+=== "Java"
+	```java
+	List<Duration> actualWork = assignment.getTimephasedActualWork(ranges, TimeUnit.HOURS);
+	List<Duration> remainingWork = assignment.getTimephasedRemainingWork(ranges, TimeUnit.HOURS);
+	writeTableHeader(ranges);
+	writeTableRow("Actual Work", actualWork);
+	writeTableRow("Remaining Work", remainingWork);
+	```
+=== "C#"
+	```c#
+	// TBC
+	```
+
+
+||W|T|F|S|S|M|T|
+|---|---|---|---|---|---|---|---|
+|Actual Work|8.0h|4.0h|null|null|null|null|null|
+|Remaining Work|null|4.0h|8.0h|null|null|8.0h|8.0h|
+
+
+What we can see here is that the ranges only overlap where there is both actual
+and remaining work on one day. Once the actual work has been accounted for the
+remainder of the values returned by MPXJ will be `null`. Similarly the
+Remaining Work timephased data will be `null` until we reach the first period
+where there is Remaining Work.
