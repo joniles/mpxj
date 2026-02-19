@@ -151,7 +151,7 @@ assignment level.
 
 Three types of timephased data are available using MPXJ: Work, Cost, and Material.
 
-### Timephased Work
+### Work
 
 The following timephased work values are available on assignments for Work
 Resources and are expressed as `Duration` values. These values are not relevant
@@ -167,8 +167,11 @@ represent work.
 * **Work**: the total of actual work and remaining work for a resource assignment
 * **Baseline Work**: work captured as a baseline for a resource assignment
 
-We'll work through some examples here, using a sample MPP file containing
-a variety of resource assignments.
+We'll work through some examples here, using a sample MPP file containing a
+variety of resource assignments. For ease of reference, here's a screenshot of
+the sample project we'll be working with:
+
+<p align="center"><img alt="Sample MPP file" src="/images/howto-use-timephased/timephased-sample-mpp.png" width="60%"/></p>
 
 First we'll set up our timescale which will cover the time occupied by the
 resource assignment we are working with. In this case we're asking MPXJ to 
@@ -185,8 +188,11 @@ show our timephased data split into days:
 	// TBC
 	```
 
-Now we can locate the resource assignment we are interested in, and use the
-`getTimephasedWork` method to retrieve the total of the actual and remaining work:
+#### Assignments
+Now we can locate the resource assignment we are interested in (in this case
+it's Resource 2 assigned to Task 2 in the screenshot above), and use the
+`getTimephasedWork` method, which will give us the the total of the actual and
+remaining work for this assignment:
 
 
 === "Java"
@@ -262,14 +268,14 @@ produce from our samples to make them easier to read:
 |Work|8.0h|8.0h|8.0h|null|null|8.0h|8.0h|
 
 
-We can see that for this resource assignment we have 5 working days, each with 8
-hours of work per day. Note that the resource assignment spans a weekend. On
-the weekend days MPXJ has returned a `null` value. This indicates that this is
-non-working time, so no work is expected. Typically if MPXJ returns a zero
-duration for a period, this indicates that the period contains working time,
-but that no work has been performed.
+We can see that for this resource assignment, starting on Wednesday, we have 5
+working days each with 8 hours of work per day. Note that the resource
+assignment spans a weekend. On the weekend days MPXJ has returned a `null`
+value. This indicates that this is non-working time, so no work is expected.
+Typically if MPXJ returns a zero duration for a period, this indicates that the
+period is normally working time, but that no work has been performed.
 
-This example resource assignment we're using here is in progress, so rather than
+The example resource assignment we're using here is in progress, so rather than
 retrieving timephased Work, which combines both Actual and Remaining Work, we
 can request Actual and Remaining Work separately:
 
@@ -295,7 +301,82 @@ can request Actual and Remaining Work separately:
 
 
 What we can see here is that the ranges only overlap where there is both actual
-and remaining work on one day. Once the actual work has been accounted for the
+and remaining work on one day. Once the actual work has been accounted for, the
 remainder of the values returned by MPXJ will be `null`. Similarly the
 Remaining Work timephased data will be `null` until we reach the first period
 where there is Remaining Work.
+
+#### Resources
+As we mentioned before, the resource assignment we've been working with is for
+Resource 2. We can request timephased data from the resource, which will roll
+up values from all of this resource's assignments. In this case there is only
+the one assignment for this resource, so the values we'll retrieve should match
+those we've already seen from the resource assignment. The code sample below
+illustrates calling the `getTimephasedWork` method on a `Resource`:
+
+
+=== "Java"
+	```java
+	Resource resource2 = file.getResourceByID(2);
+	List<Duration> work = resource2.getTimephasedWork(ranges, TimeUnit.HOURS);
+	writeTableHeader(ranges);
+	writeTableRow("Resource 2 Work", work);
+	```
+=== "C#"
+	```c#
+	// TBC
+	```
+
+
+Here's the timephased Work from Resource 2:
+
+||W|T|F|S|S|M|T|
+|---|---|---|---|---|---|---|---|
+|Resource 2 Work|8.0h|8.0h|8.0h|null|null|8.0h|8.0h|
+
+
+#### Tasks
+Perhaps more interesting is what we see when we look at our tasks. In the sample
+file (as per the screenshot above), Task 1 and Task 2 represent work carried
+out by Resources 1 and 2. These tasks have been grouped together under
+the "Work Resources" summary task. Let's write some code to show how timephased
+Work is retrieved from tasks, and in doing so we'll see how the work from these
+two child tasks is rolled up to the parent task.
+
+=== "Java"
+	```java
+	Task summaryTask = file.getTaskByID(1);
+	Task task1 = file.getTaskByID(2);
+	Task task2 = file.getTaskByID(3);
+	List<Duration> summaryWork = summaryTask.getTimephasedWork(ranges, TimeUnit.HOURS);
+	List<Duration> task1Work = task1.getTimephasedWork(ranges, TimeUnit.HOURS);
+	List<Duration> task2Work = task2.getTimephasedWork(ranges, TimeUnit.HOURS);
+	writeTableHeader(ranges);
+	writeTableRow("Summary Work", summaryWork);
+	writeTableRow("Task 1 Work", task1Work);
+	writeTableRow("Task 2 Work", task2Work);
+	```
+=== "C#"
+	```c#
+	// TBC
+	```
+
+Here's the output from our code:
+
+||W|T|F|S|S|M|T|
+|---|---|---|---|---|---|---|---|
+|Summary Work|16.0h|16.0h|16.0h|null|null|8.0h|8.0h|
+|Task 1 Work|8.0h|8.0h|8.0h|null|null|null|null|
+|Task 2 Work|8.0h|8.0h|8.0h|null|null|8.0h|8.0h|
+
+
+We can see from these results how the work for each child task is rolled up to
+the summary task. You can also see how `null` values are handled: on the
+weekend days where both tasks have `null` values for their work, the rolled up
+work is also represented as `null`. Where there are a mixture of `null` and
+non-`null` values, the `null` values are just treated as zero.
+
+### Cost
+
+
+
