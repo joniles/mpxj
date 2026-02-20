@@ -408,13 +408,13 @@ tasks to summary tasks:
 	Task summaryTask = file.getTaskByID(1);
 	Task task1 = file.getTaskByID(2);
 	Task task2 = file.getTaskByID(3);
-	List<Number> summaryWork = summaryTask.getTimephasedCost(ranges);
-	List<Number> task1Work = task1.getTimephasedCost(ranges);
-	List<Number> task2Work = task2.getTimephasedCost(ranges);
+	List<Number> summaryCost = summaryTask.getTimephasedCost(ranges);
+	List<Number> task1Cost = task1.getTimephasedCost(ranges);
+	List<Number> task2Cost = task2.getTimephasedCost(ranges);
 	writeTableHeader(ranges);
-	writeTableRow("Summary Cost", summaryWork);
-	writeTableRow("Task 1 Cost", task1Work);
-	writeTableRow("Task 2 Cost", task2Work);
+	writeTableRow("Summary Cost", summaryCost);
+	writeTableRow("Task 1 Cost", task1Cost);
+	writeTableRow("Task 2 Cost", task2Cost);
 	```
 === "C#"
 	```c#
@@ -434,3 +434,19 @@ The output from this code is shown below:
 You can see that, as expected, the values we are now retrieving are numeric
 rather than `Duration` instances, but the same logic is still applied for
 non-working periods where `null` is returned rather than zero.
+
+
+### Material
+
+The following timephased material values are available on assignments for
+material resources, and are expressed as `Number` values in Java
+(`double?` in .Net).
+
+* **Actual Material**: the actual material utilised for a resource assignment
+* **Remaining Material**: the remaining material to be utilised to complete a resource assignment
+* **Material**: the total of actual material and remaining material for a resource assignment
+* **Baseline Material**: material utilisation captured as a baseline for a resource assignment
+
+The key differences between timephased material values and the other timephased
+values we've been looking at is that material values are not rolled up to the
+task level, and are not rolled up through the resource hierarchy.
