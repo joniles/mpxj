@@ -378,5 +378,59 @@ non-`null` values, the `null` values are just treated as zero.
 
 ### Cost
 
+The following timephased cost values are available on assignments for all
+resource types and are expressed as `Number` values in Java (`double?` in .Net).
+
+* **Actual Regular Cost**: actual regular (non overtime) cost for a resource assignment
+* **Actual Overtime Cost**: actual overtime cost for a resource assignment
+* **Actual Cost**: the total of actual regular cost plus actual overtime cost for a resource assignment
+* **Remaining Regular Cost**: the remaining regular (non-overtime) cost to complete a resource assignment
+* **Remaining Overtime Cost**: the remaining overtime cost to complete a resource assignment
+* **Remaining Cost**: the total of remaining regular cost plus remaining overtime cost to complete a resource assignment
+* **Cost**: the total of actual cost and remaining cost for a resource assignment
+* **Baseline Cost**: cost captured as a baseline for a resource assignment
+
+The methods called to retrieve timephased cost information from resource
+assignments, resources and task are the same as those we've just seen in the
+previous section where we were retrieving timephased work. The two main
+differences are that these methods return `List<Number>` rather than
+`List<Duration`, and they do not take a `TimeUnit` argument as this is not
+relevant for cost.
+
+The example below covers these points. Here we are looking at the same scenario
+that we illustrated at the end of the timephased work section where we are
+retrieving costs from three tasks and illustrating how these roll up from child
+tasks to summary tasks:
 
 
+=== "Java"
+	```java
+	Task summaryTask = file.getTaskByID(1);
+	Task task1 = file.getTaskByID(2);
+	Task task2 = file.getTaskByID(3);
+	List<Number> summaryWork = summaryTask.getTimephasedCost(ranges);
+	List<Number> task1Work = task1.getTimephasedCost(ranges);
+	List<Number> task2Work = task2.getTimephasedCost(ranges);
+	writeTableHeader(ranges);
+	writeTableRow("Summary Cost", summaryWork);
+	writeTableRow("Task 1 Cost", task1Work);
+	writeTableRow("Task 2 Cost", task2Work);
+	```
+=== "C#"
+	```c#
+	// TBC
+	```
+
+
+The output from this code is shown below:
+
+||W|T|F|S|S|M|T|
+|---|---|---|---|---|---|---|---|
+|Summary Cost|184.0|184.0|184.0|null|null|104.0|104.0|
+|Task 1 Cost|80.0|80.0|80.0|null|null|null|null|
+|Task 2 Cost|104.0|104.0|104.0|null|null|104.0|104.0|
+
+
+You can see that, as expected, the values we are now retrieving are numeric
+rather than `Duration` instances, but the same logic is still applied for
+non-working periods where `null` is returned rather than zero.
