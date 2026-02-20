@@ -536,6 +536,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       TimephasedTestHelper.testDurationSegments(assignment.getTimephasedRemainingRegularWork(rangeOverlapsEnd, TimeUnit.HOURS), new Double[] {8.0, 8.0, null, null, 4.0, null});
       TimephasedTestHelper.testDurationSegments(assignment.getTimephasedRemainingOvertimeWork(rangeOverlapsEnd, TimeUnit.HOURS), new Double[] {2.0, 2.0, null, null, 1.0, null});
       TimephasedTestHelper.testDurationSegments(assignment.getTimephasedWork(rangeOverlapsEnd, TimeUnit.HOURS), new Double[] {10.0, 10.0, null, null, 5.0, null});
+      // Quick check to make sure we don't try to convert work to material
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedMaterial(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null, null});
 
       task = file.getTaskByID(2);
       assertEquals("Task 2", task.getName());

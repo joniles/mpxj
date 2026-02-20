@@ -238,15 +238,22 @@ final class TimephasedUtility
    /**
     * This is the main entry point used to convert the internal representation
     * of timephased material utilization into an external form which can
-    * be displayed to the user.
+    * be displayed to the user. Note that this will return null
+    * values if the associated resource is not a material resource.
     *
+    * @param assignment resource assignment
     * @param calendar calendar used by the resource assignment
     * @param work timephased resource assignment data
     * @param ranges timescale date ranges
     * @return list of amounts, one per timescale date range
     */
-   public static List<Number> segmentMaterial(ProjectCalendar calendar, List<TimephasedWork> work, List<LocalDateTimeRange> ranges)
+   public static List<Number> segmentMaterial(ResourceAssignment assignment, ProjectCalendar calendar, List<TimephasedWork> work, List<LocalDateTimeRange> ranges)
    {
+      if (assignment.getResource() == null || assignment.getResource().getType() != ResourceType.MATERIAL)
+      {
+         return Arrays.asList(new Number[ranges.size()]);
+      }
+
       return segmentWork(calendar, work, ranges, TimeUnit.HOURS).stream().map(d -> d == null ? null : Double.valueOf(d.getDuration())).collect(Collectors.toList());
    }
 
