@@ -449,4 +449,147 @@ material resources, and are expressed as `Number` values in Java
 
 The key differences between timephased material values and the other timephased
 values we've been looking at is that material values are not rolled up to the
-task level, and are not rolled up through the resource hierarchy.
+task level, and are not rolled up through the resource hierarchy. This is due
+to the fact that we cannot be sure that we would be rolling up quantities for
+the same type of resource: it wouldn't make sense to combine figures for cubic
+metres of gravel with cubic metres of sand - even though they share the same
+units!
+
+Timephased material is however rolled up to the resource level by default as we
+know that, by definition, the values we are summarising all relate to the same
+type of material with the same measurement units.
+
+The sample code below provides an illustration of how timephased material values
+are retrieved:
+
+=== "Java"
+	```java
+	// Retrieve an assignment for a  material resource
+	ResourceAssignment assignment = file.getResourceAssignments().getByUniqueID(11);
+
+	// Create labels using the correct units for the resource
+	String materialUnits = "(" + assignment.getResource().getMaterialLabel() + ")";
+	String actualMaterialLabel = "Actual Material " + materialUnits;
+	String remainingMaterialLabel = "Remaining Material " + materialUnits;
+	String materialLabel = "Material " + materialUnits;
+
+	// Retrieve the timephased values
+	List<Number> actualMaterial = assignment.getTimephasedActualMaterial(ranges);
+	List<Number> remainingMaterial = assignment.getTimephasedRemainingMaterial(ranges);
+	List<Number> material = assignment.getTimephasedMaterial(ranges);
+
+	// Present the values as a table
+	writeTableHeader(ranges);
+	writeTableRow(actualMaterialLabel, actualMaterial);
+	writeTableRow(remainingMaterialLabel, remainingMaterial);
+	writeTableRow(materialLabel, material);
+	```
+=== "C#"
+	```c#
+	// TBC
+	```
+
+You can see in the code that we are using the Material Label property of the
+resource to augment the labels we create for each row in the table with the
+correct units (in this case cubic metres). Here's the result of running the sample code:
+
+||W|T|F|S|S|M|T|
+|---|---|---|---|---|---|---|---|
+|Actual Material (m3)|0.2|0.1|null|null|null|null|null|
+|Remaining Material (m3)|null|0.1|0.2|null|null|0.2|0.2|
+|Material (m3)|0.2|0.2|0.2|null|null|0.2|0.2|
+
+
+## Parameterised Methods
+
+In the examples we have looked at so far we've used specific methods to retrieve
+each type of timephased data, for example to retrieve timephased actual work,
+we've called `getTimephasedActualWork`. This works well when we know ahead of
+time exactly which timephased data we want to read. If we need a little more
+flexibility we can use the two parameterised methods which have been provided
+to allow access to timephased data.
+
+The `FieldContainer` interface, which is implemented by the `Resource`, `Task`
+and `ResourceAssignment` classes provides two parameterised interfaces for
+retrieving timephased data: `getTimephasedDurationValues` (which can be used to
+retrieve timephased work) and `getTimephasedNumericValues` (which can be used
+to retrieve timephased cost and material utilisation).
+
+The example below shows how the `getTimephasedDurationValues` method can be
+used to retrieve timephased work.
+
+=== "Java"
+	```java
+	// Retrieve tasks
+	Task summaryTask = file.getTaskByID(1);
+	Task task1 = file.getTaskByID(2);
+	Task task2 = file.getTaskByID(3);
+
+	// Retrieve timephased work
+	List<Duration> summaryWork = summaryTask.getTimephasedDurationValues(TaskField.WORK, ranges, TimeUnit.HOURS);
+	List<Duration> task1Work = task1.getTimephasedDurationValues(TaskField.WORK, ranges, TimeUnit.HOURS);
+	List<Duration> task2Work = task2.getTimephasedDurationValues(TaskField.WORK, ranges, TimeUnit.HOURS);
+
+	// Present the values as a table
+	writeTableHeader(ranges);
+	writeTableRow("Summary Work", summaryWork);
+	writeTableRow("Task 1 Work", task1Work);
+	writeTableRow("Task 2 Work", task2Work);
+	```
+=== "C#"
+	```c#
+	// TBC
+	```
+
+Note that the first argument passed to the method is a `FieldType` instance, in
+this case `TaskField.WORK`. This is used to identify the type of timephased
+data we required. Any `FieldType` instance can be passed here although the
+resulting list will only contain `null` values for field types which don't
+support timephased data. The remaining arguments passed to the method, the
+timescale and the units type for the returned data, are the same as for the
+non-parameterised methods we've looked at previously.
+
+Here's another example illustrating these parameterised methods being used
+to retrieve timephased cost data.
+
+=== "Java"
+	```java
+	// Retrieve a resource assignment
+	ResourceAssignment assignment = file.getResourceAssignments().getByUniqueID(6);
+
+	// Retrieve timephased costs
+	List<Number> actualCost = assignment.getTimephasedNumericValues(AssignmentField.ACTUAL_COST, ranges);
+	List<Number> remainingCost = assignment.getTimephasedNumericValues(AssignmentField.REMAINING_COST, ranges);
+	List<Number> cost = assignment.getTimephasedNumericValues(AssignmentField.COST, ranges);
+
+	// Present the values as a table
+	writeTableHeader(ranges);
+	writeTableRow("Actual Cost", actualCost);
+	writeTableRow("Remaining Cost", remainingCost);
+	writeTableRow("Cost", cost);
+	```
+=== "C#"
+	```c#
+	// TBC
+	```
+
+In this case we're retrieving details from a resource assignment, so we're using
+values from the `AssignmentField` enumeration to select the timephased data
+we're interested in. As we're retrieving costs, we're retrieving a `List` or
+`Number` instances.
+
+
+Finally we'll retrieve timephased material utilisation from a resource:
+
+
+
+## Raw Timephased Data
+_TBC_
+
+## Creating Timephased Data
+_TBC_
+
+## P6 Timephased Data
+_TBC_
+
+
