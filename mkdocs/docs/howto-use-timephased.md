@@ -506,17 +506,17 @@ In the examples we have looked at so far we've used specific methods to retrieve
 each type of timephased data, for example to retrieve timephased actual work,
 we've called `getTimephasedActualWork`. This works well when we know ahead of
 time exactly which timephased data we want to read. If we need a little more
-flexibility we can use the two parameterised methods which have been provided
-to allow access to timephased data.
+flexibility we can use parameterised methods to access this data.
 
 The `FieldContainer` interface, which is implemented by the `Resource`, `Task`
-and `ResourceAssignment` classes provides two parameterised interfaces for
+and `ResourceAssignment` classes defines two parameterised methods for
 retrieving timephased data: `getTimephasedDurationValues` (which can be used to
 retrieve timephased work) and `getTimephasedNumericValues` (which can be used
 to retrieve timephased cost and material utilisation).
 
+### Work
 The example below shows how the `getTimephasedDurationValues` method can be
-used to retrieve timephased work.
+used to retrieve timephased work from a task.
 
 === "Java"
 	```java
@@ -541,14 +541,15 @@ used to retrieve timephased work.
 	// TBC
 	```
 
-Note that the first argument passed to the method is a `FieldType` instance, in
-this case `TaskField.WORK`. This is used to identify the type of timephased
-data we required. Any `FieldType` instance can be passed here although the
-resulting list will only contain `null` values for field types which don't
-support timephased data. The remaining arguments passed to the method, the
-timescale and the units type for the returned data, are the same as for the
-non-parameterised methods we've looked at previously.
+The first argument passed to the method is a `FieldType` instance, in this case
+`TaskField.WORK`. This is used to identify the type of timephased data we
+required. Any `FieldType` instance can be passed here although the resulting
+list will only contain `null` values for field types which don't support
+timephased data. The remaining arguments passed to the method, the timescale
+and the units type for the returned `Duration` instances, are the same as for
+the non-parameterised methods we've looked at previously.
 
+### Cost
 Here's another example illustrating these parameterised methods being used
 to retrieve timephased cost data.
 
@@ -579,9 +580,41 @@ we're interested in. As we're retrieving costs, we're retrieving a `List` or
 `Number` instances.
 
 
+### Material
 Finally we'll retrieve timephased material utilisation from a resource:
 
+=== "Java"
+	```java
+	// Retrieve a material resource
+	Resource resource = file.getResourceByID(4);
 
+	// Create labels using the correct units for the resource
+	String materialUnits = "(" + resource.getMaterialLabel() + ")";
+	String actualMaterialLabel = "Actual Material " + materialUnits;
+	String remainingMaterialLabel = "Remaining Material " + materialUnits;
+	String materialLabel = "Material " + materialUnits;
+
+	// Retrieve the timephased values
+	List<Number> actualMaterial = resource.getTimephasedNumericValues(ResourceField.ACTUAL_MATERIAL, ranges);
+	List<Number> remainingMaterial = resource.getTimephasedNumericValues(ResourceField.REMAINING_MATERIAL, ranges);
+	List<Number> material = resource.getTimephasedNumericValues(ResourceField.MATERIAL, ranges);
+
+	// Present the values as a table
+	writeTableHeader(ranges);
+	writeTableRow(actualMaterialLabel, actualMaterial);
+	writeTableRow(remainingMaterialLabel, remainingMaterial);
+	writeTableRow(materialLabel, material);
+	```
+=== "C#"
+	```c#
+	// TBC
+	```
+
+As the code above illustrates the  `getTimephasedNumericValues` method can be
+used to retrieve both cost and material timephased data as both of these types
+of data are expressed as `List<Number>`. We can also see that we're using
+values from the `ResourceField` enumeration to select the data we need as we're
+working with a `Resource` instance.
 
 ## Raw Timephased Data
 _TBC_
