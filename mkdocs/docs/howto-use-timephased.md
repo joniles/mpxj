@@ -500,16 +500,16 @@ correct units (in this case cubic metres). Here's the result of running the samp
 |Material (m3)|0.2|0.2|0.2|null|null|0.2|0.2|
 
 
-## Parameterised Methods
+## Parametrised Methods
 
 In the examples we have looked at so far we've used specific methods to retrieve
 each type of timephased data, for example to retrieve timephased actual work,
 we've called `getTimephasedActualWork`. This works well when we know ahead of
 time exactly which timephased data we want to read. If we need a little more
-flexibility we can use parameterised methods to access this data.
+flexibility we can use parametrised methods to access this data.
 
 The `FieldContainer` interface, which is implemented by the `Resource`, `Task`
-and `ResourceAssignment` classes defines two parameterised methods for
+and `ResourceAssignment` classes defines two parametrised methods for
 retrieving timephased data: `getTimephasedDurationValues` (which can be used to
 retrieve timephased work) and `getTimephasedNumericValues` (which can be used
 to retrieve timephased cost and material utilisation).
@@ -547,10 +547,10 @@ required. Any `FieldType` instance can be passed here although the resulting
 list will only contain `null` values for field types which don't support
 timephased data. The remaining arguments passed to the method, the timescale
 and the units type for the returned `Duration` instances, are the same as for
-the non-parameterised methods we've looked at previously.
+the non-parametrised methods we've looked at previously.
 
 ### Cost
-Here's another example illustrating these parameterised methods being used
+Here's another example illustrating these parametrised methods being used
 to retrieve timephased cost data.
 
 === "Java"
@@ -617,7 +617,54 @@ values from the `ResourceField` enumeration to select the data we need as we're
 working with a `Resource` instance.
 
 ## Raw Timephased Data
-_TBC_
+So far we've concentrated on how to access timephased data for a given period of
+time, but we've not considered how that data is stored. As noted in an earlier
+section timephased data originates from resource assignments and is actually
+stored as six distinct sets of data:
+
+* Actual Overtime Work
+* Actual Regular Work
+* Remaining Overtime Work
+* Remaining Regular Work
+* Baseline Cost
+* Baseline Work
+
+As you've probably already realised, the timephased data for Actual Work,
+Remaining Work, Regular Work, Overtime Work and Work are derived from these
+core data sets rather than being stored separately. Similarly, all timephased
+costs, with the exception of baseline costs, are derived from timephased work.
+This is possible as the Cost Rate Tables for resources allow for rates to be
+recorded along with the effective from/to dates. Used appropriately this
+ensures that historic cost data will remain accurate when generating timephased
+cost data, even when current rates have changed.
+
+What you may also have spotted when looking at the list of data sets above
+is that material is not mentioned! Timephased data for material utilisation
+is actually represented as work, using `Duration` instances - in effect the
+time unit component of the `Duration` is ignored with the numeric value of
+the `Duration` representing the material amount. MPXJ provides dedicated
+methods for reading timephased material utilisation to avoid the need to
+perform a conversion each time you use it, but here you're seeing how the
+data is stored.
+
+To distinguish between reading timephased data in the form we've been discussing
+in the rest of this document (as data distributed over a given timescale), the
+methods used to retrieve the underlying timephased data representation all use
+the term `RawTimephased`. The `ResourceAssignment` class provides the following
+methods to retrieve the data in this form:
+
+* `getRawTimephasedActualOvertimeWork`
+* `getRawTimephasedActualRegularWork`
+* `getRawTimephasedRemainingOvertimeWork`
+* `getRawTimephasedRemainingRegularWork`
+* `getRawTimephasedBaselineWork`
+* `getRawTimephasedBaselineCost`
+
+The two baseline methods differ from the rest as there can be multiple baselines
+so these methods take a integer argument to select the baseline required
+(passing 0 will return the data for "Baseline", 1 will return the data
+for "Baseline 1" and so on).
+
 
 ## Creating Timephased Data
 _TBC_
