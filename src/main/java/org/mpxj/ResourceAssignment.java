@@ -2598,7 +2598,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<Duration> getTimephasedPlannedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedPlannedWork(), ranges, units);
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getOrCreateRawTimephasedPlannedWork(), ranges, units);
    }
 
    /**
@@ -2610,7 +2610,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<Duration> getTimephasedActualRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualRegularWork(), ranges, units);
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getOrCreateRawTimephasedActualWork(getRawTimephasedActualRegularWork(), this::getActualRegularWork), ranges, units);
    }
 
    /**
@@ -2622,7 +2622,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedActualOvertimeWork(), ranges, units);
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getOrCreateRawTimephasedActualWork(getRawTimephasedActualOvertimeWork(), this::getActualOvertimeWork), ranges, units);
    }
 
    /**
@@ -2646,7 +2646,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<Duration> getTimephasedRemainingRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedRemainingRegularWork(), ranges, units);
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getOrCreateRawTimephasedRemainingWork(getRawTimephasedRemainingRegularWork(), this::getRemainingRegularWork), ranges, units);
    }
 
    /**
@@ -2658,7 +2658,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<Duration> getTimephasedRemainingOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedRemainingOvertimeWork(), ranges, units);
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getOrCreateRawTimephasedRemainingWork(getRawTimephasedRemainingOvertimeWork(), this::getRemainingOvertimeWork), ranges, units);
    }
 
    /**
@@ -2970,7 +2970,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<Number> getTimephasedPlannedMaterial(List<LocalDateTimeRange> ranges)
    {
-      return TimephasedUtility.segmentMaterial(this, getEffectiveCalendar(), getRawTimephasedPlannedWork(), ranges);
+      return TimephasedUtility.segmentMaterial(this, getEffectiveCalendar(), getOrCreateRawTimephasedPlannedWork(), ranges);
    }
 
    /**
@@ -3568,6 +3568,116 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
 
       return costs;
+   }
+
+   /**
+    * Returns raw timephased planned work, generating it as appropriate if none is present.
+    *
+    * @return raw timephased planned work
+    */
+   private List<TimephasedWork> getOrCreateRawTimephasedPlannedWork()
+   {
+      List<TimephasedWork> plannedWork = getRawTimephasedPlannedWork();
+      if (!plannedWork.isEmpty())
+      {
+         return plannedWork;
+      }
+
+      Duration work = getPlannedWork();
+      if (work == null || work.getDuration() == 0.0)
+      {
+         return plannedWork;
+      }
+
+      ProjectCalendar calendar = getEffectiveCalendar();
+      LocalDateTime start = getPlannedStart();
+      LocalDateTime finish = getPlannedFinish();
+      double workingHours = calendar.getWork(start, finish, TimeUnit.HOURS).getDuration();
+      double plannedHours = work.convertUnits(TimeUnit.HOURS, calendar).getDuration();
+
+      TimephasedWork item = new TimephasedWork();
+      item.setStart(start);
+      item.setFinish(finish);
+      item.setTotalAmount(work);
+      item.setAmountPerHour(Duration.getInstance(plannedHours/ workingHours, TimeUnit.HOURS));
+
+      return Collections.singletonList(item);
+   }
+
+   /**
+    * Returns raw timephased actual work, generating it as appropriate if none is present.
+    *
+    * @param timephasedWork raw timephased actual work
+    * @param workSupplier actual work supplier
+    * @return raw timephased actual work
+    */
+   private List<TimephasedWork> getOrCreateRawTimephasedActualWork(List<TimephasedWork> timephasedWork, Supplier<Duration> workSupplier)
+   {
+      if (!timephasedWork.isEmpty() || getActualStart() == null)
+      {
+         return timephasedWork;
+      }
+
+      Duration work = workSupplier.get();
+      if (work == null || work.getDuration() == 0.0)
+      {
+         return timephasedWork;
+      }
+
+      ProjectCalendar calendar = getEffectiveCalendar();
+      LocalDateTime start = getActualStart();
+      LocalDateTime finish = getActualFinish();
+      if (finish == null)
+      {
+         finish = calendar.getDate(start, work);
+      }
+
+      double workingHours = calendar.getWork(start, finish, TimeUnit.HOURS).getDuration();
+      double actualHours = work.convertUnits(TimeUnit.HOURS, calendar).getDuration();
+
+      TimephasedWork item = new TimephasedWork();
+      item.setStart(start);
+      item.setFinish(finish);
+      item.setTotalAmount(work);
+      item.setAmountPerHour(Duration.getInstance(actualHours / workingHours, TimeUnit.HOURS));
+
+      return Collections.singletonList(item);
+   }
+
+   /**
+    * Returns raw timephased remaining work, generating it as appropriate if none is present.
+    *
+    * @param timephasedWork raw timephased remaining work
+    * @param workSupplier remaining work supplier
+    * @return raw timephased remaining work
+    */
+   private List<TimephasedWork> getOrCreateRawTimephasedRemainingWork(List<TimephasedWork> timephasedWork, Supplier<Duration> workSupplier)
+   {
+      if (!timephasedWork.isEmpty() || getActualFinish() != null)
+      {
+         return timephasedWork;
+      }
+
+      Duration work = workSupplier.get();
+      if (work == null || work.getDuration() == 0.0)
+      {
+         return timephasedWork;
+      }
+
+      ProjectCalendar calendar = getEffectiveCalendar();
+      LocalDateTime start = getActualStart() == null ? getStart() : getRemainingEarlyStart();
+      LocalDateTime finish = getFinish();
+
+      double workingHours = calendar.getWork(start, finish, TimeUnit.HOURS).getDuration();
+      double remainingHours = work.convertUnits(TimeUnit.HOURS, calendar).getDuration();
+
+      TimephasedWork item = new TimephasedWork();
+      item.setStart(start);
+      item.setFinish(finish);
+      item.setTotalAmount(work);
+      item.setAmountPerHour(Duration.getInstance(remainingHours / workingHours, TimeUnit.HOURS));
+
+      return Collections.singletonList(item);
    }
 
    /**
