@@ -815,6 +815,7 @@ public class ProjectTreeController
          if (fileClass == JsonWriter.class)
          {
             ((JsonWriter) writer).setPretty(true);
+            ((JsonWriter) writer).setWriteTimephasedData(m_model.getWriteOptions().getWriteTimephasedData());
          }
 
          if (fileClass == MSPDIWriter.class)

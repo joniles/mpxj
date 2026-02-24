@@ -630,11 +630,11 @@ stored as six distinct sets of data:
 * Baseline Work
 
 As you've probably already realised, the timephased data for Actual Work,
-Remaining Work, Regular Work, Overtime Work and Work are derived from these
+Remaining Work, Regular Work, Overtime Work and Work are all derived from these
 core data sets rather than being stored separately. Similarly, all timephased
 costs, with the exception of baseline costs, are derived from timephased work.
 This is possible as the Cost Rate Tables for resources allow for rates to be
-recorded along with the effective from/to dates. Used appropriately this
+recorded along with effective from/to dates. Used appropriately this
 ensures that historic cost data will remain accurate when generating timephased
 cost data, even when current rates have changed.
 
@@ -644,14 +644,13 @@ is actually represented as work, using `Duration` instances - in effect the
 time unit component of the `Duration` is ignored with the numeric value of
 the `Duration` representing the material amount. MPXJ provides dedicated
 methods for reading timephased material utilisation to avoid the need to
-perform a conversion each time you use it, but here you're seeing how the
-data is stored.
+perform a conversion each time you use it.
 
 To distinguish between reading timephased data in the form we've been discussing
 in the rest of this document (as data distributed over a given timescale), the
 methods used to retrieve the underlying timephased data representation all use
-the term `RawTimephased`. The `ResourceAssignment` class provides the following
-methods to retrieve the data in this form:
+the term "raw" timephased data. The `ResourceAssignment` class provides the
+following methods to retrieve the data in this form:
 
 * `getRawTimephasedActualOvertimeWork`
 * `getRawTimephasedActualRegularWork`
@@ -665,9 +664,150 @@ so these methods take a integer argument to select the baseline required
 (passing 0 will return the data for "Baseline", 1 will return the data
 for "Baseline 1" and so on).
 
+### Default Data
+Raw timephased work is represented by the `TimephasedWork` class, which exposes
+the following attributes:
+
+* Start
+* Finish
+* Total Amount
+* Amount per Hour
+
+For the most straightforward case, a resource assignment will only need to have
+a single `TimephasedWork` instance to describe actual or remaining work. The
+`TimephasedWork` item will start at the beginning of the resource assignment,
+finish at the end of the resource assignment, and will show the total amount of
+work represented by the assignment. The amount per hour is equivalent to
+the "units" attribute of the resource assignment. For example, if a resource is
+assigned with a units attribute representing 100% utilisation, the amount per
+hour attribute will be 1 hour. If the resource is assigned at 200% utilisation,
+the amount per hour will be 2 hours, and so on.
+
+The tables below illustrate how the raw timephased data for our example three
+day task can be used to represent the task before it starts, in progress and
+when completed.
+
+In this initial table we can see that the task has not started, the Raw
+Timephased Actual work list contains no data, and there is a single entry in
+the Raw Timephased Remaining Work list.
+
+
+|                 | Raw Timephased Actual Work | Raw Timephased Remaining Work |
+|-----------------|----------------------------|-------------------------------|
+| Start           |                            |              2006-02-17 08:00 |
+| Finish          |                            |              2006-02-19 17:00 |
+| Total Amount    |                            |                           24h |
+| Amount per Hour |                            |                            1h |
+
+
+After one day of work, the lists will look like this:
+
+|                 | Raw Timephased Actual Work | Raw Timephased Remaining Work |
+|-----------------|----------------------------|-------------------------------|
+| Start           |           2006-02-17 08:00 |              2006-02-18 08:00 |
+| Finish          |           2006-02-17 17:00 |              2006-02-19 17:00 |
+| Total Amount    |                         8h |                           16h |
+| Amount per Hour |                         1h |                            1h |
+
+
+If we record another hour of progress, the lists will look like this:
+
+|                 | Raw Timephased Actual Work | Raw Timephased Remaining Work |
+|-----------------|----------------------------|-------------------------------|
+| Start           |           2006-02-17 08:00 |              2006-02-18 09:00 |
+| Finish          |           2006-02-18 09:00 |              2006-02-19 17:00 |
+| Total Amount    |                         9h |                           15h |
+| Amount per Hour |                         1h |                            1h |
+
+
+Finally, once the task is complete the lists will look like this:
+
+
+|                 | Raw Timephased Actual Work | Raw Timephased Remaining Work |
+|-----------------|----------------------------|-------------------------------|
+| Start           |           2006-02-17 08:00 |                               |
+| Finish          |           2006-02-18 17:00 |                               |
+| Total Amount    |                        24h |                               |
+| Amount per Hour |                         1h |                               |
+
+
+In all of the examples above, we've only needed a single entry in each list to
+represent how actual and remaining work is distributed. The key point here is
+that when we come to working with this representation to generate timephased
+data over a given timescale, we're relying on the resource assignment's
+effective calendar to provide us with the working and non-working time that
+allows us to spread the work described by each `TimephasedWork` instance over a
+given timescale.
+
+### Modified Data
+In the last section we saw how, for most resource assignments, only one or two
+`TimephasedWork` instances are required to describe how actual and remaining
+work is distributed. Let's now move on to look at a more interesting example:
+
+<p align="center"><img alt="A split task" src="/images/howto-use-timephased/timephased-work-gantt.png" width="40%"/></p>
+
+The screenshot above is from Microsoft Project and shows a split task, which is
+where we have working time available, but no work is being performed. You can
+see this as the gap in the bar (a "split task"). What you can't see from the
+Gantt chart is that the work is actually being performed at different rates.
+Let take a look at the "Task Usage" view to see this more clearly:
+
+<p align="center"><img alt="A split task" src="/images/howto-use-timephased/timephased-work-task-usage.png" width="50%"/></p>
+
+The view above shows that on the Tuesday no work is being done (zero hours of work)
+but when work starts again on Wednesday, only four hours of work is being
+undertaken - the equivalent of the resource working at 50% utilisation. Finally
+work is being carried out at a normal rate on Thursday and Friday.
+
+Here's how this looks as `TimephasedWork` items:
+
+|                 | TimephasedWork 1 | TimephasedWork 2 | TimephasedWork 3 | TimephasedWork 4 |
+|-----------------|-----------------:|-----------------:|-----------------:|-----------------:|
+| Start           | 2026-03-02 08:00 | 2026-03-03 08:00 | 2026-03-04 08:00 | 2026-03-05 08:00 |
+| Finish          | 2026-03-02 17:00 | 2026-03-03 17:00 | 2026-03-04 17:00 | 2026-03-06 12:00 |
+| Per Hour        |               1h |               0h |             0.5h |               1h |
+| Total           |               8h |               0h |               4h |              12h |
+
+
+The first and last items are "standard" items which just show work being carried
+out according to the resource assignment's effective calendar. The second item
+makes a day which is normally a working day into a non-working day: the total
+amount of work is set to zero and, unsurprisingly, the amount of work per hour
+is also zero. Finally, the third item shows work taking place according to the
+normal working hours from the calendar, but at 50% utilisation (30 minutes work
+for each working hour on the calendar)
+
+In the example above, the task has no progress, so all of these items would
+appear in the Raw Timephased Remaining Work list, however the same principles
+would apply as the task is progressed: zero total hours work and zero work per
+hour are used to indicate a normally working period is non-working, and a new
+item would be used to indicate a period of time where the utilisation (via the
+amount per hour) has been changed.
+
+> Microsoft Project will only allow you to modify the timephased data for
+> remaining work to change working time into non-working time. It won't let you
+> assign work to non-working days (for example you can't add work over a
+> weekend, if the weekend is marked as non-working in the effective calendar).
+> To make non-working time into working time you would need to change the
+> calendar by adding an exception. This constraint is not present when you are
+> recording actual work: actual work can be added on any day, regardless of
+> whether the calendar indicates that it is working or non-working.
+
+### Cost
+
+As we noted earlier, cost is derived from timephased work for everything except
+baseline cost. For baseline cost there are a set of Raw Timephased Baseline
+Cost attributes, one per baseline. These attributes are represented as
+`TimephasedCost`. These differ from `TimephasedWork` instances only in that
+they record their Total Amount and Amount PerHour attributes as a `Number`
+values rather than `Duration` values.
 
 ## Creating Timephased Data
 _TBC_
+
+## Split Tasks
+_TBC_
+
 
 ## P6 Timephased Data
 _TBC_
