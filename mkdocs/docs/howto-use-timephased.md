@@ -803,7 +803,71 @@ they record their Total Amount and Amount PerHour attributes as a `Number`
 values rather than `Duration` values.
 
 ## Creating Timephased Data
-_TBC_
+
+This section provides some brief examples of how timephased data can be added
+to resource assignments. By default there is no need to add timephased data to
+a resource assignment if work is simply being carried out on standard working
+days and at the utilisation defined by the Units attribute of the resource
+assignment. In the following examples we'll explore various non-default
+scenarios.
+
+> These examples assume that you will be writing the completed project to an
+> MSPDI file to be opened by Microsoft Project.
+
+
+### Custom Distribution
+
+In this first example we're changing the distribution of working hours for a
+resource assignment so that the first day has 10 hours of work, the second day
+has 6 hours of work, and the remaining days have the default 8 hours of work
+per day.
+
+=== "Java"
+	```java
+	// Create a resource assignment
+	ResourceAssignment assignment = task.addResourceAssignment(resource);
+	assignment.setStart(task.getStart());
+	assignment.setWork(Duration.getInstance(40, TimeUnit.HOURS));
+	assignment.setRemainingWork(Duration.getInstance(40, TimeUnit.HOURS));
+
+	// Day 1 - 10h
+	TimephasedWork day1RemainingWork = new TimephasedWork();
+	day1RemainingWork.setStart(LocalDateTime.of(2024, 3, 4, 8, 0));
+	day1RemainingWork.setFinish(LocalDateTime.of(2024, 3, 4, 17, 0));
+	day1RemainingWork.setAmountPerHour(Duration.getInstance(1.25, TimeUnit.HOURS));
+	day1RemainingWork.setTotalAmount(Duration.getInstance(10, TimeUnit.HOURS));
+
+	// Day 2 - 6h
+	TimephasedWork day2RemainingWork = new TimephasedWork();
+	day2RemainingWork.setStart(LocalDateTime.of(2024, 3, 5, 8, 0));
+	day2RemainingWork.setFinish(LocalDateTime.of(2024, 3, 5, 17, 0));
+	day2RemainingWork.setAmountPerHour(Duration.getInstance(0.75, TimeUnit.HOURS));
+	day2RemainingWork.setTotalAmount(Duration.getInstance(6, TimeUnit.HOURS));
+
+	// Remaining days - 8h/day
+	TimephasedWork remainingWork = new TimephasedWork();
+	remainingWork.setStart(LocalDateTime.of(2024, 3, 6, 8, 0));
+	remainingWork.setFinish(LocalDateTime.of(2024, 3, 8, 17, 0));
+	remainingWork.setAmountPerHour(Duration.getInstance(1, TimeUnit.HOURS));
+	remainingWork.setTotalAmount(Duration.getInstance(24, TimeUnit.HOURS));
+
+	// Add timephased data to the resource assignment
+	assignment.getRawTimephasedRemainingRegularWork()
+		.addAll(Arrays.asList(day1RemainingWork, day2RemainingWork, remainingWork));
+	```
+=== "C#"
+	```c#
+	// TBC
+	```
+
+In this case we have a task without any progress, so we're just adding the
+`TimephasedWork` items we create to the Raw Timephased Remaining Regular Work
+list. Note that the total amount of work represented by our `TimephasedWork`
+instances matches the total work assigned to the resource assignment.
+
+
+
+
 
 ## Split Tasks
 _TBC_
