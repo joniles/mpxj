@@ -39,7 +39,8 @@ the data in question is not distributed evenly over time.
 When planning a task, we may decide that most of the work, and therefore cost,
 is accrued in the early stages of the task. We can reflect this either by
 manually editing the hours work per day in Microsoft Project, or by asking
-Microsoft Project to apply a "work contour".
+Microsoft Project to apply a "work contour" (for example, front loaded, back
+loaded, and so on).
 
 In the example below I have chosen to manually edit the working hours: our task
 is still being performed over 3 days, and we're still delivering 24 hours of
@@ -1115,7 +1116,17 @@ non-working period before work actually commences on the task. In this case
 `Task#getWorkSplits` will only return one `LocalDateTimeRange` instance,
 but this range begins after the task's start date.
 
-## P6 Timephased Data
+## Primavera P6
+
+Alongside Microsoft Project, Primavera P6 also provides access to timephased
+data, which can be seen as part of its Resource Assignment view. P6
+allows "curves" to be applied to resource assignments distribute work or material utilisation
+in a form other than the default "flat" distribution. P6 also allows you to modify
+the timephased view of remaining work or material utilisation to allow you
+to make your own custom distributions.
+
+planned
+
 _TBC_
 
 
