@@ -874,27 +874,27 @@ The next example shows creation of an in-progress resource assignment:
 	assignment.setStart(task.getStart());
 	assignment.setActualStart(task.getStart());
 	assignment.setWork(Duration.getInstance(40, TimeUnit.HOURS));
-	assignment.setActualWork(Duration.getInstance(4, TimeUnit.HOURS));
-	assignment.setRemainingWork(Duration.getInstance(36, TimeUnit.HOURS));
+	assignment.setActualWork(Duration.getInstance(5, TimeUnit.HOURS));
+	assignment.setRemainingWork(Duration.getInstance(35, TimeUnit.HOURS));
 
 	// Important - MS Project needs this as well as the timephased data
 	// to correctly represent the actual and remaining work
 	assignment.setStop(LocalDateTime.of(2024, 3, 4, 12, 0));
 	assignment.setResume(LocalDateTime.of(2024, 3, 4, 13, 0));
 
-	// Day 1 actual work - 4h
+	// Day 1 actual work - 5h
 	TimephasedWork day1ActualWork = new TimephasedWork();
 	day1ActualWork.setStart(LocalDateTime.of(2024, 3, 4, 8, 0));
 	day1ActualWork.setFinish(LocalDateTime.of(2024, 3, 4, 12, 0));
-	day1ActualWork.setAmountPerHour(Duration.getInstance(1, TimeUnit.HOURS));
-	day1ActualWork.setTotalAmount(Duration.getInstance(4, TimeUnit.HOURS));
+	day1ActualWork.setAmountPerHour(Duration.getInstance(1.25, TimeUnit.HOURS));
+	day1ActualWork.setTotalAmount(Duration.getInstance(5, TimeUnit.HOURS));
 
-	// Day 1 remaining - 6h
+	// Day 1 remaining - 5h
 	TimephasedWork day1RemainingWork = new TimephasedWork();
 	day1RemainingWork.setStart(LocalDateTime.of(2024, 3, 4, 13, 0));
 	day1RemainingWork.setFinish(LocalDateTime.of(2024, 3, 4, 17, 0));
-	day1RemainingWork.setAmountPerHour(Duration.getInstance(1.5, TimeUnit.HOURS));
-	day1RemainingWork.setTotalAmount(Duration.getInstance(6, TimeUnit.HOURS));
+	day1RemainingWork.setAmountPerHour(Duration.getInstance(1.25, TimeUnit.HOURS));
+	day1RemainingWork.setTotalAmount(Duration.getInstance(5, TimeUnit.HOURS));
 
 	// Day 2 remaining - 6h
 	TimephasedWork day2RemainingWork = new TimephasedWork();
@@ -927,11 +927,193 @@ this assignment is interpreted correctly by Microsoft Project, we're
 setting the Stop and Resume attributes to show when the actual work finished,
 and the remaining work is due to start.
 
+Our next example illustrates a completed resource assignment:
 
+=== "Java"
+	```java
+	// Create a resource assignment
+	ResourceAssignment assignment = task.addResourceAssignment(resource);
+	assignment.setStart(task.getStart());
+	assignment.setActualStart(task.getStart());
+	assignment.setWork(Duration.getInstance(40, TimeUnit.HOURS));
+	assignment.setActualWork(Duration.getInstance(40, TimeUnit.HOURS));
+	assignment.setRemainingWork(Duration.getInstance(0, TimeUnit.HOURS));
+
+	// Day 1 actual work - 10h
+	TimephasedWork day1ActualWork = new TimephasedWork();
+	day1ActualWork.setStart(LocalDateTime.of(2024, 3, 4, 8, 0));
+	day1ActualWork.setFinish(LocalDateTime.of(2024, 3, 4, 17, 0));
+	day1ActualWork.setAmountPerHour(Duration.getInstance(1.25, TimeUnit.HOURS));
+	day1ActualWork.setTotalAmount(Duration.getInstance(10, TimeUnit.HOURS));
+
+	// Day 2 actual - 6h
+	TimephasedWork day2ActualWork = new TimephasedWork();
+	day2ActualWork.setStart(LocalDateTime.of(2024, 3, 5, 8, 0));
+	day2ActualWork.setFinish(LocalDateTime.of(2024, 3, 5, 17, 0));
+	day2ActualWork.setAmountPerHour(Duration.getInstance(0.75, TimeUnit.HOURS));
+	day2ActualWork.setTotalAmount(Duration.getInstance(6, TimeUnit.HOURS));
+
+	// Remaining days - 8h/day
+	TimephasedWork actualWork = new TimephasedWork();
+	actualWork.setStart(LocalDateTime.of(2024, 3, 6, 8, 0));
+	actualWork.setFinish(LocalDateTime.of(2024, 3, 8, 17, 0));
+	actualWork.setAmountPerHour(Duration.getInstance(1, TimeUnit.HOURS));
+	actualWork.setTotalAmount(Duration.getInstance(24, TimeUnit.HOURS));
+
+	assignment.getRawTimephasedActualRegularWork()
+		.addAll(Arrays.asList(day1ActualWork, day2ActualWork, actualWork));
+	```
+=== "C#"
+	```c#
+	// TBC
+	```
+
+We're still using multiple `TimephasedWork` instances to capture the different
+rates at which work is being performed, but now these are all added to the 
+Raw Timephased Actual regular Work list.
+
+In our final examples, we'll take a quick look at adding non-working periods
+to the resource assignment, which can be used to create a "split task" 
+in Microsoft Project.
+
+In the code shown below we're using a `TimephasedWork` instance representing
+zero hours of work to explicitly indicate the non-working time. This follows
+the same pattern Microsoft Project itself uses:
+
+=== "Java"
+	```java
+	// Create a resource assignment
+	ResourceAssignment assignment = task.addResourceAssignment(resource);
+	assignment.setStart(task.getStart());
+	assignment.setWork(Duration.getInstance(40, TimeUnit.HOURS));
+	assignment.setRemainingWork(Duration.getInstance(40, TimeUnit.HOURS));
+
+	// This is important - MS Project will accept the timephased data without this,
+	// but the split won't show up on the Gantt Chart unless this is set
+	assignment.setWorkContour(WorkContour.CONTOURED);
+
+	// Day 1 - 8h
+	TimephasedWork day1RemainingWork = new TimephasedWork();
+	day1RemainingWork.setStart(LocalDateTime.of(2024, 3, 4, 8, 0));
+	day1RemainingWork.setFinish(LocalDateTime.of(2024, 3, 4, 17, 0));
+	day1RemainingWork.setAmountPerHour(Duration.getInstance(1, TimeUnit.HOURS));
+	day1RemainingWork.setTotalAmount(Duration.getInstance(8, TimeUnit.HOURS));
+
+	// Day 2 - split
+	TimephasedWork day2RemainingWork = new TimephasedWork();
+	day2RemainingWork.setStart(LocalDateTime.of(2024, 3, 4, 8, 0));
+	day2RemainingWork.setFinish(LocalDateTime.of(2024, 3, 4, 17, 0));
+	day2RemainingWork.setAmountPerHour(Duration.getInstance(0, TimeUnit.HOURS));
+	day2RemainingWork.setTotalAmount(Duration.getInstance(0, TimeUnit.HOURS));
+
+	// Remaining days - 8h/day
+	// Note the gap between the end of the first working day and the start of the next working day.
+	// This gives us the split.
+	TimephasedWork remainingWork = new TimephasedWork();
+	remainingWork.setStart(LocalDateTime.of(2024, 3, 6, 8, 0));
+	remainingWork.setFinish(LocalDateTime.of(2024, 3, 11, 17, 0));
+	remainingWork.setAmountPerHour(Duration.getInstance(1, TimeUnit.HOURS));
+	remainingWork.setTotalAmount(Duration.getInstance(32, TimeUnit.HOURS));
+
+	assignment.getRawTimephasedRemainingRegularWork()
+		.addAll(Arrays.asList(day1RemainingWork, day2RemainingWork, remainingWork));
+	```
+=== "C#"
+	```c#
+	// TBC
+	```
+
+As the comments in the code indicates, it is important to set the Work Contour
+attribute to `WorkContour.CONTOURED` in order that Microsoft Project
+correctly displays the break in working time.
+
+Finally, it is not strictly necessary to include the zero hours `TimephasedWork`
+instance: just leaving a gap between periods of work in the timephased data is
+sufficient to achieve the same effect when the result is imported into
+Microsoft Project. The code below illustrates this:
+
+=== "Java"
+	```java
+	// Create a resource assignment
+	ResourceAssignment assignment = task.addResourceAssignment(resource);
+	assignment.setStart(task.getStart());
+	assignment.setWork(Duration.getInstance(40, TimeUnit.HOURS));
+	assignment.setRemainingWork(Duration.getInstance(40, TimeUnit.HOURS));
+
+	// This is important - MS Project will accept the timephased data without this,
+	// but the split won't show up on the Gantt Chart unless this is set
+	assignment.setWorkContour(WorkContour.CONTOURED);
+
+	// Day 1 - 8h
+	TimephasedWork day1RemainingWork = new TimephasedWork();
+	day1RemainingWork.setStart(LocalDateTime.of(2024, 3, 4, 8, 0));
+	day1RemainingWork.setFinish(LocalDateTime.of(2024, 3, 4, 17, 0));
+	day1RemainingWork.setAmountPerHour(Duration.getInstance(1, TimeUnit.HOURS));
+	day1RemainingWork.setTotalAmount(Duration.getInstance(8, TimeUnit.HOURS));
+
+	// Day 2 - split
+
+	// Remaining days - 8h/day
+	// Note the gap between the end of the first working day and the start of the next working day.
+	// This gives us the split.
+	TimephasedWork remainingWork = new TimephasedWork();
+	remainingWork.setStart(LocalDateTime.of(2024, 3, 6, 8, 0));
+	remainingWork.setFinish(LocalDateTime.of(2024, 3, 11, 17, 0));
+	remainingWork.setAmountPerHour(Duration.getInstance(1, TimeUnit.HOURS));
+	remainingWork.setTotalAmount(Duration.getInstance(32, TimeUnit.HOURS));
+
+	assignment.getRawTimephasedRemainingRegularWork()
+		.addAll(Arrays.asList(day1RemainingWork, remainingWork));
+	```
+=== "C#"
+	```c#
+	// TBC
+	```
 
 ## Split Tasks
-_TBC_
+In previous sections we're touched briefly on the idea of split tasks, where
+there are one or more periods of non-working time over the duration of a task,
+which would normally have been expected to be working time. The screenshot below
+shows a simple example of this:
 
+<p align="center"><img alt="A split task" src="/images/howto-use-timephased/timephased-work-gantt.png" width="40%"/></p>
+
+What's happening here is that the timephased data from any resource assignments
+is being rolled up to the task level. If there are any gaps in the union of
+this rolled up timephased data, these are the splits which are illustrated on
+the Gantt chart as a gap in the bar.
+
+As a convenience MPXJ provides the `Task#getWorkSplits` method. This returns a
+list of `LocalDateTimeRange` instances representing the contiguous periods of
+work for the task. (There is also an equivalent method
+`ResourceAssignment#getWorkSplits` method which summarises the actual and
+remaining timephased work into working periods). The screenshot below
+illustrates tasks with variety of splits:
+
+<p align="center"><img alt="A split task" src="/images/howto-use-timephased/split-types.png" width="60%"/></p>
+
+The table below illustrates the result of calling `Task#getWorkSplits`
+for each of these tasks. 
+
+|ID|Name|Start|Finish|
+|---|---|---|---|
+|1 | No Splits|||
+|||2026-02-23 08:00 | 2026-02-27 17:00|
+|2 | One Split|||
+|||2026-02-23 08:00 | 2026-02-24 17:00|
+|||2026-02-26 08:00 | 2026-02-27 17:00|
+|3 | Two Splits|||
+|||2026-02-23 08:00 | 2026-02-23 17:00|
+|||2026-02-25 08:00 | 2026-02-25 17:00|
+|||2026-02-27 08:00 | 2026-02-27 17:00|
+|4 | Start Split|||
+|||2026-02-24 08:00 | 2026-02-27 17:00|
+
+As we can see, the task without a split returns a single range. The task
+name "Start Split" is interesting as it illustrates that there can be a
+non-working period before work actually commences on the task. In this case
+`Task#getWorkSplits` will only return one `LocalDateTimeRange` instance,
+but this range begins after the task's start date.
 
 ## P6 Timephased Data
 _TBC_
