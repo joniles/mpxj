@@ -865,7 +865,67 @@ In this case we have a task without any progress, so we're just adding the
 list. Note that the total amount of work represented by our `TimephasedWork`
 instances matches the total work assigned to the resource assignment.
 
+The next example shows creation of an in-progress resource assignment:
 
+=== "Java"
+	```java
+	// Create a resource assignment
+	ResourceAssignment assignment = task.addResourceAssignment(resource);
+	assignment.setStart(task.getStart());
+	assignment.setActualStart(task.getStart());
+	assignment.setWork(Duration.getInstance(40, TimeUnit.HOURS));
+	assignment.setActualWork(Duration.getInstance(4, TimeUnit.HOURS));
+	assignment.setRemainingWork(Duration.getInstance(36, TimeUnit.HOURS));
+
+	// Important - MS Project needs this as well as the timephased data
+	// to correctly represent the actual and remaining work
+	assignment.setStop(LocalDateTime.of(2024, 3, 4, 12, 0));
+	assignment.setResume(LocalDateTime.of(2024, 3, 4, 13, 0));
+
+	// Day 1 actual work - 4h
+	TimephasedWork day1ActualWork = new TimephasedWork();
+	day1ActualWork.setStart(LocalDateTime.of(2024, 3, 4, 8, 0));
+	day1ActualWork.setFinish(LocalDateTime.of(2024, 3, 4, 12, 0));
+	day1ActualWork.setAmountPerHour(Duration.getInstance(1, TimeUnit.HOURS));
+	day1ActualWork.setTotalAmount(Duration.getInstance(4, TimeUnit.HOURS));
+
+	// Day 1 remaining - 6h
+	TimephasedWork day1RemainingWork = new TimephasedWork();
+	day1RemainingWork.setStart(LocalDateTime.of(2024, 3, 4, 13, 0));
+	day1RemainingWork.setFinish(LocalDateTime.of(2024, 3, 4, 17, 0));
+	day1RemainingWork.setAmountPerHour(Duration.getInstance(1.5, TimeUnit.HOURS));
+	day1RemainingWork.setTotalAmount(Duration.getInstance(6, TimeUnit.HOURS));
+
+	// Day 2 remaining - 6h
+	TimephasedWork day2RemainingWork = new TimephasedWork();
+	day2RemainingWork.setStart(LocalDateTime.of(2024, 3, 5, 8, 0));
+	day2RemainingWork.setFinish(LocalDateTime.of(2024, 3, 5, 17, 0));
+	day2RemainingWork.setAmountPerHour(Duration.getInstance(0.75, TimeUnit.HOURS));
+	day2RemainingWork.setTotalAmount(Duration.getInstance(6, TimeUnit.HOURS));
+
+	// Remaining days - 8h/day
+	TimephasedWork remainingWork = new TimephasedWork();
+	remainingWork.setStart(LocalDateTime.of(2024, 3, 6, 8, 0));
+	remainingWork.setFinish(LocalDateTime.of(2024, 3, 8, 17, 0));
+	remainingWork.setAmountPerHour(Duration.getInstance(1, TimeUnit.HOURS));
+	remainingWork.setTotalAmount(Duration.getInstance(24, TimeUnit.HOURS));
+
+	assignment.getRawTimephasedActualRegularWork().add(day1ActualWork);
+	assignment.getRawTimephasedRemainingRegularWork()
+		.addAll(Arrays.asList(day1RemainingWork, day2RemainingWork, remainingWork));
+	```
+=== "C#"
+	```c#
+	// TBC
+	```
+
+In the code above we can see that we've created a `TimephasedWork` instance 
+to represent the actual work, and added this to the Raw Timephased Actual Regular
+Work list. We then add `TimephasedWork` items to the Raw Timephased Remaining
+Work list for the remaining work. One point to note is that to ensure that
+this assignment is interpreted correctly by Microsoft Project, we're
+setting the Stop and Resume attributes to show when the actual work finished,
+and the remaining work is due to start.
 
 
 
