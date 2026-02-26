@@ -5818,6 +5818,17 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Retrieve timephased planned cost for this task for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedPlannedCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, (t) -> t.getTimephasedPlannedCost(ranges), (r) -> r.getTimephasedPlannedCost(ranges));
+   }
+
+   /**
     * Retrieve timephased actual regular cost for this task for the supplied time ranges.
     *
     * @param ranges time ranges over which timephased cost is summarized
@@ -6811,6 +6822,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    private static final Map<FieldType, TimephasedNumericFunction> TIMEPHASED_NUMERIC_FUNCTIONS = new HashMap<>();
    static
    {
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.PLANNED_COST, Task::getTimephasedPlannedCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.REMAINING_REGULAR_COST, Task::getTimephasedRemainingRegularCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.REMAINING_OVERTIME_COST, Task::getTimephasedRemainingOvertimeCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.REMAINING_COST, Task::getTimephasedRemainingCost);

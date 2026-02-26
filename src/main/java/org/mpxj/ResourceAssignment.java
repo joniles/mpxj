@@ -2748,7 +2748,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
          default:
          {
-            result = addTimephasedRemainingCostPerUse(ranges, getTimephasedCost(ranges, 0, (List<LocalDateTimeRange> r) -> getTimephasedRemainingRegularWork(r, TimeUnit.HOURS)));
+            result = addTimephasedRemainingCostPerUse(ranges, getTimephasedCost(ranges, 0, this::getTimephasedRemainingRegularWork));
             break;
          }
       }
@@ -2798,7 +2798,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
          default:
          {
-            return getTimephasedCost(ranges, 1, (List<LocalDateTimeRange> r) -> getTimephasedRemainingOvertimeWork(r, TimeUnit.HOURS));
+            return getTimephasedCost(ranges, 1, this::getTimephasedRemainingOvertimeWork);
          }
       }
    }
@@ -2866,7 +2866,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
          default:
          {
-            result = addTimephasedActualCostPerUse(ranges, getTimephasedCost(ranges, 0, (List<LocalDateTimeRange> r) -> getTimephasedActualRegularWork(r, TimeUnit.HOURS)));
+            result = addTimephasedActualCostPerUse(ranges, getTimephasedCost(ranges, 0, this::getTimephasedActualRegularWork));
             break;
          }
       }
@@ -2923,11 +2923,17 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
          default:
          {
-            return getTimephasedCost(ranges, 1, (List<LocalDateTimeRange> r) -> getTimephasedActualOvertimeWork(r, TimeUnit.HOURS));
+            return getTimephasedCost(ranges, 1, this::getTimephasedActualOvertimeWork);
          }
       }
    }
 
+   /**
+    * Retrieve timephased planned cost for this resource assignment for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
    public List<Number> getTimephasedPlannedCost(List<LocalDateTimeRange> ranges)
    {
       // If we have no ranges, return an empty list.
@@ -2961,7 +2967,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
          default:
          {
-            result = getTimephasedCost(ranges, 0, (List<LocalDateTimeRange> r) -> getTimephasedPlannedWork(r, TimeUnit.HOURS));
+            result = getTimephasedCost(ranges, 0, this::getTimephasedPlannedWork);
             break;
          }
       }
@@ -3066,15 +3072,15 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @param ranges time ranges over which timephased cost is summarized
     * @param rateIndex index of the cost rate table to use
-    * @param timephasedWork function providing timephased work
+    * @param workSupplier function providing timephased work
     * @return list of Number instances representing timephased cost for the supplied ranges
     */
-   private List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges, int rateIndex, Function<List<LocalDateTimeRange>, List<Duration>> timephasedWork)
+   private List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges, int rateIndex, BiFunction<List<LocalDateTimeRange>, TimeUnit, List<Duration>> workSupplier)
    {
       Number[] result = new Number[ranges.size()];
 
       // If there is no work, return null values
-      List<Duration> hours = timephasedWork.apply(ranges);
+      List<Duration> hours = workSupplier.apply(ranges, TimeUnit.HOURS);
       if (hours == null || hours.isEmpty())
       {
          return Arrays.asList(result);
@@ -3134,7 +3140,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          LocalDateTimeRange subRange = new LocalDateTimeRange(range.getStart(), currentRate.getEndDate());
          while (true)
          {
-            work = timephasedWork.apply(Collections.singletonList(subRange)).get(0);
+            work = workSupplier.apply(Collections.singletonList(subRange), TimeUnit.HOURS).get(0);
             if (work != null)
             {
                Rate rate = getRatePerHour(currentRate.getRate(rateIndex));
@@ -4082,6 +4088,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    private static final Map<FieldType, TimephasedNumericFunction> TIMEPHASED_NUMERIC_FUNCTIONS = new HashMap<>();
    static
    {
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.PLANNED_COST, ResourceAssignment::getTimephasedPlannedCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.REMAINING_REGULAR_COST, ResourceAssignment::getTimephasedRemainingRegularCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.REMAINING_OVERTIME_COST, ResourceAssignment::getTimephasedRemainingOvertimeCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.REMAINING_COST, ResourceAssignment::getTimephasedRemainingCost);

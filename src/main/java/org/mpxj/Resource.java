@@ -2774,6 +2774,16 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
+    * Retrieve the planned cost field.
+    *
+    * @return planned work value
+    */
+   public Number getPlannedCost()
+   {
+      return (Number) get(ResourceField.PLANNED_COST);
+   }
+
+   /**
     * Returns the actual regular work of this resource.
     *
     * @return actual regular work
@@ -2994,6 +3004,17 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    public List<Duration> getTimephasedBaselineWork(int index, List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       return reduceTimephasedWork(ranges, r -> r.getTimephasedBaselineWork(index, ranges, units), r -> r.getTimephasedBaselineWork(index, ranges, units));
+   }
+
+   /**
+    * Retrieve timephased planned cost for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedPlannedCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, r -> r.getTimephasedPlannedCost(ranges), r -> r.getTimephasedPlannedCost(ranges));
    }
 
    /**
@@ -3422,6 +3443,20 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       return Duration.getInstance(list.stream().mapToDouble(d -> d.convertUnits(unit, calendar).getDuration()).sum(), unit);
    }
 
+   private Number calculatePlannedCost()
+   {
+      List<Number> list = getResourceAssignmentStream()
+         .map(ResourceAssignment::getPlannedCost)
+         .filter(Objects::nonNull).collect(Collectors.toList());
+
+      if (list.isEmpty() || list.stream().noneMatch(Objects::nonNull))
+      {
+         return null;
+      }
+
+      return Double.valueOf(list.stream().mapToDouble(Number::doubleValue).sum());
+   }
+
    private Stream<ResourceAssignment> getResourceAssignmentStream()
    {
       return getResourceAssignmentStream(getUniqueID());
@@ -3589,6 +3624,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    private static final Map<FieldType, TimephasedNumericFunction> TIMEPHASED_NUMERIC_FUNCTIONS = new HashMap<>();
    static
    {
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.PLANNED_COST, Resource::getTimephasedPlannedCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.REMAINING_REGULAR_COST, Resource::getTimephasedRemainingRegularCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.REMAINING_OVERTIME_COST, Resource::getTimephasedRemainingOvertimeCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.REMAINING_COST, Resource::getTimephasedRemainingCost);
@@ -3653,6 +3689,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       CALCULATED_FIELD_MAP.put(ResourceField.START, Resource::calculateStart);
       CALCULATED_FIELD_MAP.put(ResourceField.FINISH, Resource::calculateFinish);
       CALCULATED_FIELD_MAP.put(ResourceField.PLANNED_WORK, Resource::calculatePlannedWork);
+      CALCULATED_FIELD_MAP.put(ResourceField.PLANNED_COST, Resource::calculatePlannedCost);
       CALCULATED_FIELD_MAP.put(ResourceField.ACTUAL_REGULAR_COST, a -> a.calculateRegularCost(a::getActualCost, a::getActualOvertimeCost));
       CALCULATED_FIELD_MAP.put(ResourceField.REMAINING_REGULAR_COST, a -> a.calculateRegularCost(a::getRemainingCost, a::getRemainingOvertimeCost));
       CALCULATED_FIELD_MAP.put(ResourceField.ACTUAL_REGULAR_WORK, a -> a.calculateRegularWork(a::getActualWork, a::getActualOvertimeWork));

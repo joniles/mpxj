@@ -1651,6 +1651,7 @@ public final class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.BASELINE8_MATERIAL.getValue()] = "Baseline8 Material";
       RESOURCE_COLUMNS_ARRAY[ResourceField.BASELINE9_MATERIAL.getValue()] = "Baseline9 Material";
       RESOURCE_COLUMNS_ARRAY[ResourceField.BASELINE10_MATERIAL.getValue()] = "Baseline10 Material";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.PLANNED_COST.getValue()] = "Planned Cost";
 
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.START.getValue()] = "Start";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ASSIGNMENT_UNITS.getValue()] = "Assignment Units";
