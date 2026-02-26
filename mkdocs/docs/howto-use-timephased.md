@@ -1120,12 +1120,51 @@ but this range begins after the task's start date.
 
 Alongside Microsoft Project, Primavera P6 also provides access to timephased
 data, which can be seen as part of its Resource Assignment view. P6
-allows "curves" to be applied to resource assignments distribute work or material utilisation
-in a form other than the default "flat" distribution. P6 also allows you to modify
-the timephased view of remaining work or material utilisation to allow you
-to make your own custom distributions.
+allows "curves" to be applied to resource assignments distribute work or
+material utilisation in a form other than the default "flat" distribution. P6
+also allows you to modify the timephased view of remaining work or material
+utilisation to allow you to make your own custom distributions.
 
-planned
+When reading a P6 schedule, the Raw Timephased Actual Regular Work and Raw
+Timephased Remaining Regular Work attributes are populated. This data is then
+accessible via the following methods on the `ResourceAssignment`, `Resource`,
+and `Task` classes:
+
+* `getTimephasedActualRegularWork`
+* `getTimephasedRemainingRegularWork`
+* `getTimephasedActualWork`
+* `getTimephasedRemainingWork`
+* `getTimephasedWork`
+* `getTimephasedActualRegularCost`
+* `getTimephasedRemainingRegularCost`
+* `getTimephasedActualCost`
+* `getTimephasedRemainingCost`
+* `getTimephasedCost`
+* `getTimephasedActualMaterial`
+* `getTimephasedRemainingMaterial`
+* `getTimephasedMaterial`
+
+The actual and remaining timephased data retrieved from P6 will be
+non-overlapping, which is the same as the data retrieved from Microsoft
+Project: the remaining timephased data should start at a time on or after
+the actual timephased data finishes.
+
+Primavera P6 also captures an additional set of timephased data which is not
+supported by Microsoft Project, which is _Planned_ timephased data
+(also referred to as Budgeted). This data differs from the actual and remaining
+timephased data in that it is a single set of data which spans the entire
+duration of the `ResourceAssignment`, rather than being split in the way that
+the actual and remaining data is.
+
+The Raw Timephased Planned Work attribute is populated with the raw data from
+the P6 schedule. This data is then accessible via the following methods on the
+`ResourceAssignment`, `Resource`, and `Task` classes:
+
+* `getTimephasedPlannedWork`
+* `getTimephasedPlannedMaterial`
+
+
+
 
 _TBC_
 
