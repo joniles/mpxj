@@ -77,7 +77,9 @@ representing today's date:
 	```
 === "C#"
 	```c#
-	// TBC
+	var today = new DateTimeRange(
+		new DateTime(2026, 2, 18),
+		new DateTime(2026, 2, 19));
 	```
 
 Today happens to be 18th February, but we can see that the range ends at
@@ -101,7 +103,13 @@ extend until midnight on the 20th February:
 	```
 === "C#"
 	```c#
-	// TBC
+	var day1 = new DateTimeRange(
+		new DateTime(2026, 2, 18),
+		new DateTime(2026, 2, 19));
+	var day2 = new DateTimeRange(
+		new DateTime(2026, 2, 19),
+		new DateTime(2026, 2, 20));
+	var timescale = new List<DateTimeRange> { day1, day2 };
 	```
 
 Fortunately, you don't need to worry about constructing a timescale for
