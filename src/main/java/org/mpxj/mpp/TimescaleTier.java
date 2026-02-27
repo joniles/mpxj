@@ -23,6 +23,8 @@
 
 package org.mpxj.mpp;
 
+import org.mpxj.TimescaleUnits;
+
 /**
  * This class collects together the properties which represent a
  * single tier of the timescale on a Gantt chart.

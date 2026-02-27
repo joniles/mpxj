@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.mpxj.LocalDateTimeRange;
-import org.mpxj.mpp.TimescaleUnits;
+import org.mpxj.TimescaleUnits;
 
 /**
  * This class contains methods related to creation of timescale data.

@@ -34,7 +34,7 @@ import org.mpxj.ResourceAssignment;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimeUnitDefaultsContainer;
 import org.mpxj.mpp.MPPReader;
-import org.mpxj.mpp.TimescaleUnits;
+import org.mpxj.TimescaleUnits;
 import org.mpxj.utility.TimescaleUtility;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

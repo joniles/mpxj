@@ -30,7 +30,7 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
-import org.mpxj.mpp.TimescaleUnits;
+import org.mpxj.TimescaleUnits;
 import org.mpxj.utility.TimescaleUtility;
 
 /**

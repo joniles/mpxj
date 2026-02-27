@@ -172,7 +172,7 @@ public final class GanttChartView12 extends GanttChartView
          m_timescaleMiddleTier = new TimescaleTier();
          m_timescaleMiddleTier.setTickLines((flags & 0x01) != 0);
          m_timescaleMiddleTier.setUsesFiscalYear((flags & 0x08) != 0);
-         m_timescaleMiddleTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[242]));
+         m_timescaleMiddleTier.setUnits(TimescaleUnitsHelper.getInstance(viewPropertyData[242]));
          m_timescaleMiddleTier.setCount(viewPropertyData[246]);
          m_timescaleMiddleTier.setFormat(TimescaleFormat.getInstance(ByteArrayHelper.getShort(viewPropertyData, 250)));
          m_timescaleMiddleTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[256] - 32));
@@ -180,7 +180,7 @@ public final class GanttChartView12 extends GanttChartView
          m_timescaleBottomTier = new TimescaleTier();
          m_timescaleBottomTier.setTickLines((flags & 0x02) != 0);
          m_timescaleBottomTier.setUsesFiscalYear((flags & 0x10) != 0);
-         m_timescaleBottomTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[244]));
+         m_timescaleBottomTier.setUnits(TimescaleUnitsHelper.getInstance(viewPropertyData[244]));
          m_timescaleBottomTier.setCount(viewPropertyData[248]);
          m_timescaleBottomTier.setFormat(TimescaleFormat.getInstance(ByteArrayHelper.getShort(viewPropertyData, 252)));
          m_timescaleBottomTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[254] - 32));
@@ -204,7 +204,7 @@ public final class GanttChartView12 extends GanttChartView
 
          m_timescaleTopTier.setTickLines(timescaleData[48] != 0);
          m_timescaleTopTier.setUsesFiscalYear(timescaleData[60] != 0);
-         m_timescaleTopTier.setUnits(TimescaleUnits.getInstance(timescaleData[30]));
+         m_timescaleTopTier.setUnits(TimescaleUnitsHelper.getInstance(timescaleData[30]));
          m_timescaleTopTier.setCount(timescaleData[32]);
          m_timescaleTopTier.setFormat(TimescaleFormat.getInstance(ByteArrayHelper.getShort(timescaleData, 34)));
          m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(timescaleData[36] - 20));
