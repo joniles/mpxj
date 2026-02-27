@@ -51,7 +51,7 @@ public final class TimescaleUtility
     * Note: that the ranges returned by this method are "half open". So for time
     * t to be within a range the following must be true: start <= t < end.
     * <p/>
-    * Note: the first range start date will be aligned as follows baseed on the requested units:
+    * Note: the first range start date will be aligned as follows based on the requested units:
     * MINUTES: first second of the supplied minute,
     * HOURS: first minute of the supplied hour,
     * DAYS: midnight on the supplied start date,
@@ -98,7 +98,7 @@ public final class TimescaleUtility
     * Note: that the ranges returned by this method are "half open". So for time
     * t to be within a range the following must be true: start <= t < end.
     * <p/>
-    * Note: the first range start date will be aligned as follows baseed on the requested units:
+    * Note: the first range start date will be aligned as follows based on the requested units:
     * MINUTES: first second of the supplied minute,
     * HOURS: first minute of the supplied hour,
     * DAYS: midnight on the supplied start date,
