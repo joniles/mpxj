@@ -1120,11 +1120,12 @@ but this range begins after the task's start date.
 
 Alongside Microsoft Project, Primavera P6 also provides access to timephased
 data, which can be seen as part of its Resource Assignment view. P6
-allows "curves" to be applied to resource assignments distribute work or
-material utilisation in a form other than the default "flat" distribution. P6
+allows curves to be applied to resource assignments distribute work or
+material utilisation in a form other than the default flat distribution. P6
 also allows you to modify the timephased view of remaining work or material
-utilisation to allow you to make your own custom distributions.
+utilisation to allow you to make your own custom distribution.
 
+MPXJ will read and write timephased data for both XER and PMXML files.
 When reading a P6 schedule, the Raw Timephased Actual Regular Work and Raw
 Timephased Remaining Regular Work attributes are populated. This data is then
 accessible via the following methods on the `ResourceAssignment`, `Resource`,
@@ -1151,21 +1152,25 @@ the actual timephased data finishes.
 
 Primavera P6 also captures an additional set of timephased data which is not
 supported by Microsoft Project, which is _Planned_ timephased data
-(also referred to as Budgeted). This data differs from the actual and remaining
-timephased data in that it is a single set of data which spans the entire
-duration of the `ResourceAssignment`, rather than being split in the way that
-the actual and remaining data is.
+(also referred to in P6 as Budgeted). This data differs from the actual and
+remaining timephased data in that it is a single set of data which spans the
+entire duration of the `ResourceAssignment`, rather than being split in the way
+that the actual and remaining data is.
 
-The Raw Timephased Planned Work attribute is populated with the raw data from
-the P6 schedule. This data is then accessible via the following methods on the
-`ResourceAssignment`, `Resource`, and `Task` classes:
+The Raw Timephased Planned Work attribute is populated with the original data
+from the P6 schedule. This data is then accessible via the following methods on
+the `ResourceAssignment`, `Resource`, and `Task` classes:
 
 * `getTimephasedPlannedWork`
+* `getTimephasedPlannedCost`
 * `getTimephasedPlannedMaterial`
 
+P6 does not store timephased data for resource assignments using a flat
+distribution of work or material utilisation. Instead timephased data is only
+stored where a curve has been applied, or manual edits have been made to the
+distribution.
 
-
-
-_TBC_
-
-
+For resource assignments which have a flat distribution of work or material
+utilisation, the raw timephased data lists will be empty. Timephased data is
+still available via MPXJ as the library will generate the appropriate
+distribution dynamically when any of the `getTimephased` methods is called.
