@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.TimescaleUnits;
-import org.mpxj.utility.TimescaleUtility;
+import org.mpxj.common.TimescaleHelper;
 
 /**
  * Tests to exercise the TimescaleUtility class.
@@ -43,7 +43,7 @@ public class TimescaleUtilityTest
     */
    @Test public void testMinutes()
    {
-      TimescaleUtility ts = new TimescaleUtility();
+      TimescaleHelper ts = new TimescaleHelper();
 
       LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:00:30", m_basicDateFormat);
       List<LocalDateTimeRange> result = ts.createTimescale(startDate, 5, TimescaleUnits.MINUTES);
@@ -70,7 +70,7 @@ public class TimescaleUtilityTest
    @Test public void testHours()
    {
       LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:01", m_basicDateFormat);
-      TimescaleUtility ts = new TimescaleUtility();
+      TimescaleHelper ts = new TimescaleHelper();
 
       List<LocalDateTimeRange> result = ts.createTimescale(startDate, 5, TimescaleUnits.HOURS);
       Assertions.assertEquals(5, result.size());
@@ -96,7 +96,7 @@ public class TimescaleUtilityTest
    @Test public void testDays()
    {
       LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:00", m_basicDateFormat);
-      TimescaleUtility ts = new TimescaleUtility();
+      TimescaleHelper ts = new TimescaleHelper();
 
       List<LocalDateTimeRange> result = ts.createTimescale(startDate, 5, TimescaleUnits.DAYS);
       Assertions.assertEquals(5, result.size());
@@ -122,7 +122,7 @@ public class TimescaleUtilityTest
    @Test public void testWeeks()
    {
       LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:00", m_basicDateFormat);
-      TimescaleUtility ts = new TimescaleUtility();
+      TimescaleHelper ts = new TimescaleHelper();
 
       // Week start Sunday
       ts.setWeekStartDay(DayOfWeek.SUNDAY);
@@ -264,7 +264,7 @@ public class TimescaleUtilityTest
    @Test public void testThirdsOfMonths()
    {
       LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:00", m_basicDateFormat);
-      TimescaleUtility ts = new TimescaleUtility();
+      TimescaleHelper ts = new TimescaleHelper();
 
       List<LocalDateTimeRange> result = ts.createTimescale(startDate, 5, TimescaleUnits.THIRDS_OF_MONTHS);
       Assertions.assertEquals(5, result.size());
@@ -290,7 +290,7 @@ public class TimescaleUtilityTest
    @Test public void testMonths()
    {
       LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:00", m_basicDateFormat);
-      TimescaleUtility ts = new TimescaleUtility();
+      TimescaleHelper ts = new TimescaleHelper();
 
       List<LocalDateTimeRange> result = ts.createTimescale(startDate, 5, TimescaleUnits.MONTHS);
       Assertions.assertEquals(5, result.size());
@@ -316,7 +316,7 @@ public class TimescaleUtilityTest
    @Test public void testQuarters()
    {
       LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:00", m_basicDateFormat);
-      TimescaleUtility ts = new TimescaleUtility();
+      TimescaleHelper ts = new TimescaleHelper();
 
       List<LocalDateTimeRange> result = ts.createTimescale(startDate, 5, TimescaleUnits.QUARTERS);
       Assertions.assertEquals(5, result.size());
@@ -342,7 +342,7 @@ public class TimescaleUtilityTest
    @Test public void testHalfYears()
    {
       LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:00", m_basicDateFormat);
-      TimescaleUtility ts = new TimescaleUtility();
+      TimescaleHelper ts = new TimescaleHelper();
 
       List<LocalDateTimeRange> result = ts.createTimescale(startDate, 5, TimescaleUnits.HALF_YEARS);
       Assertions.assertEquals(5, result.size());
@@ -368,7 +368,7 @@ public class TimescaleUtilityTest
    @Test public void testYears()
    {
       LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:00", m_basicDateFormat);
-      TimescaleUtility ts = new TimescaleUtility();
+      TimescaleHelper ts = new TimescaleHelper();
 
       List<LocalDateTimeRange> result = ts.createTimescale(startDate, 5, TimescaleUnits.YEARS);
       Assertions.assertEquals(5, result.size());

@@ -51,7 +51,7 @@ import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimescaleUnits;
 import org.mpxj.reader.UniversalProjectReader;
-import org.mpxj.utility.TimescaleUtility;
+import org.mpxj.common.TimescaleHelper;
 
 /**
  * This example shows an MPP, MPX or MSPDI file being read, and basic
@@ -324,7 +324,7 @@ public class MpxjQuery
       {
          DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yy");
 
-         TimescaleUtility timescale = new TimescaleUtility();
+         TimescaleHelper timescale = new TimescaleHelper();
          List<LocalDateTimeRange> dates = timescale.createTimescale(task.getStart(), days, TimescaleUnits.DAYS);
 
          List<Duration> durations = assignment.getTimephasedWork(dates, TimeUnit.HOURS);

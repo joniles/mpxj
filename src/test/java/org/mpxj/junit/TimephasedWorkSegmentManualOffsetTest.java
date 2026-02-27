@@ -35,7 +35,7 @@ import org.mpxj.TimeUnit;
 import org.mpxj.TimeUnitDefaultsContainer;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.TimescaleUnits;
-import org.mpxj.utility.TimescaleUtility;
+import org.mpxj.common.TimescaleHelper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -145,5 +145,5 @@ public class TimephasedWorkSegmentManualOffsetTest
       assertEquals(segmentCount, loop, "JSON time scaled data does not contain enough data for " + assignment);
    }
 
-   private final TimescaleUtility m_timescale = new TimescaleUtility();
+   private final TimescaleHelper m_timescale = new TimescaleHelper();
 }

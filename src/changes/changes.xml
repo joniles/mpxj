@@ -29,11 +29,12 @@
 			<action dev="joniles" type="update">The `Task` class now supports the following timephased work methods: `getTimephasedPlannedWork`, `getTimephasedActualRegularWork`, `getTimephasedActualOvertimeWork`, `getTimephasedActualWork`, `getTimephasedRemainingRegularWork`, `getTimephasedRemainingOvertimeWork`, `getTimephasedRemainingWork`, `getTimephasedWork`, `getTimephased BaselineWork`.</action>
 			<action dev="joniles" type="update">The `Task` class now supports the following timephased cost methods: `getTimephasedPlannedCost`, `getTimephasedActualRegularCost`, `getTimephasedActualOvertimeCost`, `getTimephasedActualCost`, `getTimephasedRemainingRegularCost`, `getTimephasedRemainingOvertimeCost`, `getTimephasedRemainingCost`, `getTimephasedCost`, `getTimephasedBaselineCost`, `getTimephasedActualFixedCost`, `getTimephasedRemainingFixedCost`, `getTimephasedFixedCost`.</action>
 			<action dev="joniles" type="update">The `TimephasedItem`, `TimephasedWork`, and `TimephasedCost` classes have a new `getAmountPerHour` method, which replaces the original `getAmountPerDay` method.</action>
-			<action dev="joniles" type="update">A new version of the `TimescaleUtility#createTimescale` method has been provided which takes and end date rather than a number of ranges.</action>
+			<action dev="joniles" type="update">A new version of the `TimescaleHelper#createTimescale` (previously `TimescaleUtility#createTimescale`) method has been provided which takes and end date rather than a number of ranges.</action>
 			<action dev="joniles" type="update">**BREAKING CHANGES**</action>
 			<action dev="joniles" type="update">`MSPDIWriter` no longer provides the `setSplitTimephasedAsDays` and `getSplitTimephasedAsDays` methods. Timephased data is always written to the file exactly as MPXJ originally read it.</action>
-			<action dev="joniles" type="update">The `TimescaleUtility#createTimescale` method now returns a `List&lt;LocalDateTimeRange&gt;` rather than an `ArrayList&lt;LocalDateTimeRange&gt;`</action>
-			<action dev="joniles" type="update">The `TimescaleUtility#createTimescale` method now returns half open ranges, for example a range representing 1st January 2026 would be expressed as `2026-01-01 00:00 to 2026-01-02 00:00` rather than `2026-01-01 00:00 to 2026-01-01 23:59`.</action>
+			<action dev="joniles" type="update">The `TimescaleUtility` class has been renamed `TimescaleHelper` and has been moved to the `org.mpxj.common` package.</action>
+			<action dev="joniles" type="update">The `TimescaleHelper#createTimescale` method now returns a `List&lt;LocalDateTimeRange&gt;` rather than an `ArrayList&lt;LocalDateTimeRange&gt;`</action>
+			<action dev="joniles" type="update">The `TimescaleHelper#createTimescale` method now returns half open ranges, for example a range representing 1st January 2026 would be expressed as `2026-01-01 00:00 to 2026-01-02 00:00` rather than `2026-01-01 00:00 to 2026-01-01 23:59`.</action>
 			<action dev="joniles" type="update">The following `ResourceAssignment` timephased work methods have been removed and replaced by the `getRaw` methods noted above: `getTimephasedPlannedWork`, `getTimephasedActualWork`, `getTimephasedWork`, `getTimephasedOvertimeWork`, `getTimephasedActualOvertimeWork`, `getTimephasedBaselineWork`, `getTimephasedBaselineCost`</action>
 			<action dev="joniles" type="update">The following `ResourceAssignment` timephased work methods have been removed without replacement: `setTimephasedPlannedWork`, `setTimephasedActualWork`, `setTimephasedWork`, `setTimephasedActualOvertimeWork`, `setTimephasedBaselineWork`, `setTimephasedBaselineCost`.</action>
 			<action dev="joniles" type="update">The following `ResourceAssignment` timephased cost methods have been removed and replaced by the cost methods noted above: `getTimephasedCost`, `getTimephasedActualCost`.</action>
@@ -43,8 +44,8 @@
 			<action dev="joniles" type="update">The `TaskField.SPLITS` enumeration value has been removed, use `TaskField.WORK_SPLITS` instead.</action>
 			<action dev="joniles" type="update">The `AssignmentField.TIMEPHASED_WORK` enumeration value has been removed, use `TaskField.TIMEPHASED_REMAINING_REGULAR_WORK` instead.</action>
 			<action dev="joniles" type="update">The `AssignmentField.TIMEPHASED_ACTUAL_WORK` enumeration value has been removed, use `TaskField.TIMEPHASED_ACTUAL_REGULAR_WORK` instead.</action><action dev="joniles" type="update">The order of the arguments supplied to the `TimescaleUtility#createTimescale` method has been changed.</action>
-			<action dev="joniles" type="update">The order of the arguments supplied to the `TimescaleUtility#createTimescale` method has been changed.</action>
-			<action dev="joniles" type="update">The alignment of the ranges returned by `TimescaleUtility#createTimescale` has changed when `MINUTES` or `HOURS` is specified as the required timescale units..</action>
+			<action dev="joniles" type="update">The order of the arguments supplied to the `TimescaleHelper#createTimescale` method has been changed.</action>
+			<action dev="joniles" type="update">The alignment of the ranges returned by `TimescaleHelper#createTimescale` has changed when `MINUTES` or `HOURS` is specified as the required timescale units..</action>
 		</release>
 		<release date="unreleased" version="15.3.2">
 		</release>

@@ -20,7 +20,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package org.mpxj.utility;
+package org.mpxj.common;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -36,7 +36,7 @@ import org.mpxj.TimescaleUnits;
 /**
  * This class contains methods related to creation of timescale data.
  */
-public final class TimescaleUtility
+public final class TimescaleHelper
 {
    /**
     * Given a start date, the number of ranges required, and a timescale unit, this

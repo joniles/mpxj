@@ -35,7 +35,7 @@ import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.TimescaleUnits;
-import org.mpxj.utility.TimescaleUtility;
+import org.mpxj.common.TimescaleHelper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -289,5 +289,5 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       TimephasedTestHelper.testDurationSegments(durationList, expected);
    }
 
-   private final TimescaleUtility m_timescale = new TimescaleUtility();
+   private final TimescaleHelper m_timescale = new TimescaleHelper();
 }

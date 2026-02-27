@@ -34,7 +34,7 @@ import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.TimescaleUnits;
-import org.mpxj.utility.TimescaleUtility;
+import org.mpxj.common.TimescaleHelper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -48,9 +48,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    @Test public void testSingleRateCost() throws Exception
    {
-      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 3, 0, 0), 5, TimescaleUnits.DAYS);
-      List<LocalDateTimeRange> rangeOverlapsStart = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 3, 0, 0), 3, TimescaleUnits.DAYS);
-      List<LocalDateTimeRange> rangeOverlapsEnd = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 5, 0, 0), 3, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 2, 3, 0, 0), 5, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> rangeOverlapsStart = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 2, 3, 0, 0), 3, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> rangeOverlapsEnd = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 2, 5, 0, 0), 3, TimescaleUnits.DAYS);
 
       ProjectFile file = new MPPReader().read(MpxjTestData.filePath("timephased-single-rate.mpp"));
 
@@ -304,7 +304,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    @Test public void testMultiRateCost() throws Exception
    {
-      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 3, 0, 0), 5, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 2, 3, 0, 0), 5, TimescaleUnits.DAYS);
 
       ProjectFile file = new MPPReader().read(MpxjTestData.filePath("timephased-multi-rate.mpp"));
 
@@ -446,7 +446,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    @Test public void testCosts() throws Exception
    {
-      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 4, 0, 0), 7, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 2, 4, 0, 0), 7, TimescaleUnits.DAYS);
 
       ProjectFile file = new MPPReader().read(MpxjTestData.filePath("timephased-actual-work-resource.mpp"));
 
@@ -500,7 +500,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedRemainingOvertimeCost(rangeCoversAssignment), new Double[] {null, null, null, null, null, null, null});
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedCost(rangeCoversAssignment), new Double[] {null, 0.0, 0.0, null, null, 251.0, null});
 
-      List<LocalDateTimeRange> rangeWithoutOverlap = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 1, 1, 0, 0), 5, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> rangeWithoutOverlap = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 1, 1, 0, 0), 5, TimescaleUnits.DAYS);
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedActualRegularCost(rangeWithoutOverlap), new Double[] {null, null, null, null, null});
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedActualOvertimeCost(rangeWithoutOverlap), new Double[] {null, null, null, null, null});
    }
@@ -510,9 +510,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    @Test public void testWork() throws Exception
    {
-      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 1, 27, 0, 0), 8, TimescaleUnits.DAYS);
-      List<LocalDateTimeRange> rangeOverlapsStart = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 1, 27, 0, 0), 3, TimescaleUnits.DAYS);
-      List<LocalDateTimeRange> rangeOverlapsEnd = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 1, 29, 0, 0), 6, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 1, 27, 0, 0), 8, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> rangeOverlapsStart = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 1, 27, 0, 0), 3, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> rangeOverlapsEnd = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 1, 29, 0, 0), 6, TimescaleUnits.DAYS);
 
       ProjectFile file = new MPPReader().read(MpxjTestData.filePath("timephased-actual-overtime-work.mpp"));
 

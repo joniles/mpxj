@@ -33,7 +33,7 @@ import org.mpxj.ResourceAssignment;
 import org.mpxj.Task;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.TimescaleUnits;
-import org.mpxj.utility.TimescaleUtility;
+import org.mpxj.common.TimescaleHelper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -47,9 +47,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    @Test public void testProratedCostResource() throws Exception
    {
-      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 1, 28, 0, 0), 7, TimescaleUnits.DAYS);
-      List<LocalDateTimeRange> rangeOverlapsStart = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 1, 28, 0, 0), 3, TimescaleUnits.DAYS);
-      List<LocalDateTimeRange> rangeOverlapsEnd = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 2, 0, 0), 2, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 1, 28, 0, 0), 7, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> rangeOverlapsStart = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 1, 28, 0, 0), 3, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> rangeOverlapsEnd = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 2, 2, 0, 0), 2, TimescaleUnits.DAYS);
 
       ProjectFile file = new MPPReader().read(MpxjTestData.filePath("timephased-prorated-cost-resource.mpp"));
 
@@ -132,9 +132,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    @Test public void testAccrueAtStartCostResource() throws Exception
    {
-      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 1, 28, 0, 0), 7, TimescaleUnits.DAYS);
-      List<LocalDateTimeRange> rangeOverlapsStart = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 1, 28, 0, 0), 3, TimescaleUnits.DAYS);
-      List<LocalDateTimeRange> rangeOverlapsEnd = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 2, 0, 0), 2, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 1, 28, 0, 0), 7, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> rangeOverlapsStart = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 1, 28, 0, 0), 3, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> rangeOverlapsEnd = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 2, 2, 0, 0), 2, TimescaleUnits.DAYS);
 
       ProjectFile file = new MPPReader().read(MpxjTestData.filePath("timephased-start-cost-resource.mpp"));
 
@@ -218,9 +218,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     */
    @Test public void testAccrueAtEndCostResource() throws Exception
    {
-      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 1, 28, 0, 0), 7, TimescaleUnits.DAYS);
-      List<LocalDateTimeRange> rangeOverlapsStart = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 1, 28, 0, 0), 3, TimescaleUnits.DAYS);
-      List<LocalDateTimeRange> rangeOverlapsEnd = new TimescaleUtility().createTimescale(LocalDateTime.of(2026, 2, 2, 0, 0), 2, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> rangeCoversAssignment = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 1, 28, 0, 0), 7, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> rangeOverlapsStart = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 1, 28, 0, 0), 3, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> rangeOverlapsEnd = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 2, 2, 0, 0), 2, TimescaleUnits.DAYS);
 
       ProjectFile file = new MPPReader().read(MpxjTestData.filePath("timephased-end-cost-resource.mpp"));
 
