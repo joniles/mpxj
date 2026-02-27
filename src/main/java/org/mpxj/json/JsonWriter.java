@@ -112,6 +112,7 @@ import org.mpxj.mpp.GanttBarStyle;
 import org.mpxj.mpp.GanttBarStyleException;
 import org.mpxj.mpp.GanttChartView;
 import org.mpxj.mpp.TableFontStyle;
+import org.mpxj.mpp.TimescaleTier;
 import org.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -2106,6 +2107,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeOptionalStringField("type", view.getType().name().toLowerCase());
          writeOptionalStringField("table_name", view.getTableName());
          writeViewTableFontStyles(view);
+         writeTimescales(view);
          writeBarStyles(view);
          writeBarStyleExceptions(view);
          m_writer.writeEndObject();
@@ -2198,6 +2200,37 @@ public final class JsonWriter extends AbstractProjectWriter
       }
       m_writer.writeEndArray();
    }
+
+   private void writeTimescales(View view) throws IOException
+   {
+      if (!(view instanceof GanttChartView))
+      {
+         return;
+      }
+
+      GanttChartView ganttChartView = (GanttChartView) view;
+      writeTimescale("timescale_top_tier", ganttChartView.getTimescaleTopTier());
+      writeTimescale("timescale_middle_tier", ganttChartView.getTimescaleMiddleTier());
+      writeTimescale("timescale_bottom_tier", ganttChartView.getTimescaleBottomTier());
+   }
+
+   private void writeTimescale(String name, TimescaleTier timescale) throws IOException
+   {
+      if (timescale == null)
+      {
+         return;
+      }
+
+      m_writer.writeObjectFieldStart(name);
+      m_writer.writeStringField("alignment", timescale.getAlignment().name().toLowerCase());
+      m_writer.writeNumberField("count", timescale.getCount());
+      m_writer.writeStringField("format", timescale.getFormat().name().toLowerCase());
+      m_writer.writeStringField("units", timescale.getUnits().name().toLowerCase());
+      m_writer.writeBooleanField("ticklines", timescale.getTickLines());
+      m_writer.writeBooleanField("uses_fiscal_year", timescale.getUsesFiscalYear());
+      m_writer.writeEndObject();
+   }
+
 
    /**
     * Write a TaskMode field to the JSON file.
