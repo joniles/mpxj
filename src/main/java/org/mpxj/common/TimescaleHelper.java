@@ -143,7 +143,10 @@ public final class TimescaleHelper
     */
    public void setWeekStartDay(DayOfWeek weekStartDay)
    {
-      m_weekStartDay = weekStartDay;
+      if (weekStartDay != null)
+      {
+         m_weekStartDay = weekStartDay;
+      }
    }
 
    /**
