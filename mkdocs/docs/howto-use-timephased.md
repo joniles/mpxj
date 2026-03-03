@@ -199,7 +199,8 @@ show our timephased data split into days:
 	```
 === "C#"
 	```c#
-	// TBC
+	var ranges = new TimescaleHelper()
+		.CreateTimescale(new DateTime(2026, 2, 18), 7, TimescaleUnits.Days);
 	```
 
 #### Assignments
