@@ -217,7 +217,8 @@ remaining work for this assignment:
 	```
 === "C#"
 	```c#
-	// TBC
+	var assignment = file.ResourceAssignments.GetByUniqueID(6);
+	var work = assignment.GetTimephasedWork(ranges, TimeUnit.Hours);
 	```
 
 You can see that we're calling the method and passing `ranges` which represents
@@ -250,7 +251,29 @@ us format the data MPXJ has returned to make it easier to read:
 	```
 === "C#"
 	```c#
-	// TBC
+	private void WriteTableHeader(IList<DateTimeRange> ranges)
+	{
+		var labels = String.Join('|', ranges
+			.Select(r => r.Start.Value.DayOfWeek.ToString().Substring(0, 1)));
+		System.Console.WriteLine("||" + labels + "|");
+
+		var separator = String.Join('|', ranges.Select(r => "---"));
+		System.Console.WriteLine("|---|" + separator+ "|");
+	}
+
+	private void WriteTableRow(string label, IList<Duration> data)
+	{
+		var values = String.Join('|',
+			data.Select(d => d == null ? "null" : d.ToString()));
+		System.Console.WriteLine("|" + label + "|" + values + "|");
+	}
+
+	private void WriteTableRow(string label, IList<double?> data)
+	{
+		var values = String.Join('|',
+			data.Select(d => d == null ? "null" : d.ToString()));
+		System.Console.WriteLine("|" + label + "|" + values + "|");
+	}
 	```
 
 We'll call our new helper methods like this:
@@ -262,7 +285,8 @@ We'll call our new helper methods like this:
 	```
 === "C#"
 	```c#
-	// TBC
+	WriteTableHeader(ranges);
+	WriteTableRow("Work", work);
 	```
 
 Which will return a Markdown table as shown below, with the initial letter of
@@ -305,7 +329,11 @@ can request Actual and Remaining Work separately:
 	```
 === "C#"
 	```c#
-	// TBC
+	var actualWork = assignment.GetTimephasedActualWork(ranges, TimeUnit.Hours);
+	var remainingWork = assignment.GetTimephasedRemainingWork(ranges, TimeUnit.Hours);
+	WriteTableHeader(ranges);
+	WriteTableRow("Actual Work", actualWork);
+	WriteTableRow("Remaining Work", remainingWork);
 	```
 
 
@@ -339,7 +367,10 @@ illustrates calling the `getTimephasedWork` method on a `Resource`:
 	```
 === "C#"
 	```c#
-	// TBC
+	var resource2 = file.GetResourceByID(2);
+	var work = resource2.GetTimephasedWork(ranges, TimeUnit.Hours);
+	WriteTableHeader(ranges);
+	WriteTableRow("Resource 2 Work", work);
 	```
 
 
@@ -373,7 +404,16 @@ two child tasks is rolled up to the parent task.
 	```
 === "C#"
 	```c#
-	// TBC
+	var summaryTask = file.GetTaskByID(1);
+	var task1 = file.GetTaskByID(2);
+	var task2 = file.GetTaskByID(3);
+	var summaryWork = summaryTask.GetTimephasedWork(ranges, TimeUnit.Hours);
+	var task1Work = task1.GetTimephasedWork(ranges, TimeUnit.Hours);
+	var task2Work = task2.GetTimephasedWork(ranges, TimeUnit.Hours);
+	WriteTableHeader(ranges);
+	WriteTableRow("Summary Work", summaryWork);
+	WriteTableRow("Task 1 Work", task1Work);
+	WriteTableRow("Task 2 Work", task2Work);
 	```
 
 Here's the output from our code:
@@ -433,7 +473,16 @@ tasks to summary tasks:
 	```
 === "C#"
 	```c#
-	// TBC
+	var summaryTask = file.GetTaskByID(1);
+	var task1 = file.GetTaskByID(2);
+	var task2 = file.GetTaskByID(3);
+	var summaryCost = summaryTask.GetTimephasedCost(ranges);
+	var task1Cost = task1.GetTimephasedCost(ranges);
+	var task2Cost = task2.GetTimephasedCost(ranges);
+	WriteTableHeader(ranges);
+	WriteTableRow("Summary Cost", summaryCost);
+	WriteTableRow("Task 1 Cost", task1Cost);
+	WriteTableRow("Task 2 Cost", task2Cost);
 	```
 
 
@@ -501,7 +550,25 @@ are retrieved:
 	```
 === "C#"
 	```c#
-	// TBC
+	// Retrieve an assignment for a  material resource
+	var assignment = file.ResourceAssignments.GetByUniqueID(11);
+
+	// Create labels using the correct units for the resource
+	var materialUnits = "(" + assignment.Resource.MaterialLabel + ")";
+	var actualMaterialLabel = "Actual Material " + materialUnits;
+	var remainingMaterialLabel = "Remaining Material " + materialUnits;
+	var materialLabel = "Material " + materialUnits;
+
+	// Retrieve the timephased values
+	var actualMaterial = assignment.GetTimephasedActualMaterial(ranges);
+	var remainingMaterial = assignment.GetTimephasedRemainingMaterial(ranges);
+	var material = assignment.GetTimephasedMaterial(ranges);
+
+	// Present the values as a table
+	WriteTableHeader(ranges);
+	WriteTableRow(actualMaterialLabel, actualMaterial);
+	WriteTableRow(remainingMaterialLabel, remainingMaterial);
+	WriteTableRow(materialLabel, material);
 	```
 
 You can see in the code that we are using the Material Label property of the
@@ -553,7 +620,21 @@ used to retrieve timephased work from a task.
 	```
 === "C#"
 	```c#
-	// TBC
+	// Retrieve tasks
+	var summaryTask = file.GetTaskByID(1);
+	var task1 = file.GetTaskByID(2);
+	var task2 = file.GetTaskByID(3);
+
+	// Retrieve timephased work
+	var summaryWork = summaryTask.GetTimephasedDurationValues(TaskField.Work, ranges, TimeUnit.Hours);
+	var task1Work = task1.GetTimephasedDurationValues(TaskField.Work, ranges, TimeUnit.Hours);
+	var task2Work = task2.GetTimephasedDurationValues(TaskField.Work, ranges, TimeUnit.Hours);
+
+	// Present the values as a table
+	WriteTableHeader(ranges);
+	WriteTableRow("Summary Work", summaryWork);
+	WriteTableRow("Task 1 Work", task1Work);
+	WriteTableRow("Task 2 Work", task2Work);
 	```
 
 The first argument passed to the method is a `FieldType` instance, in this case
@@ -586,7 +667,19 @@ to retrieve timephased cost data.
 	```
 === "C#"
 	```c#
-	// TBC
+	// Retrieve a resource assignment
+	var assignment = file.ResourceAssignments.GetByUniqueID(6);
+
+	// Retrieve timephased costs
+	var actualCost = assignment.GetTimephasedNumericValues(AssignmentField.ActualCost, ranges);
+	var remainingCost = assignment.GetTimephasedNumericValues(AssignmentField.RemainingCost, ranges);
+	var cost = assignment.GetTimephasedNumericValues(AssignmentField.Cost, ranges);
+
+	// Present the values as a table
+	WriteTableHeader(ranges);
+	WriteTableRow("Actual Cost", actualCost);
+	WriteTableRow("Remaining Cost", remainingCost);
+	WriteTableRow("Cost", cost);
 	```
 
 In this case we're retrieving details from a resource assignment, so we're using
@@ -622,7 +715,25 @@ Finally we'll retrieve timephased material utilisation from a resource:
 	```
 === "C#"
 	```c#
-	// TBC
+	// Retrieve a material resource
+	var resource = file.GetResourceByID(4);
+
+	// Create labels using the correct units for the resource
+	var materialUnits = "(" + resource.MaterialLabel + ")";
+	var actualMaterialLabel = "Actual Material " + materialUnits;
+	var remainingMaterialLabel = "Remaining Material " + materialUnits;
+	var materialLabel = "Material " + materialUnits;
+
+	// Retrieve the timephased values
+	var actualMaterial = resource.GetTimephasedNumericValues(ResourceField.ActualMaterial, ranges);
+	var remainingMaterial = resource.GetTimephasedNumericValues(ResourceField.RemainingMaterial, ranges);
+	var material = resource.GetTimephasedNumericValues(ResourceField.Material, ranges);
+
+	// Present the values as a table
+	WriteTableHeader(ranges);
+	WriteTableRow(actualMaterialLabel, actualMaterial);
+	WriteTableRow(remainingMaterialLabel, remainingMaterial);
+	WriteTableRow(materialLabel, material);
 	```
 
 As the code above illustrates the  `getTimephasedNumericValues` method can be
