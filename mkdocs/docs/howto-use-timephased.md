@@ -125,7 +125,9 @@ Project shown above, we can use the following code:
 	```
 === "C#"
 	```c#
-	// TBC
+	var startDate = new DateTime(2026, 2, 16);
+	var ranges = new TimescaleHelper()
+		.CreateTimescale(startDate, 5, TimescaleUnits.Days);
 	```
 
 This creates a timescale in days starting on the 16th February and running for 5
@@ -142,7 +144,10 @@ ranges will be generated to cover the period you are interested in.
 	```
 === "C#"
 	```c#
-	// TBC
+	var startDate = new DateTime(2026, 2, 16);
+	var endDate = new DateTime(2026, 2, 20);
+	var ranges = new TimescaleHelper()
+		.CreateTimescale(startDate, endDate, TimescaleUnits.Days);
 	```
 
 The `TimescaleUnits` enumeration provides a variety of options to allow you to
@@ -158,10 +163,10 @@ gives you the ability to look at the "big picture" view of work, cost, and
 material consumption then drill down into the detail at the individual resource
 assignment level.
 
-Three types of timephased data are available using MPXJ: Work, Cost, and Material.
+Three types of timephased data are available using MPXJ: Work, Cost, and
+Material.
 
 ### Work
-
 The following timephased work values are available on assignments for Work
 Resources and are expressed as `Duration` values. These values are not relevant
 for Cost or Material resource assignments as these types of resources do not
