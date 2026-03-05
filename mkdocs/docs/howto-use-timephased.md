@@ -983,7 +983,38 @@ per day.
 	```
 === "C#"
 	```c#
-	// TBC
+	// Create a resource assignment
+	var assignment = task.AddResourceAssignment(resource);
+	assignment.Start = task.Start;
+	assignment.Work = Duration.GetInstance(40, TimeUnit.Hours);
+	assignment.RemainingWork = Duration.GetInstance(40, TimeUnit.Hours);
+
+	// Day 1 - 10h
+	var day1RemainingWork = new TimephasedWork();
+	day1RemainingWork.Start = new DateTime(2024, 3, 4, 8, 0, 0);
+	day1RemainingWork.Finish = new DateTime(2024, 3, 4, 17, 0, 0);
+	day1RemainingWork.AmountPerHour = Duration.GetInstance(1.25, TimeUnit.Hours);
+	day1RemainingWork.TotalAmount = Duration.GetInstance(10, TimeUnit.Hours);
+
+	// Day 2 - 6h
+	TimephasedWork day2RemainingWork = new TimephasedWork();
+	day2RemainingWork.Start = new DateTime(2024, 3, 5, 8, 0, 0);
+	day2RemainingWork.Finish = new DateTime(2024, 3, 5, 17, 0, 0);
+	day2RemainingWork.AmountPerHour = Duration.GetInstance(0.75, TimeUnit.Hours);
+	day2RemainingWork.TotalAmount = Duration.GetInstance(6, TimeUnit.Hours);
+
+	// Remaining days - 8h/day
+	TimephasedWork remainingWork = new TimephasedWork();
+	remainingWork.Start = new DateTime(2024, 3, 6, 8, 0, 0);
+	remainingWork.Finish = new DateTime(2024, 3, 8, 17, 0, 0);
+	remainingWork.AmountPerHour = Duration.GetInstance(1, TimeUnit.Hours);
+	remainingWork.TotalAmount = Duration.GetInstance(24, TimeUnit.Hours);
+
+	// Add timephased data to the resource assignment
+	var remainingRegularWork = assignment.RawTimephasedRemainingRegularWork; 
+	remainingRegularWork.Add(day1RemainingWork); 
+	remainingRegularWork.Add(day2RemainingWork);
+	remainingRegularWork.Add(remainingWork);
 	```
 
 In this case we have a task without any progress, so we're just adding the
@@ -1042,7 +1073,52 @@ The next example shows creation of an in-progress resource assignment:
 	```
 === "C#"
 	```c#
-	// TBC
+	// Create a resource assignment
+	var assignment = task.AddResourceAssignment(resource);
+	assignment.Start = task.Start;
+	assignment.ActualStart = task.Start;
+	assignment.Work = Duration.GetInstance(40, TimeUnit.Hours);
+	assignment.ActualWork = Duration.GetInstance(5, TimeUnit.Hours);
+	assignment.RemainingWork = Duration.GetInstance(35, TimeUnit.Hours);
+
+	// Important - MS Project needs this as well as the timephased data
+	// to correctly represent the actual and remaining work
+	assignment.Stop = new DateTime(2024, 3, 4, 12, 0, 0);
+	assignment.Resume = new DateTime(2024, 3, 4, 13, 0, 0);
+
+	// Day 1 actual work - 5h
+	var day1ActualWork = new TimephasedWork();
+	day1ActualWork.Start = new DateTime(2024, 3, 4, 8, 0, 0);
+	day1ActualWork.Finish = new DateTime(2024, 3, 4, 12, 0, 0);
+	day1ActualWork.AmountPerHour = Duration.GetInstance(1.25, TimeUnit.Hours);
+	day1ActualWork.TotalAmount = Duration.GetInstance(5, TimeUnit.Hours);
+
+	// Day 1 remaining - 5h
+	var day1RemainingWork = new TimephasedWork();
+	day1RemainingWork.Start = new DateTime(2024, 3, 4, 13, 0, 0);
+	day1RemainingWork.Finish = new DateTime(2024, 3, 4, 17, 0, 0);
+	day1RemainingWork.AmountPerHour = Duration.GetInstance(1.25, TimeUnit.Hours);
+	day1RemainingWork.TotalAmount = Duration.GetInstance(5, TimeUnit.Hours);
+
+	// Day 2 remaining - 6h
+	var day2RemainingWork = new TimephasedWork();
+	day2RemainingWork.Start = new DateTime(2024, 3, 5, 8, 0, 0);
+	day2RemainingWork.Finish = new DateTime(2024, 3, 5, 17, 0, 0);
+	day2RemainingWork.AmountPerHour = Duration.GetInstance(0.75, TimeUnit.Hours);
+	day2RemainingWork.TotalAmount = Duration.GetInstance(6, TimeUnit.Hours);
+
+	// Remaining days - 8h/day
+	var remainingWork = new TimephasedWork();
+	remainingWork.Start = new DateTime(2024, 3, 6, 8, 0, 0);
+	remainingWork.Finish = new DateTime(2024, 3, 8, 17, 0, 0);
+	remainingWork.AmountPerHour = Duration.GetInstance(1, TimeUnit.Hours);
+	remainingWork.TotalAmount = Duration.GetInstance(24, TimeUnit.Hours);
+
+	assignment.RawTimephasedActualRegularWork.Add(day1ActualWork);
+	var remainingRegularWork = assignment.RawTimephasedRemainingRegularWork;
+	remainingRegularWork.Add(day1RemainingWork);
+	remainingRegularWork.Add(day2RemainingWork);
+	remainingRegularWork.Add(remainingWork);
 	```
 
 In the code above we can see that we've created a `TimephasedWork` instance 
@@ -1091,7 +1167,39 @@ Our next example illustrates a completed resource assignment:
 	```
 === "C#"
 	```c#
-	// TBC
+	// Create a resource assignment
+	var assignment = task.AddResourceAssignment(resource);
+	assignment.Start = task.Start;
+	assignment.ActualStart = task.Start;
+	assignment.Work = Duration.GetInstance(40, TimeUnit.Hours);
+	assignment.ActualWork = Duration.GetInstance(40, TimeUnit.Hours);
+	assignment.RemainingWork = Duration.GetInstance(0, TimeUnit.Hours);
+
+	// Day 1 actual work - 10h
+	var day1ActualWork = new TimephasedWork();
+	day1ActualWork.Start = new DateTime(2024, 3, 4, 8, 0, 0);
+	day1ActualWork.Finish = new DateTime(2024, 3, 4, 17, 0, 0);
+	day1ActualWork.AmountPerHour = Duration.GetInstance(1.25, TimeUnit.Hours);
+	day1ActualWork.TotalAmount = Duration.GetInstance(10, TimeUnit.Hours);
+
+	// Day 2 actual - 6h
+	var day2ActualWork = new TimephasedWork();
+	day2ActualWork.Start = new DateTime(2024, 3, 5, 8, 0, 0);
+	day2ActualWork.Finish = new DateTime(2024, 3, 5, 17, 0, 0);
+	day2ActualWork.AmountPerHour = Duration.GetInstance(0.75, TimeUnit.Hours);
+	day2ActualWork.TotalAmount = Duration.GetInstance(6, TimeUnit.Hours);
+
+	// Remaining days - 8h/day
+	var actualWork = new TimephasedWork();
+	actualWork.Start = new DateTime(2024, 3, 6, 8, 0, 0);
+	actualWork.Finish = new DateTime(2024, 3, 8, 17, 0, 0);
+	actualWork.AmountPerHour = Duration.GetInstance(1, TimeUnit.Hours);
+	actualWork.TotalAmount = Duration.GetInstance(24, TimeUnit.Hours);
+
+	var actualRegularWork = assignment.RawTimephasedActualRegularWork;
+	actualRegularWork.Add(day1ActualWork);
+	actualRegularWork.Add(day2ActualWork);
+	actualRegularWork.Add(actualWork);
 	```
 
 We're still using multiple `TimephasedWork` instances to capture the different
@@ -1133,8 +1241,6 @@ the same pattern Microsoft Project itself uses:
 	day2RemainingWork.setTotalAmount(Duration.getInstance(0, TimeUnit.HOURS));
 
 	// Remaining days - 8h/day
-	// Note the gap between the end of the first working day and the start of the next working day.
-	// This gives us the split.
 	TimephasedWork remainingWork = new TimephasedWork();
 	remainingWork.setStart(LocalDateTime.of(2024, 3, 6, 8, 0));
 	remainingWork.setFinish(LocalDateTime.of(2024, 3, 11, 17, 0));
@@ -1146,7 +1252,41 @@ the same pattern Microsoft Project itself uses:
 	```
 === "C#"
 	```c#
-	// TBC
+	// Create a resource assignment
+	var assignment = task.AddResourceAssignment(resource);
+	assignment.Start = task.Start;
+	assignment.Work = Duration.GetInstance(40, TimeUnit.Hours);
+	assignment.RemainingWork = Duration.GetInstance(40, TimeUnit.Hours);
+
+	// This is important - MS Project will accept the timephased data without this,
+	// but the split won't show up on the Gantt Chart unless this is set
+	assignment.WorkContour = WorkContour.Contoured;
+
+	// Day 1 - 8h
+	var day1RemainingWork = new TimephasedWork();
+	day1RemainingWork.Start = new DateTime(2024, 3, 4, 8, 0, 0);
+	day1RemainingWork.Finish = new DateTime(2024, 3, 4, 17, 0, 0);
+	day1RemainingWork.AmountPerHour = Duration.GetInstance(1, TimeUnit.Hours);
+	day1RemainingWork.TotalAmount = Duration.GetInstance(8, TimeUnit.Hours);
+
+	// Day 2 - split
+	var day2RemainingWork = new TimephasedWork();
+	day2RemainingWork.Start = new DateTime(2024, 3, 4, 8, 0, 0);
+	day2RemainingWork.Finish = new DateTime(2024, 3, 4, 17, 0, 0);
+	day2RemainingWork.AmountPerHour = Duration.GetInstance(0, TimeUnit.Hours);
+	day2RemainingWork.TotalAmount = Duration.GetInstance(0, TimeUnit.Hours);
+
+	// Remaining days - 8h/day
+	var remainingWork = new TimephasedWork();
+	remainingWork.Start = new DateTime(2024, 3, 6, 8, 0, 0);
+	remainingWork.Finish = new DateTime(2024, 3, 11, 17, 0, 0);
+	remainingWork.AmountPerHour = Duration.GetInstance(1, TimeUnit.Hours);
+	remainingWork.TotalAmount = Duration.GetInstance(32, TimeUnit.Hours);
+
+	var remainingRegularWork = assignment.RawTimephasedRemainingRegularWork;
+	remainingRegularWork.Add(day1RemainingWork);
+	remainingRegularWork.Add(day2RemainingWork);
+	remainingRegularWork.Add(remainingWork);
 	```
 
 As the comments in the code indicates, it is important to set the Work Contour
@@ -1193,7 +1333,37 @@ Microsoft Project. The code below illustrates this:
 	```
 === "C#"
 	```c#
-	// TBC
+    // Create a resource assignment
+    var assignment = task.AddResourceAssignment(resource);
+    assignment.Start = task.Start;
+    assignment.Work = Duration.GetInstance(40, TimeUnit.Hours);
+    assignment.RemainingWork = Duration.GetInstance(40, TimeUnit.Hours);
+
+    // This is important - MS Project will accept the timephased data without this,
+    // but the split won't show up on the Gantt Chart unless this is set
+    assignment.WorkContour = WorkContour.Contoured;
+
+    // Day 1 - 8h
+    var day1RemainingWork = new TimephasedWork();
+    day1RemainingWork.Start = new DateTime(2024, 3, 4, 8, 0, 0);
+    day1RemainingWork.Finish = new DateTime(2024, 3, 4, 17, 0, 0);
+    day1RemainingWork.AmountPerHour = Duration.GetInstance(1, TimeUnit.Hours);
+    day1RemainingWork.TotalAmount = Duration.GetInstance(8, TimeUnit.Hours);
+
+    // Day 2 - split
+
+    // Remaining days - 8h/day
+    // Note the gap between the end of the first working day and the start of the next working day.
+    // This gives us the split.
+    var remainingWork = new TimephasedWork();
+    remainingWork.Start = new DateTime(2024, 3, 6, 8, 0, 0);
+    remainingWork.Finish = new DateTime(2024, 3, 11, 17, 0, 0);
+    remainingWork.AmountPerHour = Duration.GetInstance(1, TimeUnit.Hours);
+    remainingWork.TotalAmount = Duration.GetInstance(32, TimeUnit.Hours);
+
+    var remainingRegularWork = assignment.RawTimephasedRemainingRegularWork;
+    remainingRegularWork.Add(day1RemainingWork);
+    remainingRegularWork.Add(remainingWork);
 	```
 
 ## Split Tasks
