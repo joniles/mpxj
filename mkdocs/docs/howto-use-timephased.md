@@ -51,9 +51,9 @@ little is happening on the final day.
 
 This is where having access to timephased data is important: looking at the
 Gantt chart alone doesn't allow us to readily understand when work is being
-performed. This is also particularly important when we record actual values
-for our task: actual work performed may well not be distributed evenly across
-the duration of the task.
+performed, cost accrued or material used. This is also particularly important
+when we record actual values for our task: actual work performed may well not
+be distributed evenly across the duration of the task.
 
 ## Timescales
 
@@ -63,7 +63,7 @@ timescale: an overall period of time, divided into ranges. When we generate
 timephased data, our result will be a list of values, one for each of the
 ranges described by our timescale.
 
-MPXJ represents a timescale as a `List` or `LocalDateTimeRange` instances. Each
+MPXJ represents a timescale as a `List` of `LocalDateTimeRange` instances. Each
 `LocalDateTimeRange` represents a "half open" range: this means that the range
 starts at the provided stat time, runs up to, but not including, the end time.
 An example will make this clearer. The code below creates a range
@@ -84,7 +84,7 @@ representing today's date:
 
 Today happens to be 18th February, but we can see that the range ends at
 midnight on the 19th of February: the range covers the start of the day on the
-18th (midnight: `00:00`) and up to _but not including_ the `00:00` on the 19th of
+18th (midnight: `00:00`) and up to _but not including_  `00:00` on the 19th of
 February.
 
 If we want to combine several `LocalDateTimeRange` instances together to make a
@@ -113,14 +113,14 @@ extend until midnight on the 20th February:
 	```
 
 Fortunately, you don't need to worry about constructing a timescale for
-yourself: MPXJ provides the `TimescaleUtility`. class to do this for you. To
+yourself: MPXJ provides the `TimescaleHelper`. class to do this for you. To
 generate a timescale to match the one shown in the samples from Microsoft
 Project shown above, we can use the following code:
 
 === "Java"
 	```java
 	LocalDateTime startDate = LocalDateTime.of(2026, 2, 16, 0, 0, 0);
-	List<LocalDateTimeRange> ranges = new TimescaleUtility()
+	List<LocalDateTimeRange> ranges = new TimescaleHelper()
 		.createTimescale(startDate, 5, TimescaleUnits.DAYS);
 	```
 === "C#"
@@ -130,16 +130,16 @@ Project shown above, we can use the following code:
 		.CreateTimescale(startDate, 5, TimescaleUnits.Days);
 	```
 
-This creates a timescale in days starting on the 16th February and running for 5
-days. Alternatively you can provide start and end dates rather than counting
-the number of ranges. This is useful when you won't know exactly how many
-ranges will be generated to cover the period you are interested in.
+This creates a timescale divided up into days, starting on the 16th February and
+running for 5 days. Alternatively you can provide start and end dates rather
+than counting the number of ranges. This is useful when you won't know exactly
+how many ranges will be generated to cover the period you are interested in.
 
 === "Java"
 	```java
 	LocalDateTime startDate = LocalDateTime.of(2026, 2, 16, 0, 0, 0);
 	LocalDateTime endDate = LocalDateTime.of(2026, 2, 20, 0, 0, 0);
-	List<LocalDateTimeRange> ranges = new TimescaleUtility()
+	List<LocalDateTimeRange> ranges = new TimescaleHelper()
 		.createTimescale(startDate, endDate, TimescaleUnits.DAYS);
 	```
 === "C#"
@@ -151,9 +151,7 @@ ranges will be generated to cover the period you are interested in.
 	```
 
 The `TimescaleUnits` enumeration provides a variety of options to allow you to
-break down time periods into ranges from `MINUTES` all the way up yo `YEARS`.
-The list of `LocalDateTimeRange` instances we have just created is what we'll
-use in the next step to generate our timephased data.
+break down time periods into ranges from `MINUTES` all the way up to `YEARS`.
 
 ## Timephased Data
 
@@ -193,7 +191,7 @@ show our timephased data split into days:
 
 === "Java"
 	```java
-	List<LocalDateTimeRange> ranges = new TimescaleUtility()
+	List<LocalDateTimeRange> ranges = new TimescaleHelper()
 		.createTimescale(LocalDateTime.of(2026, 2, 18, 0, 0), 7, TimescaleUnits.DAYS);
 
 	```
@@ -1204,7 +1202,7 @@ Our next example illustrates a completed resource assignment:
 
 We're still using multiple `TimephasedWork` instances to capture the different
 rates at which work is being performed, but now these are all added to the 
-Raw Timephased Actual regular Work list.
+Raw Timephased Actual Regular Work list.
 
 In our final examples, we'll take a quick look at adding non-working periods
 to the resource assignment, which can be used to create a "split task" 
@@ -1415,7 +1413,7 @@ but this range begins after the task's start date.
 
 Alongside Microsoft Project, Primavera P6 also provides access to timephased
 data, which can be seen as part of its Resource Assignment view. P6
-allows curves to be applied to resource assignments distribute work or
+allows curves to be applied to resource assignments to distribute work or
 material utilisation in a form other than the default flat distribution. P6
 also allows you to modify the timephased view of remaining work or material
 utilisation to allow you to make your own custom distribution.
@@ -1460,7 +1458,7 @@ the `ResourceAssignment`, `Resource`, and `Task` classes:
 * `getTimephasedPlannedCost`
 * `getTimephasedPlannedMaterial`
 
-P6 does not store timephased data for resource assignments using a flat
+P6 does not store timephased data for resource assignments which use a flat
 distribution of work or material utilisation. Instead timephased data is only
 stored where a curve has been applied, or manual edits have been made to the
 distribution.
