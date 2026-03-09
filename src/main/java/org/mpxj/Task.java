@@ -6699,7 +6699,8 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
             lastRange.intersectsWith(range) ||
             calendar.getWork(lastRange.getEnd(), range.getStart(), TimeUnit.HOURS).getDuration() == 0)
          {
-            if (lastRange.compareTo(range) != 0)
+            // Ignore range if it is enirely within lastRange
+            if (range.getEnd().isAfter(lastRange.getEnd()))
             {
                ranges.remove(ranges.size() - 1);
                ranges.add(new LocalDateTimeRange(lastRange.getStart(), range.getEnd()));
