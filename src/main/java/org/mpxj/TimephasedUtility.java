@@ -105,23 +105,29 @@ final class TimephasedUtility
             break;
          }
 
-         // Our range intersects with this work
-         LocalDateTime workStart = currentRange.getStart().isAfter(currentItem.getStart()) ? currentRange.getStart() : currentItem.getStart();
-         LocalDateTime workFinish = currentRange.getEnd().isAfter(currentItem.getFinish()) ? currentItem.getFinish() : currentRange.getEnd();
-         double workHours = currentItemIsNonWorking ? workStart.until(workFinish, ChronoUnit.HOURS) : calendar.getWork(workStart, workFinish, TimeUnit.HOURS).getDuration();
-         if (workHours != 0.0)
+         boolean moreTimeInRange = false;
+         if (currentRange.getEnd().isAfter(currentItem.getStart()))
          {
-            double workAmount = currentItemWorkPerHour * workHours;
-            double currentRangeWork = result[currentRangeIndex] == -1 ? 0 : result[currentRangeIndex];
-            result[currentRangeIndex] = currentRangeWork + workAmount;
+            // Our range intersects with this work
+            LocalDateTime workStart = currentRange.getStart().isAfter(currentItem.getStart()) ? currentRange.getStart() : currentItem.getStart();
+            LocalDateTime workFinish = currentRange.getEnd().isAfter(currentItem.getFinish()) ? currentItem.getFinish() : currentRange.getEnd();
+            double workHours = currentItemIsNonWorking ? workStart.until(workFinish, ChronoUnit.HOURS) : calendar.getWork(workStart, workFinish, TimeUnit.HOURS).getDuration();
+            if (workHours != 0.0)
+            {
+               double workAmount = currentItemWorkPerHour * workHours;
+               double currentRangeWork = result[currentRangeIndex] == -1 ? 0 : result[currentRangeIndex];
+               result[currentRangeIndex] = currentRangeWork + workAmount;
+            }
+
+            moreTimeInRange = workFinish.isBefore(currentRange.getEnd());
+            if (moreTimeInRange)
+            {
+               // We still have some time to account for in the current range
+               currentRange = new LocalDateTimeRange(workFinish, currentRange.getEnd());
+            }
          }
 
-         if (workFinish.isBefore(currentRange.getEnd()))
-         {
-            // We still have some time to account for in the current range
-            currentRange = new LocalDateTimeRange(workFinish, currentRange.getEnd());
-         }
-         else
+         if (!moreTimeInRange)
          {
             // We have completed the current range, move forward
             currentRangeIndex++;

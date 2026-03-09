@@ -206,10 +206,9 @@ final class TimephasedDataFactory
                            double remainingWork = item.getTotalAmount().getDuration() - startItemWork;
                            if (remainingWork > 0)
                            {
-                              item.setStart(startItem.getStart().plusMinutes(startItemMinutes));
                               item.setTotalAmount(Duration.getInstance(remainingWork, TimeUnit.MINUTES));
                               long remainingMinutes = (long)((item.getTotalAmount().getDuration() * 60.0) / item.getAmountPerHour().getDuration());
-                              item.setFinish(item.getStart().plusMinutes(remainingMinutes));
+                              item.setFinish(calendar.getDate(item.getStart(), Duration.getInstance(remainingMinutes, TimeUnit.MINUTES)));
 
                               regularList.add(item);
                               if (!irregularRanges.isEmpty())
