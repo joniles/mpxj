@@ -3381,6 +3381,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @param ranges time ranges over which timephased work is summarized
     * @param costSupplier function supplying the actual cost
+    * @param workSupplier function supplying work
     * @return list of Number instances representing timephased cost for the supplied ranges
     */
    private List<Number> getTimephasedCostAccruedAtStart(List<LocalDateTimeRange> ranges, Supplier<Number> costSupplier, BiFunction<List<LocalDateTimeRange>, TimeUnit, List<Duration>> workSupplier)
@@ -3420,6 +3421,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @param ranges time ranges over which timephased work is summarized
     * @param costSupplier function supplying the actual cost
+    * @param workSupplier function supplying work
     * @return list of Number instances representing timephased cost for the supplied ranges
     */
    private List<Number> getTimephasedCostAccruedAtEnd(List<LocalDateTimeRange> ranges, Supplier<Number> costSupplier, BiFunction<List<LocalDateTimeRange>, TimeUnit, List<Duration>> workSupplier)
