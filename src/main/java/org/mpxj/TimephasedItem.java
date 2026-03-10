@@ -53,43 +53,23 @@ public abstract class TimephasedItem<T>
    }
 
    /**
-    * Retrieve the amount per day.
+    * Retrieve the amount per hour.
     *
-    * @return amount per day
+    * @return amount per hour
     */
-   public T getAmountPerDay()
+   public T getAmountPerHour()
    {
-      return m_amountPerDay;
+      return m_amountPerHour;
    }
 
    /**
-    * Set the amount per day.
+    * Set the amount per hour.
     *
-    * @param amountPerDay amount per day
+    * @param amountPerHour amount per hour
     */
-   public void setAmountPerDay(T amountPerDay)
+   public void setAmountPerHour(T amountPerHour)
    {
-      m_amountPerDay = amountPerDay;
-   }
-
-   /**
-    * Retrieve the modified flag.
-    *
-    * @return modified flag
-    */
-   public boolean getModified()
-   {
-      return m_modified;
-   }
-
-   /**
-    * Set the modified flag.
-    *
-    * @param modified modified flag
-    */
-   public void setModified(boolean modified)
-   {
-      m_modified = modified;
+      m_amountPerHour = amountPerHour;
    }
 
    /**
@@ -134,7 +114,7 @@ public abstract class TimephasedItem<T>
 
    @Override public String toString()
    {
-      return "[TimephasedItem start=" + m_start + " totalAmount=" + m_totalAmount + " finish=" + m_finish + " amountPerDay=" + m_amountPerDay + " modified=" + m_modified + "]";
+      return "[TimephasedItem start=" + m_start + " totalAmount=" + m_totalAmount + " finish=" + m_finish + " amountPerHour=" + m_amountPerHour + "]";
    }
 
    @SuppressWarnings("unchecked") @Override public boolean equals(Object o)
@@ -144,7 +124,7 @@ public abstract class TimephasedItem<T>
       if (o instanceof TimephasedItem<?>)
       {
          TimephasedItem<T> t = (TimephasedItem<T>) o;
-         result = m_start.equals(t.m_start) && m_finish.equals(t.m_finish) && m_totalAmount.equals(t.m_totalAmount) && m_amountPerDay.equals(t.m_amountPerDay);
+         result = m_start.equals(t.m_start) && m_finish.equals(t.m_finish) && m_totalAmount.equals(t.m_totalAmount) && m_amountPerHour.equals(t.m_amountPerHour);
       }
 
       return result;
@@ -152,12 +132,11 @@ public abstract class TimephasedItem<T>
 
    @Override public int hashCode()
    {
-      return m_start.hashCode() + m_finish.hashCode() + m_totalAmount.hashCode() + m_amountPerDay.hashCode();
+      return m_start.hashCode() + m_finish.hashCode() + m_totalAmount.hashCode() + m_amountPerHour.hashCode();
    }
 
    private LocalDateTime m_start;
    private T m_totalAmount;
    private LocalDateTime m_finish;
-   private T m_amountPerDay;
-   private boolean m_modified;
+   private T m_amountPerHour;
 }

@@ -660,7 +660,7 @@ public enum TaskField implements FieldType
    TCPI(DataType.NUMERIC),
    WARNING(DataType.BOOLEAN),
    UNAVAILABLE(DataType.STRING), // Dummy entry
-   SPLITS(DataType.DATE_RANGE_LIST),
+   WORK_SPLITS(DataType.DATE_RANGE_LIST),
    START_TEXT(DataType.STRING),
    FINISH_TEXT(DataType.STRING),
    DURATION_TEXT(DataType.STRING),
@@ -1045,7 +1045,11 @@ public enum TaskField implements FieldType
    SCHEDULE_PERCENT_COMPLETE(DataType.PERCENTAGE),
    ESTIMATED_WEIGHT(DataType.NUMERIC),
    AUTO_COMPUTE_ACTUALS(DataType.BOOLEAN),
-   ORIGINAL_BUDGET(DataType.CURRENCY);
+   ORIGINAL_BUDGET(DataType.CURRENCY),
+   ACTUAL_REGULAR_WORK(DataType.WORK),
+   REMAINING_REGULAR_WORK(DataType.WORK),
+   ACTUAL_REGULAR_COST(DataType.CURRENCY),
+   REMAINING_REGULAR_COST(DataType.CURRENCY);
 
    /**
     * Constructor.

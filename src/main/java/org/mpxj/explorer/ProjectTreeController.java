@@ -815,12 +815,12 @@ public class ProjectTreeController
          if (fileClass == JsonWriter.class)
          {
             ((JsonWriter) writer).setPretty(true);
+            ((JsonWriter) writer).setWriteTimephasedData(m_model.getWriteOptions().getWriteTimephasedData());
          }
 
          if (fileClass == MSPDIWriter.class)
          {
             ((MSPDIWriter) writer).setWriteTimephasedData(m_model.getWriteOptions().getWriteTimephasedData());
-            ((MSPDIWriter) writer).setSplitTimephasedAsDays(m_model.getWriteOptions().getSplitTimephasedDataAsDays());
          }
 
          if (fileClass == PrimaveraPMFileWriter.class)

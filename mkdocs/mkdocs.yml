@@ -18,6 +18,9 @@ extra:
     provider: google
     property: G-9R48LPVHKE
 
+extra_css:
+  - stylesheets/extra.css
+
 markdown_extensions:
   - attr_list
   - pymdownx.highlight
@@ -89,6 +92,7 @@ nav:
     - 'External Projects': 'howto-use-external-projects.md'
     - 'Fields': 'howto-use-fields.md'
     - 'Project Context': 'howto-use-project-context.md'
+    - 'Timephased Data': 'howto-use-timephased.md'
     - 'Universal Project Reader': 'howto-use-universal.md'
   - 'Field Guides...':
     - 'Field Guide': 'field-guide.md'

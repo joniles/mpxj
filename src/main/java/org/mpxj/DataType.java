@@ -88,7 +88,9 @@ public enum DataType implements MpxjEnum
    RELATIONSHIP_LAG_CALENDAR(55),
    SCHEDULING_PROGRESSED_ACTIVITIES(56),
    ACTIVITY_CODE_VALUES(57),
-   CODE_VALUES(58);
+   CODE_VALUES(58),
+   TIMEPHASED_WORK_LIST(59),
+   TIMEPHASED_COST_LIST(60);
 
    /**
     * Private constructor.

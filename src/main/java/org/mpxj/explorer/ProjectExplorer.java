@@ -205,9 +205,6 @@ public class ProjectExplorer
       final JMenuItem mntmWriteTimephasedData = new JCheckBoxMenuItem("Write Timephased Data", m_writeOptions.getWriteTimephasedData());
       mnFile.add(mntmWriteTimephasedData);
 
-      final JMenuItem mntmSplitTimephasedAsDays = new JCheckBoxMenuItem("Split Timephased Data as Days", m_writeOptions.getSplitTimephasedDataAsDays());
-      mnFile.add(mntmSplitTimephasedAsDays);
-
       //
       // Open
       //
@@ -259,11 +256,6 @@ public class ProjectExplorer
       // Write timephased data
       //
       mntmWriteTimephasedData.addActionListener(e -> m_writeOptions.toggleWriteTimephasedData());
-
-      //
-      // Split timephased data as days
-      //
-      mntmSplitTimephasedAsDays.addActionListener(e -> m_writeOptions.toggleSplitTimephasedDataAsDays());
 
       //
       // Write All

@@ -45,7 +45,6 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
-import org.mpxj.LocalDateTimeRange;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectConfig;
 import org.mpxj.ProjectFile;
@@ -181,11 +180,6 @@ public final class MPPReader extends AbstractProjectStreamReader
          for (Task task : projectFile.getTasks())
          {
             task.setSummary(task.hasChildTasks() || task.getExternalProject());
-            List<LocalDateTimeRange> splits = task.getSplits();
-            if (splits != null && splits.isEmpty())
-            {
-               task.set(TaskField.SPLITS, null);
-            }
             validationRelations(task);
             copyEstimatedBaselineFields(task);
          }

@@ -183,7 +183,7 @@ public final class GanttChartView14 extends GanttChartView
 
          m_timescaleTopTier.setTickLines(viewPropertyData[41349] != 0);
          m_timescaleTopTier.setUsesFiscalYear((viewPropertyData[41361] & 0x01) != 0);
-         m_timescaleTopTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[41311]));
+         m_timescaleTopTier.setUnits(TimescaleUnitsHelper.getInstance(viewPropertyData[41311]));
          m_timescaleTopTier.setCount(viewPropertyData[41313]);
          m_timescaleTopTier.setFormat(TimescaleFormat.getInstance(ByteArrayHelper.getShort(viewPropertyData, 41315)));
          m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[41317]));
@@ -191,7 +191,7 @@ public final class GanttChartView14 extends GanttChartView
          m_timescaleMiddleTier = new TimescaleTier();
          m_timescaleMiddleTier.setTickLines((flags & 0x01) != 0);
          m_timescaleMiddleTier.setUsesFiscalYear((flags & 0x08) != 0);
-         m_timescaleMiddleTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[1152]));
+         m_timescaleMiddleTier.setUnits(TimescaleUnitsHelper.getInstance(viewPropertyData[1152]));
          m_timescaleMiddleTier.setCount(viewPropertyData[1156]);
          m_timescaleMiddleTier.setFormat(TimescaleFormat.getInstance(ByteArrayHelper.getShort(viewPropertyData, 1160)));
          m_timescaleMiddleTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[1166]));
@@ -199,7 +199,7 @@ public final class GanttChartView14 extends GanttChartView
          m_timescaleBottomTier = new TimescaleTier();
          m_timescaleBottomTier.setTickLines((flags & 0x02) != 0);
          m_timescaleBottomTier.setUsesFiscalYear((flags & 0x10) != 0);
-         m_timescaleBottomTier.setUnits(TimescaleUnits.getInstance(viewPropertyData[1154]));
+         m_timescaleBottomTier.setUnits(TimescaleUnitsHelper.getInstance(viewPropertyData[1154]));
          m_timescaleBottomTier.setCount(viewPropertyData[1158]);
          m_timescaleBottomTier.setFormat(TimescaleFormat.getInstance(ByteArrayHelper.getShort(viewPropertyData, 1162)));
          m_timescaleBottomTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[1164]));

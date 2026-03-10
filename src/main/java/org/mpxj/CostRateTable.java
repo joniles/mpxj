@@ -25,12 +25,25 @@ package org.mpxj;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * This class represents a resource's cost rate table.
  */
 public class CostRateTable extends ArrayList<CostRateTableEntry>
 {
+   /**
+    * Retrieve the table entries valid for the supplied range of dates.
+    *
+    * @param range date range
+    * @return list of entries
+    */
+   public List<CostRateTableEntry> getEntriesByRange(LocalDateTimeRange range)
+   {
+      return stream().filter(e -> e.getRange().intersectsWith(range)).collect(Collectors.toList());
+   }
+
    /**
     * Retrieve the table entry valid for the supplied date.
     *

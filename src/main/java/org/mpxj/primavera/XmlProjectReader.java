@@ -832,9 +832,9 @@ class XmlProjectReader
             XmlReaderHelper.populateUserDefinedFieldValues(m_projectFile.getProjectContext(), assignment, row.getUDF());
 
             // Read timephased data
-            assignment.setTimephasedPlannedWork(TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getPlannedCurve()));
-            assignment.setTimephasedActualWork(TimephasedHelper.read(effectiveCalendar, assignment.getActualStart(), row.getActualCurve()));
-            assignment.setTimephasedWork(TimephasedHelper.read(effectiveCalendar, assignment.getRemainingEarlyStart(), row.getRemainingCurve()));
+            assignment.getRawTimephasedPlannedWork().addAll(TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getPlannedCurve()));
+            assignment.getRawTimephasedActualRegularWork().addAll(TimephasedHelper.read(effectiveCalendar, assignment.getActualStart(), row.getActualCurve()));
+            assignment.getRawTimephasedRemainingRegularWork().addAll(TimephasedHelper.read(effectiveCalendar, assignment.getRemainingEarlyStart(), row.getRemainingCurve()));
 
             processResourceAssignmentCodeAssignments(assignment, row.getCode());
 

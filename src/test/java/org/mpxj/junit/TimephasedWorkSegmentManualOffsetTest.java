@@ -23,23 +23,19 @@
 package org.mpxj.junit;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.Duration;
-import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimeUnitDefaultsContainer;
-import org.mpxj.TimephasedWork;
 import org.mpxj.mpp.MPPReader;
-import org.mpxj.mpp.TimescaleUnits;
-import org.mpxj.utility.TimephasedUtility;
-import org.mpxj.utility.TimescaleUtility;
+import org.mpxj.TimescaleUnits;
+import org.mpxj.common.TimescaleHelper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -47,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * This a test for reading timephased work of manual scheduled tasks from an MPP file.
+ * This a test for reading timephased work of manually scheduled tasks from an MPP file.
  * It validates the data against JSON within the Note field for each assignment.
  * The JSON is created by a VBA inside the MPP file.
  */
@@ -80,10 +76,7 @@ public class TimephasedWorkSegmentManualOffsetTest
 
       for (ResourceAssignment assignment : file.getResourceAssignments())
       {
-         //if (assignmentIndex == 22)
-         {
-            testSegments(assignment, assignmentIndex, startDate, segmentCount, TimescaleUnits.DAYS, false);
-         }
+         testSegments(assignment, assignmentIndex, startDate, segmentCount, TimescaleUnits.DAYS, false);
          assignmentIndex++;
       }
    }
@@ -111,12 +104,8 @@ public class TimephasedWorkSegmentManualOffsetTest
       }
       jsonString = jsonString.substring(1, jsonString.length() - 1);
 
-      ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, segmentCount);
-      //System.out.println(dateList);
-      ProjectCalendar calendar = assignment.getEffectiveCalendar();
-      List<TimephasedWork> assignments = (complete ? assignment.getTimephasedActualWork() : assignment.getTimephasedWork());
-      ArrayList<Duration> durationList = m_timephased.segmentWork(calendar, assignments, units, dateList);
-      //dumpExpectedData(assignment, durationList);
+      List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, segmentCount, units);
+      List<Duration> durationList = (complete ? assignment.getTimephasedActualRegularWork(dateList, TimeUnit.HOURS) : assignment.getTimephasedRemainingRegularWork(dateList, TimeUnit.HOURS));
       assertEquals(segmentCount, durationList.size());
       TimeUnitDefaultsContainer unitDefaults = assignment.getParentFile().getProjectProperties();
 
@@ -139,7 +128,16 @@ public class TimephasedWorkSegmentManualOffsetTest
          {
             expected = Double.parseDouble(jsonValue);
          }
-         assertEquals(expected, durationList.get(loop).convertUnits(TimeUnit.MINUTES, unitDefaults).getDuration(), 0.009, "Failed at index " + loop + " assignment index " + assignmentIndex + "=>" + assignment);
+
+         Duration actual = durationList.get(loop);
+         if (actual == null)
+         {
+            // Slight hack to avoid having to regenerate the JSON data.
+            // Segmentation will now produce null for non-working segments, rather than zero.
+            actual = Duration.getInstance(0, TimeUnit.MINUTES);
+         }
+
+         assertEquals(expected, actual.convertUnits(TimeUnit.MINUTES, unitDefaults).getDuration(), 0.009, "Failed at index " + loop + " assignment index " + assignmentIndex + "=>" + assignment);
 
          loop++;
       }
@@ -147,35 +145,5 @@ public class TimephasedWorkSegmentManualOffsetTest
       assertEquals(segmentCount, loop, "JSON time scaled data does not contain enough data for " + assignment);
    }
 
-   /*
-    * Method used to print segment durations as an array - useful for
-    * creating new test cases.
-    *
-    * @param assignment parent assignment
-    * @param list list of durations
-    */
-   /*
-      private void dumpExpectedData(ResourceAssignment assignment, ArrayList<Duration> list)
-      {
-         //System.out.println(assignment);
-         System.out.print("new double[]{");
-         boolean first = true;
-         for(Duration d : list)
-         {
-            if (!first)
-            {
-               System.out.print(", ");
-            }
-            else
-            {
-               first = false;
-            }
-            System.out.print(d.getDuration());
-         }
-         System.out.println("}");
-      }
-   */
-
-   private final TimescaleUtility m_timescale = new TimescaleUtility();
-   private final TimephasedUtility m_timephased = new TimephasedUtility();
+   private final TimescaleHelper m_timescale = new TimescaleHelper();
 }

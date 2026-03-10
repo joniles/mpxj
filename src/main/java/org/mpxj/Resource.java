@@ -37,6 +37,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -2763,6 +2764,451 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
+    * Retrieve the planned work field.
+    *
+    * @return planned work value
+    */
+   public Duration getPlannedWork()
+   {
+      return (Duration) get(ResourceField.PLANNED_WORK);
+   }
+
+   /**
+    * Retrieve the planned cost field.
+    *
+    * @return planned work value
+    */
+   public Number getPlannedCost()
+   {
+      return (Number) get(ResourceField.PLANNED_COST);
+   }
+
+   /**
+    * Returns the actual regular work of this resource.
+    *
+    * @return actual regular work
+    */
+   public Duration getActualRegularWork()
+   {
+      return (Duration) get(ResourceField.ACTUAL_REGULAR_WORK);
+   }
+
+   /**
+    * Returns the remaining regular work of this resource.
+    *
+    * @return remaining regular work
+    */
+   public Duration getRemainingRegularWork()
+   {
+      return (Duration) get(ResourceField.REMAINING_REGULAR_WORK);
+   }
+
+   /**
+    * Returns the actual regular cost  of this resource.
+    *
+    * @return actual regular cost
+    */
+   public Number getActualRegularCost()
+   {
+      return (Number) get(ResourceField.ACTUAL_REGULAR_COST);
+   }
+
+   /**
+    * Returns the remaining regular cost of this resource assignment.
+    *
+    * @return remaining regular cost
+    */
+   public Number getRemainingRegularCost()
+   {
+      return (Number) get(ResourceField.REMAINING_REGULAR_COST);
+   }
+
+   /**
+    * Returns the planned material utilization for a material resource.
+    *
+    * @return planned material utilization
+    */
+   public Number getPlannedMaterial()
+   {
+      return (Number) get(ResourceField.PLANNED_MATERIAL);
+   }
+
+   /**
+    * Retrieve s the actual material utilization for a material resource.
+    *
+    * @return actual material utilization
+    */
+   public Number getActualMaterial()
+   {
+      return (Number) get(ResourceField.ACTUAL_MATERIAL);
+   }
+
+   /**
+    * Returns the remaining material utilization for a material resource.
+    *
+    * @return remaining material utilisation
+    */
+   public Number getRemainingMaterial()
+   {
+      return (Number) get(ResourceField.REMAINING_MATERIAL);
+   }
+
+   /**
+    * Retrieves the material utilization for a material resource.
+    *
+    * @return material utilization
+    */
+   public Number getMaterial()
+   {
+      return (Number) get(ResourceField.MATERIAL);
+   }
+
+   /**
+    * Retrieves the baseline material utilization for a material resource.
+    *
+    * @return baseline material utilization
+    */
+   public Number getBaselineMaterial()
+   {
+      return (Number) get(AssignmentField.BASELINE_MATERIAL);
+   }
+
+   /**
+    * Retrieve a baseline material utilization value.
+    *
+    * @param baselineNumber baseline index (1-10)
+    * @return baseline utilization value
+    */
+   public Number getBaselineMaterial(int baselineNumber)
+   {
+      return (Number) get(selectField(ResourceFieldLists.BASELINE_MATERIALS, baselineNumber));
+   }
+
+   @Override public List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      TimephasedDurationFunction fn = TIMEPHASED_WORK_FUNCTIONS.get(field);
+      return fn == null ? Arrays.asList(new Duration[ranges.size()]) : fn.apply(this, ranges, units);
+   }
+
+   @Override public List<Number> getTimephasedNumericValues(FieldType field, List<LocalDateTimeRange> ranges)
+   {
+      TimephasedNumericFunction fn = TIMEPHASED_NUMERIC_FUNCTIONS.get(field);
+      return fn == null ? Arrays.asList(new Number[ranges.size()]) : fn.apply(this, ranges);
+   }
+
+   /**
+    * Retrieve timephased planned work for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedPlannedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, r -> r.getTimephasedPlannedWork(ranges, units), r -> r.getTimephasedPlannedWork(ranges, units));
+   }
+
+   /**
+    * Retrieve timephased actual regular work for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedActualRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, r -> r.getTimephasedActualRegularWork(ranges, units), r -> r.getTimephasedActualRegularWork(ranges, units));
+   }
+
+   /**
+    * Retrieve timephased actual overtime work for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, r -> r.getTimephasedActualOvertimeWork(ranges, units), r -> r.getTimephasedActualOvertimeWork(ranges, units));
+   }
+
+   /**
+    * Retrieve timephased actual work (regular+overtime) for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedActualWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, r -> r.getTimephasedActualWork(ranges, units), r -> r.getTimephasedActualWork(ranges, units));
+   }
+
+   /**
+    * Retrieve timephased remaining regular work for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedRemainingRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, r -> r.getTimephasedRemainingRegularWork(ranges, units), r -> r.getTimephasedRemainingRegularWork(ranges, units));
+   }
+
+   /**
+    * Retrieve timephased remaining overtime work for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedRemainingOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, r -> r.getTimephasedRemainingOvertimeWork(ranges, units), r -> r.getTimephasedRemainingOvertimeWork(ranges, units));
+   }
+
+   /**
+    * Retrieve timephased remaining work (regular+overtime) for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedRemainingWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, r -> r.getTimephasedRemainingWork(ranges, units), r -> r.getTimephasedRemainingWork(ranges, units));
+   }
+
+   /**
+    * Retrieve timephased work (actual+remaining) for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, r -> r.getTimephasedWork(ranges, units), r -> r.getTimephasedWork(ranges, units));
+   }
+
+   /**
+    * Retrieve timephased baseline work for this resource for the supplied time ranges.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedBaselineWork(int index, List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, r -> r.getTimephasedBaselineWork(index, ranges, units), r -> r.getTimephasedBaselineWork(index, ranges, units));
+   }
+
+   /**
+    * Retrieve timephased planned cost for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedPlannedCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, r -> r.getTimephasedPlannedCost(ranges), r -> r.getTimephasedPlannedCost(ranges));
+   }
+
+   /**
+    * Retrieve timephased actual regular cost for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedActualRegularCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, r -> r.getTimephasedActualRegularCost(ranges), r -> r.getTimephasedActualRegularCost(ranges));
+   }
+
+   /**
+    * Retrieve timephased actual overtime cost for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedActualOvertimeCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, r -> r.getTimephasedActualOvertimeCost(ranges), r -> r.getTimephasedActualOvertimeCost(ranges));
+   }
+
+   /**
+    * Retrieve timephased actual cost (regular+overtime) for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, r -> r.getTimephasedActualCost(ranges), r -> r.getTimephasedActualCost(ranges));
+   }
+
+   /**
+    * Retrieve timephased remaining regular cost for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedRemainingRegularCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, r -> r.getTimephasedRemainingRegularCost(ranges), r -> r.getTimephasedRemainingRegularCost(ranges));
+   }
+
+   /**
+    * Retrieve timephased remaining overtime cost for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedRemainingOvertimeCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, r -> r.getTimephasedRemainingOvertimeCost(ranges), r -> r.getTimephasedRemainingOvertimeCost(ranges));
+   }
+
+   /**
+    * Retrieve timephased remaining cost (actual+overtime) for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedRemainingCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, r -> r.getTimephasedRemainingCost(ranges), r -> r.getTimephasedRemainingCost(ranges));
+   }
+
+   /**
+    * Retrieve timephased cost (actual+remaining) for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, r -> r.getTimephasedCost(ranges), r -> r.getTimephasedCost(ranges));
+   }
+
+   /**
+    * Retrieve timephased baseline cost for this resource for the supplied time ranges.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedBaselineCost(int index, List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, r -> r.getTimephasedBaselineCost(index, ranges), r -> r.getTimephasedBaselineCost(index, ranges));
+   }
+
+   /**
+    * Retrieve timephased planed material utilization for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased material utilization is summarized
+    * @return list of Number instances representing timephased material utilization for the supplied ranges
+    */
+   public List<Number> getTimephasedPlannedMaterial(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedMaterial(ranges, r -> r.getTimephasedPlannedMaterial(ranges));
+   }
+
+   /**
+    * Retrieve timephased actual material utilization for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased material utilization is summarized
+    * @return list of Number instances representing timephased material utilization for the supplied ranges
+    */
+   public List<Number> getTimephasedActualMaterial(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedMaterial(ranges, r -> r.getTimephasedActualMaterial(ranges));
+   }
+
+   /**
+    * Retrieve timephased remaining material utilization for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased material utilization is summarized
+    * @return list of Number instances representing timephased material utilization for the supplied ranges
+    */
+   public List<Number> getTimephasedRemainingMaterial(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedMaterial(ranges, r -> r.getTimephasedRemainingMaterial(ranges));
+   }
+
+   /**
+    * Retrieve timephased material utilization (actual+remaining) for this resource for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased material utilization is summarized
+    * @return list of Number instances representing timephased material utilization for the supplied ranges
+    */
+   public List<Number> getTimephasedMaterial(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedMaterial(ranges, r -> r.getTimephasedMaterial(ranges));
+   }
+
+   /**
+    * Retrieve the timephased baseline material utilization for the supplied time ranges.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @param ranges time ranges over which timephased material utilization is summarized
+    * @return list of Number instances representing timephased material utilization for the supplied ranges
+    */
+   public List<Number> getTimephasedBaselineMaterial(int index, List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedMaterial(ranges, r -> r.getTimephasedBaselineMaterial(index, ranges));
+   }
+
+   /**
+    * Summarize duration values from resource assignments.
+    *
+    * @param ranges target ranges
+    * @param resourceFn function to retrieve work from resources
+    * @param assignmentFn function to retrieve work from resource assignments
+    * @return timephased work for the supplied ranges
+    */
+   private List<Duration> reduceTimephasedWork(List<LocalDateTimeRange> ranges, Function<Resource, List<Duration>> resourceFn, Function<ResourceAssignment, List<Duration>> assignmentFn)
+   {
+      return Stream.concat(getChildResources().stream().filter(r -> r.getType() != ResourceType.MATERIAL).map(resourceFn), getResourceAssignmentStream().map(assignmentFn))
+         .reduce(TimephasedUtility::addTimephasedDurations)
+         .orElseGet(() -> Arrays.asList(new Duration[ranges.size()]));
+   }
+
+   /**
+    * Summarize cost values from resource assignments.
+    *
+    * @param ranges target ranges
+    * @param resourceFn function to retrieve cost from resources
+    * @param assignmentFn function to retrieve cost from resource assignments
+    * @return timephased cost for the supplied ranges
+    */
+   private List<Number> reduceTimephasedCost(List<LocalDateTimeRange> ranges, Function<Resource, List<Number>> resourceFn, Function<ResourceAssignment, List<Number>> assignmentFn)
+   {
+      return Stream.concat(getChildResources().stream().map(resourceFn), getResourceAssignmentStream().map(assignmentFn))
+         .reduce(TimephasedUtility::addTimephasedNumbers)
+         .orElseGet(() -> Arrays.asList(new Number[ranges.size()]));
+   }
+
+   /**
+    * Summarize material values from resource assignments.
+    *
+    * @param ranges target ranges
+    * @param assignmentFn function to retrieve material values from resource assignments
+    * @return timephased material values for the supplied ranges
+    */
+   private List<Number> reduceTimephasedMaterial(List<LocalDateTimeRange> ranges, Function<ResourceAssignment, List<Number>> assignmentFn)
+   {
+      return getResourceAssignmentStream().map(assignmentFn)
+         .reduce(TimephasedUtility::addTimephasedNumbers)
+         .orElseGet(() -> Arrays.asList(new Number[ranges.size()]));
+   }
+
+   /**
     * Maps a field index to a ResourceField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
@@ -2981,6 +3427,36 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       return getResourceAssignmentStream().map(ResourceAssignment::getFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null);
    }
 
+   private Duration calculatePlannedWork()
+   {
+      List<Duration> list = getResourceAssignmentStream()
+         .map(ResourceAssignment::getPlannedWork)
+         .filter(Objects::nonNull).collect(Collectors.toList());
+
+      if (list.isEmpty() || list.stream().noneMatch(Objects::nonNull))
+      {
+         return null;
+      }
+
+      TimeUnit unit = list.get(0).getUnits();
+      ProjectCalendar calendar = getCalendar();
+      return Duration.getInstance(list.stream().mapToDouble(d -> d.convertUnits(unit, calendar).getDuration()).sum(), unit);
+   }
+
+   private Number calculatePlannedCost()
+   {
+      List<Number> list = getResourceAssignmentStream()
+         .map(ResourceAssignment::getPlannedCost)
+         .filter(Objects::nonNull).collect(Collectors.toList());
+
+      if (list.isEmpty() || list.stream().noneMatch(Objects::nonNull))
+      {
+         return null;
+      }
+
+      return Double.valueOf(list.stream().mapToDouble(Number::doubleValue).sum());
+   }
+
    private Stream<ResourceAssignment> getResourceAssignmentStream()
    {
       return getResourceAssignmentStream(getUniqueID());
@@ -3009,6 +3485,50 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    private LocalDateTime calculateAvailableTo()
    {
       return m_availability.availableTo(LocalDateTime.now());
+   }
+
+   private Number calculateRegularCost(Supplier<Number> totalCostSupplier, Supplier<Number> overtimeCostSupplier)
+   {
+      Number totalCost = totalCostSupplier.get();
+      Number overtimeCost = overtimeCostSupplier.get();
+      if (totalCost == null && overtimeCost == null)
+      {
+         return null;
+      }
+
+      return Double.valueOf(NumberHelper.getDouble(totalCost) - NumberHelper.getDouble(overtimeCost));
+   }
+
+   private Duration calculateRegularWork(Supplier<Duration> totalWorkSupplier, Supplier<Duration> overtimeWorkSupplier)
+   {
+      Duration totalWork = totalWorkSupplier.get();
+      Duration overtimeWork = overtimeWorkSupplier.get();
+      if (totalWork == null && overtimeWork == null)
+      {
+         return null;
+      }
+
+      TimeUnit units = totalWork == null ? overtimeWork.getUnits() : totalWork.getUnits();
+      double total = totalWork == null ? 0 : totalWork.convertUnits(units, getCalendar()).getDuration();
+      double overtime = overtimeWork == null ? 0 : overtimeWork.convertUnits(units, getCalendar()).getDuration();
+
+      return Duration.getInstance(total-overtime, units);
+   }
+
+   private Number calculateMaterial(Supplier<Duration> fn)
+   {
+      if (getType() != ResourceType.MATERIAL)
+      {
+         return null;
+      }
+
+      Duration work = fn.get();
+      if (work == null)
+      {
+         return null;
+      }
+
+      return Double.valueOf(work.getDuration());
    }
 
    /**
@@ -3067,7 +3587,89 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    private final CostRateTable[] m_costRateTables;
    private final AvailabilityTable m_availability = new AvailabilityTable();
 
-   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(ResourceField.STANDARD_RATE, ResourceField.OVERTIME_RATE, ResourceField.COST_PER_USE, ResourceField.START, ResourceField.FINISH, ResourceField.MAX_UNITS, ResourceField.AVAILABLE_FROM, ResourceField.AVAILABLE_TO));
+   private interface TimephasedDurationFunction
+   {
+      List<Duration> apply(Resource resource, List<LocalDateTimeRange> ranges, TimeUnit units);
+   }
+
+   private interface TimephasedNumericFunction
+   {
+      List<Number> apply(Resource resource, List<LocalDateTimeRange> ranges);
+   }
+
+   private static final Map<FieldType, TimephasedDurationFunction> TIMEPHASED_WORK_FUNCTIONS = new HashMap<>();
+   static
+   {
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.PLANNED_WORK, Resource::getTimephasedPlannedWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.ACTUAL_REGULAR_WORK, Resource::getTimephasedActualRegularWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.ACTUAL_OVERTIME_WORK, Resource::getTimephasedActualOvertimeWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.ACTUAL_WORK, Resource::getTimephasedActualWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.REMAINING_REGULAR_WORK, Resource::getTimephasedRemainingRegularWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.REMAINING_OVERTIME_WORK, Resource::getTimephasedRemainingOvertimeWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.REMAINING_WORK, Resource::getTimephasedRemainingWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.WORK, Resource::getTimephasedWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE_WORK, (a, r, t) -> a.getTimephasedBaselineWork(0, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE1_WORK,(a, r, t) -> a.getTimephasedBaselineWork(1, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE2_WORK,(a, r, t) -> a.getTimephasedBaselineWork(2, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE3_WORK,(a, r, t) -> a.getTimephasedBaselineWork(3, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE4_WORK,(a, r, t) -> a.getTimephasedBaselineWork(4, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE5_WORK,(a, r, t) -> a.getTimephasedBaselineWork(5, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE6_WORK,(a, r, t) -> a.getTimephasedBaselineWork(6, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE7_WORK,(a, r, t) -> a.getTimephasedBaselineWork(7, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE8_WORK,(a, r, t) -> a.getTimephasedBaselineWork(8, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE9_WORK,(a, r, t) -> a.getTimephasedBaselineWork(9, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(ResourceField.BASELINE10_WORK, (a, r, t) -> a.getTimephasedBaselineWork(10, r, t));
+   }
+
+   private static final Map<FieldType, TimephasedNumericFunction> TIMEPHASED_NUMERIC_FUNCTIONS = new HashMap<>();
+   static
+   {
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.PLANNED_COST, Resource::getTimephasedPlannedCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.REMAINING_REGULAR_COST, Resource::getTimephasedRemainingRegularCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.REMAINING_OVERTIME_COST, Resource::getTimephasedRemainingOvertimeCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.REMAINING_COST, Resource::getTimephasedRemainingCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.ACTUAL_REGULAR_COST, Resource::getTimephasedActualRegularCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.ACTUAL_OVERTIME_COST, Resource::getTimephasedActualOvertimeCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.ACTUAL_COST, Resource::getTimephasedActualCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.COST, Resource::getTimephasedCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.PLANNED_MATERIAL, Resource::getTimephasedPlannedMaterial);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.ACTUAL_MATERIAL, Resource::getTimephasedActualMaterial);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.REMAINING_MATERIAL, Resource::getTimephasedRemainingMaterial);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.MATERIAL, Resource::getTimephasedMaterial);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE_COST, (a, r) -> a.getTimephasedBaselineCost(0, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE1_COST, (a, r) -> a.getTimephasedBaselineCost(1, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE2_COST, (a, r) -> a.getTimephasedBaselineCost(2, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE3_COST, (a, r) -> a.getTimephasedBaselineCost(3, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE4_COST, (a, r) -> a.getTimephasedBaselineCost(4, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE5_COST, (a, r) -> a.getTimephasedBaselineCost(5, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE6_COST, (a, r) -> a.getTimephasedBaselineCost(6, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE7_COST, (a, r) -> a.getTimephasedBaselineCost(7, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE8_COST, (a, r) -> a.getTimephasedBaselineCost(8, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE9_COST, (a, r) -> a.getTimephasedBaselineCost(9, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE10_COST, (a, r) -> a.getTimephasedBaselineCost(10, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(0, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE1_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(1, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE2_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(2, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE3_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(3, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE4_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(4, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE5_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(5, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE6_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(6, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE7_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(7, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE8_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(8, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE9_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(9, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(ResourceField.BASELINE10_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(10, r));
+   }
+
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(
+      ResourceField.STANDARD_RATE,
+      ResourceField.OVERTIME_RATE,
+      ResourceField.COST_PER_USE,
+      ResourceField.START,
+      ResourceField.FINISH,
+      ResourceField.MAX_UNITS,
+      ResourceField.AVAILABLE_FROM,
+      ResourceField.AVAILABLE_TO,
+      ResourceField.PLANNED_WORK));
 
    private static final Map<FieldType, Function<Resource, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
@@ -3086,6 +3688,27 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       CALCULATED_FIELD_MAP.put(ResourceField.AVAILABLE_TO, Resource::calculateAvailableTo);
       CALCULATED_FIELD_MAP.put(ResourceField.START, Resource::calculateStart);
       CALCULATED_FIELD_MAP.put(ResourceField.FINISH, Resource::calculateFinish);
+      CALCULATED_FIELD_MAP.put(ResourceField.PLANNED_WORK, Resource::calculatePlannedWork);
+      CALCULATED_FIELD_MAP.put(ResourceField.PLANNED_COST, Resource::calculatePlannedCost);
+      CALCULATED_FIELD_MAP.put(ResourceField.ACTUAL_REGULAR_COST, a -> a.calculateRegularCost(a::getActualCost, a::getActualOvertimeCost));
+      CALCULATED_FIELD_MAP.put(ResourceField.REMAINING_REGULAR_COST, a -> a.calculateRegularCost(a::getRemainingCost, a::getRemainingOvertimeCost));
+      CALCULATED_FIELD_MAP.put(ResourceField.ACTUAL_REGULAR_WORK, a -> a.calculateRegularWork(a::getActualWork, a::getActualOvertimeWork));
+      CALCULATED_FIELD_MAP.put(ResourceField.REMAINING_REGULAR_WORK, a ->  a.calculateRegularWork(a::getRemainingWork, a::getRemainingOvertimeWork));
+      CALCULATED_FIELD_MAP.put(ResourceField.PLANNED_MATERIAL, a -> a.calculateMaterial(a::getPlannedWork));
+      CALCULATED_FIELD_MAP.put(ResourceField.ACTUAL_MATERIAL, a -> a.calculateMaterial(a::getActualWork));
+      CALCULATED_FIELD_MAP.put(ResourceField.REMAINING_MATERIAL, a -> a.calculateMaterial(a::getRemainingWork));
+      CALCULATED_FIELD_MAP.put(ResourceField.MATERIAL, a -> a.calculateMaterial(a::getWork));
+      CALCULATED_FIELD_MAP.put(ResourceField.BASELINE_MATERIAL, a -> a.calculateMaterial(a::getBaselineWork));
+      CALCULATED_FIELD_MAP.put(ResourceField.BASELINE1_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(1)));
+      CALCULATED_FIELD_MAP.put(ResourceField.BASELINE2_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(2)));
+      CALCULATED_FIELD_MAP.put(ResourceField.BASELINE3_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(3)));
+      CALCULATED_FIELD_MAP.put(ResourceField.BASELINE4_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(4)));
+      CALCULATED_FIELD_MAP.put(ResourceField.BASELINE5_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(5)));
+      CALCULATED_FIELD_MAP.put(ResourceField.BASELINE6_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(6)));
+      CALCULATED_FIELD_MAP.put(ResourceField.BASELINE7_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(7)));
+      CALCULATED_FIELD_MAP.put(ResourceField.BASELINE8_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(8)));
+      CALCULATED_FIELD_MAP.put(ResourceField.BASELINE9_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(9)));
+      CALCULATED_FIELD_MAP.put(ResourceField.BASELINE10_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(10)));
       CALCULATED_FIELD_MAP.put(ResourceField.TYPE, Resource::defaultType);
       CALCULATED_FIELD_MAP.put(ResourceField.ROLE, Resource::defaultRoleFlag);
       CALCULATED_FIELD_MAP.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, Resource::defaultCalculateCostsFromUnits);
@@ -3104,6 +3727,24 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       dependencies.calculatedField(ResourceField.SV).dependsOn(ResourceField.BCWP, ResourceField.BCWS);
       dependencies.calculatedField(ResourceField.OVERALLOCATED).dependsOn(ResourceField.PEAK, ResourceField.MAX_UNITS);
       dependencies.calculatedField(ResourceField.MATERIAL_LABEL).dependsOn(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID);
+      dependencies.calculatedField(ResourceField.REMAINING_REGULAR_COST).dependsOn(ResourceField.REMAINING_COST, ResourceField.REMAINING_OVERTIME_COST);
+      dependencies.calculatedField(ResourceField.ACTUAL_REGULAR_COST).dependsOn(ResourceField.ACTUAL_COST, ResourceField.ACTUAL_OVERTIME_COST);
+      dependencies.calculatedField(ResourceField.REMAINING_REGULAR_WORK).dependsOn(ResourceField.REMAINING_WORK, ResourceField.REMAINING_OVERTIME_WORK);
+      dependencies.calculatedField(ResourceField.ACTUAL_REGULAR_WORK).dependsOn(ResourceField.ACTUAL_WORK, ResourceField.ACTUAL_OVERTIME_WORK);
+      dependencies.calculatedField(ResourceField.ACTUAL_MATERIAL).dependsOn(ResourceField.ACTUAL_WORK);
+      dependencies.calculatedField(ResourceField.REMAINING_MATERIAL).dependsOn(ResourceField.REMAINING_WORK);
+      dependencies.calculatedField(ResourceField.MATERIAL).dependsOn(ResourceField.WORK);
+      dependencies.calculatedField(ResourceField.BASELINE_MATERIAL).dependsOn(ResourceField.BASELINE_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE1_MATERIAL).dependsOn(ResourceField.BASELINE1_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE2_MATERIAL).dependsOn(ResourceField.BASELINE2_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE3_MATERIAL).dependsOn(ResourceField.BASELINE3_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE4_MATERIAL).dependsOn(ResourceField.BASELINE4_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE5_MATERIAL).dependsOn(ResourceField.BASELINE5_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE6_MATERIAL).dependsOn(ResourceField.BASELINE6_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE7_MATERIAL).dependsOn(ResourceField.BASELINE7_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE8_MATERIAL).dependsOn(ResourceField.BASELINE8_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE9_MATERIAL).dependsOn(ResourceField.BASELINE9_WORK);
+      dependencies.calculatedField(ResourceField.BASELINE10_MATERIAL).dependsOn(ResourceField.BASELINE10_WORK);
    }
 
    private static final Number DEFAULT_DEFAULT_UNITS = NumberHelper.DOUBLE_ONEHUNDRED;

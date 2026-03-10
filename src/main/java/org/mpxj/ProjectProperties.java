@@ -32,6 +32,7 @@ import java.util.Collections;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -3725,6 +3726,16 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    public void setEnableSummarization(boolean value)
    {
       set(ProjectField.ENABLE_SUMMARIZATION, value);
+   }
+
+   @Override public List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return Arrays.asList(new Duration[ranges.size()]);
+   }
+
+   @Override public List<Number> getTimephasedNumericValues(FieldType field, List<LocalDateTimeRange> ranges)
+   {
+      return Arrays.asList(new Number[ranges.size()]);
    }
 
    /**

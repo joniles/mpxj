@@ -58,6 +58,8 @@ import org.mpxj.GenericCriteria;
 import org.mpxj.GraphicalIndicator;
 import org.mpxj.GraphicalIndicatorCriteria;
 import org.mpxj.SkillLevel;
+import org.mpxj.TimephasedCost;
+import org.mpxj.TimephasedWork;
 import org.mpxj.UnitOfMeasure;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.ExpenseItem;
@@ -110,6 +112,7 @@ import org.mpxj.mpp.GanttBarStyle;
 import org.mpxj.mpp.GanttBarStyleException;
 import org.mpxj.mpp.GanttChartView;
 import org.mpxj.mpp.TableFontStyle;
+import org.mpxj.mpp.TimescaleTier;
 import org.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -197,6 +200,27 @@ public final class JsonWriter extends AbstractProjectWriter
    public void setWriteAttributeTypes(boolean writeAttributeTypes)
    {
       m_writeAttributeTypes = writeAttributeTypes;
+   }
+
+   /**
+    * Returns true if the JSON output will include timephased data.
+    * False by default.
+    *
+    * @return true if timephased data is written
+    */
+   public boolean getWriteTimephasedData()
+   {
+      return m_writeTimephasedData;
+   }
+
+   /**
+    * Set to true if the JSON output should include timephased data.
+    *
+    * @param writeTimephasedData true if timephased should be written
+    */
+   public void setWriteTimephasedData(boolean writeTimephasedData)
+   {
+      m_writeTimephasedData = writeTimephasedData;
    }
 
    /**
@@ -1252,6 +1276,18 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
+         case TIMEPHASED_WORK_LIST:
+         {
+            writeTimephasedWorkList(fieldName, value);
+            break;
+         }
+
+         case TIMEPHASED_COST_LIST:
+         {
+            writeTimephasedCostList(fieldName, value);
+            break;
+         }
+
          default:
          {
             // If we have an enum, ensure we write the name as it appears in the code.
@@ -1594,6 +1630,11 @@ public final class JsonWriter extends AbstractProjectWriter
 
       @SuppressWarnings("unchecked")
       List<LocalDateTimeRange> list = (List<LocalDateTimeRange>) value;
+      if (list.isEmpty())
+      {
+         return;
+      }
+
       m_writer.writeArrayFieldStart(fieldName);
       for (LocalDateTimeRange entry : list)
       {
@@ -1955,6 +1996,60 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeEndArray();
    }
 
+   private void writeTimephasedWorkList(String fieldName, Object value) throws IOException
+   {
+      if (!m_writeTimephasedData || !(value instanceof List))
+      {
+         return;
+      }
+
+      @SuppressWarnings("unchecked")
+      List<TimephasedWork> list = (List<TimephasedWork>) value;
+      if (list.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeArrayFieldStart(fieldName);
+      for (TimephasedWork item : list)
+      {
+         m_writer.writeStartObject();
+         writeTimestampField("start", item.getStart());
+         writeTimestampField("finish", item.getFinish());
+         writeDurationField(null, "amount_per_hour", item.getAmountPerHour());
+         writeDurationField(null, "total_amount", item.getTotalAmount());
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndArray();
+   }
+
+   private void writeTimephasedCostList(String fieldName, Object value) throws IOException
+   {
+      if (!m_writeTimephasedData || !(value instanceof List))
+      {
+         return;
+      }
+
+      @SuppressWarnings("unchecked")
+      List<TimephasedCost> list = (List<TimephasedCost>) value;
+      if (list.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeArrayFieldStart(fieldName);
+      for (TimephasedCost item : list)
+      {
+         m_writer.writeStartObject();
+         writeTimestampField("start", item.getStart());
+         writeTimestampField("finish", item.getFinish());
+         writeDoubleField("amount_per_hour", item.getAmountPerHour());
+         writeDoubleField("total_amount", item.getTotalAmount());
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndArray();
+   }
+
    private void writeTables() throws IOException
    {
       if (m_projectFile.getTables().isEmpty())
@@ -2012,6 +2107,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeOptionalStringField("type", view.getType().name().toLowerCase());
          writeOptionalStringField("table_name", view.getTableName());
          writeViewTableFontStyles(view);
+         writeTimescales(view);
          writeBarStyles(view);
          writeBarStyleExceptions(view);
          m_writer.writeEndObject();
@@ -2105,6 +2201,37 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeEndArray();
    }
 
+   private void writeTimescales(View view) throws IOException
+   {
+      if (!(view instanceof GanttChartView))
+      {
+         return;
+      }
+
+      GanttChartView ganttChartView = (GanttChartView) view;
+      writeTimescale("timescale_top_tier", ganttChartView.getTimescaleTopTier());
+      writeTimescale("timescale_middle_tier", ganttChartView.getTimescaleMiddleTier());
+      writeTimescale("timescale_bottom_tier", ganttChartView.getTimescaleBottomTier());
+   }
+
+   private void writeTimescale(String name, TimescaleTier timescale) throws IOException
+   {
+      if (timescale == null)
+      {
+         return;
+      }
+
+      m_writer.writeObjectFieldStart(name);
+      m_writer.writeStringField("alignment", timescale.getAlignment().name().toLowerCase());
+      m_writer.writeNumberField("count", timescale.getCount());
+      m_writer.writeStringField("format", timescale.getFormat().name().toLowerCase());
+      m_writer.writeStringField("units", timescale.getUnits().name().toLowerCase());
+      m_writer.writeBooleanField("ticklines", timescale.getTickLines());
+      m_writer.writeBooleanField("uses_fiscal_year", timescale.getUsesFiscalYear());
+      m_writer.writeEndObject();
+   }
+
+
    /**
     * Write a TaskMode field to the JSON file.
     *
@@ -2170,6 +2297,7 @@ public final class JsonWriter extends AbstractProjectWriter
    private boolean m_includeLayoutData;
    private Charset m_charset = DEFAULT_CHARSET;
    private boolean m_writeAttributeTypes;
+   private boolean m_writeTimephasedData;
    private TimeUnit m_timeUnits;
    private final StringBuilder m_buffer = new StringBuilder();
 
