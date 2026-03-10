@@ -1,5 +1,5 @@
 /*
- * file:       TimescaleUtility.java
+ * file:       TimescaleHelper.java
  * author:     Jon Iles
  * date:       2011-02-12
  */
