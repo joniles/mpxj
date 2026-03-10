@@ -46,8 +46,11 @@
 			<action dev="joniles" type="update">The `AssignmentField.TIMEPHASED_ACTUAL_WORK` enumeration value has been removed, use `TaskField.TIMEPHASED_ACTUAL_REGULAR_WORK` instead.</action><action dev="joniles" type="update">The order of the arguments supplied to the `TimescaleUtility#createTimescale` method has been changed.</action>
 			<action dev="joniles" type="update">The order of the arguments supplied to the `TimescaleHelper#createTimescale` method has been changed.</action>
 			<action dev="joniles" type="update">The alignment of the ranges returned by `TimescaleHelper#createTimescale` has changed when `MINUTES` or `HOURS` is specified as the required timescale units..</action>
-		</release>
-		<release date="unreleased" version="15.3.2">
+			<action dev="joniles" type="update">**CHANGES**</action>
+			<action dev="joniles" type="update">Updated to sqlite-jdbc 3.51.2.0</action>
+			<action dev="joniles" type="update">Updated to jsoup 1.22.1.</action>
+			<action dev="joniles" type="update">Updated to Jackson 2.21.1.</action>
+			<action dev="joniles" type="update">Updated to JUnit 5.14.3</action>
 		</release>
 		<release date="2026-02-06" version="15.3.1">
 			<action dev="joniles" type="update">Fix a `NullPointerException` raised when a PMXML file does not have a default calendar defined.</action>
