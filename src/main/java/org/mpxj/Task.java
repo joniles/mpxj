@@ -6691,7 +6691,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    private void addWorkSplit(ProjectCalendar calendar, List<LocalDateTimeRange> ranges, LocalDateTimeRange range)
    {
-      // TODO - look at inflating the ranges as they come from the assignment before we start reducing
       if (!ranges.isEmpty())
       {
          LocalDateTimeRange lastRange = ranges.get(ranges.size() - 1);
