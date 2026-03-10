@@ -98,7 +98,7 @@ public class TimephasedRawTest
    /**
     * Test MSPDI file timephased resource assignments.
     */
-   @Test public void testMspdi() throws Exception
+   @Test public void testMspdi()
    {
       // TODO: handle representation differences for MSPDI files
 //      ProjectFile file = new MSPDIReader().read(MpxjTestData.filePath("mspditimephased.xml"));

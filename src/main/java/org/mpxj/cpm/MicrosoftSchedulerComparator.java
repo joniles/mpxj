@@ -397,7 +397,7 @@ public class MicrosoftSchedulerComparator
     *
     * @param working scheduled task
     * @param baselineFile baseline data
-    * @poaram working working task
+    * @param working working task
     */
    private void analyseForwardError(ProjectFile baselineFile, Task working)
    {

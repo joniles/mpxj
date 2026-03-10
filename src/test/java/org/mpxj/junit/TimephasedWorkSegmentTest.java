@@ -103,8 +103,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
    /**
     * Timephased segment test for MSPDI files.
-    *
-    * @throws Exception
     */
    @Test public void testMspdi() throws Exception
    {
