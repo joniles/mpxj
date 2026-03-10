@@ -395,8 +395,9 @@ public class MicrosoftSchedulerComparator
    /**
     * Write debug information for a forward pass error.
     *
+    * @param working scheduled task
     * @param baselineFile baseline data
-    * @param working working task
+    * @poaram working working task
     */
    private void analyseForwardError(ProjectFile baselineFile, Task working)
    {
