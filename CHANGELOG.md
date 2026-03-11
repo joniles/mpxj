@@ -8,7 +8,7 @@ no longer distributed. Please use the `MPXJ.Net` package instead.
 ## 16.0.0 (2026-03-12)
 * **NEW FEATURES**
 * `JsonWriter` now provides `getWriteTimephasedData` and `setWriteTimephasedData` methods. Setting this property to true will include timephased data in the JSON output. This property is set to false by default.
-* Classes implementing the `FieldContainer` interface (Task`, `Resource`, `ResourceAssignment`) now provide the `getTimephasedDurationValues` and `getTimephasedNumericValues` to allow access to timephased data using a `FieldType` instance to determine the type of data required.
+* Classes implementing the `FieldContainer` interface (`Task`, `Resource`, `ResourceAssignment`) now provide the `getTimephasedDurationValues` and `getTimephasedNumericValues` methods to allow access to timephased data using a `FieldType` instance which determines the type of data returned.
 * The `Resource` class now supports the following work methods: `getPlannedWork`, `getActualRegularWork`, `getRemainingRegularWork`.
 * The `Resource` class now supports the following cost methods: `getPlannedCost`, `getActualRegularCost`, `getRemainingRegularCost`.
 * The `Resource` class now supports the following material methods: `getPlannedMaterial`, `getActualMaterial`, `getRemainingMaterial`, `getMaterial`, `getBaselineMaterial`.

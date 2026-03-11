@@ -8596,7 +8596,7 @@ no longer distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
 <ul>
 <li><strong>NEW FEATURES</strong></li>
 <li><code>JsonWriter</code> now provides <code>getWriteTimephasedData</code> and <code>setWriteTimephasedData</code> methods. Setting this property to true will include timephased data in the JSON output. This property is set to false by default.</li>
-<li>Classes implementing the <code>FieldContainer</code> interface (Task<code>,</code>Resource<code>,</code>ResourceAssignment<code>) now provide the</code>getTimephasedDurationValues<code>and</code>getTimephasedNumericValues<code>to allow access to timephased data using a</code>FieldType` instance to determine the type of data required.</li>
+<li>Classes implementing the <code>FieldContainer</code> interface (<code>Task</code>, <code>Resource</code>, <code>ResourceAssignment</code>) now provide the <code>getTimephasedDurationValues</code> and <code>getTimephasedNumericValues</code> methods to allow access to timephased data using a <code>FieldType</code> instance which determines the type of data returned.</li>
 <li>The <code>Resource</code> class now supports the following work methods: <code>getPlannedWork</code>, <code>getActualRegularWork</code>, <code>getRemainingRegularWork</code>.</li>
 <li>The <code>Resource</code> class now supports the following cost methods: <code>getPlannedCost</code>, <code>getActualRegularCost</code>, <code>getRemainingRegularCost</code>.</li>
 <li>The <code>Resource</code> class now supports the following material methods: <code>getPlannedMaterial</code>, <code>getActualMaterial</code>, <code>getRemainingMaterial</code>, <code>getMaterial</code>, <code>getBaselineMaterial</code>.</li>
