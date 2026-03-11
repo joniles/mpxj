@@ -44,9 +44,9 @@ import org.mpxj.ProjectProperties;
 import org.mpxj.UserDefinedField;
 import org.mpxj.common.AlphanumComparator;
 import org.mpxj.common.AssignmentFieldLists;
+import org.mpxj.common.FieldLists;
 import org.mpxj.common.ResourceFieldLists;
 import org.mpxj.common.TaskFieldLists;
-import org.mpxj.common.FieldLists;
 
 /**
  * Collect details of which fields are populated for each file type.

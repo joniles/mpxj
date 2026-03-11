@@ -28,8 +28,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import org.junit.jupiter.api.Test;
-import org.mpxj.reader.UniversalProjectReader;
-
 import org.mpxj.AccrueType;
 import org.mpxj.Duration;
 import org.mpxj.MPXJException;
@@ -39,6 +37,7 @@ import org.mpxj.Task;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.junit.MpxjTestData;
 import org.mpxj.mpp.ApplicationVersion;
+import org.mpxj.reader.UniversalProjectReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

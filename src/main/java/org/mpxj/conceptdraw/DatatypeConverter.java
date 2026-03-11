@@ -23,6 +23,7 @@
 
 package org.mpxj.conceptdraw;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -32,15 +33,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.mpxj.CurrencySymbolPosition;
-
-import java.time.DayOfWeek;
-
-import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.Priority;
 import org.mpxj.RelationType;
 import org.mpxj.ResourceType;
 import org.mpxj.TaskType;
 import org.mpxj.TimeUnit;
+import org.mpxj.common.DayOfWeekHelper;
 
 /**
  * This class contains methods used to perform the datatype conversions

@@ -27,12 +27,13 @@ import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.io.File;
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.List;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-import java.util.Arrays;
 
+import com.jgoodies.binding.beans.PropertyAdapter;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -42,9 +43,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-
-import com.jgoodies.binding.beans.PropertyAdapter;
-
 import org.mpxj.ProjectFile;
 import org.mpxj.primavera.PrimaveraPMFileReader;
 import org.mpxj.primavera.PrimaveraXERFileReader;

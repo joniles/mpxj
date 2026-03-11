@@ -24,22 +24,19 @@
 package org.mpxj.phoenix;
 
 import java.io.InputStream;
-
 import java.util.List;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.mpxj.common.LocalDateTimeHelper;
-import org.xml.sax.SAXException;
-
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
+import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.UnmarshalHelper;
 import org.mpxj.phoenix.schema.phoenix5.Project;
 import org.mpxj.phoenix.schema.phoenix5.Project.Storepoints.Storepoint;
 import org.mpxj.reader.AbstractProjectStreamReader;
+import org.xml.sax.SAXException;
 
 /**
  * This class creates a new ProjectFile instance by reading a Phoenix Project Manager file.

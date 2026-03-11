@@ -23,10 +23,9 @@
 
 package org.mpxj.merlin;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.UUID;
-
-import java.time.DayOfWeek;
 
 import org.mpxj.Duration;
 import org.mpxj.RelationType;

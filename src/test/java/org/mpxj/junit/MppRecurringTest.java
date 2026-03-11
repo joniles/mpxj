@@ -23,9 +23,8 @@
 
 package org.mpxj.junit;
 
-import java.time.LocalDate;
-
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 import org.mpxj.ProjectFile;

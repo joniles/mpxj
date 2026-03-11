@@ -24,21 +24,14 @@
 package org.mpxj.ganttdesigner;
 
 import java.io.InputStream;
+import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.mpxj.common.DayOfWeekHelper;
-import org.mpxj.common.LocalDateHelper;
-import org.xml.sax.SAXException;
-
 import org.mpxj.ChildTaskContainer;
-
-import java.time.DayOfWeek;
-
 import org.mpxj.EventManager;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectCalendar;
@@ -51,10 +44,13 @@ import org.mpxj.ProjectProperties;
 import org.mpxj.Relation;
 import org.mpxj.RelationType;
 import org.mpxj.Task;
+import org.mpxj.common.DayOfWeekHelper;
+import org.mpxj.common.LocalDateHelper;
 import org.mpxj.common.UnmarshalHelper;
 import org.mpxj.ganttdesigner.schema.Gantt;
 import org.mpxj.ganttdesigner.schema.GanttDesignerRemark;
 import org.mpxj.reader.AbstractProjectStreamReader;
+import org.xml.sax.SAXException;
 
 /**
  * This class creates a new ProjectFile instance by reading a GanttDesigner file.

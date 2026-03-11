@@ -34,11 +34,11 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mpxj.DayType;
 import org.mpxj.Duration;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
-import org.mpxj.LocalTimeRange;
 import org.mpxj.TimeUnit;
 import org.mpxj.mpp.MPPReader;
 

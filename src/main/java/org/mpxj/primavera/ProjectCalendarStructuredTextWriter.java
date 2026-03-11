@@ -23,21 +23,19 @@
 
 package org.mpxj.primavera;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import java.time.DayOfWeek;
-
-import org.mpxj.common.DayOfWeekHelper;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
-import org.mpxj.LocalTimeRange;
+import org.mpxj.common.DayOfWeekHelper;
 
 /**
  * Encapsulates the functionality required to write a ProjectCalendar

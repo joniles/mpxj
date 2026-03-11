@@ -23,11 +23,11 @@
 
 package org.mpxj.mpd;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,14 +39,11 @@ import org.mpxj.ConstraintType;
 import org.mpxj.CostRateTable;
 import org.mpxj.CostRateTableEntry;
 import org.mpxj.DataType;
-
-import java.time.DayOfWeek;
-
-import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.MPXJException;
 import org.mpxj.Priority;
 import org.mpxj.ProjectCalendar;
@@ -66,10 +63,10 @@ import org.mpxj.RtfNotes;
 import org.mpxj.ScheduleFrom;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
-import org.mpxj.LocalTimeRange;
 import org.mpxj.TimeUnit;
 import org.mpxj.UnitOfMeasureContainer;
 import org.mpxj.WorkGroup;
+import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.FieldTypeHelper;
 import org.mpxj.common.LocalDateHelper;
 import org.mpxj.common.LocalDateTimeHelper;

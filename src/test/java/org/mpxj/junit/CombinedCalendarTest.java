@@ -23,18 +23,17 @@
 
 package org.mpxj.junit;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import java.time.DayOfWeek;
-
 import org.junit.jupiter.api.Test;
 import org.mpxj.Duration;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectFile;
-import org.mpxj.LocalTimeRange;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.CombinedCalendar;
 

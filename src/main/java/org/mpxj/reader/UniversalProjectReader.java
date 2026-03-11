@@ -39,15 +39,10 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
-import org.mpxj.HasCharset;
-import org.mpxj.common.ConnectionHelper;
-import org.mpxj.edrawproject.EdrawProjectReader;
-import org.mpxj.openplan.OpenPlanReader;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-
 import com.healthmarketscience.jackcess.Database;
 import com.healthmarketscience.jackcess.DatabaseBuilder;
-
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.mpxj.HasCharset;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.asta.AstaMdbReader;
@@ -55,10 +50,12 @@ import org.mpxj.asta.AstaSqliteReader;
 import org.mpxj.asta.AstaTextFileReader;
 import org.mpxj.common.AutoCloseableHelper;
 import org.mpxj.common.CharsetHelper;
+import org.mpxj.common.ConnectionHelper;
 import org.mpxj.common.FileHelper;
 import org.mpxj.common.InputStreamHelper;
 import org.mpxj.common.SQLite;
 import org.mpxj.conceptdraw.ConceptDrawProjectReader;
+import org.mpxj.edrawproject.EdrawProjectReader;
 import org.mpxj.fasttrack.FastTrackReader;
 import org.mpxj.ganttdesigner.GanttDesignerReader;
 import org.mpxj.ganttproject.GanttProjectReader;
@@ -67,6 +64,7 @@ import org.mpxj.mpd.MPDFileReader;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mpx.MPXReader;
 import org.mpxj.mspdi.MSPDIReader;
+import org.mpxj.openplan.OpenPlanReader;
 import org.mpxj.phoenix.PhoenixInputStream;
 import org.mpxj.phoenix.PhoenixReader;
 import org.mpxj.planner.PlannerReader;

@@ -23,12 +23,11 @@
 
 package org.mpxj.explorer;
 
+import com.jgoodies.binding.beans.PropertyConnector;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SpringLayout;
-
-import com.jgoodies.binding.beans.PropertyConnector;
 
 /**
  * Implements the view component of the ObjectProperties MVC.

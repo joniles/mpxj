@@ -25,10 +25,9 @@ package org.mpxj.mpp;
 
 import java.io.IOException;
 
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
-
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
 /**
  * This interface is implemented by classes which understand how

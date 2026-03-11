@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
-
 import org.mpxj.ProjectCalendar;
 
 /**

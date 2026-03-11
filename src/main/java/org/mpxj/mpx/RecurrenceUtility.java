@@ -23,20 +23,18 @@
 
 package org.mpxj.mpx;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import java.time.DayOfWeek;
-
-import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.Duration;
 import org.mpxj.ProjectProperties;
 import org.mpxj.RecurrenceType;
 import org.mpxj.RecurringData;
 import org.mpxj.RecurringTask;
 import org.mpxj.TimeUnit;
+import org.mpxj.common.DayOfWeekHelper;
 
 /**
  * This class contains method relating to managing Recurrence instances for MPX

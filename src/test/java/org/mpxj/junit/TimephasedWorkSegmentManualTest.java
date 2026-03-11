@@ -23,19 +23,18 @@
 package org.mpxj.junit;
 
 import java.time.LocalDateTime;
-
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.mpxj.LocalDateTimeRange;
 import org.mpxj.Duration;
+import org.mpxj.LocalDateTimeRange;
 import org.mpxj.ProjectFile;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
-import org.mpxj.mpp.MPPReader;
 import org.mpxj.TimescaleUnits;
 import org.mpxj.common.TimescaleHelper;
+import org.mpxj.mpp.MPPReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

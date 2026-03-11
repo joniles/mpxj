@@ -25,25 +25,23 @@ package org.mpxj.primavera.suretrak;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
-
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.mpxj.ChildTaskContainer;
-
-import java.time.DayOfWeek;
-
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarHours;
@@ -57,7 +55,6 @@ import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceField;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
-import org.mpxj.LocalTimeRange;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.AlphanumComparator;
 import org.mpxj.common.LocalDateHelper;

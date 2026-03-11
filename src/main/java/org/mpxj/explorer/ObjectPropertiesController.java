@@ -27,7 +27,6 @@ import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -36,7 +35,6 @@ import java.util.TreeMap;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-
 import org.mpxj.Duration;
 
 /**

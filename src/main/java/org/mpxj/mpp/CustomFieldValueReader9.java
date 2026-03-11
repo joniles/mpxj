@@ -26,18 +26,15 @@ package org.mpxj.mpp;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import org.mpxj.ProjectFile;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
-
 import org.mpxj.CustomField;
 import org.mpxj.CustomFieldContainer;
 import org.mpxj.CustomFieldLookupTable;
@@ -46,6 +43,7 @@ import org.mpxj.DataType;
 import org.mpxj.Duration;
 import org.mpxj.FieldType;
 import org.mpxj.FieldTypeClass;
+import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.ByteArrayHelper;

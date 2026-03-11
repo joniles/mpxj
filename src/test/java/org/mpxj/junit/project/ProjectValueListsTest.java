@@ -28,8 +28,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import org.junit.jupiter.api.Test;
-import org.mpxj.reader.UniversalProjectReader;
-
 import org.mpxj.CustomField;
 import org.mpxj.CustomFieldContainer;
 import org.mpxj.CustomFieldLookupTable;
@@ -37,6 +35,7 @@ import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.TaskField;
 import org.mpxj.junit.MpxjTestData;
+import org.mpxj.reader.UniversalProjectReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

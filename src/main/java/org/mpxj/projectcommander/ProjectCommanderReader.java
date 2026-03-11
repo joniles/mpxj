@@ -25,6 +25,7 @@ package org.mpxj.projectcommander;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -37,10 +38,9 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import java.time.DayOfWeek;
-
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
@@ -51,7 +51,6 @@ import org.mpxj.Relation;
 import org.mpxj.Resource;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.Task;
-import org.mpxj.LocalTimeRange;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.LocalDateHelper;
 import org.mpxj.common.LocalDateTimeHelper;

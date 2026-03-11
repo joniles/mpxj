@@ -25,9 +25,8 @@ package org.mpxj.explorer;
 
 import java.awt.Component;
 
-import javax.swing.JFileChooser;
-
 import com.jgoodies.binding.beans.PropertyAdapter;
+import javax.swing.JFileChooser;
 
 /**
  * Implements the view component of the FileSaver MVC.

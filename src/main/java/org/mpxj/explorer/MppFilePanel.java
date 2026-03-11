@@ -32,7 +32,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.tree.TreePath;
-
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 
 /**

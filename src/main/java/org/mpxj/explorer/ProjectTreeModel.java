@@ -1,4 +1,3 @@
-
 package org.mpxj.explorer;
 
 import javax.swing.tree.DefaultTreeModel;

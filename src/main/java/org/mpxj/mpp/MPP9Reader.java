@@ -34,20 +34,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.mpxj.FieldTypeClass;
-import org.mpxj.common.ByteArrayHelper;
-import org.mpxj.common.FieldTypeHelper;
-import org.mpxj.common.InputStreamHelper;
-import org.mpxj.common.LocalDateTimeHelper;
-import org.mpxj.common.NumberHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
-
 import org.mpxj.CustomFieldContainer;
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
 import org.mpxj.FieldType;
+import org.mpxj.FieldTypeClass;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
@@ -61,6 +55,11 @@ import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
 import org.mpxj.View;
+import org.mpxj.common.ByteArrayHelper;
+import org.mpxj.common.FieldTypeHelper;
+import org.mpxj.common.InputStreamHelper;
+import org.mpxj.common.LocalDateTimeHelper;
+import org.mpxj.common.NumberHelper;
 
 /**
  * This class is used to represent a Microsoft Project MPP9 file. This

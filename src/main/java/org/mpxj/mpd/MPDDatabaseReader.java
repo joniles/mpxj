@@ -33,7 +33,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.sql.DataSource;
-
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.common.AutoCloseableHelper;

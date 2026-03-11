@@ -1,4 +1,3 @@
-
 package org.mpxj.phoenix;
 
 import java.io.InputStream;

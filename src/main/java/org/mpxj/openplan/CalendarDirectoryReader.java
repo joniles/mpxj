@@ -32,16 +32,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.DayType;
 import org.mpxj.LocalTimeRange;
+import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectFile;
 import org.mpxj.RecurrenceType;
 import org.mpxj.RecurringData;
-import org.mpxj.ProjectCalendar;
 import org.mpxj.common.HierarchyHelper;
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
 /**
  * Populate the project with calendars

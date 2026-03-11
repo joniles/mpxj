@@ -27,6 +27,7 @@ import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.io.File;
 
+import com.jgoodies.binding.beans.PropertyAdapter;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -34,8 +35,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-
-import com.jgoodies.binding.beans.PropertyAdapter;
 
 /**
  * MppExplorer is a Swing UI used to examine the contents of an MPP file.

@@ -31,15 +31,13 @@ import java.time.format.DateTimeFormatter;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-
-import org.mpxj.common.ByteArrayHelper;
-import org.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
-
 import org.mpxj.Duration;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.AutoCloseableHelper;
+import org.mpxj.common.ByteArrayHelper;
+import org.mpxj.common.InputStreamHelper;
 import org.mpxj.mpp.MPPUtility;
 
 /**

@@ -1,4 +1,3 @@
-
 package org.mpxj.mpp;
 
 import java.io.FileNotFoundException;
@@ -7,7 +6,6 @@ import java.io.IOException;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
-
 import org.mpxj.EventManager;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;

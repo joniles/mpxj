@@ -38,7 +38,6 @@ import org.mpxj.ConstraintType;
 import org.mpxj.DayType;
 import org.mpxj.Duration;
 import org.mpxj.LocalTimeRange;
-
 import org.mpxj.PercentCompleteType;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarHours;

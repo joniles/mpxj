@@ -25,6 +25,7 @@ package org.mpxj.mpp;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -33,26 +34,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.mpxj.Availability;
-import org.mpxj.CostRateTable;
-import org.mpxj.CostRateTableEntry;
-import org.mpxj.common.ByteArrayHelper;
-import org.mpxj.common.DayOfWeekHelper;
-import org.mpxj.LocalTimeRange;
-import org.mpxj.common.FieldTypeHelper;
-import org.mpxj.common.LocalDateHelper;
-import org.mpxj.common.LocalDateTimeHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
-
 import org.mpxj.AccrueType;
+import org.mpxj.Availability;
 import org.mpxj.Column;
 import org.mpxj.ConstraintType;
-
-import java.time.DayOfWeek;
-
+import org.mpxj.CostRateTable;
+import org.mpxj.CostRateTableEntry;
 import org.mpxj.EventManager;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.MPXJException;
 import org.mpxj.Priority;
 import org.mpxj.ProjectCalendar;
@@ -71,6 +63,11 @@ import org.mpxj.TableContainer;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.View;
+import org.mpxj.common.ByteArrayHelper;
+import org.mpxj.common.DayOfWeekHelper;
+import org.mpxj.common.FieldTypeHelper;
+import org.mpxj.common.LocalDateHelper;
+import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.Pair;
 

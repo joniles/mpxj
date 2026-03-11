@@ -28,12 +28,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.Availability;
 import org.mpxj.ProjectFile;
 import org.mpxj.Resource;
 import org.mpxj.UnitOfMeasureContainer;
 import org.mpxj.common.HierarchyHelper;
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
 /**
  * Populate a project with resources.

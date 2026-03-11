@@ -24,6 +24,7 @@
 package org.mpxj.ganttproject;
 
 import java.io.InputStream;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.chrono.IsoChronology;
 import java.time.format.DateTimeFormatter;
@@ -34,34 +35,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.mpxj.CostRateTable;
-import org.mpxj.CostRateTableEntry;
-import org.mpxj.FieldTypeClass;
-import org.mpxj.UserDefinedField;
-import org.mpxj.UserDefinedFieldContainer;
-import org.mpxj.common.LocalDateTimeHelper;
-import org.mpxj.ganttproject.schema.Date;
-import org.mpxj.ganttproject.schema.Rate;
-import org.mpxj.ganttproject.schema.Resource;
-import org.mpxj.ganttproject.schema.Task;
-import org.xml.sax.SAXException;
-
 import org.mpxj.ChildTaskContainer;
 import org.mpxj.ConstraintType;
+import org.mpxj.CostRateTable;
+import org.mpxj.CostRateTableEntry;
 import org.mpxj.DataType;
-
-import java.time.DayOfWeek;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
 import org.mpxj.FieldType;
+import org.mpxj.FieldTypeClass;
 import org.mpxj.MPXJException;
 import org.mpxj.Priority;
 import org.mpxj.ProjectCalendar;
@@ -75,6 +63,9 @@ import org.mpxj.Relation;
 import org.mpxj.RelationType;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.TimeUnit;
+import org.mpxj.UserDefinedField;
+import org.mpxj.UserDefinedFieldContainer;
+import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.Pair;
 import org.mpxj.common.UnmarshalHelper;
@@ -84,16 +75,21 @@ import org.mpxj.ganttproject.schema.Calendars;
 import org.mpxj.ganttproject.schema.CustomPropertyDefinition;
 import org.mpxj.ganttproject.schema.CustomResourceProperty;
 import org.mpxj.ganttproject.schema.CustomTaskProperty;
+import org.mpxj.ganttproject.schema.Date;
 import org.mpxj.ganttproject.schema.DayTypes;
 import org.mpxj.ganttproject.schema.DefaultWeek;
 import org.mpxj.ganttproject.schema.Depend;
 import org.mpxj.ganttproject.schema.Project;
+import org.mpxj.ganttproject.schema.Rate;
+import org.mpxj.ganttproject.schema.Resource;
 import org.mpxj.ganttproject.schema.Resources;
 import org.mpxj.ganttproject.schema.Role;
 import org.mpxj.ganttproject.schema.Roles;
+import org.mpxj.ganttproject.schema.Task;
 import org.mpxj.ganttproject.schema.Taskproperty;
 import org.mpxj.ganttproject.schema.Tasks;
 import org.mpxj.reader.AbstractProjectStreamReader;
+import org.xml.sax.SAXException;
 
 /**
  * This class creates a new ProjectFile instance by reading a GanttProject file.

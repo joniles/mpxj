@@ -28,7 +28,6 @@ import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -38,21 +37,14 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
 
-import org.mpxj.FieldType;
-import org.mpxj.FieldTypeClass;
-import org.mpxj.common.BooleanHelper;
-import org.mpxj.common.ByteArrayHelper;
-import org.mpxj.common.FieldTypeHelper;
-import org.mpxj.common.InputStreamHelper;
-import org.mpxj.common.LocalDateTimeHelper;
-import org.mpxj.common.MicrosoftProjectConstants;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
-
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
 import org.mpxj.FieldContainer;
+import org.mpxj.FieldType;
+import org.mpxj.FieldTypeClass;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
@@ -66,6 +58,12 @@ import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.TaskMode;
 import org.mpxj.View;
+import org.mpxj.common.BooleanHelper;
+import org.mpxj.common.ByteArrayHelper;
+import org.mpxj.common.FieldTypeHelper;
+import org.mpxj.common.InputStreamHelper;
+import org.mpxj.common.LocalDateTimeHelper;
+import org.mpxj.common.MicrosoftProjectConstants;
 import org.mpxj.common.NumberHelper;
 
 /**

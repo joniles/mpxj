@@ -1,4 +1,3 @@
-
 package org.mpxj.explorer;
 
 import java.awt.GridLayout;

@@ -27,11 +27,11 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.ParseException;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
-
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -42,14 +42,11 @@ import org.mpxj.Availability;
 import org.mpxj.CalendarType;
 import org.mpxj.CostRateTable;
 import org.mpxj.CostRateTableEntry;
-
-import java.time.DayOfWeek;
-
-import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.DayType;
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
 import org.mpxj.FileVersion;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarContainer;
@@ -71,8 +68,8 @@ import org.mpxj.ResourceField;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.TaskType;
-import org.mpxj.LocalTimeRange;
 import org.mpxj.TimeUnit;
+import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.InputStreamTokenizer;
 import org.mpxj.common.LocalDateHelper;
 import org.mpxj.common.LocalDateTimeHelper;

@@ -41,7 +41,6 @@ import java.util.zip.GZIPInputStream;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.apache.commons.codec.binary.Base64;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;

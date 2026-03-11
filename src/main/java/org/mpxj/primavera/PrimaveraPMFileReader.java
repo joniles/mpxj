@@ -27,7 +27,6 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -39,21 +38,19 @@ import java.util.stream.Collectors;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.mpxj.BaselineStrategy;
-import org.mpxj.common.InputStreamHelper;
 import org.apache.poi.util.ReplacingInputStream;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
+import org.mpxj.BaselineStrategy;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.Relation;
 import org.mpxj.Task;
+import org.mpxj.common.InputStreamHelper;
 import org.mpxj.common.UnmarshalHelper;
 import org.mpxj.primavera.schema.APIBusinessObjects;
 import org.mpxj.primavera.schema.ProjectType;
 import org.mpxj.reader.AbstractProjectStreamReader;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  * This class creates a new ProjectFile instance by reading a Primavera PM file.

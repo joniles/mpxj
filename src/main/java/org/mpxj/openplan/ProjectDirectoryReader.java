@@ -25,10 +25,10 @@ package org.mpxj.openplan;
 import java.time.LocalTime;
 import java.util.List;
 
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
 /**
  * Read project properties from a project directory.

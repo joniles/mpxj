@@ -7,10 +7,10 @@
 
 package org.mpxj.mspdi.schema;
 
-import javax.xml.namespace.QName;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.annotation.XmlElementDecl;
 import jakarta.xml.bind.annotation.XmlRegistry;
+import javax.xml.namespace.QName;
 
 /**
  * This object contains factory methods for each

@@ -25,6 +25,7 @@ package org.mpxj.synchro;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -37,10 +38,8 @@ import java.util.UUID;
 import org.mpxj.ChildResourceContainer;
 import org.mpxj.ChildTaskContainer;
 import org.mpxj.ConstraintType;
-
-import java.time.DayOfWeek;
-
 import org.mpxj.EventManager;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarHours;
@@ -49,7 +48,6 @@ import org.mpxj.Relation;
 import org.mpxj.Resource;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.Task;
-import org.mpxj.LocalTimeRange;
 import org.mpxj.common.LocalDateHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;

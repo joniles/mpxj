@@ -28,13 +28,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -48,36 +48,23 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.mpxj.CalendarType;
-import org.mpxj.ChildTaskContainer;
-import org.mpxj.HasCharset;
-import org.mpxj.UserDefinedField;
-import org.mpxj.common.DayOfWeekHelper;
-import org.mpxj.LocalDateRange;
-import org.mpxj.LocalTimeRange;
-import org.mpxj.TimephasedCost;
-import org.mpxj.common.LocalDateHelper;
-import org.mpxj.common.LocalDateTimeHelper;
-import org.mpxj.common.ObjectSequence;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
 import org.mpxj.Availability;
 import org.mpxj.AvailabilityTable;
+import org.mpxj.CalendarType;
+import org.mpxj.ChildTaskContainer;
 import org.mpxj.CostRateTable;
 import org.mpxj.CostRateTableEntry;
 import org.mpxj.CustomField;
 import org.mpxj.CustomFieldLookupTable;
 import org.mpxj.CustomFieldValueDataType;
 import org.mpxj.CustomFieldValueMask;
-
-import java.time.DayOfWeek;
-
 import org.mpxj.DayType;
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
 import org.mpxj.FieldType;
+import org.mpxj.HasCharset;
+import org.mpxj.LocalDateRange;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
@@ -99,11 +86,17 @@ import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.TaskMode;
 import org.mpxj.TimeUnit;
+import org.mpxj.TimephasedCost;
 import org.mpxj.TimephasedWork;
+import org.mpxj.UserDefinedField;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.CharsetHelper;
+import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.FieldTypeHelper;
+import org.mpxj.common.LocalDateHelper;
+import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
+import org.mpxj.common.ObjectSequence;
 import org.mpxj.common.Pair;
 import org.mpxj.common.UnmarshalHelper;
 import org.mpxj.mpp.CustomFieldValueItem;
@@ -117,6 +110,8 @@ import org.mpxj.mspdi.schema.Project.Resources.Resource.AvailabilityPeriods.Avai
 import org.mpxj.mspdi.schema.Project.Resources.Resource.Rates;
 import org.mpxj.mspdi.schema.TimephasedDataType;
 import org.mpxj.reader.AbstractProjectStreamReader;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  * This class creates a new ProjectFile instance by reading an MSPDI file.

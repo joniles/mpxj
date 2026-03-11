@@ -23,19 +23,17 @@
 
 package org.mpxj.merlin;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-
 import java.util.Map;
 import java.util.UUID;
 
-import java.time.DayOfWeek;
-
-import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.Duration;
 import org.mpxj.RelationType;
 import org.mpxj.ResourceType;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.BooleanHelper;
+import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.NumberHelper;
 
 /**

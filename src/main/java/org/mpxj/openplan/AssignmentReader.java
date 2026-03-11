@@ -26,14 +26,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.Duration;
 import org.mpxj.ProjectFile;
 import org.mpxj.Resource;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.Task;
-
 import org.mpxj.TimeUnit;
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
 /**
  * Populate the parent project with resource assignments.

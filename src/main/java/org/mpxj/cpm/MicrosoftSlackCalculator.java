@@ -22,9 +22,9 @@
 
 package org.mpxj.cpm;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.Objects;
-import java.time.LocalDateTime;
 
 import org.mpxj.ConstraintType;
 import org.mpxj.Duration;

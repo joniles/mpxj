@@ -23,16 +23,14 @@
 
 package org.mpxj.mpp;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
-import java.time.DayOfWeek;
-
-import org.mpxj.common.ByteArrayHelper;
-import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.DayType;
 import org.mpxj.LocalDateRange;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
@@ -40,7 +38,8 @@ import org.mpxj.ProjectCalendarWeek;
 import org.mpxj.ProjectFile;
 import org.mpxj.RecurrenceType;
 import org.mpxj.RecurringData;
-import org.mpxj.LocalTimeRange;
+import org.mpxj.common.ByteArrayHelper;
+import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.LocalDateHelper;
 import org.mpxj.common.NumberHelper;
 

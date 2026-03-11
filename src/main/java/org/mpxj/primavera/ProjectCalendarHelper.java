@@ -23,15 +23,13 @@
 
 package org.mpxj.primavera;
 
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 import org.mpxj.CalendarType;
-
-import java.time.DayOfWeek;
-
+import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarHours;
-import org.mpxj.LocalTimeRange;
 
 /**
  * Common methods to support working with P6 calendars.
