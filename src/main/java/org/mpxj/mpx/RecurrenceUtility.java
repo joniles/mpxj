@@ -271,8 +271,7 @@ final class RecurrenceUtility
     * duration's units in the recurring task record to
     * a TimeUnit instance.
     */
-   private static final TimeUnit[] DURATION_UNITS =
-   {
+   private static final TimeUnit[] DURATION_UNITS = {
       TimeUnit.DAYS,
       TimeUnit.WEEKS,
       TimeUnit.HOURS,
@@ -318,8 +317,7 @@ final class RecurrenceUtility
    /**
     * Array mapping from MPX day index to Day instances.
     */
-   private static final DayOfWeek[] DAY_ARRAY =
-   {
+   private static final DayOfWeek[] DAY_ARRAY = {
       null,
       DayOfWeek.MONDAY,
       DayOfWeek.TUESDAY,
@@ -345,8 +343,7 @@ final class RecurrenceUtility
       DAY_MAP.put(DayOfWeek.SUNDAY, Integer.valueOf(7));
    }
 
-   public static final int[] RECURRING_TASK_DAY_MASKS =
-   {
+   public static final int[] RECURRING_TASK_DAY_MASKS = {
       0x00,
       0x40, // Sunday
       0x20, // Monday

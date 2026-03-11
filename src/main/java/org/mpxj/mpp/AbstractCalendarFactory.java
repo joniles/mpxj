@@ -401,8 +401,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
    /**
     * Default working week.
     */
-   private static final boolean[] DEFAULT_WORKING_WEEK =
-   {
+   private static final boolean[] DEFAULT_WORKING_WEEK = {
       false,
       true,
       true,

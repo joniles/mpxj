@@ -41,8 +41,7 @@ public final class LocaleData_de extends ListResourceBundle
       return (RESOURCE_DATA);
    }
 
-   private static final String[][] TIME_UNITS_ARRAY_DATA =
-   {
+   private static final String[][] TIME_UNITS_ARRAY_DATA = {
       {
          "m"
       },
@@ -100,23 +99,20 @@ public final class LocaleData_de extends ListResourceBundle
       }
    }
 
-   private static final String[] ACCRUE_TYPES_DATA =
-   {
+   private static final String[] ACCRUE_TYPES_DATA = {
       "Anfang",
       "Ende",
       "Anteilig"
    };
 
-   private static final String[] RELATION_TYPES_DATA =
-   {
+   private static final String[] RELATION_TYPES_DATA = {
       "EE",
       "EA",
       "AE",
       "AA"
    };
 
-   private static final String[] PRIORITY_TYPES_DATA =
-   {
+   private static final String[] PRIORITY_TYPES_DATA = {
       "Am niedrigsten",
       "Sehr niedrig",
       "Niedriger",
@@ -129,8 +125,7 @@ public final class LocaleData_de extends ListResourceBundle
       "Nicht abgleichen"
    };
 
-   private static final String[] CONSTRAINT_TYPES_DATA =
-   {
+   private static final String[] CONSTRAINT_TYPES_DATA = {
       "So fr\u00FCh wie m\u00F6glich",
       "So sp\u00E4t wie m\u00F6glich",
       "Muss anfangen am",
@@ -141,8 +136,7 @@ public final class LocaleData_de extends ListResourceBundle
       "Ende nicht sp\u00E4ter als"
    };
 
-   private static final String[] TASK_NAMES_DATA =
-   {
+   private static final String[] TASK_NAMES_DATA = {
       null,
       "Name",
       "PSP-Code",
@@ -298,8 +292,7 @@ public final class LocaleData_de extends ListResourceBundle
       "Wiederaufnahme"
    };
 
-   private static final String[] RESOURCE_NAMES_DATA =
-   {
+   private static final String[] RESOURCE_NAMES_DATA = {
       null,
       "Name",
       "K\u00FCrzel",
@@ -354,8 +347,7 @@ public final class LocaleData_de extends ListResourceBundle
       "Verkn\u00FCpfte Felder"
    };
 
-   private static final Object[][] RESOURCE_DATA =
-   {
+   private static final Object[][] RESOURCE_DATA = {
       {
          LocaleData.FILE_DELIMITER,
          ";"

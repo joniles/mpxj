@@ -254,8 +254,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
       {
          ProjectCalendar calendar = m_projectFile.addCalendar();
          m_calendarMap.put(row.getInteger("CALENDAR_ID"), calendar);
-         Integer[] days =
-         {
+         Integer[] days = {
             row.getInteger("SUNDAY_HOURS"),
             row.getInteger("MONDAY_HOURS"),
             row.getInteger("TUESDAY_HOURS"),

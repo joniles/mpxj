@@ -70,8 +70,7 @@ public class TaskTextValuesTest
       }
    }
 
-   private static final String[][] EXPECTED_VALUES =
-   {
+   private static final String[][] EXPECTED_VALUES = {
       {
          "Start is text",
          "AAA",

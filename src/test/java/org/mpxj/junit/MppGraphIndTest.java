@@ -166,8 +166,7 @@ public class MppGraphIndTest
    private static final int BLACK_BALL = 4;
    private static final int WHITE_BALL = 5;
 
-   private static final int[] COST1_RESULTS =
-   {
+   private static final int[] COST1_RESULTS = {
       BLACK_BALL,
       GREEN_BALL,
       AMBER_BALL,
@@ -184,8 +183,7 @@ public class MppGraphIndTest
       AMBER_BALL
    };
 
-   private static final int[] COST2_RESULTS =
-   {
+   private static final int[] COST2_RESULTS = {
       WHITE_BALL,
       AMBER_BALL,
       RED_BALL,
@@ -202,8 +200,7 @@ public class MppGraphIndTest
       WHITE_BALL
    };
 
-   private static final int[] COST3_RESULTS =
-   {
+   private static final int[] COST3_RESULTS = {
       RED_BALL,
       RED_BALL,
       GREEN_BALL,
@@ -220,8 +217,7 @@ public class MppGraphIndTest
       RED_BALL
    };
 
-   private static final int[] COST4_RESULTS =
-   {
+   private static final int[] COST4_RESULTS = {
       GREEN_BALL,
       AMBER_BALL,
       GREEN_BALL,
@@ -238,8 +234,7 @@ public class MppGraphIndTest
       GREEN_BALL
    };
 
-   private static final int[] DATE1_RESULTS =
-   {
+   private static final int[] DATE1_RESULTS = {
       RED_BALL,
       RED_BALL,
       GREEN_BALL,
@@ -256,8 +251,7 @@ public class MppGraphIndTest
       RED_BALL
    };
 
-   private static final int[] DATE2_RESULTS =
-   {
+   private static final int[] DATE2_RESULTS = {
       GREEN_BALL,
       GREEN_BALL,
       GREEN_BALL,
@@ -274,8 +268,7 @@ public class MppGraphIndTest
       GREEN_BALL
    };
 
-   private static final int[] DATE3_RESULTS =
-   {
+   private static final int[] DATE3_RESULTS = {
       AMBER_BALL,
       AMBER_BALL,
       GREEN_BALL,
@@ -292,8 +285,7 @@ public class MppGraphIndTest
       AMBER_BALL
    };
 
-   private static final int[] DATE4_RESULTS =
-   {
+   private static final int[] DATE4_RESULTS = {
       GREEN_BALL,
       RED_BALL,
       GREEN_BALL,
@@ -310,8 +302,7 @@ public class MppGraphIndTest
       GREEN_BALL
    };
 
-   private static final int[] DATE5_RESULTS =
-   {
+   private static final int[] DATE5_RESULTS = {
       GREEN_BALL,
       GREEN_BALL,
       GREEN_BALL,
@@ -328,8 +319,7 @@ public class MppGraphIndTest
       GREEN_BALL
    };
 
-   private static final int[] DURATION1_RESULTS =
-   {
+   private static final int[] DURATION1_RESULTS = {
       AMBER_BALL,
       GREEN_BALL,
       AMBER_BALL,
@@ -346,8 +336,7 @@ public class MppGraphIndTest
       AMBER_BALL
    };
 
-   private static final int[] DURATION2_RESULTS =
-   {
+   private static final int[] DURATION2_RESULTS = {
       WHITE_BALL,
       AMBER_BALL,
       RED_BALL,
@@ -364,8 +353,7 @@ public class MppGraphIndTest
       WHITE_BALL
    };
 
-   private static final int[] DURATION3_RESULTS =
-   {
+   private static final int[] DURATION3_RESULTS = {
       RED_BALL,
       RED_BALL,
       GREEN_BALL,
@@ -382,8 +370,7 @@ public class MppGraphIndTest
       RED_BALL
    };
 
-   private static final int[] DURATION4_RESULTS =
-   {
+   private static final int[] DURATION4_RESULTS = {
       GREEN_BALL,
       AMBER_BALL,
       GREEN_BALL,
@@ -400,8 +387,7 @@ public class MppGraphIndTest
       GREEN_BALL
    };
 
-   private static final int[] FLAG_RESULTS =
-   {
+   private static final int[] FLAG_RESULTS = {
       RED_BALL,
       GREEN_BALL,
       RED_BALL,
@@ -418,8 +404,7 @@ public class MppGraphIndTest
       RED_BALL
    };
 
-   private static final int[] NUMBER1_RESULTS =
-   {
+   private static final int[] NUMBER1_RESULTS = {
       AMBER_BALL,
       GREEN_BALL,
       AMBER_BALL,
@@ -436,8 +421,7 @@ public class MppGraphIndTest
       AMBER_BALL
    };
 
-   private static final int[] NUMBER2_RESULTS =
-   {
+   private static final int[] NUMBER2_RESULTS = {
       WHITE_BALL,
       AMBER_BALL,
       RED_BALL,
@@ -454,8 +438,7 @@ public class MppGraphIndTest
       WHITE_BALL
    };
 
-   private static final int[] NUMBER3_RESULTS =
-   {
+   private static final int[] NUMBER3_RESULTS = {
       RED_BALL,
       RED_BALL,
       GREEN_BALL,
@@ -472,8 +455,7 @@ public class MppGraphIndTest
       RED_BALL
    };
 
-   private static final int[] NUMBER4_RESULTS =
-   {
+   private static final int[] NUMBER4_RESULTS = {
       GREEN_BALL,
       AMBER_BALL,
       GREEN_BALL,
@@ -490,8 +472,7 @@ public class MppGraphIndTest
       GREEN_BALL
    };
 
-   private static final int[] TEXT1_RESULTS =
-   {
+   private static final int[] TEXT1_RESULTS = {
       AMBER_BALL,
       GREEN_BALL,
       AMBER_BALL,
@@ -508,8 +489,7 @@ public class MppGraphIndTest
       AMBER_BALL
    };
 
-   private static final int[] TEXT2_RESULTS =
-   {
+   private static final int[] TEXT2_RESULTS = {
       WHITE_BALL,
       AMBER_BALL,
       RED_BALL,
@@ -526,8 +506,7 @@ public class MppGraphIndTest
       WHITE_BALL
    };
 
-   private static final int[] TEXT3_RESULTS =
-   {
+   private static final int[] TEXT3_RESULTS = {
       RED_BALL,
       RED_BALL,
       GREEN_BALL,
@@ -544,8 +523,7 @@ public class MppGraphIndTest
       RED_BALL
    };
 
-   private static final int[] TEXT4_RESULTS =
-   {
+   private static final int[] TEXT4_RESULTS = {
       GREEN_BALL,
       AMBER_BALL,
       GREEN_BALL,
@@ -562,8 +540,7 @@ public class MppGraphIndTest
       GREEN_BALL
    };
 
-   private static final int[] TEXT5_RESULTS =
-   {
+   private static final int[] TEXT5_RESULTS = {
       RED_BALL,
       GREEN_BALL,
       GREEN_BALL,
@@ -580,8 +557,7 @@ public class MppGraphIndTest
       RED_BALL
    };
 
-   private static final int[] TEXT6_RESULTS =
-   {
+   private static final int[] TEXT6_RESULTS = {
       NONE,
       GREEN_BALL,
       NONE,
@@ -598,8 +574,7 @@ public class MppGraphIndTest
       NONE
    };
 
-   private static final int[] TEXT7_RESULTS =
-   {
+   private static final int[] TEXT7_RESULTS = {
       GREEN_BALL,
       GREEN_BALL,
       GREEN_BALL,

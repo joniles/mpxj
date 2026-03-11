@@ -69,8 +69,7 @@ class TableCONTAB extends Table
       return result;
    }
 
-   private static final RelationType[] RELATION_TYPES =
-   {
+   private static final RelationType[] RELATION_TYPES = {
       null,
       RelationType.START_START,
       null,

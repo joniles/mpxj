@@ -43,8 +43,7 @@ public final class LocaleData_ru extends ListResourceBundle
       return (RESOURCE_DATA);
    }
 
-   private static final String[][] TIME_UNITS_ARRAY_DATA =
-   {
+   private static final String[][] TIME_UNITS_ARRAY_DATA = {
       {
          "\u043C\u0438\u043D\u0443\u0442\u0430"
       },
@@ -102,23 +101,20 @@ public final class LocaleData_ru extends ListResourceBundle
       }
    }
 
-   private static final String[] ACCRUE_TYPES_DATA =
-   {
+   private static final String[] ACCRUE_TYPES_DATA = {
       "\u041D\u0430\u0447\u0430\u043B\u043E", //   "Start",
       "\u041A\u043E\u043D\u0435\u0446", //   "End",
       "\u041F\u043E\u0432\u0441\u0435\u0434\u043D\u0435\u0432\u043D\u044B\u0439" //   "Prorated"
    };
 
-   private static final String[] RELATION_TYPES_DATA =
-   {
+   private static final String[] RELATION_TYPES_DATA = {
       "\u041A\u041A", //   "FF",
       "\u041A\u041D", //   "FS",
       "\u041D\u041A", //   "SF",
       "\u041D\u041D" //   "SS"
    };
 
-   private static final String[] PRIORITY_TYPES_DATA =
-   {
+   private static final String[] PRIORITY_TYPES_DATA = {
       "\u0421\u0430\u043C\u044B\u0439 \u043D\u0438\u0437\u043A\u0438\u0439", //   "Lowest",
       "\u041E\u0447\u0435\u043D\u044C \u043D\u0438\u0437\u043A\u0438\u0439", //   "Very Low",
       "\u041D\u0438\u0437\u043A\u0438\u0439", //   "Lower",
@@ -131,8 +127,7 @@ public final class LocaleData_ru extends ListResourceBundle
       "\u0411\u0435\u0437 \u043F\u0440\u0438\u043E\u0440\u0438\u0442\u0435\u0442\u0430" //   "Do Not Level"
    };
 
-   private static final String[] CONSTRAINT_TYPES_DATA =
-   {
+   private static final String[] CONSTRAINT_TYPES_DATA = {
       "\u041A\u0430\u043A \u043C\u043E\u0436\u043D\u043E \u0440\u0430\u043D\u044C\u0448\u0435", //   "As Soon As Possible",
       "\u041A\u0430\u043A \u043C\u043E\u0436\u043D\u043E \u043F\u043E\u0437\u0436\u0435", //   "As Late As Possible",
       "\u0414\u043E\u043B\u0436\u0435\u043D \u043D\u0430\u0447\u0430\u0442\u044C\u0441\u044F", //   "Must Start On",
@@ -143,8 +138,7 @@ public final class LocaleData_ru extends ListResourceBundle
       "\u0417\u0430\u043A\u043E\u043D\u0447\u0438\u0442\u044C\u0441\u044F \u043D\u0435 \u043F\u043E\u0437\u0436\u0435" //   "Finish No Later Than"
    };
 
-   private static final String[] TASK_NAMES_DATA =
-   {
+   private static final String[] TASK_NAMES_DATA = {
       null, //
       "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435", //   "Name",
       "WBS", //   "WBS",
@@ -300,8 +294,7 @@ public final class LocaleData_ru extends ListResourceBundle
       "\u041D\u0430\u0447\u0430\u0442\u044C" //   "Resume"
    };
 
-   private static final String[] RESOURCE_NAMES_DATA =
-   {
+   private static final String[] RESOURCE_NAMES_DATA = {
       null, //
       "\u0418\u043C\u044F", //   "Name",
       "\u0418\u043D\u0438\u0446\u0438\u0430\u043B\u044B", //   "Initials",
@@ -355,8 +348,7 @@ public final class LocaleData_ru extends ListResourceBundle
       "\u0421\u0432\u044F\u0437\u0430\u043D\u043D\u044B\u0435 \u043F\u043E\u043B\u044F", //   "Linked Fields",
    };
 
-   private static final Object[][] RESOURCE_DATA =
-   {
+   private static final Object[][] RESOURCE_DATA = {
       {
          LocaleData.FILE_DELIMITER,
          ";"

@@ -114,8 +114,7 @@ class DatabaseReader
    //      pw.close();
    //   }
 
-   private static final ColumnDefinition[] AC2_COLUMNS =
-   {
+   private static final ColumnDefinition[] AC2_COLUMNS = {
       new StringColumn("UNKNOWN_1", 2, 4),
       new StringColumn("UNKNOWN_2", 6, 8),
       new ShortColumn("UNKNOWN_3", 14),
@@ -124,15 +123,13 @@ class DatabaseReader
       new StringColumn("UNKNOWN_6", 26, 8)
    };
 
-   private static final ColumnDefinition[] ACC_COLUMNS =
-   {
+   private static final ColumnDefinition[] ACC_COLUMNS = {
       new StringColumn("COST_ACCOUNT_NUMBER", 2, 12),
       new StringColumn("UNDEFINED_1", 14, 4),
       new StringColumn("ACC_TITLE", 18, 40)
    };
 
-   private static final ColumnDefinition[] ACT_COLUMNS =
-   {
+   private static final ColumnDefinition[] ACT_COLUMNS = {
       new StringColumn("ACTIVITY_ID", 2, 10),
       new StringColumn("UNDEFINED_1", 12, 2),
       new DurationColumn("FREE_FLOAT", 14),
@@ -183,8 +180,7 @@ class DatabaseReader
       new StringColumn("UNDEFINED_10", 236, 10)
    };
 
-   private static final ColumnDefinition[] DIR_COLUMNS =
-   {
+   private static final ColumnDefinition[] DIR_COLUMNS = {
       new StringColumn("SUB_PROJECT_NAME", 2, 4),
       new IntColumn("SEQUENCE__NUMBER", 6),
       new IntColumn("PRODUCT_CODE", 10),
@@ -295,8 +291,7 @@ class DatabaseReader
       new StringColumn("UNDEFINED_10", 488, 18)
    };
 
-   private static final ColumnDefinition[] AIT_COLUMNS =
-   {
+   private static final ColumnDefinition[] AIT_COLUMNS = {
       new StringColumn("ACT_ID", 2, 10),
       new StringColumn("ACTID_EXT", 12, 2),
       new StringColumn("RES", 14, 8),
@@ -308,22 +303,19 @@ class DatabaseReader
       new IntColumn("APPROVED_CHANGES", 46)
    };
 
-   private static final ColumnDefinition[] DTL_COLUMNS =
-   {
+   private static final ColumnDefinition[] DTL_COLUMNS = {
       new StringColumn("CODE_NAME", 2, 4),
       new StringColumn("CODE_VALUE", 6, 10),
       new StringColumn("DESCRIPTION", 16, 48)
    };
 
-   private static final ColumnDefinition[] HOL_COLUMNS =
-   {
+   private static final ColumnDefinition[] HOL_COLUMNS = {
       new ShortColumn("CAL_ID", 2),
       new DateColumn("START_OF_HOLIDAY", 4),
       new DateColumn("END_OF_HOLIDAY", 8)
    };
 
-   private static final ColumnDefinition[] LOG_COLUMNS =
-   {
+   private static final ColumnDefinition[] LOG_COLUMNS = {
       new StringColumn("ACT_ID", 2, 10),
       new StringColumn("ACT_ID_EXT", 12, 2),
       new ShortColumn("LOG_SEQ_NUMBER", 14),
@@ -331,8 +323,7 @@ class DatabaseReader
       new StringColumn("LOG_RECORD_INFO", 18, 48),
    };
 
-   private static final ColumnDefinition[] REL_COLUMNS =
-   {
+   private static final ColumnDefinition[] REL_COLUMNS = {
       new StringColumn("PREDECESSOR_ACTIVITY_ID", 2, 10),
       new StringColumn("PREDECESSOR_ACTIVITY_EXT", 12, 2),
       new StringColumn("SUCCESSOR_ACTIVITY_ID", 14, 10),
@@ -342,8 +333,7 @@ class DatabaseReader
       new StringColumn("DRIVING_REL", 30, 1),
    };
 
-   private static final ColumnDefinition[] RES_COLUMNS =
-   {
+   private static final ColumnDefinition[] RES_COLUMNS = {
       new StringColumn("ACTIVITY_ID", 2, 10),
       new StringColumn("UNDEFINED_1", 12, 2),
       new StringColumn("RESOURCE_ID", 14, 8),
@@ -369,8 +359,7 @@ class DatabaseReader
       new IntColumn("UNDEFINED_3", 94)
    };
 
-   private static final ColumnDefinition[] RIT_COLUMNS =
-   {
+   private static final ColumnDefinition[] RIT_COLUMNS = {
       new StringColumn("ACTID", 2, 10),
       new StringColumn("ACTID_EXT", 12, 2),
       new StringColumn("RES", 13, 8),
@@ -381,8 +370,7 @@ class DatabaseReader
       new IntColumn("ORIGINAL_BUDGET", 41),
    };
 
-   private static final ColumnDefinition[] RLB_COLUMNS =
-   {
+   private static final ColumnDefinition[] RLB_COLUMNS = {
       new StringColumn("RES_ID", 2, 8),
       new StringColumn("UNIT_OF_MEASURE", 10, 4),
       new StringColumn("RES_TITLE", 14, 40),
@@ -422,15 +410,13 @@ class DatabaseReader
       new ShortColumn("UNDEFINED_1", 180)
    };
 
-   private static final ColumnDefinition[] SRT_COLUMNS =
-   {
+   private static final ColumnDefinition[] SRT_COLUMNS = {
       new IntColumn("SEQ_NUMBER", 2),
       new StringColumn("ACT_ID", 2, 10),
       new StringColumn("UNDEFINED_1", 2, 16)
    };
 
-   private static final ColumnDefinition[] STR_COLUMNS =
-   {
+   private static final ColumnDefinition[] STR_COLUMNS = {
       new StringColumn("INDICATOR", 2, 1),
       new StringColumn("INDICATOR_EXT", 3, 1),
       new ShortColumn("LEVEL_NUMBER", 4),
@@ -439,16 +425,14 @@ class DatabaseReader
       new StringColumn("CODE_TITLE", 58, 48)
    };
 
-   private static final ColumnDefinition[] TTL_COLUMNS =
-   {
+   private static final ColumnDefinition[] TTL_COLUMNS = {
       new IntColumn("CODE_NAME", 2),
       new StringColumn("CODE_VALUE", 6, 12),
       new StringColumn("DESCRIPTION", 18, 48),
       new ByteColumn("SORT_ORDER", 66)
    };
 
-   private static final ColumnDefinition[] WBS_COLUMNS =
-   {
+   private static final ColumnDefinition[] WBS_COLUMNS = {
       new StringColumn("ACTIVITY_ID", 2, 10),
       new StringColumn("ACTIVITY_ID_EXT", 12, 2),
       new StringColumn("CODE_VALUE", 14, 48),
@@ -456,8 +440,7 @@ class DatabaseReader
    };
 
    // Budget Summary
-   private static final ColumnDefinition[] ITM_COLUMNS =
-   {
+   private static final ColumnDefinition[] ITM_COLUMNS = {
       new StringColumn("ACTIVITY_ID", 2, 12),
       new StringColumn("RESOURCE", 14, 8),
       new StringColumn("COST_ACCOUNT", 22, 11),
@@ -466,47 +449,39 @@ class DatabaseReader
       new ShortColumn("UNKNOWN_4", 40)
    };
 
-   private static final ColumnDefinition[] PPA_COLUMNS =
-   {
+   private static final ColumnDefinition[] PPA_COLUMNS = {
       new StringColumn("UNKNOWN_1", 2, 10),
       new StringColumn("UNKNOWN_2", 12, 19),
       new StringColumn("UNKNOWN_3", 31, 2)
             // additional unknown fields
    };
 
-   private static final ColumnDefinition[] SPR_COLUMNS =
-   {
+   private static final ColumnDefinition[] SPR_COLUMNS = {
       new ShortColumn("UNKNOWN_1", 4)
             // additional unknown fields
    };
 
-   private static final ColumnDefinition[] STW_COLUMNS =
-   {
+   private static final ColumnDefinition[] STW_COLUMNS = {
             // unknown fields
    };
 
-   private static final ColumnDefinition[] TIM_COLUMNS =
-   {
+   private static final ColumnDefinition[] TIM_COLUMNS = {
             // unknown fields
    };
 
-   private static final ColumnDefinition[] AUD_COLUMNS =
-   {
+   private static final ColumnDefinition[] AUD_COLUMNS = {
             // unknown fields
    };
 
-   private static final ColumnDefinition[] REP_COLUMNS =
-   {
+   private static final ColumnDefinition[] REP_COLUMNS = {
             // unknown fields
    };
 
-   private static final ColumnDefinition[] LAY_COLUMNS =
-   {
+   private static final ColumnDefinition[] LAY_COLUMNS = {
             // unknown fields
    };
 
-   private static final ColumnDefinition[] PLT_COLUMNS =
-   {
+   private static final ColumnDefinition[] PLT_COLUMNS = {
             // unknown fields
    };
 

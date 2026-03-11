@@ -643,8 +643,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
 
    private static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
 
-   private static final DayOfWeek[] DAYS =
-   {
+   private static final DayOfWeek[] DAYS = {
       DayOfWeek.SATURDAY,
       DayOfWeek.SUNDAY,
       DayOfWeek.MONDAY,

@@ -119,8 +119,7 @@ public class TaskDurationsTest
       }
    }
 
-   private static final TimeUnit[] UNITS_PROJECT98 =
-   {
+   private static final TimeUnit[] UNITS_PROJECT98 = {
       TimeUnit.MINUTES,
       TimeUnit.HOURS,
       TimeUnit.DAYS,
@@ -130,8 +129,7 @@ public class TaskDurationsTest
       TimeUnit.ELAPSED_DAYS,
       TimeUnit.ELAPSED_WEEKS
    };
-   private static final TimeUnit[] UNITS_PROJECT2000 =
-   {
+   private static final TimeUnit[] UNITS_PROJECT2000 = {
       TimeUnit.MINUTES,
       TimeUnit.HOURS,
       TimeUnit.DAYS,

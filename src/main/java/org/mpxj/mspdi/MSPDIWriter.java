@@ -2589,8 +2589,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    // TODO share this
-   private static final int[] DAY_MASKS =
-   {
+   private static final int[] DAY_MASKS = {
       0x00,
       0x01, // Sunday
       0x02, // Monday
@@ -2666,8 +2665,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION));
    }
 
-   private static final int[] TIMEPHASED_BASELINE_WORK_TYPES =
-   {
+   private static final int[] TIMEPHASED_BASELINE_WORK_TYPES = {
       4,
       16,
       22,
@@ -2681,8 +2679,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       70
    };
 
-   private static final int[] TIMEPHASED_BASELINE_COST_TYPES =
-   {
+   private static final int[] TIMEPHASED_BASELINE_COST_TYPES = {
       5,
       17,
       23,

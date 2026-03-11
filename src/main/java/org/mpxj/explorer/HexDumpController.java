@@ -47,8 +47,7 @@ import org.mpxj.mpp.MPPUtility;
  */
 public class HexDumpController
 {
-   private static final char[] HEX_DIGITS =
-   {
+   private static final char[] HEX_DIGITS = {
       '0',
       '1',
       '2',

@@ -111,8 +111,7 @@ class DatabaseReader
    //      pw.close();
    //   }
 
-   private static final ColumnDefinition[] ACT_COLUMNS =
-   {
+   private static final ColumnDefinition[] ACT_COLUMNS = {
       new StringColumn("ACTIVITY_ID", 1, 10),
       new StringColumn("NAME", 11, 48),
       new StringColumn("DEPARTMENT", 59, 5),
@@ -135,8 +134,7 @@ class DatabaseReader
       new DateInHoursColumn("TARGET_FINISH,", 246)
    };
 
-   private static final ColumnDefinition[] CAL_COLUMNS =
-   {
+   private static final ColumnDefinition[] CAL_COLUMNS = {
       new ShortColumn("CALENDAR_ID", 1),
       new StringColumn("NAME", 3, 16),
       new IntColumn("SUNDAY_HOURS", 19),
@@ -152,37 +150,32 @@ class DatabaseReader
 
    private static final ColumnDefinition[] FLT_COLUMNS = {};
 
-   private static final ColumnDefinition[] HOL_COLUMNS =
-   {
+   private static final ColumnDefinition[] HOL_COLUMNS = {
       new ShortColumn("CALENDAR_ID", 1),
       new DateInDaysColumn("DATE", 3),
       new AnnualColumn("ANNUAL", 3)
    };
 
-   private static final ColumnDefinition[] REL_COLUMNS =
-   {
+   private static final ColumnDefinition[] REL_COLUMNS = {
       new StringColumn("PREDECESSOR_ACTIVITY_ID", 1, 10),
       new StringColumn("SUCCESSOR_ACTIVITY_ID", 11, 10),
       new RelationTypeColumn("TYPE", 21),
       new DurationColumn("LAG", 22),
    };
 
-   private static final ColumnDefinition[] RES_COLUMNS =
-   {
+   private static final ColumnDefinition[] RES_COLUMNS = {
       new StringColumn("ACTIVITY_ID", 1, 10),
       new StringColumn("RESOURCE_ID", 11, 8),
    };
 
-   private static final ColumnDefinition[] RLB_COLUMNS =
-   {
+   private static final ColumnDefinition[] RLB_COLUMNS = {
       new StringColumn("CODE", 1, 8),
       new StringColumn("NAME", 9, 40),
       new ShortColumn("BASE_CALENDAR_ID", 99),
       new ShortColumn("CALENDAR_ID", 101),
    };
 
-   private static final ColumnDefinition[] TTL_COLUMNS =
-   {
+   private static final ColumnDefinition[] TTL_COLUMNS = {
       new RawColumn("DATA", 0, 100),
       new StringColumn("TEXT1", 1, 48),
       new StringColumn("TEXT2", 49, 48),

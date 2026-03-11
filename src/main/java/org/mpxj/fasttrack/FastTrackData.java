@@ -560,8 +560,7 @@ class FastTrackData
 
    private static final ThreadLocal<FastTrackData> INSTANCE = ThreadLocal.withInitial(FastTrackData::new);
 
-   private static final byte[][] PARENT_BLOCK_PATTERNS =
-   {
+   private static final byte[][] PARENT_BLOCK_PATTERNS = {
       {
          (byte) 0xFB,
          0x01,
@@ -616,8 +615,7 @@ class FastTrackData
       }
    };
 
-   private static final byte[][] CHILD_BLOCK_PATTERNS =
-   {
+   private static final byte[][] CHILD_BLOCK_PATTERNS = {
       {
          0x05,
          0x00,
@@ -644,8 +642,7 @@ class FastTrackData
       }
    };
 
-   private static final byte[][] TABLE_BLOCK_PATTERNS =
-   {
+   private static final byte[][] TABLE_BLOCK_PATTERNS = {
       {
          0x00,
          0x00,

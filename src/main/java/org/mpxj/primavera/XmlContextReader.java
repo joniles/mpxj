@@ -446,8 +446,7 @@ class XmlContextReader
 
       ResourceCurveValuesType curveValues = curve.getValues();
 
-      double[] values =
-      {
+      double[] values = {
          NumberHelper.getDouble(curveValues.getValue0()),
          NumberHelper.getDouble(curveValues.getValue5()),
          NumberHelper.getDouble(curveValues.getValue10()),

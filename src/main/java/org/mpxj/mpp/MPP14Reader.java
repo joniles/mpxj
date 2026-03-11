@@ -2074,8 +2074,7 @@ final class MPP14Reader implements MPPVariantReader
    private static final int TASK_ID_FIXED_OFFSET = 4;
    private static final int NULL_TASK_BLOCK_SIZE = 16;
 
-   private static final MppBitFlag[] PROJECT2010_TASK_META_DATA_BIT_FLAGS =
-   {
+   private static final MppBitFlag[] PROJECT2010_TASK_META_DATA_BIT_FLAGS = {
       new MppBitFlag(TaskField.FLAG1, 35, 0x0000040, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(TaskField.FLAG2, 35, 0x0000080, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(TaskField.FLAG3, 35, 0x0000100, Boolean.FALSE, Boolean.TRUE),
@@ -2107,8 +2106,7 @@ final class MPP14Reader implements MPPVariantReader
       new MppBitFlag(TaskField.LEVELING_CAN_SPLIT, 13, 0x02, Boolean.FALSE, Boolean.TRUE)
    };
 
-   private static final MppBitFlag[] PROJECT2013_TASK_META_DATA_BIT_FLAGS =
-   {
+   private static final MppBitFlag[] PROJECT2013_TASK_META_DATA_BIT_FLAGS = {
       new MppBitFlag(TaskField.FLAG1, 24, 0x0002, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(TaskField.FLAG2, 24, 0x0004, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(TaskField.FLAG3, 24, 0x0008, Boolean.FALSE, Boolean.TRUE),
@@ -2141,8 +2139,7 @@ final class MPP14Reader implements MPPVariantReader
       new MppBitFlag(TaskField.IGNORE_RESOURCE_CALENDAR, 17, 0x20, Boolean.FALSE, Boolean.TRUE)
    };
 
-   private static final MppBitFlag[] PROJECT2016_TASK_META_DATA_BIT_FLAGS =
-   {
+   private static final MppBitFlag[] PROJECT2016_TASK_META_DATA_BIT_FLAGS = {
       new MppBitFlag(TaskField.FLAG1, 24, 0x0002, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(TaskField.FLAG2, 24, 0x0004, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(TaskField.FLAG3, 24, 0x0008, Boolean.FALSE, Boolean.TRUE),
@@ -2175,8 +2172,7 @@ final class MPP14Reader implements MPPVariantReader
       new MppBitFlag(TaskField.IGNORE_RESOURCE_CALENDAR, 17, 0x20, Boolean.FALSE, Boolean.TRUE)
    };
 
-   private static final MppBitFlag[] PROJECT2010_TASK_META_DATA2_BIT_FLAGS =
-   {
+   private static final MppBitFlag[] PROJECT2010_TASK_META_DATA2_BIT_FLAGS = {
       new MppBitFlag(TaskField.ACTIVE, 8, 0x04, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(TaskField.TASK_MODE, 8, 0x08, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(TaskField.SHOW_START_TEXT, 86, 0x04, Boolean.FALSE, Boolean.TRUE),
@@ -2184,8 +2180,7 @@ final class MPP14Reader implements MPPVariantReader
       new MppBitFlag(TaskField.SHOW_DURATION_TEXT, 86, 0x10, Boolean.FALSE, Boolean.TRUE)
    };
 
-   private static final MppBitFlag[] PROJECT2013_TASK_META_DATA2_BIT_FLAGS =
-   {
+   private static final MppBitFlag[] PROJECT2013_TASK_META_DATA2_BIT_FLAGS = {
       new MppBitFlag(TaskField.ACTIVE, 8, 0x40, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(TaskField.TASK_MODE, 8, 0x80, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(TaskField.SHOW_START_TEXT, 87, 0x02, Boolean.FALSE, Boolean.TRUE),
@@ -2193,8 +2188,7 @@ final class MPP14Reader implements MPPVariantReader
       new MppBitFlag(TaskField.SHOW_DURATION_TEXT, 87, 0x08, Boolean.FALSE, Boolean.TRUE)
    };
 
-   private static final MppBitFlag[] PROJECT2016_TASK_META_DATA2_BIT_FLAGS =
-   {
+   private static final MppBitFlag[] PROJECT2016_TASK_META_DATA2_BIT_FLAGS = {
       new MppBitFlag(TaskField.ACTIVE, 8, 0x40, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(TaskField.TASK_MODE, 8, 0x80, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(TaskField.SHOW_START_TEXT, 87, 0x40, Boolean.FALSE, Boolean.TRUE),
@@ -2202,22 +2196,19 @@ final class MPP14Reader implements MPPVariantReader
       new MppBitFlag(TaskField.SHOW_DURATION_TEXT, 88, 0x01, Boolean.FALSE, Boolean.TRUE)
    };
 
-   private static final MppBitFlag[] PROJECT2010_RESOURCE_META_DATA2_BIT_FLAGS =
-   {
+   private static final MppBitFlag[] PROJECT2010_RESOURCE_META_DATA2_BIT_FLAGS = {
       new MppBitFlag(ResourceField.BUDGET, 8, 0x20, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(ResourceField.TYPE, 8, 0x10, ResourceType.MATERIAL, ResourceType.COST),
       new MppBitFlag(ResourceField.GENERIC, 32, 0x04000000, Boolean.FALSE, Boolean.TRUE),
    };
 
-   private static final MppBitFlag[] PROJECT2013_RESOURCE_META_DATA2_BIT_FLAGS =
-   {
+   private static final MppBitFlag[] PROJECT2013_RESOURCE_META_DATA2_BIT_FLAGS = {
       new MppBitFlag(ResourceField.BUDGET, 8, 0x20, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(ResourceField.TYPE, 8, 0x10, ResourceType.MATERIAL, ResourceType.COST),
       new MppBitFlag(ResourceField.GENERIC, 32, 0x10000000, Boolean.FALSE, Boolean.TRUE),
    };
 
-   private static final MppBitFlag[] PROJECT2010_RESOURCE_META_DATA_BIT_FLAGS =
-   {
+   private static final MppBitFlag[] PROJECT2010_RESOURCE_META_DATA_BIT_FLAGS = {
       new MppBitFlag(ResourceField.FLAG10, 28, 0x0000020, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(ResourceField.FLAG1, 28, 0x0000040, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(ResourceField.FLAG2, 28, 0x0000080, Boolean.FALSE, Boolean.TRUE),
@@ -2240,8 +2231,7 @@ final class MPP14Reader implements MPPVariantReader
       new MppBitFlag(ResourceField.FLAG20, 28, 0x1000000, Boolean.FALSE, Boolean.TRUE)
    };
 
-   private static final MppBitFlag[] PROJECT2013_RESOURCE_META_DATA_BIT_FLAGS =
-   {
+   private static final MppBitFlag[] PROJECT2013_RESOURCE_META_DATA_BIT_FLAGS = {
       new MppBitFlag(ResourceField.FLAG10, 19, 0x0040, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(ResourceField.FLAG1, 19, 0x0080, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(ResourceField.FLAG2, 19, 0x0100, Boolean.FALSE, Boolean.TRUE),

@@ -366,8 +366,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
       return result;
    }
 
-   private static final RecurrenceType[] RECURRENCE_TYPES =
-   {
+   private static final RecurrenceType[] RECURRENCE_TYPES = {
       null,
       RecurrenceType.DAILY,
       RecurrenceType.YEARLY, // Absolute
@@ -378,8 +377,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
       RecurrenceType.DAILY
    };
 
-   private static final boolean[] RELATIVE_MAP =
-   {
+   private static final boolean[] RELATIVE_MAP = {
       false,
       false,
       false,
@@ -388,8 +386,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
       true
    };
 
-   private static final int[] DAY_MASKS =
-   {
+   private static final int[] DAY_MASKS = {
       0x00,
       0x01, // Sunday
       0x02, // Monday

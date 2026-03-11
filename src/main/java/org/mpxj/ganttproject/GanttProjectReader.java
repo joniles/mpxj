@@ -810,8 +810,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
    private Map<String, Pair<FieldType, Object>> m_taskPropertyDefinitions;
    private Map<String, String> m_roleDefinitions;
 
-   private static final int[] PRIORITY =
-   {
+   private static final int[] PRIORITY = {
       Priority.LOW, // 0 - Low
       Priority.MEDIUM, // 1 - Normal
       Priority.HIGH, // 2 - High
@@ -819,8 +818,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       Priority.HIGHEST, // 4 - Highest
    };
 
-   private static final RelationType[] RELATION =
-   {
+   private static final RelationType[] RELATION = {
       null, //0
       RelationType.START_START, // 1 - Start Start
       RelationType.FINISH_START, // 2 - Finish Start

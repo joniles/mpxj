@@ -41,8 +41,7 @@ public final class LocaleData_sv extends ListResourceBundle
       return (RESOURCE_DATA);
    }
 
-   private static final String[][] TIME_UNITS_ARRAY_DATA =
-   {
+   private static final String[][] TIME_UNITS_ARRAY_DATA = {
       {
          "m"
       },
@@ -100,8 +99,7 @@ public final class LocaleData_sv extends ListResourceBundle
       }
    }
 
-   private static final String[] TASK_NAMES_DATA =
-   {
+   private static final String[] TASK_NAMES_DATA = {
       null,
       "Namn",
       "WBS",
@@ -257,8 +255,7 @@ public final class LocaleData_sv extends ListResourceBundle
       "Resume", // Translate
    };
 
-   private static final String[] RESOURCE_NAMES_DATA =
-   {
+   private static final String[] RESOURCE_NAMES_DATA = {
       null,
       "Namn",
       "Initialer",
@@ -313,8 +310,7 @@ public final class LocaleData_sv extends ListResourceBundle
       "Linked Fields" // translate
    };
 
-   private static final Object[][] RESOURCE_DATA =
-   {
+   private static final Object[][] RESOURCE_DATA = {
       {
          LocaleData.FILE_DELIMITER,
          ";"

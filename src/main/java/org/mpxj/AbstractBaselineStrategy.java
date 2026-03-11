@@ -135,8 +135,7 @@ public abstract class AbstractBaselineStrategy implements BaselineStrategy
       return SOURCE_FIELDS;
    }
 
-   private static final TaskField[] SOURCE_FIELDS =
-   {
+   private static final TaskField[] SOURCE_FIELDS = {
       TaskField.COST,
       TaskField.DURATION,
       TaskField.FINISH,
@@ -146,8 +145,7 @@ public abstract class AbstractBaselineStrategy implements BaselineStrategy
       TaskField.WORK
    };
 
-   private static final TaskField[] BASELINE0_FIELDS =
-   {
+   private static final TaskField[] BASELINE0_FIELDS = {
       TaskField.BASELINE_COST,
       TaskField.BASELINE_DURATION,
       TaskField.BASELINE_FINISH,

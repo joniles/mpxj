@@ -295,8 +295,7 @@ public class MppBarStyleTest
       assertEquals(expected, actual);
    }
 
-   private static final Object[][] DEFAULT_BAR_STYLES =
-   {
+   private static final Object[][] DEFAULT_BAR_STYLES = {
       {
          null,
          TaskField.RESOURCE_NAMES,
@@ -1046,8 +1045,7 @@ public class MppBarStyleTest
       }
    };
 
-   private static final Object[][] EXCEPTION_STYLES =
-   {
+   private static final Object[][] EXCEPTION_STYLES = {
       {
          TaskField.NAME,
          TaskField.START,
@@ -1183,8 +1181,7 @@ public class MppBarStyleTest
 
    };
 
-   private static final Object[][] DEFAULT_BAR_STYLES14 =
-   {
+   private static final Object[][] DEFAULT_BAR_STYLES14 = {
       {
          null,
          TaskField.RESOURCE_NAMES,
@@ -2397,8 +2394,7 @@ public class MppBarStyleTest
             */
    };
 
-   private static final Object[][] DEFAULT_BAR_STYLES_FROM14 =
-   {
+   private static final Object[][] DEFAULT_BAR_STYLES_FROM14 = {
       {
          null,
          TaskField.RESOURCE_NAMES,

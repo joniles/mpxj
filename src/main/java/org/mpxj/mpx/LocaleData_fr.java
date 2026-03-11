@@ -43,8 +43,7 @@ public final class LocaleData_fr extends ListResourceBundle
       return (RESOURCE_DATA);
    }
 
-   private static final String[][] TIME_UNITS_ARRAY_DATA =
-   {
+   private static final String[][] TIME_UNITS_ARRAY_DATA = {
       {
          "m"
       },
@@ -102,23 +101,20 @@ public final class LocaleData_fr extends ListResourceBundle
       }
    }
 
-   private static final String[] ACCRUE_TYPES_DATA =
-   {
+   private static final String[] ACCRUE_TYPES_DATA = {
       "D\u00E9but", //   "Start",
       "Fin", //   "End",
       "Proportion" //   "Prorated"
    };
 
-   private static final String[] RELATION_TYPES_DATA =
-   {
+   private static final String[] RELATION_TYPES_DATA = {
       "FF", //   "FF",
       "FD", //   "FS",
       "DF", //   "SF",
       "DD" //   "SS"
    };
 
-   private static final String[] PRIORITY_TYPES_DATA =
-   {
+   private static final String[] PRIORITY_TYPES_DATA = {
       "Le Plus Bas", //   "Lowest",
       "Tr\u00E8s Bas", //   "Very Low",
       "Plus Bas", //   "Lower",
@@ -131,8 +127,7 @@ public final class LocaleData_fr extends ListResourceBundle
       "Ne Pas Niveler" //   "Do Not Level"
    };
 
-   private static final String[] CONSTRAINT_TYPES_DATA =
-   {
+   private static final String[] CONSTRAINT_TYPES_DATA = {
       "D\u00E8s Que Possible", //   "As Soon As Possible",
       "Le Plus Tard Possible", //   "As Late As Possible",
       "Doit Commencer Le", //   "Must Start On",
@@ -143,8 +138,7 @@ public final class LocaleData_fr extends ListResourceBundle
       "Fin Au Plus Tard Le" //   "Finish No Later Than"
    };
 
-   private static final String[] TASK_NAMES_DATA =
-   {
+   private static final String[] TASK_NAMES_DATA = {
       null, //
       "Nom", //   "Name",
       "WBS", //   "WBS",
@@ -300,8 +294,7 @@ public final class LocaleData_fr extends ListResourceBundle
       "Continuer" //   "Resume"
    };
 
-   private static final String[] RESOURCE_NAMES_DATA =
-   {
+   private static final String[] RESOURCE_NAMES_DATA = {
       null, //
       "Nom", //   "Name",
       "Initiales", //   "Initials",
@@ -356,8 +349,7 @@ public final class LocaleData_fr extends ListResourceBundle
       "Champs Li\u00E9s", //   "Linked Fields",
    };
 
-   private static final Object[][] RESOURCE_DATA =
-   {
+   private static final Object[][] RESOURCE_DATA = {
       {
          LocaleData.FILE_DELIMITER,
          ";"

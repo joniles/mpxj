@@ -30,8 +30,7 @@ import org.mpxj.ProjectField;
  */
 public final class ProjectFieldLists
 {
-   public static final ProjectField[] BASELINE_DATES =
-   {
+   public static final ProjectField[] BASELINE_DATES = {
       ProjectField.BASELINE1_DATE,
       ProjectField.BASELINE2_DATE,
       ProjectField.BASELINE3_DATE,

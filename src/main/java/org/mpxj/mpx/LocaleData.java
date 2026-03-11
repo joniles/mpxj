@@ -269,23 +269,20 @@ public final class LocaleData extends ListResourceBundle
       }
    }
 
-   private static final String[] ACCRUE_TYPES_DATA =
-   {
+   private static final String[] ACCRUE_TYPES_DATA = {
       "Start",
       "End",
       "Prorated"
    };
 
-   private static final String[] RELATION_TYPES_DATA =
-   {
+   private static final String[] RELATION_TYPES_DATA = {
       "FF",
       "FS",
       "SF",
       "SS"
    };
 
-   private static final String[] PRIORITY_TYPES_DATA =
-   {
+   private static final String[] PRIORITY_TYPES_DATA = {
       "Lowest",
       "Very Low",
       "Lower",
@@ -298,8 +295,7 @@ public final class LocaleData extends ListResourceBundle
       "Do Not Level"
    };
 
-   private static final String[] CONSTRAINT_TYPES_DATA =
-   {
+   private static final String[] CONSTRAINT_TYPES_DATA = {
       "As Soon As Possible",
       "As Late As Possible",
       "Must Start On",
@@ -310,8 +306,7 @@ public final class LocaleData extends ListResourceBundle
       "Finish No Later Than"
    };
 
-   private static final String[] TASK_NAMES_DATA =
-   {
+   private static final String[] TASK_NAMES_DATA = {
       null,
       "Name",
       "WBS",
@@ -467,8 +462,7 @@ public final class LocaleData extends ListResourceBundle
       "Resume"
    };
 
-   private static final String[] RESOURCE_NAMES_DATA =
-   {
+   private static final String[] RESOURCE_NAMES_DATA = {
       null,
       "Name",
       "Initials",
@@ -523,8 +517,7 @@ public final class LocaleData extends ListResourceBundle
       "Linked Fields",
    };
 
-   private static final Object[][] RESOURCE_DATA =
-   {
+   private static final Object[][] RESOURCE_DATA = {
       {
          FILE_DELIMITER,
          ","

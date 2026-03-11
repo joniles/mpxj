@@ -503,8 +503,7 @@ public class ProjectCleanUtility
    private CleanStrategy m_strategy;
    private ProjectFile m_project;
 
-   private static final ProjectField[] PROJECT_FIELDS =
-   {
+   private static final ProjectField[] PROJECT_FIELDS = {
       ProjectField.AUTHOR,
       ProjectField.SUBJECT,
       ProjectField.COMPANY,
@@ -517,14 +516,12 @@ public class ProjectCleanUtility
       ProjectField.NOTES
    };
 
-   private static final TaskField[] TASK_FIELDS =
-   {
+   private static final TaskField[] TASK_FIELDS = {
       TaskField.NAME,
       TaskField.NOTES
    };
 
-   private static final ResourceField[] RESOURCE_FIELDS =
-   {
+   private static final ResourceField[] RESOURCE_FIELDS = {
       ResourceField.NAME,
       ResourceField.INITIALS,
       ResourceField.EMAIL_ADDRESS,

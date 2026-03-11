@@ -123,8 +123,7 @@ class FileFormat13001 extends AbstractFileFormat
       return HAMMOCK_TASK_COLUMNS_ORDER;
    }
 
-   private static final String[] BAR_COLUMNS_ORDER =
-   {
+   private static final String[] BAR_COLUMNS_ORDER = {
       "BARID",
       "BAR_START",
       "BAR_FINISH",
@@ -142,8 +141,7 @@ class FileFormat13001 extends AbstractFileFormat
       "LAST_EDITED_BY",
    };
 
-   private static final String[] CALENDAR_COLUMNS_ORDER =
-   {
+   private static final String[] CALENDAR_COLUMNS_ORDER = {
       "ID",
       "SPARL_INTEGER",
       "NAME",
@@ -161,8 +159,7 @@ class FileFormat13001 extends AbstractFileFormat
       "LAST_EDITED_BY",
    };
 
-   private static final String[] CONSUMABLE_RESOURCE_COLUMNS_ORDER =
-   {
+   private static final String[] CONSUMABLE_RESOURCE_COLUMNS_ORDER = {
       "ID",
       "COST_PER_UNITCURRENCZ",
       "COST_PER_UNITAMOUNT",
@@ -239,8 +236,7 @@ class FileFormat13001 extends AbstractFileFormat
       "LAST_EDITED_BY",
    };
 
-   private static final String[] EXCEPTIONN_COLUMNS_ORDER =
-   {
+   private static final String[] EXCEPTIONN_COLUMNS_ORDER = {
       "ID",
       "ARR_STOUT_STAPPANDARROW_TYPE",
       "ARR_STOUT_STAPPANDLENGTH",
@@ -271,16 +267,14 @@ class FileFormat13001 extends AbstractFileFormat
       "LAST_EDITED_BY"
    };
 
-   private static final String[] EXCEPTION_ASSIGNMENT_COLUMNS_ORDER =
-   {
+   private static final String[] EXCEPTION_ASSIGNMENT_COLUMNS_ORDER = {
       "EXCEPTION_ASSIGNMENTID",
       "START_DATE",
       "END_DATE",
       "EXCEPTIOO",
    };
 
-   private static final String[] EXPANDED_TASK_COLUMNS_ORDER =
-   {
+   private static final String[] EXPANDED_TASK_COLUMNS_ORDER = {
       "EXPANDED_TASKID",
       "VAR_DATE1COMM_ATTSFIXED_DATE",
       "VAR_DATE1COMM_ATTSBASE_DATE",
@@ -402,8 +396,7 @@ class FileFormat13001 extends AbstractFileFormat
       "LAST_EDITED_BY",
    };
 
-   private static final String[] LINK_COLUMNS_ORDER =
-   {
+   private static final String[] LINK_COLUMNS_ORDER = {
       "ID",
       "START_LAG_TIMETYPF",
       "START_LAG_TIMEELA_MONTHS",
@@ -447,8 +440,7 @@ class FileFormat13001 extends AbstractFileFormat
       "LAST_EDITED_BY",
    };
 
-   private static final String[] MILESTONE_COLUMNS_ORDER =
-   {
+   private static final String[] MILESTONE_COLUMNS_ORDER = {
       "MILESTONEID",
       "GIVEN_DATE_TIME",
       "PROGREST_PERIOD",
@@ -508,8 +500,7 @@ class FileFormat13001 extends AbstractFileFormat
       "LAST_EDITED_BY",
    };
 
-   private static final String[] PERMANENT_RESOURCE_SKILL_COLUMNS_ORDER =
-   {
+   private static final String[] PERMANENT_RESOURCE_SKILL_COLUMNS_ORDER = {
       "ID",
       "ARR_STOUT_STSKI_APARROW_TYPE",
       "ARR_STOUT_STSKI_APLENGTH",
@@ -581,8 +572,7 @@ class FileFormat13001 extends AbstractFileFormat
       "LAST_EDITED_BY",
    };
 
-   private static final String[] PERMANENT_RESOURCE_COLUMNS_ORDER =
-   {
+   private static final String[] PERMANENT_RESOURCE_COLUMNS_ORDER = {
       "ID",
       "EMAIL_ADDRESS",
       "EFFORT_TIME_UNIT",
@@ -625,8 +615,7 @@ class FileFormat13001 extends AbstractFileFormat
       "LAST_EDITED_BY",
    };
 
-   private static final String[] PERMANENT_SCHEDULE_ALLOCATION_COLUMNS_ORDER =
-   {
+   private static final String[] PERMANENT_SCHEDULE_ALLOCATION_COLUMNS_ORDER = {
       "ID",
       "REQUIREE_BY",
       "OWNED_BY_TIMESHEET_X",
@@ -689,8 +678,7 @@ class FileFormat13001 extends AbstractFileFormat
       "LAST_EDITED_BY",
    };
 
-   private static final String[] PROJECT_SUMMARY_COLUMNS_ORDER =
-   {
+   private static final String[] PROJECT_SUMMARY_COLUMNS_ORDER = {
       "PROJECT_SUMMARYID",
       "DURATIONTYPF",
       "DURATIONELA_MONTHS",
@@ -755,8 +743,7 @@ class FileFormat13001 extends AbstractFileFormat
       "LAST_EDITED_BY",
    };
 
-   private static final String[] TASK_COLUMNS_ORDER =
-   {
+   private static final String[] TASK_COLUMNS_ORDER = {
       "TASKID",
       "GIVEN_DURATIONTYPF",
       "GIVEN_DURATIONELA_MONTHS",
@@ -821,16 +808,14 @@ class FileFormat13001 extends AbstractFileFormat
       "LAST_EDITED_BY",
    };
 
-   private static final String[] TIME_ENTRY_COLUMNS_ORDER =
-   {
+   private static final String[] TIME_ENTRY_COLUMNS_ORDER = {
       "TIME_ENTRYID",
       "EXCEPTION",
       "START_TIME",
       "END_TIME",
    };
 
-   private static final String[] WORK_PATTERN_COLUMNS_ORDER =
-   {
+   private static final String[] WORK_PATTERN_COLUMNS_ORDER = {
       "ID",
       "DEFAULT_OFFSET",
       "NAME",
@@ -841,8 +826,7 @@ class FileFormat13001 extends AbstractFileFormat
       "LAST_EDITED_BY",
    };
 
-   private static final String[] WBS_ENTRY_COLUMNS_ORDER =
-   {
+   private static final String[] WBS_ENTRY_COLUMNS_ORDER = {
       "WBS_ENTRYID",
       "NATURAP_ORDER",
       "WBT_CODE",
@@ -854,8 +838,7 @@ class FileFormat13001 extends AbstractFileFormat
       "LAST_EDITED_BY"
    };
 
-   private static final String[] TASK_COMPLETED_SECTION_COLUMNS_ORDER =
-   {
+   private static final String[] TASK_COMPLETED_SECTION_COLUMNS_ORDER = {
       "ID",
       "NATURAM_ORDER",
       "OVERALL_PERCENT_COMPLETE",
@@ -877,8 +860,7 @@ class FileFormat13001 extends AbstractFileFormat
       "LAST_EDITED_BY"
    };
 
-   private static final String[] HAMMOCK_TASK_COLUMNS_ORDER =
-   {
+   private static final String[] HAMMOCK_TASK_COLUMNS_ORDER = {
       "HAMMOCK_TASKID",
       "CUMULATIVH_COSTCURRENCZ",
       "CUMULATIVH_COSTAMOUNT",

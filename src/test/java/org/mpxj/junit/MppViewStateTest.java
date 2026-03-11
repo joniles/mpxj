@@ -114,8 +114,7 @@ public class MppViewStateTest
       }
    }
 
-   private static final int[] UNIQUE_ID_LIST =
-   {
+   private static final int[] UNIQUE_ID_LIST = {
       5,
       6,
       7,

@@ -1413,8 +1413,7 @@ class FieldMap14 extends FieldMap
     * It's not clear why, or whether these values are actually
     * present somewhere in the file.
     */
-   private static final Object[][] VAR_DATA_MAP_CONTENT =
-   {
+   private static final Object[][] VAR_DATA_MAP_CONTENT = {
       {
          AssignmentField.COST1,
          Integer.valueOf(16414)

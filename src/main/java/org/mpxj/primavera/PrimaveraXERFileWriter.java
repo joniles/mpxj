@@ -223,8 +223,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeHeader()
    {
-      Object[] data =
-      {
+      Object[] data = {
          "ERMHDR",
          "20.12",
          new DateOnly(m_files.stream().map(f -> f.getProjectProperties().getCurrentDate()).min(Comparator.naturalOrder()).orElse(null)),

@@ -2285,8 +2285,7 @@ final class AstaReader
    private static final RowComparator LEAF_COMPARATOR = new RowComparator("NATURAL_ORDER", "NATURAL_ORDER");
    private static final RowComparator BAR_COMPARATOR = new RowComparator("EXPANDED_TASK", "NATURAL_ORDER");
 
-   private static final RelationType[] RELATION_TYPES =
-   {
+   private static final RelationType[] RELATION_TYPES = {
       RelationType.FINISH_START,
       RelationType.START_START,
       RelationType.FINISH_FINISH,

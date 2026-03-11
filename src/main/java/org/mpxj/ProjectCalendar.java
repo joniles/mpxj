@@ -2159,8 +2159,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    private static final int MAX_NONWORKING_DAYS = 1000;
 
-   private static final RecurrenceType[] ORDERED_RECURRENCE_TYPES =
-   {
+   private static final RecurrenceType[] ORDERED_RECURRENCE_TYPES = {
       RecurrenceType.WEEKLY,
       RecurrenceType.MONTHLY,
       RecurrenceType.YEARLY,

@@ -498,8 +498,7 @@ public class Blast
    private static final int MAXWIN = 4096; /* maximum window size */
 
    /* bit lengths of literal codes */
-   private static final int[] LITLEN =
-   {
+   private static final int[] LITLEN = {
       11,
       124,
       8,
@@ -601,8 +600,7 @@ public class Blast
    };
 
    /* bit lengths of length codes 0..15 */
-   private static final int[] LENLEN =
-   {
+   private static final int[] LENLEN = {
       2,
       35,
       36,
@@ -612,8 +610,7 @@ public class Blast
    };
 
    /* bit lengths of distance codes 0..63 */
-   private static final int[] DISTLEN =
-   {
+   private static final int[] DISTLEN = {
       2,
       20,
       53,
@@ -623,8 +620,7 @@ public class Blast
       248
    };
 
-   private static final short[] BASE =
-   { /* base for length codes */
+   private static final short[] BASE = { /* base for length codes */
       3,
       2,
       4,
@@ -643,8 +639,7 @@ public class Blast
       264
    };
 
-   private static final int[] EXTRA =
-   { /* extra bits for length codes */
+   private static final int[] EXTRA = { /* extra bits for length codes */
       0,
       0,
       0,

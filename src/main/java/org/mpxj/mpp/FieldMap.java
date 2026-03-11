@@ -1321,31 +1321,26 @@ abstract class FieldMap
    private final int[] m_maxFixedDataSize = new int[MAX_FIXED_DATA_BLOCKS];
    private boolean m_debug;
 
-   private static final Integer[] TASK_KEYS =
-   {
+   private static final Integer[] TASK_KEYS = {
       Props.TASK_FIELD_MAP,
       Props.TASK_FIELD_MAP2
    };
 
-   private static final Integer[] ENTERPRISE_CUSTOM_KEYS =
-   {
+   private static final Integer[] ENTERPRISE_CUSTOM_KEYS = {
       Props.ENTERPRISE_CUSTOM_FIELD_MAP
    };
 
-   private static final Integer[] RESOURCE_KEYS =
-   {
+   private static final Integer[] RESOURCE_KEYS = {
       Props.RESOURCE_FIELD_MAP,
       Props.RESOURCE_FIELD_MAP2
    };
 
-   private static final Integer[] ASSIGNMENT_KEYS =
-   {
+   private static final Integer[] ASSIGNMENT_KEYS = {
       Props.ASSIGNMENT_FIELD_MAP,
       Props.ASSIGNMENT_FIELD_MAP2
    };
 
-   private static final Integer[] RELATION_KEYS =
-   {
+   private static final Integer[] RELATION_KEYS = {
       Props.RELATION_FIELD_MAP
    };
 

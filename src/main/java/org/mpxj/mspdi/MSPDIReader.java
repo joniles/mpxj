@@ -2288,8 +2288,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
    private Map<FieldType, Map<BigInteger, CustomFieldValueItem>> m_customFieldValueItems;
    private Map<Task, Project> m_externalProjects;
 
-   private static final RecurrenceType[] RECURRENCE_TYPES =
-   {
+   private static final RecurrenceType[] RECURRENCE_TYPES = {
       null,
       RecurrenceType.DAILY,
       RecurrenceType.YEARLY, // Absolute
@@ -2300,8 +2299,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
       RecurrenceType.DAILY
    };
 
-   private static final boolean[] RELATIVE_MAP =
-   {
+   private static final boolean[] RELATIVE_MAP = {
       false,
       false,
       false,
@@ -2310,8 +2308,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
       true
    };
 
-   private static final int[] DAY_MASKS =
-   {
+   private static final int[] DAY_MASKS = {
       0x00,
       0x01, // Sunday
       0x02, // Monday

@@ -541,8 +541,7 @@ public class ProjectExplorer
       }
    }
 
-   private static final String[] READ_EXTENSIONS =
-   {
+   private static final String[] READ_EXTENSIONS = {
       "bk3",
       "cdpx",
       "cdpz",
@@ -572,8 +571,7 @@ public class ProjectExplorer
       "zip"
    };
 
-   private static final String[] WRITE_EXTENSIONS =
-   {
+   private static final String[] WRITE_EXTENSIONS = {
       "sdef",
       "sdef",
       "mpx",

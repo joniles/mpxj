@@ -96,8 +96,7 @@ public class TaskDeletionTest
          assertEquals(expectedNames[index], task.getName(), file.getName() + " Task " + task.getID());
       }
    }
-   private static final String[] TASK_DELETION1 =
-   {
+   private static final String[] TASK_DELETION1 = {
       null,
       "T1",
       null,
@@ -109,8 +108,7 @@ public class TaskDeletionTest
       "T5"
    };
 
-   private static final String[] TASK_DELETION2 =
-   {
+   private static final String[] TASK_DELETION2 = {
       "T1",
       "T2",
       "T4",
