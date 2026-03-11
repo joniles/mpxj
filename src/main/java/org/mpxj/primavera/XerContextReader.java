@@ -131,8 +131,7 @@ class XerContextReader extends TableContextReader
             continue;
          }
 
-         double[] values =
-         {
+         double[] values = {
             NumberHelper.getDouble(row.getDouble("pct_usage_0")),
             NumberHelper.getDouble(row.getDouble("pct_usage_1")),
             NumberHelper.getDouble(row.getDouble("pct_usage_2")),

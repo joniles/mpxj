@@ -98,8 +98,7 @@ class ProgressRecord extends AbstractSDEFRecord
       SlackHelper.inferSlack(task);
    }
 
-   private static final SDEFField[] FIELDS = new SDEFField[]
-   {
+   private static final SDEFField[] FIELDS = {
       new StringField("Activity ID", 10),
       new DateField("Actual Start Date"),
       new DateField("Actual Finish Date"),

@@ -785,14 +785,12 @@ final class ProjectCommanderData
    private final List<Block> m_blocks = new ArrayList<>();
    private final Deque<Block> m_parentStack = new ArrayDeque<>();
 
-   private static final BlockPattern[] NAMED_BLOCK_PATTERNS =
-   {
+   private static final BlockPattern[] NAMED_BLOCK_PATTERNS = {
       new BlockPattern(null, (byte) 0xFF, (byte) 0xFF, (byte) 0x01, (byte) 0x00),
       new BlockPattern(null, (byte) 0xFF, (byte) 0xFF, (byte) 0x02, (byte) 0x00),
    };
 
-   private static final BlockPattern[] BLOCK_PATTERNS =
-   {
+   private static final BlockPattern[] BLOCK_PATTERNS = {
       new BlockPattern("CSymbol", (byte) 0x01, (byte) 0x80),
       new BlockPattern("Unknown1", (byte) 0x02, (byte) 0x80),
       new BlockPattern("CCalendar", (byte) 0x05, (byte) 0x80),
@@ -801,8 +799,7 @@ final class ProjectCommanderData
    };
 
    // Basic Basic
-   private static final byte[] REPORT_DATA_FINGERPRINT =
-   {
+   private static final byte[] REPORT_DATA_FINGERPRINT = {
       0x05,
       0x42,
       0x61,
@@ -817,8 +814,7 @@ final class ProjectCommanderData
    };
 
    // Earned Value Analysis
-   private static final byte[] REPORT_GROUP_FINGERPRINT =
-   {
+   private static final byte[] REPORT_GROUP_FINGERPRINT = {
       0x15,
       0x45,
       0x61,
@@ -845,8 +841,7 @@ final class ProjectCommanderData
       0x00
    };
 
-   private static final byte[] VIEW_FINGERPRINT =
-   {
+   private static final byte[] VIEW_FINGERPRINT = {
       0x0C,
       0x42,
       0x6F,
@@ -862,24 +857,21 @@ final class ProjectCommanderData
       0x74
    };
 
-   private static final byte[] BASELINE_DATA_FINGERPRINT =
-   {
+   private static final byte[] BASELINE_DATA_FINGERPRINT = {
       0x0A,
       0x00,
       0x00,
       (byte) 0x80
    };
 
-   private static final byte[] BAR_FINGERPRINT =
-   {
+   private static final byte[] BAR_FINGERPRINT = {
       0x00,
       0x0A,
       0x00,
       0x00
    };
 
-   private static final byte[] TASK_FINGERPRINT_1 =
-   {
+   private static final byte[] TASK_FINGERPRINT_1 = {
       0x40,
       0x00,
       0x01,
@@ -891,8 +883,7 @@ final class ProjectCommanderData
       0x00
    };
 
-   private static final byte[] TASK_FINGERPRINT_2 =
-   {
+   private static final byte[] TASK_FINGERPRINT_2 = {
       0x42,
       0x00,
       0x01,
@@ -904,8 +895,7 @@ final class ProjectCommanderData
       0x00
    };
 
-   private static final byte[] LINK_FINGERPRINT =
-   {
+   private static final byte[] LINK_FINGERPRINT = {
       0x08,
       0x03,
       0x05,

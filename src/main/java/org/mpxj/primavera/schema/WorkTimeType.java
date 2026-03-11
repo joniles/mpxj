@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -47,10 +48,10 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "WorkTimeType", propOrder =
-{
-   "start",
-   "finish"
-}) public class WorkTimeType
+   {
+      "start",
+      "finish"
+   }) public class WorkTimeType
 {
 
    @XmlElement(name = "Start", type = String.class) @XmlJavaTypeAdapter(Adapter5.class) protected LocalTime start;

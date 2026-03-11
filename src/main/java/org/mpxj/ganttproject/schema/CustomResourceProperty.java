@@ -32,9 +32,9 @@ import jakarta.xml.bind.annotation.XmlValue;
  *
  */
 @SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "custom-resource-property", propOrder =
-{
-   "value"
-}) public class CustomResourceProperty
+   {
+      "value"
+   }) public class CustomResourceProperty
 {
 
    @XmlValue protected String value;

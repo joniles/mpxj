@@ -29,7 +29,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -3649,7 +3648,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       item.setStart(start);
       item.setFinish(finish);
       item.setTotalAmount(work);
-      item.setAmountPerHour(Duration.getInstance(plannedHours/ workingHours, TimeUnit.HOURS));
+      item.setAmountPerHour(Duration.getInstance(plannedHours / workingHours, TimeUnit.HOURS));
 
       return Collections.singletonList(item);
    }
@@ -3972,7 +3971,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       double total = totalWork == null ? 0 : totalWork.convertUnits(units, getEffectiveCalendar()).getDuration();
       double overtime = overtimeWork == null ? 0 : overtimeWork.convertUnits(units, getEffectiveCalendar()).getDuration();
 
-      return Duration.getInstance(total-overtime, units);
+      return Duration.getInstance(total - overtime, units);
    }
 
    private Number calculateMaterial(Supplier<Duration> fn)
@@ -4075,15 +4074,15 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.REMAINING_WORK, ResourceAssignment::getTimephasedRemainingWork);
       TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.WORK, ResourceAssignment::getTimephasedWork);
       TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE_WORK, (a, r, t) -> a.getTimephasedBaselineWork(0, r, t));
-      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE1_WORK,(a, r, t) -> a.getTimephasedBaselineWork(1, r, t));
-      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE2_WORK,(a, r, t) -> a.getTimephasedBaselineWork(2, r, t));
-      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE3_WORK,(a, r, t) -> a.getTimephasedBaselineWork(3, r, t));
-      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE4_WORK,(a, r, t) -> a.getTimephasedBaselineWork(4, r, t));
-      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE5_WORK,(a, r, t) -> a.getTimephasedBaselineWork(5, r, t));
-      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE6_WORK,(a, r, t) -> a.getTimephasedBaselineWork(6, r, t));
-      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE7_WORK,(a, r, t) -> a.getTimephasedBaselineWork(7, r, t));
-      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE8_WORK,(a, r, t) -> a.getTimephasedBaselineWork(8, r, t));
-      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE9_WORK,(a, r, t) -> a.getTimephasedBaselineWork(9, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE1_WORK, (a, r, t) -> a.getTimephasedBaselineWork(1, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE2_WORK, (a, r, t) -> a.getTimephasedBaselineWork(2, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE3_WORK, (a, r, t) -> a.getTimephasedBaselineWork(3, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE4_WORK, (a, r, t) -> a.getTimephasedBaselineWork(4, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE5_WORK, (a, r, t) -> a.getTimephasedBaselineWork(5, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE6_WORK, (a, r, t) -> a.getTimephasedBaselineWork(6, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE7_WORK, (a, r, t) -> a.getTimephasedBaselineWork(7, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE8_WORK, (a, r, t) -> a.getTimephasedBaselineWork(8, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE9_WORK, (a, r, t) -> a.getTimephasedBaselineWork(9, r, t));
       TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE10_WORK, (a, r, t) -> a.getTimephasedBaselineWork(10, r, t));
    }
 
@@ -4146,22 +4145,22 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       CALCULATED_FIELD_MAP.put(AssignmentField.ACTUAL_REGULAR_COST, a -> a.calculateRegularCost(a::getActualCost, a::getActualOvertimeCost));
       CALCULATED_FIELD_MAP.put(AssignmentField.REMAINING_REGULAR_COST, a -> a.calculateRegularCost(a::getRemainingCost, a::getRemainingOvertimeCost));
       CALCULATED_FIELD_MAP.put(AssignmentField.ACTUAL_REGULAR_WORK, a -> a.calculateRegularWork(a::getActualWork, a::getActualOvertimeWork));
-      CALCULATED_FIELD_MAP.put(AssignmentField.REMAINING_REGULAR_WORK, a ->  a.calculateRegularWork(a::getRemainingWork, a::getRemainingOvertimeWork));
+      CALCULATED_FIELD_MAP.put(AssignmentField.REMAINING_REGULAR_WORK, a -> a.calculateRegularWork(a::getRemainingWork, a::getRemainingOvertimeWork));
       CALCULATED_FIELD_MAP.put(AssignmentField.PLANNED_MATERIAL, a -> a.calculateMaterial(a::getPlannedWork));
       CALCULATED_FIELD_MAP.put(AssignmentField.ACTUAL_MATERIAL, a -> a.calculateMaterial(a::getActualWork));
       CALCULATED_FIELD_MAP.put(AssignmentField.REMAINING_MATERIAL, a -> a.calculateMaterial(a::getRemainingWork));
       CALCULATED_FIELD_MAP.put(AssignmentField.MATERIAL, a -> a.calculateMaterial(a::getWork));
       CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE_MATERIAL, a -> a.calculateMaterial(a::getBaselineWork));
-      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE1_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(1)));
-      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE2_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(2)));
-      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE3_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(3)));
-      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE4_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(4)));
-      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE5_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(5)));
-      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE6_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(6)));
-      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE7_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(7)));
-      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE8_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(8)));
-      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE9_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(9)));
-      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE10_MATERIAL, a -> a.calculateMaterial(()-> a.getBaselineWork(10)));
+      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE1_MATERIAL, a -> a.calculateMaterial(() -> a.getBaselineWork(1)));
+      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE2_MATERIAL, a -> a.calculateMaterial(() -> a.getBaselineWork(2)));
+      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE3_MATERIAL, a -> a.calculateMaterial(() -> a.getBaselineWork(3)));
+      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE4_MATERIAL, a -> a.calculateMaterial(() -> a.getBaselineWork(4)));
+      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE5_MATERIAL, a -> a.calculateMaterial(() -> a.getBaselineWork(5)));
+      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE6_MATERIAL, a -> a.calculateMaterial(() -> a.getBaselineWork(6)));
+      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE7_MATERIAL, a -> a.calculateMaterial(() -> a.getBaselineWork(7)));
+      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE8_MATERIAL, a -> a.calculateMaterial(() -> a.getBaselineWork(8)));
+      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE9_MATERIAL, a -> a.calculateMaterial(() -> a.getBaselineWork(9)));
+      CALCULATED_FIELD_MAP.put(AssignmentField.BASELINE10_MATERIAL, a -> a.calculateMaterial(() -> a.getBaselineWork(10)));
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_INDEX, ResourceAssignment::defaultRateIndex);
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_SOURCE, ResourceAssignment::defaultRateSource);
       CALCULATED_FIELD_MAP.put(AssignmentField.CALCULATE_COSTS_FROM_UNITS, ResourceAssignment::defaultCalculateCostsFromUnits);

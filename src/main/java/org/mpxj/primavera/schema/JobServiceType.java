@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -127,28 +128,28 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "JobServiceType", propOrder =
-{
-   "addProjectInfo",
-   "copyOptions",
-   "exportFilePath",
-   "exportPlfFileNames",
-   "exportXMLByte",
-   "fileName",
-   "importXMLByte",
-   "jobData",
-   "jobDataX",
-   "jobRecurringType",
-   "jobStatus",
-   "jobType",
-   "jobTypeKey",
-   "lastRunDate",
-   "name",
-   "objectId",
-   "plfDirName",
-   "projectInfo",
-   "targetWbsId",
-   "userId"
-}) public class JobServiceType
+   {
+      "addProjectInfo",
+      "copyOptions",
+      "exportFilePath",
+      "exportPlfFileNames",
+      "exportXMLByte",
+      "fileName",
+      "importXMLByte",
+      "jobData",
+      "jobDataX",
+      "jobRecurringType",
+      "jobStatus",
+      "jobType",
+      "jobTypeKey",
+      "lastRunDate",
+      "name",
+      "objectId",
+      "plfDirName",
+      "projectInfo",
+      "targetWbsId",
+      "userId"
+   }) public class JobServiceType
 {
 
    @XmlElement(name = "AddProjectInfo") @XmlJavaTypeAdapter(Adapter1.class) protected String addProjectInfo;

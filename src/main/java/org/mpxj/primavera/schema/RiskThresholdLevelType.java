@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -119,25 +120,25 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "RiskThresholdLevelType", propOrder =
-{
-   "code",
-   "color",
-   "costRange",
-   "createDate",
-   "createUser",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "level",
-   "name",
-   "objectId",
-   "probabilityRange",
-   "range",
-   "riskThresholdName",
-   "riskThresholdObjectId",
-   "scheduleRange",
-   "thresholdType",
-   "toleranceRange"
-}) public class RiskThresholdLevelType
+   {
+      "code",
+      "color",
+      "costRange",
+      "createDate",
+      "createUser",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "level",
+      "name",
+      "objectId",
+      "probabilityRange",
+      "range",
+      "riskThresholdName",
+      "riskThresholdObjectId",
+      "scheduleRange",
+      "thresholdType",
+      "toleranceRange"
+   }) public class RiskThresholdLevelType
 {
 
    @XmlElement(name = "Code") @XmlJavaTypeAdapter(Adapter1.class) protected String code;

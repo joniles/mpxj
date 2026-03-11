@@ -935,8 +935,7 @@ abstract class TableContextReader
             resource.getCostRateTable(0).clear();
          }
 
-         Rate[] values = new Rate[]
-         {
+         Rate[] values = {
             Rate.valueOf(row.getDouble("cost_per_qty"), TimeUnit.HOURS),
             Rate.valueOf(row.getDouble("cost_per_qty2"), TimeUnit.HOURS),
             Rate.valueOf(row.getDouble("cost_per_qty3"), TimeUnit.HOURS),
@@ -1065,8 +1064,7 @@ abstract class TableContextReader
             resource.getCostRateTable(0).clear();
          }
 
-         Rate[] values = new Rate[]
-         {
+         Rate[] values = {
             Rate.valueOf(row.getDouble("cost_per_qty"), TimeUnit.HOURS),
             Rate.valueOf(row.getDouble("cost_per_qty2"), TimeUnit.HOURS),
             Rate.valueOf(row.getDouble("cost_per_qty3"), TimeUnit.HOURS),

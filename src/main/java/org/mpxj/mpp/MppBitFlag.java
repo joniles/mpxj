@@ -1,4 +1,3 @@
-
 package org.mpxj.mpp;
 
 import org.mpxj.FieldContainer;

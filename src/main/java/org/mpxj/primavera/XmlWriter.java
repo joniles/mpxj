@@ -443,8 +443,7 @@ class XmlWriter
    protected final ProjectContext m_context;
    protected final ObjectFactory m_factory = new ObjectFactory();
 
-   private static final String[] DAY_NAMES =
-   {
+   private static final String[] DAY_NAMES = {
       "Sunday",
       "Monday",
       "Tuesday",

@@ -27,13 +27,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -46,7 +46,6 @@ import java.util.stream.Collectors;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
-
 import org.mpxj.AccrueType;
 import org.mpxj.AssignmentField;
 import org.mpxj.Availability;
@@ -59,19 +58,15 @@ import org.mpxj.CustomFieldLookupTable;
 import org.mpxj.CustomFieldValueDataType;
 import org.mpxj.CustomFieldValueMask;
 import org.mpxj.DataType;
-import org.mpxj.LocalDateTimeRange;
-import java.time.DayOfWeek;
-
-import org.mpxj.ProjectCalendarDays;
-import org.mpxj.TemporaryResourceAssignment;
-import org.mpxj.TimephasedItem;
-import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.DayType;
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
 import org.mpxj.FieldType;
 import org.mpxj.FieldTypeClass;
+import org.mpxj.LocalDateTimeRange;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
+import org.mpxj.ProjectCalendarDays;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectCalendarWeek;
@@ -90,12 +85,14 @@ import org.mpxj.ScheduleFrom;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.TaskMode;
-import org.mpxj.LocalTimeRange;
+import org.mpxj.TemporaryResourceAssignment;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedCost;
+import org.mpxj.TimephasedItem;
 import org.mpxj.TimephasedWork;
 import org.mpxj.UserDefinedField;
 import org.mpxj.common.AssignmentFieldLists;
+import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.FieldLists;
 import org.mpxj.common.FieldTypeHelper;
 import org.mpxj.common.LocalDateHelper;
@@ -108,9 +105,9 @@ import org.mpxj.common.ProjectCalendarHelper;
 import org.mpxj.common.ResourceFieldLists;
 import org.mpxj.common.StringHelper;
 import org.mpxj.common.TaskFieldLists;
-import org.mpxj.mpp.UserDefinedFieldMap;
 import org.mpxj.mpp.CustomFieldValueItem;
 import org.mpxj.mpp.EnterpriseCustomFieldDataType;
+import org.mpxj.mpp.UserDefinedFieldMap;
 import org.mpxj.mspdi.schema.ObjectFactory;
 import org.mpxj.mspdi.schema.Project;
 import org.mpxj.mspdi.schema.Project.Calendars.Calendar.Exceptions;
@@ -2589,8 +2586,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    // TODO share this
-   private static final int[] DAY_MASKS =
-   {
+   private static final int[] DAY_MASKS = {
       0x00,
       0x01, // Sunday
       0x02, // Monday
@@ -2666,8 +2662,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION));
    }
 
-   private static final int[] TIMEPHASED_BASELINE_WORK_TYPES =
-   {
+   private static final int[] TIMEPHASED_BASELINE_WORK_TYPES = {
       4,
       16,
       22,
@@ -2681,8 +2676,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       70
    };
 
-   private static final int[] TIMEPHASED_BASELINE_COST_TYPES =
-   {
+   private static final int[] TIMEPHASED_BASELINE_COST_TYPES = {
       5,
       17,
       23,

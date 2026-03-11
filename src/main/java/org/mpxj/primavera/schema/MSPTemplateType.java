@@ -36,12 +36,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "MSPTemplateType", propOrder =
-{
-   "mspTemplateType",
-   "name",
-   "objectId",
-   "viewData"
-}) public class MSPTemplateType
+   {
+      "mspTemplateType",
+      "name",
+      "objectId",
+      "viewData"
+   }) public class MSPTemplateType
 {
 
    @XmlElement(name = "MSPTemplateType") @XmlJavaTypeAdapter(Adapter1.class) protected String mspTemplateType;

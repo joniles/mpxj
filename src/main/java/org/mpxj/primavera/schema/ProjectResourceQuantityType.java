@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -84,28 +85,28 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ProjectResourceQuantityType", propOrder =
-{
-   "committedFlag",
-   "createDate",
-   "createUser",
-   "financialPeriod1ObjectId",
-   "financialPeriod1Quantity",
-   "financialPeriod2ObjectId",
-   "financialPeriod2Quantity",
-   "financialPeriodTmplId",
-   "isBaseline",
-   "isTemplate",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "monthStartDate",
-   "projectObjectId",
-   "projectResourceObjectId",
-   "quantity",
-   "resourceObjectId",
-   "roleObjectId",
-   "wbsObjectId",
-   "weekStartDate"
-}) public class ProjectResourceQuantityType
+   {
+      "committedFlag",
+      "createDate",
+      "createUser",
+      "financialPeriod1ObjectId",
+      "financialPeriod1Quantity",
+      "financialPeriod2ObjectId",
+      "financialPeriod2Quantity",
+      "financialPeriodTmplId",
+      "isBaseline",
+      "isTemplate",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "monthStartDate",
+      "projectObjectId",
+      "projectResourceObjectId",
+      "quantity",
+      "resourceObjectId",
+      "roleObjectId",
+      "wbsObjectId",
+      "weekStartDate"
+   }) public class ProjectResourceQuantityType
 {
 
    @XmlElement(name = "CommittedFlag", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean committedFlag;

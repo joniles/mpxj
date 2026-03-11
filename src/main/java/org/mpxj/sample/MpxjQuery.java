@@ -27,7 +27,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
-
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -35,9 +34,9 @@ import java.util.stream.Collectors;
 import org.mpxj.AssignmentField;
 import org.mpxj.ChildResourceContainer;
 import org.mpxj.ChildTaskContainer;
-import org.mpxj.LocalDateTimeRange;
 import org.mpxj.Duration;
 import org.mpxj.FieldType;
+import org.mpxj.LocalDateTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
@@ -50,8 +49,8 @@ import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimescaleUnits;
-import org.mpxj.reader.UniversalProjectReader;
 import org.mpxj.common.TimescaleHelper;
+import org.mpxj.reader.UniversalProjectReader;
 
 /**
  * This example shows an MPP, MPX or MSPDI file being read, and basic

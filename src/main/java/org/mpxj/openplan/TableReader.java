@@ -33,12 +33,12 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.DataType;
 import org.mpxj.Duration;
 import org.mpxj.ResourceType;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.DebugLogPrintWriter;
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.common.LocalDateTimeHelper;
 
 /**

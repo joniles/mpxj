@@ -36,16 +36,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.mpxj.common.CharsetHelper;
-import org.mpxj.common.InputStreamHelper;
-import org.mpxj.utility.clean.CleanByRedactStrategy;
-import org.mpxj.utility.clean.CleanByReplacementStrategy;
-import org.mpxj.utility.clean.CleanStrategy;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
 import org.mpxj.MPXJException;
@@ -54,8 +48,13 @@ import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.ResourceField;
 import org.mpxj.TaskField;
+import org.mpxj.common.CharsetHelper;
+import org.mpxj.common.InputStreamHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.reader.UniversalProjectReader;
+import org.mpxj.utility.clean.CleanByRedactStrategy;
+import org.mpxj.utility.clean.CleanByReplacementStrategy;
+import org.mpxj.utility.clean.CleanStrategy;
 
 /**
  * This class allows the caller to replace the content of a schedule file
@@ -503,8 +502,7 @@ public class ProjectCleanUtility
    private CleanStrategy m_strategy;
    private ProjectFile m_project;
 
-   private static final ProjectField[] PROJECT_FIELDS =
-   {
+   private static final ProjectField[] PROJECT_FIELDS = {
       ProjectField.AUTHOR,
       ProjectField.SUBJECT,
       ProjectField.COMPANY,
@@ -517,14 +515,12 @@ public class ProjectCleanUtility
       ProjectField.NOTES
    };
 
-   private static final TaskField[] TASK_FIELDS =
-   {
+   private static final TaskField[] TASK_FIELDS = {
       TaskField.NAME,
       TaskField.NOTES
    };
 
-   private static final ResourceField[] RESOURCE_FIELDS =
-   {
+   private static final ResourceField[] RESOURCE_FIELDS = {
       ResourceField.NAME,
       ResourceField.INITIALS,
       ResourceField.EMAIL_ADDRESS,

@@ -11,8 +11,8 @@ import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import org.mpxj.mspdi.DatatypeConverter;
 
 public class Adapter3
-         extends
-            XmlAdapter<String, String>
+   extends
+   XmlAdapter<String, String>
 {
 
    @Override public String unmarshal(String value)

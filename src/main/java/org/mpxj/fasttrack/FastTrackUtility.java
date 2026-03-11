@@ -344,8 +344,7 @@ final class FastTrackUtility
 
    private static final long NULL_DOUBLE = 0x3949F623D5A8A733L;
 
-   private static final char[] HEX_DIGITS =
-   {
+   private static final char[] HEX_DIGITS = {
       '0',
       '1',
       '2',

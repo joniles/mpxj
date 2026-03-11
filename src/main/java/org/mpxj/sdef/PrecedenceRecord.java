@@ -50,8 +50,7 @@ class PrecedenceRecord extends AbstractSDEFRecord
       }
    }
 
-   private static final SDEFField[] FIELDS = new SDEFField[]
-   {
+   private static final SDEFField[] FIELDS = {
       new StringField("Activity ID", 10),
       new StringField("Preceding Activity", 10),
       new RelationTypeField("Predecessor Type"),

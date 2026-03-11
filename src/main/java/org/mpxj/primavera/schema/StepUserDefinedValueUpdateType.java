@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -178,44 +179,44 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "StepUserDefinedValueUpdateType", propOrder =
-{
-   "allData",
-   "approvalDate",
-   "approvalUserName",
-   "approvalUserObjectId",
-   "changeSetObjectId",
-   "createUser",
-   "date",
-   "foreignObjectId",
-   "heldDate",
-   "lastApprovedDate",
-   "offset",
-   "overrideUDFRAGType",
-   "overrideUdfCodeId",
-   "overrideUdfCost",
-   "overrideUdfEndDate",
-   "overrideUdfInteger",
-   "overrideUdfNumber",
-   "overrideUdfStartDate",
-   "overrideUdfText",
-   "pendingUDFRAGType",
-   "pendingUdfCodeId",
-   "pendingUdfCost",
-   "pendingUdfEndDate",
-   "pendingUdfInteger",
-   "pendingUdfNumber",
-   "pendingUdfStartDate",
-   "pendingUdfText",
-   "projectObjectId",
-   "rejectedBy",
-   "rejectedDate",
-   "requestUserObjectId",
-   "resubmittedBy",
-   "resubmittedDate",
-   "status",
-   "udfDataType",
-   "udfTypeObjectId"
-}) public class StepUserDefinedValueUpdateType
+   {
+      "allData",
+      "approvalDate",
+      "approvalUserName",
+      "approvalUserObjectId",
+      "changeSetObjectId",
+      "createUser",
+      "date",
+      "foreignObjectId",
+      "heldDate",
+      "lastApprovedDate",
+      "offset",
+      "overrideUDFRAGType",
+      "overrideUdfCodeId",
+      "overrideUdfCost",
+      "overrideUdfEndDate",
+      "overrideUdfInteger",
+      "overrideUdfNumber",
+      "overrideUdfStartDate",
+      "overrideUdfText",
+      "pendingUDFRAGType",
+      "pendingUdfCodeId",
+      "pendingUdfCost",
+      "pendingUdfEndDate",
+      "pendingUdfInteger",
+      "pendingUdfNumber",
+      "pendingUdfStartDate",
+      "pendingUdfText",
+      "projectObjectId",
+      "rejectedBy",
+      "rejectedDate",
+      "requestUserObjectId",
+      "resubmittedBy",
+      "resubmittedDate",
+      "status",
+      "udfDataType",
+      "udfTypeObjectId"
+   }) public class StepUserDefinedValueUpdateType
 {
 
    @XmlElement(name = "AllData") @XmlJavaTypeAdapter(Adapter1.class) protected String allData;

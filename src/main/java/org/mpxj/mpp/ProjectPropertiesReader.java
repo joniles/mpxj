@@ -30,9 +30,6 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.TreeMap;
 
-import org.mpxj.common.ByteArrayHelper;
-import org.mpxj.common.DayOfWeekHelper;
-import org.mpxj.Duration;
 import org.apache.poi.hpsf.CustomProperties;
 import org.apache.poi.hpsf.CustomProperty;
 import org.apache.poi.hpsf.DocumentSummaryInformation;
@@ -41,13 +38,15 @@ import org.apache.poi.hpsf.SummaryInformation;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
-
+import org.mpxj.Duration;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.Rate;
 import org.mpxj.ScheduleFrom;
 import org.mpxj.TimeUnit;
+import org.mpxj.common.ByteArrayHelper;
+import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.NumberHelper;
 
 /**

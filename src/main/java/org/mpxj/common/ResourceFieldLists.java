@@ -34,8 +34,7 @@ import org.mpxj.ResourceField;
  */
 public final class ResourceFieldLists
 {
-   public static final ResourceField[] CUSTOM_COST =
-   {
+   public static final ResourceField[] CUSTOM_COST = {
       ResourceField.COST1,
       ResourceField.COST2,
       ResourceField.COST3,
@@ -48,8 +47,7 @@ public final class ResourceFieldLists
       ResourceField.COST10
    };
 
-   public static final ResourceField[] CUSTOM_DATE =
-   {
+   public static final ResourceField[] CUSTOM_DATE = {
       ResourceField.DATE1,
       ResourceField.DATE2,
       ResourceField.DATE3,
@@ -62,8 +60,7 @@ public final class ResourceFieldLists
       ResourceField.DATE10
    };
 
-   public static final ResourceField[] CUSTOM_DURATION =
-   {
+   public static final ResourceField[] CUSTOM_DURATION = {
       ResourceField.DURATION1,
       ResourceField.DURATION2,
       ResourceField.DURATION3,
@@ -76,8 +73,7 @@ public final class ResourceFieldLists
       ResourceField.DURATION10
    };
 
-   public static final ResourceField[] CUSTOM_DURATION_UNITS =
-   {
+   public static final ResourceField[] CUSTOM_DURATION_UNITS = {
       ResourceField.DURATION1_UNITS,
       ResourceField.DURATION2_UNITS,
       ResourceField.DURATION3_UNITS,
@@ -90,8 +86,7 @@ public final class ResourceFieldLists
       ResourceField.DURATION10_UNITS
    };
 
-   public static final ResourceField[] CUSTOM_FINISH =
-   {
+   public static final ResourceField[] CUSTOM_FINISH = {
       ResourceField.FINISH1,
       ResourceField.FINISH2,
       ResourceField.FINISH3,
@@ -104,8 +99,7 @@ public final class ResourceFieldLists
       ResourceField.FINISH10
    };
 
-   public static final ResourceField[] CUSTOM_START =
-   {
+   public static final ResourceField[] CUSTOM_START = {
       ResourceField.START1,
       ResourceField.START2,
       ResourceField.START3,
@@ -118,8 +112,7 @@ public final class ResourceFieldLists
       ResourceField.START10
    };
 
-   public static final ResourceField[] CUSTOM_FLAG =
-   {
+   public static final ResourceField[] CUSTOM_FLAG = {
       ResourceField.FLAG1,
       ResourceField.FLAG2,
       ResourceField.FLAG3,
@@ -142,8 +135,7 @@ public final class ResourceFieldLists
       ResourceField.FLAG20
    };
 
-   public static final ResourceField[] CUSTOM_NUMBER =
-   {
+   public static final ResourceField[] CUSTOM_NUMBER = {
       ResourceField.NUMBER1,
       ResourceField.NUMBER2,
       ResourceField.NUMBER3,
@@ -166,8 +158,7 @@ public final class ResourceFieldLists
       ResourceField.NUMBER20
    };
 
-   public static final ResourceField[] CUSTOM_TEXT =
-   {
+   public static final ResourceField[] CUSTOM_TEXT = {
       ResourceField.TEXT1,
       ResourceField.TEXT2,
       ResourceField.TEXT3,
@@ -200,8 +191,7 @@ public final class ResourceFieldLists
       ResourceField.TEXT30
    };
 
-   public static final ResourceField[] ENTERPRISE_CUSTOM_COST =
-   {
+   public static final ResourceField[] ENTERPRISE_CUSTOM_COST = {
       ResourceField.ENTERPRISE_COST1,
       ResourceField.ENTERPRISE_COST2,
       ResourceField.ENTERPRISE_COST3,
@@ -214,8 +204,7 @@ public final class ResourceFieldLists
       ResourceField.ENTERPRISE_COST10
    };
 
-   public static final ResourceField[] ENTERPRISE_CUSTOM_DATE =
-   {
+   public static final ResourceField[] ENTERPRISE_CUSTOM_DATE = {
       ResourceField.ENTERPRISE_DATE1,
       ResourceField.ENTERPRISE_DATE2,
       ResourceField.ENTERPRISE_DATE3,
@@ -248,8 +237,7 @@ public final class ResourceFieldLists
       ResourceField.ENTERPRISE_DATE30
    };
 
-   public static final ResourceField[] ENTERPRISE_CUSTOM_DURATION =
-   {
+   public static final ResourceField[] ENTERPRISE_CUSTOM_DURATION = {
       ResourceField.ENTERPRISE_DURATION1,
       ResourceField.ENTERPRISE_DURATION2,
       ResourceField.ENTERPRISE_DURATION3,
@@ -262,8 +250,7 @@ public final class ResourceFieldLists
       ResourceField.ENTERPRISE_DURATION10
    };
 
-   public static final ResourceField[] ENTERPRISE_CUSTOM_FLAG =
-   {
+   public static final ResourceField[] ENTERPRISE_CUSTOM_FLAG = {
       ResourceField.ENTERPRISE_FLAG1,
       ResourceField.ENTERPRISE_FLAG2,
       ResourceField.ENTERPRISE_FLAG3,
@@ -286,8 +273,7 @@ public final class ResourceFieldLists
       ResourceField.ENTERPRISE_FLAG20
    };
 
-   public static final ResourceField[] ENTERPRISE_CUSTOM_NUMBER =
-   {
+   public static final ResourceField[] ENTERPRISE_CUSTOM_NUMBER = {
       ResourceField.ENTERPRISE_NUMBER1,
       ResourceField.ENTERPRISE_NUMBER2,
       ResourceField.ENTERPRISE_NUMBER3,
@@ -330,8 +316,7 @@ public final class ResourceFieldLists
       ResourceField.ENTERPRISE_NUMBER40
    };
 
-   public static final ResourceField[] ENTERPRISE_CUSTOM_TEXT =
-   {
+   public static final ResourceField[] ENTERPRISE_CUSTOM_TEXT = {
       ResourceField.ENTERPRISE_TEXT1,
       ResourceField.ENTERPRISE_TEXT2,
       ResourceField.ENTERPRISE_TEXT3,
@@ -374,8 +359,7 @@ public final class ResourceFieldLists
       ResourceField.ENTERPRISE_TEXT40
    };
 
-   public static final ResourceField[] BASELINE_COSTS =
-   {
+   public static final ResourceField[] BASELINE_COSTS = {
       ResourceField.BASELINE1_COST,
       ResourceField.BASELINE2_COST,
       ResourceField.BASELINE3_COST,
@@ -388,8 +372,7 @@ public final class ResourceFieldLists
       ResourceField.BASELINE10_COST
    };
 
-   public static final ResourceField[] BASELINE_WORKS =
-   {
+   public static final ResourceField[] BASELINE_WORKS = {
       ResourceField.BASELINE1_WORK,
       ResourceField.BASELINE2_WORK,
       ResourceField.BASELINE3_WORK,
@@ -402,8 +385,7 @@ public final class ResourceFieldLists
       ResourceField.BASELINE10_WORK
    };
 
-   public static final ResourceField[] BASELINE_MATERIALS =
-   {
+   public static final ResourceField[] BASELINE_MATERIALS = {
       ResourceField.BASELINE1_MATERIAL,
       ResourceField.BASELINE2_MATERIAL,
       ResourceField.BASELINE3_MATERIAL,
@@ -416,8 +398,7 @@ public final class ResourceFieldLists
       ResourceField.BASELINE10_MATERIAL
    };
 
-   public static final ResourceField[] CUSTOM_OUTLINE_CODE =
-   {
+   public static final ResourceField[] CUSTOM_OUTLINE_CODE = {
       ResourceField.OUTLINE_CODE1,
       ResourceField.OUTLINE_CODE2,
       ResourceField.OUTLINE_CODE3,
@@ -430,8 +411,7 @@ public final class ResourceFieldLists
       ResourceField.OUTLINE_CODE10
    };
 
-   public static final ResourceField[] CUSTOM_OUTLINE_CODE_INDEX =
-   {
+   public static final ResourceField[] CUSTOM_OUTLINE_CODE_INDEX = {
       ResourceField.OUTLINE_CODE1_INDEX,
       ResourceField.OUTLINE_CODE2_INDEX,
       ResourceField.OUTLINE_CODE3_INDEX,
@@ -444,8 +424,7 @@ public final class ResourceFieldLists
       ResourceField.OUTLINE_CODE10_INDEX
    };
 
-   public static final ResourceField[] BASELINE_BUDGET_COSTS =
-   {
+   public static final ResourceField[] BASELINE_BUDGET_COSTS = {
       ResourceField.BASELINE1_BUDGET_COST,
       ResourceField.BASELINE2_BUDGET_COST,
       ResourceField.BASELINE3_BUDGET_COST,
@@ -458,8 +437,7 @@ public final class ResourceFieldLists
       ResourceField.BASELINE10_BUDGET_COST
    };
 
-   public static final ResourceField[] BASELINE_BUDGET_WORKS =
-   {
+   public static final ResourceField[] BASELINE_BUDGET_WORKS = {
       ResourceField.BASELINE1_BUDGET_WORK,
       ResourceField.BASELINE2_BUDGET_WORK,
       ResourceField.BASELINE3_BUDGET_WORK,

@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -93,23 +94,23 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ActivityCodeType", propOrder =
-{
-   "codeConcatName",
-   "codeTypeName",
-   "codeTypeObjectId",
-   "codeTypeScope",
-   "codeValue",
-   "color",
-   "createDate",
-   "createUser",
-   "description",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "objectId",
-   "parentObjectId",
-   "projectObjectId",
-   "sequenceNumber"
-}) public class ActivityCodeType
+   {
+      "codeConcatName",
+      "codeTypeName",
+      "codeTypeObjectId",
+      "codeTypeScope",
+      "codeValue",
+      "color",
+      "createDate",
+      "createUser",
+      "description",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "objectId",
+      "parentObjectId",
+      "projectObjectId",
+      "sequenceNumber"
+   }) public class ActivityCodeType
 {
 
    @XmlElement(name = "CodeConcatName") @XmlJavaTypeAdapter(Adapter1.class) protected String codeConcatName;

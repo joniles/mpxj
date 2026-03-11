@@ -24,7 +24,6 @@
 package org.mpxj.explorer;
 
 import javax.swing.JTree;
-
 import org.apache.poi.poifs.filesystem.Entry;
 
 /**

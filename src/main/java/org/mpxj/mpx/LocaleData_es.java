@@ -44,8 +44,7 @@ public final class LocaleData_es extends ListResourceBundle
       return (RESOURCE_DATA);
    }
 
-   private static final String[][] TIME_UNITS_ARRAY_DATA =
-   {
+   private static final String[][] TIME_UNITS_ARRAY_DATA = {
       {
          "m"
       }, // Minutes - Minutos
@@ -88,7 +87,7 @@ public final class LocaleData_es extends ListResourceBundle
       {
          "e%"
       }
-            // Elapsed Percent - Porcentaje Transcurridos
+      // Elapsed Percent - Porcentaje Transcurridos
    };
 
    private static final Map<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<>();
@@ -105,23 +104,20 @@ public final class LocaleData_es extends ListResourceBundle
       }
    }
 
-   private static final String[] ACCRUE_TYPES_DATA =
-   {
+   private static final String[] ACCRUE_TYPES_DATA = {
       "Comienzo", // Start
       "Fin", // End
       "Prorrateo" // Prorated
    };
 
-   private static final String[] RELATION_TYPES_DATA =
-   {
+   private static final String[] RELATION_TYPES_DATA = {
       "FF", // FF - Fin a fin (FF)
       "FC", // FS - Fin a comienzo (FC)
       "CF", // SF - Comienzo a fin (CF)
       "CC" // SS - Comienzo a comienzo (CC)
    };
 
-   private static final String[] PRIORITY_TYPES_DATA =
-   {
+   private static final String[] PRIORITY_TYPES_DATA = {
       "M\u00ED\u00ADnima", // Lowest
       "Muy Baja", // Very Low
       "M\u00E1s Baja", // Lower
@@ -134,8 +130,7 @@ public final class LocaleData_es extends ListResourceBundle
       "No Redistribuir" // Do Not Level
    };
 
-   private static final String[] CONSTRAINT_TYPES_DATA =
-   {
+   private static final String[] CONSTRAINT_TYPES_DATA = {
       "Lo antes posible", // As Soon As Possible
       "Lo m\u00E1s tarde posible", // As Late As Possible
       "Debe comenzar el", // Must Start On
@@ -147,8 +142,7 @@ public final class LocaleData_es extends ListResourceBundle
    };
 
    // TODO Complete TASK_NAMES_DATA translation
-   private static final String[] TASK_NAMES_DATA =
-   {
+   private static final String[] TASK_NAMES_DATA = {
       null, // ???
       "Nombre", // Name
       "WBS", // TODO Translate "WBS"
@@ -305,8 +299,7 @@ public final class LocaleData_es extends ListResourceBundle
    };
 
    // TODO Complete RESOURCE_NAMES_DATA translation
-   private static final String[] RESOURCE_NAMES_DATA =
-   {
+   private static final String[] RESOURCE_NAMES_DATA = {
       null, // ???
       "Nombre", // Name
       "Iniciales", // Initials
@@ -361,8 +354,7 @@ public final class LocaleData_es extends ListResourceBundle
       "Campos Enlazados", // Linked Fields
    };
 
-   private static final Object[][] RESOURCE_DATA =
-   {
+   private static final Object[][] RESOURCE_DATA = {
       {
          LocaleData.FILE_DELIMITER,
          ","

@@ -278,8 +278,7 @@ public final class ByteArrayHelper
    /**
     * Constants used to convert bytes to hex digits.
     */
-   private static final char[] HEX_DIGITS =
-   {
+   private static final char[] HEX_DIGITS = {
       '0',
       '1',
       '2',

@@ -194,8 +194,7 @@ final class UuidHelper
    private static final char PADDING = ' ';
    private static final int PADDING_VALUE = 127;
 
-   private static final char[] ENCODE_MAP = new char[]
-   {
+   private static final char[] ENCODE_MAP = {
       '0',
       '1',
       '2',

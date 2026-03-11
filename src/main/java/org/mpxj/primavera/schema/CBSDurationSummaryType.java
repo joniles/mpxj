@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -61,23 +62,23 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "CBSDurationSummaryType", propOrder =
-{
-   "cbsObjectId",
-   "originalProjectObjectId",
-   "projectId",
-   "projectName",
-   "projectObjectId",
-   "summaryActualDuration",
-   "summaryActualFinishDate",
-   "summaryActualStartDate",
-   "summaryPercentComplete",
-   "summaryPlannedDuration",
-   "summaryPlannedFinishDate",
-   "summaryPlannedStartDate",
-   "summaryRemainingDuration",
-   "summaryRemainingFinishDate",
-   "summaryRemainingStartDate"
-}) public class CBSDurationSummaryType
+   {
+      "cbsObjectId",
+      "originalProjectObjectId",
+      "projectId",
+      "projectName",
+      "projectObjectId",
+      "summaryActualDuration",
+      "summaryActualFinishDate",
+      "summaryActualStartDate",
+      "summaryPercentComplete",
+      "summaryPlannedDuration",
+      "summaryPlannedFinishDate",
+      "summaryPlannedStartDate",
+      "summaryRemainingDuration",
+      "summaryRemainingFinishDate",
+      "summaryRemainingStartDate"
+   }) public class CBSDurationSummaryType
 {
 
    @XmlElement(name = "CBSObjectId", nillable = true) protected Integer cbsObjectId;

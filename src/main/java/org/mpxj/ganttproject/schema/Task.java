@@ -10,6 +10,7 @@ package org.mpxj.ganttproject.schema;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -53,11 +54,11 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "task", propOrder =
-{
-   "depend",
-   "customproperty",
-   "task"
-}) public class Task
+   {
+      "depend",
+      "customproperty",
+      "task"
+   }) public class Task
 {
 
    protected List<Depend> depend;

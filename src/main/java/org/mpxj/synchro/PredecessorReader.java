@@ -109,8 +109,7 @@ class PredecessorReader extends TableReader
       return result;
    }
 
-   private static final RelationType[] RELATION_TYPES =
-   {
+   private static final RelationType[] RELATION_TYPES = {
       null,
       RelationType.FINISH_START,
       RelationType.START_FINISH,

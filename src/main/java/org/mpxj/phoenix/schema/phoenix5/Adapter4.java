@@ -8,12 +8,13 @@
 package org.mpxj.phoenix.schema.phoenix5;
 
 import java.util.UUID;
+
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import org.mpxj.phoenix.DatatypeConverter;
 
 public class Adapter4
-         extends
-            XmlAdapter<String, UUID>
+   extends
+   XmlAdapter<String, UUID>
 {
 
    @Override public UUID unmarshal(String value)

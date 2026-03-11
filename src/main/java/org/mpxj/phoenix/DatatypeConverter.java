@@ -23,6 +23,7 @@
 
 package org.mpxj.phoenix;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -31,7 +32,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import java.time.DayOfWeek;
 import org.mpxj.Duration;
 import org.mpxj.RelationType;
 import org.mpxj.ResourceType;

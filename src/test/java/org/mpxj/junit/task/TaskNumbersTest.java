@@ -26,14 +26,13 @@ package org.mpxj.junit.task;
 import java.io.File;
 
 import org.junit.jupiter.api.Test;
-import org.mpxj.junit.ProjectUtility;
-import org.mpxj.reader.UniversalProjectReader;
-
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.junit.MpxjTestData;
+import org.mpxj.junit.ProjectUtility;
+import org.mpxj.reader.UniversalProjectReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

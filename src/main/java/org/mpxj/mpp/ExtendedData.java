@@ -25,7 +25,6 @@ package org.mpxj.mpp;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;

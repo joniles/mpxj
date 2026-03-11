@@ -93,8 +93,7 @@ final class LocaleUtility
    /**
     * Array of locales supported by MPXJ's MPX functionality.
     */
-   private static final Locale[] SUPPORTED_LOCALES =
-   {
+   private static final Locale[] SUPPORTED_LOCALES = {
       new Locale("EN"),
       new Locale("DE"),
       new Locale("FR"),

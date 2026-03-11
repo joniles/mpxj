@@ -38,8 +38,7 @@ class UnitCostRecord extends AbstractSDEFRecord
       // No body
    }
 
-   private static final SDEFField[] FIELDS = new SDEFField[]
-   {
+   private static final SDEFField[] FIELDS = {
       new StringField("Activity ID", 10),
       new DoubleField("Total QTY", 13),
       new DoubleField("Cost per Unit", 13),

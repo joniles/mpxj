@@ -9,6 +9,7 @@ package org.mpxj.conceptdraw.schema;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -319,9 +320,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "column"
-   }) public static class GridColumns
+      {
+         "column"
+      }) public static class GridColumns
    {
 
       @XmlElement(name = "Column", required = true) protected List<ViewProperties.GridColumns.Column> column;
@@ -379,11 +380,11 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "id",
-         "index",
-         "width"
-      }) public static class Column
+         {
+            "id",
+            "index",
+            "width"
+         }) public static class Column
       {
 
          @XmlElement(name = "ID", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter6.class) @XmlSchemaType(name = "int") protected Integer id;

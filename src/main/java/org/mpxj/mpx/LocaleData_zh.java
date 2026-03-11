@@ -42,8 +42,7 @@ public final class LocaleData_zh extends ListResourceBundle
       return (RESOURCE_DATA);
    }
 
-   private static final String[][] TIME_UNITS_ARRAY_DATA =
-   {
+   private static final String[][] TIME_UNITS_ARRAY_DATA = {
       {
          "m"
       },
@@ -101,23 +100,20 @@ public final class LocaleData_zh extends ListResourceBundle
       }
    }
 
-   private static final String[] ACCRUE_TYPES_DATA =
-   {
+   private static final String[] ACCRUE_TYPES_DATA = {
       "\u5F00\u59CB", // "Start",
       "\u7ED3\u675F", // "End",
       "\u6309\u6BD4\u4F8B" // "Prorated"
    };
 
-   private static final String[] RELATION_TYPES_DATA =
-   {
+   private static final String[] RELATION_TYPES_DATA = {
       "FF", //   "FF",
       "FS", //   "FS",
       "SF", //   "SF",
       "SS" //   "SS"
    };
 
-   private static final String[] PRIORITY_TYPES_DATA =
-   {
+   private static final String[] PRIORITY_TYPES_DATA = {
       "Lowest",
       "Very Low",
       "Lower",
@@ -130,8 +126,7 @@ public final class LocaleData_zh extends ListResourceBundle
       "Do Not Level"
    };
 
-   private static final String[] CONSTRAINT_TYPES_DATA =
-   {
+   private static final String[] CONSTRAINT_TYPES_DATA = {
       "\u8D8A\u65E9\u8D8A\u597D", //   "As Soon As Possible",
       "\u8D8A\u665A\u8D8A\u597D", //   "As Late As Possible",
       "\u5FC5\u987B\u5F00\u59CB\u4E8E", //   "Must Start On",
@@ -142,8 +137,7 @@ public final class LocaleData_zh extends ListResourceBundle
       "\u4E0D\u5F97\u665A\u4E8E...\u5B8C\u6210" //   "Finish No Later Than"
    };
 
-   private static final String[] TASK_NAMES_DATA =
-   {
+   private static final String[] TASK_NAMES_DATA = {
       null, //
       "\u540D\u79F0", //   "Name",
       "WBS", //   "WBS",
@@ -299,8 +293,7 @@ public final class LocaleData_zh extends ListResourceBundle
       "\u91CD\u65B0\u5F00\u59CB" //   "Resume"
    };
 
-   private static final String[] RESOURCE_NAMES_DATA =
-   {
+   private static final String[] RESOURCE_NAMES_DATA = {
       null, //
       "\u540D\u79F0", //   "Name",
       "\u7F29\u5199", //   "Initials",
@@ -355,8 +348,7 @@ public final class LocaleData_zh extends ListResourceBundle
       "\u94FE\u63A5\u57DF", //   "Linked Fields",
    };
 
-   private static final Object[][] RESOURCE_DATA =
-   {
+   private static final Object[][] RESOURCE_DATA = {
       {
          LocaleData.FILE_DELIMITER,
          ";"

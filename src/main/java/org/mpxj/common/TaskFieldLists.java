@@ -34,8 +34,7 @@ import org.mpxj.TaskField;
  */
 public final class TaskFieldLists
 {
-   public static final TaskField[] CUSTOM_COST =
-   {
+   public static final TaskField[] CUSTOM_COST = {
       TaskField.COST1,
       TaskField.COST2,
       TaskField.COST3,
@@ -48,8 +47,7 @@ public final class TaskFieldLists
       TaskField.COST10
    };
 
-   public static final TaskField[] CUSTOM_DATE =
-   {
+   public static final TaskField[] CUSTOM_DATE = {
       TaskField.DATE1,
       TaskField.DATE2,
       TaskField.DATE3,
@@ -62,8 +60,7 @@ public final class TaskFieldLists
       TaskField.DATE10
    };
 
-   public static final TaskField[] CUSTOM_DURATION =
-   {
+   public static final TaskField[] CUSTOM_DURATION = {
       TaskField.DURATION1,
       TaskField.DURATION2,
       TaskField.DURATION3,
@@ -76,8 +73,7 @@ public final class TaskFieldLists
       TaskField.DURATION10
    };
 
-   public static final TaskField[] CUSTOM_DURATION_UNITS =
-   {
+   public static final TaskField[] CUSTOM_DURATION_UNITS = {
       TaskField.DURATION1_UNITS,
       TaskField.DURATION2_UNITS,
       TaskField.DURATION3_UNITS,
@@ -90,8 +86,7 @@ public final class TaskFieldLists
       TaskField.DURATION10_UNITS
    };
 
-   public static final TaskField[] CUSTOM_FLAG =
-   {
+   public static final TaskField[] CUSTOM_FLAG = {
       TaskField.FLAG1,
       TaskField.FLAG2,
       TaskField.FLAG3,
@@ -114,8 +109,7 @@ public final class TaskFieldLists
       TaskField.FLAG20
    };
 
-   public static final TaskField[] CUSTOM_FINISH =
-   {
+   public static final TaskField[] CUSTOM_FINISH = {
       TaskField.FINISH1,
       TaskField.FINISH2,
       TaskField.FINISH3,
@@ -128,8 +122,7 @@ public final class TaskFieldLists
       TaskField.FINISH10
    };
 
-   public static final TaskField[] CUSTOM_NUMBER =
-   {
+   public static final TaskField[] CUSTOM_NUMBER = {
       TaskField.NUMBER1,
       TaskField.NUMBER2,
       TaskField.NUMBER3,
@@ -152,8 +145,7 @@ public final class TaskFieldLists
       TaskField.NUMBER20
    };
 
-   public static final TaskField[] CUSTOM_START =
-   {
+   public static final TaskField[] CUSTOM_START = {
       TaskField.START1,
       TaskField.START2,
       TaskField.START3,
@@ -166,8 +158,7 @@ public final class TaskFieldLists
       TaskField.START10
    };
 
-   public static final TaskField[] CUSTOM_TEXT =
-   {
+   public static final TaskField[] CUSTOM_TEXT = {
       TaskField.TEXT1,
       TaskField.TEXT2,
       TaskField.TEXT3,
@@ -200,8 +191,7 @@ public final class TaskFieldLists
       TaskField.TEXT30
    };
 
-   public static final TaskField[] CUSTOM_OUTLINE_CODE =
-   {
+   public static final TaskField[] CUSTOM_OUTLINE_CODE = {
       TaskField.OUTLINE_CODE1,
       TaskField.OUTLINE_CODE2,
       TaskField.OUTLINE_CODE3,
@@ -214,8 +204,7 @@ public final class TaskFieldLists
       TaskField.OUTLINE_CODE10
    };
 
-   public static final TaskField[] CUSTOM_OUTLINE_CODE_INDEX =
-   {
+   public static final TaskField[] CUSTOM_OUTLINE_CODE_INDEX = {
       TaskField.OUTLINE_CODE1_INDEX,
       TaskField.OUTLINE_CODE2_INDEX,
       TaskField.OUTLINE_CODE3_INDEX,
@@ -228,8 +217,7 @@ public final class TaskFieldLists
       TaskField.OUTLINE_CODE10_INDEX
    };
 
-   public static final TaskField[] ENTERPRISE_CUSTOM_COST =
-   {
+   public static final TaskField[] ENTERPRISE_CUSTOM_COST = {
       TaskField.ENTERPRISE_COST1,
       TaskField.ENTERPRISE_COST2,
       TaskField.ENTERPRISE_COST3,
@@ -242,8 +230,7 @@ public final class TaskFieldLists
       TaskField.ENTERPRISE_COST10
    };
 
-   public static final TaskField[] ENTERPRISE_CUSTOM_DATE =
-   {
+   public static final TaskField[] ENTERPRISE_CUSTOM_DATE = {
       TaskField.ENTERPRISE_DATE1,
       TaskField.ENTERPRISE_DATE2,
       TaskField.ENTERPRISE_DATE3,
@@ -276,8 +263,7 @@ public final class TaskFieldLists
       TaskField.ENTERPRISE_DATE30
    };
 
-   public static final TaskField[] ENTERPRISE_CUSTOM_DURATION =
-   {
+   public static final TaskField[] ENTERPRISE_CUSTOM_DURATION = {
       TaskField.ENTERPRISE_DURATION1,
       TaskField.ENTERPRISE_DURATION2,
       TaskField.ENTERPRISE_DURATION3,
@@ -290,8 +276,7 @@ public final class TaskFieldLists
       TaskField.ENTERPRISE_DURATION10
    };
 
-   public static final TaskField[] ENTERPRISE_CUSTOM_FLAG =
-   {
+   public static final TaskField[] ENTERPRISE_CUSTOM_FLAG = {
       TaskField.ENTERPRISE_FLAG1,
       TaskField.ENTERPRISE_FLAG2,
       TaskField.ENTERPRISE_FLAG3,
@@ -314,8 +299,7 @@ public final class TaskFieldLists
       TaskField.ENTERPRISE_FLAG20
    };
 
-   public static final TaskField[] ENTERPRISE_CUSTOM_NUMBER =
-   {
+   public static final TaskField[] ENTERPRISE_CUSTOM_NUMBER = {
       TaskField.ENTERPRISE_NUMBER1,
       TaskField.ENTERPRISE_NUMBER2,
       TaskField.ENTERPRISE_NUMBER3,
@@ -358,8 +342,7 @@ public final class TaskFieldLists
       TaskField.ENTERPRISE_NUMBER40
    };
 
-   public static final TaskField[] ENTERPRISE_CUSTOM_TEXT =
-   {
+   public static final TaskField[] ENTERPRISE_CUSTOM_TEXT = {
       TaskField.ENTERPRISE_TEXT1,
       TaskField.ENTERPRISE_TEXT2,
       TaskField.ENTERPRISE_TEXT3,
@@ -402,8 +385,7 @@ public final class TaskFieldLists
       TaskField.ENTERPRISE_TEXT40
    };
 
-   public static final TaskField[] BASELINE_COSTS =
-   {
+   public static final TaskField[] BASELINE_COSTS = {
       TaskField.BASELINE1_COST,
       TaskField.BASELINE2_COST,
       TaskField.BASELINE3_COST,
@@ -416,8 +398,7 @@ public final class TaskFieldLists
       TaskField.BASELINE10_COST
    };
 
-   public static final TaskField[] BASELINE_DURATIONS =
-   {
+   public static final TaskField[] BASELINE_DURATIONS = {
       TaskField.BASELINE1_DURATION,
       TaskField.BASELINE2_DURATION,
       TaskField.BASELINE3_DURATION,
@@ -430,8 +411,7 @@ public final class TaskFieldLists
       TaskField.BASELINE10_DURATION
    };
 
-   public static final TaskField[] BASELINE_ESTIMATED_DURATIONS =
-   {
+   public static final TaskField[] BASELINE_ESTIMATED_DURATIONS = {
       TaskField.BASELINE1_ESTIMATED_DURATION,
       TaskField.BASELINE2_ESTIMATED_DURATION,
       TaskField.BASELINE3_ESTIMATED_DURATION,
@@ -444,8 +424,7 @@ public final class TaskFieldLists
       TaskField.BASELINE10_ESTIMATED_DURATION
    };
 
-   public static final TaskField[] BASELINE_STARTS =
-   {
+   public static final TaskField[] BASELINE_STARTS = {
       TaskField.BASELINE1_START,
       TaskField.BASELINE2_START,
       TaskField.BASELINE3_START,
@@ -458,8 +437,7 @@ public final class TaskFieldLists
       TaskField.BASELINE10_START
    };
 
-   public static final TaskField[] BASELINE_ESTIMATED_STARTS =
-   {
+   public static final TaskField[] BASELINE_ESTIMATED_STARTS = {
       TaskField.BASELINE1_ESTIMATED_START,
       TaskField.BASELINE2_ESTIMATED_START,
       TaskField.BASELINE3_ESTIMATED_START,
@@ -472,8 +450,7 @@ public final class TaskFieldLists
       TaskField.BASELINE10_ESTIMATED_START
    };
 
-   public static final TaskField[] BASELINE_FINISHES =
-   {
+   public static final TaskField[] BASELINE_FINISHES = {
       TaskField.BASELINE1_FINISH,
       TaskField.BASELINE2_FINISH,
       TaskField.BASELINE3_FINISH,
@@ -486,8 +463,7 @@ public final class TaskFieldLists
       TaskField.BASELINE10_FINISH
    };
 
-   public static final TaskField[] BASELINE_ESTIMATED_FINISHES =
-   {
+   public static final TaskField[] BASELINE_ESTIMATED_FINISHES = {
       TaskField.BASELINE1_ESTIMATED_FINISH,
       TaskField.BASELINE2_ESTIMATED_FINISH,
       TaskField.BASELINE3_ESTIMATED_FINISH,
@@ -500,8 +476,7 @@ public final class TaskFieldLists
       TaskField.BASELINE10_ESTIMATED_FINISH
    };
 
-   public static final TaskField[] BASELINE_WORKS =
-   {
+   public static final TaskField[] BASELINE_WORKS = {
       TaskField.BASELINE1_WORK,
       TaskField.BASELINE2_WORK,
       TaskField.BASELINE3_WORK,
@@ -514,8 +489,7 @@ public final class TaskFieldLists
       TaskField.BASELINE10_WORK
    };
 
-   public static final TaskField[] BASELINE_FIXED_COSTS =
-   {
+   public static final TaskField[] BASELINE_FIXED_COSTS = {
       TaskField.BASELINE1_FIXED_COST,
       TaskField.BASELINE2_FIXED_COST,
       TaskField.BASELINE3_FIXED_COST,
@@ -528,8 +502,7 @@ public final class TaskFieldLists
       TaskField.BASELINE10_FIXED_COST
    };
 
-   public static final TaskField[] BASELINE_FIXED_COST_ACCRUALS =
-   {
+   public static final TaskField[] BASELINE_FIXED_COST_ACCRUALS = {
       TaskField.BASELINE1_FIXED_COST_ACCRUAL,
       TaskField.BASELINE2_FIXED_COST_ACCRUAL,
       TaskField.BASELINE3_FIXED_COST_ACCRUAL,
@@ -542,8 +515,7 @@ public final class TaskFieldLists
       TaskField.BASELINE10_FIXED_COST_ACCRUAL
    };
 
-   public static final TaskField[] BASELINE_BUDGET_COSTS =
-   {
+   public static final TaskField[] BASELINE_BUDGET_COSTS = {
       TaskField.BASELINE1_BUDGET_COST,
       TaskField.BASELINE2_BUDGET_COST,
       TaskField.BASELINE3_BUDGET_COST,
@@ -556,8 +528,7 @@ public final class TaskFieldLists
       TaskField.BASELINE10_BUDGET_COST
    };
 
-   public static final TaskField[] BASELINE_BUDGET_WORKS =
-   {
+   public static final TaskField[] BASELINE_BUDGET_WORKS = {
       TaskField.BASELINE1_BUDGET_WORK,
       TaskField.BASELINE2_BUDGET_WORK,
       TaskField.BASELINE3_BUDGET_WORK,

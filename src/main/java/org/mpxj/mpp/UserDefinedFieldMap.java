@@ -23,17 +23,17 @@
 
 package org.mpxj.mpp;
 
-import org.mpxj.DataType;
-import org.mpxj.FieldType;
-import org.mpxj.FieldTypeClass;
-import org.mpxj.ProjectFile;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.mpxj.DataType;
+import org.mpxj.FieldType;
+import org.mpxj.FieldTypeClass;
+import org.mpxj.ProjectFile;
 
 /**
  * This class is used to generate a mapping between a set of user defined fields

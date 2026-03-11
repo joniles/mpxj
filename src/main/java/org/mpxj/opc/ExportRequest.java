@@ -73,9 +73,9 @@ class ExportRequest
    public ExportRequestProject[] getProjectsInfo()
    {
       return new ExportRequestProject[]
-      {
-         m_projectInfo
-      };
+         {
+            m_projectInfo
+         };
    }
 
    private final OpcProject m_project;

@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-
 import java.util.UUID;
 
 import org.mpxj.CurrencySymbolPosition;
@@ -85,8 +84,7 @@ public final class MPPUtility
     * 00032: 00 00 15 00 00 00 11 00 00 00 00 00 00 00 09 00
     * 00048: 03 00 00 00 00 00 00 00 00 00 00 00 01 00 13 00
     */
-   private static final int[] PASSWORD_MASK =
-   {
+   private static final int[] PASSWORD_MASK = {
       60,
       30,
       48,

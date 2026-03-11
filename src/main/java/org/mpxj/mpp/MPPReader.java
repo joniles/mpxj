@@ -33,24 +33,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.mpxj.CalendarType;
-import org.mpxj.ProjectCalendar;
-import org.mpxj.Resource;
-import org.mpxj.TaskField;
-import org.mpxj.UnitOfMeasure;
-import org.mpxj.UnitOfMeasureContainer;
-import org.mpxj.common.AutoCloseableHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-
+import org.mpxj.CalendarType;
 import org.mpxj.MPXJException;
+import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectConfig;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.Relation;
+import org.mpxj.Resource;
 import org.mpxj.Task;
+import org.mpxj.TaskField;
+import org.mpxj.UnitOfMeasure;
+import org.mpxj.UnitOfMeasureContainer;
+import org.mpxj.common.AutoCloseableHelper;
 import org.mpxj.reader.AbstractProjectStreamReader;
 
 /**

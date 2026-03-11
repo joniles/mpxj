@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.datatype.XMLGregorianCalendar;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -20,6 +20,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  * <p>Java class for anonymous complex type.
@@ -777,30 +778,30 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-{
-   "createdVersion",
-   "creationDate",
-   "creator",
-   "lastSaved",
-   "modifier",
-   "dPi",
-   "screenWidth",
-   "screenHeight",
-   "calendarUID",
-   "minutesPerDay",
-   "minutesPerWeek",
-   "daysPerMonth",
-   "dateFormat",
-   "ganttViewSplitterRate",
-   "mIsShowSpecificTime",
-   "ganttOption",
-   "rowColumn",
-   "taskList",
-   "resourceInfo",
-   "calendars",
-   "waterMark",
-   "lineStyleInformation"
-}) @XmlRootElement(name = "Document") public class Document
+   {
+      "createdVersion",
+      "creationDate",
+      "creator",
+      "lastSaved",
+      "modifier",
+      "dPi",
+      "screenWidth",
+      "screenHeight",
+      "calendarUID",
+      "minutesPerDay",
+      "minutesPerWeek",
+      "daysPerMonth",
+      "dateFormat",
+      "ganttViewSplitterRate",
+      "mIsShowSpecificTime",
+      "ganttOption",
+      "rowColumn",
+      "taskList",
+      "resourceInfo",
+      "calendars",
+      "waterMark",
+      "lineStyleInformation"
+   }) @XmlRootElement(name = "Document") public class Document
 {
 
    @XmlElement(name = "CreatedVersion", required = true) protected Document.CreatedVersion createdVersion;
@@ -1619,9 +1620,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "calendar"
-   }) public static class Calendars
+      {
+         "calendar"
+      }) public static class Calendars
    {
 
       @XmlElement(name = "Calendar", required = true) protected List<Document.Calendars.Calendar> calendar;
@@ -1787,17 +1788,17 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "uid",
-         "name",
-         "nameU",
-         "isBaseCalendar",
-         "baseCalendarUID",
-         "isTemplateCalendar",
-         "machineInfo",
-         "weekDays",
-         "exceptions"
-      }) public static class Calendar
+         {
+            "uid",
+            "name",
+            "nameU",
+            "isBaseCalendar",
+            "baseCalendarUID",
+            "isTemplateCalendar",
+            "machineInfo",
+            "weekDays",
+            "exceptions"
+         }) public static class Calendar
       {
 
          @XmlElement(name = "UID", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter5.class) @XmlSchemaType(name = "int") protected Integer uid;
@@ -2113,9 +2114,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "exception"
-         }) public static class Exceptions
+            {
+               "exception"
+            }) public static class Exceptions
          {
 
             @XmlElement(name = "Exception", required = true) protected List<Document.Calendars.Calendar.Exceptions.Exception> exception;
@@ -2210,16 +2211,16 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "enteredByOccurrences",
-               "holiday",
-               "timePeriod",
-               "occurrences",
-               "name",
-               "type",
-               "dayWorking",
-               "workingTimes"
-            }) public static class Exception
+               {
+                  "enteredByOccurrences",
+                  "holiday",
+                  "timePeriod",
+                  "occurrences",
+                  "name",
+                  "type",
+                  "dayWorking",
+                  "workingTimes"
+               }) public static class Exception
             {
 
                @XmlElement(name = "EnteredByOccurrences", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "boolean") protected Boolean enteredByOccurrences;
@@ -2460,10 +2461,10 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
                 *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-               {
-                  "fromDate",
-                  "toDate"
-               }) public static class TimePeriod
+                  {
+                     "fromDate",
+                     "toDate"
+                  }) public static class TimePeriod
                {
 
                   @XmlElement(name = "FromDate", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime fromDate;
@@ -2554,9 +2555,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
                 *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-               {
-                  "workingTime"
-               }) public static class WorkingTimes
+                  {
+                     "workingTime"
+                  }) public static class WorkingTimes
                {
 
                   @XmlElement(name = "WorkingTime", required = true) protected List<Document.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> workingTime;
@@ -2613,10 +2614,10 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
                    *
                    */
                   @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-                  {
-                     "fromTime",
-                     "toTime"
-                  }) public static class WorkingTime
+                     {
+                        "fromTime",
+                        "toTime"
+                     }) public static class WorkingTime
                   {
 
                      @XmlElement(name = "FromTime", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "time") protected LocalTime fromTime;
@@ -2735,9 +2736,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "weekDay"
-         }) public static class WeekDays
+            {
+               "weekDay"
+            }) public static class WeekDays
          {
 
             @XmlElement(name = "WeekDay", required = true) protected List<Document.Calendars.Calendar.WeekDays.WeekDay> weekDay;
@@ -2816,11 +2817,11 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "dayType",
-               "dayWorking",
-               "workingTimes"
-            }) public static class WeekDay
+               {
+                  "dayType",
+                  "dayWorking",
+                  "workingTimes"
+               }) public static class WeekDay
             {
 
                @XmlElement(name = "DayType", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter5.class) @XmlSchemaType(name = "int") protected Integer dayType;
@@ -2936,9 +2937,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
                 *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-               {
-                  "workingTime"
-               }) public static class WorkingTimes
+                  {
+                     "workingTime"
+                  }) public static class WorkingTimes
                {
 
                   @XmlElement(name = "WorkingTime", required = true) protected List<Document.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> workingTime;
@@ -2995,10 +2996,10 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
                    *
                    */
                   @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-                  {
-                     "fromTime",
-                     "toTime"
-                  }) public static class WorkingTime
+                     {
+                        "fromTime",
+                        "toTime"
+                     }) public static class WorkingTime
                   {
 
                      @XmlElement(name = "FromTime", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "time") protected LocalTime fromTime;
@@ -3509,16 +3510,16 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "majorUnit",
-      "minorUnit",
-      "projectUnit",
-      "baselineCost",
-      "startDate",
-      "finishDate",
-      "auto",
-      "themeIndex"
-   }) public static class GanttOption
+      {
+         "majorUnit",
+         "minorUnit",
+         "projectUnit",
+         "baselineCost",
+         "startDate",
+         "finishDate",
+         "auto",
+         "themeIndex"
+      }) public static class GanttOption
    {
 
       @XmlElement(name = "MajorUnit", required = true) protected Document.GanttOption.MajorUnit majorUnit;
@@ -4613,9 +4614,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "column"
-   }) public static class ResourceInfo
+      {
+         "column"
+      }) public static class ResourceInfo
    {
 
       @XmlElement(name = "Column", required = true) protected List<Document.ResourceInfo.Column> column;
@@ -5134,9 +5135,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "columnList"
-   }) public static class RowColumn
+      {
+         "columnList"
+      }) public static class RowColumn
    {
 
       @XmlElement(name = "ColumnList", required = true) protected Document.RowColumn.ColumnList columnList;
@@ -5280,9 +5281,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "column"
-      }) public static class ColumnList
+         {
+            "column"
+         }) public static class ColumnList
       {
 
          @XmlElement(name = "Column", required = true) protected List<Document.RowColumn.ColumnList.Column> column;
@@ -5421,9 +5422,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "text"
-         }) public static class Column
+            {
+               "text"
+            }) public static class Column
          {
 
             @XmlElement(name = "Text", required = true) protected Document.RowColumn.ColumnList.Column.Text text;
@@ -5729,10 +5730,10 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "varient",
-               "textBlock"
-            }) public static class Text
+               {
+                  "varient",
+                  "textBlock"
+               }) public static class Text
             {
 
                @XmlElement(name = "Varient", required = true) protected Object varient;
@@ -5969,13 +5970,13 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
                 *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-               {
-                  "character",
-                  "paragraph",
-                  "wrapMode",
-                  "fillColor",
-                  "color"
-               }) public static class TextBlock
+                  {
+                     "character",
+                     "paragraph",
+                     "wrapMode",
+                     "fillColor",
+                     "color"
+                  }) public static class TextBlock
                {
 
                   @XmlElement(name = "Character", required = true) protected Document.RowColumn.ColumnList.Column.Text.TextBlock.Character character;
@@ -6897,9 +6898,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "task"
-   }) public static class TaskList
+      {
+         "task"
+      }) public static class TaskList
    {
 
       @XmlElement(name = "Task", required = true) protected List<Document.TaskList.Task> task;
@@ -7155,13 +7156,13 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "format",
-         "resourceList",
-         "predecessorLink",
-         "texts",
-         "barChart"
-      }) public static class Task
+         {
+            "format",
+            "resourceList",
+            "predecessorLink",
+            "texts",
+            "barChart"
+         }) public static class Task
       {
 
          @XmlElement(name = "Format", required = true) protected Document.TaskList.Task.Format format;
@@ -9031,13 +9032,13 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "predecessorUID",
-            "type",
-            "linkLag",
-            "lagFormat",
-            "crossProject"
-         }) public static class PredecessorLink
+            {
+               "predecessorUID",
+               "type",
+               "linkLag",
+               "lagFormat",
+               "crossProject"
+            }) public static class PredecessorLink
          {
 
             @XmlElement(name = "PredecessorUID", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter5.class) @XmlSchemaType(name = "int") protected Integer predecessorUID;
@@ -9207,9 +9208,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "resource"
-         }) public static class ResourceList
+            {
+               "resource"
+            }) public static class ResourceList
          {
 
             @XmlElement(name = "Resource", required = true) protected List<Document.TaskList.Task.ResourceList.Resource> resource;
@@ -9645,9 +9646,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "textCell"
-         }) public static class Texts
+            {
+               "textCell"
+            }) public static class Texts
          {
 
             @XmlElement(name = "TextCell", required = true) protected List<Document.TaskList.Task.Texts.TextCell> textCell;
@@ -9769,10 +9770,10 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "varient",
-               "textBlock"
-            }) public static class TextCell
+               {
+                  "varient",
+                  "textBlock"
+               }) public static class TextCell
             {
 
                @XmlElement(name = "Varient", required = true) protected Object varient;
@@ -10009,13 +10010,13 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
                 *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-               {
-                  "character",
-                  "paragraph",
-                  "wrapMode",
-                  "fillColor",
-                  "color"
-               }) public static class TextBlock
+                  {
+                     "character",
+                     "paragraph",
+                     "wrapMode",
+                     "fillColor",
+                     "color"
+                  }) public static class TextBlock
                {
 
                   @XmlElement(name = "Character", required = true) protected Document.TaskList.Task.Texts.TextCell.TextBlock.Character character;

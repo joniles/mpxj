@@ -23,16 +23,14 @@
 
 package org.mpxj.mpp;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
-import java.time.DayOfWeek;
-
-import org.mpxj.common.ByteArrayHelper;
-import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.DayType;
 import org.mpxj.LocalDateRange;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
@@ -40,7 +38,8 @@ import org.mpxj.ProjectCalendarWeek;
 import org.mpxj.ProjectFile;
 import org.mpxj.RecurrenceType;
 import org.mpxj.RecurringData;
-import org.mpxj.LocalTimeRange;
+import org.mpxj.common.ByteArrayHelper;
+import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.LocalDateHelper;
 import org.mpxj.common.NumberHelper;
 
@@ -366,8 +365,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
       return result;
    }
 
-   private static final RecurrenceType[] RECURRENCE_TYPES =
-   {
+   private static final RecurrenceType[] RECURRENCE_TYPES = {
       null,
       RecurrenceType.DAILY,
       RecurrenceType.YEARLY, // Absolute
@@ -378,8 +376,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
       RecurrenceType.DAILY
    };
 
-   private static final boolean[] RELATIVE_MAP =
-   {
+   private static final boolean[] RELATIVE_MAP = {
       false,
       false,
       false,
@@ -388,8 +385,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
       true
    };
 
-   private static final int[] DAY_MASKS =
-   {
+   private static final int[] DAY_MASKS = {
       0x00,
       0x01, // Sunday
       0x02, // Monday

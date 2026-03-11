@@ -911,8 +911,7 @@ public class RecurringData
    /**
     * List of ordinal names used to generate debugging output.
     */
-   private static final String[] ORDINAL =
-   {
+   private static final String[] ORDINAL = {
       null,
       "every",
       "every other",
@@ -922,8 +921,7 @@ public class RecurringData
    /**
     * List of ordinal names used to generate debugging output.
     */
-   private static final String[] DAY_ORDINAL =
-   {
+   private static final String[] DAY_ORDINAL = {
       null,
       "First",
       "Second",

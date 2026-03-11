@@ -10,6 +10,7 @@ package org.mpxj.primavera.schema;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -155,47 +156,47 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ActivityExpenseType", propOrder =
-{
-   "accrualType",
-   "activityId",
-   "activityName",
-   "activityObjectId",
-   "actualCost",
-   "actualUnits",
-   "atCompletionCost",
-   "atCompletionUnits",
-   "autoComputeActuals",
-   "cbsCode",
-   "cbsId",
-   "costAccountId",
-   "costAccountName",
-   "costAccountObjectId",
-   "createDate",
-   "createUser",
-   "documentNumber",
-   "expenseCategoryName",
-   "expenseCategoryObjectId",
-   "expenseDescription",
-   "expenseItem",
-   "expensePercentComplete",
-   "isBaseline",
-   "isTemplate",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "objectId",
-   "overBudget",
-   "plannedCost",
-   "plannedUnits",
-   "pricePerUnit",
-   "projectId",
-   "projectObjectId",
-   "remainingCost",
-   "remainingUnits",
-   "unitOfMeasure",
-   "vendor",
-   "wbsObjectId",
-   "udf"
-}) public class ActivityExpenseType
+   {
+      "accrualType",
+      "activityId",
+      "activityName",
+      "activityObjectId",
+      "actualCost",
+      "actualUnits",
+      "atCompletionCost",
+      "atCompletionUnits",
+      "autoComputeActuals",
+      "cbsCode",
+      "cbsId",
+      "costAccountId",
+      "costAccountName",
+      "costAccountObjectId",
+      "createDate",
+      "createUser",
+      "documentNumber",
+      "expenseCategoryName",
+      "expenseCategoryObjectId",
+      "expenseDescription",
+      "expenseItem",
+      "expensePercentComplete",
+      "isBaseline",
+      "isTemplate",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "objectId",
+      "overBudget",
+      "plannedCost",
+      "plannedUnits",
+      "pricePerUnit",
+      "projectId",
+      "projectObjectId",
+      "remainingCost",
+      "remainingUnits",
+      "unitOfMeasure",
+      "vendor",
+      "wbsObjectId",
+      "udf"
+   }) public class ActivityExpenseType
 {
 
    @XmlElement(name = "AccrualType") @XmlJavaTypeAdapter(Adapter1.class) protected String accrualType;

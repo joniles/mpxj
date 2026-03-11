@@ -77,8 +77,7 @@ public class WorkContourHelper
    /**
     * Array mapping int types to WorkContour instances.
     */
-   private static final WorkContour[] TYPE_VALUES =
-   {
+   private static final WorkContour[] TYPE_VALUES = {
       WorkContour.FLAT,
       WorkContour.BACK_LOADED,
       WorkContour.FRONT_LOADED,

@@ -8,11 +8,12 @@
 package org.mpxj.edrawproject.schema;
 
 import java.time.LocalTime;
+
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter4
-         extends
-            XmlAdapter<String, LocalTime>
+   extends
+   XmlAdapter<String, LocalTime>
 {
 
    @Override public LocalTime unmarshal(String value)

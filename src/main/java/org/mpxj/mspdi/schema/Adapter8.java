@@ -12,8 +12,8 @@ import org.mpxj.TaskType;
 import org.mpxj.mspdi.DatatypeConverter;
 
 public class Adapter8
-         extends
-            XmlAdapter<String, TaskType>
+   extends
+   XmlAdapter<String, TaskType>
 {
 
    @Override public TaskType unmarshal(String value)

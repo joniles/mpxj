@@ -200,29 +200,29 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ResourceCurveValuesType", propOrder =
-{
-   "value0",
-   "value5",
-   "value10",
-   "value15",
-   "value20",
-   "value25",
-   "value30",
-   "value35",
-   "value40",
-   "value45",
-   "value50",
-   "value55",
-   "value60",
-   "value65",
-   "value70",
-   "value75",
-   "value80",
-   "value85",
-   "value90",
-   "value95",
-   "value100"
-}) public class ResourceCurveValuesType
+   {
+      "value0",
+      "value5",
+      "value10",
+      "value15",
+      "value20",
+      "value25",
+      "value30",
+      "value35",
+      "value40",
+      "value45",
+      "value50",
+      "value55",
+      "value60",
+      "value65",
+      "value70",
+      "value75",
+      "value80",
+      "value85",
+      "value90",
+      "value95",
+      "value100"
+   }) public class ResourceCurveValuesType
 {
 
    @XmlElement(name = "Value0", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter3.class) protected Double value0;

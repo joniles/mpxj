@@ -8,11 +8,12 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter4
-         extends
-            XmlAdapter<String, LocalDateTime>
+   extends
+   XmlAdapter<String, LocalDateTime>
 {
 
    @Override public LocalDateTime unmarshal(String value)

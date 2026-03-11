@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -895,12 +896,12 @@ import org.mpxj.TimeUnit;
  *
  */
 @SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-{
-   "settings",
-   "storepoints",
-   "layouts",
-   "filters"
-}) @XmlRootElement(name = "project") public class Project
+   {
+      "settings",
+      "storepoints",
+      "layouts",
+      "filters"
+   }) @XmlRootElement(name = "project") public class Project
 {
 
    @XmlElement(required = true) protected Project.Settings settings;
@@ -1146,9 +1147,9 @@ import org.mpxj.TimeUnit;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "filter"
-   }) public static class Filters
+      {
+         "filter"
+      }) public static class Filters
    {
 
       @XmlElement(required = true) protected List<Project.Filters.Filter> filter;
@@ -1227,9 +1228,9 @@ import org.mpxj.TimeUnit;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "containerCriteria"
-      }) public static class Filter
+         {
+            "containerCriteria"
+         }) public static class Filter
       {
 
          @XmlElement(name = "container_criteria", required = true) protected Project.Filters.Filter.ContainerCriteria containerCriteria;
@@ -1345,9 +1346,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "binaryCriteria"
-         }) public static class ContainerCriteria
+            {
+               "binaryCriteria"
+            }) public static class ContainerCriteria
          {
 
             @XmlElement(name = "binary_criteria", required = true) protected Project.Filters.Filter.ContainerCriteria.BinaryCriteria binaryCriteria;
@@ -2045,10 +2046,10 @@ import org.mpxj.TimeUnit;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "ganttLayout",
-      "networkLayout"
-   }) public static class Layouts
+      {
+         "ganttLayout",
+         "networkLayout"
+      }) public static class Layouts
    {
 
       @XmlElement(name = "gantt_layout", required = true) protected List<Project.Layouts.GanttLayout> ganttLayout;
@@ -2406,17 +2407,17 @@ import org.mpxj.TimeUnit;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "dateFormat",
-         "pageLayout",
-         "currency",
-         "timescale",
-         "bars",
-         "codeOptions",
-         "sort",
-         "columns",
-         "comparisons"
-      }) public static class GanttLayout
+         {
+            "dateFormat",
+            "pageLayout",
+            "currency",
+            "timescale",
+            "bars",
+            "codeOptions",
+            "sort",
+            "columns",
+            "comparisons"
+         }) public static class GanttLayout
       {
 
          @XmlElement(name = "date_format", required = true) protected Project.Layouts.GanttLayout.DateFormat dateFormat;
@@ -3422,9 +3423,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "bar"
-         }) public static class Bars
+            {
+               "bar"
+            }) public static class Bars
          {
 
             @XmlElement(required = true) protected List<Project.Layouts.GanttLayout.Bars.Bar> bar;
@@ -3507,9 +3508,9 @@ import org.mpxj.TimeUnit;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "barPoint"
-            }) public static class Bar
+               {
+                  "barPoint"
+               }) public static class Bar
             {
 
                @XmlElement(name = "bar_point", required = true) protected List<Project.Layouts.GanttLayout.Bars.Bar.BarPoint> barPoint;
@@ -4150,9 +4151,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "codeOption"
-         }) public static class CodeOptions
+            {
+               "codeOption"
+            }) public static class CodeOptions
          {
 
             @XmlElement(name = "code_option", required = true) protected List<Project.Layouts.GanttLayout.CodeOptions.CodeOption> codeOption;
@@ -4387,9 +4388,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "column"
-         }) public static class Columns
+            {
+               "column"
+            }) public static class Columns
          {
 
             @XmlElement(required = true) protected List<Project.Layouts.GanttLayout.Columns.Column> column;
@@ -4700,9 +4701,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "comparison"
-         }) public static class Comparisons
+            {
+               "comparison"
+            }) public static class Comparisons
          {
 
             @XmlElement(required = true) protected Project.Layouts.GanttLayout.Comparisons.Comparison comparison;
@@ -5830,9 +5831,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "sortColumn"
-         }) public static class Sort
+            {
+               "sortColumn"
+            }) public static class Sort
          {
 
             @XmlElement(name = "sort_column", required = true) protected Project.Layouts.GanttLayout.Sort.SortColumn sortColumn;
@@ -5976,9 +5977,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "tier"
-         }) public static class Timescale
+            {
+               "tier"
+            }) public static class Timescale
          {
 
             @XmlElement(required = true) protected List<Project.Layouts.GanttLayout.Timescale.Tier> tier;
@@ -6471,17 +6472,17 @@ import org.mpxj.TimeUnit;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "dateFormat",
-         "pageLayout",
-         "currency",
-         "timescale",
-         "bars",
-         "codeOptions",
-         "networkLines",
-         "networkStartNodeDates",
-         "networkFinishNodeDates"
-      }) public static class NetworkLayout
+         {
+            "dateFormat",
+            "pageLayout",
+            "currency",
+            "timescale",
+            "bars",
+            "codeOptions",
+            "networkLines",
+            "networkStartNodeDates",
+            "networkFinishNodeDates"
+         }) public static class NetworkLayout
       {
 
          @XmlElement(name = "date_format", required = true) protected Project.Layouts.NetworkLayout.DateFormat dateFormat;
@@ -7271,9 +7272,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "bar"
-         }) public static class Bars
+            {
+               "bar"
+            }) public static class Bars
          {
 
             @XmlElement(required = true) protected List<Project.Layouts.NetworkLayout.Bars.Bar> bar;
@@ -7356,9 +7357,9 @@ import org.mpxj.TimeUnit;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "barPoint"
-            }) public static class Bar
+               {
+                  "barPoint"
+               }) public static class Bar
             {
 
                @XmlElement(name = "bar_point", required = true) protected List<Project.Layouts.NetworkLayout.Bars.Bar.BarPoint> barPoint;
@@ -8002,9 +8003,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "codeOption"
-         }) public static class CodeOptions
+            {
+               "codeOption"
+            }) public static class CodeOptions
          {
 
             @XmlElement(name = "code_option", required = true) protected List<Project.Layouts.NetworkLayout.CodeOptions.CodeOption> codeOption;
@@ -8673,9 +8674,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "nodeDate"
-         }) public static class NetworkFinishNodeDates
+            {
+               "nodeDate"
+            }) public static class NetworkFinishNodeDates
          {
 
             @XmlElement(name = "node_date", required = true) protected List<Project.Layouts.NetworkLayout.NetworkFinishNodeDates.NodeDate> nodeDate;
@@ -9016,9 +9017,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "networkActivity"
-         }) public static class NetworkLines
+            {
+               "networkActivity"
+            }) public static class NetworkLines
          {
 
             @XmlElement(name = "network_activity", required = true) protected List<Project.Layouts.NetworkLayout.NetworkLines.NetworkActivity> networkActivity;
@@ -9170,9 +9171,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "nodeDate"
-         }) public static class NetworkStartNodeDates
+            {
+               "nodeDate"
+            }) public static class NetworkStartNodeDates
          {
 
             @XmlElement(name = "node_date", required = true) protected List<Project.Layouts.NetworkLayout.NetworkStartNodeDates.NodeDate> nodeDate;
@@ -10071,9 +10072,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "tier"
-         }) public static class Timescale
+            {
+               "tier"
+            }) public static class Timescale
          {
 
             @XmlElement(required = true) protected List<Project.Layouts.NetworkLayout.Timescale.Tier> tier;
@@ -10360,9 +10361,9 @@ import org.mpxj.TimeUnit;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "export"
-   }) public static class Settings
+      {
+         "export"
+      }) public static class Settings
    {
 
       @XmlElement(required = true) protected Project.Settings.Export export;
@@ -10594,9 +10595,9 @@ import org.mpxj.TimeUnit;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "sdef"
-      }) public static class Export
+         {
+            "sdef"
+         }) public static class Export
       {
 
          @XmlElement(required = true) protected Project.Settings.Export.Sdef sdef;
@@ -10656,9 +10657,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "codeMapping"
-         }) public static class Sdef
+            {
+               "codeMapping"
+            }) public static class Sdef
          {
 
             @XmlElement(name = "code_mapping", required = true) protected Object codeMapping;
@@ -11186,9 +11187,9 @@ import org.mpxj.TimeUnit;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "storepoint"
-   }) public static class Storepoints
+      {
+         "storepoint"
+      }) public static class Storepoints
    {
 
       @XmlElement(required = true) protected List<Project.Storepoints.Storepoint> storepoint;
@@ -11462,13 +11463,13 @@ import org.mpxj.TimeUnit;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "calendars",
-         "activityCodes",
-         "activities",
-         "resources",
-         "relationships"
-      }) public static class Storepoint
+         {
+            "calendars",
+            "activityCodes",
+            "activities",
+            "resources",
+            "relationships"
+         }) public static class Storepoint
       {
 
          @XmlElement(required = true) protected Project.Storepoints.Storepoint.Calendars calendars;
@@ -12170,9 +12171,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "activity"
-         }) public static class Activities
+            {
+               "activity"
+            }) public static class Activities
          {
 
             @XmlElement(required = true) protected List<Project.Storepoints.Storepoint.Activities.Activity> activity;
@@ -12275,10 +12276,10 @@ import org.mpxj.TimeUnit;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "constraint",
-               "codeAssignment"
-            }) public static class Activity
+               {
+                  "constraint",
+                  "codeAssignment"
+               }) public static class Activity
             {
 
                @XmlElement(required = true) protected Project.Storepoints.Storepoint.Activities.Activity.Constraint constraint;
@@ -13299,9 +13300,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "code"
-         }) public static class ActivityCodes
+            {
+               "code"
+            }) public static class ActivityCodes
          {
 
             @XmlElement(required = true) protected List<Project.Storepoints.Storepoint.ActivityCodes.Code> code;
@@ -13369,9 +13370,9 @@ import org.mpxj.TimeUnit;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "value"
-            }) public static class Code
+               {
+                  "value"
+               }) public static class Code
             {
 
                @XmlElement(required = true) protected List<Project.Storepoints.Storepoint.ActivityCodes.Code.Value> value;
@@ -13616,9 +13617,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "calendar"
-         }) public static class Calendars
+            {
+               "calendar"
+            }) public static class Calendars
          {
 
             @XmlElement(required = true) protected List<Project.Storepoints.Storepoint.Calendars.Calendar> calendar;
@@ -13690,9 +13691,9 @@ import org.mpxj.TimeUnit;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "nonWork"
-            }) public static class Calendar
+               {
+                  "nonWork"
+               }) public static class Calendar
             {
 
                @XmlElement(name = "non_work", required = true) protected List<Project.Storepoints.Storepoint.Calendars.Calendar.NonWork> nonWork;
@@ -14036,9 +14037,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "relationship"
-         }) public static class Relationships
+            {
+               "relationship"
+            }) public static class Relationships
          {
 
             @XmlElement(required = true) protected List<Project.Storepoints.Storepoint.Relationships.Relationship> relationship;
@@ -14260,9 +14261,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "resource"
-         }) public static class Resources
+            {
+               "resource"
+            }) public static class Resources
          {
 
             @XmlElement(required = true) protected List<Project.Storepoints.Storepoint.Resources.Resource> resource;
@@ -14338,9 +14339,9 @@ import org.mpxj.TimeUnit;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "assignment"
-            }) public static class Resource
+               {
+                  "assignment"
+               }) public static class Resource
             {
 
                @XmlElement(required = true) protected List<Project.Storepoints.Storepoint.Resources.Resource.Assignment> assignment;

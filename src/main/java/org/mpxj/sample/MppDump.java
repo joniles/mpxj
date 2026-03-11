@@ -110,7 +110,7 @@ public class MppDump
    {
       long byteCount;
 
-      for (Iterator<Entry> iter = dir.getEntries(); iter.hasNext();)
+      for (Iterator<Entry> iter = dir.getEntries(); iter.hasNext(); )
       {
          Entry entry = iter.next();
          if (entry instanceof DirectoryEntry)
@@ -127,6 +127,7 @@ public class MppDump
             pw.println("end dir: " + prefix + entry.getName());
          }
          else
+         {
             if (entry instanceof DocumentEntry)
             {
                if (showData)
@@ -155,6 +156,7 @@ public class MppDump
             {
                pw.println("found unknown: " + prefix + entry.getName());
             }
+         }
       }
    }
 
@@ -276,8 +278,7 @@ public class MppDump
    /**
     * Data used for conversion to hex.
     */
-   private static final char[] HEX_DIGITS =
-   {
+   private static final char[] HEX_DIGITS = {
       '0',
       '1',
       '2',

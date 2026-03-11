@@ -164,11 +164,11 @@ public class MsPlannerReader
    private MapRow readData()
    {
       String query = "msdyn_projects(" + m_projectID + ")"
-               + "?$expand=" +
-               String.join(",",
-                  "msdyn_msdyn_project_msdyn_projecttask_project",
-                  "msdyn_msdyn_project_msdyn_projecttaskdependency_Project",
-                  "msdyn_msdyn_project_msdyn_resourceassignment_projectid");
+         + "?$expand=" +
+         String.join(",",
+            "msdyn_msdyn_project_msdyn_projecttask_project",
+            "msdyn_msdyn_project_msdyn_projecttaskdependency_Project",
+            "msdyn_msdyn_project_msdyn_resourceassignment_projectid");
 
       //System.out.println(query);
 

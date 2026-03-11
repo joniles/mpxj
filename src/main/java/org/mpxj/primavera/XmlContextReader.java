@@ -446,8 +446,7 @@ class XmlContextReader
 
       ResourceCurveValuesType curveValues = curve.getValues();
 
-      double[] values =
-      {
+      double[] values = {
          NumberHelper.getDouble(curveValues.getValue0()),
          NumberHelper.getDouble(curveValues.getValue5()),
          NumberHelper.getDouble(curveValues.getValue10()),
@@ -669,8 +668,7 @@ class XmlContextReader
             resource.getCostRateTable(0).clear();
          }
 
-         Rate[] values = new Rate[]
-         {
+         Rate[] values = {
             Rate.valueOf(row.getPricePerUnit(), TimeUnit.HOURS),
             Rate.valueOf(row.getPricePerUnit2(), TimeUnit.HOURS),
             Rate.valueOf(row.getPricePerUnit3(), TimeUnit.HOURS),
@@ -746,8 +744,7 @@ class XmlContextReader
             resource.getCostRateTable(0).clear();
          }
 
-         Rate[] values = new Rate[]
-         {
+         Rate[] values = {
             Rate.valueOf(row.getPricePerUnit(), TimeUnit.HOURS),
             Rate.valueOf(row.getPricePerUnit2(), TimeUnit.HOURS),
             Rate.valueOf(row.getPricePerUnit3(), TimeUnit.HOURS),

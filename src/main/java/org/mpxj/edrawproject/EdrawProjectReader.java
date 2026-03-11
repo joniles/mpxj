@@ -33,16 +33,19 @@ import java.util.Map;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.mpxj.ChildTaskContainer;
 import org.mpxj.CostRateTable;
 import org.mpxj.CostRateTableEntry;
 import org.mpxj.Duration;
+import org.mpxj.EventManager;
 import org.mpxj.LocalTimeRange;
+import org.mpxj.MPXJException;
 import org.mpxj.Priority;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
+import org.mpxj.ProjectConfig;
+import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.Rate;
 import org.mpxj.Relation;
@@ -50,22 +53,17 @@ import org.mpxj.RelationType;
 import org.mpxj.Resource;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceType;
+import org.mpxj.Task;
 import org.mpxj.TaskMode;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
-import org.mpxj.edrawproject.schema.Document;
-import org.xml.sax.SAXException;
-
-import org.mpxj.EventManager;
-import org.mpxj.MPXJException;
-import org.mpxj.ProjectConfig;
-import org.mpxj.ProjectFile;
-import org.mpxj.Task;
 import org.mpxj.common.UnmarshalHelper;
+import org.mpxj.edrawproject.schema.Document;
 import org.mpxj.reader.AbstractProjectStreamReader;
+import org.xml.sax.SAXException;
 
 /**
  * This class creates a new ProjectFile instance by reading an Edraw Project EDPX file.

@@ -62,8 +62,7 @@ class ActivityRecord extends AbstractSDEFRecord
       context.getEventManager().fireTaskReadEvent(task);
    }
 
-   private static final SDEFField[] FIELDS = new SDEFField[]
-   {
+   private static final SDEFField[] FIELDS = {
       new StringField("Activity ID", 10),
       new StringField("Activity Description", 30),
       new DurationField("Activity Duration", 3),

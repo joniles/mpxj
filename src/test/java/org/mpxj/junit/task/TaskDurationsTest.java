@@ -26,9 +26,6 @@ package org.mpxj.junit.task;
 import java.io.File;
 
 import org.junit.jupiter.api.Test;
-import org.mpxj.junit.ProjectUtility;
-import org.mpxj.reader.UniversalProjectReader;
-
 import org.mpxj.Duration;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
@@ -36,6 +33,8 @@ import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.junit.MpxjTestData;
+import org.mpxj.junit.ProjectUtility;
+import org.mpxj.reader.UniversalProjectReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -119,8 +118,7 @@ public class TaskDurationsTest
       }
    }
 
-   private static final TimeUnit[] UNITS_PROJECT98 =
-   {
+   private static final TimeUnit[] UNITS_PROJECT98 = {
       TimeUnit.MINUTES,
       TimeUnit.HOURS,
       TimeUnit.DAYS,
@@ -130,8 +128,7 @@ public class TaskDurationsTest
       TimeUnit.ELAPSED_DAYS,
       TimeUnit.ELAPSED_WEEKS
    };
-   private static final TimeUnit[] UNITS_PROJECT2000 =
-   {
+   private static final TimeUnit[] UNITS_PROJECT2000 = {
       TimeUnit.MINUTES,
       TimeUnit.HOURS,
       TimeUnit.DAYS,

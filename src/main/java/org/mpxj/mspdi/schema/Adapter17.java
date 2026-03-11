@@ -12,8 +12,8 @@ import org.mpxj.WorkGroup;
 import org.mpxj.mspdi.DatatypeConverter;
 
 public class Adapter17
-         extends
-            XmlAdapter<String, WorkGroup>
+   extends
+   XmlAdapter<String, WorkGroup>
 {
 
    @Override public WorkGroup unmarshal(String value)

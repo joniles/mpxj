@@ -34,8 +34,7 @@ import org.mpxj.AssignmentField;
  */
 public final class AssignmentFieldLists
 {
-   public static final AssignmentField[] BASELINE_COSTS =
-   {
+   public static final AssignmentField[] BASELINE_COSTS = {
       AssignmentField.BASELINE1_COST,
       AssignmentField.BASELINE2_COST,
       AssignmentField.BASELINE3_COST,
@@ -48,8 +47,7 @@ public final class AssignmentFieldLists
       AssignmentField.BASELINE10_COST
    };
 
-   public static final AssignmentField[] BASELINE_WORKS =
-   {
+   public static final AssignmentField[] BASELINE_WORKS = {
       AssignmentField.BASELINE1_WORK,
       AssignmentField.BASELINE2_WORK,
       AssignmentField.BASELINE3_WORK,
@@ -62,8 +60,7 @@ public final class AssignmentFieldLists
       AssignmentField.BASELINE10_WORK
    };
 
-   public static final AssignmentField[] BASELINE_MATERIALS =
-   {
+   public static final AssignmentField[] BASELINE_MATERIALS = {
       AssignmentField.BASELINE1_MATERIAL,
       AssignmentField.BASELINE2_MATERIAL,
       AssignmentField.BASELINE3_MATERIAL,
@@ -76,8 +73,7 @@ public final class AssignmentFieldLists
       AssignmentField.BASELINE10_MATERIAL
    };
 
-   public static final AssignmentField[] BASELINE_STARTS =
-   {
+   public static final AssignmentField[] BASELINE_STARTS = {
       AssignmentField.BASELINE1_START,
       AssignmentField.BASELINE2_START,
       AssignmentField.BASELINE3_START,
@@ -90,8 +86,7 @@ public final class AssignmentFieldLists
       AssignmentField.BASELINE10_START
    };
 
-   public static final AssignmentField[] BASELINE_FINISHES =
-   {
+   public static final AssignmentField[] BASELINE_FINISHES = {
       AssignmentField.BASELINE1_FINISH,
       AssignmentField.BASELINE2_FINISH,
       AssignmentField.BASELINE3_FINISH,
@@ -104,8 +99,7 @@ public final class AssignmentFieldLists
       AssignmentField.BASELINE10_FINISH
    };
 
-   public static final AssignmentField[] BASELINE_BUDGET_COSTS =
-   {
+   public static final AssignmentField[] BASELINE_BUDGET_COSTS = {
       AssignmentField.BASELINE1_BUDGET_COST,
       AssignmentField.BASELINE2_BUDGET_COST,
       AssignmentField.BASELINE3_BUDGET_COST,
@@ -118,8 +112,7 @@ public final class AssignmentFieldLists
       AssignmentField.BASELINE10_BUDGET_COST
    };
 
-   public static final AssignmentField[] BASELINE_BUDGET_WORKS =
-   {
+   public static final AssignmentField[] BASELINE_BUDGET_WORKS = {
       AssignmentField.BASELINE1_BUDGET_WORK,
       AssignmentField.BASELINE2_BUDGET_WORK,
       AssignmentField.BASELINE3_BUDGET_WORK,
@@ -132,8 +125,7 @@ public final class AssignmentFieldLists
       AssignmentField.BASELINE10_BUDGET_WORK
    };
 
-   public static final AssignmentField[] CUSTOM_TEXT =
-   {
+   public static final AssignmentField[] CUSTOM_TEXT = {
       AssignmentField.TEXT1,
       AssignmentField.TEXT2,
       AssignmentField.TEXT3,
@@ -166,8 +158,7 @@ public final class AssignmentFieldLists
       AssignmentField.TEXT30
    };
 
-   public static final AssignmentField[] CUSTOM_START =
-   {
+   public static final AssignmentField[] CUSTOM_START = {
       AssignmentField.START1,
       AssignmentField.START2,
       AssignmentField.START3,
@@ -180,8 +171,7 @@ public final class AssignmentFieldLists
       AssignmentField.START10
    };
 
-   public static final AssignmentField[] CUSTOM_FINISH =
-   {
+   public static final AssignmentField[] CUSTOM_FINISH = {
       AssignmentField.FINISH1,
       AssignmentField.FINISH2,
       AssignmentField.FINISH3,
@@ -194,8 +184,7 @@ public final class AssignmentFieldLists
       AssignmentField.FINISH10
    };
 
-   public static final AssignmentField[] CUSTOM_DATE =
-   {
+   public static final AssignmentField[] CUSTOM_DATE = {
       AssignmentField.DATE1,
       AssignmentField.DATE2,
       AssignmentField.DATE3,
@@ -208,8 +197,7 @@ public final class AssignmentFieldLists
       AssignmentField.DATE10
    };
 
-   public static final AssignmentField[] CUSTOM_NUMBER =
-   {
+   public static final AssignmentField[] CUSTOM_NUMBER = {
       AssignmentField.NUMBER1,
       AssignmentField.NUMBER2,
       AssignmentField.NUMBER3,
@@ -232,8 +220,7 @@ public final class AssignmentFieldLists
       AssignmentField.NUMBER20
    };
 
-   public static final AssignmentField[] CUSTOM_DURATION =
-   {
+   public static final AssignmentField[] CUSTOM_DURATION = {
       AssignmentField.DURATION1,
       AssignmentField.DURATION2,
       AssignmentField.DURATION3,
@@ -246,8 +233,7 @@ public final class AssignmentFieldLists
       AssignmentField.DURATION10
    };
 
-   public static final AssignmentField[] CUSTOM_DURATION_UNITS =
-   {
+   public static final AssignmentField[] CUSTOM_DURATION_UNITS = {
       AssignmentField.DURATION1_UNITS,
       AssignmentField.DURATION2_UNITS,
       AssignmentField.DURATION3_UNITS,
@@ -260,8 +246,7 @@ public final class AssignmentFieldLists
       AssignmentField.DURATION10_UNITS
    };
 
-   public static final AssignmentField[] CUSTOM_COST =
-   {
+   public static final AssignmentField[] CUSTOM_COST = {
       AssignmentField.COST1,
       AssignmentField.COST2,
       AssignmentField.COST3,
@@ -274,8 +259,7 @@ public final class AssignmentFieldLists
       AssignmentField.COST10
    };
 
-   public static final AssignmentField[] CUSTOM_FLAG =
-   {
+   public static final AssignmentField[] CUSTOM_FLAG = {
       AssignmentField.FLAG1,
       AssignmentField.FLAG2,
       AssignmentField.FLAG3,
@@ -298,8 +282,7 @@ public final class AssignmentFieldLists
       AssignmentField.FLAG20
    };
 
-   public static final AssignmentField[] ENTERPRISE_CUSTOM_COST =
-   {
+   public static final AssignmentField[] ENTERPRISE_CUSTOM_COST = {
       AssignmentField.ENTERPRISE_COST1,
       AssignmentField.ENTERPRISE_COST2,
       AssignmentField.ENTERPRISE_COST3,
@@ -312,8 +295,7 @@ public final class AssignmentFieldLists
       AssignmentField.ENTERPRISE_COST10
    };
 
-   public static final AssignmentField[] ENTERPRISE_CUSTOM_DATE =
-   {
+   public static final AssignmentField[] ENTERPRISE_CUSTOM_DATE = {
       AssignmentField.ENTERPRISE_DATE1,
       AssignmentField.ENTERPRISE_DATE2,
       AssignmentField.ENTERPRISE_DATE3,
@@ -346,8 +328,7 @@ public final class AssignmentFieldLists
       AssignmentField.ENTERPRISE_DATE30
    };
 
-   public static final AssignmentField[] ENTERPRISE_CUSTOM_DURATION =
-   {
+   public static final AssignmentField[] ENTERPRISE_CUSTOM_DURATION = {
       AssignmentField.ENTERPRISE_DURATION1,
       AssignmentField.ENTERPRISE_DURATION2,
       AssignmentField.ENTERPRISE_DURATION3,
@@ -360,8 +341,7 @@ public final class AssignmentFieldLists
       AssignmentField.ENTERPRISE_DURATION10
    };
 
-   public static final AssignmentField[] ENTERPRISE_CUSTOM_FLAG =
-   {
+   public static final AssignmentField[] ENTERPRISE_CUSTOM_FLAG = {
       AssignmentField.ENTERPRISE_FLAG1,
       AssignmentField.ENTERPRISE_FLAG2,
       AssignmentField.ENTERPRISE_FLAG3,
@@ -384,8 +364,7 @@ public final class AssignmentFieldLists
       AssignmentField.ENTERPRISE_FLAG20
    };
 
-   public static final AssignmentField[] ENTERPRISE_CUSTOM_NUMBER =
-   {
+   public static final AssignmentField[] ENTERPRISE_CUSTOM_NUMBER = {
       AssignmentField.ENTERPRISE_NUMBER1,
       AssignmentField.ENTERPRISE_NUMBER2,
       AssignmentField.ENTERPRISE_NUMBER3,
@@ -428,8 +407,7 @@ public final class AssignmentFieldLists
       AssignmentField.ENTERPRISE_NUMBER40
    };
 
-   public static final AssignmentField[] ENTERPRISE_CUSTOM_TEXT =
-   {
+   public static final AssignmentField[] ENTERPRISE_CUSTOM_TEXT = {
       AssignmentField.ENTERPRISE_TEXT1,
       AssignmentField.ENTERPRISE_TEXT2,
       AssignmentField.ENTERPRISE_TEXT3,
@@ -472,8 +450,7 @@ public final class AssignmentFieldLists
       AssignmentField.ENTERPRISE_TEXT40
    };
 
-   public static final AssignmentField[] ENTERPRISE_RESOURCE_MULTI_VALUE =
-   {
+   public static final AssignmentField[] ENTERPRISE_RESOURCE_MULTI_VALUE = {
       AssignmentField.ENTERPRISE_RESOURCE_MULTI_VALUE20,
       AssignmentField.ENTERPRISE_RESOURCE_MULTI_VALUE21,
       AssignmentField.ENTERPRISE_RESOURCE_MULTI_VALUE22,
@@ -486,8 +463,7 @@ public final class AssignmentFieldLists
       AssignmentField.ENTERPRISE_RESOURCE_MULTI_VALUE29
    };
 
-   public static final AssignmentField[] ENTERPRISE_RESOURCE_OUTLINE_CODE =
-   {
+   public static final AssignmentField[] ENTERPRISE_RESOURCE_OUTLINE_CODE = {
       AssignmentField.ENTERPRISE_RESOURCE_OUTLINE_CODE1,
       AssignmentField.ENTERPRISE_RESOURCE_OUTLINE_CODE2,
       AssignmentField.ENTERPRISE_RESOURCE_OUTLINE_CODE3,
@@ -540,8 +516,7 @@ public final class AssignmentFieldLists
       CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_MULTI_VALUE));
    }
 
-   public static final AssignmentField[] RAW_TIMEPHASED_BASELINE_WORKS =
-   {
+   public static final AssignmentField[] RAW_TIMEPHASED_BASELINE_WORKS = {
       AssignmentField.RAW_TIMEPHASED_BASELINE_WORK,
       AssignmentField.RAW_TIMEPHASED_BASELINE1_WORK,
       AssignmentField.RAW_TIMEPHASED_BASELINE2_WORK,
@@ -555,8 +530,7 @@ public final class AssignmentFieldLists
       AssignmentField.RAW_TIMEPHASED_BASELINE10_WORK
    };
 
-   public static final AssignmentField[] RAW_TIMEPHASED_BASELINE_COSTS =
-   {
+   public static final AssignmentField[] RAW_TIMEPHASED_BASELINE_COSTS = {
       AssignmentField.RAW_TIMEPHASED_BASELINE_COST,
       AssignmentField.RAW_TIMEPHASED_BASELINE1_COST,
       AssignmentField.RAW_TIMEPHASED_BASELINE2_COST,

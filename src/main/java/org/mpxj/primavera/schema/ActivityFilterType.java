@@ -45,15 +45,15 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ActivityFilterType", propOrder =
-{
-   "activityFilterId",
-   "activityFilterName",
-   "filterCriteria",
-   "filterCriteriaConfig",
-   "filterGroup",
-   "filterType",
-   "userId"
-}) public class ActivityFilterType
+   {
+      "activityFilterId",
+      "activityFilterName",
+      "filterCriteria",
+      "filterCriteriaConfig",
+      "filterGroup",
+      "filterType",
+      "userId"
+   }) public class ActivityFilterType
 {
 
    @XmlElement(name = "ActivityFilterId") protected Integer activityFilterId;

@@ -9,6 +9,7 @@ package org.mpxj.conceptdraw.schema;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -51,9 +52,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-{
-   "callout"
-}) @XmlRootElement(name = "Callouts") public class Callouts
+   {
+      "callout"
+   }) @XmlRootElement(name = "Callouts") public class Callouts
 {
 
    @XmlElement(name = "Callout") protected List<Callouts.Callout> callout;

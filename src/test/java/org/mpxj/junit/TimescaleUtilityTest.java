@@ -55,7 +55,7 @@ public class TimescaleUtilityTest
       assertEquals("22/06/2023 09:04:00.0 22/06/2023 09:05:00.0", result.get(4));
 
       LocalDateTime endDate = LocalDateTime.parse("22/06/2023 09:04:30", m_basicDateFormat);
-      result = ts.createTimescale(startDate,endDate, TimescaleUnits.MINUTES);
+      result = ts.createTimescale(startDate, endDate, TimescaleUnits.MINUTES);
       Assertions.assertEquals(5, result.size());
       assertEquals("22/06/2023 09:00:00.0 22/06/2023 09:01:00.0", result.get(0));
       assertEquals("22/06/2023 09:01:00.0 22/06/2023 09:02:00.0", result.get(1));

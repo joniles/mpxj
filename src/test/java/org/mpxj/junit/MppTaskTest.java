@@ -23,21 +23,14 @@
 
 package org.mpxj.junit;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mpxj.junit.MpxjAssert.*;
-
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.mpxj.AccrueType;
 import org.mpxj.ConstraintType;
-import org.mpxj.LocalDateTimeRange;
 import org.mpxj.Duration;
+import org.mpxj.LocalDateTimeRange;
 import org.mpxj.Priority;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
@@ -50,6 +43,13 @@ import org.mpxj.TimeUnit;
 import org.mpxj.mpd.MPDFileReader;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mspdi.MSPDIReader;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mpxj.junit.MpxjAssert.assertBooleanEquals;
 
 /**
  * Tests to exercise MPP file read functionality for various versions of

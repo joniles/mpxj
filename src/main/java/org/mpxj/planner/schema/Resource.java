@@ -53,9 +53,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-{
-   "properties"
-}) @XmlRootElement(name = "resource") public class Resource
+   {
+      "properties"
+   }) @XmlRootElement(name = "resource") public class Resource
 {
 
    protected Properties properties;

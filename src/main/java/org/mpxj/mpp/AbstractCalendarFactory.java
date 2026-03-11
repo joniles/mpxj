@@ -24,6 +24,7 @@
 package org.mpxj.mpp;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -31,20 +32,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.mpxj.common.ByteArrayHelper;
-import org.mpxj.common.DayOfWeekHelper;
-import org.mpxj.LocalTimeRange;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
-
-import java.time.DayOfWeek;
 import org.mpxj.DayType;
 import org.mpxj.EventManager;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarDays;
 import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectFile;
+import org.mpxj.common.ByteArrayHelper;
+import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.Pair;
 
 /**
@@ -401,8 +400,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
    /**
     * Default working week.
     */
-   private static final boolean[] DEFAULT_WORKING_WEEK =
-   {
+   private static final boolean[] DEFAULT_WORKING_WEEK = {
       false,
       true,
       true,

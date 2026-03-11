@@ -32,9 +32,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "DisplayCurrencyType", propOrder =
-{
-   "currency"
-}) public class DisplayCurrencyType
+   {
+      "currency"
+   }) public class DisplayCurrencyType
 {
 
    @XmlElement(name = "Currency", required = true) protected CurrencyType currency;

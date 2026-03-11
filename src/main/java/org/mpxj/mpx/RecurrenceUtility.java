@@ -23,20 +23,18 @@
 
 package org.mpxj.mpx;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import java.time.DayOfWeek;
-
-import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.Duration;
 import org.mpxj.ProjectProperties;
 import org.mpxj.RecurrenceType;
 import org.mpxj.RecurringData;
 import org.mpxj.RecurringTask;
 import org.mpxj.TimeUnit;
+import org.mpxj.common.DayOfWeekHelper;
 
 /**
  * This class contains method relating to managing Recurrence instances for MPX
@@ -271,8 +269,7 @@ final class RecurrenceUtility
     * duration's units in the recurring task record to
     * a TimeUnit instance.
     */
-   private static final TimeUnit[] DURATION_UNITS =
-   {
+   private static final TimeUnit[] DURATION_UNITS = {
       TimeUnit.DAYS,
       TimeUnit.WEEKS,
       TimeUnit.HOURS,
@@ -318,8 +315,7 @@ final class RecurrenceUtility
    /**
     * Array mapping from MPX day index to Day instances.
     */
-   private static final DayOfWeek[] DAY_ARRAY =
-   {
+   private static final DayOfWeek[] DAY_ARRAY = {
       null,
       DayOfWeek.MONDAY,
       DayOfWeek.TUESDAY,
@@ -345,8 +341,7 @@ final class RecurrenceUtility
       DAY_MAP.put(DayOfWeek.SUNDAY, Integer.valueOf(7));
    }
 
-   public static final int[] RECURRING_TASK_DAY_MASKS =
-   {
+   public static final int[] RECURRING_TASK_DAY_MASKS = {
       0x00,
       0x40, // Sunday
       0x20, // Monday

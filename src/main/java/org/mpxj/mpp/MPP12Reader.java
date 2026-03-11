@@ -35,18 +35,12 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
 
-import org.mpxj.FieldType;
-import org.mpxj.FieldTypeClass;
-import org.mpxj.common.ByteArrayHelper;
-import org.mpxj.common.FieldTypeHelper;
-import org.mpxj.common.InputStreamHelper;
-import org.mpxj.common.LocalDateTimeHelper;
-import org.mpxj.common.MicrosoftProjectConstants;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
-
 import org.mpxj.EventManager;
+import org.mpxj.FieldType;
+import org.mpxj.FieldTypeClass;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
@@ -59,6 +53,11 @@ import org.mpxj.TableContainer;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.View;
+import org.mpxj.common.ByteArrayHelper;
+import org.mpxj.common.FieldTypeHelper;
+import org.mpxj.common.InputStreamHelper;
+import org.mpxj.common.LocalDateTimeHelper;
+import org.mpxj.common.MicrosoftProjectConstants;
 import org.mpxj.common.NumberHelper;
 
 /**
@@ -1073,22 +1072,24 @@ final class MPP12Reader implements MPPVariantReader
                continue;
             }
             else
+            {
                if (temp.getName() == null)
                {
                   // Ok, this looks valid. Remove the previous instance since it is most likely not a valid task.
                   // At worst case this removes a task with an empty name.
                   m_file.removeTask(temp);
                }
+            }
          }
          task = m_file.addTask();
 
          task.disableEvents();
 
          fieldMap.populateContainer(FieldTypeClass.TASK, task, uniqueID, new byte[][]
-         {
-            data,
-            data2
-         }, taskVarData);
+            {
+               data,
+               data2
+            }, taskVarData);
 
          enterpriseCustomFieldMap.populateContainer(FieldTypeClass.TASK, task, uniqueID, null, taskVarData);
 
@@ -1550,10 +1551,10 @@ final class MPP12Reader implements MPPVariantReader
 
          resource.disableEvents();
          fieldMap.populateContainer(FieldTypeClass.RESOURCE, resource, id, new byte[][]
-         {
-            data,
-            data2
-         }, rscVarData);
+            {
+               data,
+               data2
+            }, rscVarData);
 
          enterpriseCustomFieldMap.populateContainer(FieldTypeClass.RESOURCE, resource, id, null, rscVarData);
 

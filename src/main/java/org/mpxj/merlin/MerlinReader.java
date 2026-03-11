@@ -29,6 +29,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -44,23 +45,11 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
-
 import org.mpxj.Availability;
-import org.mpxj.UnitOfMeasureContainer;
-import org.mpxj.common.DayOfWeekHelper;
-import org.mpxj.LocalTimeRange;
-import org.mpxj.common.LocalDateHelper;
-import org.mpxj.common.LocalDateTimeHelper;
-import org.mpxj.common.ResultSetHelper;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-
 import org.mpxj.ConstraintType;
-import java.time.DayOfWeek;
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.MPXJException;
 import org.mpxj.Priority;
 import org.mpxj.ProjectCalendar;
@@ -76,10 +65,19 @@ import org.mpxj.ResourceType;
 import org.mpxj.ScheduleFrom;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
+import org.mpxj.UnitOfMeasureContainer;
 import org.mpxj.common.AutoCloseableHelper;
+import org.mpxj.common.DayOfWeekHelper;
+import org.mpxj.common.LocalDateHelper;
+import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
+import org.mpxj.common.ResultSetHelper;
 import org.mpxj.common.SQLite;
 import org.mpxj.reader.AbstractProjectFileReader;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 /**
  * This class reads Merlin Project files. As Merlin is a Mac application, the "file"

@@ -10,6 +10,7 @@ package org.mpxj.primavera.schema;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -72,19 +73,19 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ActivityStepTemplateItemType", propOrder =
-{
-   "activityStepTemplateObjectId",
-   "createDate",
-   "createUser",
-   "description",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "name",
-   "objectId",
-   "sequenceNumber",
-   "weight",
-   "udf"
-}) public class ActivityStepTemplateItemType
+   {
+      "activityStepTemplateObjectId",
+      "createDate",
+      "createUser",
+      "description",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "name",
+      "objectId",
+      "sequenceNumber",
+      "weight",
+      "udf"
+   }) public class ActivityStepTemplateItemType
 {
 
    @XmlElement(name = "ActivityStepTemplateObjectId") protected Integer activityStepTemplateObjectId;

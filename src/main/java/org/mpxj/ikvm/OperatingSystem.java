@@ -65,8 +65,7 @@ public final class OperatingSystem
 
    private String m_originalOsName;
 
-   private static final String[] KNOWN_OS_NAMES =
-   {
+   private static final String[] KNOWN_OS_NAMES = {
       "Windows",
       "Mac",
       "Darwin",

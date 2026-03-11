@@ -9,6 +9,7 @@ package org.mpxj.planner.schema;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -34,9 +35,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-{
-   "resource"
-}) @XmlRootElement(name = "resources") public class Resources
+   {
+      "resource"
+   }) @XmlRootElement(name = "resources") public class Resources
 {
 
    protected List<Resource> resource;

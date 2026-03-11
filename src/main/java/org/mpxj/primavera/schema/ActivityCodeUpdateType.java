@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -126,35 +127,35 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ActivityCodeUpdateType", propOrder =
-{
-   "activityCodeType",
-   "activityCodeTypeObjectId",
-   "activityObjectId",
-   "allData",
-   "approvalDate",
-   "approvalUserName",
-   "approvalUserObjectId",
-   "changeSetObjectId",
-   "createUser",
-   "date",
-   "heldDate",
-   "isSecureCode",
-   "lastApprovedDate",
-   "offset",
-   "overrideActivityCodeId",
-   "overrideActivityCodeName",
-   "overrideActivityCodeShortName",
-   "pendingActivityCodeId",
-   "pendingActivityCodeName",
-   "pendingActivityCodeShortName",
-   "projectObjectId",
-   "rejectedBy",
-   "rejectedDate",
-   "requestUserObjectId",
-   "resubmittedBy",
-   "resubmittedDate",
-   "status"
-}) public class ActivityCodeUpdateType
+   {
+      "activityCodeType",
+      "activityCodeTypeObjectId",
+      "activityObjectId",
+      "allData",
+      "approvalDate",
+      "approvalUserName",
+      "approvalUserObjectId",
+      "changeSetObjectId",
+      "createUser",
+      "date",
+      "heldDate",
+      "isSecureCode",
+      "lastApprovedDate",
+      "offset",
+      "overrideActivityCodeId",
+      "overrideActivityCodeName",
+      "overrideActivityCodeShortName",
+      "pendingActivityCodeId",
+      "pendingActivityCodeName",
+      "pendingActivityCodeShortName",
+      "projectObjectId",
+      "rejectedBy",
+      "rejectedDate",
+      "requestUserObjectId",
+      "resubmittedBy",
+      "resubmittedDate",
+      "status"
+   }) public class ActivityCodeUpdateType
 {
 
    @XmlElement(name = "ActivityCodeType") @XmlJavaTypeAdapter(Adapter1.class) protected String activityCodeType;

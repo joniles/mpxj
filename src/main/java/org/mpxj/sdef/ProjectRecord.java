@@ -47,8 +47,7 @@ class ProjectRecord extends AbstractSDEFRecord
       props.setFinishDate(getDate(7));
    }
 
-   private static final SDEFField[] FIELDS = new SDEFField[]
-   {
+   private static final SDEFField[] FIELDS = {
       new DateField("Data Date"),
       new StringField("Project Identifier", 4),
       new StringField("Project Name", 48),

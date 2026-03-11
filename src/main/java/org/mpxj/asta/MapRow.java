@@ -25,7 +25,6 @@ package org.mpxj.asta;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Map;
 
@@ -187,6 +186,7 @@ class MapRow implements Row
          m_map.put(prefix + entry.getKey(), entry.getValue());
       }
    }
+
    protected final Map<String, Object> m_map;
    private final List<Row> m_childRows = new ArrayList<>();
 }

@@ -451,8 +451,7 @@ public final class Duration implements Comparable<Duration>
     */
    private final TimeUnit m_units;
 
-   private static final Duration[] ZERO_DURATIONS =
-   {
+   private static final Duration[] ZERO_DURATIONS = {
       new Duration(0, TimeUnit.MINUTES),
       new Duration(0, TimeUnit.HOURS),
       new Duration(0, TimeUnit.DAYS),

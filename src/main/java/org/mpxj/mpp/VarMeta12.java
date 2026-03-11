@@ -56,10 +56,13 @@ final class VarMeta12 extends AbstractVarMeta
          throw new IOException("Bad magic number: " + magic);
       }
 
-      /*m_unknown1 =*/readInt(is);
+      /*m_unknown1 =*/
+      readInt(is);
       m_itemCount = readInt(is);
-      /*m_unknown2 =*/readInt(is);
-      /*m_unknown3 =*/readInt(is);
+      /*m_unknown2 =*/
+      readInt(is);
+      /*m_unknown3 =*/
+      readInt(is);
       m_dataSize = readInt(is);
 
       int[] offsets = new int[m_itemCount];

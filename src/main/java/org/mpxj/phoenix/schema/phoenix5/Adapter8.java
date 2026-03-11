@@ -8,12 +8,13 @@
 package org.mpxj.phoenix.schema.phoenix5;
 
 import java.time.DayOfWeek;
+
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import org.mpxj.phoenix.DatatypeConverter;
 
 public class Adapter8
-         extends
-            XmlAdapter<String, DayOfWeek>
+   extends
+   XmlAdapter<String, DayOfWeek>
 {
 
    @Override public DayOfWeek unmarshal(String value)

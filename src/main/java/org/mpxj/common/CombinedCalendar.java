@@ -23,13 +23,13 @@
 
 package org.mpxj.common;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import java.time.DayOfWeek;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarHours;
-import org.mpxj.LocalTimeRange;
 
 /**
  * A calendar which represents the intersection of working time between

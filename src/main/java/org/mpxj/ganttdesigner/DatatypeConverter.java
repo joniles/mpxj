@@ -23,15 +23,15 @@
 
 package org.mpxj.ganttdesigner;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import java.time.DayOfWeek;
-import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.Duration;
 import org.mpxj.TimeUnit;
+import org.mpxj.common.DayOfWeekHelper;
 
 /**
  * Methods to handle data type conversions for Gantt Designer files.

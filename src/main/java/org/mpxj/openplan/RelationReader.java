@@ -27,11 +27,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.ProjectFile;
 import org.mpxj.Relation;
 import org.mpxj.RelationType;
 import org.mpxj.Task;
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
 /**
  * Read activity relationships.

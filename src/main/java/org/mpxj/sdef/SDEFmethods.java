@@ -25,8 +25,8 @@ package org.mpxj.sdef;
 
 import java.time.DayOfWeek;
 
-import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.ProjectCalendar;
+import org.mpxj.common.DayOfWeekHelper;
 
 /**
  * This class contains some general purpose static methods used in my SDEFWriter.

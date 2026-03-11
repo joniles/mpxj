@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -76,26 +77,26 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ActivityCommentType", propOrder =
-{
-   "activityObjectId",
-   "assignmentObjectId",
-   "commentDate",
-   "commentText",
-   "createDate",
-   "createUser",
-   "deleteDate",
-   "deleteUser",
-   "isRejected",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "objectId",
-   "personalName",
-   "projectObjectId",
-   "readFlag",
-   "rejectionComments",
-   "timeDiff",
-   "userObjectId"
-}) public class ActivityCommentType
+   {
+      "activityObjectId",
+      "assignmentObjectId",
+      "commentDate",
+      "commentText",
+      "createDate",
+      "createUser",
+      "deleteDate",
+      "deleteUser",
+      "isRejected",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "objectId",
+      "personalName",
+      "projectObjectId",
+      "readFlag",
+      "rejectionComments",
+      "timeDiff",
+      "userObjectId"
+   }) public class ActivityCommentType
 {
 
    @XmlElement(name = "ActivityObjectId") protected Integer activityObjectId;

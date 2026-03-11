@@ -43,12 +43,12 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-{
-   "id",
-   "isFilterInverted",
-   "showHighlightFilteredTasks",
-   "showPhasesOfFilteredTasks"
-}) @XmlRootElement(name = "ActiveFilter") public class ActiveFilter
+   {
+      "id",
+      "isFilterInverted",
+      "showHighlightFilteredTasks",
+      "showPhasesOfFilteredTasks"
+   }) @XmlRootElement(name = "ActiveFilter") public class ActiveFilter
 {
 
    @XmlElement(name = "ID", required = true) protected String id;

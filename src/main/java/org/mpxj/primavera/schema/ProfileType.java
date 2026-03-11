@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -50,12 +51,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ProfileType", propOrder =
-{
-   "createDate",
-   "createUser",
-   "lastUpdateDate",
-   "lastUpdateUser"
-}) public class ProfileType
+   {
+      "createDate",
+      "createUser",
+      "lastUpdateDate",
+      "lastUpdateUser"
+   }) public class ProfileType
 {
 
    @XmlElement(name = "CreateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime createDate;

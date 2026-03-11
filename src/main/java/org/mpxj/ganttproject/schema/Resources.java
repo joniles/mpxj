@@ -9,6 +9,7 @@ package org.mpxj.ganttproject.schema;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -35,10 +36,10 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "resources", propOrder =
-{
-   "customPropertyDefinition",
-   "resource"
-}) public class Resources
+   {
+      "customPropertyDefinition",
+      "resource"
+   }) public class Resources
 {
 
    @XmlElement(name = "custom-property-definition") protected List<CustomPropertyDefinition> customPropertyDefinition;

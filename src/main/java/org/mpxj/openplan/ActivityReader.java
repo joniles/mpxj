@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.ActivityCodeValue;
 import org.mpxj.ActivityStatus;
 import org.mpxj.ActivityType;
@@ -40,7 +41,6 @@ import org.mpxj.ProjectFile;
 import org.mpxj.Task;
 import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.NumberHelper;
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
 /**
  * Populate the parent project with activities.

@@ -47,7 +47,7 @@ class WriterHelper
    public static LocalDateTime getProjectPlannedStart(ProjectProperties props)
    {
       return Optional.ofNullable(Optional.ofNullable(props.getPlannedStart())
-         .orElseGet(props::getStartDate))
+            .orElseGet(props::getStartDate))
          .orElseGet(props::getCurrentDate);
    }
 
@@ -60,7 +60,7 @@ class WriterHelper
    public static Duration getActivityPlannedDuration(Task task)
    {
       return Optional.ofNullable(Optional.ofNullable(task.getPlannedDuration())
-         .orElseGet(task::getDuration))
+            .orElseGet(task::getDuration))
          .orElseGet(() -> Duration.getInstance(0, TimeUnit.HOURS));
    }
 

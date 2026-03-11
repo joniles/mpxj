@@ -2367,8 +2367,7 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.ACTIVITY_PERCENT_COMPLETE_BASED_ON_ACTIVITY_STEPS.getValue()] = "Activity Percent Complete Based On Activity Steps";
    }
 
-   private static final Object[][] RESOURCES =
-   {
+   private static final Object[][] RESOURCES = {
       {
          "TASK_COLUMNS",
          TASK_COLUMNS_ARRAY

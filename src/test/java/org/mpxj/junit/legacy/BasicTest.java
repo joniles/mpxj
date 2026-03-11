@@ -25,7 +25,6 @@ package org.mpxj.junit.legacy;
 
 import java.io.File;
 import java.nio.file.Files;
-
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;

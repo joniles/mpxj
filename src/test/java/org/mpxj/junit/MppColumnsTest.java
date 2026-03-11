@@ -177,8 +177,7 @@ public class MppColumnsTest
    private static final String RESOURCE_COLUMNS_14 = "Resource Columns 14";
    private static final String RESOURCE_COLUMNS_15 = "Resource Columns 15";
 
-   private static final String[] MPP14_TASK_COLUMNS_1 =
-   {
+   private static final String[] MPP14_TASK_COLUMNS_1 = {
       "Task Name",
       "Task Mode",
       "% Complete",
@@ -433,8 +432,7 @@ public class MppColumnsTest
       "Flag16"
    };
 
-   private static final String[] MPP14_TASK_COLUMNS_2 =
-   {
+   private static final String[] MPP14_TASK_COLUMNS_2 = {
       null,
       "Task Mode",
       "Flag17",
@@ -610,8 +608,7 @@ public class MppColumnsTest
       "Work Variance"
    };
 
-   private static final String[] MPP14_TASK_COLUMNS_3 =
-   {
+   private static final String[] MPP14_TASK_COLUMNS_3 = {
       "ID",
       "Task Name",
       "Enterprise Text1",
@@ -696,8 +693,7 @@ public class MppColumnsTest
       "Enterprise Date30"
    };
 
-   private static final String[] MPP14_TASK_COLUMNS_4 =
-   {
+   private static final String[] MPP14_TASK_COLUMNS_4 = {
       "ID",
       "Task Name",
       "Enterprise Duration1",
@@ -772,8 +768,7 @@ public class MppColumnsTest
       "Enterprise Number40"
    };
 
-   private static final String[] MPP12_TASK_COLUMNS_1 =
-   {
+   private static final String[] MPP12_TASK_COLUMNS_1 = {
       "Task Name",
       "% Complete",
       "% Work Complete",
@@ -1027,8 +1022,7 @@ public class MppColumnsTest
       "Flag16"
    };
 
-   private static final String[] MPP12_TASK_COLUMNS_2 =
-   {
+   private static final String[] MPP12_TASK_COLUMNS_2 = {
       null,
       "Flag17",
       "Flag18",
@@ -1202,8 +1196,7 @@ public class MppColumnsTest
       "Work Variance"
    };
 
-   private static final String[] MPP14_RESOURCE_COLUMNS_1 =
-   {
+   private static final String[] MPP14_RESOURCE_COLUMNS_1 = {
       "ID",
       "Name",
       "% Work Complete",
@@ -1231,8 +1224,7 @@ public class MppColumnsTest
       "Baseline Work"
    };
 
-   private static final String[] MPP12_RESOURCE_COLUMNS_1 =
-   {
+   private static final String[] MPP12_RESOURCE_COLUMNS_1 = {
       "ID",
       "Name",
       "% Work Complete",
@@ -1260,8 +1252,7 @@ public class MppColumnsTest
       "Baseline Work"
    };
 
-   private static final String[] MPP14_RESOURCE_COLUMNS_2 =
-   {
+   private static final String[] MPP14_RESOURCE_COLUMNS_2 = {
       "ID",
       "Name",
       "Baseline1 Budget Cost",
@@ -1296,8 +1287,7 @@ public class MppColumnsTest
       "Baseline4 Work"
    };
 
-   private static final String[] MPP14_RESOURCE_COLUMNS_3 =
-   {
+   private static final String[] MPP14_RESOURCE_COLUMNS_3 = {
       "ID",
       "Name",
       "Baseline5 Budget Cost",
@@ -1332,8 +1322,7 @@ public class MppColumnsTest
       "Baseline9 Work"
    };
 
-   private static final String[] MPP14_RESOURCE_COLUMNS_4 =
-   {
+   private static final String[] MPP14_RESOURCE_COLUMNS_4 = {
       "ID",
       "Name",
       "BCWP",
@@ -1365,8 +1354,7 @@ public class MppColumnsTest
       "CV"
    };
 
-   private static final String[] MPP14_RESOURCE_COLUMNS_5 =
-   {
+   private static final String[] MPP14_RESOURCE_COLUMNS_5 = {
       "ID",
       "Name",
       "Date1",
@@ -1399,8 +1387,7 @@ public class MppColumnsTest
       "Error Message"
    };
 
-   private static final String[] MPP14_RESOURCE_COLUMNS_6 =
-   {
+   private static final String[] MPP14_RESOURCE_COLUMNS_6 = {
       "ID",
       "Name",
       "Finish",
@@ -1436,8 +1423,7 @@ public class MppColumnsTest
       "Flag9"
    };
 
-   private static final String[] MPP14_RESOURCE_COLUMNS_7 =
-   {
+   private static final String[] MPP14_RESOURCE_COLUMNS_7 = {
       "ID",
       "Name",
       "Generic",
@@ -1481,8 +1467,7 @@ public class MppColumnsTest
       "Number9"
    };
 
-   private static final String[] MPP14_RESOURCE_COLUMNS_8 =
-   {
+   private static final String[] MPP14_RESOURCE_COLUMNS_8 = {
       "ID",
       "Name",
       "Objects",
@@ -1512,8 +1497,7 @@ public class MppColumnsTest
       "Response Pending"
    };
 
-   private static final String[] MPP14_RESOURCE_COLUMNS_9 =
-   {
+   private static final String[] MPP14_RESOURCE_COLUMNS_9 = {
       "ID",
       "Name",
       "Standard Rate",
@@ -1567,8 +1551,7 @@ public class MppColumnsTest
       "Type"
    };
 
-   private static final String[] MPP14_RESOURCE_COLUMNS_10 =
-   {
+   private static final String[] MPP14_RESOURCE_COLUMNS_10 = {
       "ID",
       "Name",
       "Unique ID",
@@ -1581,8 +1564,7 @@ public class MppColumnsTest
       "Work Variance"
    };
 
-   private static final String[] MPP14_RESOURCE_COLUMNS_11 =
-   {
+   private static final String[] MPP14_RESOURCE_COLUMNS_11 = {
       "ID",
       "Name",
       "Enterprise Date1",
@@ -1617,8 +1599,7 @@ public class MppColumnsTest
       "Enterprise Date30"
    };
 
-   private static final String[] MPP14_RESOURCE_COLUMNS_12 =
-   {
+   private static final String[] MPP14_RESOURCE_COLUMNS_12 = {
       "ID",
       "Name",
       "Enterprise Cost1",
@@ -1643,8 +1624,7 @@ public class MppColumnsTest
       "Enterprise Duration10"
    };
 
-   private static final String[] MPP14_RESOURCE_COLUMNS_13 =
-   {
+   private static final String[] MPP14_RESOURCE_COLUMNS_13 = {
       "ID",
       "Name",
       "Enterprise Flag1",
@@ -1669,8 +1649,7 @@ public class MppColumnsTest
       "Enterprise Flag20"
    };
 
-   private static final String[] MPP14_RESOURCE_COLUMNS_14 =
-   {
+   private static final String[] MPP14_RESOURCE_COLUMNS_14 = {
       "ID",
       "Name",
       "Enterprise Number1",
@@ -1715,8 +1694,7 @@ public class MppColumnsTest
       "Enterprise Number40"
    };
 
-   private static final String[] MPP14_RESOURCE_COLUMNS_15 =
-   {
+   private static final String[] MPP14_RESOURCE_COLUMNS_15 = {
       "ID",
       "Name",
       "Enterprise Text1",

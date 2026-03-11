@@ -27,7 +27,6 @@ package org.mpxj;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -6613,7 +6612,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       double total = totalWork == null ? 0 : totalWork.convertUnits(units, getCalendar()).getDuration();
       double overtime = overtimeWork == null ? 0 : overtimeWork.convertUnits(units, getCalendar()).getDuration();
 
-      return Duration.getInstance(total-overtime, units);
+      return Duration.getInstance(total - overtime, units);
    }
 
    /**
@@ -6807,15 +6806,15 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.REMAINING_WORK, Task::getTimephasedRemainingWork);
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.WORK, Task::getTimephasedWork);
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE_WORK, (a, r, t) -> a.getTimephasedBaselineWork(0, r, t));
-      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE1_WORK,(a, r, t) -> a.getTimephasedBaselineWork(1, r, t));
-      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE2_WORK,(a, r, t) -> a.getTimephasedBaselineWork(2, r, t));
-      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE3_WORK,(a, r, t) -> a.getTimephasedBaselineWork(3, r, t));
-      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE4_WORK,(a, r, t) -> a.getTimephasedBaselineWork(4, r, t));
-      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE5_WORK,(a, r, t) -> a.getTimephasedBaselineWork(5, r, t));
-      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE6_WORK,(a, r, t) -> a.getTimephasedBaselineWork(6, r, t));
-      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE7_WORK,(a, r, t) -> a.getTimephasedBaselineWork(7, r, t));
-      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE8_WORK,(a, r, t) -> a.getTimephasedBaselineWork(8, r, t));
-      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE9_WORK,(a, r, t) -> a.getTimephasedBaselineWork(9, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE1_WORK, (a, r, t) -> a.getTimephasedBaselineWork(1, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE2_WORK, (a, r, t) -> a.getTimephasedBaselineWork(2, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE3_WORK, (a, r, t) -> a.getTimephasedBaselineWork(3, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE4_WORK, (a, r, t) -> a.getTimephasedBaselineWork(4, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE5_WORK, (a, r, t) -> a.getTimephasedBaselineWork(5, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE6_WORK, (a, r, t) -> a.getTimephasedBaselineWork(6, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE7_WORK, (a, r, t) -> a.getTimephasedBaselineWork(7, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE8_WORK, (a, r, t) -> a.getTimephasedBaselineWork(8, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE9_WORK, (a, r, t) -> a.getTimephasedBaselineWork(9, r, t));
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE10_WORK, (a, r, t) -> a.getTimephasedBaselineWork(10, r, t));
    }
 
@@ -6871,7 +6870,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.ACTUAL_REGULAR_COST, a -> a.calculateRegularCost(a::getActualCost, a::getActualOvertimeCost));
       CALCULATED_FIELD_MAP.put(TaskField.REMAINING_REGULAR_COST, a -> a.calculateRegularCost(a::getRemainingCost, a::getRemainingOvertimeCost));
       CALCULATED_FIELD_MAP.put(TaskField.ACTUAL_REGULAR_WORK, a -> a.calculateRegularWork(a::getActualWork, a::getActualOvertimeWork));
-      CALCULATED_FIELD_MAP.put(TaskField.REMAINING_REGULAR_WORK, a ->  a.calculateRegularWork(a::getRemainingWork, a::getRemainingOvertimeWork));
+      CALCULATED_FIELD_MAP.put(TaskField.REMAINING_REGULAR_WORK, a -> a.calculateRegularWork(a::getRemainingWork, a::getRemainingOvertimeWork));
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);
       CALCULATED_FIELD_MAP.put(TaskField.TYPE, Task::defaultType);
       CALCULATED_FIELD_MAP.put(TaskField.TASK_MODE, Task::defaultTaskMode);

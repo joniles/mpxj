@@ -170,7 +170,7 @@ public final class TimescaleHelper
       {
          case MINUTES:
          {
-            m_startDate =  LocalDateTime.of(m_startDate.toLocalDate(), LocalTime.of(m_startDate.getHour(), m_startDate.getMinute(), 0));
+            m_startDate = LocalDateTime.of(m_startDate.toLocalDate(), LocalTime.of(m_startDate.getHour(), m_startDate.getMinute(), 0));
             m_incrementUnit = ChronoUnit.MINUTES;
             m_incrementAmount = 1;
             break;
@@ -178,7 +178,7 @@ public final class TimescaleHelper
 
          case HOURS:
          {
-            m_startDate =  LocalDateTime.of(m_startDate.toLocalDate(), LocalTime.of(m_startDate.getHour(), 0, 0));
+            m_startDate = LocalDateTime.of(m_startDate.toLocalDate(), LocalTime.of(m_startDate.getHour(), 0, 0));
             m_incrementUnit = ChronoUnit.HOURS;
             m_incrementAmount = 1;
             break;
@@ -186,7 +186,7 @@ public final class TimescaleHelper
 
          case WEEKS:
          {
-            m_startDate =  LocalDateTime.of(m_startDate.toLocalDate(), LocalTime.MIDNIGHT);
+            m_startDate = LocalDateTime.of(m_startDate.toLocalDate(), LocalTime.MIDNIGHT);
             m_startDate = m_startDate.plusDays(m_weekStartDay.getValue() - m_startDate.getDayOfWeek().getValue());
             m_incrementUnit = ChronoUnit.DAYS;
             m_incrementAmount = 7;
@@ -242,7 +242,7 @@ public final class TimescaleHelper
          case DAYS:
          default:
          {
-            m_startDate =  LocalDateTime.of(m_startDate.toLocalDate(), LocalTime.MIDNIGHT);
+            m_startDate = LocalDateTime.of(m_startDate.toLocalDate(), LocalTime.MIDNIGHT);
             m_incrementUnit = ChronoUnit.DAYS;
             m_incrementAmount = 1;
             break;

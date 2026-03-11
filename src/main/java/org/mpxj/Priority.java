@@ -143,8 +143,7 @@ public final class Priority
    /**
     * Array of type values matching the above constants.
     */
-   private static final Priority[] VALUE =
-   {
+   private static final Priority[] VALUE = {
       new Priority(LOWEST),
       new Priority(VERY_LOW),
       new Priority(LOWER),

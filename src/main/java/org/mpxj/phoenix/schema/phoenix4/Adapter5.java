@@ -12,8 +12,8 @@ import org.mpxj.RelationType;
 import org.mpxj.phoenix.DatatypeConverter;
 
 public class Adapter5
-         extends
-            XmlAdapter<String, RelationType>
+   extends
+   XmlAdapter<String, RelationType>
 {
 
    @Override public RelationType unmarshal(String value)

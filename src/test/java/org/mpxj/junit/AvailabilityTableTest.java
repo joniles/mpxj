@@ -28,7 +28,6 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import org.mpxj.Availability;
 import org.mpxj.AvailabilityTable;
-
 import org.mpxj.common.LocalDateTimeHelper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

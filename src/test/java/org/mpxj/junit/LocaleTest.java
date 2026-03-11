@@ -23,8 +23,6 @@
 
 package org.mpxj.junit;
 
-import static org.mpxj.junit.MpxjAssert.*;
-
 import java.io.File;
 import java.nio.file.Files;
 import java.util.Locale;
@@ -33,6 +31,8 @@ import org.junit.jupiter.api.Test;
 import org.mpxj.ProjectFile;
 import org.mpxj.mpx.MPXReader;
 import org.mpxj.mpx.MPXWriter;
+
+import static org.mpxj.junit.MpxjAssert.assumeJvm;
 
 /**
  * Tests to exercise MPX locales.

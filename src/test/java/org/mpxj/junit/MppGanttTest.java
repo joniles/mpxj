@@ -23,18 +23,17 @@
 
 package org.mpxj.junit;
 
+import java.time.DayOfWeek;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import java.time.DayOfWeek;
-
 import org.junit.jupiter.api.Test;
-import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.ProjectFile;
 import org.mpxj.View;
+import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.mpp.ChartPattern;
 import org.mpxj.mpp.GanttBarDateFormat;
 import org.mpxj.mpp.GanttChartView;
@@ -357,8 +356,7 @@ public class MppGanttTest
       assertEquals("01/01/2010", df.format(view.getProgressLinesDisplaySelectedDates()[1]));
    }
 
-   private static final String[] TABLE_FONT_STYLES =
-   {
+   private static final String[] TABLE_FONT_STYLES = {
       "[ColumnFontStyle rowUniqueID=3 fieldType=Text2 color=java.awt.Color[r=0,g=0,b=255]]",
       "[ColumnFontStyle rowUniqueID=-1 fieldType=Task Name italic=false bold=true underline=false font=[FontBase name=Arial Black size=8] color=null backgroundColor=java.awt.Color[r=0,g=0,b=0] backgroundPattern=Transparent]",
       "[ColumnFontStyle rowUniqueID=-1 fieldType=Duration italic=false bold=true underline=false font=[FontBase name=Arial size=8] color=null backgroundColor=java.awt.Color[r=0,g=0,b=0] backgroundPattern=Transparent]",

@@ -34,16 +34,11 @@ import java.util.UUID;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.mpxj.CostRateTable;
 import org.mpxj.CostRateTableEntry;
-import org.mpxj.LocalTimeRange;
-import org.mpxj.common.LocalDateTimeHelper;
-import org.mpxj.common.NumberHelper;
-import org.xml.sax.SAXException;
-
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
@@ -58,6 +53,8 @@ import org.mpxj.ResourceAssignment;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.AlphanumComparator;
+import org.mpxj.common.LocalDateTimeHelper;
+import org.mpxj.common.NumberHelper;
 import org.mpxj.common.UnmarshalHelper;
 import org.mpxj.conceptdraw.schema.Document;
 import org.mpxj.conceptdraw.schema.Document.Calendars.Calendar;
@@ -67,6 +64,7 @@ import org.mpxj.conceptdraw.schema.Document.Links.Link;
 import org.mpxj.conceptdraw.schema.Document.Projects.Project;
 import org.mpxj.conceptdraw.schema.Document.WorkspaceProperties;
 import org.mpxj.reader.AbstractProjectStreamReader;
+import org.xml.sax.SAXException;
 
 /**
  * This class creates a new ProjectFile instance by reading a ConceptDraw Project file.
@@ -145,10 +143,10 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
    }
 
    /**
-   * Extracts calendar data from a ConceptDraw PROJECT file.
-   *
-   * @param cdp ConceptDraw PROJECT file
-   */
+    * Extracts calendar data from a ConceptDraw PROJECT file.
+    *
+    * @param cdp ConceptDraw PROJECT file
+    */
    private void readCalendars(Document cdp)
    {
       for (Calendar calendar : cdp.getCalendars().getCalendar())

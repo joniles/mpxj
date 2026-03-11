@@ -9,6 +9,7 @@ package org.mpxj.planner.schema;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -68,12 +69,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-{
-   "properties",
-   "constraint",
-   "predecessors",
-   "task"
-}) @XmlRootElement(name = "task") public class Task
+   {
+      "properties",
+      "constraint",
+      "predecessors",
+      "task"
+   }) @XmlRootElement(name = "task") public class Task
 {
 
    protected Properties properties;

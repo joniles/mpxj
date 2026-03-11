@@ -121,8 +121,8 @@ public class FilterContainer
    }
 
    /**
-   * List of all task filters.
-   */
+    * List of all task filters.
+    */
    private final List<Filter> m_taskFilters = new ArrayList<>();
 
    /**

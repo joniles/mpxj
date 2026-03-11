@@ -28,12 +28,12 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.common.AutoCloseableHelper;
 import org.mpxj.reader.AbstractProjectStreamReader;
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 /**
  * Reads schedule data from a Deltek Open Plan BK3 file.

@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -455,34 +456,34 @@ import org.mpxj.Duration;
  *
  */
 @SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-{
-   "display",
-   "file",
-   "globalization",
-   "firstDay",
-   "lastDay",
-   "padding",
-   "tasks",
-   "remarks",
-   "remarks1",
-   "remarks2",
-   "remarks3",
-   "remarks4",
-   "textStyles",
-   "barStyles",
-   "columns",
-   "calendar",
-   "dateHeader",
-   "holidays",
-   "headers",
-   "headersFonts",
-   "footers",
-   "footersFonts",
-   "print",
-   "printToImageFile",
-   "copy",
-   "chartColor"
-}) @XmlRootElement(name = "Gantt") public class Gantt
+   {
+      "display",
+      "file",
+      "globalization",
+      "firstDay",
+      "lastDay",
+      "padding",
+      "tasks",
+      "remarks",
+      "remarks1",
+      "remarks2",
+      "remarks3",
+      "remarks4",
+      "textStyles",
+      "barStyles",
+      "columns",
+      "calendar",
+      "dateHeader",
+      "holidays",
+      "headers",
+      "headersFonts",
+      "footers",
+      "footersFonts",
+      "print",
+      "printToImageFile",
+      "copy",
+      "chartColor"
+   }) @XmlRootElement(name = "Gantt") public class Gantt
 {
 
    @XmlElement(name = "Display", required = true) protected Gantt.Display display;
@@ -1762,9 +1763,9 @@ import org.mpxj.Duration;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "header"
-   }) public static class Columns
+      {
+         "header"
+      }) public static class Columns
    {
 
       @XmlElement(name = "Header", required = true) protected List<Gantt.Columns.Header> header;
@@ -2318,10 +2319,10 @@ import org.mpxj.Duration;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "tier",
-      "reference"
-   }) public static class DateHeader
+      {
+         "tier",
+         "reference"
+      }) public static class DateHeader
    {
 
       @XmlElement(name = "Tier", required = true) protected List<Gantt.DateHeader.Tier> tier;
@@ -3352,9 +3353,9 @@ import org.mpxj.Duration;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "font"
-   }) public static class FootersFonts
+      {
+         "font"
+      }) public static class FootersFonts
    {
 
       @XmlElement(name = "Font", required = true) protected List<Gantt.FootersFonts.Font> font;
@@ -3584,11 +3585,11 @@ import org.mpxj.Duration;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "culture",
-      "uiCulture",
-      "currency"
-   }) public static class Globalization
+      {
+         "culture",
+         "uiCulture",
+         "currency"
+      }) public static class Globalization
    {
 
       @XmlElement(name = "Culture", required = true) protected Gantt.Globalization.Culture culture;
@@ -4325,9 +4326,9 @@ import org.mpxj.Duration;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "font"
-   }) public static class HeadersFonts
+      {
+         "font"
+      }) public static class HeadersFonts
    {
 
       @XmlElement(name = "Font", required = true) protected List<Gantt.HeadersFonts.Font> font;
@@ -4527,9 +4528,9 @@ import org.mpxj.Duration;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "holiday"
-   }) public static class Holidays
+      {
+         "holiday"
+      }) public static class Holidays
    {
 
       @XmlElement(name = "Holiday", required = true) protected List<Gantt.Holidays.Holiday> holiday;
@@ -4583,9 +4584,9 @@ import org.mpxj.Duration;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "content"
-      }) public static class Holiday
+         {
+            "content"
+         }) public static class Holiday
       {
 
          @XmlValue protected String content;
@@ -5560,9 +5561,9 @@ import org.mpxj.Duration;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "task"
-   }) public static class Tasks
+      {
+         "task"
+      }) public static class Tasks
    {
 
       @XmlElement(name = "Task", required = true) protected List<Gantt.Tasks.Task> task;
@@ -5629,9 +5630,9 @@ import org.mpxj.Duration;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "content"
-      }) public static class Task
+         {
+            "content"
+         }) public static class Task
       {
 
          @XmlValue protected String content;
@@ -6076,9 +6077,9 @@ import org.mpxj.Duration;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "font"
-   }) public static class TextStyles
+      {
+         "font"
+      }) public static class TextStyles
    {
 
       @XmlElement(name = "Font", required = true) protected List<Gantt.TextStyles.Font> font;

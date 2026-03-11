@@ -25,20 +25,18 @@ package org.mpxj.mpp;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Map;
 
-import java.time.DayOfWeek;
-
-import org.mpxj.common.ByteArrayHelper;
-import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.FieldType;
 import org.mpxj.Filter;
 import org.mpxj.GenericCriteria;
 import org.mpxj.ProjectFile;
+import org.mpxj.common.ByteArrayHelper;
+import org.mpxj.common.DayOfWeekHelper;
 
 /**
  * This class represents the set of properties used to define the appearance

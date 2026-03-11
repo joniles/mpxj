@@ -26,12 +26,11 @@ package org.mpxj.junit.resource;
 import java.io.File;
 
 import org.junit.jupiter.api.Test;
-import org.mpxj.reader.UniversalProjectReader;
-
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.ResourceType;
 import org.mpxj.junit.MpxjTestData;
+import org.mpxj.reader.UniversalProjectReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

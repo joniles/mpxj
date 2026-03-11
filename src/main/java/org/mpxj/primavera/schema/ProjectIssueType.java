@@ -10,6 +10,7 @@ package org.mpxj.primavera.schema;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -182,44 +183,44 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ProjectIssueType", propOrder =
-{
-   "activityId",
-   "activityName",
-   "activityObjectId",
-   "actualValue",
-   "createDate",
-   "createUser",
-   "dateIdentified",
-   "identifiedBy",
-   "isBaseline",
-   "isTemplate",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "lowerThreshold",
-   "name",
-   "notes",
-   "obsName",
-   "obsObjectId",
-   "objectId",
-   "parentWBSObjectId",
-   "priority",
-   "projectId",
-   "projectName",
-   "projectObjectId",
-   "projectThresholdObjectId",
-   "rawTextNote",
-   "resolutionDate",
-   "resourceId",
-   "resourceName",
-   "resourceObjectId",
-   "status",
-   "thresholdParameterObjectId",
-   "upperThreshold",
-   "wbsCode",
-   "wbsName",
-   "wbsObjectId",
-   "udf"
-}) public class ProjectIssueType
+   {
+      "activityId",
+      "activityName",
+      "activityObjectId",
+      "actualValue",
+      "createDate",
+      "createUser",
+      "dateIdentified",
+      "identifiedBy",
+      "isBaseline",
+      "isTemplate",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "lowerThreshold",
+      "name",
+      "notes",
+      "obsName",
+      "obsObjectId",
+      "objectId",
+      "parentWBSObjectId",
+      "priority",
+      "projectId",
+      "projectName",
+      "projectObjectId",
+      "projectThresholdObjectId",
+      "rawTextNote",
+      "resolutionDate",
+      "resourceId",
+      "resourceName",
+      "resourceObjectId",
+      "status",
+      "thresholdParameterObjectId",
+      "upperThreshold",
+      "wbsCode",
+      "wbsName",
+      "wbsObjectId",
+      "udf"
+   }) public class ProjectIssueType
 {
 
    @XmlElement(name = "ActivityId") @XmlJavaTypeAdapter(Adapter1.class) protected String activityId;

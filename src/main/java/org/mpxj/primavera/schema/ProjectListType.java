@@ -9,6 +9,7 @@ package org.mpxj.primavera.schema;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -61,9 +62,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ProjectListType", propOrder =
-{
-   "project"
-}) public class ProjectListType
+   {
+      "project"
+   }) public class ProjectListType
 {
 
    @XmlElement(name = "Project", required = true) protected List<ProjectListType.Project> project;
@@ -134,11 +135,11 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "id",
-      "name",
-      "baselineProject"
-   }) public static class Project
+      {
+         "id",
+         "name",
+         "baselineProject"
+      }) public static class Project
    {
 
       @XmlElement(name = "Id", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String id;
@@ -269,10 +270,10 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "baselineTypeName",
-         "name"
-      }) public static class BaselineProject
+         {
+            "baselineTypeName",
+            "name"
+         }) public static class BaselineProject
       {
 
          @XmlElement(name = "BaselineTypeName", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String baselineTypeName;

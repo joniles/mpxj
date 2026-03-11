@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -149,37 +150,37 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "LeanTaskType", propOrder =
-{
-   "activityId",
-   "activityName",
-   "activityObjectId",
-   "company",
-   "completedDate",
-   "createDate",
-   "createUser",
-   "dueDate",
-   "duration",
-   "flag",
-   "isBaseline",
-   "isOverdue",
-   "isTemplate",
-   "isUseOnlyWorkDays",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "leanTaskId",
-   "name",
-   "objectId",
-   "projectId",
-   "projectObjectId",
-   "proposedDueDate",
-   "sequenceNumber",
-   "startDate",
-   "status",
-   "statusCompletion",
-   "statusDates",
-   "taskType",
-   "wbsObjectId"
-}) public class LeanTaskType
+   {
+      "activityId",
+      "activityName",
+      "activityObjectId",
+      "company",
+      "completedDate",
+      "createDate",
+      "createUser",
+      "dueDate",
+      "duration",
+      "flag",
+      "isBaseline",
+      "isOverdue",
+      "isTemplate",
+      "isUseOnlyWorkDays",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "leanTaskId",
+      "name",
+      "objectId",
+      "projectId",
+      "projectObjectId",
+      "proposedDueDate",
+      "sequenceNumber",
+      "startDate",
+      "status",
+      "statusCompletion",
+      "statusDates",
+      "taskType",
+      "wbsObjectId"
+   }) public class LeanTaskType
 {
 
    @XmlElement(name = "ActivityId") @XmlJavaTypeAdapter(Adapter1.class) protected String activityId;

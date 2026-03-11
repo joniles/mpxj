@@ -10,6 +10,7 @@ package org.mpxj.primavera.schema;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -78,19 +79,19 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ResourceRequestType", propOrder =
-{
-   "finishDate",
-   "matchAllCriteria",
-   "name",
-   "requestedUnits",
-   "sequenceNumber",
-   "showOnlyLaborResources",
-   "showOverallocatedResources",
-   "sortResultsByAvailability",
-   "startDate",
-   "useActivityDates",
-   "resourceRequestCriterion"
-}) public class ResourceRequestType
+   {
+      "finishDate",
+      "matchAllCriteria",
+      "name",
+      "requestedUnits",
+      "sequenceNumber",
+      "showOnlyLaborResources",
+      "showOverallocatedResources",
+      "sortResultsByAvailability",
+      "startDate",
+      "useActivityDates",
+      "resourceRequestCriterion"
+   }) public class ResourceRequestType
 {
 
    @XmlElement(name = "FinishDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime finishDate;
@@ -437,11 +438,11 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "criterionType",
-      "proficiency",
-      "valueObjectId"
-   }) public static class ResourceRequestCriterion
+      {
+         "criterionType",
+         "proficiency",
+         "valueObjectId"
+      }) public static class ResourceRequestCriterion
    {
 
       @XmlElement(name = "CriterionType", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String criterionType;

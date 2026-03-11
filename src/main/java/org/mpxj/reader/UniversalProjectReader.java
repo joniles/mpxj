@@ -39,15 +39,10 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
-import org.mpxj.HasCharset;
-import org.mpxj.common.ConnectionHelper;
-import org.mpxj.edrawproject.EdrawProjectReader;
-import org.mpxj.openplan.OpenPlanReader;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-
 import com.healthmarketscience.jackcess.Database;
 import com.healthmarketscience.jackcess.DatabaseBuilder;
-
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.mpxj.HasCharset;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.asta.AstaMdbReader;
@@ -55,10 +50,12 @@ import org.mpxj.asta.AstaSqliteReader;
 import org.mpxj.asta.AstaTextFileReader;
 import org.mpxj.common.AutoCloseableHelper;
 import org.mpxj.common.CharsetHelper;
+import org.mpxj.common.ConnectionHelper;
 import org.mpxj.common.FileHelper;
 import org.mpxj.common.InputStreamHelper;
 import org.mpxj.common.SQLite;
 import org.mpxj.conceptdraw.ConceptDrawProjectReader;
+import org.mpxj.edrawproject.EdrawProjectReader;
 import org.mpxj.fasttrack.FastTrackReader;
 import org.mpxj.ganttdesigner.GanttDesignerReader;
 import org.mpxj.ganttproject.GanttProjectReader;
@@ -67,6 +64,7 @@ import org.mpxj.mpd.MPDFileReader;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mpx.MPXReader;
 import org.mpxj.mspdi.MSPDIReader;
+import org.mpxj.openplan.OpenPlanReader;
 import org.mpxj.phoenix.PhoenixInputStream;
 import org.mpxj.phoenix.PhoenixReader;
 import org.mpxj.planner.PlannerReader;
@@ -1015,8 +1013,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
    private static final int BUFFER_SIZE = 512;
 
-   private static final byte[] OLE_COMPOUND_DOC_FINGERPRINT =
-   {
+   private static final byte[] OLE_COMPOUND_DOC_FINGERPRINT = {
       (byte) 0xD0,
       (byte) 0xCF,
       (byte) 0x11,
@@ -1027,8 +1024,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       (byte) 0xE1
    };
 
-   private static final byte[] PP_FINGERPRINT =
-   {
+   private static final byte[] PP_FINGERPRINT = {
       (byte) 0x00,
       (byte) 0x00,
       (byte) 0x30,
@@ -1039,15 +1035,13 @@ public final class UniversalProjectReader extends AbstractProjectReader
       (byte) 0x30
    };
 
-   private static final byte[] MPX_FINGERPRINT =
-   {
+   private static final byte[] MPX_FINGERPRINT = {
       (byte) 'M',
       (byte) 'P',
       (byte) 'X'
    };
 
-   private static final byte[] MDB_FINGERPRINT =
-   {
+   private static final byte[] MDB_FINGERPRINT = {
       (byte) 0x00,
       (byte) 0x01,
       (byte) 0x00,
@@ -1069,8 +1063,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       (byte) 'B',
    };
 
-   private static final byte[] SQLITE_FINGERPRINT =
-   {
+   private static final byte[] SQLITE_FINGERPRINT = {
       (byte) 'S',
       (byte) 'Q',
       (byte) 'L',
@@ -1086,14 +1079,12 @@ public final class UniversalProjectReader extends AbstractProjectReader
       (byte) 't'
    };
 
-   private static final byte[] ZIP_FINGERPRINT =
-   {
+   private static final byte[] ZIP_FINGERPRINT = {
       (byte) 'P',
       (byte) 'K'
    };
 
-   private static final byte[] PHOENIX_FINGERPRINT =
-   {
+   private static final byte[] PHOENIX_FINGERPRINT = {
       (byte) 'P',
       (byte) 'P',
       (byte) 'X',
@@ -1103,8 +1094,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       (byte) '!'
    };
 
-   private static final byte[] BINARY_PLIST =
-   {
+   private static final byte[] BINARY_PLIST = {
       (byte) 'b',
       (byte) 'p',
       (byte) 'l',
@@ -1113,71 +1103,61 @@ public final class UniversalProjectReader extends AbstractProjectReader
       (byte) 't'
    };
 
-   private static final byte[] FASTTRACK_FINGERPRINT =
-   {
+   private static final byte[] FASTTRACK_FINGERPRINT = {
       (byte) 0x1C,
       (byte) 0x00,
       (byte) 0x00,
       (byte) 0x00,
    };
 
-   private static final byte[] PROJECTLIBRE_FINGERPRINT =
-   {
+   private static final byte[] PROJECTLIBRE_FINGERPRINT = {
       (byte) 0xAC,
       (byte) 0xED,
       (byte) 0x00,
       (byte) 0x05
    };
 
-   private static final byte[] BTRIEVE_FINGERPRINT =
-   {
+   private static final byte[] BTRIEVE_FINGERPRINT = {
       (byte) 0x46,
       (byte) 0x43,
       (byte) 0x00,
       (byte) 0x00
    };
 
-   private static final byte[] STW_FINGERPRINT =
-   {
+   private static final byte[] STW_FINGERPRINT = {
       (byte) 0x53,
       (byte) 0x54,
       (byte) 0x57
    };
 
-   private static final byte[] DOS_EXE_FINGERPRINT =
-   {
+   private static final byte[] DOS_EXE_FINGERPRINT = {
       (byte) 0x4D,
       (byte) 0x5A
    };
 
-   private static final byte[] WINDOWS_NE_EXE_FINGERPRINT =
-   {
+   private static final byte[] WINDOWS_NE_EXE_FINGERPRINT = {
       (byte) 0x4E,
       (byte) 0x45
    };
 
-   private static final byte[] STX_FINGERPRINT =
-   {
+   private static final byte[] STX_FINGERPRINT = {
       (byte) 0x55,
       (byte) 0x8B
    };
 
-   private static final byte[] SYNCHRO_FINGERPRINT =
-   {
+   private static final byte[] SYNCHRO_FINGERPRINT = {
       (byte) 0xB6,
       (byte) 0x17
    };
 
-   private static final byte[] SDEF_FINGERPRINT =
-   {
+   private static final byte[] SDEF_FINGERPRINT = {
       (byte) 'V',
       (byte) 'O',
       (byte) 'L',
       (byte) 'M'
    };
 
-   private static final byte[] SCHEDULE_GRID_FINGERPRINT =
-   {
+   private static final byte[] SCHEDULE_GRID_FINGERPRINT = {
       (byte) '*',
       (byte) '*',
       (byte) '*',
@@ -1198,35 +1178,30 @@ public final class UniversalProjectReader extends AbstractProjectReader
       (byte) 'd'
    };
 
-   private static final byte[] UTF8_BOM_FINGERPRINT =
-   {
+   private static final byte[] UTF8_BOM_FINGERPRINT = {
       (byte) 0xEF,
       (byte) 0xBB,
       (byte) 0xBF
    };
 
-   private static final byte[] UTF16_BOM_FINGERPRINT =
-   {
+   private static final byte[] UTF16_BOM_FINGERPRINT = {
       (byte) 0xFE,
       (byte) 0xFF
    };
 
-   private static final byte[] UTF16LE_BOM_FINGERPRINT =
-   {
+   private static final byte[] UTF16LE_BOM_FINGERPRINT = {
       (byte) 0xFF,
       (byte) 0xFE
    };
 
-   private static final byte[] PROJECT_COMMANDER_FINGERPRINT_1 =
-   {
+   private static final byte[] PROJECT_COMMANDER_FINGERPRINT_1 = {
       (byte) 0x00,
       (byte) 0x80,
       (byte) 0x01,
       (byte) 0x00
    };
 
-   private static final byte[] PROJECT_COMMANDER_FINGERPRINT_2 =
-   {
+   private static final byte[] PROJECT_COMMANDER_FINGERPRINT_2 = {
       (byte) 0x02,
       (byte) 0x80,
       (byte) 0x01,

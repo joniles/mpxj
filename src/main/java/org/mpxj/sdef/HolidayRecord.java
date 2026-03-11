@@ -54,8 +54,7 @@ class HolidayRecord extends AbstractSDEFRecord
       }
    }
 
-   private static final SDEFField[] FIELDS = new SDEFField[]
-   {
+   private static final SDEFField[] FIELDS = {
       new StringField("Calendar Code", 1),
       new DateField("Holiday Date"),
       new DateField("Holiday Date"),

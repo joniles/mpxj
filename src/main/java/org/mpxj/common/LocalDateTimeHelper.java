@@ -173,6 +173,7 @@ public final class LocalDateTimeHelper
          result = d2;
       }
       else
+      {
          if (d2 == null)
          {
             result = d1;
@@ -181,6 +182,7 @@ public final class LocalDateTimeHelper
          {
             result = (d1.isAfter(d2)) ? d1 : d2;
          }
+      }
       return result;
    }
 

@@ -29,7 +29,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-
 import org.mpxj.common.AutoCloseableHelper;
 
 /**

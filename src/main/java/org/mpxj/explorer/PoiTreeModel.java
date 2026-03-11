@@ -32,7 +32,6 @@ import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.Entry;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
@@ -163,9 +162,9 @@ public class PoiTreeModel implements TreeModel
             if (e == null)
             {
                e = new TreeModelEvent(getRoot(), new Object[]
-               {
-                  getRoot()
-               }, null, null);
+                  {
+                     getRoot()
+                  }, null, null);
             }
             ((TreeModelListener) listeners[i + 1]).treeStructureChanged(e);
          }

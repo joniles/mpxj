@@ -83,8 +83,7 @@ public final class DayOfWeekHelper
    /**
     * Array mapping int types to enums.
     */
-   public static final DayOfWeek[] ORDERED_DAYS =
-   {
+   public static final DayOfWeek[] ORDERED_DAYS = {
       DayOfWeek.SUNDAY,
       DayOfWeek.MONDAY,
       DayOfWeek.TUESDAY,

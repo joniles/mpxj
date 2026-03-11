@@ -89,8 +89,7 @@ final class SkillLevelHelper
 
    private static final SkillLevel DEFAULT_VALUE = SkillLevel.SKILLED;
 
-   private static final SkillLevel[] XER_TYPE_ARRAY = new SkillLevel[]
-   {
+   private static final SkillLevel[] XER_TYPE_ARRAY = {
       null,
       SkillLevel.MASTER,
       SkillLevel.EXPERT,

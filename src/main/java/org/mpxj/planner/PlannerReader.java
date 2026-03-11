@@ -24,6 +24,7 @@
 package org.mpxj.planner;
 
 import java.io.InputStream;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -39,19 +40,11 @@ import java.util.Set;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.mpxj.LocalTimeRange;
-import org.mpxj.planner.schema.Calendar;
-import org.mpxj.planner.schema.Day;
-import org.mpxj.planner.schema.Resource;
-import org.mpxj.planner.schema.Task;
-import org.xml.sax.SAXException;
-
 import org.mpxj.ConstraintType;
-import java.time.DayOfWeek;
 import org.mpxj.DayType;
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.MPXJException;
 import org.mpxj.Priority;
 import org.mpxj.ProjectCalendar;
@@ -70,8 +63,10 @@ import org.mpxj.common.NumberHelper;
 import org.mpxj.common.UnmarshalHelper;
 import org.mpxj.planner.schema.Allocation;
 import org.mpxj.planner.schema.Allocations;
+import org.mpxj.planner.schema.Calendar;
 import org.mpxj.planner.schema.Calendars;
 import org.mpxj.planner.schema.Constraint;
+import org.mpxj.planner.schema.Day;
 import org.mpxj.planner.schema.Days;
 import org.mpxj.planner.schema.DefaultWeek;
 import org.mpxj.planner.schema.Interval;
@@ -79,9 +74,12 @@ import org.mpxj.planner.schema.OverriddenDayType;
 import org.mpxj.planner.schema.Predecessor;
 import org.mpxj.planner.schema.Predecessors;
 import org.mpxj.planner.schema.Project;
+import org.mpxj.planner.schema.Resource;
 import org.mpxj.planner.schema.Resources;
+import org.mpxj.planner.schema.Task;
 import org.mpxj.planner.schema.Tasks;
 import org.mpxj.reader.AbstractProjectStreamReader;
+import org.xml.sax.SAXException;
 
 /**
  * This class creates a new ProjectFile instance by reading a Planner file.

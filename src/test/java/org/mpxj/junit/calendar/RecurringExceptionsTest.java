@@ -24,6 +24,7 @@
 package org.mpxj.junit.calendar;
 
 import java.io.File;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -31,9 +32,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
-import org.mpxj.reader.UniversalProjectReader;
-
-import java.time.DayOfWeek;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
@@ -41,6 +39,7 @@ import org.mpxj.ProjectFile;
 import org.mpxj.RecurrenceType;
 import org.mpxj.RecurringData;
 import org.mpxj.junit.MpxjTestData;
+import org.mpxj.reader.UniversalProjectReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

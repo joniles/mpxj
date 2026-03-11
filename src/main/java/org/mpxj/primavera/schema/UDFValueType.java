@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -151,34 +152,34 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "UDFValueType", propOrder =
-{
-   "codeValue",
-   "conditionalIndicator",
-   "cost",
-   "createDate",
-   "createUser",
-   "description",
-   "_double",
-   "finishDate",
-   "foreignObjectId",
-   "formula",
-   "indicator",
-   "integer",
-   "isBaseline",
-   "isTemplate",
-   "isUDFTypeCalculated",
-   "isUDFTypeConditional",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "projectObjectId",
-   "startDate",
-   "text",
-   "udfCodeObjectId",
-   "udfTypeDataType",
-   "udfTypeObjectId",
-   "udfTypeSubjectArea",
-   "udfTypeTitle"
-}) public class UDFValueType
+   {
+      "codeValue",
+      "conditionalIndicator",
+      "cost",
+      "createDate",
+      "createUser",
+      "description",
+      "_double",
+      "finishDate",
+      "foreignObjectId",
+      "formula",
+      "indicator",
+      "integer",
+      "isBaseline",
+      "isTemplate",
+      "isUDFTypeCalculated",
+      "isUDFTypeConditional",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "projectObjectId",
+      "startDate",
+      "text",
+      "udfCodeObjectId",
+      "udfTypeDataType",
+      "udfTypeObjectId",
+      "udfTypeSubjectArea",
+      "udfTypeTitle"
+   }) public class UDFValueType
 {
 
    @XmlElement(name = "CodeValue") @XmlJavaTypeAdapter(Adapter1.class) protected String codeValue;

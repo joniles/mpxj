@@ -1,34 +1,24 @@
-
 package org.mpxj.phoenix;
 
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 import java.util.UUID;
 
+import org.mpxj.ActivityCode;
+import org.mpxj.ActivityCodeValue;
 import org.mpxj.ActivityType;
+import org.mpxj.ChildTaskContainer;
 import org.mpxj.ConstraintType;
 import org.mpxj.CostRateTable;
 import org.mpxj.CostRateTableEntry;
-import org.mpxj.ActivityCode;
-import org.mpxj.ActivityCodeValue;
-import org.mpxj.RecurrenceType;
-import org.mpxj.RecurringData;
-import org.mpxj.Relation;
-import org.mpxj.SchedulingProgressedActivities;
-import org.mpxj.common.LocalDateHelper;
-import org.mpxj.common.LocalDateTimeHelper;
-import org.mpxj.common.SlackHelper;
-
-import org.mpxj.ChildTaskContainer;
-import java.time.DayOfWeek;
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
 import org.mpxj.ProjectCalendar;
@@ -38,12 +28,19 @@ import org.mpxj.ProjectConfig;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.Rate;
+import org.mpxj.RecurrenceType;
+import org.mpxj.RecurringData;
+import org.mpxj.Relation;
 import org.mpxj.Resource;
+import org.mpxj.SchedulingProgressedActivities;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.AlphanumComparator;
 import org.mpxj.common.DebugLogPrintWriter;
+import org.mpxj.common.LocalDateHelper;
+import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
+import org.mpxj.common.SlackHelper;
 import org.mpxj.phoenix.schema.phoenix4.Project;
 import org.mpxj.phoenix.schema.phoenix4.Project.Layouts.Layout;
 import org.mpxj.phoenix.schema.phoenix4.Project.Layouts.Layout.CodeOptions;

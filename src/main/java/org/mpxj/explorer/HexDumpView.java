@@ -27,6 +27,9 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.text.NumberFormat;
 
+import com.jgoodies.binding.adapter.Bindings;
+import com.jgoodies.binding.beans.BeanAdapter;
+import com.jgoodies.binding.beans.PropertyConnector;
 import javax.swing.BoxLayout;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -36,10 +39,6 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.text.NumberFormatter;
-
-import com.jgoodies.binding.adapter.Bindings;
-import com.jgoodies.binding.beans.BeanAdapter;
-import com.jgoodies.binding.beans.PropertyConnector;
 
 /**
  * Implements the view component of the HexDump MVC.

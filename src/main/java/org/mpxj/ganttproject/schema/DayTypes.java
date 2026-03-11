@@ -9,6 +9,7 @@ package org.mpxj.ganttproject.schema;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -38,13 +39,13 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "day-types", propOrder =
-{
-   "dayType",
-   "defaultWeek",
-   "onlyShowWeekends",
-   "overridenDayTypes",
-   "days"
-}) public class DayTypes
+   {
+      "dayType",
+      "defaultWeek",
+      "onlyShowWeekends",
+      "overridenDayTypes",
+      "days"
+   }) public class DayTypes
 {
 
    @XmlElement(name = "day-type") protected List<DayType> dayType;

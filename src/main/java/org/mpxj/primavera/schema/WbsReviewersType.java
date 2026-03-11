@@ -34,11 +34,11 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "WbsReviewersType", propOrder =
-{
-   "objectId",
-   "statusReviewerId",
-   "wbsId"
-}) public class WbsReviewersType
+   {
+      "objectId",
+      "statusReviewerId",
+      "wbsId"
+   }) public class WbsReviewersType
 {
 
    @XmlElement(name = "ObjectId") protected Integer objectId;

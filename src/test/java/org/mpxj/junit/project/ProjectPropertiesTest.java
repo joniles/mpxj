@@ -27,13 +27,12 @@ import java.io.File;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-import org.mpxj.reader.UniversalProjectReader;
-
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.junit.MpxjTestData;
+import org.mpxj.reader.UniversalProjectReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -8,6 +8,7 @@
 package org.mpxj.ganttproject.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -36,9 +37,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "vacation", propOrder =
-{
-   "value"
-}) public class Vacation
+   {
+      "value"
+   }) public class Vacation
 {
 
    @XmlValue protected String value;

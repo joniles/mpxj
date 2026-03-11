@@ -36,12 +36,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ImportOptionsTemplateType", propOrder =
-{
-   "importOptionsTemplateType",
-   "name",
-   "objectId",
-   "viewData"
-}) public class ImportOptionsTemplateType
+   {
+      "importOptionsTemplateType",
+      "name",
+      "objectId",
+      "viewData"
+   }) public class ImportOptionsTemplateType
 {
 
    @XmlElement(name = "ImportOptionsTemplateType") @XmlJavaTypeAdapter(Adapter1.class) protected String importOptionsTemplateType;

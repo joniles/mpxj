@@ -34,9 +34,9 @@ import jakarta.xml.bind.annotation.XmlValue;
  *
  */
 @SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "custom-property-definition", propOrder =
-{
-   "value"
-}) public class CustomPropertyDefinition
+   {
+      "value"
+   }) public class CustomPropertyDefinition
 {
 
    @XmlValue protected String value;

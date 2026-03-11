@@ -178,81 +178,81 @@ public final class LocaleData extends ListResourceBundle
    static
    {
       TIME_UNITS_ARRAY_DATA[TimeUnit.MINUTES.getValue()] = new String[]
-      {
-         "m",
-         "mins"
-      };
+         {
+            "m",
+            "mins"
+         };
 
       TIME_UNITS_ARRAY_DATA[TimeUnit.HOURS.getValue()] = new String[]
-      {
-         "h",
-         "hours"
-      };
+         {
+            "h",
+            "hours"
+         };
 
       TIME_UNITS_ARRAY_DATA[TimeUnit.DAYS.getValue()] = new String[]
-      {
-         "d",
-         "days"
-      };
+         {
+            "d",
+            "days"
+         };
 
       TIME_UNITS_ARRAY_DATA[TimeUnit.WEEKS.getValue()] = new String[]
-      {
-         "w",
-         "wk",
-         "weeks"
-      };
+         {
+            "w",
+            "wk",
+            "weeks"
+         };
 
       TIME_UNITS_ARRAY_DATA[TimeUnit.MONTHS.getValue()] = new String[]
-      {
-         "mon",
-         "months"
-      };
+         {
+            "mon",
+            "months"
+         };
 
       TIME_UNITS_ARRAY_DATA[TimeUnit.YEARS.getValue()] = new String[]
-      {
-         "y",
-         "years"
-      };
+         {
+            "y",
+            "years"
+         };
 
       TIME_UNITS_ARRAY_DATA[TimeUnit.PERCENT.getValue()] = new String[]
-      {
-         "%"
-      };
+         {
+            "%"
+         };
 
       TIME_UNITS_ARRAY_DATA[TimeUnit.ELAPSED_MINUTES.getValue()] = new String[]
-      {
-         "em"
-      };
+         {
+            "em"
+         };
 
       TIME_UNITS_ARRAY_DATA[TimeUnit.ELAPSED_HOURS.getValue()] = new String[]
-      {
-         "eh"
-      };
+         {
+            "eh"
+         };
 
       TIME_UNITS_ARRAY_DATA[TimeUnit.ELAPSED_DAYS.getValue()] = new String[]
-      {
-         "ed"
-      };
+         {
+            "ed"
+         };
 
       TIME_UNITS_ARRAY_DATA[TimeUnit.ELAPSED_WEEKS.getValue()] = new String[]
-      {
-         "ew"
-      };
+         {
+            "ew"
+         };
 
       TIME_UNITS_ARRAY_DATA[TimeUnit.ELAPSED_MONTHS.getValue()] = new String[]
-      {
-         "emon"
-      };
+         {
+            "emon"
+         };
 
       TIME_UNITS_ARRAY_DATA[TimeUnit.ELAPSED_YEARS.getValue()] = new String[]
-      {
-         "ey"
-      };
+         {
+            "ey"
+         };
 
       TIME_UNITS_ARRAY_DATA[TimeUnit.ELAPSED_PERCENT.getValue()] = new String[]
-      {
-         "e%"
-      };
+         {
+            "e%"
+         };
    }
 
    private static final HashMap<String, Integer> TIME_UNITS_MAP_DATA = new HashMap<>();
@@ -269,23 +269,20 @@ public final class LocaleData extends ListResourceBundle
       }
    }
 
-   private static final String[] ACCRUE_TYPES_DATA =
-   {
+   private static final String[] ACCRUE_TYPES_DATA = {
       "Start",
       "End",
       "Prorated"
    };
 
-   private static final String[] RELATION_TYPES_DATA =
-   {
+   private static final String[] RELATION_TYPES_DATA = {
       "FF",
       "FS",
       "SF",
       "SS"
    };
 
-   private static final String[] PRIORITY_TYPES_DATA =
-   {
+   private static final String[] PRIORITY_TYPES_DATA = {
       "Lowest",
       "Very Low",
       "Lower",
@@ -298,8 +295,7 @@ public final class LocaleData extends ListResourceBundle
       "Do Not Level"
    };
 
-   private static final String[] CONSTRAINT_TYPES_DATA =
-   {
+   private static final String[] CONSTRAINT_TYPES_DATA = {
       "As Soon As Possible",
       "As Late As Possible",
       "Must Start On",
@@ -310,8 +306,7 @@ public final class LocaleData extends ListResourceBundle
       "Finish No Later Than"
    };
 
-   private static final String[] TASK_NAMES_DATA =
-   {
+   private static final String[] TASK_NAMES_DATA = {
       null,
       "Name",
       "WBS",
@@ -467,8 +462,7 @@ public final class LocaleData extends ListResourceBundle
       "Resume"
    };
 
-   private static final String[] RESOURCE_NAMES_DATA =
-   {
+   private static final String[] RESOURCE_NAMES_DATA = {
       null,
       "Name",
       "Initials",
@@ -523,8 +517,7 @@ public final class LocaleData extends ListResourceBundle
       "Linked Fields",
    };
 
-   private static final Object[][] RESOURCE_DATA =
-   {
+   private static final Object[][] RESOURCE_DATA = {
       {
          FILE_DELIMITER,
          ","

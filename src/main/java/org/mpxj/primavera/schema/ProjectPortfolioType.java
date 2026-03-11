@@ -10,6 +10,7 @@ package org.mpxj.primavera.schema;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -91,23 +92,23 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ProjectPortfolioType", propOrder =
-{
-   "createDate",
-   "createUser",
-   "description",
-   "includeClosedProjects",
-   "includeWhatIfProjects",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "name",
-   "objectId",
-   "portfolioUserIdArray",
-   "portfolioUserNameArray",
-   "type",
-   "userName",
-   "userObjectId",
-   "memberProject"
-}) public class ProjectPortfolioType
+   {
+      "createDate",
+      "createUser",
+      "description",
+      "includeClosedProjects",
+      "includeWhatIfProjects",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "name",
+      "objectId",
+      "portfolioUserIdArray",
+      "portfolioUserNameArray",
+      "type",
+      "userName",
+      "userObjectId",
+      "memberProject"
+   }) public class ProjectPortfolioType
 {
 
    @XmlElement(name = "CreateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime createDate;

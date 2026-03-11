@@ -25,12 +25,12 @@ package org.mpxj.mpp;
 
 import java.time.DayOfWeek;
 
-import org.mpxj.common.ByteArrayHelper;
-import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.ProjectProperties;
 import org.mpxj.RecurrenceType;
 import org.mpxj.RecurringTask;
 import org.mpxj.Task;
+import org.mpxj.common.ByteArrayHelper;
+import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.LocalDateHelper;
 
 /**

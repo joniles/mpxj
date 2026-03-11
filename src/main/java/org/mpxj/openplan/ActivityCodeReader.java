@@ -26,10 +26,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.ActivityCode;
 import org.mpxj.ActivityCodeValue;
 import org.mpxj.ProjectFile;
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
 /**
  * Given a map of codes, determine which of these are mapped to activities, populate

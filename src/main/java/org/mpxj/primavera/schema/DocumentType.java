@@ -10,6 +10,7 @@ package org.mpxj.primavera.schema;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -178,41 +179,41 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "DocumentType", propOrder =
-{
-   "activityObjectId",
-   "author",
-   "contentRepositoryDocumentInternalId",
-   "createDate",
-   "createUser",
-   "deliverable",
-   "description",
-   "documentCategoryName",
-   "documentCategoryObjectId",
-   "documentStatusCodeName",
-   "documentStatusCodeObjectId",
-   "documentStatusName",
-   "documentType",
-   "guid",
-   "isBaseline",
-   "isTemplate",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "objectId",
-   "parentObjectId",
-   "privateLocation",
-   "projectId",
-   "projectObjectId",
-   "publicLocation",
-   "referenceNumber",
-   "resourceId",
-   "resourceName",
-   "resourceObjectId",
-   "revisionDate",
-   "sequenceNumber",
-   "title",
-   "version",
-   "udf"
-}) public class DocumentType
+   {
+      "activityObjectId",
+      "author",
+      "contentRepositoryDocumentInternalId",
+      "createDate",
+      "createUser",
+      "deliverable",
+      "description",
+      "documentCategoryName",
+      "documentCategoryObjectId",
+      "documentStatusCodeName",
+      "documentStatusCodeObjectId",
+      "documentStatusName",
+      "documentType",
+      "guid",
+      "isBaseline",
+      "isTemplate",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "objectId",
+      "parentObjectId",
+      "privateLocation",
+      "projectId",
+      "projectObjectId",
+      "publicLocation",
+      "referenceNumber",
+      "resourceId",
+      "resourceName",
+      "resourceObjectId",
+      "revisionDate",
+      "sequenceNumber",
+      "title",
+      "version",
+      "udf"
+   }) public class DocumentType
 {
 
    @XmlElement(name = "ActivityObjectId", nillable = true) protected Integer activityObjectId;

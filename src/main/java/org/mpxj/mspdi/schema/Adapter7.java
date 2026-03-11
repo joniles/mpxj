@@ -12,8 +12,8 @@ import org.mpxj.CurrencySymbolPosition;
 import org.mpxj.mspdi.DatatypeConverter;
 
 public class Adapter7
-         extends
-            XmlAdapter<String, CurrencySymbolPosition>
+   extends
+   XmlAdapter<String, CurrencySymbolPosition>
 {
 
    @Override public CurrencySymbolPosition unmarshal(String value)

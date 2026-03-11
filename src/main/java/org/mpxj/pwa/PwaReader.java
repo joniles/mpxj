@@ -157,38 +157,38 @@ public class PwaReader
    private MapRow readData()
    {
       String query = "ProjectServer/Projects(guid'" + m_projectID + "')"
-               + "?$expand=" +
-               String.join(",",
-                  "ProjectResources",
-                  "ProjectResources/CustomFields",
-                  "ProjectResources/CustomFields/LookupEntries",
-                  "Tasks",
-                  "TaskLinks",
-                  "Tasks/Parent",
-                  "Tasks/CustomFields",
-                  "Tasks/CustomFields/LookupEntries",
-                  "Tasks/Assignments",
-                  "Tasks/Assignments/Resource")
-               + "&$select=" +
-               String.join(",",
-                  "*",
-                  "ProjectResources/*",
-                  "ProjectResources/CustomFields/Id",
-                  "ProjectResources/CustomFields/Name",
-                  "ProjectResources/CustomFields/InternalName",
-                  "ProjectResources/CustomFields/FieldType",
-                  "ProjectResources/CustomFields/LookupEntries/InternalName",
-                  "ProjectResources/CustomFields/LookupEntries/Value",
-                  "Tasks/*",
-                  "Tasks/Parent/Id",
-                  "Tasks/Assignments/*",
-                  "Tasks/CustomFields/Id",
-                  "Tasks/CustomFields/Name",
-                  "Tasks/CustomFields/InternalName",
-                  "Tasks/CustomFields/FieldType",
-                  "Tasks/CustomFields/LookupEntries/InternalName",
-                  "Tasks/CustomFields/LookupEntries/Value",
-                  "Tasks/Assignments/Resource/Id");
+         + "?$expand=" +
+         String.join(",",
+            "ProjectResources",
+            "ProjectResources/CustomFields",
+            "ProjectResources/CustomFields/LookupEntries",
+            "Tasks",
+            "TaskLinks",
+            "Tasks/Parent",
+            "Tasks/CustomFields",
+            "Tasks/CustomFields/LookupEntries",
+            "Tasks/Assignments",
+            "Tasks/Assignments/Resource")
+         + "&$select=" +
+         String.join(",",
+            "*",
+            "ProjectResources/*",
+            "ProjectResources/CustomFields/Id",
+            "ProjectResources/CustomFields/Name",
+            "ProjectResources/CustomFields/InternalName",
+            "ProjectResources/CustomFields/FieldType",
+            "ProjectResources/CustomFields/LookupEntries/InternalName",
+            "ProjectResources/CustomFields/LookupEntries/Value",
+            "Tasks/*",
+            "Tasks/Parent/Id",
+            "Tasks/Assignments/*",
+            "Tasks/CustomFields/Id",
+            "Tasks/CustomFields/Name",
+            "Tasks/CustomFields/InternalName",
+            "Tasks/CustomFields/FieldType",
+            "Tasks/CustomFields/LookupEntries/InternalName",
+            "Tasks/CustomFields/LookupEntries/Value",
+            "Tasks/Assignments/Resource/Id");
 
       //System.out.println(query);
 

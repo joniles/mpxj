@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -103,26 +104,26 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ActivityCodeAssignmentType", propOrder =
-{
-   "activityCodeDescription",
-   "activityCodeObjectId",
-   "activityCodeTypeName",
-   "activityCodeTypeObjectId",
-   "activityCodeTypeScope",
-   "activityCodeValue",
-   "activityId",
-   "activityName",
-   "activityObjectId",
-   "createDate",
-   "createUser",
-   "isBaseline",
-   "isTemplate",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "projectId",
-   "projectObjectId",
-   "wbsObjectId"
-}) public class ActivityCodeAssignmentType
+   {
+      "activityCodeDescription",
+      "activityCodeObjectId",
+      "activityCodeTypeName",
+      "activityCodeTypeObjectId",
+      "activityCodeTypeScope",
+      "activityCodeValue",
+      "activityId",
+      "activityName",
+      "activityObjectId",
+      "createDate",
+      "createUser",
+      "isBaseline",
+      "isTemplate",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "projectId",
+      "projectObjectId",
+      "wbsObjectId"
+   }) public class ActivityCodeAssignmentType
 {
 
    @XmlElement(name = "ActivityCodeDescription") @XmlJavaTypeAdapter(Adapter1.class) protected String activityCodeDescription;

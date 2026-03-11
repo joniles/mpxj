@@ -145,10 +145,10 @@ public class ResourceAssignmentFactory
          assignment.disableEvents();
 
          fieldMap.populateContainer(FieldTypeClass.ASSIGNMENT, assignment, varDataId, new byte[][]
-         {
-            data,
-            data2
-         }, assnVarData);
+            {
+               data,
+               data2
+            }, assnVarData);
 
          if (enterpriseCustomFieldMap != null)
          {
@@ -298,8 +298,7 @@ public class ResourceAssignmentFactory
 
    private static final Integer MPP9_CREATION_DATA = Integer.valueOf(138);
 
-   private static final MppBitFlag[] ASSIGNMENT_META_DATA_BIT_FLAGS =
-   {
+   private static final MppBitFlag[] ASSIGNMENT_META_DATA_BIT_FLAGS = {
       new MppBitFlag(AssignmentField.FLAG1, 28, 0x00000080, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.FLAG2, 28, 0x00000100, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.FLAG3, 28, 0x00000200, Boolean.FALSE, Boolean.TRUE),
@@ -327,8 +326,7 @@ public class ResourceAssignmentFactory
       new MppBitFlag(AssignmentField.RESPONSE_PENDING, 8, 0x00000100, Boolean.FALSE, Boolean.TRUE)
    };
 
-   private static final MppBitFlag[] PROJECT_2010_ASSIGNMENT_META_DATA_BIT_FLAGS =
-   {
+   private static final MppBitFlag[] PROJECT_2010_ASSIGNMENT_META_DATA_BIT_FLAGS = {
       new MppBitFlag(AssignmentField.FLAG10, 28, 0x000002, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.FLAG1, 28, 0x000004, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.FLAG2, 28, 0x000008, Boolean.FALSE, Boolean.TRUE),
@@ -356,8 +354,7 @@ public class ResourceAssignmentFactory
       new MppBitFlag(AssignmentField.RESPONSE_PENDING, 8, 0x00000100, Boolean.FALSE, Boolean.TRUE)
    };
 
-   private static final MppBitFlag[] PROJECT_2013_ASSIGNMENT_META_DATA_BIT_FLAGS =
-   {
+   private static final MppBitFlag[] PROJECT_2013_ASSIGNMENT_META_DATA_BIT_FLAGS = {
       new MppBitFlag(AssignmentField.FLAG1, 20, 0x000002, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.FLAG2, 20, 0x000004, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.FLAG3, 20, 0x000008, Boolean.FALSE, Boolean.TRUE),
@@ -385,8 +382,7 @@ public class ResourceAssignmentFactory
       new MppBitFlag(AssignmentField.RESPONSE_PENDING, 8, 0x01000000, Boolean.FALSE, Boolean.TRUE)
    };
 
-   private static final AssignmentField[] TIMEPHASED_BASELINE_WORK =
-   {
+   private static final AssignmentField[] TIMEPHASED_BASELINE_WORK = {
       AssignmentField.RAW_TIMEPHASED_BASELINE_WORK,
       AssignmentField.RAW_TIMEPHASED_BASELINE1_WORK,
       AssignmentField.RAW_TIMEPHASED_BASELINE2_WORK,
@@ -400,8 +396,7 @@ public class ResourceAssignmentFactory
       AssignmentField.RAW_TIMEPHASED_BASELINE10_WORK
    };
 
-   private static final AssignmentField[] TIMEPHASED_BASELINE_COST =
-   {
+   private static final AssignmentField[] TIMEPHASED_BASELINE_COST = {
       AssignmentField.RAW_TIMEPHASED_BASELINE_COST,
       AssignmentField.RAW_TIMEPHASED_BASELINE1_COST,
       AssignmentField.RAW_TIMEPHASED_BASELINE2_COST,

@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -71,21 +72,21 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ProjectFundingType", propOrder =
-{
-   "amount",
-   "createDate",
-   "createUser",
-   "fundShare",
-   "fundingSourceName",
-   "fundingSourceObjectId",
-   "isBaseline",
-   "isTemplate",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "objectId",
-   "projectId",
-   "projectObjectId"
-}) public class ProjectFundingType
+   {
+      "amount",
+      "createDate",
+      "createUser",
+      "fundShare",
+      "fundingSourceName",
+      "fundingSourceObjectId",
+      "isBaseline",
+      "isTemplate",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "objectId",
+      "projectId",
+      "projectObjectId"
+   }) public class ProjectFundingType
 {
 
    @XmlElement(name = "Amount", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double amount;

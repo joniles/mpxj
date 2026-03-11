@@ -34,7 +34,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1019,7 +1018,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          //
          LocalTime calTime = LocalTimeHelper.getLocalTime(date);
          LocalTime finishTime = null;
-         for (int index = ranges.size(); index-- > 0;)
+         for (int index = ranges.size(); index-- > 0; )
          {
             LocalTimeRange range = ranges.get(index);
             if ((range.getEnd() == LocalTime.MIDNIGHT && calTime == LocalTime.MIDNIGHT) || !calTime.isBefore(range.getEnd()))
@@ -2159,8 +2158,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    private static final int MAX_NONWORKING_DAYS = 1000;
 
-   private static final RecurrenceType[] ORDERED_RECURRENCE_TYPES =
-   {
+   private static final RecurrenceType[] ORDERED_RECURRENCE_TYPES = {
       RecurrenceType.WEEKLY,
       RecurrenceType.MONTHLY,
       RecurrenceType.YEARLY,

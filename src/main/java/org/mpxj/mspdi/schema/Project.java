@@ -14,6 +14,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -2155,83 +2156,83 @@ import org.mpxj.WorkGroup;
  *
  */
 @SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "Project", propOrder =
-{
-   "saveVersion",
-   "uid",
-   "name",
-   "guid",
-   "title",
-   "subject",
-   "category",
-   "company",
-   "manager",
-   "author",
-   "creationDate",
-   "revision",
-   "lastSaved",
-   "scheduleFromStart",
-   "startDate",
-   "finishDate",
-   "fyStartDate",
-   "criticalSlackLimit",
-   "currencyDigits",
-   "currencySymbol",
-   "currencyCode",
-   "currencySymbolPosition",
-   "calendarUID",
-   "defaultStartTime",
-   "defaultFinishTime",
-   "minutesPerDay",
-   "minutesPerWeek",
-   "daysPerMonth",
-   "defaultTaskType",
-   "defaultFixedCostAccrual",
-   "defaultStandardRate",
-   "defaultOvertimeRate",
-   "durationFormat",
-   "workFormat",
-   "editableActualCosts",
-   "honorConstraints",
-   "earnedValueMethod",
-   "insertedProjectsLikeSummary",
-   "multipleCriticalPaths",
-   "newTasksEffortDriven",
-   "newTasksEstimated",
-   "splitsInProgressTasks",
-   "spreadActualCost",
-   "spreadPercentComplete",
-   "taskUpdatesResource",
-   "fiscalYearStart",
-   "weekStartDay",
-   "moveCompletedEndsBack",
-   "moveRemainingStartsBack",
-   "moveRemainingStartsForward",
-   "moveCompletedEndsForward",
-   "baselineForEarnedValue",
-   "autoAddNewResourcesAndTasks",
-   "statusDate",
-   "currentDate",
-   "microsoftProjectServerURL",
-   "autolink",
-   "newTaskStartDate",
-   "newTasksAreManual",
-   "defaultTaskEVMethod",
-   "projectExternallyEdited",
-   "extendedCreationDate",
-   "actualsInSync",
-   "removeFileProperties",
-   "adminProject",
-   "baselineCalendar",
-   "updateManuallyScheduledTasksWhenEditingLinks",
-   "keepTaskOnNearestWorkingTimeWhenMadeAutoScheduled",
-   "outlineCodes",
-   "wbsMasks",
-   "extendedAttributes",
-   "calendars",
-   "tasks",
-   "resources",
-   "assignments"
-}) public class Project
+   {
+      "saveVersion",
+      "uid",
+      "name",
+      "guid",
+      "title",
+      "subject",
+      "category",
+      "company",
+      "manager",
+      "author",
+      "creationDate",
+      "revision",
+      "lastSaved",
+      "scheduleFromStart",
+      "startDate",
+      "finishDate",
+      "fyStartDate",
+      "criticalSlackLimit",
+      "currencyDigits",
+      "currencySymbol",
+      "currencyCode",
+      "currencySymbolPosition",
+      "calendarUID",
+      "defaultStartTime",
+      "defaultFinishTime",
+      "minutesPerDay",
+      "minutesPerWeek",
+      "daysPerMonth",
+      "defaultTaskType",
+      "defaultFixedCostAccrual",
+      "defaultStandardRate",
+      "defaultOvertimeRate",
+      "durationFormat",
+      "workFormat",
+      "editableActualCosts",
+      "honorConstraints",
+      "earnedValueMethod",
+      "insertedProjectsLikeSummary",
+      "multipleCriticalPaths",
+      "newTasksEffortDriven",
+      "newTasksEstimated",
+      "splitsInProgressTasks",
+      "spreadActualCost",
+      "spreadPercentComplete",
+      "taskUpdatesResource",
+      "fiscalYearStart",
+      "weekStartDay",
+      "moveCompletedEndsBack",
+      "moveRemainingStartsBack",
+      "moveRemainingStartsForward",
+      "moveCompletedEndsForward",
+      "baselineForEarnedValue",
+      "autoAddNewResourcesAndTasks",
+      "statusDate",
+      "currentDate",
+      "microsoftProjectServerURL",
+      "autolink",
+      "newTaskStartDate",
+      "newTasksAreManual",
+      "defaultTaskEVMethod",
+      "projectExternallyEdited",
+      "extendedCreationDate",
+      "actualsInSync",
+      "removeFileProperties",
+      "adminProject",
+      "baselineCalendar",
+      "updateManuallyScheduledTasksWhenEditingLinks",
+      "keepTaskOnNearestWorkingTimeWhenMadeAutoScheduled",
+      "outlineCodes",
+      "wbsMasks",
+      "extendedAttributes",
+      "calendars",
+      "tasks",
+      "resources",
+      "assignments"
+   }) public class Project
 {
 
    @XmlElement(name = "SaveVersion", required = true) protected BigInteger saveVersion;
@@ -4697,9 +4698,9 @@ import org.mpxj.WorkGroup;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "assignment"
-   }) public static class Assignments
+      {
+         "assignment"
+      }) public static class Assignments
    {
 
       @XmlElement(name = "Assignment") protected List<Project.Assignments.Assignment> assignment;
@@ -5162,275 +5163,275 @@ import org.mpxj.WorkGroup;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "uid",
-         "guid",
-         "taskUID",
-         "resourceUID",
-         "percentWorkComplete",
-         "actualCost",
-         "actualFinish",
-         "actualOvertimeCost",
-         "actualOvertimeWork",
-         "actualStart",
-         "actualWork",
-         "acwp",
-         "confirmed",
-         "cost",
-         "costRateTable",
-         "costVariance",
-         "cv",
-         "delay",
-         "finish",
-         "finishVariance",
-         "hyperlink",
-         "hyperlinkAddress",
-         "hyperlinkSubAddress",
-         "workVariance",
-         "hasFixedRateUnits",
-         "fixedMaterial",
-         "levelingDelay",
-         "levelingDelayFormat",
-         "linkedFields",
-         "milestone",
-         "notes",
-         "overallocated",
-         "overtimeCost",
-         "overtimeWork",
-         "peakUnits",
-         "rateScale",
-         "regularWork",
-         "remainingCost",
-         "remainingOvertimeCost",
-         "remainingOvertimeWork",
-         "remainingWork",
-         "responsePending",
-         "start",
-         "stop",
-         "resume",
-         "startVariance",
-         "summary",
-         "sv",
-         "units",
-         "updateNeeded",
-         "vac",
-         "work",
-         "workContour",
-         "bcws",
-         "bcwp",
-         "bookingType",
-         "actualWorkProtected",
-         "actualOvertimeWorkProtected",
-         "creationDate",
-         "assnOwner",
-         "assnOwnerGuid",
-         "budgetCost",
-         "budgetWork",
-         "extendedAttribute",
-         "baseline",
-         "f404000",
-         "f404001",
-         "f404002",
-         "f404003",
-         "f404004",
-         "f404005",
-         "f404006",
-         "f404007",
-         "f404008",
-         "f404009",
-         "f40400A",
-         "f40400B",
-         "f40400C",
-         "f40400D",
-         "f40400E",
-         "f40400F",
-         "f404010",
-         "f404011",
-         "f404012",
-         "f404013",
-         "f404014",
-         "f404015",
-         "f404016",
-         "f404017",
-         "f404018",
-         "f404019",
-         "f40401A",
-         "f40401B",
-         "f40401C",
-         "f40401D",
-         "f40401E",
-         "f40401F",
-         "f404020",
-         "f404021",
-         "f404022",
-         "f404023",
-         "f404024",
-         "f404025",
-         "f404026",
-         "f404027",
-         "f404028",
-         "f404029",
-         "f40402A",
-         "f40402B",
-         "f40402C",
-         "f40402D",
-         "f40402E",
-         "f40402F",
-         "f404030",
-         "f404031",
-         "f404032",
-         "f404033",
-         "f404034",
-         "f404035",
-         "f404036",
-         "f404037",
-         "f404038",
-         "f404039",
-         "f40403A",
-         "f40403B",
-         "f40403C",
-         "f40403D",
-         "f40403E",
-         "f40403F",
-         "f404040",
-         "f404041",
-         "f404042",
-         "f404043",
-         "f404044",
-         "f404045",
-         "f404046",
-         "f404047",
-         "f404048",
-         "f404049",
-         "f40404A",
-         "f40404B",
-         "f40404C",
-         "f40404D",
-         "f40404E",
-         "f40404F",
-         "f404050",
-         "f404051",
-         "f404052",
-         "f404053",
-         "f404054",
-         "f404055",
-         "f404056",
-         "f404057",
-         "f404058",
-         "f404059",
-         "f40405A",
-         "f40405B",
-         "f40405C",
-         "f40405D",
-         "f40405E",
-         "f40405F",
-         "f404060",
-         "f404061",
-         "f404062",
-         "f404063",
-         "f404064",
-         "f404065",
-         "f404066",
-         "f404067",
-         "f404068",
-         "f404069",
-         "f40406A",
-         "f40406B",
-         "f40406C",
-         "f40406D",
-         "f40406E",
-         "f40406F",
-         "f404070",
-         "f404071",
-         "f404072",
-         "f404073",
-         "f404074",
-         "f404075",
-         "f404076",
-         "f404077",
-         "f404078",
-         "f404079",
-         "f40407A",
-         "f40407B",
-         "f40407C",
-         "f40407D",
-         "f40407E",
-         "f40407F",
-         "f404080",
-         "f404081",
-         "f404082",
-         "f404083",
-         "f404084",
-         "f404085",
-         "f404086",
-         "f404087",
-         "f404088",
-         "f404089",
-         "f40408A",
-         "f40408B",
-         "f40408C",
-         "f40408D",
-         "f40408E",
-         "f40408F",
-         "f404090",
-         "f404091",
-         "f404092",
-         "f404093",
-         "f404094",
-         "f404095",
-         "f404096",
-         "f404097",
-         "f404098",
-         "f404099",
-         "f40409A",
-         "f40409B",
-         "f40409C",
-         "f40409D",
-         "f40409E",
-         "f40409F",
-         "f4040A0",
-         "f4040A1",
-         "f4040A2",
-         "f4040A3",
-         "f4040A4",
-         "f4040A5",
-         "f4040A6",
-         "f4040A7",
-         "f4040A8",
-         "f4040A9",
-         "f4040Aa",
-         "f4040Ab",
-         "f4040Ac",
-         "f4040Ad",
-         "f4040Ae",
-         "f4040Af",
-         "f4040B0",
-         "f4040B1",
-         "f4040B2",
-         "f4040B3",
-         "f4040B4",
-         "f4040B5",
-         "f4040B6",
-         "f4040B7",
-         "f4040B8",
-         "f4040B9",
-         "f4040Ba",
-         "f4040Bb",
-         "f4040Bc",
-         "f4040Bd",
-         "f4040Be",
-         "f4040Bf",
-         "f4040C0",
-         "f4040C1",
-         "f4040C2",
-         "f4040C3",
-         "f4040C4",
-         "f4040C5",
-         "f4040C6",
-         "f4040C7",
-         "f4040C8",
-         "timephasedData"
-      }) public static class Assignment
+         {
+            "uid",
+            "guid",
+            "taskUID",
+            "resourceUID",
+            "percentWorkComplete",
+            "actualCost",
+            "actualFinish",
+            "actualOvertimeCost",
+            "actualOvertimeWork",
+            "actualStart",
+            "actualWork",
+            "acwp",
+            "confirmed",
+            "cost",
+            "costRateTable",
+            "costVariance",
+            "cv",
+            "delay",
+            "finish",
+            "finishVariance",
+            "hyperlink",
+            "hyperlinkAddress",
+            "hyperlinkSubAddress",
+            "workVariance",
+            "hasFixedRateUnits",
+            "fixedMaterial",
+            "levelingDelay",
+            "levelingDelayFormat",
+            "linkedFields",
+            "milestone",
+            "notes",
+            "overallocated",
+            "overtimeCost",
+            "overtimeWork",
+            "peakUnits",
+            "rateScale",
+            "regularWork",
+            "remainingCost",
+            "remainingOvertimeCost",
+            "remainingOvertimeWork",
+            "remainingWork",
+            "responsePending",
+            "start",
+            "stop",
+            "resume",
+            "startVariance",
+            "summary",
+            "sv",
+            "units",
+            "updateNeeded",
+            "vac",
+            "work",
+            "workContour",
+            "bcws",
+            "bcwp",
+            "bookingType",
+            "actualWorkProtected",
+            "actualOvertimeWorkProtected",
+            "creationDate",
+            "assnOwner",
+            "assnOwnerGuid",
+            "budgetCost",
+            "budgetWork",
+            "extendedAttribute",
+            "baseline",
+            "f404000",
+            "f404001",
+            "f404002",
+            "f404003",
+            "f404004",
+            "f404005",
+            "f404006",
+            "f404007",
+            "f404008",
+            "f404009",
+            "f40400A",
+            "f40400B",
+            "f40400C",
+            "f40400D",
+            "f40400E",
+            "f40400F",
+            "f404010",
+            "f404011",
+            "f404012",
+            "f404013",
+            "f404014",
+            "f404015",
+            "f404016",
+            "f404017",
+            "f404018",
+            "f404019",
+            "f40401A",
+            "f40401B",
+            "f40401C",
+            "f40401D",
+            "f40401E",
+            "f40401F",
+            "f404020",
+            "f404021",
+            "f404022",
+            "f404023",
+            "f404024",
+            "f404025",
+            "f404026",
+            "f404027",
+            "f404028",
+            "f404029",
+            "f40402A",
+            "f40402B",
+            "f40402C",
+            "f40402D",
+            "f40402E",
+            "f40402F",
+            "f404030",
+            "f404031",
+            "f404032",
+            "f404033",
+            "f404034",
+            "f404035",
+            "f404036",
+            "f404037",
+            "f404038",
+            "f404039",
+            "f40403A",
+            "f40403B",
+            "f40403C",
+            "f40403D",
+            "f40403E",
+            "f40403F",
+            "f404040",
+            "f404041",
+            "f404042",
+            "f404043",
+            "f404044",
+            "f404045",
+            "f404046",
+            "f404047",
+            "f404048",
+            "f404049",
+            "f40404A",
+            "f40404B",
+            "f40404C",
+            "f40404D",
+            "f40404E",
+            "f40404F",
+            "f404050",
+            "f404051",
+            "f404052",
+            "f404053",
+            "f404054",
+            "f404055",
+            "f404056",
+            "f404057",
+            "f404058",
+            "f404059",
+            "f40405A",
+            "f40405B",
+            "f40405C",
+            "f40405D",
+            "f40405E",
+            "f40405F",
+            "f404060",
+            "f404061",
+            "f404062",
+            "f404063",
+            "f404064",
+            "f404065",
+            "f404066",
+            "f404067",
+            "f404068",
+            "f404069",
+            "f40406A",
+            "f40406B",
+            "f40406C",
+            "f40406D",
+            "f40406E",
+            "f40406F",
+            "f404070",
+            "f404071",
+            "f404072",
+            "f404073",
+            "f404074",
+            "f404075",
+            "f404076",
+            "f404077",
+            "f404078",
+            "f404079",
+            "f40407A",
+            "f40407B",
+            "f40407C",
+            "f40407D",
+            "f40407E",
+            "f40407F",
+            "f404080",
+            "f404081",
+            "f404082",
+            "f404083",
+            "f404084",
+            "f404085",
+            "f404086",
+            "f404087",
+            "f404088",
+            "f404089",
+            "f40408A",
+            "f40408B",
+            "f40408C",
+            "f40408D",
+            "f40408E",
+            "f40408F",
+            "f404090",
+            "f404091",
+            "f404092",
+            "f404093",
+            "f404094",
+            "f404095",
+            "f404096",
+            "f404097",
+            "f404098",
+            "f404099",
+            "f40409A",
+            "f40409B",
+            "f40409C",
+            "f40409D",
+            "f40409E",
+            "f40409F",
+            "f4040A0",
+            "f4040A1",
+            "f4040A2",
+            "f4040A3",
+            "f4040A4",
+            "f4040A5",
+            "f4040A6",
+            "f4040A7",
+            "f4040A8",
+            "f4040A9",
+            "f4040Aa",
+            "f4040Ab",
+            "f4040Ac",
+            "f4040Ad",
+            "f4040Ae",
+            "f4040Af",
+            "f4040B0",
+            "f4040B1",
+            "f4040B2",
+            "f4040B3",
+            "f4040B4",
+            "f4040B5",
+            "f4040B6",
+            "f4040B7",
+            "f4040B8",
+            "f4040B9",
+            "f4040Ba",
+            "f4040Bb",
+            "f4040Bc",
+            "f4040Bd",
+            "f4040Be",
+            "f4040Bf",
+            "f4040C0",
+            "f4040C1",
+            "f4040C2",
+            "f4040C3",
+            "f4040C4",
+            "f4040C5",
+            "f4040C6",
+            "f4040C7",
+            "f4040C8",
+            "timephasedData"
+         }) public static class Assignment
       {
 
          @XmlElement(name = "UID", required = true) protected BigInteger uid;
@@ -12685,16 +12686,16 @@ import org.mpxj.WorkGroup;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "timephasedData",
-            "number",
-            "start",
-            "finish",
-            "work",
-            "cost",
-            "bcws",
-            "bcwp"
-         }) public static class Baseline
+            {
+               "timephasedData",
+               "number",
+               "start",
+               "finish",
+               "work",
+               "cost",
+               "bcws",
+               "bcwp"
+            }) public static class Baseline
          {
 
             @XmlElement(name = "TimephasedData") protected List<TimephasedDataType> timephasedData;
@@ -12975,12 +12976,12 @@ import org.mpxj.WorkGroup;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "fieldID",
-            "value",
-            "valueGUID",
-            "durationFormat"
-         }) public static class ExtendedAttribute
+            {
+               "fieldID",
+               "value",
+               "valueGUID",
+               "durationFormat"
+            }) public static class ExtendedAttribute
          {
 
             @XmlElement(name = "FieldID") protected String fieldID;
@@ -13437,9 +13438,9 @@ import org.mpxj.WorkGroup;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "calendar"
-   }) public static class Calendars
+      {
+         "calendar"
+      }) public static class Calendars
    {
 
       @XmlElement(name = "Calendar", required = true) protected List<Project.Calendars.Calendar> calendar;
@@ -13804,17 +13805,17 @@ import org.mpxj.WorkGroup;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "uid",
-         "guid",
-         "name",
-         "isBaseCalendar",
-         "isBaselineCalendar",
-         "baseCalendarUID",
-         "weekDays",
-         "exceptions",
-         "workWeeks"
-      }) public static class Calendar
+         {
+            "uid",
+            "guid",
+            "name",
+            "isBaseCalendar",
+            "isBaselineCalendar",
+            "baseCalendarUID",
+            "weekDays",
+            "exceptions",
+            "workWeeks"
+         }) public static class Calendar
       {
 
          @XmlElement(name = "UID", required = true) protected BigInteger uid;
@@ -14199,9 +14200,9 @@ import org.mpxj.WorkGroup;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "exception"
-         }) public static class Exceptions
+            {
+               "exception"
+            }) public static class Exceptions
          {
 
             @XmlElement(name = "Exception") protected List<Project.Calendars.Calendar.Exceptions.Exception> exception;
@@ -14365,21 +14366,21 @@ import org.mpxj.WorkGroup;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "enteredByOccurrences",
-               "timePeriod",
-               "occurrences",
-               "name",
-               "type",
-               "period",
-               "daysOfWeek",
-               "monthItem",
-               "monthPosition",
-               "month",
-               "monthDay",
-               "dayWorking",
-               "workingTimes"
-            }) public static class Exception
+               {
+                  "enteredByOccurrences",
+                  "timePeriod",
+                  "occurrences",
+                  "name",
+                  "type",
+                  "period",
+                  "daysOfWeek",
+                  "monthItem",
+                  "monthPosition",
+                  "month",
+                  "monthDay",
+                  "dayWorking",
+                  "workingTimes"
+               }) public static class Exception
             {
 
                @XmlElement(name = "EnteredByOccurrences", type = String.class) @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "boolean") protected Boolean enteredByOccurrences;
@@ -14755,10 +14756,10 @@ import org.mpxj.WorkGroup;
                 *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-               {
-                  "fromDate",
-                  "toDate"
-               }) public static class TimePeriod
+                  {
+                     "fromDate",
+                     "toDate"
+                  }) public static class TimePeriod
                {
 
                   @XmlElement(name = "FromDate", type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime fromDate;
@@ -14851,9 +14852,9 @@ import org.mpxj.WorkGroup;
                 *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-               {
-                  "workingTime"
-               }) public static class WorkingTimes
+                  {
+                     "workingTime"
+                  }) public static class WorkingTimes
                {
 
                   @XmlElement(name = "WorkingTime") protected List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> workingTime;
@@ -14910,10 +14911,10 @@ import org.mpxj.WorkGroup;
                    *
                    */
                   @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-                  {
-                     "fromTime",
-                     "toTime"
-                  }) public static class WorkingTime
+                     {
+                        "fromTime",
+                        "toTime"
+                     }) public static class WorkingTime
                   {
 
                      @XmlElement(name = "FromTime", type = String.class) @XmlJavaTypeAdapter(Adapter5.class) @XmlSchemaType(name = "time") protected LocalTime fromTime;
@@ -15059,9 +15060,9 @@ import org.mpxj.WorkGroup;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "weekDay"
-         }) public static class WeekDays
+            {
+               "weekDay"
+            }) public static class WeekDays
          {
 
             @XmlElement(name = "WeekDay") protected List<Project.Calendars.Calendar.WeekDays.WeekDay> weekDay;
@@ -15167,12 +15168,12 @@ import org.mpxj.WorkGroup;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "dayType",
-               "dayWorking",
-               "timePeriod",
-               "workingTimes"
-            }) public static class WeekDay
+               {
+                  "dayType",
+                  "dayWorking",
+                  "timePeriod",
+                  "workingTimes"
+               }) public static class WeekDay
             {
 
                @XmlElement(name = "DayType", required = true) protected BigInteger dayType;
@@ -15305,10 +15306,10 @@ import org.mpxj.WorkGroup;
                 *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-               {
-                  "fromDate",
-                  "toDate"
-               }) public static class TimePeriod
+                  {
+                     "fromDate",
+                     "toDate"
+                  }) public static class TimePeriod
                {
 
                   @XmlElement(name = "FromDate", type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime fromDate;
@@ -15401,9 +15402,9 @@ import org.mpxj.WorkGroup;
                 *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-               {
-                  "workingTime"
-               }) public static class WorkingTimes
+                  {
+                     "workingTime"
+                  }) public static class WorkingTimes
                {
 
                   @XmlElement(name = "WorkingTime") protected List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> workingTime;
@@ -15460,10 +15461,10 @@ import org.mpxj.WorkGroup;
                    *
                    */
                   @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-                  {
-                     "fromTime",
-                     "toTime"
-                  }) public static class WorkingTime
+                     {
+                        "fromTime",
+                        "toTime"
+                     }) public static class WorkingTime
                   {
 
                      @XmlElement(name = "FromTime", type = String.class) @XmlJavaTypeAdapter(Adapter5.class) @XmlSchemaType(name = "time") protected LocalTime fromTime;
@@ -15636,9 +15637,9 @@ import org.mpxj.WorkGroup;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "workWeek"
-         }) public static class WorkWeeks
+            {
+               "workWeek"
+            }) public static class WorkWeeks
          {
 
             @XmlElement(name = "WorkWeek") protected List<Project.Calendars.Calendar.WorkWeeks.WorkWeek> workWeek;
@@ -15771,11 +15772,11 @@ import org.mpxj.WorkGroup;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "timePeriod",
-               "name",
-               "weekDays"
-            }) public static class WorkWeek
+               {
+                  "timePeriod",
+                  "name",
+                  "weekDays"
+               }) public static class WorkWeek
             {
 
                @XmlElement(name = "TimePeriod") protected Project.Calendars.Calendar.WorkWeeks.WorkWeek.TimePeriod timePeriod;
@@ -15881,10 +15882,10 @@ import org.mpxj.WorkGroup;
                 *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-               {
-                  "fromDate",
-                  "toDate"
-               }) public static class TimePeriod
+                  {
+                     "fromDate",
+                     "toDate"
+                  }) public static class TimePeriod
                {
 
                   @XmlElement(name = "FromDate", type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime fromDate;
@@ -16012,9 +16013,9 @@ import org.mpxj.WorkGroup;
                 *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-               {
-                  "weekDay"
-               }) public static class WeekDays
+                  {
+                     "weekDay"
+                  }) public static class WeekDays
                {
 
                   @XmlElement(name = "WeekDay") protected List<Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay> weekDay;
@@ -16108,11 +16109,11 @@ import org.mpxj.WorkGroup;
                    *
                    */
                   @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-                  {
-                     "dayType",
-                     "dayWorking",
-                     "workingTimes"
-                  }) public static class WeekDay
+                     {
+                        "dayType",
+                        "dayWorking",
+                        "workingTimes"
+                     }) public static class WeekDay
                   {
 
                      @XmlElement(name = "DayType", required = true) protected BigInteger dayType;
@@ -16230,9 +16231,9 @@ import org.mpxj.WorkGroup;
                       *
                       */
                      @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-                     {
-                        "workingTime"
-                     }) public static class WorkingTimes
+                        {
+                           "workingTime"
+                        }) public static class WorkingTimes
                      {
 
                         @XmlElement(name = "WorkingTime") protected List<Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes.WorkingTime> workingTime;
@@ -16289,10 +16290,10 @@ import org.mpxj.WorkGroup;
                          *
                          */
                         @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-                        {
-                           "fromTime",
-                           "toTime"
-                        }) public static class WorkingTime
+                           {
+                              "fromTime",
+                              "toTime"
+                           }) public static class WorkingTime
                         {
 
                            @XmlElement(name = "FromTime", type = String.class) @XmlJavaTypeAdapter(Adapter5.class) @XmlSchemaType(name = "time") protected LocalTime fromTime;
@@ -16502,9 +16503,9 @@ import org.mpxj.WorkGroup;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "extendedAttribute"
-   }) public static class ExtendedAttributes
+      {
+         "extendedAttribute"
+      }) public static class ExtendedAttributes
    {
 
       @XmlElement(name = "ExtendedAttribute") protected List<Project.ExtendedAttributes.ExtendedAttribute> extendedAttribute;
@@ -16666,30 +16667,30 @@ import org.mpxj.WorkGroup;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "fieldID",
-         "fieldName",
-         "cfType",
-         "guid",
-         "elemType",
-         "maxMultiValues",
-         "userDef",
-         "alias",
-         "secondaryPID",
-         "autoRollDown",
-         "defaultGuid",
-         "ltuid",
-         "secondaryGuid",
-         "phoneticAlias",
-         "rollupType",
-         "calculationType",
-         "formula",
-         "restrictValues",
-         "valuelistSortOrder",
-         "appendNewValues",
-         "_default",
-         "valueList"
-      }) public static class ExtendedAttribute
+         {
+            "fieldID",
+            "fieldName",
+            "cfType",
+            "guid",
+            "elemType",
+            "maxMultiValues",
+            "userDef",
+            "alias",
+            "secondaryPID",
+            "autoRollDown",
+            "defaultGuid",
+            "ltuid",
+            "secondaryGuid",
+            "phoneticAlias",
+            "rollupType",
+            "calculationType",
+            "formula",
+            "restrictValues",
+            "valuelistSortOrder",
+            "appendNewValues",
+            "_default",
+            "valueList"
+         }) public static class ExtendedAttribute
       {
 
          @XmlElement(name = "FieldID") protected String fieldID;
@@ -17320,9 +17321,9 @@ import org.mpxj.WorkGroup;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "value"
-         }) public static class ValueList
+            {
+               "value"
+            }) public static class ValueList
          {
 
             @XmlElement(name = "Value", required = true) protected List<Project.ExtendedAttributes.ExtendedAttribute.ValueList.Value> value;
@@ -17615,9 +17616,9 @@ import org.mpxj.WorkGroup;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "outlineCode"
-   }) public static class OutlineCodes
+      {
+         "outlineCode"
+      }) public static class OutlineCodes
    {
 
       @XmlElement(name = "OutlineCode") protected List<Project.OutlineCodes.OutlineCode> outlineCode;
@@ -17756,22 +17757,22 @@ import org.mpxj.WorkGroup;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "guid",
-         "fieldID",
-         "fieldName",
-         "alias",
-         "phoneticAlias",
-         "values",
-         "enterprise",
-         "enterpriseOutlineCodeAlias",
-         "resourceSubstitutionEnabled",
-         "leafOnly",
-         "allLevelsRequired",
-         "onlyTableValuesAllowed",
-         "showIndent",
-         "masks"
-      }) public static class OutlineCode
+         {
+            "guid",
+            "fieldID",
+            "fieldName",
+            "alias",
+            "phoneticAlias",
+            "values",
+            "enterprise",
+            "enterpriseOutlineCodeAlias",
+            "resourceSubstitutionEnabled",
+            "leafOnly",
+            "allLevelsRequired",
+            "onlyTableValuesAllowed",
+            "showIndent",
+            "masks"
+         }) public static class OutlineCode
       {
 
          @XmlElement(name = "Guid", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter32.class) protected UUID guid;
@@ -18195,9 +18196,9 @@ import org.mpxj.WorkGroup;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "mask"
-         }) public static class Masks
+            {
+               "mask"
+            }) public static class Masks
          {
 
             @XmlElement(name = "Mask") protected List<Project.OutlineCodes.OutlineCode.Masks.Mask> mask;
@@ -18265,12 +18266,12 @@ import org.mpxj.WorkGroup;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "level",
-               "type",
-               "length",
-               "separator"
-            }) public static class Mask
+               {
+                  "level",
+                  "type",
+                  "length",
+                  "separator"
+               }) public static class Mask
             {
 
                @XmlElement(name = "Level") protected BigInteger level;
@@ -18434,9 +18435,9 @@ import org.mpxj.WorkGroup;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "value"
-         }) public static class Values
+            {
+               "value"
+            }) public static class Values
          {
 
             @XmlElement(name = "Value") protected List<Project.OutlineCodes.OutlineCode.Values.Value> value;
@@ -19092,9 +19093,9 @@ import org.mpxj.WorkGroup;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "resource"
-   }) public static class Resources
+      {
+         "resource"
+      }) public static class Resources
    {
 
       @XmlElement(name = "Resource") protected List<Project.Resources.Resource> resource;
@@ -19500,81 +19501,81 @@ import org.mpxj.WorkGroup;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "uid",
-         "guid",
-         "id",
-         "name",
-         "type",
-         "isNull",
-         "initials",
-         "phonetics",
-         "ntAccount",
-         "materialLabel",
-         "code",
-         "group",
-         "workGroup",
-         "emailAddress",
-         "hyperlink",
-         "hyperlinkAddress",
-         "hyperlinkSubAddress",
-         "maxUnits",
-         "peakUnits",
-         "overAllocated",
-         "availableFrom",
-         "availableTo",
-         "start",
-         "finish",
-         "canLevel",
-         "accrueAt",
-         "work",
-         "regularWork",
-         "overtimeWork",
-         "actualWork",
-         "remainingWork",
-         "actualOvertimeWork",
-         "remainingOvertimeWork",
-         "percentWorkComplete",
-         "standardRate",
-         "standardRateFormat",
-         "cost",
-         "overtimeRate",
-         "overtimeRateFormat",
-         "overtimeCost",
-         "costPerUse",
-         "actualCost",
-         "actualOvertimeCost",
-         "remainingCost",
-         "remainingOvertimeCost",
-         "workVariance",
-         "costVariance",
-         "sv",
-         "cv",
-         "acwp",
-         "calendarUID",
-         "notes",
-         "bcws",
-         "bcwp",
-         "isGeneric",
-         "isInactive",
-         "isEnterprise",
-         "bookingType",
-         "actualWorkProtected",
-         "actualOvertimeWorkProtected",
-         "activeDirectoryGUID",
-         "creationDate",
-         "extendedAttribute",
-         "baseline",
-         "outlineCode",
-         "costCenter",
-         "isCostResource",
-         "assnOwner",
-         "assnOwnerGuid",
-         "isBudget",
-         "availabilityPeriods",
-         "rates",
-         "timephasedData"
-      }) public static class Resource
+         {
+            "uid",
+            "guid",
+            "id",
+            "name",
+            "type",
+            "isNull",
+            "initials",
+            "phonetics",
+            "ntAccount",
+            "materialLabel",
+            "code",
+            "group",
+            "workGroup",
+            "emailAddress",
+            "hyperlink",
+            "hyperlinkAddress",
+            "hyperlinkSubAddress",
+            "maxUnits",
+            "peakUnits",
+            "overAllocated",
+            "availableFrom",
+            "availableTo",
+            "start",
+            "finish",
+            "canLevel",
+            "accrueAt",
+            "work",
+            "regularWork",
+            "overtimeWork",
+            "actualWork",
+            "remainingWork",
+            "actualOvertimeWork",
+            "remainingOvertimeWork",
+            "percentWorkComplete",
+            "standardRate",
+            "standardRateFormat",
+            "cost",
+            "overtimeRate",
+            "overtimeRateFormat",
+            "overtimeCost",
+            "costPerUse",
+            "actualCost",
+            "actualOvertimeCost",
+            "remainingCost",
+            "remainingOvertimeCost",
+            "workVariance",
+            "costVariance",
+            "sv",
+            "cv",
+            "acwp",
+            "calendarUID",
+            "notes",
+            "bcws",
+            "bcwp",
+            "isGeneric",
+            "isInactive",
+            "isEnterprise",
+            "bookingType",
+            "actualWorkProtected",
+            "actualOvertimeWorkProtected",
+            "activeDirectoryGUID",
+            "creationDate",
+            "extendedAttribute",
+            "baseline",
+            "outlineCode",
+            "costCenter",
+            "isCostResource",
+            "assnOwner",
+            "assnOwnerGuid",
+            "isBudget",
+            "availabilityPeriods",
+            "rates",
+            "timephasedData"
+         }) public static class Resource
       {
 
          @XmlElement(name = "UID", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter14.class) @XmlSchemaType(name = "integer") protected Integer uid;
@@ -21601,9 +21602,9 @@ import org.mpxj.WorkGroup;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "availabilityPeriod"
-         }) public static class AvailabilityPeriods
+            {
+               "availabilityPeriod"
+            }) public static class AvailabilityPeriods
          {
 
             @XmlElement(name = "AvailabilityPeriod") protected List<Project.Resources.Resource.AvailabilityPeriods.AvailabilityPeriod> availabilityPeriod;
@@ -21661,11 +21662,11 @@ import org.mpxj.WorkGroup;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "availableFrom",
-               "availableTo",
-               "availableUnits"
-            }) public static class AvailabilityPeriod
+               {
+                  "availableFrom",
+                  "availableTo",
+                  "availableUnits"
+               }) public static class AvailabilityPeriod
             {
 
                @XmlElement(name = "AvailableFrom", type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime availableFrom;
@@ -21778,13 +21779,13 @@ import org.mpxj.WorkGroup;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "number",
-            "work",
-            "cost",
-            "bcws",
-            "bcwp"
-         }) public static class Baseline
+            {
+               "number",
+               "work",
+               "cost",
+               "bcws",
+               "bcwp"
+            }) public static class Baseline
          {
 
             @XmlElement(name = "Number", required = true) protected BigInteger number;
@@ -21979,12 +21980,12 @@ import org.mpxj.WorkGroup;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "fieldID",
-            "value",
-            "valueGUID",
-            "durationFormat"
-         }) public static class ExtendedAttribute
+            {
+               "fieldID",
+               "value",
+               "valueGUID",
+               "durationFormat"
+            }) public static class ExtendedAttribute
          {
 
             @XmlElement(name = "FieldID") protected String fieldID;
@@ -22120,11 +22121,11 @@ import org.mpxj.WorkGroup;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "fieldID",
-            "valueID",
-            "valueGUID"
-         }) public static class OutlineCode
+            {
+               "fieldID",
+               "valueID",
+               "valueGUID"
+            }) public static class OutlineCode
          {
 
             @XmlElement(name = "FieldID") protected String fieldID;
@@ -22280,9 +22281,9 @@ import org.mpxj.WorkGroup;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "rate"
-         }) public static class Rates
+            {
+               "rate"
+            }) public static class Rates
          {
 
             @XmlElement(name = "Rate") protected List<Project.Resources.Resource.Rates.Rate> rate;
@@ -22377,16 +22378,16 @@ import org.mpxj.WorkGroup;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "ratesFrom",
-               "ratesTo",
-               "rateTable",
-               "standardRate",
-               "standardRateFormat",
-               "overtimeRate",
-               "overtimeRateFormat",
-               "costPerUse"
-            }) public static class Rate
+               {
+                  "ratesFrom",
+                  "ratesTo",
+                  "rateTable",
+                  "standardRate",
+                  "standardRateFormat",
+                  "overtimeRate",
+                  "overtimeRateFormat",
+                  "costPerUse"
+               }) public static class Rate
             {
 
                @XmlElement(name = "RatesFrom", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime ratesFrom;
@@ -23069,9 +23070,9 @@ import org.mpxj.WorkGroup;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "task"
-   }) public static class Tasks
+      {
+         "task"
+      }) public static class Tasks
    {
 
       @XmlElement(name = "Task") protected List<Project.Tasks.Task> task;
@@ -23552,117 +23553,117 @@ import org.mpxj.WorkGroup;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "uid",
-         "guid",
-         "id",
-         "name",
-         "active",
-         "manual",
-         "type",
-         "isNull",
-         "createDate",
-         "contact",
-         "wbs",
-         "wbsLevel",
-         "outlineNumber",
-         "outlineLevel",
-         "priority",
-         "start",
-         "finish",
-         "duration",
-         "durationFormat",
-         "work",
-         "stop",
-         "resume",
-         "resumeValid",
-         "effortDriven",
-         "recurring",
-         "overAllocated",
-         "estimated",
-         "milestone",
-         "summary",
-         "displayAsSummary",
-         "critical",
-         "isSubproject",
-         "isSubprojectReadOnly",
-         "subprojectName",
-         "externalTask",
-         "externalTaskProject",
-         "earlyStart",
-         "earlyFinish",
-         "lateStart",
-         "lateFinish",
-         "startVariance",
-         "finishVariance",
-         "workVariance",
-         "freeSlack",
-         "totalSlack",
-         "startSlack",
-         "finishSlack",
-         "fixedCost",
-         "fixedCostAccrual",
-         "percentComplete",
-         "percentWorkComplete",
-         "cost",
-         "overtimeCost",
-         "overtimeWork",
-         "actualStart",
-         "actualFinish",
-         "actualDuration",
-         "actualCost",
-         "actualOvertimeCost",
-         "actualWork",
-         "actualOvertimeWork",
-         "regularWork",
-         "remainingDuration",
-         "remainingCost",
-         "remainingWork",
-         "remainingOvertimeCost",
-         "remainingOvertimeWork",
-         "acwp",
-         "cv",
-         "constraintType",
-         "calendarUID",
-         "constraintDate",
-         "deadline",
-         "levelAssignments",
-         "levelingCanSplit",
-         "levelingDelay",
-         "levelingDelayFormat",
-         "preLeveledStart",
-         "preLeveledFinish",
-         "hyperlink",
-         "hyperlinkAddress",
-         "hyperlinkSubAddress",
-         "ignoreResourceCalendar",
-         "notes",
-         "hideBar",
-         "rollup",
-         "bcws",
-         "bcwp",
-         "physicalPercentComplete",
-         "earnedValueMethod",
-         "predecessorLink",
-         "actualWorkProtected",
-         "actualOvertimeWorkProtected",
-         "extendedAttribute",
-         "baseline",
-         "outlineCode",
-         "isPublished",
-         "statusManager",
-         "commitmentStart",
-         "commitmentFinish",
-         "commitmentType",
-         "startText",
-         "finishText",
-         "durationText",
-         "manualStart",
-         "manualFinish",
-         "manualDuration",
-         "timephasedData",
-         "project"
-      }) public static class Task
+         {
+            "uid",
+            "guid",
+            "id",
+            "name",
+            "active",
+            "manual",
+            "type",
+            "isNull",
+            "createDate",
+            "contact",
+            "wbs",
+            "wbsLevel",
+            "outlineNumber",
+            "outlineLevel",
+            "priority",
+            "start",
+            "finish",
+            "duration",
+            "durationFormat",
+            "work",
+            "stop",
+            "resume",
+            "resumeValid",
+            "effortDriven",
+            "recurring",
+            "overAllocated",
+            "estimated",
+            "milestone",
+            "summary",
+            "displayAsSummary",
+            "critical",
+            "isSubproject",
+            "isSubprojectReadOnly",
+            "subprojectName",
+            "externalTask",
+            "externalTaskProject",
+            "earlyStart",
+            "earlyFinish",
+            "lateStart",
+            "lateFinish",
+            "startVariance",
+            "finishVariance",
+            "workVariance",
+            "freeSlack",
+            "totalSlack",
+            "startSlack",
+            "finishSlack",
+            "fixedCost",
+            "fixedCostAccrual",
+            "percentComplete",
+            "percentWorkComplete",
+            "cost",
+            "overtimeCost",
+            "overtimeWork",
+            "actualStart",
+            "actualFinish",
+            "actualDuration",
+            "actualCost",
+            "actualOvertimeCost",
+            "actualWork",
+            "actualOvertimeWork",
+            "regularWork",
+            "remainingDuration",
+            "remainingCost",
+            "remainingWork",
+            "remainingOvertimeCost",
+            "remainingOvertimeWork",
+            "acwp",
+            "cv",
+            "constraintType",
+            "calendarUID",
+            "constraintDate",
+            "deadline",
+            "levelAssignments",
+            "levelingCanSplit",
+            "levelingDelay",
+            "levelingDelayFormat",
+            "preLeveledStart",
+            "preLeveledFinish",
+            "hyperlink",
+            "hyperlinkAddress",
+            "hyperlinkSubAddress",
+            "ignoreResourceCalendar",
+            "notes",
+            "hideBar",
+            "rollup",
+            "bcws",
+            "bcwp",
+            "physicalPercentComplete",
+            "earnedValueMethod",
+            "predecessorLink",
+            "actualWorkProtected",
+            "actualOvertimeWorkProtected",
+            "extendedAttribute",
+            "baseline",
+            "outlineCode",
+            "isPublished",
+            "statusManager",
+            "commitmentStart",
+            "commitmentFinish",
+            "commitmentType",
+            "startText",
+            "finishText",
+            "durationText",
+            "manualStart",
+            "manualFinish",
+            "manualDuration",
+            "timephasedData",
+            "project"
+         }) public static class Task
       {
 
          @XmlElement(name = "UID", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter22.class) @XmlSchemaType(name = "integer") protected Integer uid;
@@ -26697,21 +26698,21 @@ import org.mpxj.WorkGroup;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "timephasedData",
-            "number",
-            "interim",
-            "start",
-            "finish",
-            "duration",
-            "durationFormat",
-            "estimatedDuration",
-            "work",
-            "cost",
-            "bcws",
-            "bcwp",
-            "fixedCost"
-         }) public static class Baseline
+            {
+               "timephasedData",
+               "number",
+               "interim",
+               "start",
+               "finish",
+               "duration",
+               "durationFormat",
+               "estimatedDuration",
+               "work",
+               "cost",
+               "bcws",
+               "bcwp",
+               "fixedCost"
+            }) public static class Baseline
          {
 
             @XmlElement(name = "TimephasedData") protected List<TimephasedDataType> timephasedData;
@@ -27127,12 +27128,12 @@ import org.mpxj.WorkGroup;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "fieldID",
-            "value",
-            "valueGUID",
-            "durationFormat"
-         }) public static class ExtendedAttribute
+            {
+               "fieldID",
+               "value",
+               "valueGUID",
+               "durationFormat"
+            }) public static class ExtendedAttribute
          {
 
             @XmlElement(name = "FieldID") protected String fieldID;
@@ -27268,11 +27269,11 @@ import org.mpxj.WorkGroup;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "fieldID",
-            "valueID",
-            "valueGUID"
-         }) public static class OutlineCode
+            {
+               "fieldID",
+               "valueID",
+               "valueGUID"
+            }) public static class OutlineCode
          {
 
             @XmlElement(name = "FieldID") protected String fieldID;
@@ -27423,14 +27424,14 @@ import org.mpxj.WorkGroup;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "predecessorUID",
-            "type",
-            "crossProject",
-            "crossProjectName",
-            "linkLag",
-            "lagFormat"
-         }) public static class PredecessorLink
+            {
+               "predecessorUID",
+               "type",
+               "crossProject",
+               "crossProjectName",
+               "linkLag",
+               "lagFormat"
+            }) public static class PredecessorLink
          {
 
             @XmlElement(name = "PredecessorUID") protected BigInteger predecessorUID;
@@ -27653,12 +27654,12 @@ import org.mpxj.WorkGroup;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "verifyUniqueCodes",
-      "generateCodes",
-      "prefix",
-      "wbsMask"
-   }) public static class WBSMasks
+      {
+         "verifyUniqueCodes",
+         "generateCodes",
+         "prefix",
+         "wbsMask"
+      }) public static class WBSMasks
    {
 
       @XmlElement(name = "VerifyUniqueCodes", type = String.class, defaultValue = "false") @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "boolean") protected Boolean verifyUniqueCodes;
@@ -27807,12 +27808,12 @@ import org.mpxj.WorkGroup;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "level",
-         "type",
-         "length",
-         "separator"
-      }) public static class WBSMask
+         {
+            "level",
+            "type",
+            "length",
+            "separator"
+         }) public static class WBSMask
       {
 
          @XmlElement(name = "Level", required = true) protected BigInteger level;

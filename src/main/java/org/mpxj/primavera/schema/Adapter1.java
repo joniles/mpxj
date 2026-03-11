@@ -10,8 +10,8 @@ package org.mpxj.primavera.schema;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter1
-         extends
-            XmlAdapter<String, String>
+   extends
+   XmlAdapter<String, String>
 {
 
    @Override public String unmarshal(String value)

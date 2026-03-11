@@ -25,6 +25,7 @@ package org.mpxj.turboproject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,8 +33,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.mpxj.ChildTaskContainer;
-import java.time.DayOfWeek;
-
 import org.mpxj.EventManager;
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;

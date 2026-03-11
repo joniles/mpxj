@@ -26,12 +26,11 @@ package org.mpxj.junit.task;
 import java.io.File;
 
 import org.junit.jupiter.api.Test;
-import org.mpxj.reader.UniversalProjectReader;
-
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
 import org.mpxj.junit.MpxjTestData;
+import org.mpxj.reader.UniversalProjectReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -96,8 +95,8 @@ public class TaskDeletionTest
          assertEquals(expectedNames[index], task.getName(), file.getName() + " Task " + task.getID());
       }
    }
-   private static final String[] TASK_DELETION1 =
-   {
+
+   private static final String[] TASK_DELETION1 = {
       null,
       "T1",
       null,
@@ -109,8 +108,7 @@ public class TaskDeletionTest
       "T5"
    };
 
-   private static final String[] TASK_DELETION2 =
-   {
+   private static final String[] TASK_DELETION2 = {
       "T1",
       "T2",
       "T4",

@@ -12,8 +12,8 @@ import org.mpxj.AccrueType;
 import org.mpxj.mspdi.DatatypeConverter;
 
 public class Adapter18
-         extends
-            XmlAdapter<String, AccrueType>
+   extends
+   XmlAdapter<String, AccrueType>
 {
 
    @Override public AccrueType unmarshal(String value)

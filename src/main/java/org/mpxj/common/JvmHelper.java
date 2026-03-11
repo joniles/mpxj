@@ -37,6 +37,7 @@ public final class JvmHelper
    {
       return IKVM;
    }
+
    private static final boolean IKVM;
 
    static

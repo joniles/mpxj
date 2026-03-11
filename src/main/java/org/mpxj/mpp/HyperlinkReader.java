@@ -94,27 +94,27 @@ final class HyperlinkReader
    static
    {
       FIELDS.put(Task.class, new FieldType[]
-      {
-         TaskField.HYPERLINK,
-         TaskField.HYPERLINK_ADDRESS,
-         TaskField.HYPERLINK_SUBADDRESS,
-         TaskField.HYPERLINK_SCREEN_TIP
-      });
+         {
+            TaskField.HYPERLINK,
+            TaskField.HYPERLINK_ADDRESS,
+            TaskField.HYPERLINK_SUBADDRESS,
+            TaskField.HYPERLINK_SCREEN_TIP
+         });
 
       FIELDS.put(Resource.class, new FieldType[]
-      {
-         ResourceField.HYPERLINK,
-         ResourceField.HYPERLINK_ADDRESS,
-         ResourceField.HYPERLINK_SUBADDRESS,
-         ResourceField.HYPERLINK_SCREEN_TIP
-      });
+         {
+            ResourceField.HYPERLINK,
+            ResourceField.HYPERLINK_ADDRESS,
+            ResourceField.HYPERLINK_SUBADDRESS,
+            ResourceField.HYPERLINK_SCREEN_TIP
+         });
 
       FIELDS.put(ResourceAssignment.class, new FieldType[]
-      {
-         AssignmentField.HYPERLINK,
-         AssignmentField.HYPERLINK_ADDRESS,
-         AssignmentField.HYPERLINK_SUBADDRESS,
-         AssignmentField.HYPERLINK_SCREEN_TIP
-      });
+         {
+            AssignmentField.HYPERLINK,
+            AssignmentField.HYPERLINK_ADDRESS,
+            AssignmentField.HYPERLINK_SUBADDRESS,
+            AssignmentField.HYPERLINK_SCREEN_TIP
+         });
    }
 }

@@ -25,6 +25,7 @@ package org.mpxj.asta;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -32,7 +33,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.mpxj.ActivityCode;
 import org.mpxj.ActivityCodeContainer;
@@ -51,10 +52,8 @@ import org.mpxj.ChildTaskContainer;
 import org.mpxj.ConstraintType;
 import org.mpxj.CostRateTable;
 import org.mpxj.CostRateTableEntry;
+import org.mpxj.CustomFieldContainer;
 import org.mpxj.DataType;
-import java.time.DayOfWeek;
-import java.util.stream.Collectors;
-
 import org.mpxj.DayType;
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
@@ -62,6 +61,7 @@ import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
 import org.mpxj.FieldTypeClass;
 import org.mpxj.LocalDateRange;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarDays;
 import org.mpxj.ProjectCalendarHours;
@@ -75,9 +75,7 @@ import org.mpxj.Resource;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceType;
 import org.mpxj.Task;
-import org.mpxj.LocalTimeRange;
 import org.mpxj.TimeUnit;
-import org.mpxj.CustomFieldContainer;
 import org.mpxj.UnitOfMeasureContainer;
 import org.mpxj.UserDefinedField;
 import org.mpxj.UserDefinedFieldContainer;
@@ -2285,8 +2283,7 @@ final class AstaReader
    private static final RowComparator LEAF_COMPARATOR = new RowComparator("NATURAL_ORDER", "NATURAL_ORDER");
    private static final RowComparator BAR_COMPARATOR = new RowComparator("EXPANDED_TASK", "NATURAL_ORDER");
 
-   private static final RelationType[] RELATION_TYPES =
-   {
+   private static final RelationType[] RELATION_TYPES = {
       RelationType.FINISH_START,
       RelationType.START_START,
       RelationType.FINISH_FINISH,

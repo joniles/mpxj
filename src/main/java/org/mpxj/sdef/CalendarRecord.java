@@ -24,10 +24,11 @@
 package org.mpxj.sdef;
 
 import java.time.DayOfWeek;
-import org.mpxj.common.DayOfWeekHelper;
+
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarDays;
 import org.mpxj.ProjectCalendarHours;
+import org.mpxj.common.DayOfWeekHelper;
 
 /**
  * SDEF Calendar Record.
@@ -59,8 +60,7 @@ class CalendarRecord extends AbstractSDEFRecord
       context.getEventManager().fireCalendarReadEvent(calendar);
    }
 
-   private static final SDEFField[] FIELDS = new SDEFField[]
-   {
+   private static final SDEFField[] FIELDS = {
       new StringField("Calendar Code", 1),
       new StringField("Workdays", 7),
       new StringField("Calendar Description", 30)

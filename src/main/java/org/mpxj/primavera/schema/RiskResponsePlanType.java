@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -110,35 +111,35 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "RiskResponsePlanType", propOrder =
-{
-   "actualCost",
-   "createDate",
-   "createUser",
-   "finishDate",
-   "id",
-   "isActive",
-   "isBaseline",
-   "isTemplate",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "name",
-   "objectId",
-   "plannedCost",
-   "plannedFinishDate",
-   "plannedStartDate",
-   "projectId",
-   "projectName",
-   "projectObjectId",
-   "remainingCost",
-   "responseType",
-   "riskId",
-   "riskName",
-   "riskObjectId",
-   "score",
-   "scoreColor",
-   "scoreText",
-   "startDate"
-}) public class RiskResponsePlanType
+   {
+      "actualCost",
+      "createDate",
+      "createUser",
+      "finishDate",
+      "id",
+      "isActive",
+      "isBaseline",
+      "isTemplate",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "name",
+      "objectId",
+      "plannedCost",
+      "plannedFinishDate",
+      "plannedStartDate",
+      "projectId",
+      "projectName",
+      "projectObjectId",
+      "remainingCost",
+      "responseType",
+      "riskId",
+      "riskName",
+      "riskObjectId",
+      "score",
+      "scoreColor",
+      "scoreText",
+      "startDate"
+   }) public class RiskResponsePlanType
 {
 
    @XmlElement(name = "ActualCost", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double actualCost;

@@ -10,6 +10,7 @@ package org.mpxj.primavera.schema;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -183,47 +184,47 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "RiskType", propOrder =
-{
-   "cause",
-   "costThresholdId",
-   "createDate",
-   "createUser",
-   "description",
-   "effect",
-   "exposure",
-   "exposureFinishDate",
-   "exposureStartDate",
-   "id",
-   "identifiedByResourceId",
-   "identifiedByResourceName",
-   "identifiedByResourceObjectId",
-   "identifiedDate",
-   "impactThresholdValues",
-   "isBaseline",
-   "isTemplate",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "name",
-   "note",
-   "objectId",
-   "probabilityThresholdId",
-   "projectId",
-   "projectName",
-   "projectObjectId",
-   "resourceId",
-   "resourceName",
-   "resourceObjectId",
-   "responseTotalCost",
-   "riskCategoryName",
-   "riskCategoryObjectId",
-   "scheduleThresholdId",
-   "score",
-   "scoreColor",
-   "scoreText",
-   "status",
-   "type",
-   "udf"
-}) public class RiskType
+   {
+      "cause",
+      "costThresholdId",
+      "createDate",
+      "createUser",
+      "description",
+      "effect",
+      "exposure",
+      "exposureFinishDate",
+      "exposureStartDate",
+      "id",
+      "identifiedByResourceId",
+      "identifiedByResourceName",
+      "identifiedByResourceObjectId",
+      "identifiedDate",
+      "impactThresholdValues",
+      "isBaseline",
+      "isTemplate",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "name",
+      "note",
+      "objectId",
+      "probabilityThresholdId",
+      "projectId",
+      "projectName",
+      "projectObjectId",
+      "resourceId",
+      "resourceName",
+      "resourceObjectId",
+      "responseTotalCost",
+      "riskCategoryName",
+      "riskCategoryObjectId",
+      "scheduleThresholdId",
+      "score",
+      "scoreColor",
+      "scoreText",
+      "status",
+      "type",
+      "udf"
+   }) public class RiskType
 {
 
    @XmlElement(name = "Cause") @XmlJavaTypeAdapter(Adapter1.class) protected String cause;

@@ -23,11 +23,6 @@
 
 package org.mpxj.junit;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mpxj.junit.MpxjAssert.*;
-
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -41,6 +36,12 @@ import org.mpxj.common.NumberHelper;
 import org.mpxj.mpd.MPDFileReader;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mspdi.MSPDIReader;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mpxj.junit.MpxjAssert.assertBooleanEquals;
+import static org.mpxj.junit.MpxjAssert.assertDurationEquals;
 
 /**
  * Tests to exercise file read functionality for various MS project file types.
@@ -409,8 +410,7 @@ public class MppAssignmentTest
       assertEquals("x", assignment.getHyperlinkSubAddress());
    }
 
-   private static final int[][] BASELINE_COSTS =
-   {
+   private static final int[][] BASELINE_COSTS = {
       {
          1,
          2,
@@ -437,8 +437,7 @@ public class MppAssignmentTest
       }
    };
 
-   private static final int[][] BASELINE_WORKS =
-   {
+   private static final int[][] BASELINE_WORKS = {
       {
          1,
          2,
@@ -465,8 +464,7 @@ public class MppAssignmentTest
       }
    };
 
-   private static final String[][] BASELINE_STARTS =
-   {
+   private static final String[][] BASELINE_STARTS = {
       {
          "01/01/10 08:00",
          "02/01/10 08:00",
@@ -493,8 +491,7 @@ public class MppAssignmentTest
       }
    };
 
-   private static final String[][] BASELINE_FINISHES =
-   {
+   private static final String[][] BASELINE_FINISHES = {
       {
          "01/01/09 17:00",
          "02/01/09 17:00",
@@ -521,8 +518,7 @@ public class MppAssignmentTest
       }
    };
 
-   private static final String[][] CUSTOM_TEXT =
-   {
+   private static final String[][] CUSTOM_TEXT = {
       {
          "t1",
          "t2",
@@ -589,8 +585,7 @@ public class MppAssignmentTest
       }
    };
 
-   private static final String[][] CUSTOM_START =
-   {
+   private static final String[][] CUSTOM_START = {
       {
          "01/01/11 08:00",
          "02/01/11 08:00",
@@ -617,8 +612,7 @@ public class MppAssignmentTest
       }
    };
 
-   private static final String[][] CUSTOM_FINISH =
-   {
+   private static final String[][] CUSTOM_FINISH = {
       {
          "01/03/11 17:00",
          "02/03/11 17:00",
@@ -645,8 +639,7 @@ public class MppAssignmentTest
       }
    };
 
-   private static final String[][] CUSTOM_DATE =
-   {
+   private static final String[][] CUSTOM_DATE = {
       {
          "01/05/11 08:00",
          "02/05/11 08:00",
@@ -673,8 +666,7 @@ public class MppAssignmentTest
       }
    };
 
-   private static final int[][] CUSTOM_NUMBER =
-   {
+   private static final int[][] CUSTOM_NUMBER = {
       {
          1,
          2,
@@ -721,8 +713,7 @@ public class MppAssignmentTest
       }
    };
 
-   private static final double[][] CUSTOM_DURATION =
-   {
+   private static final double[][] CUSTOM_DURATION = {
       {
          0.13,
          0.25,
@@ -749,8 +740,7 @@ public class MppAssignmentTest
       }
    };
 
-   private static final double[][] CUSTOM_COST =
-   {
+   private static final double[][] CUSTOM_COST = {
       {
          0.01,
          0.20,
@@ -777,8 +767,7 @@ public class MppAssignmentTest
       }
    };
 
-   private static final boolean[][] CUSTOM_FLAG =
-   {
+   private static final boolean[][] CUSTOM_FLAG = {
       {
          true,
          false,

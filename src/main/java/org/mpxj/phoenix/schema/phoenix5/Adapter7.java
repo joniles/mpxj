@@ -12,8 +12,8 @@ import org.mpxj.ResourceType;
 import org.mpxj.phoenix.DatatypeConverter;
 
 public class Adapter7
-         extends
-            XmlAdapter<String, ResourceType>
+   extends
+   XmlAdapter<String, ResourceType>
 {
 
    @Override public ResourceType unmarshal(String value)

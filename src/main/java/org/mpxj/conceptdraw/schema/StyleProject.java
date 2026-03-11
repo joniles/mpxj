@@ -47,10 +47,10 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-{
-   "rowHeight",
-   "gridRowStyle"
-}) @XmlRootElement(name = "StyleProject") public class StyleProject
+   {
+      "rowHeight",
+      "gridRowStyle"
+   }) @XmlRootElement(name = "StyleProject") public class StyleProject
 {
 
    @XmlElement(name = "RowHeight", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter6.class) @XmlSchemaType(name = "int") protected Integer rowHeight;
@@ -129,10 +129,10 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "fontName",
-      "fontSize"
-   }) public static class GridRowStyle
+      {
+         "fontName",
+         "fontSize"
+      }) public static class GridRowStyle
    {
 
       @XmlElement(name = "FontName", required = true) protected String fontName;

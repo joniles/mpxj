@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -83,20 +84,20 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ProjectCodeType", propOrder =
-{
-   "codeTypeName",
-   "codeTypeObjectId",
-   "codeValue",
-   "createDate",
-   "createUser",
-   "description",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "objectId",
-   "parentObjectId",
-   "sequenceNumber",
-   "weight"
-}) public class ProjectCodeType
+   {
+      "codeTypeName",
+      "codeTypeObjectId",
+      "codeValue",
+      "createDate",
+      "createUser",
+      "description",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "objectId",
+      "parentObjectId",
+      "sequenceNumber",
+      "weight"
+   }) public class ProjectCodeType
 {
 
    @XmlElement(name = "CodeTypeName") @XmlJavaTypeAdapter(Adapter1.class) protected String codeTypeName;

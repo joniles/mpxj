@@ -8,12 +8,13 @@
 package org.mpxj.mspdi.schema;
 
 import java.time.LocalTime;
+
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import org.mpxj.mspdi.DatatypeConverter;
 
 public class Adapter5
-         extends
-            XmlAdapter<String, LocalTime>
+   extends
+   XmlAdapter<String, LocalTime>
 {
 
    @Override public LocalTime unmarshal(String value)
