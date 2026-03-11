@@ -669,8 +669,7 @@ class XmlContextReader
             resource.getCostRateTable(0).clear();
          }
 
-         Rate[] values = new Rate[]
-         {
+         Rate[] values = {
             Rate.valueOf(row.getPricePerUnit(), TimeUnit.HOURS),
             Rate.valueOf(row.getPricePerUnit2(), TimeUnit.HOURS),
             Rate.valueOf(row.getPricePerUnit3(), TimeUnit.HOURS),
@@ -746,8 +745,7 @@ class XmlContextReader
             resource.getCostRateTable(0).clear();
          }
 
-         Rate[] values = new Rate[]
-         {
+         Rate[] values = {
             Rate.valueOf(row.getPricePerUnit(), TimeUnit.HOURS),
             Rate.valueOf(row.getPricePerUnit2(), TimeUnit.HOURS),
             Rate.valueOf(row.getPricePerUnit3(), TimeUnit.HOURS),

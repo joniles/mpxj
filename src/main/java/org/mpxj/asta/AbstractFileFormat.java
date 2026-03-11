@@ -227,8 +227,7 @@ abstract class AbstractFileFormat
       return map;
    }
 
-   private static final ColumnDefinition[] PROJECT_SUMMARY_COLUMNS = new ColumnDefinition[]
-   {
+   private static final ColumnDefinition[] PROJECT_SUMMARY_COLUMNS = {
       new ColumnDefinition("PROJECT_SUMMARYID", Types.INTEGER),
       new ColumnDefinition("DURATIONTYPF", Types.INTEGER),
       new ColumnDefinition("DURATIONELA_MONTHS", Types.INTEGER),
@@ -295,8 +294,7 @@ abstract class AbstractFileFormat
 
    };
 
-   private static final ColumnDefinition[] BAR_COLUMNS = new ColumnDefinition[]
-   {
+   private static final ColumnDefinition[] BAR_COLUMNS = {
       new ColumnDefinition("BARID", Types.INTEGER),
       new ColumnDefinition("BAR_START", Types.TIMESTAMP),
       new ColumnDefinition("BAR_FINISH", Types.TIMESTAMP),
@@ -315,8 +313,7 @@ abstract class AbstractFileFormat
             // Followed by user defined columns which differ by project
    };
 
-   private static final ColumnDefinition[] CALENDAR_COLUMNS = new ColumnDefinition[]
-   {
+   private static final ColumnDefinition[] CALENDAR_COLUMNS = {
       new ColumnDefinition("ID", Types.INTEGER),
       new ColumnDefinition("SPARL_INTEGER", Types.INTEGER),
       new ColumnDefinition("NAME", Types.VARCHAR),
@@ -334,8 +331,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER)
    };
 
-   private static final ColumnDefinition[] EXCEPTIONN_COLUMNS = new ColumnDefinition[]
-   {
+   private static final ColumnDefinition[] EXCEPTIONN_COLUMNS = {
       new ColumnDefinition("ID", Types.INTEGER),
       new ColumnDefinition("ARR_STOUT_STAPPANDARROW_TYPE", Types.INTEGER),
       new ColumnDefinition("ARR_STOUT_STAPPANDLENGTH", Types.INTEGER),
@@ -367,8 +363,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("SORT_ORDER", Types.INTEGER)
    };
 
-   private static final ColumnDefinition[] EXCEPTION_ASSIGNMENT_COLUMNS = new ColumnDefinition[]
-   {
+   private static final ColumnDefinition[] EXCEPTION_ASSIGNMENT_COLUMNS = {
       new ColumnDefinition("EXCEPTION_ASSIGNMENTID", Types.INTEGER),
       //new ColumnDefinition("ORDF", Types.INTEGER),
       new ColumnDefinition("START_DATE", Types.TIMESTAMP),
@@ -376,16 +371,14 @@ abstract class AbstractFileFormat
       new ColumnDefinition("EXCEPTIOO", Types.INTEGER)
    };
 
-   private static final ColumnDefinition[] TIME_ENTRY_COLUMNS = new ColumnDefinition[]
-   {
+   private static final ColumnDefinition[] TIME_ENTRY_COLUMNS = {
       new ColumnDefinition("TIME_ENTRYID", Types.INTEGER),
       new ColumnDefinition("EXCEPTION", Types.INTEGER),
       new ColumnDefinition("START_TIME", Types.TIME),
       new ColumnDefinition("END_TIME", Types.TIME)
    };
 
-   private static final ColumnDefinition[] WORK_PATTERN_COLUMNS = new ColumnDefinition[]
-   {
+   private static final ColumnDefinition[] WORK_PATTERN_COLUMNS = {
       new ColumnDefinition("ID", Types.INTEGER),
       new ColumnDefinition("DEFAULT_OFFSET", Types.INTEGER),
       new ColumnDefinition("NAME", Types.VARCHAR),
@@ -396,8 +389,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER)
    };
 
-   private static final ColumnDefinition[] TASK_COLUMNS = new ColumnDefinition[]
-   {
+   private static final ColumnDefinition[] TASK_COLUMNS = {
       new ColumnDefinition("TASKID", Types.INTEGER),
       new ColumnDefinition("GIVEN_DURATIONTYPF", Types.INTEGER),
       new ColumnDefinition("GIVEN_DURATIONELA_MONTHS", Types.INTEGER),
@@ -462,8 +454,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("IFC_TASK_TYPE", Types.INTEGER),
    };
 
-   private static final ColumnDefinition[] MILESTONE_COLUMNS = new ColumnDefinition[]
-   {
+   private static final ColumnDefinition[] MILESTONE_COLUMNS = {
       new ColumnDefinition("MILESTONEID", Types.INTEGER),
       new ColumnDefinition("GIVEN_DATE_TIME", Types.TIMESTAMP),
       new ColumnDefinition("PROGREST_PERIOD", Types.INTEGER),
@@ -523,8 +514,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("IFC_TASK_TYPE", Types.INTEGER),
    };
 
-   private static final ColumnDefinition[] EXPANDED_TASK_COLUMNS = new ColumnDefinition[]
-   {
+   private static final ColumnDefinition[] EXPANDED_TASK_COLUMNS = {
       new ColumnDefinition("EXPANDED_TASKID", Types.INTEGER),
       new ColumnDefinition("VAR_DATE1COMM_ATTSFIXED_DATE", Types.TIMESTAMP),
       new ColumnDefinition("VAR_DATE1COMM_ATTSBASE_DATE", Types.INTEGER),
@@ -645,8 +635,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("IFC_TASK_TYPE", Types.INTEGER)
    };
 
-   private static final ColumnDefinition[] LINK_COLUMNS = new ColumnDefinition[]
-   {
+   private static final ColumnDefinition[] LINK_COLUMNS = {
       new ColumnDefinition("ID", Types.INTEGER),
       new ColumnDefinition("START_LAG_TIMETYPF", Types.INTEGER),
       new ColumnDefinition("START_LAG_TIMEELA_MONTHS", Types.INTEGER),
@@ -690,8 +679,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER)
    };
 
-   private static final ColumnDefinition[] CONSUMABLE_RESOURCE_COLUMNS = new ColumnDefinition[]
-   {
+   private static final ColumnDefinition[] CONSUMABLE_RESOURCE_COLUMNS = {
       new ColumnDefinition("ID", Types.INTEGER),
       new ColumnDefinition("COST_PER_UNITCURRENCZ", Types.INTEGER),
       new ColumnDefinition("COST_PER_UNITAMOUNT", Types.DOUBLE),
@@ -765,8 +753,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("NO_NEW_ASSIGNMENTS", Types.INTEGER),
    };
 
-   private static final ColumnDefinition[] PERMANENT_RESOURCE_COLUMNS = new ColumnDefinition[]
-   {
+   private static final ColumnDefinition[] PERMANENT_RESOURCE_COLUMNS = {
       new ColumnDefinition("ID", Types.INTEGER),
       new ColumnDefinition("EMAIL_ADDRESS", Types.VARCHAR),
       new ColumnDefinition("EFFORT_TIME_UNIT", Types.INTEGER),
@@ -810,8 +797,7 @@ abstract class AbstractFileFormat
             // Followed by user defined columns which differ by project
    };
 
-   private static final ColumnDefinition[] PERMANENT_RESOURCE_SKILL_COLUMNS = new ColumnDefinition[]
-   {
+   private static final ColumnDefinition[] PERMANENT_RESOURCE_SKILL_COLUMNS = {
       new ColumnDefinition("ID", Types.INTEGER),
       new ColumnDefinition("ARR_STOUT_STSKI_APARROW_TYPE", Types.INTEGER),
       new ColumnDefinition("ARR_STOUT_STSKI_APLENGTH", Types.INTEGER),
@@ -878,8 +864,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER),
    };
 
-   private static final ColumnDefinition[] PERMANENT_SCHEDULE_ALLOCATION_COLUMNS = new ColumnDefinition[]
-   {
+   private static final ColumnDefinition[] PERMANENT_SCHEDULE_ALLOCATION_COLUMNS = {
       new ColumnDefinition("ID", Types.INTEGER),
       new ColumnDefinition("REQUIREE_BY", Types.INTEGER),
       new ColumnDefinition("OWNED_BY_TIMESHEET_X", Types.BIT),
@@ -942,8 +927,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("NONLINEAR_TYPE", Types.INTEGER),
    };
 
-   private static final ColumnDefinition[] WBS_ENTRY_COLUMNS = new ColumnDefinition[]
-   {
+   private static final ColumnDefinition[] WBS_ENTRY_COLUMNS = {
       new ColumnDefinition("WBS_ENTRYID", Types.INTEGER),
       new ColumnDefinition("NATURAP_ORDER", Types.INTEGER),
       new ColumnDefinition("WBT_CODE", Types.VARCHAR),
@@ -955,8 +939,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER)
    };
 
-   private static final ColumnDefinition[] TASK_COMPLETED_SECTION_COLUMNS = new ColumnDefinition[]
-   {
+   private static final ColumnDefinition[] TASK_COMPLETED_SECTION_COLUMNS = {
       new ColumnDefinition("ID", Types.INTEGER),
       new ColumnDefinition("NATURAM_ORDER", Types.INTEGER),
       new ColumnDefinition("OVERALL_PERCENT_COMPLETE", Types.DOUBLE),
@@ -978,8 +961,7 @@ abstract class AbstractFileFormat
       new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER),
    };
 
-   private static final ColumnDefinition[] HAMMOCK_TASK_COLUMNS = new ColumnDefinition[]
-   {
+   private static final ColumnDefinition[] HAMMOCK_TASK_COLUMNS = {
       new ColumnDefinition("HAMMOCK_TASKID", Types.INTEGER),
       new ColumnDefinition("CUMULATIVH_COSTCURRENCZ", Types.INTEGER),
       new ColumnDefinition("CUMULATIVH_COSTAMOUNT", Types.DOUBLE),

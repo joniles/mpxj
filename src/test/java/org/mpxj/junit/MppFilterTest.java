@@ -407,18 +407,15 @@ public class MppFilterTest
       assertTrue(operator.evaluate("", null));
       assertFalse(operator.evaluate(null, ""));
 
-      Object[] allNull = new Object[]
-      {
+      Object[] allNull = {
          null,
          null
       };
-      Object[] lhsNull = new Object[]
-      {
+      Object[] lhsNull = {
          null,
          Integer.valueOf(10)
       };
-      Object[] rhsNull = new Object[]
-      {
+      Object[] rhsNull = {
          Integer.valueOf(1),
          null
       };

@@ -59,8 +59,7 @@ class CalendarRecord extends AbstractSDEFRecord
       context.getEventManager().fireCalendarReadEvent(calendar);
    }
 
-   private static final SDEFField[] FIELDS = new SDEFField[]
-   {
+   private static final SDEFField[] FIELDS = {
       new StringField("Calendar Code", 1),
       new StringField("Workdays", 7),
       new StringField("Calendar Description", 30)

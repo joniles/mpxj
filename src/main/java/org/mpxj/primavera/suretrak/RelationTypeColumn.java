@@ -59,8 +59,7 @@ class RelationTypeColumn extends AbstractShortColumn
       return type;
    }
 
-   private static final RelationType[] TYPES = new RelationType[]
-   {
+   private static final RelationType[] TYPES = {
       RelationType.FINISH_START,
       RelationType.START_START,
       RelationType.FINISH_FINISH,

@@ -292,16 +292,14 @@ class MapRow extends LinkedHashMap<String, Object>
 
    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
-   private static final RelationType[] RELATION_TYPE = new RelationType[]
-   {
+   private static final RelationType[] RELATION_TYPE = {
       RelationType.FINISH_FINISH,
       RelationType.FINISH_START,
       RelationType.START_FINISH,
       RelationType.START_START
    };
 
-   private static final Priority[] PRIORITY = new Priority[]
-   {
+   private static final Priority[] PRIORITY = {
       Priority.getInstance(Priority.HIGHEST),
       Priority.getInstance(Priority.HIGHEST),
       Priority.getInstance(Priority.HIGH),

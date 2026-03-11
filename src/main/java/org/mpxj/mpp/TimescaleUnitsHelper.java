@@ -47,8 +47,7 @@ class TimescaleUnitsHelper
       return TYPE_VALUES[type];
    }
 
-   private static final TimescaleUnits[] TYPE_VALUES = new TimescaleUnits[]
-   {
+   private static final TimescaleUnits[] TYPE_VALUES = {
       TimescaleUnits.NONE,
       TimescaleUnits.MINUTES,
       TimescaleUnits.HOURS,

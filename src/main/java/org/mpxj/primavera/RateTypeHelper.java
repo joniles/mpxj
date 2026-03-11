@@ -108,8 +108,7 @@ final class RateTypeHelper
       XER_TYPE_MAP.put("COST_PER_QTY5", Integer.valueOf(4));
    }
 
-   private static final String[] TYPE_XML_ARRAY = new String[]
-   {
+   private static final String[] TYPE_XML_ARRAY = {
       "Price / Unit",
       "Price / Unit 2",
       "Price / Unit 3",
@@ -117,8 +116,7 @@ final class RateTypeHelper
       "Price / Unit 5"
    };
 
-   private static final String[] TYPE_XER_ARRAY = new String[]
-   {
+   private static final String[] TYPE_XER_ARRAY = {
       "COST_PER_QTY",
       "COST_PER_QTY2",
       "COST_PER_QTY3",

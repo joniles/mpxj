@@ -104,8 +104,7 @@ public class ObjectPropertiesController
          }
       }
 
-      String[] headings = new String[]
-      {
+      String[] headings = {
          "Property",
          "Value"
       };

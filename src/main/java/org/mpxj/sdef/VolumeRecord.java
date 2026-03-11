@@ -38,8 +38,7 @@ class VolumeRecord extends AbstractSDEFRecord
       // No body
    }
 
-   private static final SDEFField[] FIELDS = new SDEFField[]
-   {
+   private static final SDEFField[] FIELDS = {
       new IntegerField("Disk Number", 2)
    };
 }

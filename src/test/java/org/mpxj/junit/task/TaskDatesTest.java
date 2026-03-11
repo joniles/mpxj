@@ -90,8 +90,7 @@ public class TaskDatesTest
 
    private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-   private static final String[] DATES = new String[]
-   {
+   private static final String[] DATES = {
       "01/01/2014 09:00",
       "02/01/2014 10:00",
       "03/01/2014 11:00",

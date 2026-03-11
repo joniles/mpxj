@@ -437,8 +437,7 @@ public class TaskBaselinesTest
 
    private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-   private static final String[] COSTS = new String[]
-   {
+   private static final String[] COSTS = {
       "1.0",
       "2.0",
       "3.0",
@@ -452,8 +451,7 @@ public class TaskBaselinesTest
       "11.0"
    };
 
-   private static final String[] DURATIONS = new String[]
-   {
+   private static final String[] DURATIONS = {
       "11.0d",
       "12.0d",
       "13.0d",
@@ -467,8 +465,7 @@ public class TaskBaselinesTest
       "21.0d"
    };
 
-   private static final String[] ESTIMATED_DURATIONS = new String[]
-   {
+   private static final String[] ESTIMATED_DURATIONS = {
       "31.0d",
       "32.0d",
       "33.0d",
@@ -482,8 +479,7 @@ public class TaskBaselinesTest
       "41.0d"
    };
 
-   private static final String[] ESTIMATED_FINISHES = new String[]
-   {
+   private static final String[] ESTIMATED_FINISHES = {
       "01/01/2014 09:00",
       "02/01/2014 10:00",
       "03/01/2014 11:00",
@@ -497,8 +493,7 @@ public class TaskBaselinesTest
       "10/01/2014 19:00"
    };
 
-   private static final String[] ESTIMATED_STARTS = new String[]
-   {
+   private static final String[] ESTIMATED_STARTS = {
       "01/02/2014 09:00",
       "02/02/2014 10:00",
       "03/02/2014 11:00",
@@ -512,8 +507,7 @@ public class TaskBaselinesTest
       "10/02/2014 19:00"
    };
 
-   private static final String[] FINISHES = new String[]
-   {
+   private static final String[] FINISHES = {
       "01/03/2014 09:00",
       "02/03/2014 10:00",
       "03/03/2014 11:00",
@@ -527,8 +521,7 @@ public class TaskBaselinesTest
       "10/03/2014 19:00"
    };
 
-   private static final String[] FIXED_COSTS = new String[]
-   {
+   private static final String[] FIXED_COSTS = {
       "11.0",
       "12.0",
       "13.0",
@@ -542,8 +535,7 @@ public class TaskBaselinesTest
       "21.0"
    };
 
-   private static final String[] FIXED_COST_ACCRUALS = new String[]
-   {
+   private static final String[] FIXED_COST_ACCRUALS = {
       "START",
       "PRORATED",
       "END",
@@ -557,8 +549,7 @@ public class TaskBaselinesTest
       "PRORATED"
    };
 
-   private static final String[] STARTS = new String[]
-   {
+   private static final String[] STARTS = {
       "01/04/2014 09:00",
       "02/04/2014 10:00",
       "03/04/2014 11:00",
@@ -572,8 +563,7 @@ public class TaskBaselinesTest
       "10/04/2014 19:00"
    };
 
-   private static final String[] WORKS = new String[]
-   {
+   private static final String[] WORKS = {
       "51.0h",
       "52.0h",
       "53.0h",
@@ -587,8 +577,7 @@ public class TaskBaselinesTest
       "61.0h"
    };
 
-   private static final String[] SF259_BASELINE_STARTS = new String[]
-   {
+   private static final String[] SF259_BASELINE_STARTS = {
       "01/03/2015 00:00",
       "01/03/2015 00:00",
       "01/03/2015 00:00",
@@ -614,8 +603,7 @@ public class TaskBaselinesTest
       "01/03/2015 03:00"
    };
 
-   private static final String[] SF259_BASELINE_FINISHES = new String[]
-   {
+   private static final String[] SF259_BASELINE_FINISHES = {
       "01/03/2015 04:00",
       "01/03/2015 00:00",
       "01/03/2015 00:00",
