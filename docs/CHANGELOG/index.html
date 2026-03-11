@@ -48,6 +48,8 @@
       
     
     
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -328,10 +330,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1532-unreleased" class="md-nav__link">
+  <a href="#1600-2026-03-12" class="md-nav__link">
     <span class="md-ellipsis">
       
-        15.3.2 (unreleased)
+        16.0.0 (2026-03-12)
       
     </span>
   </a>
@@ -5145,6 +5147,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../howto-use-timephased/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Timephased Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../howto-use-universal/" class="md-nav__link">
         
   
@@ -5429,10 +5459,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1532-unreleased" class="md-nav__link">
+  <a href="#1600-2026-03-12" class="md-nav__link">
     <span class="md-ellipsis">
       
-        15.3.2 (unreleased)
+        16.0.0 (2026-03-12)
       
     </span>
   </a>
@@ -8562,7 +8592,55 @@
 <h2 id="note">NOTE</h2>
 <p>From version 14.0.0 onwards the <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code> and <code>net.sf.mpxj-for-vb</code> packages are
 no longer distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
-<h2 id="1532-unreleased">15.3.2 (unreleased)</h2>
+<h2 id="1600-2026-03-12">16.0.0 (2026-03-12)</h2>
+<ul>
+<li><strong>NEW FEATURES</strong></li>
+<li><code>JsonWriter</code> now provides <code>getWriteTimephasedData</code> and <code>setWriteTimephasedData</code> methods. Setting this property to true will include timephased data in the JSON output. This property is set to false by default.</li>
+<li>Classes implementing the <code>FieldContainer</code> interface (Task<code>,</code>Resource<code>,</code>ResourceAssignment<code>) now provide the</code>getTimephasedDurationValues<code>and</code>getTimephasedNumericValues<code>to allow access to timephased data using a</code>FieldType` instance to determine the type of data required.</li>
+<li>The <code>Resource</code> class now supports the following work methods: <code>getPlannedWork</code>, <code>getActualRegularWork</code>, <code>getRemainingRegularWork</code>.</li>
+<li>The <code>Resource</code> class now supports the following cost methods: <code>getPlannedCost</code>, <code>getActualRegularCost</code>, <code>getRemainingRegularCost</code>.</li>
+<li>The <code>Resource</code> class now supports the following material methods: <code>getPlannedMaterial</code>, <code>getActualMaterial</code>, <code>getRemainingMaterial</code>, <code>getMaterial</code>, <code>getBaselineMaterial</code>.</li>
+<li>The <code>Resource</code> class now supports the following timephased work methods: <code>getTimephasedPlannedWork</code>, <code>getTimephasedActualRegularWork</code>, <code>getTimephasedActualOvertimeWork</code>, <code>getTimephasedActualWork</code>, <code>getTimephasedRemainingRegularWork</code>, <code>getTimephasedRemainingOvertimeWork</code>, <code>getTimephasedRemainingWork</code>, <code>getTimephasedWork</code>, <code>getTimephasedBaselineWork</code>.</li>
+<li>The <code>Resource</code> class now supports the following timephased cost methods: <code>getTimephasedPlannedCost</code>, <code>getTimephasedActualRegularCost</code>, <code>getTimephasedActualOvertimeCost</code>, <code>getTimephasedActualCost</code>, <code>getTimephasedRemainingRegularCost</code>, <code>getTimephasedRemainingOvertimeCost</code>, <code>getTimephasedRemainingCost</code>, <code>getTimephasedCost</code>, <code>getTimephasedBaselineCost</code>.</li>
+<li>The <code>Resource</code> class now supports the following timephased material methods: <code>getTimephasedActualMaterial</code>, <code>getTimephasedRemainingMaterial</code>, <code>getTimephasedMaterial</code> and <code>getTimephasedBaselineMaterial</code>.</li>
+<li>The <code>ResourceAssignment</code> class now supports the following work methods: <code>getActualRegularWork</code>, <code>getRemainingRegularWork</code>.</li>
+<li>The <code>ResourceAssignment</code> class now supports the following cost methods: <code>getActualRegularCost</code>, <code>getRemainingRegularCost</code>.</li>
+<li>The <code>ResourceAssignment</code> class now supports the following material methods: <code>getPlannedMaterial</code>, <code>getActualMaterial</code>, <code>getRemainingMaterial</code>, <code>getMaterial</code>, <code>getBaselineMaterial</code>.</li>
+<li>The <code>ResourceAssignment</code> class now supports the following methods to retrieve the raw representation of timephased work: <code>getRawTimephasedPlannedWork</code>, <code>getRawTimephasedActualRegularWork</code>, <code>getRawTimephasedRemainingRegularWork</code>, <code>getRawTimephasedRemainingOvertimeWork</code>, <code>getRawTimephasedActualOvertimeWork</code></li>
+<li>The <code>ResourceAssignment</code> class now supports the following timephased work methods: <code>getTimephasedPlannedWork</code>, <code>getTimephasedActualRegularWork</code>, <code>getTimephasedActualOvertimeWork</code>, <code>getTimephasedActualWork</code>, <code>getTimephasedRemainingRegularWork</code>, <code>getTimephasedRemainingOvertimeWork</code>, <code>getTimephasedRemainingWork</code>, <code>getTimephasedWork</code>, <code>getTimephasedBaselineWork</code></li>
+<li>The <code>ResourceAssignment</code> class now supports the following timephased cost methods: <code>getTimephasedPlannedCost</code>, <code>getTimephasedRemainingRegularCost</code>, <code>getTimephasedRemainingOvertimeCost</code>, <code>getTimephasedRemainingCost</code>, <code>getTimephasedActualRegularCost</code>, <code>getTimephasedActualOvertimeCost</code>, <code>getTimephasedActualCost</code>, <code>getTimephasedCost</code>, <code>getTimephasedBaselineCost</code></li>
+<li>The <code>ResourceAssignment</code> class now supports the following timephased material methods: <code>getTimephasedActualMaterial</code>, <code>getTimephasedRemainingMaterial</code>, <code>getTimephasedMaterial</code> and <code>getTimephasedBaselineMaterial</code>.</li>
+<li>The <code>ResourceAssignment</code> class now supports the <code>getWorkSplits</code> method, which summarises timephased work into contiguous working periods.</li>
+<li>The <code>Task</code> class now supports the following work methods: <code>getPlannedWork</code>, <code>getActualRegularWork</code>, <code>getRemainingRegularWork</code>.</li>
+<li>The <code>Task</code> class now supports the following cost methods: <code>getActualRegularCost</code>, <code>getRemainingRegularCost</code>.</li>
+<li>The <code>Task</code> class now supports the <code>getWorkSplits</code> method, which summarises timephased work into contiguous working periods.</li>
+<li>The <code>Task</code> class now supports the following timephased work methods: <code>getTimephasedPlannedWork</code>, <code>getTimephasedActualRegularWork</code>, <code>getTimephasedActualOvertimeWork</code>, <code>getTimephasedActualWork</code>, <code>getTimephasedRemainingRegularWork</code>, <code>getTimephasedRemainingOvertimeWork</code>, <code>getTimephasedRemainingWork</code>, <code>getTimephasedWork</code>, <code>getTimephased BaselineWork</code>.</li>
+<li>The <code>Task</code> class now supports the following timephased cost methods: <code>getTimephasedPlannedCost</code>, <code>getTimephasedActualRegularCost</code>, <code>getTimephasedActualOvertimeCost</code>, <code>getTimephasedActualCost</code>, <code>getTimephasedRemainingRegularCost</code>, <code>getTimephasedRemainingOvertimeCost</code>, <code>getTimephasedRemainingCost</code>, <code>getTimephasedCost</code>, <code>getTimephasedBaselineCost</code>, <code>getTimephasedActualFixedCost</code>, <code>getTimephasedRemainingFixedCost</code>, <code>getTimephasedFixedCost</code>.</li>
+<li>The <code>TimephasedItem</code>, <code>TimephasedWork</code>, and <code>TimephasedCost</code> classes have a new <code>getAmountPerHour</code> method, which replaces the original <code>getAmountPerDay</code> method.</li>
+<li>A new version of the <code>TimescaleHelper#createTimescale</code> (previously <code>TimescaleUtility#createTimescale</code>) method has been provided which takes and end date rather than a number of ranges.</li>
+<li><strong>BREAKING CHANGES</strong></li>
+<li><code>MSPDIWriter</code> no longer provides the <code>setSplitTimephasedAsDays</code> and <code>getSplitTimephasedAsDays</code> methods. Timephased data is always written to the file exactly as MPXJ originally read it.</li>
+<li>The <code>TimescaleUtility</code> class has been renamed <code>TimescaleHelper</code> and has been moved to the <code>org.mpxj.common</code> package.</li>
+<li>The <code>TimescaleHelper#createTimescale</code> method now returns a <code>List&lt;LocalDateTimeRange&gt;</code> rather than an <code>ArrayList&lt;LocalDateTimeRange&gt;</code></li>
+<li>The <code>TimescaleHelper#createTimescale</code> method now returns half open ranges, for example a range representing 1st January 2026 would be expressed as <code>2026-01-01 00:00 to 2026-01-02 00:00</code> rather than <code>2026-01-01 00:00 to 2026-01-01 23:59</code>.</li>
+<li>The following <code>ResourceAssignment</code> timephased work methods have been removed and replaced by the <code>getRaw</code> methods noted above: <code>getTimephasedPlannedWork</code>, <code>getTimephasedActualWork</code>, <code>getTimephasedWork</code>, <code>getTimephasedOvertimeWork</code>, <code>getTimephasedActualOvertimeWork</code>, <code>getTimephasedBaselineWork</code>, <code>getTimephasedBaselineCost</code></li>
+<li>The following <code>ResourceAssignment</code> timephased work methods have been removed without replacement: <code>setTimephasedPlannedWork</code>, <code>setTimephasedActualWork</code>, <code>setTimephasedWork</code>, <code>setTimephasedActualOvertimeWork</code>, <code>setTimephasedBaselineWork</code>, <code>setTimephasedBaselineCost</code>.</li>
+<li>The following <code>ResourceAssignment</code> timephased cost methods have been removed and replaced by the cost methods noted above: <code>getTimephasedCost</code>, <code>getTimephasedActualCost</code>.</li>
+<li>The <code>Task#getSplits</code> method has been removed, used the <code>Task#getWorkSplits</code> method instead. Note that <code>Task#getWorkSplits</code> only returns ranges representing working time.</li>
+<li>The <code>getAmountPerDay</code> method on the <code>TimephasedItem</code>, <code>TimephasedWork</code>, and <code>TimephasedCost</code> classes has been removed. Use the new <code>getAmountPerHour</code> method instead.</li>
+<li>The <code>getModified</code> method on the <code>TimephasedItem</code>, <code>TimephasedWork</code>, and <code>TimephasedCost</code> classes has been removed. There is currently no replacement.</li>
+<li>The <code>TaskField.SPLITS</code> enumeration value has been removed, use <code>TaskField.WORK_SPLITS</code> instead.</li>
+<li>The <code>AssignmentField.TIMEPHASED_WORK</code> enumeration value has been removed, use <code>TaskField.TIMEPHASED_REMAINING_REGULAR_WORK</code> instead.</li>
+<li>The <code>AssignmentField.TIMEPHASED_ACTUAL_WORK</code> enumeration value has been removed, use <code>TaskField.TIMEPHASED_ACTUAL_REGULAR_WORK</code> instead.</li>
+<li>The order of the arguments supplied to the <code>TimescaleUtility#createTimescale</code> method has been changed.</li>
+<li>The order of the arguments supplied to the <code>TimescaleHelper#createTimescale</code> method has been changed.</li>
+<li>The alignment of the ranges returned by <code>TimescaleHelper#createTimescale</code> has changed when <code>MINUTES</code> or <code>HOURS</code> is specified as the required timescale units..</li>
+<li><strong>CHANGES</strong></li>
+<li>Updated to sqlite-jdbc 3.51.2.0</li>
+<li>Updated to jsoup 1.22.1.</li>
+<li>Updated to Jackson 2.21.1.</li>
+<li>Updated to JUnit 5.14.3</li>
+</ul>
 <h2 id="1531-2026-02-06">15.3.1 (2026-02-06)</h2>
 <ul>
 <li>Fix a <code>NullPointerException</code> raised when a PMXML file does not have a default calendar defined.</li>

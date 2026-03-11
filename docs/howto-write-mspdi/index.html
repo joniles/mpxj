@@ -48,6 +48,8 @@
       
     
     
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -2084,6 +2086,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../howto-use-timephased/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Timephased Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../howto-use-universal/" class="md-nav__link">
         
   
@@ -2590,21 +2620,7 @@ the older style of calendar exceptions is written to the MSPDI file:</p>
 <h3 id="timephased-data">Timephased Data</h3>
 <p>By default <code>MSPDIWriter</code> does not write timephased data to an MSPDI file. To
 enable writing timephased data, you can call the <code>setWriteTimephasedData</code>
-method.</p>
-<p>When this setting is enabled, the default behaviour is for the timephased data
-is broken down into days when written to the file. If it better suits your use
-case (or you need a more compact file) you can choose to write an aggregated
-form of the timephased data by calling the <code>setSplitTimephasedAsDays</code> method and
-passing <code>false</code>. The difference between the two formats is that if for example
-you have a 10 day block with 8 hours work per day, this can either be
-represented as 10 entries in the file each for a single day with a value of 8
-hours, or a single entry for a 10 day range with a value of 80 hours. Although
-the latter case is more compact, if you are consuming the MSPDI timephased data
-yourself you will need to differentiate between working and non-working days in
-order to break the single block down into smaller ranges. The default day-by-day
-format MPXJ writes does this for you automatically.</p>
-<p>In the first example below we're enabling timephased data, and using the default
-day-by-dat breakdown:</p>
+method. The example below illustrates this:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Java</label><label for="__tabbed_4_2">C#</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -2635,47 +2651,6 @@ day-by-dat breakdown:</p>
 <span class="w">    </span><span class="p">{</span>
 <span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MSPDIWriter</span><span class="p">();</span>
 <span class="w">        </span><span class="n">writer</span><span class="p">.</span><span class="n">WriteTimephasedData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
-<span class="w">        </span><span class="n">writer</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">fileName</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-</div>
-</div>
-</div>
-<p>In this second example we're overriding the default behaviour as asking MPXJ to
-write an aggregated form of the timephased data: </p>
-<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Java</label><label for="__tabbed_5_2">C#</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.write</span><span class="p">;</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
-
-<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MSPDITimephasedAggregate</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">fileName</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="n">MSPDIWriter</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MSPDIWriter</span><span class="p">();</span>
-<span class="w">        </span><span class="n">writer</span><span class="p">.</span><span class="na">setWriteTimephasedData</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
-<span class="w">        </span><span class="n">writer</span><span class="p">.</span><span class="na">setSplitTimephasedAsDays</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
-<span class="w">        </span><span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">fileName</span><span class="p">);</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">MPXJ.Net</span><span class="p">;</span>
-
-<span class="k">namespace</span><span class="w"> </span><span class="nn">MPXJ.Samples.HowToWrite</span><span class="p">;</span>
-
-<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MSPDITimephasedAggregate</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Write</span><span class="p">(</span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">fileName</span><span class="p">)</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MSPDIWriter</span><span class="p">();</span>
-<span class="w">        </span><span class="n">writer</span><span class="p">.</span><span class="n">WriteTimephasedData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
-<span class="w">        </span><span class="n">writer</span><span class="p">.</span><span class="n">SplitTimephasedAsDays</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
 <span class="w">        </span><span class="n">writer</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">fileName</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>

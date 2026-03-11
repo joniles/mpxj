@@ -5,17 +5,17 @@
     <link>http://mpxj.org/changes-report.html</link>
     <description>These are the latest changes of this project.</description>
     <language>en</language>
-    <pubDate>Fri, 06 Feb 2026 14:48:32 GMT</pubDate>
+    <pubDate>Wed, 11 Mar 2026 22:25:45 GMT</pubDate>
     <dc:creator>Jon Iles</dc:creator>
-    <dc:date>2026-02-06T14:48:32Z</dc:date>
+    <dc:date>2026-03-11T22:25:45Z</dc:date>
     <dc:language>en</dc:language>
     <item>
-      <title>15.3.2</title>
-      <link>http://mpxj.org/changes-report.html#a15.3.2</link>
-      <description>&lt;p&gt;Version 15.3.2 is available with 0 fixed issues.&lt;/p&gt;</description>
-      <pubDate>Fri, 06 Feb 2026 14:48:32 GMT</pubDate>
-      <guid>http://mpxj.org/changes-report.html#a15.3.2</guid>
-      <dc:date>2026-02-06T14:48:32Z</dc:date>
+      <title>16.0.0</title>
+      <link>http://mpxj.org/changes-report.html#a16.0.0</link>
+      <description>&lt;p&gt;Version 16.0.0 is available with 46 fixed issues.&lt;/p&gt;</description>
+      <pubDate>Thu, 12 Mar 2026 00:00:00 GMT</pubDate>
+      <guid>http://mpxj.org/changes-report.html#a16.0.0</guid>
+      <dc:date>2026-03-12T00:00:00Z</dc:date>
     </item>
   </channel>
 </rss>
