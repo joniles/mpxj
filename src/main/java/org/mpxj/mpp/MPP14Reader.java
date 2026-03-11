@@ -1109,22 +1109,24 @@ final class MPP14Reader implements MPPVariantReader
                continue;
             }
             else
+            {
                if (temp.getName() == null)
                {
                   // Ok, this looks valid. Remove the previous instance since it is most likely not a valid task.
                   // At worst case this removes a task with an empty name.
                   m_file.removeTask(temp);
                }
+            }
          }
          task = m_file.addTask();
 
          task.disableEvents();
 
          fieldMap.populateContainer(FieldTypeClass.TASK, task, uniqueID, new byte[][]
-         {
-            data,
-            data2
-         }, taskVarData);
+            {
+               data,
+               data2
+            }, taskVarData);
 
          enterpriseCustomFieldMap.populateContainer(FieldTypeClass.TASK, task, uniqueID, null, taskVarData);
 
@@ -1625,10 +1627,10 @@ final class MPP14Reader implements MPPVariantReader
          resource.disableEvents();
 
          fieldMap.populateContainer(FieldTypeClass.RESOURCE, resource, id, new byte[][]
-         {
-            data,
-            data2
-         }, rscVarData);
+            {
+               data,
+               data2
+            }, rscVarData);
 
          enterpriseCustomFieldMap.populateContainer(FieldTypeClass.RESOURCE, resource, id, null, rscVarData);
 

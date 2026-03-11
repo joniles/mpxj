@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -75,19 +76,19 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ResourceAccessType", propOrder =
-{
-   "allResourceAccessFlag",
-   "createDate",
-   "createUser",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "resourceId",
-   "resourceName",
-   "resourceObjectId",
-   "sequenceNumber",
-   "userName",
-   "userObjectId"
-}) public class ResourceAccessType
+   {
+      "allResourceAccessFlag",
+      "createDate",
+      "createUser",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "resourceId",
+      "resourceName",
+      "resourceObjectId",
+      "sequenceNumber",
+      "userName",
+      "userObjectId"
+   }) public class ResourceAccessType
 {
 
    @XmlElement(name = "AllResourceAccessFlag", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean allResourceAccessFlag;

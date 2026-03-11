@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -83,19 +84,19 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "EPSSpendingPlanType", propOrder =
-{
-   "benefitPlan",
-   "createDate",
-   "createUser",
-   "date",
-   "epsId",
-   "epsName",
-   "epsObjectId",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "objectId",
-   "spendingPlan"
-}) public class EPSSpendingPlanType
+   {
+      "benefitPlan",
+      "createDate",
+      "createUser",
+      "date",
+      "epsId",
+      "epsName",
+      "epsObjectId",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "objectId",
+      "spendingPlan"
+   }) public class EPSSpendingPlanType
 {
 
    @XmlElement(name = "BenefitPlan", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) protected Double benefitPlan;

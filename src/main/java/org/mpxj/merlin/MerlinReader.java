@@ -58,7 +58,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import org.mpxj.ConstraintType;
+
 import java.time.DayOfWeek;
+
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
 import org.mpxj.MPXJException;

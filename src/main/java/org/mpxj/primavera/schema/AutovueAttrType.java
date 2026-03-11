@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -71,15 +72,15 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "AutovueAttrType", propOrder =
-{
-   "avCreateUser",
-   "avPropertyExternalDocKey",
-   "avPropertyId",
-   "avPropertyLastUpdated",
-   "avPropertyName",
-   "avPropertyType",
-   "documentExternalKey"
-}) public class AutovueAttrType
+   {
+      "avCreateUser",
+      "avPropertyExternalDocKey",
+      "avPropertyId",
+      "avPropertyLastUpdated",
+      "avPropertyName",
+      "avPropertyType",
+      "documentExternalKey"
+   }) public class AutovueAttrType
 {
 
    @XmlElement(name = "AVCreateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String avCreateUser;

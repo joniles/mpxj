@@ -55,18 +55,18 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "GlobalReplaceType", propOrder =
-{
-   "allProjects",
-   "globalReplaceData",
-   "globalReplaceName",
-   "greplaceObjectId",
-   "projectIdName",
-   "projectIds",
-   "replaceFieldNameOne",
-   "searchCriteria",
-   "subjectAreaType",
-   "userObjectId"
-}) public class GlobalReplaceType
+   {
+      "allProjects",
+      "globalReplaceData",
+      "globalReplaceName",
+      "greplaceObjectId",
+      "projectIdName",
+      "projectIds",
+      "replaceFieldNameOne",
+      "searchCriteria",
+      "subjectAreaType",
+      "userObjectId"
+   }) public class GlobalReplaceType
 {
 
    @XmlElement(name = "AllProjects", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean allProjects;

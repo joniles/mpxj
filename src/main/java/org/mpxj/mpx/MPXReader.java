@@ -42,7 +42,9 @@ import org.mpxj.Availability;
 import org.mpxj.CalendarType;
 import org.mpxj.CostRateTable;
 import org.mpxj.CostRateTableEntry;
+
 import java.time.DayOfWeek;
+
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.DayType;
 import org.mpxj.Duration;

@@ -9,6 +9,7 @@ package org.mpxj.ganttproject.schema;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -36,9 +37,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "view", propOrder =
-{
-   "field"
-}) public class View
+   {
+      "field"
+   }) public class View
 {
 
    protected List<Field> field;

@@ -39,9 +39,9 @@ import jakarta.xml.bind.annotation.XmlValue;
  *
  */
 @SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "default-week", propOrder =
-{
-   "value"
-}) public class DefaultWeek
+   {
+      "value"
+   }) public class DefaultWeek
 {
 
    @XmlValue protected String value;

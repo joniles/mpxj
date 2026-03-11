@@ -8,12 +8,13 @@
 package org.mpxj.mspdi.schema;
 
 import java.util.UUID;
+
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import org.mpxj.mspdi.DatatypeConverter;
 
 public class Adapter6
-         extends
-            XmlAdapter<String, UUID>
+   extends
+   XmlAdapter<String, UUID>
 {
 
    @Override public UUID unmarshal(String value)

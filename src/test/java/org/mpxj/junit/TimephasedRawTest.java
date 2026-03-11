@@ -101,8 +101,8 @@ public class TimephasedRawTest
    @Test public void testMspdi()
    {
       // TODO: handle representation differences for MSPDI files
-//      ProjectFile file = new MSPDIReader().read(MpxjTestData.filePath("mspditimephased.xml"));
-//      testTimephased(file);
+      //      ProjectFile file = new MSPDIReader().read(MpxjTestData.filePath("mspditimephased.xml"));
+      //      testTimephased(file);
    }
 
    /**
@@ -270,7 +270,6 @@ public class TimephasedRawTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-
       timephasedComplete = assignment.getRawTimephasedActualRegularWork();
       assertEquals(0, timephasedComplete.size());
 
@@ -310,7 +309,6 @@ public class TimephasedRawTest
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-
 
       timephasedComplete = assignment.getRawTimephasedActualRegularWork();
       assertEquals(1, timephasedComplete.size());
@@ -362,7 +360,6 @@ public class TimephasedRawTest
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-
 
       timephasedComplete = assignment.getRawTimephasedActualRegularWork();
       assertEquals(1, timephasedComplete.size());
@@ -459,7 +456,6 @@ public class TimephasedRawTest
       assertEquals(1, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "21/11/2008 22:30", "23/11/2008 12:00", 2250.0, 60.0);
 
-
       //
       // Split task - 24 hours
       //
@@ -467,7 +463,6 @@ public class TimephasedRawTest
       assignments = task.getResourceAssignments();
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
-
 
       timephasedComplete = assignment.getRawTimephasedActualRegularWork();
       assertEquals(0, timephasedComplete.size());
@@ -542,7 +537,6 @@ public class TimephasedRawTest
       timephasedPlanned = assignment.getRawTimephasedRemainingRegularWork();
       assertEquals(1, timephasedPlanned.size());
       testTimephased(timephasedPlanned, 0, "20/11/2008 09:00", "16/12/2008 16:00", 4500.0, 30.0);
-
 
       //
       // Front loaded - 50% utilisation
@@ -746,7 +740,6 @@ public class TimephasedRawTest
       assertEquals(1, assignments.size());
       assignment = assignments.get(0);
 
-
       timephasedComplete = assignment.getRawTimephasedActualRegularWork();
       assertEquals(0, timephasedComplete.size());
 
@@ -832,27 +825,27 @@ public class TimephasedRawTest
       }
    }
 
-//   createTest("timephasedComplete", timephasedComplete);
-//   createTest("timephasedPlanned", timephasedPlanned);
+   //   createTest("timephasedComplete", timephasedComplete);
+   //   createTest("timephasedPlanned", timephasedPlanned);
 
-//   private void createTest(String name, List<TimephasedWork> items)
-//   {
-//      int index = 0;
-//      for (TimephasedWork item : items)
-//      {
-//         System.out.println(
-//            "testTimephased("
-//               + name + ", "
-//               + index + ", \""
-//               + DATE_FORMAT.format(item.getStart()) + "\", \""
-//               + DATE_FORMAT.format(item.getFinish()) + "\", "
-//               + item.getTotalAmount().getDuration() + ", "
-//               + item.getAmountPerHour().getDuration() + ");");
-//         ++index;
-//      }
-//      System.out.println();
-//      System.out.println();
-//   }
+   //   private void createTest(String name, List<TimephasedWork> items)
+   //   {
+   //      int index = 0;
+   //      for (TimephasedWork item : items)
+   //      {
+   //         System.out.println(
+   //            "testTimephased("
+   //               + name + ", "
+   //               + index + ", \""
+   //               + DATE_FORMAT.format(item.getStart()) + "\", \""
+   //               + DATE_FORMAT.format(item.getFinish()) + "\", "
+   //               + item.getTotalAmount().getDuration() + ", "
+   //               + item.getAmountPerHour().getDuration() + ");");
+   //         ++index;
+   //      }
+   //      System.out.println();
+   //      System.out.println();
+   //   }
 
    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 }

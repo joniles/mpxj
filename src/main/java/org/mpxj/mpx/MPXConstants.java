@@ -168,9 +168,9 @@ final class MPXConstants
     */
    static final char EOL_PLACEHOLDER = (char) 0x7F;
    static final String EOL_PLACEHOLDER_STRING = new String(new byte[]
-   {
-      EOL_PLACEHOLDER
-   });
+      {
+         EOL_PLACEHOLDER
+      });
 
    /**
     * Constructor.

@@ -33,135 +33,135 @@ import org.mpxj.common.NumberHelper;
 public enum TestOperator implements MpxjEnum
 {
    IS_ANY_VALUE(0)
-   {
-      @Override public boolean evaluate(Object lhs, Object rhs)
       {
-         return (true);
-      }
-   },
+         @Override public boolean evaluate(Object lhs, Object rhs)
+         {
+            return (true);
+         }
+      },
 
    IS_WITHIN(1)
-   {
-      @Override public boolean evaluate(Object lhs, Object rhs)
       {
-         return (evaluateWithin(lhs, rhs));
-      }
-   },
+         @Override public boolean evaluate(Object lhs, Object rhs)
+         {
+            return (evaluateWithin(lhs, rhs));
+         }
+      },
 
    IS_GREATER_THAN(2)
-   {
-      @Override public boolean evaluate(Object lhs, Object rhs)
       {
-         return (evaluateCompareTo(lhs, rhs) > 0);
-      }
-   },
+         @Override public boolean evaluate(Object lhs, Object rhs)
+         {
+            return (evaluateCompareTo(lhs, rhs) > 0);
+         }
+      },
 
    IS_LESS_THAN(3)
-   {
-      @Override public boolean evaluate(Object lhs, Object rhs)
       {
-         return (evaluateCompareTo(lhs, rhs) < 0);
-      }
-   },
+         @Override public boolean evaluate(Object lhs, Object rhs)
+         {
+            return (evaluateCompareTo(lhs, rhs) < 0);
+         }
+      },
 
    IS_GREATER_THAN_OR_EQUAL_TO(4)
-   {
-      @Override public boolean evaluate(Object lhs, Object rhs)
       {
-         return (evaluateCompareTo(lhs, rhs) >= 0);
-      }
-   },
+         @Override public boolean evaluate(Object lhs, Object rhs)
+         {
+            return (evaluateCompareTo(lhs, rhs) >= 0);
+         }
+      },
 
    IS_LESS_THAN_OR_EQUAL_TO(5)
-   {
-      @Override public boolean evaluate(Object lhs, Object rhs)
       {
-         return (evaluateCompareTo(lhs, rhs) <= 0);
-      }
-   },
+         @Override public boolean evaluate(Object lhs, Object rhs)
+         {
+            return (evaluateCompareTo(lhs, rhs) <= 0);
+         }
+      },
 
    EQUALS(6)
-   {
-      @Override public boolean evaluate(Object lhs, Object rhs)
       {
-         boolean result;
+         @Override public boolean evaluate(Object lhs, Object rhs)
+         {
+            boolean result;
 
-         if (lhs == null)
-         {
-            result = (getSingleOperand(rhs) == null);
+            if (lhs == null)
+            {
+               result = (getSingleOperand(rhs) == null);
+            }
+            else
+            {
+               result = lhs.equals(getSingleOperand(rhs));
+            }
+            return (result);
          }
-         else
-         {
-            result = lhs.equals(getSingleOperand(rhs));
-         }
-         return (result);
-      }
-   },
+      },
 
    DOES_NOT_EQUAL(7)
-   {
-      @Override public boolean evaluate(Object lhs, Object rhs)
       {
-         boolean result;
-         if (lhs == null)
+         @Override public boolean evaluate(Object lhs, Object rhs)
          {
-            result = (getSingleOperand(rhs) != null);
+            boolean result;
+            if (lhs == null)
+            {
+               result = (getSingleOperand(rhs) != null);
+            }
+            else
+            {
+               result = !lhs.equals(getSingleOperand(rhs));
+            }
+            return (result);
          }
-         else
-         {
-            result = !lhs.equals(getSingleOperand(rhs));
-         }
-         return (result);
-      }
-   },
+      },
 
    CONTAINS(8)
-   {
-      @Override public boolean evaluate(Object lhs, Object rhs)
       {
-         return (evaluateContains(lhs, rhs));
-      }
-   },
+         @Override public boolean evaluate(Object lhs, Object rhs)
+         {
+            return (evaluateContains(lhs, rhs));
+         }
+      },
 
    IS_NOT_WITHIN(9)
-   {
-      @Override public boolean evaluate(Object lhs, Object rhs)
       {
-         return (!evaluateWithin(lhs, rhs));
-      }
-   },
+         @Override public boolean evaluate(Object lhs, Object rhs)
+         {
+            return (!evaluateWithin(lhs, rhs));
+         }
+      },
 
    DOES_NOT_CONTAIN(10)
-   {
-      @Override public boolean evaluate(Object lhs, Object rhs)
       {
-         return (!evaluateContains(lhs, rhs));
-      }
-   },
+         @Override public boolean evaluate(Object lhs, Object rhs)
+         {
+            return (!evaluateContains(lhs, rhs));
+         }
+      },
 
    CONTAINS_EXACTLY(11)
-   {
-      @Override public boolean evaluate(Object lhs, Object rhs)
       {
-         return (evaluateContainsExactly(lhs, rhs));
-      }
-   },
+         @Override public boolean evaluate(Object lhs, Object rhs)
+         {
+            return (evaluateContainsExactly(lhs, rhs));
+         }
+      },
 
    AND(12) // Extension used by MPXJ, Not MS Project
-   {
-      @Override public boolean evaluate(Object lhs, Object rhs)
       {
-         throw new UnsupportedOperationException();
-      }
-   },
+         @Override public boolean evaluate(Object lhs, Object rhs)
+         {
+            throw new UnsupportedOperationException();
+         }
+      },
 
    OR(13) // Extension used by MPXJ, Not MS Project
-   {
-      @Override public boolean evaluate(Object lhs, Object rhs)
       {
-         throw new UnsupportedOperationException();
-      }
-   };
+         @Override public boolean evaluate(Object lhs, Object rhs)
+         {
+            throw new UnsupportedOperationException();
+         }
+      };
 
    /**
     * Private constructor.
@@ -255,10 +255,10 @@ public enum TestOperator implements MpxjEnum
     * @return boolean result
     */
    @SuppressWarnings(
-   {
-      "unchecked",
-      "rawtypes"
-   }) protected boolean evaluateWithin(Object lhs, Object rhs)
+      {
+         "unchecked",
+         "rawtypes"
+      }) protected boolean evaluateWithin(Object lhs, Object rhs)
    {
       boolean result = false;
 
@@ -292,10 +292,10 @@ public enum TestOperator implements MpxjEnum
     * @return boolean result
     */
    @SuppressWarnings(
-   {
-      "unchecked",
-      "rawtypes"
-   }) protected int evaluateCompareTo(Object lhs, Object rhs)
+      {
+         "unchecked",
+         "rawtypes"
+      }) protected int evaluateCompareTo(Object lhs, Object rhs)
    {
       int result;
 

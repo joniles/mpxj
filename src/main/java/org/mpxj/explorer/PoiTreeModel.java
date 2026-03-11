@@ -163,9 +163,9 @@ public class PoiTreeModel implements TreeModel
             if (e == null)
             {
                e = new TreeModelEvent(getRoot(), new Object[]
-               {
-                  getRoot()
-               }, null, null);
+                  {
+                     getRoot()
+                  }, null, null);
             }
             ((TreeModelListener) listeners[i + 1]).treeStructureChanged(e);
          }

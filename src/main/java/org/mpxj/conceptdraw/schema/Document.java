@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -511,20 +512,20 @@ import org.mpxj.TimeUnit;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-{
-   "workspaceProperties",
-   "printingProperties",
-   "themeID",
-   "showAssignedResources",
-   "markers",
-   "resourceUsageDiagram",
-   "calendars",
-   "resources",
-   "projects",
-   "projectPortfolioView",
-   "links",
-   "dashboards"
-}) @XmlRootElement(name = "Document") public class Document
+   {
+      "workspaceProperties",
+      "printingProperties",
+      "themeID",
+      "showAssignedResources",
+      "markers",
+      "resourceUsageDiagram",
+      "calendars",
+      "resources",
+      "projects",
+      "projectPortfolioView",
+      "links",
+      "dashboards"
+   }) @XmlRootElement(name = "Document") public class Document
 {
 
    @XmlElement(name = "WorkspaceProperties", required = true) protected Document.WorkspaceProperties workspaceProperties;
@@ -1030,9 +1031,9 @@ import org.mpxj.TimeUnit;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "calendar"
-   }) public static class Calendars
+      {
+         "calendar"
+      }) public static class Calendars
    {
 
       @XmlElement(name = "Calendar", required = true) protected List<Document.Calendars.Calendar> calendar;
@@ -1190,13 +1191,13 @@ import org.mpxj.TimeUnit;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "id",
-         "baseCalendarID",
-         "name",
-         "weekDays",
-         "exceptedDays"
-      }) public static class Calendar
+         {
+            "id",
+            "baseCalendarID",
+            "name",
+            "weekDays",
+            "exceptedDays"
+         }) public static class Calendar
       {
 
          @XmlElement(name = "ID", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter6.class) @XmlSchemaType(name = "int") protected Integer id;
@@ -1388,9 +1389,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "exceptedDay"
-         }) public static class ExceptedDays
+            {
+               "exceptedDay"
+            }) public static class ExceptedDays
          {
 
             @XmlElement(name = "ExceptedDay") protected List<Document.Calendars.Calendar.ExceptedDays.ExceptedDay> exceptedDay;
@@ -1469,11 +1470,11 @@ import org.mpxj.TimeUnit;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "date",
-               "isDayWorking",
-               "timePeriods"
-            }) public static class ExceptedDay
+               {
+                  "date",
+                  "isDayWorking",
+                  "timePeriods"
+               }) public static class ExceptedDay
             {
 
                @XmlElement(name = "Date", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "date") protected LocalDate date;
@@ -1581,9 +1582,9 @@ import org.mpxj.TimeUnit;
                 *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-               {
-                  "timePeriod"
-               }) public static class TimePeriods
+                  {
+                     "timePeriod"
+                  }) public static class TimePeriods
                {
 
                   @XmlElement(name = "TimePeriod") protected List<Document.Calendars.Calendar.ExceptedDays.ExceptedDay.TimePeriods.TimePeriod> timePeriod;
@@ -1640,10 +1641,10 @@ import org.mpxj.TimeUnit;
                    *
                    */
                   @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-                  {
-                     "from",
-                     "to"
-                  }) public static class TimePeriod
+                     {
+                        "from",
+                        "to"
+                     }) public static class TimePeriod
                   {
 
                      @XmlElement(name = "From", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "time") protected LocalTime from;
@@ -1774,9 +1775,9 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "weekDay"
-         }) public static class WeekDays
+            {
+               "weekDay"
+            }) public static class WeekDays
          {
 
             @XmlElement(name = "WeekDay") protected List<Document.Calendars.Calendar.WeekDays.WeekDay> weekDay;
@@ -1867,11 +1868,11 @@ import org.mpxj.TimeUnit;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "day",
-               "isDayWorking",
-               "timePeriods"
-            }) public static class WeekDay
+               {
+                  "day",
+                  "isDayWorking",
+                  "timePeriods"
+               }) public static class WeekDay
             {
 
                @XmlElement(name = "Day", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter14.class) protected DayOfWeek day;
@@ -1979,9 +1980,9 @@ import org.mpxj.TimeUnit;
                 *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-               {
-                  "timePeriod"
-               }) public static class TimePeriods
+                  {
+                     "timePeriod"
+                  }) public static class TimePeriods
                {
 
                   @XmlElement(name = "TimePeriod") protected List<Document.Calendars.Calendar.WeekDays.WeekDay.TimePeriods.TimePeriod> timePeriod;
@@ -2038,10 +2039,10 @@ import org.mpxj.TimeUnit;
                    *
                    */
                   @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-                  {
-                     "from",
-                     "to"
-                  }) public static class TimePeriod
+                     {
+                        "from",
+                        "to"
+                     }) public static class TimePeriod
                   {
 
                      @XmlElement(name = "From", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "time") protected LocalTime from;
@@ -2139,9 +2140,9 @@ import org.mpxj.TimeUnit;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "dashboard"
-   }) public static class Dashboards
+      {
+         "dashboard"
+      }) public static class Dashboards
    {
 
       @XmlElement(name = "Dashboard") protected Document.Dashboards.Dashboard dashboard;
@@ -2276,9 +2277,9 @@ import org.mpxj.TimeUnit;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "link"
-   }) public static class Links
+      {
+         "link"
+      }) public static class Links
    {
 
       @XmlElement(name = "Link") protected List<Document.Links.Link> link;
@@ -2356,16 +2357,16 @@ import org.mpxj.TimeUnit;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "id",
-         "sourceTaskID",
-         "destinationTaskID",
-         "sourceProjectID",
-         "destinationProjectID",
-         "type",
-         "lag",
-         "lagUnit"
-      }) public static class Link
+         {
+            "id",
+            "sourceTaskID",
+            "destinationTaskID",
+            "sourceProjectID",
+            "destinationProjectID",
+            "type",
+            "lag",
+            "lagUnit"
+         }) public static class Link
       {
 
          @XmlElement(name = "ID", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter6.class) @XmlSchemaType(name = "int") protected Integer id;
@@ -2621,9 +2622,9 @@ import org.mpxj.TimeUnit;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "marker"
-   }) public static class Markers
+      {
+         "marker"
+      }) public static class Markers
    {
 
       @XmlElement(name = "Marker", required = true) protected List<Document.Markers.Marker> marker;
@@ -2681,11 +2682,11 @@ import org.mpxj.TimeUnit;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "id",
-         "name",
-         "displayStyle"
-      }) public static class Marker
+         {
+            "id",
+            "name",
+            "displayStyle"
+         }) public static class Marker
       {
 
          @XmlElement(name = "ID", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter6.class) @XmlSchemaType(name = "int") protected Integer id;
@@ -3513,10 +3514,10 @@ import org.mpxj.TimeUnit;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "completeJournalTrackingPeriod",
-      "ppvItems"
-   }) public static class ProjectPortfolioView
+      {
+         "completeJournalTrackingPeriod",
+         "ppvItems"
+      }) public static class ProjectPortfolioView
    {
 
       @XmlElement(name = "CompleteJournalTrackingPeriod", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter6.class) @XmlSchemaType(name = "int") protected Integer completeJournalTrackingPeriod;
@@ -3705,10 +3706,10 @@ import org.mpxj.TimeUnit;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "viewProperties",
-      "project"
-   }) public static class Projects
+      {
+         "viewProperties",
+         "project"
+      }) public static class Projects
    {
 
       @XmlElement(name = "ViewProperties", required = true) protected ViewProperties viewProperties;
@@ -3889,31 +3890,31 @@ import org.mpxj.TimeUnit;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "id",
-         "outlineNumber",
-         "name",
-         "author",
-         "company",
-         "startDate",
-         "finishDate",
-         "budget",
-         "goal",
-         "site",
-         "note",
-         "baselineCost",
-         "baselineStartDate",
-         "baselineFinishDate",
-         "showSubtasks",
-         "priority",
-         "isVisibleSubitems",
-         "styleProject",
-         "markerID",
-         "hyperlinks",
-         "viewProperties",
-         "timeScale",
-         "task"
-      }) public static class Project
+         {
+            "id",
+            "outlineNumber",
+            "name",
+            "author",
+            "company",
+            "startDate",
+            "finishDate",
+            "budget",
+            "goal",
+            "site",
+            "note",
+            "baselineCost",
+            "baselineStartDate",
+            "baselineFinishDate",
+            "showSubtasks",
+            "priority",
+            "isVisibleSubitems",
+            "styleProject",
+            "markerID",
+            "hyperlinks",
+            "viewProperties",
+            "timeScale",
+            "task"
+         }) public static class Project
       {
 
          @XmlElement(name = "ID", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter6.class) @XmlSchemaType(name = "int") protected Integer id;
@@ -4649,45 +4650,45 @@ import org.mpxj.TimeUnit;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "id",
-            "outlineNumber",
-            "name",
-            "note",
-            "baseStartDate",
-            "baseFinishDate",
-            "baseDuration",
-            "baseDurationTimeUnit",
-            "actualStartDate",
-            "actualFinishDate",
-            "actualDuration",
-            "templateOffset",
-            "deadlineTemplateOffset",
-            "baselineStartTemplateOffset",
-            "baselineFinishTemplateOffset",
-            "actualCost",
-            "cost1",
-            "validatedByProject",
-            "recalcBase1",
-            "recalcBase2",
-            "isMilestone",
-            "baselineCost",
-            "baselineStartDate",
-            "baselineFinishDate",
-            "complete",
-            "isHaveDeadline",
-            "schedulingType",
-            "isEffortDriven",
-            "priority",
-            "markedByUser",
-            "showSubtasks",
-            "styleProject",
-            "markerID",
-            "hyperlinks",
-            "resourceAssignments",
-            "callouts",
-            "deadlineDate"
-         }) public static class Task
+            {
+               "id",
+               "outlineNumber",
+               "name",
+               "note",
+               "baseStartDate",
+               "baseFinishDate",
+               "baseDuration",
+               "baseDurationTimeUnit",
+               "actualStartDate",
+               "actualFinishDate",
+               "actualDuration",
+               "templateOffset",
+               "deadlineTemplateOffset",
+               "baselineStartTemplateOffset",
+               "baselineFinishTemplateOffset",
+               "actualCost",
+               "cost1",
+               "validatedByProject",
+               "recalcBase1",
+               "recalcBase2",
+               "isMilestone",
+               "baselineCost",
+               "baselineStartDate",
+               "baselineFinishDate",
+               "complete",
+               "isHaveDeadline",
+               "schedulingType",
+               "isEffortDriven",
+               "priority",
+               "markedByUser",
+               "showSubtasks",
+               "styleProject",
+               "markerID",
+               "hyperlinks",
+               "resourceAssignments",
+               "callouts",
+               "deadlineDate"
+            }) public static class Task
          {
 
             @XmlElement(name = "ID", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter6.class) @XmlSchemaType(name = "int") protected Integer id;
@@ -5715,9 +5716,9 @@ import org.mpxj.TimeUnit;
              *
              */
             @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-            {
-               "resourceAssignment"
-            }) public static class ResourceAssignments
+               {
+                  "resourceAssignment"
+               }) public static class ResourceAssignments
             {
 
                @XmlElement(name = "ResourceAssignment") protected List<Document.Projects.Project.Task.ResourceAssignments.ResourceAssignment> resourceAssignment;
@@ -5776,12 +5777,12 @@ import org.mpxj.TimeUnit;
                 *
                 */
                @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-               {
-                  "id",
-                  "resourceID",
-                  "use",
-                  "manHour"
-               }) public static class ResourceAssignment
+                  {
+                     "id",
+                     "resourceID",
+                     "use",
+                     "manHour"
+                  }) public static class ResourceAssignment
                {
 
                   @XmlElement(name = "ID", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter6.class) @XmlSchemaType(name = "int") protected Integer id;
@@ -5925,11 +5926,11 @@ import org.mpxj.TimeUnit;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "timeScale",
-      "viewProperties",
-      "activeFilter"
-   }) public static class ResourceUsageDiagram
+      {
+         "timeScale",
+         "viewProperties",
+         "activeFilter"
+      }) public static class ResourceUsageDiagram
    {
 
       @XmlElement(name = "TimeScale", required = true) protected TimeScale timeScale;
@@ -6078,10 +6079,10 @@ import org.mpxj.TimeUnit;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "viewProperties",
-      "resource"
-   }) public static class Resources
+      {
+         "viewProperties",
+         "resource"
+      }) public static class Resources
    {
 
       @XmlElement(name = "ViewProperties", required = true) protected ViewProperties viewProperties;
@@ -6195,23 +6196,23 @@ import org.mpxj.TimeUnit;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "id",
-         "outlineNumber",
-         "calendarID",
-         "name",
-         "type",
-         "subType",
-         "eMail",
-         "note",
-         "cost",
-         "costTimeUnit",
-         "group",
-         "showAssignedTasks",
-         "styleProject",
-         "markerID",
-         "hyperlinks"
-      }) public static class Resource
+         {
+            "id",
+            "outlineNumber",
+            "calendarID",
+            "name",
+            "type",
+            "subType",
+            "eMail",
+            "note",
+            "cost",
+            "costTimeUnit",
+            "group",
+            "showAssignedTasks",
+            "styleProject",
+            "markerID",
+            "hyperlinks"
+         }) public static class Resource
       {
 
          @XmlElement(name = "ID", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter6.class) @XmlSchemaType(name = "int") protected Integer id;
@@ -6644,16 +6645,16 @@ import org.mpxj.TimeUnit;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "currencySymbol",
-      "currencyPosition",
-      "currencyDigits",
-      "hoursPerDay",
-      "hoursPerWeek",
-      "daysPerMonth",
-      "calcCPForSubprojects",
-      "maximumSlack"
-   }) public static class WorkspaceProperties
+      {
+         "currencySymbol",
+         "currencyPosition",
+         "currencyDigits",
+         "hoursPerDay",
+         "hoursPerWeek",
+         "daysPerMonth",
+         "calcCPForSubprojects",
+         "maximumSlack"
+      }) public static class WorkspaceProperties
    {
 
       @XmlElement(name = "CurrencySymbol", required = true) protected String currencySymbol;

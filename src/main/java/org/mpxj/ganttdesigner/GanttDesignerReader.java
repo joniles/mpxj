@@ -36,7 +36,9 @@ import org.mpxj.common.LocalDateHelper;
 import org.xml.sax.SAXException;
 
 import org.mpxj.ChildTaskContainer;
+
 import java.time.DayOfWeek;
+
 import org.mpxj.EventManager;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectCalendar;

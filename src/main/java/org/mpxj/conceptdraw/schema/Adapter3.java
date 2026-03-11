@@ -8,6 +8,7 @@
 package org.mpxj.conceptdraw.schema;
 
 import java.time.LocalTime;
+
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import org.mpxj.conceptdraw.DatatypeConverter;
 

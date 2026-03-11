@@ -40,7 +40,7 @@ import org.mpxj.common.CharsetHelper;
  * Parses structured text and returns a StructuredTextRecord
  * representing the data encoded as structured text.
  * See {@code StructuredTextRecord} for a brief description of
-* the structured text format.
+ * the structured text format.
  */
 public class StructuredTextParser
 {

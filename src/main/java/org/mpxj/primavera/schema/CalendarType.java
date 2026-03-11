@@ -10,6 +10,7 @@ package org.mpxj.primavera.schema;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -170,28 +171,28 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "CalendarType", propOrder =
-{
-   "baseCalendarObjectId",
-   "createDate",
-   "createUser",
-   "hoursPerDay",
-   "hoursPerMonth",
-   "hoursPerWeek",
-   "hoursPerYear",
-   "isBaseline",
-   "isDefault",
-   "isPersonal",
-   "isTemplate",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "name",
-   "objectId",
-   "projectId",
-   "projectObjectId",
-   "type",
-   "standardWorkWeek",
-   "holidayOrExceptions"
-}) public class CalendarType
+   {
+      "baseCalendarObjectId",
+      "createDate",
+      "createUser",
+      "hoursPerDay",
+      "hoursPerMonth",
+      "hoursPerWeek",
+      "hoursPerYear",
+      "isBaseline",
+      "isDefault",
+      "isPersonal",
+      "isTemplate",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "name",
+      "objectId",
+      "projectId",
+      "projectObjectId",
+      "type",
+      "standardWorkWeek",
+      "holidayOrExceptions"
+   }) public class CalendarType
 {
 
    @XmlElement(name = "BaseCalendarObjectId", nillable = true) protected Integer baseCalendarObjectId;
@@ -766,9 +767,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "holidayOrException"
-   }) public static class HolidayOrExceptions
+      {
+         "holidayOrException"
+      }) public static class HolidayOrExceptions
    {
 
       @XmlElement(name = "HolidayOrException", required = true) protected List<CalendarType.HolidayOrExceptions.HolidayOrException> holidayOrException;
@@ -825,10 +826,10 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "date",
-         "workTime"
-      }) public static class HolidayOrException
+         {
+            "date",
+            "workTime"
+         }) public static class HolidayOrException
       {
 
          @XmlElement(name = "Date", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime date;
@@ -938,9 +939,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "standardWorkHours"
-   }) public static class StandardWorkWeek
+      {
+         "standardWorkHours"
+      }) public static class StandardWorkWeek
    {
 
       @XmlElement(name = "StandardWorkHours", required = true) protected List<CalendarType.StandardWorkWeek.StandardWorkHours> standardWorkHours;
@@ -1009,10 +1010,10 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "dayOfWeek",
-         "workTime"
-      }) public static class StandardWorkHours
+         {
+            "dayOfWeek",
+            "workTime"
+         }) public static class StandardWorkHours
       {
 
          @XmlElement(name = "DayOfWeek", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String dayOfWeek;

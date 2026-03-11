@@ -10,6 +10,7 @@ package org.mpxj.primavera.schema;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -107,12 +108,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ResourceAssignmentSpreadType", propOrder =
-{
-   "startDate",
-   "endDate",
-   "periodType",
-   "period"
-}) public class ResourceAssignmentSpreadType
+   {
+      "startDate",
+      "endDate",
+      "periodType",
+      "period"
+   }) public class ResourceAssignmentSpreadType
 {
 
    @XmlElement(name = "StartDate", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime startDate;
@@ -294,54 +295,54 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "startDate",
-      "endDate",
-      "actualOvertimeUnits",
-      "cumulativeActualOvertimeUnits",
-      "actualRegularUnits",
-      "cumulativeActualRegularUnits",
-      "actualUnits",
-      "cumulativeActualUnits",
-      "atCompletionUnits",
-      "cumulativeAtCompletionUnits",
-      "plannedUnits",
-      "cumulativePlannedUnits",
-      "remainingLateUnits",
-      "cumulativeRemainingLateUnits",
-      "remainingUnits",
-      "cumulativeRemainingUnits",
-      "staffedRemainingLateUnits",
-      "cumulativeStaffedRemainingLateUnits",
-      "staffedRemainingUnits",
-      "cumulativeStaffedRemainingUnits",
-      "unstaffedRemainingLateUnits",
-      "cumulativeUnstaffedRemainingLateUnits",
-      "unstaffedRemainingUnits",
-      "cumulativeUnstaffedRemainingUnits",
-      "actualCost",
-      "cumulativeActualCost",
-      "actualOvertimeCost",
-      "cumulativeActualOvertimeCost",
-      "actualRegularCost",
-      "cumulativeActualRegularCost",
-      "atCompletionCost",
-      "cumulativeAtCompletionCost",
-      "plannedCost",
-      "cumulativePlannedCost",
-      "remainingCost",
-      "cumulativeRemainingCost",
-      "remainingLateCost",
-      "cumulativeRemainingLateCost",
-      "staffedRemainingCost",
-      "cumulativeStaffedRemainingCost",
-      "staffedRemainingLateCost",
-      "cumulativeStaffedRemainingLateCost",
-      "unstaffedRemainingCost",
-      "cumulativeUnstaffedRemainingCost",
-      "unstaffedRemainingLateCost",
-      "cumulativeUnstaffedRemainingLateCost"
-   }) public static class Period
+      {
+         "startDate",
+         "endDate",
+         "actualOvertimeUnits",
+         "cumulativeActualOvertimeUnits",
+         "actualRegularUnits",
+         "cumulativeActualRegularUnits",
+         "actualUnits",
+         "cumulativeActualUnits",
+         "atCompletionUnits",
+         "cumulativeAtCompletionUnits",
+         "plannedUnits",
+         "cumulativePlannedUnits",
+         "remainingLateUnits",
+         "cumulativeRemainingLateUnits",
+         "remainingUnits",
+         "cumulativeRemainingUnits",
+         "staffedRemainingLateUnits",
+         "cumulativeStaffedRemainingLateUnits",
+         "staffedRemainingUnits",
+         "cumulativeStaffedRemainingUnits",
+         "unstaffedRemainingLateUnits",
+         "cumulativeUnstaffedRemainingLateUnits",
+         "unstaffedRemainingUnits",
+         "cumulativeUnstaffedRemainingUnits",
+         "actualCost",
+         "cumulativeActualCost",
+         "actualOvertimeCost",
+         "cumulativeActualOvertimeCost",
+         "actualRegularCost",
+         "cumulativeActualRegularCost",
+         "atCompletionCost",
+         "cumulativeAtCompletionCost",
+         "plannedCost",
+         "cumulativePlannedCost",
+         "remainingCost",
+         "cumulativeRemainingCost",
+         "remainingLateCost",
+         "cumulativeRemainingLateCost",
+         "staffedRemainingCost",
+         "cumulativeStaffedRemainingCost",
+         "staffedRemainingLateCost",
+         "cumulativeStaffedRemainingLateCost",
+         "unstaffedRemainingCost",
+         "cumulativeUnstaffedRemainingCost",
+         "unstaffedRemainingLateCost",
+         "cumulativeUnstaffedRemainingLateCost"
+      }) public static class Period
    {
 
       @XmlElement(name = "StartDate", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime startDate;

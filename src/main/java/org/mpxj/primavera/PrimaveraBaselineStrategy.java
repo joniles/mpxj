@@ -60,24 +60,24 @@ public final class PrimaveraBaselineStrategy extends AbstractBaselineStrategy
    private final TaskField[] m_sourceFields;
 
    public static final PrimaveraBaselineStrategy PLANNED_ATTRIBUTES = new PrimaveraBaselineStrategy(new TaskField[]
-   {
-      TaskField.PLANNED_COST,
-      TaskField.PLANNED_DURATION,
-      TaskField.PLANNED_FINISH,
-      TaskField.FIXED_COST_ACCRUAL,
-      TaskField.FIXED_COST,
-      TaskField.PLANNED_START,
-      TaskField.PLANNED_WORK
-   });
+      {
+         TaskField.PLANNED_COST,
+         TaskField.PLANNED_DURATION,
+         TaskField.PLANNED_FINISH,
+         TaskField.FIXED_COST_ACCRUAL,
+         TaskField.FIXED_COST,
+         TaskField.PLANNED_START,
+         TaskField.PLANNED_WORK
+      });
 
    public static final PrimaveraBaselineStrategy CURRENT_ATTRIBUTES = new PrimaveraBaselineStrategy(new TaskField[]
-   {
-      TaskField.COST,
-      TaskField.DURATION,
-      TaskField.FINISH,
-      TaskField.FIXED_COST_ACCRUAL,
-      TaskField.FIXED_COST,
-      TaskField.START,
-      TaskField.WORK
-   });
+      {
+         TaskField.COST,
+         TaskField.DURATION,
+         TaskField.FINISH,
+         TaskField.FIXED_COST_ACCRUAL,
+         TaskField.FIXED_COST,
+         TaskField.START,
+         TaskField.WORK
+      });
 }

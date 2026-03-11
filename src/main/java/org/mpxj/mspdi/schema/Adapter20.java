@@ -12,8 +12,8 @@ import org.mpxj.BookingType;
 import org.mpxj.mspdi.DatatypeConverter;
 
 public class Adapter20
-         extends
-            XmlAdapter<String, BookingType>
+   extends
+   XmlAdapter<String, BookingType>
 {
 
    @Override public BookingType unmarshal(String value)

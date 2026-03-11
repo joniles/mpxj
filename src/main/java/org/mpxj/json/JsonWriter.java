@@ -70,7 +70,9 @@ import org.mpxj.AssignmentField;
 import org.mpxj.CustomField;
 import org.mpxj.DataType;
 import org.mpxj.LocalDateTimeRange;
+
 import java.time.DayOfWeek;
+
 import org.mpxj.DayType;
 import org.mpxj.Duration;
 import org.mpxj.EarnedValueMethod;
@@ -2230,7 +2232,6 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeBooleanField("uses_fiscal_year", timescale.getUsesFiscalYear());
       m_writer.writeEndObject();
    }
-
 
    /**
     * Write a TaskMode field to the JSON file.

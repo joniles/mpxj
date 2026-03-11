@@ -24,6 +24,7 @@
 package org.mpxj.mpp;
 
 //import java.io.FileOutputStream;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -68,7 +69,8 @@ final class Props14 extends Props
 
          int attrib1 = readInt(is);
          int attrib2 = readInt(is);
-         /*int attrib3 = */readInt(is);
+         /*int attrib3 = */
+         readInt(is);
          availableBytes -= 12;
 
          if (availableBytes < attrib1 || attrib1 < 1)

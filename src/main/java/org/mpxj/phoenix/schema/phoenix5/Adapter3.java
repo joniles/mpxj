@@ -12,8 +12,8 @@ import org.mpxj.Duration;
 import org.mpxj.phoenix.DatatypeConverter;
 
 public class Adapter3
-         extends
-            XmlAdapter<String, Duration>
+   extends
+   XmlAdapter<String, Duration>
 {
 
    @Override public Duration unmarshal(String value)

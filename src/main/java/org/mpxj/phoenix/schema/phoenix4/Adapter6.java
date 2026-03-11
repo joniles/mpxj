@@ -12,8 +12,8 @@ import org.mpxj.TimeUnit;
 import org.mpxj.phoenix.DatatypeConverter;
 
 public class Adapter6
-         extends
-            XmlAdapter<String, TimeUnit>
+   extends
+   XmlAdapter<String, TimeUnit>
 {
 
    @Override public TimeUnit unmarshal(String value)

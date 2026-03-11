@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -116,26 +117,26 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ProjectBudgetChangeLogType", propOrder =
-{
-   "amount",
-   "changeNumber",
-   "createDate",
-   "createUser",
-   "date",
-   "isBaseline",
-   "isTemplate",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "objectId",
-   "projectId",
-   "projectObjectId",
-   "reason",
-   "responsible",
-   "status",
-   "wbsCode",
-   "wbsName",
-   "wbsObjectId"
-}) public class ProjectBudgetChangeLogType
+   {
+      "amount",
+      "changeNumber",
+      "createDate",
+      "createUser",
+      "date",
+      "isBaseline",
+      "isTemplate",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "objectId",
+      "projectId",
+      "projectObjectId",
+      "reason",
+      "responsible",
+      "status",
+      "wbsCode",
+      "wbsName",
+      "wbsObjectId"
+   }) public class ProjectBudgetChangeLogType
 {
 
    @XmlElement(name = "Amount", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) protected Double amount;

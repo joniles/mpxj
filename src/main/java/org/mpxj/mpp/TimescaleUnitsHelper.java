@@ -38,7 +38,7 @@ class TimescaleUnitsHelper
     */
    public static TimescaleUnits getInstance(int type)
    {
-      type +=1;
+      type += 1;
       if (type < 0 || type > TYPE_VALUES.length)
       {
          return TimescaleUnits.NONE;

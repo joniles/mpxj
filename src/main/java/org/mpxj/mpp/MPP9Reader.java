@@ -957,21 +957,23 @@ final class MPP9Reader implements MPPVariantReader
                continue;
             }
             else
+            {
                if (temp.getName() == null)
                {
                   // Ok, this looks valid. Remove the previous instance since it is most likely not a valid task.
                   // At worst case this removes a task with an empty name.
                   m_file.removeTask(temp);
                }
+            }
          }
 
          task = m_file.addTask();
 
          task.disableEvents();
          fieldMap.populateContainer(FieldTypeClass.TASK, task, uniqueID, new byte[][]
-         {
-            data
-         }, taskVarData);
+            {
+               data
+            }, taskVarData);
          task.enableEvents();
 
          task.setEffortDriven((metaData[11] & 0x10) != 0);
@@ -1529,9 +1531,9 @@ final class MPP9Reader implements MPPVariantReader
 
          resource.disableEvents();
          fieldMap.populateContainer(FieldTypeClass.RESOURCE, resource, id, new byte[][]
-         {
-            data
-         }, rscVarData);
+            {
+               data
+            }, rscVarData);
          resource.enableEvents();
 
          hyperlinkReader.read(resource, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.HYPERLINK_DATA)));
@@ -1846,7 +1848,6 @@ final class MPP9Reader implements MPPVariantReader
    //         }
    //      }
    //   }
-
    private void postProcessTasks() throws MPXJException
    {
       //

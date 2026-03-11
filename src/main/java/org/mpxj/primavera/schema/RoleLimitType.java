@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -60,16 +61,16 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "RoleLimitType", propOrder =
-{
-   "createDate",
-   "createUser",
-   "effectiveDate",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "maxUnitsPerTime",
-   "objectId",
-   "roleObjectId"
-}) public class RoleLimitType
+   {
+      "createDate",
+      "createUser",
+      "effectiveDate",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "maxUnitsPerTime",
+      "objectId",
+      "roleObjectId"
+   }) public class RoleLimitType
 {
 
    @XmlElement(name = "CreateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime createDate;

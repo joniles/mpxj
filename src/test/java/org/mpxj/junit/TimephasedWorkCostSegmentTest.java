@@ -208,7 +208,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
    {
       List<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, expected.length, TimescaleUnits.DAYS);
       TimephasedTestHelper.testDurationSegments(assignment.getTimephasedBaselineWork(0, dateList, TimeUnit.HOURS), expected);
-      TimephasedTestHelper.testDurationSegments(assignment.getTimephasedDurationValues(AssignmentField.BASELINE_WORK,  dateList, TimeUnit.HOURS), expected);
+      TimephasedTestHelper.testDurationSegments(assignment.getTimephasedDurationValues(AssignmentField.BASELINE_WORK, dateList, TimeUnit.HOURS), expected);
    }
 
    /**
@@ -268,6 +268,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       List<Number> costList = assignment.getTimephasedActualCost(dateList);
       TimephasedTestHelper.testNumericSegments(costList, expected);
    }
-   
+
    private final TimescaleHelper m_timescale = new TimescaleHelper();
 }

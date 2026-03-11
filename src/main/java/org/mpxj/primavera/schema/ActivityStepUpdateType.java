@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -117,30 +118,30 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ActivityStepUpdateType", propOrder =
-{
-   "activityObjectId",
-   "activityStepObjectId",
-   "allData",
-   "approvalDate",
-   "approvalUserName",
-   "approvalUserObjectId",
-   "changeSetObjectId",
-   "createUser",
-   "date",
-   "heldDate",
-   "lastApprovedDate",
-   "overridePercentComplete",
-   "overrideStepName",
-   "pendingPercentComplete",
-   "pendingStepName",
-   "projectObjectId",
-   "rejectedBy",
-   "rejectedDate",
-   "requestUserObjectId",
-   "resubmittedBy",
-   "resubmittedDate",
-   "status"
-}) public class ActivityStepUpdateType
+   {
+      "activityObjectId",
+      "activityStepObjectId",
+      "allData",
+      "approvalDate",
+      "approvalUserName",
+      "approvalUserObjectId",
+      "changeSetObjectId",
+      "createUser",
+      "date",
+      "heldDate",
+      "lastApprovedDate",
+      "overridePercentComplete",
+      "overrideStepName",
+      "pendingPercentComplete",
+      "pendingStepName",
+      "projectObjectId",
+      "rejectedBy",
+      "rejectedDate",
+      "requestUserObjectId",
+      "resubmittedBy",
+      "resubmittedDate",
+      "status"
+   }) public class ActivityStepUpdateType
 {
 
    @XmlElement(name = "ActivityObjectId") protected Integer activityObjectId;

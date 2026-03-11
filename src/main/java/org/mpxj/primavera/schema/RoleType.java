@@ -10,6 +10,7 @@ package org.mpxj.primavera.schema;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -73,21 +74,21 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "RoleType", propOrder =
-{
-   "calculateCostFromUnits",
-   "createDate",
-   "createUser",
-   "id",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "name",
-   "objectId",
-   "parentObjectId",
-   "responsibilities",
-   "sequenceNumber",
-   "projectRoleSpread",
-   "code"
-}) public class RoleType
+   {
+      "calculateCostFromUnits",
+      "createDate",
+      "createUser",
+      "id",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "name",
+      "objectId",
+      "parentObjectId",
+      "responsibilities",
+      "sequenceNumber",
+      "projectRoleSpread",
+      "code"
+   }) public class RoleType
 {
 
    @XmlElement(name = "CalculateCostFromUnits", type = String.class) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean calculateCostFromUnits;

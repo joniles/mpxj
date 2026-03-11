@@ -700,6 +700,7 @@ abstract class FieldMap
       pw.close();
       return sw.toString();
    }
+
    /**
     * Enumeration representing the location of field data.
     */
@@ -1302,6 +1303,7 @@ abstract class FieldMap
 
          return buffer.toString();
       }
+
       private final FieldType m_type;
       private final FieldLocation m_location;
       private final int m_fixedDataBlockIndex;

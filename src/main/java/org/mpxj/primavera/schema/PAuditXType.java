@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -56,30 +57,30 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "PAuditXType", propOrder =
-{
-   "activityCode",
-   "activityName",
-   "actualName",
-   "applicationName",
-   "auditTimestamp",
-   "boFieldName",
-   "boFieldType",
-   "bussinessObjName",
-   "hostName",
-   "newValue",
-   "newValueName",
-   "oldValue",
-   "oldValueName",
-   "operation",
-   "prmUserName",
-   "projectName",
-   "projectObjectId",
-   "projectShortName",
-   "subjectArea",
-   "tableColumnName",
-   "tablePrimaryKeys",
-   "udfCodeTypeLabel"
-}) public class PAuditXType
+   {
+      "activityCode",
+      "activityName",
+      "actualName",
+      "applicationName",
+      "auditTimestamp",
+      "boFieldName",
+      "boFieldType",
+      "bussinessObjName",
+      "hostName",
+      "newValue",
+      "newValueName",
+      "oldValue",
+      "oldValueName",
+      "operation",
+      "prmUserName",
+      "projectName",
+      "projectObjectId",
+      "projectShortName",
+      "subjectArea",
+      "tableColumnName",
+      "tablePrimaryKeys",
+      "udfCodeTypeLabel"
+   }) public class PAuditXType
 {
 
    @XmlElement(name = "ActivityCode") @XmlJavaTypeAdapter(Adapter1.class) protected String activityCode;

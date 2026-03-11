@@ -36,12 +36,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "GatewayDeploymentType", propOrder =
-{
-   "deploymentName",
-   "objectId",
-   "providerId",
-   "providerName"
-}) public class GatewayDeploymentType
+   {
+      "deploymentName",
+      "objectId",
+      "providerId",
+      "providerName"
+   }) public class GatewayDeploymentType
 {
 
    @XmlElement(name = "DeploymentName") @XmlJavaTypeAdapter(Adapter1.class) protected String deploymentName;

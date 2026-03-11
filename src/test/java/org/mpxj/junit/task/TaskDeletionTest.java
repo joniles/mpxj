@@ -96,6 +96,7 @@ public class TaskDeletionTest
          assertEquals(expectedNames[index], task.getName(), file.getName() + " Task " + task.getID());
       }
    }
+
    private static final String[] TASK_DELETION1 = {
       null,
       "T1",

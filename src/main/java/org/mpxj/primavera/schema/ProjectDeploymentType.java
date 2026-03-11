@@ -37,13 +37,13 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ProjectDeploymentType", propOrder =
-{
-   "deploymentName",
-   "deploymentObjectId",
-   "objectId",
-   "projectObjectId",
-   "providerName"
-}) public class ProjectDeploymentType
+   {
+      "deploymentName",
+      "deploymentObjectId",
+      "objectId",
+      "projectObjectId",
+      "providerName"
+   }) public class ProjectDeploymentType
 {
 
    @XmlElement(name = "DeploymentName") @XmlJavaTypeAdapter(Adapter1.class) protected String deploymentName;

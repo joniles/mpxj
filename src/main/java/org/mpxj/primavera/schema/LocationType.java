@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -123,25 +124,25 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "LocationType", propOrder =
-{
-   "addressLine1",
-   "addressLine2",
-   "city",
-   "country",
-   "countryCode",
-   "createDate",
-   "createUser",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "latitude",
-   "longitude",
-   "municipality",
-   "name",
-   "objectId",
-   "postalCode",
-   "state",
-   "stateCode"
-}) public class LocationType
+   {
+      "addressLine1",
+      "addressLine2",
+      "city",
+      "country",
+      "countryCode",
+      "createDate",
+      "createUser",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "latitude",
+      "longitude",
+      "municipality",
+      "name",
+      "objectId",
+      "postalCode",
+      "state",
+      "stateCode"
+   }) public class LocationType
 {
 
    @XmlElement(name = "AddressLine1") @XmlJavaTypeAdapter(Adapter1.class) protected String addressLine1;

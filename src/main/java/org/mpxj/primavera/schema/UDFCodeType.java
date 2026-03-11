@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -68,18 +69,18 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "UDFCodeType", propOrder =
-{
-   "codeTypeObjectId",
-   "codeTypeTitle",
-   "codeValue",
-   "createDate",
-   "createUser",
-   "description",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "objectId",
-   "sequenceNumber"
-}) public class UDFCodeType
+   {
+      "codeTypeObjectId",
+      "codeTypeTitle",
+      "codeValue",
+      "createDate",
+      "createUser",
+      "description",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "objectId",
+      "sequenceNumber"
+   }) public class UDFCodeType
 {
 
    @XmlElement(name = "CodeTypeObjectId") protected Integer codeTypeObjectId;

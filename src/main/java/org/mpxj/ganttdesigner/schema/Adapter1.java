@@ -8,6 +8,7 @@
 package org.mpxj.ganttdesigner.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import org.mpxj.ganttdesigner.DatatypeConverter;
 

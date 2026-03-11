@@ -39,13 +39,13 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-{
-   "primaryUnits",
-   "primaryAlign",
-   "secondaryUnits",
-   "secondaryAlign",
-   "secondaryCount"
-}) @XmlRootElement(name = "TimeScale") public class TimeScale
+   {
+      "primaryUnits",
+      "primaryAlign",
+      "secondaryUnits",
+      "secondaryAlign",
+      "secondaryCount"
+   }) @XmlRootElement(name = "TimeScale") public class TimeScale
 {
 
    @XmlElement(name = "PrimaryUnits", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter6.class) @XmlSchemaType(name = "int") protected Integer primaryUnits;

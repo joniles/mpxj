@@ -12,8 +12,8 @@ import org.mpxj.WorkContour;
 import org.mpxj.mspdi.DatatypeConverter;
 
 public class Adapter12
-         extends
-            XmlAdapter<String, WorkContour>
+   extends
+   XmlAdapter<String, WorkContour>
 {
 
    @Override public WorkContour unmarshal(String value)

@@ -71,7 +71,9 @@ import org.mpxj.CustomField;
 import org.mpxj.CustomFieldLookupTable;
 import org.mpxj.CustomFieldValueDataType;
 import org.mpxj.CustomFieldValueMask;
+
 import java.time.DayOfWeek;
+
 import org.mpxj.DayType;
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
@@ -2168,7 +2170,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
          {
             workHours = item.getStart().until(item.getFinish(), ChronoUnit.HOURS);
          }
-         workPerHour = Duration.getInstance(work.getDuration()/workHours, TimeUnit.MINUTES);
+         workPerHour = Duration.getInstance(work.getDuration() / workHours, TimeUnit.MINUTES);
       }
 
       // Remove timephased items which represent zero work over a period

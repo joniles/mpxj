@@ -46,7 +46,7 @@ public class TimephasedSplitWorkTest
       ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("splits9a.mpp"));
 
       Task task = mpp.getTaskByUniqueID(Integer.valueOf(1));
-      List<LocalDateTimeRange>  taskSplits = task.getWorkSplits();
+      List<LocalDateTimeRange> taskSplits = task.getWorkSplits();
       assertEquals(1, taskSplits.size());
 
       for (int taskID = 2; taskID <= 6; taskID++)

@@ -10,8 +10,8 @@ package org.mpxj.edrawproject.schema;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter2
-         extends
-            XmlAdapter<String, Double>
+   extends
+   XmlAdapter<String, Double>
 {
 
    @Override public Double unmarshal(String value)

@@ -47,11 +47,11 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "PortfolioTeamMemberType", propOrder =
-{
-   "id",
-   "name",
-   "objectId"
-}) public class PortfolioTeamMemberType
+   {
+      "id",
+      "name",
+      "objectId"
+   }) public class PortfolioTeamMemberType
 {
 
    @XmlElement(name = "Id", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String id;

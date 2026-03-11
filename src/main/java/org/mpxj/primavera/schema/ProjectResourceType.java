@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -94,32 +95,32 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ProjectResourceType", propOrder =
-{
-   "committedFlag",
-   "createDate",
-   "createUser",
-   "finishDate",
-   "isBaseline",
-   "isTemplate",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "lifeOfProjectFlag",
-   "objectId",
-   "projectId",
-   "projectObjectId",
-   "projectResourceCategoryName",
-   "projectResourceCategoryObjectId",
-   "resourceName",
-   "resourceObjectId",
-   "roleName",
-   "roleObjectId",
-   "startDate",
-   "status",
-   "totalUnits",
-   "wbsCode",
-   "wbsObjectId",
-   "resourceRequest"
-}) public class ProjectResourceType
+   {
+      "committedFlag",
+      "createDate",
+      "createUser",
+      "finishDate",
+      "isBaseline",
+      "isTemplate",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "lifeOfProjectFlag",
+      "objectId",
+      "projectId",
+      "projectObjectId",
+      "projectResourceCategoryName",
+      "projectResourceCategoryObjectId",
+      "resourceName",
+      "resourceObjectId",
+      "roleName",
+      "roleObjectId",
+      "startDate",
+      "status",
+      "totalUnits",
+      "wbsCode",
+      "wbsObjectId",
+      "resourceRequest"
+   }) public class ProjectResourceType
 {
 
    @XmlElement(name = "CommittedFlag", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean committedFlag;

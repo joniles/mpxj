@@ -111,15 +111,15 @@ public abstract class AbstractBaselineStrategy implements BaselineStrategy
       {
          --index;
          fields = new TaskField[]
-         {
-            TaskFieldLists.BASELINE_COSTS[index],
-            TaskFieldLists.BASELINE_DURATIONS[index],
-            TaskFieldLists.BASELINE_FINISHES[index],
-            TaskFieldLists.BASELINE_FIXED_COST_ACCRUALS[index],
-            TaskFieldLists.BASELINE_FIXED_COSTS[index],
-            TaskFieldLists.BASELINE_STARTS[index],
-            TaskFieldLists.BASELINE_WORKS[index]
-         };
+            {
+               TaskFieldLists.BASELINE_COSTS[index],
+               TaskFieldLists.BASELINE_DURATIONS[index],
+               TaskFieldLists.BASELINE_FINISHES[index],
+               TaskFieldLists.BASELINE_FIXED_COST_ACCRUALS[index],
+               TaskFieldLists.BASELINE_FIXED_COSTS[index],
+               TaskFieldLists.BASELINE_STARTS[index],
+               TaskFieldLists.BASELINE_WORKS[index]
+            };
       }
       return fields;
    }

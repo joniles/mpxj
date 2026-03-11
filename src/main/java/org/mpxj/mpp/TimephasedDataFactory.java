@@ -207,7 +207,7 @@ final class TimephasedDataFactory
                            if (remainingWork > 0)
                            {
                               item.setTotalAmount(Duration.getInstance(remainingWork, TimeUnit.MINUTES));
-                              long remainingMinutes = (long)((item.getTotalAmount().getDuration() * 60.0) / item.getAmountPerHour().getDuration());
+                              long remainingMinutes = (long) ((item.getTotalAmount().getDuration() * 60.0) / item.getAmountPerHour().getDuration());
                               item.setFinish(calendar.getDate(item.getStart(), Duration.getInstance(remainingMinutes, TimeUnit.MINUTES)));
 
                               regularList.add(item);
@@ -240,7 +240,6 @@ final class TimephasedDataFactory
 
       return regularList;
    }
-
 
    /**
     * Split an existing regular item to apply an irregular item.

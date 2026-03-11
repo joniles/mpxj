@@ -31,9 +31,9 @@ import jakarta.xml.bind.annotation.XmlValue;
  *
  */
 @SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "day-type", propOrder =
-{
-   "value"
-}) public class DayType
+   {
+      "value"
+   }) public class DayType
 {
 
    @XmlValue protected String value;

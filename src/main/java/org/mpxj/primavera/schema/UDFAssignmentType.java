@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -53,17 +54,17 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "UDFAssignmentType", propOrder =
-{
-   "typeObjectId",
-   "codeObjectId",
-   "costValue",
-   "integerValue",
-   "indicatorValue",
-   "doubleValue",
-   "textValue",
-   "startDateValue",
-   "finishDateValue"
-}) public class UDFAssignmentType
+   {
+      "typeObjectId",
+      "codeObjectId",
+      "costValue",
+      "integerValue",
+      "indicatorValue",
+      "doubleValue",
+      "textValue",
+      "startDateValue",
+      "finishDateValue"
+   }) public class UDFAssignmentType
 {
 
    @XmlElement(name = "TypeObjectId") protected int typeObjectId;

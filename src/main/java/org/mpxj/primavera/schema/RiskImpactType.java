@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -63,25 +64,25 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "RiskImpactType", propOrder =
-{
-   "createDate",
-   "createUser",
-   "isBaseline",
-   "isTemplate",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "projectId",
-   "projectName",
-   "projectObjectId",
-   "riskId",
-   "riskName",
-   "riskObjectId",
-   "riskThresholdLevelCode",
-   "riskThresholdLevelName",
-   "riskThresholdLevelObjectId",
-   "riskThresholdName",
-   "riskThresholdObjectId"
-}) public class RiskImpactType
+   {
+      "createDate",
+      "createUser",
+      "isBaseline",
+      "isTemplate",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "projectId",
+      "projectName",
+      "projectObjectId",
+      "riskId",
+      "riskName",
+      "riskObjectId",
+      "riskThresholdLevelCode",
+      "riskThresholdLevelName",
+      "riskThresholdLevelObjectId",
+      "riskThresholdName",
+      "riskThresholdObjectId"
+   }) public class RiskImpactType
 {
 
    @XmlElement(name = "CreateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime createDate;

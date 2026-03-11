@@ -145,10 +145,10 @@ public class ResourceAssignmentFactory
          assignment.disableEvents();
 
          fieldMap.populateContainer(FieldTypeClass.ASSIGNMENT, assignment, varDataId, new byte[][]
-         {
-            data,
-            data2
-         }, assnVarData);
+            {
+               data,
+               data2
+            }, assnVarData);
 
          if (enterpriseCustomFieldMap != null)
          {

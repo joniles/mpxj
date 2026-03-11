@@ -9,6 +9,7 @@ package org.mpxj.ganttproject.schema;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlType;
@@ -33,9 +34,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "allocations", propOrder =
-{
-   "allocation"
-}) public class Allocations
+   {
+      "allocation"
+   }) public class Allocations
 {
 
    protected List<Allocation> allocation;

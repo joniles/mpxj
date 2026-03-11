@@ -39,7 +39,9 @@ import org.mpxj.ConstraintType;
 import org.mpxj.CostRateTable;
 import org.mpxj.CostRateTableEntry;
 import org.mpxj.DataType;
+
 import java.time.DayOfWeek;
+
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
@@ -1609,6 +1611,7 @@ abstract class MPD9AbstractReader
    //   {
    //      return (value.equals(nullValue)?null:value);
    //   }
+
    /**
     * This method returns the value it is passed, or null if the value
     * matches the nullValue argument.

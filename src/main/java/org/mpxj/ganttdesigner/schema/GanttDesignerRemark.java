@@ -9,6 +9,7 @@ package org.mpxj.ganttdesigner.schema;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -44,9 +45,9 @@ import jakarta.xml.bind.annotation.XmlValue;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ganttDesignerRemark", propOrder =
-{
-   "task"
-}) public class GanttDesignerRemark
+   {
+      "task"
+   }) public class GanttDesignerRemark
 {
 
    @XmlElement(name = "Task", required = true) protected List<GanttDesignerRemark.Task> task;
@@ -100,9 +101,9 @@ import jakarta.xml.bind.annotation.XmlValue;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "content"
-   }) public static class Task
+      {
+         "content"
+      }) public static class Task
    {
 
       @XmlValue protected String content;

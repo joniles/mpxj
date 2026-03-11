@@ -53,10 +53,7 @@ public final class EnumHelper
     * @param arraySizeOffset offset to apply to the array size
     * @return lookup array
     */
-   @SuppressWarnings(
-   {
-      "unchecked"
-   }) public static final <E extends Enum<E>> E[] createTypeArray(Class<E> c, int arraySizeOffset)
+   @SuppressWarnings("unchecked") public static final <E extends Enum<E>> E[] createTypeArray(Class<E> c, int arraySizeOffset)
    {
       EnumSet<E> set = EnumSet.allOf(c);
       E[] array = (E[]) Array.newInstance(c, set.size() + arraySizeOffset);

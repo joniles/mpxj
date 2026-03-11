@@ -5,4 +5,5 @@
 // Generated on: 2026.01.22 at 12:01:56 PM GMT
 //
 
-@jakarta.xml.bind.annotation.XmlSchema(namespace = "http://xmlns.oracle.com/Primavera/P6/V25.12/API/BusinessObjects", elementFormDefault = jakarta.xml.bind.annotation.XmlNsForm.QUALIFIED) package org.mpxj.primavera.schema;
+@jakarta.xml.bind.annotation.XmlSchema(namespace = "http://xmlns.oracle.com/Primavera/P6/V25.12/API/BusinessObjects", elementFormDefault = jakarta.xml.bind.annotation.XmlNsForm.QUALIFIED)
+package org.mpxj.primavera.schema;

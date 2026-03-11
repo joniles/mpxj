@@ -11,8 +11,8 @@ import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import org.mpxj.mspdi.DatatypeConverter;
 
 public class Adapter1
-         extends
-            XmlAdapter<String, Boolean>
+   extends
+   XmlAdapter<String, Boolean>
 {
 
    @Override public Boolean unmarshal(String value)

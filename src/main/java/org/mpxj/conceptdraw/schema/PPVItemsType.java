@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -81,9 +82,9 @@ import org.mpxj.Priority;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "PPVItemsType", propOrder =
-{
-   "ppvItem"
-}) public class PPVItemsType
+   {
+      "ppvItem"
+   }) public class PPVItemsType
 {
 
    @XmlElement(name = "PPVItem", required = true) protected List<PPVItemsType.PPVItem> ppvItem;
@@ -170,32 +171,32 @@ import org.mpxj.Priority;
     *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-   {
-      "completeJournal",
-      "projectID",
-      "id",
-      "name",
-      "author",
-      "company",
-      "startDate",
-      "finishDate",
-      "budget",
-      "goal",
-      "site",
-      "note",
-      "baselineCost",
-      "baselineStartDate",
-      "baselineFinishDate",
-      "showSubtasks",
-      "priority",
-      "isVisibleSubitems",
-      "styleProject",
-      "markerID",
-      "hyperlinks",
-      "completeJournalTrackingPeriod",
-      "callouts",
-      "ppvItems"
-   }) public static class PPVItem
+      {
+         "completeJournal",
+         "projectID",
+         "id",
+         "name",
+         "author",
+         "company",
+         "startDate",
+         "finishDate",
+         "budget",
+         "goal",
+         "site",
+         "note",
+         "baselineCost",
+         "baselineStartDate",
+         "baselineFinishDate",
+         "showSubtasks",
+         "priority",
+         "isVisibleSubitems",
+         "styleProject",
+         "markerID",
+         "hyperlinks",
+         "completeJournalTrackingPeriod",
+         "callouts",
+         "ppvItems"
+      }) public static class PPVItem
    {
 
       @XmlElement(name = "CompleteJournal") protected PPVItemsType.PPVItem.CompleteJournal completeJournal;
@@ -878,9 +879,9 @@ import org.mpxj.Priority;
        *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-      {
-         "completeJournalEntry"
-      }) public static class CompleteJournal
+         {
+            "completeJournalEntry"
+         }) public static class CompleteJournal
       {
 
          @XmlElement(name = "CompleteJournalEntry") protected List<PPVItemsType.PPVItem.CompleteJournal.CompleteJournalEntry> completeJournalEntry;
@@ -937,10 +938,10 @@ import org.mpxj.Priority;
           *
           */
          @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-         {
-            "date",
-            "complete"
-         }) public static class CompleteJournalEntry
+            {
+               "date",
+               "complete"
+            }) public static class CompleteJournalEntry
          {
 
             @XmlElement(name = "Date", required = true, type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "date") protected LocalDate date;

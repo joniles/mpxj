@@ -35,9 +35,9 @@ import jakarta.xml.bind.annotation.XmlValue;
  *
  */
 @SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "allocation", propOrder =
-{
-   "value"
-}) public class Allocation
+   {
+      "value"
+   }) public class Allocation
 {
 
    @XmlValue protected String value;

@@ -33,10 +33,10 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "CodeAssignmentType", propOrder =
-{
-   "typeObjectId",
-   "valueObjectId"
-}) public class CodeAssignmentType
+   {
+      "typeObjectId",
+      "valueObjectId"
+   }) public class CodeAssignmentType
 {
 
    @XmlElement(name = "TypeObjectId") protected int typeObjectId;

@@ -8,11 +8,12 @@
 package org.mpxj.mspdi.schema;
 
 import java.math.BigDecimal;
+
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter2
-         extends
-            XmlAdapter<String, BigDecimal>
+   extends
+   XmlAdapter<String, BigDecimal>
 {
 
    @Override public BigDecimal unmarshal(String value)

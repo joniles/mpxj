@@ -5,4 +5,5 @@
 // Generated on: 2024.11.28 at 04:58:44 PM GMT
 //
 
-@jakarta.xml.bind.annotation.XmlSchema(namespace = "http://schemas.microsoft.com/project", elementFormDefault = jakarta.xml.bind.annotation.XmlNsForm.QUALIFIED) package org.mpxj.mspdi.schema;
+@jakarta.xml.bind.annotation.XmlSchema(namespace = "http://schemas.microsoft.com/project", elementFormDefault = jakarta.xml.bind.annotation.XmlNsForm.QUALIFIED)
+package org.mpxj.mspdi.schema;

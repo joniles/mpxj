@@ -32,9 +32,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "vacations", propOrder =
-{
-   "vacation"
-}) public class Vacations
+   {
+      "vacation"
+   }) public class Vacations
 {
 
    @XmlElement(required = true) protected Vacation vacation;

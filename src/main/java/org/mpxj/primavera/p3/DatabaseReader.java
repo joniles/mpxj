@@ -453,36 +453,36 @@ class DatabaseReader
       new StringColumn("UNKNOWN_1", 2, 10),
       new StringColumn("UNKNOWN_2", 12, 19),
       new StringColumn("UNKNOWN_3", 31, 2)
-            // additional unknown fields
+      // additional unknown fields
    };
 
    private static final ColumnDefinition[] SPR_COLUMNS = {
       new ShortColumn("UNKNOWN_1", 4)
-            // additional unknown fields
+      // additional unknown fields
    };
 
    private static final ColumnDefinition[] STW_COLUMNS = {
-            // unknown fields
+      // unknown fields
    };
 
    private static final ColumnDefinition[] TIM_COLUMNS = {
-            // unknown fields
+      // unknown fields
    };
 
    private static final ColumnDefinition[] AUD_COLUMNS = {
-            // unknown fields
+      // unknown fields
    };
 
    private static final ColumnDefinition[] REP_COLUMNS = {
-            // unknown fields
+      // unknown fields
    };
 
    private static final ColumnDefinition[] LAY_COLUMNS = {
-            // unknown fields
+      // unknown fields
    };
 
    private static final ColumnDefinition[] PLT_COLUMNS = {
-            // unknown fields
+      // unknown fields
    };
 
    /**

@@ -32,9 +32,9 @@ import jakarta.xml.bind.annotation.XmlValue;
  *
  */
 @SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "custom-task-property", propOrder =
-{
-   "value"
-}) public class CustomTaskProperty
+   {
+      "value"
+   }) public class CustomTaskProperty
 {
 
    @XmlValue protected String value;

@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -76,18 +77,18 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "CBSType", propOrder =
-{
-   "cbsCode",
-   "cbsDescription",
-   "cbsStatus",
-   "createDate",
-   "createUser",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "objectId",
-   "parentObjectId",
-   "projectObjectId"
-}) public class CBSType
+   {
+      "cbsCode",
+      "cbsDescription",
+      "cbsStatus",
+      "createDate",
+      "createUser",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "objectId",
+      "parentObjectId",
+      "projectObjectId"
+   }) public class CBSType
 {
 
    @XmlElement(name = "CBSCode") @XmlJavaTypeAdapter(Adapter1.class) protected String cbsCode;

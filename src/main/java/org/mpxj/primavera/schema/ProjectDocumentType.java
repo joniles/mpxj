@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -103,29 +104,29 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ProjectDocumentType", propOrder =
-{
-   "activityId",
-   "activityName",
-   "activityObjectId",
-   "createDate",
-   "createUser",
-   "documentCategoryName",
-   "documentObjectId",
-   "documentStatusName",
-   "documentTitle",
-   "isBaseline",
-   "isTemplate",
-   "isWorkProduct",
-   "lastUpdateDate",
-   "lastUpdateUser",
-   "objectId",
-   "parentWBSObjectId",
-   "projectId",
-   "projectObjectId",
-   "wbsCode",
-   "wbsName",
-   "wbsObjectId"
-}) public class ProjectDocumentType
+   {
+      "activityId",
+      "activityName",
+      "activityObjectId",
+      "createDate",
+      "createUser",
+      "documentCategoryName",
+      "documentObjectId",
+      "documentStatusName",
+      "documentTitle",
+      "isBaseline",
+      "isTemplate",
+      "isWorkProduct",
+      "lastUpdateDate",
+      "lastUpdateUser",
+      "objectId",
+      "parentWBSObjectId",
+      "projectId",
+      "projectObjectId",
+      "wbsCode",
+      "wbsName",
+      "wbsObjectId"
+   }) public class ProjectDocumentType
 {
 
    @XmlElement(name = "ActivityId") @XmlJavaTypeAdapter(Adapter1.class) protected String activityId;

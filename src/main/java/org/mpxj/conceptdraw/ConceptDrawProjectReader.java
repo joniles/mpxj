@@ -145,10 +145,10 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
    }
 
    /**
-   * Extracts calendar data from a ConceptDraw PROJECT file.
-   *
-   * @param cdp ConceptDraw PROJECT file
-   */
+    * Extracts calendar data from a ConceptDraw PROJECT file.
+    *
+    * @param cdp ConceptDraw PROJECT file
+    */
    private void readCalendars(Document cdp)
    {
       for (Calendar calendar : cdp.getCalendars().getCalendar())

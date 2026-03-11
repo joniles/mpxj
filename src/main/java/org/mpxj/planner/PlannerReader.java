@@ -48,7 +48,9 @@ import org.mpxj.planner.schema.Task;
 import org.xml.sax.SAXException;
 
 import org.mpxj.ConstraintType;
+
 import java.time.DayOfWeek;
+
 import org.mpxj.DayType;
 import org.mpxj.Duration;
 import org.mpxj.EventManager;

@@ -34,9 +34,9 @@ import jakarta.xml.bind.annotation.XmlValue;
  *
  */
 @SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "depend", propOrder =
-{
-   "value"
-}) public class Depend
+   {
+      "value"
+   }) public class Depend
 {
 
    @XmlValue protected String value;

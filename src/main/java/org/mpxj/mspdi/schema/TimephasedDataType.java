@@ -9,6 +9,7 @@ package org.mpxj.mspdi.schema;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -131,14 +132,14 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "TimephasedDataType", propOrder =
-{
-   "type",
-   "uid",
-   "start",
-   "finish",
-   "unit",
-   "value"
-}) public class TimephasedDataType
+   {
+      "type",
+      "uid",
+      "start",
+      "finish",
+      "unit",
+      "value"
+   }) public class TimephasedDataType
 {
 
    @XmlElement(name = "Type") protected BigInteger type;

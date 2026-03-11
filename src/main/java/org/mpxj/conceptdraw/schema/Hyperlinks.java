@@ -9,6 +9,7 @@ package org.mpxj.conceptdraw.schema;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -35,9 +36,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
-{
-   "hyperlink"
-}) @XmlRootElement(name = "Hyperlinks") public class Hyperlinks
+   {
+      "hyperlink"
+   }) @XmlRootElement(name = "Hyperlinks") public class Hyperlinks
 {
 
    @XmlElement(name = "Hyperlink") protected List<Object> hyperlink;

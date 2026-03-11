@@ -8,6 +8,7 @@
 package org.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -130,39 +131,39 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ResourceAssignmentUpdateType", propOrder =
-{
-   "activityObjectId",
-   "allData",
-   "approvalDate",
-   "approvalUserName",
-   "approvalUserObjectId",
-   "calendarId",
-   "changeSetObjectId",
-   "createUser",
-   "date",
-   "heldDate",
-   "lastApprovedDate",
-   "overrideActualFinishDate",
-   "overrideActualStartDate",
-   "overrideActualUnits",
-   "overrideRemainingDuration",
-   "overrideRemainingFinishDate",
-   "overrideRemainingUnits",
-   "pendingActualFinishDate",
-   "pendingActualStartDate",
-   "pendingActualUnits",
-   "pendingRemainingDuration",
-   "pendingRemainingFinishDate",
-   "pendingRemainingUnits",
-   "projectObjectId",
-   "rejectedBy",
-   "rejectedDate",
-   "requestUserObjectId",
-   "resourceAssignmentObjectId",
-   "resubmittedBy",
-   "resubmittedDate",
-   "status"
-}) public class ResourceAssignmentUpdateType
+   {
+      "activityObjectId",
+      "allData",
+      "approvalDate",
+      "approvalUserName",
+      "approvalUserObjectId",
+      "calendarId",
+      "changeSetObjectId",
+      "createUser",
+      "date",
+      "heldDate",
+      "lastApprovedDate",
+      "overrideActualFinishDate",
+      "overrideActualStartDate",
+      "overrideActualUnits",
+      "overrideRemainingDuration",
+      "overrideRemainingFinishDate",
+      "overrideRemainingUnits",
+      "pendingActualFinishDate",
+      "pendingActualStartDate",
+      "pendingActualUnits",
+      "pendingRemainingDuration",
+      "pendingRemainingFinishDate",
+      "pendingRemainingUnits",
+      "projectObjectId",
+      "rejectedBy",
+      "rejectedDate",
+      "requestUserObjectId",
+      "resourceAssignmentObjectId",
+      "resubmittedBy",
+      "resubmittedDate",
+      "status"
+   }) public class ResourceAssignmentUpdateType
 {
 
    @XmlElement(name = "ActivityObjectId") protected Integer activityObjectId;
