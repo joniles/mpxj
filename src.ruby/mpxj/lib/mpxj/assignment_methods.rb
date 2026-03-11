@@ -18,6 +18,13 @@ module MPXJ
       get_date_value(attribute_values['actual_finish'])
     end
 
+    # Retrieve the Actual Material value
+    #
+    # @return Actual Material value
+    def actual_material
+      get_float_value(attribute_values['actual_material'])
+    end
+
     # Retrieve the Actual Overtime Cost value
     #
     # @return Actual Overtime Cost value
@@ -37,6 +44,20 @@ module MPXJ
     # @return Actual Overtime Work Protected value
     def actual_overtime_work_protected
       get_duration_value(attribute_values['actual_overtime_work_protected'])
+    end
+
+    # Retrieve the Actual Regular Cost value
+    #
+    # @return Actual Regular Cost value
+    def actual_regular_cost
+      get_float_value(attribute_values['actual_regular_cost'])
+    end
+
+    # Retrieve the Actual Regular Work value
+    #
+    # @return Actual Regular Work value
+    def actual_regular_work
+      get_duration_value(attribute_values['actual_regular_work'])
     end
 
     # Retrieve the Actual Start value
@@ -123,6 +144,13 @@ module MPXJ
       get_date_value(attribute_values['baseline10_finish'])
     end
 
+    # Retrieve the Baseline10 Material value
+    #
+    # @return Baseline10 Material value
+    def baseline10_material
+      get_float_value(attribute_values['baseline10_material'])
+    end
+
     # Retrieve the Baseline10 Start value
     #
     # @return Baseline10 Start value
@@ -163,6 +191,13 @@ module MPXJ
     # @return Baseline1 Finish value
     def baseline1_finish
       get_date_value(attribute_values['baseline1_finish'])
+    end
+
+    # Retrieve the Baseline1 Material value
+    #
+    # @return Baseline1 Material value
+    def baseline1_material
+      get_float_value(attribute_values['baseline1_material'])
     end
 
     # Retrieve the Baseline1 Start value
@@ -207,6 +242,13 @@ module MPXJ
       get_date_value(attribute_values['baseline2_finish'])
     end
 
+    # Retrieve the Baseline2 Material value
+    #
+    # @return Baseline2 Material value
+    def baseline2_material
+      get_float_value(attribute_values['baseline2_material'])
+    end
+
     # Retrieve the Baseline2 Start value
     #
     # @return Baseline2 Start value
@@ -247,6 +289,13 @@ module MPXJ
     # @return Baseline3 Finish value
     def baseline3_finish
       get_date_value(attribute_values['baseline3_finish'])
+    end
+
+    # Retrieve the Baseline3 Material value
+    #
+    # @return Baseline3 Material value
+    def baseline3_material
+      get_float_value(attribute_values['baseline3_material'])
     end
 
     # Retrieve the Baseline3 Start value
@@ -291,6 +340,13 @@ module MPXJ
       get_date_value(attribute_values['baseline4_finish'])
     end
 
+    # Retrieve the Baseline4 Material value
+    #
+    # @return Baseline4 Material value
+    def baseline4_material
+      get_float_value(attribute_values['baseline4_material'])
+    end
+
     # Retrieve the Baseline4 Start value
     #
     # @return Baseline4 Start value
@@ -331,6 +387,13 @@ module MPXJ
     # @return Baseline5 Finish value
     def baseline5_finish
       get_date_value(attribute_values['baseline5_finish'])
+    end
+
+    # Retrieve the Baseline5 Material value
+    #
+    # @return Baseline5 Material value
+    def baseline5_material
+      get_float_value(attribute_values['baseline5_material'])
     end
 
     # Retrieve the Baseline5 Start value
@@ -375,6 +438,13 @@ module MPXJ
       get_date_value(attribute_values['baseline6_finish'])
     end
 
+    # Retrieve the Baseline6 Material value
+    #
+    # @return Baseline6 Material value
+    def baseline6_material
+      get_float_value(attribute_values['baseline6_material'])
+    end
+
     # Retrieve the Baseline6 Start value
     #
     # @return Baseline6 Start value
@@ -415,6 +485,13 @@ module MPXJ
     # @return Baseline7 Finish value
     def baseline7_finish
       get_date_value(attribute_values['baseline7_finish'])
+    end
+
+    # Retrieve the Baseline7 Material value
+    #
+    # @return Baseline7 Material value
+    def baseline7_material
+      get_float_value(attribute_values['baseline7_material'])
     end
 
     # Retrieve the Baseline7 Start value
@@ -459,6 +536,13 @@ module MPXJ
       get_date_value(attribute_values['baseline8_finish'])
     end
 
+    # Retrieve the Baseline8 Material value
+    #
+    # @return Baseline8 Material value
+    def baseline8_material
+      get_float_value(attribute_values['baseline8_material'])
+    end
+
     # Retrieve the Baseline8 Start value
     #
     # @return Baseline8 Start value
@@ -501,6 +585,13 @@ module MPXJ
       get_date_value(attribute_values['baseline9_finish'])
     end
 
+    # Retrieve the Baseline9 Material value
+    #
+    # @return Baseline9 Material value
+    def baseline9_material
+      get_float_value(attribute_values['baseline9_material'])
+    end
+
     # Retrieve the Baseline9 Start value
     #
     # @return Baseline9 Start value
@@ -541,6 +632,13 @@ module MPXJ
     # @return Baseline Finish value
     def baseline_finish
       get_date_value(attribute_values['baseline_finish'])
+    end
+
+    # Retrieve the Baseline Material value
+    #
+    # @return Baseline Material value
+    def baseline_material
+      get_float_value(attribute_values['baseline_material'])
     end
 
     # Retrieve the Baseline Start value
@@ -2566,6 +2664,13 @@ module MPXJ
       get_boolean_value(attribute_values['linked_fields'])
     end
 
+    # Retrieve the Material value
+    #
+    # @return Material value
+    def material
+      get_float_value(attribute_values['material'])
+    end
+
     # Retrieve the Notes value
     #
     # @return Notes value
@@ -2776,6 +2881,13 @@ module MPXJ
       get_date_value(attribute_values['planned_finish'])
     end
 
+    # Retrieve the Planned Material value
+    #
+    # @return Planned Material value
+    def planned_material
+      get_float_value(attribute_values['planned_material'])
+    end
+
     # Retrieve the Planned Start value
     #
     # @return Planned Start value
@@ -2809,6 +2921,195 @@ module MPXJ
     # @return Rate Source value
     def rate_source
       attribute_values['rate_source']
+    end
+
+    # Retrieve the Raw Timephased Actual Overtime Work value
+    #
+    # @return Raw Timephased Actual Overtime Work value
+    def raw_timephased_actual_overtime_work
+      attribute_values['raw_timephased_actual_overtime_work']
+    end
+
+    # Retrieve the Raw Timephased Actual Regular Work value
+    #
+    # @return Raw Timephased Actual Regular Work value
+    def raw_timephased_actual_regular_work
+      attribute_values['raw_timephased_actual_regular_work']
+    end
+
+    # Retrieve the Raw Timephased Baseline10 Cost value
+    #
+    # @return Raw Timephased Baseline10 Cost value
+    def raw_timephased_baseline10_cost
+      attribute_values['raw_timephased_baseline10_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline10 Work value
+    #
+    # @return Raw Timephased Baseline10 Work value
+    def raw_timephased_baseline10_work
+      attribute_values['raw_timephased_baseline10_work']
+    end
+
+    # Retrieve the Raw Timephased Baseline1 Cost value
+    #
+    # @return Raw Timephased Baseline1 Cost value
+    def raw_timephased_baseline1_cost
+      attribute_values['raw_timephased_baseline1_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline1 Work value
+    #
+    # @return Raw Timephased Baseline1 Work value
+    def raw_timephased_baseline1_work
+      attribute_values['raw_timephased_baseline1_work']
+    end
+
+    # Retrieve the Raw Timephased Baseline2 Cost value
+    #
+    # @return Raw Timephased Baseline2 Cost value
+    def raw_timephased_baseline2_cost
+      attribute_values['raw_timephased_baseline2_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline2 Work value
+    #
+    # @return Raw Timephased Baseline2 Work value
+    def raw_timephased_baseline2_work
+      attribute_values['raw_timephased_baseline2_work']
+    end
+
+    # Retrieve the Raw Timephased Baseline3 Cost value
+    #
+    # @return Raw Timephased Baseline3 Cost value
+    def raw_timephased_baseline3_cost
+      attribute_values['raw_timephased_baseline3_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline3 Work value
+    #
+    # @return Raw Timephased Baseline3 Work value
+    def raw_timephased_baseline3_work
+      attribute_values['raw_timephased_baseline3_work']
+    end
+
+    # Retrieve the Raw Timephased Baseline4 Cost value
+    #
+    # @return Raw Timephased Baseline4 Cost value
+    def raw_timephased_baseline4_cost
+      attribute_values['raw_timephased_baseline4_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline4 Work value
+    #
+    # @return Raw Timephased Baseline4 Work value
+    def raw_timephased_baseline4_work
+      attribute_values['raw_timephased_baseline4_work']
+    end
+
+    # Retrieve the Raw Timephased Baseline5 Cost value
+    #
+    # @return Raw Timephased Baseline5 Cost value
+    def raw_timephased_baseline5_cost
+      attribute_values['raw_timephased_baseline5_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline5 Work value
+    #
+    # @return Raw Timephased Baseline5 Work value
+    def raw_timephased_baseline5_work
+      attribute_values['raw_timephased_baseline5_work']
+    end
+
+    # Retrieve the Raw Timephased Baseline6 Cost value
+    #
+    # @return Raw Timephased Baseline6 Cost value
+    def raw_timephased_baseline6_cost
+      attribute_values['raw_timephased_baseline6_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline6 Work value
+    #
+    # @return Raw Timephased Baseline6 Work value
+    def raw_timephased_baseline6_work
+      attribute_values['raw_timephased_baseline6_work']
+    end
+
+    # Retrieve the Raw Timephased Baseline7 Cost value
+    #
+    # @return Raw Timephased Baseline7 Cost value
+    def raw_timephased_baseline7_cost
+      attribute_values['raw_timephased_baseline7_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline7 Work value
+    #
+    # @return Raw Timephased Baseline7 Work value
+    def raw_timephased_baseline7_work
+      attribute_values['raw_timephased_baseline7_work']
+    end
+
+    # Retrieve the Raw Timephased Baseline8 Cost value
+    #
+    # @return Raw Timephased Baseline8 Cost value
+    def raw_timephased_baseline8_cost
+      attribute_values['raw_timephased_baseline8_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline8 Work value
+    #
+    # @return Raw Timephased Baseline8 Work value
+    def raw_timephased_baseline8_work
+      attribute_values['raw_timephased_baseline8_work']
+    end
+
+    # Retrieve the Raw Timephased Baseline9 Cost value
+    #
+    # @return Raw Timephased Baseline9 Cost value
+    def raw_timephased_baseline9_cost
+      attribute_values['raw_timephased_baseline9_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline9 Work value
+    #
+    # @return Raw Timephased Baseline9 Work value
+    def raw_timephased_baseline9_work
+      attribute_values['raw_timephased_baseline9_work']
+    end
+
+    # Retrieve the Raw Timephased Baseline Cost value
+    #
+    # @return Raw Timephased Baseline Cost value
+    def raw_timephased_baseline_cost
+      attribute_values['raw_timephased_baseline_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline Work value
+    #
+    # @return Raw Timephased Baseline Work value
+    def raw_timephased_baseline_work
+      attribute_values['raw_timephased_baseline_work']
+    end
+
+    # Retrieve the Raw Timephased Planned Work value
+    #
+    # @return Raw Timephased Planned Work value
+    def raw_timephased_planned_work
+      attribute_values['raw_timephased_planned_work']
+    end
+
+    # Retrieve the Raw Timephased Remaining Overtime Work value
+    #
+    # @return Raw Timephased Remaining Overtime Work value
+    def raw_timephased_remaining_overtime_work
+      attribute_values['raw_timephased_remaining_overtime_work']
+    end
+
+    # Retrieve the Raw Timephased Remaining Regular Work value
+    #
+    # @return Raw Timephased Remaining Regular Work value
+    def raw_timephased_remaining_regular_work
+      attribute_values['raw_timephased_remaining_regular_work']
     end
 
     # Retrieve the Regular Work value
@@ -2860,6 +3161,13 @@ module MPXJ
       get_date_value(attribute_values['remaining_late_start'])
     end
 
+    # Retrieve the Remaining Material value
+    #
+    # @return Remaining Material value
+    def remaining_material
+      get_float_value(attribute_values['remaining_material'])
+    end
+
     # Retrieve the Remaining Overtime Cost value
     #
     # @return Remaining Overtime Cost value
@@ -2872,6 +3180,20 @@ module MPXJ
     # @return Remaining Overtime Work value
     def remaining_overtime_work
       get_duration_value(attribute_values['remaining_overtime_work'])
+    end
+
+    # Retrieve the Remaining Regular Cost value
+    #
+    # @return Remaining Regular Cost value
+    def remaining_regular_cost
+      get_float_value(attribute_values['remaining_regular_cost'])
+    end
+
+    # Retrieve the Remaining Regular Work value
+    #
+    # @return Remaining Regular Work value
+    def remaining_regular_work
+      get_duration_value(attribute_values['remaining_regular_work'])
     end
 
     # Retrieve the Remaining Work value
@@ -3301,214 +3623,11 @@ module MPXJ
       attribute_values['text9']
     end
 
-    # Retrieve the Timephased Actual Cost value
-    #
-    # @return Timephased Actual Cost value
-    def timephased_actual_cost
-      attribute_values['timephased_actual_cost']
-    end
-
     # Retrieve the Timephased Actual Irregular Work value
     #
     # @return Timephased Actual Irregular Work value
     def timephased_actual_irregular_work
       attribute_values['timephased_actual_irregular_work']
-    end
-
-    # Retrieve the Timephased Actual Overtime Work value
-    #
-    # @return Timephased Actual Overtime Work value
-    def timephased_actual_overtime_work
-      attribute_values['timephased_actual_overtime_work']
-    end
-
-    # Retrieve the Timephased Actual Work value
-    #
-    # @return Timephased Actual Work value
-    def timephased_actual_work
-      attribute_values['timephased_actual_work']
-    end
-
-    # Retrieve the Timephased Baseline10 Cost value
-    #
-    # @return Timephased Baseline10 Cost value
-    def timephased_baseline10_cost
-      attribute_values['timephased_baseline10_cost']
-    end
-
-    # Retrieve the Timephased Baseline10 Work value
-    #
-    # @return Timephased Baseline10 Work value
-    def timephased_baseline10_work
-      attribute_values['timephased_baseline10_work']
-    end
-
-    # Retrieve the Timephased Baseline1 Cost value
-    #
-    # @return Timephased Baseline1 Cost value
-    def timephased_baseline1_cost
-      attribute_values['timephased_baseline1_cost']
-    end
-
-    # Retrieve the Timephased Baseline1 Work value
-    #
-    # @return Timephased Baseline1 Work value
-    def timephased_baseline1_work
-      attribute_values['timephased_baseline1_work']
-    end
-
-    # Retrieve the Timephased Baseline2 Cost value
-    #
-    # @return Timephased Baseline2 Cost value
-    def timephased_baseline2_cost
-      attribute_values['timephased_baseline2_cost']
-    end
-
-    # Retrieve the Timephased Baseline2 Work value
-    #
-    # @return Timephased Baseline2 Work value
-    def timephased_baseline2_work
-      attribute_values['timephased_baseline2_work']
-    end
-
-    # Retrieve the Timephased Baseline3 Cost value
-    #
-    # @return Timephased Baseline3 Cost value
-    def timephased_baseline3_cost
-      attribute_values['timephased_baseline3_cost']
-    end
-
-    # Retrieve the Timephased Baseline3 Work value
-    #
-    # @return Timephased Baseline3 Work value
-    def timephased_baseline3_work
-      attribute_values['timephased_baseline3_work']
-    end
-
-    # Retrieve the Timephased Baseline4 Cost value
-    #
-    # @return Timephased Baseline4 Cost value
-    def timephased_baseline4_cost
-      attribute_values['timephased_baseline4_cost']
-    end
-
-    # Retrieve the Timephased Baseline4 Work value
-    #
-    # @return Timephased Baseline4 Work value
-    def timephased_baseline4_work
-      attribute_values['timephased_baseline4_work']
-    end
-
-    # Retrieve the Timephased Baseline5 Cost value
-    #
-    # @return Timephased Baseline5 Cost value
-    def timephased_baseline5_cost
-      attribute_values['timephased_baseline5_cost']
-    end
-
-    # Retrieve the Timephased Baseline5 Work value
-    #
-    # @return Timephased Baseline5 Work value
-    def timephased_baseline5_work
-      attribute_values['timephased_baseline5_work']
-    end
-
-    # Retrieve the Timephased Baseline6 Cost value
-    #
-    # @return Timephased Baseline6 Cost value
-    def timephased_baseline6_cost
-      attribute_values['timephased_baseline6_cost']
-    end
-
-    # Retrieve the Timephased Baseline6 Work value
-    #
-    # @return Timephased Baseline6 Work value
-    def timephased_baseline6_work
-      attribute_values['timephased_baseline6_work']
-    end
-
-    # Retrieve the Timephased Baseline7 Cost value
-    #
-    # @return Timephased Baseline7 Cost value
-    def timephased_baseline7_cost
-      attribute_values['timephased_baseline7_cost']
-    end
-
-    # Retrieve the Timephased Baseline7 Work value
-    #
-    # @return Timephased Baseline7 Work value
-    def timephased_baseline7_work
-      attribute_values['timephased_baseline7_work']
-    end
-
-    # Retrieve the Timephased Baseline8 Cost value
-    #
-    # @return Timephased Baseline8 Cost value
-    def timephased_baseline8_cost
-      attribute_values['timephased_baseline8_cost']
-    end
-
-    # Retrieve the Timephased Baseline8 Work value
-    #
-    # @return Timephased Baseline8 Work value
-    def timephased_baseline8_work
-      attribute_values['timephased_baseline8_work']
-    end
-
-    # Retrieve the Timephased Baseline9 Cost value
-    #
-    # @return Timephased Baseline9 Cost value
-    def timephased_baseline9_cost
-      attribute_values['timephased_baseline9_cost']
-    end
-
-    # Retrieve the Timephased Baseline9 Work value
-    #
-    # @return Timephased Baseline9 Work value
-    def timephased_baseline9_work
-      attribute_values['timephased_baseline9_work']
-    end
-
-    # Retrieve the Timephased Baseline Cost value
-    #
-    # @return Timephased Baseline Cost value
-    def timephased_baseline_cost
-      attribute_values['timephased_baseline_cost']
-    end
-
-    # Retrieve the Timephased Baseline Work value
-    #
-    # @return Timephased Baseline Work value
-    def timephased_baseline_work
-      attribute_values['timephased_baseline_work']
-    end
-
-    # Retrieve the Timephased Cost value
-    #
-    # @return Timephased Cost value
-    def timephased_cost
-      attribute_values['timephased_cost']
-    end
-
-    # Retrieve the Timephased Overtime Work value
-    #
-    # @return Timephased Overtime Work value
-    def timephased_overtime_work
-      attribute_values['timephased_overtime_work']
-    end
-
-    # Retrieve the Timephased Planned Work value
-    #
-    # @return Timephased Planned Work value
-    def timephased_planned_work
-      attribute_values['timephased_planned_work']
-    end
-
-    # Retrieve the Timephased Work value
-    #
-    # @return Timephased Work value
-    def timephased_work
-      attribute_values['timephased_work']
     end
 
     # Retrieve the <Unavailable> value
@@ -3577,9 +3696,12 @@ module MPXJ
     ATTRIBUTE_TYPES = {
       'actual_cost' => :currency,
       'actual_finish' => :date,
+      'actual_material' => :numeric,
       'actual_overtime_cost' => :currency,
       'actual_overtime_work' => :work,
       'actual_overtime_work_protected' => :work,
+      'actual_regular_cost' => :currency,
+      'actual_regular_work' => :work,
       'actual_start' => :date,
       'actual_work' => :work,
       'actual_work_protected' => :work,
@@ -3592,66 +3714,77 @@ module MPXJ
       'baseline10_budget_work' => :work,
       'baseline10_cost' => :currency,
       'baseline10_finish' => :date,
+      'baseline10_material' => :numeric,
       'baseline10_start' => :date,
       'baseline10_work' => :work,
       'baseline1_budget_cost' => :currency,
       'baseline1_budget_work' => :work,
       'baseline1_cost' => :currency,
       'baseline1_finish' => :date,
+      'baseline1_material' => :numeric,
       'baseline1_start' => :date,
       'baseline1_work' => :work,
       'baseline2_budget_cost' => :currency,
       'baseline2_budget_work' => :work,
       'baseline2_cost' => :currency,
       'baseline2_finish' => :date,
+      'baseline2_material' => :numeric,
       'baseline2_start' => :date,
       'baseline2_work' => :work,
       'baseline3_budget_cost' => :currency,
       'baseline3_budget_work' => :work,
       'baseline3_cost' => :currency,
       'baseline3_finish' => :date,
+      'baseline3_material' => :numeric,
       'baseline3_start' => :date,
       'baseline3_work' => :work,
       'baseline4_budget_cost' => :currency,
       'baseline4_budget_work' => :work,
       'baseline4_cost' => :currency,
       'baseline4_finish' => :date,
+      'baseline4_material' => :numeric,
       'baseline4_start' => :date,
       'baseline4_work' => :work,
       'baseline5_budget_cost' => :currency,
       'baseline5_budget_work' => :work,
       'baseline5_cost' => :currency,
       'baseline5_finish' => :date,
+      'baseline5_material' => :numeric,
       'baseline5_start' => :date,
       'baseline5_work' => :work,
       'baseline6_budget_cost' => :currency,
       'baseline6_budget_work' => :work,
       'baseline6_cost' => :currency,
       'baseline6_finish' => :date,
+      'baseline6_material' => :numeric,
       'baseline6_start' => :date,
       'baseline6_work' => :work,
       'baseline7_budget_cost' => :currency,
       'baseline7_budget_work' => :work,
       'baseline7_cost' => :currency,
       'baseline7_finish' => :date,
+      'baseline7_material' => :numeric,
       'baseline7_start' => :date,
       'baseline7_work' => :work,
       'baseline8_budget_cost' => :currency,
       'baseline8_budget_work' => :work,
       'baseline8_cost' => :currency,
       'baseline8_finish' => :date,
+      'baseline8_material' => :numeric,
       'baseline8_start' => :date,
       'baseline8_work' => :work,
       'baseline9_budget_cost' => :currency,
       'baseline9_budget_work' => :work,
       'baseline9_cost' => :currency,
       'baseline9_finish' => :date,
+      'baseline9_material' => :numeric,
       'baseline9_start' => :date,
       'baseline9_work' => :work,
       'baseline_budget_cost' => :currency,
       'baseline_budget_work' => :work,
       'baseline_cost' => :currency,
       'baseline_finish' => :date,
+      'baseline_material' => :numeric,
       'baseline_start' => :date,
       'baseline_work' => :work,
       'bcwp' => :currency,
@@ -3941,6 +4074,7 @@ module MPXJ
       'leveling_delay' => :duration,
       'leveling_delay_units' => :time_units,
       'linked_fields' => :boolean,
+      'material' => :numeric,
       'notes' => :notes,
       'number1' => :numeric,
       'number10' => :numeric,
@@ -3971,11 +4105,39 @@ module MPXJ
       'percent_work_complete' => :percentage,
       'planned_cost' => :currency,
       'planned_finish' => :date,
+      'planned_material' => :numeric,
       'planned_start' => :date,
       'planned_work' => :work,
       'project' => :string,
       'rate_index' => :integer,
       'rate_source' => :rate_source,
+      'raw_timephased_actual_overtime_work' => :timephased_work_list,
+      'raw_timephased_actual_regular_work' => :timephased_work_list,
+      'raw_timephased_baseline10_cost' => :timephased_cost_list,
+      'raw_timephased_baseline10_work' => :timephased_work_list,
+      'raw_timephased_baseline1_cost' => :timephased_cost_list,
+      'raw_timephased_baseline1_work' => :timephased_work_list,
+      'raw_timephased_baseline2_cost' => :timephased_cost_list,
+      'raw_timephased_baseline2_work' => :timephased_work_list,
+      'raw_timephased_baseline3_cost' => :timephased_cost_list,
+      'raw_timephased_baseline3_work' => :timephased_work_list,
+      'raw_timephased_baseline4_cost' => :timephased_cost_list,
+      'raw_timephased_baseline4_work' => :timephased_work_list,
+      'raw_timephased_baseline5_cost' => :timephased_cost_list,
+      'raw_timephased_baseline5_work' => :timephased_work_list,
+      'raw_timephased_baseline6_cost' => :timephased_cost_list,
+      'raw_timephased_baseline6_work' => :timephased_work_list,
+      'raw_timephased_baseline7_cost' => :timephased_cost_list,
+      'raw_timephased_baseline7_work' => :timephased_work_list,
+      'raw_timephased_baseline8_cost' => :timephased_cost_list,
+      'raw_timephased_baseline8_work' => :timephased_work_list,
+      'raw_timephased_baseline9_cost' => :timephased_cost_list,
+      'raw_timephased_baseline9_work' => :timephased_work_list,
+      'raw_timephased_baseline_cost' => :timephased_cost_list,
+      'raw_timephased_baseline_work' => :timephased_work_list,
+      'raw_timephased_planned_work' => :timephased_work_list,
+      'raw_timephased_remaining_overtime_work' => :timephased_work_list,
+      'raw_timephased_remaining_regular_work' => :timephased_work_list,
       'regular_work' => :work,
       'remaining_assignment_units' => :units,
       'remaining_cost' => :currency,
@@ -3983,8 +4145,11 @@ module MPXJ
       'remaining_early_start' => :date,
       'remaining_late_finish' => :date,
       'remaining_late_start' => :date,
+      'remaining_material' => :numeric,
       'remaining_overtime_cost' => :currency,
       'remaining_overtime_work' => :work,
+      'remaining_regular_cost' => :currency,
+      'remaining_regular_work' => :work,
       'remaining_work' => :work,
       'resource_assignment_code_values' => :code_values,
       'resource_id' => :integer,
@@ -4046,36 +4211,7 @@ module MPXJ
       'text7' => :string,
       'text8' => :string,
       'text9' => :string,
-      'timephased_actual_cost' => :binary,
-      'timephased_actual_irregular_work' => :binary,
-      'timephased_actual_overtime_work' => :binary,
-      'timephased_actual_work' => :binary,
-      'timephased_baseline10_cost' => :binary,
-      'timephased_baseline10_work' => :binary,
-      'timephased_baseline1_cost' => :binary,
-      'timephased_baseline1_work' => :binary,
-      'timephased_baseline2_cost' => :binary,
-      'timephased_baseline2_work' => :binary,
-      'timephased_baseline3_cost' => :binary,
-      'timephased_baseline3_work' => :binary,
-      'timephased_baseline4_cost' => :binary,
-      'timephased_baseline4_work' => :binary,
-      'timephased_baseline5_cost' => :binary,
-      'timephased_baseline5_work' => :binary,
-      'timephased_baseline6_cost' => :binary,
-      'timephased_baseline6_work' => :binary,
-      'timephased_baseline7_cost' => :binary,
-      'timephased_baseline7_work' => :binary,
-      'timephased_baseline8_cost' => :binary,
-      'timephased_baseline8_work' => :binary,
-      'timephased_baseline9_cost' => :binary,
-      'timephased_baseline9_work' => :binary,
-      'timephased_baseline_cost' => :binary,
-      'timephased_baseline_work' => :binary,
-      'timephased_cost' => :binary,
-      'timephased_overtime_work' => :binary,
-      'timephased_planned_work' => :binary,
-      'timephased_work' => :binary,
+      'timephased_actual_irregular_work' => :timephased_work_list,
       'unavailable' => :string,
       'unique_id' => :integer,
       'update_needed' => :boolean,

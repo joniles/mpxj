@@ -5,7 +5,7 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="16.0.0">
+		<release date="2026-03-12" version="16.0.0">
 			<action dev="joniles" type="update">**NEW FEATURES**</action>
 			<action dev="joniles" type="update">`JsonWriter` now provides `getWriteTimephasedData` and `setWriteTimephasedData` methods. Setting this property to true will include timephased data in the JSON output. This property is set to false by default.</action>
 			<action dev="joniles" type="update">Classes implementing the `FieldContainer` interface (Task`, `Resource`, `ResourceAssignment`) now provide the `getTimephasedDurationValues` and `getTimephasedNumericValues` to allow access to timephased data using a `FieldType` instance to determine the type of data required.</action>

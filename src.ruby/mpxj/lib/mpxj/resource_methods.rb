@@ -32,6 +32,13 @@ module MPXJ
       get_date_value(attribute_values['actual_finish'])
     end
 
+    # Retrieve the Actual Material value
+    #
+    # @return Actual Material value
+    def actual_material
+      get_float_value(attribute_values['actual_material'])
+    end
+
     # Retrieve the Actual Overtime Cost value
     #
     # @return Actual Overtime Cost value
@@ -51,6 +58,20 @@ module MPXJ
     # @return Actual Overtime Work Protected value
     def actual_overtime_work_protected
       get_duration_value(attribute_values['actual_overtime_work_protected'])
+    end
+
+    # Retrieve the Actual Regular Cost value
+    #
+    # @return Actual Regular Cost value
+    def actual_regular_cost
+      get_float_value(attribute_values['actual_regular_cost'])
+    end
+
+    # Retrieve the Actual Regular Work value
+    #
+    # @return Actual Regular Work value
+    def actual_regular_work
+      get_duration_value(attribute_values['actual_regular_work'])
     end
 
     # Retrieve the Actual Start value
@@ -158,6 +179,13 @@ module MPXJ
       get_date_value(attribute_values['baseline10_finish'])
     end
 
+    # Retrieve the Baseline10 Material value
+    #
+    # @return Baseline10 Material value
+    def baseline10_material
+      get_float_value(attribute_values['baseline10_material'])
+    end
+
     # Retrieve the Baseline10 Start value
     #
     # @return Baseline10 Start value
@@ -198,6 +226,13 @@ module MPXJ
     # @return Baseline1 Finish value
     def baseline1_finish
       get_date_value(attribute_values['baseline1_finish'])
+    end
+
+    # Retrieve the Baseline1 Material value
+    #
+    # @return Baseline1 Material value
+    def baseline1_material
+      get_float_value(attribute_values['baseline1_material'])
     end
 
     # Retrieve the Baseline1 Start value
@@ -242,6 +277,13 @@ module MPXJ
       get_date_value(attribute_values['baseline2_finish'])
     end
 
+    # Retrieve the Baseline2 Material value
+    #
+    # @return Baseline2 Material value
+    def baseline2_material
+      get_float_value(attribute_values['baseline2_material'])
+    end
+
     # Retrieve the Baseline2 Start value
     #
     # @return Baseline2 Start value
@@ -282,6 +324,13 @@ module MPXJ
     # @return Baseline3 Finish value
     def baseline3_finish
       get_date_value(attribute_values['baseline3_finish'])
+    end
+
+    # Retrieve the Baseline3 Material value
+    #
+    # @return Baseline3 Material value
+    def baseline3_material
+      get_float_value(attribute_values['baseline3_material'])
     end
 
     # Retrieve the Baseline3 Start value
@@ -326,6 +375,13 @@ module MPXJ
       get_date_value(attribute_values['baseline4_finish'])
     end
 
+    # Retrieve the Baseline4 Material value
+    #
+    # @return Baseline4 Material value
+    def baseline4_material
+      get_float_value(attribute_values['baseline4_material'])
+    end
+
     # Retrieve the Baseline4 Start value
     #
     # @return Baseline4 Start value
@@ -366,6 +422,13 @@ module MPXJ
     # @return Baseline5 Finish value
     def baseline5_finish
       get_date_value(attribute_values['baseline5_finish'])
+    end
+
+    # Retrieve the Baseline5 Material value
+    #
+    # @return Baseline5 Material value
+    def baseline5_material
+      get_float_value(attribute_values['baseline5_material'])
     end
 
     # Retrieve the Baseline5 Start value
@@ -410,6 +473,13 @@ module MPXJ
       get_date_value(attribute_values['baseline6_finish'])
     end
 
+    # Retrieve the Baseline6 Material value
+    #
+    # @return Baseline6 Material value
+    def baseline6_material
+      get_float_value(attribute_values['baseline6_material'])
+    end
+
     # Retrieve the Baseline6 Start value
     #
     # @return Baseline6 Start value
@@ -450,6 +520,13 @@ module MPXJ
     # @return Baseline7 Finish value
     def baseline7_finish
       get_date_value(attribute_values['baseline7_finish'])
+    end
+
+    # Retrieve the Baseline7 Material value
+    #
+    # @return Baseline7 Material value
+    def baseline7_material
+      get_float_value(attribute_values['baseline7_material'])
     end
 
     # Retrieve the Baseline7 Start value
@@ -494,6 +571,13 @@ module MPXJ
       get_date_value(attribute_values['baseline8_finish'])
     end
 
+    # Retrieve the Baseline8 Material value
+    #
+    # @return Baseline8 Material value
+    def baseline8_material
+      get_float_value(attribute_values['baseline8_material'])
+    end
+
     # Retrieve the Baseline8 Start value
     #
     # @return Baseline8 Start value
@@ -536,6 +620,13 @@ module MPXJ
       get_date_value(attribute_values['baseline9_finish'])
     end
 
+    # Retrieve the Baseline9 Material value
+    #
+    # @return Baseline9 Material value
+    def baseline9_material
+      get_float_value(attribute_values['baseline9_material'])
+    end
+
     # Retrieve the Baseline9 Start value
     #
     # @return Baseline9 Start value
@@ -576,6 +667,13 @@ module MPXJ
     # @return Baseline Finish value
     def baseline_finish
       get_date_value(attribute_values['baseline_finish'])
+    end
+
+    # Retrieve the Baseline Material value
+    #
+    # @return Baseline Material value
+    def baseline_material
+      get_float_value(attribute_values['baseline_material'])
     end
 
     # Retrieve the Baseline Start value
@@ -2923,6 +3021,13 @@ module MPXJ
       get_integer_value(attribute_values['location_unique_id'])
     end
 
+    # Retrieve the Material value
+    #
+    # @return Material value
+    def material
+      get_float_value(attribute_values['material'])
+    end
+
     # Retrieve the Material Label value
     #
     # @return Material Label value
@@ -3329,6 +3434,27 @@ module MPXJ
       attribute_values['phonetics']
     end
 
+    # Retrieve the Planned Cost value
+    #
+    # @return Planned Cost value
+    def planned_cost
+      get_float_value(attribute_values['planned_cost'])
+    end
+
+    # Retrieve the Planned Material value
+    #
+    # @return Planned Material value
+    def planned_material
+      get_float_value(attribute_values['planned_material'])
+    end
+
+    # Retrieve the Planned Work value
+    #
+    # @return Planned Work value
+    def planned_work
+      get_duration_value(attribute_values['planned_work'])
+    end
+
     # Retrieve the Pool value
     #
     # @return Pool value
@@ -3399,6 +3525,13 @@ module MPXJ
       get_float_value(attribute_values['remaining_cost'])
     end
 
+    # Retrieve the Remaining Material value
+    #
+    # @return Remaining Material value
+    def remaining_material
+      get_float_value(attribute_values['remaining_material'])
+    end
+
     # Retrieve the Remaining Overtime Cost value
     #
     # @return Remaining Overtime Cost value
@@ -3411,6 +3544,20 @@ module MPXJ
     # @return Remaining Overtime Work value
     def remaining_overtime_work
       get_duration_value(attribute_values['remaining_overtime_work'])
+    end
+
+    # Retrieve the Remaining Regular Cost value
+    #
+    # @return Remaining Regular Cost value
+    def remaining_regular_cost
+      get_float_value(attribute_values['remaining_regular_cost'])
+    end
+
+    # Retrieve the Remaining Regular Work value
+    #
+    # @return Remaining Regular Work value
+    def remaining_regular_work
+      get_duration_value(attribute_values['remaining_regular_work'])
     end
 
     # Retrieve the Remaining Work value
@@ -3929,9 +4076,12 @@ module MPXJ
       'active' => :boolean,
       'actual_cost' => :currency,
       'actual_finish' => :date,
+      'actual_material' => :numeric,
       'actual_overtime_cost' => :currency,
       'actual_overtime_work' => :work,
       'actual_overtime_work_protected' => :work,
+      'actual_regular_cost' => :currency,
+      'actual_regular_work' => :work,
       'actual_start' => :date,
       'actual_work' => :work,
       'actual_work_protected' => :work,
@@ -3947,66 +4097,77 @@ module MPXJ
       'baseline10_budget_work' => :work,
       'baseline10_cost' => :currency,
       'baseline10_finish' => :date,
+      'baseline10_material' => :numeric,
       'baseline10_start' => :date,
       'baseline10_work' => :work,
       'baseline1_budget_cost' => :currency,
       'baseline1_budget_work' => :work,
       'baseline1_cost' => :currency,
       'baseline1_finish' => :date,
+      'baseline1_material' => :numeric,
       'baseline1_start' => :date,
       'baseline1_work' => :work,
       'baseline2_budget_cost' => :currency,
       'baseline2_budget_work' => :work,
       'baseline2_cost' => :currency,
       'baseline2_finish' => :date,
+      'baseline2_material' => :numeric,
       'baseline2_start' => :date,
       'baseline2_work' => :work,
       'baseline3_budget_cost' => :currency,
       'baseline3_budget_work' => :work,
       'baseline3_cost' => :currency,
       'baseline3_finish' => :date,
+      'baseline3_material' => :numeric,
       'baseline3_start' => :date,
       'baseline3_work' => :work,
       'baseline4_budget_cost' => :currency,
       'baseline4_budget_work' => :work,
       'baseline4_cost' => :currency,
       'baseline4_finish' => :date,
+      'baseline4_material' => :numeric,
       'baseline4_start' => :date,
       'baseline4_work' => :work,
       'baseline5_budget_cost' => :currency,
       'baseline5_budget_work' => :work,
       'baseline5_cost' => :currency,
       'baseline5_finish' => :date,
+      'baseline5_material' => :numeric,
       'baseline5_start' => :date,
       'baseline5_work' => :work,
       'baseline6_budget_cost' => :currency,
       'baseline6_budget_work' => :work,
       'baseline6_cost' => :currency,
       'baseline6_finish' => :date,
+      'baseline6_material' => :numeric,
       'baseline6_start' => :date,
       'baseline6_work' => :work,
       'baseline7_budget_cost' => :currency,
       'baseline7_budget_work' => :work,
       'baseline7_cost' => :currency,
       'baseline7_finish' => :date,
+      'baseline7_material' => :numeric,
       'baseline7_start' => :date,
       'baseline7_work' => :work,
       'baseline8_budget_cost' => :currency,
       'baseline8_budget_work' => :work,
       'baseline8_cost' => :currency,
       'baseline8_finish' => :date,
+      'baseline8_material' => :numeric,
       'baseline8_start' => :date,
       'baseline8_work' => :work,
       'baseline9_budget_cost' => :currency,
       'baseline9_budget_work' => :work,
       'baseline9_cost' => :currency,
       'baseline9_finish' => :date,
+      'baseline9_material' => :numeric,
       'baseline9_start' => :date,
       'baseline9_work' => :work,
       'baseline_budget_cost' => :currency,
       'baseline_budget_work' => :work,
       'baseline_cost' => :currency,
       'baseline_finish' => :date,
+      'baseline_material' => :numeric,
       'baseline_start' => :date,
       'baseline_work' => :work,
       'base_calendar' => :string,
@@ -4342,6 +4503,7 @@ module MPXJ
       'leveling_delay' => :duration,
       'linked_fields' => :boolean,
       'location_unique_id' => :integer,
+      'material' => :numeric,
       'material_label' => :string,
       'max_units' => :units,
       'modify_on_integrate' => :boolean,
@@ -4400,6 +4562,9 @@ module MPXJ
       'per_day' => :numeric,
       'phone' => :string,
       'phonetics' => :string,
+      'planned_cost' => :currency,
+      'planned_material' => :numeric,
+      'planned_work' => :work,
       'pool' => :numeric,
       'primary_role_unique_id' => :integer,
       'priority' => :numeric,
@@ -4410,8 +4575,11 @@ module MPXJ
       'rate' => :numeric,
       'regular_work' => :work,
       'remaining_cost' => :currency,
+      'remaining_material' => :numeric,
       'remaining_overtime_cost' => :currency,
       'remaining_overtime_work' => :work,
+      'remaining_regular_cost' => :currency,
+      'remaining_regular_work' => :work,
       'remaining_work' => :work,
       'request_demand' => :string,
       'resource_code_values' => :code_values,

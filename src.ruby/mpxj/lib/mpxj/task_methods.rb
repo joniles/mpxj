@@ -95,6 +95,20 @@ module MPXJ
       get_duration_value(attribute_values['actual_overtime_work_protected'])
     end
 
+    # Retrieve the Actual Regular Cost value
+    #
+    # @return Actual Regular Cost value
+    def actual_regular_cost
+      get_float_value(attribute_values['actual_regular_cost'])
+    end
+
+    # Retrieve the Actual Regular Work value
+    #
+    # @return Actual Regular Work value
+    def actual_regular_work
+      get_duration_value(attribute_values['actual_regular_work'])
+    end
+
     # Retrieve the Actual Start value
     #
     # @return Actual Start value
@@ -5849,6 +5863,20 @@ module MPXJ
       get_duration_value(attribute_values['remaining_overtime_work'])
     end
 
+    # Retrieve the Remaining Regular Cost value
+    #
+    # @return Remaining Regular Cost value
+    def remaining_regular_cost
+      get_float_value(attribute_values['remaining_regular_cost'])
+    end
+
+    # Retrieve the Remaining Regular Work value
+    #
+    # @return Remaining Regular Work value
+    def remaining_regular_work
+      get_duration_value(attribute_values['remaining_regular_work'])
+    end
+
     # Retrieve the Remaining Work value
     #
     # @return Remaining Work value
@@ -6323,13 +6351,6 @@ module MPXJ
     # @return SPI value
     def spi
       get_float_value(attribute_values['spi'])
-    end
-
-    # Retrieve the Splits value
-    #
-    # @return Splits value
-    def splits
-      attribute_values['splits']
     end
 
     # Retrieve the Sprint value
@@ -6948,6 +6969,13 @@ module MPXJ
       attribute_values['work_contour']
     end
 
+    # Retrieve the Work Splits value
+    #
+    # @return Work Splits value
+    def work_splits
+      attribute_values['work_splits']
+    end
+
     # Retrieve the Work Variance value
     #
     # @return Work Variance value
@@ -6969,6 +6997,8 @@ module MPXJ
       'actual_overtime_cost' => :currency,
       'actual_overtime_work' => :work,
       'actual_overtime_work_protected' => :work,
+      'actual_regular_cost' => :currency,
+      'actual_regular_work' => :work,
       'actual_start' => :date,
       'actual_work' => :work,
       'actual_work_labor' => :duration,
@@ -7791,6 +7821,8 @@ module MPXJ
       'remaining_late_start' => :date,
       'remaining_overtime_cost' => :currency,
       'remaining_overtime_work' => :work,
+      'remaining_regular_cost' => :currency,
+      'remaining_regular_work' => :work,
       'remaining_work' => :work,
       'remaining_work_labor' => :duration,
       'remaining_work_nonlabor' => :duration,
@@ -7859,7 +7891,6 @@ module MPXJ
       'show_on_board' => :string,
       'show_start_text' => :boolean,
       'spi' => :numeric,
-      'splits' => :date_range_list,
       'sprint' => :string,
       'sprint_finish' => :date,
       'sprint_id' => :integer,
@@ -7948,6 +7979,7 @@ module MPXJ
       'workers_per_day' => :integer,
       'work_area_code' => :string,
       'work_contour' => :work_contour,
+      'work_splits' => :date_range_list,
       'work_variance' => :duration,
     }.freeze
 
