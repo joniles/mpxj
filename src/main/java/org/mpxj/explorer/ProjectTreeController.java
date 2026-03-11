@@ -27,6 +27,7 @@ import java.io.File;
 import java.time.DayOfWeek;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -654,21 +655,29 @@ public class ProjectTreeController
     */
    private void addAssignments(MpxjTreeNode parentNode, ProjectFile file)
    {
-      for (ResourceAssignment assignment : file.getResourceAssignments())
+      file.getResourceAssignments().stream()
+         .sorted(Comparator.comparing(this::getResourceAssignmentLabel))
+         .map(this::getResourceAssignmentTreeNode)
+         .forEach(parentNode::add);
+   }
+
+   private String getResourceAssignmentLabel(ResourceAssignment assignment)
+   {
+      Resource resource = assignment.getResource();
+      String resourceName = resource == null ? "(unknown resource)" : resource.getName();
+      Task task = assignment.getTask();
+      return resourceName + "->" + getTaskName(task);
+   }
+
+   private MpxjTreeNode getResourceAssignmentTreeNode(ResourceAssignment a)
+   {
+      return new MpxjTreeNode(a)
       {
-         final ResourceAssignment a = assignment;
-         MpxjTreeNode childNode = new MpxjTreeNode(a)
+         @Override public String toString()
          {
-            @Override public String toString()
-            {
-               Resource resource = a.getResource();
-               String resourceName = resource == null ? "(unknown resource)" : resource.getName();
-               Task task = a.getTask();
-               return resourceName + "->" + getTaskName(task);
-            }
-         };
-         parentNode.add(childNode);
-      }
+            return getResourceAssignmentLabel(a);
+         }
+      };
    }
 
    /**
