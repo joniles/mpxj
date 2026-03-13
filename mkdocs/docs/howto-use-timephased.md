@@ -3,7 +3,7 @@
 ## What is Timephased Data?
 
 Timephased data is a term which refers to data distributed over time.
-Take for example a simple 3 day task defined using Microsoft Project:
+Take for example a simple 3-day task defined using Microsoft Project:
 
 <p align="center"><img alt="A three day task" src="/images/howto-use-timephased/basic-task.png" width="50%"/></p>
 
@@ -22,7 +22,7 @@ we can see an hour-by-hour view:
 
 In this view we are just looking at one working day, and you can see how the
 work being performed during that day is scheduled for the working hours, 
-with a gap for a the lunch break, as defined in the resource's calendar.
+with a gap for a lunch break, as defined in the resource's calendar.
 
 So far we have just looked at work being performed, but this view can also be used to 
 examine cost and material consumption over time: In the example below, for the
@@ -204,7 +204,7 @@ show our timephased data split into days:
 #### Assignments
 Now we can locate the resource assignment we are interested in (in this case
 it's Resource 2 assigned to Task 2 in the screenshot above), and use the
-`getTimephasedWork` method, which will give us the the total of the actual and
+`getTimephasedWork` method, which will give us the total of the actual and
 remaining work for this assignment:
 
 
@@ -220,8 +220,8 @@ remaining work for this assignment:
 	```
 
 You can see that we're calling the method and passing `ranges` which represents
-our timescale. We also passing `TimeUnit.HOURS` to tell MPXJ what units we'd
-like the work to be returned as. Finally we can add a couple of methods to help
+our timescale. We are also passing `TimeUnit.HOURS` to tell MPXJ what units we'd
+like the work to be returned as. Finally, we can add a couple of methods to help
 us format the data MPXJ has returned to make it easier to read:
 
 === "Java"
@@ -309,7 +309,7 @@ We can see that for this resource assignment, starting on Wednesday, we have 5
 working days each with 8 hours of work per day. Note that the resource
 assignment spans a weekend. On the weekend days MPXJ has returned a `null`
 value. This indicates that this is non-working time, so no work is expected.
-Typically if MPXJ returns a zero duration for a period, this indicates that the
+Typically, if MPXJ returns a zero duration for a period, this indicates that the
 period is normally working time, but that no work has been performed.
 
 The example resource assignment we're using here is in progress, so rather than
@@ -343,7 +343,7 @@ can request Actual and Remaining Work separately:
 
 What we can see here is that the ranges only overlap where there is both actual
 and remaining work on one day. Once the actual work has been accounted for, the
-remainder of the values returned by MPXJ will be `null`. Similarly the
+remainder of the values returned by MPXJ will be `null`. Similarly, the
 Remaining Work timephased data will be `null` until we reach the first period
 where there is Remaining Work.
 
@@ -687,7 +687,7 @@ we're interested in. As we're retrieving costs, we're retrieving a `List` or
 
 
 ### Material
-Finally we'll retrieve timephased material utilisation from a resource:
+Finally, we'll retrieve timephased material utilisation from a resource:
 
 === "Java"
 	```java

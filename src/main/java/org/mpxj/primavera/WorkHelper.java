@@ -91,7 +91,7 @@ class WorkHelper
 
    /**
     * Activities in P6 schedules include separate summary values for labor and nonlabor work.
-    * If the schedule we are writing originated as a P6 schedule, we wil already have these
+    * If the schedule we are writing originated as a P6 schedule, we will already have these
     * as separate values If the schedule we are writing did not originate in P6, we will just
     * have a single work value. We'll use a heuristic here to determine which situation we're in:
     * if we have both labor and nonlabor values, we'll use them as they are. If we only have a summary
