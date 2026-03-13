@@ -24,6 +24,7 @@
 package org.mpxj.explorer;
 
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -42,7 +43,6 @@ import org.mpxj.Duration;
  */
 public class ObjectPropertiesController
 {
-   private final DateTimeFormatter m_dateFormat;
    private final ObjectPropertiesModel m_model;
 
    /**
@@ -53,7 +53,6 @@ public class ObjectPropertiesController
    public ObjectPropertiesController(ObjectPropertiesModel model)
    {
       m_model = model;
-      m_dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
    }
 
    /**
@@ -222,11 +221,18 @@ public class ObjectPropertiesController
       String result;
       if (value instanceof LocalDateTime)
       {
-         result = m_dateFormat.format((LocalDateTime) value);
+         result = DATE_FORMAT.format((LocalDateTime) value);
       }
       else
       {
-         result = String.valueOf(value);
+         if (value instanceof Double)
+         {
+            result = DOUBLE_FORMAT.format(value);
+         }
+         else
+         {
+            result = String.valueOf(value);
+         }
       }
       return result;
    }
@@ -258,4 +264,7 @@ public class ObjectPropertiesController
    {
       return method.getName().substring(3) + index;
    }
+
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+   private static final DecimalFormat DOUBLE_FORMAT = new DecimalFormat("#.##");
 }

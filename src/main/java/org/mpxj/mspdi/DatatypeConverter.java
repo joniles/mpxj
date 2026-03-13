@@ -731,7 +731,7 @@ public final class DatatypeConverter
     */
    public static final BigInteger printOvertimeRateFormat(Resource resource, Rate rate)
    {
-      if (NumberHelper.getInt(resource.getUniqueID()) != 0 && resource.getType() != ResourceType.WORK)
+      if (NumberHelper.getInt(resource.getUniqueID()) != 0 && !resource.getType().isTimeBased())
       {
          // TODO: improve handling of cost and material rates
          return printTimeUnit(TimeUnit.HOURS);
@@ -750,7 +750,7 @@ public final class DatatypeConverter
     */
    public static final BigInteger printStandardRateFormat(Resource resource, Rate rate)
    {
-      if (NumberHelper.getInt(resource.getUniqueID()) != 0 && resource.getType() != ResourceType.WORK)
+      if (NumberHelper.getInt(resource.getUniqueID()) != 0 && !resource.getType().isTimeBased())
       {
          // TODO: improve handling of cost and material rates
          return printTimeUnit(TimeUnit.ELAPSED_MINUTES);

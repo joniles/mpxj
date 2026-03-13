@@ -2364,7 +2364,7 @@ public class PrimaveraScheduler implements Scheduler
     */
    private boolean useTaskEffectiveCalendar(Task task)
    {
-      return task.getActivityType() != ActivityType.RESOURCE_DEPENDENT || task.getResourceAssignments().stream().noneMatch(r -> r.getResource().getType() == ResourceType.WORK);
+      return task.getActivityType() != ActivityType.RESOURCE_DEPENDENT || task.getResourceAssignments().stream().noneMatch(r -> r.getResource().getType().isTimeBased());
    }
 
    /**
@@ -3514,7 +3514,7 @@ public class PrimaveraScheduler implements Scheduler
     */
    private Stream<ResourceAssignment> getResourceAssignmentStream(Task task)
    {
-      return task.getResourceAssignments().stream().filter(r -> r.getResource() != null && r.getResource().getType() == ResourceType.WORK && r.getUnits().doubleValue() > 0.0);
+      return task.getResourceAssignments().stream().filter(r -> r.getResource() != null && r.getResource().getType().isTimeBased() && r.getUnits().doubleValue() > 0.0);
    }
 
    /**

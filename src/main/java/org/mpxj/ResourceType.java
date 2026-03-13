@@ -31,9 +31,9 @@ import org.mpxj.common.NumberHelper;
  */
 public enum ResourceType implements MpxjEnum
 {
-   MATERIAL(0, "Material"),
-   WORK(1, "Work"),
-   COST(2, "Cost");
+   MATERIAL(0, "Material", false),
+   WORK(1, "Work", true),
+   COST(2, "Cost", false);
 
    /**
     * Private constructor.
@@ -41,10 +41,21 @@ public enum ResourceType implements MpxjEnum
     * @param type int version of the enum
     * @param name enum name
     */
-   ResourceType(int type, String name)
+   ResourceType(int type, String name, boolean timeBased)
    {
       m_value = type;
       m_name = name;
+      m_timeBased = timeBased;
+   }
+
+   /**
+    * Returns true if this resource type is time-based.
+    *
+    * @return true if this resource type is time-based
+    */
+   public boolean isTimeBased()
+   {
+      return m_timeBased;
    }
 
    /**
@@ -107,4 +118,5 @@ public enum ResourceType implements MpxjEnum
     */
    private final int m_value;
    private final String m_name;
+   private final boolean m_timeBased;
 }
