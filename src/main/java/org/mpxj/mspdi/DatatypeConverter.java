@@ -542,7 +542,28 @@ public final class DatatypeConverter
     */
    public static final String printResourceType(ResourceType value)
    {
-      return (Integer.toString(value == null ? ResourceType.WORK.getValue() : value.getValue()));
+      if (value == null)
+      {
+         value = ResourceType.WORK;
+      }
+
+      switch (value)
+      {
+         case MATERIAL:
+         {
+            return "0";
+         }
+
+         case COST:
+         {
+            return "2";
+         }
+
+         default:
+         {
+            return "1";
+         }
+      }
    }
 
    /**
@@ -553,7 +574,23 @@ public final class DatatypeConverter
     */
    public static final ResourceType parseResourceType(String value)
    {
-      return (ResourceType.getInstance(NumberHelper.getInt(value)));
+      switch (NumberHelper.getInt(value))
+      {
+         case 0:
+         {
+            return ResourceType.MATERIAL;
+         }
+
+         case 2:
+         {
+            return ResourceType.COST;
+         }
+
+         default:
+         {
+            return ResourceType.WORK;
+         }
+      }
    }
 
    /**
