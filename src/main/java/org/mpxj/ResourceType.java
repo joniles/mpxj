@@ -27,19 +27,17 @@ package org.mpxj;
  */
 public enum ResourceType
 {
-   MATERIAL("Material", false),
-   WORK( "Work", true),
-   COST( "Cost", false);
+   MATERIAL(false),
+   WORK(true),
+   COST(false);
 
    /**
     * Private constructor.
     *
-    * @param name enum name
     * @param timeBased true if this is a time-based type
     */
-   ResourceType(String name, boolean timeBased)
+   ResourceType(boolean timeBased)
    {
-      m_name = name;
       m_timeBased = timeBased;
    }
 
@@ -53,11 +51,5 @@ public enum ResourceType
       return m_timeBased;
    }
 
-   @Override public String toString()
-   {
-      return (m_name);
-   }
-
-   private final String m_name;
    private final boolean m_timeBased;
 }
