@@ -109,24 +109,51 @@ class RollupHelper
 
       ProjectCalendar calendar = parentTask.getEffectiveCalendar();
 
-      Duration actualWork = null;
       Duration plannedWork = null;
+      Duration plannedWorkLabor = null;
+      Duration plannedWorkNonLabor = null;
+
+      Duration actualWork = null;
+      Duration actualWorkLabor = null;
+      Duration actualWorkNonLabor = null;
+
       Duration remainingWork = null;
+      Duration remainingWorkLabor = null;
+      Duration remainingWorkNonLabor = null;
+
       Duration work = null;
 
       for (Task task : parentTask.getChildTasks())
       {
          rollupWork(task);
 
-         actualWork = Duration.add(actualWork, task.getActualWork(), calendar);
          plannedWork = Duration.add(plannedWork, task.getPlannedWork(), calendar);
+         plannedWorkLabor = Duration.add(plannedWorkLabor, task.getPlannedWorkLabor(), calendar);
+         plannedWorkNonLabor = Duration.add(plannedWorkNonLabor, task.getPlannedWorkNonlabor(), calendar);
+
+         actualWork = Duration.add(actualWork, task.getActualWork(), calendar);
+         actualWorkLabor = Duration.add(actualWorkLabor, task.getActualWorkLabor(), calendar);
+         actualWorkNonLabor = Duration.add(actualWorkNonLabor, task.getActualWorkNonlabor(), calendar);
+
          remainingWork = Duration.add(remainingWork, task.getRemainingWork(), calendar);
+         remainingWorkLabor = Duration.add(remainingWorkLabor, task.getRemainingWorkLabor(), calendar);
+         remainingWorkNonLabor = Duration.add(remainingWorkNonLabor, task.getRemainingWorkNonlabor(), calendar);
+
          work = Duration.add(work, task.getWork(), calendar);
       }
 
-      parentTask.setActualWork(actualWork);
       parentTask.setPlannedWork(plannedWork);
+      parentTask.setPlannedWorkLabor(plannedWorkLabor);
+      parentTask.setPlannedWorkNonlabor(plannedWorkNonLabor);
+
+      parentTask.setActualWork(actualWork);
+      parentTask.setActualWorkLabor(actualWorkLabor);
+      parentTask.setActualWorkNonlabor(actualWorkNonLabor);
+
       parentTask.setRemainingWork(remainingWork);
+      parentTask.setRemainingWorkLabor(remainingWork);
+      parentTask.setRemainingWorkNonlabor(remainingWork);
+
       parentTask.setWork(work);
    }
 
