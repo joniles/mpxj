@@ -29,7 +29,8 @@ public enum ResourceType
 {
    MATERIAL(false),
    WORK(true),
-   COST(false);
+   COST(false),
+   NON_LABOR(true);
 
    /**
     * Private constructor.

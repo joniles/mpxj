@@ -84,7 +84,7 @@ final class ResourceTypeHelper
       XML_TYPE_MAP.put(null, ResourceType.WORK);
       XML_TYPE_MAP.put("Labor", ResourceType.WORK);
       XML_TYPE_MAP.put("Material", ResourceType.MATERIAL);
-      XML_TYPE_MAP.put("Nonlabor", ResourceType.COST);
+      XML_TYPE_MAP.put("Nonlabor", ResourceType.NON_LABOR);
    }
 
    private static final Map<ResourceType, String> TYPE_XML_MAP = new HashMap<>();
@@ -93,6 +93,7 @@ final class ResourceTypeHelper
       TYPE_XML_MAP.put(ResourceType.WORK, "Labor");
       TYPE_XML_MAP.put(ResourceType.MATERIAL, "Material");
       TYPE_XML_MAP.put(ResourceType.COST, "Nonlabor");
+      TYPE_XML_MAP.put(ResourceType.NON_LABOR, "Nonlabor");
    }
 
    private static final Map<String, ResourceType> XER_TYPE_MAP = new HashMap<>();
@@ -101,7 +102,7 @@ final class ResourceTypeHelper
       XER_TYPE_MAP.put(null, ResourceType.WORK);
       XER_TYPE_MAP.put("RT_Labor", ResourceType.WORK);
       XER_TYPE_MAP.put("RT_Mat", ResourceType.MATERIAL);
-      XER_TYPE_MAP.put("RT_Equip", ResourceType.COST);
+      XER_TYPE_MAP.put("RT_Equip", ResourceType.NON_LABOR);
    }
 
    private static final Map<ResourceType, String> TYPE_XER_MAP = new HashMap<>();
@@ -110,5 +111,6 @@ final class ResourceTypeHelper
       TYPE_XER_MAP.put(ResourceType.WORK, "RT_Labor");
       TYPE_XER_MAP.put(ResourceType.MATERIAL, "RT_Mat");
       TYPE_XER_MAP.put(ResourceType.COST, "RT_Equip");
+      TYPE_XER_MAP.put(ResourceType.NON_LABOR, "RT_Equip");
    }
 }
