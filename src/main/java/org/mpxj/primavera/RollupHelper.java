@@ -110,7 +110,7 @@ class RollupHelper
       ProjectCalendar calendar = parentTask.getEffectiveCalendar();
 
       Duration plannedWork = null;
-      Duration plannedWorkLabor = null;
+      //Duration plannedWorkLabor = null;
       Duration plannedWorkNonLabor = null;
 
       Duration actualWork = null;
@@ -128,7 +128,7 @@ class RollupHelper
          rollupWork(task);
 
          plannedWork = Duration.add(plannedWork, task.getPlannedWork(), calendar);
-         plannedWorkLabor = Duration.add(plannedWorkLabor, task.getPlannedWorkLabor(), calendar);
+         //plannedWorkLabor = Duration.add(plannedWorkLabor, task.getPlannedWorkLabor(), calendar);
          plannedWorkNonLabor = Duration.add(plannedWorkNonLabor, task.getPlannedWorkNonlabor(), calendar);
 
          actualWork = Duration.add(actualWork, task.getActualWork(), calendar);
@@ -143,7 +143,7 @@ class RollupHelper
       }
 
       parentTask.setPlannedWork(plannedWork);
-      parentTask.setPlannedWorkLabor(plannedWorkLabor);
+      //parentTask.setPlannedWorkLabor(plannedWorkLabor);
       parentTask.setPlannedWorkNonlabor(plannedWorkNonLabor);
 
       parentTask.setActualWork(actualWork);
