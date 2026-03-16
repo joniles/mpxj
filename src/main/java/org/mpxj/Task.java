@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
@@ -6569,56 +6568,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return Double.valueOf((currentWork * 100.0) / totalWork);
    }
 
-   private Duration calculatePlannedWorkLabor()
-   {
-      return calculateRolledUpWork(ResourceType.WORK, Task::getPlannedWorkLabor, ResourceAssignment::getPlannedWork);
-   }
-
-
-   //  TODO: default to zero, and investigate diffs
-   private Duration calculateRolledUpWork(ResourceType type, Function<Task, Duration> taskSupplier, Function<ResourceAssignment, Duration> assignmentSupplier)
-   {
-      Duration d1 = getResourceAssignments().stream()
-         .filter(r -> r.getResource() != null && r.getResource().getType() == type)
-         .map(assignmentSupplier)
-         .filter(Objects::nonNull)
-         .reduce(this::reduceWork)
-         .orElse(null);
-
-      Duration d2 = getChildTasks().stream()
-         .map(taskSupplier)
-         .filter(Objects::nonNull)
-         .reduce(this::reduceWork
-         ).orElse(null);
-
-      return reduceWork(d1, d2);
-   }
-
-   private Duration reduceWork(Duration d1, Duration d2)
-   {
-      if (d1 == null && d2 == null)
-      {
-         return null;
-      }
-
-      if (d1 == null)
-      {
-         return d2;
-      }
-
-      if (d2 == null)
-      {
-         return d1;
-      }
-
-      if (d1.getUnits() != d2.getUnits())
-      {
-         d2 = d2.convertUnits(d1.getUnits(), getEffectiveCalendar());
-      }
-
-      return Duration.getInstance(d1.getDuration() + d2.getDuration(), d1.getUnits());
-   }
-
    /**
     * Merge and return work splits from resource assignments.
     *
@@ -6917,9 +6866,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.SUCCESSORS, Task::calculateSuccessors);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_PERCENT_COMPLETE, Task::calculateActivityPercentComplete);
       CALCULATED_FIELD_MAP.put(TaskField.SCHEDULE_PERCENT_COMPLETE, Task::calculateSchedulePercentComplete);
-
-      CALCULATED_FIELD_MAP.put(TaskField.PLANNED_WORK_LABOR, Task::calculatePlannedWorkLabor);
-
       CALCULATED_FIELD_MAP.put(TaskField.WORK_SPLITS, Task::calculateWorkSplits);
       CALCULATED_FIELD_MAP.put(TaskField.ACTUAL_REGULAR_COST, a -> a.calculateRegularCost(a::getActualCost, a::getActualOvertimeCost));
       CALCULATED_FIELD_MAP.put(TaskField.REMAINING_REGULAR_COST, a -> a.calculateRegularCost(a::getRemainingCost, a::getRemainingOvertimeCost));
