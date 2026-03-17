@@ -695,10 +695,7 @@ abstract class TableProjectReader
             assignment.setCost(totalCost);
 
             // roll up to parent task
-            task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), assignment.getPlannedCost()));
-            task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), assignment.getActualCost()));
-            task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), assignment.getRemainingCost()));
-            task.setCost(NumberHelper.sumAsDouble(task.getCost(), assignment.getCost()));
+            RollupHelper.resourceAssignmentRollup(assignment);
 
             assignment.setUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("target_qty_per_hr")) * 100));
             assignment.setRemainingUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("remain_qty_per_hr")) * 100));

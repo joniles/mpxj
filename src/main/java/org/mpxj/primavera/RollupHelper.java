@@ -30,6 +30,7 @@ import org.mpxj.Duration;
 import org.mpxj.PercentCompleteType;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
+import org.mpxj.ResourceAssignment;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.LocalDateTimeHelper;
@@ -56,6 +57,15 @@ class RollupHelper
       {
          file.getTasks().stream().filter(Task::getSummary).forEach(BaselineHelper::populateBaselineFromCurrentProject);
       }
+   }
+
+   public static void resourceAssignmentRollup(ResourceAssignment assignment)
+   {
+      Task task = assignment.getTask();
+      task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), assignment.getPlannedCost()));
+      task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), assignment.getActualCost()));
+      task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), assignment.getRemainingCost()));
+      task.setCost(NumberHelper.sumAsDouble(task.getCost(), assignment.getCost()));
    }
 
    /**

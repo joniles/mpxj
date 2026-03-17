@@ -5694,6 +5694,46 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return (Number) get(TaskField.REMAINING_REGULAR_COST);
    }
 
+   /**
+    * Set the planned cost labor field.
+    *
+    * @param value planned cost labor value
+    */
+   public void setPlannedCostLabor(Number value)
+   {
+      set(TaskField.PLANNED_COST_LABOR, value);
+   }
+
+   /**
+    * Retrieve the planned cost labor field.
+    *
+    * @return planned cost labor value
+    */
+   public Number getPlannedCostLabor()
+   {
+      return (Number) get(TaskField.PLANNED_COST_LABOR);
+   }
+
+   /**
+    * Set the planned cost non labor field.
+    *
+    * @param value planned cost non labor value
+    */
+   public void setPlannedCostNonLabor(Number value)
+   {
+      set(TaskField.PLANNED_COST_NONLABOR, value);
+   }
+
+   /**
+    * Retrieve the planned cost non labor field.
+    *
+    * @return planned cost non labor value
+    */
+   public Number getPlannedCostNonLabor()
+   {
+      return (Number) get(TaskField.PLANNED_COST_NONLABOR);
+   }
+
    @Override public List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       TimephasedDurationFunction fn = TIMEPHASED_WORK_FUNCTIONS.get(field);
