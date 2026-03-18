@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.mpxj.Duration;
+import org.mpxj.ExpenseItem;
 import org.mpxj.PercentCompleteType;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
@@ -94,12 +95,23 @@ class RollupHelper
             break;
          }
 
+         case MATERIAL:
+         {
+            task.setPlannedCostMaterial(NumberHelper.sumAsDouble(task.getPlannedCostMaterial(), assignment.getPlannedCost()));
+            break;
+         }
+
          case NON_LABOR:
          {
             task.setPlannedCostNonLabor(NumberHelper.sumAsDouble(task.getPlannedCostNonLabor(), assignment.getPlannedCost()));
             break;
          }
       }
+   }
+
+   public static void expenseItemCostRollup(ExpenseItem ei)
+   {
+      Task task = ei.getTask();
    }
 
    /**
@@ -217,6 +229,7 @@ class RollupHelper
       double plannedCost = 0;
       double plannedCostLabor = 0;
       double plannedCostNonLabor = 0;
+      double plannedCostMaterial = 0;
       double actualCost = 0;
       double remainingCost = 0;
       double cost = 0;
@@ -230,6 +243,7 @@ class RollupHelper
          plannedCost += NumberHelper.getDouble(child.getPlannedCost());
          plannedCostLabor += NumberHelper.getDouble(child.getPlannedCostLabor());
          plannedCostNonLabor += NumberHelper.getDouble(child.getPlannedCostNonLabor());
+         plannedCostMaterial += NumberHelper.getDouble(child.getPlannedCostMaterial());
          actualCost += NumberHelper.getDouble(child.getActualCost());
          remainingCost += NumberHelper.getDouble(child.getRemainingCost());
          cost += NumberHelper.getDouble(child.getCost());
@@ -239,6 +253,7 @@ class RollupHelper
       parentTask.setPlannedCost(NumberHelper.getDouble(plannedCost));
       parentTask.setPlannedCostLabor(NumberHelper.getDouble(plannedCostLabor));
       parentTask.setPlannedCostNonLabor(NumberHelper.getDouble(plannedCostNonLabor));
+      parentTask.setPlannedCostMaterial(NumberHelper.getDouble(plannedCostMaterial));
       parentTask.setActualCost(NumberHelper.getDouble(actualCost));
       parentTask.setRemainingCost(NumberHelper.getDouble(remainingCost));
       parentTask.setCost(NumberHelper.getDouble(cost));

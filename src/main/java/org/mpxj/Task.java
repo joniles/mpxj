@@ -5715,13 +5715,33 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Set the planned cost material field.
+    *
+    * @param value planned cost material value
+    */
+   public void setPlannedCostMaterial(Number value)
+   {
+      set(TaskField.PLANNED_COST_MATERIAL, value);
+   }
+
+   /**
+    * Retrieve the planned cost material field.
+    *
+    * @return planned cost material value
+    */
+   public Number getPlannedCostMaterial()
+   {
+      return (Number) get(TaskField.PLANNED_COST_MATERIAL);
+   }
+
+   /**
     * Set the planned cost non labor field.
     *
     * @param value planned cost non labor value
     */
    public void setPlannedCostNonLabor(Number value)
    {
-      set(TaskField.PLANNED_COST_NONLABOR, value);
+      set(TaskField.PLANNED_COST_NON_LABOR, value);
    }
 
    /**
@@ -5731,7 +5751,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Number getPlannedCostNonLabor()
    {
-      return (Number) get(TaskField.PLANNED_COST_NONLABOR);
+      return (Number) get(TaskField.PLANNED_COST_NON_LABOR);
    }
 
    @Override public List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units)
