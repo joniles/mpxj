@@ -1073,6 +1073,7 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.PLANNED_COST_LABOR.getValue()] = "Planned Cost Labor";
       TASK_COLUMNS_ARRAY[TaskField.PLANNED_COST_NON_LABOR.getValue()] = "Planned Cost Non Labor";
       TASK_COLUMNS_ARRAY[TaskField.PLANNED_COST_MATERIAL.getValue()] = "Planned Cost Material";
+      TASK_COLUMNS_ARRAY[TaskField.PLANNED_COST_EXPENSE.getValue()] = "Planned Cost Expense";
 
       RESOURCE_COLUMNS_ARRAY[ResourceField.ID.getValue()] = "ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.NAME.getValue()] = "Name";
