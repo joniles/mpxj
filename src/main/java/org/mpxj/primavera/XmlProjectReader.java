@@ -820,7 +820,7 @@ class XmlProjectReader
             assignment.setCost(atCompletionCost);
 
             // roll up to parent task
-            RollupHelper.resourceAssignmentRollup(assignment);
+            RollupHelper.resourceAssignmentCostRollup(assignment);
 
             assignment.setUnits(Double.valueOf(NumberHelper.getDouble(row.getPlannedUnitsPerTime()) * 100));
             assignment.setRemainingUnits(Double.valueOf(NumberHelper.getDouble(row.getRemainingUnitsPerTime()) * 100));

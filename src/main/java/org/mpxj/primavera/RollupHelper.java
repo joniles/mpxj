@@ -30,7 +30,9 @@ import org.mpxj.Duration;
 import org.mpxj.PercentCompleteType;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
+import org.mpxj.Resource;
 import org.mpxj.ResourceAssignment;
+import org.mpxj.ResourceType;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.LocalDateTimeHelper;
@@ -59,13 +61,45 @@ class RollupHelper
       }
    }
 
-   public static void resourceAssignmentRollup(ResourceAssignment assignment)
+   /**
+    * Roll up costs from a resource assignment to the parent task.
+    *
+    * @param assignment resource assignment
+    */
+   public static void resourceAssignmentCostRollup(ResourceAssignment assignment)
    {
       Task task = assignment.getTask();
       task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), assignment.getPlannedCost()));
       task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), assignment.getActualCost()));
       task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), assignment.getRemainingCost()));
       task.setCost(NumberHelper.sumAsDouble(task.getCost(), assignment.getCost()));
+
+      Resource resource = assignment.getResource();
+      if (resource == null)
+      {
+         return;
+      }
+
+      ResourceType resourceType = resource.getType();
+      if (resourceType == null)
+      {
+         resourceType = ResourceType.WORK;
+      }
+
+      switch (resourceType)
+      {
+         case WORK:
+         {
+            task.setPlannedCostLabor(NumberHelper.sumAsDouble(task.getPlannedCostLabor(), assignment.getPlannedCost()));
+            break;
+         }
+
+         case NON_LABOR:
+         {
+            task.setPlannedCostNonLabor(NumberHelper.sumAsDouble(task.getPlannedCostNonLabor(), assignment.getPlannedCost()));
+            break;
+         }
+      }
    }
 
    /**
@@ -181,16 +215,21 @@ class RollupHelper
       }
 
       double plannedCost = 0;
+      double plannedCostLabor = 0;
+      double plannedCostNonLabor = 0;
       double actualCost = 0;
       double remainingCost = 0;
       double cost = 0;
       double fixedCost = 0;
 
-      //process children first before adding their costs
       for (Task child : parentTask.getChildTasks())
       {
+         //process children first before adding their costs
          rollupCosts(child);
+
          plannedCost += NumberHelper.getDouble(child.getPlannedCost());
+         plannedCostLabor += NumberHelper.getDouble(child.getPlannedCostLabor());
+         plannedCostNonLabor += NumberHelper.getDouble(child.getPlannedCostNonLabor());
          actualCost += NumberHelper.getDouble(child.getActualCost());
          remainingCost += NumberHelper.getDouble(child.getRemainingCost());
          cost += NumberHelper.getDouble(child.getCost());
@@ -198,6 +237,8 @@ class RollupHelper
       }
 
       parentTask.setPlannedCost(NumberHelper.getDouble(plannedCost));
+      parentTask.setPlannedCostLabor(NumberHelper.getDouble(plannedCostLabor));
+      parentTask.setPlannedCostNonLabor(NumberHelper.getDouble(plannedCostNonLabor));
       parentTask.setActualCost(NumberHelper.getDouble(actualCost));
       parentTask.setRemainingCost(NumberHelper.getDouble(remainingCost));
       parentTask.setCost(NumberHelper.getDouble(cost));
