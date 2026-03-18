@@ -877,11 +877,7 @@ class XmlProjectReader
             task.getExpenseItems().add(ei);
 
             // Roll up to parent task
-            task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), ei.getPlannedCost()));
-            task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), ei.getActualCost()));
-            task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), ei.getRemainingCost()));
-            task.setCost(NumberHelper.sumAsDouble(task.getCost(), ei.getAtCompletionCost()));
-            task.setFixedCost(NumberHelper.sumAsDouble(task.getFixedCost(), ei.getAtCompletionCost()));
+            RollupHelper.expenseItemCostRollup(ei);
          }
       }
    }

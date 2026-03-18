@@ -112,6 +112,11 @@ class RollupHelper
    public static void expenseItemCostRollup(ExpenseItem ei)
    {
       Task task = ei.getTask();
+      task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), ei.getPlannedCost()));
+      task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), ei.getActualCost()));
+      task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), ei.getRemainingCost()));
+      task.setCost(NumberHelper.sumAsDouble(task.getCost(), ei.getAtCompletionCost()));
+      task.setFixedCost(NumberHelper.sumAsDouble(task.getFixedCost(), ei.getAtCompletionCost()));
    }
 
    /**
