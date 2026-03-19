@@ -531,15 +531,15 @@ class XmlProjectReader
          task.setPercentageWorkComplete(reversePercentage(row.getUnitsPercentComplete()));
 
          task.setActualWorkLabor(getDuration(row.getActualLaborUnits()));
-         task.setActualWorkNonlabor(getDuration(row.getActualNonLaborUnits()));
+         task.setActualWorkNonLabor(getDuration(row.getActualNonLaborUnits()));
          task.setPlannedWorkLabor(getDuration(row.getPlannedLaborUnits()));
-         task.setPlannedWorkNonlabor(getDuration(row.getPlannedNonLaborUnits()));
+         task.setPlannedWorkNonLabor(getDuration(row.getPlannedNonLaborUnits()));
          task.setRemainingWorkLabor(getDuration(row.getRemainingLaborUnits()));
-         task.setRemainingWorkNonlabor(getDuration(row.getRemainingNonLaborUnits()));
+         task.setRemainingWorkNonLabor(getDuration(row.getRemainingNonLaborUnits()));
 
-         task.setActualWork(WorkHelper.addWork(task.getActualWorkLabor(), task.getActualWorkNonlabor()));
-         task.setPlannedWork(WorkHelper.addWork(task.getPlannedWorkLabor(), task.getPlannedWorkNonlabor()));
-         task.setRemainingWork(WorkHelper.addWork(task.getRemainingWorkLabor(), task.getRemainingWorkNonlabor()));
+         task.setActualWork(WorkHelper.addWork(task.getActualWorkLabor(), task.getActualWorkNonLabor()));
+         task.setPlannedWork(WorkHelper.addWork(task.getPlannedWorkLabor(), task.getPlannedWorkNonLabor()));
+         task.setRemainingWork(WorkHelper.addWork(task.getRemainingWorkLabor(), task.getRemainingWorkNonLabor()));
          task.setWork(WorkHelper.addWork(task.getActualWork(), task.getRemainingWork()));
 
          task.setPlannedDuration(getDuration(row.getPlannedDuration()));

@@ -272,7 +272,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * This method is used to associate a child task with the current
     * task instance. It has been designed to
     * allow the hierarchical outline structure of tasks in an MPX
-    * file to be updated once all of the task data has been read.
+    * file to be updated once all task data has been read.
     *
     * @param child child task
     */
@@ -6843,7 +6843,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
             lastRange.intersectsWith(range) ||
             calendar.getWork(lastRange.getEnd(), range.getStart(), TimeUnit.HOURS).getDuration() == 0)
          {
-            // Ignore range if it is enirely within lastRange
+            // Ignore range if it is entirely within lastRange
             if (range.getEnd().isAfter(lastRange.getEnd()))
             {
                ranges.remove(ranges.size() - 1);

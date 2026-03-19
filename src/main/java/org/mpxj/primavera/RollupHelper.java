@@ -191,30 +191,30 @@ class RollupHelper
 
          plannedWork = Duration.add(plannedWork, task.getPlannedWork(), calendar);
          plannedWorkLabor = Duration.add(plannedWorkLabor, task.getPlannedWorkLabor(), calendar);
-         plannedWorkNonLabor = Duration.add(plannedWorkNonLabor, task.getPlannedWorkNonlabor(), calendar);
+         plannedWorkNonLabor = Duration.add(plannedWorkNonLabor, task.getPlannedWorkNonLabor(), calendar);
 
          actualWork = Duration.add(actualWork, task.getActualWork(), calendar);
          actualWorkLabor = Duration.add(actualWorkLabor, task.getActualWorkLabor(), calendar);
-         actualWorkNonLabor = Duration.add(actualWorkNonLabor, task.getActualWorkNonlabor(), calendar);
+         actualWorkNonLabor = Duration.add(actualWorkNonLabor, task.getActualWorkNonLabor(), calendar);
 
          remainingWork = Duration.add(remainingWork, task.getRemainingWork(), calendar);
          remainingWorkLabor = Duration.add(remainingWorkLabor, task.getRemainingWorkLabor(), calendar);
-         remainingWorkNonLabor = Duration.add(remainingWorkNonLabor, task.getRemainingWorkNonlabor(), calendar);
+         remainingWorkNonLabor = Duration.add(remainingWorkNonLabor, task.getRemainingWorkNonLabor(), calendar);
 
          work = Duration.add(work, task.getWork(), calendar);
       }
 
       parentTask.setPlannedWork(plannedWork);
       parentTask.setPlannedWorkLabor(plannedWorkLabor);
-      parentTask.setPlannedWorkNonlabor(plannedWorkNonLabor);
+      parentTask.setPlannedWorkNonLabor(plannedWorkNonLabor);
 
       parentTask.setActualWork(actualWork);
       parentTask.setActualWorkLabor(actualWorkLabor);
-      parentTask.setActualWorkNonlabor(actualWorkNonLabor);
+      parentTask.setActualWorkNonLabor(actualWorkNonLabor);
 
       parentTask.setRemainingWork(remainingWork);
       parentTask.setRemainingWorkLabor(remainingWork);
-      parentTask.setRemainingWorkNonlabor(remainingWork);
+      parentTask.setRemainingWorkNonLabor(remainingWork);
 
       parentTask.setWork(work);
    }
