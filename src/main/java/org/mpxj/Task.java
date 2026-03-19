@@ -5379,21 +5379,43 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Set the nonlabor component of the task's Actual Work.
+    * Set the non-labor component of the task's Actual Work.
     *
     * @param value work value
+    * @deprecated use setActualWorkNonLabor
     */
-   public void setActualWorkNonlabor(Duration value)
+   @Deprecated public void setActualWorkNonlabor(Duration value)
    {
       set(TaskField.ACTUAL_WORK_NONLABOR, value);
    }
 
    /**
-    * Retrieve the nonlabor component of the task's Actual Work.
+    * Set the non-labor component of the task's Actual Work.
+    *
+    * @param value work value
+    */
+   public void setActualWorkNonLabor(Duration value)
+   {
+      set(TaskField.ACTUAL_WORK_NONLABOR, value);
+   }
+
+   /**
+    * Retrieve the non-labor component of the task's Actual Work.
+    *
+    * @return work value
+    * @deprecated use getActualWorkNonLabor
+    */
+   @Deprecated public Duration getActualWorkNonlabor()
+   {
+      return (Duration) get(TaskField.ACTUAL_WORK_NONLABOR);
+   }
+
+   /**
+    * Retrieve the non-labor component of the task's Actual Work.
     *
     * @return work value
     */
-   public Duration getActualWorkNonlabor()
+   public Duration getActualWorkNonLabor()
    {
       return (Duration) get(TaskField.ACTUAL_WORK_NONLABOR);
    }
@@ -5419,21 +5441,43 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Set the nonlabor component of the task's Planned Work.
+    * Set the non-labor component of the task's Planned Work.
     *
     * @param value work value
+    * @deprecated use setPlannedWorkNonLabor
     */
-   public void setPlannedWorkNonlabor(Duration value)
+   @Deprecated public void setPlannedWorkNonlabor(Duration value)
    {
       set(TaskField.PLANNED_WORK_NONLABOR, value);
    }
 
    /**
-    * Retrieve the nonlabor component of the task's Planned Work.
+    * Set the non-labor component of the task's Planned Work.
+    *
+    * @param value work value
+    */
+   public void setPlannedWorkNonLabor(Duration value)
+   {
+      set(TaskField.PLANNED_WORK_NONLABOR, value);
+   }
+
+   /**
+    * Retrieve the non-labor component of the task's Planned Work.
+    *
+    * @return work value
+    * @deprecated use getPlannedWorkNonLabor
+    */
+   @Deprecated public Duration getPlannedWorkNonlabor()
+   {
+      return (Duration) get(TaskField.PLANNED_WORK_NONLABOR);
+   }
+
+   /**
+    * Retrieve the non-labor component of the task's Planned Work.
     *
     * @return work value
     */
-   public Duration getPlannedWorkNonlabor()
+   public Duration getPlannedWorkNonLabor()
    {
       return (Duration) get(TaskField.PLANNED_WORK_NONLABOR);
    }
@@ -5459,21 +5503,43 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Set the nonlabor component of the task's Remaining Work.
+    * Set the non-labor component of the task's Remaining Work.
     *
     * @param value work value
+    * @deprecated use setRemainingWorkNonLabor
     */
-   public void setRemainingWorkNonlabor(Duration value)
+   @Deprecated public void setRemainingWorkNonlabor(Duration value)
    {
       set(TaskField.REMAINING_WORK_NONLABOR, value);
    }
 
    /**
-    * Retrieve the nonlabor component of the task's Remaining Work.
+    * Set the non-labor component of the task's Remaining Work.
+    *
+    * @param value work value
+    */
+   public void setRemainingWorkNonLabor(Duration value)
+   {
+      set(TaskField.REMAINING_WORK_NONLABOR, value);
+   }
+
+   /**
+    * Retrieve the non-labor component of the task's Remaining Work.
+    *
+    * @return work value
+    * @deprecated use getRemainingWorkNonLabor
+    */
+   @Deprecated public Duration getRemainingWorkNonlabor()
+   {
+      return (Duration) get(TaskField.REMAINING_WORK_NONLABOR);
+   }
+
+   /**
+    * Retrieve the non-labor component of the task's Remaining Work.
     *
     * @return work value
     */
-   public Duration getRemainingWorkNonlabor()
+   public Duration getRemainingWorkNonLabor()
    {
       return (Duration) get(TaskField.REMAINING_WORK_NONLABOR);
    }
