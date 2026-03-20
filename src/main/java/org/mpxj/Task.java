@@ -5920,6 +5920,86 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return (Number) get(TaskField.ACTUAL_COST_EXPENSE);
    }
 
+   /**
+    * Set the remaining cost labor field.
+    *
+    * @param value remaining cost labor value
+    */
+   public void setRemainingCostLabor(Number value)
+   {
+      set(TaskField.REMAINING_COST_LABOR, value);
+   }
+
+   /**
+    * Retrieve the remaining cost labor field.
+    *
+    * @return remaining cost labor value
+    */
+   public Number getRemainingCostLabor()
+   {
+      return (Number) get(TaskField.REMAINING_COST_LABOR);
+   }
+
+   /**
+    * Set the remaining cost non labor field.
+    *
+    * @param value remaining cost non labor value
+    */
+   public void setRemainingCostNonLabor(Number value)
+   {
+      set(TaskField.REMAINING_COST_NON_LABOR, value);
+   }
+
+   /**
+    * Retrieve the remaining cost non labor field.
+    *
+    * @return remaining cost non labor value
+    */
+   public Number getRemainingCostNonLabor()
+   {
+      return (Number) get(TaskField.REMAINING_COST_NON_LABOR);
+   }
+
+   /**
+    * Set the remaining cost material field.
+    *
+    * @param value remaining cost material value
+    */
+   public void setRemainingCostMaterial(Number value)
+   {
+      set(TaskField.REMAINING_COST_MATERIAL, value);
+   }
+
+   /**
+    * Retrieve the remaining cost material field.
+    *
+    * @return remaining cost material value
+    */
+   public Number getRemainingCostMaterial()
+   {
+      return (Number) get(TaskField.REMAINING_COST_MATERIAL);
+   }
+
+   /**
+    * Set the remaining cost expense field.
+    *
+    * @param value remaining cost expense value
+    */
+   public void setRemainingCostExpense(Number value)
+   {
+      set(TaskField.REMAINING_COST_EXPENSE, value);
+   }
+
+   /**
+    * Retrieve the remaining cost expense field.
+    *
+    * @return remaining cost expense value
+    */
+   public Number getRemainingCostExpense()
+   {
+      return (Number) get(TaskField.REMAINING_COST_EXPENSE);
+   }
+
    @Override public List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       TimephasedDurationFunction fn = TIMEPHASED_WORK_FUNCTIONS.get(field);

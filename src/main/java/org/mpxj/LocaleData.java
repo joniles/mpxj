@@ -1078,6 +1078,10 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.ACTUAL_COST_NON_LABOR.getValue()] = "Actual Cost Non Labor";
       TASK_COLUMNS_ARRAY[TaskField.ACTUAL_COST_MATERIAL.getValue()] = "Actual Cost Material";
       TASK_COLUMNS_ARRAY[TaskField.ACTUAL_COST_EXPENSE.getValue()] = "Actual Cost Expense";
+      TASK_COLUMNS_ARRAY[TaskField.REMAINING_COST_LABOR.getValue()] = "Remaining Cost Labor";
+      TASK_COLUMNS_ARRAY[TaskField.REMAINING_COST_NON_LABOR.getValue()] = "Remaining Cost Non Labor";
+      TASK_COLUMNS_ARRAY[TaskField.REMAINING_COST_MATERIAL.getValue()] = "Remaining Cost Material";
+      TASK_COLUMNS_ARRAY[TaskField.REMAINING_COST_EXPENSE.getValue()] = "Remaining Cost Expense";
 
       RESOURCE_COLUMNS_ARRAY[ResourceField.ID.getValue()] = "ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.NAME.getValue()] = "Name";

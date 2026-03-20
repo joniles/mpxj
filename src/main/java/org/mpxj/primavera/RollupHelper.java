@@ -93,6 +93,7 @@ class RollupHelper
          {
             task.setPlannedCostLabor(NumberHelper.sumAsDouble(task.getPlannedCostLabor(), assignment.getPlannedCost()));
             task.setActualCostLabor(NumberHelper.sumAsDouble(task.getActualCostLabor(), assignment.getActualCost()));
+            task.setRemainingCostLabor(NumberHelper.sumAsDouble(task.getRemainingCostLabor(), assignment.getRemainingCost()));
             break;
          }
 
@@ -100,6 +101,7 @@ class RollupHelper
          {
             task.setPlannedCostMaterial(NumberHelper.sumAsDouble(task.getPlannedCostMaterial(), assignment.getPlannedCost()));
             task.setActualCostMaterial(NumberHelper.sumAsDouble(task.getActualCostMaterial(), assignment.getActualCost()));
+            task.setRemainingCostMaterial(NumberHelper.sumAsDouble(task.getRemainingCostMaterial(), assignment.getRemainingCost()));
             break;
          }
 
@@ -107,6 +109,7 @@ class RollupHelper
          {
             task.setPlannedCostNonLabor(NumberHelper.sumAsDouble(task.getPlannedCostNonLabor(), assignment.getPlannedCost()));
             task.setActualCostNonLabor(NumberHelper.sumAsDouble(task.getActualCostNonLabor(), assignment.getActualCost()));
+            task.setRemainingCostNonLabor(NumberHelper.sumAsDouble(task.getRemainingCostNonLabor(), assignment.getRemainingCost()));
             break;
          }
       }
@@ -120,6 +123,7 @@ class RollupHelper
       task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), ei.getActualCost()));
       task.setActualCostExpense(NumberHelper.sumAsDouble(task.getActualCostExpense(), ei.getActualCost()));
       task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), ei.getRemainingCost()));
+      task.setRemainingCostExpense(NumberHelper.sumAsDouble(task.getRemainingCostExpense(), ei.getRemainingCost()));
       task.setCost(NumberHelper.sumAsDouble(task.getCost(), ei.getAtCompletionCost()));
       task.setFixedCost(NumberHelper.sumAsDouble(task.getFixedCost(), ei.getAtCompletionCost()));
    }
@@ -249,6 +253,11 @@ class RollupHelper
       double actualCostExpense = 0;
 
       double remainingCost = 0;
+      double remainingCostLabor = 0;
+      double remainingCostNonLabor = 0;
+      double remainingCostMaterial = 0;
+      double remainingCostExpense = 0;
+
       double cost = 0;
       double fixedCost = 0;
 
@@ -270,6 +279,11 @@ class RollupHelper
          actualCostExpense += NumberHelper.getDouble(child.getActualCostExpense());
 
          remainingCost += NumberHelper.getDouble(child.getRemainingCost());
+         remainingCostLabor += NumberHelper.getDouble(child.getRemainingCostLabor());
+         remainingCostNonLabor += NumberHelper.getDouble(child.getRemainingCostNonLabor());
+         remainingCostMaterial += NumberHelper.getDouble(child.getRemainingCostMaterial());
+         remainingCostExpense += NumberHelper.getDouble(child.getRemainingCostExpense());
+
          cost += NumberHelper.getDouble(child.getCost());
          fixedCost += NumberHelper.getDouble(child.getFixedCost());
       }
@@ -287,6 +301,11 @@ class RollupHelper
       parentTask.setActualCostExpense(NumberHelper.getDouble(actualCostExpense));
 
       parentTask.setRemainingCost(NumberHelper.getDouble(remainingCost));
+      parentTask.setRemainingCostLabor(NumberHelper.getDouble(remainingCostLabor));
+      parentTask.setRemainingCostNonLabor(NumberHelper.getDouble(remainingCostNonLabor));
+      parentTask.setRemainingCostMaterial(NumberHelper.getDouble(remainingCostMaterial));
+      parentTask.setRemainingCostExpense(NumberHelper.getDouble(remainingCostExpense));
+
       parentTask.setCost(NumberHelper.getDouble(cost));
       parentTask.setFixedCost(NumberHelper.getDouble(fixedCost));
    }
