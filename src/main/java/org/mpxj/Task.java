@@ -5840,6 +5840,86 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return (Number) get(TaskField.PLANNED_COST_EXPENSE);
    }
 
+   /**
+    * Set the actual cost labor field.
+    *
+    * @param value actual cost labor value
+    */
+   public void setActualCostLabor(Number value)
+   {
+      set(TaskField.ACTUAL_COST_LABOR, value);
+   }
+
+   /**
+    * Retrieve the actual cost labor field.
+    *
+    * @return actual cost labor value
+    */
+   public Number getActualCostLabor()
+   {
+      return (Number) get(TaskField.ACTUAL_COST_LABOR);
+   }
+
+   /**
+    * Set the actual cost non labor field.
+    *
+    * @param value actual cost non labor value
+    */
+   public void setActualCostNonLabor(Number value)
+   {
+      set(TaskField.ACTUAL_COST_NON_LABOR, value);
+   }
+
+   /**
+    * Retrieve the actual cost non labor field.
+    *
+    * @return actual cost non labor value
+    */
+   public Number getActualCostNonLabor()
+   {
+      return (Number) get(TaskField.ACTUAL_COST_NON_LABOR);
+   }
+
+   /**
+    * Set the actual cost material field.
+    *
+    * @param value actual cost material value
+    */
+   public void setActualCostMaterial(Number value)
+   {
+      set(TaskField.ACTUAL_COST_MATERIAL, value);
+   }
+
+   /**
+    * Retrieve the actual cost material field.
+    *
+    * @return actual cost material value
+    */
+   public Number getActualCostMaterial()
+   {
+      return (Number) get(TaskField.ACTUAL_COST_MATERIAL);
+   }
+
+   /**
+    * Set the actual cost expense field.
+    *
+    * @param value actual cost expense value
+    */
+   public void setActualCostExpense(Number value)
+   {
+      set(TaskField.ACTUAL_COST_EXPENSE, value);
+   }
+
+   /**
+    * Retrieve the actual cost expense field.
+    *
+    * @return actual cost expense value
+    */
+   public Number getActualCostExpense()
+   {
+      return (Number) get(TaskField.ACTUAL_COST_EXPENSE);
+   }
+
    @Override public List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       TimephasedDurationFunction fn = TIMEPHASED_WORK_FUNCTIONS.get(field);
