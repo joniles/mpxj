@@ -272,7 +272,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * This method is used to associate a child task with the current
     * task instance. It has been designed to
     * allow the hierarchical outline structure of tasks in an MPX
-    * file to be updated once all of the task data has been read.
+    * file to be updated once all task data has been read.
     *
     * @param child child task
     */
@@ -5379,21 +5379,43 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Set the nonlabor component of the task's Actual Work.
+    * Set the non-labor component of the task's Actual Work.
     *
     * @param value work value
+    * @deprecated use setActualWorkNonLabor
     */
-   public void setActualWorkNonlabor(Duration value)
+   @Deprecated public void setActualWorkNonlabor(Duration value)
    {
       set(TaskField.ACTUAL_WORK_NONLABOR, value);
    }
 
    /**
-    * Retrieve the nonlabor component of the task's Actual Work.
+    * Set the non-labor component of the task's Actual Work.
+    *
+    * @param value work value
+    */
+   public void setActualWorkNonLabor(Duration value)
+   {
+      set(TaskField.ACTUAL_WORK_NONLABOR, value);
+   }
+
+   /**
+    * Retrieve the non-labor component of the task's Actual Work.
+    *
+    * @return work value
+    * @deprecated use getActualWorkNonLabor
+    */
+   @Deprecated public Duration getActualWorkNonlabor()
+   {
+      return (Duration) get(TaskField.ACTUAL_WORK_NONLABOR);
+   }
+
+   /**
+    * Retrieve the non-labor component of the task's Actual Work.
     *
     * @return work value
     */
-   public Duration getActualWorkNonlabor()
+   public Duration getActualWorkNonLabor()
    {
       return (Duration) get(TaskField.ACTUAL_WORK_NONLABOR);
    }
@@ -5419,21 +5441,43 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Set the nonlabor component of the task's Planned Work.
+    * Set the non-labor component of the task's Planned Work.
     *
     * @param value work value
+    * @deprecated use setPlannedWorkNonLabor
     */
-   public void setPlannedWorkNonlabor(Duration value)
+   @Deprecated public void setPlannedWorkNonlabor(Duration value)
    {
       set(TaskField.PLANNED_WORK_NONLABOR, value);
    }
 
    /**
-    * Retrieve the nonlabor component of the task's Planned Work.
+    * Set the non-labor component of the task's Planned Work.
+    *
+    * @param value work value
+    */
+   public void setPlannedWorkNonLabor(Duration value)
+   {
+      set(TaskField.PLANNED_WORK_NONLABOR, value);
+   }
+
+   /**
+    * Retrieve the non-labor component of the task's Planned Work.
+    *
+    * @return work value
+    * @deprecated use getPlannedWorkNonLabor
+    */
+   @Deprecated public Duration getPlannedWorkNonlabor()
+   {
+      return (Duration) get(TaskField.PLANNED_WORK_NONLABOR);
+   }
+
+   /**
+    * Retrieve the non-labor component of the task's Planned Work.
     *
     * @return work value
     */
-   public Duration getPlannedWorkNonlabor()
+   public Duration getPlannedWorkNonLabor()
    {
       return (Duration) get(TaskField.PLANNED_WORK_NONLABOR);
    }
@@ -5459,21 +5503,43 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Set the nonlabor component of the task's Remaining Work.
+    * Set the non-labor component of the task's Remaining Work.
     *
     * @param value work value
+    * @deprecated use setRemainingWorkNonLabor
     */
-   public void setRemainingWorkNonlabor(Duration value)
+   @Deprecated public void setRemainingWorkNonlabor(Duration value)
    {
       set(TaskField.REMAINING_WORK_NONLABOR, value);
    }
 
    /**
-    * Retrieve the nonlabor component of the task's Remaining Work.
+    * Set the non-labor component of the task's Remaining Work.
+    *
+    * @param value work value
+    */
+   public void setRemainingWorkNonLabor(Duration value)
+   {
+      set(TaskField.REMAINING_WORK_NONLABOR, value);
+   }
+
+   /**
+    * Retrieve the non-labor component of the task's Remaining Work.
+    *
+    * @return work value
+    * @deprecated use getRemainingWorkNonLabor
+    */
+   @Deprecated public Duration getRemainingWorkNonlabor()
+   {
+      return (Duration) get(TaskField.REMAINING_WORK_NONLABOR);
+   }
+
+   /**
+    * Retrieve the non-labor component of the task's Remaining Work.
     *
     * @return work value
     */
-   public Duration getRemainingWorkNonlabor()
+   public Duration getRemainingWorkNonLabor()
    {
       return (Duration) get(TaskField.REMAINING_WORK_NONLABOR);
    }
@@ -5692,6 +5758,246 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    public Number getRemainingRegularCost()
    {
       return (Number) get(TaskField.REMAINING_REGULAR_COST);
+   }
+
+   /**
+    * Set the planned cost labor field.
+    *
+    * @param value planned cost labor value
+    */
+   public void setPlannedCostLabor(Number value)
+   {
+      set(TaskField.PLANNED_COST_LABOR, value);
+   }
+
+   /**
+    * Retrieve the planned cost labor field.
+    *
+    * @return planned cost labor value
+    */
+   public Number getPlannedCostLabor()
+   {
+      return (Number) get(TaskField.PLANNED_COST_LABOR);
+   }
+
+   /**
+    * Set the planned cost non labor field.
+    *
+    * @param value planned cost non labor value
+    */
+   public void setPlannedCostNonLabor(Number value)
+   {
+      set(TaskField.PLANNED_COST_NON_LABOR, value);
+   }
+
+   /**
+    * Retrieve the planned cost non labor field.
+    *
+    * @return planned cost non labor value
+    */
+   public Number getPlannedCostNonLabor()
+   {
+      return (Number) get(TaskField.PLANNED_COST_NON_LABOR);
+   }
+
+   /**
+    * Set the planned cost material field.
+    *
+    * @param value planned cost material value
+    */
+   public void setPlannedCostMaterial(Number value)
+   {
+      set(TaskField.PLANNED_COST_MATERIAL, value);
+   }
+
+   /**
+    * Retrieve the planned cost material field.
+    *
+    * @return planned cost material value
+    */
+   public Number getPlannedCostMaterial()
+   {
+      return (Number) get(TaskField.PLANNED_COST_MATERIAL);
+   }
+
+   /**
+    * Set the planned cost expense field.
+    *
+    * @param value planned cost expense value
+    */
+   public void setPlannedCostExpense(Number value)
+   {
+      set(TaskField.PLANNED_COST_EXPENSE, value);
+   }
+
+   /**
+    * Retrieve the planned cost expense field.
+    *
+    * @return planned cost expense value
+    */
+   public Number getPlannedCostExpense()
+   {
+      return (Number) get(TaskField.PLANNED_COST_EXPENSE);
+   }
+
+   /**
+    * Set the actual cost labor field.
+    *
+    * @param value actual cost labor value
+    */
+   public void setActualCostLabor(Number value)
+   {
+      set(TaskField.ACTUAL_COST_LABOR, value);
+   }
+
+   /**
+    * Retrieve the actual cost labor field.
+    *
+    * @return actual cost labor value
+    */
+   public Number getActualCostLabor()
+   {
+      return (Number) get(TaskField.ACTUAL_COST_LABOR);
+   }
+
+   /**
+    * Set the actual cost non labor field.
+    *
+    * @param value actual cost non labor value
+    */
+   public void setActualCostNonLabor(Number value)
+   {
+      set(TaskField.ACTUAL_COST_NON_LABOR, value);
+   }
+
+   /**
+    * Retrieve the actual cost non labor field.
+    *
+    * @return actual cost non labor value
+    */
+   public Number getActualCostNonLabor()
+   {
+      return (Number) get(TaskField.ACTUAL_COST_NON_LABOR);
+   }
+
+   /**
+    * Set the actual cost material field.
+    *
+    * @param value actual cost material value
+    */
+   public void setActualCostMaterial(Number value)
+   {
+      set(TaskField.ACTUAL_COST_MATERIAL, value);
+   }
+
+   /**
+    * Retrieve the actual cost material field.
+    *
+    * @return actual cost material value
+    */
+   public Number getActualCostMaterial()
+   {
+      return (Number) get(TaskField.ACTUAL_COST_MATERIAL);
+   }
+
+   /**
+    * Set the actual cost expense field.
+    *
+    * @param value actual cost expense value
+    */
+   public void setActualCostExpense(Number value)
+   {
+      set(TaskField.ACTUAL_COST_EXPENSE, value);
+   }
+
+   /**
+    * Retrieve the actual cost expense field.
+    *
+    * @return actual cost expense value
+    */
+   public Number getActualCostExpense()
+   {
+      return (Number) get(TaskField.ACTUAL_COST_EXPENSE);
+   }
+
+   /**
+    * Set the remaining cost labor field.
+    *
+    * @param value remaining cost labor value
+    */
+   public void setRemainingCostLabor(Number value)
+   {
+      set(TaskField.REMAINING_COST_LABOR, value);
+   }
+
+   /**
+    * Retrieve the remaining cost labor field.
+    *
+    * @return remaining cost labor value
+    */
+   public Number getRemainingCostLabor()
+   {
+      return (Number) get(TaskField.REMAINING_COST_LABOR);
+   }
+
+   /**
+    * Set the remaining cost non labor field.
+    *
+    * @param value remaining cost non labor value
+    */
+   public void setRemainingCostNonLabor(Number value)
+   {
+      set(TaskField.REMAINING_COST_NON_LABOR, value);
+   }
+
+   /**
+    * Retrieve the remaining cost non labor field.
+    *
+    * @return remaining cost non labor value
+    */
+   public Number getRemainingCostNonLabor()
+   {
+      return (Number) get(TaskField.REMAINING_COST_NON_LABOR);
+   }
+
+   /**
+    * Set the remaining cost material field.
+    *
+    * @param value remaining cost material value
+    */
+   public void setRemainingCostMaterial(Number value)
+   {
+      set(TaskField.REMAINING_COST_MATERIAL, value);
+   }
+
+   /**
+    * Retrieve the remaining cost material field.
+    *
+    * @return remaining cost material value
+    */
+   public Number getRemainingCostMaterial()
+   {
+      return (Number) get(TaskField.REMAINING_COST_MATERIAL);
+   }
+
+   /**
+    * Set the remaining cost expense field.
+    *
+    * @param value remaining cost expense value
+    */
+   public void setRemainingCostExpense(Number value)
+   {
+      set(TaskField.REMAINING_COST_EXPENSE, value);
+   }
+
+   /**
+    * Retrieve the remaining cost expense field.
+    *
+    * @return remaining cost expense value
+    */
+   public Number getRemainingCostExpense()
+   {
+      return (Number) get(TaskField.REMAINING_COST_EXPENSE);
    }
 
    @Override public List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units)
@@ -6226,7 +6532,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    private List<Duration> reduceTimephasedWork(List<LocalDateTimeRange> ranges, Function<Task, List<Duration>> taskFn, Function<ResourceAssignment, List<Duration>> assignmentFn)
    {
       return Stream.concat(getResourceAssignments().stream()
-            .filter(r -> r.getResource() == null || r.getResource().getType() == ResourceType.WORK)
+            .filter(r -> r.getResource() == null || r.getResource().getType().isTimeBased())
             .map(assignmentFn), getChildTasks().stream().map(taskFn))
          .reduce(TimephasedUtility::addTimephasedDurations)
          .orElseGet(() -> Arrays.asList(new Duration[ranges.size()]));
@@ -6697,7 +7003,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
             lastRange.intersectsWith(range) ||
             calendar.getWork(lastRange.getEnd(), range.getStart(), TimeUnit.HOURS).getDuration() == 0)
          {
-            // Ignore range if it is enirely within lastRange
+            // Ignore range if it is entirely within lastRange
             if (range.getEnd().isAfter(lastRange.getEnd()))
             {
                ranges.remove(ranges.size() - 1);

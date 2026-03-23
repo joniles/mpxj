@@ -1,8 +1,7 @@
 /*
  * file:       ResourceType.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2002-2003
- * date:       25/11/2004
+ * date:       2004-11-25
  */
 
 /*
@@ -23,88 +22,35 @@
 
 package org.mpxj;
 
-import org.mpxj.common.EnumHelper;
-import org.mpxj.common.NumberHelper;
-
 /**
  * Instances of this class represent enumerated resource type values.
  */
-public enum ResourceType implements MpxjEnum
+public enum ResourceType
 {
-   MATERIAL(0, "Material"),
-   WORK(1, "Work"),
-   COST(2, "Cost");
+   MATERIAL(false),
+   WORK(true),
+   COST(false),
+   NON_LABOR(true);
 
    /**
     * Private constructor.
     *
-    * @param type int version of the enum
-    * @param name enum name
+    * @param timeBased true if this is a time-based type
     */
-   ResourceType(int type, String name)
+   ResourceType(boolean timeBased)
    {
-      m_value = type;
-      m_name = name;
+      m_timeBased = timeBased;
    }
 
    /**
-    * Retrieve an instance of the enum based on its int value.
+    * Returns true if this resource type is time-based.
     *
-    * @param type int type
-    * @return enum instance
+    * @return true if this resource type is time-based
     */
-   public static ResourceType getInstance(int type)
+   public boolean isTimeBased()
    {
-      if (type < 0 || type >= TYPE_VALUES.length)
-      {
-         type = WORK.getValue();
-      }
-      return (TYPE_VALUES[type]);
+      return m_timeBased;
    }
 
-   /**
-    * Retrieve an instance of the enum based on its int value.
-    *
-    * @param type int type
-    * @return enum instance
-    */
-   public static ResourceType getInstance(Number type)
-   {
-      int value;
-      if (type == null)
-      {
-         value = -1;
-      }
-      else
-      {
-         value = NumberHelper.getInt(type);
-      }
-      return (getInstance(value));
-   }
-
-   /**
-    * Accessor method used to retrieve the numeric representation of the enum.
-    *
-    * @return int representation of the enum
-    */
-   @Override public int getValue()
-   {
-      return (m_value);
-   }
-
-   @Override public String toString()
-   {
-      return (m_name);
-   }
-
-   /**
-    * Array mapping int types to enums.
-    */
-   private static final ResourceType[] TYPE_VALUES = EnumHelper.createTypeArray(ResourceType.class);
-
-   /**
-    * Internal representation of the enum int type.
-    */
-   private final int m_value;
-   private final String m_name;
+   private final boolean m_timeBased;
 }

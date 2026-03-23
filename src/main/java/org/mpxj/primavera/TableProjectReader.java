@@ -289,9 +289,9 @@ abstract class TableProjectReader
 
          TableReaderHelper.processFields(m_state.getTaskFields(), row, task);
 
-         task.setActualWork(WorkHelper.addWork(task.getActualWorkLabor(), task.getActualWorkNonlabor()));
-         task.setPlannedWork(WorkHelper.addWork(task.getPlannedWorkLabor(), task.getPlannedWorkNonlabor()));
-         task.setRemainingWork(WorkHelper.addWork(task.getRemainingWorkLabor(), task.getRemainingWorkNonlabor()));
+         task.setActualWork(WorkHelper.addWork(task.getActualWorkLabor(), task.getActualWorkNonLabor()));
+         task.setPlannedWork(WorkHelper.addWork(task.getPlannedWorkLabor(), task.getPlannedWorkNonLabor()));
+         task.setRemainingWork(WorkHelper.addWork(task.getRemainingWorkLabor(), task.getRemainingWorkNonLabor()));
          task.setWork(WorkHelper.addWork(task.getActualWork(), task.getRemainingWork()));
 
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
@@ -695,10 +695,7 @@ abstract class TableProjectReader
             assignment.setCost(totalCost);
 
             // roll up to parent task
-            task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), assignment.getPlannedCost()));
-            task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), assignment.getActualCost()));
-            task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), assignment.getRemainingCost()));
-            task.setCost(NumberHelper.sumAsDouble(task.getCost(), assignment.getCost()));
+            RollupHelper.resourceAssignmentCostRollup(assignment);
 
             assignment.setUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("target_qty_per_hr")) * 100));
             assignment.setRemainingUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("remain_qty_per_hr")) * 100));
@@ -782,11 +779,7 @@ abstract class TableProjectReader
             task.getExpenseItems().add(ei);
 
             // Roll up to parent task
-            task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), ei.getPlannedCost()));
-            task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), ei.getActualCost()));
-            task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), ei.getRemainingCost()));
-            task.setCost(NumberHelper.sumAsDouble(task.getCost(), ei.getAtCompletionCost()));
-            task.setFixedCost(NumberHelper.sumAsDouble(task.getFixedCost(), ei.getAtCompletionCost()));
+            RollupHelper.expenseItemCostRollup(ei);
          }
       }
    }

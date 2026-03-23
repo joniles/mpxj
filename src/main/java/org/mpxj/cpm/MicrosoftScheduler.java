@@ -1420,7 +1420,7 @@ public class MicrosoftScheduler implements Scheduler
     */
    private Stream<ResourceAssignment> getResourceAssignmentStream(Task task)
    {
-      return task.getResourceAssignments().stream().filter(r -> r.getResource() != null && r.getResource().getType() == ResourceType.WORK && r.getUnits().doubleValue() > 0.0);
+      return task.getResourceAssignments().stream().filter(r -> r.getResource() != null && r.getResource().getType().isTimeBased() && r.getUnits().doubleValue() > 0.0);
    }
 
    /**

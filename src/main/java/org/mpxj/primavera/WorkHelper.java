@@ -64,7 +64,7 @@ class WorkHelper
     */
    public static Duration getActualWorkLabor(Task task)
    {
-      return getWork(task.getActualWork(), task.getActualWorkLabor(), task.getActualWorkNonlabor());
+      return getWork(task.getActualWork(), task.getActualWorkLabor(), task.getActualWorkNonLabor());
    }
 
    /**
@@ -75,7 +75,7 @@ class WorkHelper
     */
    public static Duration getPlannedWorkLabor(Task task)
    {
-      return getWork(task.getPlannedWork(), task.getPlannedWorkLabor(), task.getPlannedWorkNonlabor());
+      return getWork(task.getPlannedWork(), task.getPlannedWorkLabor(), task.getPlannedWorkNonLabor());
    }
 
    /**
@@ -86,7 +86,7 @@ class WorkHelper
     */
    public static Duration getRemainingWorkLabor(Task task)
    {
-      return getWork(task.getRemainingWork(), task.getRemainingWorkLabor(), task.getRemainingWorkNonlabor());
+      return getWork(task.getRemainingWork(), task.getRemainingWorkLabor(), task.getRemainingWorkNonLabor());
    }
 
    /**

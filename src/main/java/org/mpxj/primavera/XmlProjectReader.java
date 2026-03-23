@@ -531,15 +531,15 @@ class XmlProjectReader
          task.setPercentageWorkComplete(reversePercentage(row.getUnitsPercentComplete()));
 
          task.setActualWorkLabor(getDuration(row.getActualLaborUnits()));
-         task.setActualWorkNonlabor(getDuration(row.getActualNonLaborUnits()));
+         task.setActualWorkNonLabor(getDuration(row.getActualNonLaborUnits()));
          task.setPlannedWorkLabor(getDuration(row.getPlannedLaborUnits()));
-         task.setPlannedWorkNonlabor(getDuration(row.getPlannedNonLaborUnits()));
+         task.setPlannedWorkNonLabor(getDuration(row.getPlannedNonLaborUnits()));
          task.setRemainingWorkLabor(getDuration(row.getRemainingLaborUnits()));
-         task.setRemainingWorkNonlabor(getDuration(row.getRemainingNonLaborUnits()));
+         task.setRemainingWorkNonLabor(getDuration(row.getRemainingNonLaborUnits()));
 
-         task.setActualWork(WorkHelper.addWork(task.getActualWorkLabor(), task.getActualWorkNonlabor()));
-         task.setPlannedWork(WorkHelper.addWork(task.getPlannedWorkLabor(), task.getPlannedWorkNonlabor()));
-         task.setRemainingWork(WorkHelper.addWork(task.getRemainingWorkLabor(), task.getRemainingWorkNonlabor()));
+         task.setActualWork(WorkHelper.addWork(task.getActualWorkLabor(), task.getActualWorkNonLabor()));
+         task.setPlannedWork(WorkHelper.addWork(task.getPlannedWorkLabor(), task.getPlannedWorkNonLabor()));
+         task.setRemainingWork(WorkHelper.addWork(task.getRemainingWorkLabor(), task.getRemainingWorkNonLabor()));
          task.setWork(WorkHelper.addWork(task.getActualWork(), task.getRemainingWork()));
 
          task.setPlannedDuration(getDuration(row.getPlannedDuration()));
@@ -820,10 +820,7 @@ class XmlProjectReader
             assignment.setCost(atCompletionCost);
 
             // roll up to parent task
-            task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), assignment.getPlannedCost()));
-            task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), actualCost));
-            task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), remainingCost));
-            task.setCost(NumberHelper.sumAsDouble(task.getCost(), atCompletionCost));
+            RollupHelper.resourceAssignmentCostRollup(assignment);
 
             assignment.setUnits(Double.valueOf(NumberHelper.getDouble(row.getPlannedUnitsPerTime()) * 100));
             assignment.setRemainingUnits(Double.valueOf(NumberHelper.getDouble(row.getRemainingUnitsPerTime()) * 100));
@@ -880,11 +877,7 @@ class XmlProjectReader
             task.getExpenseItems().add(ei);
 
             // Roll up to parent task
-            task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), ei.getPlannedCost()));
-            task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), ei.getActualCost()));
-            task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), ei.getRemainingCost()));
-            task.setCost(NumberHelper.sumAsDouble(task.getCost(), ei.getAtCompletionCost()));
-            task.setFixedCost(NumberHelper.sumAsDouble(task.getFixedCost(), ei.getAtCompletionCost()));
+            RollupHelper.expenseItemCostRollup(ei);
          }
       }
    }

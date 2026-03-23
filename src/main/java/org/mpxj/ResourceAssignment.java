@@ -671,7 +671,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       Resource resource = getResource();
 
       ProjectCalendar explicitTaskCalendar = task.getCalendar();
-      ProjectCalendar resourceCalendar = resource != null && !task.getIgnoreResourceCalendar() && resource.getType() == ResourceType.WORK ? resource.getCalendar() : null;
+      ProjectCalendar resourceCalendar = resource != null && !task.getIgnoreResourceCalendar() && resource.getType().isTimeBased() ? resource.getCalendar() : null;
 
       if (explicitTaskCalendar == null)
       {
@@ -3562,7 +3562,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
 
       double units = NumberHelper.getDouble(getUnits());
-      if ((getResource() == null || getResource().getType() == ResourceType.WORK) && units != 100.0)
+      if ((getResource() == null || getResource().getType().isTimeBased()) && units != 100.0)
       {
          costPerUse = (costPerUse * units) / 100.0;
       }
