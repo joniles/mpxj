@@ -5,6 +5,19 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
+		<release date="Unreleased" version="16.1.0">
+			<action dev="joniles" type="update">Added `ResourceType.NON_LABOR` to represent Non-Labor resources in Primavera P6 schedules.</action>
+			<action dev="joniles" type="update">When reading Primavera P6 schedules Planned, Actual and Remaining Labor, Non-Labor, Material and Expense costs are now rolled up from resource assignments to the task hierarchy.</action>
+			<action dev="joniles" type="update">The following Planned Cost attributes have been added to the `Task` class: Planned Cost Labor, Planned Cost Non Labor, Planned Cost Material, Planned Cost Expense.</action>
+			<action dev="joniles" type="update">The following Actual Cost attributes have been added to the `Task` class: Actual Cost Labor, Actual Cost Non Labor, Actual Cost Material, Actual Cost Expense.</action>
+			<action dev="joniles" type="update">The following Remaining Cost attributes have been added to the `Task` class: Remaining Cost Labor, Remaining Cost Non Labor, Remaining Cost Material, Remaining Cost Expense.</action>
+			<action dev="joniles" type="update">For consistency, the `Task#setActualWorkNonlabor` method has been marked as deprecated, use `Task#setActualWorkNonLabor` instead.</action>
+			<action dev="joniles" type="update">For consistency, the `Task#getActualWorkNonlabor` method has been marked as deprecated, use `Task#getActualWorkNonLabor` instead.</action>
+			<action dev="joniles" type="update">For consistency, the `Task#setPlannedWorkNonlabor` method has been marked as deprecated, use `Task#setPlannedWorkNonLabor` instead.</action>
+			<action dev="joniles" type="update">For consistency, the `Task#getPlannedWorkNonlabor` method has been marked as deprecated, use `Task#getPlannedWorkNonLabor` instead.</action>
+			<action dev="joniles" type="update">For consistency, the `Task#setRemainingWorkNonlabor` method has been marked as deprecated, use `Task#setRemainingWorkNonLabor` instead.</action>
+			<action dev="joniles" type="update">For consistency, the `Task#getRemainingWorkNonlabor` method has been marked as deprecated, use `Task#getRemainingWorkNonLabor` instead.</action>
+		</release>
 		<release date="2026-03-12" version="16.0.0">
 			<action dev="joniles" type="update">**NEW FEATURES**</action>
 			<action dev="joniles" type="update">`JsonWriter` now provides `getWriteTimephasedData` and `setWriteTimephasedData` methods. Setting this property to true will include timephased data in the JSON output. This property is set to false by default.</action>

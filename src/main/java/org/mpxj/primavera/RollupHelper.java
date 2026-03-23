@@ -115,6 +115,11 @@ class RollupHelper
       }
    }
 
+   /**
+    * Roll up costs from an expense item to the parent task.
+    *
+    * @param ei expense item
+    */
    public static void expenseItemCostRollup(ExpenseItem ei)
    {
       Task task = ei.getTask();
