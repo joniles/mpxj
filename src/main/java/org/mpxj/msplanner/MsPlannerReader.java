@@ -102,7 +102,53 @@ public class MsPlannerReader
     */
    public List<MsPlannerProject> getProjects()
    {
-      HttpURLConnection connection = createConnection("msdyn_projects?$select=msdyn_projectid,msdyn_subject");
+      HttpURLConnection connection = createConnection("msdyn_projects?$select=msdyn_projectid,msdyn_subject,modifiedon,createdon,statecode,_msdyn_projectmanager_value,_msdyn_program_value");
+      int code = getResponseCode(connection);
+
+      if (code != 200)
+      {
+         throw new MsPlannerException(getExceptionMessage(connection, code));
+      }
+
+      MapRow data = getMapRow(connection);
+
+      // Load program names for projects that have a program reference
+      Map<UUID, String> programNames = loadProgramNames(data);
+
+      return data.getList("value").stream()
+         .map(d -> {
+            MsPlannerProject project = new MsPlannerProject(d.getUUID("msdyn_projectid"), d.getString("msdyn_subject"));
+            project.setModifiedOn(d.getDate("modifiedon"));
+            project.setCreatedOn(d.getDate("createdon"));
+            project.setStateCode(d.getInteger("statecode"));
+
+            String managerName = d.getString("_msdyn_projectmanager_value@OData.Community.Display.V1.FormattedValue");
+            project.setProjectManagerName(managerName);
+
+            UUID programId = d.getUUID("_msdyn_program_value");
+            if (programId != null)
+            {
+               project.setProgramId(programId);
+               String programName = programNames.get(programId);
+               if (programName != null)
+               {
+                  project.setProgramName(programName);
+               }
+            }
+
+            return project;
+         })
+         .collect(Collectors.toList());
+   }
+
+   /**
+    * Retrieve a list of programs (portfolios) available in Microsoft Planner.
+    *
+    * @return list of MsPlannerProject instances representing programs
+    */
+   public List<MsPlannerProject> getPrograms()
+   {
+      HttpURLConnection connection = createConnection("msdyn_programs?$select=msdyn_programid,msdyn_name,modifiedon,createdon");
       int code = getResponseCode(connection);
 
       if (code != 200)
@@ -113,7 +159,12 @@ public class MsPlannerReader
       MapRow data = getMapRow(connection);
 
       return data.getList("value").stream()
-         .map(d -> new MsPlannerProject(d.getUUID("msdyn_projectid"), d.getString("msdyn_subject")))
+         .map(d -> {
+            MsPlannerProject program = new MsPlannerProject(d.getUUID("msdyn_programid"), d.getString("msdyn_name"));
+            program.setModifiedOn(d.getDate("modifiedon"));
+            program.setCreatedOn(d.getDate("createdon"));
+            return program;
+         })
          .collect(Collectors.toList());
    }
 
@@ -441,7 +492,7 @@ public class MsPlannerReader
          name = data.getString("description");
          if (name == null)
          {
-            name = "Unititled " + (m_calendarIndex++);
+            name = "Untitled " + (m_calendarIndex++);
          }
       }
 
@@ -717,6 +768,59 @@ public class MsPlannerReader
    }
 
    /**
+    * Load program names for projects that reference a program.
+    *
+    * @param projectData the project list data containing _msdyn_program_value fields
+    * @return map of program UUID to program name
+    */
+   private Map<UUID, String> loadProgramNames(MapRow projectData)
+   {
+      Map<UUID, String> programNames = new HashMap<>();
+
+      // Collect unique program IDs from projects
+      List<UUID> programIds = projectData.getList("value").stream()
+         .map(d -> d.getUUID("_msdyn_program_value"))
+         .filter(id -> id != null)
+         .distinct()
+         .collect(Collectors.toList());
+
+      if (programIds.isEmpty())
+      {
+         return programNames;
+      }
+
+      // Try to load program names - if the entity doesn't exist, return empty map
+      try
+      {
+         String filter = programIds.stream()
+            .map(id -> "msdyn_programid eq " + id)
+            .collect(Collectors.joining(" or "));
+
+         HttpURLConnection connection = createConnection("msdyn_programs?$select=msdyn_programid,msdyn_name&$filter=" + filter);
+         int code = getResponseCode(connection);
+
+         if (code == 200)
+         {
+            MapRow data = getMapRow(connection);
+            data.getList("value").forEach(d -> {
+               UUID id = d.getUUID("msdyn_programid");
+               String name = d.getString("msdyn_name");
+               if (id != null && name != null)
+               {
+                  programNames.put(id, name);
+               }
+            });
+         }
+      }
+      catch (Exception e)
+      {
+         // Programs entity may not be available - ignore
+      }
+
+      return programNames;
+   }
+
+   /**
     * Read and apply any baseline data.
     */
    private void readBaselineData()
@@ -771,6 +875,7 @@ public class MsPlannerReader
          connection.setRequestProperty("Accept", "application/json");
          connection.setRequestProperty("Accept-Encoding", "gzip");
          connection.setRequestProperty("Authorization", "Bearer " + m_token);
+         connection.setRequestProperty("Prefer", "odata.include-annotations=\"*\"");
          connection.setRequestMethod("GET");
          connection.connect();
          return connection;

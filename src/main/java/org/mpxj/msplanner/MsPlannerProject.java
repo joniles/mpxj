@@ -22,6 +22,7 @@
 
 package org.mpxj.msplanner;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -90,6 +91,127 @@ public class MsPlannerProject
       m_projectName = projectName;
    }
 
+   /**
+    * Retrieve the last modified date.
+    *
+    * @return modified date
+    */
+   public LocalDateTime getModifiedOn()
+   {
+      return m_modifiedOn;
+   }
+
+   /**
+    * Set the last modified date.
+    *
+    * @param modifiedOn modified date
+    */
+   public void setModifiedOn(LocalDateTime modifiedOn)
+   {
+      m_modifiedOn = modifiedOn;
+   }
+
+   /**
+    * Retrieve the creation date.
+    *
+    * @return creation date
+    */
+   public LocalDateTime getCreatedOn()
+   {
+      return m_createdOn;
+   }
+
+   /**
+    * Set the creation date.
+    *
+    * @param createdOn creation date
+    */
+   public void setCreatedOn(LocalDateTime createdOn)
+   {
+      m_createdOn = createdOn;
+   }
+
+   /**
+    * Retrieve the project manager name.
+    *
+    * @return project manager name
+    */
+   public String getProjectManagerName()
+   {
+      return m_projectManagerName;
+   }
+
+   /**
+    * Set the project manager name.
+    *
+    * @param projectManagerName project manager name
+    */
+   public void setProjectManagerName(String projectManagerName)
+   {
+      m_projectManagerName = projectManagerName;
+   }
+
+   /**
+    * Retrieve the program/portfolio ID.
+    *
+    * @return program ID
+    */
+   public UUID getProgramId()
+   {
+      return m_programId;
+   }
+
+   /**
+    * Set the program/portfolio ID.
+    *
+    * @param programId program ID
+    */
+   public void setProgramId(UUID programId)
+   {
+      m_programId = programId;
+   }
+
+   /**
+    * Retrieve the program/portfolio name.
+    *
+    * @return program name
+    */
+   public String getProgramName()
+   {
+      return m_programName;
+   }
+
+   /**
+    * Set the program/portfolio name.
+    *
+    * @param programName program name
+    */
+   public void setProgramName(String programName)
+   {
+      m_programName = programName;
+   }
+
+   /**
+    * Retrieve the state code (0=Active, 1=Inactive).
+    *
+    * @return state code
+    */
+   public Integer getStateCode()
+   {
+      return m_stateCode;
+   }
+
+   /**
+    * Set the state code.
+    *
+    * @param stateCode state code
+    */
+   public void setStateCode(Integer stateCode)
+   {
+      m_stateCode = stateCode;
+   }
+
+
    @Override public String toString()
    {
       return "[MsPlannerProject projectId=" + m_projectId + ", projectName=" + m_projectName + "]";
@@ -97,4 +219,10 @@ public class MsPlannerProject
 
    private UUID m_projectId;
    private String m_projectName;
+   private LocalDateTime m_modifiedOn;
+   private LocalDateTime m_createdOn;
+   private String m_projectManagerName;
+   private UUID m_programId;
+   private String m_programName;
+   private Integer m_stateCode;
 }
