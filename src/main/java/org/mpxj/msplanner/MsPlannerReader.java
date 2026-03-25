@@ -37,6 +37,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
@@ -117,26 +118,28 @@ public class MsPlannerReader
 
       return data.getList("value").stream()
          .map(d -> {
-            MsPlannerProject project = new MsPlannerProject(d.getUUID("msdyn_projectid"), d.getString("msdyn_subject"));
-            project.setModifiedOn(d.getDate("modifiedon"));
-            project.setCreatedOn(d.getDate("createdon"));
-            project.setStateCode(d.getInteger("statecode"));
+            MsPlannerProject.Builder builder = new MsPlannerProject.Builder()
+               .projectId(d.getUUID("msdyn_projectid"))
+               .projectName(d.getString("msdyn_subject"))
+               .modifiedOn(d.getDate("modifiedon"))
+               .createdOn(d.getDate("createdon"))
+               .stateCode(d.getInteger("statecode"));
+               //.projectManagerName(d.get);
 
-            String managerName = d.getString("_msdyn_projectmanager_value@OData.Community.Display.V1.FormattedValue");
-            project.setProjectManagerName(managerName);
+
 
             UUID programId = d.getUUID("_msdyn_program_value");
-            if (programId != null)
-            {
-               project.setProgramId(programId);
-               String programName = programNames.get(programId);
-               if (programName != null)
-               {
-                  project.setProgramName(programName);
-               }
-            }
+//            if (programId != null)
+//            {
+//               project.setProgramId(programId);
+//               String programName = programNames.get(programId);
+//               if (programName != null)
+//               {
+//                  project.setProgramName(programName);
+//               }
+//            }
 
-            return project;
+            return builder.build();
          })
          .collect(Collectors.toList());
    }
@@ -160,10 +163,12 @@ public class MsPlannerReader
 
       return data.getList("value").stream()
          .map(d -> {
-            MsPlannerProject program = new MsPlannerProject(d.getUUID("msdyn_programid"), d.getString("msdyn_name"));
-            program.setModifiedOn(d.getDate("modifiedon"));
-            program.setCreatedOn(d.getDate("createdon"));
-            return program;
+            return new MsPlannerProject.Builder()
+            .projectId(d.getUUID("msdyn_programid"))
+            .projectName(d.getString("msdyn_name"))
+            .modifiedOn(d.getDate("modifiedon"))
+            .createdOn(d.getDate("createdon"))
+            .build();
          })
          .collect(Collectors.toList());
    }
@@ -775,19 +780,19 @@ public class MsPlannerReader
     */
    private Map<UUID, String> loadProgramNames(MapRow projectData)
    {
-      Map<UUID, String> programNames = new HashMap<>();
-
       // Collect unique program IDs from projects
       List<UUID> programIds = projectData.getList("value").stream()
          .map(d -> d.getUUID("_msdyn_program_value"))
-         .filter(id -> id != null)
+         .filter(Objects::nonNull)
          .distinct()
          .collect(Collectors.toList());
 
       if (programIds.isEmpty())
       {
-         return programNames;
+         return Collections.emptyMap();
       }
+
+      Map<UUID, String> programNames = new HashMap<>();
 
       // Try to load program names - if the entity doesn't exist, return empty map
       try
@@ -812,6 +817,7 @@ public class MsPlannerReader
             });
          }
       }
+
       catch (Exception e)
       {
          // Programs entity may not be available - ignore
@@ -875,7 +881,6 @@ public class MsPlannerReader
          connection.setRequestProperty("Accept", "application/json");
          connection.setRequestProperty("Accept-Encoding", "gzip");
          connection.setRequestProperty("Authorization", "Bearer " + m_token);
-         connection.setRequestProperty("Prefer", "odata.include-annotations=\"*\"");
          connection.setRequestMethod("GET");
          connection.connect();
          return connection;

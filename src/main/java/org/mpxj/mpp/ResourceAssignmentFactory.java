@@ -73,8 +73,8 @@ public class ResourceAssignmentFactory
       //      System.out.println(assnFixedMeta);
       //      System.out.println(assnFixedData);
       //      System.out.println(assnFixedData2);
-      //      System.out.println(assnVarMeta.toString(fieldMap));
-      //      System.out.println(assnVarData);
+            System.out.println(assnVarMeta.toString(fieldMap));
+            System.out.println(assnVarData);
 
       MppBitFlag[] metaDataBitFlags;
       if (NumberHelper.getInt(file.getProjectProperties().getMppFileType()) == 14)

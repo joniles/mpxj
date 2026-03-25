@@ -34,21 +34,16 @@ public class MsPlannerProject
    /**
     * Constructor.
     */
-   public MsPlannerProject()
+   private MsPlannerProject(Builder builder)
    {
-
-   }
-
-   /**
-    * Constructor.
-    *
-    * @param id project unique ID
-    * @param name project name
-    */
-   public MsPlannerProject(UUID id, String name)
-   {
-      m_projectId = id;
-      m_projectName = name;
+      m_projectId = builder.m_projectId;
+      m_projectName = builder.m_projectName;
+      m_modifiedOn = builder.m_modifiedOn;
+      m_createdOn = builder.m_createdOn;
+      m_projectManagerName = builder.m_projectManagerName;
+      m_programId = builder.m_programId;
+      m_programName = builder.m_programName;
+      m_stateCode = builder.m_stateCode;
    }
 
    /**
@@ -62,16 +57,6 @@ public class MsPlannerProject
    }
 
    /**
-    * Set the project's unique ID.
-    *
-    * @param projectId unique ID
-    */
-   public void setProjectId(UUID projectId)
-   {
-      m_projectId = projectId;
-   }
-
-   /**
     * Retrieve the project's name.
     *
     * @return project name
@@ -80,17 +65,6 @@ public class MsPlannerProject
    {
       return m_projectName;
    }
-
-   /**
-    * Set the project's name.
-    *
-    * @param projectName project name
-    */
-   public void setProjectName(String projectName)
-   {
-      m_projectName = projectName;
-   }
-
    /**
     * Retrieve the last modified date.
     *
@@ -99,16 +73,6 @@ public class MsPlannerProject
    public LocalDateTime getModifiedOn()
    {
       return m_modifiedOn;
-   }
-
-   /**
-    * Set the last modified date.
-    *
-    * @param modifiedOn modified date
-    */
-   public void setModifiedOn(LocalDateTime modifiedOn)
-   {
-      m_modifiedOn = modifiedOn;
    }
 
    /**
@@ -122,16 +86,6 @@ public class MsPlannerProject
    }
 
    /**
-    * Set the creation date.
-    *
-    * @param createdOn creation date
-    */
-   public void setCreatedOn(LocalDateTime createdOn)
-   {
-      m_createdOn = createdOn;
-   }
-
-   /**
     * Retrieve the project manager name.
     *
     * @return project manager name
@@ -139,16 +93,6 @@ public class MsPlannerProject
    public String getProjectManagerName()
    {
       return m_projectManagerName;
-   }
-
-   /**
-    * Set the project manager name.
-    *
-    * @param projectManagerName project manager name
-    */
-   public void setProjectManagerName(String projectManagerName)
-   {
-      m_projectManagerName = projectManagerName;
    }
 
    /**
@@ -162,16 +106,6 @@ public class MsPlannerProject
    }
 
    /**
-    * Set the program/portfolio ID.
-    *
-    * @param programId program ID
-    */
-   public void setProgramId(UUID programId)
-   {
-      m_programId = programId;
-   }
-
-   /**
     * Retrieve the program/portfolio name.
     *
     * @return program name
@@ -179,16 +113,6 @@ public class MsPlannerProject
    public String getProgramName()
    {
       return m_programName;
-   }
-
-   /**
-    * Set the program/portfolio name.
-    *
-    * @param programName program name
-    */
-   public void setProgramName(String programName)
-   {
-      m_programName = programName;
    }
 
    /**
@@ -201,28 +125,83 @@ public class MsPlannerProject
       return m_stateCode;
    }
 
-   /**
-    * Set the state code.
-    *
-    * @param stateCode state code
-    */
-   public void setStateCode(Integer stateCode)
-   {
-      m_stateCode = stateCode;
-   }
-
-
    @Override public String toString()
    {
       return "[MsPlannerProject projectId=" + m_projectId + ", projectName=" + m_projectName + "]";
    }
 
-   private UUID m_projectId;
-   private String m_projectName;
-   private LocalDateTime m_modifiedOn;
-   private LocalDateTime m_createdOn;
-   private String m_projectManagerName;
-   private UUID m_programId;
-   private String m_programName;
-   private Integer m_stateCode;
+   private final UUID m_projectId;
+   private final String m_projectName;
+   private final LocalDateTime m_modifiedOn;
+   private final LocalDateTime m_createdOn;
+   private final String m_projectManagerName;
+   private final UUID m_programId;
+   private final String m_programName;
+   private final Integer m_stateCode;
+
+   public static class Builder
+   {
+      public MsPlannerProject.Builder projectId(UUID value)
+      {
+         m_projectId = value;
+         return this;
+      }
+
+      public MsPlannerProject.Builder projectName(String value)
+      {
+         m_projectName = value;
+         return this;
+      }
+
+      public MsPlannerProject.Builder modifiedOn(LocalDateTime value)
+      {
+         m_modifiedOn = value;
+         return this;
+      }
+
+      public MsPlannerProject.Builder createdOn(LocalDateTime value)
+      {
+         m_createdOn = value;
+         return this;
+      }
+
+      public MsPlannerProject.Builder projectManagerName(String value)
+      {
+         m_projectManagerName = value;
+         return this;
+      }
+
+      public MsPlannerProject.Builder programId(UUID value)
+      {
+         m_programId = value;
+         return this;
+      }
+
+      public MsPlannerProject.Builder programName(String value)
+      {
+         m_programName = value;
+         return this;
+      }
+
+      public MsPlannerProject.Builder stateCode(Integer value)
+      {
+         m_stateCode = value;
+         return this;
+      }
+
+      public MsPlannerProject build()
+      {
+         return new MsPlannerProject(this);
+      }
+
+      private UUID m_projectId;
+      private String m_projectName;
+      private LocalDateTime m_modifiedOn;
+      private LocalDateTime m_createdOn;
+      private String m_projectManagerName;
+      private UUID m_programId;
+      private String m_programName;
+      private Integer m_stateCode;
+   }
+
 }
