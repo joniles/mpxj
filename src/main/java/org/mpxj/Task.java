@@ -6313,6 +6313,29 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Retrieve the timephased budget cost for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedBudgetCost(List<LocalDateTimeRange> ranges)
+   {
+      return reduceTimephasedCost(ranges, (r) -> r.getTimephasedBudgetCost(ranges));
+   }
+
+   /**
+    * Retrieve the timephased budget work for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedBudgetWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return reduceTimephasedWork(ranges, (r) -> r.getTimephasedBudgetWork(ranges, units));
+   }
+
+   /**
     * Retrieves the fixed cost distributed pro rata over the duration of this task.
     *
     * @param ranges time ranges over which timephased cost is summarized
@@ -6539,6 +6562,22 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Merge timephased work.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param assignmentFn function to retreve timephased work from resource assignments
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   private List<Duration> reduceTimephasedWork(List<LocalDateTimeRange> ranges, Function<ResourceAssignment, List<Duration>> assignmentFn)
+   {
+      return getResourceAssignments().stream()
+         .filter(r -> r.getResource() == null || r.getResource().getType().isTimeBased())
+         .map(assignmentFn)
+         .reduce(TimephasedUtility::addTimephasedDurations)
+         .orElseGet(() -> Arrays.asList(new Duration[ranges.size()]));
+   }
+
+   /**
     * Merge timephased cost.
     *
     * @param ranges time ranges over which timephased cost is summarized
@@ -6548,8 +6587,25 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    private List<Number> reduceTimephasedCost(List<LocalDateTimeRange> ranges, Function<Task, List<Number>> taskFn, Function<ResourceAssignment, List<Number>> assignmentFn)
    {
-      return Stream.concat(getResourceAssignments().stream().map(assignmentFn), getChildTasks().stream().map(taskFn))
-         .reduce(TimephasedUtility::addTimephasedNumbers).orElseGet(() -> Arrays.asList(new Number[ranges.size()]));
+      return Stream.concat(getResourceAssignments().stream().map(assignmentFn), getChildTasks().stream()
+         .map(taskFn))
+         .reduce(TimephasedUtility::addTimephasedNumbers)
+         .orElseGet(() -> Arrays.asList(new Number[ranges.size()]));
+   }
+
+   /**
+    * Merge timephased cost.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @param assignmentFn function to retreve timephased cost from resource assignments
+    * @return list of Duration instances representing timephased cost for the supplied ranges
+    */
+   private List<Number> reduceTimephasedCost(List<LocalDateTimeRange> ranges, Function<ResourceAssignment, List<Number>> assignmentFn)
+   {
+      return getResourceAssignments().stream()
+         .map(assignmentFn)
+         .reduce(TimephasedUtility::addTimephasedNumbers)
+         .orElseGet(() -> Arrays.asList(new Number[ranges.size()]));
    }
 
    /**

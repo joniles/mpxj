@@ -579,6 +579,8 @@ public final class MPPAssignmentField
       FIELD_ARRAY[668] = AssignmentField.OWNER;
       FIELD_ARRAY[669] = AssignmentField.BUDGET_WORK;
       FIELD_ARRAY[670] = AssignmentField.BUDGET_COST;
+      FIELD_ARRAY[671] = AssignmentField.RAW_TIMEPHASED_BUDGET_WORK;
+      FIELD_ARRAY[672] = AssignmentField.RAW_TIMEPHASED_BUDGET_COST;
       FIELD_ARRAY[673] = AssignmentField.BASELINE_BUDGET_WORK;
       FIELD_ARRAY[674] = AssignmentField.BASELINE_BUDGET_COST;
       FIELD_ARRAY[677] = AssignmentField.BASELINE1_BUDGET_WORK;

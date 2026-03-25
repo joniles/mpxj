@@ -2192,6 +2192,8 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.BASELINE8_MATERIAL.getValue()] = "Baseline8 Material";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.BASELINE9_MATERIAL.getValue()] = "Baseline9 Material";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.BASELINE10_MATERIAL.getValue()] = "Baseline10 Material";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RAW_TIMEPHASED_BUDGET_COST.getValue()] = "Raw Timephased Budget Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RAW_TIMEPHASED_BUDGET_WORK.getValue()] = "Raw Timephased Budget Work";
 
       CONSTRAINT_COLUMNS_ARRAY[ConstraintField.UNIQUE_ID.getValue()] = "Unique ID";
       CONSTRAINT_COLUMNS_ARRAY[ConstraintField.TASK1.getValue()] = "Task 1";

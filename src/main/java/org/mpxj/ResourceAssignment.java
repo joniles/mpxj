@@ -2577,6 +2577,26 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return (List<TimephasedCost>) get(AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_COSTS[index]);
    }
 
+   /**
+    * Retrieve raw timephased budget cost for this resource assignment.
+    *
+    * @return raw timephased budget cost
+    */
+   @SuppressWarnings("unchecked") public List<TimephasedCost> getRawTimephasedBudgetCost()
+   {
+      return (List<TimephasedCost>) get(AssignmentField.RAW_TIMEPHASED_BUDGET_COST);
+   }
+
+   /**
+    * Retrieve raw timephased budget work for this resource assignment.
+    *
+    * @return raw timephased budget work
+    */
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedBudgetWork()
+   {
+      return (List<TimephasedWork>) get(AssignmentField.RAW_TIMEPHASED_BUDGET_WORK);
+   }
+
    @Override public List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       TimephasedDurationFunction fn = TIMEPHASED_WORK_FUNCTIONS.get(field);
@@ -3064,6 +3084,29 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    public List<Number> getTimephasedBaselineMaterial(int index, List<LocalDateTimeRange> ranges)
    {
       return TimephasedUtility.segmentMaterial(this, m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineWork(index), ranges);
+   }
+
+   /**
+    * Retrieve the timephased budget cost for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedBudgetCost(List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.segmentCost(getEffectiveCalendar(), getRawTimephasedBudgetCost(), ranges);
+   }
+
+   /**
+    * Retrieve the timephased budget work for the supplied time ranges.
+    *
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedBudgetWork(List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getRawTimephasedBudgetWork(), ranges, units);
    }
 
    /**
@@ -4191,6 +4234,8 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE8_COST, ResourceAssignment::defaultTimephasedCost);
       CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE9_COST, ResourceAssignment::defaultTimephasedCost);
       CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE10_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BUDGET_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BUDGET_WORK, ResourceAssignment::defaultTimephasedWork);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();

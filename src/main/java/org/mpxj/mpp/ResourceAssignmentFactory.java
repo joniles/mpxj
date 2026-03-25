@@ -23,6 +23,7 @@
 
 package org.mpxj.mpp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -40,6 +41,7 @@ import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedCost;
 import org.mpxj.TimephasedWork;
 import org.mpxj.WorkContour;
+import org.mpxj.common.AssignmentFieldLists;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.MicrosoftProjectConstants;
 import org.mpxj.common.NumberHelper;
@@ -73,8 +75,8 @@ public class ResourceAssignmentFactory
       //      System.out.println(assnFixedMeta);
       //      System.out.println(assnFixedData);
       //      System.out.println(assnFixedData2);
-      //      System.out.println(assnVarMeta.toString(fieldMap));
-      //      System.out.println(assnVarData);
+            System.out.println(assnVarMeta.toString(fieldMap));
+            System.out.println(assnVarData);
 
       MppBitFlag[] metaDataBitFlags;
       if (NumberHelper.getInt(file.getProjectProperties().getMppFileType()) == 14)
@@ -180,12 +182,12 @@ public class ResourceAssignmentFactory
          }
 
          ProjectCalendar baselineCalendar = file.getBaselineCalendar();
-         for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
+         for (int index = 0; index < AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_WORKS.length; index++)
          {
-            List<TimephasedWork> baselineWork = timephasedFactory.getBaselineWork(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])));
+            List<TimephasedWork> baselineWork = timephasedFactory.getBaselineWork(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_WORKS[index])));
             assignment.getRawTimephasedBaselineWork(index).addAll(baselineWork);
 
-            List<TimephasedCost> baselineCost = timephasedFactory.getBaselineCost(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])));
+            List<TimephasedCost> baselineCost = timephasedFactory.getBaselineCost(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_COSTS[index])));
             assignment.getRawTimephasedBaselineCost(index).addAll(baselineCost);
          }
 
@@ -193,12 +195,16 @@ public class ResourceAssignmentFactory
          byte[] timephasedActualIrregularWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_IRREGULAR_WORK));
          byte[] timephasedActualOvertimeWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.RAW_TIMEPHASED_ACTUAL_OVERTIME_WORK));
          byte[] timephasedWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.RAW_TIMEPHASED_REMAINING_REGULAR_WORK));
+         byte[] timephasedBudgetCostData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.RAW_TIMEPHASED_BUDGET_COST));
+         byte[] timephasedBudgetWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.RAW_TIMEPHASED_BUDGET_WORK));
 
          ResourceType resourceType = resource == null ? ResourceType.WORK : resource.getType();
          ProjectCalendar calendar = assignment.getEffectiveCalendar();
          List<TimephasedWork> timephasedActualWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualRegularWorkData, timephasedActualIrregularWorkData);
          List<TimephasedWork> timephasedWork = timephasedFactory.getPlannedWork(calendar, assignment, timephasedWorkData, timephasedActualWork, resourceType);
          List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualOvertimeWorkData, timephasedActualIrregularWorkData);
+         List<TimephasedCost> budgetCost = timephasedFactory.getBaselineCost(calendar, timephasedBudgetCostData);
+         List<TimephasedWork> budgetWork = timephasedFactory.getBaselineWork(calendar, timephasedBudgetWorkData);
 
          if (task.getDuration() == null || task.getDuration().getDuration() == 0)
          {
@@ -218,6 +224,8 @@ public class ResourceAssignmentFactory
          assignment.getRawTimephasedRemainingRegularWork().addAll(timephasedWork);
          assignment.getRawTimephasedActualRegularWork().addAll(timephasedActualWork);
          assignment.getRawTimephasedActualOvertimeWork().addAll(timephasedActualOvertimeWork);
+         assignment.getRawTimephasedBudgetCost().addAll(budgetCost);
+         assignment.getRawTimephasedBudgetWork().addAll(budgetWork);
 
          if (timephasedWorkData != null)
          {
@@ -255,6 +263,10 @@ public class ResourceAssignmentFactory
       }
 
       Duration totalWorkMinutes = assignment.getWork().convertUnits(TimeUnit.MINUTES, file.getProjectProperties());
+      if (totalWorkMinutes.getDuration() == 0)
+      {
+         return;
+      }
 
       Duration workPerHour;
 
@@ -380,33 +392,5 @@ public class ResourceAssignmentFactory
       new MppBitFlag(AssignmentField.CONFIRMED, 8, 0x00800000, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.TEAM_STATUS_PENDING, 8, 0x02000000, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.RESPONSE_PENDING, 8, 0x01000000, Boolean.FALSE, Boolean.TRUE)
-   };
-
-   private static final AssignmentField[] TIMEPHASED_BASELINE_WORK = {
-      AssignmentField.RAW_TIMEPHASED_BASELINE_WORK,
-      AssignmentField.RAW_TIMEPHASED_BASELINE1_WORK,
-      AssignmentField.RAW_TIMEPHASED_BASELINE2_WORK,
-      AssignmentField.RAW_TIMEPHASED_BASELINE3_WORK,
-      AssignmentField.RAW_TIMEPHASED_BASELINE4_WORK,
-      AssignmentField.RAW_TIMEPHASED_BASELINE5_WORK,
-      AssignmentField.RAW_TIMEPHASED_BASELINE6_WORK,
-      AssignmentField.RAW_TIMEPHASED_BASELINE7_WORK,
-      AssignmentField.RAW_TIMEPHASED_BASELINE8_WORK,
-      AssignmentField.RAW_TIMEPHASED_BASELINE9_WORK,
-      AssignmentField.RAW_TIMEPHASED_BASELINE10_WORK
-   };
-
-   private static final AssignmentField[] TIMEPHASED_BASELINE_COST = {
-      AssignmentField.RAW_TIMEPHASED_BASELINE_COST,
-      AssignmentField.RAW_TIMEPHASED_BASELINE1_COST,
-      AssignmentField.RAW_TIMEPHASED_BASELINE2_COST,
-      AssignmentField.RAW_TIMEPHASED_BASELINE3_COST,
-      AssignmentField.RAW_TIMEPHASED_BASELINE4_COST,
-      AssignmentField.RAW_TIMEPHASED_BASELINE5_COST,
-      AssignmentField.RAW_TIMEPHASED_BASELINE6_COST,
-      AssignmentField.RAW_TIMEPHASED_BASELINE7_COST,
-      AssignmentField.RAW_TIMEPHASED_BASELINE8_COST,
-      AssignmentField.RAW_TIMEPHASED_BASELINE9_COST,
-      AssignmentField.RAW_TIMEPHASED_BASELINE10_COST
    };
 }
