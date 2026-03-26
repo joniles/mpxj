@@ -23,7 +23,6 @@
 
 package org.mpxj.mpp;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -53,7 +52,7 @@ import org.mpxj.common.NumberHelper;
  * Common implementation detail to extract resource assignment data from
  * MPP9, MPP12, and MPP14 files.
  */
-public class ResourceAssignmentFactory
+class ResourceAssignmentFactory
 {
    /**
     * Main entry point when called to process assignment data.
@@ -173,7 +172,7 @@ public class ResourceAssignmentFactory
          hyperlinkReader.read(assignment, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.HYPERLINK_DATA)));
 
          //
-         // Post processing
+         // Post-processing
          //
          if (NumberHelper.getInt(file.getProjectProperties().getMppFileType()) == 9 && assignment.getCreateDate() == null)
          {
@@ -206,8 +205,8 @@ public class ResourceAssignmentFactory
          List<TimephasedWork> timephasedActualWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualRegularWorkData, timephasedActualIrregularWorkData);
          List<TimephasedWork> timephasedWork = timephasedFactory.getPlannedWork(calendar, assignment, timephasedWorkData, timephasedActualWork, resourceType);
          List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualOvertimeWorkData, timephasedActualIrregularWorkData);
-         List<TimephasedCost> budgetCost = getOrDefaultBudgetCost(assignment, () -> timephasedFactory.getBaselineCost(calendar, timephasedBudgetCostData));
-         List<TimephasedWork> budgetWork = timephasedFactory.getBaselineWork(calendar, timephasedBudgetWorkData);
+         List<TimephasedCost> budgetCost = getOrDefaultBudgetCost(assignment, () -> timephasedFactory.getBaselineCost(file.getDefaultCalendar(), timephasedBudgetCostData));
+         List<TimephasedWork> budgetWork = getOrDefaultBudgetWork(assignment, () -> timephasedFactory.getBaselineWork(calendar, timephasedBudgetWorkData));
 
          if (task.getDuration() == null || task.getDuration().getDuration() == 0)
          {
@@ -319,10 +318,10 @@ public class ResourceAssignmentFactory
          return Collections.emptyList();
       }
 
-      List<TimephasedCost> costs = supplier.get();
-      if (!costs.isEmpty())
+      List<TimephasedCost> timephasedCosts = supplier.get();
+      if (!timephasedCosts.isEmpty())
       {
-         return costs;
+         return timephasedCosts;
       }
 
       Number budgetCost = assignment.getBudgetCost();
@@ -332,7 +331,8 @@ public class ResourceAssignmentFactory
       }
 
       ProjectProperties props = assignment.getParentFile().getProjectProperties();
-      double hours = assignment.getEffectiveCalendar().getWork(props.getStartDate(), props.getFinishDate(), TimeUnit.HOURS).getDuration();
+      ProjectCalendar calendar = assignment.getParentFile().getDefaultCalendar();
+      double hours = calendar.getWork(props.getStartDate(), props.getFinishDate(), TimeUnit.HOURS).getDuration();
       Double amountPerHour = Double.valueOf(budgetCost.doubleValue() / hours);
 
       TimephasedCost cost = new TimephasedCost();
@@ -342,6 +342,40 @@ public class ResourceAssignmentFactory
       cost.setTotalAmount(budgetCost);
 
       return Collections.singletonList(cost);
+   }
+
+   private List<TimephasedWork> getOrDefaultBudgetWork(ResourceAssignment assignment, Supplier<List<TimephasedWork>> supplier)
+   {
+      Resource resource = assignment.getResource();
+      if (resource == null || !resource.getBudget() || resource.getType() != ResourceType.WORK)
+      {
+         return Collections.emptyList();
+      }
+
+      List<TimephasedWork> timephasedWork = supplier.get();
+      if (!timephasedWork.isEmpty())
+      {
+         return timephasedWork;
+      }
+
+      Duration budgetWork = assignment.getBudgetWork();
+      if (budgetWork == null)
+      {
+         return Collections.emptyList();
+      }
+
+      ProjectProperties props = assignment.getParentFile().getProjectProperties();
+      ProjectCalendar calendar = assignment.getEffectiveCalendar();
+      double hours = calendar.getWork(props.getStartDate(), props.getFinishDate(), TimeUnit.HOURS).getDuration();
+      Duration amountPerHour = Duration.getInstance(budgetWork.getDuration() / hours, budgetWork.getUnits());
+
+      TimephasedWork work = new TimephasedWork();
+      work.setStart(props.getStartDate());
+      work.setAmountPerHour(amountPerHour);
+      work.setFinish(props.getFinishDate());
+      work.setTotalAmount(budgetWork);
+
+      return Collections.singletonList(work);
    }
 
    private static final Integer MPP9_CREATION_DATA = Integer.valueOf(138);
