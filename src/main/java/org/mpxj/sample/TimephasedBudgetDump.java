@@ -18,7 +18,7 @@ public class TimephasedBudgetDump
 
    public static void main(String[] argv) throws Exception
    {
-      ProjectFile file = new UniversalProjectReader().read("/Users/joniles/Downloads/budget-test-2.mpp");
+      ProjectFile file = new UniversalProjectReader().read("/Users/joniles/Downloads/timephased-budget-baseline.mpp");
       ProjectProperties props = file.getProjectProperties();
 
       List<LocalDateTimeRange> ranges = new TimescaleHelper().createTimescale(props.getStartDate(), props.getFinishDate(), TimescaleUnits.DAYS);
@@ -34,7 +34,7 @@ public class TimephasedBudgetDump
 
          for (ResourceAssignment assignment : task.getResourceAssignments())
          {
-            System.out.println(assignment);
+            System.out.println(assignment.getUniqueID() + "\t" + assignment);
             System.out.println("Budget Work\t" + assignment.getTimephasedBudgetWork(ranges, TimeUnit.HOURS));
             System.out.println("Budget Cost\t" + assignment.getTimephasedBudgetCost(ranges));
 //            System.out.println("       Cost\t" + assignment.getTimephasedCost(ranges));

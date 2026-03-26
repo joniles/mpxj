@@ -191,6 +191,12 @@ class ResourceAssignmentFactory
 
             List<TimephasedCost> baselineCost = timephasedFactory.getBaselineCost(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_COSTS[index])));
             assignment.getRawTimephasedBaselineCost(index).addAll(baselineCost);
+
+            List<TimephasedWork> baselineBudgetWork = timephasedFactory.getBaselineWork(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_BUDGET_WORKS[index])));
+            assignment.getRawTimephasedBaselineBudgetWork(index).addAll(baselineBudgetWork);
+
+            List<TimephasedCost> baselineBudgetCost = timephasedFactory.getBaselineCost(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_BUDGET_COSTS[index])));
+            assignment.getRawTimephasedBaselineBudgetCost(index).addAll(baselineBudgetCost);
          }
 
          byte[] timephasedActualRegularWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.RAW_TIMEPHASED_ACTUAL_REGULAR_WORK));

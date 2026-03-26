@@ -2566,6 +2566,18 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    }
 
    /**
+    * Retrieve raw timephased baseline budget work for this resource assignment.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @return raw timephased baseline budget work
+    */
+   @SuppressWarnings("unchecked") public List<TimephasedWork> getRawTimephasedBaselineBudgetWork(int index)
+   {
+      return (List<TimephasedWork>) get(AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_BUDGET_WORKS[index]);
+   }
+
+   /**
     * Retrieve raw timephased baseline cost for this resource assignment.
     * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
     *
@@ -2575,6 +2587,18 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    @SuppressWarnings("unchecked") public List<TimephasedCost> getRawTimephasedBaselineCost(int index)
    {
       return (List<TimephasedCost>) get(AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_COSTS[index]);
+   }
+
+   /**
+    * Retrieve raw timephased baseline budget cost for this resource assignment.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @return raw timephased baseline budget cost
+    */
+   @SuppressWarnings("unchecked") public List<TimephasedCost> getRawTimephasedBaselineBudgetCost(int index)
+   {
+      return (List<TimephasedCost>) get(AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_BUDGET_COSTS[index]);
    }
 
    /**
@@ -2717,6 +2741,20 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    public List<Duration> getTimephasedBaselineWork(int index, List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       return TimephasedUtility.segmentWork(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineWork(index), ranges, units);
+   }
+
+   /**
+    * Retrieve the timephased baseline budget work for the supplied time ranges.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @param ranges time ranges over which timephased work is summarized
+    * @param units units in which to express the timephased work
+    * @return list of Duration instances representing timephased work for the supplied ranges
+    */
+   public List<Duration> getTimephasedBaselineBudgetWork(int index, List<LocalDateTimeRange> ranges, TimeUnit units)
+   {
+      return TimephasedUtility.segmentWork(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineBudgetWork(index), ranges, units);
    }
 
    /**
@@ -3027,6 +3065,19 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    public List<Number> getTimephasedBaselineCost(int index, List<LocalDateTimeRange> ranges)
    {
       return TimephasedUtility.segmentCost(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineCost(index), ranges);
+   }
+
+   /**
+    * Retrieve the timephased baseline budget cost for the supplied time ranges.
+    * Note that index 0 represents "Baseline", index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @param ranges time ranges over which timephased cost is summarized
+    * @return list of Number instances representing timephased cost for the supplied ranges
+    */
+   public List<Number> getTimephasedBaselineBudgetCost(int index, List<LocalDateTimeRange> ranges)
+   {
+      return TimephasedUtility.segmentCost(m_parentFile.getBaselineCalendar(), getRawTimephasedBaselineBudgetCost(index), ranges);
    }
 
    /**
@@ -4238,6 +4289,28 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE10_COST, ResourceAssignment::defaultTimephasedCost);
       CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BUDGET_COST, ResourceAssignment::defaultTimephasedCost);
       CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BUDGET_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE_BUDGET_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE1_BUDGET_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE2_BUDGET_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE3_BUDGET_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE4_BUDGET_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE5_BUDGET_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE6_BUDGET_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE7_BUDGET_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE8_BUDGET_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE9_BUDGET_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE10_BUDGET_WORK, ResourceAssignment::defaultTimephasedWork);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE_BUDGET_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE1_BUDGET_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE2_BUDGET_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE3_BUDGET_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE4_BUDGET_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE5_BUDGET_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE6_BUDGET_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE7_BUDGET_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE8_BUDGET_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE9_BUDGET_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE10_BUDGET_COST, ResourceAssignment::defaultTimephasedCost);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
