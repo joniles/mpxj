@@ -135,4 +135,33 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       assertEquals("Steel Cost", assignment.getResource().getName());
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedBudgetCost(ranges), new Double[]{16.00, 16.00, null, null, 16.0, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00});
    }
+
+   @Test public void testBudgetWithManualEditsAndCalendarExceptions() throws Exception
+   {
+      List<LocalDateTimeRange> ranges = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 3, 26, 0, 0), LocalDateTime.of(2026, 4, 25, 0, 0), TimescaleUnits.DAYS);
+
+      ProjectFile file = new MPPReader().read(MpxjTestData.filePath("timephased-budget-manual-exceptions.mpp"));
+
+      Task task = file.getTaskByID(0);
+      assertEquals(4, task.getResourceAssignments().size());
+
+      TimephasedTestHelper.testNumericSegments(task.getTimephasedBudgetCost(ranges), new Double[]{26.00, 26.00, null, null, 26.00, 24.00, null, 24.00, 24.00, 5.00, null, 16.00, 24.00, 24.00, 24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00, 24.00});
+      TimephasedTestHelper.testDurationSegments(task.getTimephasedBudgetWork(ranges, TimeUnit.HOURS), new Double[]{27.2, 27.2, null, null, 27.2, 25.2, null, 25.2, 16.8, null, 5.0, 25.2, 16.8, 8.4, 25.2, 25.2, null, null, 25.2, 25.2, 25.2, 25.2, 25.2, null, null, 25.2, 25.2, 25.2, 25.2, 16.8});
+
+      ResourceAssignment assignment = task.getResourceAssignments().get(0);
+      assertEquals("Concrete Labor", assignment.getResource().getName());
+      TimephasedTestHelper.testDurationSegments(assignment.getTimephasedBudgetWork(ranges, TimeUnit.HOURS), new Double[]{10.4, 10.4, null, null, 10.4, 8.4, null, 8.4, 0.0, null, 5.0, 8.4, null, 8.4, 8.4, 8.4, null, null, 8.4, 8.4, 8.4, 8.4, 8.4, null, null, 8.4, 8.4, 8.4, 8.4, null});
+
+      assignment = task.getResourceAssignments().get(1);
+      assertEquals("Steel Labor", assignment.getResource().getName());
+      TimephasedTestHelper.testDurationSegments(assignment.getTimephasedBudgetWork(ranges, TimeUnit.HOURS), new Double[]{16.8, 16.8, null, null, 16.8, 16.8, null, 16.8, 16.8, null, null, 16.8, 16.8, null, 16.8, 16.8, null, null, 16.8, 16.8, 16.8, 16.8, 16.8, null, null, 16.8, 16.8, 16.8, 16.8, 16.8});
+
+      assignment = task.getResourceAssignments().get(2);
+      assertEquals("Concrete Cost", assignment.getResource().getName());
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedBudgetCost(ranges), new Double[]{10.00, 10.00, null, null, 10.00, 8.00, null, 8.00, 8.00, 5.00, null, 0.00, 8.00, 8.00, 8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00, 8.00});
+
+      assignment = task.getResourceAssignments().get(3);
+      assertEquals("Steel Cost", assignment.getResource().getName());
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedBudgetCost(ranges), new Double[]{16.00, 16.00, null, null, 16.00, 16.00, null, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00, 16.00});
+   }
 }
