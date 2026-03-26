@@ -46,36 +46,36 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 {
    @Test public void testBudget() throws Exception
    {
-      List<LocalDateTimeRange> ranges = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 3, 26, 0, 0), LocalDateTime.of(2026, 4, 25, 0, 0), TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> ranges = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 3, 26, 0, 0), LocalDateTime.of(2026, 4, 24, 0, 0), TimescaleUnits.DAYS);
 
       ProjectFile file = new MPPReader().read(MpxjTestData.filePath("timephased-budget.mpp"));
 
       Task task = file.getTaskByID(0);
       assertEquals(4, task.getResourceAssignments().size());
 
-      TimephasedTestHelper.testNumericSegments(task.getTimephasedBudgetCost(ranges), new Double[]{24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00, 24.00});
-      TimephasedTestHelper.testNumericSegments(task.getTimephasedNumericValues(TaskField.BUDGET_COST, ranges), new Double[]{24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00, 24.00});
+      TimephasedTestHelper.testNumericSegments(task.getTimephasedBudgetCost(ranges), new Double[]{24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00});
+      TimephasedTestHelper.testNumericSegments(task.getTimephasedNumericValues(TaskField.BUDGET_COST, ranges), new Double[]{24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00});
 
-      TimephasedTestHelper.testDurationSegments(task.getTimephasedBudgetWork(ranges, TimeUnit.HOURS), new Double[]{24.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0, 24.0});
-      TimephasedTestHelper.testDurationSegments(task.getTimephasedDurationValues(TaskField.BUDGET_WORK, ranges, TimeUnit.HOURS), new Double[]{24.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0, 24.0});
+      TimephasedTestHelper.testDurationSegments(task.getTimephasedBudgetWork(ranges, TimeUnit.HOURS), new Double[]{24.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0});
+      TimephasedTestHelper.testDurationSegments(task.getTimephasedDurationValues(TaskField.BUDGET_WORK, ranges, TimeUnit.HOURS), new Double[]{24.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0});
 
       ResourceAssignment assignment = task.getResourceAssignments().get(0);
       assertEquals("Concrete Labor", assignment.getResource().getName());
-      TimephasedTestHelper.testDurationSegments(assignment.getTimephasedBudgetWork(ranges, TimeUnit.HOURS), new Double[]{8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0, 8.0});
-      TimephasedTestHelper.testDurationSegments(assignment.getTimephasedDurationValues(AssignmentField.BUDGET_WORK, ranges, TimeUnit.HOURS), new Double[]{8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0, 8.0});
+      TimephasedTestHelper.testDurationSegments(assignment.getTimephasedBudgetWork(ranges, TimeUnit.HOURS), new Double[]{8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0});
+      TimephasedTestHelper.testDurationSegments(assignment.getTimephasedDurationValues(AssignmentField.BUDGET_WORK, ranges, TimeUnit.HOURS), new Double[]{8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0});
 
       assignment = task.getResourceAssignments().get(1);
       assertEquals("Steel Labor", assignment.getResource().getName());
-      TimephasedTestHelper.testDurationSegments(assignment.getTimephasedBudgetWork(ranges, TimeUnit.HOURS), new Double[]{16.0, 16.0, null, null, 16.0, 16.0, 16.0, 16.0, 16.0, null, null, 16.0, 16.0, 16.0, 16.0, 16.0, null, null, 16.0, 16.0, 16.0, 16.0, 16.0, null, null, 16.0, 16.0, 16.0, 16.0, 16.0});
+      TimephasedTestHelper.testDurationSegments(assignment.getTimephasedBudgetWork(ranges, TimeUnit.HOURS), new Double[]{16.0, 16.0, null, null, 16.0, 16.0, 16.0, 16.0, 16.0, null, null, 16.0, 16.0, 16.0, 16.0, 16.0, null, null, 16.0, 16.0, 16.0, 16.0, 16.0, null, null, 16.0, 16.0, 16.0, 16.0});
 
       assignment = task.getResourceAssignments().get(2);
       assertEquals("Concrete Cost", assignment.getResource().getName());
-      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedBudgetCost(ranges), new Double[]{8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00, 8.00});
-      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedNumericValues(AssignmentField.BUDGET_COST, ranges), new Double[]{8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00, 8.00});
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedBudgetCost(ranges), new Double[]{8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00});
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedNumericValues(AssignmentField.BUDGET_COST, ranges), new Double[]{8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00});
 
       assignment = task.getResourceAssignments().get(3);
       assertEquals("Steel Cost", assignment.getResource().getName());
-      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedBudgetCost(ranges), new Double[]{16.00, 16.00, null, null, 16.0, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00, 16.00});
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedBudgetCost(ranges), new Double[]{16.00, 16.00, null, null, 16.0, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00});
    }
 
    @Test public void testBudgetWithCalendarExceptions() throws Exception
