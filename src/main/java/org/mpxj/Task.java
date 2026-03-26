@@ -7167,6 +7167,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.REMAINING_OVERTIME_WORK, Task::getTimephasedRemainingOvertimeWork);
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.REMAINING_WORK, Task::getTimephasedRemainingWork);
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.WORK, Task::getTimephasedWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BUDGET_WORK, Task::getTimephasedBudgetWork);
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE_WORK, (a, r, t) -> a.getTimephasedBaselineWork(0, r, t));
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE1_WORK, (a, r, t) -> a.getTimephasedBaselineWork(1, r, t));
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE2_WORK, (a, r, t) -> a.getTimephasedBaselineWork(2, r, t));
@@ -7191,6 +7192,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.ACTUAL_OVERTIME_COST, Task::getTimephasedActualOvertimeCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.ACTUAL_COST, Task::getTimephasedActualCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.COST, Task::getTimephasedCost);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BUDGET_COST, Task::getTimephasedBudgetCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE_COST, (a, r) -> a.getTimephasedBaselineCost(0, r));
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE1_COST, (a, r) -> a.getTimephasedBaselineCost(1, r));
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE2_COST, (a, r) -> a.getTimephasedBaselineCost(2, r));

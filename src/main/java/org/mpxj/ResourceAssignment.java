@@ -4116,6 +4116,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.REMAINING_OVERTIME_WORK, ResourceAssignment::getTimephasedRemainingOvertimeWork);
       TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.REMAINING_WORK, ResourceAssignment::getTimephasedRemainingWork);
       TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.WORK, ResourceAssignment::getTimephasedWork);
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BUDGET_WORK, ResourceAssignment::getTimephasedBudgetWork);
       TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE_WORK, (a, r, t) -> a.getTimephasedBaselineWork(0, r, t));
       TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE1_WORK, (a, r, t) -> a.getTimephasedBaselineWork(1, r, t));
       TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE2_WORK, (a, r, t) -> a.getTimephasedBaselineWork(2, r, t));
@@ -4144,6 +4145,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.ACTUAL_MATERIAL, ResourceAssignment::getTimephasedActualMaterial);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.REMAINING_MATERIAL, ResourceAssignment::getTimephasedRemainingMaterial);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.MATERIAL, ResourceAssignment::getTimephasedMaterial);
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BUDGET_COST, ResourceAssignment::getTimephasedBudgetCost);
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE_COST, (a, r) -> a.getTimephasedBaselineCost(0, r));
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE1_COST, (a, r) -> a.getTimephasedBaselineCost(1, r));
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE2_COST, (a, r) -> a.getTimephasedBaselineCost(2, r));
