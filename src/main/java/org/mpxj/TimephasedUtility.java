@@ -110,12 +110,16 @@ final class TimephasedUtility
             // Our range intersects with this work
             LocalDateTime workStart = currentRange.getStart().isAfter(currentItem.getStart()) ? currentRange.getStart() : currentItem.getStart();
             LocalDateTime workFinish = currentRange.getEnd().isAfter(currentItem.getFinish()) ? currentItem.getFinish() : currentRange.getEnd();
-            double workHours = currentItemIsNonWorking ? workStart.until(workFinish, ChronoUnit.HOURS) : calendar.getWork(workStart, workFinish, TimeUnit.HOURS).getDuration();
-            if (workHours != 0.0)
+            double actualWorkHours = calendar.getWork(workStart, workFinish, TimeUnit.HOURS).getDuration();
+            double calculatedworkHours = currentItemIsNonWorking ? workStart.until(workFinish, ChronoUnit.HOURS) : actualWorkHours;
+            if (calculatedworkHours != 0.0)
             {
-               double workAmount = currentItemWorkPerHour * workHours;
-               double currentRangeWork = result[currentRangeIndex] == -1 ? 0 : result[currentRangeIndex];
-               result[currentRangeIndex] = currentRangeWork + workAmount;
+               double workAmount = currentItemWorkPerHour * calculatedworkHours;
+               if (workAmount != 0.0 || actualWorkHours != 0.0)
+               {
+                  double currentRangeWork = result[currentRangeIndex] == -1 ? 0 : result[currentRangeIndex];
+                  result[currentRangeIndex] = currentRangeWork + workAmount;
+               }
             }
 
             moreTimeInRange = workFinish.isBefore(currentRange.getEnd());
@@ -212,12 +216,16 @@ final class TimephasedUtility
          // Our range intersects with this work
          LocalDateTime workStart = currentRange.getStart().isAfter(currentItem.getStart()) ? currentRange.getStart() : currentItem.getStart();
          LocalDateTime workFinish = currentRange.getEnd().isAfter(currentItem.getFinish()) ? currentItem.getFinish() : currentRange.getEnd();
-         double workHours = currentItemIsNonWorking ? workStart.until(workFinish, ChronoUnit.HOURS) : calendar.getWork(workStart, workFinish, TimeUnit.HOURS).getDuration();
-         if (workHours != 0.0)
+         double actualWorkHours = calendar.getWork(workStart, workFinish, TimeUnit.HOURS).getDuration();
+         double calculatedWorkHours = currentItemIsNonWorking ? workStart.until(workFinish, ChronoUnit.HOURS) : calendar.getWork(workStart, workFinish, TimeUnit.HOURS).getDuration();
+         if (calculatedWorkHours != 0.0)
          {
-            double costAmount = currentItemCostPerHour * workHours;
-            double currentRangeWork = result[currentRangeIndex] == -1 ? 0 : result[currentRangeIndex];
-            result[currentRangeIndex] = currentRangeWork + costAmount;
+            double costAmount = currentItemCostPerHour * calculatedWorkHours;
+            if (costAmount != 0.0 || actualWorkHours != 0.0)
+            {
+               double currentRangeWork = result[currentRangeIndex] == -1 ? 0 : result[currentRangeIndex];
+               result[currentRangeIndex] = currentRangeWork + costAmount;
+            }
          }
 
          if (workFinish.isBefore(currentRange.getEnd()))

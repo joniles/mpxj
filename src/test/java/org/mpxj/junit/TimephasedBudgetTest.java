@@ -116,12 +116,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       Task task = file.getTaskByID(0);
       assertEquals(4, task.getResourceAssignments().size());
 
-      TimephasedTestHelper.testNumericSegments(task.getTimephasedBudgetCost(ranges), new Double[]{26.00, 26.00, 0.0, 0.0, 26.00, 24.00, 24.00, 24.00, 24.00, 8.00, 8.00, 24.00, 24.00, 16.00, 16.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00});
-      TimephasedTestHelper.testDurationSegments(task.getTimephasedBudgetWork(ranges, TimeUnit.HOURS), new Double[]{26.0, 26.0, 0.0, 0.0, 26.0, 24.0, 24.0, 24.0, 24.0, 8.0, 8.0, 24.0, 24.0, 16.0, 16.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0});
+      TimephasedTestHelper.testNumericSegments(task.getTimephasedBudgetCost(ranges), new Double[]{26.00, 26.00, null, null, 26.00, 24.00, 24.00, 24.00, 24.00, 8.00, 8.00, 24.00, 24.00, 16.00, 16.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00, 24.00, null, null, 24.00, 24.00, 24.00, 24.00});
+      TimephasedTestHelper.testDurationSegments(task.getTimephasedBudgetWork(ranges, TimeUnit.HOURS), new Double[]{26.0, 26.0, null, null, 26.0, 24.0, 24.0, 24.0, 24.0, 8.0, 8.0, 24.0, 24.0, 16.0, 16.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0, 24.0, null, null, 24.0, 24.0, 24.0, 24.0});
 
       ResourceAssignment assignment = task.getResourceAssignments().get(0);
       assertEquals("Concrete Labor", assignment.getResource().getName());
-      TimephasedTestHelper.testDurationSegments(assignment.getTimephasedBudgetWork(ranges, TimeUnit.HOURS), new Double[]{10.0, 10.0, 0.0, 0.0, 10.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 0.0, 0.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0});
+      TimephasedTestHelper.testDurationSegments(assignment.getTimephasedBudgetWork(ranges, TimeUnit.HOURS), new Double[]{10.0, 10.0, null, null, 10.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 0.0, 0.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0, 8.0, null, null, 8.0, 8.0, 8.0, 8.0});
 
       assignment = task.getResourceAssignments().get(1);
       assertEquals("Steel Labor", assignment.getResource().getName());
@@ -129,7 +129,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
       assignment = task.getResourceAssignments().get(2);
       assertEquals("Concrete Cost", assignment.getResource().getName());
-      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedBudgetCost(ranges), new Double[]{10.00, 10.00, 0.0, 0.0, 10.00, 8.00, 8.00, 8.00, 8.00, 8.00, 8.00, 8.00, 8.00, 0.00, 0.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00});
+      TimephasedTestHelper.testNumericSegments(assignment.getTimephasedBudgetCost(ranges), new Double[]{10.00, 10.00, null, null, 10.00, 8.00, 8.00, 8.00, 8.00, 8.00, 8.00, 8.00, 8.00, 0.00, 0.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00, 8.00, null, null, 8.00, 8.00, 8.00, 8.00});
 
       assignment = task.getResourceAssignments().get(3);
       assertEquals("Steel Cost", assignment.getResource().getName());
