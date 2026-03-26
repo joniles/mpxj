@@ -4179,6 +4179,17 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE8_WORK, (a, r, t) -> a.getTimephasedBaselineWork(8, r, t));
       TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE9_WORK, (a, r, t) -> a.getTimephasedBaselineWork(9, r, t));
       TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE10_WORK, (a, r, t) -> a.getTimephasedBaselineWork(10, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(0, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE1_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(1, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE2_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(2, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE3_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(3, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE4_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(4, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE5_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(5, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE6_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(6, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE7_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(7, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE8_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(8, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE9_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(9, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(AssignmentField.BASELINE10_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(10, r, t));
    }
 
    private static final Map<FieldType, TimephasedNumericFunction> TIMEPHASED_NUMERIC_FUNCTIONS = new HashMap<>();
@@ -4219,6 +4230,17 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE8_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(8, r));
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE9_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(9, r));
       TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE10_MATERIAL, (a, r) -> a.getTimephasedBaselineMaterial(10, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(0, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE1_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(1, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE2_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(2, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE3_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(3, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE4_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(4, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE5_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(5, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE6_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(6, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE7_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(7, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE8_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(8, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE9_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(9, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(AssignmentField.BASELINE10_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(10, r));
    }
 
    private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(AssignmentField.START, AssignmentField.FINISH));

@@ -7206,6 +7206,17 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE8_WORK, (a, r, t) -> a.getTimephasedBaselineWork(8, r, t));
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE9_WORK, (a, r, t) -> a.getTimephasedBaselineWork(9, r, t));
       TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE10_WORK, (a, r, t) -> a.getTimephasedBaselineWork(10, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(0, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE1_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(1, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE2_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(2, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE3_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(3, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE4_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(4, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE5_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(5, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE6_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(6, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE7_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(7, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE8_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(8, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE9_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(9, r, t));
+      TIMEPHASED_WORK_FUNCTIONS.put(TaskField.BASELINE10_BUDGET_WORK, (a, r, t) -> a.getTimephasedBaselineBudgetWork(10, r, t));
    }
 
    private static final Map<FieldType, TimephasedNumericFunction> TIMEPHASED_NUMERIC_FUNCTIONS = new HashMap<>();
@@ -7231,6 +7242,17 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE8_COST, (a, r) -> a.getTimephasedBaselineCost(8, r));
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE9_COST, (a, r) -> a.getTimephasedBaselineCost(9, r));
       TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE10_COST, (a, r) -> a.getTimephasedBaselineCost(10, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(0, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE1_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(1, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE2_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(2, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE3_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(3, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE4_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(4, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE5_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(5, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE6_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(6, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE7_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(7, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE8_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(8, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE9_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(9, r));
+      TIMEPHASED_NUMERIC_FUNCTIONS.put(TaskField.BASELINE10_BUDGET_COST, (a, r) -> a.getTimephasedBaselineBudgetCost(10, r));
    }
 
    private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(TaskField.PARENT_TASK_UNIQUE_ID, TaskField.PREDECESSORS, TaskField.SUCCESSORS, TaskField.SCHEDULE_PERCENT_COMPLETE, TaskField.WORK_SPLITS));
