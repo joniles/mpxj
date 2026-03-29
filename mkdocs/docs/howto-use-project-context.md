@@ -10,6 +10,11 @@ components of the project, as illustrated by the simplified diagram below:
 
 
 ```mermaid
+---
+config:
+  look: handDrawn
+  theme: neutral
+---
 graph LR
     ProjectFile(ProjectFile)
     Configuration(Configuration)
@@ -41,6 +46,11 @@ differently, as the simplified diagram below illustrates:
 
 
 ```mermaid
+---
+config:
+  look: handDrawn
+  theme: neutral
+---
 graph LR
     ProjectContext(ProjectContext)
     CodeDefinitions(Code Definitions)
