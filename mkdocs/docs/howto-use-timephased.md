@@ -1457,7 +1457,8 @@ access the following budget timephased data over user supplied time ranges:
 * Timephased Baseline Budget Work
 			
 Note that these attributes will only be populated for budget resource
-assignments to the project summary task, and the project summary task itself.
+assignments to the project summary task, and the project summary task itself,
+and timephased budget data is only present in MPP files, not MSPDI files.
 
 ## Primavera P6
 
