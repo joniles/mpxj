@@ -189,13 +189,13 @@ class ResourceAssignmentFactory
             List<TimephasedWork> baselineWork = timephasedFactory.getBaselineWork(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_WORKS[index])));
             assignment.getRawTimephasedBaselineWork(index).addAll(baselineWork);
 
-            List<TimephasedCost> baselineCost = timephasedFactory.getBaselineCost(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_COSTS[index])));
+            List<TimephasedCost> baselineCost = timephasedFactory.getCost(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_COSTS[index])));
             assignment.getRawTimephasedBaselineCost(index).addAll(baselineCost);
 
             List<TimephasedWork> baselineBudgetWork = timephasedFactory.getBaselineWork(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_BUDGET_WORKS[index])));
             assignment.getRawTimephasedBaselineBudgetWork(index).addAll(baselineBudgetWork);
 
-            List<TimephasedCost> baselineBudgetCost = timephasedFactory.getBaselineCost(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_BUDGET_COSTS[index])));
+            List<TimephasedCost> baselineBudgetCost = timephasedFactory.getCost(baselineCalendar, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentFieldLists.RAW_TIMEPHASED_BASELINE_BUDGET_COSTS[index])));
             assignment.getRawTimephasedBaselineBudgetCost(index).addAll(baselineBudgetCost);
          }
 
@@ -211,7 +211,7 @@ class ResourceAssignmentFactory
          List<TimephasedWork> timephasedActualWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualRegularWorkData, timephasedActualIrregularWorkData);
          List<TimephasedWork> timephasedWork = timephasedFactory.getPlannedWork(calendar, assignment, timephasedWorkData, timephasedActualWork, resourceType);
          List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualOvertimeWorkData, timephasedActualIrregularWorkData);
-         List<TimephasedCost> budgetCost = getOrDefaultBudgetCost(assignment, () -> timephasedFactory.getBaselineCost(file.getDefaultCalendar(), timephasedBudgetCostData));
+         List<TimephasedCost> budgetCost = getOrDefaultBudgetCost(assignment, () -> timephasedFactory.getCost(file.getDefaultCalendar(), timephasedBudgetCostData));
          List<TimephasedWork> budgetWork = getOrDefaultBudgetWork(assignment, () -> timephasedFactory.getBaselineWork(calendar, timephasedBudgetWorkData));
 
          if (task.getDuration() == null || task.getDuration().getDuration() == 0)
@@ -316,6 +316,13 @@ class ResourceAssignmentFactory
       timephasedPlanned.add(tra);
    }
 
+   /**
+    * Retrieve or generate timephased budget cost data.
+    *
+    * @param assignment resource assignment
+    * @param supplier timephased cost supplier
+    * @return timephased budget cost data
+    */
    private List<TimephasedCost> getOrDefaultBudgetCost(ResourceAssignment assignment, Supplier<List<TimephasedCost>> supplier)
    {
       Resource resource = assignment.getResource();
@@ -350,6 +357,13 @@ class ResourceAssignmentFactory
       return Collections.singletonList(cost);
    }
 
+   /**
+    * Retrieve or generate timephased budget work data.
+    *
+    * @param assignment resource assignment
+    * @param supplier timephased work supplier
+    * @return timephased budget work data
+    */
    private List<TimephasedWork> getOrDefaultBudgetWork(ResourceAssignment assignment, Supplier<List<TimephasedWork>> supplier)
    {
       Resource resource = assignment.getResource();
