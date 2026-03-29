@@ -15,6 +15,11 @@ data structure.
 
 <figure markdown="span">
 ```mermaid
+---
+config:
+  look: handDrawn
+  theme: neutral
+---
 graph TD
     Project(Project)
     Resource(Resource)
