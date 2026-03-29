@@ -44,6 +44,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @SuppressWarnings("boxing") public class TimephasedBudgetTest
 {
+   /**
+    * Test retrieval of timephased budget data.
+    */
    @Test public void testBudget() throws Exception
    {
       List<LocalDateTimeRange> ranges = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 3, 26, 0, 0), LocalDateTime.of(2026, 4, 24, 0, 0), TimescaleUnits.DAYS);
@@ -78,6 +81,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedBudgetCost(ranges), new Double[]{16.00, 16.00, null, null, 16.0, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00});
    }
 
+   /**
+    * Test retrieval of timephased budget data with calendar exceptions.
+    */
    @Test public void testBudgetWithCalendarExceptions() throws Exception
    {
       List<LocalDateTimeRange> ranges = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 3, 26, 0, 0), LocalDateTime.of(2026, 4, 25, 0, 0), TimescaleUnits.DAYS);
@@ -107,6 +113,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedBudgetCost(ranges), new Double[]{12.00, 12.00, null, null, null, 12.00, 12.00, 12.00, 12.00, null, null, 12.00, 12.00, 12.00, 12.00, 12.00, null, null, 12.00, 12.00, 12.00, 12.00, 12.00, null, null, 12.00, 12.00, 12.00, 12.00, 12.00});
    }
 
+   /**
+    * Test retrieval of timephased budget data with manual edits.
+    */
    @Test public void testBudgetWithManualEdits() throws Exception
    {
       List<LocalDateTimeRange> ranges = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 3, 26, 0, 0), LocalDateTime.of(2026, 4, 24, 0, 0), TimescaleUnits.DAYS);
@@ -136,6 +145,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedBudgetCost(ranges), new Double[]{16.00, 16.00, null, null, 16.0, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00});
    }
 
+   /**
+    * Test retrieval of timephased budget data with manual edits and calendar exceptions.
+    */
    @Test public void testBudgetWithManualEditsAndCalendarExceptions() throws Exception
    {
       List<LocalDateTimeRange> ranges = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 3, 26, 0, 0), LocalDateTime.of(2026, 4, 25, 0, 0), TimescaleUnits.DAYS);
@@ -165,6 +177,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
       TimephasedTestHelper.testNumericSegments(assignment.getTimephasedBudgetCost(ranges), new Double[]{16.00, 16.00, null, null, 16.00, 16.00, null, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00, 16.00, null, null, 16.00, 16.00, 16.00, 16.00, 16.00});
    }
 
+   /**
+    * Test retrieval of baseline timephaesd budget data.
+    */
    @Test public void testBudgetBaselines() throws Exception
    {
       List<LocalDateTimeRange> ranges = new TimescaleHelper().createTimescale(LocalDateTime.of(2026, 3, 26, 0, 0), LocalDateTime.of(2026, 4, 25, 0, 0), TimescaleUnits.DAYS);
