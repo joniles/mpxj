@@ -75,6 +75,13 @@ import org.mpxj.common.NumberHelper;
  */
 public class MsPlannerReader
 {
+   public static void main(String[] argv)
+   {
+      MsPlannerReader reader = new MsPlannerReader(argv[0], argv[1]);
+      List<MsPlannerProject> projects = reader.getProjects();
+      System.out.println(projects);
+   }
+
    /**
     * Constructor.
     *
@@ -103,7 +110,7 @@ public class MsPlannerReader
     */
    public List<MsPlannerProject> getProjects()
    {
-      HttpURLConnection connection = createConnection("msdyn_projects?$select=msdyn_projectid,msdyn_subject,modifiedon,createdon,statecode,_msdyn_projectmanager_value,_msdyn_program_value");
+      HttpURLConnection connection = createConnection("msdyn_projects?$expand=msdyn_projectmanager($select=fullname)&$select=msdyn_projectid,msdyn_subject,modifiedon,createdon,statecode,_msdyn_program_value");
       int code = getResponseCode(connection);
 
       if (code != 200)
@@ -117,30 +124,16 @@ public class MsPlannerReader
       Map<UUID, String> programNames = loadProgramNames(data);
 
       return data.getList("value").stream()
-         .map(d -> {
-            MsPlannerProject.Builder builder = new MsPlannerProject.Builder()
+         .map(d -> new MsPlannerProject.Builder()
                .projectId(d.getUUID("msdyn_projectid"))
                .projectName(d.getString("msdyn_subject"))
                .modifiedOn(d.getDate("modifiedon"))
                .createdOn(d.getDate("createdon"))
-               .stateCode(d.getInteger("statecode"));
-               //.projectManagerName(d.get);
-
-
-
-            UUID programId = d.getUUID("_msdyn_program_value");
-//            if (programId != null)
-//            {
-//               project.setProgramId(programId);
-//               String programName = programNames.get(programId);
-//               if (programName != null)
-//               {
-//                  project.setProgramName(programName);
-//               }
-//            }
-
-            return builder.build();
-         })
+               .stateCode(d.getInteger("statecode"))
+               .projectManagerName(d.getRow("msdyn_projectmanager").getString("fullname"))
+               .programId(d.getUUID("_msdyn_program_value"))
+               .programName(programNames.get(d.getUUID("_msdyn_program_value")))
+               .build())
          .collect(Collectors.toList());
    }
 

@@ -57,6 +57,12 @@ class MapRow extends LinkedHashMap<String, Object>
       return row == null ? Collections.emptyList() : row;
    }
 
+   public MapRow getRow(String key)
+   {
+      MapRow row = (MapRow) get(key);
+      return row == null ? EMPTY_ROW : row;
+   }
+
    /**
     * Retrieve a string value.
     *
@@ -289,6 +295,8 @@ class MapRow extends LinkedHashMap<String, Object>
    {
       return UUID.fromString(value);
    }
+
+   private static final MapRow EMPTY_ROW = new MapRow();
 
    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
