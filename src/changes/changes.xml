@@ -6,6 +6,12 @@
 	</properties>
 	<body>
 		<release date="Unreleased" version="16.1.0">
+			<action dev="joniles" type="update">**Added support for reading timephased budget cost and work from MPP files.**</action>
+			<action dev="joniles" type="update">Improve identification of Budget resources when reading certain MPP files.</action>
+			<action dev="joniles" type="update">Added the following methods to the `ResourceAssignment` class to retrieve raw timephased budget cost and work: `getRawTimephasedBudgetCost`, `getRawTimephasedBudgetWork`, `getRawTimephasedBaselineBudgetWork`, and `getRawTimephasedBaselineBudgetCost`.</action>
+			<action dev="joniles" type="update">Added the following methods to the `ResourceAssignment` class to retrieve timephased budget cost and work: `getTimephasedBudgetCost`, `getTimephasedBudgetWork`, `getTimephasedBaselineBudgetCost`, and `getTimephasedBaselineBudgetWork`.</action>
+			<action dev="joniles" type="update">Added the following methods to the `Task` class to retrieve timephased budget cost and work: `getTimephasedBudgetCost`, `getTimephasedBudgetWork`, `getTimephasedBaselineBudgetCost`, and `getTimephasedBaselineBudgetWork`.</action>
+			<action dev="joniles" type="update">**Added support for accessing labor, non-labor and material costs from the task hierarchy for Primavera schedules.**</action>
 			<action dev="joniles" type="update">Added `ResourceType.NON_LABOR` to represent Non-Labor resources in Primavera P6 schedules.</action>
 			<action dev="joniles" type="update">When reading Primavera P6 schedules Planned, Actual and Remaining Labor, Non-Labor, Material and Expense costs are now rolled up from resource assignments to the task hierarchy.</action>
 			<action dev="joniles" type="update">The following Planned Cost attributes have been added to the `Task` class: Planned Cost Labor, Planned Cost Non Labor, Planned Cost Material, Planned Cost Expense.</action>

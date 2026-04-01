@@ -399,15 +399,15 @@ final class TimephasedDataFactory
    }
 
    /**
-    * Extracts baseline work from the MPP file for a specific baseline.
-    * Returns null if no baseline work is present, otherwise returns
+    * Read timephased work data which is not split between complete and planned.
+    * Returns null if no timephased work is present, otherwise returns
     * a list of timephased work items.
     *
-    * @param baselineCalendar baseline calendar
-    * @param data timephased baseline work data block
+    * @param calendar calendar for date calculations
+    * @param data timephased work data block
     * @return timephased work
     */
-   public List<TimephasedWork> getBaselineWork(ProjectCalendar baselineCalendar, byte[] data)
+   public List<TimephasedWork> getBaselineWork(ProjectCalendar calendar, byte[] data)
    {
       if (data == null || data.length == 0)
       {
@@ -445,7 +445,7 @@ final class TimephasedDataFactory
          }
          else
          {
-            double calendarWorkMinutesThisPeriod = baselineCalendar.getWork(start, end, TimeUnit.MINUTES).getDuration();
+            double calendarWorkMinutesThisPeriod = calendar.getWork(start, end, TimeUnit.MINUTES).getDuration();
             if (calendarWorkMinutesThisPeriod == 0)
             {
                calendarWorkMinutesThisPeriod = start.until(end, ChronoUnit.MINUTES);
@@ -474,15 +474,15 @@ final class TimephasedDataFactory
    }
 
    /**
-    * Extracts baseline cost from the MPP file for a specific baseline.
-    * Returns null if no baseline cost is present, otherwise returns
-    * a list of timephased work items.
+    * Read timephased cost data which is not split between complete and planned.
+    * Returns null if no timephased cost is present, otherwise returns
+    * a list of timephased cost items.
     *
-    * @param baselineCalendar baseline calendar
-    * @param data timephased baseline work data block
-    * @return timephased work
+    * @param calendar calendar for date calculations
+    * @param data timephased cost data block
+    * @return timephased cost
     */
-   public List<TimephasedCost> getBaselineCost(ProjectCalendar baselineCalendar, byte[] data)
+   public List<TimephasedCost> getCost(ProjectCalendar calendar, byte[] data)
    {
       if (data == null || data.length == 0)
       {
@@ -517,7 +517,7 @@ final class TimephasedDataFactory
          }
          else
          {
-            double calendarWorkMinutesThisPeriod = baselineCalendar.getWork(start, end, TimeUnit.MINUTES).getDuration();
+            double calendarWorkMinutesThisPeriod = calendar.getWork(start, end, TimeUnit.MINUTES).getDuration();
             if (calendarWorkMinutesThisPeriod == 0)
             {
                calendarWorkMinutesThisPeriod = start.until(end, ChronoUnit.MINUTES);

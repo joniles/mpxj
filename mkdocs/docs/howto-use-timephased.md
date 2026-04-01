@@ -378,7 +378,6 @@ Here's the timephased Work from Resource 2:
 |---|---|---|---|---|---|---|---|
 |Resource 2 Work|8.0h|8.0h|8.0h|null|null|8.0h|8.0h|
 
-
 #### Tasks
 Perhaps more interesting is what we see when we look at our tasks. In the sample
 file (as per the screenshot above), Task 1 and Task 2 represent work carried
@@ -497,7 +496,6 @@ You can see that, as expected, the values we are now retrieving are numeric
 rather than `Duration` instances, but the same logic is still applied for
 non-working periods where `null` is returned rather than zero.
 
-
 ### Material
 
 The following timephased material values are available on assignments for
@@ -578,7 +576,6 @@ correct units (in this case cubic metres). Here's the result of running the samp
 |Actual Material (m3)|0.2|0.1|null|null|null|null|null|
 |Remaining Material (m3)|null|0.1|0.2|null|null|0.2|0.2|
 |Material (m3)|0.2|0.2|0.2|null|null|0.2|0.2|
-
 
 ## Parametrised Methods
 
@@ -684,7 +681,6 @@ In this case we're retrieving details from a resource assignment, so we're using
 values from the `AssignmentField` enumeration to select the timephased data
 we're interested in. As we're retrieving costs, we're retrieving a `List` or
 `Number` instances.
-
 
 ### Material
 Finally, we'll retrieve timephased material utilisation from a resource:
@@ -937,7 +933,6 @@ scenarios.
 
 > These examples assume that you will be writing the completed project to an
 > MSPDI file to be opened by Microsoft Project.
-
 
 ### Custom Distribution
 
@@ -1408,6 +1403,62 @@ name "Start Split" is interesting as it illustrates that there can be a
 non-working period before work actually commences on the task. In this case
 `Task#getWorkSplits` will only return one `LocalDateTimeRange` instance,
 but this range begins after the task's start date.
+
+## Budget
+A less commonly used Microsoft Project feature allows users to create a budget
+for a project. To do this, specific budget resources are added. Resources have
+a Boolean Budget attribute, which when set to true indicates that the resource
+represents a budget amount. The resource type can be set to Work or Cost, which
+determines the type of budget being created. Each resource can therefore be
+used to break down the budget, for example: the total cost and work for the
+project can be broken down by creating resources representing the cost of
+the various materials required or the work needed from different types of
+skilled labour.
+
+To create a budget, budget resources need to be assigned to the project summary
+task (the task with an ID of zero), and for each of these resource assignments
+the Budget Cost or Budget Work attribute can be set to determine the budgeted
+amount for that resource.
+
+In common with other cost and work data in Microsoft Project, budget cost and
+work amounts have timephased data showing how each amount is accrued over time.
+By default budget cost and work is prorated, and so is distributed evenly over
+the duration of the project. This timephased data is affected by the default
+project calendar, and in the case of work resources, by the resource calendar.
+So non-working days from these calendars will affect how the cost or work is
+distributed over time. It is also possible for users to manually edit the
+budget resource assignment's distribution of cost and work in the same way as
+they can for a normal resource assignment, so timephased data may deviate from
+the default prorated distribution. Timephased budget data is also baselined, so
+versions of the project's budget are available in Baseline and Baselines
+1-10. 
+
+As with the other forms of timephased data we've been looking at in previous
+sections, budget timephased data is stored as part of the budget resource
+assignments, and rolled up to the project summary task. MPXJ provides access
+to both the raw budget timephased data from resource assignments, and timephased
+data distributed over user-supplied time ranges at both the resource assignment
+and task level.
+
+The `ResourceAssignment` class provides the following methods access the raw
+budget timephased data:
+
+* Raw Timephased Budget Cost
+* Raw Timephased Budget Work
+* Raw Timephased Baseline Budget Cost
+* Raw Timephased Baseline Budget Work
+
+Both the `ResourceAssignment` and `Task` classes also provide methods to
+access the following budget timephased data over user supplied time ranges:
+
+* Timephased Budget Cost
+* Timephased Budget Work
+* Timephased Baseline Budget Cost
+* Timephased Baseline Budget Work
+			
+Note that these attributes will only be populated for budget resource
+assignments to the project summary task, and the project summary task itself,
+and timephased budget data is only present in MPP files, not MSPDI files.
 
 ## Primavera P6
 
