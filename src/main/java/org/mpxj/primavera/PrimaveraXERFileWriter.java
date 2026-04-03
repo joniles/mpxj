@@ -1209,7 +1209,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
    /**
     * Assigns unique ID values to ProjectFile instance which do not have them.
-    * Retuens a list of project files which have been updated, so the change can be reverted later.
+    * Returns a list of project files which have been updated, so the change can be reverted later.
     *
     * @return list of updated ProjectFile instances
     */
@@ -1554,10 +1554,10 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       CALENDAR_COLUMNS.put("base_clndr_id", ProjectCalendar::getParentUniqueID);
       CALENDAR_COLUMNS.put("last_chng_date", c -> null);
       CALENDAR_COLUMNS.put("clndr_type", ProjectCalendar::getType);
-      CALENDAR_COLUMNS.put("day_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(c.getMinutesPerDay()) / 60));
-      CALENDAR_COLUMNS.put("week_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(c.getMinutesPerWeek()) / 60));
-      CALENDAR_COLUMNS.put("month_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(c.getMinutesPerMonth()) / 60));
-      CALENDAR_COLUMNS.put("year_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(c.getMinutesPerYear()) / 60));
+      CALENDAR_COLUMNS.put("day_hr_cnt", c -> Double.valueOf(NumberHelper.getInt(c.getMinutesPerDay()) / 60.0));
+      CALENDAR_COLUMNS.put("week_hr_cnt", c -> Double.valueOf(NumberHelper.getInt(c.getMinutesPerWeek()) / 60.0));
+      CALENDAR_COLUMNS.put("month_hr_cnt", c -> Double.valueOf(NumberHelper.getInt(c.getMinutesPerMonth()) / 60.0));
+      CALENDAR_COLUMNS.put("year_hr_cnt", c -> Double.valueOf(NumberHelper.getInt(c.getMinutesPerYear()) / 60.0));
       CALENDAR_COLUMNS.put("rsrc_private", c -> Boolean.valueOf(c.getPersonal()));
       CALENDAR_COLUMNS.put("clndr_data", c -> new ProjectCalendarStructuredTextWriter().getCalendarData(c));
    }
