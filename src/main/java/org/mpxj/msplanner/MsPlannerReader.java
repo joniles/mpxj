@@ -791,8 +791,8 @@ public class MsPlannerReader
       try
       {
          String filter = portfolioIds.stream()
-            .map(id -> "msdyn_programid eq " + id)
-            .collect(Collectors.joining(" or "));
+            .map(id -> "msdyn_programid%20eq%20" + id)
+            .collect(Collectors.joining("%20or%20"));
 
          HttpURLConnection connection = createConnection("msdyn_programs?$select=msdyn_programid,msdyn_name&$filter=" + filter);
          int code = getResponseCode(connection);
