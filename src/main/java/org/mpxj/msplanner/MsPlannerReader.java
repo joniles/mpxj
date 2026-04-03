@@ -120,15 +120,15 @@ public class MsPlannerReader
 
       return data.getList("value").stream()
          .map(d -> new MsPlannerProject.Builder()
-               .projectId(d.getUUID("msdyn_projectid"))
-               .projectName(d.getString("msdyn_subject"))
-               .modifiedOn(d.getDate("modifiedon"))
-               .createdOn(d.getDate("createdon"))
-               .stateCode(d.getInteger("statecode"))
-               .projectManagerName(d.getRow("msdyn_projectmanager").getString("fullname"))
-               .portfolioId(d.getUUID("_msdyn_program_value"))
-               .portfolioName(portfolioNames.get(d.getUUID("_msdyn_program_value")))
-               .build())
+            .projectId(d.getUUID("msdyn_projectid"))
+            .projectName(d.getString("msdyn_subject"))
+            .modifiedOn(d.getDate("modifiedon"))
+            .createdOn(d.getDate("createdon"))
+            .stateCode(d.getInteger("statecode"))
+            .projectManagerName(d.getRow("msdyn_projectmanager").getString("fullname"))
+            .portfolioId(d.getUUID("_msdyn_program_value"))
+            .portfolioName(portfolioNames.get(d.getUUID("_msdyn_program_value")))
+            .build())
          .collect(Collectors.toList());
    }
 
@@ -151,11 +151,11 @@ public class MsPlannerReader
 
       return data.getList("value").stream()
          .map(d -> new MsPlannerPortfolio.Builder()
-         .portfolioId(d.getUUID("msdyn_programid"))
-         .portfolioName(d.getString("msdyn_name"))
-         .modifiedOn(d.getDate("modifiedon"))
-         .createdOn(d.getDate("createdon"))
-         .build())
+            .portfolioId(d.getUUID("msdyn_programid"))
+            .portfolioName(d.getString("msdyn_name"))
+            .modifiedOn(d.getDate("modifiedon"))
+            .createdOn(d.getDate("createdon"))
+            .build())
          .collect(Collectors.toList());
    }
 

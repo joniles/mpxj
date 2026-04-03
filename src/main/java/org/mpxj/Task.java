@@ -6615,7 +6615,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    private List<Number> reduceTimephasedCost(List<LocalDateTimeRange> ranges, Function<Task, List<Number>> taskFn, Function<ResourceAssignment, List<Number>> assignmentFn)
    {
       return Stream.concat(getResourceAssignments().stream().map(assignmentFn), getChildTasks().stream()
-         .map(taskFn))
+            .map(taskFn))
          .reduce(TimephasedUtility::addTimephasedNumbers)
          .orElseGet(() -> Arrays.asList(new Number[ranges.size()]));
    }
