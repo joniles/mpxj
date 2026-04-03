@@ -75,6 +75,15 @@ unique ID of the project along with its name.
 We can then read an individual project by passing the project's unique ID to the 
 `readProject` method, which will return a `ProjectFile` instance.
 
+## Reading Portfolios
+Microsoft Planner can be configured to organise projects into portfolios.
+The ID and name of the portfolio each project belongs to are available as
+attributes of the `MsPlannerProject` class. Note that these will be `null`
+if the project has not been assigned to a portfolio.
+
+The `MsPlannerReader` and provides a `getPortfolios` method to allow you to
+retrieve a list of the available portfolios. Portfolios are represented by the
+`MsPlannerPortfolio` class.
 
 ## Authentication
 To get authentication working we'll be using Microsoft Entra which is
