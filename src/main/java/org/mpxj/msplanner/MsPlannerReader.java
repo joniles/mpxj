@@ -75,13 +75,6 @@ import org.mpxj.common.NumberHelper;
  */
 public class MsPlannerReader
 {
-   public static void main(String[] argv)
-   {
-      MsPlannerReader reader = new MsPlannerReader(argv[0], argv[1]);
-      List<MsPlannerProject> projects = reader.getProjects();
-      System.out.println(projects);
-   }
-
    /**
     * Constructor.
     *

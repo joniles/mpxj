@@ -140,7 +140,7 @@ public class MsPlannerProject
    private final String m_portfolioName;
    private final Integer m_stateCode;
 
-   public static class Builder
+   static class Builder
    {
       public MsPlannerProject.Builder projectId(UUID value)
       {

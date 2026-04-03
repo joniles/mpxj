@@ -91,7 +91,7 @@ public class MsPlannerPortfolio
    private final LocalDateTime m_modifiedOn;
    private final LocalDateTime m_createdOn;
 
-   public static class Builder
+   static class Builder
    {
       public MsPlannerPortfolio.Builder portfolioId(UUID value)
       {
