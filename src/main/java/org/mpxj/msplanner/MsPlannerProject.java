@@ -22,6 +22,7 @@
 
 package org.mpxj.msplanner;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -33,21 +34,16 @@ public class MsPlannerProject
    /**
     * Constructor.
     */
-   public MsPlannerProject()
+   private MsPlannerProject(Builder builder)
    {
-
-   }
-
-   /**
-    * Constructor.
-    *
-    * @param id project unique ID
-    * @param name project name
-    */
-   public MsPlannerProject(UUID id, String name)
-   {
-      m_projectId = id;
-      m_projectName = name;
+      m_projectId = builder.m_projectId;
+      m_projectName = builder.m_projectName;
+      m_modifiedOn = builder.m_modifiedOn;
+      m_createdOn = builder.m_createdOn;
+      m_projectManagerName = builder.m_projectManagerName;
+      m_portfolioId = builder.m_portfolioId;
+      m_portfolioName = builder.m_portfolioName;
+      m_stateCode = builder.m_stateCode;
    }
 
    /**
@@ -61,16 +57,6 @@ public class MsPlannerProject
    }
 
    /**
-    * Set the project's unique ID.
-    *
-    * @param projectId unique ID
-    */
-   public void setProjectId(UUID projectId)
-   {
-      m_projectId = projectId;
-   }
-
-   /**
     * Retrieve the project's name.
     *
     * @return project name
@@ -81,13 +67,63 @@ public class MsPlannerProject
    }
 
    /**
-    * Set the project's name.
+    * Retrieve the last modified date.
     *
-    * @param projectName project name
+    * @return modified date
     */
-   public void setProjectName(String projectName)
+   public LocalDateTime getModifiedOn()
    {
-      m_projectName = projectName;
+      return m_modifiedOn;
+   }
+
+   /**
+    * Retrieve the creation date.
+    *
+    * @return creation date
+    */
+   public LocalDateTime getCreatedOn()
+   {
+      return m_createdOn;
+   }
+
+   /**
+    * Retrieve the project manager name.
+    *
+    * @return project manager name
+    */
+   public String getProjectManagerName()
+   {
+      return m_projectManagerName;
+   }
+
+   /**
+    * Retrieve the portfolio ID.
+    *
+    * @return portfolio ID
+    */
+   public UUID getPortfolioId()
+   {
+      return m_portfolioId;
+   }
+
+   /**
+    * Retrieve the portfolio name.
+    *
+    * @return portfolio name
+    */
+   public String getPortfolioName()
+   {
+      return m_portfolioName;
+   }
+
+   /**
+    * Retrieve the state code (0=Active, 1=Inactive).
+    *
+    * @return state code
+    */
+   public Integer getStateCode()
+   {
+      return m_stateCode;
    }
 
    @Override public String toString()
@@ -95,6 +131,78 @@ public class MsPlannerProject
       return "[MsPlannerProject projectId=" + m_projectId + ", projectName=" + m_projectName + "]";
    }
 
-   private UUID m_projectId;
-   private String m_projectName;
+   private final UUID m_projectId;
+   private final String m_projectName;
+   private final LocalDateTime m_modifiedOn;
+   private final LocalDateTime m_createdOn;
+   private final String m_projectManagerName;
+   private final UUID m_portfolioId;
+   private final String m_portfolioName;
+   private final Integer m_stateCode;
+
+   static class Builder
+   {
+      public MsPlannerProject.Builder projectId(UUID value)
+      {
+         m_projectId = value;
+         return this;
+      }
+
+      public MsPlannerProject.Builder projectName(String value)
+      {
+         m_projectName = value;
+         return this;
+      }
+
+      public MsPlannerProject.Builder modifiedOn(LocalDateTime value)
+      {
+         m_modifiedOn = value;
+         return this;
+      }
+
+      public MsPlannerProject.Builder createdOn(LocalDateTime value)
+      {
+         m_createdOn = value;
+         return this;
+      }
+
+      public MsPlannerProject.Builder projectManagerName(String value)
+      {
+         m_projectManagerName = value;
+         return this;
+      }
+
+      public MsPlannerProject.Builder portfolioId(UUID value)
+      {
+         m_portfolioId = value;
+         return this;
+      }
+
+      public MsPlannerProject.Builder portfolioName(String value)
+      {
+         m_portfolioName = value;
+         return this;
+      }
+
+      public MsPlannerProject.Builder stateCode(Integer value)
+      {
+         m_stateCode = value;
+         return this;
+      }
+
+      public MsPlannerProject build()
+      {
+         return new MsPlannerProject(this);
+      }
+
+      private UUID m_projectId;
+      private String m_projectName;
+      private LocalDateTime m_modifiedOn;
+      private LocalDateTime m_createdOn;
+      private String m_projectManagerName;
+      private UUID m_portfolioId;
+      private String m_portfolioName;
+      private Integer m_stateCode;
+   }
+
 }

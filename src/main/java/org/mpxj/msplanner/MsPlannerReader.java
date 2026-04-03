@@ -37,6 +37,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
@@ -102,7 +103,43 @@ public class MsPlannerReader
     */
    public List<MsPlannerProject> getProjects()
    {
-      HttpURLConnection connection = createConnection("msdyn_projects?$select=msdyn_projectid,msdyn_subject");
+      HttpURLConnection connection = createConnection("msdyn_projects?$expand=msdyn_projectmanager($select=fullname)&$select=msdyn_projectid,msdyn_subject,modifiedon,createdon,statecode,_msdyn_program_value");
+      int code = getResponseCode(connection);
+
+      if (code != 200)
+      {
+         throw new MsPlannerException(getExceptionMessage(connection, code));
+      }
+
+      MapRow data = getMapRow(connection);
+
+      // Load portfolio names for projects that have a portfolio reference.
+      // We need to do this as Microsoft haven't rolled this out reliably
+      // to all Planner tenants, so we can't just expand the relation.
+      Map<UUID, String> portfolioNames = loadPortfolioNames(data);
+
+      return data.getList("value").stream()
+         .map(d -> new MsPlannerProject.Builder()
+               .projectId(d.getUUID("msdyn_projectid"))
+               .projectName(d.getString("msdyn_subject"))
+               .modifiedOn(d.getDate("modifiedon"))
+               .createdOn(d.getDate("createdon"))
+               .stateCode(d.getInteger("statecode"))
+               .projectManagerName(d.getRow("msdyn_projectmanager").getString("fullname"))
+               .portfolioId(d.getUUID("_msdyn_program_value"))
+               .portfolioName(portfolioNames.get(d.getUUID("_msdyn_program_value")))
+               .build())
+         .collect(Collectors.toList());
+   }
+
+   /**
+    * Retrieve a list of portfolios (programs) available in Microsoft Planner.
+    *
+    * @return list of MsPlannerPortfolio instances representing portfolios
+    */
+   public List<MsPlannerPortfolio> getPortfolios()
+   {
+      HttpURLConnection connection = createConnection("msdyn_programs?$select=msdyn_programid,msdyn_name,modifiedon,createdon");
       int code = getResponseCode(connection);
 
       if (code != 200)
@@ -113,7 +150,12 @@ public class MsPlannerReader
       MapRow data = getMapRow(connection);
 
       return data.getList("value").stream()
-         .map(d -> new MsPlannerProject(d.getUUID("msdyn_projectid"), d.getString("msdyn_subject")))
+         .map(d -> new MsPlannerPortfolio.Builder()
+         .portfolioId(d.getUUID("msdyn_programid"))
+         .portfolioName(d.getString("msdyn_name"))
+         .modifiedOn(d.getDate("modifiedon"))
+         .createdOn(d.getDate("createdon"))
+         .build())
          .collect(Collectors.toList());
    }
 
@@ -441,7 +483,7 @@ public class MsPlannerReader
          name = data.getString("description");
          if (name == null)
          {
-            name = "Unititled " + (m_calendarIndex++);
+            name = "Untitled " + (m_calendarIndex++);
          }
       }
 
@@ -717,12 +759,66 @@ public class MsPlannerReader
    }
 
    /**
+    * Load portfolio names for projects that reference a portfolio.
+    *
+    * @param projectData the project list data containing _msdyn_program_value fields
+    * @return map of program UUID to portfolio name
+    */
+   private Map<UUID, String> loadPortfolioNames(MapRow projectData)
+   {
+      // Collect unique program IDs from projects
+      List<UUID> portfolioIds = projectData.getList("value").stream()
+         .map(d -> d.getUUID("_msdyn_program_value"))
+         .filter(Objects::nonNull)
+         .distinct()
+         .collect(Collectors.toList());
+
+      if (portfolioIds.isEmpty())
+      {
+         return Collections.emptyMap();
+      }
+
+      Map<UUID, String> programNames = new HashMap<>();
+
+      // Try to load portfolio names - if the entity doesn't exist, return empty map
+      try
+      {
+         String filter = portfolioIds.stream()
+            .map(id -> "msdyn_programid%20eq%20" + id)
+            .collect(Collectors.joining("%20or%20"));
+
+         HttpURLConnection connection = createConnection("msdyn_programs?$select=msdyn_programid,msdyn_name&$filter=" + filter);
+         int code = getResponseCode(connection);
+
+         if (code == 200)
+         {
+            MapRow data = getMapRow(connection);
+            data.getList("value").forEach(d -> {
+               UUID id = d.getUUID("msdyn_programid");
+               String name = d.getString("msdyn_name");
+               if (id != null && name != null)
+               {
+                  programNames.put(id, name);
+               }
+            });
+         }
+      }
+
+      catch (Exception e)
+      {
+         // msdyn_programs entity may not be available - ignore
+      }
+
+      return programNames;
+   }
+
+   /**
     * Read and apply any baseline data.
     */
    private void readBaselineData()
    {
       // We're retrieving the baseline project data as well as the task data,
-      // but we're not currenty making use of the project-level data.
+      // but we're not currently making use of the project-level data.
       HttpURLConnection connection = createConnection("msdyn_projectbaselinedatas?$filter=_msdyn_projectid_value%20eq%20" + m_projectID + "&$expand=msdyn_msdyn_projectbaselinedata_msdyn_projectbaselinetaskdata");
       int code = getResponseCode(connection);
 

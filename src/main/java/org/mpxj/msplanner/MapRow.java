@@ -58,6 +58,18 @@ class MapRow extends LinkedHashMap<String, Object>
    }
 
    /**
+    * Retreve a deserialized map as a MapRow instance.
+    *
+    * @param key map key
+    * @return MapRow instance
+    */
+   public MapRow getRow(String key)
+   {
+      MapRow row = (MapRow) get(key);
+      return row == null ? EMPTY_ROW : row;
+   }
+
+   /**
     * Retrieve a string value.
     *
     * @param key map key
@@ -289,6 +301,8 @@ class MapRow extends LinkedHashMap<String, Object>
    {
       return UUID.fromString(value);
    }
+
+   private static final MapRow EMPTY_ROW = new MapRow();
 
    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
