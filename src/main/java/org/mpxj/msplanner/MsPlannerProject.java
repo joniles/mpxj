@@ -41,8 +41,8 @@ public class MsPlannerProject
       m_modifiedOn = builder.m_modifiedOn;
       m_createdOn = builder.m_createdOn;
       m_projectManagerName = builder.m_projectManagerName;
-      m_programId = builder.m_programId;
-      m_programName = builder.m_programName;
+      m_portfolioId = builder.m_portfolioId;
+      m_portfolioName = builder.m_portfolioName;
       m_stateCode = builder.m_stateCode;
    }
 
@@ -65,6 +65,7 @@ public class MsPlannerProject
    {
       return m_projectName;
    }
+
    /**
     * Retrieve the last modified date.
     *
@@ -96,23 +97,23 @@ public class MsPlannerProject
    }
 
    /**
-    * Retrieve the program/portfolio ID.
+    * Retrieve the portfolio ID.
     *
-    * @return program ID
+    * @return portfolio ID
     */
-   public UUID getProgramId()
+   public UUID getPortfolioId()
    {
-      return m_programId;
+      return m_portfolioId;
    }
 
    /**
-    * Retrieve the program/portfolio name.
+    * Retrieve the portfolio name.
     *
-    * @return program name
+    * @return portfolio name
     */
-   public String getProgramName()
+   public String getPortfolioName()
    {
-      return m_programName;
+      return m_portfolioName;
    }
 
    /**
@@ -135,8 +136,8 @@ public class MsPlannerProject
    private final LocalDateTime m_modifiedOn;
    private final LocalDateTime m_createdOn;
    private final String m_projectManagerName;
-   private final UUID m_programId;
-   private final String m_programName;
+   private final UUID m_portfolioId;
+   private final String m_portfolioName;
    private final Integer m_stateCode;
 
    public static class Builder
@@ -171,15 +172,15 @@ public class MsPlannerProject
          return this;
       }
 
-      public MsPlannerProject.Builder programId(UUID value)
+      public MsPlannerProject.Builder portfolioId(UUID value)
       {
-         m_programId = value;
+         m_portfolioId = value;
          return this;
       }
 
-      public MsPlannerProject.Builder programName(String value)
+      public MsPlannerProject.Builder portfolioName(String value)
       {
-         m_programName = value;
+         m_portfolioName = value;
          return this;
       }
 
@@ -199,8 +200,8 @@ public class MsPlannerProject
       private LocalDateTime m_modifiedOn;
       private LocalDateTime m_createdOn;
       private String m_projectManagerName;
-      private UUID m_programId;
-      private String m_programName;
+      private UUID m_portfolioId;
+      private String m_portfolioName;
       private Integer m_stateCode;
    }
 
