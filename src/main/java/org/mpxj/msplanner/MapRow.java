@@ -57,6 +57,12 @@ class MapRow extends LinkedHashMap<String, Object>
       return row == null ? Collections.emptyList() : row;
    }
 
+   /**
+    * Retreve a deserialized map as a MapRow instance.
+    *
+    * @param key map key
+    * @return MapRow instance
+    */
    public MapRow getRow(String key)
    {
       MapRow row = (MapRow) get(key);
