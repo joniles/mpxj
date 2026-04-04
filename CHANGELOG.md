@@ -5,6 +5,28 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
+## 16.1.0 (2026-04-04)
+* Provided additional attributes as part of the `MsPlannerProject` class, populated when retrieving a list of projects from Microsoft Planner (Contributed by Gevork Aslanov).
+* Added the `MsPlannerReader#getPortfolios` method to retrieve a list of portfolios defined in Microsoft Planner (Contributed by Gevork Aslanov).
+* Updated to ensure that decimal values for hours per day, week, month and year are not truncated when writing calendars to XER files.
+* **Added support for reading timephased budget cost and work from MPP files.**
+* Improve identification of Budget resources when reading certain MPP files.
+* Added the following methods to the `ResourceAssignment` class to retrieve raw timephased budget cost and work: `getRawTimephasedBudgetCost`, `getRawTimephasedBudgetWork`, `getRawTimephasedBaselineBudgetWork`, and `getRawTimephasedBaselineBudgetCost`.
+* Added the following methods to the `ResourceAssignment` class to retrieve timephased budget cost and work: `getTimephasedBudgetCost`, `getTimephasedBudgetWork`, `getTimephasedBaselineBudgetCost`, and `getTimephasedBaselineBudgetWork`.
+* Added the following methods to the `Task` class to retrieve timephased budget cost and work: `getTimephasedBudgetCost`, `getTimephasedBudgetWork`, `getTimephasedBaselineBudgetCost`, and `getTimephasedBaselineBudgetWork`.
+* **Added support for accessing labor, non-labor and material costs from the task hierarchy for Primavera schedules.**
+* Added `ResourceType.NON_LABOR` to represent Non-Labor resources in Primavera P6 schedules.
+* When reading Primavera P6 schedules Planned, Actual and Remaining Labor, Non-Labor, Material and Expense costs are now rolled up from resource assignments to the task hierarchy.
+* The following Planned Cost attributes have been added to the `Task` class: Planned Cost Labor, Planned Cost Non Labor, Planned Cost Material, Planned Cost Expense.
+* The following Actual Cost attributes have been added to the `Task` class: Actual Cost Labor, Actual Cost Non Labor, Actual Cost Material, Actual Cost Expense.
+* The following Remaining Cost attributes have been added to the `Task` class: Remaining Cost Labor, Remaining Cost Non Labor, Remaining Cost Material, Remaining Cost Expense.
+* For consistency, the `Task#setActualWorkNonlabor` method has been marked as deprecated, use `Task#setActualWorkNonLabor` instead.
+* For consistency, the `Task#getActualWorkNonlabor` method has been marked as deprecated, use `Task#getActualWorkNonLabor` instead.
+* For consistency, the `Task#setPlannedWorkNonlabor` method has been marked as deprecated, use `Task#setPlannedWorkNonLabor` instead.
+* For consistency, the `Task#getPlannedWorkNonlabor` method has been marked as deprecated, use `Task#getPlannedWorkNonLabor` instead.
+* For consistency, the `Task#setRemainingWorkNonlabor` method has been marked as deprecated, use `Task#setRemainingWorkNonLabor` instead.
+* For consistency, the `Task#getRemainingWorkNonlabor` method has been marked as deprecated, use `Task#getRemainingWorkNonLabor` instead.
+
 ## 16.0.0 (2026-03-12)
 * **NEW FEATURES**
 * `JsonWriter` now provides `getWriteTimephasedData` and `setWriteTimephasedData` methods. Setting this property to true will include timephased data in the JSON output. This property is set to false by default.

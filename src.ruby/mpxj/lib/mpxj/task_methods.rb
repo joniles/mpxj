@@ -53,6 +53,34 @@ module MPXJ
       get_float_value(attribute_values['actual_cost'])
     end
 
+    # Retrieve the Actual Cost Expense value
+    #
+    # @return Actual Cost Expense value
+    def actual_cost_expense
+      get_float_value(attribute_values['actual_cost_expense'])
+    end
+
+    # Retrieve the Actual Cost Labor value
+    #
+    # @return Actual Cost Labor value
+    def actual_cost_labor
+      get_float_value(attribute_values['actual_cost_labor'])
+    end
+
+    # Retrieve the Actual Cost Material value
+    #
+    # @return Actual Cost Material value
+    def actual_cost_material
+      get_float_value(attribute_values['actual_cost_material'])
+    end
+
+    # Retrieve the Actual Cost Non Labor value
+    #
+    # @return Actual Cost Non Labor value
+    def actual_cost_non_labor
+      get_float_value(attribute_values['actual_cost_non_labor'])
+    end
+
     # Retrieve the Actual Duration value
     #
     # @return Actual Duration value
@@ -5688,6 +5716,34 @@ module MPXJ
       get_float_value(attribute_values['planned_cost'])
     end
 
+    # Retrieve the Planned Cost Expense value
+    #
+    # @return Planned Cost Expense value
+    def planned_cost_expense
+      get_float_value(attribute_values['planned_cost_expense'])
+    end
+
+    # Retrieve the Planned Cost Labor value
+    #
+    # @return Planned Cost Labor value
+    def planned_cost_labor
+      get_float_value(attribute_values['planned_cost_labor'])
+    end
+
+    # Retrieve the Planned Cost Material value
+    #
+    # @return Planned Cost Material value
+    def planned_cost_material
+      get_float_value(attribute_values['planned_cost_material'])
+    end
+
+    # Retrieve the Planned Cost Non Labor value
+    #
+    # @return Planned Cost Non Labor value
+    def planned_cost_non_labor
+      get_float_value(attribute_values['planned_cost_non_labor'])
+    end
+
     # Retrieve the Planned Duration value
     #
     # @return Planned Duration value
@@ -5812,6 +5868,34 @@ module MPXJ
     # @return Remaining Cost value
     def remaining_cost
       get_float_value(attribute_values['remaining_cost'])
+    end
+
+    # Retrieve the Remaining Cost Expense value
+    #
+    # @return Remaining Cost Expense value
+    def remaining_cost_expense
+      get_float_value(attribute_values['remaining_cost_expense'])
+    end
+
+    # Retrieve the Remaining Cost Labor value
+    #
+    # @return Remaining Cost Labor value
+    def remaining_cost_labor
+      get_float_value(attribute_values['remaining_cost_labor'])
+    end
+
+    # Retrieve the Remaining Cost Material value
+    #
+    # @return Remaining Cost Material value
+    def remaining_cost_material
+      get_float_value(attribute_values['remaining_cost_material'])
+    end
+
+    # Retrieve the Remaining Cost Non Labor value
+    #
+    # @return Remaining Cost Non Labor value
+    def remaining_cost_non_labor
+      get_float_value(attribute_values['remaining_cost_non_labor'])
     end
 
     # Retrieve the Remaining Duration value
@@ -6991,6 +7075,10 @@ module MPXJ
       'activity_status' => :activity_status,
       'activity_type' => :activity_type,
       'actual_cost' => :currency,
+      'actual_cost_expense' => :currency,
+      'actual_cost_labor' => :currency,
+      'actual_cost_material' => :currency,
+      'actual_cost_non_labor' => :currency,
       'actual_duration' => :duration,
       'actual_duration_units' => :time_units,
       'actual_finish' => :date,
@@ -7796,6 +7884,10 @@ module MPXJ
       'physical_percent_complete' => :percentage,
       'placeholder' => :boolean,
       'planned_cost' => :currency,
+      'planned_cost_expense' => :currency,
+      'planned_cost_labor' => :currency,
+      'planned_cost_material' => :currency,
+      'planned_cost_non_labor' => :currency,
       'planned_duration' => :duration,
       'planned_finish' => :date,
       'planned_start' => :date,
@@ -7814,6 +7906,10 @@ module MPXJ
       'recurring_data' => :binary,
       'regular_work' => :duration,
       'remaining_cost' => :currency,
+      'remaining_cost_expense' => :currency,
+      'remaining_cost_labor' => :currency,
+      'remaining_cost_material' => :currency,
+      'remaining_cost_non_labor' => :currency,
       'remaining_duration' => :duration,
       'remaining_early_finish' => :date,
       'remaining_early_start' => :date,

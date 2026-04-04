@@ -2937,6 +2937,20 @@ module MPXJ
       attribute_values['raw_timephased_actual_regular_work']
     end
 
+    # Retrieve the Raw Timephased Baseline10 Budget Cost value
+    #
+    # @return Raw Timephased Baseline10 Budget Cost value
+    def raw_timephased_baseline10_budget_cost
+      attribute_values['raw_timephased_baseline10_budget_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline10 Budget Work value
+    #
+    # @return Raw Timephased Baseline10 Budget Work value
+    def raw_timephased_baseline10_budget_work
+      attribute_values['raw_timephased_baseline10_budget_work']
+    end
+
     # Retrieve the Raw Timephased Baseline10 Cost value
     #
     # @return Raw Timephased Baseline10 Cost value
@@ -2949,6 +2963,20 @@ module MPXJ
     # @return Raw Timephased Baseline10 Work value
     def raw_timephased_baseline10_work
       attribute_values['raw_timephased_baseline10_work']
+    end
+
+    # Retrieve the Raw Timephased Baseline1 Budget Cost value
+    #
+    # @return Raw Timephased Baseline1 Budget Cost value
+    def raw_timephased_baseline1_budget_cost
+      attribute_values['raw_timephased_baseline1_budget_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline1 Budget Work value
+    #
+    # @return Raw Timephased Baseline1 Budget Work value
+    def raw_timephased_baseline1_budget_work
+      attribute_values['raw_timephased_baseline1_budget_work']
     end
 
     # Retrieve the Raw Timephased Baseline1 Cost value
@@ -2965,6 +2993,20 @@ module MPXJ
       attribute_values['raw_timephased_baseline1_work']
     end
 
+    # Retrieve the Raw Timephased Baseline2 Budget Cost value
+    #
+    # @return Raw Timephased Baseline2 Budget Cost value
+    def raw_timephased_baseline2_budget_cost
+      attribute_values['raw_timephased_baseline2_budget_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline2 Budget Work value
+    #
+    # @return Raw Timephased Baseline2 Budget Work value
+    def raw_timephased_baseline2_budget_work
+      attribute_values['raw_timephased_baseline2_budget_work']
+    end
+
     # Retrieve the Raw Timephased Baseline2 Cost value
     #
     # @return Raw Timephased Baseline2 Cost value
@@ -2977,6 +3019,20 @@ module MPXJ
     # @return Raw Timephased Baseline2 Work value
     def raw_timephased_baseline2_work
       attribute_values['raw_timephased_baseline2_work']
+    end
+
+    # Retrieve the Raw Timephased Baseline3 Budget Cost value
+    #
+    # @return Raw Timephased Baseline3 Budget Cost value
+    def raw_timephased_baseline3_budget_cost
+      attribute_values['raw_timephased_baseline3_budget_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline3 Budget Work value
+    #
+    # @return Raw Timephased Baseline3 Budget Work value
+    def raw_timephased_baseline3_budget_work
+      attribute_values['raw_timephased_baseline3_budget_work']
     end
 
     # Retrieve the Raw Timephased Baseline3 Cost value
@@ -2993,6 +3049,20 @@ module MPXJ
       attribute_values['raw_timephased_baseline3_work']
     end
 
+    # Retrieve the Raw Timephased Baseline4 Budget Cost value
+    #
+    # @return Raw Timephased Baseline4 Budget Cost value
+    def raw_timephased_baseline4_budget_cost
+      attribute_values['raw_timephased_baseline4_budget_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline4 Budget Work value
+    #
+    # @return Raw Timephased Baseline4 Budget Work value
+    def raw_timephased_baseline4_budget_work
+      attribute_values['raw_timephased_baseline4_budget_work']
+    end
+
     # Retrieve the Raw Timephased Baseline4 Cost value
     #
     # @return Raw Timephased Baseline4 Cost value
@@ -3005,6 +3075,20 @@ module MPXJ
     # @return Raw Timephased Baseline4 Work value
     def raw_timephased_baseline4_work
       attribute_values['raw_timephased_baseline4_work']
+    end
+
+    # Retrieve the Raw Timephased Baseline5 Budget Cost value
+    #
+    # @return Raw Timephased Baseline5 Budget Cost value
+    def raw_timephased_baseline5_budget_cost
+      attribute_values['raw_timephased_baseline5_budget_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline5 Budget Work value
+    #
+    # @return Raw Timephased Baseline5 Budget Work value
+    def raw_timephased_baseline5_budget_work
+      attribute_values['raw_timephased_baseline5_budget_work']
     end
 
     # Retrieve the Raw Timephased Baseline5 Cost value
@@ -3021,6 +3105,20 @@ module MPXJ
       attribute_values['raw_timephased_baseline5_work']
     end
 
+    # Retrieve the Raw Timephased Baseline6 Budget Cost value
+    #
+    # @return Raw Timephased Baseline6 Budget Cost value
+    def raw_timephased_baseline6_budget_cost
+      attribute_values['raw_timephased_baseline6_budget_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline6 Budget Work value
+    #
+    # @return Raw Timephased Baseline6 Budget Work value
+    def raw_timephased_baseline6_budget_work
+      attribute_values['raw_timephased_baseline6_budget_work']
+    end
+
     # Retrieve the Raw Timephased Baseline6 Cost value
     #
     # @return Raw Timephased Baseline6 Cost value
@@ -3033,6 +3131,20 @@ module MPXJ
     # @return Raw Timephased Baseline6 Work value
     def raw_timephased_baseline6_work
       attribute_values['raw_timephased_baseline6_work']
+    end
+
+    # Retrieve the Raw Timephased Baseline7 Budget Cost value
+    #
+    # @return Raw Timephased Baseline7 Budget Cost value
+    def raw_timephased_baseline7_budget_cost
+      attribute_values['raw_timephased_baseline7_budget_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline7 Budget Work value
+    #
+    # @return Raw Timephased Baseline7 Budget Work value
+    def raw_timephased_baseline7_budget_work
+      attribute_values['raw_timephased_baseline7_budget_work']
     end
 
     # Retrieve the Raw Timephased Baseline7 Cost value
@@ -3049,6 +3161,20 @@ module MPXJ
       attribute_values['raw_timephased_baseline7_work']
     end
 
+    # Retrieve the Raw Timephased Baseline8 Budget Cost value
+    #
+    # @return Raw Timephased Baseline8 Budget Cost value
+    def raw_timephased_baseline8_budget_cost
+      attribute_values['raw_timephased_baseline8_budget_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline8 Budget Work value
+    #
+    # @return Raw Timephased Baseline8 Budget Work value
+    def raw_timephased_baseline8_budget_work
+      attribute_values['raw_timephased_baseline8_budget_work']
+    end
+
     # Retrieve the Raw Timephased Baseline8 Cost value
     #
     # @return Raw Timephased Baseline8 Cost value
@@ -3061,6 +3187,20 @@ module MPXJ
     # @return Raw Timephased Baseline8 Work value
     def raw_timephased_baseline8_work
       attribute_values['raw_timephased_baseline8_work']
+    end
+
+    # Retrieve the Raw Timephased Baseline9 Budget Cost value
+    #
+    # @return Raw Timephased Baseline9 Budget Cost value
+    def raw_timephased_baseline9_budget_cost
+      attribute_values['raw_timephased_baseline9_budget_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline9 Budget Work value
+    #
+    # @return Raw Timephased Baseline9 Budget Work value
+    def raw_timephased_baseline9_budget_work
+      attribute_values['raw_timephased_baseline9_budget_work']
     end
 
     # Retrieve the Raw Timephased Baseline9 Cost value
@@ -3077,6 +3217,20 @@ module MPXJ
       attribute_values['raw_timephased_baseline9_work']
     end
 
+    # Retrieve the Raw Timephased Baseline Budget Cost value
+    #
+    # @return Raw Timephased Baseline Budget Cost value
+    def raw_timephased_baseline_budget_cost
+      attribute_values['raw_timephased_baseline_budget_cost']
+    end
+
+    # Retrieve the Raw Timephased Baseline Budget Work value
+    #
+    # @return Raw Timephased Baseline Budget Work value
+    def raw_timephased_baseline_budget_work
+      attribute_values['raw_timephased_baseline_budget_work']
+    end
+
     # Retrieve the Raw Timephased Baseline Cost value
     #
     # @return Raw Timephased Baseline Cost value
@@ -3089,6 +3243,20 @@ module MPXJ
     # @return Raw Timephased Baseline Work value
     def raw_timephased_baseline_work
       attribute_values['raw_timephased_baseline_work']
+    end
+
+    # Retrieve the Raw Timephased Budget Cost value
+    #
+    # @return Raw Timephased Budget Cost value
+    def raw_timephased_budget_cost
+      attribute_values['raw_timephased_budget_cost']
+    end
+
+    # Retrieve the Raw Timephased Budget Work value
+    #
+    # @return Raw Timephased Budget Work value
+    def raw_timephased_budget_work
+      attribute_values['raw_timephased_budget_work']
     end
 
     # Retrieve the Raw Timephased Planned Work value
@@ -4113,28 +4281,52 @@ module MPXJ
       'rate_source' => :rate_source,
       'raw_timephased_actual_overtime_work' => :timephased_work_list,
       'raw_timephased_actual_regular_work' => :timephased_work_list,
+      'raw_timephased_baseline10_budget_cost' => :timephased_cost_list,
+      'raw_timephased_baseline10_budget_work' => :timephased_work_list,
       'raw_timephased_baseline10_cost' => :timephased_cost_list,
       'raw_timephased_baseline10_work' => :timephased_work_list,
+      'raw_timephased_baseline1_budget_cost' => :timephased_cost_list,
+      'raw_timephased_baseline1_budget_work' => :timephased_work_list,
       'raw_timephased_baseline1_cost' => :timephased_cost_list,
       'raw_timephased_baseline1_work' => :timephased_work_list,
+      'raw_timephased_baseline2_budget_cost' => :timephased_cost_list,
+      'raw_timephased_baseline2_budget_work' => :timephased_work_list,
       'raw_timephased_baseline2_cost' => :timephased_cost_list,
       'raw_timephased_baseline2_work' => :timephased_work_list,
+      'raw_timephased_baseline3_budget_cost' => :timephased_cost_list,
+      'raw_timephased_baseline3_budget_work' => :timephased_work_list,
       'raw_timephased_baseline3_cost' => :timephased_cost_list,
       'raw_timephased_baseline3_work' => :timephased_work_list,
+      'raw_timephased_baseline4_budget_cost' => :timephased_cost_list,
+      'raw_timephased_baseline4_budget_work' => :timephased_work_list,
       'raw_timephased_baseline4_cost' => :timephased_cost_list,
       'raw_timephased_baseline4_work' => :timephased_work_list,
+      'raw_timephased_baseline5_budget_cost' => :timephased_cost_list,
+      'raw_timephased_baseline5_budget_work' => :timephased_work_list,
       'raw_timephased_baseline5_cost' => :timephased_cost_list,
       'raw_timephased_baseline5_work' => :timephased_work_list,
+      'raw_timephased_baseline6_budget_cost' => :timephased_cost_list,
+      'raw_timephased_baseline6_budget_work' => :timephased_work_list,
       'raw_timephased_baseline6_cost' => :timephased_cost_list,
       'raw_timephased_baseline6_work' => :timephased_work_list,
+      'raw_timephased_baseline7_budget_cost' => :timephased_cost_list,
+      'raw_timephased_baseline7_budget_work' => :timephased_work_list,
       'raw_timephased_baseline7_cost' => :timephased_cost_list,
       'raw_timephased_baseline7_work' => :timephased_work_list,
+      'raw_timephased_baseline8_budget_cost' => :timephased_cost_list,
+      'raw_timephased_baseline8_budget_work' => :timephased_work_list,
       'raw_timephased_baseline8_cost' => :timephased_cost_list,
       'raw_timephased_baseline8_work' => :timephased_work_list,
+      'raw_timephased_baseline9_budget_cost' => :timephased_cost_list,
+      'raw_timephased_baseline9_budget_work' => :timephased_work_list,
       'raw_timephased_baseline9_cost' => :timephased_cost_list,
       'raw_timephased_baseline9_work' => :timephased_work_list,
+      'raw_timephased_baseline_budget_cost' => :timephased_cost_list,
+      'raw_timephased_baseline_budget_work' => :timephased_work_list,
       'raw_timephased_baseline_cost' => :timephased_cost_list,
       'raw_timephased_baseline_work' => :timephased_work_list,
+      'raw_timephased_budget_cost' => :timephased_cost_list,
+      'raw_timephased_budget_work' => :timephased_work_list,
       'raw_timephased_planned_work' => :timephased_work_list,
       'raw_timephased_remaining_overtime_work' => :timephased_work_list,
       'raw_timephased_remaining_regular_work' => :timephased_work_list,
