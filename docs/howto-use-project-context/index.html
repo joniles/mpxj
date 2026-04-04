@@ -2304,7 +2304,12 @@ and working with the data it contains. In fact most of the file formats
 supported by MPXJ can only contain a single project. In this case you will just
 need to work with a <code>ProjectFile</code> instance, which provides access to all of the
 components of the project, as illustrated by the simplified diagram below:</p>
-<pre class="mermaid"><code>graph LR
+<pre class="mermaid"><code>---
+config:
+  look: handDrawn
+  theme: neutral
+---
+graph LR
     ProjectFile(ProjectFile)
     Configuration(Configuration)
     Properties(Properties)
@@ -2329,7 +2334,12 @@ the time of writing Primavera P6 databases, XER files and PMXML files) the
 you can still use a <code>ProjectFile</code> instance and work with the data shown above,
 however behind the scenes the data you are working with is actually stored 
 differently, as the simplified diagram below illustrates:</p>
-<pre class="mermaid"><code>graph LR
+<pre class="mermaid"><code>---
+config:
+  look: handDrawn
+  theme: neutral
+---
+graph LR
     ProjectContext(ProjectContext)
     CodeDefinitions(Code Definitions)
     FieldDefinitions(Field Definitions)

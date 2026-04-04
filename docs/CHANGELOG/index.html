@@ -330,6 +330,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#1610-2026-04-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.1.0 (2026-04-04)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#1600-2026-03-12" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5459,6 +5470,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#1610-2026-04-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.1.0 (2026-04-04)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#1600-2026-03-12" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8592,6 +8614,29 @@
 <h2 id="note">NOTE</h2>
 <p>From version 14.0.0 onwards the <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code> and <code>net.sf.mpxj-for-vb</code> packages are
 no longer distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
+<h2 id="1610-2026-04-04">16.1.0 (2026-04-04)</h2>
+<ul>
+<li>Provided additional attributes as part of the <code>MsPlannerProject</code> class, populated when retrieving a list of projects from Microsoft Planner (Contributed by Gevork Aslanov).</li>
+<li>Added the <code>MsPlannerReader#getPortfolios</code> method to retrieve a list of portfolios defined in Microsoft Planner (Contributed by Gevork Aslanov).</li>
+<li>Updated to ensure that decimal values for hours per day, week, month and year are not truncated when writing calendars to XER files.</li>
+<li><strong>Added support for reading timephased budget cost and work from MPP files.</strong></li>
+<li>Improve identification of Budget resources when reading certain MPP files.</li>
+<li>Added the following methods to the <code>ResourceAssignment</code> class to retrieve raw timephased budget cost and work: <code>getRawTimephasedBudgetCost</code>, <code>getRawTimephasedBudgetWork</code>, <code>getRawTimephasedBaselineBudgetWork</code>, and <code>getRawTimephasedBaselineBudgetCost</code>.</li>
+<li>Added the following methods to the <code>ResourceAssignment</code> class to retrieve timephased budget cost and work: <code>getTimephasedBudgetCost</code>, <code>getTimephasedBudgetWork</code>, <code>getTimephasedBaselineBudgetCost</code>, and <code>getTimephasedBaselineBudgetWork</code>.</li>
+<li>Added the following methods to the <code>Task</code> class to retrieve timephased budget cost and work: <code>getTimephasedBudgetCost</code>, <code>getTimephasedBudgetWork</code>, <code>getTimephasedBaselineBudgetCost</code>, and <code>getTimephasedBaselineBudgetWork</code>.</li>
+<li><strong>Added support for accessing labor, non-labor and material costs from the task hierarchy for Primavera schedules.</strong></li>
+<li>Added <code>ResourceType.NON_LABOR</code> to represent Non-Labor resources in Primavera P6 schedules.</li>
+<li>When reading Primavera P6 schedules Planned, Actual and Remaining Labor, Non-Labor, Material and Expense costs are now rolled up from resource assignments to the task hierarchy.</li>
+<li>The following Planned Cost attributes have been added to the <code>Task</code> class: Planned Cost Labor, Planned Cost Non Labor, Planned Cost Material, Planned Cost Expense.</li>
+<li>The following Actual Cost attributes have been added to the <code>Task</code> class: Actual Cost Labor, Actual Cost Non Labor, Actual Cost Material, Actual Cost Expense.</li>
+<li>The following Remaining Cost attributes have been added to the <code>Task</code> class: Remaining Cost Labor, Remaining Cost Non Labor, Remaining Cost Material, Remaining Cost Expense.</li>
+<li>For consistency, the <code>Task#setActualWorkNonlabor</code> method has been marked as deprecated, use <code>Task#setActualWorkNonLabor</code> instead.</li>
+<li>For consistency, the <code>Task#getActualWorkNonlabor</code> method has been marked as deprecated, use <code>Task#getActualWorkNonLabor</code> instead.</li>
+<li>For consistency, the <code>Task#setPlannedWorkNonlabor</code> method has been marked as deprecated, use <code>Task#setPlannedWorkNonLabor</code> instead.</li>
+<li>For consistency, the <code>Task#getPlannedWorkNonlabor</code> method has been marked as deprecated, use <code>Task#getPlannedWorkNonLabor</code> instead.</li>
+<li>For consistency, the <code>Task#setRemainingWorkNonlabor</code> method has been marked as deprecated, use <code>Task#setRemainingWorkNonLabor</code> instead.</li>
+<li>For consistency, the <code>Task#getRemainingWorkNonlabor</code> method has been marked as deprecated, use <code>Task#getRemainingWorkNonLabor</code> instead.</li>
+</ul>
 <h2 id="1600-2026-03-12">16.0.0 (2026-03-12)</h2>
 <ul>
 <li><strong>NEW FEATURES</strong></li>

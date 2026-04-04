@@ -972,6 +972,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#reading-portfolios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reading Portfolios
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#authentication" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2392,6 +2403,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#reading-portfolios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reading Portfolios
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#authentication" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2504,6 +2526,14 @@ retrieve a list of the available projects. These are returned as a list of
 unique ID of the project along with its name.</p>
 <p>We can then read an individual project by passing the project's unique ID to the 
 <code>readProject</code> method, which will return a <code>ProjectFile</code> instance.</p>
+<h2 id="reading-portfolios">Reading Portfolios</h2>
+<p>Microsoft Planner can be configured to organise projects into portfolios.
+The ID and name of the portfolio each project belongs to are available as
+attributes of the <code>MsPlannerProject</code> class. Note that these will be <code>null</code>
+if the project has not been assigned to a portfolio.</p>
+<p>The <code>MsPlannerReader</code> and provides a <code>getPortfolios</code> method to allow you to
+retrieve a list of the available portfolios. Portfolios are represented by the
+<code>MsPlannerPortfolio</code> class.</p>
 <h2 id="authentication">Authentication</h2>
 <p>To get authentication working we'll be using Microsoft Entra which is
 Microsoft's cloud based Identity and Access management (IAM) platform. Entra

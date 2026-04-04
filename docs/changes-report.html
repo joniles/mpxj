@@ -33,7 +33,7 @@
 
         <div id="breadcrumbs">
           <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2026-03-11</li>
+        <li id="publishDate">Last Published: 2026-04-04</li>
           </ul>
         </div>
       </header>
@@ -68,6 +68,92 @@
 <h2><a name="MPXJ_Changes"></a>MPXJ Changes</h2><section>
 
 <p>Get the RSS feed of the last changes:&#160;<a href="changes.rss"><img src="images/rss.png" alt="rss feed" title="rss feed" /></a></p></section><section>
+<h3 id="a16.1.0">Release 16.1.0 &#x2013; 2026-04-04</h3>
+<table border="0" class="table table-striped">
+<tr class="b">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Provided additional attributes as part of the `MsPlannerProject` class, populated when retrieving a list of projects from Microsoft Planner (Contributed by Gevork Aslanov).</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added the `MsPlannerReader#getPortfolios` method to retrieve a list of portfolios defined in Microsoft Planner (Contributed by Gevork Aslanov).</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Updated to ensure that decimal values for hours per day, week, month and year are not truncated when writing calendars to XER files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>**Added support for reading timephased budget cost and work from MPP files.**</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve identification of Budget resources when reading certain MPP files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added the following methods to the `ResourceAssignment` class to retrieve raw timephased budget cost and work: `getRawTimephasedBudgetCost`, `getRawTimephasedBudgetWork`, `getRawTimephasedBaselineBudgetWork`, and `getRawTimephasedBaselineBudgetCost`.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added the following methods to the `ResourceAssignment` class to retrieve timephased budget cost and work: `getTimephasedBudgetCost`, `getTimephasedBudgetWork`, `getTimephasedBaselineBudgetCost`, and `getTimephasedBaselineBudgetWork`.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added the following methods to the `Task` class to retrieve timephased budget cost and work: `getTimephasedBudgetCost`, `getTimephasedBudgetWork`, `getTimephasedBaselineBudgetCost`, and `getTimephasedBaselineBudgetWork`.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>**Added support for accessing labor, non-labor and material costs from the task hierarchy for Primavera schedules.**</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added `ResourceType.NON_LABOR` to represent Non-Labor resources in Primavera P6 schedules.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>When reading Primavera P6 schedules Planned, Actual and Remaining Labor, Non-Labor, Material and Expense costs are now rolled up from resource assignments to the task hierarchy.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The following Planned Cost attributes have been added to the `Task` class: Planned Cost Labor, Planned Cost Non Labor, Planned Cost Material, Planned Cost Expense.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The following Actual Cost attributes have been added to the `Task` class: Actual Cost Labor, Actual Cost Non Labor, Actual Cost Material, Actual Cost Expense.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The following Remaining Cost attributes have been added to the `Task` class: Remaining Cost Labor, Remaining Cost Non Labor, Remaining Cost Material, Remaining Cost Expense.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>For consistency, the `Task#setActualWorkNonlabor` method has been marked as deprecated, use `Task#setActualWorkNonLabor` instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>For consistency, the `Task#getActualWorkNonlabor` method has been marked as deprecated, use `Task#getActualWorkNonLabor` instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>For consistency, the `Task#setPlannedWorkNonlabor` method has been marked as deprecated, use `Task#setPlannedWorkNonLabor` instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>For consistency, the `Task#getPlannedWorkNonlabor` method has been marked as deprecated, use `Task#getPlannedWorkNonLabor` instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>For consistency, the `Task#setRemainingWorkNonlabor` method has been marked as deprecated, use `Task#setRemainingWorkNonLabor` instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>For consistency, the `Task#getRemainingWorkNonlabor` method has been marked as deprecated, use `Task#getRemainingWorkNonLabor` instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
 <h3 id="a16.0.0">Release 16.0.0 &#x2013; 2026-03-12</h3>
 <table border="0" class="table table-striped">
 <tr class="a">

@@ -2288,6 +2288,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#budget" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Budget
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#primavera-p6" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2837,6 +2848,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#budget" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Budget
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#primavera-p6" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2867,7 +2889,7 @@
 <h1 id="how-to-use-timephased-data">How To: Use Timephased Data</h1>
 <h2 id="what-is-timephased-data">What is Timephased Data?</h2>
 <p>Timephased data is a term which refers to data distributed over time.
-Take for example a simple 3 day task defined using Microsoft Project:</p>
+Take for example a simple 3-day task defined using Microsoft Project:</p>
 <p align="center"><img alt="A three day task" src="/images/howto-use-timephased/basic-task.png" width="50%"/></p>
 
 <p>This task covers 3 working days, each having 8 hours, so in total we have 24
@@ -2883,7 +2905,7 @@ we can see an hour-by-hour view:</p>
 
 <p>In this view we are just looking at one working day, and you can see how the
 work being performed during that day is scheduled for the working hours, 
-with a gap for a the lunch break, as defined in the resource's calendar.</p>
+with a gap for a lunch break, as defined in the resource's calendar.</p>
 <p>So far we have just looked at work being performed, but this view can also be used to 
 examine cost and material consumption over time: In the example below, for the
 same task we were looking at previously I have added a line showing how the
@@ -3060,7 +3082,7 @@ show our timephased data split into days:</p>
 <h4 id="assignments">Assignments</h4>
 <p>Now we can locate the resource assignment we are interested in (in this case
 it's Resource 2 assigned to Task 2 in the screenshot above), and use the
-<code>getTimephasedWork</code> method, which will give us the the total of the actual and
+<code>getTimephasedWork</code> method, which will give us the total of the actual and
 remaining work for this assignment:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Java</label><label for="__tabbed_6_2">C#</label></div>
 <div class="tabbed-content">
@@ -3077,8 +3099,8 @@ remaining work for this assignment:</p>
 </div>
 </div>
 <p>You can see that we're calling the method and passing <code>ranges</code> which represents
-our timescale. We also passing <code>TimeUnit.HOURS</code> to tell MPXJ what units we'd
-like the work to be returned as. Finally we can add a couple of methods to help
+our timescale. We are also passing <code>TimeUnit.HOURS</code> to tell MPXJ what units we'd
+like the work to be returned as. Finally, we can add a couple of methods to help
 us format the data MPXJ has returned to make it easier to read:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Java</label><label for="__tabbed_7_2">C#</label></div>
 <div class="tabbed-content">
@@ -3186,7 +3208,7 @@ produce from our samples to make them easier to read:</p>
 working days each with 8 hours of work per day. Note that the resource
 assignment spans a weekend. On the weekend days MPXJ has returned a <code>null</code>
 value. This indicates that this is non-working time, so no work is expected.
-Typically if MPXJ returns a zero duration for a period, this indicates that the
+Typically, if MPXJ returns a zero duration for a period, this indicates that the
 period is normally working time, but that no work has been performed.</p>
 <p>The example resource assignment we're using here is in progress, so rather than
 retrieving timephased Work, which combines both Actual and Remaining Work, we
@@ -3249,7 +3271,7 @@ can request Actual and Remaining Work separately:</p>
 </table>
 <p>What we can see here is that the ranges only overlap where there is both actual
 and remaining work on one day. Once the actual work has been accounted for, the
-remainder of the values returned by MPXJ will be <code>null</code>. Similarly the
+remainder of the values returned by MPXJ will be <code>null</code>. Similarly, the
 Remaining Work timephased data will be <code>null</code> until we reach the first period
 where there is Remaining Work.</p>
 <h4 id="resources">Resources</h4>
@@ -3720,7 +3742,7 @@ values from the <code>AssignmentField</code> enumeration to select the timephase
 we're interested in. As we're retrieving costs, we're retrieving a <code>List</code> or
 <code>Number</code> instances.</p>
 <h3 id="material_1">Material</h3>
-<p>Finally we'll retrieve timephased material utilisation from a resource:</p>
+<p>Finally, we'll retrieve timephased material utilisation from a resource:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">Java</label><label for="__tabbed_16_2">C#</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -4610,6 +4632,57 @@ name "Start Split" is interesting as it illustrates that there can be a
 non-working period before work actually commences on the task. In this case
 <code>Task#getWorkSplits</code> will only return one <code>LocalDateTimeRange</code> instance,
 but this range begins after the task's start date.</p>
+<h2 id="budget">Budget</h2>
+<p>A less commonly used Microsoft Project feature allows users to create a budget
+for a project. To do this, specific budget resources are added. Resources have
+a Boolean Budget attribute, which when set to true indicates that the resource
+represents a budget amount. The resource type can be set to Work or Cost, which
+determines the type of budget being created. Each resource can therefore be
+used to break down the budget, for example: the total cost and work for the
+project can be broken down by creating resources representing the cost of
+the various materials required or the work needed from different types of
+skilled labour.</p>
+<p>To create a budget, budget resources need to be assigned to the project summary
+task (the task with an ID of zero), and for each of these resource assignments
+the Budget Cost or Budget Work attribute can be set to determine the budgeted
+amount for that resource.</p>
+<p>In common with other cost and work data in Microsoft Project, budget cost and
+work amounts have timephased data showing how each amount is accrued over time.
+By default budget cost and work is prorated, and so is distributed evenly over
+the duration of the project. This timephased data is affected by the default
+project calendar, and in the case of work resources, by the resource calendar.
+So non-working days from these calendars will affect how the cost or work is
+distributed over time. It is also possible for users to manually edit the
+budget resource assignment's distribution of cost and work in the same way as
+they can for a normal resource assignment, so timephased data may deviate from
+the default prorated distribution. Timephased budget data is also baselined, so
+versions of the project's budget are available in Baseline and Baselines
+1-10. </p>
+<p>As with the other forms of timephased data we've been looking at in previous
+sections, budget timephased data is stored as part of the budget resource
+assignments, and rolled up to the project summary task. MPXJ provides access
+to both the raw budget timephased data from resource assignments, and timephased
+data distributed over user-supplied time ranges at both the resource assignment
+and task level.</p>
+<p>The <code>ResourceAssignment</code> class provides the following methods access the raw
+budget timephased data:</p>
+<ul>
+<li>Raw Timephased Budget Cost</li>
+<li>Raw Timephased Budget Work</li>
+<li>Raw Timephased Baseline Budget Cost</li>
+<li>Raw Timephased Baseline Budget Work</li>
+</ul>
+<p>Both the <code>ResourceAssignment</code> and <code>Task</code> classes also provide methods to
+access the following budget timephased data over user supplied time ranges:</p>
+<ul>
+<li>Timephased Budget Cost</li>
+<li>Timephased Budget Work</li>
+<li>Timephased Baseline Budget Cost</li>
+<li>Timephased Baseline Budget Work</li>
+</ul>
+<p>Note that these attributes will only be populated for budget resource
+assignments to the project summary task, and the project summary task itself,
+and timephased budget data is only present in MPP files, not MSPDI files.</p>
 <h2 id="primavera-p6">Primavera P6</h2>
 <p>Alongside Microsoft Project, Primavera P6 also provides access to timephased
 data, which can be seen as part of its Resource Assignment view. P6
