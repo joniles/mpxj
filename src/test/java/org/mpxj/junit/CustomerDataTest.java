@@ -46,10 +46,15 @@ import org.mpxj.ChildTaskContainer;
 import org.mpxj.EPS;
 import org.mpxj.EpsNode;
 import org.mpxj.EpsProjectNode;
+import org.mpxj.LocalDateTimeRange;
 import org.mpxj.ProjectFile;
+import org.mpxj.ResourceAssignment;
 import org.mpxj.Task;
+import org.mpxj.TimeUnit;
+import org.mpxj.TimescaleUnits;
 import org.mpxj.common.FileHelper;
 import org.mpxj.common.JvmHelper;
+import org.mpxj.common.TimescaleHelper;
 import org.mpxj.cpm.MicrosoftSchedulerComparator;
 import org.mpxj.cpm.PrimaveraSchedulerComparator;
 import org.mpxj.json.JsonWriter;
@@ -542,6 +547,8 @@ public class CustomerDataTest
 
          try
          {
+            // System.out.println(name);
+
             List<ProjectFile> projects = testReader(name, file);
             if (projects.isEmpty())
             {
@@ -599,6 +606,12 @@ public class CustomerDataTest
          System.err.println("Failed to validate hierarchy " + fileName);
          return false;
       }
+
+//      if (!testTimephased(projectFile))
+//      {
+//         System.err.println("Failed to validate timephased data " + fileName);
+//         return false;
+//      }
 
       if (!testBaseline(baselineName, projectFile, m_baselineDirectory))
       {
@@ -784,6 +797,43 @@ public class CustomerDataTest
       }
 
       return success;
+   }
+
+   private boolean testTimephased(ProjectFile project)
+   {
+      try
+      {
+         project.getResourceAssignments().forEach(this::testTimephased);
+         return true;
+      }
+
+      catch (Exception ex)
+      {
+         return false;
+      }
+   }
+
+   private void testTimephased(ResourceAssignment assignment)
+   {
+      LocalDateTime start = assignment.getStart();
+      LocalDateTime finish = assignment.getFinish();
+
+      if (start == null || finish == null || finish.isBefore(start))
+      {
+         return;
+      }
+
+      try
+      {
+         List<LocalDateTimeRange> dates = new TimescaleHelper().createTimescale(start, finish, TimescaleUnits.DAYS);
+         assignment.getTimephasedWork(dates, TimeUnit.HOURS);
+         assignment.getTimephasedCost(dates);
+      }
+
+      catch (Exception ex)
+      {
+         throw ex;
+      }
    }
 
    /**

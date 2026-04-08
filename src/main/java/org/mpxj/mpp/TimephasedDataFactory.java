@@ -237,7 +237,7 @@ final class TimephasedDataFactory
          offset += 20;
       }
 
-      return regularList;
+      return removeEmptyItems(regularList);
    }
 
    /**
@@ -395,7 +395,7 @@ final class TimephasedDataFactory
          }
       }
 
-      return newList;
+      return removeEmptyItems(newList);
    }
 
    /**
@@ -470,7 +470,7 @@ final class TimephasedDataFactory
          return Collections.emptyList();
       }
 
-      return list;
+      return removeEmptyItems(list);
    }
 
    /**
@@ -543,5 +543,11 @@ final class TimephasedDataFactory
       }
 
       return list;
+   }
+
+   List<TimephasedWork> removeEmptyItems(List<TimephasedWork> work)
+   {
+      work.removeIf(w -> w.getStart().isEqual(w.getFinish()));
+      return work;
    }
 }
