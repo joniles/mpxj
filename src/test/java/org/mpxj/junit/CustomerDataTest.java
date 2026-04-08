@@ -547,7 +547,7 @@ public class CustomerDataTest
 
          try
          {
-            // System.out.println(name);
+            System.out.println(name);
 
             List<ProjectFile> projects = testReader(name, file);
             if (projects.isEmpty())
