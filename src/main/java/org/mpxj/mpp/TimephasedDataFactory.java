@@ -258,8 +258,9 @@ final class TimephasedDataFactory
       // Start Range
       if (item.getStart().isBefore(range.getStart()))
       {
-         LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(range.getStart());
-         LocalDateTime finish = calendar.getWork(previousWorkFinish, range.getStart(), TimeUnit.MINUTES).getDuration() == 0 ? previousWorkFinish : range.getStart();
+         //LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(range.getStart());
+         //LocalDateTime finish = calendar.getWork(previousWorkFinish, range.getStart(), TimeUnit.MINUTES).getDuration() == 0 ? previousWorkFinish : range.getStart();
+         LocalDateTime finish = range.getStart();
 
          TimephasedWork startItem = new TimephasedWork();
          startItem.setStart(item.getStart());
