@@ -81,6 +81,14 @@ class XerContextReader extends TableContextReader
    private void processCurrencies()
    {
       processCurrencies(m_file.getRows("currtype", null, null));
+
+      //
+      // Set the default currency specified in the header
+      //
+      if (m_file.getDefaultCurrencyData() != null)
+      {
+         m_state.getContext().getCurrencies().setDefaultCurrencyUniqueID(m_file.getDefaultCurrencyData().getInteger("curr_id"));
+      }
    }
 
    /**
