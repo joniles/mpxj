@@ -50,6 +50,7 @@ import org.mpxj.CalendarType;
 import org.mpxj.CostAccount;
 import org.mpxj.CostRateTableEntry;
 import org.mpxj.Currency;
+import org.mpxj.CurrencyContainer;
 import org.mpxj.CustomField;
 import org.mpxj.Duration;
 import org.mpxj.ExpenseCategory;
@@ -232,7 +233,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          "admin",
          "dbxDatabaseNoName",
          "Project Management",
-         getDefaultCurrency().getCurrencyID()
+         m_context.getCurrencies().getDefaultCurrency().getCurrencyID()
       };
 
       m_writer.writeHeader(data);
@@ -246,7 +247,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       m_writer.writeTable("CURRTYPE", CURRENCY_COLUMNS);
       if (m_context.getCurrencies().isEmpty())
       {
-         m_writer.writeRecord(CURRENCY_COLUMNS, DEFAULT_CURRENCY);
+         m_writer.writeRecord(CURRENCY_COLUMNS, CurrencyContainer.DEFAULT_CURRENCY);
       }
       else
       {
@@ -1192,22 +1193,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    }
 
    /**
-    * Retrieves the "base" currency (expected to have unique ID 1), or if this is not
-    * present returns the default currency constant.
-    *
-    * @return Currency instance
-    */
-   private Currency getDefaultCurrency()
-   {
-      Currency currency = m_context.getCurrencies().getByUniqueID(Integer.valueOf(1));
-      if (currency == null)
-      {
-         return DEFAULT_CURRENCY;
-      }
-      return currency;
-   }
-
-   /**
     * Assigns unique ID values to ProjectFile instance which do not have them.
     * Returns a list of project files which have been updated, so the change can be reverted later.
     *
@@ -1359,19 +1344,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       Object apply(T source);
    }
 
-   private static final Currency DEFAULT_CURRENCY = new Currency.Builder(null)
-      .uniqueID(Integer.valueOf(1))
-      .numberOfDecimalPlaces(Integer.valueOf(2))
-      .symbol("$")
-      .decimalSymbol(".")
-      .digitGroupingSymbol(",")
-      .positiveCurrencyFormat("#1.1")
-      .negativeCurrencyFormat("(#1.1)")
-      .name("US Dollar")
-      .currencyID("USD")
-      .exchangeRate(Double.valueOf(1.0))
-      .build();
-
    private static final Map<String, ExportFunction<Currency>> CURRENCY_COLUMNS = new LinkedHashMap<>();
    static
    {
@@ -1458,7 +1430,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("auto_compute_act_flag", r -> Boolean.TRUE);
       RESOURCE_COLUMNS.put("def_cost_qty_link_flag", r -> Boolean.valueOf(r.getCalculateCostsFromUnits()));
       RESOURCE_COLUMNS.put("ot_flag", r -> Boolean.FALSE);
-      RESOURCE_COLUMNS.put("curr_id", r -> r.getCurrencyUniqueID() == null ? DEFAULT_CURRENCY.getUniqueID() : r.getCurrencyUniqueID());
+      RESOURCE_COLUMNS.put("curr_id", r -> r.getCurrencyUniqueID() == null ? CurrencyContainer.DEFAULT_CURRENCY.getUniqueID() : r.getCurrencyUniqueID());
       RESOURCE_COLUMNS.put("unit_id", Resource::getUnitOfMeasureUniqueID);
       RESOURCE_COLUMNS.put("rsrc_type", Resource::getType);
       RESOURCE_COLUMNS.put("location_id", Resource::getLocationUniqueID);
