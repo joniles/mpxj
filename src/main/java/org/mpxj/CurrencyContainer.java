@@ -37,16 +37,31 @@ public class CurrencyContainer extends ProjectEntityContainer<Currency>
       super(sequenceProvider);
    }
 
+   /**
+    * Set the default currency unique ID.
+    *
+    * @param value default currency unique ID
+    */
    public void setDefaultCurrencyUniqueID(Integer value)
    {
       m_defaultCurrencyUniqueID = value;
    }
 
+   /**
+    * Retrieve the default currency ID.
+    *
+    * @return default currency ID
+    */
    public Integer getDefaultCurrencyUniqueID()
    {
       return m_defaultCurrencyUniqueID;
    }
 
+   /**
+    * Retrieve the default Currency instance.
+    *
+    * @return default Currency instance
+    */
    public Currency getDefaultCurrency()
    {
       if (m_defaultCurrencyUniqueID != null)

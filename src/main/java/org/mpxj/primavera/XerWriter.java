@@ -83,7 +83,12 @@ final class XerWriter
 
       Currency currency = context.getCurrencies().getDefaultCurrency();
       DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-      symbols.setDecimalSeparator(currency.getDecimalSymbol().charAt(0));
+
+      String decimalSeparator = currency.getDecimalSymbol();
+      if (decimalSeparator != null && !decimalSeparator.isEmpty())
+      {
+         symbols.setDecimalSeparator(decimalSeparator.charAt(0));
+      }
 
       String groupingSymbol = currency.getDigitGroupingSymbol();
       if (groupingSymbol != null && !groupingSymbol.isEmpty())
