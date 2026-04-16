@@ -146,7 +146,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       // Ensure all projects have a WBS hierarchy with a single root node
       List<TemporaryWbs> temporaryWbs = projects.stream().map(this::createValidWbsHierarchy).filter(Objects::nonNull).collect(Collectors.toList());
 
-      m_writer = new XerWriter(m_context.getTimeUnitDefaults(), new OutputStreamWriter(outputStream, getCharset()));
+      m_writer = new XerWriter(m_context, new OutputStreamWriter(outputStream, getCharset()));
       m_rateObjectID = new ObjectSequence(1);
       m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(m_context, projects);
 
