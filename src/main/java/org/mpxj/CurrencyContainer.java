@@ -36,4 +36,60 @@ public class CurrencyContainer extends ProjectEntityContainer<Currency>
    {
       super(sequenceProvider);
    }
+
+   /**
+    * Set the default currency unique ID.
+    *
+    * @param value default currency unique ID
+    */
+   public void setDefaultCurrencyUniqueID(Integer value)
+   {
+      m_defaultCurrencyUniqueID = value;
+   }
+
+   /**
+    * Retrieve the default currency ID.
+    *
+    * @return default currency ID
+    */
+   public Integer getDefaultCurrencyUniqueID()
+   {
+      return m_defaultCurrencyUniqueID;
+   }
+
+   /**
+    * Retrieve the default Currency instance.
+    *
+    * @return default Currency instance
+    */
+   public Currency getDefaultCurrency()
+   {
+      if (m_defaultCurrencyUniqueID != null)
+      {
+         return getByUniqueID(m_defaultCurrencyUniqueID);
+      }
+
+      Currency currency = getByUniqueID(Integer.valueOf(1));
+      if (currency != null)
+      {
+         return currency;
+      }
+
+      return DEFAULT_CURRENCY;
+   }
+
+   private Integer m_defaultCurrencyUniqueID;
+
+   public static final Currency DEFAULT_CURRENCY = new Currency.Builder(null)
+      .uniqueID(Integer.valueOf(1))
+      .numberOfDecimalPlaces(Integer.valueOf(2))
+      .symbol("$")
+      .decimalSymbol(".")
+      .digitGroupingSymbol(",")
+      .positiveCurrencyFormat("#1.1")
+      .negativeCurrencyFormat("(#1.1)")
+      .name("US Dollar")
+      .currencyID("USD")
+      .exchangeRate(Double.valueOf(1.0))
+      .build();
 }

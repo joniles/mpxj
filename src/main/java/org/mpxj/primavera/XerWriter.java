@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -43,12 +44,14 @@ import org.mpxj.ActivityType;
 import org.mpxj.CalendarType;
 import org.mpxj.ConstraintType;
 import org.mpxj.CriticalActivityType;
+import org.mpxj.Currency;
 import org.mpxj.DataType;
 import org.mpxj.Duration;
 import org.mpxj.HtmlNotes;
 import org.mpxj.Notes;
 import org.mpxj.PercentCompleteType;
 import org.mpxj.Priority;
+import org.mpxj.ProjectContext;
 import org.mpxj.Rate;
 import org.mpxj.RateSource;
 import org.mpxj.RelationType;
@@ -70,13 +73,32 @@ final class XerWriter
    /**
     * Constructor.
     *
-    * @param defaults time unit defaults
+    * @param context project context
     * @param writer Writer instance to receive XER records
     */
-   public XerWriter(TimeUnitDefaults defaults, OutputStreamWriter writer)
+   public XerWriter(ProjectContext context, OutputStreamWriter writer)
    {
-      m_defaults = defaults;
+      m_defaults = context.getTimeUnitDefaults();
       m_writer = writer;
+
+      Currency currency = context.getCurrencies().getDefaultCurrency();
+      DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+
+      String decimalSeparator = currency.getDecimalSymbol();
+      if (decimalSeparator != null && !decimalSeparator.isEmpty())
+      {
+         symbols.setDecimalSeparator(decimalSeparator.charAt(0));
+      }
+
+      String groupingSymbol = currency.getDigitGroupingSymbol();
+      if (groupingSymbol != null && !groupingSymbol.isEmpty())
+      {
+         symbols.setGroupingSeparator(currency.getDigitGroupingSymbol().charAt(0));
+      }
+
+      m_doubleFormat = new DecimalFormat("0.######", symbols);
+      m_currencyFormat = new DecimalFormat("0.0000", symbols);
+      m_maxUnitsFormat = new DecimalFormat("0.####", symbols);
    }
 
    /**
@@ -326,9 +348,9 @@ final class XerWriter
    private final OutputStreamWriter m_writer;
    private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
    private final DateTimeFormatter m_timestampFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-   private final DecimalFormat m_doubleFormat = new DecimalFormat("0.######");
-   private final DecimalFormat m_currencyFormat = new DecimalFormat("0.0000");
-   private final DecimalFormat m_maxUnitsFormat = new DecimalFormat("0.####");
+   private final DecimalFormat m_doubleFormat;
+   private final DecimalFormat m_currencyFormat;
+   private final DecimalFormat m_maxUnitsFormat;
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
    static

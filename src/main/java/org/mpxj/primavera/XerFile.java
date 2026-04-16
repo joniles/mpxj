@@ -77,6 +77,7 @@ class XerFile
       m_tables.clear();
       m_numberFormat = new DecimalFormat();
       m_defaultCurrencyData = null;
+      m_currencyRecords = new ArrayList<>();
 
       try
       {
@@ -115,6 +116,15 @@ class XerFile
                }
             }
             ++line;
+         }
+
+         // Second pass through the currency records to ensure
+         // we have parsed them with the correct number format.
+         if (!m_currencyRecords.isEmpty())
+         {
+            m_tables.remove("currtype");
+            m_currencyRecords.forEach(r -> processRecord(RECORD_TYPE_MAP.get(r.get(0)), r));
+            m_currencyRecords.clear();
          }
 
          return this;
@@ -199,7 +209,13 @@ class XerFile
    private boolean processRecord(List<String> record)
    {
       XerRecordType type = RECORD_TYPE_MAP.get(record.get(0));
-      return type != null && processRecord(type, record);
+      boolean result = type != null && processRecord(type, record);
+      if ("currtype".equals(m_currentTableName))
+      {
+         // We create a copy as the list passed as the `record` argument is re-used for each record
+         m_currencyRecords.add(new ArrayList<>(record));
+      }
+      return result;
    }
 
    /**
@@ -474,6 +490,7 @@ class XerFile
    private List<Row> m_currentTable;
    private String[] m_currentFieldNames;
    private Map<String, Integer> m_currentFieldIndex;
+   private List<List<String>> m_currencyRecords;
    private Row m_defaultCurrencyData;
 
    /**
