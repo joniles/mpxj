@@ -32,7 +32,7 @@ import org.mpxj.TimeUnit;
  * This class implements common utility methods used when processing
  * MPD files.
  */
-public final class MPDUtility
+final class MPDUtility
 {
    /**
     * This method maps the currency symbol position from the

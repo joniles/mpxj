@@ -42,6 +42,7 @@ import org.mpxj.TimeUnit;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.CharsetHelper;
 import org.mpxj.common.InputStreamHelper;
+import org.mpxj.common.MicrosoftProjectConstants;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.RateHelper;
 
@@ -49,7 +50,7 @@ import org.mpxj.common.RateHelper;
  * This class provides common functionality used by each of the classes
  * that read the different sections of the MPP file.
  */
-public final class MPPUtility
+final class MPPUtility
 {
    /**
     * Private constructor to prevent instantiation.
@@ -268,7 +269,7 @@ public final class MPPUtility
       }
       else
       {
-         result = EPOCH_DATE.plusDays(days);
+         result = MicrosoftProjectConstants.EPOCH_DATE.plusDays(days);
       }
 
       return (result);
@@ -330,7 +331,7 @@ public final class MPPUtility
             time = 0;
          }
 
-         result = EPOCH_DATE.plusDays(days).plusSeconds(time * 6);
+         result = MicrosoftProjectConstants.EPOCH_DATE.plusDays(days).plusSeconds(time * 6);
 
          // We are seeing some files which have very small values for the number of days.
          // When the relevant field is shown in MS Project it appears as NA.
@@ -355,7 +356,7 @@ public final class MPPUtility
    public static final LocalDateTime getTimestampFromTenths(byte[] data, int offset)
    {
       long seconds = ((long) ByteArrayHelper.getInt(data, offset)) * 6;
-      return EPOCH_DATE.plusSeconds(seconds);
+      return MicrosoftProjectConstants.EPOCH_DATE.plusSeconds(seconds);
    }
 
    /**
@@ -1249,11 +1250,6 @@ public final class MPPUtility
          }
       }
    }
-
-   /**
-    * Epoch date for MPP date calculation is 31/12/1983.
-    */
-   public static final LocalDateTime EPOCH_DATE = LocalDateTime.of(1983, 12, 31, 0, 0);
 
    /**
     * Mask used to remove flags from the duration units field.

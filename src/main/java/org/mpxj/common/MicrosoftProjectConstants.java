@@ -23,6 +23,8 @@
 
 package org.mpxj.common;
 
+import java.time.LocalDateTime;
+
 /**
  * Container for constants specific to file types read/written by Microsoft Project.
  */
@@ -35,6 +37,11 @@ public final class MicrosoftProjectConstants
    {
 
    }
+
+   /**
+    * Epoch date for MPP date calculation is 31/12/1983.
+    */
+   public static final LocalDateTime EPOCH_DATE = LocalDateTime.of(1983, 12, 31, 0, 0);
 
    /**
     * Maximum unique ID value MS Project will accept.

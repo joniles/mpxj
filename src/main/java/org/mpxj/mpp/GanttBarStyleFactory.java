@@ -28,7 +28,7 @@ import org.mpxj.ProjectFile;
 /**
  * Interface used to read Gantt bar styles from MPP files.
  */
-public interface GanttBarStyleFactory
+interface GanttBarStyleFactory
 {
    /**
     * Reads the default set of Gantt bar styles.

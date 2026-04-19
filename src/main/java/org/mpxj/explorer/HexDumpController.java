@@ -26,19 +26,18 @@ package org.mpxj.explorer;
 import java.awt.Point;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
-import org.mpxj.Duration;
-import org.mpxj.TimeUnit;
 import org.mpxj.common.AutoCloseableHelper;
-import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.InputStreamHelper;
-import org.mpxj.mpp.MPPUtility;
+import org.mpxj.mpp.DataAtOffset;
 
 /**
  * Implements the controller component of the HexDump MVC.
@@ -179,110 +178,50 @@ public class HexDumpController
     */
    protected void updateSelection()
    {
-      byte[] data = m_model.getData();
-      int offset = m_model.getOffset();
       Point selectedCell = m_model.getSelectedCell();
-
-      DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-      DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
-      DateTimeFormatter timestampFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-
       int selectionIndex = (selectedCell.y * m_model.getColumns()) + selectedCell.x;
-      String selectionLabel = selectedCell.y + "," + selectedCell.x;
-      String differenceLabel = Integer.toString(Math.abs(m_model.getCurrentSelectionIndex() - selectionIndex));
-
-      String shortValueLabel = "";
-      String longSixValueLabel = "";
-      String longValueLabel = "";
-      String doubleValueLabel = "";
-      String durationValueLabel = "";
-      String timeUnitsValueLabel = "";
-      String guidValueLabel = "";
-      String percentageValueLabel = "";
-      String dateValueLabel = "";
-      String timeValueLabel = "";
-      String timestampValueLabel = "";
-      String workUnitsValueLabel;
-
-      if (selectionIndex + offset + 2 <= data.length)
-      {
-         shortValueLabel = Integer.toString(ByteArrayHelper.getShort(data, selectionIndex + offset));
-         timeUnitsValueLabel = MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(data, selectionIndex + offset)).toString();
-
-         Double value = MPPUtility.getPercentage(data, selectionIndex + offset);
-         if (value != null)
-         {
-            percentageValueLabel = value.toString();
-         }
-
-         LocalDateTime date = MPPUtility.getDate(data, selectionIndex + offset);
-         if (date != null)
-         {
-            dateValueLabel = dateFormat.format(date);
-         }
-
-         timeValueLabel = timeFormat.format(MPPUtility.getTime(data, selectionIndex + offset));
-      }
-
-      //
-      // 1 byte
-      //
-      workUnitsValueLabel = MPPUtility.getWorkTimeUnits(MPPUtility.getByte(data, selectionIndex + offset)).toString();
-
-      //
-      // 4 bytes
-      //
-      if (selectionIndex + offset + 4 <= data.length)
-      {
-         LocalDateTime timestamp = MPPUtility.getTimestamp(data, selectionIndex + offset);
-         if (timestamp != null)
-         {
-            timestampValueLabel = timestampFormat.format(timestamp);
-         }
-      }
-
-      //
-      // 6 bytes
-      //
-      if (selectionIndex + offset + 6 <= data.length)
-      {
-         longSixValueLabel = Long.toString(MPPUtility.getLong6(data, selectionIndex + offset));
-      }
-
-      //
-      // 8 bytes
-      //
-      if (selectionIndex + offset + 8 <= data.length)
-      {
-         longValueLabel = Long.toString(ByteArrayHelper.getLong(data, selectionIndex + offset));
-         doubleValueLabel = Double.toString(MPPUtility.getDouble(data, selectionIndex + offset));
-         durationValueLabel = Duration.getInstance(MPPUtility.getDouble(data, selectionIndex + offset) / 60000, TimeUnit.HOURS).toString();
-      }
-
-      //
-      // 16 bytes
-      //
-      if (selectionIndex + offset + 16 <= data.length)
-      {
-         guidValueLabel = MPPUtility.getGUID(data, selectionIndex + offset).toString().toUpperCase();
-      }
+      DataAtOffset data = new DataAtOffset(m_model.getData(), selectionIndex + m_model.getOffset());
 
       m_model.setPreviousSelectionIndex(m_model.getCurrentSelectionIndex());
       m_model.setCurrentSelectionIndex(selectionIndex);
       m_model.setPreviousSelectionValueLabel(m_model.getCurrentSelectionValueLabel());
-      m_model.setCurrentSelectionValueLabel(selectionLabel);
-      m_model.setSelectionDifferenceValueLabel(differenceLabel);
-      m_model.setShortValueLabel(shortValueLabel);
-      m_model.setLongSixValueLabel(longSixValueLabel);
-      m_model.setLongValueLabel(longValueLabel);
-      m_model.setDoubleValueLabel(doubleValueLabel);
-      m_model.setDurationValueLabel(durationValueLabel);
-      m_model.setTimeUnitsValueLabel(timeUnitsValueLabel);
-      m_model.setGuidValueLabel(guidValueLabel);
-      m_model.setPercentageValueLabel(percentageValueLabel);
-      m_model.setDateValueLabel(dateValueLabel);
-      m_model.setTimeValueLabel(timeValueLabel);
-      m_model.setTimestampValueLabel(timestampValueLabel);
-      m_model.setWorkUnitsValueLabel(workUnitsValueLabel);
+      m_model.setCurrentSelectionValueLabel(selectedCell.y + "," + selectedCell.x);
+      m_model.setSelectionDifferenceValueLabel(Integer.toString(Math.abs(m_model.getCurrentSelectionIndex() - selectionIndex)));
+      m_model.setShortValueLabel(getLabel(data.getShort()));
+      m_model.setLongSixValueLabel(getLabel(data.getLongSix()));
+      m_model.setLongValueLabel(getLabel(data.getLong()));
+      m_model.setDoubleValueLabel(getLabel(data.getDouble()));
+      m_model.setDurationValueLabel(getLabel(data.getDuration()));
+      m_model.setTimeUnitsValueLabel(getLabel(data.getTimeUnit()));
+      m_model.setGuidValueLabel(getLabel(data.getGuid()));
+      m_model.setPercentageValueLabel(getLabel(data.getPercentage()));
+      m_model.setDateValueLabel(getDateLabel(data.getDate()));
+      m_model.setTimeValueLabel(getTimeLabel(data.getTime()));
+      m_model.setTimestampValueLabel(getDateTimeLabel(data.getTimestamp()));
+      m_model.setWorkUnitsValueLabel(getLabel(data.getWorkTimeUnit()));
    }
+
+   private String getLabel(Object o)
+   {
+      return o == null ? "" : o.toString();
+   }
+
+   private String getDateLabel(LocalDate o)
+   {
+      return o == null ? "" : DATE_FORMAT.format(o);
+   }
+
+   private String getTimeLabel(LocalTime o)
+   {
+      return o == null ? "" : TIME_FORMAT.format(o);
+   }
+
+   private String getDateTimeLabel(LocalDateTime o)
+   {
+      return o == null ? "" : TIMESTAMP_FORMAT.format(o);
+   }
+
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+   private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
+   private static final DateTimeFormatter TIMESTAMP_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 }

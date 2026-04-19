@@ -34,7 +34,7 @@ import org.mpxj.common.ByteArrayHelper;
 /**
  * This class allows the saved state of a view to be read from an MPP file.
  */
-public abstract class ViewStateReader
+abstract class ViewStateReader
 {
    /**
     * Retrieves the props data using a file format specific method.

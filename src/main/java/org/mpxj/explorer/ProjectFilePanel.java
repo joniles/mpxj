@@ -39,7 +39,7 @@ import org.mpxj.ProjectFile;
 /**
  * Component representing the main view of a project file.
  */
-public class ProjectFilePanel extends JPanel
+class ProjectFilePanel extends JPanel
 {
    private final ProjectTreeController m_treeController;
    final Map<MpxjTreeNode, ObjectPropertiesPanel> m_openTabs;

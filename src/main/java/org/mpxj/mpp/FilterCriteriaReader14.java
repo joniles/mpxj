@@ -30,7 +30,7 @@ import org.mpxj.common.FieldTypeHelper;
 /**
  * This class allows filter criteria definitions to be read from an MPP file.
  */
-public final class FilterCriteriaReader14 extends CriteriaReader
+final class FilterCriteriaReader14 extends CriteriaReader
 {
    @Override protected int getCriteriaBlockSize()
    {

@@ -7,7 +7,7 @@ import org.mpxj.common.ByteArrayHelper;
 /**
  * Represents the type and location of a bit flag within a block of data.
  */
-public class MppBitFlag
+class MppBitFlag
 {
    /**
     * Constructor.

@@ -28,7 +28,7 @@ import javax.swing.JTree;
 /**
  * Implements the view component of the ProjectTree MVC.
  */
-public class ProjectTreeView extends JTree
+class ProjectTreeView extends JTree
 {
    /**
     * Constructor.

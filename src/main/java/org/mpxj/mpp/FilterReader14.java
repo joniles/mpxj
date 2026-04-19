@@ -26,7 +26,7 @@ package org.mpxj.mpp;
 /**
  * This class allows filter definitions to be read from an MPP file.
  */
-public final class FilterReader14 extends FilterReader
+final class FilterReader14 extends FilterReader
 {
    @Override protected Integer getVarDataType()
    {
