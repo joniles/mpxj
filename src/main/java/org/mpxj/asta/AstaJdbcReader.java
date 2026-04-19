@@ -46,7 +46,7 @@ import org.mpxj.common.ResultSetHelper;
  * This class provides a generic front end to read project data from
  * a database.
  */
-public class AstaJdbcReader extends AbstractAstaDatabaseReader
+public final class AstaJdbcReader extends AbstractAstaDatabaseReader
 {
 
    /**
