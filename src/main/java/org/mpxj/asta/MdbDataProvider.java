@@ -1,5 +1,5 @@
 /*
- * file:       MdbData.java
+ * file:       MdbDataProvider.java
  * author:     Jon Iles
  * date:       2026-04-20
  */
@@ -39,7 +39,7 @@ import com.healthmarketscience.jackcess.Table;
 /**
  * Read Asta data from an MDB file.
  */
-class MdbData implements AstaData
+class MdbDataProvider implements AstaDataProvider
 {
    @Override public List<Row> getRows(String tableName, Map<String, Integer> keys) throws AstaDatabaseException
    {

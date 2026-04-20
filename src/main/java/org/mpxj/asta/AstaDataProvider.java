@@ -1,5 +1,5 @@
 /*
- * file:       AstaData.java
+ * file:       AstaDataProvider.java
  * author:     Jon Iles
  * date:       2026-04-20
  */
@@ -30,7 +30,7 @@ import java.util.Map;
  * This interface is implemented by classes to allow
  * data to be read from an Asta database.
  */
-interface AstaData
+interface AstaDataProvider
 {
    /**
     * Retrieve rows from a table with an optional where clause.

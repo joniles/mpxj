@@ -34,6 +34,6 @@ public final class AstaMdbReader extends AbstractAstaDatabaseReader
     */
    public AstaMdbReader()
    {
-      super(new MdbData());
+      super(new MdbDataProvider());
    }
 }

@@ -37,7 +37,7 @@ public final class AstaJdbcReader extends AbstractAstaDatabaseReader
     */
    public AstaJdbcReader()
    {
-      super(new JdbcData());
+      super(new JdbcDataProvider());
    }
 
    /**
@@ -48,7 +48,7 @@ public final class AstaJdbcReader extends AbstractAstaDatabaseReader
     */
    public void setDataSource(DataSource dataSource)
    {
-      ((JdbcData)m_data).setDataSource(dataSource);
+      ((JdbcDataProvider)m_data).setDataSource(dataSource);
    }
 
    /**
@@ -59,6 +59,6 @@ public final class AstaJdbcReader extends AbstractAstaDatabaseReader
     */
    public void setConnection(Connection connection)
    {
-      ((JdbcData)m_data).setConnection(connection);
+      ((JdbcDataProvider)m_data).setConnection(connection);
    }
 }

@@ -44,9 +44,14 @@ import org.mpxj.reader.AbstractProjectFileReader;
  */
 abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
 {
-   public AbstractAstaDatabaseReader(AstaData rows)
+   /**
+    * Constructor.
+    *
+    * @param data data provider class
+    */
+   public AbstractAstaDatabaseReader(AstaDataProvider data)
    {
-      m_data = rows;
+      m_data = data;
    }
 
    /**
@@ -283,7 +288,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       return rows;
    }
 
-   protected final AstaData m_data;
+   protected final AstaDataProvider m_data;
    private AstaReader m_reader;
    private Map<String, Integer> m_projectKey;
 

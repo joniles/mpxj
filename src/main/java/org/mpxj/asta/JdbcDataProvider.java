@@ -1,5 +1,5 @@
 /*
- * file:       JdbcData.java
+ * file:       JdbcDataProvider.java
  * author:     Jon Iles
  * date:       2026-04-20
  */
@@ -44,7 +44,7 @@ import org.mpxj.common.ResultSetHelper;
 /**
  * Read Asta data from a JDBC connection.
  */
-class JdbcData implements AstaData
+class JdbcDataProvider implements AstaDataProvider
 {
    /**
     * Provide a JDBC data source.
