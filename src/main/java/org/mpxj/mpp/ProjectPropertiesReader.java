@@ -52,7 +52,7 @@ import org.mpxj.common.NumberHelper;
 /**
  * This class reads project properties data from MPP8, MPP9, and MPP12 files.
  */
-public final class ProjectPropertiesReader
+final class ProjectPropertiesReader
 {
    /**
     * The main entry point for processing project properties.

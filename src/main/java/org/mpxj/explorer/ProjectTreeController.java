@@ -76,7 +76,7 @@ import org.mpxj.writer.ProjectWriter;
 /**
  * Implements the controller component of the ProjectTree MVC.
  */
-public class ProjectTreeController
+class ProjectTreeController
 {
    private static final Map<String, Class<? extends ProjectWriter>> WRITER_MAP = new HashMap<>();
    static

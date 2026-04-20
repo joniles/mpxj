@@ -29,7 +29,7 @@ import java.io.IOException;
 /**
  * This class allows the saved state of a view to be read from an MPP9 file.
  */
-public final class ViewStateReader9 extends ViewStateReader
+final class ViewStateReader9 extends ViewStateReader
 {
    @Override protected Props getProps(Var2Data varData) throws IOException
    {

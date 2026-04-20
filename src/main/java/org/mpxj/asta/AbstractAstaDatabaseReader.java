@@ -45,6 +45,16 @@ import org.mpxj.reader.AbstractProjectFileReader;
 abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
 {
    /**
+    * Constructor.
+    *
+    * @param data data provider class
+    */
+   public AbstractAstaDatabaseReader(AstaDataProvider data)
+   {
+      m_data = data;
+   }
+
+   /**
     * Populates a Map instance representing the IDs and names of
     * projects available in the current database.
     *
@@ -56,7 +66,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       {
          Map<Integer, String> result = new HashMap<>();
 
-         List<Row> rows = getRows("project_summary", Collections.emptyMap(), PROJECT_SUMMARY_NAME_MAP);
+         List<Row> rows = m_data.getRows("project_summary", Collections.emptyMap(), PROJECT_SUMMARY_NAME_MAP);
          for (Row row : rows)
          {
             Integer id = row.getInteger("PROJID");
@@ -107,7 +117,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
 
       finally
       {
-         releaseResources();
+         m_data.releaseResources();
       }
    }
 
@@ -116,10 +126,10 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processProjectProperties() throws AstaDatabaseException
    {
-      List<Row> schemaVersionRows = getRows("dodschem", Collections.emptyMap());
-      List<Row> projectSummaryRows = getRows("project_summary", m_projectKey, PROJECT_SUMMARY_NAME_MAP);
-      List<Row> progressPeriodRows = getRows("progress_period", m_projectKey, PROGRESS_PERIOD_NAME_MAP);
-      List<Row> userSettingsRows = getRows("userr", m_projectKey);
+      List<Row> schemaVersionRows = m_data.getRows("dodschem", Collections.emptyMap());
+      List<Row> projectSummaryRows = m_data.getRows("project_summary", m_projectKey, PROJECT_SUMMARY_NAME_MAP);
+      List<Row> progressPeriodRows = m_data.getRows("progress_period", m_projectKey, PROGRESS_PERIOD_NAME_MAP);
+      List<Row> userSettingsRows = m_data.getRows("userr", m_projectKey);
       Integer schemaVersion = schemaVersionRows.isEmpty() ? null : schemaVersionRows.get(0).getInteger("SCHVER");
       Row projectSummary = projectSummaryRows.isEmpty() ? null : projectSummaryRows.get(0);
       Row userSettings = userSettingsRows.isEmpty() ? null : userSettingsRows.get(0);
@@ -132,22 +142,22 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processCalendars() throws AstaDatabaseException
    {
-      List<Row> rows = getRows("exceptionn", Collections.emptyMap(), EXCEPTION_NAME_MAP);
+      List<Row> rows = m_data.getRows("exceptionn", Collections.emptyMap(), EXCEPTION_NAME_MAP);
       Map<Integer, DayType> exceptionMap = m_reader.createExceptionTypeMap(rows);
 
-      rows = getRows("work_pattern", Collections.emptyMap(), WORK_PATTERN_NAME_MAP);
+      rows = m_data.getRows("work_pattern", Collections.emptyMap(), WORK_PATTERN_NAME_MAP);
       Map<Integer, Row> workPatternMap = m_reader.createWorkPatternMap(rows);
 
-      rows = getRows("work_pattern_assignment", Collections.emptyMap());
+      rows = m_data.getRows("work_pattern_assignment", Collections.emptyMap());
       Map<Integer, List<Row>> workPatternAssignmentMap = m_reader.createWorkPatternAssignmentMap(rows);
 
-      rows = sortRows(getRows("exception_assignment", Collections.emptyMap(), EXCEPTION_ASSIGNMENT_MAP), "EXCEPTION_ASSIGNMENT_ID", "ORDF");
+      rows = sortRows(m_data.getRows("exception_assignment", Collections.emptyMap(), EXCEPTION_ASSIGNMENT_MAP), "EXCEPTION_ASSIGNMENT_ID", "ORDF");
       Map<Integer, List<Row>> exceptionAssignmentMap = m_reader.createExceptionAssignmentMap(rows);
 
-      rows = sortRows(getRows("time_entry", Collections.emptyMap(), TIME_ENTRY_NAME_MAP), "TIME_ENTRYID", "ORDF");
+      rows = sortRows(m_data.getRows("time_entry", Collections.emptyMap(), TIME_ENTRY_NAME_MAP), "TIME_ENTRYID", "ORDF");
       Map<Integer, List<Row>> timeEntryMap = m_reader.createTimeEntryMap(rows);
 
-      rows = getRows("calendar", m_projectKey, CALENDAR_NAME_MAP);
+      rows = m_data.getRows("calendar", m_projectKey, CALENDAR_NAME_MAP);
       rows = HierarchyHelper.sortHierarchy(rows, r -> r.getInteger("ID"), r -> r.getInteger("CALENDAR"));
       for (Row row : rows)
       {
@@ -160,8 +170,8 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processResources() throws AstaDatabaseException
    {
-      List<Row> permanentRows = sortRows(getRows("permanent_resource", m_projectKey, PERMANENT_RESOURCE_NAME_MAP), "ID");
-      List<Row> consumableRows = sortRows(getRows("consumable_resource", m_projectKey, CONSUMABLE_RESOURCE_RESOURCE_NAME_MAP), "ID");
+      List<Row> permanentRows = sortRows(m_data.getRows("permanent_resource", m_projectKey, PERMANENT_RESOURCE_NAME_MAP), "ID");
+      List<Row> consumableRows = sortRows(m_data.getRows("consumable_resource", m_projectKey, CONSUMABLE_RESOURCE_RESOURCE_NAME_MAP), "ID");
       m_reader.processResources(permanentRows, consumableRows);
    }
 
@@ -170,12 +180,12 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processTasks() throws AstaDatabaseException
    {
-      List<Row> bars = getRows("bar", m_projectKey, BAR_NAME_MAP);
-      List<Row> expandedTasks = getRows("expanded_task", m_projectKey, EXPANDED_TASK_NAME_MAP);
-      List<Row> tasks = getRows("task", m_projectKey, TASK_NAME_MAP);
-      List<Row> milestones = getRows("milestone", m_projectKey, MILESTONE_NAME_MAP);
-      List<Row> hammocks = getRows("hammock_task", m_projectKey);
-      List<Row> completedSections = getRows("task_completed_section", m_projectKey, COMPLETED_SECTION_NAME_MAP);
+      List<Row> bars = m_data.getRows("bar", m_projectKey, BAR_NAME_MAP);
+      List<Row> expandedTasks = m_data.getRows("expanded_task", m_projectKey, EXPANDED_TASK_NAME_MAP);
+      List<Row> tasks = m_data.getRows("task", m_projectKey, TASK_NAME_MAP);
+      List<Row> milestones = m_data.getRows("milestone", m_projectKey, MILESTONE_NAME_MAP);
+      List<Row> hammocks = m_data.getRows("hammock_task", m_projectKey);
+      List<Row> completedSections = m_data.getRows("task_completed_section", m_projectKey, COMPLETED_SECTION_NAME_MAP);
 
       m_reader.processTasks(bars, expandedTasks, tasks, milestones, hammocks, completedSections);
    }
@@ -185,7 +195,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processPredecessors() throws AstaDatabaseException
    {
-      List<Row> rows = sortRows(getRows("link", m_projectKey, LINK_NAME_MAP), "ID");
+      List<Row> rows = sortRows(m_data.getRows("link", m_projectKey, LINK_NAME_MAP), "ID");
       m_reader.processPredecessors(rows);
    }
 
@@ -194,8 +204,8 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
     */
    private void processAssignments() throws AstaDatabaseException
    {
-      List<Row> allocationRows = getRows("permanent_schedul_allocation", m_projectKey, ALLOCATION_NAME_MAP);
-      List<Row> skillRows = getRows("perm_resource_skill", m_projectKey, SKILL_NAME_MAP);
+      List<Row> allocationRows = m_data.getRows("permanent_schedul_allocation", m_projectKey, ALLOCATION_NAME_MAP);
+      List<Row> skillRows = m_data.getRows("perm_resource_skill", m_projectKey, SKILL_NAME_MAP);
       allocationRows.sort(ALLOCATION_COMPARATOR);
       m_reader.processAssignments(allocationRows, skillRows);
    }
@@ -214,7 +224,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    {
       try
       {
-         allocateResources(file);
+         m_data.allocateResources(file);
          setProjectID(0);
          return read();
       }
@@ -226,7 +236,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
 
       finally
       {
-         releaseResources();
+         m_data.releaseResources();
       }
    }
 
@@ -234,7 +244,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    {
       try
       {
-         allocateResources(file);
+         m_data.allocateResources(file);
          List<ProjectFile> result = new ArrayList<>();
          Set<Integer> ids = listProjects().keySet();
          for (Integer id : ids)
@@ -252,40 +262,9 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
 
       finally
       {
-         releaseResources();
+         m_data.releaseResources();
       }
    }
-
-   /**
-    * Retrieve a set of rows from a named table matching the supplied keys.
-    *
-    * @param table table to retrieve rows from
-    * @param keys name and integer value keys
-    * @return list of rows
-    */
-   protected abstract List<Row> getRows(String table, Map<String, Integer> keys) throws AstaDatabaseException;
-
-   /**
-    * Retrieve a set of rows from a named table matching the supplied keys.
-    *
-    * @param table table to retrieve rows from
-    * @param keys name and integer value keys
-    * @param nameMap column name map
-    * @return list of rows
-    */
-   protected abstract List<Row> getRows(String table, Map<String, Integer> keys, Map<String, String> nameMap) throws AstaDatabaseException;
-
-   /**
-    * Allocate any resources necessary to work with the database before we start reading.
-    *
-    * @param file database file
-    */
-   protected abstract void allocateResources(File file) throws AstaDatabaseException;
-
-   /**
-    * Release any resources once we've finished reading.
-    */
-   protected abstract void releaseResources();
 
    /**
     * Sort rows by the named integer columns.
@@ -309,6 +288,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       return rows;
    }
 
+   protected final AstaDataProvider m_data;
    private AstaReader m_reader;
    private Map<String, Integer> m_projectKey;
 

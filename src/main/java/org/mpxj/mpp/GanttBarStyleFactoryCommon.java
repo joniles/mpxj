@@ -30,7 +30,7 @@ import org.mpxj.common.FieldTypeHelper;
 /**
  * Reads Gantt bar styles from a MPP9 and MPP12 files.
  */
-public final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
+final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
 {
    @Override public GanttBarStyle[] processDefaultStyles(ProjectFile file, Props props)
    {

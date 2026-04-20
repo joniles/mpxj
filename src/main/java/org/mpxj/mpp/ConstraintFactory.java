@@ -19,7 +19,7 @@ import org.mpxj.common.NumberHelper;
  * Common implementation detail to extract task constraint data from
  * MPP9, MPP12, and MPP14 files.
  */
-public class ConstraintFactory
+class ConstraintFactory
 {
    /**
     * Main entry point when called to process constraint data.

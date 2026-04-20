@@ -35,7 +35,7 @@ import org.mpxj.common.FieldTypeHelper;
 /**
  * This class allows filter definitions to be read from an MPP file.
  */
-public abstract class GroupReader
+abstract class GroupReader
 {
    /**
     * Retrieves the type used for the VarData lookup.

@@ -53,7 +53,7 @@ import org.mpxj.common.Pair;
 /**
  * MPP9 custom field value reader.
  */
-public class CustomFieldValueReader9
+class CustomFieldValueReader9
 {
    /**
     * Constructor.

@@ -717,7 +717,7 @@ abstract class FieldMap
     * describe the location of each field within the MPP file. It also provides
     * the methods used to extract an individual field value.
     */
-   public class FieldItem implements Comparable<FieldItem>
+   class FieldItem implements Comparable<FieldItem>
    {
       /**
        * Constructor.

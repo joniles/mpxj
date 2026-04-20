@@ -40,7 +40,7 @@ import org.mpxj.common.FieldTypeHelper;
  * This class allows graphical indicator definitions to be read from an MPP
  * file.
  */
-public final class GraphicalIndicatorReader
+final class GraphicalIndicatorReader
 {
    /**
     * The main entry point for processing graphical indicator definitions.
