@@ -323,8 +323,8 @@ final class MPP8Reader implements MPPVariantReader
                {
                   offset = 4 + (40 * 7) + (index * 44);
 
-                  LocalDate fromDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(extData, offset));
-                  LocalDate toDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(extData, offset + 2));
+                  LocalDate fromDate = MPPUtility.getDate(extData, offset);
+                  LocalDate toDate = MPPUtility.getDate(extData, offset + 2);
                   exception = cal.addCalendarException(fromDate, toDate);
 
                   periodCount = ByteArrayHelper.getShort(extData, offset + 6);

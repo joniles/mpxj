@@ -60,7 +60,7 @@ public class DataAtOffset
          m_short = Integer.valueOf(ByteArrayHelper.getShort(data, offset));
          m_timeUnit = MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(data, offset));
          m_percentage = MPPUtility.getPercentage(data,  offset);
-         m_date = LocalDateHelper.getLocalDate(MPPUtility.getDate(data, offset));
+         m_date = MPPUtility.getDate(data, offset);
          m_time = MPPUtility.getTime(data,  offset);
       }
       else

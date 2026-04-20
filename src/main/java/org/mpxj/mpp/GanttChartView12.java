@@ -26,6 +26,7 @@ package org.mpxj.mpp;
 import java.awt.Color;
 import java.io.IOException;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -284,7 +285,7 @@ public final class GanttChartView12 extends GanttChartView
       int dateCount = ByteArrayHelper.getShort(progressLineData, 50);
       if (dateCount != 0)
       {
-         m_progressLinesDisplaySelectedDates = new LocalDateTime[dateCount];
+         m_progressLinesDisplaySelectedDates = new LocalDate[dateCount];
          int offset = 72;
          int count = 0;
          while (count < dateCount && offset < progressLineData.length)
