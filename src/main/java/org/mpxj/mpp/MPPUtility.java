@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -258,21 +259,14 @@ final class MPPUtility
     * @param offset location of data as offset into the array
     * @return date value
     */
-   public static final LocalDateTime getDate(byte[] data, int offset)
+   public static final LocalDate getDate(byte[] data, int offset)
    {
-      LocalDateTime result;
       long days = ByteArrayHelper.getShort(data, offset);
-
       if (days == 65535)
       {
-         result = null;
+         return null;
       }
-      else
-      {
-         result = MicrosoftProjectConstants.EPOCH_DATE.plusDays(days);
-      }
-
-      return (result);
+      return MicrosoftProjectConstants.EPOCH_DATE.toLocalDate().plusDays(days);
    }
 
    /**
@@ -1088,7 +1082,7 @@ final class MPPUtility
             {
                try
                {
-                  LocalDateTime d = MPPUtility.getDate(data, i);
+                  LocalDate d = MPPUtility.getDate(data, i);
                   if (d != null)
                   {
                      System.out.println(i + ":" + d);

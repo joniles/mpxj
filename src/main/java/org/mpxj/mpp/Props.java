@@ -25,6 +25,7 @@ package org.mpxj.mpp;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Map;
@@ -212,17 +213,14 @@ class Props extends MPPComponent
     * @param type Type identifier
     * @return string value
     */
-   public LocalDateTime getDate(Integer type)
+   public LocalDate getDate(Integer type)
    {
-      LocalDateTime result = null;
-
       byte[] item = m_map.get(type);
-      if (item != null)
+      if (item == null)
       {
-         result = MPPUtility.getDate(item, 0);
+         return null;
       }
-
-      return (result);
+      return MPPUtility.getDate(item, 0);
    }
 
    /**

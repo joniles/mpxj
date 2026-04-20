@@ -113,8 +113,8 @@ class MPP9CalendarFactory extends AbstractCalendarFactory
          {
             offset = 4 + (60 * 7) + (index * 64);
 
-            LocalDate fromDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(data, offset));
-            LocalDate toDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(data, offset + 2));
+            LocalDate fromDate = MPPUtility.getDate(data, offset);
+            LocalDate toDate = MPPUtility.getDate(data, offset + 2);
             exception = cal.addCalendarException(fromDate, toDate);
 
             periodCount = ByteArrayHelper.getShort(data, offset + 6);

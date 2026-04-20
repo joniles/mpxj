@@ -28,6 +28,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,6 +42,7 @@ import org.mpxj.FilterContainer;
 import org.mpxj.ProjectFile;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
+import org.mpxj.common.LocalDateHelper;
 
 /**
  * This class represents the set of properties used to define the appearance
@@ -798,10 +800,21 @@ public abstract class GanttChartView extends GenericView
     * Retrieve the progress lines begin at date.
     *
     * @return progress lines begin at date
+    * @deprecated use getProgressLinesBeginAt
     */
-   public LocalDateTime getProgressLinesBeginAtDate()
+   @Deprecated public LocalDateTime getProgressLinesBeginAtDate()
    {
-      return (m_progressLinesBeginAtDate);
+      return LocalDateHelper.getLocalDateTime(m_progressLinesBeginAtDate);
+   }
+
+   /**
+    * Retrieve the progress lines begin at date.
+    *
+    * @return progress lines begin at date
+    */
+   public LocalDate getProgressLinesBeginAt()
+   {
+      return m_progressLinesBeginAtDate;
    }
 
    /**
@@ -900,10 +913,22 @@ public abstract class GanttChartView extends GenericView
     * or returns null if no dates have been supplied.
     *
     * @return array of selected dates
+    * @deprecated use getProgressLineDates
     */
-   public LocalDateTime[] getProgressLinesDisplaySelectedDates()
+   @Deprecated public LocalDateTime[] getProgressLinesDisplaySelectedDates()
    {
-      return (m_progressLinesDisplaySelectedDates);
+      return Arrays.stream(m_progressLinesDisplaySelectedDates).map(LocalDateHelper::getLocalDateTime).toArray(LocalDateTime[]::new);
+   }
+
+   /**
+    * Retrieves an array of selected dates for progress line display,
+    * or returns null if no dates have been supplied.
+    *
+    * @return array of selected dates
+    */
+   public LocalDate[] getProgressLineDates()
+   {
+      return m_progressLinesDisplaySelectedDates;
    }
 
    /**
@@ -1468,9 +1493,9 @@ public abstract class GanttChartView extends GenericView
    protected boolean m_progressLinesIntervalMonthlyFirstLast;
    protected int m_progressLinesIntervalMonthlyFirstLastMonthNumber;
    protected boolean m_progressLinesBeginAtProjectStart;
-   protected LocalDateTime m_progressLinesBeginAtDate;
+   protected LocalDate m_progressLinesBeginAtDate;
    protected boolean m_progressLinesDisplaySelected;
-   protected LocalDateTime[] m_progressLinesDisplaySelectedDates;
+   protected LocalDate[] m_progressLinesDisplaySelectedDates;
    protected boolean m_progressLinesActualPlan;
    protected int m_progressLinesDisplayType;
    protected boolean m_progressLinesShowDate;

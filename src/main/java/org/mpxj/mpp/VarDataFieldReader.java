@@ -27,6 +27,7 @@ import java.util.UUID;
 
 import org.mpxj.CustomFieldContainer;
 import org.mpxj.common.ByteArrayHelper;
+import org.mpxj.common.LocalDateHelper;
 
 /**
  * Core implementation to read fields from var data, including
@@ -62,7 +63,9 @@ abstract class VarDataFieldReader
          byte[] data = varData.getByteArray(id, type);
          if (data.length == 4)
          {
-            result = MPPUtility.getDate(data, 2);
+            // I'm not sure that this is correct, I don't have
+            // any samples where a non-null date is returned.
+            result = LocalDateHelper.getLocalDateTime(MPPUtility.getDate(data, 2));
          }
          else
          {
