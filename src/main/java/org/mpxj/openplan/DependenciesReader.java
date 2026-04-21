@@ -33,7 +33,7 @@ import org.apache.poi.poifs.filesystem.DirectoryEntry;
  * Read a dependencies table and extract any
  * calendars, resources and code definitions listed.
  */
-public class DependenciesReader extends AbstractReader
+class DependenciesReader extends AbstractReader
 {
    /**
     * Constructor.

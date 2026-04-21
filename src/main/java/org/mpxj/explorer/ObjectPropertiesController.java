@@ -41,7 +41,7 @@ import org.mpxj.Duration;
 /**
  * Implements the controller component of the ObjectProperties MVC.
  */
-public class ObjectPropertiesController
+class ObjectPropertiesController
 {
    private final ObjectPropertiesModel m_model;
 

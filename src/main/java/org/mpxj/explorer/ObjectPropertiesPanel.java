@@ -33,7 +33,7 @@ import javax.swing.JPanel;
  * The properties are displayed in a table with the property names
  * in the first column, and the property values in the second column.
  */
-public class ObjectPropertiesPanel extends JPanel
+class ObjectPropertiesPanel extends JPanel
 {
 
    /**

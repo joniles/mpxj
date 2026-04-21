@@ -33,7 +33,7 @@ import javax.swing.table.TableModel;
 /**
  * Implements the model component of the HexDump MVC.
  */
-public class HexDumpModel
+class HexDumpModel
 {
    private final PropertyChangeSupport m_changeSupport = new PropertyChangeSupport(this);
    private byte[] m_data = new byte[0];

@@ -39,7 +39,7 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 /**
  * Implements the model component of the PoiTree MVC.
  */
-public class PoiTreeModel implements TreeModel
+class PoiTreeModel implements TreeModel
 {
    private final EventListenerList m_listenerList = new EventListenerList();
    private POIFSFileSystem m_file;

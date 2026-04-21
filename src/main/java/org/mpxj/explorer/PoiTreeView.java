@@ -29,7 +29,7 @@ import org.apache.poi.poifs.filesystem.Entry;
 /**
  * Implements the view component of the PoiTree MVC.
  */
-public class PoiTreeView extends JTree
+class PoiTreeView extends JTree
 {
    /**
     * Constructor.
