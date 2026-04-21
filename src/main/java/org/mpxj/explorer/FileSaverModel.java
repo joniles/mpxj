@@ -30,7 +30,7 @@ import java.io.File;
 /**
  * Implements the model component of the FileChooser MVC.
  */
-class FileSaverModel
+public class FileSaverModel
 {
    private final PropertyChangeSupport m_changeSupport = new PropertyChangeSupport(this);
    private boolean m_showDialog;
