@@ -33,7 +33,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * Extend DefaultMutableTreeNode so we can include the
  * names of methods we don't want to display.
  */
-public class MpxjTreeNode extends DefaultMutableTreeNode
+class MpxjTreeNode extends DefaultMutableTreeNode
 {
    /**
     * Constructor.

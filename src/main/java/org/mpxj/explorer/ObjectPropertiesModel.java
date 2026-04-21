@@ -32,7 +32,7 @@ import javax.swing.table.TableModel;
 /**
  * Implements the model component of the PropertyTable MVC.
  */
-public class ObjectPropertiesModel
+class ObjectPropertiesModel
 {
    private final PropertyChangeSupport m_changeSupport = new PropertyChangeSupport(this);
    private TableModel m_tableModel = new DefaultTableModel();

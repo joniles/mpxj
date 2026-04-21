@@ -34,7 +34,7 @@ import org.mpxj.common.AutoCloseableHelper;
 /**
  * Implements the controller component of the PoiTree MVC.
  */
-public class PoiTreeController
+class PoiTreeController
 {
    private final PoiTreeModel m_model;
 

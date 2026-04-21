@@ -15,7 +15,7 @@ import javax.swing.table.TableModel;
  * Presents a pair of JTables side by side in a panel.
  * The scrolling and selection for these tables are synchronized.
  */
-public class JTablePanel extends JPanel
+class JTablePanel extends JPanel
 {
    private final JTableExtra m_leftTable;
    private final JTableExtra m_rightTable;

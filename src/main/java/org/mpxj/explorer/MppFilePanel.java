@@ -37,7 +37,7 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 /**
  * Component representing the main view of an MPP file.
  */
-public class MppFilePanel extends JPanel
+class MppFilePanel extends JPanel
 {
 
    protected final HexDumpController m_hexDumpController;

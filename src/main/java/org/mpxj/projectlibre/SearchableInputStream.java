@@ -29,7 +29,7 @@ import java.io.InputStream;
 /**
  * Search through the input stream until the pattern is found, the acts as a normal input stream from that point.
  */
-public class SearchableInputStream extends InputStream
+class SearchableInputStream extends InputStream
 {
    /**
     * Constructor.

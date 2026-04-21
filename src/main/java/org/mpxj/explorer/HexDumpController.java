@@ -42,7 +42,7 @@ import org.mpxj.mpp.DataAtOffset;
 /**
  * Implements the controller component of the HexDump MVC.
  */
-public class HexDumpController
+class HexDumpController
 {
    private static final char[] HEX_DIGITS = {
       '0',
