@@ -42,8 +42,8 @@ class DocumentInputStreamFactory
     */
    public DocumentInputStreamFactory(Props props)
    {
-      m_encrypted = props.getByte(Props.PASSWORD_FLAG) != 0;
-      byte code = props.getByte(Props.ENCRYPTION_CODE);
+      m_encrypted = props.getByte(PropsKey.PASSWORD_FLAG) != 0;
+      byte code = props.getByte(PropsKey.ENCRYPTION_CODE);
       m_encryptionCode = (byte) (code == 0x00 ? 0x00 : (0xFF - code));
    }
 

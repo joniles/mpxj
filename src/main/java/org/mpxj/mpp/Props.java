@@ -28,10 +28,12 @@ import java.io.StringWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.mpxj.common.ByteArrayHelper;
 
@@ -44,6 +46,11 @@ import org.mpxj.common.ByteArrayHelper;
  */
 class Props extends MPPComponent
 {
+   public byte[] getByteArray(PropsKey key)
+   {
+      return getByteArray(key.getValue());
+   }
+
    /**
     * Retrieve property data as a byte array.
     *
@@ -55,23 +62,29 @@ class Props extends MPPComponent
       return (m_map.get(type));
    }
 
+
    /**
     * Retrieves a byte value from the property data.
     *
     * @param type Type identifier
     * @return byte value
     */
-   public byte getByte(Integer type)
+   public byte getByte(PropsKey key)
    {
       byte result = 0;
 
-      byte[] item = m_map.get(type);
+      byte[] item = m_map.get(key.getValue());
       if (item != null)
       {
          result = item[0];
       }
 
       return (result);
+   }
+
+   public int getShort(PropsKey key)
+   {
+      return getShort(key.getValue());
    }
 
    /**
@@ -93,6 +106,11 @@ class Props extends MPPComponent
       return (result);
    }
 
+   public int getInt(PropsKey key)
+   {
+      return getInt(key.getValue());
+   }
+
    /**
     * Retrieves an integer value from the property data.
     *
@@ -110,6 +128,11 @@ class Props extends MPPComponent
       }
 
       return (result);
+   }
+
+   public double getDouble(PropsKey key)
+   {
+      return getDouble(key.getValue());
    }
 
    /**
@@ -131,6 +154,11 @@ class Props extends MPPComponent
       return (result);
    }
 
+   public LocalTime getTime(PropsKey key)
+   {
+      return getTime(key.getValue());
+   }
+
    /**
     * Retrieves a time from the property data.
     *
@@ -148,6 +176,11 @@ class Props extends MPPComponent
       }
 
       return result;
+   }
+
+   public LocalDateTime getTimestamp(PropsKey key)
+   {
+      return getTimestamp(key.getValue());
    }
 
    /**
@@ -175,17 +208,22 @@ class Props extends MPPComponent
     * @param type Type identifier
     * @return boolean value
     */
-   public boolean getBoolean(Integer type)
+   public boolean getBoolean(PropsKey key)
    {
       boolean result = false;
 
-      byte[] item = m_map.get(type);
+      byte[] item = m_map.get(key.getValue());
       if (item != null)
       {
          result = !(ByteArrayHelper.getShort(item, 0) == 0);
       }
 
       return (result);
+   }
+
+   public String getUnicodeString(PropsKey key)
+   {
+      return getUnicodeString(key.getValue());
    }
 
    /**
@@ -229,9 +267,9 @@ class Props extends MPPComponent
     * @param type Type identifier
     * @return UUID value
     */
-   public UUID getUUID(Integer type)
+   public UUID getUUID(PropsKey key)
    {
-      byte[] item = m_map.get(type);
+      byte[] item = m_map.get(key.getValue());
       if (item == null)
       {
          return null;
@@ -268,6 +306,8 @@ class Props extends MPPComponent
     */
    @Override public String toString()
    {
+      Map<Integer, PropsKey> map = Arrays.stream(PropsKey.values()).collect(Collectors.toMap(PropsKey::getValue, k -> k));
+
       StringWriter sw = new StringWriter();
       PrintWriter pw = new PrintWriter(sw);
 
@@ -275,7 +315,9 @@ class Props extends MPPComponent
 
       for (Map.Entry<Integer, byte[]> entry : m_map.entrySet())
       {
-         pw.println("   Key: " + entry.getKey() + " Value: ");
+         PropsKey key = map.get(entry.getKey());
+         String keyLabel = key == null ? entry.getKey().toString() : key + "(" + entry.getKey() + ")";
+         pw.println("   Key: " + keyLabel + " Value: ");
          pw.println(ByteArrayHelper.hexdump(entry.getValue(), true, 16, "      "));
       }
 
@@ -285,107 +327,6 @@ class Props extends MPPComponent
       pw.close();
       return (sw.toString());
    }
-
-   /**
-    * Data types.
-    */
-   public static final Integer PROJECT_START_DATE = Integer.valueOf(37748738);
-   public static final Integer PROJECT_FINISH_DATE = Integer.valueOf(37748739);
-   public static final Integer SCHEDULE_FROM = Integer.valueOf(37748740);
-   public static final Integer RESOURCE_POOL = Integer.valueOf(37748747);
-   public static final Integer DEFAULT_CALENDAR_NAME = Integer.valueOf(37748750);
-   public static final Integer CURRENCY_SYMBOL = Integer.valueOf(37748752);
-   public static final Integer CURRENCY_PLACEMENT = Integer.valueOf(37748753);
-   public static final Integer CURRENCY_DIGITS = Integer.valueOf(37748754);
-
-   public static final Integer CRITICAL_SLACK_LIMIT = Integer.valueOf(37748756);
-   public static final Integer DURATION_UNITS = Integer.valueOf(37748757);
-   public static final Integer WORK_UNITS = Integer.valueOf(37748758);
-   public static final Integer TASK_UPDATES_RESOURCE = Integer.valueOf(37748761);
-   public static final Integer SPLIT_TASKS = Integer.valueOf(37748762);
-   public static final Integer START_TIME = Integer.valueOf(37748764);
-   public static final Integer MINUTES_PER_DAY = Integer.valueOf(37748765);
-   public static final Integer MINUTES_PER_WEEK = Integer.valueOf(37748766);
-   public static final Integer STANDARD_RATE = Integer.valueOf(37748767);
-   public static final Integer OVERTIME_RATE = Integer.valueOf(37748768);
-   public static final Integer END_TIME = Integer.valueOf(37748769);
-
-   public static final Integer WEEK_START_DAY = Integer.valueOf(37748773);
-   public static final Integer GUID = Integer.valueOf(37748777);
-   public static final Integer FISCAL_YEAR_START_MONTH = Integer.valueOf(37748780);
-   public static final Integer DEFAULT_TASK_TYPE = Integer.valueOf(37748785);
-   public static final Integer HONOR_CONSTRAINTS = Integer.valueOf(37748794);
-   public static final Integer FISCAL_YEAR_START = Integer.valueOf(37748801);
-   public static final Integer EDITABLE_ACTUAL_COSTS = Integer.valueOf(37748802);
-
-   public static final Integer DAYS_PER_MONTH = Integer.valueOf(37753743);
-
-   public static final Integer CURRENCY_CODE = Integer.valueOf(37753787);
-
-   public static final Integer NEW_TASKS_ARE_MANUAL = Integer.valueOf(37753800);
-
-   public static final Integer MULTIPLE_CRITICAL_PATHS = Integer.valueOf(37748793);
-
-   public static final Integer TASK_FIELD_NAME_ALIASES = Integer.valueOf(1048577);
-   public static final Integer RESOURCE_FIELD_NAME_ALIASES = Integer.valueOf(1048578);
-
-   public static final Integer PASSWORD_FLAG = Integer.valueOf(893386752);
-
-   public static final Integer PROTECTION_PASSWORD_HASH = Integer.valueOf(893386756);
-
-   public static final Integer WRITE_RESERVATION_PASSWORD_HASH = Integer.valueOf(893386757);
-
-   public static final Integer ENCRYPTION_CODE = Integer.valueOf(893386759);
-
-   public static final Integer STATUS_DATE = Integer.valueOf(37748805);
-
-   public static final Integer SUBPROJECT_COUNT = Integer.valueOf(37748868);
-   public static final Integer SUBPROJECT_DATA = Integer.valueOf(37748898);
-   public static final Integer SUBPROJECT_TASK_COUNT = Integer.valueOf(37748900);
-
-   public static final Integer DEFAULT_CALENDAR_HOURS = Integer.valueOf(37753736);
-
-   public static final Integer TASK_FIELD_ATTRIBUTES = Integer.valueOf(37753744);
-
-   public static final Integer FONT_BASES = Integer.valueOf(54525952);
-
-   public static final Integer AUTO_FILTER = Integer.valueOf(893386767);
-
-   public static final Integer PROJECT_FILE_PATH = Integer.valueOf(893386760);
-
-   public static final Integer HYPERLINK_BASE = Integer.valueOf(37748810);
-
-   public static final Integer RESOURCE_CREATION_DATE = Integer.valueOf(205521219);
-
-   public static final Integer SHOW_PROJECT_SUMMARY_TASK = Integer.valueOf(54525961);
-
-   public static final Integer TASK_FIELD_MAP = Integer.valueOf(131092);
-   public static final Integer TASK_FIELD_MAP2 = Integer.valueOf(50331668);
-   public static final Integer ENTERPRISE_CUSTOM_FIELD_MAP = Integer.valueOf(37753797); // MPP14 37753768?
-
-   public static final Integer RESOURCE_FIELD_MAP = Integer.valueOf(131093);
-   public static final Integer RESOURCE_FIELD_MAP2 = Integer.valueOf(50331669);
-
-   public static final Integer RELATION_FIELD_MAP = Integer.valueOf(131094);
-
-   public static final Integer ASSIGNMENT_FIELD_MAP = Integer.valueOf(131095);
-   public static final Integer ASSIGNMENT_FIELD_MAP2 = Integer.valueOf(50331671);
-
-   public static final Integer BASELINE_CALENDAR_NAME = Integer.valueOf(37753747);
-
-   public static final Integer BASELINE_DATE = Integer.valueOf(37753749);
-   public static final Integer BASELINE1_DATE = Integer.valueOf(37753750);
-   public static final Integer BASELINE2_DATE = Integer.valueOf(37753751);
-   public static final Integer BASELINE3_DATE = Integer.valueOf(37753752);
-   public static final Integer BASELINE4_DATE = Integer.valueOf(37753753);
-   public static final Integer BASELINE5_DATE = Integer.valueOf(37753754);
-   public static final Integer BASELINE6_DATE = Integer.valueOf(37753755);
-   public static final Integer BASELINE7_DATE = Integer.valueOf(37753756);
-   public static final Integer BASELINE8_DATE = Integer.valueOf(37753757);
-   public static final Integer BASELINE9_DATE = Integer.valueOf(37753758);
-   public static final Integer BASELINE10_DATE = Integer.valueOf(37753759);
-
-   public static final Integer CUSTOM_FIELDS = Integer.valueOf(71303169);
 
    protected final TreeMap<Integer, byte[]> m_map = new TreeMap<>();
 }
