@@ -65,7 +65,7 @@ final class ProjectPropertiesReader
    {
       try
       {
-         MPPUtility.fileDump("/Users/joniles/Downloads/props.txt", props.toString().getBytes());
+         //MPPUtility.fileDump("/Users/joniles/Downloads/props.txt", props.toString().getBytes());
          ProjectProperties ph = file.getProjectProperties();
          ph.setGUID(props.getUUID(PropsKey.GUID));
          ph.setStartDate(props.getTimestamp(PropsKey.PROJECT_START_DATE));
