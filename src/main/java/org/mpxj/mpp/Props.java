@@ -25,7 +25,6 @@ package org.mpxj.mpp;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -48,22 +47,16 @@ import org.mpxj.common.ByteArrayHelper;
  */
 class Props extends MPPComponent
 {
-   public byte[] getByteArray(PropsKey key)
-   {
-      return getByteArray(key.getValue());
-   }
-
    /**
     * Retrieve property data as a byte array.
     *
-    * @param type Type identifier
+    * @param key property key
     * @return  byte array of data
     */
-   public byte[] getByteArray(Integer type)
+   public byte[] getByteArray(PropsKey key)
    {
-      return (m_map.get(type));
+      return (m_map.get(key.getValue()));
    }
-
 
    /**
     * Retrieves a byte value from the property data.
@@ -84,94 +77,65 @@ class Props extends MPPComponent
       return (result);
    }
 
-   public int getShort(PropsKey key)
-   {
-      return getShort(key.getValue());
-   }
-
    /**
     * Retrieves a short int value from the property data.
     *
-    * @param type Type identifier
+    * @param key property key
     * @return short int value
     */
-   public int getShort(Integer type)
+   public int getShort(PropsKey key)
    {
-      int result = 0;
-
-      byte[] item = m_map.get(type);
-      if (item != null)
+      byte[] item = m_map.get(key.getValue());
+      if (item == null)
       {
-         result = ByteArrayHelper.getShort(item, 0);
+         return 0;
       }
-
-      return (result);
-   }
-
-   public int getInt(PropsKey key)
-   {
-      return getInt(key.getValue());
+      return ByteArrayHelper.getShort(item, 0);
    }
 
    /**
     * Retrieves an integer value from the property data.
     *
-    * @param type Type identifier
+    * @param key property key
     * @return integer value
     */
-   public int getInt(Integer type)
+   public int getInt(PropsKey key)
    {
-      int result = 0;
-
-      byte[] item = m_map.get(type);
-      if (item != null)
+      byte[] item = m_map.get(key.getValue());
+      if (item == null)
       {
-         result = ByteArrayHelper.getInt(item, 0);
+         return 0;
       }
-
-      return (result);
-   }
-
-   public double getDouble(PropsKey key)
-   {
-      return getDouble(key.getValue());
+      return ByteArrayHelper.getInt(item, 0);
    }
 
    /**
     * Retrieves a double value from the property data.
     *
-    * @param type Type identifier
+    * @param key property key
     * @return double value
     */
-   public double getDouble(Integer type)
+   public double getDouble(PropsKey key)
    {
-      double result = 0;
-
-      byte[] item = m_map.get(type);
-      if (item != null)
+      byte[] item = m_map.get(key.getValue());
+      if (item == null)
       {
-         result = MPPUtility.getDouble(item, 0);
+         return 0;
       }
-
-      return (result);
-   }
-
-   public LocalTime getTime(PropsKey key)
-   {
-      return getTime(key.getValue());
+      return MPPUtility.getDouble(item, 0);
    }
 
    /**
     * Retrieves a time from the property data.
     *
-    * @param type Type identifier
+    * @param key property key
     * @return timestamp
     */
-   public LocalTime getTime(Integer type)
+   public LocalTime getTime(PropsKey key)
    {
       LocalTime result = null;
 
-      byte[] item = m_map.get(type);
+      byte[] item = m_map.get(key.getValue());
       if (item != null)
       {
          result = MPPUtility.getTime(item, 0);
@@ -180,28 +144,20 @@ class Props extends MPPComponent
       return result;
    }
 
-   public LocalDateTime getTimestamp(PropsKey key)
-   {
-      return getTimestamp(key.getValue());
-   }
-
    /**
     * Retrieves a timestamp from the property data.
     *
-    * @param type Type identifier
+    * @param key property key
     * @return timestamp
     */
-   public LocalDateTime getTimestamp(Integer type)
+   public LocalDateTime getTimestamp(PropsKey key)
    {
-      LocalDateTime result = null;
-
-      byte[] item = m_map.get(type);
-      if (item != null)
+      byte[] item = m_map.get(key.getValue());
+      if (item == null)
       {
-         result = MPPUtility.getTimestamp(item, 0);
+         return null;
       }
-
-      return (result);
+      return MPPUtility.getTimestamp(item, 0);
    }
 
    /**
@@ -223,44 +179,20 @@ class Props extends MPPComponent
       return (result);
    }
 
-   public String getUnicodeString(PropsKey key)
-   {
-      return getUnicodeString(key.getValue());
-   }
-
    /**
     * Retrieves a string value from the property data.
     *
-    * @param type Type identifier
+    * @param key property key
     * @return string value
     */
-   public String getUnicodeString(Integer type)
+   public String getUnicodeString(PropsKey key)
    {
-      String result = null;
-
-      byte[] item = m_map.get(type);
-      if (item != null)
-      {
-         result = MPPUtility.getUnicodeString(item, 0);
-      }
-
-      return (result);
-   }
-
-   /**
-    * Retrieves a date value from the property data.
-    *
-    * @param type Type identifier
-    * @return string value
-    */
-   public LocalDate getDate(Integer type)
-   {
-      byte[] item = m_map.get(type);
+      byte[] item = m_map.get(key.getValue());
       if (item == null)
       {
          return null;
       }
-      return MPPUtility.getDate(item, 0);
+      return MPPUtility.getUnicodeString(item, 0);
    }
 
    /**
