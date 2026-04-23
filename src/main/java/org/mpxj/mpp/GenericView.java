@@ -62,7 +62,7 @@ public abstract class GenericView extends AbstractMppView
          Props9 props = new Props9(new ByteArrayInputStream(propsData));
          //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
 
-         byte[] tableName = props.getByteArray(TABLE_NAME);
+         byte[] tableName = props.getByteArray(PropsKey.TABLE_NAME);
          if (tableName != null)
          {
             m_tableName = MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(tableName, 0));
@@ -76,7 +76,4 @@ public abstract class GenericView extends AbstractMppView
     * @return properties data ID
     */
    protected abstract Integer getPropertiesID();
-
-   private static final Integer TABLE_NAME = Integer.valueOf(574619658);
-
 }

@@ -211,14 +211,14 @@ final class MPP12Reader implements MPPVariantReader
       if (taskDir.hasEntry("Props"))
       {
          Props12 props = new Props12(m_inputStreamFactory.getInstance(taskDir, "Props"));
-         new CustomFieldReader12(m_file, props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
+         new CustomFieldReader12(m_file, props.getByteArray(PropsKey.CUSTOM_FIELDS)).process();
       }
 
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
       if (rscDir.hasEntry("Props"))
       {
          Props12 props = new Props12(m_inputStreamFactory.getInstance(rscDir, "Props"));
-         new CustomFieldReader12(m_file, props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
+         new CustomFieldReader12(m_file, props.getByteArray(PropsKey.CUSTOM_FIELDS)).process();
       }
 
       // ... before we add values lists
@@ -1988,10 +1988,4 @@ final class MPP12Reader implements MPPVariantReader
    private static final int TASK_UNIQUE_ID_FIXED_OFFSET = 0;
    private static final int TASK_ID_FIXED_OFFSET = 4;
    private static final int NULL_TASK_BLOCK_SIZE = 16;
-
-   /**
-    * Alias data types.
-    */
-   private static final Integer RESOURCE_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
-   private static final Integer TASK_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
 }

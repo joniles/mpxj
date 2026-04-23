@@ -27,7 +27,6 @@ import java.awt.Color;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -116,7 +115,7 @@ public final class GanttChartView9 extends GanttChartView
    {
       //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
 
-      byte[] viewPropertyData = props.getByteArray(VIEW_PROPERTIES);
+      byte[] viewPropertyData = props.getByteArray(PropsKey.STYLE_DATA);
       if (viewPropertyData != null)
       {
          //MPPUtility.fileDump("c:\\temp\\props.txt", ByteArrayHelper.hexdump(viewPropertyData, false, 16, "").getBytes());
@@ -191,7 +190,7 @@ public final class GanttChartView9 extends GanttChartView
 
       }
 
-      byte[] timescaleData = props.getByteArray(TIMESCALE_PROPERTIES);
+      byte[] timescaleData = props.getByteArray(PropsKey.TIMESCALE_PROPERTIES);
       if (timescaleData != null)
       {
          m_timescaleTopTier = new TimescaleTier();

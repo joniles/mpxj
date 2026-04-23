@@ -226,21 +226,21 @@ final class MPP14Reader implements MPPVariantReader
       if (taskDir.hasEntry("Props"))
       {
          Props14 props = new Props14(m_file, m_inputStreamFactory.getInstance(taskDir, "Props"));
-         new CustomFieldReader14(m_file, props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
+         new CustomFieldReader14(m_file, props.getByteArray(PropsKey.CUSTOM_FIELDS)).process();
       }
 
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
       if (rscDir.hasEntry("Props"))
       {
          Props14 props = new Props14(m_file, m_inputStreamFactory.getInstance(rscDir, "Props"));
-         new CustomFieldReader14(m_file, props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
+         new CustomFieldReader14(m_file, props.getByteArray(PropsKey.CUSTOM_FIELDS)).process();
       }
 
       DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
       if (assnDir.hasEntry("Props"))
       {
          Props props = new Props14(m_file, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Props"))));
-         new CustomFieldReader14(m_file, props.getByteArray(ASSIGNMENT_FIELD_NAME_ALIASES)).process();
+         new CustomFieldReader14(m_file, props.getByteArray(PropsKey.CUSTOM_FIELDS)).process();
       }
 
       // ... before we add values lists
@@ -2062,10 +2062,6 @@ final class MPP14Reader implements MPPVariantReader
     * Mask used to isolate confirmed flag from the duration units field.
     */
    private static final int DURATION_CONFIRMED_MASK = 0x20;
-
-   private static final Integer RESOURCE_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
-   private static final Integer TASK_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
-   private static final Integer ASSIGNMENT_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
 
    /**
     * Deleted and null tasks have their ID and UniqueID attributes at fixed offsets.

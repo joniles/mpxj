@@ -580,27 +580,6 @@ abstract class FieldMap
    }
 
    /**
-    * Diagnostic method used to dump known field map data.
-    *
-    * @param props props block containing field map data
-    */
-   public void dumpKnownFieldMaps(Props props)
-   {
-      //for (int key=131092; key < 131098; key++)
-      for (int key = 50331668; key < 50331674; key++)
-      {
-         byte[] fieldMapData = props.getByteArray(Integer.valueOf(key));
-         if (fieldMapData != null)
-         {
-            System.out.println("KEY: " + key);
-            createFieldMap(fieldMapData);
-            System.out.println(this);
-            clear();
-         }
-      }
-   }
-
-   /**
     * Determine the size of a field in a fixed data block.
     *
     * @param type field data type

@@ -52,13 +52,13 @@ public class SplitView9 extends GenericView9
       {
          Props9 props = new Props9(new ByteArrayInputStream(propsData));
 
-         byte[] upperViewName = props.getByteArray(UPPER_VIEW_NAME);
+         byte[] upperViewName = props.getByteArray(PropsKey.UPPER_VIEW_NAME);
          if (upperViewName != null)
          {
             m_upperViewName = MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(upperViewName, 0));
          }
 
-         byte[] lowerViewName = props.getByteArray(LOWER_VIEW_NAME);
+         byte[] lowerViewName = props.getByteArray(PropsKey.LOWER_VIEW_NAME);
          if (lowerViewName != null)
          {
             m_lowerViewName = MPPUtility.removeAmpersands(MPPUtility.getUnicodeString(lowerViewName, 0));
@@ -95,6 +95,4 @@ public class SplitView9 extends GenericView9
    private String m_lowerViewName;
 
    private static final Integer PROPERTIES = Integer.valueOf(1);
-   private static final Integer UPPER_VIEW_NAME = Integer.valueOf(574619658);
-   private static final Integer LOWER_VIEW_NAME = Integer.valueOf(574619659);
 }

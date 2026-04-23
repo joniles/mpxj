@@ -35,10 +35,10 @@ final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
    @Override public GanttBarStyle[] processDefaultStyles(ProjectFile file, Props props)
    {
       int countOffset = 812;
-      byte[] barStyleData = props.getByteArray(DEFAULT_PROPERTIES1);
+      byte[] barStyleData = props.getByteArray(PropsKey.ALTERNATE_STYLE_DATA);
       if (barStyleData == null)
       {
-         barStyleData = props.getByteArray(DEFAULT_PROPERTIES2);
+         barStyleData = props.getByteArray(PropsKey.STYLE_DATA);
          countOffset = 1162;
       }
 
@@ -95,7 +95,7 @@ final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
 
    @Override public GanttBarStyleException[] processExceptionStyles(ProjectFile file, Props props)
    {
-      byte[] barData = props.getByteArray(EXCEPTION_PROPERTIES);
+      byte[] barData = props.getByteArray(PropsKey.BAR_EXCEPTION_STYLES);
       if (barData == null)
       {
          return EMPTY_EXCEPTIONS;
@@ -169,10 +169,6 @@ final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
          index++;
       }
    }
-
-   private static final Integer DEFAULT_PROPERTIES1 = Integer.valueOf(574619686);
-   private static final Integer DEFAULT_PROPERTIES2 = Integer.valueOf(574619656);
-   private static final Integer EXCEPTION_PROPERTIES = Integer.valueOf(574619661);
 
    private static final GanttBarStyle[] EMPTY_STYLES = new GanttBarStyle[0];
    private static final GanttBarStyleException[] EMPTY_EXCEPTIONS = new GanttBarStyleException[0];
