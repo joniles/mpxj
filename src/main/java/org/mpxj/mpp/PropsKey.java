@@ -125,11 +125,21 @@ enum PropsKey
    KEYWORDS(37748749),
    CATEGORY(37748809);
 
+   /**
+    * Constructor.
+    *
+    * @param value integer key value
+    */
    PropsKey(int value)
    {
       m_value = value;
    }
 
+   /**
+    * Retrieve the key's integer value.
+    *
+    * @return key value
+    */
    public Integer getValue()
    {
       return m_value;
