@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.TreeMap;
+import java.util.function.Supplier;
 
 import org.apache.poi.hpsf.CustomProperties;
 import org.apache.poi.hpsf.CustomProperty;
@@ -117,11 +118,11 @@ final class ProjectPropertiesReader
          }
 
          SummaryInformation summaryInformation = ps == null ? new SummaryInformation() : new SummaryInformation(ps);
-         ph.setProjectTitle(summaryInformation.getTitle());
-         ph.setSubject(summaryInformation.getSubject());
-         ph.setAuthor(summaryInformation.getAuthor());
-         ph.setKeywords(summaryInformation.getKeywords());
-         ph.setComments(summaryInformation.getComments());
+         ph.setProjectTitle(getPopulatedValue(summaryInformation.getTitle(), () -> props.getUnicodeString(PropsKey.TITLE)));
+         ph.setSubject(getPopulatedValue(summaryInformation.getSubject(), () -> props.getUnicodeString(PropsKey.SUBJECT)));
+         ph.setAuthor(getPopulatedValue(summaryInformation.getAuthor(), () -> props.getUnicodeString(PropsKey.AUTHOR)));
+         ph.setKeywords(getPopulatedValue(summaryInformation.getKeywords(), () -> props.getUnicodeString(PropsKey.KEYWORDS)));
+         ph.setComments(getPopulatedValue(summaryInformation.getComments(), () -> props.getUnicodeString(PropsKey.COMMENTS)));
          ph.setTemplate(summaryInformation.getTemplate());
          ph.setLastAuthor(summaryInformation.getLastAuthor());
          ph.setRevision(NumberHelper.parseInteger(summaryInformation.getRevNumber()));
@@ -154,10 +155,10 @@ final class ProjectPropertiesReader
          }
 
          DocumentSummaryInformation documentSummaryInformation = ps == null ? new DocumentSummaryInformation() : new DocumentSummaryInformation(ps);
-         ph.setCategory(documentSummaryInformation.getCategory());
+         ph.setCategory(getPopulatedValue(documentSummaryInformation.getCategory(), () -> props.getUnicodeString(PropsKey.CATEGORY)));
          ph.setPresentationFormat(documentSummaryInformation.getPresentationFormat());
-         ph.setManager(documentSummaryInformation.getManager());
-         ph.setCompany(documentSummaryInformation.getCompany());
+         ph.setManager(getPopulatedValue(documentSummaryInformation.getManager(), () -> props.getUnicodeString(PropsKey.MANAGER)));
+         ph.setCompany(getPopulatedValue(documentSummaryInformation.getCompany(), () -> props.getUnicodeString(PropsKey.COMPANY)));
          ph.setContentType(documentSummaryInformation.getContentType());
          ph.setContentStatus(documentSummaryInformation.getContentStatus());
          ph.setLanguage(documentSummaryInformation.getLanguage());
@@ -243,5 +244,25 @@ final class ProjectPropertiesReader
       }
 
       return LocalDateTime.ofInstant(date.toInstant(), TimeZone.getDefault().toZoneId());
+   }
+
+   /**
+    * Use the first value if it is populated, otherwise try the supplier.
+    *
+    * @param value first value
+    * @param supplier value supplier
+    * @return string value
+    */
+   private String getPopulatedValue(String value, Supplier<String> supplier)
+   {
+      if (value == null || value.isEmpty())
+      {
+         value = supplier.get();
+         if (value != null && value.isEmpty())
+         {
+            value = null;
+         }
+      }
+      return value;
    }
 }
