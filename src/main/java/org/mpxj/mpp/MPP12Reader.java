@@ -134,7 +134,7 @@ final class MPP12Reader implements MPPVariantReader
       Props props = new Props12(new DocumentInputStream(((DocumentEntry) root.getEntry("Props12"))));
       //System.out.println(props);
 
-      file.getProjectProperties().setProjectFilePath(props.getUnicodeString(Props.PROJECT_FILE_PATH));
+      file.getProjectProperties().setProjectFilePath(props.getUnicodeString(PropsKey.PROJECT_FILE_PATH));
       m_inputStreamFactory = new DocumentInputStreamFactory(props);
 
       //
@@ -145,7 +145,7 @@ final class MPP12Reader implements MPPVariantReader
       // 0x02 = write reservation password has been supplied
       // 0x03 = both passwords have been supplied
       //
-      byte passwordProtectionFlag = props.getByte(Props.PASSWORD_FLAG);
+      byte passwordProtectionFlag = props.getByte(PropsKey.PASSWORD_FLAG);
       boolean passwordRequiredToRead = (passwordProtectionFlag & 0x1) != 0;
       //boolean passwordRequiredToWrite = (passwordProtectionFlag & 0x2) != 0;
 
@@ -175,7 +175,7 @@ final class MPP12Reader implements MPPVariantReader
       m_nullTaskOrder = new TreeMap<>();
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(12));
-      m_file.getProjectProperties().setAutoFilter(props.getBoolean(Props.AUTO_FILTER));
+      m_file.getProjectProperties().setAutoFilter(props.getBoolean(PropsKey.AUTO_FILTER));
    }
 
    /**
@@ -211,14 +211,14 @@ final class MPP12Reader implements MPPVariantReader
       if (taskDir.hasEntry("Props"))
       {
          Props12 props = new Props12(m_inputStreamFactory.getInstance(taskDir, "Props"));
-         new CustomFieldReader12(m_file, props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
+         new CustomFieldReader12(m_file, props.getByteArray(PropsKey.CUSTOM_FIELDS)).process();
       }
 
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
       if (rscDir.hasEntry("Props"))
       {
          Props12 props = new Props12(m_inputStreamFactory.getInstance(rscDir, "Props"));
-         new CustomFieldReader12(m_file, props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
+         new CustomFieldReader12(m_file, props.getByteArray(PropsKey.CUSTOM_FIELDS)).process();
       }
 
       // ... before we add values lists
@@ -244,7 +244,7 @@ final class MPP12Reader implements MPPVariantReader
       }
 
       Props props = new Props14(m_file, m_inputStreamFactory.getInstance(dir, "Props"));
-      byte[] data = props.getByteArray(Props.CUSTOM_FIELDS);
+      byte[] data = props.getByteArray(PropsKey.CUSTOM_FIELDS);
       if (data == null)
       {
          return;
@@ -307,7 +307,7 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processSubProjectData()
    {
-      byte[] subProjData = m_projectProps.getByteArray(Props.SUBPROJECT_DATA);
+      byte[] subProjData = m_projectProps.getByteArray(PropsKey.SUBPROJECT_DATA);
       if (subProjData == null)
       {
          return;
@@ -767,14 +767,14 @@ final class MPP12Reader implements MPPVariantReader
       if (m_viewDir.hasEntry("Props"))
       {
          Props props = new Props12(m_inputStreamFactory.getInstance(m_viewDir, "Props"));
-         byte[] data = props.getByteArray(Props.FONT_BASES);
+         byte[] data = props.getByteArray(PropsKey.FONT_BASES);
          if (data != null)
          {
             processBaseFonts(data);
          }
 
          ProjectProperties properties = m_file.getProjectProperties();
-         properties.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
+         properties.setShowProjectSummaryTask(props.getBoolean(PropsKey.SHOW_PROJECT_SUMMARY_TASK));
       }
    }
 
@@ -1988,10 +1988,4 @@ final class MPP12Reader implements MPPVariantReader
    private static final int TASK_UNIQUE_ID_FIXED_OFFSET = 0;
    private static final int TASK_ID_FIXED_OFFSET = 4;
    private static final int NULL_TASK_BLOCK_SIZE = 16;
-
-   /**
-    * Alias data types.
-    */
-   private static final Integer RESOURCE_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
-   private static final Integer TASK_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
 }

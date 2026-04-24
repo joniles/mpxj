@@ -121,20 +121,20 @@ public abstract class GanttChartView extends GenericView
          Props9 props = new Props9(new ByteArrayInputStream(propsData));
          //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
 
-         byte[] tableData = props.getByteArray(TABLE_PROPERTIES);
+         byte[] tableData = props.getByteArray(PropsKey.TABLE_PROPERTIES);
          if (tableData != null)
          {
             m_tableWidth = ByteArrayHelper.getShort(tableData, 35);
             m_highlightFilter = (tableData[7] != 0);
          }
 
-         byte[] filterName = props.getByteArray(FILTER_NAME);
+         byte[] filterName = props.getByteArray(PropsKey.FILTER_NAME);
          if (filterName != null)
          {
             m_defaultFilterName = MPPUtility.getUnicodeString(filterName, 0);
          }
 
-         byte[] groupName = props.getByteArray(GROUP_NAME);
+         byte[] groupName = props.getByteArray(PropsKey.GROUP_NAME);
          if (groupName != null)
          {
             m_groupName = MPPUtility.getUnicodeString(groupName, 0);
@@ -146,19 +146,19 @@ public abstract class GanttChartView extends GenericView
 
          processExceptionBarStyles(props);
 
-         byte[] columnData = props.getByteArray(COLUMN_PROPERTIES);
+         byte[] columnData = props.getByteArray(PropsKey.COLUMN_PROPERTIES);
          if (columnData != null)
          {
             processTableFontStyles(fontBases, columnData);
          }
 
-         byte[] progressLineData = props.getByteArray(PROGRESS_LINE_PROPERTIES);
+         byte[] progressLineData = props.getByteArray(PropsKey.PROGRESS_LINE_PROPERTIES);
          if (progressLineData != null)
          {
             processProgressLines(fontBases, progressLineData);
          }
 
-         byte[] autoFilterData = props.getByteArray(AUTO_FILTER_PROPERTIES);
+         byte[] autoFilterData = props.getByteArray(PropsKey.AUTO_FILTER_PROPERTIES);
          if (autoFilterData != null)
          {
             processAutoFilters(autoFilterData);
@@ -280,7 +280,7 @@ public abstract class GanttChartView extends GenericView
 
    /**
     * Retrieve the name of the calendar used to define non-working days for
-    * this view..
+    * this view.
     *
     * @return calendar name
     */
@@ -1513,13 +1513,4 @@ public abstract class GanttChartView extends GenericView
    protected final Map<FieldType, Filter> m_autoFiltersByType = new HashMap<>();
 
    private final FilterContainer m_filters;
-
-   protected static final Integer VIEW_PROPERTIES = Integer.valueOf(574619656);
-   protected static final Integer TIMESCALE_PROPERTIES = Integer.valueOf(574619678);
-   private static final Integer TABLE_PROPERTIES = Integer.valueOf(574619655);
-   private static final Integer FILTER_NAME = Integer.valueOf(574619659);
-   private static final Integer GROUP_NAME = Integer.valueOf(574619672);
-   private static final Integer COLUMN_PROPERTIES = Integer.valueOf(574619660);
-   private static final Integer PROGRESS_LINE_PROPERTIES = Integer.valueOf(574619671);
-   private static final Integer AUTO_FILTER_PROPERTIES = Integer.valueOf(574619669);
 }

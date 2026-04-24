@@ -97,12 +97,12 @@ class DataLinkFactory
       Props props = new Props14(m_project, new ByteArrayInputStream(data));
       //System.out.println(props);
 
-      String dataLinkID = props.getUnicodeString(PATH);
+      String dataLinkID = props.getUnicodeString(PropsKey.DATA_LINK_PATH);
       DataLink dataLink = map.computeIfAbsent(dataLinkID, DataLink::new);
-      Integer rowUniqueID = Integer.valueOf(props.getInt(UNIQUE_ID));
-      FieldType fieldType = FieldTypeHelper.getInstance(m_project, props.getInt(FIELD_TYPE));
+      Integer rowUniqueID = Integer.valueOf(props.getInt(PropsKey.DATA_LINK_UNIQUE_ID));
+      FieldType fieldType = FieldTypeHelper.getInstance(m_project, props.getInt(PropsKey.DATA_LINK_FIELD_TYPE));
 
-      if (props.getUnicodeString(VIEW_NAME) == null)
+      if (props.getUnicodeString(PropsKey.VIEW_NAME) == null)
       {
          dataLink.setTargetField(fieldType);
          dataLink.setTargetUniqueID(rowUniqueID);
@@ -116,10 +116,6 @@ class DataLinkFactory
 
    private static final Integer PROPS = Integer.valueOf(6);
    private static final Integer PROPS9 = Integer.valueOf(1);
-   private static final Integer FIELD_TYPE = Integer.valueOf(641728535);
-   private static final Integer VIEW_NAME = Integer.valueOf(641728536);
-   private static final Integer UNIQUE_ID = Integer.valueOf(641728548);
-   private static final Integer PATH = Integer.valueOf(641728561);
 
    private final ProjectFile m_project;
    private final FixedData m_fixedData;

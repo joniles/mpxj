@@ -271,7 +271,7 @@ abstract class FieldMap
    public void createTaskFieldMap(Props props)
    {
       byte[] fieldMapData = null;
-      for (Integer key : TASK_KEYS)
+      for (PropsKey key : TASK_KEYS)
       {
          fieldMapData = props.getByteArray(key);
          if (fieldMapData != null)
@@ -298,7 +298,7 @@ abstract class FieldMap
    public void createRelationFieldMap(Props props)
    {
       byte[] fieldMapData = null;
-      for (Integer key : RELATION_KEYS)
+      for (PropsKey key : RELATION_KEYS)
       {
          fieldMapData = props.getByteArray(key);
          if (fieldMapData != null)
@@ -326,7 +326,7 @@ abstract class FieldMap
    public void createEnterpriseCustomFieldMap(Props props, FieldTypeClass fieldTypeClass)
    {
       byte[] fieldMapData = null;
-      for (Integer key : ENTERPRISE_CUSTOM_KEYS)
+      for (PropsKey key : ENTERPRISE_CUSTOM_KEYS)
       {
          fieldMapData = props.getByteArray(key);
          if (fieldMapData != null)
@@ -364,7 +364,7 @@ abstract class FieldMap
    public void createResourceFieldMap(Props props)
    {
       byte[] fieldMapData = null;
-      for (Integer key : RESOURCE_KEYS)
+      for (PropsKey key : RESOURCE_KEYS)
       {
          fieldMapData = props.getByteArray(key);
          if (fieldMapData != null)
@@ -392,7 +392,7 @@ abstract class FieldMap
    {
       //System.out.println("ASSIGN");
       byte[] fieldMapData = null;
-      for (Integer key : ASSIGNMENT_KEYS)
+      for (PropsKey key : ASSIGNMENT_KEYS)
       {
          fieldMapData = props.getByteArray(key);
          if (fieldMapData != null)
@@ -577,27 +577,6 @@ abstract class FieldMap
    {
       m_map.clear();
       Arrays.fill(m_maxFixedDataSize, 0);
-   }
-
-   /**
-    * Diagnostic method used to dump known field map data.
-    *
-    * @param props props block containing field map data
-    */
-   public void dumpKnownFieldMaps(Props props)
-   {
-      //for (int key=131092; key < 131098; key++)
-      for (int key = 50331668; key < 50331674; key++)
-      {
-         byte[] fieldMapData = props.getByteArray(Integer.valueOf(key));
-         if (fieldMapData != null)
-         {
-            System.out.println("KEY: " + key);
-            createFieldMap(fieldMapData);
-            System.out.println(this);
-            clear();
-         }
-      }
    }
 
    /**
@@ -1323,27 +1302,27 @@ abstract class FieldMap
    private final int[] m_maxFixedDataSize = new int[MAX_FIXED_DATA_BLOCKS];
    private boolean m_debug;
 
-   private static final Integer[] TASK_KEYS = {
-      Props.TASK_FIELD_MAP,
-      Props.TASK_FIELD_MAP2
+   private static final PropsKey[] TASK_KEYS = {
+      PropsKey.TASK_FIELD_MAP,
+      PropsKey.TASK_FIELD_MAP2
    };
 
-   private static final Integer[] ENTERPRISE_CUSTOM_KEYS = {
-      Props.ENTERPRISE_CUSTOM_FIELD_MAP
+   private static final PropsKey[] ENTERPRISE_CUSTOM_KEYS = {
+      PropsKey.ENTERPRISE_CUSTOM_FIELD_MAP
    };
 
-   private static final Integer[] RESOURCE_KEYS = {
-      Props.RESOURCE_FIELD_MAP,
-      Props.RESOURCE_FIELD_MAP2
+   private static final PropsKey[] RESOURCE_KEYS = {
+      PropsKey.RESOURCE_FIELD_MAP,
+      PropsKey.RESOURCE_FIELD_MAP2
    };
 
-   private static final Integer[] ASSIGNMENT_KEYS = {
-      Props.ASSIGNMENT_FIELD_MAP,
-      Props.ASSIGNMENT_FIELD_MAP2
+   private static final PropsKey[] ASSIGNMENT_KEYS = {
+      PropsKey.ASSIGNMENT_FIELD_MAP,
+      PropsKey.ASSIGNMENT_FIELD_MAP2
    };
 
-   private static final Integer[] RELATION_KEYS = {
-      Props.RELATION_FIELD_MAP
+   private static final PropsKey[] RELATION_KEYS = {
+      PropsKey.RELATION_FIELD_MAP
    };
 
    private static final int MAX_FIXED_DATA_BLOCKS = 2;

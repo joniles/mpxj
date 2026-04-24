@@ -23,6 +23,7 @@
 
 package org.mpxj.mpp;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -71,6 +72,97 @@ final class PropsBlock extends Props
          Integer itemOffset = Integer.valueOf(dataSize);
          populateMap(data, previousItemOffset, previousItemKey, itemOffset);
       }
+   }
+
+   /**
+    * Retrieve property data as a byte array.
+    *
+    * @param type Type identifier
+    * @return  byte array of data
+    */
+   public byte[] getByteArray(Integer type)
+   {
+      return m_map.get(type);
+   }
+
+   /**
+    * Retrieves a short int value from the property data.
+    *
+    * @param type Type identifier
+    * @return short int value
+    */
+   public int getShort(Integer type)
+   {
+      byte[] item = m_map.get(type);
+      if (item == null)
+      {
+         return 0;
+      }
+      return ByteArrayHelper.getShort(item, 0);
+   }
+
+   /**
+    * Retrieves an integer value from the property data.
+    *
+    * @param type Type identifier
+    * @return integer value
+    */
+   public int getInt(Integer type)
+   {
+      byte[] item = m_map.get(type);
+      if (item == null)
+      {
+         return 0;
+      }
+      return ByteArrayHelper.getInt(item, 0);
+   }
+
+   /**
+    * Retrieves a double value from the property data.
+    *
+    * @param type Type identifier
+    * @return double value
+    */
+   public double getDouble(Integer type)
+   {
+      byte[] item = m_map.get(type);
+      if (item == null)
+      {
+         return 0;
+      }
+      return MPPUtility.getDouble(item, 0);
+   }
+
+   /**
+    * Retrieves a timestamp from the property data.
+    *
+    * @param type Type identifier
+    * @return timestamp
+    */
+   public LocalDateTime getTimestamp(Integer type)
+   {
+      byte[] item = m_map.get(type);
+      if (item == null)
+      {
+         return null;
+      }
+      return MPPUtility.getTimestamp(item, 0);
+   }
+
+   /**
+    * Retrieves a string value from the property data.
+    *
+    * @param type Type identifier
+    * @return string value
+    */
+   public String getUnicodeString(Integer type)
+   {
+      byte[] item = m_map.get(type);
+      if (item == null)
+      {
+         return null;
+      }
+      return MPPUtility.getUnicodeString(item, 0);
    }
 
    /**
