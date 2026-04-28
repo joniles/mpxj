@@ -66,8 +66,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       //
       // Configure MPX Date Time Settings and Currency Settings Records
       //
-      setCurrencySymbol(DEFAULT_CURRENCY_SYMBOL);
-      setSymbolPosition(DEFAULT_CURRENCY_SYMBOL_POSITION);
       setCurrencyDigits(DEFAULT_CURRENCY_DIGITS);
       setThousandsSeparator(DEFAULT_THOUSANDS_SEPARATOR);
       setDecimalSeparator(DEFAULT_DECIMAL_SEPARATOR);
@@ -1162,11 +1160,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public void setCurrencySymbol(String symbol)
    {
-      if (symbol == null)
-      {
-         symbol = DEFAULT_CURRENCY_SYMBOL;
-      }
-
       set(ProjectField.CURRENCY_SYMBOL, symbol);
    }
 
@@ -1187,10 +1180,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public void setSymbolPosition(CurrencySymbolPosition value)
    {
-      if (value == null)
-      {
-         value = DEFAULT_CURRENCY_SYMBOL_POSITION;
-      }
       set(ProjectField.CURRENCY_SYMBOL_POSITION, value);
    }
 
@@ -3990,6 +3979,8 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_MONTH, p -> p.m_parentFile.getProjectContext().getTimeUnitDefaults().getMinutesPerMonth());
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_YEAR, p -> p.m_parentFile.getProjectContext().getTimeUnitDefaults().getMinutesPerYear());
 
+      CALCULATED_FIELD_MAP.put(ProjectField.CURRENCY_SYMBOL, p -> DEFAULT_CURRENCY_SYMBOL);
+      CALCULATED_FIELD_MAP.put(ProjectField.CURRENCY_SYMBOL_POSITION, p -> DEFAULT_CURRENCY_SYMBOL_POSITION);
       CALCULATED_FIELD_MAP.put(ProjectField.DATE_SEPARATOR, p -> Character.valueOf(DEFAULT_DATE_SEPARATOR));
       CALCULATED_FIELD_MAP.put(ProjectField.TIME_SEPARATOR, p -> Character.valueOf(DEFAULT_TIME_SEPARATOR));
       CALCULATED_FIELD_MAP.put(ProjectField.THOUSANDS_SEPARATOR, p -> Character.valueOf(DEFAULT_THOUSANDS_SEPARATOR));
