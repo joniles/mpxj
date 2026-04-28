@@ -114,7 +114,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       setDuration(DEFAULT_DURATION);
       setBaselineDuration(DEFAULT_DURATION);
       setActualDuration(DEFAULT_DURATION);
-      setPercentageComplete(DEFAULT_PERCENT_COMPLETE);
       setBaselineStart(null);
       setBaselineFinish(null);
       setActualStart(null);
@@ -3859,6 +3858,17 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       return m_parentFile.getCalendars().getDefaultCalendarUniqueID();
    }
 
+   private Object getValueFromSummaryTask(TaskField field)
+   {
+      if (m_parentFile.getChildTasks().size() != 1)
+      {
+         // TODO: implement dummy project summary task to allow values to be rolled up
+         return null;
+      }
+
+      return m_parentFile.getChildTasks().get(0).get(field);
+   }
+
    private final ProjectFile m_parentFile;
 
    /**
@@ -3946,10 +3956,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    private static final ScheduleFrom DEFAULT_SCHEDULE_FROM = ScheduleFrom.START;
 
-   /**
-    * Default percent complete value.
-    */
-   private static final Double DEFAULT_PERCENT_COMPLETE = Double.valueOf(0);
 
    private static final Integer DEFAULT_OTHER_PROJECT_ASSIGNMENT_PRIORITY = Integer.valueOf(5);
 
@@ -3970,6 +3976,8 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    private static final Map<FieldType, Function<ProjectProperties, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
    {
+      CALCULATED_FIELD_MAP.put(ProjectField.PERCENTAGE_COMPLETE, p -> p.getValueFromSummaryTask(TaskField.PERCENT_COMPLETE));
+
       CALCULATED_FIELD_MAP.put(ProjectField.START_DATE, ProjectProperties::calculateStartDate);
       CALCULATED_FIELD_MAP.put(ProjectField.FINISH_DATE, ProjectProperties::calculateFinishDate);
       CALCULATED_FIELD_MAP.put(ProjectField.ACTUAL_START, ProjectProperties::calculateActualStart);
