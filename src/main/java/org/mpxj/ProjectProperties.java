@@ -55,12 +55,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    {
       m_parentFile = file;
 
-      //
-      // Configure MPX Project Header Record
-      //
       setProjectTitle("Project1");
-      setScheduleFrom(DEFAULT_SCHEDULE_FROM);
-      setCurrentDate(LocalDateTime.now());
    }
 
    /**
@@ -3931,6 +3926,8 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.CRITICAL_ACTIVITY_TYPE, p -> CriticalActivityType.TOTAL_FLOAT);
       CALCULATED_FIELD_MAP.put(ProjectField.TOTAL_SLACK_CALCULATION_TYPE, p -> TotalSlackCalculationType.SMALLEST_SLACK);
       CALCULATED_FIELD_MAP.put(ProjectField.RELATIONSHIP_LAG_CALENDAR, p -> RelationshipLagCalendar.PREDECESSOR);
+      CALCULATED_FIELD_MAP.put(ProjectField.SCHEDULE_FROM, p -> DEFAULT_SCHEDULE_FROM);
+      CALCULATED_FIELD_MAP.put(ProjectField.CURRENT_DATE, p -> LocalDateTime.now());
 
       CALCULATED_FIELD_MAP.put(ProjectField.THOUSANDS_SEPARATOR, p -> Character.valueOf(DEFAULT_THOUSANDS_SEPARATOR));
       CALCULATED_FIELD_MAP.put(ProjectField.DECIMAL_SEPARATOR, p -> Character.valueOf(DEFAULT_DECIMAL_SEPARATOR));
