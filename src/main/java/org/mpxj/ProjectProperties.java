@@ -56,52 +56,12 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       m_parentFile = file;
 
       //
-      // Configure MPX File Creation Record Settings
-      //
-      setMpxDelimiter(DEFAULT_MPX_DELIMITER);
-      setMpxProgramName("Microsoft Project for Windows");
-      setMpxFileVersion(FileVersion.VERSION_4_0);
-      setMpxCodePage(CodePage.ANSI);
-
-      //
-      // Configure MPX Date Time Settings and Currency Settings Records
-      //
-      setCurrencyDigits(DEFAULT_CURRENCY_DIGITS);
-      setThousandsSeparator(DEFAULT_THOUSANDS_SEPARATOR);
-      setDecimalSeparator(DEFAULT_DECIMAL_SEPARATOR);
-
-      setDateOrder(DateOrder.DMY);
-      setTimeFormat(ProjectTimeFormat.TWELVE_HOUR);
-      setDefaultStartTime(LocalTime.of(8, 0));
-      setDateSeparator(DEFAULT_DATE_SEPARATOR);
-      setTimeSeparator(DEFAULT_TIME_SEPARATOR);
-      setAMText("am");
-      setPMText("pm");
-      setDateFormat(ProjectDateFormat.DD_MM_YYYY);
-      setBarTextDateFormat(ProjectDateFormat.DD_MM_YYYY);
-
-      //
-      // Configure MPX Default Settings Record
-      //
-      setDefaultDurationUnits(TimeUnit.DAYS);
-      setDefaultDurationIsFixed(false);
-      setDefaultWorkUnits(TimeUnit.HOURS);
-      setDefaultStandardRate(new Rate(10, TimeUnit.HOURS));
-      setDefaultOvertimeRate(new Rate(15, TimeUnit.HOURS));
-      setUpdatingTaskStatusUpdatesResourceStatus(true);
-      setSplitInProgressTasks(false);
-
-      //
       // Configure MPX Project Header Record
       //
       setProjectTitle("Project1");
-      setCompany(null);
-      setManager(null);
-      setStartDate(null);
-      setFinishDate(null);
       setScheduleFrom(DEFAULT_SCHEDULE_FROM);
       setCurrentDate(LocalDateTime.now());
-      setComments(null);
+
       setCost(DEFAULT_COST);
       setBaselineCost(DEFAULT_COST);
       setActualCost(DEFAULT_COST);
@@ -112,15 +72,8 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       setDuration(DEFAULT_DURATION);
       setBaselineDuration(DEFAULT_DURATION);
       setActualDuration(DEFAULT_DURATION);
-      setBaselineStart(null);
-      setBaselineFinish(null);
-      setActualStart(null);
-      setActualFinish(null);
       setStartVariance(DEFAULT_DURATION);
       setFinishVariance(DEFAULT_DURATION);
-      setSubject(null);
-      setAuthor(null);
-      setKeywords(null);
 
       //
       // Configure non-MPX attributes
@@ -1200,10 +1153,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public void setCurrencyDigits(Integer currDigs)
    {
-      if (currDigs == null)
-      {
-         currDigs = DEFAULT_CURRENCY_DIGITS;
-      }
       set(ProjectField.CURRENCY_DIGITS, currDigs);
    }
 
@@ -3981,8 +3930,28 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
 
       CALCULATED_FIELD_MAP.put(ProjectField.CURRENCY_SYMBOL, p -> DEFAULT_CURRENCY_SYMBOL);
       CALCULATED_FIELD_MAP.put(ProjectField.CURRENCY_SYMBOL_POSITION, p -> DEFAULT_CURRENCY_SYMBOL_POSITION);
+      CALCULATED_FIELD_MAP.put(ProjectField.CURRENCY_DIGITS, p -> DEFAULT_CURRENCY_DIGITS);
+      CALCULATED_FIELD_MAP.put(ProjectField.MPX_PROGRAM_NAME, p -> "Microsoft Project for Windows");
+      CALCULATED_FIELD_MAP.put(ProjectField.MPX_FILE_VERSION, p -> FileVersion.VERSION_4_0);
+      CALCULATED_FIELD_MAP.put(ProjectField.MPX_CODE_PAGE, p -> CodePage.ANSI);
+      CALCULATED_FIELD_MAP.put(ProjectField.DATE_ORDER, p -> DateOrder.DMY);
+      CALCULATED_FIELD_MAP.put(ProjectField.TIME_FORMAT, p -> ProjectTimeFormat.TWELVE_HOUR);
+      CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_START_TIME, p -> LocalTime.of(8, 0));
       CALCULATED_FIELD_MAP.put(ProjectField.DATE_SEPARATOR, p -> Character.valueOf(DEFAULT_DATE_SEPARATOR));
       CALCULATED_FIELD_MAP.put(ProjectField.TIME_SEPARATOR, p -> Character.valueOf(DEFAULT_TIME_SEPARATOR));
+      CALCULATED_FIELD_MAP.put(ProjectField.AM_TEXT, p -> "am");
+      CALCULATED_FIELD_MAP.put(ProjectField.PM_TEXT, p -> "pm");
+      CALCULATED_FIELD_MAP.put(ProjectField.DATE_FORMAT, p -> ProjectDateFormat.DD_MM_YYYY);
+      CALCULATED_FIELD_MAP.put(ProjectField.BAR_TEXT_DATE_FORMAT, p -> ProjectDateFormat.DD_MM_YYYY);
+      CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_DURATION_UNITS, p -> TimeUnit.DAYS);
+      CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_DURATION_IS_FIXED, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_WORK_UNITS, p -> TimeUnit.HOURS);
+//      CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_STANDARD_RATE, p -> new Rate(10, TimeUnit.HOURS));
+//      CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_OVERTIME_RATE, p -> new Rate(15, TimeUnit.HOURS));
+      CALCULATED_FIELD_MAP.put(ProjectField.UPDATING_TASK_STATUS_UPDATES_RESOURCE_STATUS, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.SPLIT_IN_PROGRESS_TASKS, p -> Boolean.FALSE);
+
+
       CALCULATED_FIELD_MAP.put(ProjectField.THOUSANDS_SEPARATOR, p -> Character.valueOf(DEFAULT_THOUSANDS_SEPARATOR));
       CALCULATED_FIELD_MAP.put(ProjectField.DECIMAL_SEPARATOR, p -> Character.valueOf(DEFAULT_DECIMAL_SEPARATOR));
       CALCULATED_FIELD_MAP.put(ProjectField.MPX_DELIMITER, p -> Character.valueOf(DEFAULT_MPX_DELIMITER));
