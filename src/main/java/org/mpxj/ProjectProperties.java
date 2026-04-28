@@ -61,19 +61,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       setProjectTitle("Project1");
       setScheduleFrom(DEFAULT_SCHEDULE_FROM);
       setCurrentDate(LocalDateTime.now());
-
-      setCost(DEFAULT_COST);
-      setBaselineCost(DEFAULT_COST);
-      setActualCost(DEFAULT_COST);
-      setWork(DEFAULT_WORK);
-      setBaselineWork(DEFAULT_WORK);
-      setActualWork(DEFAULT_WORK);
-      setWork2(DEFAULT_WORK2);
-      setDuration(DEFAULT_DURATION);
-      setBaselineDuration(DEFAULT_DURATION);
-      setActualDuration(DEFAULT_DURATION);
-      setStartVariance(DEFAULT_DURATION);
-      setFinishVariance(DEFAULT_DURATION);
    }
 
    /**
