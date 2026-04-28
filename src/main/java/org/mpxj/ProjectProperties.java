@@ -74,28 +74,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       setActualDuration(DEFAULT_DURATION);
       setStartVariance(DEFAULT_DURATION);
       setFinishVariance(DEFAULT_DURATION);
-
-      //
-      // Configure non-MPX attributes
-      //
-      setProjectExternallyEdited(false);
-      setFiscalYearStart(false);
-      setDefaultTaskEarnedValueMethod(EarnedValueMethod.PERCENT_COMPLETE);
-      setNewTasksEstimated(true);
-      setAutoAddNewResourcesAndTasks(true);
-      setAutolink(true);
-      setMicrosoftProjectServerURL(true);
-      setDefaultTaskType(TaskType.FIXED_UNITS);
-      setDefaultFixedCostAccrual(AccrueType.END);
-      setCriticalSlackLimit(DEFAULT_CRITICAL_SLACK_LIMIT);
-      setBaselineForEarnedValue(DEFAULT_BASELINE_FOR_EARNED_VALUE);
-      setFiscalYearStartMonth(DEFAULT_FISCAL_YEAR_START_MONTH);
-      setNewTaskStartIsProjectStart(true);
-      setNewTasksAreManual(true);
-      setWeekStartDay(DEFAULT_WEEK_START_DAY);
-      setCriticalActivityType(CriticalActivityType.TOTAL_FLOAT);
-      setTotalSlackCalculationType(TotalSlackCalculationType.SMALLEST_SLACK);
-      setRelationshipLagCalendar(RelationshipLagCalendar.PREDECESSOR);
    }
 
    /**
@@ -3946,11 +3924,26 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_DURATION_UNITS, p -> TimeUnit.DAYS);
       CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_DURATION_IS_FIXED, p -> Boolean.FALSE);
       CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_WORK_UNITS, p -> TimeUnit.HOURS);
-//      CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_STANDARD_RATE, p -> new Rate(10, TimeUnit.HOURS));
-//      CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_OVERTIME_RATE, p -> new Rate(15, TimeUnit.HOURS));
       CALCULATED_FIELD_MAP.put(ProjectField.UPDATING_TASK_STATUS_UPDATES_RESOURCE_STATUS, p -> Boolean.TRUE);
       CALCULATED_FIELD_MAP.put(ProjectField.SPLIT_IN_PROGRESS_TASKS, p -> Boolean.FALSE);
-
+      CALCULATED_FIELD_MAP.put(ProjectField.PROJECT_EXTERNALLY_EDITED, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.FISCAL_YEAR_START, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_TASK_EARNED_VALUE_METHOD, p -> EarnedValueMethod.PERCENT_COMPLETE);
+      CALCULATED_FIELD_MAP.put(ProjectField.NEW_TASKS_ESTIMATED, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.AUTO_ADD_NEW_RESOURCES_AND_TASKS, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.AUTO_LINK, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.MICROSOFT_PROJECT_SERVER_URL, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_TASK_TYPE, p -> TaskType.FIXED_UNITS);
+      CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_FIXED_COST_ACCRUAL, p -> AccrueType.END);
+      CALCULATED_FIELD_MAP.put(ProjectField.CRITICAL_SLACK_LIMIT, p -> DEFAULT_CRITICAL_SLACK_LIMIT);
+      CALCULATED_FIELD_MAP.put(ProjectField.BASELINE_FOR_EARNED_VALUE, p -> DEFAULT_BASELINE_FOR_EARNED_VALUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.FISCAL_YEAR_START_MONTH, p -> DEFAULT_FISCAL_YEAR_START_MONTH);
+      CALCULATED_FIELD_MAP.put(ProjectField.NEW_TASK_START_IS_PROJECT_START, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.NEW_TASKS_ARE_MANUAL, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.WEEK_START_DAY, p -> DEFAULT_WEEK_START_DAY);
+      CALCULATED_FIELD_MAP.put(ProjectField.CRITICAL_ACTIVITY_TYPE, p -> CriticalActivityType.TOTAL_FLOAT);
+      CALCULATED_FIELD_MAP.put(ProjectField.TOTAL_SLACK_CALCULATION_TYPE, p -> TotalSlackCalculationType.SMALLEST_SLACK);
+      CALCULATED_FIELD_MAP.put(ProjectField.RELATIONSHIP_LAG_CALENDAR, p -> RelationshipLagCalendar.PREDECESSOR);
 
       CALCULATED_FIELD_MAP.put(ProjectField.THOUSANDS_SEPARATOR, p -> Character.valueOf(DEFAULT_THOUSANDS_SEPARATOR));
       CALCULATED_FIELD_MAP.put(ProjectField.DECIMAL_SEPARATOR, p -> Character.valueOf(DEFAULT_DECIMAL_SEPARATOR));
