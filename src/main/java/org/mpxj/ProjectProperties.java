@@ -3861,6 +3861,12 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
 
    private static final Integer DEFAULT_FLOAT_PATHS = Integer.valueOf(10);
 
+   private static final LocalTime DEFAULT_START_TIME = LocalTime.of(8, 0);
+
+   private static final Integer DEFAULT_ACTIVITY_ID_SUFFIX = Integer.valueOf(1000);
+
+   private static final Integer DEFAULT_ACTIVITY_ID_INCREMENT = Integer.valueOf(10);
+
    private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(
       ProjectField.DEFAULT_CALENDAR_UNIQUE_ID,
       ProjectField.DAYS_PER_MONTH,
@@ -3894,7 +3900,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.MPX_CODE_PAGE, p -> CodePage.ANSI);
       CALCULATED_FIELD_MAP.put(ProjectField.DATE_ORDER, p -> DateOrder.DMY);
       CALCULATED_FIELD_MAP.put(ProjectField.TIME_FORMAT, p -> ProjectTimeFormat.TWELVE_HOUR);
-      CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_START_TIME, p -> LocalTime.of(8, 0));
+      CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_START_TIME, p -> DEFAULT_START_TIME);
       CALCULATED_FIELD_MAP.put(ProjectField.DATE_SEPARATOR, p -> Character.valueOf(DEFAULT_DATE_SEPARATOR));
       CALCULATED_FIELD_MAP.put(ProjectField.TIME_SEPARATOR, p -> Character.valueOf(DEFAULT_TIME_SEPARATOR));
       CALCULATED_FIELD_MAP.put(ProjectField.AM_TEXT, p -> "am");
@@ -3926,7 +3932,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.RELATIONSHIP_LAG_CALENDAR, p -> RelationshipLagCalendar.PREDECESSOR);
       CALCULATED_FIELD_MAP.put(ProjectField.SCHEDULE_FROM, p -> DEFAULT_SCHEDULE_FROM);
       CALCULATED_FIELD_MAP.put(ProjectField.CURRENT_DATE, p -> LocalDateTime.now());
-
       CALCULATED_FIELD_MAP.put(ProjectField.THOUSANDS_SEPARATOR, p -> Character.valueOf(DEFAULT_THOUSANDS_SEPARATOR));
       CALCULATED_FIELD_MAP.put(ProjectField.DECIMAL_SEPARATOR, p -> Character.valueOf(DEFAULT_DECIMAL_SEPARATOR));
       CALCULATED_FIELD_MAP.put(ProjectField.MPX_DELIMITER, p -> Character.valueOf(DEFAULT_MPX_DELIMITER));
@@ -3952,8 +3957,8 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, p -> DEFAULT_FLOAT_PATHS);
       CALCULATED_FIELD_MAP.put(ProjectField.SCHEDULING_PROGRESSED_ACTIVITIES, p -> SchedulingProgressedActivities.RETAINED_LOGIC);
       CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_PREFIX, p -> "A");
-      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_SUFFIX, p -> Integer.valueOf(1000));
-      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_INCREMENT, p -> Integer.valueOf(10));
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_SUFFIX, p -> DEFAULT_ACTIVITY_ID_SUFFIX);
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_INCREMENT, p -> DEFAULT_ACTIVITY_ID_INCREMENT);
       CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY, p -> Boolean.TRUE);
       CALCULATED_FIELD_MAP.put(ProjectField.PROJECT_IS_BASELINE, p -> Boolean.FALSE);
       CALCULATED_FIELD_MAP.put(ProjectField.PROJECT_CODE_VALUES, p -> new HashMap<>());
