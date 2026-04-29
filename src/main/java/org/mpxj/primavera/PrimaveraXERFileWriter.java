@@ -96,6 +96,7 @@ import org.mpxj.common.FieldTypeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.ObjectSequence;
 import org.mpxj.common.Pair;
+import org.mpxj.common.ProjectPropertiesHelper;
 import org.mpxj.common.StringHelper;
 import org.mpxj.writer.AbstractProjectWriter;
 
@@ -1101,11 +1102,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       String name = projectProperties.getName();
       if (name == null || name.isEmpty())
       {
-         name = projectProperties.getProjectTitle();
-         if (name == null || name .isEmpty())
-         {
-            name = "Project1";
-         }
+         name = ProjectPropertiesHelper.getProjectTitle(projectProperties);
       }
 
       Integer originalOutlineLevel = wbsWithoutParent.get(0).getOutlineLevel();

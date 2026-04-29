@@ -60,6 +60,7 @@ import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.ProjectCalendarHelper;
+import org.mpxj.common.ProjectPropertiesHelper;
 import org.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -151,30 +152,12 @@ public final class SDEFWriter extends AbstractProjectWriter
       LocalDateTime startDate = record.getStartDate();
       LocalDateTime finishDate = record.getFinishDate();
 
-      // If we don't have a title, provide a default.
-      // This is usually the project summary task name,
-      // so we'll try the first task name, otherwise we'll
-      // use a generic value.
-      String title = record.getProjectTitle();
-      if (title == null || title.isEmpty())
-      {
-//         if (!m_projectFile.getTasks().isEmpty())
-//         {
-//            title = m_projectFile.getTasks().get(0).getName();
-//         }
-
-         if (title == null || title.isEmpty())
-         {
-            title = "Project1";
-         }
-      }
-
       // reset buffer to be empty, then concatenate data as required by USACE
       m_buffer.setLength(0);
       m_buffer.append("PROJ ");
       m_buffer.append(formatDate(dataDate)).append(" "); // DataDate
       m_buffer.append(SDEFmethods.lset(record.getManager(), 4)).append(" "); // ProjIdent
-      m_buffer.append(SDEFmethods.lset(title, 48)).append(" "); // ProjName
+      m_buffer.append(SDEFmethods.lset(ProjectPropertiesHelper.getProjectTitle(record), 48)).append(" "); // ProjName
       m_buffer.append(SDEFmethods.lset(record.getSubject(), 36)).append(" "); // ContrName
       m_buffer.append("P "); // ArrowP
       m_buffer.append(SDEFmethods.lset(record.getKeywords(), 7)); // ContractNum

@@ -75,6 +75,7 @@ import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.MicrosoftProjectUniqueIDMapper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.ProjectCalendarHelper;
+import org.mpxj.common.ProjectPropertiesHelper;
 import org.mpxj.mpp.UserDefinedFieldMap;
 import org.mpxj.writer.AbstractProjectWriter;
 
@@ -274,31 +275,13 @@ public final class MPXWriter extends AbstractProjectWriter
       ProjectCalendar defaultCalendar = m_projectFile.getDefaultCalendar();
       String defaultCalendarName = defaultCalendar == null ? null : m_calendarNameMap.get(m_calendarMapper.getUniqueID(defaultCalendar));
 
-      // If we don't have a title, provide a default.
-      // This is usually the project summary task name,
-      // so we'll try the first task name, otherwise we'll
-      // use a generic value.
-      String title = properties.getProjectTitle();
-      if (title == null || title.isEmpty())
-      {
-         //         if (!m_projectFile.getTasks().isEmpty())
-         //         {
-         //            title = m_projectFile.getTasks().get(0).getName();
-         //         }
-
-         if (title == null || title.isEmpty())
-         {
-            title = "Project1";
-         }
-      }
-
       //
       // Project Header Record
       //
       m_buffer.setLength(0);
       m_buffer.append(MPXConstants.PROJECT_HEADER_RECORD_NUMBER);
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(title));
+      m_buffer.append(format(ProjectPropertiesHelper.getProjectTitle(properties)));
       m_buffer.append(m_delimiter);
       m_buffer.append(format(properties.getCompany()));
       m_buffer.append(m_delimiter);
