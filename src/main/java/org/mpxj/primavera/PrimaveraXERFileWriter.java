@@ -1102,6 +1102,10 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       if (name == null || name.isEmpty())
       {
          name = projectProperties.getProjectTitle();
+         if (name == null || name .isEmpty())
+         {
+            name = "Project1";
+         }
       }
 
       Integer originalOutlineLevel = wbsWithoutParent.get(0).getOutlineLevel();

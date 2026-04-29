@@ -310,7 +310,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          if (title == null || title.isEmpty())
          {
-            title = "project";
+            title = "Project1";
          }
       }
 

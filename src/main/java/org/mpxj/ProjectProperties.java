@@ -54,8 +54,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    ProjectProperties(ProjectFile file)
    {
       m_parentFile = file;
-
-      setProjectTitle("Project1");
    }
 
    /**
