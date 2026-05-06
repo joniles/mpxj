@@ -32,11 +32,11 @@ import org.mpxj.common.FieldTypeHelper;
 /**
  * Reads Gantt bar styles from an MPP14 file.
  */
-public class GanttBarStyleFactory14 implements GanttBarStyleFactory
+class GanttBarStyleFactory14 implements GanttBarStyleFactory
 {
    @Override public GanttBarStyle[] processDefaultStyles(ProjectFile file, Props props)
    {
-      byte[] barStyleData = props.getByteArray(DEFAULT_PROPERTIES);
+      byte[] barStyleData = props.getByteArray(PropsKey.STYLE_DATA);
       if (barStyleData == null || barStyleData.length <= 2240)
       {
          return EMPTY_STYLES;
@@ -93,7 +93,7 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
 
    @Override public GanttBarStyleException[] processExceptionStyles(ProjectFile file, Props props)
    {
-      byte[] barData = props.getByteArray(EXCEPTION_PROPERTIES);
+      byte[] barData = props.getByteArray(PropsKey.BAR_EXCEPTION_STYLES);
       if (barData == null)
       {
          return EMPTY_EXCEPTIONS;
@@ -211,9 +211,6 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
 
       return result;
    }
-
-   private static final Integer DEFAULT_PROPERTIES = Integer.valueOf(574619656);
-   private static final Integer EXCEPTION_PROPERTIES = Integer.valueOf(574619661);
 
    private static final GanttBarStyle[] EMPTY_STYLES = new GanttBarStyle[0];
    private static final GanttBarStyleException[] EMPTY_EXCEPTIONS = new GanttBarStyleException[0];

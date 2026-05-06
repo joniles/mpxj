@@ -23,95 +23,17 @@
 
 package org.mpxj.asta;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import com.healthmarketscience.jackcess.Column;
-import com.healthmarketscience.jackcess.Cursor;
-import com.healthmarketscience.jackcess.CursorBuilder;
-import com.healthmarketscience.jackcess.Database;
-import com.healthmarketscience.jackcess.DatabaseBuilder;
-import com.healthmarketscience.jackcess.Table;
-
 /**
  * This class provides a generic front end to read project data from
  * a database.
  */
 public final class AstaMdbReader extends AbstractAstaDatabaseReader
 {
-   @Override protected List<Row> getRows(String tableName, Map<String, Integer> keys) throws AstaDatabaseException
+   /**
+    * Constructor.
+    */
+   public AstaMdbReader()
    {
-      return getRows(tableName, keys, Collections.emptyMap());
+      super(new MdbDataProvider());
    }
-
-   @Override protected List<Row> getRows(String tableName, Map<String, Integer> keys, Map<String, String> nameMap) throws AstaDatabaseException
-   {
-      try
-      {
-         if (m_database == null)
-         {
-            m_database = DatabaseBuilder.open(m_databaseFile);
-         }
-
-         List<Row> result = new ArrayList<>();
-         Table table = m_database.getTable(tableName);
-         List<? extends Column> columns = table.getColumns();
-
-         if (keys.isEmpty())
-         {
-            for (com.healthmarketscience.jackcess.Row row : table)
-            {
-               result.add(new JackcessResultSetRow(nameMap, row, columns));
-            }
-         }
-         else
-         {
-            Cursor cursor = CursorBuilder.createCursor(table);
-            if (cursor.findFirstRow(keys))
-            {
-               do
-               {
-                  result.add(new JackcessResultSetRow(nameMap, cursor.getCurrentRow(), columns));
-               }
-               while (cursor.findNextRow(keys));
-            }
-         }
-
-         return result;
-      }
-
-      catch (IOException ex)
-      {
-         throw new AstaDatabaseException(ex);
-      }
-   }
-
-   @Override protected void allocateResources(File file)
-   {
-      m_databaseFile = file;
-   }
-
-   @Override protected void releaseResources()
-   {
-      try
-      {
-         if (m_database != null)
-         {
-            m_database.close();
-            m_database = null;
-         }
-      }
-
-      catch (IOException ex)
-      {
-         // Ignore errors closing the database
-      }
-   }
-
-   private File m_databaseFile;
-   private Database m_database;
 }

@@ -30,7 +30,7 @@ import java.io.InputStream;
  * Input stream used to handle Phoenix XML files.
  * These files may have a trailing NUL character which XML parsers object to.
  */
-public class SkipNulInputStream extends InputStream
+class SkipNulInputStream extends InputStream
 {
    /**
     * Constructor.

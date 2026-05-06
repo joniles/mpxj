@@ -5,7 +5,13 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="2026-04-04" version="16.1.0">
+        <release date="unreleased" version="16.2.0">
+            <action dev="joniles" type="update">Ensure numeric values are correctly formatted using decimal separator and digit grouping symbols when writing XER files.</action>
+            <action dev="joniles" type="update">Marked the `GanttChartView#getProgressLinesBeginAtDate` method as deprecated. Use the `getProgressLinesBeginAt` method instead.</action>
+            <action dev="joniles" type="update">Marked the `GanttChartView#getProgressLinesDisplaySelectedDates` method as deprecated. Use the `getProgressLineDates` method instead.</action>
+            <action dev="joniles" type="update">Improve handling of values which are rolled up from the project's tasks to the `ProjectProperties` class.</action>
+        </release>
+        <release date="2026-04-04" version="16.1.0">
             <action dev="joniles" type="update">Provided additional attributes as part of the `MsPlannerProject` class, populated when retrieving a list of projects from Microsoft Planner (Contributed by Gevork Aslanov).</action>
             <action dev="joniles" type="update">Added the `MsPlannerReader#getPortfolios` method to retrieve a list of portfolios defined in Microsoft Planner (Contributed by Gevork Aslanov).</action>
             <action dev="joniles" type="update">Updated to ensure that decimal values for hours per day, week, month and year are not truncated when writing calendars to XER files.</action>

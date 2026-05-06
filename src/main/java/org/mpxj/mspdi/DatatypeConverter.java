@@ -59,10 +59,10 @@ import org.mpxj.TimeUnit;
 import org.mpxj.WorkContour;
 import org.mpxj.WorkGroup;
 import org.mpxj.common.DayOfWeekHelper;
+import org.mpxj.common.MicrosoftProjectConstants;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.RateHelper;
 import org.mpxj.common.XmlHelper;
-import org.mpxj.mpp.MPPUtility;
 import org.mpxj.mpp.TaskTypeHelper;
 import org.mpxj.mpp.WorkContourHelper;
 
@@ -172,7 +172,7 @@ public final class DatatypeConverter
          return null;
       }
 
-      long dateComponent = MPPUtility.EPOCH_DATE.until(value, ChronoUnit.DAYS) * 65536;
+      long dateComponent = MicrosoftProjectConstants.EPOCH_DATE.until(value, ChronoUnit.DAYS) * 65536;
       long timeComponent = value.toLocalTime().toSecondOfDay() / 6;
       return String.valueOf(dateComponent + timeComponent);
    }
@@ -193,7 +193,7 @@ public final class DatatypeConverter
       long rawValue = Long.parseLong(value);
       long days = rawValue / 65536;
       long seconds = (rawValue % 65536) * 6;
-      return MPPUtility.EPOCH_DATE.plusDays(days).plusSeconds(seconds);
+      return MicrosoftProjectConstants.EPOCH_DATE.plusDays(days).plusSeconds(seconds);
    }
 
    /**

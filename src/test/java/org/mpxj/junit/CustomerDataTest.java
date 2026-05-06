@@ -42,6 +42,8 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.mpxj.ChildTaskContainer;
 import org.mpxj.EPS;
 import org.mpxj.EpsNode;
@@ -100,7 +102,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData1()
+   @Execution(ExecutionMode.CONCURRENT) @Test public void testCustomerData1()
    {
       testCustomerData(1, 10);
    }
@@ -108,7 +110,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData2()
+   @Execution(ExecutionMode.CONCURRENT) @Test public void testCustomerData2()
    {
       testCustomerData(2, 10);
    }
@@ -116,7 +118,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData3()
+   @Execution(ExecutionMode.CONCURRENT) @Test public void testCustomerData3()
    {
       testCustomerData(3, 10);
    }
@@ -124,7 +126,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData4()
+   @Execution(ExecutionMode.CONCURRENT) @Test public void testCustomerData4()
    {
       testCustomerData(4, 10);
    }
@@ -132,7 +134,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData5()
+   @Execution(ExecutionMode.CONCURRENT) @Test public void testCustomerData5()
    {
       testCustomerData(5, 10);
    }
@@ -140,7 +142,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData6()
+   @Execution(ExecutionMode.CONCURRENT) @Test public void testCustomerData6()
    {
       testCustomerData(6, 10);
    }
@@ -148,7 +150,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData7()
+   @Execution(ExecutionMode.CONCURRENT) @Test public void testCustomerData7()
    {
       testCustomerData(7, 10);
    }
@@ -156,7 +158,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData8()
+   @Execution(ExecutionMode.CONCURRENT) @Test public void testCustomerData8()
    {
       testCustomerData(8, 10);
    }
@@ -164,7 +166,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData9()
+   @Execution(ExecutionMode.CONCURRENT) @Test public void testCustomerData9()
    {
       testCustomerData(9, 10);
    }
@@ -172,7 +174,7 @@ public class CustomerDataTest
    /**
     * Test customer data.
     */
-   @Test public void testCustomerData10()
+   @Execution(ExecutionMode.CONCURRENT) @Test public void testCustomerData10()
    {
       testCustomerData(10, 10);
    }
@@ -180,7 +182,7 @@ public class CustomerDataTest
    /**
     * Test extracting projects from a sample SQLite P6 database.
     */
-   @Test public void testPrimaveraDatabase() throws Exception
+   @Execution(ExecutionMode.CONCURRENT) @Test public void testPrimaveraDatabase() throws Exception
    {
       if (m_primaveraFile == null)
       {
@@ -204,7 +206,7 @@ public class CustomerDataTest
    /**
     * Test extracting the EPS from a sample SQLite P6 database.
     */
-   @Test public void testPrimaveraDatabaseEps() throws Exception
+   @Execution(ExecutionMode.CONCURRENT) @Test public void testPrimaveraDatabaseEps() throws Exception
    {
       if (m_primaveraFile == null)
       {
@@ -245,7 +247,7 @@ public class CustomerDataTest
    /**
     * Populate field report from JUnit test data.
     */
-   @Test public void testFieldCoverage()
+   @Execution(ExecutionMode.CONCURRENT) @Test public void testFieldCoverage()
    {
       List<File> files = new ArrayList<>();
       listFiles(files, new File(MpxjTestData.DATA_DIR));
@@ -276,7 +278,7 @@ public class CustomerDataTest
    /**
     * Validate the output from the Microsoft scheduler.
     */
-   @Test public void testMicrosoftScheduler() throws Exception
+   @Execution(ExecutionMode.CONCURRENT) @Test public void testMicrosoftScheduler() throws Exception
    {
       if (m_privateDirectory == null)
       {
@@ -301,7 +303,7 @@ public class CustomerDataTest
    /**
     * Validate the output from the Primavera scheduler.
     */
-   @Test public void testPrimaveraScheduler() throws Exception
+   @Execution(ExecutionMode.CONCURRENT) @Test public void testPrimaveraScheduler() throws Exception
    {
       if (m_privateDirectory == null)
       {

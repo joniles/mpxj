@@ -26,7 +26,7 @@ package org.mpxj.explorer;
 /**
  * Implements the controller component of the FileSaver MVC.
  */
-public class FileSaverController
+class FileSaverController
 {
    private final FileSaverModel m_model;
 

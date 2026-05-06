@@ -26,7 +26,7 @@ package org.mpxj.mpp;
 /**
  * This class allows group definitions to be read from an MPP12 file.
  */
-public final class GroupReader12 extends GroupReader
+final class GroupReader12 extends GroupReader
 {
    /**
     * Retrieves the type used for the VarData lookup.

@@ -32,7 +32,7 @@ import javax.swing.SpringLayout;
 /**
  * Implements the view component of the ObjectProperties MVC.
  */
-public class ObjectPropertiesView extends JPanel
+class ObjectPropertiesView extends JPanel
 {
    /**
     * Constructor.

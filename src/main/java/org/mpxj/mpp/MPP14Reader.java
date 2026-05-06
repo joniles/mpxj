@@ -140,7 +140,7 @@ final class MPP14Reader implements MPPVariantReader
       Props props = new Props14(m_file, new DocumentInputStream(((DocumentEntry) root.getEntry("Props14"))));
       //System.out.println(props);
 
-      file.getProjectProperties().setProjectFilePath(props.getUnicodeString(Props.PROJECT_FILE_PATH));
+      file.getProjectProperties().setProjectFilePath(props.getUnicodeString(PropsKey.PROJECT_FILE_PATH));
       m_inputStreamFactory = new DocumentInputStreamFactory(props);
 
       //
@@ -151,10 +151,10 @@ final class MPP14Reader implements MPPVariantReader
       // 0x02 = write reservation password has been supplied
       // 0x03 = both passwords have been supplied
       //
-      byte passwordProtectionFlag = props.getByte(Props.PASSWORD_FLAG);
+      byte passwordProtectionFlag = props.getByte(PropsKey.PASSWORD_FLAG);
       boolean passwordRequiredToRead = (passwordProtectionFlag & 0x1) != 0;
       //boolean passwordRequiredToWrite = (passwordProtectionFlag & 0x2) != 0;
-      boolean encryptionXmlPresent = props.getByteArray(Props.PROTECTION_PASSWORD_HASH) != null;
+      boolean encryptionXmlPresent = props.getByteArray(PropsKey.PROTECTION_PASSWORD_HASH) != null;
 
       //
       // I've come across an example where the password flag was set, but the encryption XML
@@ -189,7 +189,7 @@ final class MPP14Reader implements MPPVariantReader
       m_parentTasks = new HashMap<>();
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(14));
-      m_file.getProjectProperties().setAutoFilter(props.getBoolean(Props.AUTO_FILTER));
+      m_file.getProjectProperties().setAutoFilter(props.getBoolean(PropsKey.AUTO_FILTER));
    }
 
    /**
@@ -226,21 +226,21 @@ final class MPP14Reader implements MPPVariantReader
       if (taskDir.hasEntry("Props"))
       {
          Props14 props = new Props14(m_file, m_inputStreamFactory.getInstance(taskDir, "Props"));
-         new CustomFieldReader14(m_file, props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
+         new CustomFieldReader14(m_file, props.getByteArray(PropsKey.CUSTOM_FIELDS)).process();
       }
 
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
       if (rscDir.hasEntry("Props"))
       {
          Props14 props = new Props14(m_file, m_inputStreamFactory.getInstance(rscDir, "Props"));
-         new CustomFieldReader14(m_file, props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
+         new CustomFieldReader14(m_file, props.getByteArray(PropsKey.CUSTOM_FIELDS)).process();
       }
 
       DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
       if (assnDir.hasEntry("Props"))
       {
          Props props = new Props14(m_file, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Props"))));
-         new CustomFieldReader14(m_file, props.getByteArray(ASSIGNMENT_FIELD_NAME_ALIASES)).process();
+         new CustomFieldReader14(m_file, props.getByteArray(PropsKey.CUSTOM_FIELDS)).process();
       }
 
       // ... before we add values lists
@@ -266,7 +266,7 @@ final class MPP14Reader implements MPPVariantReader
       }
 
       Props props = new Props14(m_file, m_inputStreamFactory.getInstance(dir, "Props"));
-      byte[] data = props.getByteArray(Props.CUSTOM_FIELDS);
+      byte[] data = props.getByteArray(PropsKey.CUSTOM_FIELDS);
       if (data == null)
       {
          return;
@@ -317,7 +317,7 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processSubProjectData()
    {
-      byte[] subProjData = m_projectProps.getByteArray(Props.SUBPROJECT_DATA);
+      byte[] subProjData = m_projectProps.getByteArray(PropsKey.SUBPROJECT_DATA);
       if (subProjData == null)
       {
          return;
@@ -779,14 +779,14 @@ final class MPP14Reader implements MPPVariantReader
       if (m_viewDir.hasEntry("Props"))
       {
          Props props = new Props14(m_file, m_inputStreamFactory.getInstance(m_viewDir, "Props"));
-         byte[] data = props.getByteArray(Props.FONT_BASES);
+         byte[] data = props.getByteArray(PropsKey.FONT_BASES);
          if (data != null)
          {
             processBaseFonts(data);
          }
 
          ProjectProperties properties = m_file.getProjectProperties();
-         properties.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
+         properties.setShowProjectSummaryTask(props.getBoolean(PropsKey.SHOW_PROJECT_SUMMARY_TASK));
       }
    }
 
@@ -1298,7 +1298,7 @@ final class MPP14Reader implements MPPVariantReader
 
          // Unfortunately it looks like 'null' tasks sometimes make it through. So let's check for to see if we
          // need to mark this task as a null task after all.
-         if (task.getName() == null && ((task.getStart() == null || task.getStart().equals(MPPUtility.EPOCH_DATE)) || (task.getFinish() == null || task.getFinish().equals(MPPUtility.EPOCH_DATE)) || (task.getCreateDate() == null || task.getCreateDate().equals(MPPUtility.EPOCH_DATE))))
+         if (task.getName() == null && ((task.getStart() == null || task.getStart().equals(MicrosoftProjectConstants.EPOCH_DATE)) || (task.getFinish() == null || task.getFinish().equals(MicrosoftProjectConstants.EPOCH_DATE)) || (task.getCreateDate() == null || task.getCreateDate().equals(MicrosoftProjectConstants.EPOCH_DATE))))
          {
             m_file.removeTask(task);
             Integer nullTaskID = Integer.valueOf(ByteArrayHelper.getInt(data, TASK_ID_FIXED_OFFSET));
@@ -2062,10 +2062,6 @@ final class MPP14Reader implements MPPVariantReader
     * Mask used to isolate confirmed flag from the duration units field.
     */
    private static final int DURATION_CONFIRMED_MASK = 0x20;
-
-   private static final Integer RESOURCE_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
-   private static final Integer TASK_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
-   private static final Integer ASSIGNMENT_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
 
    /**
     * Deleted and null tasks have their ID and UniqueID attributes at fixed offsets.

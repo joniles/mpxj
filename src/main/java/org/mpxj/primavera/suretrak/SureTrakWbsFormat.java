@@ -30,7 +30,7 @@ import org.mpxj.primavera.common.MapRow;
  * Reads the WBS format definition from a SureTrak database, and allows
  * that format to be applied to WBS values.
  */
-public class SureTrakWbsFormat extends AbstractWbsFormat
+class SureTrakWbsFormat extends AbstractWbsFormat
 {
    /**
     * Constructor. Reads the format definition.

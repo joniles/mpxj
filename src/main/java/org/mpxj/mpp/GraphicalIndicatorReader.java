@@ -40,7 +40,7 @@ import org.mpxj.common.FieldTypeHelper;
  * This class allows graphical indicator definitions to be read from an MPP
  * file.
  */
-public final class GraphicalIndicatorReader
+final class GraphicalIndicatorReader
 {
    /**
     * The main entry point for processing graphical indicator definitions.
@@ -53,7 +53,7 @@ public final class GraphicalIndicatorReader
       m_file = file;
       m_container = file.getCustomFields();
       m_properties = file.getProjectProperties();
-      m_data = props.getByteArray(Props.TASK_FIELD_ATTRIBUTES);
+      m_data = props.getByteArray(PropsKey.TASK_FIELD_ATTRIBUTES);
 
       if (m_data != null)
       {

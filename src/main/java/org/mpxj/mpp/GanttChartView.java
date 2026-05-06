@@ -28,6 +28,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,6 +42,7 @@ import org.mpxj.FilterContainer;
 import org.mpxj.ProjectFile;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
+import org.mpxj.common.LocalDateHelper;
 
 /**
  * This class represents the set of properties used to define the appearance
@@ -119,20 +121,20 @@ public abstract class GanttChartView extends GenericView
          Props9 props = new Props9(new ByteArrayInputStream(propsData));
          //MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
 
-         byte[] tableData = props.getByteArray(TABLE_PROPERTIES);
+         byte[] tableData = props.getByteArray(PropsKey.TABLE_PROPERTIES);
          if (tableData != null)
          {
             m_tableWidth = ByteArrayHelper.getShort(tableData, 35);
             m_highlightFilter = (tableData[7] != 0);
          }
 
-         byte[] filterName = props.getByteArray(FILTER_NAME);
+         byte[] filterName = props.getByteArray(PropsKey.FILTER_NAME);
          if (filterName != null)
          {
             m_defaultFilterName = MPPUtility.getUnicodeString(filterName, 0);
          }
 
-         byte[] groupName = props.getByteArray(GROUP_NAME);
+         byte[] groupName = props.getByteArray(PropsKey.GROUP_NAME);
          if (groupName != null)
          {
             m_groupName = MPPUtility.getUnicodeString(groupName, 0);
@@ -144,19 +146,19 @@ public abstract class GanttChartView extends GenericView
 
          processExceptionBarStyles(props);
 
-         byte[] columnData = props.getByteArray(COLUMN_PROPERTIES);
+         byte[] columnData = props.getByteArray(PropsKey.COLUMN_PROPERTIES);
          if (columnData != null)
          {
             processTableFontStyles(fontBases, columnData);
          }
 
-         byte[] progressLineData = props.getByteArray(PROGRESS_LINE_PROPERTIES);
+         byte[] progressLineData = props.getByteArray(PropsKey.PROGRESS_LINE_PROPERTIES);
          if (progressLineData != null)
          {
             processProgressLines(fontBases, progressLineData);
          }
 
-         byte[] autoFilterData = props.getByteArray(AUTO_FILTER_PROPERTIES);
+         byte[] autoFilterData = props.getByteArray(PropsKey.AUTO_FILTER_PROPERTIES);
          if (autoFilterData != null)
          {
             processAutoFilters(autoFilterData);
@@ -278,7 +280,7 @@ public abstract class GanttChartView extends GenericView
 
    /**
     * Retrieve the name of the calendar used to define non-working days for
-    * this view..
+    * this view.
     *
     * @return calendar name
     */
@@ -798,10 +800,21 @@ public abstract class GanttChartView extends GenericView
     * Retrieve the progress lines begin at date.
     *
     * @return progress lines begin at date
+    * @deprecated use getProgressLinesBeginAt
     */
-   public LocalDateTime getProgressLinesBeginAtDate()
+   @Deprecated public LocalDateTime getProgressLinesBeginAtDate()
    {
-      return (m_progressLinesBeginAtDate);
+      return LocalDateHelper.getLocalDateTime(m_progressLinesBeginAtDate);
+   }
+
+   /**
+    * Retrieve the progress lines begin at date.
+    *
+    * @return progress lines begin at date
+    */
+   public LocalDate getProgressLinesBeginAt()
+   {
+      return m_progressLinesBeginAtDate;
    }
 
    /**
@@ -900,10 +913,22 @@ public abstract class GanttChartView extends GenericView
     * or returns null if no dates have been supplied.
     *
     * @return array of selected dates
+    * @deprecated use getProgressLineDates
     */
-   public LocalDateTime[] getProgressLinesDisplaySelectedDates()
+   @Deprecated public LocalDateTime[] getProgressLinesDisplaySelectedDates()
    {
-      return (m_progressLinesDisplaySelectedDates);
+      return Arrays.stream(m_progressLinesDisplaySelectedDates).map(LocalDateHelper::getLocalDateTime).toArray(LocalDateTime[]::new);
+   }
+
+   /**
+    * Retrieves an array of selected dates for progress line display,
+    * or returns null if no dates have been supplied.
+    *
+    * @return array of selected dates
+    */
+   public LocalDate[] getProgressLineDates()
+   {
+      return m_progressLinesDisplaySelectedDates;
    }
 
    /**
@@ -1468,9 +1493,9 @@ public abstract class GanttChartView extends GenericView
    protected boolean m_progressLinesIntervalMonthlyFirstLast;
    protected int m_progressLinesIntervalMonthlyFirstLastMonthNumber;
    protected boolean m_progressLinesBeginAtProjectStart;
-   protected LocalDateTime m_progressLinesBeginAtDate;
+   protected LocalDate m_progressLinesBeginAtDate;
    protected boolean m_progressLinesDisplaySelected;
-   protected LocalDateTime[] m_progressLinesDisplaySelectedDates;
+   protected LocalDate[] m_progressLinesDisplaySelectedDates;
    protected boolean m_progressLinesActualPlan;
    protected int m_progressLinesDisplayType;
    protected boolean m_progressLinesShowDate;
@@ -1488,13 +1513,4 @@ public abstract class GanttChartView extends GenericView
    protected final Map<FieldType, Filter> m_autoFiltersByType = new HashMap<>();
 
    private final FilterContainer m_filters;
-
-   protected static final Integer VIEW_PROPERTIES = Integer.valueOf(574619656);
-   protected static final Integer TIMESCALE_PROPERTIES = Integer.valueOf(574619678);
-   private static final Integer TABLE_PROPERTIES = Integer.valueOf(574619655);
-   private static final Integer FILTER_NAME = Integer.valueOf(574619659);
-   private static final Integer GROUP_NAME = Integer.valueOf(574619672);
-   private static final Integer COLUMN_PROPERTIES = Integer.valueOf(574619660);
-   private static final Integer PROGRESS_LINE_PROPERTIES = Integer.valueOf(574619671);
-   private static final Integer AUTO_FILTER_PROPERTIES = Integer.valueOf(574619669);
 }

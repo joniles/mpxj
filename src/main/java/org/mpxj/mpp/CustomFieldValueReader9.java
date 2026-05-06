@@ -53,7 +53,7 @@ import org.mpxj.common.Pair;
 /**
  * MPP9 custom field value reader.
  */
-public class CustomFieldValueReader9
+class CustomFieldValueReader9
 {
    /**
     * Constructor.
@@ -85,7 +85,7 @@ public class CustomFieldValueReader9
     */
    private void processCustomFieldValues()
    {
-      byte[] data = m_projectProps.getByteArray(Props.TASK_FIELD_ATTRIBUTES);
+      byte[] data = m_projectProps.getByteArray(PropsKey.TASK_FIELD_ATTRIBUTES);
       if (data != null)
       {
          int index = 0;

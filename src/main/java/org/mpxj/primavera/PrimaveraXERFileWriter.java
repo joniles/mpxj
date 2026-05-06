@@ -50,6 +50,7 @@ import org.mpxj.CalendarType;
 import org.mpxj.CostAccount;
 import org.mpxj.CostRateTableEntry;
 import org.mpxj.Currency;
+import org.mpxj.CurrencyContainer;
 import org.mpxj.CustomField;
 import org.mpxj.Duration;
 import org.mpxj.ExpenseCategory;
@@ -95,6 +96,7 @@ import org.mpxj.common.FieldTypeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.ObjectSequence;
 import org.mpxj.common.Pair;
+import org.mpxj.common.ProjectPropertiesHelper;
 import org.mpxj.common.StringHelper;
 import org.mpxj.writer.AbstractProjectWriter;
 
@@ -145,7 +147,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       // Ensure all projects have a WBS hierarchy with a single root node
       List<TemporaryWbs> temporaryWbs = projects.stream().map(this::createValidWbsHierarchy).filter(Objects::nonNull).collect(Collectors.toList());
 
-      m_writer = new XerWriter(m_context.getTimeUnitDefaults(), new OutputStreamWriter(outputStream, getCharset()));
+      m_writer = new XerWriter(m_context, new OutputStreamWriter(outputStream, getCharset()));
       m_rateObjectID = new ObjectSequence(1);
       m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(m_context, projects);
 
@@ -232,7 +234,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          "admin",
          "dbxDatabaseNoName",
          "Project Management",
-         getDefaultCurrency().getCurrencyID()
+         m_context.getCurrencies().getDefaultCurrency().getCurrencyID()
       };
 
       m_writer.writeHeader(data);
@@ -246,7 +248,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       m_writer.writeTable("CURRTYPE", CURRENCY_COLUMNS);
       if (m_context.getCurrencies().isEmpty())
       {
-         m_writer.writeRecord(CURRENCY_COLUMNS, DEFAULT_CURRENCY);
+         m_writer.writeRecord(CURRENCY_COLUMNS, CurrencyContainer.DEFAULT_CURRENCY);
       }
       else
       {
@@ -1100,7 +1102,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       String name = projectProperties.getName();
       if (name == null || name.isEmpty())
       {
-         name = projectProperties.getProjectTitle();
+         name = ProjectPropertiesHelper.getProjectTitle(projectProperties);
       }
 
       Integer originalOutlineLevel = wbsWithoutParent.get(0).getOutlineLevel();
@@ -1189,22 +1191,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private Stream<ResourceAssignment> getSortedResourceAssignmentStream()
    {
       return m_files.stream().flatMap(f -> f.getResourceAssignments().stream()).filter(WriterHelper::isValidAssignment).sorted(Comparator.comparing(ResourceAssignment::getUniqueID));
-   }
-
-   /**
-    * Retrieves the "base" currency (expected to have unique ID 1), or if this is not
-    * present returns the default currency constant.
-    *
-    * @return Currency instance
-    */
-   private Currency getDefaultCurrency()
-   {
-      Currency currency = m_context.getCurrencies().getByUniqueID(Integer.valueOf(1));
-      if (currency == null)
-      {
-         return DEFAULT_CURRENCY;
-      }
-      return currency;
    }
 
    /**
@@ -1359,19 +1345,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       Object apply(T source);
    }
 
-   private static final Currency DEFAULT_CURRENCY = new Currency.Builder(null)
-      .uniqueID(Integer.valueOf(1))
-      .numberOfDecimalPlaces(Integer.valueOf(2))
-      .symbol("$")
-      .decimalSymbol(".")
-      .digitGroupingSymbol(",")
-      .positiveCurrencyFormat("#1.1")
-      .negativeCurrencyFormat("(#1.1)")
-      .name("US Dollar")
-      .currencyID("USD")
-      .exchangeRate(Double.valueOf(1.0))
-      .build();
-
    private static final Map<String, ExportFunction<Currency>> CURRENCY_COLUMNS = new LinkedHashMap<>();
    static
    {
@@ -1458,7 +1431,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("auto_compute_act_flag", r -> Boolean.TRUE);
       RESOURCE_COLUMNS.put("def_cost_qty_link_flag", r -> Boolean.valueOf(r.getCalculateCostsFromUnits()));
       RESOURCE_COLUMNS.put("ot_flag", r -> Boolean.FALSE);
-      RESOURCE_COLUMNS.put("curr_id", r -> r.getCurrencyUniqueID() == null ? DEFAULT_CURRENCY.getUniqueID() : r.getCurrencyUniqueID());
+      RESOURCE_COLUMNS.put("curr_id", r -> r.getCurrencyUniqueID() == null ? CurrencyContainer.DEFAULT_CURRENCY.getUniqueID() : r.getCurrencyUniqueID());
       RESOURCE_COLUMNS.put("unit_id", Resource::getUnitOfMeasureUniqueID);
       RESOURCE_COLUMNS.put("rsrc_type", Resource::getType);
       RESOURCE_COLUMNS.put("location_id", Resource::getLocationUniqueID);

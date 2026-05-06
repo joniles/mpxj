@@ -36,7 +36,7 @@ import org.mpxj.common.FieldTypeHelper;
 /**
  * This class allows filter definitions to be read from an MPP file.
  */
-public final class GroupReader14
+final class GroupReader14
 {
    /**
     * Entry point for processing group definitions.

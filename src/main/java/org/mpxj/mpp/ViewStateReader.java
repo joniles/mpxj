@@ -34,7 +34,7 @@ import org.mpxj.common.ByteArrayHelper;
 /**
  * This class allows the saved state of a view to be read from an MPP file.
  */
-public abstract class ViewStateReader
+abstract class ViewStateReader
 {
    /**
     * Retrieves the props data using a file format specific method.
@@ -57,8 +57,8 @@ public abstract class ViewStateReader
       //System.out.println(props);
       if (props != null)
       {
-         String viewName = MPPUtility.removeAmpersands(props.getUnicodeString(VIEW_NAME));
-         byte[] listData = props.getByteArray(VIEW_CONTENTS);
+         String viewName = MPPUtility.removeAmpersands(props.getUnicodeString(PropsKey.VIEW_NAME));
+         byte[] listData = props.getByteArray(PropsKey.VIEW_CONTENTS);
          List<Integer> uniqueIdList = new ArrayList<>();
          if (listData != null)
          {
@@ -83,7 +83,4 @@ public abstract class ViewStateReader
          file.getViews().setViewState(state);
       }
    }
-
-   private static final Integer VIEW_NAME = Integer.valueOf(641728536);
-   private static final Integer VIEW_CONTENTS = Integer.valueOf(641728565);
 }

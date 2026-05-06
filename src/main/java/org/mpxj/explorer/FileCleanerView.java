@@ -31,7 +31,7 @@ import javax.swing.JFileChooser;
 /**
  * Implements the view component of the FileSaver MVC.
  */
-public class FileCleanerView
+class FileCleanerView
 {
    protected final JFileChooser m_fileChooser;
    private final Component m_parent;

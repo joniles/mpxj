@@ -336,7 +336,7 @@ public class MppGanttTest
       assertEquals(1, view.getProgressLinesIntervalMonthlyFirstLastMonthNumber());
 
       assertFalse(view.getProgressLinesBeginAtProjectStart());
-      assertEquals("13/05/2010", df.format(view.getProgressLinesBeginAtDate()));
+      assertEquals("13/05/2010", df.format(view.getProgressLinesBeginAt()));
       assertTrue(view.getProgressLinesDisplaySelected());
       assertTrue(view.getProgressLinesActualPlan());
       assertEquals(0, view.getProgressLinesDisplayType());
@@ -351,9 +351,9 @@ public class MppGanttTest
       assertEquals(LineStyle.SOLID, view.getProgressLinesOtherLineStyle());
       assertNull(view.getProgressLinesOtherProgressPointColor());
       assertEquals(0, view.getProgressLinesOtherProgressPointShape());
-      assertEquals(2, view.getProgressLinesDisplaySelectedDates().length);
-      assertEquals("01/02/2010", df.format(view.getProgressLinesDisplaySelectedDates()[0]));
-      assertEquals("01/01/2010", df.format(view.getProgressLinesDisplaySelectedDates()[1]));
+      assertEquals(2, view.getProgressLineDates().length);
+      assertEquals("01/02/2010", df.format(view.getProgressLineDates()[0]));
+      assertEquals("01/01/2010", df.format(view.getProgressLineDates()[1]));
    }
 
    private static final String[] TABLE_FONT_STYLES = {

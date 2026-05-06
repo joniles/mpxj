@@ -34,7 +34,7 @@ import org.mpxj.common.ByteArrayHelper;
 /**
  * This class allows filter definitions to be read from an MPP file.
  */
-public abstract class FilterReader
+abstract class FilterReader
 {
    /**
     * Retrieves the type used for the VarData lookup.

@@ -170,7 +170,7 @@ final class MPP8Reader implements MPPVariantReader
       {
          Props8 props = new Props8(m_file, new DocumentInputStream(((DocumentEntry) m_viewDir.getEntry("Props"))));
          ProjectProperties properties = m_file.getProjectProperties();
-         properties.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
+         properties.setShowProjectSummaryTask(props.getBoolean(PropsKey.SHOW_PROJECT_SUMMARY_TASK));
       }
    }
 
@@ -323,8 +323,8 @@ final class MPP8Reader implements MPPVariantReader
                {
                   offset = 4 + (40 * 7) + (index * 44);
 
-                  LocalDate fromDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(extData, offset));
-                  LocalDate toDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(extData, offset + 2));
+                  LocalDate fromDate = MPPUtility.getDate(extData, offset);
+                  LocalDate toDate = MPPUtility.getDate(extData, offset + 2);
                   exception = cal.addCalendarException(fromDate, toDate);
 
                   periodCount = ByteArrayHelper.getShort(extData, offset + 6);
@@ -348,7 +348,7 @@ final class MPP8Reader implements MPPVariantReader
 
       updateBaseCalendarNames(baseCalendars);
 
-      ProjectCalendar projectDefaultCalendar = m_file.getCalendars().getByName(m_projectProps.getUnicodeString(Props.DEFAULT_CALENDAR_NAME));
+      ProjectCalendar projectDefaultCalendar = m_file.getCalendars().getByName(m_projectProps.getUnicodeString(PropsKey.DEFAULT_CALENDAR_NAME));
       if (projectDefaultCalendar == null)
       {
          projectDefaultCalendar = m_file.getCalendars().findOrCreateDefaultCalendar();

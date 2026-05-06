@@ -26,7 +26,7 @@ package org.mpxj.explorer;
 /**
  * Implements the controller component of the FileChooser MVC.
  */
-public class FileChooserController
+class FileChooserController
 {
    private final FileChooserModel m_model;
 

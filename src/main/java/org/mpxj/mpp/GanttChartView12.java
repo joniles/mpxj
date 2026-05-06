@@ -26,7 +26,7 @@ package org.mpxj.mpp;
 import java.awt.Color;
 import java.io.IOException;
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -121,7 +121,7 @@ public final class GanttChartView12 extends GanttChartView
 
    @Override protected void processViewProperties(Map<Integer, FontBase> fontBases, Props props)
    {
-      byte[] viewPropertyData = props.getByteArray(VIEW_PROPERTIES);
+      byte[] viewPropertyData = props.getByteArray(PropsKey.STYLE_DATA);
       if (viewPropertyData != null)
       {
          //System.out.println(ByteArrayHelper.hexdump(viewPropertyData, false, 16, ""));
@@ -195,7 +195,7 @@ public final class GanttChartView12 extends GanttChartView
          m_linkStyle = LinkStyle.getInstance(viewPropertyData[1155]);
       }
 
-      byte[] timescaleData = props.getByteArray(TIMESCALE_PROPERTIES);
+      byte[] timescaleData = props.getByteArray(PropsKey.TIMESCALE_PROPERTIES);
       if (timescaleData != null)
       {
          m_timescaleTopTier = new TimescaleTier();
@@ -284,7 +284,7 @@ public final class GanttChartView12 extends GanttChartView
       int dateCount = ByteArrayHelper.getShort(progressLineData, 50);
       if (dateCount != 0)
       {
-         m_progressLinesDisplaySelectedDates = new LocalDateTime[dateCount];
+         m_progressLinesDisplaySelectedDates = new LocalDate[dateCount];
          int offset = 72;
          int count = 0;
          while (count < dateCount && offset < progressLineData.length)

@@ -33,7 +33,7 @@ import javax.swing.JPanel;
 /**
  * Implements a simple compound control to display a fixed label and a variable value.
  */
-public class JLabelledValue extends JPanel
+class JLabelledValue extends JPanel
 {
    private final JLabel m_valueLabel;
 

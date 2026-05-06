@@ -25,7 +25,7 @@ package org.mpxj.openplan;
 /**
  * Represents a code value.
  */
-public class CodeValue
+class CodeValue
 {
    /**
     * Code value, part of a code definition.

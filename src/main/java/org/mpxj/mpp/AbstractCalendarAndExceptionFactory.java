@@ -101,8 +101,8 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                   break;
                }
 
-               LocalDate fromDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(data, offset));
-               LocalDate toDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(data, offset + 2));
+               LocalDate fromDate = MPPUtility.getDate(data, offset);
+               LocalDate toDate = MPPUtility.getDate(data, offset + 2);
                RecurringData rd = readRecurringData(data, offset, fromDate, toDate);
                if (rd == null)
                {
@@ -252,10 +252,10 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
             offset += 60;
          }
 
-         LocalDate startDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(data, offset));
+         LocalDate startDate = MPPUtility.getDate(data, offset);
          offset += 2;
 
-         LocalDate finishDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(data, offset));
+         LocalDate finishDate = MPPUtility.getDate(data, offset);
          offset += 2;
 
          // skip unknown 8 bytes

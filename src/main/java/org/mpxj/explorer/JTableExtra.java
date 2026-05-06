@@ -38,7 +38,7 @@ import javax.swing.table.TableModel;
  * An extension of JTable which presents the selected cell as an observable property
  * and sets all columns to a fixed width.
  */
-public class JTableExtra extends JTable
+class JTableExtra extends JTable
 {
    private Point m_selectedCell = new Point(-1, -1);
    private int m_columnWidth = 20;

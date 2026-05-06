@@ -43,7 +43,7 @@ import javax.swing.text.NumberFormatter;
 /**
  * Implements the view component of the HexDump MVC.
  */
-public class HexDumpView extends JPanel
+class HexDumpView extends JPanel
 {
    /**
     * Constructor.

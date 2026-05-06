@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -42,6 +43,7 @@ import org.mpxj.TimeUnit;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.CharsetHelper;
 import org.mpxj.common.InputStreamHelper;
+import org.mpxj.common.MicrosoftProjectConstants;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.RateHelper;
 
@@ -49,7 +51,7 @@ import org.mpxj.common.RateHelper;
  * This class provides common functionality used by each of the classes
  * that read the different sections of the MPP file.
  */
-public final class MPPUtility
+final class MPPUtility
 {
    /**
     * Private constructor to prevent instantiation.
@@ -257,21 +259,14 @@ public final class MPPUtility
     * @param offset location of data as offset into the array
     * @return date value
     */
-   public static final LocalDateTime getDate(byte[] data, int offset)
+   public static final LocalDate getDate(byte[] data, int offset)
    {
-      LocalDateTime result;
       long days = ByteArrayHelper.getShort(data, offset);
-
       if (days == 65535)
       {
-         result = null;
+         return null;
       }
-      else
-      {
-         result = EPOCH_DATE.plusDays(days);
-      }
-
-      return (result);
+      return MicrosoftProjectConstants.EPOCH_DATE.toLocalDate().plusDays(days);
    }
 
    /**
@@ -330,7 +325,7 @@ public final class MPPUtility
             time = 0;
          }
 
-         result = EPOCH_DATE.plusDays(days).plusSeconds(time * 6);
+         result = MicrosoftProjectConstants.EPOCH_DATE.plusDays(days).plusSeconds(time * 6);
 
          // We are seeing some files which have very small values for the number of days.
          // When the relevant field is shown in MS Project it appears as NA.
@@ -355,7 +350,7 @@ public final class MPPUtility
    public static final LocalDateTime getTimestampFromTenths(byte[] data, int offset)
    {
       long seconds = ((long) ByteArrayHelper.getInt(data, offset)) * 6;
-      return EPOCH_DATE.plusSeconds(seconds);
+      return MicrosoftProjectConstants.EPOCH_DATE.plusSeconds(seconds);
    }
 
    /**
@@ -1087,7 +1082,7 @@ public final class MPPUtility
             {
                try
                {
-                  LocalDateTime d = MPPUtility.getDate(data, i);
+                  LocalDate d = MPPUtility.getDate(data, i);
                   if (d != null)
                   {
                      System.out.println(i + ":" + d);
@@ -1249,11 +1244,6 @@ public final class MPPUtility
          }
       }
    }
-
-   /**
-    * Epoch date for MPP date calculation is 31/12/1983.
-    */
-   public static final LocalDateTime EPOCH_DATE = LocalDateTime.of(1983, 12, 31, 0, 0);
 
    /**
     * Mask used to remove flags from the duration units field.

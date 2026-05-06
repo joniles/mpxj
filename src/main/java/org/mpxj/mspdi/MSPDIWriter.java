@@ -102,6 +102,7 @@ import org.mpxj.common.MicrosoftProjectConstants;
 import org.mpxj.common.MicrosoftProjectUniqueIDMapper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.ProjectCalendarHelper;
+import org.mpxj.common.ProjectPropertiesHelper;
 import org.mpxj.common.ResourceFieldLists;
 import org.mpxj.common.StringHelper;
 import org.mpxj.common.TaskFieldLists;
@@ -296,24 +297,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
          name = "project.xml";
       }
 
-      // If we don't have a title, provide a default.
-      // This is usually the project summary task name,
-      // so we'll try the first task name, otherwise we'll
-      // use a generic value.
-      String title = properties.getProjectTitle();
-      if (title == null || title.isEmpty())
-      {
-         if (!m_projectFile.getTasks().isEmpty())
-         {
-            title = m_projectFile.getTasks().get(0).getName();
-         }
-
-         if (title == null || title.isEmpty())
-         {
-            title = "project";
-         }
-      }
-
       project.setActualsInSync(Boolean.valueOf(properties.getActualsInSync()));
       project.setAdminProject(Boolean.valueOf(properties.getAdminProject()));
       project.setAuthor(properties.getAuthor());
@@ -376,7 +359,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setStatusDate(properties.getStatusDate());
       project.setSubject(properties.getSubject());
       project.setTaskUpdatesResource(Boolean.valueOf(properties.getUpdatingTaskStatusUpdatesResourceStatus()));
-      project.setTitle(title);
+      project.setTitle(ProjectPropertiesHelper.getProjectTitle(properties));
       project.setWeekStartDay(DatatypeConverter.printDay(properties.getWeekStartDay()));
       project.setWorkFormat(DatatypeConverter.printWorkUnits(properties.getDefaultWorkUnits()));
    }

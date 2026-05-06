@@ -41,7 +41,7 @@ import org.mpxj.common.ByteArrayHelper;
 /**
  * This class allows criteria definitions to be read from an MPP file.
  */
-public abstract class CriteriaReader
+abstract class CriteriaReader
 {
    /**
     * Retrieves the offset of the start of the criteria data.

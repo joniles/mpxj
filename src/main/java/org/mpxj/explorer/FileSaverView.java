@@ -32,7 +32,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  * Implements the view component of the FileSaver MVC.
  */
-public class FileSaverView
+class FileSaverView
 {
    protected final JFileChooser m_fileChooser;
    private final Component m_parent;

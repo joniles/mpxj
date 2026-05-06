@@ -26,7 +26,7 @@ package org.mpxj.mpp;
 import java.awt.Color;
 import java.io.IOException;
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Map;
 
 import org.mpxj.FieldType;
@@ -128,7 +128,7 @@ public final class GanttChartView14 extends GanttChartView
 
    @Override protected void processViewProperties(Map<Integer, FontBase> fontBases, Props props)
    {
-      byte[] viewPropertyData = props.getByteArray(VIEW_PROPERTIES);
+      byte[] viewPropertyData = props.getByteArray(PropsKey.STYLE_DATA);
       if (viewPropertyData != null && viewPropertyData.length > 41360)
       {
          //MPPUtility.fileDump("c:\\temp\\props.txt", ByteArrayHelper.hexdump(viewPropertyData, false, 16, "").getBytes());
@@ -359,7 +359,7 @@ public final class GanttChartView14 extends GanttChartView
       int dateCount = ByteArrayHelper.getShort(progressLineData, 50);
       if (dateCount != 0)
       {
-         m_progressLinesDisplaySelectedDates = new LocalDateTime[dateCount];
+         m_progressLinesDisplaySelectedDates = new LocalDate[dateCount];
          int offset = 144;
          int count = 0;
          while (count < dateCount && offset < progressLineData.length)

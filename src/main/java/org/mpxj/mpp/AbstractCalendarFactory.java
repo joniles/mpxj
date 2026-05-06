@@ -104,7 +104,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<>();
       int items = calFixedData.getItemCount();
       List<Pair<ProjectCalendar, Integer>> baseCalendars = new ArrayList<>();
-      byte[] defaultCalendarData = projectProps.getByteArray(Props.DEFAULT_CALENDAR_HOURS);
+      byte[] defaultCalendarData = projectProps.getByteArray(PropsKey.DEFAULT_CALENDAR_HOURS);
       ProjectCalendar defaultCalendar = new ProjectCalendar(m_file);
       processCalendarHours(defaultCalendarData, null, defaultCalendar, true);
 
@@ -202,7 +202,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       }
 
       updateBaseCalendarNames(baseCalendars, calendarMap);
-      ProjectCalendar projectDefaultCalendar = m_file.getCalendars().getByName(projectProps.getUnicodeString(Props.DEFAULT_CALENDAR_NAME));
+      ProjectCalendar projectDefaultCalendar = m_file.getCalendars().getByName(projectProps.getUnicodeString(PropsKey.DEFAULT_CALENDAR_NAME));
       if (projectDefaultCalendar == null)
       {
          projectDefaultCalendar = m_file.getCalendars().findOrCreateDefaultCalendar();

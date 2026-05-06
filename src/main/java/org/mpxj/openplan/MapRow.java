@@ -51,46 +51,62 @@ class MapRow implements Row
 
    @Override public String getString(String name)
    {
-      return (String) m_map.get(name);
+      return getValue(name, String.class);
    }
 
    @Override public LocalDateTime getDate(String name)
    {
-      return (LocalDateTime) m_map.get(name);
+      return getValue(name, LocalDateTime.class);
    }
 
    @Override public LocalTime getTime(String name)
    {
-      return (LocalTime) m_map.get(name);
+      return getValue(name, LocalTime.class);
    }
 
    @Override public Double getDouble(String name)
    {
-      return (Double) m_map.get(name);
+      return getValue(name,  Double.class);
    }
 
    @Override public Integer getInteger(String name)
    {
-      return (Integer) m_map.get(name);
+      return getValue(name, Integer.class);
    }
 
    @Override public Boolean getBoolean(String name)
    {
-      return (Boolean) m_map.get(name);
+      return getValue(name, Boolean.class);
    }
 
    @Override public UUID getUuid(String name)
    {
-      return (UUID) m_map.get(name);
+      return getValue(name, UUID.class);
    }
 
    @Override public Duration getDuration(String name)
    {
-      return (Duration) m_map.get(name);
+      return getValue(name, Duration.class);
    }
 
    @Override public ResourceType getResourceType(String name)
    {
-      return (ResourceType) m_map.get(name);
+      return getValue(name, ResourceType.class);
+   }
+
+   private <T> T getValue(String name, Class<T> c)
+   {
+      Object value = m_map.get(name);
+      if (value == null)
+      {
+         return null;
+      }
+
+      if (c.isAssignableFrom(value.getClass()))
+      {
+         return (T)value;
+      }
+
+      throw new RuntimeException("Unexpected type for column `" + name + "` with value `" + value+ "`");
    }
 }

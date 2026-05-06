@@ -63,6 +63,7 @@ import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.MarshallerHelper;
 import org.mpxj.common.NumberHelper;
+import org.mpxj.common.ObjectSequence;
 import org.mpxj.planner.schema.Allocation;
 import org.mpxj.planner.schema.Allocations;
 import org.mpxj.planner.schema.Calendar;
@@ -251,7 +252,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       OverriddenDayTypes odt = m_factory.createOverriddenDayTypes();
       plannerCalendar.setOverriddenDayTypes(odt);
       List<OverriddenDayType> typeList = odt.getOverriddenDayType();
-      Sequence uniqueID = new Sequence(0);
+      ObjectSequence uniqueID = new ObjectSequence(0);
 
       //
       // This is a bit arbitrary, so not ideal, however...
@@ -305,7 +306,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param day Day instance
     * @param typeList Planner list of days
     */
-   private void processWorkingHours(ProjectCalendar mpxjCalendar, Sequence uniqueID, DayOfWeek day, List<OverriddenDayType> typeList)
+   private void processWorkingHours(ProjectCalendar mpxjCalendar, ObjectSequence uniqueID, DayOfWeek day, List<OverriddenDayType> typeList)
    {
       if (isWorkingDay(mpxjCalendar, day))
       {
@@ -314,7 +315,7 @@ public final class PlannerWriter extends AbstractProjectWriter
          {
             OverriddenDayType odt = m_factory.createOverriddenDayType();
             typeList.add(odt);
-            odt.setId(getIntegerString(uniqueID.next()));
+            odt.setId(getIntegerString(uniqueID.getNext()));
             List<Interval> intervalList = odt.getInterval();
             for (LocalTimeRange mpxjRange : mpxjHours)
             {
