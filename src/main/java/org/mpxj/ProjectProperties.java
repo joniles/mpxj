@@ -3878,20 +3878,36 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    private static final Map<FieldType, Function<ProjectProperties, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
    {
-      CALCULATED_FIELD_MAP.put(ProjectField.PERCENTAGE_COMPLETE, p -> p.getValueFromSummaryTask(TaskField.PERCENT_COMPLETE));
-
-      CALCULATED_FIELD_MAP.put(ProjectField.START_DATE, ProjectProperties::calculateStartDate);
-      CALCULATED_FIELD_MAP.put(ProjectField.FINISH_DATE, ProjectProperties::calculateFinishDate);
-      CALCULATED_FIELD_MAP.put(ProjectField.ACTUAL_START, ProjectProperties::calculateActualStart);
+      // Values rolled up from tasks
+      // TODO: these values are here as historically they formed part of the MPX header record. Consider if we need to continute this.
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTUAL_COST, p -> p.getValueFromSummaryTask(TaskField.ACTUAL_COST));
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTUAL_DURATION, p -> p.getValueFromSummaryTask(TaskField.ACTUAL_DURATION));
       CALCULATED_FIELD_MAP.put(ProjectField.ACTUAL_FINISH, ProjectProperties::calculateActualFinish);
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTUAL_START, ProjectProperties::calculateActualStart);
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTUAL_WORK, p -> p.getValueFromSummaryTask(TaskField.ACTUAL_WORK));
+      CALCULATED_FIELD_MAP.put(ProjectField.BASELINE_COST, p -> p.getValueFromSummaryTask(TaskField.BASELINE_COST));
+      CALCULATED_FIELD_MAP.put(ProjectField.BASELINE_DURATION, p -> p.getValueFromSummaryTask(TaskField.BASELINE_DURATION));
+      CALCULATED_FIELD_MAP.put(ProjectField.BASELINE_FINISH, p -> p.getValueFromSummaryTask(TaskField.BASELINE_FINISH));
+      CALCULATED_FIELD_MAP.put(ProjectField.BASELINE_START, p -> p.getValueFromSummaryTask(TaskField.BASELINE_START));
+      CALCULATED_FIELD_MAP.put(ProjectField.BASELINE_WORK, p -> p.getValueFromSummaryTask(TaskField.BASELINE_WORK));
+      CALCULATED_FIELD_MAP.put(ProjectField.COST, p -> p.getValueFromSummaryTask(TaskField.COST));
+      CALCULATED_FIELD_MAP.put(ProjectField.DURATION,p -> p.getValueFromSummaryTask(TaskField.DURATION) );
+      CALCULATED_FIELD_MAP.put(ProjectField.FINISH_DATE, ProjectProperties::calculateFinishDate);
+      CALCULATED_FIELD_MAP.put(ProjectField.FINISH_VARIANCE, p -> p.getValueFromSummaryTask(TaskField.FINISH_VARIANCE));
+      CALCULATED_FIELD_MAP.put(ProjectField.PERCENTAGE_COMPLETE, p -> p.getValueFromSummaryTask(TaskField.PERCENT_COMPLETE));
+      CALCULATED_FIELD_MAP.put(ProjectField.PLANNED_START,p -> p.getValueFromSummaryTask(TaskField.PLANNED_START));
+      CALCULATED_FIELD_MAP.put(ProjectField.START_DATE, ProjectProperties::calculateStartDate);
+      CALCULATED_FIELD_MAP.put(ProjectField.START_VARIANCE, p -> p.getValueFromSummaryTask(TaskField.START_VARIANCE));
+      CALCULATED_FIELD_MAP.put(ProjectField.WORK, p -> p.getValueFromSummaryTask(TaskField.WORK));
+      //ProjectField.WORK2  // TODO dig into what WORK2 actually represents in an MPX file, remove if irrelevant
 
+      // Project defaults
       CALCULATED_FIELD_MAP.put(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID, ProjectProperties::calculateDefaultCalendarUniqueID);
       CALCULATED_FIELD_MAP.put(ProjectField.DAYS_PER_MONTH, p -> p.m_parentFile.getProjectContext().getTimeUnitDefaults().getDaysPerMonth());
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_DAY, p -> p.m_parentFile.getProjectContext().getTimeUnitDefaults().getMinutesPerDay());
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_WEEK, p -> p.m_parentFile.getProjectContext().getTimeUnitDefaults().getMinutesPerWeek());
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_MONTH, p -> p.m_parentFile.getProjectContext().getTimeUnitDefaults().getMinutesPerMonth());
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_YEAR, p -> p.m_parentFile.getProjectContext().getTimeUnitDefaults().getMinutesPerYear());
-
       CALCULATED_FIELD_MAP.put(ProjectField.CURRENCY_SYMBOL, p -> DEFAULT_CURRENCY_SYMBOL);
       CALCULATED_FIELD_MAP.put(ProjectField.CURRENCY_SYMBOL_POSITION, p -> DEFAULT_CURRENCY_SYMBOL_POSITION);
       CALCULATED_FIELD_MAP.put(ProjectField.CURRENCY_DIGITS, p -> DEFAULT_CURRENCY_DIGITS);
