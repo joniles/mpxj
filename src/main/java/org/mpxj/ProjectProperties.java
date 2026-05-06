@@ -215,7 +215,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
-    * Gets constant representing set Date order eg DMY, MDY.
+    * Gets constant representing set Date order e.g. DMY, MDY.
     *
     * @return constant value for date order
     */
@@ -225,7 +225,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
-    * Sets constant representing set Date order eg DMY, MDY.
+    * Sets constant representing set Date order e.g. DMY, MDY.
     *
     * @param dateOrder date order value
     */
@@ -3879,7 +3879,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    static
    {
       // Values rolled up from tasks
-      // TODO: these values are here as historically they formed part of the MPX header record. Consider if we need to continute this.
+      // TODO: these values are here as historically they formed part of the MPX header record. Consider if we need to continue this.
       CALCULATED_FIELD_MAP.put(ProjectField.ACTUAL_COST, p -> p.getValueFromSummaryTask(TaskField.ACTUAL_COST));
       CALCULATED_FIELD_MAP.put(ProjectField.ACTUAL_DURATION, p -> p.getValueFromSummaryTask(TaskField.ACTUAL_DURATION));
       CALCULATED_FIELD_MAP.put(ProjectField.ACTUAL_FINISH, ProjectProperties::calculateActualFinish);
