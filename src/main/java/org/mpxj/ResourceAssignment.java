@@ -3225,7 +3225,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
          // Multiple rates are in operation over this range.
          double total = 0;
-         LocalDateTimeRange subRange = new LocalDateTimeRange(range.getStart(), currentRate.getEndDate());
+         LocalDateTimeRange subRange = new LocalDateTimeRange(range.getStart(), getNextRateStart(rates, costRateTableEntryIndex));
          while (true)
          {
             work = workSupplier.apply(Collections.singletonList(subRange), TimeUnit.HOURS).get(0);
@@ -3241,13 +3241,32 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
             }
 
             currentRate = rates.get(++costRateTableEntryIndex);
-            subRange = new LocalDateTimeRange(currentRate.getStartDate(), currentRate.getEndDate().isAfter(range.getEnd()) ? range.getEnd() : currentRate.getEndDate());
+            LocalDateTime endDate = getNextRateStart(rates, costRateTableEntryIndex);
+            subRange = new LocalDateTimeRange(currentRate.getStartDate(), endDate.isAfter(range.getEnd()) ? range.getEnd() : endDate);
          }
 
          result[index] = Double.valueOf(total);
       }
 
       return Arrays.asList(result);
+   }
+
+   /**
+    * Although cost rate table entries have an end date, MS Project typically
+    * gives us end dates which are inclusive and finish at 23:59. This can cause
+    * issues with the code here as we're expecting an exclusive end date.
+    * This method returns the start of the next cost rate table entry,
+    * which we can use to create a range with an exclusive end date.
+    * Where there isn't a next cost rate table entry, we'll just use
+    * the maximum end date.
+    *
+    * @param rates cost rate table
+    * @param costRateTableIndex current cost rate table index
+    * @return next rate start date
+    */
+   private LocalDateTime getNextRateStart(List<CostRateTableEntry> rates, int costRateTableIndex)
+   {
+      return costRateTableIndex+1 < rates.size() ? rates.get(costRateTableIndex+1).getStartDate() : LocalDateTimeHelper.END_DATE_NA;
    }
 
    /**
@@ -3824,7 +3843,26 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
 
       ProjectCalendar calendar = getEffectiveCalendar();
-      LocalDateTime start = getActualStart() == null ? getStart() : getRemainingEarlyStart();
+      LocalDateTime start;
+
+      if (getActualStart() == null)
+      {
+         // We haven't started, so we can use the task start date
+         start = getStart();
+      }
+      else
+      {
+         // We've already started, so we should be able to go from
+         // the remaining early start.
+         start = getRemainingEarlyStart();
+         if (start == null)
+         {
+            // We don't have the remaining early start, so we'll
+            // calculate a start date ourselves.
+            start = calendar.getNextWorkStart(calendar.getDate(getActualStart(), getActualWork()));
+         }
+      }
+
       LocalDateTime finish = getFinish();
 
       double workingHours = calendar.getWork(start, finish, TimeUnit.HOURS).getDuration();
