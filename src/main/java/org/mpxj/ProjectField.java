@@ -70,7 +70,7 @@ public enum ProjectField implements FieldType
    DURATION(DataType.DURATION),
    BASELINE_DURATION(DataType.DURATION),
    ACTUAL_DURATION(DataType.DURATION),
-   PERCENTAGE_COMPLETE(DataType.PERCENTAGE),
+   PERCENTAGE_COMPLETE(DataType.PERCENTAGE), // TODO: deprecate and rename percent complete for consistency?
    BASELINE_START(DataType.DATE),
    BASELINE_FINISH(DataType.DATE),
    ACTUAL_START(DataType.DATE),
@@ -141,7 +141,7 @@ public enum ProjectField implements FieldType
    BASELINE10_DATE(DataType.DATE),
    TEMPLATE(DataType.STRING),
    LAST_AUTHOR(DataType.STRING),
-   LASTPRINTED(DataType.DATE),
+   LASTPRINTED(DataType.DATE), // TODO: deprecated, change to LAST_PRINTED
    SHORT_APPLICATION_NAME(DataType.STRING),
    EDITING_TIME(DataType.INTEGER),
    PRESENTATION_FORMAT(DataType.STRING),

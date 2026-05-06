@@ -75,6 +75,7 @@ import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.MicrosoftProjectUniqueIDMapper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.ProjectCalendarHelper;
+import org.mpxj.common.ProjectPropertiesHelper;
 import org.mpxj.mpp.UserDefinedFieldMap;
 import org.mpxj.writer.AbstractProjectWriter;
 
@@ -280,7 +281,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.setLength(0);
       m_buffer.append(MPXConstants.PROJECT_HEADER_RECORD_NUMBER);
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(properties.getProjectTitle()));
+      m_buffer.append(format(ProjectPropertiesHelper.getProjectTitle(properties)));
       m_buffer.append(m_delimiter);
       m_buffer.append(format(properties.getCompany()));
       m_buffer.append(m_delimiter);

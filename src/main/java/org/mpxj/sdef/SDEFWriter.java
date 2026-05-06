@@ -60,6 +60,7 @@ import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.ProjectCalendarHelper;
+import org.mpxj.common.ProjectPropertiesHelper;
 import org.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -156,7 +157,7 @@ public final class SDEFWriter extends AbstractProjectWriter
       m_buffer.append("PROJ ");
       m_buffer.append(formatDate(dataDate)).append(" "); // DataDate
       m_buffer.append(SDEFmethods.lset(record.getManager(), 4)).append(" "); // ProjIdent
-      m_buffer.append(SDEFmethods.lset(record.getProjectTitle(), 48)).append(" "); // ProjName
+      m_buffer.append(SDEFmethods.lset(ProjectPropertiesHelper.getProjectTitle(record), 48)).append(" "); // ProjName
       m_buffer.append(SDEFmethods.lset(record.getSubject(), 36)).append(" "); // ContrName
       m_buffer.append("P "); // ArrowP
       m_buffer.append(SDEFmethods.lset(record.getKeywords(), 7)); // ContractNum
