@@ -47,13 +47,29 @@ final class TimephasedUtility
     */
    public static List<Duration> segmentWork(ProjectCalendar calendar, List<TimephasedWork> work, List<LocalDateTimeRange> ranges, TimeUnit targetUnits)
    {
-      validateTimephasedWork(work);
       validateRanges(ranges);
 
       if (work.isEmpty())
       {
          return Arrays.asList(new Duration[ranges.size()]);
       }
+
+      // Microsoft Project special case.
+      // If we encounter a single block which represents an amount of work, but with the same stat and finish time,
+      // the timephased work is placed in the last range.
+      if (work.size() == 1)
+      {
+         TimephasedWork item = work.get(0);
+         if (item.getStart().isEqual(item.getFinish()) && item.getTotalAmount().getDuration() != 0)
+         {
+            double[] result = new double[ranges.size()];
+            Arrays.fill(result, -1);
+            result[result.length-1] = item.getTotalAmount().convertUnits(targetUnits, calendar).getDuration();
+            return Arrays.stream(result).mapToObj(d -> d == -1 ? null : Duration.getInstance(d, targetUnits)).collect(Collectors.toList());
+         }
+      }
+
+      validateTimephasedWork(work);
 
       // We use -1 to represent null and map this later when we generate
       double[] result = new double[ranges.size()];

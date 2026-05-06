@@ -2785,8 +2785,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
 
       List<Number> result;
-      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
-      switch (accrueAt)
+      switch (getResourceAccrueType())
       {
          case START:
          {
@@ -2841,8 +2840,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Arrays.asList(new Number[ranges.size()]);
       }
 
-      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
-      switch (accrueAt)
+      switch (getResourceAccrueType())
       {
          case START:
          {
@@ -2906,8 +2904,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
 
       List<Number> result;
-      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
-      switch (accrueAt)
+      switch (getResourceAccrueType())
       {
          case START:
          {
@@ -2966,8 +2963,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Arrays.asList(new Number[ranges.size()]);
       }
 
-      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
-      switch (accrueAt)
+      switch (getResourceAccrueType())
       {
          case START:
          {
@@ -3007,8 +3003,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
 
       List<Number> result;
-      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
-      switch (accrueAt)
+      switch (getResourceAccrueType())
       {
          case START:
          {
@@ -3263,6 +3258,11 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    private Rate getRatePerHour(Rate rate)
    {
+      if (rate == null)
+      {
+         return Rate.ZERO;
+      }
+
       if (rate.getUnits() == TimeUnit.HOURS)
       {
          return rate;
@@ -3279,7 +3279,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    private List<Number> getTimephasedCostResourceRemainingCost(List<LocalDateTimeRange> ranges)
    {
-      switch (getResource().getAccrueAt())
+      switch (getResourceAccrueType())
       {
          case START:
          {
@@ -3306,7 +3306,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    private List<Number> getTimephasedCostResourceActualCost(List<LocalDateTimeRange> ranges)
    {
-      switch (getResource().getAccrueAt())
+      switch (getResourceAccrueType())
       {
          case START:
          {
@@ -3772,7 +3772,23 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       LocalDateTime finish = getActualFinish();
       if (finish == null)
       {
-         finish = calendar.getDate(start, work);
+         double units = getUnits().doubleValue();
+         if (units == 0.0)
+         {
+            // I have found some XER files with a zero units value.
+            // P6 seems to just display this timephased data as all zeros
+            // even if there is an actual work value. We'll deal with this
+            // by bailing out here.
+            return timephasedWork;
+         }
+
+         Duration elapsedWork = work;
+         if (units != 100.0)
+         {
+            elapsedWork = Duration.getInstance((elapsedWork.getDuration() * 100.0) / units, elapsedWork.getUnits());
+         }
+
+         finish = calendar.getDate(start, elapsedWork);
       }
 
       double workingHours = calendar.getWork(start, finish, TimeUnit.HOURS).getDuration();
@@ -3821,6 +3837,30 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       item.setAmountPerHour(Duration.getInstance(remainingHours / workingHours, TimeUnit.HOURS));
 
       return Collections.singletonList(item);
+   }
+
+   /**
+    * Retrieve the resource's accrue type. Provide
+    * a default value if this assignment doens't have a resource
+    * or the resource does not have an accrue type set.
+    *
+    * @return accrue type
+    */
+   private AccrueType getResourceAccrueType()
+   {
+      Resource resource = getResource();
+      if (resource == null)
+      {
+         return AccrueType.PRORATED;
+      }
+
+      AccrueType result = resource.getAccrueAt();
+      if (result == null)
+      {
+         return AccrueType.PRORATED;
+      }
+
+      return result;
    }
 
    /**
