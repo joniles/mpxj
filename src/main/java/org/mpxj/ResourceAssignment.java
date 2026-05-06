@@ -3772,8 +3772,17 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       LocalDateTime finish = getActualFinish();
       if (finish == null)
       {
-         Duration elapsedWork = work;
          double units = getUnits().doubleValue();
+         if (units == 0.0)
+         {
+            // I have found some XER files with a zero units value.
+            // P6 seems to just display this timephased data as all zeros
+            // even if there is an actual work value. We'll deal with this
+            // by bailing out here.
+            return timephasedWork;
+         }
+
+         Duration elapsedWork = work;
          if (units != 100.0)
          {
             elapsedWork = Duration.getInstance((elapsedWork.getDuration() * 100.0) / units, elapsedWork.getUnits());
