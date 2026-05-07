@@ -609,11 +609,11 @@ public class CustomerDataTest
          return false;
       }
 
-//      if (!testTimephased(projectFile))
-//      {
-//         System.err.println("Failed to validate timephased data " + fileName);
-//         return false;
-//      }
+      if (!testTimephased(projectFile))
+      {
+         System.err.println("Failed to validate timephased data " + fileName);
+         return false;
+      }
 
       if (!testBaseline(baselineName, projectFile, m_baselineDirectory))
       {
