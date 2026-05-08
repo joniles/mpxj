@@ -64,7 +64,7 @@ final class TimephasedUtility
          {
             double[] result = new double[ranges.size()];
             Arrays.fill(result, -1);
-            result[result.length-1] = item.getTotalAmount().convertUnits(targetUnits, calendar).getDuration();
+            result[result.length - 1] = item.getTotalAmount().convertUnits(targetUnits, calendar).getDuration();
             return Arrays.stream(result).mapToObj(d -> d == -1 ? null : Duration.getInstance(d, targetUnits)).collect(Collectors.toList());
          }
       }

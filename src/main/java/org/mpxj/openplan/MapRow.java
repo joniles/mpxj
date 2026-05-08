@@ -66,7 +66,7 @@ class MapRow implements Row
 
    @Override public Double getDouble(String name)
    {
-      return getValue(name,  Double.class);
+      return getValue(name, Double.class);
    }
 
    @Override public Integer getInteger(String name)
@@ -104,9 +104,9 @@ class MapRow implements Row
 
       if (c.isAssignableFrom(value.getClass()))
       {
-         return (T)value;
+         return (T) value;
       }
 
-      throw new RuntimeException("Unexpected type for column `" + name + "` with value `" + value+ "`");
+      throw new RuntimeException("Unexpected type for column `" + name + "` with value `" + value + "`");
    }
 }

@@ -267,7 +267,7 @@ final class TimephasedDataFactory
       double unallocatedWorkInMinutes = item.getTotalAmount().getDuration() - allocatedWorkInMinutes;
       double rangeMinutes = range.getStart().until(range.getEnd(), ChronoUnit.MINUTES);
       double requiredMinutes = (unallocatedWorkInMinutes * 60.0) / item.getAmountPerHour().getDuration();
-      LocalDateTime finish = requiredMinutes >= rangeMinutes ? range.getEnd() : range.getStart().plusMinutes((long)requiredMinutes);
+      LocalDateTime finish = requiredMinutes >= rangeMinutes ? range.getEnd() : range.getStart().plusMinutes((long) requiredMinutes);
 
       TimephasedWork insertedItem = new TimephasedWork();
       insertedItem.setStart(range.getStart());

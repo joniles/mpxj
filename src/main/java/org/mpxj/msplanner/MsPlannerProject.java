@@ -33,7 +33,7 @@ public final class MsPlannerProject
 {
    /**
     * Constructor.
-    * 
+    *
     * @param builder builder
     */
    private MsPlannerProject(Builder builder)

@@ -3266,7 +3266,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    private LocalDateTime getNextRateStart(List<CostRateTableEntry> rates, int costRateTableIndex)
    {
-      return costRateTableIndex+1 < rates.size() ? rates.get(costRateTableIndex+1).getStartDate() : LocalDateTimeHelper.END_DATE_NA;
+      return costRateTableIndex + 1 < rates.size() ? rates.get(costRateTableIndex + 1).getStartDate() : LocalDateTimeHelper.END_DATE_NA;
    }
 
    /**

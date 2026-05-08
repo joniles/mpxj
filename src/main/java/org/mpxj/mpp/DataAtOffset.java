@@ -49,7 +49,7 @@ public class DataAtOffset
       //
       // 1 byte
       //
-      m_workTimeUnit = MPPUtility.getWorkTimeUnits(MPPUtility.getByte(data,  offset));
+      m_workTimeUnit = MPPUtility.getWorkTimeUnits(MPPUtility.getByte(data, offset));
 
       //
       // 2 bytes
@@ -58,9 +58,9 @@ public class DataAtOffset
       {
          m_short = Integer.valueOf(ByteArrayHelper.getShort(data, offset));
          m_timeUnit = MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(data, offset));
-         m_percentage = MPPUtility.getPercentage(data,  offset);
+         m_percentage = MPPUtility.getPercentage(data, offset);
          m_date = MPPUtility.getDate(data, offset);
-         m_time = MPPUtility.getTime(data,  offset);
+         m_time = MPPUtility.getTime(data, offset);
       }
       else
       {
@@ -76,7 +76,7 @@ public class DataAtOffset
       //
       if (offset + 4 <= data.length)
       {
-         m_timestamp = MPPUtility.getTimestamp(data,  offset);
+         m_timestamp = MPPUtility.getTimestamp(data, offset);
       }
       else
       {
@@ -101,7 +101,7 @@ public class DataAtOffset
       if (offset + 8 <= data.length)
       {
          m_long = Long.valueOf(ByteArrayHelper.getLong(data, offset));
-         m_double = Double.valueOf(MPPUtility.getDouble(data,  offset));
+         m_double = Double.valueOf(MPPUtility.getDouble(data, offset));
          m_duration = Duration.getInstance(MPPUtility.getDouble(data, offset) / 60000, TimeUnit.HOURS);
       }
       else

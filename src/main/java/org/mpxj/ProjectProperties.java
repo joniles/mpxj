@@ -3827,12 +3827,10 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    private static final DayOfWeek DEFAULT_WEEK_START_DAY = DayOfWeek.MONDAY;
 
-
    /**
     * Default schedule from value.
     */
    private static final ScheduleFrom DEFAULT_SCHEDULE_FROM = ScheduleFrom.START;
-
 
    private static final Integer DEFAULT_OTHER_PROJECT_ASSIGNMENT_PRIORITY = Integer.valueOf(5);
 
@@ -3872,11 +3870,11 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.BASELINE_START, p -> p.getValueFromSummaryTask(TaskField.BASELINE_START));
       CALCULATED_FIELD_MAP.put(ProjectField.BASELINE_WORK, p -> p.getValueFromSummaryTask(TaskField.BASELINE_WORK));
       CALCULATED_FIELD_MAP.put(ProjectField.COST, p -> p.getValueFromSummaryTask(TaskField.COST));
-      CALCULATED_FIELD_MAP.put(ProjectField.DURATION,p -> p.getValueFromSummaryTask(TaskField.DURATION) );
+      CALCULATED_FIELD_MAP.put(ProjectField.DURATION, p -> p.getValueFromSummaryTask(TaskField.DURATION));
       CALCULATED_FIELD_MAP.put(ProjectField.FINISH_DATE, ProjectProperties::calculateFinishDate);
       CALCULATED_FIELD_MAP.put(ProjectField.FINISH_VARIANCE, p -> p.getValueFromSummaryTask(TaskField.FINISH_VARIANCE));
       CALCULATED_FIELD_MAP.put(ProjectField.PERCENTAGE_COMPLETE, p -> p.getValueFromSummaryTask(TaskField.PERCENT_COMPLETE));
-      CALCULATED_FIELD_MAP.put(ProjectField.PLANNED_START,p -> p.getValueFromSummaryTask(TaskField.PLANNED_START));
+      CALCULATED_FIELD_MAP.put(ProjectField.PLANNED_START, p -> p.getValueFromSummaryTask(TaskField.PLANNED_START));
       CALCULATED_FIELD_MAP.put(ProjectField.START_DATE, ProjectProperties::calculateStartDate);
       CALCULATED_FIELD_MAP.put(ProjectField.START_VARIANCE, p -> p.getValueFromSummaryTask(TaskField.START_VARIANCE));
       CALCULATED_FIELD_MAP.put(ProjectField.WORK, p -> p.getValueFromSummaryTask(TaskField.WORK));
