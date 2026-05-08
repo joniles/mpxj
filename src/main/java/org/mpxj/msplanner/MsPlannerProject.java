@@ -29,10 +29,12 @@ import java.util.UUID;
  * Represents a Microsoft Planner project. Returned when projects in Microsoft Planner are listed,
  * and can be used when requesting a project export.
  */
-public class MsPlannerProject
+public final class MsPlannerProject
 {
    /**
     * Constructor.
+    * 
+    * @param builder builder
     */
    private MsPlannerProject(Builder builder)
    {

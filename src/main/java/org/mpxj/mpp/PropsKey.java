@@ -132,7 +132,7 @@ enum PropsKey
     */
    PropsKey(int value)
    {
-      m_value = value;
+      m_value = Integer.valueOf(value);
    }
 
    /**

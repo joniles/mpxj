@@ -2206,6 +2206,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
     *
     * @param items list of timephaesd items
     * @return list of timephased items without overlaps
+    * @param <T> timephased type
     */
    private <T extends TimephasedItem<?>> List<T> fixOverlappingTimephasedItems(List<T> items)
    {

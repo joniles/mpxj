@@ -3803,11 +3803,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    private static final CurrencySymbolPosition DEFAULT_CURRENCY_SYMBOL_POSITION = CurrencySymbolPosition.BEFORE;
 
    /**
-    * Default cost value.
-    */
-   private static final Double DEFAULT_COST = Double.valueOf(0);
-
-   /**
     * Default MPX delimiter.
     */
    private static final char DEFAULT_MPX_DELIMITER = ',';
@@ -3832,20 +3827,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    private static final DayOfWeek DEFAULT_WEEK_START_DAY = DayOfWeek.MONDAY;
 
-   /**
-    * Default work value.
-    */
-   private static final Duration DEFAULT_WORK = Duration.getInstance(0, TimeUnit.HOURS);
-
-   /**
-    * Default work 2 value.
-    */
-   private static final Double DEFAULT_WORK2 = Double.valueOf(0);
-
-   /**
-    * Default duration value.
-    */
-   private static final Duration DEFAULT_DURATION = Duration.getInstance(0, TimeUnit.DAYS);
 
    /**
     * Default schedule from value.

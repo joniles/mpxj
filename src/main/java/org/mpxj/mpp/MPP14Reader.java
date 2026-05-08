@@ -1106,14 +1106,12 @@ final class MPP14Reader implements MPPVariantReader
                // task. In this case don't want to include the phantom task. Seems to be a very rare case.
                continue;
             }
-            else
+            
+            if (temp.getName() == null)
             {
-               if (temp.getName() == null)
-               {
-                  // Ok, this looks valid. Remove the previous instance since it is most likely not a valid task.
-                  // At worst case this removes a task with an empty name.
-                  m_file.removeTask(temp);
-               }
+               // Ok, this looks valid. Remove the previous instance since it is most likely not a valid task.
+               // At worst case this removes a task with an empty name.
+               m_file.removeTask(temp);
             }
          }
          task = m_file.addTask();

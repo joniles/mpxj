@@ -2237,22 +2237,19 @@ final class AstaReader
             while (tk.nextToken() == Tokenizer.TT_WORD)
             {
                String token = tk.getToken();
-               if (token != null)
+               if (token.startsWith("<\"") && !token.endsWith("\">"))
                {
-                  if (token.startsWith("<\"") && !token.endsWith("\">"))
+                  nextTokenPrefix = token;
+               }
+               else
+               {
+                  if (nextTokenPrefix != null)
                   {
-                     nextTokenPrefix = token;
+                     token = nextTokenPrefix + DELIMITER + token;
+                     nextTokenPrefix = null;
                   }
-                  else
-                  {
-                     if (nextTokenPrefix != null)
-                     {
-                        token = nextTokenPrefix + DELIMITER + token;
-                        nextTokenPrefix = null;
-                     }
 
-                     row.put("COLUMN" + (index++), token);
-                  }
+                  row.put("COLUMN" + (index++), token);
                }
             }
          }

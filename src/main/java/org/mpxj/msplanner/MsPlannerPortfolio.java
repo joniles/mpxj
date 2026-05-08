@@ -28,10 +28,12 @@ import java.util.UUID;
 /**
  * Represents a Microsoft Planner portfolio. Returned when portfolios in Microsoft Planner are listed.
  */
-public class MsPlannerPortfolio
+public final class MsPlannerPortfolio
 {
    /**
     * Constructor.
+    * 
+    * @param builder builder
     */
    private MsPlannerPortfolio(Builder builder)
    {
