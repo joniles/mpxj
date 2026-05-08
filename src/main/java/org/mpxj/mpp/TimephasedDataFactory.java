@@ -165,7 +165,7 @@ final class TimephasedDataFactory
                }
                else
                {
-                  if (!item.getStart().isBefore(nextIrregularRange.getEnd()) /*|| item.getStart().toLocalDate().isEqual(nextIrregularRange.getStart().toLocalDate())*/)
+                  if (!item.getStart().isBefore(nextIrregularRange.getEnd()))
                   {
                      long itemDuration = item.getStart().until(item.getFinish(), ChronoUnit.MINUTES);
                      long rangeDuration = nextIrregularRange.getStart().until(nextIrregularRange.getEnd(), ChronoUnit.MINUTES);
@@ -199,50 +199,6 @@ final class TimephasedDataFactory
                         item.setFinish(startItem.getFinish().plusMinutes(remainingMinutes));
                         item.setTotalAmount(Duration.getInstance(remainingWork, TimeUnit.MINUTES));
                         regularList.add(item);
-
-                        //item = null;
-/*
-                        // I think in this case there will be multiple irregular ranges applying to this item as moves
-                        // so we'll need to work through them all.
-                        Duration itemMinutes = calendar.getWork(item.getStart(), item.getFinish(), TimeUnit.MINUTES);
-                        Duration itemWorkPerHour = Duration.getInstance(item.getTotalAmount().getDuration() * 60.0 / itemMinutes.getDuration(), TimeUnit.MINUTES);
-
-                        // We're setting this here as the original value seems unreliable for irregular blocks?
-                        item.setAmountPerHour(itemWorkPerHour);
-
-                        while (item != null && !irregularRanges.isEmpty())
-                        {
-                           irregularRanges.remove(0);
-                           regularList.remove(regularList.size() - 1);
-
-                           TimephasedWork startItem = new TimephasedWork();
-                           startItem.setStart(nextIrregularRange.getStart());
-                           startItem.setFinish(nextIrregularRange.getEnd());
-                           startItem.setAmountPerHour(item.getAmountPerHour());
-                           long startItemMinutes = startItem.getStart().until(startItem.getFinish(), ChronoUnit.MINUTES);
-                           double startItemWork = (startItemMinutes * startItem.getAmountPerHour().getDuration()) / 60.0;
-                           startItem.setTotalAmount(Duration.getInstance(startItemWork, TimeUnit.MINUTES));
-                           regularList.add(startItem);
-
-                           double remainingWork = item.getTotalAmount().getDuration() - startItemWork;
-                           if (remainingWork > 0)
-                           {
-                              item.setTotalAmount(Duration.getInstance(remainingWork, TimeUnit.MINUTES));
-                              long remainingMinutes = (long) ((item.getTotalAmount().getDuration() * 60.0) / item.getAmountPerHour().getDuration());
-                              item.setFinish(calendar.getDate(item.getStart(), Duration.getInstance(remainingMinutes, TimeUnit.MINUTES)));
-
-                              regularList.add(item);
-                              if (!irregularRanges.isEmpty())
-                              {
-                                 nextIrregularRange = irregularRanges.get(0);
-                              }
-                           }
-                           else
-                           {
-                              item = null;
-                           }
-                        }
- */
                      }
                   }
                   else
@@ -295,8 +251,6 @@ final class TimephasedDataFactory
       // Start Range
       if (item.getStart().isBefore(range.getStart()))
       {
-         //LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(range.getStart());
-         //LocalDateTime finish = calendar.getWork(previousWorkFinish, range.getStart(), TimeUnit.MINUTES).getDuration() == 0 ? previousWorkFinish : range.getStart();
          LocalDateTime finish = range.getStart();
 
          TimephasedWork startItem = new TimephasedWork();

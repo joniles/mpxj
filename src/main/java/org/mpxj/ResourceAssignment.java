@@ -3879,7 +3879,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
    /**
     * Retrieve the resource's accrue type. Provide
-    * a default value if this assignment doens't have a resource
+    * a default value if this assignment doesn't have a resource
     * or the resource does not have an accrue type set.
     *
     * @return accrue type

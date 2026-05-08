@@ -799,6 +799,12 @@ public class CustomerDataTest
       return success;
    }
 
+   /**
+    * Ensure that we can segment timephased data without error.
+    *
+    * @param project targte project
+    * @return true if all timephased data can be segmented without error
+    */
    private boolean testTimephased(ProjectFile project)
    {
       try
@@ -813,6 +819,11 @@ public class CustomerDataTest
       }
    }
 
+   /**
+    * Segment timephased data for a resource assignment.
+    *
+    * @param assignment target resource assignment
+    */
    private void testTimephased(ResourceAssignment assignment)
    {
       LocalDateTime start = assignment.getStart();
@@ -832,6 +843,7 @@ public class CustomerDataTest
 
       catch (Exception ex)
       {
+         // For debugging
          throw ex;
       }
    }
