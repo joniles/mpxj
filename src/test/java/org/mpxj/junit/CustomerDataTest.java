@@ -48,10 +48,15 @@ import org.mpxj.ChildTaskContainer;
 import org.mpxj.EPS;
 import org.mpxj.EpsNode;
 import org.mpxj.EpsProjectNode;
+import org.mpxj.LocalDateTimeRange;
 import org.mpxj.ProjectFile;
+import org.mpxj.ResourceAssignment;
 import org.mpxj.Task;
+import org.mpxj.TimeUnit;
+import org.mpxj.TimescaleUnits;
 import org.mpxj.common.FileHelper;
 import org.mpxj.common.JvmHelper;
+import org.mpxj.common.TimescaleHelper;
 import org.mpxj.cpm.MicrosoftSchedulerComparator;
 import org.mpxj.cpm.PrimaveraSchedulerComparator;
 import org.mpxj.json.JsonWriter;
@@ -602,6 +607,12 @@ public class CustomerDataTest
          return false;
       }
 
+      if (!testTimephased(projectFile))
+      {
+         System.err.println("Failed to validate timephased data " + fileName);
+         return false;
+      }
+
       if (!testBaseline(baselineName, projectFile, m_baselineDirectory))
       {
          System.err.println("Failed to validate baseline " + fileName);
@@ -786,6 +797,55 @@ public class CustomerDataTest
       }
 
       return success;
+   }
+
+   /**
+    * Ensure that we can segment timephased data without error.
+    *
+    * @param project targte project
+    * @return true if all timephased data can be segmented without error
+    */
+   private boolean testTimephased(ProjectFile project)
+   {
+      try
+      {
+         project.getResourceAssignments().forEach(this::testTimephased);
+         return true;
+      }
+
+      catch (Exception ex)
+      {
+         return false;
+      }
+   }
+
+   /**
+    * Segment timephased data for a resource assignment.
+    *
+    * @param assignment target resource assignment
+    */
+   private void testTimephased(ResourceAssignment assignment)
+   {
+      LocalDateTime start = assignment.getStart();
+      LocalDateTime finish = assignment.getFinish();
+
+      if (start == null || finish == null || finish.isBefore(start))
+      {
+         return;
+      }
+
+      try
+      {
+         List<LocalDateTimeRange> dates = new TimescaleHelper().createTimescale(start, finish, TimescaleUnits.DAYS);
+         assignment.getTimephasedWork(dates, TimeUnit.HOURS);
+         assignment.getTimephasedCost(dates);
+      }
+
+      catch (Exception ex)
+      {
+         // For debugging
+         throw ex;
+      }
    }
 
    /**

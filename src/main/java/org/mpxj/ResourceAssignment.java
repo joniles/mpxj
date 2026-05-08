@@ -2785,8 +2785,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
 
       List<Number> result;
-      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
-      switch (accrueAt)
+      switch (getResourceAccrueType())
       {
          case START:
          {
@@ -2841,8 +2840,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Arrays.asList(new Number[ranges.size()]);
       }
 
-      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
-      switch (accrueAt)
+      switch (getResourceAccrueType())
       {
          case START:
          {
@@ -2906,8 +2904,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
 
       List<Number> result;
-      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
-      switch (accrueAt)
+      switch (getResourceAccrueType())
       {
          case START:
          {
@@ -2966,8 +2963,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Arrays.asList(new Number[ranges.size()]);
       }
 
-      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
-      switch (accrueAt)
+      switch (getResourceAccrueType())
       {
          case START:
          {
@@ -3007,8 +3003,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
 
       List<Number> result;
-      AccrueType accrueAt = getResource() != null ? getResource().getAccrueAt() : AccrueType.PRORATED;
-      switch (accrueAt)
+      switch (getResourceAccrueType())
       {
          case START:
          {
@@ -3230,7 +3225,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
 
          // Multiple rates are in operation over this range.
          double total = 0;
-         LocalDateTimeRange subRange = new LocalDateTimeRange(range.getStart(), currentRate.getEndDate());
+         LocalDateTimeRange subRange = new LocalDateTimeRange(range.getStart(), getNextRateStart(rates, costRateTableEntryIndex));
          while (true)
          {
             work = workSupplier.apply(Collections.singletonList(subRange), TimeUnit.HOURS).get(0);
@@ -3246,13 +3241,32 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
             }
 
             currentRate = rates.get(++costRateTableEntryIndex);
-            subRange = new LocalDateTimeRange(currentRate.getStartDate(), currentRate.getEndDate().isAfter(range.getEnd()) ? range.getEnd() : currentRate.getEndDate());
+            LocalDateTime endDate = getNextRateStart(rates, costRateTableEntryIndex);
+            subRange = new LocalDateTimeRange(currentRate.getStartDate(), endDate.isAfter(range.getEnd()) ? range.getEnd() : endDate);
          }
 
          result[index] = Double.valueOf(total);
       }
 
       return Arrays.asList(result);
+   }
+
+   /**
+    * Although cost rate table entries have an end date, MS Project typically
+    * gives us end dates which are inclusive and finish at 23:59. This can cause
+    * issues with the code here as we're expecting an exclusive end date.
+    * This method returns the start of the next cost rate table entry,
+    * which we can use to create a range with an exclusive end date.
+    * Where there isn't a next cost rate table entry, we'll just use
+    * the maximum end date.
+    *
+    * @param rates cost rate table
+    * @param costRateTableIndex current cost rate table index
+    * @return next rate start date
+    */
+   private LocalDateTime getNextRateStart(List<CostRateTableEntry> rates, int costRateTableIndex)
+   {
+      return costRateTableIndex+1 < rates.size() ? rates.get(costRateTableIndex+1).getStartDate() : LocalDateTimeHelper.END_DATE_NA;
    }
 
    /**
@@ -3263,6 +3277,11 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    private Rate getRatePerHour(Rate rate)
    {
+      if (rate == null)
+      {
+         return Rate.ZERO;
+      }
+
       if (rate.getUnits() == TimeUnit.HOURS)
       {
          return rate;
@@ -3279,7 +3298,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    private List<Number> getTimephasedCostResourceRemainingCost(List<LocalDateTimeRange> ranges)
    {
-      switch (getResource().getAccrueAt())
+      switch (getResourceAccrueType())
       {
          case START:
          {
@@ -3306,7 +3325,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    private List<Number> getTimephasedCostResourceActualCost(List<LocalDateTimeRange> ranges)
    {
-      switch (getResource().getAccrueAt())
+      switch (getResourceAccrueType())
       {
          case START:
          {
@@ -3772,7 +3791,23 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       LocalDateTime finish = getActualFinish();
       if (finish == null)
       {
-         finish = calendar.getDate(start, work);
+         double units = getUnits().doubleValue();
+         if (units == 0.0)
+         {
+            // I have found some XER files with a zero units value.
+            // P6 seems to just display this timephased data as all zeros
+            // even if there is an actual work value. We'll deal with this
+            // by bailing out here.
+            return timephasedWork;
+         }
+
+         Duration elapsedWork = work;
+         if (units != 100.0)
+         {
+            elapsedWork = Duration.getInstance((elapsedWork.getDuration() * 100.0) / units, elapsedWork.getUnits());
+         }
+
+         finish = calendar.getDate(start, elapsedWork);
       }
 
       double workingHours = calendar.getWork(start, finish, TimeUnit.HOURS).getDuration();
@@ -3808,7 +3843,26 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       }
 
       ProjectCalendar calendar = getEffectiveCalendar();
-      LocalDateTime start = getActualStart() == null ? getStart() : getRemainingEarlyStart();
+      LocalDateTime start;
+
+      if (getActualStart() == null)
+      {
+         // We haven't started, so we can use the task start date
+         start = getStart();
+      }
+      else
+      {
+         // We've already started, so we should be able to go from
+         // the remaining early start.
+         start = getRemainingEarlyStart();
+         if (start == null)
+         {
+            // We don't have the remaining early start, so we'll
+            // calculate a start date ourselves.
+            start = calendar.getNextWorkStart(calendar.getDate(getActualStart(), getActualWork()));
+         }
+      }
+
       LocalDateTime finish = getFinish();
 
       double workingHours = calendar.getWork(start, finish, TimeUnit.HOURS).getDuration();
@@ -3821,6 +3875,30 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       item.setAmountPerHour(Duration.getInstance(remainingHours / workingHours, TimeUnit.HOURS));
 
       return Collections.singletonList(item);
+   }
+
+   /**
+    * Retrieve the resource's accrue type. Provide
+    * a default value if this assignment doesn't have a resource
+    * or the resource does not have an accrue type set.
+    *
+    * @return accrue type
+    */
+   private AccrueType getResourceAccrueType()
+   {
+      Resource resource = getResource();
+      if (resource == null)
+      {
+         return AccrueType.PRORATED;
+      }
+
+      AccrueType result = resource.getAccrueAt();
+      if (result == null)
+      {
+         return AccrueType.PRORATED;
+      }
+
+      return result;
    }
 
    /**

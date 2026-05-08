@@ -180,50 +180,38 @@ final class TimephasedDataFactory
                      }
                      else
                      {
-                        // I think in this case there will be multiple irregular ranges applying to this item as moves
-                        // so we'll need to work through them all.
-                        Duration itemMinutes = calendar.getWork(item.getStart(), item.getFinish(), TimeUnit.MINUTES);
-                        Duration itemWorkPerHour = Duration.getInstance(item.getTotalAmount().getDuration() * 60.0 / itemMinutes.getDuration(), TimeUnit.MINUTES);
+                        irregularRanges.remove(0);
+                        regularList.remove(regularList.size() - 1);
 
-                        // We're setting this here as the original value seems unreliable for irregular blocks?
-                        item.setAmountPerHour(itemWorkPerHour);
+                        TimephasedWork startItem = new TimephasedWork();
+                        startItem.setStart(nextIrregularRange.getStart());
+                        startItem.setFinish(nextIrregularRange.getEnd());
+                        startItem.setAmountPerHour(item.getAmountPerHour());
+                        long startItemMinutes = startItem.getStart().until(startItem.getFinish(), ChronoUnit.MINUTES);
+                        double startItemWork = (startItemMinutes * startItem.getAmountPerHour().getDuration()) / 60.0;
+                        startItem.setTotalAmount(Duration.getInstance(startItemWork, TimeUnit.MINUTES));
+                        regularList.add(startItem);
 
-                        while (item != null && !irregularRanges.isEmpty())
-                        {
-                           irregularRanges.remove(0);
-                           regularList.remove(regularList.size() - 1);
+                        double remainingWork = item.getTotalAmount().getDuration() - startItemWork;
+                        long remainingMinutes = (long) ((remainingWork * 60.0) / item.getAmountPerHour().getDuration());
 
-                           TimephasedWork startItem = new TimephasedWork();
-                           startItem.setStart(nextIrregularRange.getStart());
-                           startItem.setFinish(nextIrregularRange.getEnd());
-                           startItem.setAmountPerHour(item.getAmountPerHour());
-                           long startItemMinutes = startItem.getStart().until(startItem.getFinish(), ChronoUnit.MINUTES);
-                           double startItemWork = (startItemMinutes * startItem.getAmountPerHour().getDuration()) / 60.0;
-                           startItem.setTotalAmount(Duration.getInstance(startItemWork, TimeUnit.MINUTES));
-                           regularList.add(startItem);
-
-                           double remainingWork = item.getTotalAmount().getDuration() - startItemWork;
-                           if (remainingWork > 0)
-                           {
-                              item.setTotalAmount(Duration.getInstance(remainingWork, TimeUnit.MINUTES));
-                              long remainingMinutes = (long) ((item.getTotalAmount().getDuration() * 60.0) / item.getAmountPerHour().getDuration());
-                              item.setFinish(calendar.getDate(item.getStart(), Duration.getInstance(remainingMinutes, TimeUnit.MINUTES)));
-
-                              regularList.add(item);
-                              if (!irregularRanges.isEmpty())
-                              {
-                                 nextIrregularRange = irregularRanges.get(0);
-                              }
-                           }
-                           else
-                           {
-                              item = null;
-                           }
-                        }
+                        item.setStart(startItem.getFinish());
+                        item.setFinish(startItem.getFinish().plusMinutes(remainingMinutes));
+                        item.setTotalAmount(Duration.getInstance(remainingWork, TimeUnit.MINUTES));
+                        regularList.add(item);
                      }
                   }
                   else
                   {
+                     if (nextIrregularRange.getStart().isBefore(item.getFinish()))
+                     {
+                        long minutesToAdd = (long) ((item.getTotalAmount().getDuration() * 60.0) / item.getAmountPerHour().getDuration());
+                        LocalDateTime finish = nextIrregularRange.getStart().plusMinutes(minutesToAdd);
+                        item.setStart(nextIrregularRange.getStart());
+                        item.setFinish(finish);
+                        irregularRanges.remove(0);
+                     }
+
                      item = null;
                   }
                }
@@ -237,7 +225,12 @@ final class TimephasedDataFactory
          offset += 20;
       }
 
-      return regularList;
+      if (!regularList.isEmpty() && regularList.get(regularList.size() - 1).getFinish().isAfter(resourceAssignment.getFinish()))
+      {
+         regularList.get(regularList.size() - 1).setFinish(resourceAssignment.getFinish());
+      }
+
+      return removeEmptyItems(regularList);
    }
 
    /**
@@ -258,8 +251,7 @@ final class TimephasedDataFactory
       // Start Range
       if (item.getStart().isBefore(range.getStart()))
       {
-         LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(range.getStart());
-         LocalDateTime finish = calendar.getWork(previousWorkFinish, range.getStart(), TimeUnit.MINUTES).getDuration() == 0 ? previousWorkFinish : range.getStart();
+         LocalDateTime finish = range.getStart();
 
          TimephasedWork startItem = new TimephasedWork();
          startItem.setStart(item.getStart());
@@ -272,28 +264,44 @@ final class TimephasedDataFactory
       }
 
       // Inserted Range
+      double unallocatedWorkInMinutes = item.getTotalAmount().getDuration() - allocatedWorkInMinutes;
+      double rangeMinutes = range.getStart().until(range.getEnd(), ChronoUnit.MINUTES);
+      double requiredMinutes = (unallocatedWorkInMinutes * 60.0) / item.getAmountPerHour().getDuration();
+      LocalDateTime finish = requiredMinutes >= rangeMinutes ? range.getEnd() : range.getStart().plusMinutes((long)requiredMinutes);
+
       TimephasedWork insertedItem = new TimephasedWork();
       insertedItem.setStart(range.getStart());
-      insertedItem.setFinish(range.getEnd());
+      insertedItem.setFinish(finish);
       insertedItem.setAmountPerHour(item.getAmountPerHour());
-      double insertedRangeWorkingHours = range.getStart().until(range.getEnd(), ChronoUnit.HOURS); // expecting this to always be 1
+      double insertedRangeWorkingHours = range.getStart().until(finish, ChronoUnit.HOURS); // expecting this to always be 1
       insertedItem.setTotalAmount(Duration.getInstance(insertedRangeWorkingHours * item.getAmountPerHour().getDuration(), TimeUnit.MINUTES));
       allocatedWorkInMinutes += insertedItem.getTotalAmount().getDuration();
       regularList.add(insertedItem);
 
+      // If we haven't used all the time from the irregular
+      // range, add the remainder back to the irregular ranges list.
+      if (requiredMinutes < rangeMinutes)
+      {
+         irregularRanges.add(0, new LocalDateTimeRange(finish, range.getEnd()));
+      }
+
       // End Range
-      if (item.getFinish().isAfter(range.getEnd()))
+      if (item.getFinish().isAfter(finish))
       {
          double workMinutes = item.getTotalAmount().getDuration() - allocatedWorkInMinutes;
          if (workMinutes != 0.0)
          {
             TimephasedWork endItem = new TimephasedWork();
-            endItem.setStart(range.getEnd());
+            endItem.setStart(finish);
             endItem.setAmountPerHour(item.getAmountPerHour());
             endItem.setTotalAmount(Duration.getInstance(workMinutes, TimeUnit.MINUTES));
             Duration remainingMinutes = Duration.getInstance((workMinutes * 60.0) / item.getAmountPerHour().getDuration(), TimeUnit.MINUTES);
             endItem.setFinish(calendar.getDate(endItem.getStart(), remainingMinutes));
             regularList.add(endItem);
+         }
+         else
+         {
+            return null;
          }
       }
 
@@ -395,7 +403,7 @@ final class TimephasedDataFactory
          }
       }
 
-      return newList;
+      return removeEmptyItems(newList);
    }
 
    /**
@@ -470,7 +478,7 @@ final class TimephasedDataFactory
          return Collections.emptyList();
       }
 
-      return list;
+      return removeEmptyItems(list);
    }
 
    /**
@@ -543,5 +551,11 @@ final class TimephasedDataFactory
       }
 
       return list;
+   }
+
+   List<TimephasedWork> removeEmptyItems(List<TimephasedWork> work)
+   {
+      work.removeIf(w -> w.getStart().isEqual(w.getFinish()));
+      return work;
    }
 }
