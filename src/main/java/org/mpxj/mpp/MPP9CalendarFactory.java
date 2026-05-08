@@ -36,7 +36,6 @@ import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectFile;
 import org.mpxj.common.ByteArrayHelper;
-import org.mpxj.common.LocalDateHelper;
 
 /**
  * MPP9-specific calendar factory.

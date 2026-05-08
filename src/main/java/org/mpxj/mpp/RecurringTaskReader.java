@@ -31,7 +31,6 @@ import org.mpxj.RecurringTask;
 import org.mpxj.Task;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DayOfWeekHelper;
-import org.mpxj.common.LocalDateHelper;
 
 /**
  * This class allows recurring task definitions to be read from an MPP file.

@@ -30,7 +30,6 @@ import java.util.UUID;
 import org.mpxj.Duration;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.ByteArrayHelper;
-import org.mpxj.common.LocalDateHelper;
 
 /**
  * Class used to assist understanding data storage in an MPP file.

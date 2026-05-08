@@ -66,7 +66,6 @@ import org.mpxj.View;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.FieldTypeHelper;
-import org.mpxj.common.LocalDateHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.Pair;

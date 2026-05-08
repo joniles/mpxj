@@ -94,7 +94,7 @@ class MapRow implements Row
       return getValue(name, ResourceType.class);
    }
 
-   private <T> T getValue(String name, Class<T> c)
+   @SuppressWarnings("unchecked") private <T> T getValue(String name, Class<T> c)
    {
       Object value = m_map.get(name);
       if (value == null)

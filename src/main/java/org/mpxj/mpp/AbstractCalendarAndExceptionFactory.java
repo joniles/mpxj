@@ -40,7 +40,6 @@ import org.mpxj.RecurrenceType;
 import org.mpxj.RecurringData;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DayOfWeekHelper;
-import org.mpxj.common.LocalDateHelper;
 import org.mpxj.common.NumberHelper;
 
 /**

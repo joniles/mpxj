@@ -59,7 +59,6 @@ import org.mpxj.ResourceType;
 import org.mpxj.SkillLevel;
 import org.mpxj.TaskType;
 import org.mpxj.TimeUnit;
-import org.mpxj.TimeUnitDefaults;
 import org.mpxj.TimeUnitDefaultsContainer;
 import org.mpxj.common.ColorHelper;
 import org.mpxj.common.HtmlHelper;
