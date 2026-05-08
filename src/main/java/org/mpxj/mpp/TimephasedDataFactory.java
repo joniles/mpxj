@@ -165,7 +165,7 @@ final class TimephasedDataFactory
                }
                else
                {
-                  if (!item.getStart().isBefore(nextIrregularRange.getEnd()))
+                  if (!item.getStart().isBefore(nextIrregularRange.getEnd()) /*|| item.getStart().toLocalDate().isEqual(nextIrregularRange.getStart().toLocalDate())*/)
                   {
                      long itemDuration = item.getStart().until(item.getFinish(), ChronoUnit.MINUTES);
                      long rangeDuration = nextIrregularRange.getStart().until(nextIrregularRange.getEnd(), ChronoUnit.MINUTES);
@@ -224,6 +224,15 @@ final class TimephasedDataFactory
                   }
                   else
                   {
+                     if (nextIrregularRange.getStart().isBefore(item.getFinish()))
+                     {
+                        long minutesToAdd = (long) ((item.getTotalAmount().getDuration() * 60.0) / item.getAmountPerHour().getDuration());
+                        LocalDateTime finish = nextIrregularRange.getStart().plusMinutes(minutesToAdd);
+                        item.setStart(nextIrregularRange.getStart());
+                        item.setFinish(finish);
+                        irregularRanges.remove(0);
+                     }
+
                      item = null;
                   }
                }
@@ -235,6 +244,12 @@ final class TimephasedDataFactory
          calendarPeriodStart = calendar.getNextWorkStart(regularList.get(regularList.size() - 1).getFinish());
 
          offset += 20;
+      }
+
+      if (!regularList.isEmpty() && regularList.get(regularList.size() - 1).getFinish().isAfter(resourceAssignment.getFinish()))
+      {
+         regularList.get(regularList.size() - 1).setFinish(resourceAssignment.getFinish());
+         //System.out.println("AFTER ASSIGNMENT END: " + regularList.get(regularList.size() - 1).getFinish() + " " + resourceAssignment.getFinish() + " " + resourceAssignment);
       }
 
       return removeEmptyItems(regularList);
