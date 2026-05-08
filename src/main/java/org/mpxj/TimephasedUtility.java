@@ -55,7 +55,7 @@ final class TimephasedUtility
       }
 
       // Microsoft Project special case.
-      // If we encounter a single block which represents an amount of work, but with the same stat and finish time,
+      // If we encounter a single block which represents an amount of work, but with the same start and finish time,
       // the timephased work is placed in the last range.
       if (work.size() == 1)
       {

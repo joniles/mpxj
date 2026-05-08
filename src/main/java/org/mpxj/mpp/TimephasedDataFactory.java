@@ -180,6 +180,28 @@ final class TimephasedDataFactory
                      }
                      else
                      {
+                        irregularRanges.remove(0);
+                        regularList.remove(regularList.size() - 1);
+
+                        TimephasedWork startItem = new TimephasedWork();
+                        startItem.setStart(nextIrregularRange.getStart());
+                        startItem.setFinish(nextIrregularRange.getEnd());
+                        startItem.setAmountPerHour(item.getAmountPerHour());
+                        long startItemMinutes = startItem.getStart().until(startItem.getFinish(), ChronoUnit.MINUTES);
+                        double startItemWork = (startItemMinutes * startItem.getAmountPerHour().getDuration()) / 60.0;
+                        startItem.setTotalAmount(Duration.getInstance(startItemWork, TimeUnit.MINUTES));
+                        regularList.add(startItem);
+
+                        double remainingWork = item.getTotalAmount().getDuration() - startItemWork;
+                        long remainingMinutes = (long) ((remainingWork * 60.0) / item.getAmountPerHour().getDuration());
+
+                        item.setStart(startItem.getFinish());
+                        item.setFinish(startItem.getFinish().plusMinutes(remainingMinutes));
+                        item.setTotalAmount(Duration.getInstance(remainingWork, TimeUnit.MINUTES));
+                        regularList.add(item);
+
+                        //item = null;
+/*
                         // I think in this case there will be multiple irregular ranges applying to this item as moves
                         // so we'll need to work through them all.
                         Duration itemMinutes = calendar.getWork(item.getStart(), item.getFinish(), TimeUnit.MINUTES);
@@ -220,6 +242,7 @@ final class TimephasedDataFactory
                               item = null;
                            }
                         }
+ */
                      }
                   }
                   else
@@ -249,7 +272,6 @@ final class TimephasedDataFactory
       if (!regularList.isEmpty() && regularList.get(regularList.size() - 1).getFinish().isAfter(resourceAssignment.getFinish()))
       {
          regularList.get(regularList.size() - 1).setFinish(resourceAssignment.getFinish());
-         //System.out.println("AFTER ASSIGNMENT END: " + regularList.get(regularList.size() - 1).getFinish() + " " + resourceAssignment.getFinish() + " " + resourceAssignment);
       }
 
       return removeEmptyItems(regularList);
