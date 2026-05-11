@@ -5,6 +5,13 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
+## 16.2.0 (2026-05-12)
+* Ensure numeric values are correctly formatted using decimal separator and digit grouping symbols when writing XER files.
+* Marked the `GanttChartView#getProgressLinesBeginAtDate` method as deprecated. Use the `getProgressLinesBeginAt` method instead.
+* Marked the `GanttChartView#getProgressLinesDisplaySelectedDates` method as deprecated. Use the `getProgressLineDates` method instead.
+* Improve handling of values which are rolled up from the project's tasks to the `ProjectProperties` class.
+* Improve handling of irregular timephased data.
+
 ## 16.1.0 (2026-04-04)
 * Provided additional attributes as part of the `MsPlannerProject` class, populated when retrieving a list of projects from Microsoft Planner (Contributed by Gevork Aslanov).
 * Added the `MsPlannerReader#getPortfolios` method to retrieve a list of portfolios defined in Microsoft Planner (Contributed by Gevork Aslanov).
