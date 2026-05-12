@@ -390,7 +390,7 @@ file.getProjectProperties().setStatusDate(LocalDateTime.of(2025, 4, 11, 17, 0));
 
 If your project does not have a value set for the Status Date attribute, the
 `PrimaveraScheduler` will assume that the Data Date is the same as the start
-date for the project your are scheduling.
+date for the project you are scheduling.
 
 The following sections provide sample code illustrating how the
 `PrimaveraScheduler` can be used to schedule a newly created project. All of
