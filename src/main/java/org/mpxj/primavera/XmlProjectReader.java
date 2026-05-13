@@ -227,6 +227,8 @@ class XmlProjectReader
       properties.setProjectWebsiteUrl(nullIfEmpty(project.getWebSiteURL()));
       properties.setEnablePublication(BooleanHelper.getBoolean(project.isEnablePublication()));
       properties.setEnableSummarization(BooleanHelper.getBoolean(project.isEnableSummarization()));
+      properties.setActivityDefaultPricePerUnit(project.getActivityDefaultPricePerUnit());
+      properties.setUpdateUnitsWhenCostsChangeOnResourceAssignments(BooleanHelper.getBoolean(project.isCostQuantityRecalculateFlag()));
 
       if (properties.getDefaultCalendar() == null)
       {
@@ -263,6 +265,8 @@ class XmlProjectReader
       properties.setProjectWebsiteUrl(project.getWebSiteURL());
       properties.setEnablePublication(BooleanHelper.getBoolean(project.isEnablePublication()));
       properties.setEnableSummarization(BooleanHelper.getBoolean(project.isEnableSummarization()));
+      properties.setActivityDefaultPricePerUnit(project.getActivityDefaultPricePerUnit());
+      properties.setUpdateUnitsWhenCostsChangeOnResourceAssignments(BooleanHelper.getBoolean(project.isCostQuantityRecalculateFlag()));
 
       if (properties.getDefaultCalendar() == null)
       {

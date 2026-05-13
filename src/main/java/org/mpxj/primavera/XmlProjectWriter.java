@@ -169,7 +169,7 @@ final class XmlProjectWriter extends XmlWriter
       project.setActivityDefaultCalendarObjectId(mpxj.getActivityDefaultCalendarUniqueID() == null ? mpxj.getDefaultCalendarUniqueID() : mpxj.getActivityDefaultCalendarUniqueID());
       project.setActivityDefaultDurationType(TaskTypeHelper.getXmlFromInstance(TaskType.FIXED_DURATION_AND_UNITS));
       project.setActivityDefaultPercentCompleteType(PercentCompleteTypeHelper.getXmlFromInstance(PercentCompleteType.DURATION));
-      project.setActivityDefaultPricePerUnit(NumberHelper.DOUBLE_ZERO);
+      project.setActivityDefaultPricePerUnit(mpxj.getActivityDefaultPricePerUnit() == null ? Double.valueOf(0) : getDouble(mpxj.getActivityDefaultPricePerUnit()));
       project.setActivityIdBasedOnSelectedActivity(Boolean.valueOf(mpxj.getActivityIdIncrementBasedOnSelectedActivity()));
       project.setActivityIdIncrement(mpxj.getActivityIdIncrement());
       project.setActivityIdPrefix(mpxj.getActivityIdPrefix());
@@ -180,7 +180,7 @@ final class XmlProjectWriter extends XmlWriter
       project.setAssignmentDefaultDrivingFlag(Boolean.TRUE);
       project.setAssignmentDefaultRateType(RateTypeHelper.getXmlFromInstance(Integer.valueOf(0)));
       project.setCheckOutStatus(Boolean.FALSE);
-      project.setCostQuantityRecalculateFlag(Boolean.FALSE);
+      project.setCostQuantityRecalculateFlag(Boolean.valueOf(mpxj.getUpdateUnitsWhenCostsChangeOnResourceAssignments()));
       project.setCreateDate(mpxj.getCreationDate());
       project.setCriticalActivityFloatLimit(Double.valueOf(mpxj.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, mpxj).getDuration()));
       project.setCriticalActivityPathType(CriticalActivityTypeHelper.getXmlFromInstance(mpxj.getCriticalActivityType()));
