@@ -111,6 +111,8 @@ public class PrimaveraScheduler implements Scheduler
 
       wbsSummaryPass();
 
+      //calculateLongestPath(earlyFinish);
+
       m_file.getProjectProperties().setStartDate(m_projectStartDate);
       m_file.getProjectProperties().setFinishDate(m_projectFinishDate);
       m_file.getProjectProperties().setScheduledFinish(earlyFinish);
@@ -2795,6 +2797,7 @@ public class PrimaveraScheduler implements Scheduler
          task.setRemainingEarlyFinish(null);
          task.setRemainingLateStart(null);
          task.setRemainingLateFinish(null);
+         task.setLongestPath(false);
 
          // Clear fields to force recalculation
          task.set(TaskField.CRITICAL, null);
@@ -3424,6 +3427,17 @@ public class PrimaveraScheduler implements Scheduler
       task.setLateFinish(childTasks.stream().map(Task::getLateFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null));
       task.setRemainingLateStart(childTasks.stream().map(Task::getRemainingLateStart).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(null));
       task.setRemainingLateFinish(childTasks.stream().map(Task::getRemainingLateFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null));
+   }
+
+   private void calculateLongestPath(LocalDateTime earlyFinish)
+   {
+      m_file.getTasks().stream().filter(t -> t.getEarlyFinish().isEqual(earlyFinish)).forEach(this::applyLongestPath);
+   }
+
+   private void applyLongestPath(Task task)
+   {
+      task.setLongestPath(true);
+      task.getPredecessors().forEach(r -> applyLongestPath(r.getPredecessorTask()));
    }
 
    /**

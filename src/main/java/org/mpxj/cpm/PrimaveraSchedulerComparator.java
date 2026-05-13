@@ -336,8 +336,9 @@ public class PrimaveraSchedulerComparator
       boolean remainingEarlyFinishFailed = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
       boolean freeFloatFailed = analyseFloats && !compareDurations(baseline, working, TaskField.FREE_SLACK);
       boolean totalFloatFailed = analyseFloats && !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
+      boolean longestPathFailed = baseline.getLongestPath() != working.getLongestPath();
 
-      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || actualStartFailed || actualFinishFailed || remainingEarlyStartFailed || remainingEarlyFinishFailed || freeFloatFailed || totalFloatFailed)
+      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || actualStartFailed || actualFinishFailed || remainingEarlyStartFailed || remainingEarlyFinishFailed || freeFloatFailed || totalFloatFailed || longestPathFailed)
       {
          ++m_forwardErrorCount;
       }
@@ -489,6 +490,7 @@ public class PrimaveraSchedulerComparator
       boolean remainingEarlyFinishFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
       boolean freeFloatFailed = !compareDurations(baseline, working, TaskField.FREE_SLACK);
       boolean totalFloatFailed = !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
+      boolean longestPathFailed = baseline.getLongestPath() != working.getLongestPath();
 
       System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working);
       System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
@@ -501,6 +503,7 @@ public class PrimaveraSchedulerComparator
       System.out.println("Remaining Early Finish: " + baseline.getRemainingEarlyFinish() + " " + working.getRemainingEarlyFinish() + (remainingEarlyFinishFail ? " FAIL" : ""));
       System.out.println("Free Float: " + baseline.getFreeSlack() + " " + working.getFreeSlack() + (freeFloatFailed ? " FAIL" : ""));
       System.out.println("Total Float: " + baseline.getTotalSlack() + " " + working.getTotalSlack() + (totalFloatFailed ? " FAIL" : ""));
+      System.out.println("Longest Path: " + baseline.getLongestPath() + " " + working.getLongestPath() + (longestPathFailed ? " FAIL" : ""));
 
       System.out.println();
    }
