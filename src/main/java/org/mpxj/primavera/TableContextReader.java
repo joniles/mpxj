@@ -997,6 +997,9 @@ abstract class TableContextReader
     */
    protected void processRoles(List<Row> rows)
    {
+      // We need to sort the roles into hierarchy order as we're mapping
+      // the Object ID to avoid clashes, so we need to ensure we've already mapped
+      // the parent Object ID before we process any of the child roles.
       List<Row> roles = HierarchyHelper.sortHierarchy(rows, r -> r.getInteger("role_id"), r -> r.getInteger("parent_role_id"));
       for (Row row : roles)
       {
