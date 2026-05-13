@@ -3622,6 +3622,48 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       set(ProjectField.ENABLE_SUMMARIZATION, value);
    }
 
+   /**
+    * Retrieve the default price per unit for activities
+    * without resource or role price per unit.
+    *
+    * @return default price per unit
+    */
+   public Number getActivityDefaultPricePerUnit()
+   {
+      return (Number)get(ProjectField.ACTIVITY_DEFAULT_PRICE_PER_UNIT);
+   }
+
+   /**
+    * Set the default price per unit for activities
+    * without resource or role price per unit.
+    *
+    * @param value default price per unit
+    */
+   public void setActivityDefaultPricePerUnit(Number value)
+   {
+      set(ProjectField.ACTIVITY_DEFAULT_PRICE_PER_UNIT, value);
+   }
+
+   /**
+    * Determine if units are updated when resource assignment costs change.
+    *
+    * @param value true if units are updated when resource assignment costs change.
+    */
+   public void setUpdateUnitsWhenCostsChangeOnResourceAssignments(boolean value)
+   {
+      set(ProjectField.UPDATE_UNITS_WHEN_COSTS_CHANGE_ON_RESOURCE_ASSIGNMENTS, value);
+   }
+
+   /**
+    * Determine if units are updated when resource assignment costs change.
+    *
+    * @return true if units are updated when resource assignment costs change.
+    */
+   public boolean getUpdateUnitsWhenCostsChangeOnResourceAssignments()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.UPDATE_UNITS_WHEN_COSTS_CHANGE_ON_RESOURCE_ASSIGNMENTS));
+   }
+
    @Override public List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       return Arrays.asList(new Duration[ranges.size()]);

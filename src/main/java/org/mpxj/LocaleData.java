@@ -2401,6 +2401,8 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.ACTIVITY_DEFAULT_CALENDAR_UNIQUE_ID.getValue()] = "Activity Default Calendar Unique ID";
       PROJECT_COLUMNS_ARRAY[ProjectField.LAST_SCHEDULED_DATE.getValue()] = "Last Scheduled Date";
       PROJECT_COLUMNS_ARRAY[ProjectField.ACTIVITY_PERCENT_COMPLETE_BASED_ON_ACTIVITY_STEPS.getValue()] = "Activity Percent Complete Based On Activity Steps";
+      PROJECT_COLUMNS_ARRAY[ProjectField.ACTIVITY_DEFAULT_PRICE_PER_UNIT.getValue()] = "Activity Default Price Per Unit";
+      PROJECT_COLUMNS_ARRAY[ProjectField.UPDATE_UNITS_WHEN_COSTS_CHANGE_ON_RESOURCE_ASSIGNMENTS.getValue()] = "Update Units When Costs Change On Resource Assignments";
    }
 
    private static final Object[][] RESOURCES = {

@@ -123,6 +123,8 @@ abstract class TableProjectReader
          properties.setActivityIdIncrement(row.getInteger("task_code_step"));
          properties.setActivityIdIncrementBasedOnSelectedActivity(row.getBoolean("task_code_prefix_flag"));
          properties.setProjectWebsiteUrl(row.getString("proj_url"));
+         properties.setActivityDefaultPricePerUnit(row.getDouble("def_cost_per_qty"));
+         properties.setUpdateUnitsWhenCostsChangeOnResourceAssignments(row.getBoolean("cost_qty_recalc_flag"));
 
          if (properties.getDefaultCalendar() == null)
          {
