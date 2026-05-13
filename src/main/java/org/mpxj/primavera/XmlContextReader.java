@@ -593,7 +593,12 @@ class XmlContextReader
     */
    private void processRoles()
    {
-      for (RoleType role : m_state.getApibo().getRole())
+      // We need to sort the roles into hierarchy order as we're mapping
+      // the Object ID to avoid clashes, so we need to ensure we've already mapped
+      // the parent Object ID before we process any of the child roles.
+      List<RoleType> roles = HierarchyHelper.sortHierarchy(m_state.getApibo().getRole(), RoleType::getObjectId, RoleType::getParentObjectId);
+
+      for (RoleType role : roles)
       {
          Resource resource = m_state.getContext().getResources().add();
          resource.setRole(true);
@@ -602,6 +607,7 @@ class XmlContextReader
          resource.setResourceID(role.getId());
          resource.setNotesObject(NotesHelper.getHtmlNote(role.getResponsibilities()));
          resource.setSequenceNumber(role.getSequenceNumber());
+         //resource.setParentResourceUniqueID(m_state.getRoleClashMap().getID(role.getParentObjectId()));
 
          processRoleCodeAssignments(resource, role.getCode());
       }

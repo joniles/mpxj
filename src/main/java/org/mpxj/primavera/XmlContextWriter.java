@@ -481,6 +481,7 @@ final class XmlContextWriter extends XmlWriter
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setResponsibilities(getNotes(mpxj.getNotesObject()));
       xml.setSequenceNumber(mpxj.getSequenceNumber());
+      //xml.setParentObjectId(mpxj.getParentResourceUniqueID());
 
       writeCodeAssignments(mpxj.getRoleCodeValues(), xml.getCode());
    }
