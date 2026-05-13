@@ -607,7 +607,7 @@ class XmlContextReader
          resource.setResourceID(role.getId());
          resource.setNotesObject(NotesHelper.getHtmlNote(role.getResponsibilities()));
          resource.setSequenceNumber(role.getSequenceNumber());
-         //resource.setParentResourceUniqueID(m_state.getRoleClashMap().getID(role.getParentObjectId()));
+         resource.setParentResourceUniqueID(m_state.getRoleClashMap().getID(role.getParentObjectId()));
 
          processRoleCodeAssignments(resource, role.getCode());
       }
