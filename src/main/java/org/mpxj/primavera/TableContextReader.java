@@ -997,9 +997,16 @@ abstract class TableContextReader
     */
    protected void processRoles(List<Row> rows)
    {
-      for (Row row : rows)
+      // We need to sort the roles into hierarchy order as we're mapping
+      // the Object ID to avoid clashes, so we need to ensure we've already mapped
+      // the parent Object ID before we process any of the child roles.
+      List<Row> roles = HierarchyHelper.sortHierarchy(rows, r -> r.getInteger("role_id"), r -> r.getInteger("parent_role_id"));
+      for (Row row : roles)
       {
          Resource resource = m_state.getContext().getResources().add();
+         resource.setUniqueID(m_state.getRoleClashMap().getID(row.getInteger("role_id")));
+         resource.setParentResourceUniqueID(m_state.getRoleClashMap().getID(row.getInteger("parent_role_id")));
+
          TableReaderHelper.processFields(m_state.getRoleFields(), row, resource);
          resource.setRole(true);
          resource.setUniqueID(m_state.getRoleClashMap().addID(resource.getUniqueID()));
@@ -1219,11 +1226,9 @@ abstract class TableContextReader
    {
       Map<FieldType, String> map = new LinkedHashMap<>();
 
-      map.put(ResourceField.UNIQUE_ID, "role_id");
       map.put(ResourceField.NAME, "role_name");
       map.put(ResourceField.RESOURCE_ID, "role_short_name");
       map.put(ResourceField.NOTES, "role_descr");
-      map.put(ResourceField.PARENT_ID, "parent_role_id");
       map.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, "def_cost_qty_link_flag");
       map.put(ResourceField.SEQUENCE_NUMBER, "seq_num");
 
