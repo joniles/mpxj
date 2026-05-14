@@ -48,6 +48,7 @@ import org.mpxj.ResourceType;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
+import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 
 /**
@@ -111,7 +112,7 @@ public class PrimaveraScheduler implements Scheduler
 
       wbsSummaryPass();
 
-      //calculateLongestPath(earlyFinish);
+      calculateLongestPath(activities);
 
       m_file.getProjectProperties().setStartDate(m_projectStartDate);
       m_file.getProjectProperties().setFinishDate(m_projectFinishDate);
@@ -3429,15 +3430,24 @@ public class PrimaveraScheduler implements Scheduler
       task.setRemainingLateFinish(childTasks.stream().map(Task::getRemainingLateFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null));
    }
 
-   private void calculateLongestPath(LocalDateTime earlyFinish)
+   private void calculateLongestPath(List<Task> activities)
    {
-      m_file.getTasks().stream().filter(t -> t.getEarlyFinish().isEqual(earlyFinish)).forEach(this::applyLongestPath);
+      LocalDateTime earlyFinish = activities.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElse(null);
+      activities.stream().filter(t -> t.getEarlyFinish() != null && t.getEarlyFinish().isEqual(earlyFinish)).forEach(this::applyLongestPath);
    }
 
    private void applyLongestPath(Task task)
    {
+      if (BooleanHelper.getBoolean(task.getLongestPath()))
+      {
+         return;
+      }
+
       task.setLongestPath(true);
-      task.getPredecessors().forEach(r -> applyLongestPath(r.getPredecessorTask()));
+      task.getPredecessors().stream()
+         .map(Relation::getPredecessorTask)
+         .filter(t -> t.getTotalSlack() == null || t.getTotalSlack().getDuration() == 0.0)
+         .forEach(this::applyLongestPath);
    }
 
    /**
