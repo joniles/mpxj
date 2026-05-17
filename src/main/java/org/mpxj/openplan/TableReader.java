@@ -291,7 +291,7 @@ class TableReader extends AbstractReader
 
    private static final DateTimeFormatter TIME_FORMAT = new DateTimeFormatterBuilder().parseLenient().appendPattern("HH:mm").toFormatter();
 
-   private static final Pattern DURATION_REGEX = Pattern.compile("(-?\\d+)([mwdht])");
+   private static final Pattern DURATION_REGEX = Pattern.compile("(-?\\d+)\\s*([mwdht])");
    private static final Map<String, DataType> TYPE_MAP = new HashMap<>();
    static
    {
