@@ -3460,12 +3460,15 @@ public class PrimaveraScheduler implements Scheduler
       task.setRemainingLateFinish(childTasks.stream().map(Task::getRemainingLateFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null));
    }
 
+   // Failures
+   // Same issue: elected-orange-task-dependent.xer, role-code-test-task-dependent.xer
+   //
    private void calculateLongestPath(List<Task> activities)
    {
       LocalDateTime earlyFinish = activities.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElse(null);
 
       activities.stream()
-         .filter(t -> t.getEarlyFinish() != null && t.getEarlyFinish().isEqual(earlyFinish) && t.getSuccessors().isEmpty())
+         .filter(t -> t.getEarlyFinish() != null && t.getEarlyFinish().isEqual(earlyFinish))
          .forEach(this::applyLongestPath);
    }
 
