@@ -282,7 +282,7 @@ public class PrimaveraScheduler implements Scheduler
    private void forwardPass(Task task) throws CpmException
    {
       LocalDateTime earlyStart;
-
+      List<DrivingRelation> drivingRelations = Collections.emptyList();
       LocalDateTime earlyFinish = null;
       List<Relation> predecessors = task.getPredecessors().stream().filter(r -> isActivity(r.getPredecessorTask())).collect(Collectors.toList());
 
@@ -318,7 +318,8 @@ public class PrimaveraScheduler implements Scheduler
          }
          else
          {
-            earlyStart = predecessors.stream().map(this::calculateEarlyStart).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+            drivingRelations = getDrivingRelations(predecessors);
+            earlyStart = drivingRelations.get(0).getEarlyStart();
          }
 
          switch (getConstraintType(task))
@@ -373,6 +374,7 @@ public class PrimaveraScheduler implements Scheduler
 
             case MUST_FINISH_ON:
             {
+               drivingRelations.clear();
                earlyFinish = task.getConstraintDate();
                earlyStart = getDateFromFinishAndDuration(task, earlyFinish);
                break;
@@ -383,6 +385,7 @@ public class PrimaveraScheduler implements Scheduler
                LocalDateTime startOn = getDateFromFinishAndDuration(task, task.getConstraintDate());
                if (startOn.isAfter(earlyStart))
                {
+                  drivingRelations.clear();
                   earlyFinish = task.getConstraintDate();
                   earlyStart = startOn;
                }
@@ -431,7 +434,8 @@ public class PrimaveraScheduler implements Scheduler
             }
             else
             {
-               earlyStart = getNextWorkStart(task, predecessors.stream().map(this::calculateEarlyStart).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date")));
+               drivingRelations = getDrivingRelations(predecessors);
+               earlyStart = getNextWorkStart(task, drivingRelations.get(0).getEarlyStart());
                earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
             }
          }
@@ -444,7 +448,8 @@ public class PrimaveraScheduler implements Scheduler
             }
             else
             {
-               earlyStart = predecessors.stream().map(this::calculateEarlyStart).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+               drivingRelations = getDrivingRelations(predecessors);
+               earlyStart = drivingRelations.get(0).getEarlyStart();
                earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
             }
          }
@@ -465,6 +470,16 @@ public class PrimaveraScheduler implements Scheduler
       task.setEarlyFinish(earlyFinish);
 
       setRemainingEarlyDates(task);
+
+      drivingRelations.forEach(d -> d.getRelation().setDriving(true));
+   }
+
+   private List<DrivingRelation> getDrivingRelations(List<Relation> predecessors) throws CpmException
+   {
+      List<DrivingRelation> relations = predecessors.stream().map(this::calculateEarlyStart).collect(Collectors.toList());
+      LocalDateTime earlyStart = relations.stream().map(DrivingRelation::getEarlyStart).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+      relations.removeIf(r -> !r.getEarlyStart().isEqual(earlyStart));
+      return relations;
    }
 
    /**
@@ -660,28 +675,34 @@ public class PrimaveraScheduler implements Scheduler
     * @param relation relationship between two tasks
     * @return calculated early start date
     */
-   private LocalDateTime calculateEarlyStart(Relation relation)
+   private DrivingRelation calculateEarlyStart(Relation relation)
    {
+      LocalDateTime earlyStart;
+
       switch (relation.getType())
       {
          case FINISH_START:
          {
-            return calculateEarlyStartForFinishStart(relation);
+            earlyStart = calculateEarlyStartForFinishStart(relation);
+            break;
          }
 
          case START_START:
          {
-            return calculateEarlyStartForStartStart(relation);
+            earlyStart = calculateEarlyStartForStartStart(relation);
+            break;
          }
 
          case FINISH_FINISH:
          {
-            return calculateEarlyStartForFinishFinish(relation);
+            earlyStart = calculateEarlyStartForFinishFinish(relation);
+            break;
          }
 
          case START_FINISH:
          {
-            return calculateEarlyStartForStartFinish(relation);
+            earlyStart = calculateEarlyStartForStartFinish(relation);
+            break;
          }
 
          default:
@@ -689,6 +710,8 @@ public class PrimaveraScheduler implements Scheduler
             throw new UnsupportedOperationException();
          }
       }
+
+      return new DrivingRelation(relation, earlyStart);
    }
 
    /**
@@ -2607,6 +2630,7 @@ public class PrimaveraScheduler implements Scheduler
          Relation relation = successors.stream().min(Comparator.comparing(this::getAlapEarlyStart)).orElseThrow(() -> new CpmException("Missing early start date"));
          earlyStart = getAlapEarlyStart(relation);
          earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
+         relation.setDriving(true);
       }
 
       task.setEarlyStart(earlyStart);
@@ -2805,6 +2829,8 @@ public class PrimaveraScheduler implements Scheduler
          task.set(TaskField.FREE_SLACK, null);
          task.set(TaskField.TOTAL_SLACK, null);
       }
+
+      m_file.getRelations().forEach(r -> r.setDriving(false));
 
       // Force start and finish dates to be recalculated
       m_file.getProjectProperties().setStartDate(null);
@@ -3445,8 +3471,8 @@ public class PrimaveraScheduler implements Scheduler
 
       task.setLongestPath(true);
       task.getPredecessors().stream()
+         .filter(Relation::getDriving)
          .map(Relation::getPredecessorTask)
-         .filter(t -> t.getTotalSlack() == null || t.getTotalSlack().getDuration() == 0.0)
          .forEach(this::applyLongestPath);
    }
 

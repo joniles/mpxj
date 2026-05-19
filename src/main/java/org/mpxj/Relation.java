@@ -133,25 +133,27 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
       return m_notes;
    }
 
+   public boolean getDriving()
+   {
+      return m_driving;
+   }
+
+   public void setDriving(boolean driving)
+   {
+      m_driving = driving;
+   }
+
    @Override public String toString()
    {
       return ("[Relation lag: " + m_lag + " type: " + m_type + " " + m_predecessorTask + " -> " + m_successorTask + "]");
    }
 
    private Integer m_uniqueID;
+   private boolean m_driving;
    private final Task m_predecessorTask;
    private final Task m_successorTask;
-
-   /**
-    * Type of relationship.
-    */
    private final RelationType m_type;
-
-   /**
-    * Lag between the two tasks.
-    */
    private final Duration m_lag;
-
    private final String m_notes;
 
    /**

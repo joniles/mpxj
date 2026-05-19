@@ -217,7 +217,7 @@ public class MicrosoftScheduler implements Scheduler
       }
 
       LocalDateTime earlyStart;
-
+      List<DrivingRelation> drivingRelations = Collections.emptyList();
       LocalDateTime earlyFinish = null;
       List<Relation> predecessors = task.getPredecessors().stream().filter(r -> isTask(r.getPredecessorTask())).collect(Collectors.toList());
       List<Relation> summaryTaskPredecessors = m_summaryTaskPredecessors.get(task);
@@ -255,7 +255,8 @@ public class MicrosoftScheduler implements Scheduler
          }
          else
          {
-            earlyStart = predecessors.stream().map(this::calculateEarlyStart).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+            drivingRelations = getDrivingRelations(predecessors);
+            earlyStart = drivingRelations.get(0).getEarlyStart();
          }
          earlyStart = getNextWorkStart(task, earlyStart);
 
@@ -309,6 +310,7 @@ public class MicrosoftScheduler implements Scheduler
             case MUST_FINISH_ON:
             case FINISH_ON:
             {
+               drivingRelations.clear();
                earlyFinish = task.getConstraintDate();
                earlyStart = getDateFromFinishAndDuration(task, earlyFinish);
                break;
@@ -354,6 +356,16 @@ public class MicrosoftScheduler implements Scheduler
 
       task.setEarlyStart(earlyStart);
       task.setEarlyFinish(earlyFinish);
+
+      drivingRelations.forEach(d -> d.getRelation().setDriving(true));
+   }
+
+   private List<DrivingRelation> getDrivingRelations(List<Relation> predecessors) throws CpmException
+   {
+      List<DrivingRelation> relations = predecessors.stream().map(this::calculateEarlyStart).collect(Collectors.toList());
+      LocalDateTime earlyStart = relations.stream().map(DrivingRelation::getEarlyStart).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+      relations.removeIf(r -> !r.getEarlyStart().isEqual(earlyStart));
+      return relations;
    }
 
    /**
@@ -498,28 +510,34 @@ public class MicrosoftScheduler implements Scheduler
     * @param relation relationship between two tasks
     * @return calculated early start date
     */
-   private LocalDateTime calculateEarlyStart(Relation relation)
+   private DrivingRelation calculateEarlyStart(Relation relation)
    {
+      LocalDateTime earlyStart;
+
       switch (relation.getType())
       {
          case FINISH_START:
          {
-            return calculateEarlyStartForFinishStart(relation);
+            earlyStart =  calculateEarlyStartForFinishStart(relation);
+            break;
          }
 
          case START_START:
          {
-            return calculateEarlyStartForStartStart(relation);
+            earlyStart =  calculateEarlyStartForStartStart(relation);
+            break;
          }
 
          case FINISH_FINISH:
          {
-            return calculateEarlyStartForFinishFinish(relation);
+            earlyStart =  calculateEarlyStartForFinishFinish(relation);
+            break;
          }
 
          case START_FINISH:
          {
-            return calculateEarlyStartForStartFinish(relation);
+            earlyStart = calculateEarlyStartForStartFinish(relation);
+            break;
          }
 
          default:
@@ -527,6 +545,7 @@ public class MicrosoftScheduler implements Scheduler
             throw new UnsupportedOperationException();
          }
       }
+      return new DrivingRelation(relation, earlyStart);
    }
 
    /**
