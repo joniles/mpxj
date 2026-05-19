@@ -145,6 +145,11 @@ public class PrimaveraSchedulerComparator
       m_noFloatTest = value;
    }
 
+   public void setNoLongestPathTest(Set<String> value)
+   {
+      m_noLongestPathTest = value;
+   }
+
    /**
     * Compare all the files in a directory with a matching suffix.
     *
@@ -250,7 +255,7 @@ public class PrimaveraSchedulerComparator
       }
 
       String fileName = file.getName().toLowerCase();
-      return process(baselineFile, workingFile, !m_noWbsTest.contains(fileName), !m_noResourceAssignmentTest.contains(fileName), !m_noFloatTest.contains(fileName));
+      return process(baselineFile, workingFile, !m_noWbsTest.contains(fileName), !m_noResourceAssignmentTest.contains(fileName), !m_noFloatTest.contains(fileName), !m_noLongestPathTest.contains(fileName));
    }
 
    /**
@@ -263,7 +268,7 @@ public class PrimaveraSchedulerComparator
     * @param analyseFloats analyse float values if true
     * @return true if compared successfully
     */
-   public boolean process(ProjectFile baselineFile, ProjectFile workingFile, boolean analyseWbs, boolean analyseResourceAssignments, boolean analyseFloats) throws Exception
+   public boolean process(ProjectFile baselineFile, ProjectFile workingFile, boolean analyseWbs, boolean analyseResourceAssignments, boolean analyseFloats, boolean analyseLongestPath) throws Exception
    {
       m_forwardErrorCount = 0;
       m_backwardErrorCount = 0;
@@ -277,7 +282,7 @@ public class PrimaveraSchedulerComparator
             continue;
          }
 
-         compare(baselineTask, workingTask, analyseFloats);
+         compare(baselineTask, workingTask, analyseFloats, analyseLongestPath);
 
          if (analyseResourceAssignments)
          {
@@ -324,7 +329,7 @@ public class PrimaveraSchedulerComparator
     * @param working scheduled task
     * @param analyseFloats analyse float values if true
     */
-   private void compare(Task baseline, Task working, boolean analyseFloats)
+   private void compare(Task baseline, Task working, boolean analyseFloats, boolean analyseLongestPath)
    {
       boolean earlyStartFailed = !compareDates(baseline, working, TaskField.EARLY_START);
       boolean earlyFinishFailed = !compareDates(baseline, working, TaskField.EARLY_FINISH);
@@ -336,7 +341,7 @@ public class PrimaveraSchedulerComparator
       boolean remainingEarlyFinishFailed = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
       boolean freeFloatFailed = analyseFloats && !compareDurations(baseline, working, TaskField.FREE_SLACK);
       boolean totalFloatFailed = analyseFloats && !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
-      boolean longestPathFailed = baseline.getLongestPath() != working.getLongestPath();
+      boolean longestPathFailed = analyseLongestPath && baseline.getLongestPath() != working.getLongestPath();
 
       if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || actualStartFailed || actualFinishFailed || remainingEarlyStartFailed || remainingEarlyFinishFailed || freeFloatFailed || totalFloatFailed || longestPathFailed)
       {
@@ -612,4 +617,5 @@ public class PrimaveraSchedulerComparator
    private Set<String> m_noWbsTest = Collections.emptySet();
    private Set<String> m_noResourceAssignmentTest = Collections.emptySet();
    private Set<String> m_noFloatTest = Collections.emptySet();
+   private Set<String> m_noLongestPathTest = Collections.emptySet();
 }
