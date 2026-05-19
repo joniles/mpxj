@@ -471,7 +471,10 @@ public class PrimaveraScheduler implements Scheduler
 
       setRemainingEarlyDates(task);
 
-      drivingRelations.forEach(d -> d.getRelation().setDriving(true));
+      if (task.getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE)
+      {
+         drivingRelations.forEach(d -> d.getRelation().setDriving(true));
+      }
    }
 
    private List<DrivingRelation> getDrivingRelations(List<Relation> predecessors) throws CpmException
