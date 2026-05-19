@@ -3463,7 +3463,10 @@ public class PrimaveraScheduler implements Scheduler
    private void calculateLongestPath(List<Task> activities)
    {
       LocalDateTime earlyFinish = activities.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElse(null);
-      activities.stream().filter(t -> t.getEarlyFinish() != null && t.getEarlyFinish().isEqual(earlyFinish)).forEach(this::applyLongestPath);
+
+      activities.stream()
+         .filter(t -> t.getEarlyFinish() != null && t.getEarlyFinish().isEqual(earlyFinish) && t.getSuccessors().isEmpty())
+         .forEach(this::applyLongestPath);
    }
 
    private void applyLongestPath(Task task)
