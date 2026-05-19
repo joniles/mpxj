@@ -352,6 +352,7 @@ public class PrimaveraScheduler implements Scheduler
                LocalDateTime earliestStart = getDateFromFinishAndDuration(task, task.getConstraintDate());
                if (earlyStart.isBefore(earliestStart))
                {
+                  drivingRelations.clear();
                   earlyStart = earliestStart;
                }
                break;
