@@ -497,7 +497,7 @@ public class PrimaveraSchedulerComparator
       boolean totalFloatFailed = !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
       boolean longestPathFailed = baseline.getLongestPath() != working.getLongestPath();
 
-      System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working);
+      System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working + " " + working.getActivityType());
       System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
       System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
       System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (startFail ? " FAIL" : ""));
