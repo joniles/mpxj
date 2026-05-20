@@ -341,7 +341,7 @@ public class PrimaveraScheduler implements Scheduler
                         constraintDate = adjustedConstraintDate;
                      }
                   }
-                  
+
                   drivingRelations.clear();
                   earlyStart = constraintDate;
                }
@@ -3275,7 +3275,7 @@ public class PrimaveraScheduler implements Scheduler
       {
          if (earlyStart.isActual())
          {
-            earlyStart = AnnotatedDateTime.fromActual(null, m_dataDate);
+            earlyStart = AnnotatedDateTime.fromActual(earlyStart.getRelation(), m_dataDate);
          }
          else
          {
@@ -3352,6 +3352,11 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       task.getResourceAssignments().forEach(this::updateDates);
+
+      if (earlyStart.getRelation() != null)
+      {
+         earlyStart.getRelation().setDriving(true);
+      }
 
       if (earlyFinish.getRelation() != null)
       {
