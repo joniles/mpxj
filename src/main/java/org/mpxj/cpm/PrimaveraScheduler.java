@@ -341,7 +341,8 @@ public class PrimaveraScheduler implements Scheduler
                         constraintDate = adjustedConstraintDate;
                      }
                   }
-
+                  
+                  drivingRelations.clear();
                   earlyStart = constraintDate;
                }
                break;
@@ -368,6 +369,7 @@ public class PrimaveraScheduler implements Scheduler
             {
                if (earlyStart.isBefore(task.getConstraintDate()))
                {
+                  drivingRelations.clear();
                   earlyStart = getNextWorkStart(task, task.getConstraintDate());
                }
                break;
