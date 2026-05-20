@@ -318,7 +318,7 @@ public class PrimaveraScheduler implements Scheduler
          }
          else
          {
-            drivingRelations = getDrivingRelations(predecessors);
+            drivingRelations = getDrivingRelations(task, predecessors);
             earlyStart = drivingRelations.get(0).getEarlyStart();
          }
 
@@ -435,7 +435,7 @@ public class PrimaveraScheduler implements Scheduler
             }
             else
             {
-               drivingRelations = getDrivingRelations(predecessors);
+               drivingRelations = getDrivingRelations(task, predecessors);
                earlyStart = getNextWorkStart(task, drivingRelations.get(0).getEarlyStart());
                earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
             }
@@ -449,7 +449,7 @@ public class PrimaveraScheduler implements Scheduler
             }
             else
             {
-               drivingRelations = getDrivingRelations(predecessors);
+               drivingRelations = getDrivingRelations(task, predecessors);
                earlyStart = drivingRelations.get(0).getEarlyStart();
                earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
             }
@@ -478,11 +478,11 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
-   private List<DrivingRelation> getDrivingRelations(List<Relation> predecessors) throws CpmException
+   private List<DrivingRelation> getDrivingRelations(Task task, List<Relation> predecessors) throws CpmException
    {
       List<DrivingRelation> relations = predecessors.stream().map(this::calculateEarlyStart).collect(Collectors.toList());
-      LocalDateTime earlyStart = relations.stream().map(DrivingRelation::getEarlyStart).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
-      relations.removeIf(r -> !r.getEarlyStart().isEqual(earlyStart));
+      LocalDateTime earlyStart = relations.stream().map(d -> getNextWorkStart(task, d.getEarlyStart())).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+      relations.removeIf(r -> !getNextWorkStart(task, r.getEarlyStart()).isEqual(earlyStart));
       return relations;
    }
 
