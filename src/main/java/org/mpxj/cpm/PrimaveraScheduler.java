@@ -474,7 +474,7 @@ public class PrimaveraScheduler implements Scheduler
 
       setRemainingEarlyDates(task);
 
-      if (task.getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE)
+      if (task.getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE || task.getActualFinish() != null)
       {
          drivingRelations.forEach(d -> d.getRelation().setDriving(true));
       }
@@ -2636,7 +2636,7 @@ public class PrimaveraScheduler implements Scheduler
          Relation relation = successors.stream().min(Comparator.comparing(this::getAlapEarlyStart)).orElseThrow(() -> new CpmException("Missing early start date"));
          earlyStart = getAlapEarlyStart(relation);
          earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
-         
+
          Task successor = relation.getSuccessorTask();
          if (successor.getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE || !successor.getSuccessors().isEmpty())
          {
