@@ -24,6 +24,8 @@ package org.mpxj.cpm;
 
 import java.time.LocalDateTime;
 
+import org.mpxj.Relation;
+
 /**
  * This class is a wrapper around LocalDateTime allowing a flag
  * to be associated with the date indicating if it is actual
@@ -34,43 +36,47 @@ final class AnnotatedDateTime
    /**
     * Factory method for a planned value.
     *
+    * @param relation source relation
     * @param value date time value
     * @return new AnnotatedDateTime instance
     */
-   public static AnnotatedDateTime from(LocalDateTime value)
+   public static AnnotatedDateTime from(Relation relation, LocalDateTime value)
    {
       if (value == null)
       {
          return null;
       }
 
-      return new AnnotatedDateTime(value, false);
+      return new AnnotatedDateTime(relation, value, false);
    }
 
    /**
     * Factory method for an actual value.
     *
+    * @param relation source relation
     * @param value date time value
     * @return new AnnotatedDateTime instance
     */
-   public static AnnotatedDateTime fromActual(LocalDateTime value)
+   public static AnnotatedDateTime fromActual(Relation relation, LocalDateTime value)
    {
       if (value == null)
       {
          return null;
       }
 
-      return new AnnotatedDateTime(value, true);
+      return new AnnotatedDateTime(relation, value, true);
    }
 
    /**
     * Private constructor.
     *
+    * @param relation source relation
     * @param value date time value
     * @param actual true if this is an actual value
     */
-   private AnnotatedDateTime(LocalDateTime value, boolean actual)
+   private AnnotatedDateTime(Relation relation, LocalDateTime value, boolean actual)
    {
+      m_relation = relation;
       m_value = value;
       m_actual = actual;
    }
@@ -83,6 +89,17 @@ final class AnnotatedDateTime
    public LocalDateTime getValue()
    {
       return m_value;
+   }
+
+   /**
+    * Retrieve the source relation of the date time value
+    * represented by this class. Note that this may be null.
+    *
+    * @return source relation or null
+    */
+   public Relation getRelation()
+   {
+      return m_relation;
    }
 
    /**
@@ -146,4 +163,5 @@ final class AnnotatedDateTime
 
    private final LocalDateTime m_value;
    private final boolean m_actual;
+   private final Relation m_relation;
 }

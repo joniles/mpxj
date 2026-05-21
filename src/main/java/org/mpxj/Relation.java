@@ -133,25 +133,39 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
       return m_notes;
    }
 
+   /**
+    * Returns true if this is a driving relation.
+    * NOTE: this is only populated when the project is scheduled
+    * using {@code PrimaveraScheduler}.
+    *
+    * @return true if this is a driving relation
+    */
+   public boolean getDriving()
+   {
+      return m_driving;
+   }
+
+   /**
+    * Used internally by MPXJ to indicate if this is a driving relation.
+    *
+    * @param driving true if this is a driving relation
+    */
+   public void setDriving(boolean driving)
+   {
+      m_driving = driving;
+   }
+
    @Override public String toString()
    {
       return ("[Relation lag: " + m_lag + " type: " + m_type + " " + m_predecessorTask + " -> " + m_successorTask + "]");
    }
 
    private Integer m_uniqueID;
+   private boolean m_driving;
    private final Task m_predecessorTask;
    private final Task m_successorTask;
-
-   /**
-    * Type of relationship.
-    */
    private final RelationType m_type;
-
-   /**
-    * Lag between the two tasks.
-    */
    private final Duration m_lag;
-
    private final String m_notes;
 
    /**
