@@ -480,6 +480,13 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
+   /**
+    * Populate a list of driving relations for the supplied task.
+    *
+    * @param task target task
+    * @param predecessors task predecessors
+    * @return list of DrivingRelation instances
+    */
    private List<DrivingRelation> getDrivingRelations(Task task, List<Relation> predecessors) throws CpmException
    {
       List<DrivingRelation> relations = predecessors.stream().map(this::calculateEarlyStart).collect(Collectors.toList());
@@ -679,7 +686,7 @@ public class PrimaveraScheduler implements Scheduler
     * Calculate the early start for the successor task in this relationship.
     *
     * @param relation relationship between two tasks
-    * @return calculated early start date
+    * @return A DrivingRelation instance representing the calculated early start date
     */
    private DrivingRelation calculateEarlyStart(Relation relation)
    {
@@ -3477,6 +3484,13 @@ public class PrimaveraScheduler implements Scheduler
       task.setRemainingLateFinish(childTasks.stream().map(Task::getRemainingLateFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null));
    }
 
+   /**
+    * Find the activities with the latest early finish dates
+    * and work back through their driving predecessors setting the
+    * longest path flag.
+    *
+    * @param activities activities to consider for the longest path flag
+    */
    private void calculateLongestPath(List<Task> activities)
    {
       LocalDateTime earlyFinish = activities.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElse(null);
@@ -3490,6 +3504,12 @@ public class PrimaveraScheduler implements Scheduler
          .forEach(t -> t.setLongestPath(true));
    }
 
+   /**
+    * Set the longest path flag for the supplied task
+    * and any driving predecessor tasks.
+    *
+    * @param task task on the longest path
+    */
    private void applyLongestPath(Task task)
    {
       if (BooleanHelper.getBoolean(task.getLongestPath()))
