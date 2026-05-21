@@ -145,6 +145,12 @@ public class PrimaveraSchedulerComparator
       m_noFloatTest = value;
    }
 
+   /**
+    * Tell the comparator to ignore files which PrimaveraScheduler doesn't
+    * currently process to match P6.
+    *
+    * @param value set of excluded files
+    */
    public void setNoLongestPathTest(Set<String> value)
    {
       m_noLongestPathTest = value;
