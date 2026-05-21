@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="Unreleased" version="16.3.0">
+            <action dev="joniles" type="update">`PrimaveraScheduler` now populates the Driving flag on `Relation` and the Longest Path flag on `Task` when used to schedule a project.</action>
 			<action dev="joniles" type="update">Improve handling of role hierarchy when reading and writing P6 projects.</action>
 			<action dev="joniles" type="update">Add support for the Update Units When Costs Change On Resource Assignment project property when reading and writing P6 projects.</action>
 			<action dev="joniles" type="update">Add support for the Activity Default Price Per Unit project property when reading and writing P6 projects.</action>

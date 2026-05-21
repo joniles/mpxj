@@ -36,6 +36,7 @@ final class AnnotatedDateTime
    /**
     * Factory method for a planned value.
     *
+    * @param relation source relation
     * @param value date time value
     * @return new AnnotatedDateTime instance
     */
@@ -52,6 +53,7 @@ final class AnnotatedDateTime
    /**
     * Factory method for an actual value.
     *
+    * @param relation source relation
     * @param value date time value
     * @return new AnnotatedDateTime instance
     */
@@ -68,6 +70,7 @@ final class AnnotatedDateTime
    /**
     * Private constructor.
     *
+    * @param relation source relation
     * @param value date time value
     * @param actual true if this is an actual value
     */
@@ -88,6 +91,12 @@ final class AnnotatedDateTime
       return m_value;
    }
 
+   /**
+    * Retrieve the source relation of the date time value
+    * represented by this class. Note that this may be null.
+    *
+    * @return source relation or null
+    */
    public Relation getRelation()
    {
       return m_relation;

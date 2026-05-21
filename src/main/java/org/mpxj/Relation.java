@@ -133,11 +133,23 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
       return m_notes;
    }
 
+   /**
+    * Returns true if this is a driving relation.
+    * NOTE: this is only populated when the project is scheduled
+    * using {@code PrimaveraScheduler}.
+    *
+    * @return true if this is a driving relation
+    */
    public boolean getDriving()
    {
       return m_driving;
    }
 
+   /**
+    * Used internally by MPXJ to indicate if this is a driving relation.
+    *
+    * @param driving true if this is a driving relation
+    */
    public void setDriving(boolean driving)
    {
       m_driving = driving;
