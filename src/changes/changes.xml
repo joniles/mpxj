@@ -11,6 +11,7 @@
 			<action dev="joniles" type="update">Add support for the Update Units When Costs Change On Resource Assignment project property when reading and writing P6 projects.</action>
 			<action dev="joniles" type="update">Add support for the Activity Default Price Per Unit project property when reading and writing P6 projects.</action>
 			<action dev="joniles" type="update">Improve handling of different duration formats used in BK3 files.</action>
+            <action dev="joniles" type="update">Update `PrimaveraScheduler` handling of very small resource assignment units values to better align with P6.</action>
 		</release>
         <release date="2026-05-12" version="16.2.0">
             <action dev="joniles" type="update">Ensure numeric values are correctly formatted using decimal separator and digit grouping symbols when writing XER files.</action>

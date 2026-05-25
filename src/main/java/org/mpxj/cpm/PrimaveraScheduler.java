@@ -3631,7 +3631,10 @@ public class PrimaveraScheduler implements Scheduler
    private LocalDateTime getDateFromWork(ProjectCalendar calendar, Number units, LocalDateTime date, Duration work)
    {
       double unitsValue = units.doubleValue();
-      if (unitsValue == 0.0)
+
+      // P6 writes small units values to XER files.
+      // The P6 UI shows these as zero, and the scheduler treats them as zero.
+      if (unitsValue < 0.001)
       {
          return date;
       }
