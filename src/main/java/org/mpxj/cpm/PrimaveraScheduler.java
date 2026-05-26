@@ -452,7 +452,7 @@ public class PrimaveraScheduler implements Scheduler
             else
             {
                drivingRelations = getDrivingRelations(task, predecessors);
-               earlyStart = getNextWorkStart(task, drivingRelations.get(0).getEarlyStart());
+               earlyStart = drivingRelations.get(0).getEarlyStart();
                earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
             }
          }
@@ -1027,7 +1027,8 @@ public class PrimaveraScheduler implements Scheduler
       {
          // Successor not started
          double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-         double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+         //double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+         double actualDurationInHours = predecessorTask.getEffectiveCalendar().getWork(predecessorTask.getActualStart(), m_dataDate, TimeUnit.HOURS).getDuration();
 
          if (actualDurationInHours == 0 || lagDurationInHours <= 0.0)
          {
@@ -1199,13 +1200,11 @@ public class PrimaveraScheduler implements Scheduler
 
          if (relation.getLag().getDuration() > 0.0)
          {
-            return m_dataDate;
-            // but sometimes it is
-            // getLagCalendar(relation).getNextWorkStart(m_dataDate)
-            // why? remaining lag maybe?
+            return predecessorTask.getEarlyFinish();
          }
 
-         return m_dataDate;
+         return predecessorTask.getEarlyFinish();
+         //return m_dataDate;
          // but sometimes it is
          // getLagCalendar(relation).getNextWorkStart(m_dataDate)
          // why? remaining lag maybe?
