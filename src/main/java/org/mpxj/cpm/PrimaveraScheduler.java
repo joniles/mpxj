@@ -1192,10 +1192,7 @@ public class PrimaveraScheduler implements Scheduler
          // successor finished
          if (relation.getLag().getDuration() == 0.0)
          {
-            return m_dataDate;
-            // but sometimes it is
-            // getLagCalendar(relation).getNextWorkStart(m_dataDate)
-            // why? remaining lag maybe?
+            return predecessorTask.getEarlyFinish();
          }
 
          if (relation.getLag().getDuration() > 0.0)
