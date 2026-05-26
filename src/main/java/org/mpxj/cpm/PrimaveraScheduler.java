@@ -499,29 +499,33 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
+      Duration actualDuration;
       if (m_dataDate.isBefore(task.getActualStart()))
       {
-         task.setActualDuration(Duration.getInstance(0, TimeUnit.HOURS));
-         return;
-      }
-
-      LocalDateTime endDate;
-      if (task.getSuspendDate() == null)
-      {
-         endDate = m_dataDate;
+         actualDuration = Duration.getInstance(0, TimeUnit.HOURS);
       }
       else
       {
-         if (task.getSuspendDate().isAfter(m_dataDate))
+         LocalDateTime endDate;
+         if (task.getSuspendDate() == null)
          {
-            endDate =  m_dataDate;
+            endDate = m_dataDate;
          }
          else
          {
-            endDate = task.getSuspendDate();
+            if (task.getSuspendDate().isAfter(m_dataDate))
+            {
+               endDate = m_dataDate;
+            }
+            else
+            {
+               endDate = task.getSuspendDate();
+            }
          }
+         actualDuration = task.getEffectiveCalendar().getWork(task.getActualStart(), endDate, TimeUnit.HOURS);
       }
-      task.setActualDuration(task.getEffectiveCalendar().getWork(task.getActualStart(), endDate, TimeUnit.HOURS));
+
+      task.setActualDuration(actualDuration);
    }
 
    /**
