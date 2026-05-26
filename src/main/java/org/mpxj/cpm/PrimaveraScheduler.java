@@ -281,39 +281,7 @@ public class PrimaveraScheduler implements Scheduler
     */
    private void forwardPass(Task task) throws CpmException
    {
-      if (task.getPercentCompleteType() != PercentCompleteType.PHYSICAL)
-      {
-         if (task.getActualStart() != null)
-         {
-            if (task.getActualFinish() == null)
-            {
-               if (m_dataDate.isBefore(task.getActualStart()))
-               {
-                  task.setActualDuration(Duration.getInstance(0, TimeUnit.HOURS));
-               }
-               else
-               {
-                  LocalDateTime endDate;
-                  if (task.getSuspendDate() == null)
-                  {
-                     endDate = m_dataDate;
-                  }
-                  else
-                  {
-                     if (task.getSuspendDate().isAfter(m_dataDate))
-                     {
-                        endDate =  m_dataDate;
-                     }
-                     else
-                     {
-                        endDate = task.getSuspendDate();
-                     }
-                  }
-                  task.setActualDuration(task.getEffectiveCalendar().getWork(task.getActualStart(), endDate, TimeUnit.HOURS));
-               }
-            }
-         }
-      }
+      updateDurations(task);
 
       LocalDateTime earlyStart;
       List<DrivingRelation> drivingRelations = Collections.emptyList();
@@ -512,6 +480,48 @@ public class PrimaveraScheduler implements Scheduler
       {
          drivingRelations.forEach(d -> d.getRelation().setDriving(true));
       }
+   }
+
+   private void updateDurations(Task task)
+   {
+      if (task.getPercentCompleteType() == PercentCompleteType.PHYSICAL)
+      {
+         return;
+      }
+
+      if (task.getActualStart() == null)
+      {
+         return;
+      }
+
+      if (task.getActualFinish() != null)
+      {
+         return;
+      }
+
+      if (m_dataDate.isBefore(task.getActualStart()))
+      {
+         task.setActualDuration(Duration.getInstance(0, TimeUnit.HOURS));
+         return;
+      }
+
+      LocalDateTime endDate;
+      if (task.getSuspendDate() == null)
+      {
+         endDate = m_dataDate;
+      }
+      else
+      {
+         if (task.getSuspendDate().isAfter(m_dataDate))
+         {
+            endDate =  m_dataDate;
+         }
+         else
+         {
+            endDate = task.getSuspendDate();
+         }
+      }
+      task.setActualDuration(task.getEffectiveCalendar().getWork(task.getActualStart(), endDate, TimeUnit.HOURS));
    }
 
    /**
