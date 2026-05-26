@@ -281,6 +281,40 @@ public class PrimaveraScheduler implements Scheduler
     */
    private void forwardPass(Task task) throws CpmException
    {
+      if (task.getPercentCompleteType() != PercentCompleteType.PHYSICAL)
+      {
+         if (task.getActualStart() != null)
+         {
+            if (task.getActualFinish() == null)
+            {
+               if (m_dataDate.isBefore(task.getActualStart()))
+               {
+                  task.setActualDuration(Duration.getInstance(0, TimeUnit.HOURS));
+               }
+               else
+               {
+                  LocalDateTime endDate;
+                  if (task.getSuspendDate() == null)
+                  {
+                     endDate = m_dataDate;
+                  }
+                  else
+                  {
+                     if (task.getSuspendDate().isAfter(m_dataDate))
+                     {
+                        endDate =  m_dataDate;
+                     }
+                     else
+                     {
+                        endDate = task.getSuspendDate();
+                     }
+                  }
+                  task.setActualDuration(task.getEffectiveCalendar().getWork(task.getActualStart(), endDate, TimeUnit.HOURS));
+               }
+            }
+         }
+      }
+
       LocalDateTime earlyStart;
       List<DrivingRelation> drivingRelations = Collections.emptyList();
       LocalDateTime earlyFinish = null;
