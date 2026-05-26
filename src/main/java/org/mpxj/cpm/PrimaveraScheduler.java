@@ -452,7 +452,7 @@ public class PrimaveraScheduler implements Scheduler
             else
             {
                drivingRelations = getDrivingRelations(task, predecessors);
-               earlyStart = drivingRelations.get(0).getEarlyStart();
+               earlyStart = getNextWorkStart(task, drivingRelations.get(0).getEarlyStart());
                earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
             }
          }
@@ -2642,6 +2642,11 @@ public class PrimaveraScheduler implements Scheduler
       {
          Relation relation = successors.stream().min(Comparator.comparing(this::getAlapEarlyStart)).orElseThrow(() -> new CpmException("Missing early start date"));
          earlyStart = getAlapEarlyStart(relation);
+
+         if (task.getActualFinish() == null && task.getActivityType() == ActivityType.FINISH_MILESTONE)
+         {
+            earlyStart = getEquivalentPreviousWorkFinish(task, earlyStart);
+         }
          earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
 
          Task successor = relation.getSuccessorTask();
@@ -3658,6 +3663,11 @@ public class PrimaveraScheduler implements Scheduler
     */
    private LocalDateTime getNextWorkStart(Task task, LocalDateTime date)
    {
+      if (task.getActualFinish() != null)
+      {
+         return date;
+      }
+
       if (useTaskEffectiveCalendar(task))
       {
          return task.getEffectiveCalendar().getNextWorkStart(date);
