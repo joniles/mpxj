@@ -541,12 +541,8 @@ public class PrimaveraScheduler implements Scheduler
          else
          {
             double plannedDurationInMinutes = Math.round(plannedDuration * 60.0);
-            double percentCompleteDurationInMinutes = plannedDurationInMinutes * percentComplete;
-            percentCompleteDurationInMinutes = Math.round(percentCompleteDurationInMinutes);
-            percentCompleteDurationInMinutes /= 100.0;
-            double remainingDurationInMinutes = plannedDurationInMinutes - percentCompleteDurationInMinutes;
-            double remainingDurationInHours = remainingDurationInMinutes / 60.0;
-            remainingDuration = Duration.getInstance(remainingDurationInHours, TimeUnit.HOURS);
+            double percentCompleteDurationInMinutes = Math.round(plannedDurationInMinutes * percentComplete) / 100.0;
+            remainingDuration = Duration.getInstance((plannedDurationInMinutes - percentCompleteDurationInMinutes) / 60.0, TimeUnit.HOURS);
          }
       }
       else
