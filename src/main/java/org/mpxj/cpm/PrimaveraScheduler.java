@@ -22,6 +22,8 @@
 
 package org.mpxj.cpm;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -50,6 +52,7 @@ import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.LocalDateTimeHelper;
+import org.mpxj.common.NumberHelper;
 
 /**
  * Implements the Critical Path Method to schedule a project so
@@ -525,7 +528,36 @@ public class PrimaveraScheduler implements Scheduler
          actualDuration = task.getEffectiveCalendar().getWork(task.getActualStart(), endDate, TimeUnit.HOURS);
       }
 
+
+      Duration remainingDuration;
+      if (task.getPercentCompleteType() == PercentCompleteType.DURATION)
+      {
+         double plannedDuration = task.getPlannedDuration().getDuration();
+         double percentComplete = NumberHelper.getDouble(task.getPercentageComplete());
+         if (percentComplete == 0.0)
+         {
+            remainingDuration = task.getRemainingDuration();
+         }
+         else
+         {
+            double plannedDurationInMinutes = Math.round(plannedDuration * 60.0);
+            double percentCompleteDurationInMinutes = plannedDurationInMinutes * percentComplete;
+            percentCompleteDurationInMinutes = Math.round(percentCompleteDurationInMinutes);
+            percentCompleteDurationInMinutes /= 100.0;
+            double remainingDurationInMinutes = plannedDurationInMinutes - percentCompleteDurationInMinutes;
+            double remainingDurationInHours = remainingDurationInMinutes / 60.0;
+            remainingDuration = Duration.getInstance(remainingDurationInHours, TimeUnit.HOURS);
+         }
+      }
+      else
+      {
+         //System.out.println("HERE!");
+         remainingDuration = task.getRemainingDuration();
+      }
+
+
       task.setActualDuration(actualDuration);
+      task.setRemainingDuration(remainingDuration);
    }
 
    /**
