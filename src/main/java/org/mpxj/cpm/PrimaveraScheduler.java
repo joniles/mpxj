@@ -536,7 +536,30 @@ public class PrimaveraScheduler implements Scheduler
          double percentComplete = NumberHelper.getDouble(task.getPercentageComplete());
          if (percentComplete == 0.0)
          {
-            remainingDuration = task.getRemainingDuration();
+            if (actualDuration.getDuration() == 0.0)
+            {
+               LocalDateTime earliestSuccessorActualStart = task.getSuccessors().stream()
+                  .map(r -> r.getSuccessorTask().getActualStart())
+                  .filter(Objects::nonNull)
+                  .min(Comparator.naturalOrder())
+                  .orElse(null);
+
+               if (earliestSuccessorActualStart == null || earliestSuccessorActualStart.isBefore(task.getActualStart()))
+               {
+                  remainingDuration = task.getPlannedDuration();
+               }
+               else
+               {
+                  // TODO: generate more test data. This is a best guess at what P6 is doing, need to prove this.
+                  Duration durationToSuccessor = task.getEffectiveCalendar().getWork(task.getActualStart(), earliestSuccessorActualStart, TimeUnit.HOURS);
+                  remainingDuration = Duration.getInstance(plannedDuration + durationToSuccessor.getDuration(), TimeUnit.HOURS);
+               }
+            }
+            else
+            {
+               System.out.println("\nPlanned\t" + task.getPlannedDuration() + "\tActual\t" + task.getActualDuration() + "\tRemaining\t" + task.getRemainingDuration() + "\t At Completion\t" + task.getDuration());
+               remainingDuration = task.getRemainingDuration();
+            }
          }
          else
          {
