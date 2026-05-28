@@ -527,33 +527,25 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       Duration remainingDuration;
-      if (task.getPercentCompleteType() == PercentCompleteType.DURATION)
+      double plannedDuration = task.getPlannedDuration().getDuration();
+      double percentComplete = NumberHelper.getDouble(task.getPercentageComplete());
+      if (percentComplete == 0.0)
       {
-         double plannedDuration = task.getPlannedDuration().getDuration();
-         double percentComplete = NumberHelper.getDouble(task.getPercentageComplete());
-         if (percentComplete == 0.0)
+         Duration scheduledDuration = task.getEffectiveCalendar().getWork(task.getEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS);
+         if (scheduledDuration.getDuration() > plannedDuration)
          {
-            Duration scheduledDuration = task.getEffectiveCalendar().getWork(task.getEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS);
-            if (scheduledDuration.getDuration() > plannedDuration)
-            {
-               remainingDuration = scheduledDuration;
-            }
-            else
-            {
-               remainingDuration = task.getPlannedDuration();
-            }
+            remainingDuration = scheduledDuration;
          }
          else
          {
-            double plannedDurationInMinutes = Math.round(plannedDuration * 60.0);
-            double percentCompleteDurationInMinutes = Math.round(plannedDurationInMinutes * percentComplete) / 100.0;
-            remainingDuration = Duration.getInstance((plannedDurationInMinutes - percentCompleteDurationInMinutes) / 60.0, TimeUnit.HOURS);
+            remainingDuration = task.getPlannedDuration();
          }
       }
       else
       {
-         //System.out.println("HERE!");
-         remainingDuration = task.getRemainingDuration();
+         double plannedDurationInMinutes = Math.round(plannedDuration * 60.0);
+         double percentCompleteDurationInMinutes = Math.round(plannedDurationInMinutes * percentComplete) / 100.0;
+         remainingDuration = Duration.getInstance((plannedDurationInMinutes - percentCompleteDurationInMinutes) / 60.0, TimeUnit.HOURS);
       }
 
       task.setActualDuration(actualDuration);
