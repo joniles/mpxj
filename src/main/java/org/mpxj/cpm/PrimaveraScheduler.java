@@ -556,23 +556,6 @@ public class PrimaveraScheduler implements Scheduler
          remainingDuration = task.getRemainingDuration();
       }
 
-//      Duration atCompletionDuration;
-//      if (actualDuration.getDuration() == 0.0)
-//      {
-//         atCompletionDuration = remainingDuration;
-//      }
-//      else
-//      {
-//         if (remainingDuration.getDuration() == 0.0)
-//         {
-//            atCompletionDuration = actualDuration;
-//         }
-//         else
-//         {
-//            atCompletionDuration = task.getEffectiveCalendar().getWork(task.getActualStart(), task.getEarlyFinish(), TimeUnit.HOURS);
-//         }
-//      }
-
       task.setActualDuration(actualDuration);
       task.setRemainingDuration(remainingDuration);
       task.setDuration(calculateAtCompletionDuration(task));
