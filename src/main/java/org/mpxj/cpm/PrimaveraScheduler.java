@@ -508,6 +508,8 @@ public class PrimaveraScheduler implements Scheduler
       else
       {
          LocalDateTime endDate;
+         Duration suspendedDuration = null;
+
          if (task.getSuspendDate() == null)
          {
             endDate = m_dataDate;
@@ -520,10 +522,23 @@ public class PrimaveraScheduler implements Scheduler
             }
             else
             {
-               endDate = task.getSuspendDate();
+               if (task.getResume() != null && m_dataDate.isAfter(task.getResume()))
+               {
+                  endDate = m_dataDate;
+                  suspendedDuration = task.getEffectiveCalendar().getWork(task.getSuspendDate(), task.getResume(), TimeUnit.HOURS);
+               }
+               else
+               {
+                  endDate = task.getSuspendDate();
+               }
             }
          }
+
          actualDuration = task.getEffectiveCalendar().getWork(task.getActualStart(), endDate, TimeUnit.HOURS);
+         if (suspendedDuration != null)
+         {
+            actualDuration = Duration.getInstance(actualDuration.getDuration()-suspendedDuration.getDuration(), TimeUnit.HOURS);
+         }
       }
 
       Duration remainingDuration;
