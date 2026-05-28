@@ -360,8 +360,9 @@ public class PrimaveraSchedulerComparator
       boolean actualDurationFailed = !baseline.getSummary() && !compareDurations(baseline, working, TaskField.ACTUAL_DURATION);
       boolean remainingDurationFailed = !baseline.getSummary() && !compareDurations(baseline, working, TaskField.REMAINING_DURATION);
       boolean atCompletionDurationFailed = !baseline.getSummary() && !compareDurations(baseline, working, TaskField.DURATION);
+      boolean durationPercentCompleteFailed = !baseline.getSummary() && !compareNumbers(baseline, working, TaskField.PERCENT_COMPLETE);
 
-      if (forwardDatesFailed || freeFloatFailed || totalFloatFailed || longestPathFailed || actualDurationFailed || remainingDurationFailed || atCompletionDurationFailed)
+      if (forwardDatesFailed || freeFloatFailed || totalFloatFailed || longestPathFailed || actualDurationFailed || remainingDurationFailed || atCompletionDurationFailed || durationPercentCompleteFailed)
       {
          ++m_forwardErrorCount;
       }
@@ -458,6 +459,28 @@ public class PrimaveraSchedulerComparator
       return baselineDuration.getUnits() == workingDuration.getUnits() && baselineDurationValue == workingDurationValue;
    }
 
+   private boolean compareNumbers(Task baseline, Task working, TaskField field)
+   {
+      Number baselineObject = (Number) baseline.get(field);
+      if (baselineObject == null)
+      {
+         return true;
+      }
+
+      Number workingObject = (Number) working.get(field);
+      if (workingObject == null)
+      {
+         return true;
+      }
+
+      // Truncate to two decimal places for comparison.
+      // Avoids issues with small rounding differences.
+      long baselineValue = (long) (baselineObject.doubleValue() * 100.0);
+      long workingValue = (long) (workingObject.doubleValue() * 100.0);
+
+      return baselineValue == workingValue;
+   }
+
    /**
     * Write debug output to show where the two project differ.
     *
@@ -525,6 +548,7 @@ public class PrimaveraSchedulerComparator
       boolean actualDurationFailed = !compareDurations(baseline, working, TaskField.ACTUAL_DURATION);
       boolean remainingDurationFailed = !compareDurations(baseline, working, TaskField.REMAINING_DURATION);
       boolean atCompletionDurationFailed = !compareDurations(baseline, working, TaskField.DURATION);
+      boolean durationPercentCompleteFailed = !compareNumbers(baseline, working, TaskField.PERCENT_COMPLETE);
 
       System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working + " " + working.getActivityType());
       System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + earlyStartFail.getStatus());
@@ -541,6 +565,7 @@ public class PrimaveraSchedulerComparator
       System.out.println("Actual Duration: " + baseline.getActualDuration() + " " + working.getActualDuration() + (actualDurationFailed ? " FAIL" : ""));
       System.out.println("Remaining Duration: " + baseline.getRemainingDuration() + " " + working.getRemainingDuration() + (remainingDurationFailed ? " FAIL" : ""));
       System.out.println("At Completion Duration: " + baseline.getDuration() + " " + working.getDuration() + (atCompletionDurationFailed ? " FAIL" : ""));
+      System.out.println("Duration Percent Complete: " + baseline.getPercentageComplete() + " " + working.getPercentageComplete() + (durationPercentCompleteFailed ? " FAIL" : ""));
       System.out.println();
    }
 

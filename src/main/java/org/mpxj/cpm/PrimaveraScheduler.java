@@ -480,7 +480,7 @@ public class PrimaveraScheduler implements Scheduler
          drivingRelations.forEach(d -> d.getRelation().setDriving(true));
       }
 
-      // TODO: we need to consder when to apply Expected Finish if it is set
+      // TODO: we need to consider when to apply Expected Finish if it is set
 //      if (task.getExpectedFinish() != null &&
 //         task.getActualStart() != null &&
 //         task.getActualFinish() == null &&
@@ -557,18 +557,7 @@ public class PrimaveraScheduler implements Scheduler
       task.setActualDuration(actualDuration);
       task.setRemainingDuration(remainingDuration);
       task.setDuration(calculateAtCompletionDuration(task));
-
-      // TODO: update percent complete
-//      Number currentPercentComplete = task.getPercentageComplete();
-//      Number calculatedPercentComplete = calculateDurationPercentComplete(task);
-//      if (!currentPercentComplete.equals(calculatedPercentComplete))
-//      {
-//         double delta = Math.abs(currentPercentComplete.doubleValue() - calculatedPercentComplete.doubleValue());
-//         if (delta > 0.000003)
-//         {
-//            System.out.println("HERE");
-//         }
-//      }
+      task.setPercentageComplete(calculateDurationPercentComplete(task));
    }
 
    private Duration calculateAtCompletionDuration(Task task)
