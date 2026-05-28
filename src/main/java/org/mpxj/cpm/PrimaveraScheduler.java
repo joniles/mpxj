@@ -22,8 +22,6 @@
 
 package org.mpxj.cpm;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -558,9 +556,43 @@ public class PrimaveraScheduler implements Scheduler
          remainingDuration = task.getRemainingDuration();
       }
 
+//      Duration atCompletionDuration;
+//      if (actualDuration.getDuration() == 0.0)
+//      {
+//         atCompletionDuration = remainingDuration;
+//      }
+//      else
+//      {
+//         if (remainingDuration.getDuration() == 0.0)
+//         {
+//            atCompletionDuration = actualDuration;
+//         }
+//         else
+//         {
+//            atCompletionDuration = task.getEffectiveCalendar().getWork(task.getActualStart(), task.getEarlyFinish(), TimeUnit.HOURS);
+//         }
+//      }
 
       task.setActualDuration(actualDuration);
       task.setRemainingDuration(remainingDuration);
+      task.setDuration(calculateAtCompletionDuration(task));
+   }
+
+   private Duration calculateAtCompletionDuration(Task task)
+   {
+      Duration actualDuration = task.getActualDuration();
+
+      if (actualDuration != null && actualDuration.getDuration() == 0.0)
+      {
+         return task.getRemainingDuration();
+      }
+
+      if (task.getRemainingDuration().getDuration() == 0.0)
+      {
+         return actualDuration;
+      }
+
+      return task.getEffectiveCalendar().getWork(task.getActualStart(), task.getEarlyFinish(), TimeUnit.HOURS);
    }
 
    /**
@@ -2737,6 +2769,7 @@ public class PrimaveraScheduler implements Scheduler
       task.setEarlyStart(earlyStart);
       task.setEarlyFinish(earlyFinish);
       setRemainingEarlyDates(task);
+      task.setDuration(calculateAtCompletionDuration(task));
    }
 
    /**
