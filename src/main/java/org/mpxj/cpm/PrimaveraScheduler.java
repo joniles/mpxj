@@ -284,8 +284,6 @@ public class PrimaveraScheduler implements Scheduler
     */
    private void forwardPass(Task task) throws CpmException
    {
-      updateDurations(task);
-
       LocalDateTime earlyStart;
       List<DrivingRelation> drivingRelations = Collections.emptyList();
       LocalDateTime earlyFinish = null;
@@ -483,6 +481,8 @@ public class PrimaveraScheduler implements Scheduler
       {
          drivingRelations.forEach(d -> d.getRelation().setDriving(true));
       }
+
+      updateDurations(task);
    }
 
    private void updateDurations(Task task)
@@ -528,7 +528,6 @@ public class PrimaveraScheduler implements Scheduler
          actualDuration = task.getEffectiveCalendar().getWork(task.getActualStart(), endDate, TimeUnit.HOURS);
       }
 
-
       Duration remainingDuration;
       if (task.getPercentCompleteType() == PercentCompleteType.DURATION)
       {
@@ -536,29 +535,14 @@ public class PrimaveraScheduler implements Scheduler
          double percentComplete = NumberHelper.getDouble(task.getPercentageComplete());
          if (percentComplete == 0.0)
          {
-            if (actualDuration.getDuration() == 0.0)
+            Duration scheduledDuration = task.getEffectiveCalendar().getWork(task.getEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS);
+            if (scheduledDuration.getDuration() > plannedDuration)
             {
-               LocalDateTime earliestSuccessorActualStart = task.getSuccessors().stream()
-                  .map(r -> r.getSuccessorTask().getActualStart())
-                  .filter(Objects::nonNull)
-                  .min(Comparator.naturalOrder())
-                  .orElse(null);
-
-               if (earliestSuccessorActualStart == null || earliestSuccessorActualStart.isBefore(task.getActualStart()))
-               {
-                  remainingDuration = task.getPlannedDuration();
-               }
-               else
-               {
-                  // TODO: generate more test data. This is a best guess at what P6 is doing, need to prove this.
-                  Duration durationToSuccessor = task.getEffectiveCalendar().getWork(task.getActualStart(), earliestSuccessorActualStart, TimeUnit.HOURS);
-                  remainingDuration = Duration.getInstance(plannedDuration + durationToSuccessor.getDuration(), TimeUnit.HOURS);
-               }
+               remainingDuration = scheduledDuration;
             }
             else
             {
-               System.out.println("\nPlanned\t" + task.getPlannedDuration() + "\tActual\t" + task.getActualDuration() + "\tRemaining\t" + task.getRemainingDuration() + "\t At Completion\t" + task.getDuration());
-               remainingDuration = task.getRemainingDuration();
+               remainingDuration = task.getPlannedDuration();
             }
          }
          else
