@@ -50,6 +50,7 @@ import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.LocalDateTimeHelper;
+import org.mpxj.common.NumberHelper;
 
 /**
  * Implements the Critical Path Method to schedule a project so
@@ -479,6 +480,17 @@ public class PrimaveraScheduler implements Scheduler
          drivingRelations.forEach(d -> d.getRelation().setDriving(true));
       }
 
+      // TODO: we need to consder when to apply Expected Finish if it is set
+//      if (task.getExpectedFinish() != null &&
+//         task.getActualStart() != null &&
+//         task.getActualFinish() == null &&
+//         task.getExpectedFinish().isAfter(m_dataDate) &&
+//         task.getTotalSlack() != null && task.getTotalSlack().getDuration() > 0 &&
+//         !task.getExpectedFinish().isBefore(task.getRemainingEarlyStart()))
+//      {
+//         task.setEarlyFinish(task.getExpectedFinish());
+//      }
+
       updateDurations(task);
    }
 
@@ -542,11 +554,21 @@ public class PrimaveraScheduler implements Scheduler
 
       Duration remainingDuration = task.getEffectiveCalendar().getWork(task.getRemainingEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS);
 
-      // TODO: update percent complete
-
       task.setActualDuration(actualDuration);
       task.setRemainingDuration(remainingDuration);
       task.setDuration(calculateAtCompletionDuration(task));
+
+      // TODO: update percent complete
+//      Number currentPercentComplete = task.getPercentageComplete();
+//      Number calculatedPercentComplete = calculateDurationPercentComplete(task);
+//      if (!currentPercentComplete.equals(calculatedPercentComplete))
+//      {
+//         double delta = Math.abs(currentPercentComplete.doubleValue() - calculatedPercentComplete.doubleValue());
+//         if (delta > 0.000003)
+//         {
+//            System.out.println("HERE");
+//         }
+//      }
    }
 
    private Duration calculateAtCompletionDuration(Task task)
@@ -566,32 +588,31 @@ public class PrimaveraScheduler implements Scheduler
       return task.getEffectiveCalendar().getWork(task.getActualStart(), task.getEarlyFinish(), TimeUnit.HOURS);
    }
 
-//   private Number calculateDurationPercentComplete(Row row)
-//   {
-//      double result = 0;
-//      double targetDuration = NumberHelper.getDouble(row.getDouble("target_drtn_hr_cnt"));
-//      double remainingDuration = NumberHelper.getDouble(row.getDouble("remain_drtn_hr_cnt"));
-//
-//      if (targetDuration == 0)
-//      {
-//         if (remainingDuration == 0)
-//         {
-//            if ("TK_Complete".equals(row.getString("status_code")))
-//            {
-//               result = 100;
-//            }
-//         }
-//      }
-//      else
-//      {
-//         if (remainingDuration < targetDuration)
-//         {
-//            result = ((targetDuration - remainingDuration) * 100) / targetDuration;
-//         }
-//      }
-//
-//      return NumberHelper.getDouble(result);
-//   }
+   private Number calculateDurationPercentComplete(Task task)
+   {
+      Duration target = task.getPlannedDuration();
+      Duration remaining = task.getRemainingDuration();
+      double targetDuration = target == null ? 0 : target.getDuration();
+      double remainingDuration = remaining == null ? 0 : remaining.getDuration();
+
+      double result = 0;
+      if (targetDuration == 0)
+      {
+         if (remainingDuration == 0)
+         {
+            result = 100;
+         }
+      }
+      else
+      {
+         if (remainingDuration < targetDuration)
+         {
+            result = ((targetDuration - remainingDuration) * 100) / targetDuration;
+         }
+      }
+
+      return NumberHelper.getDouble(result);
+   }
 
    /**
     * Populate a list of driving relations for the supplied task.
