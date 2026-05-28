@@ -50,7 +50,6 @@ import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.LocalDateTimeHelper;
-import org.mpxj.common.NumberHelper;
 
 /**
  * Implements the Critical Path Method to schedule a project so
@@ -541,27 +540,9 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      Duration remainingDuration;
-      double plannedDuration = task.getPlannedDuration().getDuration();
-      double percentComplete = NumberHelper.getDouble(task.getPercentageComplete());
-      if (percentComplete == 0.0)
-      {
-         Duration scheduledDuration = task.getEffectiveCalendar().getWork(task.getEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS);
-         if (scheduledDuration.getDuration() > plannedDuration)
-         {
-            remainingDuration = scheduledDuration;
-         }
-         else
-         {
-            remainingDuration = task.getPlannedDuration();
-         }
-      }
-      else
-      {
-         double plannedDurationInMinutes = Math.round(plannedDuration * 60.0);
-         double percentCompleteDurationInMinutes = Math.round(plannedDurationInMinutes * percentComplete) / 100.0;
-         remainingDuration = Duration.getInstance((plannedDurationInMinutes - percentCompleteDurationInMinutes) / 60.0, TimeUnit.HOURS);
-      }
+      Duration remainingDuration = task.getEffectiveCalendar().getWork(task.getRemainingEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS);
+
+      // TODO: update percent complete
 
       task.setActualDuration(actualDuration);
       task.setRemainingDuration(remainingDuration);
@@ -584,6 +565,33 @@ public class PrimaveraScheduler implements Scheduler
 
       return task.getEffectiveCalendar().getWork(task.getActualStart(), task.getEarlyFinish(), TimeUnit.HOURS);
    }
+
+//   private Number calculateDurationPercentComplete(Row row)
+//   {
+//      double result = 0;
+//      double targetDuration = NumberHelper.getDouble(row.getDouble("target_drtn_hr_cnt"));
+//      double remainingDuration = NumberHelper.getDouble(row.getDouble("remain_drtn_hr_cnt"));
+//
+//      if (targetDuration == 0)
+//      {
+//         if (remainingDuration == 0)
+//         {
+//            if ("TK_Complete".equals(row.getString("status_code")))
+//            {
+//               result = 100;
+//            }
+//         }
+//      }
+//      else
+//      {
+//         if (remainingDuration < targetDuration)
+//         {
+//            result = ((targetDuration - remainingDuration) * 100) / targetDuration;
+//         }
+//      }
+//
+//      return NumberHelper.getDouble(result);
+//   }
 
    /**
     * Populate a list of driving relations for the supplied task.
