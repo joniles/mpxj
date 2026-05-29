@@ -109,7 +109,7 @@ public class PrimaveraScheduler implements Scheduler
 
       levelOfEffortPass();
 
-      // TODO: use RollupHelper?
+      // TODO: can we use or adapt RollupHelper?
       m_file.getChildTasks().forEach(this::rollupDates);
 
       wbsSummaryPass();
@@ -492,10 +492,16 @@ public class PrimaveraScheduler implements Scheduler
 //         task.setEarlyFinish(task.getExpectedFinish());
 //      }
 
-      updateDurations(task);
+      updateDurationsAndPercentComplete(task);
    }
 
-   private void updateDurations(Task task)
+   /**
+    * Update the Actual, Remaining, and At Completion Durations,
+    * along with Duration Percent Complete.
+    *
+    * @param task target task
+    */
+   private void updateDurationsAndPercentComplete(Task task)
    {
       if (task.getPercentCompleteType() == PercentCompleteType.PHYSICAL)
       {
@@ -578,6 +584,12 @@ public class PrimaveraScheduler implements Scheduler
       return task.getEffectiveCalendar().getWork(task.getActualStart(), task.getEarlyFinish(), TimeUnit.HOURS);
    }
 
+   /**
+    * Calculate the duration percent complete for a task.
+    *
+    * @param task target task
+    * @return duration percent complete value
+    */
    private Number calculateDurationPercentComplete(Task task)
    {
       Duration target = task.getPlannedDuration();
