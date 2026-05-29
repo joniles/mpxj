@@ -1344,10 +1344,6 @@ public class PrimaveraScheduler implements Scheduler
          }
 
          return predecessorTask.getEarlyFinish();
-         //return m_dataDate;
-         // but sometimes it is
-         // getLagCalendar(relation).getNextWorkStart(m_dataDate)
-         // why? remaining lag maybe?
       }
 
       // Predecessor not finished
