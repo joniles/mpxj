@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 import org.mpxj.Relation;
 
 /**
- * Represents a relation and the early start date derived from it.
+ * Represents a relation and the date derived from it.
  */
 class DrivingRelation implements Comparable<DrivingRelation>
 {
@@ -35,12 +35,12 @@ class DrivingRelation implements Comparable<DrivingRelation>
     * Constructor.
     *
     * @param relation source relation
-    * @param earlyStart early start date derived from the relation
+    * @param date date derived from the relation
     */
-   public DrivingRelation(Relation relation, LocalDateTime earlyStart)
+   public DrivingRelation(Relation relation, LocalDateTime date)
    {
       m_relation = relation;
-      m_earlyStart = earlyStart;
+      m_date = date;
    }
 
    /**
@@ -54,20 +54,20 @@ class DrivingRelation implements Comparable<DrivingRelation>
    }
 
    /**
-    * Retrieve the early start timestamp derived from the source relation.
+    * Retrieve the date derived from the source relation.
     *
-    * @return early start
+    * @return date
     */
-   public LocalDateTime getEarlyStart()
+   public LocalDateTime getDate()
    {
-      return m_earlyStart;
+      return m_date;
    }
 
    @Override public int compareTo(DrivingRelation o)
    {
-      return m_earlyStart.compareTo(o.getEarlyStart());
+      return m_date.compareTo(o.getDate());
    }
 
-   private final LocalDateTime m_earlyStart;
+   private final LocalDateTime m_date;
    private final Relation m_relation;
 }
