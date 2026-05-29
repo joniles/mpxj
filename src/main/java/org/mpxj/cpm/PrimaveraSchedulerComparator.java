@@ -25,10 +25,12 @@ package org.mpxj.cpm;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.mpxj.AssignmentField;
 import org.mpxj.Duration;
@@ -276,6 +278,7 @@ public class PrimaveraSchedulerComparator
     */
    public boolean process(ProjectFile baselineFile, ProjectFile workingFile, boolean analyseWbs, boolean analyseResourceAssignments, boolean analyseFloats, boolean analyseLongestPath) throws Exception
    {
+      m_equivalentDateCount = 0;
       m_forwardErrorCount = 0;
       m_backwardErrorCount = 0;
       m_assignmentErrorCount = 0;
@@ -304,14 +307,16 @@ public class PrimaveraSchedulerComparator
       {
          if (m_debug)
          {
-            System.out.println("done.");
+            String equivalentDateCount = m_equivalentDateCount == 0 ? "" : " (" + m_equivalentDateCount + " equivalent dates)";
+            System.out.println("done." + equivalentDateCount);
          }
          return true;
       }
 
       if (m_debug)
       {
-         System.out.println("failed.");
+         String equivalentDateCount = m_equivalentDateCount == 0 ? "" : " (" + m_equivalentDateCount + " equivalent dates)";
+         System.out.println("failed." + equivalentDateCount);
          System.out.println("Project ID: " + baselineFile.getProjectProperties().getProjectID());
          System.out.println(baselineFile.getProjectProperties().getSchedulingProgressedActivities());
          System.out.println("Forward errors: " + m_forwardErrorCount);
@@ -337,31 +342,47 @@ public class PrimaveraSchedulerComparator
     */
    private void compare(Task baseline, Task working, boolean analyseFloats, boolean analyseLongestPath)
    {
-      boolean earlyStartFailed = !compareDates(baseline, working, TaskField.EARLY_START);
-      boolean earlyFinishFailed = !compareDates(baseline, working, TaskField.EARLY_FINISH);
-      boolean startFailed = !compareDates(baseline, working, TaskField.START);
-      boolean finishFailed = !compareDates(baseline, working, TaskField.FINISH);
-      boolean actualStartFailed = !compareDates(baseline, working, TaskField.ACTUAL_START);
-      boolean actualFinishFailed = !compareDates(baseline, working, TaskField.ACTUAL_FINISH);
-      boolean remainingEarlyStartFailed = !compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
-      boolean remainingEarlyFinishFailed = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
+      List<DateEquality> forwardDateComparisons = Arrays.asList(
+         compareDates(baseline, working, TaskField.EARLY_START),
+         compareDates(baseline, working, TaskField.EARLY_FINISH),
+         compareDates(baseline, working, TaskField.START),
+         compareDates(baseline, working, TaskField.FINISH),
+         compareDates(baseline, working, TaskField.ACTUAL_START),
+         compareDates(baseline, working, TaskField.ACTUAL_FINISH),
+         compareDates(baseline, working, TaskField.REMAINING_EARLY_START),
+         compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH)
+      );
+
+      boolean forwardDatesFailed = forwardDateComparisons.stream().anyMatch(d -> d == DateEquality.MISMATCH);
       boolean freeFloatFailed = analyseFloats && !compareDurations(baseline, working, TaskField.FREE_SLACK);
       boolean totalFloatFailed = analyseFloats && !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
       boolean longestPathFailed = analyseLongestPath && baseline.getLongestPath() != working.getLongestPath();
+      boolean actualDurationFailed = !baseline.getSummary() && !compareDurations(baseline, working, TaskField.ACTUAL_DURATION);
+      boolean remainingDurationFailed = !baseline.getSummary() && !compareDurations(baseline, working, TaskField.REMAINING_DURATION);
+      boolean atCompletionDurationFailed = !baseline.getSummary() && !compareDurations(baseline, working, TaskField.DURATION);
+      boolean durationPercentCompleteFailed = !baseline.getSummary() && !compareNumbers(baseline, working, TaskField.PERCENT_COMPLETE);
 
-      if (earlyStartFailed || earlyFinishFailed || startFailed || finishFailed || actualStartFailed || actualFinishFailed || remainingEarlyStartFailed || remainingEarlyFinishFailed || freeFloatFailed || totalFloatFailed || longestPathFailed)
+      if (forwardDatesFailed || freeFloatFailed || totalFloatFailed || longestPathFailed || actualDurationFailed || remainingDurationFailed || atCompletionDurationFailed || durationPercentCompleteFailed)
       {
          ++m_forwardErrorCount;
       }
 
-      boolean lateStartFailed = !compareDates(baseline, working, TaskField.LATE_START);
-      boolean lateFinishFailed = !compareDates(baseline, working, TaskField.LATE_FINISH);
-      boolean remainingLateStartFailed = !compareDates(baseline, working, TaskField.REMAINING_LATE_START);
-      boolean remainingLateFinishFailed = !compareDates(baseline, working, TaskField.REMAINING_LATE_FINISH);
-      if (lateStartFailed || lateFinishFailed || remainingLateStartFailed || remainingLateFinishFailed)
+      List<DateEquality> backwardDateComparisons = Arrays.asList(
+         compareDates(baseline, working, TaskField.LATE_START),
+         compareDates(baseline, working, TaskField.LATE_FINISH),
+         compareDates(baseline, working, TaskField.REMAINING_LATE_START),
+         compareDates(baseline, working, TaskField.REMAINING_LATE_FINISH)
+      );
+
+      boolean backwardDatesFailed = backwardDateComparisons.stream().anyMatch(d -> d == DateEquality.MISMATCH);
+      if (backwardDatesFailed)
       {
          ++m_backwardErrorCount;
       }
+
+      m_equivalentDateCount += (int)Stream.concat(forwardDateComparisons.stream(), backwardDateComparisons.stream())
+         .filter(d -> d == DateEquality.EQUIVALENT)
+         .count();
    }
 
    /**
@@ -370,33 +391,38 @@ public class PrimaveraSchedulerComparator
     * @param baseline baseline task
     * @param working scheduled task
     * @param field field containing the dates to compare
-    * @return true if the comparison is successful
+    * @return DateEquality instance representing comparison result
     */
-   private boolean compareDates(Task baseline, Task working, TaskField field)
+   private DateEquality compareDates(Task baseline, Task working, TaskField field)
    {
       LocalDateTime baselineDate = (LocalDateTime) baseline.get(field);
       if (baselineDate == null)
       {
          // We have XER files where some of the attributes we'd expect to be populated are not present. Skip these.
-         return true;
+         return DateEquality.MATCH;
       }
 
       LocalDateTime workingDate = (LocalDateTime) working.get(field);
       if (workingDate == null)
       {
-         return false;
+         return DateEquality.MISMATCH;
       }
 
       if (baselineDate.isEqual(workingDate))
       {
-         return true;
+         return DateEquality.MATCH;
       }
 
       ProjectCalendar calendar = baseline.getEffectiveCalendar();
       boolean result = calendar.getNextWorkStart(workingDate).isEqual(baselineDate) || calendar.getNextWorkStart(baselineDate).isEqual(workingDate);
-      if (result || !working.getSummary())
+      if (result)
       {
-         return result;
+         return DateEquality.EQUIVALENT;
+      }
+
+      if (!working.getSummary())
+      {
+         return DateEquality.MISMATCH;
       }
 
       // At this point we have failed to compare, but we have a WBS entry.
@@ -405,7 +431,7 @@ public class PrimaveraSchedulerComparator
       // applying when it chooses between end of day or start of next day.
       //result = working.getChildTasks().stream().map(t -> t.getEffectiveCalendar()).anyMatch(c -> c.getNextWorkStart(workingDate).isEqual(baselineDate) || c.getNextWorkStart(baselineDate).isEqual(workingDate));
       result = allChildTasks(working).stream().map(Task::getEffectiveCalendar).anyMatch(c -> c.getNextWorkStart(workingDate).isEqual(baselineDate) || c.getNextWorkStart(baselineDate).isEqual(workingDate));
-      return result;
+      return result ? DateEquality.EQUIVALENT : DateEquality.MISMATCH;
    }
 
    /**
@@ -436,6 +462,28 @@ public class PrimaveraSchedulerComparator
       long workingDurationValue = (long) (workingDuration.getDuration() * 100.0);
 
       return baselineDuration.getUnits() == workingDuration.getUnits() && baselineDurationValue == workingDurationValue;
+   }
+
+   private boolean compareNumbers(Task baseline, Task working, TaskField field)
+   {
+      Number baselineObject = (Number) baseline.get(field);
+      if (baselineObject == null)
+      {
+         return true;
+      }
+
+      Number workingObject = (Number) working.get(field);
+      if (workingObject == null)
+      {
+         return true;
+      }
+
+      // Truncate to two decimal places for comparison.
+      // Avoids issues with small rounding differences.
+      long baselineValue = (long) (baselineObject.doubleValue() * 100.0);
+      long workingValue = (long) (workingObject.doubleValue() * 100.0);
+
+      return baselineValue == workingValue;
    }
 
    /**
@@ -491,31 +539,38 @@ public class PrimaveraSchedulerComparator
    private void analyseForwardError(ProjectFile baselineFile, Task working)
    {
       Task baseline = baselineFile.getTaskByUniqueID(working.getUniqueID());
-      boolean earlyStartFail = !compareDates(baseline, working, TaskField.EARLY_START);
-      boolean earlyFinishFail = !compareDates(baseline, working, TaskField.EARLY_FINISH);
-      boolean startFail = !compareDates(baseline, working, TaskField.START);
-      boolean finishFail = !compareDates(baseline, working, TaskField.FINISH);
-      boolean actualStartFail = !compareDates(baseline, working, TaskField.ACTUAL_START);
-      boolean actualFinishFail = !compareDates(baseline, working, TaskField.ACTUAL_FINISH);
-      boolean remainingEarlyStartFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
-      boolean remainingEarlyFinishFail = !compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
+      DateEquality earlyStartFail = compareDates(baseline, working, TaskField.EARLY_START);
+      DateEquality earlyFinishFail = compareDates(baseline, working, TaskField.EARLY_FINISH);
+      DateEquality startFail = compareDates(baseline, working, TaskField.START);
+      DateEquality finishFail = compareDates(baseline, working, TaskField.FINISH);
+      DateEquality actualStartFail = compareDates(baseline, working, TaskField.ACTUAL_START);
+      DateEquality actualFinishFail = compareDates(baseline, working, TaskField.ACTUAL_FINISH);
+      DateEquality remainingEarlyStartFail = compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
+      DateEquality remainingEarlyFinishFail = compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
       boolean freeFloatFailed = !compareDurations(baseline, working, TaskField.FREE_SLACK);
       boolean totalFloatFailed = !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
       boolean longestPathFailed = baseline.getLongestPath() != working.getLongestPath();
+      boolean actualDurationFailed = !compareDurations(baseline, working, TaskField.ACTUAL_DURATION);
+      boolean remainingDurationFailed = !compareDurations(baseline, working, TaskField.REMAINING_DURATION);
+      boolean atCompletionDurationFailed = !compareDurations(baseline, working, TaskField.DURATION);
+      boolean durationPercentCompleteFailed = !baseline.getSummary() && !compareNumbers(baseline, working, TaskField.PERCENT_COMPLETE);
 
       System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working + " " + working.getActivityType());
-      System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
-      System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
-      System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + (startFail ? " FAIL" : ""));
-      System.out.println("Finish: " + baseline.getFinish() + " " + working.getFinish() + (finishFail ? " FAIL" : ""));
-      System.out.println("Actual Start: " + baseline.getActualStart() + " " + working.getActualStart() + (actualStartFail ? " FAIL" : ""));
-      System.out.println("Actual Finish: " + baseline.getActualFinish() + " " + working.getActualFinish() + (actualFinishFail ? " FAIL" : ""));
-      System.out.println("Remaining Early Start: " + baseline.getRemainingEarlyStart() + " " + working.getRemainingEarlyStart() + (remainingEarlyStartFail ? " FAIL" : ""));
-      System.out.println("Remaining Early Finish: " + baseline.getRemainingEarlyFinish() + " " + working.getRemainingEarlyFinish() + (remainingEarlyFinishFail ? " FAIL" : ""));
+      System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + earlyStartFail.getStatus());
+      System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + earlyFinishFail.getStatus());
+      System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + startFail.getStatus());
+      System.out.println("Finish: " + baseline.getFinish() + " " + working.getFinish() + finishFail.getStatus());
+      System.out.println("Actual Start: " + baseline.getActualStart() + " " + working.getActualStart() + actualStartFail.getStatus());
+      System.out.println("Actual Finish: " + baseline.getActualFinish() + " " + working.getActualFinish() + actualFinishFail.getStatus());
+      System.out.println("Remaining Early Start: " + baseline.getRemainingEarlyStart() + " " + working.getRemainingEarlyStart() + remainingEarlyStartFail.getStatus());
+      System.out.println("Remaining Early Finish: " + baseline.getRemainingEarlyFinish() + " " + working.getRemainingEarlyFinish() + remainingEarlyFinishFail.getStatus());
       System.out.println("Free Float: " + baseline.getFreeSlack() + " " + working.getFreeSlack() + (freeFloatFailed ? " FAIL" : ""));
       System.out.println("Total Float: " + baseline.getTotalSlack() + " " + working.getTotalSlack() + (totalFloatFailed ? " FAIL" : ""));
       System.out.println("Longest Path: " + baseline.getLongestPath() + " " + working.getLongestPath() + (longestPathFailed ? " FAIL" : ""));
-
+      System.out.println("Actual Duration: " + baseline.getActualDuration() + " " + working.getActualDuration() + (actualDurationFailed ? " FAIL" : ""));
+      System.out.println("Remaining Duration: " + baseline.getRemainingDuration() + " " + working.getRemainingDuration() + (remainingDurationFailed ? " FAIL" : ""));
+      System.out.println("At Completion Duration: " + baseline.getDuration() + " " + working.getDuration() + (atCompletionDurationFailed ? " FAIL" : ""));
+      System.out.println("Duration Percent Complete: " + baseline.getPercentageComplete() + " " + working.getPercentageComplete() + (durationPercentCompleteFailed ? " FAIL" : ""));
       System.out.println();
    }
 
@@ -528,16 +583,16 @@ public class PrimaveraSchedulerComparator
    private void analyseBackwardError(ProjectFile baselineFile, Task working)
    {
       Task baseline = baselineFile.getTaskByUniqueID(working.getUniqueID());
-      boolean lateStartFail = !compareDates(baseline, working, TaskField.LATE_START);
-      boolean lateFinishFail = !compareDates(baseline, working, TaskField.LATE_FINISH);
-      boolean remainingLateStartFail = !compareDates(baseline, working, TaskField.REMAINING_LATE_START);
-      boolean remainingLateFinishFail = !compareDates(baseline, working, TaskField.REMAINING_LATE_FINISH);
+      DateEquality lateStartFail = compareDates(baseline, working, TaskField.LATE_START);
+      DateEquality lateFinishFail = compareDates(baseline, working, TaskField.LATE_FINISH);
+      DateEquality remainingLateStartFail = compareDates(baseline, working, TaskField.REMAINING_LATE_START);
+      DateEquality remainingLateFinishFail = compareDates(baseline, working, TaskField.REMAINING_LATE_FINISH);
 
       System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working);
-      System.out.println("Late Start: " + baseline.getLateStart() + " " + working.getLateStart() + (lateStartFail ? " FAIL" : ""));
-      System.out.println("Late Finish: " + baseline.getLateFinish() + " " + working.getLateFinish() + (lateFinishFail ? " FAIL" : ""));
-      System.out.println("Remaining Late Start: " + baseline.getRemainingLateStart() + " " + working.getRemainingLateStart() + (remainingLateStartFail ? " FAIL" : ""));
-      System.out.println("Remaining Late Finish: " + baseline.getRemainingLateFinish() + " " + working.getRemainingLateFinish() + (remainingLateFinishFail ? " FAIL" : ""));
+      System.out.println("Late Start: " + baseline.getLateStart() + " " + working.getLateStart() + lateStartFail.getStatus());
+      System.out.println("Late Finish: " + baseline.getLateFinish() + " " + working.getLateFinish() + lateFinishFail.getStatus());
+      System.out.println("Remaining Late Start: " + baseline.getRemainingLateStart() + " " + working.getRemainingLateStart() + remainingLateStartFail.getStatus());
+      System.out.println("Remaining Late Finish: " + baseline.getRemainingLateFinish() + " " + working.getRemainingLateFinish() + remainingLateFinishFail.getStatus());
       System.out.println();
    }
 
@@ -565,19 +620,23 @@ public class PrimaveraSchedulerComparator
     */
    private void compare(ResourceAssignment baseline, ResourceAssignment working)
    {
-      boolean startFailed = !compareDates(baseline, working, AssignmentField.START);
-      boolean finishFailed = !compareDates(baseline, working, AssignmentField.FINISH);
-      boolean actualStartFailed = !compareDates(baseline, working, AssignmentField.ACTUAL_START);
-      boolean actualFinishFailed = !compareDates(baseline, working, AssignmentField.ACTUAL_FINISH);
-      boolean remainingEarlyStartFailed = !compareDates(baseline, working, AssignmentField.REMAINING_EARLY_START);
-      boolean remainingEarlyFinishFailed = !compareDates(baseline, working, AssignmentField.REMAINING_EARLY_FINISH);
-      boolean remainingLateStartFailed = !compareDates(baseline, working, AssignmentField.REMAINING_LATE_START);
-      boolean remainingLateFinishFailed = !compareDates(baseline, working, AssignmentField.REMAINING_LATE_FINISH);
+      List<DateEquality>  result = Arrays.asList(
+         compareDates(baseline, working, AssignmentField.START),
+         compareDates(baseline, working, AssignmentField.FINISH),
+         compareDates(baseline, working, AssignmentField.ACTUAL_START),
+         compareDates(baseline, working, AssignmentField.ACTUAL_FINISH),
+         compareDates(baseline, working, AssignmentField.REMAINING_EARLY_START),
+         compareDates(baseline, working, AssignmentField.REMAINING_EARLY_FINISH),
+         compareDates(baseline, working, AssignmentField.REMAINING_LATE_START),
+         compareDates(baseline, working, AssignmentField.REMAINING_LATE_FINISH)
+      );
 
-      if (startFailed || finishFailed || actualStartFailed || actualFinishFailed || remainingEarlyStartFailed || remainingEarlyFinishFailed || remainingLateStartFailed || remainingLateFinishFailed)
+      if (result.stream().anyMatch(d -> d == DateEquality.MISMATCH))
       {
          ++m_assignmentErrorCount;
       }
+
+      m_equivalentDateCount += (int)result.stream().filter(d -> d == DateEquality.EQUIVALENT).count();
    }
 
    /**
@@ -586,34 +645,55 @@ public class PrimaveraSchedulerComparator
     * @param baseline baseline resource assignment
     * @param working scheduled resource assignment
     * @param field field containing the dates to compare
-    * @return true if the comparison is successful
+    * @return DateEquality representing comparison result
     */
-   private boolean compareDates(ResourceAssignment baseline, ResourceAssignment working, AssignmentField field)
+   private DateEquality compareDates(ResourceAssignment baseline, ResourceAssignment working, AssignmentField field)
    {
       LocalDateTime baselineDate = (LocalDateTime) baseline.get(field);
       if (baselineDate == null)
       {
          // We have XER files where some of the attributes we'd expect to be populated are not present. Skip these.
-         return true;
+         return DateEquality.MATCH;
       }
 
       LocalDateTime workingDate = (LocalDateTime) working.get(field);
       if (workingDate == null)
       {
-         return false;
+         return DateEquality.MISMATCH;
       }
 
       if (baselineDate.isEqual(workingDate))
       {
-         return true;
+         return DateEquality.MATCH;
       }
 
       ProjectCalendar calendar = baseline.getEffectiveCalendar();
-      return calendar.getNextWorkStart(workingDate).isEqual(baselineDate) || calendar.getNextWorkStart(baselineDate).isEqual(workingDate);
+      boolean result = calendar.getNextWorkStart(workingDate).isEqual(baselineDate) || calendar.getNextWorkStart(baselineDate).isEqual(workingDate);
+      return result ? DateEquality.EQUIVALENT : DateEquality.MISMATCH;
+   }
+
+   private enum DateEquality
+   {
+      MATCH(""),
+      EQUIVALENT(" EQUIVALENT"),
+      MISMATCH(" FAIL");
+
+      DateEquality(String status)
+      {
+         m_status = status;
+      }
+
+      public String getStatus()
+      {
+         return m_status;
+      }
+
+      private final String m_status;
    }
 
    private boolean m_debug;
    private boolean m_directory;
+   private int m_equivalentDateCount;
    private int m_forwardErrorCount;
    private int m_backwardErrorCount;
    private int m_assignmentErrorCount;

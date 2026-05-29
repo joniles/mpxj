@@ -50,6 +50,7 @@ import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.LocalDateTimeHelper;
+import org.mpxj.common.NumberHelper;
 
 /**
  * Implements the Critical Path Method to schedule a project so
@@ -108,6 +109,7 @@ public class PrimaveraScheduler implements Scheduler
 
       levelOfEffortPass();
 
+      // TODO: can we use or adapt RollupHelper?
       m_file.getChildTasks().forEach(this::rollupDates);
 
       wbsSummaryPass();
@@ -319,7 +321,7 @@ public class PrimaveraScheduler implements Scheduler
          else
          {
             drivingRelations = getDrivingRelations(task, predecessors);
-            earlyStart = drivingRelations.get(0).getEarlyStart();
+            earlyStart = drivingRelations.get(0).getDate();
          }
 
          switch (getConstraintType(task))
@@ -438,7 +440,7 @@ public class PrimaveraScheduler implements Scheduler
             else
             {
                drivingRelations = getDrivingRelations(task, predecessors);
-               earlyStart = getNextWorkStart(task, drivingRelations.get(0).getEarlyStart());
+               earlyStart = getNextWorkStart(task, drivingRelations.get(0).getDate());
                earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
             }
          }
@@ -452,7 +454,7 @@ public class PrimaveraScheduler implements Scheduler
             else
             {
                drivingRelations = getDrivingRelations(task, predecessors);
-               earlyStart = getNextWorkStart(task, drivingRelations.get(0).getEarlyStart());
+               earlyStart = drivingRelations.get(0).getDate();
                earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
             }
          }
@@ -478,6 +480,146 @@ public class PrimaveraScheduler implements Scheduler
       {
          drivingRelations.forEach(d -> d.getRelation().setDriving(true));
       }
+
+      // TODO: we need to consider when to apply Expected Finish if it is set
+//      if (task.getExpectedFinish() != null &&
+//         task.getActualStart() != null &&
+//         task.getActualFinish() == null &&
+//         task.getExpectedFinish().isAfter(m_dataDate) &&
+//         task.getTotalSlack() != null && task.getTotalSlack().getDuration() > 0 &&
+//         !task.getExpectedFinish().isBefore(task.getRemainingEarlyStart()))
+//      {
+//         task.setEarlyFinish(task.getExpectedFinish());
+//      }
+
+      updateDurationsAndPercentComplete(task);
+   }
+
+   /**
+    * Update the Actual, Remaining, and At Completion Durations,
+    * along with Duration Percent Complete.
+    *
+    * @param task target task
+    */
+   private void updateDurationsAndPercentComplete(Task task)
+   {
+      if (task.getPercentCompleteType() == PercentCompleteType.PHYSICAL)
+      {
+         return;
+      }
+
+      if (task.getActualStart() == null)
+      {
+         return;
+      }
+
+      if (task.getActualFinish() != null)
+      {
+         return;
+      }
+
+      Duration actualDuration;
+      if (m_dataDate.isBefore(task.getActualStart()))
+      {
+         actualDuration = Duration.getInstance(0, TimeUnit.HOURS);
+      }
+      else
+      {
+         LocalDateTime endDate;
+         Duration suspendedDuration = null;
+
+         if (task.getSuspendDate() == null)
+         {
+            endDate = m_dataDate;
+         }
+         else
+         {
+            if (task.getSuspendDate().isAfter(m_dataDate))
+            {
+               endDate = m_dataDate;
+            }
+            else
+            {
+               if (task.getResume() != null && m_dataDate.isAfter(task.getResume()))
+               {
+                  endDate = m_dataDate;
+                  suspendedDuration = task.getEffectiveCalendar().getWork(task.getSuspendDate(), task.getResume(), TimeUnit.HOURS);
+               }
+               else
+               {
+                  endDate = task.getSuspendDate();
+               }
+            }
+         }
+
+         actualDuration = task.getEffectiveCalendar().getWork(task.getActualStart(), endDate, TimeUnit.HOURS);
+         if (suspendedDuration != null)
+         {
+            actualDuration = Duration.getInstance(actualDuration.getDuration()-suspendedDuration.getDuration(), TimeUnit.HOURS);
+         }
+      }
+
+      Duration remainingDuration = task.getEffectiveCalendar().getWork(task.getRemainingEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS);
+
+      task.setActualDuration(actualDuration);
+      task.setRemainingDuration(remainingDuration);
+      task.setDuration(calculateAtCompletionDuration(task));
+      task.setPercentageComplete(calculateDurationPercentComplete(task));
+   }
+
+   /**
+    * Calculate the At Completion duration.
+    *
+    * @param task target task
+    * @return At Completion duration
+    */
+   private Duration calculateAtCompletionDuration(Task task)
+   {
+      Duration actualDuration = task.getActualDuration();
+
+      if (actualDuration != null && actualDuration.getDuration() == 0.0)
+      {
+         return task.getRemainingDuration();
+      }
+
+      if (task.getRemainingDuration().getDuration() == 0.0)
+      {
+         return actualDuration;
+      }
+
+      return task.getEffectiveCalendar().getWork(task.getActualStart(), task.getEarlyFinish(), TimeUnit.HOURS);
+   }
+
+   /**
+    * Calculate the duration percent complete for a task.
+    *
+    * @param task target task
+    * @return duration percent complete value
+    */
+   private Number calculateDurationPercentComplete(Task task)
+   {
+      Duration target = task.getPlannedDuration();
+      Duration remaining = task.getRemainingDuration();
+      double targetDuration = target == null ? 0 : target.getDuration();
+      double remainingDuration = remaining == null ? 0 : remaining.getDuration();
+
+      double result = 0;
+      if (targetDuration == 0)
+      {
+         if (remainingDuration == 0)
+         {
+            result = 100;
+         }
+      }
+      else
+      {
+         if (remainingDuration < targetDuration)
+         {
+            result = ((targetDuration - remainingDuration) * 100) / targetDuration;
+         }
+      }
+
+      return NumberHelper.getDouble(result);
    }
 
    /**
@@ -490,8 +632,8 @@ public class PrimaveraScheduler implements Scheduler
    private List<DrivingRelation> getDrivingRelations(Task task, List<Relation> predecessors) throws CpmException
    {
       List<DrivingRelation> relations = predecessors.stream().map(this::calculateEarlyStart).collect(Collectors.toList());
-      LocalDateTime earlyStart = relations.stream().map(d -> getNextWorkStart(task, d.getEarlyStart())).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
-      relations.removeIf(r -> !getNextWorkStart(task, r.getEarlyStart()).isEqual(earlyStart));
+      LocalDateTime earlyStart = relations.stream().map(d -> getNextWorkStart(task, d.getDate())).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+      relations.removeIf(r -> !getNextWorkStart(task, r.getDate()).isEqual(earlyStart));
       return relations;
    }
 
@@ -543,7 +685,8 @@ public class PrimaveraScheduler implements Scheduler
          }
          else
          {
-            lateFinish = successors.stream().map(this::calculateLateFinish).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+            List<DrivingRelation> drivingRelations = successors.stream().map(this::calculateLateFinish).collect(Collectors.toList());
+            lateFinish = drivingRelations.stream().map(DrivingRelation::getDate).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
          }
 
          switch (getConstraintType(task))
@@ -650,7 +793,8 @@ public class PrimaveraScheduler implements Scheduler
          }
          else
          {
-            lateFinish = successors.stream().map(this::calculateLateFinish).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+            List<DrivingRelation> drivingRelations = successors.stream().map(this::calculateLateFinish).collect(Collectors.toList());
+            lateFinish = drivingRelations.stream().map(DrivingRelation::getDate).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
          }
       }
 
@@ -1191,24 +1335,15 @@ public class PrimaveraScheduler implements Scheduler
          // successor finished
          if (relation.getLag().getDuration() == 0.0)
          {
-            return m_dataDate;
-            // but sometimes it is
-            // getLagCalendar(relation).getNextWorkStart(m_dataDate)
-            // why? remaining lag maybe?
+            return predecessorTask.getEarlyFinish();
          }
 
          if (relation.getLag().getDuration() > 0.0)
          {
-            return m_dataDate;
-            // but sometimes it is
-            // getLagCalendar(relation).getNextWorkStart(m_dataDate)
-            // why? remaining lag maybe?
+            return predecessorTask.getEarlyFinish();
          }
 
-         return m_dataDate;
-         // but sometimes it is
-         // getLagCalendar(relation).getNextWorkStart(m_dataDate)
-         // why? remaining lag maybe?
+         return predecessorTask.getEarlyFinish();
       }
 
       // Predecessor not finished
@@ -1460,28 +1595,34 @@ public class PrimaveraScheduler implements Scheduler
     * @param relation relationship between two tasks
     * @return calculated late finish date
     */
-   private LocalDateTime calculateLateFinish(Relation relation)
+   private DrivingRelation calculateLateFinish(Relation relation)
    {
+      LocalDateTime date;
+
       switch (relation.getType())
       {
          case START_START:
          {
-            return adjustLateFinish(relation, calculateLateFinishForStartStart(relation));
+            date = adjustLateFinish(relation, calculateLateFinishForStartStart(relation));
+            break;
          }
 
          case FINISH_FINISH:
          {
-            return adjustLateFinish(relation, calculateLateFinishForFinishFinish(relation));
+            date = adjustLateFinish(relation, calculateLateFinishForFinishFinish(relation));
+            break;
          }
 
          case START_FINISH:
          {
-            return adjustLateFinish(relation, calculateLateFinishForStartFinish(relation));
+            date = adjustLateFinish(relation, calculateLateFinishForStartFinish(relation));
+            break;
          }
 
          case FINISH_START:
          {
-            return adjustLateFinish(relation, calculateLateFinishForFinishStart(relation));
+            date = adjustLateFinish(relation, calculateLateFinishForFinishStart(relation));
+            break;
          }
 
          default:
@@ -1489,6 +1630,8 @@ public class PrimaveraScheduler implements Scheduler
             throw new UnsupportedOperationException();
          }
       }
+
+      return new DrivingRelation(relation, date);
    }
 
    /**
@@ -2310,7 +2453,7 @@ public class PrimaveraScheduler implements Scheduler
                return removeLag(relation, successorTask.getLateStart());
             }
 
-            return successorTask.getLateStart();
+            return removeLag(relation, successorTask.getLateStart());
          }
 
          if (successorTask.getActualDuration().getDuration() == 0.0)
@@ -2659,6 +2802,7 @@ public class PrimaveraScheduler implements Scheduler
       task.setEarlyStart(earlyStart);
       task.setEarlyFinish(earlyFinish);
       setRemainingEarlyDates(task);
+      task.setDuration(calculateAtCompletionDuration(task));
    }
 
    /**

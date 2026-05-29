@@ -91,7 +91,7 @@ public class PrimaveraSlackCalculator implements SlackCalculator
          return Duration.getInstance(0, TimeUnit.HOURS);
       }
 
-      return freeFloat;
+      return roundToMinutes(freeFloat);
    }
 
    @Override public Duration calculateTotalSlack(Task task)
@@ -286,5 +286,21 @@ public class PrimaveraSlackCalculator implements SlackCalculator
       }
 
       return Duration.getInstance(duration.getDuration() - lag.getDuration(), durationUnits);
+   }
+
+   /**
+    * Round a duration to the nearest minute.
+    *
+    * @param duration target duration
+    * @return rounded duration
+    */
+   private Duration roundToMinutes(Duration duration)
+   {
+      if (duration.getUnits() != TimeUnit.HOURS)
+      {
+         throw new IllegalArgumentException();
+      }
+
+      return Duration.getInstance(Math.round(duration.getDuration() * 60.0) / 60.0, TimeUnit.HOURS);
    }
 }
