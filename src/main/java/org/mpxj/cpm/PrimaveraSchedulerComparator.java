@@ -415,9 +415,14 @@ public class PrimaveraSchedulerComparator
 
       ProjectCalendar calendar = baseline.getEffectiveCalendar();
       boolean result = calendar.getNextWorkStart(workingDate).isEqual(baselineDate) || calendar.getNextWorkStart(baselineDate).isEqual(workingDate);
-      if (result || !working.getSummary())
+      if (result)
       {
          return DateEquality.EQUIVALENT;
+      }
+
+      if (!working.getSummary())
+      {
+         return DateEquality.MISMATCH;
       }
 
       // At this point we have failed to compare, but we have a WBS entry.
@@ -548,7 +553,7 @@ public class PrimaveraSchedulerComparator
       boolean actualDurationFailed = !compareDurations(baseline, working, TaskField.ACTUAL_DURATION);
       boolean remainingDurationFailed = !compareDurations(baseline, working, TaskField.REMAINING_DURATION);
       boolean atCompletionDurationFailed = !compareDurations(baseline, working, TaskField.DURATION);
-      boolean durationPercentCompleteFailed = !compareNumbers(baseline, working, TaskField.PERCENT_COMPLETE);
+      boolean durationPercentCompleteFailed = !baseline.getSummary() && !compareNumbers(baseline, working, TaskField.PERCENT_COMPLETE);
 
       System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working + " " + working.getActivityType());
       System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + earlyStartFail.getStatus());
