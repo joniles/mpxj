@@ -6,12 +6,12 @@
 	</properties>
 	<body>
 		<release date="Unreleased" version="16.3.0">
-            <action dev="joniles" type="update">`PrimaveraScheduler` now populates the Driving flag on `Relation` and the Longest Path flag on `Task` when used to schedule a project.</action>
 			<action dev="joniles" type="update">Improve handling of role hierarchy when reading and writing P6 projects.</action>
 			<action dev="joniles" type="update">Add support for the Update Units When Costs Change On Resource Assignment project property when reading and writing P6 projects.</action>
 			<action dev="joniles" type="update">Add support for the Activity Default Price Per Unit project property when reading and writing P6 projects.</action>
 			<action dev="joniles" type="update">Improve handling of different duration formats used in BK3 files.</action>
-            <action dev="joniles" type="update">Various `PrimaveraScheduler` improvements.</action>
+            <action dev="joniles" type="update">`PrimaveraScheduler` now has experimental support for populating the Driving flag on `Relation` and the Longest Path flag on `Task` when used to schedule a project.</action>
+            <action dev="joniles" type="update">Improve alignment of results from `PrimaveraScheduler` with projects scheduled in P6.</action>
 		</release>
         <release date="2026-05-12" version="16.2.0">
             <action dev="joniles" type="update">Ensure numeric values are correctly formatted using decimal separator and digit grouping symbols when writing XER files.</action>
