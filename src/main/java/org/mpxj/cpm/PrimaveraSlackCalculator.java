@@ -288,6 +288,12 @@ public class PrimaveraSlackCalculator implements SlackCalculator
       return Duration.getInstance(duration.getDuration() - lag.getDuration(), durationUnits);
    }
 
+   /**
+    * Round a duration to the nearest minute.
+    *
+    * @param duration target duration
+    * @return rounded duration
+    */
    private Duration roundToMinutes(Duration duration)
    {
       if (duration.getUnits() != TimeUnit.HOURS)
