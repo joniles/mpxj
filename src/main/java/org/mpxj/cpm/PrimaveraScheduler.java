@@ -567,6 +567,12 @@ public class PrimaveraScheduler implements Scheduler
       task.setPercentageComplete(calculateDurationPercentComplete(task));
    }
 
+   /**
+    * Calculate the At Completion duration.
+    *
+    * @param task target task
+    * @return At Completion duration
+    */
    private Duration calculateAtCompletionDuration(Task task)
    {
       Duration actualDuration = task.getActualDuration();
