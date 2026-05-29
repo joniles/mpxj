@@ -11,6 +11,13 @@ module MPXJ
       get_integer_value(attribute_values['activity_default_calendar_unique_id'])
     end
 
+    # Retrieve the Activity Default Price Per Unit value
+    #
+    # @return Activity Default Price Per Unit value
+    def activity_default_price_per_unit
+      get_float_value(attribute_values['activity_default_price_per_unit'])
+    end
+
     # Retrieve the Activity ID Increment value
     #
     # @return Activity ID Increment value
@@ -1222,6 +1229,13 @@ module MPXJ
       get_integer_value(attribute_values['unique_id'])
     end
 
+    # Retrieve the Update Units When Costs Change On Resource Assignments value
+    #
+    # @return Update Units When Costs Change On Resource Assignments value
+    def update_units_when_costs_change_on_resource_assignments
+      get_boolean_value(attribute_values['update_units_when_costs_change_on_resource_assignments'])
+    end
+
     # Retrieve the Updating Task Status Updates Resource Status value
     #
     # @return Updating Task Status Updates Resource Status value
@@ -1266,6 +1280,7 @@ module MPXJ
 
     ATTRIBUTE_TYPES = {
       'activity_default_calendar_unique_id' => :integer,
+      'activity_default_price_per_unit' => :currency,
       'activity_id_increment' => :integer,
       'activity_id_increment_based_on_selected_activity' => :boolean,
       'activity_id_prefix' => :string,
@@ -1439,6 +1454,7 @@ module MPXJ
       'time_separator' => :char,
       'total_slack_calculation_type' => :total_slack_type,
       'unique_id' => :integer,
+      'update_units_when_costs_change_on_resource_assignments' => :boolean,
       'updating_task_status_updates_resource_status' => :boolean,
       'use_expected_finish_dates' => :boolean,
       'wbs_code_separator' => :string,

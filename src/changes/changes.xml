@@ -5,7 +5,7 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="Unreleased" version="16.3.0">
+		<release date="2026-06-01" version="16.3.0">
 			<action dev="joniles" type="update">Improve handling of role hierarchy when reading and writing P6 projects.</action>
 			<action dev="joniles" type="update">Add support for the Update Units When Costs Change On Resource Assignment project property when reading and writing P6 projects.</action>
 			<action dev="joniles" type="update">Add support for the Activity Default Price Per Unit project property when reading and writing P6 projects.</action>

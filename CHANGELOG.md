@@ -5,6 +5,14 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
+## 16.3.0 (2026-06-01)
+* Improve handling of role hierarchy when reading and writing P6 projects.
+* Add support for the Update Units When Costs Change On Resource Assignment project property when reading and writing P6 projects.
+* Add support for the Activity Default Price Per Unit project property when reading and writing P6 projects.
+* Improve handling of different duration formats used in BK3 files.
+* `PrimaveraScheduler` now has experimental support for populating the Driving flag on `Relation` and the Longest Path flag on `Task` when used to schedule a project.
+* Improve alignment of results from `PrimaveraScheduler` with projects scheduled in P6.
+
 ## 16.2.0 (2026-05-12)
 * Ensure numeric values are correctly formatted using decimal separator and digit grouping symbols when writing XER files.
 * Marked the `GanttChartView#getProgressLinesBeginAtDate` method as deprecated. Use the `getProgressLinesBeginAt` method instead.
