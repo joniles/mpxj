@@ -667,7 +667,8 @@ public class PrimaveraScheduler implements Scheduler
          }
          else
          {
-            lateFinish = successors.stream().map(this::calculateLateFinish).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+            List<DrivingRelation> drivingRelations = successors.stream().map(this::calculateLateFinish).collect(Collectors.toList());
+            lateFinish = drivingRelations.stream().map(DrivingRelation::getDate).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
          }
 
          switch (getConstraintType(task))
@@ -774,7 +775,8 @@ public class PrimaveraScheduler implements Scheduler
          }
          else
          {
-            lateFinish = successors.stream().map(this::calculateLateFinish).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+            List<DrivingRelation> drivingRelations = successors.stream().map(this::calculateLateFinish).collect(Collectors.toList());
+            lateFinish = drivingRelations.stream().map(DrivingRelation::getDate).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
          }
       }
 
@@ -1579,28 +1581,34 @@ public class PrimaveraScheduler implements Scheduler
     * @param relation relationship between two tasks
     * @return calculated late finish date
     */
-   private LocalDateTime calculateLateFinish(Relation relation)
+   private DrivingRelation calculateLateFinish(Relation relation)
    {
+      LocalDateTime date;
+
       switch (relation.getType())
       {
          case START_START:
          {
-            return adjustLateFinish(relation, calculateLateFinishForStartStart(relation));
+            date = adjustLateFinish(relation, calculateLateFinishForStartStart(relation));
+            break;
          }
 
          case FINISH_FINISH:
          {
-            return adjustLateFinish(relation, calculateLateFinishForFinishFinish(relation));
+            date = adjustLateFinish(relation, calculateLateFinishForFinishFinish(relation));
+            break;
          }
 
          case START_FINISH:
          {
-            return adjustLateFinish(relation, calculateLateFinishForStartFinish(relation));
+            date = adjustLateFinish(relation, calculateLateFinishForStartFinish(relation));
+            break;
          }
 
          case FINISH_START:
          {
-            return adjustLateFinish(relation, calculateLateFinishForFinishStart(relation));
+            date = adjustLateFinish(relation, calculateLateFinishForFinishStart(relation));
+            break;
          }
 
          default:
@@ -1608,6 +1616,8 @@ public class PrimaveraScheduler implements Scheduler
             throw new UnsupportedOperationException();
          }
       }
+
+      return new DrivingRelation(relation, date);
    }
 
    /**
