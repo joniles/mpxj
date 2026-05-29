@@ -482,15 +482,15 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       // TODO: we need to consider when to apply Expected Finish if it is set
-//      if (task.getExpectedFinish() != null &&
-//         task.getActualStart() != null &&
-//         task.getActualFinish() == null &&
-//         task.getExpectedFinish().isAfter(m_dataDate) &&
-//         task.getTotalSlack() != null && task.getTotalSlack().getDuration() > 0 &&
-//         !task.getExpectedFinish().isBefore(task.getRemainingEarlyStart()))
-//      {
-//         task.setEarlyFinish(task.getExpectedFinish());
-//      }
+      //      if (task.getExpectedFinish() != null &&
+      //         task.getActualStart() != null &&
+      //         task.getActualFinish() == null &&
+      //         task.getExpectedFinish().isAfter(m_dataDate) &&
+      //         task.getTotalSlack() != null && task.getTotalSlack().getDuration() > 0 &&
+      //         !task.getExpectedFinish().isBefore(task.getRemainingEarlyStart()))
+      //      {
+      //         task.setEarlyFinish(task.getExpectedFinish());
+      //      }
 
       updateDurationsAndPercentComplete(task);
    }
@@ -555,7 +555,7 @@ public class PrimaveraScheduler implements Scheduler
          actualDuration = task.getEffectiveCalendar().getWork(task.getActualStart(), endDate, TimeUnit.HOURS);
          if (suspendedDuration != null)
          {
-            actualDuration = Duration.getInstance(actualDuration.getDuration()-suspendedDuration.getDuration(), TimeUnit.HOURS);
+            actualDuration = Duration.getInstance(actualDuration.getDuration() - suspendedDuration.getDuration(), TimeUnit.HOURS);
          }
       }
 

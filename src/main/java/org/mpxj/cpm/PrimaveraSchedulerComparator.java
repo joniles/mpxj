@@ -380,7 +380,7 @@ public class PrimaveraSchedulerComparator
          ++m_backwardErrorCount;
       }
 
-      m_equivalentDateCount += (int)Stream.concat(forwardDateComparisons.stream(), backwardDateComparisons.stream())
+      m_equivalentDateCount += (int) Stream.concat(forwardDateComparisons.stream(), backwardDateComparisons.stream())
          .filter(d -> d == DateEquality.EQUIVALENT)
          .count();
    }
@@ -620,7 +620,7 @@ public class PrimaveraSchedulerComparator
     */
    private void compare(ResourceAssignment baseline, ResourceAssignment working)
    {
-      List<DateEquality>  result = Arrays.asList(
+      List<DateEquality> result = Arrays.asList(
          compareDates(baseline, working, AssignmentField.START),
          compareDates(baseline, working, AssignmentField.FINISH),
          compareDates(baseline, working, AssignmentField.ACTUAL_START),
@@ -636,7 +636,7 @@ public class PrimaveraSchedulerComparator
          ++m_assignmentErrorCount;
       }
 
-      m_equivalentDateCount += (int)result.stream().filter(d -> d == DateEquality.EQUIVALENT).count();
+      m_equivalentDateCount += (int) result.stream().filter(d -> d == DateEquality.EQUIVALENT).count();
    }
 
    /**

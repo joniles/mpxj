@@ -3630,7 +3630,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public Number getActivityDefaultPricePerUnit()
    {
-      return (Number)get(ProjectField.ACTIVITY_DEFAULT_PRICE_PER_UNIT);
+      return (Number) get(ProjectField.ACTIVITY_DEFAULT_PRICE_PER_UNIT);
    }
 
    /**
