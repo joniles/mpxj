@@ -1,8 +1,7 @@
 /*
  * file:       GanttBarDateFormat.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2010
- * date:       20/05/2010
+ * date:       2010-05-20
  */
 
 /*
