@@ -184,7 +184,7 @@ public final class GanttChartView14 extends GanttChartView
          m_timescaleTopTier.setUnits(TimescaleUnitsHelper.getInstance(viewPropertyData[41311]));
          m_timescaleTopTier.setCount(viewPropertyData[41313]);
          m_timescaleTopTier.setFormat(TimescaleFormat.getInstance(ByteArrayHelper.getShort(viewPropertyData, 41315)));
-         m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[41317]));
+         m_timescaleTopTier.setAlignment(TimescaleAlignmentHelper.getInstance(viewPropertyData[41317]));
 
          m_timescaleMiddleTier = new TimescaleTier();
          m_timescaleMiddleTier.setTickLines((flags & 0x01) != 0);
@@ -192,7 +192,7 @@ public final class GanttChartView14 extends GanttChartView
          m_timescaleMiddleTier.setUnits(TimescaleUnitsHelper.getInstance(viewPropertyData[1152]));
          m_timescaleMiddleTier.setCount(viewPropertyData[1156]);
          m_timescaleMiddleTier.setFormat(TimescaleFormat.getInstance(ByteArrayHelper.getShort(viewPropertyData, 1160)));
-         m_timescaleMiddleTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[1166]));
+         m_timescaleMiddleTier.setAlignment(TimescaleAlignmentHelper.getInstance(viewPropertyData[1166]));
 
          m_timescaleBottomTier = new TimescaleTier();
          m_timescaleBottomTier.setTickLines((flags & 0x02) != 0);
@@ -200,7 +200,7 @@ public final class GanttChartView14 extends GanttChartView
          m_timescaleBottomTier.setUnits(TimescaleUnitsHelper.getInstance(viewPropertyData[1154]));
          m_timescaleBottomTier.setCount(viewPropertyData[1158]);
          m_timescaleBottomTier.setFormat(TimescaleFormat.getInstance(ByteArrayHelper.getShort(viewPropertyData, 1162)));
-         m_timescaleBottomTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[1164]));
+         m_timescaleBottomTier.setAlignment(TimescaleAlignmentHelper.getInstance(viewPropertyData[1164]));
 
          m_showDrawings = (viewPropertyData[2237] != 0);
          m_roundBarsToWholeDays = (viewPropertyData[2239] != 0);

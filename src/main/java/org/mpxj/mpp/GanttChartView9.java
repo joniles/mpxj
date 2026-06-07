@@ -167,7 +167,7 @@ public final class GanttChartView9 extends GanttChartView
          m_timescaleMiddleTier.setUnits(TimescaleUnitsHelper.getInstance(viewPropertyData[242]));
          m_timescaleMiddleTier.setCount(viewPropertyData[246]);
          m_timescaleMiddleTier.setFormat(TimescaleFormat.getInstance(ByteArrayHelper.getShort(viewPropertyData, 250)));
-         m_timescaleMiddleTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[256] - 32));
+         m_timescaleMiddleTier.setAlignment(TimescaleAlignmentHelper.getInstance(viewPropertyData[256] - 32));
 
          m_timescaleBottomTier = new TimescaleTier();
          m_timescaleBottomTier.setTickLines((flags & 0x02) != 0);
@@ -175,7 +175,7 @@ public final class GanttChartView9 extends GanttChartView
          m_timescaleBottomTier.setUnits(TimescaleUnitsHelper.getInstance(viewPropertyData[244]));
          m_timescaleBottomTier.setCount(viewPropertyData[248]);
          m_timescaleBottomTier.setFormat(TimescaleFormat.getInstance(ByteArrayHelper.getShort(viewPropertyData, 252)));
-         m_timescaleBottomTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[254] - 32));
+         m_timescaleBottomTier.setAlignment(TimescaleAlignmentHelper.getInstance(viewPropertyData[254] - 32));
 
          m_timescaleScaleSeparator = (flags & 0x04) != 0;
          m_timescaleSize = viewPropertyData[268];
@@ -200,7 +200,7 @@ public final class GanttChartView9 extends GanttChartView
          m_timescaleTopTier.setUnits(TimescaleUnitsHelper.getInstance(timescaleData[30]));
          m_timescaleTopTier.setCount(timescaleData[32]);
          m_timescaleTopTier.setFormat(TimescaleFormat.getInstance(ByteArrayHelper.getShort(timescaleData, 34)));
-         m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(timescaleData[36] - 20));
+         m_timescaleTopTier.setAlignment(TimescaleAlignmentHelper.getInstance(timescaleData[36] - 20));
 
          m_topTierColumnGridLines = getGridLines(timescaleData, 39);
 

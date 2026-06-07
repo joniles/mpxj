@@ -1,7 +1,7 @@
 /*
- * file:       TimescaleAlignment.java
+ * file:       TimescaleAlignmentHelper.java
  * author:     Jon Iles
- * date:       2005-04-07
+ * date:       2026-06-07
  */
 
 /*
@@ -23,11 +23,29 @@
 package org.mpxj.mpp;
 
 /**
- * Enumeration representing the label alignment on a Gantt chart timescale.
+ * Helper class for the TimescaleAlignment enumeration.
  */
-public enum TimescaleAlignment
+final class TimescaleAlignmentHelper
 {
-   LEFT,
-   CENTER,
-   RIGHT
+   /**
+    * Retrieve a TimescaleAlignment based on an int value.
+    *
+    * @param value int representation of a TimescaleAlignment value
+    * @return TimescaleAlignment instance or null
+    */
+   public static TimescaleAlignment getInstance(int value)
+   {
+      if (value < 0 || value >= TYPE_VALUES.length)
+      {
+         return null;
+      }
+
+      return TYPE_VALUES[value];
+   }
+
+   private static final TimescaleAlignment[] TYPE_VALUES = {
+      TimescaleAlignment.LEFT,
+      TimescaleAlignment.CENTER,
+      TimescaleAlignment.RIGHT
+   };
 }
