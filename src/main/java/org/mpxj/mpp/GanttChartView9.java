@@ -155,7 +155,7 @@ public final class GanttChartView9 extends GanttChartView
          m_nonWorkingDaysCalendarName = MPPUtility.getUnicodeString(viewPropertyData, 352);
          m_nonWorkingColor = ColorType.getInstance(viewPropertyData[1153]).getColor();
          m_nonWorkingPattern = ChartPattern.getInstance(viewPropertyData[1154]);
-         m_nonWorkingStyle = NonWorkingTimeStyle.getInstance(viewPropertyData[1152]);
+         m_nonWorkingStyle = NonWorkingTimeStyleHelper.getInstance(viewPropertyData[1152]);
 
          m_ganttBarHeight = mapGanttBarHeight(MPPUtility.getByte(viewPropertyData, 1163));
 

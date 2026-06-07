@@ -1,7 +1,7 @@
 /*
- * file:       NonWorkingTimeStyle.java
+ * file:       NonWorkingTimeStyleHelper.java
  * author:     Jon Iles
- * date:       2005-04-07
+ * date:       2026-06-07
  */
 
 /*
@@ -23,15 +23,29 @@
 package org.mpxj.mpp;
 
 /**
- * Class representing how non-working time is shown on a Gantt chart.
+ * Helper class for the NonWorkingTimeStyle enumeration.
  */
-public enum NonWorkingTimeStyle
+final class NonWorkingTimeStyleHelper
 {
-   BEHIND,
-   IN_FRONT,
-   DO_NOT_DRAW
+   /**
+    * Retrieve a NonWorkingTimeStyle based on an int value.
+    *
+    * @param value int representation of a NonWorkingTimeStyle value
+    * @return NonWorkingTimeStyle instance or null
+    */
+   public static NonWorkingTimeStyle getInstance(int value)
+   {
+      if (value < 0 || value >= TYPE_VALUES.length)
+      {
+         return null;
+      }
 
-//   BEHIND(0, "Behind"),
-//   IN_FRONT(1, "In Front"),
-//   DO_NOT_DRAW(2, "Do Not Draw");
+      return TYPE_VALUES[value];
+   }
+
+   private static final NonWorkingTimeStyle[] TYPE_VALUES = {
+      NonWorkingTimeStyle.BEHIND,
+      NonWorkingTimeStyle.IN_FRONT,
+      NonWorkingTimeStyle.DO_NOT_DRAW
+   };
 }
