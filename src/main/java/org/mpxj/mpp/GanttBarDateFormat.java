@@ -29,6 +29,84 @@ import org.mpxj.common.NumberHelper;
 
 /**
  * Enumeration representing the formats which may be shown on a Gantt chart timescale.
+ *
+ * <h3>Format Examples</h3>
+ * <table summary="Format Examples" cellpadding="2" cellspacing="3" border="0" >
+ * <thead>
+ * <tr class="tableSubHeadingColor">
+ * <th class="colFirst" align="left">Value</th>
+ * <th class="colLast" align="left">Example</th>
+ * </tr>
+ * </thead>
+ * <tbody>
+ * <tr class="rowColor">
+ * <td> {@link #DEFAULT}</td>
+ * <td> N/A </td>
+ * <tr class="altColor">
+ * <td> {@link #DDMMYY_MMSS}</td>
+ * <td> 28/01/02 12:33 </td>
+ * <tr class="rowColor">
+ * <td> {@link #DDMMYY}</td>
+ * <td> 28/01/02 </td>
+ * <tr class="altColor">
+ * <td> {@link #DDMMYYYY}</td>
+ * <td> 28/01/2002 </td>
+ * <tr class="rowColor">
+ * <td> {@link #DD_MMMM_YYYY_HHMM}</td>
+ * <td> 28 January 2002 12:33 </td>
+ * <tr class="altColor">
+ * <td> {@link #DD_MMMM_YYYY}</td>
+ * <td> 28 January 2002 </td>
+ * <tr class="rowColor">
+ * <td> {@link #DD_MMM_HHMM}</td>
+ * <td> 28 Jan 12:33 </td>
+ * <tr class="altColor">
+ * <td> {@link #DD_MMM_YY}</td>
+ * <td> 28 Jan '02 </td>
+ * <tr class="rowColor">
+ * <td> {@link #DD_MMMM}</td>
+ * <td> 28 January </td>
+ * <tr class="altColor">
+ * <td> {@link #DD_MMM}</td>
+ * <td> 28 Jan </td>
+ * <tr class="rowColor">
+ * <td> {@link #DDD_DDMMYY_HHMM}</td>
+ * <td> Mon 28/01/02 12:33 </td>
+ * <tr class="altColor">
+ * <td> {@link #DDD_DDMMYY}</td>
+ * <td> Mon 28/01/02 </td>
+ * <tr class="rowColor">
+ * <td> {@link #DDD_DD_MMM_YY}</td>
+ * <td> Mon 28 Jan '02 </td>
+ * <tr class="altColor">
+ * <td> {@link #DDD_HHMM}</td>
+ * <td> Mon 12:33 </td>
+ * <tr class="rowColor">
+ * <td> {@link #DDD_DD_MMM}</td>
+ * <td> Mon 28 Jan </td>
+ * <tr class="altColor">
+ * <td> {@link #DDD_DDMM}</td>
+ * <td> Mon 28/01 </td>
+ * <tr class="rowColor">
+ * <td> {@link #DDD_DD}</td>
+ * <td> Mon 28 </td>
+ * <tr class="altColor">
+ * <td> {@link #DDMM}</td>
+ * <td> 28/01 </td>
+ * <tr class="rowColor">
+ * <td> {@link #DD}</td>
+ * <td> 28 </td>
+ * <tr class="altColor">
+ * <td> {@link #HHMM}</td>
+ * <td> 12:33 </td>
+ * <tr class="rowColor">
+ * <td> {@link #MWW}</td>
+ * <td> 1/W05 </td>
+ * <tr class="altColor">
+ * <td> {@link #MWWYY_HHMM}</td>
+ * <td> 1/W05/02 12:33 </td>
+ * </tbody>
+ * </table>
  */
 public enum GanttBarDateFormat implements MpxjEnum
 {
