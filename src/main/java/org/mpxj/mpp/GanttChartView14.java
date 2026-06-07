@@ -322,7 +322,7 @@ public final class GanttChartView14 extends GanttChartView
       m_progressLinesEnabled = (progressLineData[0] != 0);
       m_progressLinesAtCurrentDate = (progressLineData[2] != 0);
       m_progressLinesAtRecurringIntervals = (progressLineData[4] != 0);
-      m_progressLinesInterval = Interval.getInstance(progressLineData[6]);
+      m_progressLinesInterval = IntervalHelper.getInstance(progressLineData[6]);
       m_progressLinesIntervalDailyDayNumber = progressLineData[8];
       m_progressLinesIntervalDailyWorkday = (progressLineData[10] != 0);
       m_progressLinesIntervalWeekleyWeekNumber = progressLineData[12];
