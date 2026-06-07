@@ -1,7 +1,7 @@
 /*
- * file:       LineStyle.java
+ * file:       LineStyleHelper.java
  * author:     Jon Iles
- * date:       2005-04-07
+ * date:       2026-06-07
  */
 
 /*
@@ -23,13 +23,31 @@
 package org.mpxj.mpp;
 
 /**
- * This enumeration represents line styles used by Microsoft Project.
+ * Helper class for the LineStyle enumeration.
  */
-public enum LineStyle
+final class LineStyleHelper
 {
-   NONE,
-   SOLID,
-   DOTTED1,
-   DOTTED2,
-   DASHED
+   /**
+    * Retrieve a LineStyle based on an int value.
+    *
+    * @param value int representation of a LineStyle value
+    * @return LineStyle instance or null
+    */
+   public static LineStyle getInstance(int value)
+   {
+      if (value < 0 || value >= TYPE_VALUES.length)
+      {
+         return null;
+      }
+
+      return TYPE_VALUES[value];
+   }
+
+   private static final LineStyle[] TYPE_VALUES = {
+      LineStyle.NONE,
+      LineStyle.SOLID,
+      LineStyle.DOTTED1,
+      LineStyle.DOTTED2,
+      LineStyle.DASHED
+   };
 }

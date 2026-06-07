@@ -218,9 +218,9 @@ public final class GanttChartView9 extends GanttChartView
    private GridLines getGridLines(byte[] data, int offset)
    {
       Color normalLineColor = ColorType.getInstance(data[offset]).getColor();
-      LineStyle normalLineStyle = LineStyle.getInstance(data[offset + 3]);
+      LineStyle normalLineStyle = LineStyleHelper.getInstance(data[offset + 3]);
       int intervalNumber = data[offset + 4];
-      LineStyle intervalLineStyle = LineStyle.getInstance(data[offset + 5]);
+      LineStyle intervalLineStyle = LineStyleHelper.getInstance(data[offset + 5]);
       Color intervalLineColor = ColorType.getInstance(data[offset + 6]).getColor();
       return new GridLines(normalLineColor, normalLineStyle, intervalNumber, intervalLineStyle, intervalLineColor);
    }
@@ -268,11 +268,11 @@ public final class GanttChartView9 extends GanttChartView
       m_progressLinesDateFormat = ByteArrayHelper.getShort(progressLineData, 58);
       m_progressLinesFontStyle = getFontStyle(progressLineData, 60, fontBases);
       m_progressLinesCurrentLineColor = ColorType.getInstance(progressLineData[64]).getColor();
-      m_progressLinesCurrentLineStyle = LineStyle.getInstance(progressLineData[65]);
+      m_progressLinesCurrentLineStyle = LineStyleHelper.getInstance(progressLineData[65]);
       m_progressLinesCurrentProgressPointColor = ColorType.getInstance(progressLineData[66]).getColor();
       m_progressLinesCurrentProgressPointShape = progressLineData[67];
       m_progressLinesOtherLineColor = ColorType.getInstance(progressLineData[68]).getColor();
-      m_progressLinesOtherLineStyle = LineStyle.getInstance(progressLineData[69]);
+      m_progressLinesOtherLineStyle = LineStyleHelper.getInstance(progressLineData[69]);
       m_progressLinesOtherProgressPointColor = ColorType.getInstance(progressLineData[70]).getColor();
       m_progressLinesOtherProgressPointShape = progressLineData[71];
 

@@ -30,8 +30,4 @@ public enum Interval
    DAILY,
    WEEKLY,
    MONTHLY
-
-//   DAILY(0, "Daily"),
-//   WEEKLY(1, "Weekly"),
-//   MONTHLY(2, "Monthly");
 }
