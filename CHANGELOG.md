@@ -5,6 +5,9 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
+## 16.4.0 (Unreleased)
+* Ensure that Expected Finish is rolled up from activities to WBS entries when reading P6 schedules.
+
 ## 16.3.0 (2026-06-01)
 * Improve handling of role hierarchy when reading and writing P6 projects.
 * Add support for the Update Units When Costs Change On Resource Assignment project property when reading and writing P6 projects.
