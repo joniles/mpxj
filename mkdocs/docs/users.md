@@ -50,6 +50,7 @@ like to be featured in this list.
 * Incremental [www.incremental.eu.com](http://www.incremental.eu.com)
 * Ingantt [ingantt.com](https://ingantt.com/)
 * Intellisys [www.webintellisys.com](http://www.webintellisys.com)
+* Karmen [karmenai.com](https://www.karmenai.com/)
 * Lean Station [leanstation.com/](https://leanstation.com/)
 * LibrePlan [www.libreplan.dev](http://www.libreplan.dev)
 * Lighthouse [www.artifactsoftware.com](http://www.artifactsoftware.com)
