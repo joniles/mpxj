@@ -209,7 +209,7 @@ public final class GanttChartView14 extends GanttChartView
          m_hideRollupBarsWhenSummaryExpanded = (viewPropertyData[2253] != 0);
          m_ganttBarHeight = mapGanttBarHeight(MPPUtility.getByte(viewPropertyData, 2244));
 
-         m_barDateFormat = GanttBarDateFormat.getInstance(viewPropertyData[2247] + 1);
+         m_barDateFormat = GanttBarDateFormatHelper.getInstance(viewPropertyData[2247] + 1);
          m_linkStyle = LinkStyle.getInstance(viewPropertyData[2236]);
       }
    }

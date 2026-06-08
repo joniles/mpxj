@@ -185,7 +185,7 @@ public final class GanttChartView9 extends GanttChartView
          m_showBarSplits = (viewPropertyData[1160] != 0);
          m_alwaysRollupGanttBars = (viewPropertyData[1186] != 0);
          m_hideRollupBarsWhenSummaryExpanded = (viewPropertyData[1188] != 0);
-         m_barDateFormat = GanttBarDateFormat.getInstance(viewPropertyData[1182] + 1);
+         m_barDateFormat = GanttBarDateFormatHelper.getInstance(viewPropertyData[1182] + 1);
          m_linkStyle = LinkStyle.getInstance(viewPropertyData[1155]);
 
       }
