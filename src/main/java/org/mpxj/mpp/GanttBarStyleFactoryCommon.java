@@ -66,11 +66,11 @@ final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
          style.setMiddleColor(ColorType.getInstance(barStyleData[styleOffset + 2]).getColor());
 
          style.setStartShape(GanttBarStartEndShape.getInstance(barStyleData[styleOffset + 4] % 21));
-         style.setStartType(GanttBarStartEndType.getInstance(barStyleData[styleOffset + 4] / 21));
+         style.setStartType(GanttBarStartEndTypeHelper.getInstance(barStyleData[styleOffset + 4] / 21));
          style.setStartColor(ColorType.getInstance(barStyleData[styleOffset + 5]).getColor());
 
          style.setEndShape(GanttBarStartEndShape.getInstance(barStyleData[styleOffset + 6] % 21));
-         style.setEndType(GanttBarStartEndType.getInstance(barStyleData[styleOffset + 6] / 21));
+         style.setEndType(GanttBarStartEndTypeHelper.getInstance(barStyleData[styleOffset + 6] / 21));
          style.setEndColor(ColorType.getInstance(barStyleData[styleOffset + 7]).getColor());
 
          style.setFromField(FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(barStyleData, styleOffset + 8)));
@@ -116,7 +116,7 @@ final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
          style.setBarStyleIndex(ByteArrayHelper.getShort(barData, offset + 4) - 1);
 
          style.setStartShape(GanttBarStartEndShape.getInstance(barData[offset + 9] % 21));
-         style.setStartType(GanttBarStartEndType.getInstance(barData[offset + 9] / 21));
+         style.setStartType(GanttBarStartEndTypeHelper.getInstance(barData[offset + 9] / 21));
          style.setStartColor(ColorType.getInstance(barData[offset + 10]).getColor());
 
          style.setMiddleShape(GanttBarMiddleShape.getInstance(barData[offset + 6]));
@@ -125,7 +125,7 @@ final class GanttBarStyleFactoryCommon implements GanttBarStyleFactory
          style.setMiddleColor(ColorType.getInstance(barData[offset + 8]).getColor());
 
          style.setEndShape(GanttBarStartEndShape.getInstance(barData[offset + 11] % 21));
-         style.setEndType(GanttBarStartEndType.getInstance(barData[offset + 11] / 21));
+         style.setEndType(GanttBarStartEndTypeHelper.getInstance(barData[offset + 11] / 21));
          style.setEndColor(ColorType.getInstance(barData[offset + 12]).getColor());
 
          style.setLeftText(FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(barData, offset + 16)));
