@@ -292,8 +292,19 @@ public class ProjectCleanUtility
       {
          for (FieldType field : fields)
          {
-            String oldText = (String) item.getCachedValue(field);
-            if (oldText != null && oldText.length() > 1 && !replacements.containsKey(oldText))
+            Object oldValue = item.getCachedValue(field);
+            if (oldValue == null)
+            {
+               continue;
+            }
+
+            if (!(oldValue instanceof String))
+            {
+               continue;
+            }
+
+            String oldText = (String) oldValue;
+            if (oldText.length() > 1 && !replacements.containsKey(oldText))
             {
                String newText = m_strategy.generateReplacementText(oldText);
                if (xml)
