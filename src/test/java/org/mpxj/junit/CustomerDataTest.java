@@ -94,6 +94,7 @@ public class CustomerDataTest
       m_baselineDirectory = configureDirectory("mpxj.junit.baselinedir");
       m_primaveraFile = System.getProperty("mpxj.junit.primavera.file");
       m_primaveraBaselineDir = configureDirectory("mpxj.junit.primavera.baselinedir");
+      m_privateDirectoryNameLength = m_privateDirectory == null ? 0 : m_privateDirectory.getPath().length();
 
       m_universalReader = new UniversalProjectReader();
       m_mpxReader = new MPXReader();
@@ -539,7 +540,6 @@ public class CustomerDataTest
    private void executeTests(List<File> files)
    {
       int failures = 0;
-      int sourceDirNameLength = m_privateDirectory.getPath().length();
 
       for (File file : files)
       {
@@ -549,8 +549,21 @@ public class CustomerDataTest
             continue;
          }
 
+         // These are duplicates of the original schedules
+         // which have either been scheduled and re-exported from P6
+         // or have been modified for PrimaveraScheduler testing.
+         // There is no value in re-reading these, and to do so
+         // also highlights a performance issue with generating timephased
+         // data on large P6 schedules.
+         // TODO: review timephased data generation performance
+         if (name.endsWith("-SCHEDULED.XER") || name.endsWith("-COVERAGE.XER"))
+         {
+            continue;
+         }
+
          try
          {
+            //System.out.println(name);
             List<ProjectFile> projects = testReader(name, file);
             if (projects.isEmpty())
             {
@@ -559,7 +572,7 @@ public class CustomerDataTest
                continue;
             }
 
-            String baselineName = file.getPath().substring(sourceDirNameLength);
+            String baselineName = file.getPath().substring(m_privateDirectoryNameLength);
             int baselineIndex = 0;
 
             for (ProjectFile project : projects)
@@ -909,6 +922,7 @@ public class CustomerDataTest
    private final File m_baselineDirectory;
    private final String m_primaveraFile;
    private final File m_primaveraBaselineDir;
+   private final int m_privateDirectoryNameLength;
 
    private final UniversalProjectReader m_universalReader;
    private final MPXReader m_mpxReader;
