@@ -348,6 +348,7 @@ class RollupHelper
       LocalDateTime remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
       LocalDateTime remainingLateStartDate = parentTask.getRemainingLateStart();
       LocalDateTime remainingLateFinishDate = parentTask.getRemainingLateFinish();
+      LocalDateTime expectedFinishDate = parentTask.getExpectedFinish();
       boolean critical = false;
 
       for (Task task : parentTask.getChildTasks())
@@ -373,6 +374,7 @@ class RollupHelper
          remainingLateFinishDate = LocalDateTimeHelper.max(remainingLateFinishDate, task.getRemainingLateFinish());
          baselineStartDate = LocalDateTimeHelper.min(baselineStartDate, task.getBaselineStart());
          baselineFinishDate = LocalDateTimeHelper.max(baselineFinishDate, task.getBaselineFinish());
+         expectedFinishDate = LocalDateTimeHelper.max(expectedFinishDate, task.getExpectedFinish());
 
          if (task.getActualFinish() != null)
          {
@@ -397,6 +399,7 @@ class RollupHelper
       parentTask.setRemainingLateFinish(remainingLateFinishDate);
       parentTask.setBaselineStart(baselineStartDate);
       parentTask.setBaselineFinish(baselineFinishDate);
+      parentTask.setExpectedFinish(expectedFinishDate);
 
       //
       // Only if all child tasks have actual finish dates do we
