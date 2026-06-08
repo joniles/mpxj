@@ -1174,7 +1174,7 @@ public abstract class GanttChartView extends GenericView
       Integer index = Integer.valueOf(MPPUtility.getByte(data, offset));
       FontBase fontBase = fontBases.get(index);
       int style = MPPUtility.getByte(data, offset + 1);
-      ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset + 2));
+      ColorType color = ColorTypeHelper.getInstance(MPPUtility.getByte(data, offset + 2));
 
       boolean bold = ((style & 0x01) != 0);
       boolean italic = ((style & 0x02) != 0);
@@ -1199,7 +1199,7 @@ public abstract class GanttChartView extends GenericView
       FieldType fieldType = FieldTypeHelper.getInstance(file, ByteArrayHelper.getInt(data, offset + 4));
       Integer index = Integer.valueOf(MPPUtility.getByte(data, offset + 8));
       int style = MPPUtility.getByte(data, offset + 9);
-      ColorType color = ColorType.getInstance(MPPUtility.getByte(data, offset + 10));
+      ColorType color = ColorTypeHelper.getInstance(MPPUtility.getByte(data, offset + 10));
       int change = MPPUtility.getByte(data, offset + 12);
 
       FontBase fontBase = fontBases.get(index);
