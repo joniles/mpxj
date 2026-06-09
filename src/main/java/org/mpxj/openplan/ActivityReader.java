@@ -41,6 +41,7 @@ import org.mpxj.ProjectFile;
 import org.mpxj.Task;
 import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.NumberHelper;
+import org.mpxj.common.SlackHelper;
 
 /**
  * Populate the parent project with activities.
@@ -235,6 +236,11 @@ class ActivityReader
 
          map.put(task.getActivityID(), task);
       }
+
+      //
+      // The schedule only includes total slack. We'll assume this value is correct and backfill start and finish slack values.
+      //
+      m_file.getTasks().stream().filter(t -> !t.getSummary()).forEach(SlackHelper::inferSlack);
    }
 
    /**
