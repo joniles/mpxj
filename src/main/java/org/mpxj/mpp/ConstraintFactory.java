@@ -49,9 +49,7 @@ class ConstraintFactory
          //         FixedMeta consFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) consDir.getEntry("Fixed2Meta"))), 9);
          //         FixedData consFixed2Data = new FixedData(consFixed2Meta, 48, getEncryptableInputStream(consDir, "Fixed2Data"));
 
-         int count = consFixedMeta.getAdjustedItemCount();
-         int lastConstraintID = -1;
-
+         int count = consFixedMeta.getItemCount();
          ProjectProperties properties = file.getProjectProperties();
          EventManager eventManager = file.getEventManager();
 
@@ -88,12 +86,6 @@ class ConstraintFactory
             }
 
             int constraintID = ByteArrayHelper.getInt(data, 0);
-            if (constraintID <= lastConstraintID)
-            {
-               continue;
-            }
-
-            lastConstraintID = constraintID;
             int taskID1 = ByteArrayHelper.getInt(data, 4);
             int taskID2 = ByteArrayHelper.getInt(data, 8);
 
