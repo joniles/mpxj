@@ -133,7 +133,7 @@ class ActivityReader
          // COMPSTAT: Computed Status (0: Planned, 1: In Progress, 2: Complete)
          // COMP_RS_C: Result of Schedule Actions (null: Normal, P: Splittable, T: Stretchable, R: Reprofilable, I: Immediate)
          // CRITICAL: Critical (0: Not Critical, 1: Critical, 2: Most Critical, 3: Controlling Critical)
-         task.setCritical(NumberHelper.getInt(row.getInteger("CRITICAL")) == 0);
+         task.setCritical(NumberHelper.getInt(row.getInteger("CRITICAL")) != 0);
          // CRITINDEX: Probability of Being Critical
          // DELAYRES_UID: Delaying Resource Unique ID
          // DESCRIPTION: Description
