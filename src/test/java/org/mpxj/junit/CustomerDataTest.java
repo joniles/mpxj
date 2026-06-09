@@ -264,7 +264,7 @@ public class CustomerDataTest
          {
             // we're reading our JUnit test data which we've
             // already validated... we're just improving field report coverage.
-            // This will throw expected errors (password protected etc)
+            // This will throw expected errors (password protected etc.)
             // which we'll ignore.
             project = null;
          }
@@ -549,21 +549,10 @@ public class CustomerDataTest
             continue;
          }
 
-         // These are duplicates of the original schedules
-         // which have either been scheduled and re-exported from P6
-         // or have been modified for PrimaveraScheduler testing.
-         // There is no value in re-reading these, and to do so
-         // also highlights a performance issue with generating timephased
-         // data on large P6 schedules.
-         // TODO: review timephased data generation performance
-         if (name.endsWith("-SCHEDULED.XER") || name.endsWith("-COVERAGE.XER"))
-         {
-            continue;
-         }
-
          try
          {
-            //System.out.println(name);
+            //System.out.print(name + "... ");
+            //long startTime = System.currentTimeMillis();
             List<ProjectFile> projects = testReader(name, file);
             if (projects.isEmpty())
             {
@@ -586,6 +575,8 @@ public class CustomerDataTest
                }
                ++baselineIndex;
             }
+
+            //System.out.println(" done.\t " + (System.currentTimeMillis() - startTime));
          }
 
          catch (Exception ex)

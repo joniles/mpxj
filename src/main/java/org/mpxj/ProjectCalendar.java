@@ -1441,113 +1441,103 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       }
 
       LocalDateTimeRange range = new LocalDateTimeRange(startDate, endDate);
-      Long cachedResult = m_workingDateCache.get(range);
       long totalTime = 0;
 
-      if (cachedResult == null)
+      //
+      // We want the start date to be the earliest date, and the end date
+      // to be the latest date. Set a flag here to indicate if we have swapped
+      // the order of the supplied date.
+      //
+      boolean invert = false;
+      if (startDate.isAfter(endDate))
       {
-         //
-         // We want the start date to be the earliest date, and the end date
-         // to be the latest date. Set a flag here to indicate if we have swapped
-         // the order of the supplied date.
-         //
-         boolean invert = false;
-         if (startDate.isAfter(endDate))
+         invert = true;
+         LocalDateTime temp = startDate;
+         startDate = endDate;
+         endDate = temp;
+      }
+
+      if (isSameDay(startDate, endDate))
+      {
+         ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(startDate));
+         if (!ranges.isEmpty())
          {
-            invert = true;
-            LocalDateTime temp = startDate;
-            startDate = endDate;
-            endDate = temp;
+            totalTime = getTotalTime(ranges, LocalTimeHelper.getLocalTime(startDate), LocalTimeHelper.getLocalTime(endDate));
          }
-
-         if (isSameDay(startDate, endDate))
-         {
-            ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(startDate));
-            if (!ranges.isEmpty())
-            {
-               totalTime = getTotalTime(ranges, LocalTimeHelper.getLocalTime(startDate), LocalTimeHelper.getLocalTime(endDate));
-            }
-         }
-         else
-         {
-            LocalDateTime canonicalEndDate = LocalDateTimeHelper.getDayStartDate(endDate);
-
-            //
-            // Find the first working day in the range
-            //
-            LocalDateTime currentDate = startDate;
-            LocalDateTime cal = startDate;
-            while (!isWorkingDate(LocalDateHelper.getLocalDate(currentDate)) && currentDate.isBefore(canonicalEndDate))
-            {
-               cal = cal.plusDays(1);
-               currentDate = cal;
-            }
-
-            if (currentDate.isBefore(canonicalEndDate))
-            {
-               // If the first working day is the same as the start date, we leave
-               // the date alone to preserve the start time. If we have moved past
-               // the start date to find the first working day, reset the time
-               // of day to ensure that we use all working hours on this day.
-               LocalTime targetTime = currentDate.equals(startDate) ? LocalTimeHelper.getLocalTime(currentDate) : LocalTime.of(0, 0);
-
-               //
-               // Calculate the amount of working time for this day
-               //
-               totalTime += getTotalTime(getRanges(LocalDateHelper.getLocalDate(currentDate)), targetTime);
-
-               //
-               // Process each working day until we reach the last day
-               //
-               while (true)
-               {
-                  cal = cal.plusDays(1);
-                  currentDate = cal;
-
-                  //
-                  // We have reached the last day
-                  //
-                  if (!currentDate.isBefore(canonicalEndDate))
-                  {
-                     break;
-                  }
-
-                  //
-                  // Skip this day if it has no working time
-                  //
-                  ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(currentDate));
-                  if (ranges.isEmpty())
-                  {
-                     continue;
-                  }
-
-                  //
-                  // Add the working time for the whole day
-                  //
-                  totalTime += getTotalTime(ranges);
-               }
-            }
-
-            //
-            // We are now at the last day
-            //
-            ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(endDate));
-            if (!ranges.isEmpty())
-            {
-               totalTime += getTotalTime(ranges, LocalTime.of(0, 0), LocalTimeHelper.getLocalTime(endDate));
-            }
-         }
-
-         if (invert)
-         {
-            totalTime = -totalTime;
-         }
-
-         m_workingDateCache.put(range, Long.valueOf(totalTime));
       }
       else
       {
-         totalTime = cachedResult.longValue();
+         LocalDateTime canonicalEndDate = LocalDateTimeHelper.getDayStartDate(endDate);
+
+         //
+         // Find the first working day in the range
+         //
+         LocalDateTime currentDate = startDate;
+         LocalDateTime cal = startDate;
+         while (!isWorkingDate(LocalDateHelper.getLocalDate(currentDate)) && currentDate.isBefore(canonicalEndDate))
+         {
+            cal = cal.plusDays(1);
+            currentDate = cal;
+         }
+
+         if (currentDate.isBefore(canonicalEndDate))
+         {
+            // If the first working day is the same as the start date, we leave
+            // the date alone to preserve the start time. If we have moved past
+            // the start date to find the first working day, reset the time
+            // of day to ensure that we use all working hours on this day.
+            LocalTime targetTime = currentDate.equals(startDate) ? LocalTimeHelper.getLocalTime(currentDate) : LocalTime.of(0, 0);
+
+            //
+            // Calculate the amount of working time for this day
+            //
+            totalTime += getTotalTime(getRanges(LocalDateHelper.getLocalDate(currentDate)), targetTime);
+
+            //
+            // Process each working day until we reach the last day
+            //
+            while (true)
+            {
+               cal = cal.plusDays(1);
+               currentDate = cal;
+
+               //
+               // We have reached the last day
+               //
+               if (!currentDate.isBefore(canonicalEndDate))
+               {
+                  break;
+               }
+
+               //
+               // Skip this day if it has no working time
+               //
+               ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(currentDate));
+               if (ranges.isEmpty())
+               {
+                  continue;
+               }
+
+               //
+               // Add the working time for the whole day
+               //
+               totalTime += getTotalTime(ranges);
+            }
+         }
+
+         //
+         // We are now at the last day
+         //
+         ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(endDate));
+         if (!ranges.isEmpty())
+         {
+            totalTime += getTotalTime(ranges, LocalTime.of(0, 0), LocalTimeHelper.getLocalTime(endDate));
+         }
+      }
+
+      if (invert)
+      {
+         totalTime = -totalTime;
       }
 
       return convertFormat(totalTime, format);
@@ -1848,7 +1838,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    private void clearWorkingDateCache()
    {
-      m_workingDateCache.clear();
       m_startTimeCache.clear();
       m_getDateLastResult = null;
 
@@ -2123,7 +2112,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    /**
     * Caches used to speed up date calculations.
     */
-   private final Map<LocalDateTimeRange, Long> m_workingDateCache = new WeakHashMap<>();
    private final Map<LocalDate, LocalTime> m_startTimeCache = new WeakHashMap<>();
    private LocalDateTime m_getDateLastStartDate;
    private long m_getDateLastRemainingMilliseconds;
