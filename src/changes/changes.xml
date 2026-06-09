@@ -8,6 +8,7 @@
         <release date="Unreleased" version="16.4.0">
             <action dev="joniles" type="update">Ensure that Expected Finish is rolled up from activities to WBS entries when reading P6 schedules.</action>
             <action dev="joniles" type="update">Improve accuracy of reading relationships between tasks for certain MPP files.</action>
+            <action dev="joniles" type="update">Improve handling of different duration formats used in BK3 files.</action>
         </release>
 		<release date="2026-06-01" version="16.3.0">
 			<action dev="joniles" type="update">Improve handling of role hierarchy when reading and writing P6 projects.</action>

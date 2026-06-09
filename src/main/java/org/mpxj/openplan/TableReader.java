@@ -186,7 +186,7 @@ class TableReader extends AbstractReader
          return value;
       }
 
-      int duration = Integer.parseInt(match.group(1));
+      double duration = Double.parseDouble(match.group(1));
       TimeUnit unit;
 
       switch (match.group(2).charAt(0))
@@ -291,7 +291,7 @@ class TableReader extends AbstractReader
 
    private static final DateTimeFormatter TIME_FORMAT = new DateTimeFormatterBuilder().parseLenient().appendPattern("HH:mm").toFormatter();
 
-   private static final Pattern DURATION_REGEX = Pattern.compile("(-?\\d+)\\s*([mwdht])");
+   private static final Pattern DURATION_REGEX = Pattern.compile("(-?\\d+(?:\\.\\d+)?)\\s*([mwdht])");
    private static final Map<String, DataType> TYPE_MAP = new HashMap<>();
    static
    {
