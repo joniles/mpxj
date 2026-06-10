@@ -37,7 +37,7 @@ final class NonWorkingTimeStyleHelper
    {
       if (value < 0 || value >= TYPE_VALUES.length)
       {
-         return null;
+         return NonWorkingTimeStyle.IN_FRONT;
       }
 
       return TYPE_VALUES[value];
