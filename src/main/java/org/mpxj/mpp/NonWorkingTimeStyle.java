@@ -30,8 +30,4 @@ public enum NonWorkingTimeStyle
    BEHIND,
    IN_FRONT,
    DO_NOT_DRAW
-
-//   BEHIND(0, "Behind"),
-//   IN_FRONT(1, "In Front"),
-//   DO_NOT_DRAW(2, "Do Not Draw");
 }
