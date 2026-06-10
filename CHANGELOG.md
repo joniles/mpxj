@@ -5,8 +5,13 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 16.4.0 (Unreleased)
+## 16.4.0 (2026-06-10)
 * Ensure that Expected Finish is rolled up from activities to WBS entries when reading P6 schedules.
+* Improve accuracy of reading relationships between tasks for certain MPP files.
+* Improve handling of different duration formats used in BK3 files.
+* Correct the logic used to set the critical flag on tasks when reading BK3 files.
+* Infer start and finish slack when reading BK3 files.
+* Ignore predecessor/succesor relations involving the project summary task when reading MPP files.
 
 ## 16.3.0 (2026-06-01)
 * Improve handling of role hierarchy when reading and writing P6 projects.
