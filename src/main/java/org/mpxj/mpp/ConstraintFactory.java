@@ -85,10 +85,20 @@ class ConstraintFactory
                continue;
             }
 
-            int constraintID = ByteArrayHelper.getInt(data, 0);
             int taskID1 = ByteArrayHelper.getInt(data, 4);
             int taskID2 = ByteArrayHelper.getInt(data, 8);
 
+            //
+            // Relationships to/from the project summary task are not valid
+            //
+            if (taskID1 == 0 || taskID2 == 0)
+            {
+               continue;
+            }
+
+            //
+            // Circular relationships are not valid.
+            //
             if (taskID1 == taskID2)
             {
                continue;
@@ -106,7 +116,7 @@ class ConstraintFactory
                   .predecessorTask(task1)
                   .type(RelationType.getInstance(ByteArrayHelper.getShort(data, 12)))
                   .lag(MPPUtility.getAdjustedDuration(properties, ByteArrayHelper.getInt(data, durationOffset), MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(data, durationUnitsOffset))))
-                  .uniqueID(Integer.valueOf(constraintID)));
+                  .uniqueID(Integer.valueOf(ByteArrayHelper.getInt(data, 0))));
                eventManager.fireRelationReadEvent(relation);
             }
          }
