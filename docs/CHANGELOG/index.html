@@ -330,10 +330,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1640-unreleased" class="md-nav__link">
+  <a href="#1640-2026-06-10" class="md-nav__link">
     <span class="md-ellipsis">
       
-        16.4.0 (Unreleased)
+        16.4.0 (2026-06-10)
       
     </span>
   </a>
@@ -5503,10 +5503,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1640-unreleased" class="md-nav__link">
+  <a href="#1640-2026-06-10" class="md-nav__link">
     <span class="md-ellipsis">
       
-        16.4.0 (Unreleased)
+        16.4.0 (2026-06-10)
       
     </span>
   </a>
@@ -8680,9 +8680,14 @@
 <h2 id="note">NOTE</h2>
 <p>From version 14.0.0 onwards the <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code> and <code>net.sf.mpxj-for-vb</code> packages are
 no longer distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
-<h2 id="1640-unreleased">16.4.0 (Unreleased)</h2>
+<h2 id="1640-2026-06-10">16.4.0 (2026-06-10)</h2>
 <ul>
 <li>Ensure that Expected Finish is rolled up from activities to WBS entries when reading P6 schedules.</li>
+<li>Improve accuracy of reading relationships between tasks for certain MPP files.</li>
+<li>Improve handling of different duration formats used in BK3 files.</li>
+<li>Correct the logic used to set the critical flag on tasks when reading BK3 files.</li>
+<li>Infer start and finish slack when reading BK3 files.</li>
+<li>Ignore predecessor/succesor relations involving the project summary task when reading MPP files.</li>
 </ul>
 <h2 id="1630-2026-06-01">16.3.0 (2026-06-01)</h2>
 <ul>
