@@ -37,7 +37,7 @@ final class TimescaleAlignmentHelper
    {
       if (value < 0 || value >= TYPE_VALUES.length)
       {
-         return null;
+         return TimescaleAlignment.CENTER;
       }
 
       return TYPE_VALUES[value];
