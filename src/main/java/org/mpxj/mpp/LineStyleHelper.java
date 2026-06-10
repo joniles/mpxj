@@ -37,7 +37,7 @@ final class LineStyleHelper
    {
       if (value < 0 || value >= TYPE_VALUES.length)
       {
-         return null;
+         return LineStyle.NONE;
       }
 
       return TYPE_VALUES[value];
