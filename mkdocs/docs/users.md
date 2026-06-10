@@ -55,6 +55,7 @@ like to be featured in this list.
 * LibrePlan [www.libreplan.dev](http://www.libreplan.dev)
 * Lighthouse [www.artifactsoftware.com](http://www.artifactsoftware.com)
 * LiveProject [www.kadonk.com](http://www.kadonk.com)
+* LWARE Logic+ [www.lewiswoolcott.com/logic-plus-critical-path-analysis](https://www.lewiswoolcott.com/logic-plus-critical-path-analysis/)
 * Merlin [www.projectwizards.net](http://www.projectwizards.net/)
 * Milestones Professional [kidasa.com](https://kidasa.com/)
 * MOOS Project Viewer [www.moosprojectviewer.com](http://www.moosprojectviewer.com)
