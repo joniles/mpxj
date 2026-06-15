@@ -23,6 +23,7 @@
 package org.mpxj.cpm;
 
 import java.io.File;
+import java.io.PrintStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,6 +83,16 @@ public class PrimaveraSchedulerComparator
    public void setDebug(boolean value)
    {
       m_debug = value;
+   }
+
+   /**
+    * Provide a PrintStream instance for output.
+    *
+    * @param printStream PrintStream instance
+    */
+   public void setPrintStream(PrintStream printStream)
+   {
+      m_printStream = printStream;
    }
 
    /**
@@ -212,12 +223,12 @@ public class PrimaveraSchedulerComparator
 
       if (m_debug)
       {
-         System.out.println();
-         System.out.println("Files: " + fileList.length);
-         System.out.println("Skipped: " + skipped);
-         System.out.println("Success: " + success);
-         System.out.println("Failed: " + failed);
-         System.out.println("Success %: " + (success * 100.0 / valid));
+         println();
+         println("Files: " + fileList.length);
+         println("Skipped: " + skipped);
+         println("Success: " + success);
+         println("Failed: " + failed);
+         println("Success %: " + (success * 100.0 / valid));
       }
 
       return failed == 0;
@@ -233,7 +244,7 @@ public class PrimaveraSchedulerComparator
    {
       if (m_debug)
       {
-         System.out.print("Processing " + file + " ... ");
+         print("Processing " + file + " ... ");
       }
 
       ProjectFile baselineFile = new UniversalProjectReader().read(file);
@@ -256,8 +267,8 @@ public class PrimaveraSchedulerComparator
       {
          if (m_debug)
          {
-            System.out.println("failed.");
-            System.out.println(ex.getMessage());
+            println("failed.");
+            println(ex.getMessage());
          }
          return false;
       }
@@ -308,7 +319,7 @@ public class PrimaveraSchedulerComparator
          if (m_debug)
          {
             String equivalentDateCount = m_equivalentDateCount == 0 ? "" : " (" + m_equivalentDateCount + " equivalent dates)";
-            System.out.println("done." + equivalentDateCount);
+            println("done." + equivalentDateCount);
          }
          return true;
       }
@@ -316,18 +327,18 @@ public class PrimaveraSchedulerComparator
       if (m_debug)
       {
          String equivalentDateCount = m_equivalentDateCount == 0 ? "" : " (" + m_equivalentDateCount + " equivalent dates)";
-         System.out.println("failed." + equivalentDateCount);
-         System.out.println("Project ID: " + baselineFile.getProjectProperties().getProjectID());
-         System.out.println(baselineFile.getProjectProperties().getSchedulingProgressedActivities());
-         System.out.println("Forward errors: " + m_forwardErrorCount);
-         System.out.println("Backward errors: " + m_backwardErrorCount);
-         System.out.println("Assignment errors: " + m_assignmentErrorCount);
+         println("failed." + equivalentDateCount);
+         println("Project ID: " + baselineFile.getProjectProperties().getProjectID());
+         println("Scheduling Progressed Activities: "+ baselineFile.getProjectProperties().getSchedulingProgressedActivities());
+         println("Forward errors: " + m_forwardErrorCount);
+         println("Backward errors: " + m_backwardErrorCount);
+         println("Assignment errors: " + m_assignmentErrorCount);
       }
 
       if (!m_directory && m_debug)
       {
          analyseFailures(baselineFile, workingFile, analyseWbs);
-         System.out.println("DONE");
+         println("DONE");
       }
 
       return false;
@@ -414,7 +425,8 @@ public class PrimaveraSchedulerComparator
       }
 
       ProjectCalendar calendar = baseline.getEffectiveCalendar();
-      boolean result = calendar.getNextWorkStart(workingDate).isEqual(baselineDate) || calendar.getNextWorkStart(baselineDate).isEqual(workingDate);
+      //boolean result = calendar.getNextWorkStart(workingDate).isEqual(baselineDate) || calendar.getNextWorkStart(baselineDate).isEqual(workingDate);
+      boolean result = calendar.getNextWorkStart(workingDate).isEqual(calendar.getNextWorkStart(baselineDate));
       if (result)
       {
          return DateEquality.EQUIVALENT;
@@ -555,23 +567,23 @@ public class PrimaveraSchedulerComparator
       boolean atCompletionDurationFailed = !compareDurations(baseline, working, TaskField.DURATION);
       boolean durationPercentCompleteFailed = !baseline.getSummary() && !compareNumbers(baseline, working, TaskField.PERCENT_COMPLETE);
 
-      System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working + " " + working.getActivityType());
-      System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + earlyStartFail.getStatus());
-      System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + earlyFinishFail.getStatus());
-      System.out.println("Start: " + baseline.getStart() + " " + working.getStart() + startFail.getStatus());
-      System.out.println("Finish: " + baseline.getFinish() + " " + working.getFinish() + finishFail.getStatus());
-      System.out.println("Actual Start: " + baseline.getActualStart() + " " + working.getActualStart() + actualStartFail.getStatus());
-      System.out.println("Actual Finish: " + baseline.getActualFinish() + " " + working.getActualFinish() + actualFinishFail.getStatus());
-      System.out.println("Remaining Early Start: " + baseline.getRemainingEarlyStart() + " " + working.getRemainingEarlyStart() + remainingEarlyStartFail.getStatus());
-      System.out.println("Remaining Early Finish: " + baseline.getRemainingEarlyFinish() + " " + working.getRemainingEarlyFinish() + remainingEarlyFinishFail.getStatus());
-      System.out.println("Free Float: " + baseline.getFreeSlack() + " " + working.getFreeSlack() + (freeFloatFailed ? " FAIL" : ""));
-      System.out.println("Total Float: " + baseline.getTotalSlack() + " " + working.getTotalSlack() + (totalFloatFailed ? " FAIL" : ""));
-      System.out.println("Longest Path: " + baseline.getLongestPath() + " " + working.getLongestPath() + (longestPathFailed ? " FAIL" : ""));
-      System.out.println("Actual Duration: " + baseline.getActualDuration() + " " + working.getActualDuration() + (actualDurationFailed ? " FAIL" : ""));
-      System.out.println("Remaining Duration: " + baseline.getRemainingDuration() + " " + working.getRemainingDuration() + (remainingDurationFailed ? " FAIL" : ""));
-      System.out.println("At Completion Duration: " + baseline.getDuration() + " " + working.getDuration() + (atCompletionDurationFailed ? " FAIL" : ""));
-      System.out.println("Duration Percent Complete: " + baseline.getPercentageComplete() + " " + working.getPercentageComplete() + (durationPercentCompleteFailed ? " FAIL" : ""));
-      System.out.println();
+      println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working + " " + working.getActivityType());
+      println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + earlyStartFail.getStatus());
+      println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + earlyFinishFail.getStatus());
+      println("Start: " + baseline.getStart() + " " + working.getStart() + startFail.getStatus());
+      println("Finish: " + baseline.getFinish() + " " + working.getFinish() + finishFail.getStatus());
+      println("Actual Start: " + baseline.getActualStart() + " " + working.getActualStart() + actualStartFail.getStatus());
+      println("Actual Finish: " + baseline.getActualFinish() + " " + working.getActualFinish() + actualFinishFail.getStatus());
+      println("Remaining Early Start: " + baseline.getRemainingEarlyStart() + " " + working.getRemainingEarlyStart() + remainingEarlyStartFail.getStatus());
+      println("Remaining Early Finish: " + baseline.getRemainingEarlyFinish() + " " + working.getRemainingEarlyFinish() + remainingEarlyFinishFail.getStatus());
+      println("Free Float: " + baseline.getFreeSlack() + " " + working.getFreeSlack() + (freeFloatFailed ? " FAIL" : ""));
+      println("Total Float: " + baseline.getTotalSlack() + " " + working.getTotalSlack() + (totalFloatFailed ? " FAIL" : ""));
+      println("Longest Path: " + baseline.getLongestPath() + " " + working.getLongestPath() + (longestPathFailed ? " FAIL" : ""));
+      println("Actual Duration: " + baseline.getActualDuration() + " " + working.getActualDuration() + (actualDurationFailed ? " FAIL" : ""));
+      println("Remaining Duration: " + baseline.getRemainingDuration() + " " + working.getRemainingDuration() + (remainingDurationFailed ? " FAIL" : ""));
+      println("At Completion Duration: " + baseline.getDuration() + " " + working.getDuration() + (atCompletionDurationFailed ? " FAIL" : ""));
+      println("Duration Percent Complete: " + baseline.getPercentageComplete() + " " + working.getPercentageComplete() + (durationPercentCompleteFailed ? " FAIL" : ""));
+      println();
    }
 
    /**
@@ -588,12 +600,12 @@ public class PrimaveraSchedulerComparator
       DateEquality remainingLateStartFail = compareDates(baseline, working, TaskField.REMAINING_LATE_START);
       DateEquality remainingLateFinishFail = compareDates(baseline, working, TaskField.REMAINING_LATE_FINISH);
 
-      System.out.println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working);
-      System.out.println("Late Start: " + baseline.getLateStart() + " " + working.getLateStart() + lateStartFail.getStatus());
-      System.out.println("Late Finish: " + baseline.getLateFinish() + " " + working.getLateFinish() + lateFinishFail.getStatus());
-      System.out.println("Remaining Late Start: " + baseline.getRemainingLateStart() + " " + working.getRemainingLateStart() + remainingLateStartFail.getStatus());
-      System.out.println("Remaining Late Finish: " + baseline.getRemainingLateFinish() + " " + working.getRemainingLateFinish() + remainingLateFinishFail.getStatus());
-      System.out.println();
+      println((working.getActivityID() == null ? "" : working.getActivityID() + " ") + working);
+      println("Late Start: " + baseline.getLateStart() + " " + working.getLateStart() + lateStartFail.getStatus());
+      println("Late Finish: " + baseline.getLateFinish() + " " + working.getLateFinish() + lateFinishFail.getStatus());
+      println("Remaining Late Start: " + baseline.getRemainingLateStart() + " " + working.getRemainingLateStart() + remainingLateStartFail.getStatus());
+      println("Remaining Late Finish: " + baseline.getRemainingLateFinish() + " " + working.getRemainingLateFinish() + remainingLateFinishFail.getStatus());
+      println();
    }
 
    /**
@@ -672,6 +684,7 @@ public class PrimaveraSchedulerComparator
       return result ? DateEquality.EQUIVALENT : DateEquality.MISMATCH;
    }
 
+
    private enum DateEquality
    {
       MATCH(""),
@@ -691,7 +704,24 @@ public class PrimaveraSchedulerComparator
       private final String m_status;
    }
 
+   private void println()
+   {
+      m_printStream.println();
+   }
+
+   private void println(String value)
+   {
+      m_printStream.println(value);
+   }
+
+   private void print(String value)
+   {
+      m_printStream.print(value);
+   }
+
+
    private boolean m_debug;
+   private PrintStream m_printStream = System.out;
    private boolean m_directory;
    private int m_equivalentDateCount;
    private int m_forwardErrorCount;
