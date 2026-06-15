@@ -43,6 +43,7 @@ import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectFile;
 import org.mpxj.Relation;
+import org.mpxj.RelationType;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceType;
 import org.mpxj.Task;
@@ -64,6 +65,7 @@ public class PrimaveraScheduler implements Scheduler
       m_file = file;
       m_dataDate = file.getProjectProperties().getStatusDate();
       m_twentyFourHourCalendar = createTwentyFourHourCalendar();
+      m_useExpectedFinish = file.getProjectProperties().getUseExpectedFinishDates();
 
       m_projectStartDate = startDate;
 
@@ -481,18 +483,34 @@ public class PrimaveraScheduler implements Scheduler
          drivingRelations.forEach(d -> d.getRelation().setDriving(true));
       }
 
-      // TODO: we need to consider when to apply Expected Finish if it is set
-      //      if (task.getExpectedFinish() != null &&
-      //         task.getActualStart() != null &&
-      //         task.getActualFinish() == null &&
-      //         task.getExpectedFinish().isAfter(m_dataDate) &&
-      //         task.getTotalSlack() != null && task.getTotalSlack().getDuration() > 0 &&
-      //         !task.getExpectedFinish().isBefore(task.getRemainingEarlyStart()))
-      //      {
-      //         task.setEarlyFinish(task.getExpectedFinish());
-      //      }
+      // Rather than calculating Early Finish from Remaining Duration,
+      // Expected Finish allows the user to set Early Finish, and P6 will calculate
+      // the Remaining Duration from that.
+      if (m_useExpectedFinish &&
+         task.getExpectedFinish() != null && // We have an expected finish date
+         task.getActualFinish() == null && // The activity is not complete
+         task.getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && // ALAP will override early finish
+         !task.getExpectedFinish().isBefore(earlyStart) && // The expected finish is >= early start
+         !task.getExpectedFinish().isBefore(m_dataDate) && // The expected finish is >= the data date
+         !taskHasFinishDrivingPredecessor(task)) // FF and SF predecessors (appear to) override Expected Finish
+      {
+         task.setEarlyFinish(task.getExpectedFinish());
+         task.setRemainingEarlyFinish(task.getExpectedFinish());
+         task.setRemainingDuration(task.getEffectiveCalendar().getWork(task.getRemainingEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS));
+      }
 
       updateDurationsAndPercentComplete(task);
+   }
+
+   /**
+    * Returns true if the task has any predecessors which are SF or FF.
+    *
+    * @param task target task
+    * @return true if predecessor drives finish date
+    */
+   private boolean taskHasFinishDrivingPredecessor(Task task)
+   {
+      return task.getPredecessors().stream().anyMatch(r -> r.getType() == RelationType.FINISH_FINISH || r.getType() == RelationType.START_FINISH);
    }
 
    /**
@@ -3867,4 +3885,5 @@ public class PrimaveraScheduler implements Scheduler
    private LocalDateTime m_dataDate;
    private LocalDateTime m_projectStartDate;
    private LocalDateTime m_projectFinishDate;
+   private boolean m_useExpectedFinish;
 }
