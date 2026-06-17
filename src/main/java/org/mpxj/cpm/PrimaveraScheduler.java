@@ -2849,7 +2849,7 @@ public class PrimaveraScheduler implements Scheduler
       {
          case START_START:
          {
-            return removeLag(relation, successorTask.getEarlyStart());
+            return getEquivalentNextWorkStart(predecessorTask, removeLag(relation, successorTask.getEarlyStart()));
          }
 
          case FINISH_START:
