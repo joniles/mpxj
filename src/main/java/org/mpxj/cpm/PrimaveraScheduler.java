@@ -833,16 +833,9 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       LocalDateTime lateStart = getDateFromFinishAndRemainingDuration(task, lateFinish);
-      if (task.getActivityType() == ActivityType.START_MILESTONE)
+      if (task.getActivityType() != ActivityType.START_MILESTONE && task.getActivityType() != ActivityType.FINISH_MILESTONE && hasRemainingDuration(task))
       {
          lateStart = getNextWorkStart(task, lateStart);
-      }
-      else
-      {
-         if (task.getActivityType() != ActivityType.FINISH_MILESTONE && hasRemainingDuration(task))
-         {
-            lateStart = getNextWorkStart(task, lateStart);
-         }
       }
 
       task.setLateStart(lateStart);
