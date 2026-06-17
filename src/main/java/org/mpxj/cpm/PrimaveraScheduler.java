@@ -3537,7 +3537,7 @@ public class PrimaveraScheduler implements Scheduler
       {
          task.setRemainingEarlyStart(task.getEarlyStart());
          task.setRemainingEarlyFinish(earlyFinish.getValue());
-         task.setRemainingLateStart(lateStart.getValue());
+         task.setRemainingLateStart(task.getLateStart());
          task.setRemainingLateFinish(lateFinish.getValue());
       }
 
