@@ -802,7 +802,10 @@ public class PrimaveraScheduler implements Scheduler
          }
 
          // If we are at the start of the next period of work, we can move back to the end of the previous period of work
-         lateFinish = getEquivalentPreviousWorkFinish(task, lateFinish);
+         if (task.getActivityType() != ActivityType.START_MILESTONE)
+         {
+            lateFinish = getEquivalentPreviousWorkFinish(task, lateFinish);
+         }
       }
       else
       {
