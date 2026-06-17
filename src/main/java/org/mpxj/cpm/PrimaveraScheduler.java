@@ -413,8 +413,15 @@ public class PrimaveraScheduler implements Scheduler
             }
          }
 
-         // Don't adjust early start for a finish milestone
-         if (task.getActivityType() != ActivityType.FINISH_MILESTONE)
+         if (task.getActivityType() == ActivityType.FINISH_MILESTONE)
+         {
+            // Don't adjust early start for a finish milestone unless we're not aligned with a work finish
+            if (!earlyStart.isEqual(getEquivalentPreviousWorkFinish(task, earlyStart)))
+            {
+               earlyStart = getNextWorkStart(task, earlyStart);
+            }
+         }
+         else
          {
             // Next work start
             earlyStart = getNextWorkStart(task, earlyStart);
