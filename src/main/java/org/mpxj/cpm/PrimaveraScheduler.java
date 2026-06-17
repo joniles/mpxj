@@ -393,8 +393,15 @@ public class PrimaveraScheduler implements Scheduler
                if (startOn.isAfter(earlyStart))
                {
                   drivingRelations.clear();
-                  earlyFinish = getEquivalentPreviousWorkFinish(task, task.getConstraintDate());
                   earlyStart = startOn;
+                  if (task.getActivityType() == ActivityType.FINISH_MILESTONE)
+                  {
+                     earlyFinish = startOn;
+                  }
+                  else
+                  {
+                     earlyFinish = getEquivalentPreviousWorkFinish(task, task.getConstraintDate());
+                  }
                }
                break;
             }
