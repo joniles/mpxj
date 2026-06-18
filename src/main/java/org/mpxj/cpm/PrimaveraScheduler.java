@@ -309,6 +309,11 @@ public class PrimaveraScheduler implements Scheduler
                case FINISH_NO_EARLIER_THAN:
                {
                   earlyFinish = task.getConstraintDate();
+                  if (!isWorkingTime(task, earlyFinish))
+                  {
+                     earlyFinish = getEquivalentNextWorkStart(task, earlyFinish);
+                  }
+
                   earlyStart = getDateFromFinishAndDuration(task, earlyFinish);
                   break;
                }
@@ -3890,6 +3895,35 @@ public class PrimaveraScheduler implements Scheduler
    private ConstraintType getConstraintType(Task task)
    {
       return task.getConstraintType() == null ? ConstraintType.AS_SOON_AS_POSSIBLE : task.getConstraintType();
+   }
+
+   /**
+    * Returns true if the supplied timestamp is in any of the working time ranges
+    * (including at the start and end) from the task's effective calendar.
+    *
+    * @param task target task
+    * @param date timestamp to test
+    * @return true if the timestamp is withing the working time ranges
+    */
+   private boolean isWorkingTime(Task task, LocalDateTime date)
+   {
+      LocalTime time = date.toLocalTime();
+      for (LocalTimeRange range : task.getEffectiveCalendar().getHours(date))
+      {
+         if (time.isBefore(range.getStart()))
+         {
+            return false;
+         }
+
+         if (time.isAfter(range.getEnd()))
+         {
+            continue;
+         }
+
+         return true;
+      }
+
+      return false;
    }
 
    private ProjectFile m_file;
