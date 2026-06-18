@@ -2808,7 +2808,7 @@ public class PrimaveraScheduler implements Scheduler
       List<Relation> successors = task.getSuccessors().stream().filter(r -> isActivity(r.getSuccessorTask())).collect(Collectors.toList());
       if (successors.isEmpty())
       {
-         earlyFinish = m_projectFinishDate;
+         earlyFinish = getEquivalentPreviousWorkFinish(task, m_projectFinishDate);
          earlyStart = getDateFromFinishAndRemainingDuration(task, earlyFinish);
       }
       else
