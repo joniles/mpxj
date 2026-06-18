@@ -344,6 +344,12 @@ final class AstaReader
          Row parentBar = expandedTaskIdToBarMap.get(expandedTaskID);
          if (parentBar == null)
          {
+            Integer barID = bar.getInteger("ID");
+            Integer subprojectID = bar.getInteger("SUBPROJECT_ID");
+            if (NumberHelper.equals(barID, subprojectID))
+            {
+               continue;
+            }
             parentBars.add(bar);
          }
          else
