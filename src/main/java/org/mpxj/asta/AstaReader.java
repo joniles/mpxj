@@ -372,7 +372,7 @@ final class AstaReader
       while (iter.hasNext())
       {
          Row bar = iter.next();
-         String barName = bar.getString("NAME");
+         String barName = getBarName(bar);
          if (barName == null || barName.isEmpty() || barName.equals("Displaced Items"))
          {
             iter.remove();
@@ -712,16 +712,6 @@ final class AstaReader
          }
       }
 
-      String name = row.getString("NAME");
-      if (name == null || name.isEmpty())
-      {
-         String extendedTaskName = row.getString("_NAME");
-         if (extendedTaskName != null && !extendedTaskName.isEmpty())
-         {
-            name = extendedTaskName;
-         }
-      }
-
       ProjectCalendar calendar = m_project.getCalendarByUniqueID(calendarID);
 
       //PROJID
@@ -730,7 +720,7 @@ final class AstaReader
       task.setFinish(row.getDate("BAR_FINISH"));
       //NATURAL_ORDER
       //SPARI_INTEGER
-      task.setName(name);
+      task.setName(getBarName(row));
       task.setActivityID(row.getString("_UNIQUE_TASK_ID"));
       //EXPANDED_TASK
       //PRIORITY
@@ -754,6 +744,26 @@ final class AstaReader
 
       Duration durationAtCompletion = deriveEffectiveCalendar(task).getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);
       task.setDuration(durationAtCompletion);
+   }
+
+   /**
+    * Retrieve the bar name, which may appear in one of two attributes.
+    *
+    * @param row result set row
+    * @return bar name
+    */
+   private String getBarName(Row row)
+   {
+      String name = row.getString("NAME");
+      if (name == null || name.isEmpty())
+      {
+         String extendedTaskName = row.getString("_NAME");
+         if (extendedTaskName != null && !extendedTaskName.isEmpty())
+         {
+            name = extendedTaskName;
+         }
+      }
+      return name;
    }
 
    /**
