@@ -1141,6 +1141,7 @@ public class PrimaveraScheduler implements Scheduler
    {
       Task predecessorTask = relation.getPredecessorTask();
       Task successorTask = relation.getSuccessorTask();
+      LocalDateTime earlyStart;
 
       if (predecessorTask.getActualStart() == null)
       {
@@ -1151,17 +1152,17 @@ public class PrimaveraScheduler implements Scheduler
             if (relation.getLag().getDuration() == 0)
             {
                // why adjust the next work start with the lag calendar? not sure, but it seems to work ;-)
-               return getLagCalendar(relation).getNextWorkStart(predecessorTask.getEarlyStart());
+               earlyStart = getLagCalendar(relation).getNextWorkStart(predecessorTask.getEarlyStart());
             }
             else
             {
                if (relation.getLag().getDuration() > 0)
                {
-                  return addLag(relation, predecessorTask.getEarlyStart());
+                  earlyStart = addLag(relation, predecessorTask.getEarlyStart());
                }
                else
                {
-                  return addLag(relation, predecessorTask.getEarlyStart());
+                  earlyStart = addLag(relation, predecessorTask.getEarlyStart());
                }
             }
          }
@@ -1173,17 +1174,17 @@ public class PrimaveraScheduler implements Scheduler
                // successor not finished
                if (relation.getLag().getDuration() == 0)
                {
-                  return addLag(relation, predecessorTask.getEarlyStart());
+                  earlyStart = addLag(relation, predecessorTask.getEarlyStart());
                }
                else
                {
                   if (relation.getLag().getDuration() > 0)
                   {
-                     return addLag(relation, predecessorTask.getEarlyStart());
+                     earlyStart = addLag(relation, predecessorTask.getEarlyStart());
                   }
                   else
                   {
-                     return addLag(relation, predecessorTask.getEarlyStart());
+                     earlyStart = addLag(relation, predecessorTask.getEarlyStart());
                   }
                }
             }
@@ -1192,17 +1193,17 @@ public class PrimaveraScheduler implements Scheduler
                // successor finished
                if (relation.getLag().getDuration() == 0)
                {
-                  return addLag(relation, predecessorTask.getEarlyStart());
+                  earlyStart = addLag(relation, predecessorTask.getEarlyStart());
                }
                else
                {
                   if (relation.getLag().getDuration() > 0)
                   {
-                     return addLag(relation, predecessorTask.getEarlyStart());
+                     earlyStart = addLag(relation, predecessorTask.getEarlyStart());
                   }
                   else
                   {
-                     return addLag(relation, predecessorTask.getEarlyStart());
+                     earlyStart = addLag(relation, predecessorTask.getEarlyStart());
                   }
                }
             }
@@ -1219,30 +1220,25 @@ public class PrimaveraScheduler implements Scheduler
                // Successor not started
                if (relation.getLag().getDuration() == 0)
                {
-                  LocalDateTime earlyStart = addLag(relation, predecessorTask.getActualStart());
+                  earlyStart = addLag(relation, predecessorTask.getActualStart());
                   if (earlyStart.isBefore(m_dataDate))
                   {
-                     return predecessorTask.getEarlyStart();
+                     earlyStart = predecessorTask.getEarlyStart();
                   }
-                  return earlyStart;
                }
                else
                {
                   if (relation.getLag().getDuration() > 0)
                   {
-                     LocalDateTime earlyStart = addLag(relation, predecessorTask.getActualStart());
+                     earlyStart = addLag(relation, predecessorTask.getActualStart());
                      if (earlyStart.isBefore(m_dataDate))
                      {
-                        return predecessorTask.getEarlyStart();
-                     }
-                     else
-                     {
-                        return earlyStart;
+                        earlyStart = predecessorTask.getEarlyStart();
                      }
                   }
                   else
                   {
-                     return addLag(relation, predecessorTask.getActualStart());
+                     earlyStart = addLag(relation, predecessorTask.getActualStart());
                   }
                }
             }
@@ -1254,25 +1250,21 @@ public class PrimaveraScheduler implements Scheduler
                   // successor not finished
                   if (relation.getLag().getDuration() == 0)
                   {
-                     return predecessorTask.getEarlyStart();
+                     earlyStart = predecessorTask.getEarlyStart();
                   }
                   else
                   {
                      if (relation.getLag().getDuration() > 0)
                      {
-                        LocalDateTime earlyStart = addLag(relation, predecessorTask.getActualStart());
+                        earlyStart = addLag(relation, predecessorTask.getActualStart());
                         if (earlyStart.isBefore(m_dataDate))
                         {
-                           return predecessorTask.getEarlyStart();
-                        }
-                        else
-                        {
-                           return earlyStart;
+                           earlyStart = predecessorTask.getEarlyStart();
                         }
                      }
                      else
                      {
-                        return predecessorTask.getEarlyStart();
+                        earlyStart = predecessorTask.getEarlyStart();
                      }
                   }
                }
@@ -1281,17 +1273,17 @@ public class PrimaveraScheduler implements Scheduler
                   // successor finished
                   if (relation.getLag().getDuration() == 0)
                   {
-                     return predecessorTask.getEarlyStart();
+                     earlyStart = predecessorTask.getEarlyStart();
                   }
                   else
                   {
                      if (relation.getLag().getDuration() > 0)
                      {
-                        return predecessorTask.getEarlyStart();
+                        earlyStart = predecessorTask.getEarlyStart();
                      }
                      else
                      {
-                        return predecessorTask.getEarlyStart();
+                        earlyStart = predecessorTask.getEarlyStart();
                      }
                   }
                }
@@ -1309,20 +1301,20 @@ public class PrimaveraScheduler implements Scheduler
                if (actualDurationInHours == 0 || lagDurationInHours <= 0.0)
                {
                   // We have a milestone, or we have no positive lag
-                  return predecessorTask.getEarlyStart();
+                  earlyStart = predecessorTask.getEarlyStart();
                }
                else
                {
                   if (actualDurationInHours >= lagDurationInHours)
                   {
                      // We have progressed more than the lag
-                     return predecessorTask.getEarlyStart();
+                     earlyStart = predecessorTask.getEarlyStart();
                   }
                   else
                   {
                      // We still need to account for some or all of the lag
                      Duration remainingLag = Duration.getInstance(lagDurationInHours - actualDurationInHours, TimeUnit.HOURS);
-                     return addLag(relation, predecessorTask.getEarlyStart(), remainingLag);
+                     earlyStart = addLag(relation, predecessorTask.getEarlyStart(), remainingLag);
                   }
                }
             }
@@ -1336,7 +1328,7 @@ public class PrimaveraScheduler implements Scheduler
                   if (lagDurationInHours <= 0.0)
                   {
                      // We have no positive lag
-                     return predecessorTask.getEarlyStart();
+                     earlyStart = predecessorTask.getEarlyStart();
                   }
                   else
                   {
@@ -1344,13 +1336,13 @@ public class PrimaveraScheduler implements Scheduler
                      if (actualDurationInHours >= lagDurationInHours)
                      {
                         // We have progressed more than the lag
-                        return predecessorTask.getEarlyStart();
+                        earlyStart = predecessorTask.getEarlyStart();
                      }
                      else
                      {
                         // We still need to account for some or all of the lag
                         Duration remainingLag = Duration.getInstance(lagDurationInHours - actualDurationInHours, TimeUnit.HOURS);
-                        return addLag(relation, predecessorTask.getEarlyStart(), remainingLag);
+                        earlyStart = addLag(relation, predecessorTask.getEarlyStart(), remainingLag);
                      }
                   }
                }
@@ -1359,23 +1351,25 @@ public class PrimaveraScheduler implements Scheduler
                   // successor finished
                   if (relation.getLag().getDuration() == 0)
                   {
-                     return predecessorTask.getEarlyStart();
+                     earlyStart = predecessorTask.getEarlyStart();
                   }
                   else
                   {
                      if (relation.getLag().getDuration() > 0)
                      {
-                        return predecessorTask.getEarlyStart();
+                        earlyStart = predecessorTask.getEarlyStart();
                      }
                      else
                      {
-                        return predecessorTask.getEarlyStart();
+                        earlyStart = predecessorTask.getEarlyStart();
                      }
                   }
                }
             }
          }
       }
+
+      return earlyStart;
    }
 
    /**
