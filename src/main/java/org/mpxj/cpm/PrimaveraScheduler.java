@@ -1031,7 +1031,7 @@ public class PrimaveraScheduler implements Scheduler
          // Successor not started
          if (relation.getLag().getDuration() == 0)
          {
-            getNextWorkStart(successorTask, predecessorTask.getEarlyFinish());
+            return addLag(relation, predecessorTask.getEarlyFinish());
          }
 
          if (relation.getLag().getDuration() > 0)
