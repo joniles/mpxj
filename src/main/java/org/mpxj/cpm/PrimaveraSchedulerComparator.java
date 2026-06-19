@@ -314,6 +314,11 @@ public class PrimaveraSchedulerComparator
          }
       }
 
+//      if (m_backwardErrorCount == 0)
+//      {
+//         m_backwardErrorCount = -1;
+//      }
+
       if (m_forwardErrorCount == 0 && m_backwardErrorCount == 0 && m_assignmentErrorCount == 0)
       {
          if (m_debug)
