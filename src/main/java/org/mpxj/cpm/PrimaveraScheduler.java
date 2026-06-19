@@ -328,7 +328,7 @@ public class PrimaveraScheduler implements Scheduler
          else
          {
             drivingRelations = getDrivingRelations(task, predecessors);
-            earlyStart = drivingRelations.get(0).getDate();
+            earlyStart = drivingRelations.get(0).getStartDate();
          }
 
          switch (getConstraintType(task))
@@ -462,7 +462,7 @@ public class PrimaveraScheduler implements Scheduler
             else
             {
                drivingRelations = getDrivingRelations(task, predecessors);
-               earlyStart = getNextWorkStart(task, drivingRelations.get(0).getDate());
+               earlyStart = getNextWorkStart(task, drivingRelations.get(0).getStartDate());
                earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
             }
          }
@@ -476,7 +476,7 @@ public class PrimaveraScheduler implements Scheduler
             else
             {
                drivingRelations = getDrivingRelations(task, predecessors);
-               earlyStart = drivingRelations.get(0).getDate();
+               earlyStart = drivingRelations.get(0).getStartDate();
                earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
             }
          }
@@ -671,8 +671,8 @@ public class PrimaveraScheduler implements Scheduler
    private List<DrivingRelation> getDrivingRelations(Task task, List<Relation> predecessors) throws CpmException
    {
       List<DrivingRelation> relations = predecessors.stream().map(this::calculateEarlyStart).collect(Collectors.toList());
-      LocalDateTime earlyStart = relations.stream().map(d -> getNextWorkStart(task, d.getDate())).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
-      relations.removeIf(r -> !getNextWorkStart(task, r.getDate()).isEqual(earlyStart));
+      LocalDateTime earlyStart = relations.stream().map(d -> getNextWorkStart(task, d.getStartDate())).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+      relations.removeIf(r -> !getNextWorkStart(task, r.getStartDate()).isEqual(earlyStart));
       return relations;
    }
 
@@ -725,7 +725,7 @@ public class PrimaveraScheduler implements Scheduler
          else
          {
             List<DrivingRelation> drivingRelations = successors.stream().map(this::calculateLateFinish).collect(Collectors.toList());
-            lateFinish = drivingRelations.stream().map(DrivingRelation::getDate).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+            lateFinish = drivingRelations.stream().map(DrivingRelation::getFinishDate).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
          }
 
          switch (getConstraintType(task))
@@ -836,7 +836,7 @@ public class PrimaveraScheduler implements Scheduler
          else
          {
             List<DrivingRelation> drivingRelations = successors.stream().map(this::calculateLateFinish).collect(Collectors.toList());
-            lateFinish = drivingRelations.stream().map(DrivingRelation::getDate).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+            lateFinish = drivingRelations.stream().map(DrivingRelation::getFinishDate).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
          }
       }
 
@@ -903,7 +903,7 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      return new DrivingRelation(relation, earlyStart);
+      return new DrivingRelation(relation, earlyStart, null);
    }
 
    /**
@@ -1632,31 +1632,31 @@ public class PrimaveraScheduler implements Scheduler
     */
    private DrivingRelation calculateLateFinish(Relation relation)
    {
-      LocalDateTime date;
+      LocalDateTime lateFinish;
 
       switch (relation.getType())
       {
          case START_START:
          {
-            date = adjustLateFinish(relation, calculateLateFinishForStartStart(relation));
+            lateFinish = adjustLateFinish(relation, calculateLateFinishForStartStart(relation));
             break;
          }
 
          case FINISH_FINISH:
          {
-            date = adjustLateFinish(relation, calculateLateFinishForFinishFinish(relation));
+            lateFinish = adjustLateFinish(relation, calculateLateFinishForFinishFinish(relation));
             break;
          }
 
          case START_FINISH:
          {
-            date = adjustLateFinish(relation, calculateLateFinishForStartFinish(relation));
+            lateFinish = adjustLateFinish(relation, calculateLateFinishForStartFinish(relation));
             break;
          }
 
          case FINISH_START:
          {
-            date = adjustLateFinish(relation, calculateLateFinishForFinishStart(relation));
+            lateFinish = adjustLateFinish(relation, calculateLateFinishForFinishStart(relation));
             break;
          }
 
@@ -1666,7 +1666,7 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      return new DrivingRelation(relation, date);
+      return new DrivingRelation(relation, null, lateFinish);
    }
 
    /**
