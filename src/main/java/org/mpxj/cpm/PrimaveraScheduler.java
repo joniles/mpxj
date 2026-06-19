@@ -2599,7 +2599,7 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       lateFinish = adjustLateFinish(relation, lateFinish);
-      return new DrivingRelation(relation, lateStart, lateFinish);
+      return new DrivingRelation(relation, null, lateFinish);
    }
 
    /**
