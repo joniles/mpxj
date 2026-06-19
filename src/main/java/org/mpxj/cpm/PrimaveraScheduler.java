@@ -2153,160 +2153,215 @@ public class PrimaveraScheduler implements Scheduler
             {
                return removeLag(relation, successorTask.getLateFinish());
             }
-
-            if (relation.getLag().getDuration() > 0)
+            else
             {
-               return removeLag(relation, successorTask.getLateFinish());
+               if (relation.getLag().getDuration() > 0)
+               {
+                  return removeLag(relation, successorTask.getLateFinish());
+               }
+               else
+               {
+                  return removeLag(relation, successorTask.getLateFinish());
+               }
             }
-
-            return removeLag(relation, successorTask.getLateFinish());
          }
-
-         // successor started
-         if (successorTask.getActualFinish() == null)
+         else
          {
-            // successor not finished
-            if (relation.getLag().getDuration() == 0)
+            // successor started
+            if (successorTask.getActualFinish() == null)
             {
-               return removeLag(relation, successorTask.getLateFinish());
+               // successor not finished
+               if (relation.getLag().getDuration() == 0)
+               {
+                  return removeLag(relation, successorTask.getLateFinish());
+               }
+               else
+               {
+                  if (relation.getLag().getDuration() > 0)
+                  {
+                     return removeLag(relation, successorTask.getLateFinish());
+                  }
+                  else
+                  {
+                     return removeLag(relation, successorTask.getLateFinish());
+                  }
+               }
             }
-
-            if (relation.getLag().getDuration() > 0)
+            else
             {
-               return removeLag(relation, successorTask.getLateFinish());
+               // successor finished
+               if (relation.getLag().getDuration() == 0)
+               {
+                  return removeLag(relation, successorTask.getLateFinish());
+               }
+               else
+               {
+                  if (relation.getLag().getDuration() > 0)
+                  {
+                     return removeLag(relation, successorTask.getLateFinish());
+                  }
+                  else
+                  {
+                     return removeLag(relation, successorTask.getLateFinish());
+                  }
+               }
             }
-
-            return removeLag(relation, successorTask.getLateFinish());
          }
-
-         // successor finished
-         if (relation.getLag().getDuration() == 0)
-         {
-            return removeLag(relation, successorTask.getLateFinish());
-         }
-
-         if (relation.getLag().getDuration() > 0)
-         {
-            return removeLag(relation, successorTask.getLateFinish());
-         }
-
-         return removeLag(relation, successorTask.getLateFinish());
       }
-      // Predecessor Started
-      if (predecessorTask.getActualFinish() != null)
+      else
       {
-         // Predecessor finished
-         if (successorTask.getActualStart() == null)
+         // Predecessor Started
+         if (predecessorTask.getActualFinish() != null)
          {
-            if (relation.getLag().getDuration() == 0)
+            // Predecessor finished
+            if (successorTask.getActualStart() == null)
             {
-               return successorTask.getLateFinish();
-            }
+               if (relation.getLag().getDuration() == 0)
+               {
+                  return successorTask.getLateFinish();
+               }
+               else
+               {
+                  if (relation.getLag().getDuration() > 0)
+                  {
+                     // Successor not started
+                     double actualLagDurationInHours = predecessorTask.getActualFinish().isAfter(m_dataDate) ? 0 : getLagCalendar(relation).getWork(predecessorTask.getActualFinish(), m_dataDate, TimeUnit.HOURS).getDuration();
+                     double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
 
-            if (relation.getLag().getDuration() > 0)
+                     if (lagDurationInHours > actualLagDurationInHours)
+                     {
+                        Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
+                        return removeLag(relation, successorTask.getLateFinish(), remainingLag);
+                     }
+                     else
+                     {
+                        return successorTask.getLateFinish();
+                     }
+                  }
+                  else
+                  {
+                     return successorTask.getLateFinish();
+                  }
+               }
+            }
+            else
+            {
+               // successor started
+               if (successorTask.getActualFinish() == null)
+               {
+                  // successor not finished
+                  if (relation.getLag().getDuration() == 0)
+                  {
+                     return successorTask.getLateFinish();
+                  }
+                  else
+                  {
+                     if (relation.getLag().getDuration() > 0)
+                     {
+                        return successorTask.getLateFinish();
+                     }
+                     else
+                     {
+                        return successorTask.getLateFinish();
+                     }
+                  }
+               }
+               else
+               {
+                  // successor finished
+                  if (relation.getLag().getDuration() == 0)
+                  {
+                     return successorTask.getLateFinish();
+                  }
+                  else
+                  {
+                     if (relation.getLag().getDuration() > 0)
+                     {
+                        double actualLagDurationInHours = predecessorTask.getActualFinish().isAfter(m_dataDate) ? 0 : getLagCalendar(relation).getWork(predecessorTask.getActualFinish(), m_dataDate, TimeUnit.HOURS).getDuration();
+                        double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+
+                        if (lagDurationInHours > actualLagDurationInHours)
+                        {
+                           Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
+                           return removeLag(relation, successorTask.getLateFinish(), remainingLag);
+                        }
+                        else
+                        {
+                           return successorTask.getLateFinish();
+                        }
+                     }
+
+                     return successorTask.getLateFinish();
+                  }
+               }
+            }
+         }
+         else
+         {
+            // Predecessor not finished
+            if (successorTask.getActualStart() == null)
             {
                // Successor not started
-               double actualLagDurationInHours = predecessorTask.getActualFinish().isAfter(m_dataDate) ? 0 : getLagCalendar(relation).getWork(predecessorTask.getActualFinish(), m_dataDate, TimeUnit.HOURS).getDuration();
-               double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-
-               if (lagDurationInHours > actualLagDurationInHours)
+               if (relation.getLag().getDuration() == 0)
                {
-                  Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
-                  return removeLag(relation, successorTask.getLateFinish(), remainingLag);
+                  return removeLag(relation, successorTask.getLateFinish());
                }
-
-               return successorTask.getLateFinish();
+               else
+               {
+                  if (relation.getLag().getDuration() > 0)
+                  {
+                     return removeLag(relation, successorTask.getLateFinish());
+                  }
+                  else
+                  {
+                     return removeLag(relation, successorTask.getLateFinish());
+                  }
+               }
             }
-
-            return successorTask.getLateFinish();
-         }
-
-         // successor started
-         if (successorTask.getActualFinish() == null)
-         {
-            // successor not finished
-            if (relation.getLag().getDuration() == 0)
+            else
             {
-               return successorTask.getLateFinish();
+               // successor started
+               if (successorTask.getActualFinish() == null)
+               {
+                  // successor not finished
+                  if (relation.getLag().getDuration() == 0)
+                  {
+                     return removeLag(relation, successorTask.getLateFinish());
+                  }
+                  else
+                  {
+                     if (relation.getLag().getDuration() > 0)
+                     {
+                        return removeLag(relation, successorTask.getLateFinish());
+                     }
+                     else
+                     {
+                        return removeLag(relation, successorTask.getLateFinish());
+                     }
+                  }
+               }
+               else
+               {
+                  // successor finished
+                  if (relation.getLag().getDuration() == 0)
+                  {
+                     return removeLag(relation, successorTask.getLateFinish());
+                  }
+                  else
+                  {
+                     if (relation.getLag().getDuration() > 0)
+                     {
+                        return removeLag(relation, successorTask.getLateFinish());
+                     }
+                     else
+                     {
+                        return removeLag(relation, successorTask.getLateFinish());
+                     }
+                  }
+               }
             }
-
-            if (relation.getLag().getDuration() > 0)
-            {
-               return successorTask.getLateFinish();
-            }
-
-            return successorTask.getLateFinish();
          }
-
-         // successor finished
-         if (relation.getLag().getDuration() == 0)
-         {
-            return successorTask.getLateFinish();
-         }
-
-         if (relation.getLag().getDuration() > 0)
-         {
-            double actualLagDurationInHours = predecessorTask.getActualFinish().isAfter(m_dataDate) ? 0 : getLagCalendar(relation).getWork(predecessorTask.getActualFinish(), m_dataDate, TimeUnit.HOURS).getDuration();
-            double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-
-            if (lagDurationInHours > actualLagDurationInHours)
-            {
-               Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
-               return removeLag(relation, successorTask.getLateFinish(), remainingLag);
-            }
-
-            return successorTask.getLateFinish();
-         }
-
-         return successorTask.getLateFinish();
       }
-
-      // Predecessor not finished
-      if (successorTask.getActualStart() == null)
-      {
-         // Successor not started
-         if (relation.getLag().getDuration() == 0)
-         {
-            return removeLag(relation, successorTask.getLateFinish());
-         }
-
-         if (relation.getLag().getDuration() > 0)
-         {
-            return removeLag(relation, successorTask.getLateFinish());
-         }
-
-         return removeLag(relation, successorTask.getLateFinish());
-      }
-
-      // successor started
-      if (successorTask.getActualFinish() == null)
-      {
-         // successor not finished
-         if (relation.getLag().getDuration() == 0)
-         {
-            return removeLag(relation, successorTask.getLateFinish());
-         }
-
-         if (relation.getLag().getDuration() > 0)
-         {
-            return removeLag(relation, successorTask.getLateFinish());
-         }
-
-         return removeLag(relation, successorTask.getLateFinish());
-      }
-
-      // successor finished
-      if (relation.getLag().getDuration() == 0)
-      {
-         return removeLag(relation, successorTask.getLateFinish());
-      }
-
-      if (relation.getLag().getDuration() > 0)
-      {
-         return removeLag(relation, successorTask.getLateFinish());
-      }
-
-      return removeLag(relation, successorTask.getLateFinish());
    }
 
    /**
