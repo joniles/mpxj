@@ -1805,25 +1805,25 @@ public class PrimaveraScheduler implements Scheduler
       {
          case START_START:
          {
-            lateFinish = adjustLateFinish(relation, calculateLateFinishForStartStart(relation));
+            lateFinish = calculateLateFinishForStartStart(relation);
             break;
          }
 
          case FINISH_FINISH:
          {
-            lateFinish = adjustLateFinish(relation, calculateLateFinishForFinishFinish(relation));
+            lateFinish = calculateLateFinishForFinishFinish(relation);
             break;
          }
 
          case START_FINISH:
          {
-            lateFinish = adjustLateFinish(relation, calculateLateFinishForStartFinish(relation));
+            lateFinish = calculateLateFinishForStartFinish(relation);
             break;
          }
 
          case FINISH_START:
          {
-            lateFinish = adjustLateFinish(relation, calculateLateFinishForFinishStart(relation));
+            lateFinish = calculateLateFinishForFinishStart(relation);
             break;
          }
 
@@ -2129,7 +2129,7 @@ public class PrimaveraScheduler implements Scheduler
          lateFinish = getDateFromStartAndRemainingDuration(predecessorTask, lateStart);
       }
 
-      return lateFinish;
+      return adjustLateFinish(relation, lateFinish);
    }
 
    /**
@@ -2365,7 +2365,8 @@ public class PrimaveraScheduler implements Scheduler
             }
          }
       }
-      return lateFinish;
+
+      return adjustLateFinish(relation, lateFinish);
    }
 
    /**
@@ -2591,7 +2592,7 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      return lateFinish;
+      return adjustLateFinish(relation, lateFinish);
    }
 
    /**
@@ -2863,7 +2864,7 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      return lateFinish;
+      return adjustLateFinish(relation, lateFinish);
    }
 
    /**
