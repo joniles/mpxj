@@ -1799,32 +1799,26 @@ public class PrimaveraScheduler implements Scheduler
     */
    private DrivingRelation calculateLateFinish(Relation relation)
    {
-      LocalDateTime lateFinish;
-
       switch (relation.getType())
       {
          case START_START:
          {
-            lateFinish = calculateLateFinishForStartStart(relation);
-            break;
+            return calculateLateFinishForStartStart(relation);
          }
 
          case FINISH_FINISH:
          {
-            lateFinish = calculateLateFinishForFinishFinish(relation);
-            break;
+            return calculateLateFinishForFinishFinish(relation);
          }
 
          case START_FINISH:
          {
-            lateFinish = calculateLateFinishForStartFinish(relation);
-            break;
+            return calculateLateFinishForStartFinish(relation);
          }
 
          case FINISH_START:
          {
-            lateFinish = calculateLateFinishForFinishStart(relation);
-            break;
+            return calculateLateFinishForFinishStart(relation);
          }
 
          default:
@@ -1832,8 +1826,6 @@ public class PrimaveraScheduler implements Scheduler
             throw new UnsupportedOperationException();
          }
       }
-
-      return new DrivingRelation(relation, null, lateFinish);
    }
 
    /**
@@ -1860,7 +1852,7 @@ public class PrimaveraScheduler implements Scheduler
     * @param relation relationship between two tasks
     * @return calculated late finish date
     */
-   private LocalDateTime calculateLateFinishForStartStart(Relation relation)
+   private DrivingRelation calculateLateFinishForStartStart(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
       Task successorTask = relation.getSuccessorTask();
@@ -2129,7 +2121,8 @@ public class PrimaveraScheduler implements Scheduler
          lateFinish = getDateFromStartAndRemainingDuration(predecessorTask, lateStart);
       }
 
-      return adjustLateFinish(relation, lateFinish);
+      lateFinish = adjustLateFinish(relation, lateFinish);
+      return new DrivingRelation(relation, null, lateFinish);
    }
 
    /**
@@ -2138,7 +2131,7 @@ public class PrimaveraScheduler implements Scheduler
     * @param relation relationship between two tasks
     * @return calculated late finish date
     */
-   private LocalDateTime calculateLateFinishForFinishFinish(Relation relation)
+   private DrivingRelation calculateLateFinishForFinishFinish(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
       Task successorTask = relation.getSuccessorTask();
@@ -2366,7 +2359,8 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      return adjustLateFinish(relation, lateFinish);
+      lateFinish = adjustLateFinish(relation, lateFinish);
+      return new DrivingRelation(relation, null, lateFinish);
    }
 
    /**
@@ -2375,7 +2369,7 @@ public class PrimaveraScheduler implements Scheduler
     * @param relation relationship between two tasks
     * @return calculated late finish date
     */
-   private LocalDateTime calculateLateFinishForStartFinish(Relation relation)
+   private DrivingRelation calculateLateFinishForStartFinish(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
       Task successorTask = relation.getSuccessorTask();
@@ -2592,7 +2586,8 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      return adjustLateFinish(relation, lateFinish);
+      lateFinish = adjustLateFinish(relation, lateFinish);
+      return new DrivingRelation(relation, null, lateFinish);
    }
 
    /**
@@ -2601,7 +2596,7 @@ public class PrimaveraScheduler implements Scheduler
     * @param relation relationship between two tasks
     * @return calculated late finish date
     */
-   private LocalDateTime calculateLateFinishForFinishStart(Relation relation)
+   private DrivingRelation calculateLateFinishForFinishStart(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
       Task successorTask = relation.getSuccessorTask();
@@ -2864,7 +2859,8 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      return adjustLateFinish(relation, lateFinish);
+      lateFinish = adjustLateFinish(relation, lateFinish);
+      return new DrivingRelation(relation, null, lateFinish);
    }
 
    /**
