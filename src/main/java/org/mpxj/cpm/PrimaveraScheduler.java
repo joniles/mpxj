@@ -732,6 +732,7 @@ public class PrimaveraScheduler implements Scheduler
          else
          {
             DrivingRelation drivingRelation = getBackwardPassDrivingRelation(successors);
+            lateStart = drivingRelation.getStartDate();
             lateFinish = drivingRelation.getFinishDate();
          }
 
@@ -1869,6 +1870,7 @@ public class PrimaveraScheduler implements Scheduler
       LocalDateTime lateFinish = null;
 
       LocalDateTime lateStart;
+      LocalDateTime appliedLateStart = null;
 
       if (predecessorTask.getActualStart() == null)
       {
@@ -1907,7 +1909,8 @@ public class PrimaveraScheduler implements Scheduler
          else
          {
             // successor started
-            if (successorTask.getActualFinish() == null)
+            //if (successorTask.getActualFinish() == null)
+            if (!isComplete(successorTask))
             {
                // successor not finished
                if (relation.getLag().getDuration() == 0)
@@ -1950,7 +1953,8 @@ public class PrimaveraScheduler implements Scheduler
       else
       {
          // Predecessor Started
-         if (predecessorTask.getActualFinish() != null)
+         //if (predecessorTask.getActualFinish() != null)
+         if (isComplete(predecessorTask))
          {
             // Predecessor finished
             if (successorTask.getActualStart() == null)
@@ -1986,7 +1990,8 @@ public class PrimaveraScheduler implements Scheduler
             else
             {
                // successor started
-               if (successorTask.getActualFinish() == null)
+               //if (successorTask.getActualFinish() == null)
+               if (!isComplete(successorTask))
                {
                   // successor not finished
                   if (relation.getLag().getDuration() == 0)
@@ -2073,7 +2078,8 @@ public class PrimaveraScheduler implements Scheduler
             else
             {
                // successor started
-               if (successorTask.getActualFinish() == null)
+               //if (successorTask.getActualFinish() == null)
+               if (!isComplete(successorTask))
                {
                   // successor not finished
                   if (relation.getLag().getDuration() == 0)
@@ -2114,6 +2120,7 @@ public class PrimaveraScheduler implements Scheduler
                   {
                      if (relation.getLag().getDuration() > 0)
                      {
+                        appliedLateStart = successorTask.getLateStart();
                         lateStart = successorTask.getLateStart();
                      }
                      else
@@ -2132,7 +2139,18 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       lateFinish = adjustLateFinish(relation, lateFinish);
-      return new DrivingRelation(relation, null, lateFinish);
+      return new DrivingRelation(relation, appliedLateStart, lateFinish);
+   }
+
+   private boolean isComplete(Task task)
+   {
+      if (task.getActualFinish() != null)
+      {
+         return true;
+      }
+
+      ActivityType type = task.getActivityType();
+      return type != ActivityType.START_MILESTONE && type != ActivityType.FINISH_MILESTONE && task.getRemainingDuration().getDuration() == 0;
    }
 
    /**
