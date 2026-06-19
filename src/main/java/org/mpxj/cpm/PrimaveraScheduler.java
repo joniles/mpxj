@@ -1393,150 +1393,204 @@ public class PrimaveraScheduler implements Scheduler
             {
                return getEarlyStartFromEarlyFinish(successorTask, predecessorTask.getEarlyFinish());
             }
-
-            if (relation.getLag().getDuration() > 0)
+            else
             {
-               return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
-            }
-
-            return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
-         }
-
-         // successor started
-         if (successorTask.getActualFinish() == null)
-         {
-            // successor not finished
-            if (relation.getLag().getDuration() == 0)
-            {
-               return getEarlyStartFromEarlyFinish(successorTask, predecessorTask.getEarlyFinish());
-            }
-
-            if (relation.getLag().getDuration() > 0)
-            {
-               return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
-            }
-
-            return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
-         }
-
-         // successor finished
-         if (relation.getLag().getDuration() == 0)
-         {
-            return getEarlyStartFromEarlyFinish(successorTask, predecessorTask.getEarlyFinish());
-         }
-
-         if (relation.getLag().getDuration() > 0)
-         {
-            return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
-         }
-
-         return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
-      }
-
-      // Predecessor started
-      if (predecessorTask.getActualFinish() != null)
-      {
-         // Predecessor finished
-         if (successorTask.getActualStart() == null)
-         {
-            // Successor not started
-            if (relation.getLag().getDuration() == 0.0)
-            {
-               return getEarlyStartFromEarlyFinish(successorTask, predecessorTask.getActualFinish());
-            }
-
-            if (relation.getLag().getDuration() > 0.0)
-            {
-               double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-               double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-               if (lagDurationInHours > actualDurationInHours)
+               if (relation.getLag().getDuration() > 0)
                {
-                  return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getActualFinish()));
+                  return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
                }
-
-               return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, addLag(relation, predecessorTask.getEarlyFinish())));
+               else
+               {
+                  return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
+               }
             }
-
-            return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, addLag(relation, predecessorTask.getEarlyFinish())));
          }
-
-         // successor started
-         if (successorTask.getActualFinish() == null)
+         else
          {
-            // successor not finished
-            if (relation.getLag().getDuration() == 0.0)
+            // successor started
+            if (successorTask.getActualFinish() == null)
             {
-               return getEarlyStartFromEarlyFinish(successorTask, predecessorTask.getActualFinish());
+               // successor not finished
+               if (relation.getLag().getDuration() == 0)
+               {
+                  return getEarlyStartFromEarlyFinish(successorTask, predecessorTask.getEarlyFinish());
+               }
+               else
+               {
+                  if (relation.getLag().getDuration() > 0)
+                  {
+                     return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
+                  }
+                  else
+                  {
+                     return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
+                  }
+               }
             }
-
-            if (relation.getLag().getDuration() > 0.0)
+            else
             {
-               return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getActualFinish()));
+               // successor finished
+               if (relation.getLag().getDuration() == 0)
+               {
+                  return getEarlyStartFromEarlyFinish(successorTask, predecessorTask.getEarlyFinish());
+               }
+               else
+               {
+                  if (relation.getLag().getDuration() > 0)
+                  {
+                     return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
+                  }
+                  else
+                  {
+                     return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
+                  }
+               }
             }
-
-            return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getActualFinish()));
          }
-
-         // successor finished
-         if (relation.getLag().getDuration() == 0.0)
-         {
-            return predecessorTask.getEarlyFinish();
-         }
-
-         if (relation.getLag().getDuration() > 0.0)
-         {
-            return predecessorTask.getEarlyFinish();
-         }
-
-         return predecessorTask.getEarlyFinish();
       }
-
-      // Predecessor not finished
-      if (successorTask.getActualStart() == null)
+      else
       {
-         // Successor not started
-         if (relation.getLag().getDuration() == 0.0)
+         // Predecessor started
+         if (predecessorTask.getActualFinish() != null)
          {
-            return getEarlyStartFromEarlyFinish(successorTask, predecessorTask.getEarlyFinish());
+            // Predecessor finished
+            if (successorTask.getActualStart() == null)
+            {
+               // Successor not started
+               if (relation.getLag().getDuration() == 0.0)
+               {
+                  return getEarlyStartFromEarlyFinish(successorTask, predecessorTask.getActualFinish());
+               }
+               else
+               {
+                  if (relation.getLag().getDuration() > 0.0)
+                  {
+                     double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+                     double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+                     if (lagDurationInHours > actualDurationInHours)
+                     {
+                        return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getActualFinish()));
+                     }
+                     else
+                     {
+                        return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, addLag(relation, predecessorTask.getEarlyFinish())));
+                     }
+                  }
+                  else
+                  {
+                     return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, addLag(relation, predecessorTask.getEarlyFinish())));
+                  }
+               }
+            }
+            else
+            {
+               // successor started
+               if (successorTask.getActualFinish() == null)
+               {
+                  // successor not finished
+                  if (relation.getLag().getDuration() == 0.0)
+                  {
+                     return getEarlyStartFromEarlyFinish(successorTask, predecessorTask.getActualFinish());
+                  }
+                  else
+                  {
+                     if (relation.getLag().getDuration() > 0.0)
+                     {
+                        return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getActualFinish()));
+                     }
+                     else
+                     {
+                        return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getActualFinish()));
+                     }
+                  }
+               }
+               else
+               {
+                  // successor finished
+                  if (relation.getLag().getDuration() == 0.0)
+                  {
+                     return predecessorTask.getEarlyFinish();
+                  }
+                  else
+                  {
+                     if (relation.getLag().getDuration() > 0.0)
+                     {
+                        return predecessorTask.getEarlyFinish();
+                     }
+                     else
+                     {
+                        return predecessorTask.getEarlyFinish();
+                     }
+                  }
+               }
+            }
          }
-
-         if (relation.getLag().getDuration() > 0.0)
+         else
          {
-            return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
+            // Predecessor not finished
+            if (successorTask.getActualStart() == null)
+            {
+               // Successor not started
+               if (relation.getLag().getDuration() == 0.0)
+               {
+                  return getEarlyStartFromEarlyFinish(successorTask, predecessorTask.getEarlyFinish());
+               }
+               else
+               {
+                  if (relation.getLag().getDuration() > 0.0)
+                  {
+                     return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
+                  }
+                  else
+                  {
+                     return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
+                  }
+               }
+            }
+            else
+            {
+               // successor started
+               if (successorTask.getActualFinish() == null)
+               {
+                  // successor not finished
+                  if (relation.getLag().getDuration() == 0.0)
+                  {
+                     return getEarlyStartFromEarlyFinish(successorTask, predecessorTask.getEarlyFinish());
+                  }
+                  else
+                  {
+                     if (relation.getLag().getDuration() > 0.0)
+                     {
+                        return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
+                     }
+                     else
+                     {
+                        return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
+                     }
+                  }
+               }
+               else
+               {
+                  // successor finished
+                  if (relation.getLag().getDuration() == 0.0)
+                  {
+                     return getEarlyStartFromEarlyFinish(successorTask, predecessorTask.getEarlyFinish());
+                  }
+                  else
+                  {
+                     if (relation.getLag().getDuration() > 0.0)
+                     {
+                        return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
+                     }
+                     else
+                     {
+                        return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
+                     }
+                  }
+               }
+            }
          }
-
-         return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
       }
-
-      // successor started
-      if (successorTask.getActualFinish() == null)
-      {
-         // successor not finished
-         if (relation.getLag().getDuration() == 0.0)
-         {
-            return getEarlyStartFromEarlyFinish(successorTask, predecessorTask.getEarlyFinish());
-         }
-
-         if (relation.getLag().getDuration() > 0.0)
-         {
-            return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
-         }
-
-         return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
-      }
-
-      // successor finished
-      if (relation.getLag().getDuration() == 0.0)
-      {
-         return getEarlyStartFromEarlyFinish(successorTask, predecessorTask.getEarlyFinish());
-      }
-
-      if (relation.getLag().getDuration() > 0.0)
-      {
-         return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
-      }
-
-      return getEarlyStartFromEarlyFinish(successorTask, addLag(relation, predecessorTask.getEarlyFinish()));
    }
 
    /**
