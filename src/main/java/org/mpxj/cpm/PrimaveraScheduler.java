@@ -927,150 +927,203 @@ public class PrimaveraScheduler implements Scheduler
             {
                return predecessorTask.getEarlyFinish();
             }
-
-            if (relation.getLag().getDuration() > 0)
+            else
             {
-               return addLag(relation, predecessorTask.getEarlyFinish());
-            }
-
-            return addLag(relation, predecessorTask.getEarlyFinish());
-         }
-
-         // successor started
-         if (successorTask.getActualFinish() == null)
-         {
-            // successor not finished
-            if (relation.getLag().getDuration() == 0)
-            {
-               return addLag(relation, predecessorTask.getEarlyFinish());
-            }
-
-            if (relation.getLag().getDuration() > 0)
-            {
-               return addLag(relation, predecessorTask.getEarlyFinish());
-            }
-
-            return addLag(relation, predecessorTask.getEarlyFinish());
-         }
-
-         // successor finished
-         if (relation.getLag().getDuration() == 0)
-         {
-            return addLag(relation, predecessorTask.getEarlyFinish());
-         }
-
-         if (relation.getLag().getDuration() > 0)
-         {
-            return addLag(relation, predecessorTask.getEarlyFinish());
-         }
-
-         return addLag(relation, predecessorTask.getEarlyFinish());
-      }
-
-      // Predecessor started
-      if (predecessorTask.getActualFinish() != null)
-      {
-         // Predecessor finished
-         if (successorTask.getActualStart() == null)
-         {
-            // Successor not started
-            if (relation.getLag().getDuration() == 0)
-            {
-               return predecessorTask.getEarlyFinish();
-            }
-
-            if (relation.getLag().getDuration() > 0)
-            {
-               double actualLagDurationInHours = predecessorTask.getActualFinish().isAfter(m_dataDate) ? 0 : getLagCalendar(relation).getWork(predecessorTask.getActualFinish(), m_dataDate, TimeUnit.HOURS).getDuration();
-               double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-               if (lagDurationInHours > actualLagDurationInHours)
+               if (relation.getLag().getDuration() > 0)
                {
-                  Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
-                  return addLag(relation, predecessorTask.getEarlyFinish(), remainingLag);
+                  return addLag(relation, predecessorTask.getEarlyFinish());
                }
-               return predecessorTask.getEarlyFinish();
+               else
+               {
+                  return addLag(relation, predecessorTask.getEarlyFinish());
+               }
             }
-
-            return predecessorTask.getEarlyFinish();
          }
-
-         // successor started
-         if (successorTask.getActualFinish() == null)
+         else
          {
-            // successor not finished
-            if (relation.getLag().getDuration() == 0)
+            // successor started
+            if (successorTask.getActualFinish() == null)
             {
-               return predecessorTask.getEarlyFinish();
+               // successor not finished
+               if (relation.getLag().getDuration() == 0)
+               {
+                  return addLag(relation, predecessorTask.getEarlyFinish());
+               }
+               else
+               {
+                  if (relation.getLag().getDuration() > 0)
+                  {
+                     return addLag(relation, predecessorTask.getEarlyFinish());
+                  }
+                  else
+                  {
+                     return addLag(relation, predecessorTask.getEarlyFinish());
+                  }
+               }
             }
-
-            if (relation.getLag().getDuration() > 0)
+            else
             {
-               return predecessorTask.getEarlyFinish();
+               // successor finished
+               if (relation.getLag().getDuration() == 0)
+               {
+                  return addLag(relation, predecessorTask.getEarlyFinish());
+               }
+               else
+               {
+                  if (relation.getLag().getDuration() > 0)
+                  {
+                     return addLag(relation, predecessorTask.getEarlyFinish());
+                  }
+                  else
+                  {
+                     return addLag(relation, predecessorTask.getEarlyFinish());
+                  }
+               }
+            }
+         }
+      }
+      else
+      {
+         // Predecessor started
+         if (predecessorTask.getActualFinish() != null)
+         {
+            // Predecessor finished
+            if (successorTask.getActualStart() == null)
+            {
+               // Successor not started
+               if (relation.getLag().getDuration() == 0)
+               {
+                  return predecessorTask.getEarlyFinish();
+               }
+               else
+               {
+                  if (relation.getLag().getDuration() > 0)
+                  {
+                     double actualLagDurationInHours = predecessorTask.getActualFinish().isAfter(m_dataDate) ? 0 : getLagCalendar(relation).getWork(predecessorTask.getActualFinish(), m_dataDate, TimeUnit.HOURS).getDuration();
+                     double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+                     if (lagDurationInHours > actualLagDurationInHours)
+                     {
+                        Duration remainingLag = Duration.getInstance(lagDurationInHours - actualLagDurationInHours, TimeUnit.HOURS);
+                        return addLag(relation, predecessorTask.getEarlyFinish(), remainingLag);
+                     }
+                     else
+                     {
+                        return predecessorTask.getEarlyFinish();
+                     }
+                  }
+                  else
+                  {
+                     return predecessorTask.getEarlyFinish();
+                  }
+               }
             }
 
-            return predecessorTask.getEarlyFinish();
+            // successor started
+            if (successorTask.getActualFinish() == null)
+            {
+               // successor not finished
+               if (relation.getLag().getDuration() == 0)
+               {
+                  return predecessorTask.getEarlyFinish();
+               }
+               else
+               {
+                  if (relation.getLag().getDuration() > 0)
+                  {
+                     return predecessorTask.getEarlyFinish();
+                  }
+                  else
+                  {
+                     return predecessorTask.getEarlyFinish();
+                  }
+               }
+            }
+            else
+            {
+               // successor finished
+               if (relation.getLag().getDuration() == 0)
+               {
+                  return predecessorTask.getEarlyFinish();
+               }
+               else
+               {
+                  if (relation.getLag().getDuration() > 0)
+                  {
+                     return predecessorTask.getEarlyFinish();
+                  }
+                  else
+                  {
+                     return predecessorTask.getEarlyFinish();
+                  }
+               }
+            }
          }
-
-         // successor finished
-         if (relation.getLag().getDuration() == 0)
+         else
          {
-            return predecessorTask.getEarlyFinish();
+            // Predecessor not finished
+            if (successorTask.getActualStart() == null)
+            {
+               // Successor not started
+               if (relation.getLag().getDuration() == 0)
+               {
+                  return addLag(relation, predecessorTask.getEarlyFinish());
+               }
+               else
+               {
+                  if (relation.getLag().getDuration() > 0)
+                  {
+                     return addLag(relation, predecessorTask.getEarlyFinish());
+                  }
+                  else
+                  {
+                     return addLag(relation, predecessorTask.getEarlyFinish());
+                  }
+               }
+            }
+            else
+            {
+               // successor started
+               if (successorTask.getActualFinish() == null)
+               {
+                  // successor not finished
+                  if (relation.getLag().getDuration() == 0)
+                  {
+                     return addLag(relation, predecessorTask.getEarlyFinish());
+                  }
+                  else
+                  {
+                     if (relation.getLag().getDuration() > 0)
+                     {
+                        return addLag(relation, predecessorTask.getEarlyFinish());
+                     }
+                     else
+                     {
+                        return addLag(relation, predecessorTask.getEarlyFinish());
+                     }
+                  }
+               }
+               else
+               {
+                  // successor finished
+                  if (relation.getLag().getDuration() == 0)
+                  {
+                     return addLag(relation, predecessorTask.getEarlyFinish());
+                  }
+                  else
+                  {
+                     if (relation.getLag().getDuration() > 0)
+                     {
+                        return addLag(relation, predecessorTask.getEarlyFinish());
+                     }
+                     else
+                     {
+                        return addLag(relation, predecessorTask.getEarlyFinish());
+                     }
+                  }
+               }
+            }
          }
-
-         if (relation.getLag().getDuration() > 0)
-         {
-            return predecessorTask.getEarlyFinish();
-         }
-
-         return predecessorTask.getEarlyFinish();
       }
-
-      // Predecessor not finished
-      if (successorTask.getActualStart() == null)
-      {
-         // Successor not started
-         if (relation.getLag().getDuration() == 0)
-         {
-            return addLag(relation, predecessorTask.getEarlyFinish());
-         }
-
-         if (relation.getLag().getDuration() > 0)
-         {
-            return addLag(relation, predecessorTask.getEarlyFinish());
-         }
-
-         return addLag(relation, predecessorTask.getEarlyFinish());
-      }
-
-      // successor started
-      if (successorTask.getActualFinish() == null)
-      {
-         // successor not finished
-         if (relation.getLag().getDuration() == 0)
-         {
-            return addLag(relation, predecessorTask.getEarlyFinish());
-         }
-
-         if (relation.getLag().getDuration() > 0)
-         {
-            return addLag(relation, predecessorTask.getEarlyFinish());
-         }
-
-         return addLag(relation, predecessorTask.getEarlyFinish());
-      }
-
-      // successor finished
-      if (relation.getLag().getDuration() == 0)
-      {
-         return addLag(relation, predecessorTask.getEarlyFinish());
-      }
-
-      if (relation.getLag().getDuration() > 0)
-      {
-         return addLag(relation, predecessorTask.getEarlyFinish());
-      }
-
-      return addLag(relation, predecessorTask.getEarlyFinish());
    }
 
    /**
