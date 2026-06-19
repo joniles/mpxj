@@ -6,6 +6,7 @@
 	</properties>
 	<body>
         <release date="Unreleased" version="16.5.0">
+            <action dev="joniles" type="update">Improve identification of deleted items when reading certain Asta Powerproject PP files.</action>
             <action dev="joniles" type="update">Updated `PrimaveraScheduler` to support the Expected Finish attribute.</action>
             <action dev="joniles" type="update">Updated `PrimaveraScheduler` to better align Early Start and Early Finish with P6 for activities with a Finish On constraint.</action>
             <action dev="joniles" type="update">Updated `PrimaveraScheduler` to better align Remaining Early Start and Remaining Late Start with P6 for LOE activities.</action>

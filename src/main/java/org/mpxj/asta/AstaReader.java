@@ -35,7 +35,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -307,12 +306,6 @@ final class AstaReader
       leaves.addAll(hammocks);
 
       //
-      // Sort the bars and the leaves
-      //
-      bars.sort(BAR_COMPARATOR);
-      leaves.sort(LEAF_COMPARATOR);
-
-      //
       // Map bar IDs to bars
       //
       Map<Integer, Row> barIdToBarMap = new HashMap<>();
@@ -320,6 +313,42 @@ final class AstaReader
       {
          barIdToBarMap.put(bar.getInteger("BARID"), bar);
       }
+
+      //
+      // Build the SUBPROJECT_ID hierarchy
+      //
+      List<Row> parentBars = new ArrayList<>();
+      for (Row bar : bars)
+      {
+         Integer subProjectID = bar.getInteger("SUBPROJECT_ID");
+         Row parentBar = barIdToBarMap.get(subProjectID);
+         if (parentBar == null)
+         {
+            parentBars.add(bar);
+         }
+         else
+         {
+            // Ignore items which are their own parent.
+            // These appear to be deleted items.
+            if (parentBar != bar)
+            {
+               parentBar.addChild(bar);
+            }
+         }
+      }
+
+      // Recreate the bars list without the hierarchy of items we've ignored
+      // and clear the hierarchy we've just built.
+      bars.clear();
+      parentBars.forEach(r -> listBarHierarchy(bars, r));
+      parentBars.clear();
+      bars.forEach(r -> r.getChildRows().clear());
+
+      //
+      // Sort the bars and the leaves
+      //
+      bars.sort(BAR_COMPARATOR);
+      leaves.sort(LEAF_COMPARATOR);
 
       //
       // Merge expanded task attributes with parent bars
@@ -335,9 +364,9 @@ final class AstaReader
       }
 
       //
-      // Build the hierarchy
+      // Build the EXPANDED_TASK hierarchy
       //
-      List<Row> parentBars = new ArrayList<>();
+      parentBars = new ArrayList<>();
       for (Row bar : bars)
       {
          Integer expandedTaskID = bar.getInteger("EXPANDED_TASK");
@@ -363,21 +392,10 @@ final class AstaReader
       }
 
       //
-      // Prune any "displaced items" from the top level.
-      // We're using a heuristic here as this is the only thing I
-      // can see which differs between bars that we want to include
-      // and bars that we want to exclude.
+      // Remove the Displaced Items folder from the top level.
+      // TODO: keep looking for a way to identify this folder wihout using its name.
       //
-      Iterator<Row> iter = parentBars.iterator();
-      while (iter.hasNext())
-      {
-         Row bar = iter.next();
-         String barName = bar.getString("NAME");
-         if (barName == null || barName.isEmpty() || barName.equals("Displaced Items"))
-         {
-            iter.remove();
-         }
-      }
+      parentBars.removeIf(bar -> "Displaced Items".equals(bar.getString("NAME")));
 
       //
       // If we only have a single top level node (effectively a summary task) prune that too.
@@ -388,6 +406,12 @@ final class AstaReader
       }
 
       return parentBars;
+   }
+
+   private void listBarHierarchy(List<Row> bars, Row bar)
+   {
+      bars.add(bar);
+      bar.getChildRows().forEach(r -> listBarHierarchy(bars, r));
    }
 
    /**
