@@ -718,6 +718,10 @@ public class PrimaveraScheduler implements Scheduler
                if (m_file.getProjectProperties().getMustFinishBy() != null)
                {
                   lateFinish = m_file.getProjectProperties().getMustFinishBy();
+                  if (!isWorkingTime(task, lateFinish))
+                  {
+                     lateFinish = getEquivalentPreviousWorkFinish(task, lateFinish);
+                  }
                }
                else
                {
