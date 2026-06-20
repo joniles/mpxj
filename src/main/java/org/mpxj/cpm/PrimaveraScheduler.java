@@ -3913,7 +3913,12 @@ public class PrimaveraScheduler implements Scheduler
 
       task.setEarlyStart(task.getCalendar().getNextWorkStart(earlyStart.getValue()));
       task.setEarlyFinish(earlyFinish.getValue());
-      task.setLateStart(task.getCalendar().getNextWorkStart(lateStart.getValue()));
+
+      // Only align the late start with a work start if
+      // we have distinct late start and late finish dates.
+      LocalDateTime lateStartValue = lateStart.isBefore(lateFinish) ? task.getCalendar().getNextWorkStart(lateStart.getValue()) : lateStart.getValue();
+
+      task.setLateStart(lateStartValue);
       task.setLateFinish(lateFinish.getValue());
 
       // P6 moves the planned start/finish dates for unstarted activities
