@@ -3985,7 +3985,7 @@ public class PrimaveraScheduler implements Scheduler
          return newDate;
       }
 
-      return newDate.isAfter(currentDate) ? newDate : currentDate;
+      return newDate != null && newDate.isAfter(currentDate) ? newDate : currentDate;
    }
 
    /**
