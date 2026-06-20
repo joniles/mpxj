@@ -750,6 +750,10 @@ public class PrimaveraScheduler implements Scheduler
                   if (lateFinish.isAfter(latestFinish))
                   {
                      lateFinish = latestFinish;
+                     if (!isWorkingTime(task, lateFinish))
+                     {
+                        lateFinish = getEquivalentPreviousWorkFinish(task, lateFinish);
+                     }
                   }
                }
                break;
