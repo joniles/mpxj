@@ -289,7 +289,9 @@ public class PrimaveraSchedulerComparator
     */
    public boolean process(ProjectFile baselineFile, ProjectFile workingFile, boolean analyseWbs, boolean analyseResourceAssignments, boolean analyseFloats, boolean analyseLongestPath) throws Exception
    {
-      m_equivalentDateCount = 0;
+      m_forwardEquivalentDateCount = 0;
+      m_backwardEquivalentDateCount = 0;
+      m_assignmentEquivalentDateCount = 0;
       m_forwardErrorCount = 0;
       m_backwardErrorCount = 0;
       m_assignmentErrorCount = 0;
@@ -323,16 +325,14 @@ public class PrimaveraSchedulerComparator
       {
          if (m_debug)
          {
-            String equivalentDateCount = m_equivalentDateCount == 0 ? "" : " (" + m_equivalentDateCount + " equivalent dates)";
-            println("done." + equivalentDateCount);
+            println("done. " + getEquivalentDateCount());
          }
          return true;
       }
 
       if (m_debug)
       {
-         String equivalentDateCount = m_equivalentDateCount == 0 ? "" : " (" + m_equivalentDateCount + " equivalent dates)";
-         println("failed." + equivalentDateCount);
+         println("failed. " + getEquivalentDateCount());
          println("Project ID: " + baselineFile.getProjectProperties().getProjectID());
          println("Scheduling Progressed Activities: "+ baselineFile.getProjectProperties().getSchedulingProgressedActivities());
          println("Forward errors: " + m_forwardErrorCount);
@@ -347,6 +347,22 @@ public class PrimaveraSchedulerComparator
       }
 
       return false;
+   }
+
+   private String getEquivalentDateCount()
+   {
+      String forwardEquivalentDateCount = m_forwardEquivalentDateCount == 0 ? "" : m_forwardEquivalentDateCount + " forward equivalent dates";
+      String backwardEquivalentDateCount = m_backwardEquivalentDateCount == 0 ? "" : m_backwardEquivalentDateCount + " backward equivalent dates";
+      String assignmentEquivalentDateCount = m_assignmentEquivalentDateCount == 0 ? "" : m_assignmentEquivalentDateCount + " assignment equivalent dates";
+      String equivalentDateCount;
+
+      if (forwardEquivalentDateCount.isEmpty() && backwardEquivalentDateCount.isEmpty() && assignmentEquivalentDateCount.isEmpty())
+      {
+         return "";
+      }
+
+      String result = Stream.of(forwardEquivalentDateCount, backwardEquivalentDateCount, assignmentEquivalentDateCount).filter(s -> !s.isEmpty()).collect(Collectors.joining(" "));
+      return "(" + result + ")";
    }
 
    /**
@@ -396,9 +412,14 @@ public class PrimaveraSchedulerComparator
          ++m_backwardErrorCount;
       }
 
-      m_equivalentDateCount += (int) Stream.concat(forwardDateComparisons.stream(), backwardDateComparisons.stream())
+      m_forwardEquivalentDateCount += (int) forwardDateComparisons.stream()
          .filter(d -> d == DateEquality.EQUIVALENT)
          .count();
+
+      m_backwardEquivalentDateCount += (int) backwardDateComparisons.stream()
+         .filter(d -> d == DateEquality.EQUIVALENT)
+         .count();
+
    }
 
    /**
@@ -653,7 +674,7 @@ public class PrimaveraSchedulerComparator
          ++m_assignmentErrorCount;
       }
 
-      m_equivalentDateCount += (int) result.stream().filter(d -> d == DateEquality.EQUIVALENT).count();
+      m_assignmentEquivalentDateCount += (int) result.stream().filter(d -> d == DateEquality.EQUIVALENT).count();
    }
 
    /**
@@ -728,7 +749,9 @@ public class PrimaveraSchedulerComparator
    private boolean m_debug;
    private PrintStream m_printStream = System.out;
    private boolean m_directory;
-   private int m_equivalentDateCount;
+   private int m_forwardEquivalentDateCount;
+   private int m_backwardEquivalentDateCount;
+   private int m_assignmentEquivalentDateCount;
    private int m_forwardErrorCount;
    private int m_backwardErrorCount;
    private int m_assignmentErrorCount;
