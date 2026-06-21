@@ -321,6 +321,11 @@ public class PrimaveraSchedulerComparator
 //         m_backwardErrorCount = -1;
 //      }
 
+//      if (m_assignmentErrorCount == 0)
+//      {
+//         m_assignmentErrorCount = -1;
+//      }
+
       if (m_forwardErrorCount == 0 && m_backwardErrorCount == 0 && m_assignmentErrorCount == 0)
       {
          if (m_debug)
@@ -566,6 +571,11 @@ public class PrimaveraSchedulerComparator
             wbs.forEach(a -> analyseBackwardError(baselineFile, a));
          }
       }
+
+      if (m_assignmentErrorCount != 0)
+      {
+         workingFile.getResourceAssignments().forEach(a -> analyseAssignmentError(baselineFile, a));
+      }
    }
 
    /**
@@ -631,6 +641,31 @@ public class PrimaveraSchedulerComparator
       println("Late Finish: " + baseline.getLateFinish() + " " + working.getLateFinish() + lateFinishFail.getStatus());
       println("Remaining Late Start: " + baseline.getRemainingLateStart() + " " + working.getRemainingLateStart() + remainingLateStartFail.getStatus());
       println("Remaining Late Finish: " + baseline.getRemainingLateFinish() + " " + working.getRemainingLateFinish() + remainingLateFinishFail.getStatus());
+      println();
+   }
+
+   private void analyseAssignmentError(ProjectFile baselineFile, ResourceAssignment working)
+   {
+      ResourceAssignment baseline = baselineFile.getResourceAssignments().getByUniqueID(working.getUniqueID());
+      DateEquality startFail = compareDates(baseline, working, AssignmentField.START);
+      DateEquality finishFail = compareDates(baseline, working, AssignmentField.FINISH);
+      DateEquality actualStartFail = compareDates(baseline, working, AssignmentField.ACTUAL_START);
+      DateEquality actualFinishFail = compareDates(baseline, working, AssignmentField.ACTUAL_FINISH);
+      DateEquality remainingEarlyStartFail = compareDates(baseline, working, AssignmentField.REMAINING_EARLY_START);
+      DateEquality remainingEarlyFinishFail = compareDates(baseline, working, AssignmentField.REMAINING_EARLY_FINISH);
+      DateEquality remainingLateStartFail = compareDates(baseline, working, AssignmentField.REMAINING_LATE_START);
+      DateEquality remainingLateFinishFail = compareDates(baseline, working, AssignmentField.REMAINING_LATE_FINISH);
+
+      println(working.toString());
+      println("Start: " + baseline.getStart() + " " + working.getStart() + startFail.getStatus());
+      println("Finish: " + baseline.getFinish() + " " + working.getFinish() + finishFail.getStatus());
+      println("Actual Start: " + baseline.getActualStart() + " " + working.getActualStart() + actualStartFail.getStatus());
+      println("Actual Finish: " + baseline.getActualFinish() + " " + working.getActualFinish() + actualFinishFail.getStatus());
+      println("Remaining Early Start: " + baseline.getRemainingEarlyStart() + " " + working.getRemainingEarlyStart() + remainingEarlyStartFail.getStatus());
+      println("Remaining Early Finish: " + baseline.getRemainingEarlyFinish() + " " + working.getRemainingEarlyFinish() + remainingEarlyFinishFail.getStatus());
+      println("Remaining Late Start: " + baseline.getRemainingLateStart() + " " + working.getRemainingLateStart() + remainingLateStartFail.getStatus());
+      println("Remaining Late Finish: " + baseline.getRemainingLateFinish() + " " + working.getRemainingLateFinish() + remainingLateFinishFail.getStatus());
+
       println();
    }
 
