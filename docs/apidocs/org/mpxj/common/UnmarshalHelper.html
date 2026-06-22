@@ -25,7 +25,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -155,12 +155,18 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/parsers/DocumentBuilder.html?is-external=true" title="class or interface in javax.xml.parsers">DocumentBuilder</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../org/mpxj/common/UnmarshalHelper.html#createDocumentBuilder--">createDocumentBuilder</a></span>()</code>
+<div class="block">Create a new DocumentBuilder instance.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/org/xml/sax/XMLReader.html?is-external=true" title="class or interface in org.xml.sax">XMLReader</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/mpxj/common/UnmarshalHelper.html#createXmlReader--">createXmlReader</a></span>()</code>
 <div class="block">Create a new XmlReader instance.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/mpxj/common/UnmarshalHelper.html#unmarshal-jakarta.xml.bind.JAXBContext-org.xml.sax.InputSource-org.xml.sax.XMLFilter-boolean-">unmarshal</a></span>(jakarta.xml.bind.JAXBContext&nbsp;context,
          <a href="https://docs.oracle.com/javase/8/docs/api/org/xml/sax/InputSource.html?is-external=true" title="class or interface in org.xml.sax">InputSource</a>&nbsp;source,
@@ -169,14 +175,14 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <div class="block">Unmarshall from an input source and apply a filter, optionally ignore validation errors.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/mpxj/common/UnmarshalHelper.html#unmarshal-jakarta.xml.bind.JAXBContext-java.io.InputStream-">unmarshal</a></span>(jakarta.xml.bind.JAXBContext&nbsp;context,
          <a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;stream)</code>
 <div class="block">Unmarshal from an input stream.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../org/mpxj/common/UnmarshalHelper.html#unmarshal-jakarta.xml.bind.JAXBContext-java.io.InputStream-org.xml.sax.XMLFilter-">unmarshal</a></span>(jakarta.xml.bind.JAXBContext&nbsp;context,
          <a href="https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;stream,
@@ -311,7 +317,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <a name="createXmlReader--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>createXmlReader</h4>
 <pre>public static final&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/org/xml/sax/XMLReader.html?is-external=true" title="class or interface in org.xml.sax">XMLReader</a>&nbsp;createXmlReader()
@@ -323,6 +329,23 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd>XmlReader instance</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/org/xml/sax/SAXException.html?is-external=true" title="class or interface in org.xml.sax">SAXException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/parsers/ParserConfigurationException.html?is-external=true" title="class or interface in javax.xml.parsers">ParserConfigurationException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="createDocumentBuilder--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>createDocumentBuilder</h4>
+<pre>public static&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/parsers/DocumentBuilder.html?is-external=true" title="class or interface in javax.xml.parsers">DocumentBuilder</a>&nbsp;createDocumentBuilder()
+                                             throws <a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/parsers/ParserConfigurationException.html?is-external=true" title="class or interface in javax.xml.parsers">ParserConfigurationException</a></pre>
+<div class="block">Create a new DocumentBuilder instance.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>DocumentBuilder instance</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="https://docs.oracle.com/javase/8/docs/api/javax/xml/parsers/ParserConfigurationException.html?is-external=true" title="class or interface in javax.xml.parsers">ParserConfigurationException</a></code></dd>
 </dl>
 </li>

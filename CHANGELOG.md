@@ -5,6 +5,18 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
+## 16.5.0 (Unreleased)
+* Improve identification of deleted items when reading certain Asta Powerproject PP files.
+* Updated `PrimaveraScheduler` to support the Expected Finish attribute.
+* Updated `PrimaveraScheduler` to better align Early Start and Early Finish with P6 for activities with a Finish On constraint.
+* Updated `PrimaveraScheduler` to better align Remaining Early Start and Remaining Late Start with P6 for LOE activities.
+* Updated `PrimaveraScheduler` to better align Late Start and Late Finish with P6 for Start Milestones.
+* Updated `PrimaveraScheduler` to better align Early Start with P6 for Finish Milestones.
+* Updated `PrimaveraScheduler` to better align Early Start and Early Finish with P6 for ALAP Activities.
+
+## 16.4.1 (2026-06-22)
+* Fix XXE vulnerability in MerlinReader.
+
 ## 16.4.0 (2026-06-10)
 * Ensure that Expected Finish is rolled up from activities to WBS entries when reading P6 schedules.
 * Improve accuracy of reading relationships between tasks for certain MPP files.
