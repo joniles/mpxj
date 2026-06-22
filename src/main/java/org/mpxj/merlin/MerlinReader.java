@@ -40,7 +40,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -73,6 +72,7 @@ import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.ResultSetHelper;
 import org.mpxj.common.SQLite;
+import org.mpxj.common.UnmarshalHelper;
 import org.mpxj.reader.AbstractProjectFileReader;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -114,7 +114,7 @@ public final class MerlinReader extends AbstractProjectFileReader
       try
       {
          m_connection = SQLite.createConnection(file);
-         m_documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+         m_documentBuilder = UnmarshalHelper.createDocumentBuilder();
 
          XPathFactory xPathfactory = XPathFactory.newInstance();
          XPath xpath = xPathfactory.newXPath();
