@@ -30,6 +30,8 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.UnmarshallerHandler;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
@@ -102,8 +104,22 @@ public final class UnmarshalHelper
    public static final XMLReader createXmlReader() throws SAXException, ParserConfigurationException
    {
       SAXParserFactory factory = SAXParserFactory.newInstance();
-      factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+      factory.setFeature(DISALLOW_DOCTYPE_DECL, true);
       factory.setNamespaceAware(true);
       return factory.newSAXParser().getXMLReader();
    }
+
+   /**
+    * Create a new DocumentBuilder instance.
+    *
+    * @return DocumentBuilder instance
+    */
+   public static DocumentBuilder createDocumentBuilder() throws ParserConfigurationException
+   {
+      DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+      factory.setFeature(DISALLOW_DOCTYPE_DECL, true);
+      return factory.newDocumentBuilder();
+   }
+
+   private static final String DISALLOW_DOCTYPE_DECL = "http://apache.org/xml/features/disallow-doctype-decl";
 }
