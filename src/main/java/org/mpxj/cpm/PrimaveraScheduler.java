@@ -3331,10 +3331,12 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       LocalDateTime remainingEarlyStart;
+      LocalDateTime remainingEarlyFinish = null;
 
       if (task.getActualStart() == null)
       {
          remainingEarlyStart = task.getEarlyStart();
+         remainingEarlyFinish = task.getEarlyFinish();
       }
       else
       {
@@ -3355,8 +3357,13 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
+      if (remainingEarlyFinish == null)
+      {
+         remainingEarlyFinish = getDateFromStartAndRemainingDuration(task, remainingEarlyStart);
+      }
+
       task.setRemainingEarlyStart(remainingEarlyStart);
-      task.setRemainingEarlyFinish(getDateFromStartAndRemainingDuration(task, remainingEarlyStart));
+      task.setRemainingEarlyFinish(remainingEarlyFinish);
    }
 
    /**
