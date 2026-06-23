@@ -432,6 +432,10 @@ public class PrimaveraScheduler implements Scheduler
          {
             // Next work start
             earlyStart = getNextWorkStart(task, earlyStart);
+            if (task.getActivityType() == ActivityType.START_MILESTONE)
+            {
+               earlyFinish = earlyStart;
+            }
          }
       }
       else
