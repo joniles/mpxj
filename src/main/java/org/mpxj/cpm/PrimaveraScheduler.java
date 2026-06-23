@@ -1909,7 +1909,8 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  lateStart = getNextWorkStart(predecessorTask, removeLag(relation, successorTask.getLateStart()));
+                  appliedLateStart = removeLag(relation, successorTask.getLateStart());
+                  lateStart = getNextWorkStart(predecessorTask, appliedLateStart);
                   lateFinish = getDateFromStartAndRemainingDuration(predecessorTask, lateStart);
                }
             }
