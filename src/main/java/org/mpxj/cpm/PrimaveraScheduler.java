@@ -1418,14 +1418,7 @@ public class PrimaveraScheduler implements Scheduler
                {
                   appliedEarlyFinish = getEquivalentNextWorkStart(successorTask, appliedEarlyFinish);
                }
-
                earlyStart = getDateFromFinishAndRemainingDuration(successorTask, predecessorTask.getEarlyFinish());
-
-               // TODO: this really needs to be part of the method above
-               if (earlyStart.isEqual(m_projectStartDate))
-               {
-                  appliedEarlyFinish = null;
-               }
             }
             else
             {
