@@ -199,7 +199,7 @@ public class PrimaveraScheduler implements Scheduler
          else
          {
             assignment.setRemainingEarlyFinish(getEquivalentPreviousWorkFinish(getEffectiveCalendar(assignment), getDateFromWork(getEffectiveCalendar(assignment), assignment.getRemainingUnits(), assignment.getRemainingEarlyStart(), assignment.getRemainingWork())));
-            assignment.setRemainingLateStart(getEquivalentNextWorkStart(getEffectiveCalendar(assignment), getDateFromWork(getEffectiveCalendar(assignment), assignment.getRemainingUnits(), assignment.getRemainingLateFinish(), assignment.getRemainingWork().negate())));
+            assignment.setRemainingLateStart(assignment.getRemainingLateStart());
          }
       }
 
