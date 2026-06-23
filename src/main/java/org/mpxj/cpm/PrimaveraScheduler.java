@@ -3904,7 +3904,8 @@ public class PrimaveraScheduler implements Scheduler
          lateStart = lateFinish;
       }
 
-      task.setStart(start.isActual() ? start.getValue() : earlyStart.getValue());
+      LocalDateTime earlyStartValue = task.getCalendar().getNextWorkStart(earlyStart.getValue());
+      task.setStart(start.isActual() ? start.getValue() : earlyStartValue);
       task.setFinish(earlyFinish.getValue());
 
       if (earlyStart.isActual())
@@ -3924,7 +3925,7 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      task.setEarlyStart(task.getCalendar().getNextWorkStart(earlyStart.getValue()));
+      task.setEarlyStart(earlyStartValue);
       task.setEarlyFinish(earlyFinish.getValue());
 
       // Only align the late start with a work start if
