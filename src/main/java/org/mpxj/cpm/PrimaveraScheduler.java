@@ -888,32 +888,26 @@ public class PrimaveraScheduler implements Scheduler
     */
    private DrivingRelation calculateEarlyStart(Relation relation)
    {
-      LocalDateTime earlyStart;
-
       switch (relation.getType())
       {
          case FINISH_START:
          {
-            earlyStart = calculateEarlyStartForFinishStart(relation);
-            break;
+            return calculateEarlyStartForFinishStart(relation);
          }
 
          case START_START:
          {
-            earlyStart = calculateEarlyStartForStartStart(relation);
-            break;
+            return calculateEarlyStartForStartStart(relation);
          }
 
          case FINISH_FINISH:
          {
-            earlyStart = calculateEarlyStartForFinishFinish(relation);
-            break;
+            return calculateEarlyStartForFinishFinish(relation);
          }
 
          case START_FINISH:
          {
-            earlyStart = calculateEarlyStartForStartFinish(relation);
-            break;
+            return calculateEarlyStartForStartFinish(relation);
          }
 
          default:
@@ -921,8 +915,6 @@ public class PrimaveraScheduler implements Scheduler
             throw new UnsupportedOperationException();
          }
       }
-
-      return new DrivingRelation(relation, earlyStart, null);
    }
 
    /**
@@ -931,7 +923,7 @@ public class PrimaveraScheduler implements Scheduler
     * @param relation relationship between two tasks
     * @return calculated early start date
     */
-   private LocalDateTime calculateEarlyStartForFinishStart(Relation relation)
+   private DrivingRelation calculateEarlyStartForFinishStart(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
       Task successorTask = relation.getSuccessorTask();
@@ -1147,7 +1139,7 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      return earlyStart;
+      return new DrivingRelation(relation, earlyStart, null);
    }
 
    /**
@@ -1156,7 +1148,7 @@ public class PrimaveraScheduler implements Scheduler
     * @param relation relationship between two tasks
     * @return calculated early start date
     */
-   private LocalDateTime calculateEarlyStartForStartStart(Relation relation)
+   private DrivingRelation calculateEarlyStartForStartStart(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
       Task successorTask = relation.getSuccessorTask();
@@ -1388,7 +1380,7 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      return earlyStart;
+      return new DrivingRelation(relation, earlyStart, null);
    }
 
    /**
@@ -1397,7 +1389,7 @@ public class PrimaveraScheduler implements Scheduler
     * @param relation relationship between two tasks
     * @return calculated early start date
     */
-   private LocalDateTime calculateEarlyStartForFinishFinish(Relation relation)
+   private DrivingRelation calculateEarlyStartForFinishFinish(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
       Task successorTask = relation.getSuccessorTask();
@@ -1612,7 +1604,7 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      return earlyStart;
+      return new DrivingRelation(relation, earlyStart, null);
    }
 
    /**
@@ -1621,7 +1613,7 @@ public class PrimaveraScheduler implements Scheduler
     * @param relation relationship between two tasks
     * @return calculated early start date
     */
-   private LocalDateTime calculateEarlyStartForStartFinish(Relation relation)
+   private DrivingRelation calculateEarlyStartForStartFinish(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
       Task successorTask = relation.getSuccessorTask();
@@ -1789,7 +1781,7 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      return earlyStart;
+      return new DrivingRelation(relation, earlyStart, null);
    }
 
    /**
