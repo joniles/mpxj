@@ -3256,7 +3256,12 @@ public class PrimaveraScheduler implements Scheduler
                if (successorTask.getActualStart() == null)
                {
                   // Successor not started
-                  return removeLag(relation, getDateFromFinishAndRemainingDuration(predecessorTask, successorTask.getEarlyStart()));
+                  LocalDateTime earlyStart = removeLag(relation, getDateFromFinishAndRemainingDuration(predecessorTask, successorTask.getEarlyStart()));
+                  if (!isWorkingTime(predecessorTask, earlyStart))
+                  {
+                     earlyStart = getEquivalentNextWorkStart(predecessorTask, earlyStart);
+                  }
+                  return earlyStart;
                }
 
                // successor started
