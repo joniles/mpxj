@@ -3952,7 +3952,7 @@ public class PrimaveraScheduler implements Scheduler
       if (task.getActualStart() == null || task.getActualFinish() == null)
       {
          task.setRemainingEarlyStart(task.getEarlyStart());
-         task.setRemainingEarlyFinish(earlyFinish.getValue());
+         task.setRemainingEarlyFinish(earlyFinishValue);
          task.setRemainingLateStart(task.getLateStart());
          task.setRemainingLateFinish(lateFinish.getValue());
       }
