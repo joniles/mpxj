@@ -3913,7 +3913,7 @@ public class PrimaveraScheduler implements Scheduler
       LocalDateTime earlyFinishValue = earlyStart.getValue().isEqual(earlyFinish.getValue()) ? earlyStartValue : earlyFinish.getValue();
 
       task.setStart(start.isActual() ? start.getValue() : earlyStartValue);
-      task.setFinish(earlyFinish.getValue());
+      task.setFinish(earlyFinish.isActual() ? earlyFinish.getValue() : earlyFinishValue);
 
       if (earlyStart.isActual())
       {
