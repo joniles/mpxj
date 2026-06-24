@@ -917,8 +917,7 @@ public class PrimaveraScheduler implements Scheduler
 
          case START_FINISH:
          {
-            earlyStart = calculateEarlyStartForStartFinish(relation);
-            break;
+            return calculateEarlyStartForStartFinish(relation);
          }
 
          default:
@@ -1639,11 +1638,12 @@ public class PrimaveraScheduler implements Scheduler
     * @param relation relationship between two tasks
     * @return calculated early start date
     */
-   private LocalDateTime calculateEarlyStartForStartFinish(Relation relation)
+   private DrivingRelation calculateEarlyStartForStartFinish(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
       Task successorTask = relation.getSuccessorTask();
       LocalDateTime earlyStart;
+      LocalDateTime appliedEarlyFinish = null;
 
       if (predecessorTask.getActualStart() == null)
       {
@@ -1658,6 +1658,10 @@ public class PrimaveraScheduler implements Scheduler
             else
             {
                earlyStart = addLag(relation, getDateFromFinishAndDuration(successorTask, predecessorTask.getEarlyStart()));
+               if (earlyStart.isAfter(m_dataDate))
+               {
+                  appliedEarlyFinish = addLag(relation, predecessorTask.getEarlyStart());
+               }
             }
          }
          else
@@ -1807,7 +1811,7 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      return earlyStart;
+      return new DrivingRelation(relation, earlyStart, appliedEarlyFinish);
    }
 
    /**
@@ -3301,6 +3305,8 @@ public class PrimaveraScheduler implements Scheduler
             {
                // Successor not started
                return getEquivalentNextWorkStart(predecessorTask, m_dataDate);
+               // But sometimes...
+               // return m_dataDate;
             }
 
             // successor started
