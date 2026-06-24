@@ -3697,8 +3697,9 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  earlyFinishFromPredecessor = updateIfAfter(earlyFinishFromPredecessor, AnnotatedDateTime.fromActual(relation, addLag(relation, predecessor.getActualStart())));
-                  lateFinishFromPredecessor = updateIfAfter(lateFinishFromPredecessor, AnnotatedDateTime.fromActual(relation, addLag(relation, predecessor.getActualStart())));
+                  LocalDateTime finish = getEquivalentPreviousWorkFinish(task, addLag(relation, predecessor.getActualStart()));
+                  earlyFinishFromPredecessor = updateIfAfter(earlyFinishFromPredecessor, AnnotatedDateTime.fromActual(relation, finish));
+                  lateFinishFromPredecessor = updateIfAfter(lateFinishFromPredecessor, AnnotatedDateTime.fromActual(relation, finish));
                }
                break;
             }
