@@ -1,7 +1,7 @@
 /*
- * file:       NonWorkingTimeStyle.java
+ * file:       GanttBarStartEndTypeHelper.java
  * author:     Jon Iles
- * date:       2005-04-07
+ * date:       2026-06-07
  */
 
 /*
@@ -23,11 +23,29 @@
 package org.mpxj.mpp;
 
 /**
- * Class representing how non-working time is shown on a Gantt chart.
+ * Helper class for the GanttBarStartEndType enumeration.
  */
-public enum NonWorkingTimeStyle
+final class GanttBarStartEndTypeHelper
 {
-   BEHIND,
-   IN_FRONT,
-   DO_NOT_DRAW
+   /**
+    * Retrieve a GanttBarStartEndType based on an int value.
+    *
+    * @param value int representation of a GanttBarStartEndType value
+    * @return GanttBarStartEndType instance or null
+    */
+   public static GanttBarStartEndType getInstance(int value)
+   {
+      if (value < 0 || value >= TYPE_VALUES.length)
+      {
+         return GanttBarStartEndType.SOLID;
+      }
+
+      return TYPE_VALUES[value];
+   }
+
+   private static final GanttBarStartEndType[] TYPE_VALUES = {
+      GanttBarStartEndType.SOLID,
+      GanttBarStartEndType.FRAMED,
+      GanttBarStartEndType.DASHED
+   };
 }

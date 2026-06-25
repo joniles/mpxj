@@ -121,13 +121,13 @@ abstract class GroupReader
             boolean underline = ((style & 0x04) != 0);
 
             int fontColorIndex = MPPUtility.getByte(groupVarData, offset + 10);
-            ColorType fontColor = ColorType.getInstance(fontColorIndex);
+            ColorType fontColor = ColorTypeHelper.getInstance(fontColorIndex);
 
             FontStyle fontStyle = new FontStyle(fontBase, italic, bold, underline, false, fontColor.getColor(), null, BackgroundPattern.SOLID);
             clause.setFont(fontStyle);
 
             int colorIndex = MPPUtility.getByte(groupVarData, offset + 12);
-            ColorType color = ColorType.getInstance(colorIndex);
+            ColorType color = ColorTypeHelper.getInstance(colorIndex);
             clause.setCellBackgroundColor(color.getColor());
             clause.setPattern(BackgroundPattern.getInstance(MPPUtility.getByte(groupVarData, offset + 13) & 0x0F));
 
