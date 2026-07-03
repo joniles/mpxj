@@ -316,20 +316,20 @@ public class PrimaveraSchedulerComparator
          }
       }
 
-//      if (m_forwardErrorCount == 0)
-//      {
-//         m_forwardErrorCount = -1;
-//      }
+      //      if (m_forwardErrorCount == 0)
+      //      {
+      //         m_forwardErrorCount = -1;
+      //      }
 
-//      if (m_backwardErrorCount == 0)
-//      {
-//         m_backwardErrorCount = -1;
-//      }
+      //      if (m_backwardErrorCount == 0)
+      //      {
+      //         m_backwardErrorCount = -1;
+      //      }
 
-//      if (m_assignmentErrorCount == 0)
-//      {
-//         m_assignmentErrorCount = -1;
-//      }
+      //      if (m_assignmentErrorCount == 0)
+      //      {
+      //         m_assignmentErrorCount = -1;
+      //      }
 
       if (m_forwardErrorCount == 0 && m_backwardErrorCount == 0 && m_assignmentErrorCount == 0)
       {
@@ -344,7 +344,7 @@ public class PrimaveraSchedulerComparator
       {
          println("failed. " + getEquivalentDateCount());
          println("Project ID: " + baselineFile.getProjectProperties().getProjectID());
-         println("Scheduling Progressed Activities: "+ baselineFile.getProjectProperties().getSchedulingProgressedActivities());
+         println("Scheduling Progressed Activities: " + baselineFile.getProjectProperties().getSchedulingProgressedActivities());
          println("Forward errors: " + m_forwardErrorCount);
          println("Backward errors: " + m_backwardErrorCount);
          println("Assignment errors: " + m_assignmentErrorCount);
@@ -805,7 +805,6 @@ public class PrimaveraSchedulerComparator
    {
       m_printStream.print(value);
    }
-
 
    private boolean m_debug;
    private PrintStream m_printStream = System.out;

@@ -413,7 +413,6 @@ public class PrimaveraScheduler implements Scheduler
                break;
             }
 
-
             default:
             {
                break;
@@ -518,7 +517,7 @@ public class PrimaveraScheduler implements Scheduler
          task.getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && // ALAP will override early finish
          !task.getExpectedFinish().isBefore(earlyStart) && // The expected finish is >= early start
          !task.getExpectedFinish().isBefore(m_dataDate) && // The expected finish is >= the data date
-         !taskHasFinishDrivingPredecessor(task)  && // FF and SF predecessors (appear to) override Expected Finish
+         !taskHasFinishDrivingPredecessor(task) && // FF and SF predecessors (appear to) override Expected Finish
          task.getEffectiveCalendar().getWork(task.getEarlyFinish(), task.getExpectedFinish(), TimeUnit.HOURS).getDuration() != 0) // Expected Finish  actually has an effect
       {
          task.setEarlyFinish(task.getExpectedFinish());
