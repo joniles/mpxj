@@ -359,6 +359,11 @@ public class PrimaveraSchedulerComparator
       return false;
    }
 
+   /**
+    * Report the number of equivalent dates, broken down by type.
+    *
+    * @return number of equivalent dates report
+    */
    private String getEquivalentDateCount()
    {
       String forwardEquivalentDateCount = m_forwardEquivalentDateCount == 0 ? "" : m_forwardEquivalentDateCount + " forward equivalent dates";
@@ -512,6 +517,14 @@ public class PrimaveraSchedulerComparator
       return baselineDuration.getUnits() == workingDuration.getUnits() && baselineDurationValue == workingDurationValue;
    }
 
+   /**
+    * Compare numeric values.
+    *
+    * @param baseline baseline task
+    * @param working working task
+    * @param field field to compare
+    * @return true if the numeric values match
+    */
    private boolean compareNumbers(Task baseline, Task working, TaskField field)
    {
       Number baselineObject = (Number) baseline.get(field);
@@ -649,6 +662,12 @@ public class PrimaveraSchedulerComparator
       println();
    }
 
+   /**
+    * Write debug information for an assignment error.
+    *
+    * @param baselineFile baseline for comparison
+    * @param working scheduled resource assignment
+    */
    private void analyseAssignmentError(ProjectFile baselineFile, ResourceAssignment working)
    {
       ResourceAssignment baseline = baselineFile.getResourceAssignments().getByUniqueID(working.getUniqueID());
@@ -750,7 +769,9 @@ public class PrimaveraSchedulerComparator
       return result ? DateEquality.EQUIVALENT : DateEquality.MISMATCH;
    }
 
-
+   /**
+    * Enumeration representing the result of a date comparison.
+    */
    private enum DateEquality
    {
       MATCH(""),
