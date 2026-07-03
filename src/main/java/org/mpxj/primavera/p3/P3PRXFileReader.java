@@ -100,6 +100,7 @@ public final class P3PRXFileReader extends AbstractProjectStreamReader
       int dataSizeValue = getInt(dataSize, 0);
       String fileNameValue = getString(fileName, 0);
       File file = new File(dir, fileNameValue);
+      FileHelper.validateTargetFileIsInParentDirectory(dir, file);
 
       if (dataSizeValue == 0)
       {

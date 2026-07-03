@@ -190,12 +190,7 @@ public class InputStreamHelper
          }
 
          File file = new File(dir, entry.getName());
-
-         // https://snyk.io/research/zip-slip-vulnerability
-         if (!file.getCanonicalFile().toPath().startsWith(dir.getCanonicalFile().toPath()))
-         {
-            throw new IOException("Entry is outside of the target dir: " + entry.getName());
-         }
+         FileHelper.validateTargetFileIsInParentDirectory(dir, file);
 
          if (entry.isDirectory())
          {

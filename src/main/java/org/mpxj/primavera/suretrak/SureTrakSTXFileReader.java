@@ -86,8 +86,9 @@ public final class SureTrakSTXFileReader extends AbstractProjectStreamReader
 
       int dataSizeValue = getInt(dataSize, 0);
       String fileNameValue = getString(fileName, 0);
-
       File file = new File(dir, fileNameValue);
+      FileHelper.validateTargetFileIsInParentDirectory(dir, file);
+
       if (dataSizeValue == 0)
       {
          FileHelper.createNewFile(file);

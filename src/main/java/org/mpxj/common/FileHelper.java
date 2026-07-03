@@ -129,4 +129,21 @@ public final class FileHelper
          throw new IOException("Failed to create new file");
       }
    }
+
+   /**
+    * Ensures that the target file is within the parent directory.
+    * Throws an exception if this is not the case.
+    * Used to avoid CWE-22: Improper Limitation of a Pathname to a Restricted Directory
+    * vulnerabilities when expanding file archives.
+    *
+    * @param parentDirectory parent directory
+    * @param targetFile target file
+    */
+   public static void validateTargetFileIsInParentDirectory(File parentDirectory, File targetFile) throws IOException
+   {
+      if (!targetFile.getCanonicalFile().toPath().startsWith(parentDirectory.getCanonicalFile().toPath()))
+      {
+         throw new IOException("Entry is outside of the target dir: " + targetFile.getName());
+      }
+   }
 }
