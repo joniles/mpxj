@@ -359,4 +359,14 @@
 			<arg line='release create -F ${dist.dir}/readme.md -t "Version ${current.version}" v${current.version} ${distribution}'/>
 		</exec>
 	</target>
+
+	<target name="tag-private-data" depends="init" description="Tag private data">
+		<exec executable="git" dir="${env.MPXJ_PRIVATE}" failonerror="true">
+			<arg line='tag v${current.version}'/>
+		</exec>
+
+		<exec executable="git" dir="${env.MPXJ_PRIVATE}" failonerror="true">
+			<arg line='push origin v${current.version}'/>
+		</exec>
+	</target>
 </project>
