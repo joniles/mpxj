@@ -682,6 +682,12 @@ public class PrimaveraScheduler implements Scheduler
       return relations;
    }
 
+   /**
+    * Retrieve the driving relation used by the backward pass.
+    *
+    * @param successors successo activities
+    * @return driving relation
+    */
    private DrivingRelation getBackwardPassDrivingRelation(List<Relation> successors)
    {
       List<DrivingRelation> drivingRelations = successors.stream().map(this::calculateLateFinish).collect(Collectors.toList());
