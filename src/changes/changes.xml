@@ -9,6 +9,9 @@
             <action dev="joniles" type="update">Improve identification of deleted items when reading certain Asta Powerproject PP files.</action>
             <action dev="joniles" type="update">Updated `PrimaveraScheduler` to support the Expected Finish attribute.</action>
             <action dev="joniles" type="update">Improvements to `PrimaveraScheduler` to ensure better alignment with P6.</action>
+            <action dev="joniles" type="update">Updated to Jackson 2.22.0.</action>
+            <action dev="joniles" type="update">Updated to jsoup 1.22.2.</action>
+            <action dev="joniles" type="update">Updated to JUnit 5.14.4</action>
         </release>
         <release date="2026-06-22" version="16.4.1">
 			<action dev="joniles" type="update">Fix XXE vulnerability in MerlinReader.</action>
