@@ -5,17 +5,17 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 16.5.0 (Unreleased)
+## 16.5.0 (2026-07-03)
+* Fix a vulnerability where reading malicious Primavera P3 PRX files or SureTrak STX files could result in files being written to arbitrary locations (with thanks to czTang).
 * Improve identification of deleted items when reading certain Asta Powerproject PP files.
 * Updated `PrimaveraScheduler` to support the Expected Finish attribute.
-* Updated `PrimaveraScheduler` to better align Early Start and Early Finish with P6 for activities with a Finish On constraint.
-* Updated `PrimaveraScheduler` to better align Remaining Early Start and Remaining Late Start with P6 for LOE activities.
-* Updated `PrimaveraScheduler` to better align Late Start and Late Finish with P6 for Start Milestones.
-* Updated `PrimaveraScheduler` to better align Early Start with P6 for Finish Milestones.
-* Updated `PrimaveraScheduler` to better align Early Start and Early Finish with P6 for ALAP Activities.
+* Improvements to `PrimaveraScheduler` to ensure better alignment with P6.
+* Updated to Jackson 2.22.0.
+* Updated to jsoup 1.22.2.
+* Updated to JUnit 5.14.4
 
 ## 16.4.1 (2026-06-22)
-* Fix XXE vulnerability in MerlinReader.
+* Fix XXE vulnerability in MerlinReader (with thanks for dyingman1).
 
 ## 16.4.0 (2026-06-10)
 * Ensure that Expected Finish is rolled up from activities to WBS entries when reading P6 schedules.
