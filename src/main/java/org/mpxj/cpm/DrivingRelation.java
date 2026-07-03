@@ -29,18 +29,20 @@ import org.mpxj.Relation;
 /**
  * Represents a relation and the date derived from it.
  */
-class DrivingRelation implements Comparable<DrivingRelation>
+class DrivingRelation
 {
    /**
     * Constructor.
     *
     * @param relation source relation
-    * @param date date derived from the relation
+    * @param startDate start date derived from the relation
+    * @param finishDate finish date derived from the relation
     */
-   public DrivingRelation(Relation relation, LocalDateTime date)
+   public DrivingRelation(Relation relation, LocalDateTime startDate, LocalDateTime finishDate)
    {
       m_relation = relation;
-      m_date = date;
+      m_startDate = startDate;
+      m_finishDate = finishDate;
    }
 
    /**
@@ -54,20 +56,26 @@ class DrivingRelation implements Comparable<DrivingRelation>
    }
 
    /**
-    * Retrieve the date derived from the source relation.
+    * Retrieve the start date derived from the source relation.
     *
     * @return date
     */
-   public LocalDateTime getDate()
+   public LocalDateTime getStartDate()
    {
-      return m_date;
+      return m_startDate;
    }
 
-   @Override public int compareTo(DrivingRelation o)
+   /**
+    * Retrieve the finish date derived from the source relation.
+    *
+    * @return date
+    */
+   public LocalDateTime getFinishDate()
    {
-      return m_date.compareTo(o.getDate());
+      return m_finishDate;
    }
 
-   private final LocalDateTime m_date;
+   private final LocalDateTime m_startDate;
+   private final LocalDateTime m_finishDate;
    private final Relation m_relation;
 }

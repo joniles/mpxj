@@ -289,7 +289,9 @@ public class PrimaveraSchedulerComparator
     */
    public boolean process(ProjectFile baselineFile, ProjectFile workingFile, boolean analyseWbs, boolean analyseResourceAssignments, boolean analyseFloats, boolean analyseLongestPath) throws Exception
    {
-      m_equivalentDateCount = 0;
+      m_forwardEquivalentDateCount = 0;
+      m_backwardEquivalentDateCount = 0;
+      m_assignmentEquivalentDateCount = 0;
       m_forwardErrorCount = 0;
       m_backwardErrorCount = 0;
       m_assignmentErrorCount = 0;
@@ -314,20 +316,33 @@ public class PrimaveraSchedulerComparator
          }
       }
 
+//      if (m_forwardErrorCount == 0)
+//      {
+//         m_forwardErrorCount = -1;
+//      }
+
+//      if (m_backwardErrorCount == 0)
+//      {
+//         m_backwardErrorCount = -1;
+//      }
+
+//      if (m_assignmentErrorCount == 0)
+//      {
+//         m_assignmentErrorCount = -1;
+//      }
+
       if (m_forwardErrorCount == 0 && m_backwardErrorCount == 0 && m_assignmentErrorCount == 0)
       {
          if (m_debug)
          {
-            String equivalentDateCount = m_equivalentDateCount == 0 ? "" : " (" + m_equivalentDateCount + " equivalent dates)";
-            println("done." + equivalentDateCount);
+            println("done. " + getEquivalentDateCount());
          }
          return true;
       }
 
       if (m_debug)
       {
-         String equivalentDateCount = m_equivalentDateCount == 0 ? "" : " (" + m_equivalentDateCount + " equivalent dates)";
-         println("failed." + equivalentDateCount);
+         println("failed. " + getEquivalentDateCount());
          println("Project ID: " + baselineFile.getProjectProperties().getProjectID());
          println("Scheduling Progressed Activities: "+ baselineFile.getProjectProperties().getSchedulingProgressedActivities());
          println("Forward errors: " + m_forwardErrorCount);
@@ -342,6 +357,27 @@ public class PrimaveraSchedulerComparator
       }
 
       return false;
+   }
+
+   /**
+    * Report the number of equivalent dates, broken down by type.
+    *
+    * @return number of equivalent dates report
+    */
+   private String getEquivalentDateCount()
+   {
+      String forwardEquivalentDateCount = m_forwardEquivalentDateCount == 0 ? "" : m_forwardEquivalentDateCount + " forward equivalent dates";
+      String backwardEquivalentDateCount = m_backwardEquivalentDateCount == 0 ? "" : m_backwardEquivalentDateCount + " backward equivalent dates";
+      String assignmentEquivalentDateCount = m_assignmentEquivalentDateCount == 0 ? "" : m_assignmentEquivalentDateCount + " assignment equivalent dates";
+      String equivalentDateCount;
+
+      if (forwardEquivalentDateCount.isEmpty() && backwardEquivalentDateCount.isEmpty() && assignmentEquivalentDateCount.isEmpty())
+      {
+         return "";
+      }
+
+      String result = Stream.of(forwardEquivalentDateCount, backwardEquivalentDateCount, assignmentEquivalentDateCount).filter(s -> !s.isEmpty()).collect(Collectors.joining(" "));
+      return "(" + result + ")";
    }
 
    /**
@@ -391,9 +427,14 @@ public class PrimaveraSchedulerComparator
          ++m_backwardErrorCount;
       }
 
-      m_equivalentDateCount += (int) Stream.concat(forwardDateComparisons.stream(), backwardDateComparisons.stream())
+      m_forwardEquivalentDateCount += (int) forwardDateComparisons.stream()
          .filter(d -> d == DateEquality.EQUIVALENT)
          .count();
+
+      m_backwardEquivalentDateCount += (int) backwardDateComparisons.stream()
+         .filter(d -> d == DateEquality.EQUIVALENT)
+         .count();
+
    }
 
    /**
@@ -476,6 +517,14 @@ public class PrimaveraSchedulerComparator
       return baselineDuration.getUnits() == workingDuration.getUnits() && baselineDurationValue == workingDurationValue;
    }
 
+   /**
+    * Compare numeric values.
+    *
+    * @param baseline baseline task
+    * @param working working task
+    * @param field field to compare
+    * @return true if the numeric values match
+    */
    private boolean compareNumbers(Task baseline, Task working, TaskField field)
    {
       Number baselineObject = (Number) baseline.get(field);
@@ -539,6 +588,11 @@ public class PrimaveraSchedulerComparator
          {
             wbs.forEach(a -> analyseBackwardError(baselineFile, a));
          }
+      }
+
+      if (m_assignmentErrorCount != 0)
+      {
+         workingFile.getResourceAssignments().forEach(a -> analyseAssignmentError(baselineFile, a));
       }
    }
 
@@ -609,6 +663,37 @@ public class PrimaveraSchedulerComparator
    }
 
    /**
+    * Write debug information for an assignment error.
+    *
+    * @param baselineFile baseline for comparison
+    * @param working scheduled resource assignment
+    */
+   private void analyseAssignmentError(ProjectFile baselineFile, ResourceAssignment working)
+   {
+      ResourceAssignment baseline = baselineFile.getResourceAssignments().getByUniqueID(working.getUniqueID());
+      DateEquality startFail = compareDates(baseline, working, AssignmentField.START);
+      DateEquality finishFail = compareDates(baseline, working, AssignmentField.FINISH);
+      DateEquality actualStartFail = compareDates(baseline, working, AssignmentField.ACTUAL_START);
+      DateEquality actualFinishFail = compareDates(baseline, working, AssignmentField.ACTUAL_FINISH);
+      DateEquality remainingEarlyStartFail = compareDates(baseline, working, AssignmentField.REMAINING_EARLY_START);
+      DateEquality remainingEarlyFinishFail = compareDates(baseline, working, AssignmentField.REMAINING_EARLY_FINISH);
+      DateEquality remainingLateStartFail = compareDates(baseline, working, AssignmentField.REMAINING_LATE_START);
+      DateEquality remainingLateFinishFail = compareDates(baseline, working, AssignmentField.REMAINING_LATE_FINISH);
+
+      println(working.getUniqueID() + " " + working);
+      println("Start: " + baseline.getStart() + " " + working.getStart() + startFail.getStatus());
+      println("Finish: " + baseline.getFinish() + " " + working.getFinish() + finishFail.getStatus());
+      println("Actual Start: " + baseline.getActualStart() + " " + working.getActualStart() + actualStartFail.getStatus());
+      println("Actual Finish: " + baseline.getActualFinish() + " " + working.getActualFinish() + actualFinishFail.getStatus());
+      println("Remaining Early Start: " + baseline.getRemainingEarlyStart() + " " + working.getRemainingEarlyStart() + remainingEarlyStartFail.getStatus());
+      println("Remaining Early Finish: " + baseline.getRemainingEarlyFinish() + " " + working.getRemainingEarlyFinish() + remainingEarlyFinishFail.getStatus());
+      println("Remaining Late Start: " + baseline.getRemainingLateStart() + " " + working.getRemainingLateStart() + remainingLateStartFail.getStatus());
+      println("Remaining Late Finish: " + baseline.getRemainingLateFinish() + " " + working.getRemainingLateFinish() + remainingLateFinishFail.getStatus());
+
+      println();
+   }
+
+   /**
     * Return a list of all child tasks in the hierarchy beneath a WBS entry.
     *
     * @param parent WBS entry
@@ -648,7 +733,7 @@ public class PrimaveraSchedulerComparator
          ++m_assignmentErrorCount;
       }
 
-      m_equivalentDateCount += (int) result.stream().filter(d -> d == DateEquality.EQUIVALENT).count();
+      m_assignmentEquivalentDateCount += (int) result.stream().filter(d -> d == DateEquality.EQUIVALENT).count();
    }
 
    /**
@@ -684,7 +769,9 @@ public class PrimaveraSchedulerComparator
       return result ? DateEquality.EQUIVALENT : DateEquality.MISMATCH;
    }
 
-
+   /**
+    * Enumeration representing the result of a date comparison.
+    */
    private enum DateEquality
    {
       MATCH(""),
@@ -723,7 +810,9 @@ public class PrimaveraSchedulerComparator
    private boolean m_debug;
    private PrintStream m_printStream = System.out;
    private boolean m_directory;
-   private int m_equivalentDateCount;
+   private int m_forwardEquivalentDateCount;
+   private int m_backwardEquivalentDateCount;
+   private int m_assignmentEquivalentDateCount;
    private int m_forwardErrorCount;
    private int m_backwardErrorCount;
    private int m_assignmentErrorCount;
