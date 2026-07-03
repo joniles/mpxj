@@ -327,7 +327,7 @@ public class CustomerDataTest
       comparator.setNoResourceAssignmentTest(noResourceAssignmentTest);
       comparator.setNoFloatTest(noFloatTest);
       comparator.setNoLongestPathTest(noLongestPathTest);
-      comparator.setDebug(true);
+      comparator.setDebug(false);
 
       assertTrue(comparator.process(new File(m_privateDirectory, "XER"), ".xer"));
    }
