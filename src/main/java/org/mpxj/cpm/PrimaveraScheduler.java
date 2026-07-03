@@ -1928,7 +1928,6 @@ public class PrimaveraScheduler implements Scheduler
          else
          {
             // successor started
-            //if (successorTask.getActualFinish() == null)
             if (!isComplete(successorTask))
             {
                // successor not finished
@@ -1972,7 +1971,6 @@ public class PrimaveraScheduler implements Scheduler
       else
       {
          // Predecessor Started
-         //if (predecessorTask.getActualFinish() != null)
          if (isComplete(predecessorTask))
          {
             // Predecessor finished
@@ -2009,7 +2007,6 @@ public class PrimaveraScheduler implements Scheduler
             else
             {
                // successor started
-               //if (successorTask.getActualFinish() == null)
                if (!isComplete(successorTask))
                {
                   // successor not finished
@@ -2097,7 +2094,6 @@ public class PrimaveraScheduler implements Scheduler
             else
             {
                // successor started
-               //if (successorTask.getActualFinish() == null)
                if (!isComplete(successorTask))
                {
                   // successor not finished
