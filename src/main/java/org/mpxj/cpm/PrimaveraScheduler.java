@@ -2157,6 +2157,12 @@ public class PrimaveraScheduler implements Scheduler
       return new DrivingRelation(relation, appliedLateStart, lateFinish);
    }
 
+   /**
+    * Returns true if an activity is complete.
+    *
+    * @param task  target activity
+    * @return true if the activity is complete
+    */
    private boolean isComplete(Task task)
    {
       if (task.getActualFinish() != null)
