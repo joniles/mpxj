@@ -68,6 +68,14 @@ final class Var2Data extends MPPComponent
             continue;
          }
 
+         // Offsets can repeat when items share deduplicated var data. The map is keyed by
+         // offset, so a repeat yields an identical entry; skip it to avoid resetting and
+         // re-skipping to the start of the stream.
+         if (m_map.containsKey(Integer.valueOf(itemOffset)))
+         {
+            continue;
+         }
+
          if (currentOffset > itemOffset)
          {
             is.reset();
