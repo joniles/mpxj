@@ -1951,6 +1951,7 @@ public class PrimaveraScheduler implements Scheduler
                // successor finished
                if (relation.getLag().getDuration() == 0)
                {
+                  //appliedLateStart = removeLag(relation, successorTask.getLateStart());
                   lateStart = removeLag(relation, successorTask.getLateStart());
                }
                else
@@ -1978,6 +1979,7 @@ public class PrimaveraScheduler implements Scheduler
                // Successor not started
                if (relation.getLag().getDuration() == 0)
                {
+                  // appliedLateStart = successorTask.getLateStart();
                   lateStart = successorTask.getLateStart();
                }
                else
@@ -2663,6 +2665,10 @@ public class PrimaveraScheduler implements Scheduler
             if (relation.getLag().getDuration() == 0)
             {
                lateFinish = removeLag(relation, successorTask.getLateStart());
+               if (!isWorkingTime(predecessorTask, lateFinish))
+               {
+                  lateFinish = getEquivalentPreviousWorkFinish(predecessorTask, lateFinish);
+               }
             }
             else
             {
