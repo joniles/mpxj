@@ -3979,7 +3979,7 @@ public class PrimaveraScheduler implements Scheduler
       if (task.getActualStart() == null)
       {
          task.setPlannedStart(task.getStart());
-         task.setPlannedFinish(task.getFinish());
+         task.setPlannedFinish(task.getEffectiveCalendar().getDate(task.getPlannedStart(), task.getPlannedDuration()));
       }
 
       if (task.getActualStart() == null || task.getActualFinish() == null)
