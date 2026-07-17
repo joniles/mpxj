@@ -1705,8 +1705,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       COST_ACCOUNT_COLUMNS.put("acct_id", CostAccount::getUniqueID);
       COST_ACCOUNT_COLUMNS.put("parent_acct_id", CostAccount::getParentUniqueID);
       COST_ACCOUNT_COLUMNS.put("acct_seq_num", CostAccount::getSequenceNumber);
-      COST_ACCOUNT_COLUMNS.put("acct_name", CostAccount::getID);
-      COST_ACCOUNT_COLUMNS.put("acct_short_name", c -> StringHelper.stripControlCharacters(c.getName()));
+      COST_ACCOUNT_COLUMNS.put("acct_name", c -> StringHelper.stripControlCharacters(c.getName()));
+      COST_ACCOUNT_COLUMNS.put("acct_short_name", CostAccount::getID);
       COST_ACCOUNT_COLUMNS.put("acct_descr", CostAccount::getNotesObject);
    }
 
