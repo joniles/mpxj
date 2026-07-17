@@ -398,7 +398,9 @@ public class PrimaveraSchedulerComparator
          compareDates(baseline, working, TaskField.ACTUAL_START),
          compareDates(baseline, working, TaskField.ACTUAL_FINISH),
          compareDates(baseline, working, TaskField.REMAINING_EARLY_START),
-         compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH)
+         compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH),
+         compareDates(baseline, working, TaskField.PLANNED_START),
+         compareDates(baseline, working, TaskField.PLANNED_FINISH)
       );
 
       boolean forwardDatesFailed = forwardDateComparisons.stream().anyMatch(d -> d == DateEquality.MISMATCH);
@@ -614,6 +616,9 @@ public class PrimaveraSchedulerComparator
       DateEquality actualFinishFail = compareDates(baseline, working, TaskField.ACTUAL_FINISH);
       DateEquality remainingEarlyStartFail = compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
       DateEquality remainingEarlyFinishFail = compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
+      DateEquality plannedStartFail = compareDates(baseline, working, TaskField.PLANNED_START);
+      DateEquality plannedFinishFail = compareDates(baseline, working, TaskField.PLANNED_FINISH);
+
       boolean freeFloatFailed = !compareDurations(baseline, working, TaskField.FREE_SLACK);
       boolean totalFloatFailed = !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
       boolean longestPathFailed = baseline.getLongestPath() != working.getLongestPath();
@@ -631,6 +636,9 @@ public class PrimaveraSchedulerComparator
       println("Actual Finish: " + baseline.getActualFinish() + " " + working.getActualFinish() + actualFinishFail.getStatus());
       println("Remaining Early Start: " + baseline.getRemainingEarlyStart() + " " + working.getRemainingEarlyStart() + remainingEarlyStartFail.getStatus());
       println("Remaining Early Finish: " + baseline.getRemainingEarlyFinish() + " " + working.getRemainingEarlyFinish() + remainingEarlyFinishFail.getStatus());
+      println("Planned Start: " + baseline.getPlannedStart() + " " + working.getPlannedStart() + plannedStartFail.getStatus());
+      println("Planned Finish: " + baseline.getPlannedFinish() + " " + working.getPlannedFinish() + plannedFinishFail.getStatus());
+
       println("Free Float: " + baseline.getFreeSlack() + " " + working.getFreeSlack() + (freeFloatFailed ? " FAIL" : ""));
       println("Total Float: " + baseline.getTotalSlack() + " " + working.getTotalSlack() + (totalFloatFailed ? " FAIL" : ""));
       println("Longest Path: " + baseline.getLongestPath() + " " + working.getLongestPath() + (longestPathFailed ? " FAIL" : ""));
