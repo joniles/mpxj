@@ -2109,6 +2109,7 @@ public class PrimaveraScheduler implements Scheduler
 
                         if (actualDurationInHours >= lagDurationInHours)
                         {
+                           appliedLateStart = successorTask.getLateStart();
                            lateStart = successorTask.getLateStart();
                         }
                         else

@@ -321,10 +321,11 @@ public class PrimaveraSchedulerComparator
       //         m_forwardErrorCount = -1;
       //      }
 
-      //      if (m_backwardErrorCount == 0)
-      //      {
-      //         m_backwardErrorCount = -1;
-      //      }
+//      if (m_backwardErrorCount == 0)
+//      {
+//         m_backwardErrorCount = -1;
+//      }
+
 
       //      if (m_assignmentErrorCount == 0)
       //      {
