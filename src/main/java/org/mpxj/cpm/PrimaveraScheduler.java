@@ -2131,6 +2131,7 @@ public class PrimaveraScheduler implements Scheduler
                   // successor finished
                   if (relation.getLag().getDuration() == 0)
                   {
+                     appliedLateStart = successorTask.getLateStart();
                      lateStart = successorTask.getLateStart();
                   }
                   else
