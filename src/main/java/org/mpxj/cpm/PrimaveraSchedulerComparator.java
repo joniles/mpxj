@@ -407,12 +407,13 @@ public class PrimaveraSchedulerComparator
       boolean freeFloatFailed = analyseFloats && !compareDurations(baseline, working, TaskField.FREE_SLACK);
       boolean totalFloatFailed = analyseFloats && !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
       boolean longestPathFailed = analyseLongestPath && baseline.getLongestPath() != working.getLongestPath();
+      boolean plannedDurationFailed = !baseline.getSummary() && !compareDurations(baseline, working, TaskField.PLANNED_DURATION);
       boolean actualDurationFailed = !baseline.getSummary() && !compareDurations(baseline, working, TaskField.ACTUAL_DURATION);
       boolean remainingDurationFailed = !baseline.getSummary() && !compareDurations(baseline, working, TaskField.REMAINING_DURATION);
       boolean atCompletionDurationFailed = !baseline.getSummary() && !compareDurations(baseline, working, TaskField.DURATION);
       boolean durationPercentCompleteFailed = !baseline.getSummary() && !compareNumbers(baseline, working, TaskField.PERCENT_COMPLETE);
 
-      if (forwardDatesFailed || freeFloatFailed || totalFloatFailed || longestPathFailed || actualDurationFailed || remainingDurationFailed || atCompletionDurationFailed || durationPercentCompleteFailed)
+      if (forwardDatesFailed || freeFloatFailed || totalFloatFailed || longestPathFailed || plannedDurationFailed || actualDurationFailed || remainingDurationFailed || atCompletionDurationFailed || durationPercentCompleteFailed)
       {
          ++m_forwardErrorCount;
       }
@@ -622,6 +623,7 @@ public class PrimaveraSchedulerComparator
       boolean freeFloatFailed = !compareDurations(baseline, working, TaskField.FREE_SLACK);
       boolean totalFloatFailed = !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
       boolean longestPathFailed = baseline.getLongestPath() != working.getLongestPath();
+      boolean plannedDurationFailed = !compareDurations(baseline, working, TaskField.PLANNED_DURATION);
       boolean actualDurationFailed = !compareDurations(baseline, working, TaskField.ACTUAL_DURATION);
       boolean remainingDurationFailed = !compareDurations(baseline, working, TaskField.REMAINING_DURATION);
       boolean atCompletionDurationFailed = !compareDurations(baseline, working, TaskField.DURATION);
@@ -642,6 +644,7 @@ public class PrimaveraSchedulerComparator
       println("Free Float: " + baseline.getFreeSlack() + " " + working.getFreeSlack() + (freeFloatFailed ? " FAIL" : ""));
       println("Total Float: " + baseline.getTotalSlack() + " " + working.getTotalSlack() + (totalFloatFailed ? " FAIL" : ""));
       println("Longest Path: " + baseline.getLongestPath() + " " + working.getLongestPath() + (longestPathFailed ? " FAIL" : ""));
+      println("Planned Duration: " + baseline.getPlannedDuration() + " " + working.getPlannedDuration() + (plannedDurationFailed ? " FAIL" : ""));
       println("Actual Duration: " + baseline.getActualDuration() + " " + working.getActualDuration() + (actualDurationFailed ? " FAIL" : ""));
       println("Remaining Duration: " + baseline.getRemainingDuration() + " " + working.getRemainingDuration() + (remainingDurationFailed ? " FAIL" : ""));
       println("At Completion Duration: " + baseline.getDuration() + " " + working.getDuration() + (atCompletionDurationFailed ? " FAIL" : ""));
