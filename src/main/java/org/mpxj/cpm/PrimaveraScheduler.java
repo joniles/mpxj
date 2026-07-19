@@ -3965,21 +3965,22 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      task.setEarlyStart(earlyStartValue);
-      task.setEarlyFinish(earlyFinishValue);
-
       // Only align the late start with a work start if
       // we have distinct late start and late finish dates.
       LocalDateTime lateStartValue = lateStart.isBefore(lateFinish) ? task.getCalendar().getNextWorkStart(lateStart.getValue()) : lateStart.getValue();
 
+      task.setEarlyStart(earlyStartValue);
+      task.setEarlyFinish(earlyFinishValue);
       task.setLateStart(lateStartValue);
       task.setLateFinish(lateFinish.getValue());
+      task.setDuration(task.getEffectiveCalendar().getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS));
 
       // P6 moves the planned start/finish dates for unstarted activities
       if (task.getActualStart() == null)
       {
          task.setPlannedStart(task.getStart());
-         task.setPlannedFinish(task.getEffectiveCalendar().getDate(task.getStart(), task.getPlannedDuration()));
+         task.setPlannedFinish(task.getFinish());
+         task.setPlannedDuration(task.getDuration());
       }
 
       if (task.getActualStart() == null || task.getActualFinish() == null)
@@ -3989,6 +3990,8 @@ public class PrimaveraScheduler implements Scheduler
          task.setRemainingLateStart(task.getLateStart());
          task.setRemainingLateFinish(lateFinish.getValue());
       }
+
+      task.setRemainingDuration(task.getEffectiveCalendar().getWork(task.getRemainingEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS));
 
       task.getResourceAssignments().forEach(this::updateDates);
 
