@@ -41,6 +41,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
@@ -373,7 +374,7 @@ public class CustomerDataTest
     */
    @AfterAll public static void generateFieldReport() throws Exception
    {
-      if (useFieldReporter() && TEST_COUNT == 12)
+      if (useFieldReporter() && TEST_COUNT >= 10)
       {
          FIELD_REPORTER.report("mkdocs/docs/field-guide.md");
          FIELD_REPORTER.reportMpp("mkdocs/docs/mpp-field-guide.md");
@@ -383,7 +384,7 @@ public class CustomerDataTest
    /**
     * Increment the counter for the number of tests run.
     */
-   @BeforeAll public static void incrementTestCount()
+   @BeforeEach public void incrementTestCount()
    {
       ++TEST_COUNT;
    }
@@ -598,7 +599,7 @@ public class CustomerDataTest
    }
 
    /**
-    * Execute tests for an schedule file.
+    * Execute tests for a schedule file.
     *
     * @param fileName parent filename
     * @param baselineName baseline name
