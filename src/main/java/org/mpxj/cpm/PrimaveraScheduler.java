@@ -3672,11 +3672,7 @@ public class PrimaveraScheduler implements Scheduler
          task.setFinish(task.getActualFinish());
          return;
       }
-
-      // For LOE these are generated values, so we need to clear them
-      task.setActualStart(null);
-      task.setActualFinish(null);
-
+      
       AnnotatedDateTime earlyStartFromPredecessor = null;
       AnnotatedDateTime earlyFinishFromPredecessor = null;
       AnnotatedDateTime lateStartFromPredecessor = null;
