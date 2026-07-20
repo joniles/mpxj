@@ -3664,6 +3664,15 @@ public class PrimaveraScheduler implements Scheduler
     */
    private void levelOfEffortPass(Task task)
    {
+      // We're assuming that once we have actuals, the LOE activity doesn't change.
+      // We'll need to think about handling changes to actuals.
+      if (task.getActualFinish() != null)
+      {
+         task.setStart(task.getActualStart());
+         task.setFinish(task.getActualFinish());
+         return;
+      }
+
       // For LOE these are generated values, so we need to clear them
       task.setActualStart(null);
       task.setActualFinish(null);
