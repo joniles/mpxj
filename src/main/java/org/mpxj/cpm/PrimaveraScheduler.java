@@ -748,7 +748,7 @@ public class PrimaveraScheduler implements Scheduler
          {
             DrivingRelation drivingRelation = getBackwardPassDrivingRelation(successors);
             lateStart = drivingRelation.getStartDate();
-            lateFinish = drivingRelation.getFinishDate();
+            lateFinish = adjustLateFinish(drivingRelation.getRelation(), drivingRelation.getFinishDate());
          }
 
          switch (getConstraintType(task))
@@ -863,7 +863,7 @@ public class PrimaveraScheduler implements Scheduler
          else
          {
             DrivingRelation drivingRelation = getBackwardPassDrivingRelation(successors);
-            lateFinish = drivingRelation.getFinishDate();
+            lateFinish = adjustLateFinish(drivingRelation.getRelation(), drivingRelation.getFinishDate());
          }
       }
 
@@ -2156,7 +2156,6 @@ public class PrimaveraScheduler implements Scheduler
          lateFinish = getDateFromStartAndRemainingDuration(predecessorTask, lateStart);
       }
 
-      lateFinish = adjustLateFinish(relation, lateFinish);
       return new DrivingRelation(relation, appliedLateStart, lateFinish);
    }
 
@@ -2411,7 +2410,6 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      lateFinish = adjustLateFinish(relation, lateFinish);
       return new DrivingRelation(relation, null, lateFinish);
    }
 
@@ -2642,7 +2640,6 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      lateFinish = adjustLateFinish(relation, lateFinish);
       return new DrivingRelation(relation, lateStart, lateFinish);
    }
 
@@ -2919,7 +2916,6 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      lateFinish = adjustLateFinish(relation, lateFinish);
       return new DrivingRelation(relation, null, lateFinish);
    }
 
