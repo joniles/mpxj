@@ -3477,22 +3477,22 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       int finished = 0;
-      LocalDateTime startDate = parentTask.getStart();
-      LocalDateTime finishDate = parentTask.getFinish();
+      LocalDateTime startDate = null;
+      LocalDateTime finishDate = null;
       LocalDateTime plannedStartDate = null;
       LocalDateTime plannedFinishDate = null;
-      LocalDateTime actualStartDate = parentTask.getActualStart();
-      LocalDateTime actualFinishDate = parentTask.getActualFinish();
-      LocalDateTime earlyStartDate = parentTask.getEarlyStart();
-      LocalDateTime earlyFinishDate = parentTask.getEarlyFinish();
-      LocalDateTime lateStartDate = parentTask.getLateStart();
-      LocalDateTime lateFinishDate = parentTask.getLateFinish();
-      LocalDateTime baselineStartDate = parentTask.getBaselineStart();
-      LocalDateTime baselineFinishDate = parentTask.getBaselineFinish();
-      LocalDateTime remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
-      LocalDateTime remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
-      LocalDateTime remainingLateStartDate = parentTask.getRemainingLateStart();
-      LocalDateTime remainingLateFinishDate = parentTask.getRemainingLateFinish();
+      LocalDateTime actualStartDate = null;
+      LocalDateTime actualFinishDate = null;
+      LocalDateTime earlyStartDate = null;
+      LocalDateTime earlyFinishDate = null;
+      LocalDateTime lateStartDate = null;
+      LocalDateTime lateFinishDate = null;
+      LocalDateTime baselineStartDate = null;
+      LocalDateTime baselineFinishDate = null;
+      LocalDateTime remainingEarlyStartDate = null;
+      LocalDateTime remainingEarlyFinishDate = null;
+      LocalDateTime remainingLateStartDate = null;
+      LocalDateTime remainingLateFinishDate = null;
       boolean critical = false;
 
       for (Task task : parentTask.getChildTasks())
