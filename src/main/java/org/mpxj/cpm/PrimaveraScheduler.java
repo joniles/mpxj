@@ -3479,8 +3479,8 @@ public class PrimaveraScheduler implements Scheduler
       int finished = 0;
       LocalDateTime startDate = parentTask.getStart();
       LocalDateTime finishDate = parentTask.getFinish();
-      LocalDateTime plannedStartDate = parentTask.getPlannedStart();
-      LocalDateTime plannedFinishDate = parentTask.getPlannedFinish();
+      LocalDateTime plannedStartDate = null;
+      LocalDateTime plannedFinishDate = null;
       LocalDateTime actualStartDate = parentTask.getActualStart();
       LocalDateTime actualFinishDate = parentTask.getActualFinish();
       LocalDateTime earlyStartDate = parentTask.getEarlyStart();
@@ -3672,7 +3672,7 @@ public class PrimaveraScheduler implements Scheduler
          task.setFinish(task.getActualFinish());
          return;
       }
-      
+
       AnnotatedDateTime earlyStartFromPredecessor = null;
       AnnotatedDateTime earlyFinishFromPredecessor = null;
       AnnotatedDateTime lateStartFromPredecessor = null;
