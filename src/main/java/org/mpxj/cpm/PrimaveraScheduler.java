@@ -3992,6 +3992,11 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       task.setRemainingDuration(task.getEffectiveCalendar().getWork(task.getRemainingEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS));
+      if (task.getActualStart() != null)
+      {
+         LocalDateTime finish = task.getActualFinish() == null ? task.getRemainingEarlyStart() : task.getActualFinish();
+         task.setActualDuration(task.getEffectiveCalendar().getWork(task.getActualStart(), finish, TimeUnit.HOURS));
+      }
 
       task.getResourceAssignments().forEach(this::updateDates);
 
