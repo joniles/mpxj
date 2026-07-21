@@ -758,7 +758,14 @@ public class PrimaveraScheduler implements Scheduler
          {
             DrivingRelation drivingRelation = getBackwardPassDrivingRelation(successors);
             lateStart = drivingRelation.getStartDate();
-            lateFinish = adjustLateFinish(drivingRelation.getRelation(), drivingRelation.getFinishDate());
+            lateFinish = drivingRelation.getFinishDate();
+
+            if (lateFinish.isAfter(m_backwardPassFinishDate))
+            {
+               // If we're between working periods, move back to the last work finish
+               lateStart = null;
+               lateFinish = getEquivalentPreviousWorkFinish(drivingRelation.getRelation().getPredecessorTask(), m_backwardPassFinishDate);
+            }
          }
 
          switch (getConstraintType(task))
@@ -770,6 +777,11 @@ public class PrimaveraScheduler implements Scheduler
                   LocalDateTime latestFinish = getDateFromStartAndDuration(task, task.getConstraintDate());
                   if (lateFinish.isAfter(latestFinish))
                   {
+                     if (lateStart != null)
+                     {
+                        lateStart = task.getConstraintDate();
+                     }
+
                      lateFinish = latestFinish;
                      if (!isWorkingTime(task, lateFinish))
                      {
@@ -810,6 +822,7 @@ public class PrimaveraScheduler implements Scheduler
             {
                if (lateFinish.isAfter(task.getConstraintDate()))
                {
+                  lateStart = null;
                   lateFinish = task.getConstraintDate();
                }
                break;
@@ -830,6 +843,10 @@ public class PrimaveraScheduler implements Scheduler
                   LocalDateTime latestFinish = getDateFromStartAndDuration(task, task.getSecondaryConstraintDate());
                   if (lateFinish.isAfter(latestFinish))
                   {
+                     if (lateStart != null)
+                     {
+                        lateStart = task.getSecondaryConstraintDate();
+                     }
                      lateFinish = latestFinish;
                   }
                   break;
@@ -1910,6 +1927,7 @@ public class PrimaveraScheduler implements Scheduler
                if (isWorkingTime(predecessorTask, successorTask.getLateStart()))
                {
                   lateStart = successorTask.getLateStart();
+                  appliedLateStart = lateStart;
                }
                else
                {
