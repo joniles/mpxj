@@ -211,7 +211,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
 
    @Override public int compareTo(ProjectCalendarException o)
    {
-      return getFromDate().compareTo(o.getFromDate());
+      return LocalDateHelper.compare(getFromDate(), o.getFromDate());
    }
 
    @Override public String toString()
