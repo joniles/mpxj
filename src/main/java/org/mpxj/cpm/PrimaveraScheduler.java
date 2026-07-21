@@ -99,11 +99,20 @@ public class PrimaveraScheduler implements Scheduler
 
       if (mustFinishBy == null || earlyFinish.isAfter(mustFinishBy))
       {
-         m_projectFinishDate = earlyFinish;
+         m_forwardPassFinishDate = earlyFinish;
       }
       else
       {
-         m_projectFinishDate = mustFinishBy;
+         m_forwardPassFinishDate = mustFinishBy;
+      }
+
+      if (mustFinishBy == null)
+      {
+         m_backwardPassFinishDate = earlyFinish;
+      }
+      else
+      {
+         m_backwardPassFinishDate = mustFinishBy;
       }
 
       backwardPass(activities);
@@ -120,7 +129,7 @@ public class PrimaveraScheduler implements Scheduler
       calculateLongestPath(activities);
 
       m_file.getProjectProperties().setStartDate(m_projectStartDate);
-      m_file.getProjectProperties().setFinishDate(m_projectFinishDate);
+      m_file.getProjectProperties().setFinishDate(m_forwardPassFinishDate);
       m_file.getProjectProperties().setScheduledFinish(earlyFinish);
    }
 
@@ -737,7 +746,7 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  lateFinish = m_projectFinishDate;
+                  lateFinish = m_backwardPassFinishDate;
                }
             }
             else
@@ -858,7 +867,7 @@ public class PrimaveraScheduler implements Scheduler
             }
             else
             {
-               lateFinish = m_projectFinishDate;
+               lateFinish = m_backwardPassFinishDate;
             }
          }
          else
@@ -1866,10 +1875,10 @@ public class PrimaveraScheduler implements Scheduler
     */
    private LocalDateTime adjustLateFinish(Relation relation, LocalDateTime lateFinish)
    {
-      if (lateFinish.isAfter(m_projectFinishDate))
+      if (lateFinish.isAfter(m_backwardPassFinishDate))
       {
          // If we're between working periods, move back to the last work finish
-         lateFinish = getEquivalentPreviousWorkFinish(relation.getPredecessorTask(), m_projectFinishDate);
+         lateFinish = getEquivalentPreviousWorkFinish(relation.getPredecessorTask(), m_backwardPassFinishDate);
       }
 
       return lateFinish;
@@ -1909,12 +1918,6 @@ public class PrimaveraScheduler implements Scheduler
                }
 
                lateFinish = getDateFromStartAndRemainingDuration(predecessorTask, lateStart);
-
-               // Hmmm... dubious logic. Does this just work for indefensible-tedium or is this general?
-               if (successorTask.getSuccessors().isEmpty() && successorTask.getLateFinish().isBefore(lateFinish))
-               {
-                  lateFinish = successorTask.getLateFinish();
-               }
             }
             else
             {
@@ -3226,7 +3229,7 @@ public class PrimaveraScheduler implements Scheduler
       List<Relation> successors = task.getSuccessors().stream().filter(r -> isActivity(r.getSuccessorTask())).collect(Collectors.toList());
       if (successors.isEmpty())
       {
-         earlyFinish = getEquivalentPreviousWorkFinish(task, m_projectFinishDate);
+         earlyFinish = getEquivalentPreviousWorkFinish(task, m_forwardPassFinishDate);
          earlyStart = getDateFromFinishAndRemainingDuration(task, earlyFinish);
       }
       else
@@ -3872,7 +3875,7 @@ public class PrimaveraScheduler implements Scheduler
       AnnotatedDateTime lateFinish;
       if (lateFinishFromPredecessor == null && lateFinishFromSuccessor == null)
       {
-         lateFinish = AnnotatedDateTime.from(null, m_projectFinishDate);
+         lateFinish = AnnotatedDateTime.from(null, m_forwardPassFinishDate);
       }
       else
       {
@@ -4398,6 +4401,7 @@ public class PrimaveraScheduler implements Scheduler
    private ProjectCalendar m_twentyFourHourCalendar;
    private LocalDateTime m_dataDate;
    private LocalDateTime m_projectStartDate;
-   private LocalDateTime m_projectFinishDate;
+   private LocalDateTime m_forwardPassFinishDate;
+   private LocalDateTime m_backwardPassFinishDate;
    private boolean m_useExpectedFinish;
 }
