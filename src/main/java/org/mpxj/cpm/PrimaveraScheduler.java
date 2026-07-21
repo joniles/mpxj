@@ -1927,14 +1927,13 @@ public class PrimaveraScheduler implements Scheduler
                if (isWorkingTime(predecessorTask, successorTask.getLateStart()))
                {
                   lateStart = successorTask.getLateStart();
-                  appliedLateStart = lateStart;
                }
                else
                {
                   lateStart = getNearestEquivalentDate(predecessorTask, successorTask.getLateStart());
-                  appliedLateStart = lateStart;
                }
 
+               appliedLateStart = lateStart;
                lateFinish = getDateFromStartAndRemainingDuration(predecessorTask, lateStart);
             }
             else
