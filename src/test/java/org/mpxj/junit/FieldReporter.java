@@ -72,19 +72,22 @@ public class FieldReporter
     */
    public void process(ProjectFile project)
    {
-      ProjectProperties props = project.getProjectProperties();
-      String fileType = props.getFileType();
-      String fileApplication = fileType.equals("MSPDI") || fileType.equals("MPP") ? "Microsoft" : props.getFileApplication();
-
-      String key = fileApplication + " (" + fileType + ")";
-      m_keys.add(key);
-      populate(m_map, project, key);
-
-      if (fileType.equals("MPP"))
+      synchronized(this)
       {
-         key = "MPP" + props.getMppFileType();
-         m_mppKeys.add(key);
-         populate(m_mppMap, project, key);
+         ProjectProperties props = project.getProjectProperties();
+         String fileType = props.getFileType();
+         String fileApplication = fileType.equals("MSPDI") || fileType.equals("MPP") ? "Microsoft" : props.getFileApplication();
+
+         String key = fileApplication + " (" + fileType + ")";
+         m_keys.add(key);
+         populate(m_map, project, key);
+
+         if (fileType.equals("MPP"))
+         {
+            key = "MPP" + props.getMppFileType();
+            m_mppKeys.add(key);
+            populate(m_mppMap, project, key);
+         }
       }
    }
 

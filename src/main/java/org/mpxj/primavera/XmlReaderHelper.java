@@ -209,10 +209,13 @@ class XmlReaderHelper
       {
          for (CalendarType.HolidayOrExceptions.HolidayOrException ex : hoe.getHolidayOrException())
          {
-            LocalDate startDate = LocalDateHelper.getLocalDate(ex.getDate());
-            LocalDate endDate = LocalDateHelper.getLocalDate(ex.getDate());
-            ProjectCalendarException pce = calendar.addCalendarException(startDate, endDate);
+            LocalDate date = LocalDateHelper.getLocalDate(ex.getDate());
+            if (date == null)
+            {
+               continue;
+            }
 
+            ProjectCalendarException pce = calendar.addCalendarException(date);
             List<WorkTimeType> workTime = ex.getWorkTime();
 
             // Special case: a single entry for 00:00-23:59 is treated by P6 as a non-working day

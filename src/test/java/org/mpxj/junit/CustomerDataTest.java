@@ -41,6 +41,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
@@ -359,31 +360,36 @@ public class CustomerDataTest
    /**
     * Clear the field reporter ready to begin collecting data.
     */
-   @BeforeAll public static void initializeFieldReport()
+   @BeforeAll public static void setUp()
    {
       if (useFieldReporter())
       {
          TEST_COUNT = 0;
          FIELD_REPORTER.clear();
       }
+
+      START_TIME = System.currentTimeMillis();
    }
 
    /**
     * Report on the data collected by the field reporter.
     */
-   @AfterAll public static void generateFieldReport() throws Exception
+   @AfterAll public static void tearDown() throws Exception
    {
-      if (useFieldReporter() && TEST_COUNT == 12)
+      if (useFieldReporter() && TEST_COUNT >= 10)
       {
          FIELD_REPORTER.report("mkdocs/docs/field-guide.md");
          FIELD_REPORTER.reportMpp("mkdocs/docs/mpp-field-guide.md");
       }
+
+      long elapsedMilliseconds = System.currentTimeMillis() - START_TIME;
+      System.out.println("Tests completed in " + elapsedMilliseconds + "ms");
    }
 
    /**
     * Increment the counter for the number of tests run.
     */
-   @BeforeAll public static void incrementTestCount()
+   @BeforeEach public void incrementTestCount()
    {
       ++TEST_COUNT;
    }
@@ -598,7 +604,7 @@ public class CustomerDataTest
    }
 
    /**
-    * Execute tests for an schedule file.
+    * Execute tests for a schedule file.
     *
     * @param fileName parent filename
     * @param baselineName baseline name
@@ -919,6 +925,7 @@ public class CustomerDataTest
    private final MPXReader m_mpxReader;
    private static File DIFF_BASELINE_DIR;
    private static File DIFF_TEST_DIR;
+   private static long START_TIME;
 
    private static int TEST_COUNT;
    private static final boolean OS_IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("windows");
