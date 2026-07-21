@@ -4393,16 +4393,7 @@ public class PrimaveraScheduler implements Scheduler
       long followingDistance = date.until(followingDate, ChronoUnit.MINUTES);
       return previousDistance < followingDistance ? previousDate : followingDate;
    }
-
-   private boolean usePreviousFinish(Task predecessorTask, LocalDateTime date)
-   {
-      LocalDateTime previousDate = predecessorTask.getEffectiveCalendar().getPreviousWorkFinish(date);
-      LocalDateTime followingDate = getNextWorkStart(predecessorTask, date);
-      long previousDistance = previousDate.until(date, ChronoUnit.MINUTES);
-      long followingDistance = date.until(followingDate, ChronoUnit.MINUTES);
-      return previousDistance < followingDistance;
-   }
-
+   
    private ProjectFile m_file;
    private ProjectCalendar m_twentyFourHourCalendar;
    private LocalDateTime m_dataDate;
