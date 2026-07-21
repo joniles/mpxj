@@ -25,6 +25,7 @@ package org.mpxj.cpm;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -1898,7 +1899,24 @@ public class PrimaveraScheduler implements Scheduler
 
             if (relation.getLag().getDuration() == 0)
             {
-               lateStart = getNextWorkStart(predecessorTask, successorTask.getLateStart());
+               if (isWorkingTime(predecessorTask, successorTask.getLateStart()))
+               {
+                  lateStart = getNextWorkStart(predecessorTask, successorTask.getLateStart());
+               }
+               else
+               {
+                  if (usePreviousFinish(predecessorTask, successorTask.getLateStart()))
+                  {
+                     lateStart = predecessorTask.getEffectiveCalendar().getPreviousWorkFinish(successorTask.getLateStart());
+                     appliedLateStart = lateStart;
+                  }
+                  else
+                  {
+                     lateStart = getNextWorkStart(predecessorTask, successorTask.getLateStart());
+                  }
+               }
+
+//               lateStart = getNextWorkStart(predecessorTask, successorTask.getLateStart());
                // Sometimes this - why?
                //lateStart = predecessorTask.getEffectiveCalendar().getPreviousWorkFinish(successorTask.getLateStart());
                lateFinish = getDateFromStartAndRemainingDuration(predecessorTask, lateStart);
@@ -4367,7 +4385,7 @@ public class PrimaveraScheduler implements Scheduler
             return false;
          }
 
-         if (time.isAfter(range.getEnd()))
+         if (!LocalTime.MIDNIGHT.equals(range.getEnd()) && time.isAfter(range.getEnd()))
          {
             continue;
          }
@@ -4376,6 +4394,24 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       return false;
+   }
+
+   private LocalDateTime getNearestEquivalentDate(Task predecessorTask, LocalDateTime date)
+   {
+      LocalDateTime previousDate = predecessorTask.getEffectiveCalendar().getPreviousWorkFinish(date);
+      LocalDateTime followingDate = getNextWorkStart(predecessorTask, date);
+      long previousDistance = previousDate.until(date, ChronoUnit.MINUTES);
+      long followingDistance = date.until(followingDate, ChronoUnit.MINUTES);
+      return previousDistance < followingDistance ? previousDate : followingDate;
+   }
+
+   private boolean usePreviousFinish(Task predecessorTask, LocalDateTime date)
+   {
+      LocalDateTime previousDate = predecessorTask.getEffectiveCalendar().getPreviousWorkFinish(date);
+      LocalDateTime followingDate = getNextWorkStart(predecessorTask, date);
+      long previousDistance = previousDate.until(date, ChronoUnit.MINUTES);
+      long followingDistance = date.until(followingDate, ChronoUnit.MINUTES);
+      return previousDistance < followingDistance;
    }
 
    private ProjectFile m_file;
