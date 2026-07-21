@@ -1896,12 +1896,11 @@ public class PrimaveraScheduler implements Scheduler
          if (successorTask.getActualStart() == null)
          {
             // Successor not started
-
             if (relation.getLag().getDuration() == 0)
             {
                if (isWorkingTime(predecessorTask, successorTask.getLateStart()))
                {
-                  lateStart = getNextWorkStart(predecessorTask, successorTask.getLateStart());
+                  lateStart = successorTask.getLateStart();
                }
                else
                {
