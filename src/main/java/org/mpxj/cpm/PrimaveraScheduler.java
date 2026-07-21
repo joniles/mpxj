@@ -1905,20 +1905,10 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  if (usePreviousFinish(predecessorTask, successorTask.getLateStart()))
-                  {
-                     lateStart = predecessorTask.getEffectiveCalendar().getPreviousWorkFinish(successorTask.getLateStart());
-                     appliedLateStart = lateStart;
-                  }
-                  else
-                  {
-                     lateStart = getNextWorkStart(predecessorTask, successorTask.getLateStart());
-                  }
+                  lateStart = getNearestEquivalentDate(predecessorTask, successorTask.getLateStart());
+                  appliedLateStart = lateStart;
                }
 
-//               lateStart = getNextWorkStart(predecessorTask, successorTask.getLateStart());
-               // Sometimes this - why?
-               //lateStart = predecessorTask.getEffectiveCalendar().getPreviousWorkFinish(successorTask.getLateStart());
                lateFinish = getDateFromStartAndRemainingDuration(predecessorTask, lateStart);
 
                // Hmmm... dubious logic. Does this just work for indefensible-tedium or is this general?
