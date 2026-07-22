@@ -28,8 +28,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -71,7 +74,7 @@ public class PrimaveraSchedulerComparator
       }
       else
       {
-         test.process(target);
+         test.process(target, DEFAULT_EXCLUDED);
       }
    }
 
@@ -102,7 +105,7 @@ public class PrimaveraSchedulerComparator
     */
    public void setUnreadableFiles(Set<String> value)
    {
-      m_unreadableFiles = value;
+      m_exclusions.setUnreadableFiles(value);
    }
 
    /**
@@ -113,7 +116,7 @@ public class PrimaveraSchedulerComparator
     */
    public void setUseScheduled(Set<String> value)
    {
-      m_useScheduled = value;
+      m_exclusions.setUseScheduled(value);
    }
 
    /**
@@ -124,7 +127,7 @@ public class PrimaveraSchedulerComparator
     */
    public void setExcluded(Set<String> value)
    {
-      m_excluded = value;
+      m_exclusions.setExcluded(value);
    }
 
    /**
@@ -134,7 +137,7 @@ public class PrimaveraSchedulerComparator
     */
    public void setNoWbsTest(Set<String> value)
    {
-      m_noWbsTest = value;
+      m_exclusions.setNoWbsTest(value);
    }
 
    /**
@@ -144,7 +147,7 @@ public class PrimaveraSchedulerComparator
     */
    public void setNoResourceAssignmentTest(Set<String> value)
    {
-      m_noResourceAssignmentTest = value;
+      m_exclusions.setNoResourceAssignmentTest(value);
    }
 
    /**
@@ -155,7 +158,7 @@ public class PrimaveraSchedulerComparator
     */
    public void setNoFloatTest(Set<String> value)
    {
-      m_noFloatTest = value;
+      m_exclusions.setNoFloatTest(value);
    }
 
    /**
@@ -166,7 +169,12 @@ public class PrimaveraSchedulerComparator
     */
    public void setNoLongestPathTest(Set<String> value)
    {
-      m_noLongestPathTest = value;
+      m_exclusions.setNoLongestPathTest(value);
+   }
+
+   public void setNoPlannedTest(Set<String> value)
+   {
+      m_exclusions.setNoPlannedTest(value);
    }
 
    /**
@@ -192,26 +200,27 @@ public class PrimaveraSchedulerComparator
 
       for (File file : fileList)
       {
-         String name = file.getName().toLowerCase();
-         if (m_unreadableFiles.contains(name))
+         Excluded excluded = m_exclusions.getExcluded(file.getName().toLowerCase());
+
+         if (excluded.unreadable())
          {
             continue;
          }
 
-         if (m_useScheduled.contains(name))
+         if (excluded.useScheduled())
          {
             continue;
          }
 
          ++valid;
 
-         if (m_excluded.contains(name))
+         if (excluded.excluded())
          {
             ++skipped;
             continue;
          }
 
-         if (process(file))
+         if (process(file, excluded))
          {
             ++success;
          }
@@ -240,7 +249,7 @@ public class PrimaveraSchedulerComparator
     * @param file file to compare
     * @return true if compared successfully
     */
-   public boolean process(File file) throws Exception
+   private  boolean process(File file, Excluded excluded) throws Exception
    {
       if (m_debug)
       {
@@ -273,8 +282,7 @@ public class PrimaveraSchedulerComparator
          return false;
       }
 
-      String fileName = file.getName().toLowerCase();
-      return process(baselineFile, workingFile, !m_noWbsTest.contains(fileName), !m_noResourceAssignmentTest.contains(fileName), !m_noFloatTest.contains(fileName), !m_noLongestPathTest.contains(fileName));
+      return process(baselineFile, workingFile, excluded);
    }
 
    /**
@@ -282,12 +290,10 @@ public class PrimaveraSchedulerComparator
     *
     * @param baselineFile baseline project
     * @param workingFile working project
-    * @param analyseWbs true if the WBS should be analysed
-    * @param analyseResourceAssignments true if resource assignments should be analysed
-    * @param analyseFloats analyse float values if true
+    * @param excluded analysis exclusions
     * @return true if compared successfully
     */
-   public boolean process(ProjectFile baselineFile, ProjectFile workingFile, boolean analyseWbs, boolean analyseResourceAssignments, boolean analyseFloats, boolean analyseLongestPath) throws Exception
+   public boolean process(ProjectFile baselineFile, ProjectFile workingFile, Excluded excluded) throws Exception
    {
       m_forwardEquivalentDateCount = 0;
       m_backwardEquivalentDateCount = 0;
@@ -299,14 +305,14 @@ public class PrimaveraSchedulerComparator
       for (Task baselineTask : baselineFile.getTasks())
       {
          Task workingTask = workingFile.getTaskByUniqueID(baselineTask.getUniqueID());
-         if (workingTask.getSummary() && !analyseWbs)
+         if (workingTask.getSummary() && excluded.noWbsTest())
          {
             continue;
          }
 
-         compare(baselineTask, workingTask, analyseFloats, analyseLongestPath);
+         compare(baselineTask, workingTask, excluded);
 
-         if (analyseResourceAssignments)
+         if (!excluded.noResourceAssignmentTest())
          {
             for (ResourceAssignment baselineAssignment : baselineTask.getResourceAssignments())
             {
@@ -321,10 +327,11 @@ public class PrimaveraSchedulerComparator
       //         m_forwardErrorCount = -1;
       //      }
 
-      //      if (m_backwardErrorCount == 0)
-      //      {
-      //         m_backwardErrorCount = -1;
-      //      }
+//      if (m_backwardErrorCount == 0)
+//      {
+//         m_backwardErrorCount = -1;
+//      }
+
 
       //      if (m_assignmentErrorCount == 0)
       //      {
@@ -352,7 +359,7 @@ public class PrimaveraSchedulerComparator
 
       if (!m_directory && m_debug)
       {
-         analyseFailures(baselineFile, workingFile, analyseWbs);
+         analyseFailures(baselineFile, workingFile, excluded);
          println("DONE");
       }
 
@@ -385,9 +392,9 @@ public class PrimaveraSchedulerComparator
     *
     * @param baseline baseline task
     * @param working scheduled task
-    * @param analyseFloats analyse float values if true
+    * @param excluded analysis exclusions
     */
-   private void compare(Task baseline, Task working, boolean analyseFloats, boolean analyseLongestPath)
+   private void compare(Task baseline, Task working, Excluded excluded)
    {
       List<DateEquality> forwardDateComparisons = Arrays.asList(
          compareDates(baseline, working, TaskField.EARLY_START),
@@ -400,16 +407,23 @@ public class PrimaveraSchedulerComparator
          compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH)
       );
 
+      List<DateEquality> plannedDateComparisons = Arrays.asList(
+         compareDates(baseline, working, TaskField.PLANNED_START),
+         compareDates(baseline, working, TaskField.PLANNED_FINISH)
+      );
+
       boolean forwardDatesFailed = forwardDateComparisons.stream().anyMatch(d -> d == DateEquality.MISMATCH);
-      boolean freeFloatFailed = analyseFloats && !compareDurations(baseline, working, TaskField.FREE_SLACK);
-      boolean totalFloatFailed = analyseFloats && !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
-      boolean longestPathFailed = analyseLongestPath && baseline.getLongestPath() != working.getLongestPath();
+      boolean plannedDatesFailed = !excluded.noPlannedTest() && plannedDateComparisons.stream().anyMatch(d -> d == DateEquality.MISMATCH);
+      boolean freeFloatFailed = !excluded.noFloatTest() && !compareDurations(baseline, working, TaskField.FREE_SLACK);
+      boolean totalFloatFailed = !excluded.noFloatTest() && !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
+      boolean longestPathFailed = !excluded.noLongestPathTest() && baseline.getLongestPath() != working.getLongestPath();
+      boolean plannedDurationFailed = !excluded.noPlannedTest() && !baseline.getSummary() && !compareDurations(baseline, working, TaskField.PLANNED_DURATION);
       boolean actualDurationFailed = !baseline.getSummary() && !compareDurations(baseline, working, TaskField.ACTUAL_DURATION);
       boolean remainingDurationFailed = !baseline.getSummary() && !compareDurations(baseline, working, TaskField.REMAINING_DURATION);
       boolean atCompletionDurationFailed = !baseline.getSummary() && !compareDurations(baseline, working, TaskField.DURATION);
       boolean durationPercentCompleteFailed = !baseline.getSummary() && !compareNumbers(baseline, working, TaskField.PERCENT_COMPLETE);
 
-      if (forwardDatesFailed || freeFloatFailed || totalFloatFailed || longestPathFailed || actualDurationFailed || remainingDurationFailed || atCompletionDurationFailed || durationPercentCompleteFailed)
+      if (forwardDatesFailed || plannedDatesFailed || freeFloatFailed || totalFloatFailed || longestPathFailed || plannedDurationFailed || actualDurationFailed || remainingDurationFailed || atCompletionDurationFailed || durationPercentCompleteFailed)
       {
          ++m_forwardErrorCount;
       }
@@ -428,6 +442,10 @@ public class PrimaveraSchedulerComparator
       }
 
       m_forwardEquivalentDateCount += (int) forwardDateComparisons.stream()
+         .filter(d -> d == DateEquality.EQUIVALENT)
+         .count();
+
+      m_forwardEquivalentDateCount += (int) plannedDateComparisons.stream()
          .filter(d -> d == DateEquality.EQUIVALENT)
          .count();
 
@@ -552,9 +570,9 @@ public class PrimaveraSchedulerComparator
     *
     * @param baselineFile baseline for comparison
     * @param workingFile working file for comparison
-    * @param analyseWbs true if the WBS should be compared
+    * @param excluded analysis exclusions
     */
-   private void analyseFailures(ProjectFile baselineFile, ProjectFile workingFile, boolean analyseWbs) throws CycleException
+   private void analyseFailures(ProjectFile baselineFile, ProjectFile workingFile, Excluded excluded) throws CycleException
    {
       List<Task> activities = new DepthFirstGraphSort(workingFile, PrimaveraScheduler::isActivity).sort();
       List<Task> levelOfEffortActivities = new DepthFirstGraphSort(workingFile, PrimaveraScheduler::isLevelOfEffortActivity).sort();
@@ -570,7 +588,7 @@ public class PrimaveraSchedulerComparator
          levelOfEffortActivities.forEach(a -> analyseForwardError(baselineFile, a));
          wbsSummaryActivities.forEach(a -> analyseForwardError(baselineFile, a));
 
-         if (analyseWbs)
+         if (!excluded.noWbsTest())
          {
             wbs.forEach(a -> analyseForwardError(baselineFile, a));
          }
@@ -584,7 +602,7 @@ public class PrimaveraSchedulerComparator
          levelOfEffortActivities.forEach(a -> analyseBackwardError(baselineFile, a));
          wbsSummaryActivities.forEach(a -> analyseBackwardError(baselineFile, a));
 
-         if (analyseWbs)
+         if (!excluded.noWbsTest())
          {
             wbs.forEach(a -> analyseBackwardError(baselineFile, a));
          }
@@ -613,9 +631,13 @@ public class PrimaveraSchedulerComparator
       DateEquality actualFinishFail = compareDates(baseline, working, TaskField.ACTUAL_FINISH);
       DateEquality remainingEarlyStartFail = compareDates(baseline, working, TaskField.REMAINING_EARLY_START);
       DateEquality remainingEarlyFinishFail = compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH);
+      DateEquality plannedStartFail = compareDates(baseline, working, TaskField.PLANNED_START);
+      DateEquality plannedFinishFail = compareDates(baseline, working, TaskField.PLANNED_FINISH);
+
       boolean freeFloatFailed = !compareDurations(baseline, working, TaskField.FREE_SLACK);
       boolean totalFloatFailed = !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
       boolean longestPathFailed = baseline.getLongestPath() != working.getLongestPath();
+      boolean plannedDurationFailed = !compareDurations(baseline, working, TaskField.PLANNED_DURATION);
       boolean actualDurationFailed = !compareDurations(baseline, working, TaskField.ACTUAL_DURATION);
       boolean remainingDurationFailed = !compareDurations(baseline, working, TaskField.REMAINING_DURATION);
       boolean atCompletionDurationFailed = !compareDurations(baseline, working, TaskField.DURATION);
@@ -630,9 +652,13 @@ public class PrimaveraSchedulerComparator
       println("Actual Finish: " + baseline.getActualFinish() + " " + working.getActualFinish() + actualFinishFail.getStatus());
       println("Remaining Early Start: " + baseline.getRemainingEarlyStart() + " " + working.getRemainingEarlyStart() + remainingEarlyStartFail.getStatus());
       println("Remaining Early Finish: " + baseline.getRemainingEarlyFinish() + " " + working.getRemainingEarlyFinish() + remainingEarlyFinishFail.getStatus());
+      println("Planned Start: " + baseline.getPlannedStart() + " " + working.getPlannedStart() + plannedStartFail.getStatus());
+      println("Planned Finish: " + baseline.getPlannedFinish() + " " + working.getPlannedFinish() + plannedFinishFail.getStatus());
+
       println("Free Float: " + baseline.getFreeSlack() + " " + working.getFreeSlack() + (freeFloatFailed ? " FAIL" : ""));
       println("Total Float: " + baseline.getTotalSlack() + " " + working.getTotalSlack() + (totalFloatFailed ? " FAIL" : ""));
       println("Longest Path: " + baseline.getLongestPath() + " " + working.getLongestPath() + (longestPathFailed ? " FAIL" : ""));
+      println("Planned Duration: " + baseline.getPlannedDuration() + " " + working.getPlannedDuration() + (plannedDurationFailed ? " FAIL" : ""));
       println("Actual Duration: " + baseline.getActualDuration() + " " + working.getActualDuration() + (actualDurationFailed ? " FAIL" : ""));
       println("Remaining Duration: " + baseline.getRemainingDuration() + " " + working.getRemainingDuration() + (remainingDurationFailed ? " FAIL" : ""));
       println("At Completion Duration: " + baseline.getDuration() + " " + working.getDuration() + (atCompletionDurationFailed ? " FAIL" : ""));
@@ -806,6 +832,192 @@ public class PrimaveraSchedulerComparator
       m_printStream.print(value);
    }
 
+   private static class Exclusions
+   {
+      private void configure(Set<String> value, Consumer<Excluded> consumer)
+      {
+         value.stream().map(k -> m_excluded.computeIfAbsent(k, v -> new Excluded())).forEach(consumer);
+      }
+
+      /**
+       * Tell the comparator to ignore files which Microsoft Project can't read.
+       *
+       * @param value set of unreadable files
+       */
+      public void setUnreadableFiles(Set<String> value)
+      {
+         configure(value, Excluded::setUnreadable);
+      }
+
+      /**
+       * Tell the comparator to ignore files which have had new copied created
+       * following "Calculate Project" and "Save As".
+       *
+       * @param value set of scheduled files
+       */
+      public void setUseScheduled(Set<String> value)
+      {
+         configure(value, Excluded::setUseScheduled);
+      }
+
+      /**
+       * Tell the comparator to ignore files which MicrosoftScheduler doesn't
+       * currently process to match Microsoft Project.
+       *
+       * @param value set of excluded files
+       */
+      public void setExcluded(Set<String> value)
+      {
+         configure(value, Excluded::setExcluded);
+      }
+
+      /**
+       * Tell the comparator not to test the WBS in these files.
+       *
+       * @param value set of excluded files
+       */
+      public void setNoWbsTest(Set<String> value)
+      {
+         configure(value, Excluded::setNoWbsTest);
+      }
+
+      /**
+       * Tell the comparator not to test resource assignments in these files.
+       *
+       * @param value set of excluded files
+       */
+      public void setNoResourceAssignmentTest(Set<String> value)
+      {
+         configure(value, Excluded::setNoResourceAssignmentTest);
+      }
+
+      /**
+       * Tell the comparator to ignore files which PrimaveraScheduler doesn't
+       * currently process to match P6.
+       *
+       * @param value set of excluded files
+       */
+      public void setNoFloatTest(Set<String> value)
+      {
+         configure(value, Excluded::setNoFloatTest);
+      }
+
+      /**
+       * Tell the comparator to ignore files which PrimaveraScheduler doesn't
+       * currently process to match P6.
+       *
+       * @param value set of excluded files
+       */
+      public void setNoLongestPathTest(Set<String> value)
+      {
+         configure(value, Excluded::setNoLongestPathTest);
+      }
+
+      public void setNoPlannedTest(Set<String> value)
+      {
+         configure(value, Excluded::setNoPlannedTest);
+      }
+
+      public Excluded getExcluded(String name)
+      {
+         return m_excluded.getOrDefault(name, DEFAULT_EXCLUDED);
+      }
+
+      private final Map<String, Excluded> m_excluded = new HashMap<>();
+   }
+
+   public static class Excluded
+   {
+      public boolean unreadable()
+      {
+         return m_unreadable;
+      }
+
+      public void setUnreadable()
+      {
+         m_unreadable = true;
+      }
+
+      public boolean useScheduled()
+      {
+         return m_useScheduled;
+      }
+
+      public void setUseScheduled()
+      {
+         m_useScheduled = true;
+      }
+
+      public boolean excluded()
+      {
+         return m_excluded;
+      }
+
+      public void setExcluded()
+      {
+         m_excluded = true;
+      }
+
+      public boolean noWbsTest()
+      {
+         return m_noWbsTest;
+      }
+
+      public void setNoWbsTest()
+      {
+         m_noWbsTest = true;
+      }
+
+      public boolean noResourceAssignmentTest()
+      {
+         return m_noResourceAssignmentTest;
+      }
+
+      public void setNoResourceAssignmentTest()
+      {
+         m_noResourceAssignmentTest = true;
+      }
+
+      public boolean noFloatTest()
+      {
+         return m_noFloatTest;
+      }
+
+      public void setNoFloatTest()
+      {
+         m_noFloatTest = true;
+      }
+
+      public boolean noLongestPathTest()
+      {
+         return m_noLongestPathTest;
+      }
+
+      public void setNoLongestPathTest()
+      {
+         m_noLongestPathTest = true;
+      }
+
+      public boolean noPlannedTest()
+      {
+         return m_noPlannedTest;
+      }
+
+      public void setNoPlannedTest()
+      {
+         m_noPlannedTest = true;
+      }
+
+      private boolean m_unreadable;
+      private boolean m_useScheduled;
+      private boolean m_excluded;
+      private boolean m_noWbsTest;
+      private boolean m_noResourceAssignmentTest;
+      private boolean m_noFloatTest;
+      private boolean m_noLongestPathTest;
+      private boolean m_noPlannedTest;
+   }
+
    private boolean m_debug;
    private PrintStream m_printStream = System.out;
    private boolean m_directory;
@@ -815,11 +1027,7 @@ public class PrimaveraSchedulerComparator
    private int m_forwardErrorCount;
    private int m_backwardErrorCount;
    private int m_assignmentErrorCount;
-   private Set<String> m_unreadableFiles = Collections.emptySet();
-   private Set<String> m_useScheduled = Collections.emptySet();
-   private Set<String> m_excluded = Collections.emptySet();
-   private Set<String> m_noWbsTest = Collections.emptySet();
-   private Set<String> m_noResourceAssignmentTest = Collections.emptySet();
-   private Set<String> m_noFloatTest = Collections.emptySet();
-   private Set<String> m_noLongestPathTest = Collections.emptySet();
+   private final Exclusions m_exclusions = new Exclusions();
+
+   public static final Excluded DEFAULT_EXCLUDED = new Excluded();
 }
