@@ -1313,6 +1313,10 @@ public class PrimaveraScheduler implements Scheduler
                   else
                   {
                      earlyStart = addLag(relation, predecessorTask.getActualStart());
+                     if (!earlyStart.isAfter(m_dataDate))
+                     {
+                        earlyStart = predecessorTask.getEarlyStart();
+                     }
                   }
                }
             }
