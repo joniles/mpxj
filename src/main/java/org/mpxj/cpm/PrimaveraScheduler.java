@@ -208,8 +208,17 @@ public class PrimaveraScheduler implements Scheduler
          }
          else
          {
-            assignment.setRemainingEarlyFinish(getEquivalentPreviousWorkFinish(getEffectiveCalendar(assignment), getDateFromWork(getEffectiveCalendar(assignment), assignment.getRemainingUnits(), assignment.getRemainingEarlyStart(), assignment.getRemainingWork())));
-            assignment.setRemainingLateStart(getEquivalentNextWorkStart(getEffectiveCalendar(assignment), getDateFromWork(getEffectiveCalendar(assignment), assignment.getRemainingUnits(), assignment.getRemainingLateFinish(), assignment.getRemainingWork().negate())));
+            double remainingUnits = getUnitsValue(assignment.getRemainingUnits());
+            if (remainingUnits == 0.0)
+            {
+               assignment.setRemainingEarlyFinish(assignment.getRemainingEarlyStart());
+               assignment.setRemainingLateStart(assignment.getRemainingLateFinish());
+            }
+            else
+            {
+               assignment.setRemainingEarlyFinish(getEquivalentPreviousWorkFinish(getEffectiveCalendar(assignment), getDateFromWork(getEffectiveCalendar(assignment), assignment.getRemainingUnits(), assignment.getRemainingEarlyStart(), assignment.getRemainingWork())));
+               assignment.setRemainingLateStart(getEquivalentNextWorkStart(getEffectiveCalendar(assignment), getDateFromWork(getEffectiveCalendar(assignment), assignment.getRemainingUnits(), assignment.getRemainingLateFinish(), assignment.getRemainingWork().negate())));
+            }
          }
       }
 
@@ -4293,11 +4302,9 @@ public class PrimaveraScheduler implements Scheduler
 
    private LocalDateTime getDateFromWork(ProjectCalendar calendar, Number units, LocalDateTime date, Duration work)
    {
-      double unitsValue = units.doubleValue();
+      double unitsValue = getUnitsValue(units.doubleValue());
 
-      // P6 writes small units values to XER files.
-      // The P6 UI shows these as zero, and the scheduler treats them as zero.
-      if (unitsValue < 0.001)
+      if (unitsValue == 0)
       {
          return date;
       }
@@ -4308,6 +4315,15 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       return getDate(calendar, date, work);
+   }
+
+   private double getUnitsValue(Number units)
+   {
+      double unitsValue = units.doubleValue();
+
+      // P6 writes small units values to XER files.
+      // The P6 UI shows these as zero, and the scheduler treats them as zero.
+      return unitsValue < 0.001 ? 0 : unitsValue;
    }
 
    /**
