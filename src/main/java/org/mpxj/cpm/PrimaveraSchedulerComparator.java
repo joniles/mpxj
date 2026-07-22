@@ -172,6 +172,11 @@ public class PrimaveraSchedulerComparator
       m_exclusions.setNoLongestPathTest(value);
    }
 
+   public void setNoPlannedTest(Set<String> value)
+   {
+      m_exclusions.setNoPlannedTest(value);
+   }
+
    /**
     * Compare all the files in a directory with a matching suffix.
     *
@@ -399,22 +404,26 @@ public class PrimaveraSchedulerComparator
          compareDates(baseline, working, TaskField.ACTUAL_START),
          compareDates(baseline, working, TaskField.ACTUAL_FINISH),
          compareDates(baseline, working, TaskField.REMAINING_EARLY_START),
-         compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH),
+         compareDates(baseline, working, TaskField.REMAINING_EARLY_FINISH)
+      );
+
+      List<DateEquality> plannedDateComparisons = Arrays.asList(
          compareDates(baseline, working, TaskField.PLANNED_START),
          compareDates(baseline, working, TaskField.PLANNED_FINISH)
       );
 
       boolean forwardDatesFailed = forwardDateComparisons.stream().anyMatch(d -> d == DateEquality.MISMATCH);
+      boolean plannedDatesFailed = !excluded.noPlannedTest() && plannedDateComparisons.stream().anyMatch(d -> d == DateEquality.MISMATCH);
       boolean freeFloatFailed = !excluded.noFloatTest() && !compareDurations(baseline, working, TaskField.FREE_SLACK);
       boolean totalFloatFailed = !excluded.noFloatTest() && !compareDurations(baseline, working, TaskField.TOTAL_SLACK);
       boolean longestPathFailed = !excluded.noLongestPathTest() && baseline.getLongestPath() != working.getLongestPath();
-      boolean plannedDurationFailed = !baseline.getSummary() && !compareDurations(baseline, working, TaskField.PLANNED_DURATION);
+      boolean plannedDurationFailed = !excluded.noPlannedTest() && !baseline.getSummary() && !compareDurations(baseline, working, TaskField.PLANNED_DURATION);
       boolean actualDurationFailed = !baseline.getSummary() && !compareDurations(baseline, working, TaskField.ACTUAL_DURATION);
       boolean remainingDurationFailed = !baseline.getSummary() && !compareDurations(baseline, working, TaskField.REMAINING_DURATION);
       boolean atCompletionDurationFailed = !baseline.getSummary() && !compareDurations(baseline, working, TaskField.DURATION);
       boolean durationPercentCompleteFailed = !baseline.getSummary() && !compareNumbers(baseline, working, TaskField.PERCENT_COMPLETE);
 
-      if (forwardDatesFailed || freeFloatFailed || totalFloatFailed || longestPathFailed || plannedDurationFailed || actualDurationFailed || remainingDurationFailed || atCompletionDurationFailed || durationPercentCompleteFailed)
+      if (forwardDatesFailed || plannedDatesFailed || freeFloatFailed || totalFloatFailed || longestPathFailed || plannedDurationFailed || actualDurationFailed || remainingDurationFailed || atCompletionDurationFailed || durationPercentCompleteFailed)
       {
          ++m_forwardErrorCount;
       }
@@ -433,6 +442,10 @@ public class PrimaveraSchedulerComparator
       }
 
       m_forwardEquivalentDateCount += (int) forwardDateComparisons.stream()
+         .filter(d -> d == DateEquality.EQUIVALENT)
+         .count();
+
+      m_forwardEquivalentDateCount += (int) plannedDateComparisons.stream()
          .filter(d -> d == DateEquality.EQUIVALENT)
          .count();
 
@@ -900,6 +913,11 @@ public class PrimaveraSchedulerComparator
          configure(value, Excluded::setNoLongestPathTest);
       }
 
+      public void setNoPlannedTest(Set<String> value)
+      {
+         configure(value, Excluded::setNoPlannedTest);
+      }
+
       public Excluded getExcluded(String name)
       {
          return m_excluded.getOrDefault(name, DEFAULT_EXCLUDED);
@@ -980,6 +998,16 @@ public class PrimaveraSchedulerComparator
          m_noLongestPathTest = true;
       }
 
+      public boolean noPlannedTest()
+      {
+         return m_noPlannedTest;
+      }
+
+      public void setNoPlannedTest()
+      {
+         m_noPlannedTest = true;
+      }
+
       private boolean m_unreadable;
       private boolean m_useScheduled;
       private boolean m_excluded;
@@ -987,6 +1015,7 @@ public class PrimaveraSchedulerComparator
       private boolean m_noResourceAssignmentTest;
       private boolean m_noFloatTest;
       private boolean m_noLongestPathTest;
+      private boolean m_noPlannedTest;
    }
 
    private boolean m_debug;

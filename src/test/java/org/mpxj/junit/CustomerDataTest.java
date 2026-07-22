@@ -319,6 +319,7 @@ public class CustomerDataTest
       Set<String> noResourceAssignmentTest = readFile(new File(m_privateDirectory, "primavera-scheduler-no-assignment-test.txt"));
       Set<String> noFloatTest = readFile(new File(m_privateDirectory, "primavera-scheduler-no-float-test.txt"));
       Set<String> noLongestPathTest = readFile(new File(m_privateDirectory, "primavera-scheduler-no-longest-path-test.txt"));
+      Set<String> noPlannedTest = readFile(new File(m_privateDirectory, "primavera-scheduler-no-planned-test.txt"));
 
       PrimaveraSchedulerComparator comparator = new PrimaveraSchedulerComparator();
       comparator.setUnreadableFiles(unreadable);
@@ -328,6 +329,7 @@ public class CustomerDataTest
       comparator.setNoResourceAssignmentTest(noResourceAssignmentTest);
       comparator.setNoFloatTest(noFloatTest);
       comparator.setNoLongestPathTest(noLongestPathTest);
+      comparator.setNoPlannedTest(noPlannedTest);
       comparator.setDebug(true);
 
       assertTrue(comparator.process(new File(m_privateDirectory, "XER"), ".xer"));
