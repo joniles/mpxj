@@ -6,6 +6,7 @@
 	</properties>
 	<body>
         <release date="Unreleased" version="16.6.0">
+            <action dev="joniles" type="update">Fix an issue where MPXJ writes files to a world-readable temporary directory while reading P3 PRX files, Suretrak STX files, or any other schedule which has been compressed as a zip file. There is a brief window while the schedule file is being read where a local user could access the schedule file contents from this temporary directory (with thanks to Arpit Jain).</action>
             <action dev="joniles" type="update">Performance improvement when reading certain MPP files (Contributed by Petr Janeček).</action>
             <action dev="joniles" type="update">Ensure Cost Account Name and ID attributes are correctly written to XER files.</action>
             <action dev="joniles" type="update">Ignore calendar exceptions read from PMXML files which do not have a date.</action>

@@ -111,10 +111,7 @@ public final class FileHelper
     */
    public static final File createTempDir() throws IOException
    {
-      File dir = Files.createTempFile("mpxj", "tmp").toFile();
-      delete(dir);
-      mkdirs(dir);
-      return dir;
+      return Files.createTempDirectory("mpxj").toFile();
    }
 
    /**
