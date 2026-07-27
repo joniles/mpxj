@@ -24,6 +24,7 @@
 package org.mpxj;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * This class represents an amount, spread over a period of time.
@@ -132,7 +133,7 @@ public abstract class TimephasedItem<T>
 
    @Override public int hashCode()
    {
-      return m_start.hashCode() + m_finish.hashCode() + m_totalAmount.hashCode() + m_amountPerHour.hashCode();
+      return Objects.hash(m_start, m_totalAmount, m_finish, m_amountPerHour);
    }
 
    private LocalDateTime m_start;
