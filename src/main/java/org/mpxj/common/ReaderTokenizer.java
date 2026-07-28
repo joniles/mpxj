@@ -23,12 +23,15 @@
 
 package org.mpxj.common;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 
 /**
  * This class implements a tokenizer as per the underlying Tokenizer class,
  * with characters being read from a Reader instance.
+ *
+ * The reader is buffered if it is not already.
  */
 public class ReaderTokenizer extends Tokenizer
 {
@@ -39,7 +42,7 @@ public class ReaderTokenizer extends Tokenizer
     */
    public ReaderTokenizer(Reader r)
    {
-      m_reader = r;
+      m_reader = (r instanceof BufferedReader) ? r : new BufferedReader(r);
    }
 
    @Override protected int read() throws IOException
