@@ -1681,7 +1681,13 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    private long getTotalTime(ProjectCalendarHours hours)
    {
-      return hours.stream().mapToLong(LocalTimeRange::getDurationAsMilliseconds).sum();
+      // getWork calls this once per day across a date range, so keep it allocation-free.
+      long total = 0;
+      for (LocalTimeRange range : hours)
+      {
+         total += range.getDurationAsMilliseconds();
+      }
+      return total;
    }
 
    /**
