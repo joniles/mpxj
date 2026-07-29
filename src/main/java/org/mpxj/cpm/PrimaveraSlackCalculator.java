@@ -45,6 +45,11 @@ import org.mpxj.common.LocalDateTimeHelper;
  */
 public class PrimaveraSlackCalculator implements SlackCalculator
 {
+   /**
+    * Constructor.
+    *
+    * @param file parent file
+    */
    public PrimaveraSlackCalculator(ProjectFile file)
    {
       m_projectProperties = file.getProjectProperties();
