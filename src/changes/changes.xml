@@ -11,6 +11,7 @@
             <action dev="joniles" type="update">Ensure Cost Account Name and ID attributes are correctly written to XER files.</action>
             <action dev="joniles" type="update">Ignore calendar exceptions read from PMXML files which do not have a date.</action>
             <action dev="joniles" type="update">Improvements to `PrimaveraScheduler` to ensure better alignment with P6.</action>
+            <action dev="joniles" type="update">Improvements Free Slack calculation for Primavera schedules to ensure better alignment with P6.</action>
             <action dev="joniles" type="update">Updated to Jackson 2.22.1.</action>
         </release>
         <release date="2026-07-03" version="16.5.0">
