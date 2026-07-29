@@ -177,7 +177,15 @@ public final class ActivityCode implements Code
       }
 
       // I'd prefer a map-based lookup, but this will do for now and the list of values will typically be fairly short
-      return m_values.stream().filter(v -> v.getUniqueID().intValue() == id.intValue()).findFirst().orElse(null);
+      for (ActivityCodeValue value : m_values)
+      {
+         if (value.getUniqueID().intValue() == id.intValue())
+         {
+            return value;
+         }
+      }
+
+      return null;
    }
 
    private final Integer m_uniqueID;
