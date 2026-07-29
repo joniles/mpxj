@@ -34,6 +34,7 @@ import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectFile;
 import org.mpxj.Relation;
+import org.mpxj.TemporaryCalendar;
 
 /**
  * Implementation of common date calculations which are used by the Primavera scheduer and elsewhere.
@@ -181,7 +182,7 @@ class PrimaveraDateCalculator
     */
    private ProjectCalendar createTwentyFourHourCalendar()
    {
-      ProjectCalendar calendar = new ProjectCalendar(m_file);
+      ProjectCalendar calendar = new TemporaryCalendar(m_file.getProjectContext());
       for (DayOfWeek day : DayOfWeek.values())
       {
          calendar.setCalendarDayType(day, DayType.WORKING);
