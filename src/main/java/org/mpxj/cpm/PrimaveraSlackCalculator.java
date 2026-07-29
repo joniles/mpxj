@@ -48,7 +48,7 @@ public class PrimaveraSlackCalculator implements SlackCalculator
    public PrimaveraSlackCalculator(ProjectFile file)
    {
       m_projectProperties = file.getProjectProperties();
-      m_primaveraDateCalculator = new PrimaveraDateCalculator(file, this::getDataDate);
+      m_dateCalculator = new PrimaveraDateCalculator(file, this::getDataDate);
    }
 
    @Override public Duration calculateStartSlack(Task task)
@@ -274,7 +274,7 @@ public class PrimaveraSlackCalculator implements SlackCalculator
 
       if (lagDurationInHours != 0)
       {
-         predecessorDate = m_primaveraDateCalculator.addLag(relation, predecessorDate, Duration.getInstance(lagDurationInHours, TimeUnit.HOURS));
+         predecessorDate = m_dateCalculator.addLag(relation, predecessorDate, Duration.getInstance(lagDurationInHours, TimeUnit.HOURS));
       }
 
       return LocalDateTimeHelper.getVariance(predecessorTask.getEffectiveCalendar(), predecessorDate, successorDate, TimeUnit.HOURS);
@@ -366,5 +366,5 @@ public class PrimaveraSlackCalculator implements SlackCalculator
    }
 
    private final ProjectProperties m_projectProperties;
-   private final PrimaveraDateCalculator m_primaveraDateCalculator;
+   private final PrimaveraDateCalculator m_dateCalculator;
 }
