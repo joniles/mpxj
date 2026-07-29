@@ -3901,8 +3901,9 @@ public class PrimaveraScheduler implements Scheduler
       {
          LocalDateTime finish = task.getActualFinish() == null ? task.getRemainingEarlyStart() : task.getActualFinish();
          task.setActualDuration(task.getEffectiveCalendar().getWork(task.getActualStart(), finish, TimeUnit.HOURS));
+         task.setPercentageComplete(calculateDurationPercentComplete(task));
       }
-
+      
       task.getResourceAssignments().forEach(this::updateDates);
 
       if (earlyStart.getRelation() != null)
