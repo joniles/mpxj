@@ -24,12 +24,15 @@ package org.mpxj.cpm;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.mpxj.ActivityType;
 import org.mpxj.ConstraintType;
 import org.mpxj.Duration;
+import org.mpxj.ProjectFile;
+import org.mpxj.ProjectProperties;
 import org.mpxj.Relation;
 import org.mpxj.SlackCalculator;
 import org.mpxj.Task;
@@ -42,6 +45,17 @@ import org.mpxj.common.LocalDateTimeHelper;
  */
 public class PrimaveraSlackCalculator implements SlackCalculator
 {
+   /**
+    * Constructor.
+    *
+    * @param file parent file
+    */
+   public PrimaveraSlackCalculator(ProjectFile file)
+   {
+      m_projectProperties = file.getProjectProperties();
+      m_dateCalculator = new PrimaveraDateCalculator(file, this::getDataDate);
+   }
+
    @Override public Duration calculateStartSlack(Task task)
    {
       LocalDateTime lateStart = task.getLateStart();
@@ -70,18 +84,22 @@ public class PrimaveraSlackCalculator implements SlackCalculator
 
    @Override public Duration calculateFreeSlack(Task task)
    {
-      // If the task is complete, free slack is always zero
-      if (task.getExpectedFinish() != null || task.getActualFinish() != null || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getSummary()) // TODO - do we want to populate this for WBS?
+      if (task.getExpectedFinish() != null ||
+         task.getActualFinish() != null || // If the task is complete, free slack is always zero
+         task.getActivityType() == ActivityType.LEVEL_OF_EFFORT ||
+         task.getSummary() || // TODO - do we want to populate this for WBS?
+         task.getConstraintType() == ConstraintType.MUST_FINISH_ON)
       {
          return Duration.getInstance(0, TimeUnit.HOURS);
       }
 
-      Duration freeFloat = task.getSuccessors().stream()
+      Map<Task, Duration> map = task.getSuccessors().stream()
          // Ignore LOE successors
          .filter(r -> r.getSuccessorTask().getActivityType() != ActivityType.LEVEL_OF_EFFORT)
          // Handle duplicate successor tasks
-         .collect(Collectors.toMap(Relation::getSuccessorTask, this::calculateFreeSlack, this::mergeFreeSlack))
-         .values().stream()
+         .collect(Collectors.toMap(Relation::getSuccessorTask, this::calculateFreeSlack, this::mergeFreeSlack));
+
+      Duration freeFloat = map.values().stream()
          .filter(Objects::nonNull)
          .min(Comparator.naturalOrder())
          .orElseGet(() -> calculateFreeSlackWithoutSuccessors(task));
@@ -193,38 +211,80 @@ public class PrimaveraSlackCalculator implements SlackCalculator
    private Duration calculateFreeSlack(Relation relation)
    {
       Task predecessorTask = relation.getPredecessorTask();
-      if (predecessorTask.getConstraintType() == ConstraintType.MUST_FINISH_ON)
+      LocalDateTime predecessorEarlyStart;
+      LocalDateTime predecessorEarlyFinish;
+      if (predecessorTask.getActualStart() == null)
       {
-         return Duration.getInstance(0, TimeUnit.HOURS);
+         predecessorEarlyStart = predecessorTask.getEarlyStart();
+         predecessorEarlyFinish = predecessorTask.getEarlyFinish();
+      }
+      else
+      {
+         predecessorEarlyStart = predecessorTask.getRemainingEarlyStart();
+         predecessorEarlyFinish = predecessorTask.getRemainingEarlyFinish();
       }
 
+      LocalDateTime predecessorDate;
+      LocalDateTime successorDate;
       Task successorTask = relation.getSuccessorTask();
+      double lagDurationInHours = relation.getLag().convertUnits(TimeUnit.HOURS, m_projectProperties).getDuration();
 
       switch (relation.getType())
       {
          case FINISH_START:
          {
-            return calculateFreeSlackVariance(relation, predecessorTask.getEarlyFinish(), successorTask.getEarlyStart());
+            predecessorDate = predecessorEarlyFinish;
+            successorDate = successorTask.getEarlyStart();
+            break;
          }
 
          case START_START:
          {
-            return calculateFreeSlackVariance(relation, predecessorTask.getEarlyStart(), successorTask.getEarlyStart());
+            predecessorDate = predecessorEarlyStart;
+            successorDate = successorTask.getEarlyStart();
+
+            if (lagDurationInHours != 0 && predecessorTask.getActualDuration() != null)
+            {
+               double actualDurationInHours = predecessorTask.getActualDuration().convertUnits(TimeUnit.HOURS, m_projectProperties).getDuration();
+               lagDurationInHours = actualDurationInHours >= lagDurationInHours ? 0 : lagDurationInHours - actualDurationInHours;
+            }
+
+            break;
          }
 
          case FINISH_FINISH:
          {
-            return calculateFreeSlackVariance(relation, predecessorTask.getEarlyFinish(), successorTask.getEarlyFinish());
+            predecessorDate = predecessorEarlyFinish;
+            successorDate = successorTask.getEarlyFinish();
+            break;
          }
 
          case START_FINISH:
          {
-            return calculateFreeSlackVariance(relation, predecessorTask.getEarlyStart(), successorTask.getEarlyFinish());
+            predecessorDate = predecessorEarlyStart;
+            successorDate = successorTask.getEarlyFinish();
+            break;
+         }
+
+         default:
+         {
+            throw new RuntimeException("Invalid relation type");
          }
       }
 
-      return null;
+      if (predecessorDate == null || successorDate == null)
+      {
+         return Duration.getInstance(0, TimeUnit.HOURS);
+      }
+
+      if (lagDurationInHours != 0)
+      {
+         predecessorDate = m_dateCalculator.addLag(relation, predecessorDate, Duration.getInstance(lagDurationInHours, TimeUnit.HOURS));
+      }
+
+      return LocalDateTimeHelper.getVariance(predecessorTask.getEffectiveCalendar(), predecessorDate, successorDate, TimeUnit.HOURS);
    }
+
 
    /**
     * Calculate the variance between two dates in the context of a Relation instance.
@@ -303,4 +363,18 @@ public class PrimaveraSlackCalculator implements SlackCalculator
 
       return Duration.getInstance(Math.round(duration.getDuration() * 60.0) / 60.0, TimeUnit.HOURS);
    }
+
+   /**
+    * Method used to retrieve the data date.
+    *
+    * @return date date
+    */
+   private LocalDateTime getDataDate()
+   {
+      LocalDateTime dataDate = m_projectProperties.getStatusDate();
+      return dataDate == null ? m_projectProperties.getStartDate() : dataDate;
+   }
+
+   private final ProjectProperties m_projectProperties;
+   private final PrimaveraDateCalculator m_dateCalculator;
 }
