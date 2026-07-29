@@ -364,6 +364,11 @@ public class PrimaveraSlackCalculator implements SlackCalculator
       return Duration.getInstance(Math.round(duration.getDuration() * 60.0) / 60.0, TimeUnit.HOURS);
    }
 
+   /**
+    * Method used to retrieve the data date.
+    *
+    * @return date date
+    */
    private LocalDateTime getDataDate()
    {
       LocalDateTime dataDate = m_projectProperties.getStatusDate();
