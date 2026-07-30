@@ -3845,7 +3845,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       ProjectCalendar calendar = getEffectiveCalendar();
       LocalDateTime start;
 
-      if (getActualStart() == null)
+      if (getActualStart() == null || getActualWork() == null || getActualWork().getDuration() == 0.0)
       {
          // We haven't started, so we can use the task start date
          start = getStart();
