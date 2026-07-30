@@ -29,6 +29,8 @@ import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -340,16 +342,7 @@ class XerFile
             {
                case DATE:
                {
-                  try
-                  {
-                     objectValue = LocalDateTimeHelper.parseBest(m_df, fieldValue);
-                  }
-
-                  catch (DateTimeParseException ex)
-                  {
-                     objectValue = fieldValue;
-                  }
-
+                  objectValue = parseDate(fieldValue);
                   break;
                }
 
@@ -475,6 +468,96 @@ class XerFile
       }
 
       return value.replace("\"\"", "\"");
+   }
+
+   /**
+    * Reads a date field, taking a fast path for the shapes P6 writes. Anything else
+    * falls back to the formatter, so the formats accepted are unchanged.
+    *
+    * @param value string value
+    * @return LocalDateTime, or the original string where it cannot be read as a date
+    */
+   private Object parseDate(String value)
+   {
+      LocalDateTime fast = parseCanonicalDate(value);
+      if (fast != null)
+      {
+         return fast;
+      }
+
+      try
+      {
+         return LocalDateTimeHelper.parseBest(m_df, value);
+      }
+
+      catch (DateTimeParseException ex)
+      {
+         return value;
+      }
+   }
+
+   /**
+    * Reads "yyyy-MM-dd", "yyyy-MM-dd HH:mm" or "yyyy-MM-dd HH:mm:ss". Returns null for
+    * anything else, including out of range components and year zero, which the formatter
+    * rejects as it has no year zero in an era.
+    *
+    * @param value string value
+    * @return LocalDateTime, or null where the value is not one of those shapes
+    */
+   private static LocalDateTime parseCanonicalDate(String value)
+   {
+      int length = value.length();
+      if ((length != 10 && length != 16 && length != 19)
+         || (value.charAt(4) != '-')
+         || (value.charAt(7) != '-')
+         || (length > 10 && (value.charAt(10) != ' ' || value.charAt(13) != ':'))
+         || (length == 19 && value.charAt(16) != ':'))
+      {
+         return null;
+      }
+
+      int year = digits(value, 0, 4);
+      if (year < 1)
+      {
+         return null;
+      }
+
+      try
+      {
+         // Out of range components, and the -1 which digits returns for a non-digit, all throw here.
+         return LocalDateTime.of(year, digits(value, 5, 2), digits(value, 8, 2),
+            length > 10 ? digits(value, 11, 2) : 0,
+            length > 10 ? digits(value, 14, 2) : 0,
+            length == 19 ? digits(value, 17, 2) : 0);
+      }
+
+      catch (DateTimeException ex)
+      {
+         return null;
+      }
+   }
+
+   /**
+    * The number held by the given digits, or -1 where any of them is not a digit.
+    *
+    * @param value string value
+    * @param offset offset of the first digit
+    * @param length number of digits
+    * @return number, or -1
+    */
+   private static int digits(String value, int offset, int length)
+   {
+      int result = 0;
+      for (int index = offset; index < offset + length; index++)
+      {
+         int digit = value.charAt(index) - '0';
+         if (digit < 0 || digit > 9)
+         {
+            return -1;
+         }
+         result = (result * 10) + digit;
+      }
+      return result;
    }
 
    private final boolean m_ignoreErrors;

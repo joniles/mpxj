@@ -29,6 +29,11 @@ import java.io.Reader;
 /**
  * This class implements a tokenizer as per the underlying Tokenizer class,
  * with characters being read from a Reader instance.
+ *
+ * Characters are read in blocks: Reader.read() with no argument goes through
+ * StreamDecoder per call, taking a lock and allocating for each character.
+ * The Reader is therefore read ahead of the current token, so it must not be
+ * shared with anything which reads from it afterwards.
  */
 public class ReaderTokenizer extends Tokenizer
 {
@@ -44,8 +49,25 @@ public class ReaderTokenizer extends Tokenizer
 
    @Override protected int read() throws IOException
    {
-      return (m_reader.read());
+      if (m_index == m_length)
+      {
+         m_length = m_reader.read(m_readBuffer);
+         m_index = 0;
+
+         if (m_length < 1)
+         {
+            m_length = 0;
+            return TT_EOF;
+         }
+      }
+
+      return m_readBuffer[m_index++];
    }
 
    private final Reader m_reader;
+   private final char[] m_readBuffer = new char[BUFFER_SIZE];
+   private int m_index;
+   private int m_length;
+
+   private static final int BUFFER_SIZE = 8192;
 }

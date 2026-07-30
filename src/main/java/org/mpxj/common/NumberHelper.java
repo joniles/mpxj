@@ -24,7 +24,7 @@
 package org.mpxj.common;
 
 import java.math.BigInteger;
-import java.util.Arrays;
+import java.util.DoubleSummaryStatistics;
 
 /**
  * This class contains utility methods for handling Number objects and
@@ -287,7 +287,16 @@ public final class NumberHelper
     */
    public static Double sumAsDouble(Number... values)
    {
-      return Double.valueOf(Arrays.stream(values).mapToDouble(NumberHelper::getDouble).sum());
+      // The same compensated summation DoubleStream.sum performs, without the pipeline it builds
+      // per call. Delegating rather than copying keeps the two in step: the convention they share
+      // changed after Java 8, where both add the compensation rather than subtracting it.
+      DoubleSummaryStatistics summary = new DoubleSummaryStatistics();
+      for (Number value : values)
+      {
+         summary.accept(getDouble(value));
+      }
+
+      return getDouble(summary.getSum());
    }
 
    public static final Double DOUBLE_ZERO = Double.valueOf(0);

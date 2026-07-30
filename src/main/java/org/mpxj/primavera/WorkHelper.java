@@ -22,8 +22,7 @@
 
 package org.mpxj.primavera;
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.DoubleSummaryStatistics;
 
 import org.mpxj.Duration;
 import org.mpxj.Task;
@@ -42,7 +41,17 @@ class WorkHelper
     */
    public static Duration addWork(Duration... values)
    {
-      return Duration.getInstance(Arrays.stream(values).filter(Objects::nonNull).mapToDouble(Duration::getDuration).sum(), TimeUnit.HOURS);
+      // As NumberHelper.sumAsDouble: the JDK's own compensated summation, without a stream pipeline.
+      DoubleSummaryStatistics summary = new DoubleSummaryStatistics();
+      for (Duration value : values)
+      {
+         if (value != null)
+         {
+            summary.accept(value.getDuration());
+         }
+      }
+
+      return Duration.getInstance(summary.getSum(), TimeUnit.HOURS);
    }
 
    /**
