@@ -17,7 +17,12 @@
 		<name>MPXJ</name>
 		<url>http://mpxj.org</url>
 	</organization>
+
 	<inceptionYear>2000</inceptionYear>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
 	<dependencies>
 
