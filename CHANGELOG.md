@@ -5,8 +5,19 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
+## 16.6.0 (2026-08-03)
+* Fix an issue where MPXJ writes files to a world-readable temporary directory while reading P3 PRX files, Suretrak STX files, or any other schedule which has been compressed as a zip file. There is a brief window while the schedule file is being read where a local user could access the schedule file contents from this temporary directory (with thanks to Arpit Jain).
+* Performance improvement when reading certain MPP files (Contributed by Petr Janeček).
+* Performance improvements and reduction in allocated memory when reading XER files.(Contributed by Petr Janeček).
+* Ensure Cost Account Name and ID attributes are correctly written to XER files.
+* Ignore calendar exceptions read from PMXML files which do not have a date.
+* Improvements to `PrimaveraScheduler` to ensure better alignment with P6.
+* Improvements Free Slack calculation for Primavera schedules to ensure better alignment with P6.
+* Improve timephased data generation for tasks marked as milestones.
+* Updated to Jackson 2.22.1.
+
 ## 16.5.0 (2026-07-03)
-* Fix a vulnerability where reading malicious Primavera P3 PRX files or SureTrak STX files could result in files being written to arbitrary locations (with thanks to czTang).
+* Fix CVE-2026-65829: a vulnerability where reading malicious Primavera P3 PRX files or SureTrak STX files could result in files being written to arbitrary locations (with thanks to czTang).
 * Improve identification of deleted items when reading certain Asta Powerproject PP files.
 * Updated `PrimaveraScheduler` to support the Expected Finish attribute.
 * Improvements to `PrimaveraScheduler` to ensure better alignment with P6.
@@ -15,7 +26,7 @@ no longer distributed. Please use the `MPXJ.Net` package instead.
 * Updated to JUnit 5.14.4
 
 ## 16.4.1 (2026-06-22)
-* Fix XXE vulnerability in MerlinReader (with thanks for dyingman1).
+* Fix CVE-2026-61570: XXE vulnerability in MerlinReader (with thanks for dyingman1).
 
 ## 16.4.0 (2026-06-10)
 * Ensure that Expected Finish is rolled up from activities to WBS entries when reading P6 schedules.
