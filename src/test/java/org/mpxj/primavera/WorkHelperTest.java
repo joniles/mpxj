@@ -22,18 +22,28 @@
 
 package org.mpxj.primavera;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mpxj.Duration;
 import org.mpxj.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mpxj.junit.MpxjAssert.assumeJvm;
 
 /**
  * Tests for WorkHelper.addWork. In this package because WorkHelper is package private.
  */
 public class WorkHelperTest
 {
+   /**
+    * Check that we're not in IKVM.
+    */
+   @BeforeEach public void beforeMethod()
+   {
+      assumeJvm();
+   }
+
    /**
     * Test that null work values are ignored, and that the result is in hours either way.
     */
