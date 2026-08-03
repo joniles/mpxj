@@ -330,6 +330,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#1660-2026-08-03" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.6.0 (2026-08-03)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#1650-2026-07-03" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5525,6 +5536,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#1660-2026-08-03" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.6.0 (2026-08-03)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#1650-2026-07-03" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8724,9 +8746,21 @@
 <h2 id="note">NOTE</h2>
 <p>From version 14.0.0 onwards the <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code> and <code>net.sf.mpxj-for-vb</code> packages are
 no longer distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
+<h2 id="1660-2026-08-03">16.6.0 (2026-08-03)</h2>
+<ul>
+<li>Fix an issue where MPXJ writes files to a world-readable temporary directory while reading P3 PRX files, Suretrak STX files, or any other schedule which has been compressed as a zip file. There is a brief window while the schedule file is being read where a local user could access the schedule file contents from this temporary directory (with thanks to Arpit Jain).</li>
+<li>Performance improvement when reading certain MPP files (Contributed by Petr Janeček).</li>
+<li>Performance improvements and reduction in allocated memory when reading XER files.(Contributed by Petr Janeček).</li>
+<li>Ensure Cost Account Name and ID attributes are correctly written to XER files.</li>
+<li>Ignore calendar exceptions read from PMXML files which do not have a date.</li>
+<li>Improvements to <code>PrimaveraScheduler</code> to ensure better alignment with P6.</li>
+<li>Improvements Free Slack calculation for Primavera schedules to ensure better alignment with P6.</li>
+<li>Improve timephased data generation for tasks marked as milestones.</li>
+<li>Updated to Jackson 2.22.1.</li>
+</ul>
 <h2 id="1650-2026-07-03">16.5.0 (2026-07-03)</h2>
 <ul>
-<li>Fix a vulnerability where reading malicious Primavera P3 PRX files or SureTrak STX files could result in files being written to arbitrary locations (with thanks to czTang).</li>
+<li>Fix CVE-2026-65829: a vulnerability where reading malicious Primavera P3 PRX files or SureTrak STX files could result in files being written to arbitrary locations (with thanks to czTang).</li>
 <li>Improve identification of deleted items when reading certain Asta Powerproject PP files.</li>
 <li>Updated <code>PrimaveraScheduler</code> to support the Expected Finish attribute.</li>
 <li>Improvements to <code>PrimaveraScheduler</code> to ensure better alignment with P6.</li>
@@ -8736,7 +8770,7 @@ no longer distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
 </ul>
 <h2 id="1641-2026-06-22">16.4.1 (2026-06-22)</h2>
 <ul>
-<li>Fix XXE vulnerability in MerlinReader (with thanks for dyingman1).</li>
+<li>Fix CVE-2026-61570: XXE vulnerability in MerlinReader (with thanks for dyingman1).</li>
 </ul>
 <h2 id="1640-2026-06-10">16.4.0 (2026-06-10)</h2>
 <ul>
