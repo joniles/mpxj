@@ -124,7 +124,7 @@ final class TimephasedDataFactory
             elapsedMinutesAtPeriodEnd = elapsedMinutesAtPeriodEnd / 80.0;
          }
 
-         double totalWorkMinutesThisPeriod = (totalWorkMinutesAtPeriodEnd - totalWorkMinutes) / 1000;
+         double totalWorkMinutesThisPeriod = roundMinutesToSeconds((totalWorkMinutesAtPeriodEnd - totalWorkMinutes) / 1000);
          double elapsedMinutesThisPeriod = elapsedMinutesAtPeriodEnd - elapsedMinutes;
 
          LocalDateTime calendarPeriodEnd;

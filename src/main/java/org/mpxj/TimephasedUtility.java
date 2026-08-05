@@ -130,7 +130,7 @@ final class TimephasedUtility
             double calculatedworkHours = currentItemIsNonWorking ? (workStart.until(workFinish, ChronoUnit.MINUTES) / 60.0) : actualWorkHours;
             if (calculatedworkHours != 0.0)
             {
-               double workAmount = roundMinutesToSeconds(currentItemWorkPerHour * calculatedworkHours);
+               double workAmount = currentItemWorkPerHour * calculatedworkHours;
                if (workAmount != 0.0 || actualWorkHours != 0.0)
                {
                   double currentRangeWork = result[currentRangeIndex] == -1 ? 0 : result[currentRangeIndex];
@@ -440,13 +440,5 @@ final class TimephasedUtility
       }
 
       return list1;
-   }
-
-   private static double roundMinutesToSeconds(double minutes)
-   {
-      double seconds = minutes * 60.0;
-      seconds = Math.round(seconds);
-      seconds /= 60.0;
-      return seconds;
    }
 }
