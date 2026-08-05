@@ -127,10 +127,10 @@ final class TimephasedUtility
             LocalDateTime workStart = currentRange.getStart().isAfter(currentItem.getStart()) ? currentRange.getStart() : currentItem.getStart();
             LocalDateTime workFinish = currentRange.getEnd().isAfter(currentItem.getFinish()) ? currentItem.getFinish() : currentRange.getEnd();
             double actualWorkHours = calendar.getWork(workStart, workFinish, TimeUnit.HOURS).getDuration();
-            double calculatedworkHours = currentItemIsNonWorking ? workStart.until(workFinish, ChronoUnit.HOURS) : actualWorkHours;
+            double calculatedworkHours = currentItemIsNonWorking ? (workStart.until(workFinish, ChronoUnit.MINUTES) / 60.0) : actualWorkHours;
             if (calculatedworkHours != 0.0)
             {
-               double workAmount = currentItemWorkPerHour * calculatedworkHours;
+               double workAmount = roundMinutesToSeconds(currentItemWorkPerHour * calculatedworkHours);
                if (workAmount != 0.0 || actualWorkHours != 0.0)
                {
                   double currentRangeWork = result[currentRangeIndex] == -1 ? 0 : result[currentRangeIndex];
@@ -233,7 +233,7 @@ final class TimephasedUtility
          LocalDateTime workStart = currentRange.getStart().isAfter(currentItem.getStart()) ? currentRange.getStart() : currentItem.getStart();
          LocalDateTime workFinish = currentRange.getEnd().isAfter(currentItem.getFinish()) ? currentItem.getFinish() : currentRange.getEnd();
          double actualWorkHours = calendar.getWork(workStart, workFinish, TimeUnit.HOURS).getDuration();
-         double calculatedWorkHours = currentItemIsNonWorking ? workStart.until(workFinish, ChronoUnit.HOURS) : calendar.getWork(workStart, workFinish, TimeUnit.HOURS).getDuration();
+         double calculatedWorkHours = currentItemIsNonWorking ? (workStart.until(workFinish, ChronoUnit.MINUTES) / 60.0) : calendar.getWork(workStart, workFinish, TimeUnit.HOURS).getDuration();
          if (calculatedWorkHours != 0.0)
          {
             double costAmount = currentItemCostPerHour * calculatedWorkHours;
@@ -440,5 +440,13 @@ final class TimephasedUtility
       }
 
       return list1;
+   }
+
+   private static double roundMinutesToSeconds(double minutes)
+   {
+      double seconds = minutes * 60.0;
+      seconds = Math.round(seconds);
+      seconds /= 60.0;
+      return seconds;
    }
 }

@@ -258,13 +258,13 @@ final class TimephasedDataFactory
          startItem.setFinish(finish);
          startItem.setAmountPerHour(item.getAmountPerHour());
          double workHours = calendar.getWork(startItem.getStart(), startItem.getFinish(), TimeUnit.HOURS).getDuration();
-         startItem.setTotalAmount(Duration.getInstance(workHours * item.getAmountPerHour().getDuration(), TimeUnit.MINUTES));
+         startItem.setTotalAmount(Duration.getInstance(roundMinutesToSeconds(workHours * item.getAmountPerHour().getDuration()), TimeUnit.MINUTES));
          allocatedWorkInMinutes += startItem.getTotalAmount().getDuration();
          regularList.add(startItem);
       }
 
       // Inserted Range
-      double unallocatedWorkInMinutes = item.getTotalAmount().getDuration() - allocatedWorkInMinutes;
+      double unallocatedWorkInMinutes = roundMinutesToSeconds(item.getTotalAmount().getDuration() - allocatedWorkInMinutes);
       double rangeMinutes = range.getStart().until(range.getEnd(), ChronoUnit.MINUTES);
       double requiredMinutes = (unallocatedWorkInMinutes * 60.0) / item.getAmountPerHour().getDuration();
       LocalDateTime finish = requiredMinutes >= rangeMinutes ? range.getEnd() : range.getStart().plusMinutes((long) requiredMinutes);
@@ -273,8 +273,8 @@ final class TimephasedDataFactory
       insertedItem.setStart(range.getStart());
       insertedItem.setFinish(finish);
       insertedItem.setAmountPerHour(item.getAmountPerHour());
-      double insertedRangeWorkingHours = range.getStart().until(finish, ChronoUnit.HOURS); // expecting this to always be 1
-      insertedItem.setTotalAmount(Duration.getInstance(insertedRangeWorkingHours * item.getAmountPerHour().getDuration(), TimeUnit.MINUTES));
+      double insertedRangeWorkingHours = range.getStart().until(finish, ChronoUnit.MINUTES) / 60.0;
+      insertedItem.setTotalAmount(Duration.getInstance(roundMinutesToSeconds(insertedRangeWorkingHours * item.getAmountPerHour().getDuration()), TimeUnit.MINUTES));
       allocatedWorkInMinutes += insertedItem.getTotalAmount().getDuration();
       regularList.add(insertedItem);
 
@@ -557,5 +557,13 @@ final class TimephasedDataFactory
    {
       work.removeIf(w -> w.getStart().isEqual(w.getFinish()));
       return work;
+   }
+
+   private double roundMinutesToSeconds(double minutes)
+   {
+      double seconds = minutes * 60.0;
+      seconds = Math.round(seconds);
+      seconds /= 60.0;
+      return seconds;
    }
 }
