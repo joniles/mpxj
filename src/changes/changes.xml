@@ -5,6 +5,9 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
+        <release date="2026-08-03" version="16.7.0">
+            <action dev="joniles" type="update">When redaing MPP files, improve handling of timephased data items with durations of less than one hour.</action>
+        </release>
         <release date="2026-08-03" version="16.6.0">
             <action dev="joniles" type="update">Fix an issue where MPXJ writes files to a world-readable temporary directory while reading P3 PRX files, Suretrak STX files, or any other schedule which has been compressed as a zip file. There is a brief window while the schedule file is being read where a local user could access the schedule file contents from this temporary directory (with thanks to Arpit Jain).</action>
             <action dev="joniles" type="update">Performance improvement when reading certain MPP files (Contributed by Petr Janeček).</action>
