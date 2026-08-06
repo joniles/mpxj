@@ -621,7 +621,7 @@ final class AstaReader
       //MARK_FOS_HIDING
       //OWNED_BY_TIMESHEEV_X
       //START_ON_NEX_DAY
-      //LONGEST_PATH
+      task.setLongestPath(row.getBoolean("LONGEST_PATH"));
       //DURATIOTTYPF
       //DURATIOTELA_MONTHS
       //DURATIOTHOURS
@@ -858,7 +858,7 @@ final class AstaReader
       //MARK_FOS_HIDING
       //OWNED_BY_TIMESHEEV_X
       //START_ON_NEX_DAY
-      //LONGEST_PATH
+      task.setLongestPath(row.getBoolean("LONGEST_PATH"));
       //DURATIOTTYPF
       //DURATIOTELA_MONTHS
       //DURATIOTHOURS
