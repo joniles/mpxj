@@ -40,6 +40,7 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
       m_type = builder.m_type == null ? RelationType.FINISH_START : builder.m_type;
       m_lag = builder.m_lag == null ? Duration.getInstance(0, TimeUnit.DAYS) : builder.m_lag;
       m_notes = builder.m_notes;
+      m_driving = builder.m_driving;
 
       Integer uniqueID = builder.m_uniqueID;
 
@@ -263,6 +264,18 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
       }
 
       /**
+       * Add driving flag.
+       *
+       * @param value driving flag
+       * @return builder
+       */
+      public Builder driving(boolean value)
+      {
+         m_driving = value;
+         return this;
+      }
+
+      /**
        * Build a Relation instance.
        *
        * @return Relation instance
@@ -278,5 +291,6 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
       RelationType m_type = RelationType.FINISH_START;
       Duration m_lag = Duration.getInstance(0, TimeUnit.DAYS);
       String m_notes;
+      boolean m_driving;
    }
 }

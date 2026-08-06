@@ -1813,6 +1813,7 @@ public final class JsonWriter extends AbstractProjectWriter
             }
             writeOptionalStringField("type", relation.getType());
             writeOptionalStringField("notes", relation.getNotes());
+            writeBooleanField("driving", relation.getDriving());
             m_writer.writeEndObject();
          }
          m_writer.writeEndArray();

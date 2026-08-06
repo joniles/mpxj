@@ -1130,6 +1130,47 @@ final class AstaReader
     */
    public void processPredecessors(List<Row> rows)
    {
+      // ON_LOOP
+      // EXTENSIONS
+      // END_DATE
+      // COMMENTS
+      // START_REPOSITION_ON_TAS_MOVE
+      // START_TASK
+      // END_TASK
+      // ANNOTATE_LEAD_LAG
+      // START_LAG_TIME
+      // CURVATURE_PERCENTAGE
+      // LAST_EDITED_DATE
+      // ALT_ID
+      // START_LAG_TIME_UNIT
+      // MAXIMUM_LAG
+      // PROJID
+      // START_LAG_PERCENT_FLOAT
+      // ID
+      // START_LAG_TYPE
+      // CRITICAL
+      // END_LAG_PERCENT_FLOAT
+      // DRAW_CURVED_IF_VERTICAL
+      // END_LAG_TYPE
+      // DRIVING
+      // DRAW_CURVED_LINK_TO_LEFT
+      // TOTAL_FLOAT
+      // GUID
+      // LAST_EDITED_BY
+      // START_DATE
+      // LINK_CATEGORY
+      // AUTOMATIC_CURVED_LI_SETTINGS
+      // MAINTAIN_TASK_OFFSETS
+      // END_LAG_TIME_UNIT
+      // MAXIMUM_LAG_MODE
+      // LOCAL_LINK
+      // END_LAG_TIME
+      // FREE_FLOAT
+      // END_REPOSITION_ON_TASK_MOVE
+      // MAXIMUM_LAG_TIME_UNIT
+      // UNSCHEDULABLE
+      // LINK_KIND
+
       for (Row row : rows)
       {
          Task startTask = getTaskByAstaID(row.getInteger("START_TASK"));
@@ -1181,6 +1222,7 @@ final class AstaReader
             .predecessorTask(startTask)
             .type(type)
             .lag(lag)
+            .driving(row.getBoolean("DRIVING"))
             .uniqueID(row.getInteger("ID")));
 
          // resolve indeterminate constraint for successor tasks
