@@ -553,17 +553,26 @@ final class TimephasedDataFactory
       return list;
    }
 
-   List<TimephasedWork> removeEmptyItems(List<TimephasedWork> work)
+   /**
+    * Remove items whose start and finish timestamps are the same.
+    *
+    * @param work list of timephased work items
+    * @return list with empty items removed
+    */
+   private List<TimephasedWork> removeEmptyItems(List<TimephasedWork> work)
    {
       work.removeIf(w -> w.getStart().isEqual(w.getFinish()));
       return work;
    }
 
+   /**
+    * Round a number of minutes expressed as a double to the nearest second.
+    *
+    * @param minutes number of minutes as a double
+    * @return number of minutes rounded to the nearest second
+    */
    private double roundMinutesToSeconds(double minutes)
    {
-      double seconds = minutes * 60.0;
-      seconds = Math.round(seconds);
-      seconds /= 60.0;
-      return seconds;
+      return Math.round(minutes * 60.0) / 60.0;
    }
 }
