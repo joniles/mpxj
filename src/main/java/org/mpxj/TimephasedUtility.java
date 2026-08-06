@@ -127,7 +127,7 @@ final class TimephasedUtility
             LocalDateTime workStart = currentRange.getStart().isAfter(currentItem.getStart()) ? currentRange.getStart() : currentItem.getStart();
             LocalDateTime workFinish = currentRange.getEnd().isAfter(currentItem.getFinish()) ? currentItem.getFinish() : currentRange.getEnd();
             double actualWorkHours = calendar.getWork(workStart, workFinish, TimeUnit.HOURS).getDuration();
-            double calculatedworkHours = currentItemIsNonWorking ? workStart.until(workFinish, ChronoUnit.HOURS) : actualWorkHours;
+            double calculatedworkHours = currentItemIsNonWorking ? (workStart.until(workFinish, ChronoUnit.MINUTES) / 60.0) : actualWorkHours;
             if (calculatedworkHours != 0.0)
             {
                double workAmount = currentItemWorkPerHour * calculatedworkHours;
@@ -233,7 +233,7 @@ final class TimephasedUtility
          LocalDateTime workStart = currentRange.getStart().isAfter(currentItem.getStart()) ? currentRange.getStart() : currentItem.getStart();
          LocalDateTime workFinish = currentRange.getEnd().isAfter(currentItem.getFinish()) ? currentItem.getFinish() : currentRange.getEnd();
          double actualWorkHours = calendar.getWork(workStart, workFinish, TimeUnit.HOURS).getDuration();
-         double calculatedWorkHours = currentItemIsNonWorking ? workStart.until(workFinish, ChronoUnit.HOURS) : calendar.getWork(workStart, workFinish, TimeUnit.HOURS).getDuration();
+         double calculatedWorkHours = currentItemIsNonWorking ? (workStart.until(workFinish, ChronoUnit.MINUTES) / 60.0) : calendar.getWork(workStart, workFinish, TimeUnit.HOURS).getDuration();
          if (calculatedWorkHours != 0.0)
          {
             double costAmount = currentItemCostPerHour * calculatedWorkHours;
