@@ -30,23 +30,24 @@ Work to build and maintain MPXJ is kindly supported by my sponsors:
 <img width="2%"/>
 <a href="https://www.kidasa.com/"><img width="30%" alt="Kidasa Logo" src="images/kidasa.png"/></a>
 <img width="2%"/>
-<a href="https://www.bryntum.com/"><img width="30%" alt="Bryntum Logo" src="images/bryntum.png"/></a>
+<a href="https://www.consultaegis.com/"><img width="30%" alt="Aegis Logo" src="images/aegis.png"/></a>
 </p>
 
 <p float="left" align="middle" style="margin-block-end: 0em; margin-block-start: 0em;">
+<a href="https://www.bryntum.com/"><img width="30%" alt="Bryntum Logo" src="images/bryntum.png"/></a>
+<img width="2%"/>
 <a href="https://www.turbo-chart.com/"><img width="30%" alt="Turbo Chart Logo" src="images/turbo-chart.png"/></a>
 <img width="2%"/>
 <a href="https://www.rationalplan.com/"><img width="30%" alt="RationalPlan Logo" src="images/rationalplan.png"/></a>
-<img width="2%"/>
-<a href="https://corasystems.com/"><img width="30%" alt="Cora Systems Logo" src="images/cora.png"/></a>
 </p>
 
 <p float="left" align="middle" style="margin-block-end: 0em; margin-block-start: 0em;">
-<img width="30%"/>
+<img width="15%"/>
+<a href="https://corasystems.com/"><img width="30%" alt="Cora Systems Logo" src="images/cora.png"/></a>
 <img width="2%"/>
 <a href="https://www.foresight.works/"><img width="30%" alt="Foresight Logo" src="images/foresight.png"/></a>
 <img width="2%"/>
-<img width="30%"/>
+<img width="15%"/>
 </p>
 
 
