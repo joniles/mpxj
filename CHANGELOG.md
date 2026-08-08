@@ -5,6 +5,11 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
+## 16.7.0 (2026-08-08)
+* When reading MPP files, improve handling of timephased data items with durations of less than one hour.
+* Read the `Task` attribute Longest Path from Asta PP files.
+* Read the `Relation` attribute Driving from Asta PP files.
+
 ## 16.6.0 (2026-08-03)
 * Fix an issue where MPXJ writes files to a world-readable temporary directory while reading P3 PRX files, Suretrak STX files, or any other schedule which has been compressed as a zip file. There is a brief window while the schedule file is being read where a local user could access the schedule file contents from this temporary directory (with thanks to Arpit Jain).
 * Performance improvement when reading certain MPP files (Contributed by Petr Janeček).
