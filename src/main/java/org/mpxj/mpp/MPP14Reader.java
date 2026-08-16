@@ -1563,7 +1563,7 @@ final class MPP14Reader implements MPPVariantReader
       FixedMeta rscFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Fixed2Meta"))), rscFixedData, 50, 51);
       FixedData rscFixed2Data = new FixedData(rscFixed2Meta, m_inputStreamFactory.getInstance(rscDir, "Fixed2Data"));
 
-      //System.out.println(rscVarMeta);
+      //System.out.println(rscVarMeta.toString(fieldMap));
       //System.out.println(rscVarData);
       //System.out.println(rscFixedMeta);
       //System.out.println(rscFixedData);
@@ -1592,7 +1592,15 @@ final class MPP14Reader implements MPPVariantReader
          resourceTypeOffset = 12;
          resourceTypeMask = 0x10;
          metaDataBitFlags = PROJECT2013_RESOURCE_META_DATA_BIT_FLAGS;
-         metaData2BitFlags = PROJECT2013_RESOURCE_META_DATA2_BIT_FLAGS;
+
+         if (rscFixed2Meta.getItemCount() == 0 || rscFixed2Meta.getByteArrayValue(0).length == 50)
+         {
+            metaData2BitFlags = PROJECT2013_RESOURCE_META_DATA2_50_BYTE_BIT_FLAGS;
+         }
+         else
+         {
+            metaData2BitFlags = PROJECT2013_RESOURCE_META_DATA2_51_BYTE_BIT_FLAGS;
+         }
       }
       else
       {
@@ -2196,10 +2204,16 @@ final class MPP14Reader implements MPPVariantReader
       new MppBitFlag(ResourceField.GENERIC, 32, 0x04000000, Boolean.FALSE, Boolean.TRUE),
    };
 
-   private static final MppBitFlag[] PROJECT2013_RESOURCE_META_DATA2_BIT_FLAGS = {
+   private static final MppBitFlag[] PROJECT2013_RESOURCE_META_DATA2_50_BYTE_BIT_FLAGS = {
       new MppBitFlag(ResourceField.BUDGET, 8, 0x40, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(ResourceField.TYPE, 8, 0x10, ResourceType.MATERIAL, ResourceType.COST),
       new MppBitFlag(ResourceField.GENERIC, 32, 0x10000000, Boolean.FALSE, Boolean.TRUE),
+   };
+
+   private static final MppBitFlag[] PROJECT2013_RESOURCE_META_DATA2_51_BYTE_BIT_FLAGS = {
+      new MppBitFlag(ResourceField.BUDGET, 8, 0x40, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.TYPE, 8, 0x10, ResourceType.MATERIAL, ResourceType.COST),
+      new MppBitFlag(ResourceField.GENERIC, 32, 0x80000000, Boolean.FALSE, Boolean.TRUE),
    };
 
    private static final MppBitFlag[] PROJECT2010_RESOURCE_META_DATA_BIT_FLAGS = {
