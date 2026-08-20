@@ -125,7 +125,7 @@ public class PrimaveraScheduler implements Scheduler
 
       calculateLongestPath(activities);
 
-      m_file.getProjectProperties().setStartDate(m_projectStartDate);
+      m_file.getProjectProperties().setStartDate(m_file.getEarliestStartDate());
       m_file.getProjectProperties().setFinishDate(m_forwardPassFinishDate);
       m_file.getProjectProperties().setScheduledFinish(earlyFinish);
    }
