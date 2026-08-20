@@ -345,7 +345,14 @@ public class PrimaveraScheduler implements Scheduler
          {
             drivingRelations = getForwardPassDrivingRelations(task, predecessors);
             earlyStart = drivingRelations.get(0).getStartDate();
-            earlyFinish = drivingRelations.get(0).getFinishDate();
+            if (earlyStart.isBefore(m_projectStartDate))
+            {
+               earlyStart = m_projectStartDate;
+            }
+            else
+            {
+               earlyFinish = drivingRelations.get(0).getFinishDate();
+            }
          }
 
          switch (getConstraintType(task))
@@ -484,6 +491,10 @@ public class PrimaveraScheduler implements Scheduler
             {
                drivingRelations = getForwardPassDrivingRelations(task, predecessors);
                earlyStart = getNextWorkStart(task, drivingRelations.get(0).getStartDate());
+               if (earlyStart.isBefore(m_projectStartDate))
+               {
+                  earlyStart = task.getEffectiveCalendar().getNextWorkStart(m_projectStartDate);
+               }
                earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
             }
          }
@@ -498,6 +509,10 @@ public class PrimaveraScheduler implements Scheduler
             {
                drivingRelations = getForwardPassDrivingRelations(task, predecessors);
                earlyStart = drivingRelations.get(0).getStartDate();
+               if (earlyStart.isBefore(m_projectStartDate))
+               {
+                  earlyStart = m_projectStartDate;
+               }
                earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
             }
          }
@@ -1675,11 +1690,11 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      if (earlyStart.isBefore(m_projectStartDate))
-      {
-         earlyStart = m_projectStartDate;
-         appliedEarlyFinish = null;
-      }
+//      if (earlyStart.isBefore(m_projectStartDate))
+//      {
+//         earlyStart = m_projectStartDate;
+//         appliedEarlyFinish = null;
+//      }
 
       return new DrivingRelation(relation, earlyStart, appliedEarlyFinish);
    }
