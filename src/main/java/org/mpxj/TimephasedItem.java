@@ -125,7 +125,10 @@ public abstract class TimephasedItem<T>
       if (o instanceof TimephasedItem<?>)
       {
          TimephasedItem<T> t = (TimephasedItem<T>) o;
-         result = m_start.equals(t.m_start) && m_finish.equals(t.m_finish) && m_totalAmount.equals(t.m_totalAmount) && m_amountPerHour.equals(t.m_amountPerHour);
+         result = m_start != null && m_start.equals(t.m_start) &&
+            m_finish != null && m_finish.equals(t.m_finish) &&
+            m_totalAmount != null && m_totalAmount.equals(t.m_totalAmount) &&
+            m_amountPerHour != null && m_amountPerHour.equals(t.m_amountPerHour);
       }
 
       return result;
