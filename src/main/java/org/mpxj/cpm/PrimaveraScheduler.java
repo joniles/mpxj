@@ -493,7 +493,7 @@ public class PrimaveraScheduler implements Scheduler
                earlyStart = getNextWorkStart(task, drivingRelations.get(0).getStartDate());
                if (earlyStart.isBefore(m_projectStartDate))
                {
-                  earlyStart = task.getEffectiveCalendar().getNextWorkStart(m_projectStartDate);
+                  earlyStart = getNextWorkStart(task, m_projectStartDate);
                }
                earlyFinish = getDateFromStartAndRemainingDuration(task, earlyStart);
             }
