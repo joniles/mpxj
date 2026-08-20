@@ -295,6 +295,14 @@ public class PrimaveraSchedulerComparator
     */
    public boolean process(ProjectFile baselineFile, ProjectFile workingFile, Excluded excluded) throws Exception
    {
+      // Validate the assigned project start date
+      LocalDateTime baselineStart = baselineFile.getProjectProperties().getStartDate();
+      LocalDateTime workingStart = workingFile.getProjectProperties().getStartDate();
+      if (!baselineStart.isEqual(workingStart))
+      {
+         return false;
+      }
+
       m_forwardEquivalentDateCount = 0;
       m_backwardEquivalentDateCount = 0;
       m_assignmentEquivalentDateCount = 0;
