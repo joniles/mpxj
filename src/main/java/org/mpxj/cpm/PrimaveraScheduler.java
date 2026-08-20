@@ -1689,13 +1689,7 @@ public class PrimaveraScheduler implements Scheduler
             }
          }
       }
-
-//      if (earlyStart.isBefore(m_projectStartDate))
-//      {
-//         earlyStart = m_projectStartDate;
-//         appliedEarlyFinish = null;
-//      }
-
+      
       return new DrivingRelation(relation, earlyStart, appliedEarlyFinish);
    }
 
