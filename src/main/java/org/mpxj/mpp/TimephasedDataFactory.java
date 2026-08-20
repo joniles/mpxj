@@ -199,6 +199,28 @@ final class TimephasedDataFactory
                         item.setFinish(startItem.getFinish().plusMinutes(remainingMinutes));
                         item.setTotalAmount(Duration.getInstance(remainingWork, TimeUnit.MINUTES));
                         regularList.add(item);
+
+                        if (!irregularRanges.isEmpty())
+                        {
+                           nextIrregularRange = irregularRanges.get(0);
+
+                           // The logic here is slightly different to the block below,
+                           // which is why we're trying this immediately after the split
+                           // rather than looping and falling through to the block below.
+                           // We're looking for irregular blocks which start
+                           // at the end of our last regular block. I don't think we'd need to
+                           // apply more than one of these, so we're not looping through
+                           // the remaining irregular blocks.
+                           if (nextIrregularRange.getStart().equals(item.getFinish()))
+                           {
+                              long minutesToAdd = (long) ((item.getTotalAmount().getDuration() * 60.0) / item.getAmountPerHour().getDuration());
+                              LocalDateTime finish = nextIrregularRange.getStart().plusMinutes(minutesToAdd);
+                              item.setStart(nextIrregularRange.getStart());
+                              item.setFinish(finish);
+                              irregularRanges.remove(0);
+                              item = null;
+                           }
+                        }
                      }
                   }
                   else
