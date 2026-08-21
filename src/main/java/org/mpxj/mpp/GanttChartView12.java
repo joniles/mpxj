@@ -159,9 +159,9 @@ public final class GanttChartView12 extends GanttChartView
          m_statusDateGridLines = getGridLines(viewPropertyData, 219);
 
          m_nonWorkingDaysCalendarName = MPPUtility.getUnicodeString(viewPropertyData, 352);
-         m_nonWorkingColor = ColorType.getInstance(viewPropertyData[1153]).getColor();
+         m_nonWorkingColor = ColorTypeHelper.getInstance(viewPropertyData[1153]).getColor();
          m_nonWorkingPattern = ChartPattern.getInstance(viewPropertyData[1154]);
-         m_nonWorkingStyle = NonWorkingTimeStyle.getInstance(viewPropertyData[1152]);
+         m_nonWorkingStyle = NonWorkingTimeStyleHelper.getInstance(viewPropertyData[1152]);
 
          m_ganttBarHeight = mapGanttBarHeight(MPPUtility.getByte(viewPropertyData, 1163));
 
@@ -173,7 +173,7 @@ public final class GanttChartView12 extends GanttChartView
          m_timescaleMiddleTier.setUnits(TimescaleUnitsHelper.getInstance(viewPropertyData[242]));
          m_timescaleMiddleTier.setCount(viewPropertyData[246]);
          m_timescaleMiddleTier.setFormat(TimescaleFormat.getInstance(ByteArrayHelper.getShort(viewPropertyData, 250)));
-         m_timescaleMiddleTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[256] - 32));
+         m_timescaleMiddleTier.setAlignment(TimescaleAlignmentHelper.getInstance(viewPropertyData[256] - 32));
 
          m_timescaleBottomTier = new TimescaleTier();
          m_timescaleBottomTier.setTickLines((flags & 0x02) != 0);
@@ -181,7 +181,7 @@ public final class GanttChartView12 extends GanttChartView
          m_timescaleBottomTier.setUnits(TimescaleUnitsHelper.getInstance(viewPropertyData[244]));
          m_timescaleBottomTier.setCount(viewPropertyData[248]);
          m_timescaleBottomTier.setFormat(TimescaleFormat.getInstance(ByteArrayHelper.getShort(viewPropertyData, 252)));
-         m_timescaleBottomTier.setAlignment(TimescaleAlignment.getInstance(viewPropertyData[254] - 32));
+         m_timescaleBottomTier.setAlignment(TimescaleAlignmentHelper.getInstance(viewPropertyData[254] - 32));
 
          m_timescaleScaleSeparator = (flags & 0x04) != 0;
          m_timescaleSize = viewPropertyData[268];
@@ -191,7 +191,7 @@ public final class GanttChartView12 extends GanttChartView
          m_showBarSplits = (viewPropertyData[1160] != 0);
          m_alwaysRollupGanttBars = (viewPropertyData[1186] != 0);
          m_hideRollupBarsWhenSummaryExpanded = (viewPropertyData[1188] != 0);
-         m_barDateFormat = GanttBarDateFormat.getInstance(viewPropertyData[1182] + 1);
+         m_barDateFormat = GanttBarDateFormatHelper.getInstance(viewPropertyData[1182] + 1);
          m_linkStyle = LinkStyle.getInstance(viewPropertyData[1155]);
       }
 
@@ -205,7 +205,7 @@ public final class GanttChartView12 extends GanttChartView
          m_timescaleTopTier.setUnits(TimescaleUnitsHelper.getInstance(timescaleData[30]));
          m_timescaleTopTier.setCount(timescaleData[32]);
          m_timescaleTopTier.setFormat(TimescaleFormat.getInstance(ByteArrayHelper.getShort(timescaleData, 34)));
-         m_timescaleTopTier.setAlignment(TimescaleAlignment.getInstance(timescaleData[36] - 20));
+         m_timescaleTopTier.setAlignment(TimescaleAlignmentHelper.getInstance(timescaleData[36] - 20));
 
          m_topTierColumnGridLines = getGridLines(timescaleData, 39);
 
@@ -222,11 +222,11 @@ public final class GanttChartView12 extends GanttChartView
     */
    private GridLines getGridLines(byte[] data, int offset)
    {
-      Color normalLineColor = ColorType.getInstance(data[offset]).getColor();
-      LineStyle normalLineStyle = LineStyle.getInstance(data[offset + 3]);
+      Color normalLineColor = ColorTypeHelper.getInstance(data[offset]).getColor();
+      LineStyle normalLineStyle = LineStyleHelper.getInstance(data[offset + 3]);
       int intervalNumber = data[offset + 4];
-      LineStyle intervalLineStyle = LineStyle.getInstance(data[offset + 5]);
-      Color intervalLineColor = ColorType.getInstance(data[offset + 6]).getColor();
+      LineStyle intervalLineStyle = LineStyleHelper.getInstance(data[offset + 5]);
+      Color intervalLineColor = ColorTypeHelper.getInstance(data[offset + 6]).getColor();
       return new GridLines(normalLineColor, normalLineStyle, intervalNumber, intervalLineStyle, intervalLineColor);
    }
 
@@ -247,7 +247,7 @@ public final class GanttChartView12 extends GanttChartView
       m_progressLinesEnabled = (progressLineData[0] != 0);
       m_progressLinesAtCurrentDate = (progressLineData[2] != 0);
       m_progressLinesAtRecurringIntervals = (progressLineData[4] != 0);
-      m_progressLinesInterval = Interval.getInstance(progressLineData[6]);
+      m_progressLinesInterval = IntervalHelper.getInstance(progressLineData[6]);
       m_progressLinesIntervalDailyDayNumber = progressLineData[8];
       m_progressLinesIntervalDailyWorkday = (progressLineData[10] != 0);
       m_progressLinesIntervalWeeklyDay[DayOfWeekHelper.getValue(DayOfWeek.SUNDAY)] = (progressLineData[14] != 0);
@@ -272,13 +272,13 @@ public final class GanttChartView12 extends GanttChartView
       m_progressLinesShowDate = (progressLineData[56] != 0);
       m_progressLinesDateFormat = ByteArrayHelper.getShort(progressLineData, 58);
       m_progressLinesFontStyle = getFontStyle(progressLineData, 60, fontBases);
-      m_progressLinesCurrentLineColor = ColorType.getInstance(progressLineData[64]).getColor();
-      m_progressLinesCurrentLineStyle = LineStyle.getInstance(progressLineData[65]);
-      m_progressLinesCurrentProgressPointColor = ColorType.getInstance(progressLineData[66]).getColor();
+      m_progressLinesCurrentLineColor = ColorTypeHelper.getInstance(progressLineData[64]).getColor();
+      m_progressLinesCurrentLineStyle = LineStyleHelper.getInstance(progressLineData[65]);
+      m_progressLinesCurrentProgressPointColor = ColorTypeHelper.getInstance(progressLineData[66]).getColor();
       m_progressLinesCurrentProgressPointShape = progressLineData[67];
-      m_progressLinesOtherLineColor = ColorType.getInstance(progressLineData[68]).getColor();
-      m_progressLinesOtherLineStyle = LineStyle.getInstance(progressLineData[69]);
-      m_progressLinesOtherProgressPointColor = ColorType.getInstance(progressLineData[70]).getColor();
+      m_progressLinesOtherLineColor = ColorTypeHelper.getInstance(progressLineData[68]).getColor();
+      m_progressLinesOtherLineStyle = LineStyleHelper.getInstance(progressLineData[69]);
+      m_progressLinesOtherProgressPointColor = ColorTypeHelper.getInstance(progressLineData[70]).getColor();
       m_progressLinesOtherProgressPointShape = progressLineData[71];
 
       int dateCount = ByteArrayHelper.getShort(progressLineData, 50);
