@@ -714,7 +714,7 @@ public class PrimaveraSchedulerComparator
       DateEquality remainingLateStartFail = compareDates(baseline, working, AssignmentField.REMAINING_LATE_START);
       DateEquality remainingLateFinishFail = compareDates(baseline, working, AssignmentField.REMAINING_LATE_FINISH);
 
-      println(working.getUniqueID() + " " + working);
+      println(working.getUniqueID() + " " + working.getTask().getActivityID() + " " + working.getResource().getResourceID() + "." + working.getResource().getName() + " " + working);
       println("Start: " + baseline.getStart() + " " + working.getStart() + startFail.getStatus());
       println("Finish: " + baseline.getFinish() + " " + working.getFinish() + finishFail.getStatus());
       println("Actual Start: " + baseline.getActualStart() + " " + working.getActualStart() + actualStartFail.getStatus());
