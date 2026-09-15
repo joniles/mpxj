@@ -63,7 +63,6 @@ public final class MPPAssignmentField
     */
    public static FieldType getInstance(ProjectFile project, int value, DataType customFieldDataType)
    {
-      // The 0x4000 prefix appears to be specific to resource assignments - but don't appear to carry useful information
       if ((value & 0x8000) != 0)
       {
          return project.getUserDefinedFields().getOrCreateAssignmentField(Integer.valueOf(value), (k) -> {
@@ -75,6 +74,16 @@ public final class MPPAssignmentField
                .fieldTypeClass(FieldTypeClass.ASSIGNMENT)
                .dataType(customFieldDataType).build();
          });
+      }
+
+      // In some MPP14 files, values in the 0x4000 range are used to represent custom fields
+      if ((value & 0x4000) != 0)
+      {
+         int id = (value & 0xFFF);
+         if (id >= 0 && value < ALTERNATE_FIELD_ARRAY.length)
+         {
+            return ALTERNATE_FIELD_ARRAY[value];
+         }
       }
 
       FieldType result = null;
@@ -107,8 +116,10 @@ public final class MPPAssignmentField
    }
 
    public static final int MAX_VALUE = 717;
+   public static final int MAX_ALTERNATE_VALUE = 130;
 
    private static final AssignmentField[] FIELD_ARRAY = new AssignmentField[MAX_VALUE];
+   private static final AssignmentField[] ALTERNATE_FIELD_ARRAY = new AssignmentField[MAX_ALTERNATE_VALUE];
 
    static
    {
@@ -625,6 +636,117 @@ public final class MPPAssignmentField
       FIELD_ARRAY[714] = AssignmentField.BASELINE10_BUDGET_COST;
       FIELD_ARRAY[715] = AssignmentField.RAW_TIMEPHASED_BASELINE10_BUDGET_WORK;
       FIELD_ARRAY[716] = AssignmentField.RAW_TIMEPHASED_BASELINE10_BUDGET_COST;
+
+      ALTERNATE_FIELD_ARRAY[10] = AssignmentField.FLAG1;
+      ALTERNATE_FIELD_ARRAY[11] = AssignmentField.FLAG2;
+      ALTERNATE_FIELD_ARRAY[12] = AssignmentField.FLAG3;
+      ALTERNATE_FIELD_ARRAY[13] = AssignmentField.FLAG4;
+      ALTERNATE_FIELD_ARRAY[14] = AssignmentField.FLAG5;
+      ALTERNATE_FIELD_ARRAY[15] = AssignmentField.FLAG6;
+      ALTERNATE_FIELD_ARRAY[16] = AssignmentField.FLAG7;
+      ALTERNATE_FIELD_ARRAY[17] = AssignmentField.FLAG8;
+      ALTERNATE_FIELD_ARRAY[18] = AssignmentField.FLAG9;
+      ALTERNATE_FIELD_ARRAY[19] = AssignmentField.FLAG10;
+      ALTERNATE_FIELD_ARRAY[20] = AssignmentField.FLAG11;
+      ALTERNATE_FIELD_ARRAY[21] = AssignmentField.FLAG12;
+      ALTERNATE_FIELD_ARRAY[22] = AssignmentField.FLAG13;
+      ALTERNATE_FIELD_ARRAY[23] = AssignmentField.FLAG14;
+      ALTERNATE_FIELD_ARRAY[24] = AssignmentField.FLAG15;
+      ALTERNATE_FIELD_ARRAY[25] = AssignmentField.FLAG16;
+      ALTERNATE_FIELD_ARRAY[26] = AssignmentField.FLAG17;
+      ALTERNATE_FIELD_ARRAY[27] = AssignmentField.FLAG18;
+      ALTERNATE_FIELD_ARRAY[28] = AssignmentField.FLAG19;
+      ALTERNATE_FIELD_ARRAY[29] = AssignmentField.FLAG20;
+      ALTERNATE_FIELD_ARRAY[30] = AssignmentField.COST1;
+      ALTERNATE_FIELD_ARRAY[31] = AssignmentField.COST2;
+      ALTERNATE_FIELD_ARRAY[32] = AssignmentField.COST3;
+      ALTERNATE_FIELD_ARRAY[33] = AssignmentField.COST4;
+      ALTERNATE_FIELD_ARRAY[34] = AssignmentField.COST5;
+      ALTERNATE_FIELD_ARRAY[35] = AssignmentField.COST6;
+      ALTERNATE_FIELD_ARRAY[36] = AssignmentField.COST7;
+      ALTERNATE_FIELD_ARRAY[37] = AssignmentField.COST8;
+      ALTERNATE_FIELD_ARRAY[38] = AssignmentField.COST9;
+      ALTERNATE_FIELD_ARRAY[39] = AssignmentField.COST10;
+      ALTERNATE_FIELD_ARRAY[40] = AssignmentField.DURATION1;
+      ALTERNATE_FIELD_ARRAY[41] = AssignmentField.DURATION2;
+      ALTERNATE_FIELD_ARRAY[42] = AssignmentField.DURATION3;
+      ALTERNATE_FIELD_ARRAY[43] = AssignmentField.DURATION4;
+      ALTERNATE_FIELD_ARRAY[44] = AssignmentField.DURATION5;
+      ALTERNATE_FIELD_ARRAY[45] = AssignmentField.DURATION6;
+      ALTERNATE_FIELD_ARRAY[46] = AssignmentField.DURATION7;
+      ALTERNATE_FIELD_ARRAY[47] = AssignmentField.DURATION8;
+      ALTERNATE_FIELD_ARRAY[48] = AssignmentField.DURATION9;
+      ALTERNATE_FIELD_ARRAY[49] = AssignmentField.DURATION10;
+      ALTERNATE_FIELD_ARRAY[50] = AssignmentField.FINISH1;
+      ALTERNATE_FIELD_ARRAY[51] = AssignmentField.FINISH2;
+      ALTERNATE_FIELD_ARRAY[52] = AssignmentField.FINISH3;
+      ALTERNATE_FIELD_ARRAY[53] = AssignmentField.FINISH4;
+      ALTERNATE_FIELD_ARRAY[54] = AssignmentField.FINISH5;
+      ALTERNATE_FIELD_ARRAY[55] = AssignmentField.FINISH6;
+      ALTERNATE_FIELD_ARRAY[56] = AssignmentField.FINISH7;
+      ALTERNATE_FIELD_ARRAY[57] = AssignmentField.FINISH8;
+      ALTERNATE_FIELD_ARRAY[58] = AssignmentField.FINISH9;
+      ALTERNATE_FIELD_ARRAY[59] = AssignmentField.FINISH10;
+      ALTERNATE_FIELD_ARRAY[60] = AssignmentField.NUMBER1;
+      ALTERNATE_FIELD_ARRAY[61] = AssignmentField.NUMBER2;
+      ALTERNATE_FIELD_ARRAY[62] = AssignmentField.NUMBER3;
+      ALTERNATE_FIELD_ARRAY[63] = AssignmentField.NUMBER4;
+      ALTERNATE_FIELD_ARRAY[64] = AssignmentField.NUMBER5;
+      ALTERNATE_FIELD_ARRAY[65] = AssignmentField.NUMBER6;
+      ALTERNATE_FIELD_ARRAY[66] = AssignmentField.NUMBER7;
+      ALTERNATE_FIELD_ARRAY[67] = AssignmentField.NUMBER8;
+      ALTERNATE_FIELD_ARRAY[68] = AssignmentField.NUMBER9;
+      ALTERNATE_FIELD_ARRAY[69] = AssignmentField.NUMBER10;
+      ALTERNATE_FIELD_ARRAY[70] = AssignmentField.NUMBER11;
+      ALTERNATE_FIELD_ARRAY[71] = AssignmentField.NUMBER12;
+      ALTERNATE_FIELD_ARRAY[72] = AssignmentField.NUMBER13;
+      ALTERNATE_FIELD_ARRAY[73] = AssignmentField.NUMBER14;
+      ALTERNATE_FIELD_ARRAY[74] = AssignmentField.NUMBER15;
+      ALTERNATE_FIELD_ARRAY[75] = AssignmentField.NUMBER16;
+      ALTERNATE_FIELD_ARRAY[76] = AssignmentField.NUMBER17;
+      ALTERNATE_FIELD_ARRAY[77] = AssignmentField.NUMBER18;
+      ALTERNATE_FIELD_ARRAY[78] = AssignmentField.NUMBER19;
+      ALTERNATE_FIELD_ARRAY[79] = AssignmentField.NUMBER20;
+      ALTERNATE_FIELD_ARRAY[90] = AssignmentField.START1;
+      ALTERNATE_FIELD_ARRAY[91] = AssignmentField.START2;
+      ALTERNATE_FIELD_ARRAY[92] = AssignmentField.START3;
+      ALTERNATE_FIELD_ARRAY[93] = AssignmentField.START4;
+      ALTERNATE_FIELD_ARRAY[94] = AssignmentField.START5;
+      ALTERNATE_FIELD_ARRAY[95] = AssignmentField.START6;
+      ALTERNATE_FIELD_ARRAY[96] = AssignmentField.START7;
+      ALTERNATE_FIELD_ARRAY[97] = AssignmentField.START8;
+      ALTERNATE_FIELD_ARRAY[98] = AssignmentField.START9;
+      ALTERNATE_FIELD_ARRAY[99] = AssignmentField.START10;
+      ALTERNATE_FIELD_ARRAY[100] = AssignmentField.TEXT1;
+      ALTERNATE_FIELD_ARRAY[101] = AssignmentField.TEXT2;
+      ALTERNATE_FIELD_ARRAY[102] = AssignmentField.TEXT3;
+      ALTERNATE_FIELD_ARRAY[103] = AssignmentField.TEXT4;
+      ALTERNATE_FIELD_ARRAY[104] = AssignmentField.TEXT5;
+      ALTERNATE_FIELD_ARRAY[105] = AssignmentField.TEXT6;
+      ALTERNATE_FIELD_ARRAY[106] = AssignmentField.TEXT7;
+      ALTERNATE_FIELD_ARRAY[107] = AssignmentField.TEXT8;
+      ALTERNATE_FIELD_ARRAY[108] = AssignmentField.TEXT9;
+      ALTERNATE_FIELD_ARRAY[109] = AssignmentField.TEXT10;
+      ALTERNATE_FIELD_ARRAY[110] = AssignmentField.TEXT11;
+      ALTERNATE_FIELD_ARRAY[111] = AssignmentField.TEXT12;
+      ALTERNATE_FIELD_ARRAY[112] = AssignmentField.TEXT13;
+      ALTERNATE_FIELD_ARRAY[113] = AssignmentField.TEXT14;
+      ALTERNATE_FIELD_ARRAY[114] = AssignmentField.TEXT15;
+      ALTERNATE_FIELD_ARRAY[115] = AssignmentField.TEXT16;
+      ALTERNATE_FIELD_ARRAY[116] = AssignmentField.TEXT17;
+      ALTERNATE_FIELD_ARRAY[117] = AssignmentField.TEXT18;
+      ALTERNATE_FIELD_ARRAY[118] = AssignmentField.TEXT19;
+      ALTERNATE_FIELD_ARRAY[119] = AssignmentField.TEXT20;
+      ALTERNATE_FIELD_ARRAY[120] = AssignmentField.TEXT21;
+      ALTERNATE_FIELD_ARRAY[121] = AssignmentField.TEXT22;
+      ALTERNATE_FIELD_ARRAY[122] = AssignmentField.TEXT23;
+      ALTERNATE_FIELD_ARRAY[123] = AssignmentField.TEXT24;
+      ALTERNATE_FIELD_ARRAY[124] = AssignmentField.TEXT25;
+      ALTERNATE_FIELD_ARRAY[125] = AssignmentField.TEXT26;
+      ALTERNATE_FIELD_ARRAY[126] = AssignmentField.TEXT27;
+      ALTERNATE_FIELD_ARRAY[127] = AssignmentField.TEXT28;
+      ALTERNATE_FIELD_ARRAY[128] = AssignmentField.TEXT29;
+      ALTERNATE_FIELD_ARRAY[129] = AssignmentField.TEXT30;
    }
 
    private static final int[] ID_ARRAY = new int[AssignmentField.MAX_VALUE];
