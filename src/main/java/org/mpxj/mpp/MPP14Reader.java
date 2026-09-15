@@ -40,6 +40,7 @@ import java.util.UUID;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
+import org.mpxj.AssignmentField;
 import org.mpxj.Duration;
 import org.mpxj.EventManager;
 import org.mpxj.FieldContainer;
@@ -63,6 +64,7 @@ import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
 import org.mpxj.common.InputStreamHelper;
 import org.mpxj.common.LocalDateTimeHelper;
+import org.mpxj.common.MPPAssignmentField;
 import org.mpxj.common.MicrosoftProjectConstants;
 import org.mpxj.common.NumberHelper;
 
@@ -1727,6 +1729,9 @@ final class MPP14Reader implements MPPVariantReader
       FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file);
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, FieldTypeClass.ASSIGNMENT);
 
+      FieldMap alternateVarDataMap = new FieldMap14(m_file);
+      alternateVarDataMap.createVarDataFieldMap(ALTERNATE_VAR_DATA);
+
       DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
       VarMeta assnVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("VarMeta"))));
       Var2Data assnVarData = new Var2Data(m_file, assnVarMeta, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Var2Data"))));
@@ -1735,8 +1740,11 @@ final class MPP14Reader implements MPPVariantReader
       FixedData assnFixedData2 = new FixedData(48, m_inputStreamFactory.getInstance(assnDir, "Fixed2Data"));
       //FixedMeta assnFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Fixed2Meta"))), 53);
 
+      //System.out.println(assnVarMeta.toString(fieldMap));
+      //System.out.println(assnVarData);
+
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
-      factory.process(m_file, fieldMap, enterpriseCustomFieldMap, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2, assnFixedMeta.getItemCount());
+      factory.process(m_file, fieldMap, enterpriseCustomFieldMap, alternateVarDataMap, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2, assnFixedMeta.getItemCount());
    }
 
    /**
@@ -2262,4 +2270,18 @@ final class MPP14Reader implements MPPVariantReader
       new MppBitFlag(ResourceField.FLAG19, 24, 0x08000, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(ResourceField.FLAG20, 24, 0x10000, Boolean.FALSE, Boolean.TRUE)
    };
+
+   private static final Map<FieldType, Integer> ALTERNATE_VAR_DATA = new HashMap<>();
+   static
+   {
+      AssignmentField[] array = MPPAssignmentField.getAlternateFieldArray();
+      for (int loop = 0; loop < array.length; loop++)
+      {
+         AssignmentField type = array[loop];
+         if (type != null)
+         {
+            ALTERNATE_VAR_DATA.put(type, Integer.valueOf(0x4000 + loop));
+         }
+      }
+   }
 }

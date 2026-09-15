@@ -24,7 +24,6 @@
 package org.mpxj.mpp;
 
 import org.mpxj.AssignmentField;
-import org.mpxj.FieldType;
 import org.mpxj.ProjectFile;
 import org.mpxj.ResourceField;
 import org.mpxj.TaskField;
@@ -48,12 +47,7 @@ class FieldMap12 extends FieldMap
    {
       return true;
    }
-
-   @Override protected Integer substituteVarDataKey(FieldType type)
-   {
-      return null;
-   }
-
+   
    @Override protected FieldItem[] getDefaultTaskData()
    {
       return new FieldItem[]

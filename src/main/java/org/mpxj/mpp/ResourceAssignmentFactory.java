@@ -25,12 +25,15 @@ package org.mpxj.mpp;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.mpxj.AssignmentField;
+import org.mpxj.DataType;
 import org.mpxj.Duration;
+import org.mpxj.FieldType;
 import org.mpxj.FieldTypeClass;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
@@ -60,6 +63,7 @@ class ResourceAssignmentFactory
     * @param file parent project file
     * @param fieldMap assignment field map
     * @param enterpriseCustomFieldMap enterprise custom field map
+    * @param alternateVarDataMap alternate locations to retrieve values from var data
     * @param useRawTimephasedData use raw timephased data flag
     * @param assnVarMeta var meta
     * @param assnVarData var data
@@ -68,7 +72,7 @@ class ResourceAssignmentFactory
     * @param assnFixedData2 fixed data
     * @param count expected number of assignments
     */
-   public void process(ProjectFile file, FieldMap fieldMap, FieldMap enterpriseCustomFieldMap, boolean useRawTimephasedData, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData, FixedData assnFixedData2, int count)
+   public void process(ProjectFile file, FieldMap fieldMap, FieldMap enterpriseCustomFieldMap, FieldMap alternateVarDataMap, boolean useRawTimephasedData, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData, FixedData assnFixedData2, int count)
    {
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       TimephasedDataFactory timephasedFactory = new TimephasedDataFactory();
@@ -148,15 +152,25 @@ class ResourceAssignmentFactory
 
          assignment.disableEvents();
 
-         fieldMap.populateContainer(FieldTypeClass.ASSIGNMENT, assignment, varDataId, new byte[][]
-            {
-               data,
-               data2
-            }, assnVarData);
+         byte[][] fixedDataArray = new byte[][] {data, data2};
+         fieldMap.populateContainer(FieldTypeClass.ASSIGNMENT, assignment, varDataId, fixedDataArray, assnVarData);
 
          if (enterpriseCustomFieldMap != null)
          {
             enterpriseCustomFieldMap.populateContainer(FieldTypeClass.ASSIGNMENT, assignment, varDataId, null, assnVarData);
+         }
+
+         if (alternateVarDataMap != null)
+         {
+            for (FieldType type : alternateVarDataMap.getFieldTypes())
+            {
+               // If a field is defined in the alternateVarDataMap, and we don't have a value
+               // for it yet, try the using the alternative location.
+               if (isDefaultValue(assignment, type))
+               {
+                  alternateVarDataMap.populateField(type, FieldTypeClass.ASSIGNMENT, assignment, varDataId, fixedDataArray, assnVarData);
+               }
+            }
          }
 
          assignment.enableEvents();
@@ -396,6 +410,25 @@ class ResourceAssignmentFactory
       work.setTotalAmount(budgetWork);
 
       return Collections.singletonList(work);
+   }
+
+   /**
+    * Returns true if a field has a null or default value.
+    *
+    * @param assignment resource assignment
+    * @param type field to test
+    * @return true is the field has a null or default value
+    */
+   private boolean isDefaultValue(ResourceAssignment assignment, FieldType type)
+   {
+      Object value = assignment.get(type);
+
+      if (Objects.requireNonNull(type.getDataType()) == DataType.CURRENCY)
+      {
+         return value == null || ((Double) value).doubleValue() == 0.0;
+      }
+
+      return value == null;
    }
 
    private static final Integer MPP9_CREATION_DATA = Integer.valueOf(138);

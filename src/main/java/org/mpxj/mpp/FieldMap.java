@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.mpxj.AccrueType;
 import org.mpxj.BookingType;
@@ -87,6 +88,16 @@ abstract class FieldMap
    }
 
    /**
+    * Retrieve the field types contained in this FieldMap.
+    *
+    * @return FieldType instances represented by this FieldMap
+    */
+   public Set<FieldType> getFieldTypes()
+   {
+      return m_map.keySet();
+   }
+
+   /**
     * Generic method used to create a field map from a block of data.
     *
     * @param data field map data
@@ -128,15 +139,7 @@ abstract class FieldMap
          int varDataKey;
          if (useTypeAsVarDataKey())
          {
-            Integer substitute = substituteVarDataKey(type);
-            if (substitute == null)
-            {
-               varDataKey = typeValue & 0x0000FFFF;
-            }
-            else
-            {
-               varDataKey = substitute.intValue();
-            }
+            varDataKey = typeValue & 0x0000FFFF;
          }
          else
          {
@@ -251,17 +254,6 @@ abstract class FieldMap
    {
       return FieldTypeHelper.getInstance(m_file, fieldID);
    }
-
-   /**
-    * In some circumstances the var data key used in the file
-    * does not match the var data key derived from the type.
-    * This method is used to perform a substitution so that
-    * the correct value is used.
-    *
-    * @param type field type to be tested
-    * @return substituted value, or null
-    */
-   protected abstract Integer substituteVarDataKey(FieldType type);
 
    /**
     * Creates a field map for tasks.
@@ -412,6 +404,23 @@ abstract class FieldMap
    }
 
    /**
+    * Create a FieldMap for VarData using an explicit set of FieldTypes and key values.
+    * Present this is used to handle an oddity of MPP14 files where, in some cases,
+    * resource assignment custom field values are represented in var data using
+    * different key values.
+    *
+    * @param map FieldType to key value map
+    */
+   public void createVarDataFieldMap(Map<FieldType, Integer> map)
+   {
+      for (Map.Entry<FieldType, Integer> entry : map.entrySet())
+      {
+         FieldItem item = new FieldItem(entry.getKey(), FieldLocation.VAR_DATA, 0, 0, entry.getValue().intValue(), 0, 0);
+         m_map.put(entry.getKey(), item);
+      }
+   }
+
+   /**
     * This method takes an array of data and uses this to populate the
     * field map.
     *
@@ -438,15 +447,42 @@ abstract class FieldMap
    public void populateContainer(FieldTypeClass fieldTypeClass, FieldContainer container, Integer id, byte[][] fixedData, Var2Data varData)
    {
       //System.out.println(container.getClass().getSimpleName()+": " + id);
-      for (FieldItem item : m_map.values())
+      m_map.values().forEach(v -> populateItem(v, fieldTypeClass, container, id, fixedData, varData));
+   }
+
+   /**
+    * Populate an individual field in a field container.
+    *
+    * @param type field type to populate
+    * @param fieldTypeClass expected type
+    * @param container field container
+    * @param id entity ID
+    * @param fixedData fixed data block
+    * @param varData var data block
+    */
+   public void populateField(FieldType type, FieldTypeClass fieldTypeClass, FieldContainer container, Integer id, byte[][] fixedData, Var2Data varData)
+   {
+      populateItem(m_map.get(type), fieldTypeClass, container, id, fixedData, varData);
+   }
+
+   /**
+    * Use a FieldItem to populate an individual vaue in a container.
+    *
+    * @param item item to populate
+    * @param fieldTypeClass expected type
+    * @param container field container
+    * @param id entity ID
+    * @param fixedData fixed data block
+    * @param varData var data block
+    */
+   private void populateItem(FieldItem item, FieldTypeClass fieldTypeClass, FieldContainer container, Integer id, byte[][] fixedData, Var2Data varData)
+   {
+      if (item.getType().getFieldTypeClass() == fieldTypeClass)
       {
-         if (item.getType().getFieldTypeClass() == fieldTypeClass)
-         {
-            //System.out.println(item.m_type);
-            Object value = item.read(id, fixedData, varData);
-            //System.out.println(item.m_type.getClass().getSimpleName() + "." + item.m_type +  ": " + value);
-            container.set(item.getType(), value);
-         }
+         //System.out.println(item.m_type);
+         Object value = item.read(id, fixedData, varData);
+         //System.out.println(item.m_type.getClass().getSimpleName() + "." + item.m_type +  ": " + value);
+         container.set(item.getType(), value);
       }
    }
 
@@ -749,11 +785,11 @@ abstract class FieldMap
             case META_DATA:
             {
                // We know that the Boolean flags are stored in the
-               // "meta data" block, and can see that the first
+               // "metadata" block, and can see that the first
                // four bytes of each row read from the field map
                // data in the MPP file represents a bit mask... but
                // we just haven't worked out how to convert this into
-               // the actual location in the data. For now we rely on
+               // the actual location in the data. For now, we rely on
                // the location in the file being fixed. This is why
                // we ignore the META_DATA case.
                break;
