@@ -24,8 +24,6 @@
 package org.mpxj.common;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.mpxj.AssignmentField;
 import org.mpxj.DataType;
