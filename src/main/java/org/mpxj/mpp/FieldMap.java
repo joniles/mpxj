@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.mpxj.AccrueType;
 import org.mpxj.BookingType;
@@ -84,6 +85,11 @@ abstract class FieldMap
    public void setDebug(boolean value)
    {
       m_debug = value;
+   }
+
+   public Set<FieldType> getFieldTypes()
+   {
+      return m_map.keySet();
    }
 
    /**
@@ -411,6 +417,15 @@ abstract class FieldMap
       }
    }
 
+   public void createVarDataFieldMap(Map<FieldType, Integer> map)
+   {
+      for (Map.Entry<FieldType, Integer> entry : map.entrySet())
+      {
+         FieldItem item = new FieldItem(entry.getKey(), FieldLocation.VAR_DATA, 0, 0, entry.getValue().intValue(), 0, 0);
+         m_map.put(entry.getKey(), item);
+      }
+   }
+
    /**
     * This method takes an array of data and uses this to populate the
     * field map.
@@ -438,15 +453,22 @@ abstract class FieldMap
    public void populateContainer(FieldTypeClass fieldTypeClass, FieldContainer container, Integer id, byte[][] fixedData, Var2Data varData)
    {
       //System.out.println(container.getClass().getSimpleName()+": " + id);
-      for (FieldItem item : m_map.values())
+      m_map.values().forEach(v -> populateItem(v, fieldTypeClass, container, id, fixedData, varData));
+   }
+
+   public void populateField(FieldType type, FieldTypeClass fieldTypeClass, FieldContainer container, Integer id, byte[][] fixedData, Var2Data varData)
+   {
+      populateItem(m_map.get(type), fieldTypeClass, container, id, fixedData, varData);
+   }
+
+   private void populateItem(FieldItem item, FieldTypeClass fieldTypeClass, FieldContainer container, Integer id, byte[][] fixedData, Var2Data varData)
+   {
+      if (item.getType().getFieldTypeClass() == fieldTypeClass)
       {
-         if (item.getType().getFieldTypeClass() == fieldTypeClass)
-         {
-            //System.out.println(item.m_type);
-            Object value = item.read(id, fixedData, varData);
-            //System.out.println(item.m_type.getClass().getSimpleName() + "." + item.m_type +  ": " + value);
-            container.set(item.getType(), value);
-         }
+         //System.out.println(item.m_type);
+         Object value = item.read(id, fixedData, varData);
+         //System.out.println(item.m_type.getClass().getSimpleName() + "." + item.m_type +  ": " + value);
+         container.set(item.getType(), value);
       }
    }
 
