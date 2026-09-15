@@ -23,11 +23,7 @@
 
 package org.mpxj.mpp;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.mpxj.AssignmentField;
-import org.mpxj.FieldType;
 import org.mpxj.ProjectFile;
 import org.mpxj.ResourceField;
 import org.mpxj.TaskField;

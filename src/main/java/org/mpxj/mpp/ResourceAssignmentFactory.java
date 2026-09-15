@@ -25,7 +25,6 @@ package org.mpxj.mpp;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -413,6 +412,13 @@ class ResourceAssignmentFactory
       return Collections.singletonList(work);
    }
 
+   /**
+    * Returns true if a field has a null or default value.
+    *
+    * @param assignment resource assignment
+    * @param type field to test
+    * @return true is the field has a null or default value
+    */
    private boolean isDefaultValue(ResourceAssignment assignment, FieldType type)
    {
       Object value = assignment.get(type);
