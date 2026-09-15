@@ -64,6 +64,7 @@ class ResourceAssignmentFactory
     * @param file parent project file
     * @param fieldMap assignment field map
     * @param enterpriseCustomFieldMap enterprise custom field map
+    * @param alternateVarDataMap alternate locations to retrieve values from var data
     * @param useRawTimephasedData use raw timephased data flag
     * @param assnVarMeta var meta
     * @param assnVarData var data
@@ -72,7 +73,7 @@ class ResourceAssignmentFactory
     * @param assnFixedData2 fixed data
     * @param count expected number of assignments
     */
-   public void process(ProjectFile file, FieldMap fieldMap, FieldMap enterpriseCustomFieldMap, FieldMap varDataOverrideMap, boolean useRawTimephasedData, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData, FixedData assnFixedData2, int count)
+   public void process(ProjectFile file, FieldMap fieldMap, FieldMap enterpriseCustomFieldMap, FieldMap alternateVarDataMap, boolean useRawTimephasedData, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData, FixedData assnFixedData2, int count)
    {
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       TimephasedDataFactory timephasedFactory = new TimephasedDataFactory();
@@ -160,13 +161,15 @@ class ResourceAssignmentFactory
             enterpriseCustomFieldMap.populateContainer(FieldTypeClass.ASSIGNMENT, assignment, varDataId, null, assnVarData);
          }
 
-         if (varDataOverrideMap != null)
+         if (alternateVarDataMap != null)
          {
-            for (FieldType type : varDataOverrideMap.getFieldTypes())
+            for (FieldType type : alternateVarDataMap.getFieldTypes())
             {
+               // If a field is defined in the alternateVarDataMap, and we don't have a value
+               // for it yet, try the using the alternative location.
                if (isDefaultValue(assignment, type))
                {
-                  varDataOverrideMap.populateField(type, FieldTypeClass.ASSIGNMENT, assignment, varDataId, fixedDataArray, assnVarData);
+                  alternateVarDataMap.populateField(type, FieldTypeClass.ASSIGNMENT, assignment, varDataId, fixedDataArray, assnVarData);
                }
             }
          }

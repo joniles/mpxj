@@ -134,15 +134,7 @@ abstract class FieldMap
          int varDataKey;
          if (useTypeAsVarDataKey())
          {
-            Integer substitute = substituteVarDataKey(type);
-            if (substitute == null)
-            {
-               varDataKey = typeValue & 0x0000FFFF;
-            }
-            else
-            {
-               varDataKey = substitute.intValue();
-            }
+            varDataKey = typeValue & 0x0000FFFF;
          }
          else
          {
@@ -257,17 +249,6 @@ abstract class FieldMap
    {
       return FieldTypeHelper.getInstance(m_file, fieldID);
    }
-
-   /**
-    * In some circumstances the var data key used in the file
-    * does not match the var data key derived from the type.
-    * This method is used to perform a substitution so that
-    * the correct value is used.
-    *
-    * @param type field type to be tested
-    * @return substituted value, or null
-    */
-   protected abstract Integer substituteVarDataKey(FieldType type);
 
    /**
     * Creates a field map for tasks.

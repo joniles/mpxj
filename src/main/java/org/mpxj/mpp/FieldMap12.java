@@ -48,12 +48,7 @@ class FieldMap12 extends FieldMap
    {
       return true;
    }
-
-   @Override protected Integer substituteVarDataKey(FieldType type)
-   {
-      return null;
-   }
-
+   
    @Override protected FieldItem[] getDefaultTaskData()
    {
       return new FieldItem[]
