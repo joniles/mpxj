@@ -87,6 +87,11 @@ abstract class FieldMap
       m_debug = value;
    }
 
+   /**
+    * Retrieve the field types contained in this FieldMap.
+    *
+    * @return FieldType instances represented by this FieldMap
+    */
    public Set<FieldType> getFieldTypes()
    {
       return m_map.keySet();
@@ -398,6 +403,14 @@ abstract class FieldMap
       }
    }
 
+   /**
+    * Create a FieldMap for VarData using an explicit set of FieldTypes and key values.
+    * Present this is used to handle an oddity of MPP14 files where, in some cases,
+    * resource assignment custom field values are represented in var data using
+    * different key values.
+    *
+    * @param map FieldType to key value map
+    */
    public void createVarDataFieldMap(Map<FieldType, Integer> map)
    {
       for (Map.Entry<FieldType, Integer> entry : map.entrySet())
@@ -752,11 +765,11 @@ abstract class FieldMap
             case META_DATA:
             {
                // We know that the Boolean flags are stored in the
-               // "meta data" block, and can see that the first
+               // "metadata" block, and can see that the first
                // four bytes of each row read from the field map
                // data in the MPP file represents a bit mask... but
                // we just haven't worked out how to convert this into
-               // the actual location in the data. For now we rely on
+               // the actual location in the data. For now, we rely on
                // the location in the file being fixed. This is why
                // we ignore the META_DATA case.
                break;
