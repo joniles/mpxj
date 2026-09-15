@@ -450,11 +450,31 @@ abstract class FieldMap
       m_map.values().forEach(v -> populateItem(v, fieldTypeClass, container, id, fixedData, varData));
    }
 
+   /**
+    * Populate an individual field in a field container.
+    *
+    * @param type field type to populate
+    * @param fieldTypeClass expected type
+    * @param container field container
+    * @param id entity ID
+    * @param fixedData fixed data block
+    * @param varData var data block
+    */
    public void populateField(FieldType type, FieldTypeClass fieldTypeClass, FieldContainer container, Integer id, byte[][] fixedData, Var2Data varData)
    {
       populateItem(m_map.get(type), fieldTypeClass, container, id, fixedData, varData);
    }
 
+   /**
+    * Use a FieldItem to populate an individual vaue in a container.
+    *
+    * @param item item to populate
+    * @param fieldTypeClass expected type
+    * @param container field container
+    * @param id entity ID
+    * @param fixedData fixed data block
+    * @param varData var data block
+    */
    private void populateItem(FieldItem item, FieldTypeClass fieldTypeClass, FieldContainer container, Integer id, byte[][] fixedData, Var2Data varData)
    {
       if (item.getType().getFieldTypeClass() == fieldTypeClass)
