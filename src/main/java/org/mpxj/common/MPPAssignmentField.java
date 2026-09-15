@@ -24,6 +24,8 @@
 package org.mpxj.common;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.mpxj.AssignmentField;
 import org.mpxj.DataType;
@@ -115,12 +117,18 @@ public final class MPPAssignmentField
       return result;
    }
 
+   /**
+    * Retrieve the array of alternate values used by some MPP14 files.
+    *
+    * @return alternate field array.
+    */
+   public static AssignmentField[] getAlternateFieldArray()
+   {
+      return ALTERNATE_FIELD_ARRAY;
+   }
+
    public static final int MAX_VALUE = 717;
-   public static final int MAX_ALTERNATE_VALUE = 130;
-
    private static final AssignmentField[] FIELD_ARRAY = new AssignmentField[MAX_VALUE];
-   private static final AssignmentField[] ALTERNATE_FIELD_ARRAY = new AssignmentField[MAX_ALTERNATE_VALUE];
-
    static
    {
       FIELD_ARRAY[0] = AssignmentField.UNIQUE_ID;
@@ -636,7 +644,12 @@ public final class MPPAssignmentField
       FIELD_ARRAY[714] = AssignmentField.BASELINE10_BUDGET_COST;
       FIELD_ARRAY[715] = AssignmentField.RAW_TIMEPHASED_BASELINE10_BUDGET_WORK;
       FIELD_ARRAY[716] = AssignmentField.RAW_TIMEPHASED_BASELINE10_BUDGET_COST;
+   }
 
+   public static final int MAX_ALTERNATE_VALUE = 130;
+   private static final AssignmentField[] ALTERNATE_FIELD_ARRAY = new AssignmentField[MAX_ALTERNATE_VALUE];
+   static
+   {
       ALTERNATE_FIELD_ARRAY[10] = AssignmentField.FLAG1;
       ALTERNATE_FIELD_ARRAY[11] = AssignmentField.FLAG2;
       ALTERNATE_FIELD_ARRAY[12] = AssignmentField.FLAG3;
