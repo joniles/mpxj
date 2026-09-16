@@ -1345,7 +1345,9 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
             double duration = xml.getLevelingDelay().doubleValue();
             if (duration != 0)
             {
-               mpx.setLevelingDelay(Duration.convertUnits(duration / 10, TimeUnit.MINUTES, mpx.getLevelingDelayFormat(), m_projectFile.getProjectProperties()));
+               // Leveling Delay is represented in the MSPDI file in Elapsed 10ths of Minutes.
+               // We convert and store the value in MPXJ using the specified display format (e.g. Elapsed Days).
+               mpx.setLevelingDelay(Duration.convertUnits(duration / 10, TimeUnit.ELAPSED_MINUTES, mpx.getLevelingDelayFormat(), m_projectFile.getProjectProperties()));
             }
          }
 

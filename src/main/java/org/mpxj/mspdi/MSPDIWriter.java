@@ -1546,8 +1546,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
       else
       {
+         // Leveling Delay is represented in an MSPDI file in 10ths of Elapsed Minutes.
+         // MPXJ stores the Leveling Delay using the display format (e.g. Elapsed Days).
+         // We convert this value to 10ths of Elapsed Minutes here.
          Duration levelingDelay = mpx.getLevelingDelay();
-         double tenthMinutes = 10.0 * Duration.convertUnits(levelingDelay.getDuration(), levelingDelay.getUnits(), TimeUnit.MINUTES, m_projectFile.getProjectProperties()).getDuration();
+         double tenthMinutes = 10.0 * Duration.convertUnits(levelingDelay.getDuration(), levelingDelay.getUnits(), TimeUnit.ELAPSED_MINUTES, m_projectFile.getProjectProperties()).getDuration();
          xml.setLevelingDelay(BigInteger.valueOf((long) tenthMinutes));
          // We're assuming that the caller has configured the leveling delay with the correct units,
          // so we're not using the leveling delay format attribute of the task.
