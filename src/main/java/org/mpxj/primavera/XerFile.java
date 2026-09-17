@@ -77,7 +77,15 @@ class XerFile
       int line = 1;
 
       m_tables.clear();
+
+      // Start with default symbols to avoid locale issues.
+      // These will be updated when the default currency is read.
+      DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+      symbols.setDecimalSeparator('.');
+      symbols.setGroupingSeparator(',');
+
       m_numberFormat = new DecimalFormat();
+      m_numberFormat.setDecimalFormatSymbols(symbols);
       m_defaultCurrencyData = null;
       m_currencyRecords = new ArrayList<>();
 
