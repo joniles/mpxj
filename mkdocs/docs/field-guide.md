@@ -23,7 +23,7 @@ Field|Asta (PP)|ConceptDraw PROJECT (CDP)|Deltek OpenPlan (BK3)|Edraw Project (E
 ---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---
 AM Text|✓|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Activity Default Calendar Unique ID| | | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
-Activity Default Price Per Unit| | | | | | | | | | | | | | | |✓|✓| | | | | | | | 
+Activity Default Price Per Unit| | | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Activity ID Increment|✓|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Activity ID Increment Based On Selected Activity|✓|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Activity ID Prefix|✓|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
@@ -101,6 +101,7 @@ Language| | | | | | | | | |✓| | | | | | | | | | | | | |�
 Last Author| | | |✓| | | | | |✓| | | | | | | | | | | | | | | 
 Last Printed| | | | | | | | | |✓| | | | | | | | | | | | | | | 
 Last Saved|✓| |✓|✓| |✓| | |✓|✓| |✓| | | | |✓| | | | | | | | 
+Last Scheduled Date| | | | | | | | | | | | | | | | | |✓| | | | | | | 
 Level All Resources|✓|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Level Resources Only Within Activity Total Float| | | | | | | | | | | | | | | |✓| |✓| | | | | | | 
 Leveling Priorities|✓|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
