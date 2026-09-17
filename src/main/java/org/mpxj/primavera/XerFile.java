@@ -659,6 +659,7 @@ class XerFile
       FIELD_TYPE_MAP.put("day_hr_cnt", DataType.NUMERIC);
       FIELD_TYPE_MAP.put("decimal_digit_cnt", DataType.INTEGER);
       FIELD_TYPE_MAP.put("default_flag", DataType.STRING);
+      FIELD_TYPE_MAP.put("def_cost_per_qty", DataType.NUMERIC);
       FIELD_TYPE_MAP.put("def_qty_per_hr", DataType.NUMERIC);
       FIELD_TYPE_MAP.put("driving_path_flag", DataType.STRING);
       FIELD_TYPE_MAP.put("early_end_date", DataType.DATE);
@@ -678,6 +679,7 @@ class XerFile
       FIELD_TYPE_MAP.put("lag_hr_cnt", DataType.DURATION);
       FIELD_TYPE_MAP.put("last_chng_date", DataType.STRING);
       FIELD_TYPE_MAP.put("last_recalc_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("last_schedule_date", DataType.DATE);
       FIELD_TYPE_MAP.put("late_end_date", DataType.DATE);
       FIELD_TYPE_MAP.put("late_start_date", DataType.DATE);
       FIELD_TYPE_MAP.put("latitude", DataType.NUMERIC);
