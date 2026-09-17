@@ -1,8 +1,7 @@
 /*
  * file:       CustomerDataTest.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2008
- * date:       27/11/2008
+ * date:       2008-11-27
  */
 
 /*
