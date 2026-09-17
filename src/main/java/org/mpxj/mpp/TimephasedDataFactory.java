@@ -287,8 +287,8 @@ final class TimephasedDataFactory
 
       // Inserted Range
       double unallocatedWorkInMinutes = roundMinutesToSeconds(item.getTotalAmount().getDuration() - allocatedWorkInMinutes);
-      double rangeMinutes = range.getStart().until(range.getEnd(), ChronoUnit.MINUTES);
-      double requiredMinutes = (unallocatedWorkInMinutes * 60.0) / item.getAmountPerHour().getDuration();
+      double rangeMinutes = (range.getStart().until(range.getEnd(), ChronoUnit.SECONDS) / 60.0);
+      double requiredMinutes = (unallocatedWorkInMinutes * 60.0) / roundMinutesToSeconds(item.getAmountPerHour().getDuration());
       LocalDateTime finish = requiredMinutes >= rangeMinutes ? range.getEnd() : range.getStart().plusMinutes((long) requiredMinutes);
 
       TimephasedWork insertedItem = new TimephasedWork();
@@ -302,7 +302,8 @@ final class TimephasedDataFactory
 
       // If we haven't used all the time from the irregular
       // range, add the remainder back to the irregular ranges list.
-      if (requiredMinutes < rangeMinutes)
+      //if (requiredMinutes < rangeMinutes)
+      if ((rangeMinutes - requiredMinutes * 60.0) >= 1.0)
       {
          irregularRanges.add(0, new LocalDateTimeRange(finish, range.getEnd()));
       }
@@ -311,7 +312,7 @@ final class TimephasedDataFactory
       if (item.getFinish().isAfter(finish))
       {
          double workMinutes = item.getTotalAmount().getDuration() - allocatedWorkInMinutes;
-         if (workMinutes != 0.0)
+         if (workMinutes >= 1.0)
          {
             TimephasedWork endItem = new TimephasedWork();
             endItem.setStart(finish);
