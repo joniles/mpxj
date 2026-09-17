@@ -42,6 +42,7 @@ import org.mpxj.ProjectFile;
 import org.mpxj.RecurrenceType;
 import org.mpxj.RecurringData;
 import org.mpxj.common.HierarchyHelper;
+import org.mpxj.common.LocalDateHelper;
 
 /**
  * Populate the project with calendars
@@ -253,8 +254,8 @@ class CalendarDirectoryReader extends DirectoryReader
       Integer month = Integer.valueOf(dateSpec.substring(0, dateSpec.length() - 2));
 
       RecurringData recurrence = new RecurringData();
-      recurrence.setStartDate(m_file.getProjectProperties().getStartDate().toLocalDate());
-      recurrence.setFinishDate(m_file.getProjectProperties().getFinishDate().toLocalDate());
+      recurrence.setStartDate(LocalDateHelper.getLocalDate(m_file.getProjectProperties().getStartDate()));
+      recurrence.setFinishDate(LocalDateHelper.getLocalDate(m_file.getProjectProperties().getFinishDate()));
       recurrence.setRecurrenceType(RecurrenceType.YEARLY);
       recurrence.setDayNumber(day);
       recurrence.setMonthNumber(month);

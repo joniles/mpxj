@@ -11,6 +11,7 @@
             <action dev="joniles" type="update">Improve handling of timephased data representing completed work with irregular hours when reading certain MPP files.</action>
             <action dev="joniles" type="update">Improve handling of resource assignment custom field values when reading certain MPP files.</action>
             <action dev="joniles" type="update">Ensure consistent behaviour when reading and writing schedule files under differing default locales.</action>
+            <action dev="joniles" type="update">Avoid an exception when reading certain BK3 files with recurring calendar exceptions.</action>
             <action dev="joniles" type="update">Updated to jsoup 1.23.1.</action>
         </release>
         <release date="2026-08-08" version="16.7.0">
