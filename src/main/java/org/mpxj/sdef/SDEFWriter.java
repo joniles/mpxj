@@ -39,6 +39,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -287,7 +288,7 @@ public final class SDEFWriter extends AbstractProjectWriter
          }
          else
          {
-            formattedConstraintDate = m_formatter.format(conDate).toUpperCase();
+            formattedConstraintDate = DATE_FORMAT.format(conDate).toUpperCase();
 
             switch (getConstraintType(record))
             {
@@ -434,7 +435,7 @@ public final class SDEFWriter extends AbstractProjectWriter
          }
          else
          {
-            m_buffer.append(m_formatter.format(record.getActualStart()).toUpperCase()).append(" "); // ACTUAL START DATE
+            m_buffer.append(DATE_FORMAT.format(record.getActualStart()).toUpperCase()).append(" "); // ACTUAL START DATE
          }
          temp = record.getActualFinish();
          if (temp == null)
@@ -443,7 +444,7 @@ public final class SDEFWriter extends AbstractProjectWriter
          }
          else
          {
-            m_buffer.append(m_formatter.format(record.getActualFinish()).toUpperCase()).append(" "); // ACTUAL FINISH DATE
+            m_buffer.append(DATE_FORMAT.format(record.getActualFinish()).toUpperCase()).append(" "); // ACTUAL FINISH DATE
          }
 
          Duration dd = record.getRemainingDuration() == null ? Duration.getInstance(0, TimeUnit.DAYS) : record.getRemainingDuration();
@@ -455,10 +456,10 @@ public final class SDEFWriter extends AbstractProjectWriter
          Integer est = Integer.valueOf(days.intValue());
          m_buffer.append(SDEFmethods.rset(est.toString(), 3)).append(" "); // task duration in days required by USACE
 
-         DecimalFormat twoDec = new DecimalFormat("#0.00"); // USACE required currency format
-         m_buffer.append(SDEFmethods.rset(twoDec.format(NumberHelper.getDouble(record.getCost())), 12)).append(" ");
-         m_buffer.append(SDEFmethods.rset(twoDec.format(NumberHelper.getDouble(record.getActualCost())), 12)).append(" ");
-         m_buffer.append(SDEFmethods.rset(twoDec.format(NumberHelper.getDouble(record.getStoredMaterial())), 12)).append(" ");
+         DecimalFormat decimalFormat = DECIMAL_FORMAT.get();
+         m_buffer.append(SDEFmethods.rset(decimalFormat.format(NumberHelper.getDouble(record.getCost())), 12)).append(" ");
+         m_buffer.append(SDEFmethods.rset(decimalFormat.format(NumberHelper.getDouble(record.getActualCost())), 12)).append(" ");
+         m_buffer.append(SDEFmethods.rset(decimalFormat.format(NumberHelper.getDouble(record.getStoredMaterial())), 12)).append(" ");
          m_buffer.append(formatDate(record.getEarlyStart())).append(" ");
          m_buffer.append(formatDate(record.getEarlyFinish())).append(" ");
          m_buffer.append(formatDate(record.getLateStart())).append(" ");
@@ -528,7 +529,7 @@ public final class SDEFWriter extends AbstractProjectWriter
       }
       else
       {
-         result = m_formatter.format(date).toUpperCase();
+         result = DATE_FORMAT.format(date).toUpperCase();
       }
       return result;
    }
@@ -542,7 +543,7 @@ public final class SDEFWriter extends AbstractProjectWriter
       }
       else
       {
-         result = m_localDateFormatter.format(date).toUpperCase();
+         result = DATE_FORMAT.format(date).toUpperCase();
       }
       return result;
    }
@@ -597,7 +598,7 @@ public final class SDEFWriter extends AbstractProjectWriter
    private OutputStreamWriter m_writer;
    private StringBuilder m_buffer;
    private Charset m_charset = StandardCharsets.US_ASCII;
-   private final DateTimeFormatter m_formatter = DateTimeFormatter.ofPattern("ddMMMyy", Locale.ENGLISH);
-   private final DateTimeFormatter m_localDateFormatter = DateTimeFormatter.ofPattern("ddMMMyy", Locale.ENGLISH);
    private static final int MAX_EXCEPTIONS_PER_RECORD = 15;
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("ddMMMyy", Locale.ENGLISH);
+   private static final ThreadLocal<DecimalFormat> DECIMAL_FORMAT = ThreadLocal.withInitial(() -> new DecimalFormat("#0.00", DecimalFormatSymbols.getInstance(Locale.ROOT)));
 }

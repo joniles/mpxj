@@ -624,9 +624,9 @@ class XerFile
       FIELD_TYPE_MAP.put("actv_short_len", DataType.INTEGER);
       FIELD_TYPE_MAP.put("anticip_end_date", DataType.DATE);
       FIELD_TYPE_MAP.put("anticip_start_date", DataType.DATE);
-      FIELD_TYPE_MAP.put("asgnmnt_catg_id", DataType.NUMERIC);
-      FIELD_TYPE_MAP.put("asgnmnt_catg_short_len", DataType.NUMERIC);
-      FIELD_TYPE_MAP.put("asgnmnt_catg_type_id", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("asgnmnt_catg_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("asgnmnt_catg_short_len", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("asgnmnt_catg_type_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("auto_compute_act_flag", DataType.BOOLEAN);
       FIELD_TYPE_MAP.put("base_clndr_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("base_exch_rate", DataType.NUMERIC);
@@ -647,7 +647,7 @@ class XerFile
       FIELD_TYPE_MAP.put("cstr_date", DataType.DATE);
       FIELD_TYPE_MAP.put("cstr_date2", DataType.DATE);
       FIELD_TYPE_MAP.put("curr_id", DataType.INTEGER);
-      FIELD_TYPE_MAP.put("curv_id", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("curv_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("day_hr_cnt", DataType.NUMERIC);
       FIELD_TYPE_MAP.put("decimal_digit_cnt", DataType.INTEGER);
       FIELD_TYPE_MAP.put("default_flag", DataType.STRING);
@@ -683,7 +683,7 @@ class XerFile
       FIELD_TYPE_MAP.put("orig_cost", DataType.CURRENCY);
       FIELD_TYPE_MAP.put("parent_acct_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("parent_actv_code_id", DataType.INTEGER);
-      FIELD_TYPE_MAP.put("parent_asgnmnt_catg_id", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("parent_asgnmnt_catg_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("parent_proj_catg_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("parent_role_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("parent_role_catg_id", DataType.INTEGER);
