@@ -24,11 +24,13 @@
 package org.mpxj.primavera;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
 import java.util.UUID;
 
 import org.mpxj.common.XmlHelper;
@@ -293,7 +295,7 @@ public final class DatatypeConverter
    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
 
    private static final ThreadLocal<NumberFormat> DOUBLE_FORMAT = ThreadLocal.withInitial(() -> {
-      DecimalFormat format = new DecimalFormat("#.###############");
+      DecimalFormat format = new DecimalFormat("#.###############", DecimalFormatSymbols.getInstance(Locale.ROOT));
       format.setGroupingUsed(false);
       return format;
    });

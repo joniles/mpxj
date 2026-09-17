@@ -24,11 +24,13 @@
 package org.mpxj.asta;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import org.mpxj.common.LocalDateTimeHelper;
 
@@ -248,7 +250,7 @@ final class DatatypeConverter
 
    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HHmmss");
 
-   private static final ThreadLocal<DecimalFormat> DOUBLE_FORMAT = ThreadLocal.withInitial(() -> new DecimalFormat("#.#E0"));
+   private static final ThreadLocal<DecimalFormat> DOUBLE_FORMAT = ThreadLocal.withInitial(() -> new DecimalFormat("#.#E0", DecimalFormatSymbols.getInstance(Locale.ROOT)));
 
    private static final LocalDateTime JAVA_EPOCH = LocalDateTime.of(1900, 1, 1, 0, 0);
    private static final long ASTA_EPOCH = 2415021L;

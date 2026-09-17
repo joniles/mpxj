@@ -23,10 +23,12 @@
 package org.mpxj.primavera;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import org.mpxj.Duration;
 import org.mpxj.ProjectCalendar;
@@ -141,5 +143,5 @@ final class TimephasedHelper
       return result.toString();
    }
 
-   private static final DecimalFormat FORMAT = new DecimalFormat("#.#");
+   private static final DecimalFormat FORMAT = new DecimalFormat("#.#", DecimalFormatSymbols.getInstance(Locale.ROOT));
 }
