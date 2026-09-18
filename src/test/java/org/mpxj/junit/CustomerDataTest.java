@@ -558,8 +558,8 @@ public class CustomerDataTest
 
          try
          {
-            //System.out.print(name + "... ");
-            //long startTime = System.currentTimeMillis();
+            System.err.print(name + "... ");
+            long startTime = System.currentTimeMillis();
             List<ProjectFile> projects = testReader(name, file);
             if (projects.isEmpty())
             {
@@ -582,8 +582,7 @@ public class CustomerDataTest
                }
                ++baselineIndex;
             }
-
-            //System.out.println(" done.\t " + (System.currentTimeMillis() - startTime));
+            System.err.println(" done.\t " + (System.currentTimeMillis() - startTime));
          }
 
          catch (Exception ex)
