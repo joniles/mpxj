@@ -1,7 +1,7 @@
 /*
- * file:       NonWorkingTimeStyle.java
+ * file:       IntervalHelper.java
  * author:     Jon Iles
- * date:       2005-04-07
+ * date:       2026-06-07
  */
 
 /*
@@ -23,11 +23,29 @@
 package org.mpxj.mpp;
 
 /**
- * Class representing how non-working time is shown on a Gantt chart.
+ * Helper class for the Interval enumeration.
  */
-public enum NonWorkingTimeStyle
+final class IntervalHelper
 {
-   BEHIND,
-   IN_FRONT,
-   DO_NOT_DRAW
+   /**
+    * Retrieve an Interval based on an int value.
+    *
+    * @param value int representation of a Interval value
+    * @return Interval instance or null
+    */
+   public static Interval getInstance(int value)
+   {
+      if (value < 0 || value >= TYPE_VALUES.length)
+      {
+         return null;
+      }
+
+      return TYPE_VALUES[value];
+   }
+
+   private static final Interval[] TYPE_VALUES = {
+      Interval.DAILY,
+      Interval.WEEKLY,
+      Interval.MONTHLY
+   };
 }
