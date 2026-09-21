@@ -166,9 +166,9 @@ final class TimephasedDataFactory
                {
                   if (!item.getStart().isBefore(nextIrregularRange.getEnd()))
                   {
-                     long itemDuration = item.getStart().until(item.getFinish(), ChronoUnit.MINUTES);
-                     long rangeDuration = nextIrregularRange.getStart().until(nextIrregularRange.getEnd(), ChronoUnit.MINUTES);
-                     if (itemDuration == rangeDuration)
+                     long itemDurationInSeconds = item.getStart().until(item.getFinish(), ChronoUnit.SECONDS);
+                     long nextIregularRangeDurationInSeconds = nextIrregularRange.getStart().until(nextIrregularRange.getEnd(), ChronoUnit.SECONDS);
+                     if (itemDurationInSeconds == nextIregularRangeDurationInSeconds)
                      {
                         irregularRanges.remove(0);
                         regularList.remove(regularList.size() - 1);
@@ -186,17 +186,17 @@ final class TimephasedDataFactory
                         startItem.setStart(nextIrregularRange.getStart());
                         startItem.setFinish(nextIrregularRange.getEnd());
                         startItem.setAmountPerHour(item.getAmountPerHour());
-                        long startItemMinutes = startItem.getStart().until(startItem.getFinish(), ChronoUnit.MINUTES);
-                        double startItemWork = (startItemMinutes * startItem.getAmountPerHour().getDuration()) / 60.0;
-                        startItem.setTotalAmount(Duration.getInstance(startItemWork, TimeUnit.MINUTES));
+                        long startItemDurationInSeconds = startItem.getStart().until(startItem.getFinish(), ChronoUnit.SECONDS);
+                        long startItemWorkInSeconds = Math.round((startItemDurationInSeconds * startItem.getAmountPerHour().getDuration()) / 60.0);
+                        startItem.setTotalAmount(Duration.getInstance(startItemWorkInSeconds / 60.0, TimeUnit.MINUTES));
                         regularList.add(startItem);
 
-                        double remainingWork = item.getTotalAmount().getDuration() - startItemWork;
-                        long remainingMinutes = (long) ((remainingWork * 60.0) / item.getAmountPerHour().getDuration());
+                        long remainingWorkInSeconds = Math.round(item.getTotalAmount().getDuration() * 60.0) - startItemWorkInSeconds;
+                        long remainingDurationInSeconds = Math.round((remainingWorkInSeconds * 60.0) / item.getAmountPerHour().getDuration());
 
                         item.setStart(startItem.getFinish());
-                        item.setFinish(startItem.getFinish().plusMinutes(remainingMinutes));
-                        item.setTotalAmount(Duration.getInstance(remainingWork, TimeUnit.MINUTES));
+                        item.setFinish(startItem.getFinish().plusSeconds(remainingDurationInSeconds));
+                        item.setTotalAmount(Duration.getInstance(remainingWorkInSeconds / 60.0, TimeUnit.MINUTES));
                         regularList.add(item);
 
                         if (!irregularRanges.isEmpty())
@@ -212,8 +212,9 @@ final class TimephasedDataFactory
                            // the remaining irregular blocks.
                            if (nextIrregularRange.getStart().equals(item.getFinish()))
                            {
-                              long minutesToAdd = (long) ((item.getTotalAmount().getDuration() * 60.0) / item.getAmountPerHour().getDuration());
-                              LocalDateTime finish = nextIrregularRange.getStart().plusMinutes(minutesToAdd);
+                              long itemTotalAmountInSeconds = Math.round(item.getTotalAmount().getDuration() * 60.0);
+                              long secondsToAdd = Math.round((itemTotalAmountInSeconds * 60.0) / item.getAmountPerHour().getDuration());
+                              LocalDateTime finish = nextIrregularRange.getStart().plusSeconds(secondsToAdd);
                               item.setStart(nextIrregularRange.getStart());
                               item.setFinish(finish);
                               irregularRanges.remove(0);
@@ -226,8 +227,9 @@ final class TimephasedDataFactory
                   {
                      if (nextIrregularRange.getStart().isBefore(item.getFinish()))
                      {
-                        long minutesToAdd = (long) ((item.getTotalAmount().getDuration() * 60.0) / item.getAmountPerHour().getDuration());
-                        LocalDateTime finish = nextIrregularRange.getStart().plusMinutes(minutesToAdd);
+                        long itemTotalAmountInSeconds = Math.round(item.getTotalAmount().getDuration() * 60.0);
+                        long secondsToAdd = Math.round((itemTotalAmountInSeconds * 60.0) / item.getAmountPerHour().getDuration());
+                        LocalDateTime finish = nextIrregularRange.getStart().plusSeconds(secondsToAdd);
                         item.setStart(nextIrregularRange.getStart());
                         item.setFinish(finish);
                         irregularRanges.remove(0);
