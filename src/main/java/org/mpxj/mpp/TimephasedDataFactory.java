@@ -266,7 +266,7 @@ final class TimephasedDataFactory
    {
       TimephasedWork item = regularList.remove(regularList.size() - 1);
 
-      long allocatedWorkInMinutes = 0;
+      long allocatedWorkInSeconds = 0;
       LocalDateTimeRange range = irregularRanges.remove(0);
 
       // Start Range
@@ -278,32 +278,32 @@ final class TimephasedDataFactory
          startItem.setStart(item.getStart());
          startItem.setFinish(finish);
          startItem.setAmountPerHour(item.getAmountPerHour());
-         long workInMinutes = Math.round(calendar.getWork(startItem.getStart(), startItem.getFinish(), TimeUnit.MINUTES).getDuration());
-         long totalAmountInMinutes = Math.round((workInMinutes * item.getAmountPerHour().getDuration()) / 60.0);
-         startItem.setTotalAmount(Duration.getInstance(totalAmountInMinutes, TimeUnit.MINUTES));
-         allocatedWorkInMinutes += totalAmountInMinutes;
+         long workInSeconds = Math.round(calendar.getWork(startItem.getStart(), startItem.getFinish(), TimeUnit.MINUTES).getDuration() * 60.0);
+         long totalAmountInSeconds = Math.round((workInSeconds * item.getAmountPerHour().getDuration()) / 60.0);
+         startItem.setTotalAmount(Duration.getInstance(totalAmountInSeconds / 60.0, TimeUnit.MINUTES));
+         allocatedWorkInSeconds += totalAmountInSeconds;
          regularList.add(startItem);
       }
 
       // Inserted Range
-      long unallocatedWorkInMinutes = Math.round(item.getTotalAmount().getDuration()) - allocatedWorkInMinutes;
-      long rangeMinutes = range.getStart().until(range.getEnd(), ChronoUnit.MINUTES);
-      long requiredMinutes = Math.round((unallocatedWorkInMinutes * 60.0) / item.getAmountPerHour().getDuration());
-      LocalDateTime finish = requiredMinutes >= rangeMinutes ? range.getEnd() : range.getStart().plusMinutes(requiredMinutes);
+      long unallocatedWorkInSeconds = Math.round(item.getTotalAmount().getDuration() * 60.0) - allocatedWorkInSeconds;
+      long rangeSeconds = range.getStart().until(range.getEnd(), ChronoUnit.SECONDS);
+      long requiredSeconds = Math.round((unallocatedWorkInSeconds * 60.0) / item.getAmountPerHour().getDuration());
+      LocalDateTime finish = requiredSeconds >= rangeSeconds ? range.getEnd() : range.getStart().plusMinutes(requiredSeconds);
 
       TimephasedWork insertedItem = new TimephasedWork();
       insertedItem.setStart(range.getStart());
       insertedItem.setFinish(finish);
       insertedItem.setAmountPerHour(item.getAmountPerHour());
-      long insertedRangeLengthInMinutes = range.getStart().until(finish, ChronoUnit.MINUTES);
-      long totalAmountInMinutes = Math.round((insertedRangeLengthInMinutes * item.getAmountPerHour().getDuration()) / 60.0);
-      insertedItem.setTotalAmount(Duration.getInstance(totalAmountInMinutes, TimeUnit.MINUTES));
-      allocatedWorkInMinutes += totalAmountInMinutes;
+      long insertedRangeLengthInSeconds = range.getStart().until(finish, ChronoUnit.SECONDS);
+      long totalAmountInSeconds = Math.round((insertedRangeLengthInSeconds * 60.0) / item.getAmountPerHour().getDuration());
+      insertedItem.setTotalAmount(Duration.getInstance(totalAmountInSeconds / 60.0, TimeUnit.MINUTES));
+      allocatedWorkInSeconds += totalAmountInSeconds;
       regularList.add(insertedItem);
 
       // If we haven't used all the time from the irregular
       // range, add the remainder back to the irregular ranges list.
-      if (requiredMinutes < rangeMinutes)
+      if (requiredSeconds < rangeSeconds)
       {
          irregularRanges.add(0, new LocalDateTimeRange(finish, range.getEnd()));
       }
@@ -311,15 +311,15 @@ final class TimephasedDataFactory
       // End Range
       if (item.getFinish().isAfter(finish))
       {
-         long workMinutes = Math.round(item.getTotalAmount().getDuration()) - allocatedWorkInMinutes;
-         if (workMinutes != 0.0)
+         long workSeconds = Math.round(item.getTotalAmount().getDuration() * 60.0) - allocatedWorkInSeconds;
+         if (workSeconds != 0.0)
          {
             TimephasedWork endItem = new TimephasedWork();
             endItem.setStart(finish);
             endItem.setAmountPerHour(item.getAmountPerHour());
-            endItem.setTotalAmount(Duration.getInstance(workMinutes, TimeUnit.MINUTES));
-            long remainingMinutes = Math.round((workMinutes * 60.0) / item.getAmountPerHour().getDuration());
-            Duration remainingDuration = Duration.getInstance(remainingMinutes, TimeUnit.MINUTES);
+            endItem.setTotalAmount(Duration.getInstance(workSeconds / 60.0, TimeUnit.MINUTES));
+            long remainingSeconds = Math.round((workSeconds * 60.0) / item.getAmountPerHour().getDuration());
+            Duration remainingDuration = Duration.getInstance(remainingSeconds / 60.0, TimeUnit.MINUTES);
             endItem.setFinish(calendar.getDate(endItem.getStart(), remainingDuration));
             regularList.add(endItem);
          }
