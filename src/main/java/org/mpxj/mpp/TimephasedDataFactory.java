@@ -389,9 +389,9 @@ final class TimephasedDataFactory
       {
          // We have block data, we ignore the summary block and generate an entry for each subsequent block.
          int offset = 16 + 28; // skip the summary block
-         long previousWorkMinutes = 0;
-         long previousElapsedMinutes = 0;
-         LocalDateTime start = roundToNearestMinute(timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume());
+         long previousWorkSeconds = 0;
+         long previousElapsedSeconds = 0;
+         LocalDateTime start = timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume();
 
          for (int count = 0; count < blockCount; count++)
          {
@@ -401,16 +401,16 @@ final class TimephasedDataFactory
                break;
             }
 
-            long cumulativeWorkMinutes = Math.round(MPPUtility.getDouble(data, offset) / 1000.0);
-            long workMinutesThisPeriod = cumulativeWorkMinutes - previousWorkMinutes;
-            long cumulativeElapsedMinutes = Math.round(ByteArrayHelper.getInt(data, offset + 24) / 80.0);
-            long elapsedMinutesThisPeriod = cumulativeElapsedMinutes - previousElapsedMinutes;
-            Duration workPerHour = Duration.getInstance(workMinutesThisPeriod * 60.0 / elapsedMinutesThisPeriod, TimeUnit.MINUTES);
-            LocalDateTime end = calendar.getDate(start, Duration.getInstance(elapsedMinutesThisPeriod, TimeUnit.MINUTES));
-            Duration work = Duration.getInstance(workMinutesThisPeriod, TimeUnit.MINUTES);
+            long cumulativeWorkSeconds = Math.round((MPPUtility.getDouble(data, offset) * 60.0)/ 1000.0);
+            long workSecondsThisPeriod = cumulativeWorkSeconds - previousWorkSeconds;
+            long cumulativeElapsedSeconds = Math.round((ByteArrayHelper.getInt(data, offset + 24) * 60.0)/ 80.0);
+            long elapsedSecondsThisPeriod = cumulativeElapsedSeconds - previousElapsedSeconds;
+            Duration workPerHour = Duration.getInstance(workSecondsThisPeriod * 60.0 / elapsedSecondsThisPeriod, TimeUnit.MINUTES);
+            LocalDateTime end = calendar.getDate(start, Duration.getInstance(elapsedSecondsThisPeriod / 60.0, TimeUnit.MINUTES));
+            Duration work = Duration.getInstance(workSecondsThisPeriod / 60.0, TimeUnit.MINUTES);
 
             // Occasionally we appear to have blocks which represent zero work and zero time - we skip these
-            if (workMinutesThisPeriod >= 1 || !start.isEqual(end))
+            if (workSecondsThisPeriod >= 1 || !start.isEqual(end))
             {
                TimephasedWork item = new TimephasedWork();
                item.setStart(start);
@@ -421,8 +421,8 @@ final class TimephasedDataFactory
             }
 
             start = calendar.getNextWorkStart(end);
-            previousWorkMinutes = cumulativeWorkMinutes;
-            previousElapsedMinutes = cumulativeElapsedMinutes;
+            previousWorkSeconds = cumulativeWorkSeconds;
+            previousElapsedSeconds = cumulativeElapsedSeconds;
 
             offset += 28;
          }
