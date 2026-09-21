@@ -103,28 +103,28 @@ final class TimephasedDataFactory
       // The first block appears to contain totals for the resource assignment, and is skipped.
       LocalDateTime calendarPeriodStart = resourceAssignment.getStart();
 
-      long totalWorkMinutes = 0;
-      long elapsedMinutes = 0;
+      long totalWorkSeconds = 0;
+      long elapsedSeconds = 0;
 
       List<TimephasedWork> regularList = new ArrayList<>();
       int regularBlockCount = ByteArrayHelper.getShort(regularData, 0);
       double totalElapsedTime = ByteArrayHelper.getInt(regularData, 24);
-      long totalElapsedTimeInMinutes = Math.round(totalElapsedTime / 80.0);
+      long totalElapsedTimeInSeconds = Math.round((totalElapsedTime * 60.0)/ 80.0);
       int offset = 36;
 
       for (int count = 0; count < regularBlockCount; count++)
       {
          double totalAtPeriodEnd = MPPUtility.getDouble(regularData, offset);
          double elapsedAtPeriodEnd = ByteArrayHelper.getInt(regularData, offset + 16);
-         long totalWorkMinutesAtPeriodEnd = Math.round(totalAtPeriodEnd / 1000.0);
-         long elapsedMinutesAtPeriodEnd = Math.round(elapsedAtPeriodEnd / 80.0);
-         if (elapsedMinutesAtPeriodEnd < 0 || elapsedMinutesAtPeriodEnd > totalElapsedTimeInMinutes)
+         long totalWorkSecondsAtPeriodEnd = Math.round((totalAtPeriodEnd * 60.0)/ 1000.0);
+         long elapsedSecondsAtPeriodEnd = Math.round((elapsedAtPeriodEnd * 60.0)/ 80.0);
+         if (elapsedSecondsAtPeriodEnd < 0 || elapsedSecondsAtPeriodEnd > totalElapsedTimeInSeconds)
          {
-            elapsedMinutesAtPeriodEnd = 0;
+            elapsedSecondsAtPeriodEnd = 0;
          }
 
-         long totalWorkMinutesThisPeriod = totalWorkMinutesAtPeriodEnd - totalWorkMinutes;
-         long elapsedMinutesThisPeriod = elapsedMinutesAtPeriodEnd - elapsedMinutes;
+         long totalWorkSecondsThisPeriod = totalWorkSecondsAtPeriodEnd - totalWorkSeconds;
+         long elapsedSecondsThisPeriod = elapsedSecondsAtPeriodEnd - elapsedSeconds;
 
          LocalDateTime calendarPeriodEnd;
          if (count + 1 == regularBlockCount && resourceAssignment.getActualFinish() != null)
@@ -133,15 +133,15 @@ final class TimephasedDataFactory
          }
          else
          {
-            calendarPeriodEnd = calendar.getDate(calendarPeriodStart, Duration.getInstance(elapsedMinutesThisPeriod, TimeUnit.MINUTES));
+            calendarPeriodEnd = calendar.getDate(calendarPeriodStart, Duration.getInstance(elapsedSecondsThisPeriod / 60.0, TimeUnit.MINUTES));
          }
 
-         double calculatedWorkPerHour = (totalWorkMinutesThisPeriod * 60.0) / elapsedMinutesThisPeriod;
+         double calculatedWorkPerHour = (totalWorkSecondsThisPeriod * 60.0) / elapsedSecondsThisPeriod;
 
          TimephasedWork item = new TimephasedWork();
          item.setStart(calendarPeriodStart);
          item.setFinish(calendarPeriodEnd);
-         item.setTotalAmount(Duration.getInstance(totalWorkMinutesThisPeriod, TimeUnit.MINUTES));
+         item.setTotalAmount(Duration.getInstance(totalWorkSecondsThisPeriod / 60.0, TimeUnit.MINUTES));
          item.setAmountPerHour(Duration.getInstance(calculatedWorkPerHour, TimeUnit.MINUTES));
          regularList.add(item);
 
@@ -239,8 +239,8 @@ final class TimephasedDataFactory
             }
          }
 
-         totalWorkMinutes = totalWorkMinutesAtPeriodEnd;
-         elapsedMinutes = elapsedMinutesAtPeriodEnd;
+         totalWorkSeconds = totalWorkSecondsAtPeriodEnd;
+         elapsedSeconds = elapsedSecondsAtPeriodEnd;
          calendarPeriodStart = calendar.getNextWorkStart(regularList.get(regularList.size() - 1).getFinish());
 
          offset += 20;
@@ -367,14 +367,15 @@ final class TimephasedDataFactory
          // If we have a block count of zero, there is just one entry for the whole assignment.
          // We read the values for this entry from this summary block.
          // If the total work for the block is zero it's not valid so we skip it.
-         double totalWorkInMinutes = MPPUtility.getDouble(data, 16) / 1000.0;
-         if (totalWorkInMinutes != 0.0)
+         long totalWorkInSeconds = Math.round(MPPUtility.getDouble(data, 16) * 60.0 / 1000.0);
+         if (totalWorkInSeconds != 0.0)
          {
             LocalDateTime start = roundToNearestMinute(timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume());
             LocalDateTime end = roundToNearestMinute(assignment.getFinish());
-            Duration work = Duration.getInstance(totalWorkInMinutes, TimeUnit.MINUTES);
-            double assignmentWork = calendar.getWork(start, end, TimeUnit.MINUTES).getDuration();
-            Duration workPerHour = Duration.getInstance((totalWorkInMinutes * 60.0) / assignmentWork, TimeUnit.MINUTES);
+            Duration work = Duration.getInstance(totalWorkInSeconds / 60.0, TimeUnit.MINUTES);
+            long assignmentElapsedSeconds = Math.round(calendar.getWork(start, end, TimeUnit.MINUTES).getDuration() * 60.0);
+            double calculatedWorkPerHour = (totalWorkInSeconds * 60.0) / assignmentElapsedSeconds;
+            Duration workPerHour = Duration.getInstance(calculatedWorkPerHour, TimeUnit.MINUTES);
 
             TimephasedWork item = new TimephasedWork();
             item.setStart(start);
