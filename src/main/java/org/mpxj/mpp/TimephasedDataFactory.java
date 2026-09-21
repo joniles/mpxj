@@ -180,48 +180,51 @@ final class TimephasedDataFactory
                      else
                      {
                         irregularRanges.remove(0);
-                        regularList.remove(regularList.size() - 1);
-
-                        TimephasedWork startItem = new TimephasedWork();
-                        startItem.setStart(nextIrregularRange.getStart());
-                        startItem.setFinish(nextIrregularRange.getEnd());
-                        startItem.setAmountPerHour(item.getAmountPerHour());
-                        long startItemDurationInSeconds = startItem.getStart().until(startItem.getFinish(), ChronoUnit.SECONDS);
-                        long startItemAmountPerHourInSeconds = Math.round(startItem.getAmountPerHour().getDuration() * 60.0);
-                        long startItemWorkInSeconds = (startItemDurationInSeconds * startItemAmountPerHourInSeconds) / 3600;
-                        startItem.setTotalAmount(Duration.getInstance(startItemWorkInSeconds / 60.0, TimeUnit.MINUTES));
-                        regularList.add(startItem);
-
-                        long remainingWorkInSeconds = Math.round(item.getTotalAmount().getDuration() * 60.0) - startItemWorkInSeconds;
-                        long remainingAmountPerHourInSeconds = Math.round(item.getAmountPerHour().getDuration() * 60.0);
-                        long remainingDurationInSeconds = remainingWorkInSeconds == 0 ? 0: (remainingWorkInSeconds * 3600) / remainingAmountPerHourInSeconds;
-
-                        item.setStart(startItem.getFinish());
-                        item.setFinish(startItem.getFinish().plusSeconds(remainingDurationInSeconds));
-                        item.setTotalAmount(Duration.getInstance(remainingWorkInSeconds / 60.0, TimeUnit.MINUTES));
-                        regularList.add(item);
-
-                        if (!irregularRanges.isEmpty())
+                        if (itemDurationInSeconds > nextIregularRangeDurationInSeconds)
                         {
-                           nextIrregularRange = irregularRanges.get(0);
+                           regularList.remove(regularList.size() - 1);
 
-                           // The logic here is slightly different to the block below,
-                           // which is why we're trying this immediately after the split
-                           // rather than looping and falling through to the block below.
-                           // We're looking for irregular blocks which start
-                           // at the end of our last regular block. I don't think we'd need to
-                           // apply more than one of these, so we're not looping through
-                           // the remaining irregular blocks.
-                           if (nextIrregularRange.getStart().equals(item.getFinish()))
+                           TimephasedWork startItem = new TimephasedWork();
+                           startItem.setStart(nextIrregularRange.getStart());
+                           startItem.setFinish(nextIrregularRange.getEnd());
+                           startItem.setAmountPerHour(item.getAmountPerHour());
+                           long startItemDurationInSeconds = startItem.getStart().until(startItem.getFinish(), ChronoUnit.SECONDS);
+                           long startItemAmountPerHourInSeconds = Math.round(startItem.getAmountPerHour().getDuration() * 60.0);
+                           long startItemWorkInSeconds = (startItemDurationInSeconds * startItemAmountPerHourInSeconds) / 3600;
+                           startItem.setTotalAmount(Duration.getInstance(startItemWorkInSeconds / 60.0, TimeUnit.MINUTES));
+                           regularList.add(startItem);
+
+                           long remainingWorkInSeconds = Math.round(item.getTotalAmount().getDuration() * 60.0) - startItemWorkInSeconds;
+                           long remainingAmountPerHourInSeconds = Math.round(item.getAmountPerHour().getDuration() * 60.0);
+                           long remainingDurationInSeconds = remainingWorkInSeconds == 0 ? 0 : (remainingWorkInSeconds * 3600) / remainingAmountPerHourInSeconds;
+
+                           item.setStart(startItem.getFinish());
+                           item.setFinish(startItem.getFinish().plusSeconds(remainingDurationInSeconds));
+                           item.setTotalAmount(Duration.getInstance(remainingWorkInSeconds / 60.0, TimeUnit.MINUTES));
+                           regularList.add(item);
+
+                           if (!irregularRanges.isEmpty())
                            {
-                              long itemTotalAmountInSeconds = Math.round(item.getTotalAmount().getDuration() * 60.0);
-                              long itemAmountPerHourInSeconds = Math.round(item.getAmountPerHour().getDuration() * 60.0);
-                              long secondsToAdd = (itemTotalAmountInSeconds * 3600) / itemAmountPerHourInSeconds;
-                              LocalDateTime finish = nextIrregularRange.getStart().plusSeconds(secondsToAdd);
-                              item.setStart(nextIrregularRange.getStart());
-                              item.setFinish(finish);
-                              irregularRanges.remove(0);
-                              item = null;
+                              nextIrregularRange = irregularRanges.get(0);
+
+                              // The logic here is slightly different to the block below,
+                              // which is why we're trying this immediately after the split
+                              // rather than looping and falling through to the block below.
+                              // We're looking for irregular blocks which start
+                              // at the end of our last regular block. I don't think we'd need to
+                              // apply more than one of these, so we're not looping through
+                              // the remaining irregular blocks.
+                              if (nextIrregularRange.getStart().equals(item.getFinish()))
+                              {
+                                 long itemTotalAmountInSeconds = Math.round(item.getTotalAmount().getDuration() * 60.0);
+                                 long itemAmountPerHourInSeconds = Math.round(item.getAmountPerHour().getDuration() * 60.0);
+                                 long secondsToAdd = (itemTotalAmountInSeconds * 3600) / itemAmountPerHourInSeconds;
+                                 LocalDateTime finish = nextIrregularRange.getStart().plusSeconds(secondsToAdd);
+                                 item.setStart(nextIrregularRange.getStart());
+                                 item.setFinish(finish);
+                                 irregularRanges.remove(0);
+                                 item = null;
+                              }
                            }
                         }
                      }
