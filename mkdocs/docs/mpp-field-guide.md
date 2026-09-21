@@ -75,7 +75,7 @@ File Application|✓|✓|✓|✓
 File Type|✓|✓|✓|✓
 Finish Date|✓|✓|✓|✓
 Finish Variance| |✓|✓|✓
-Fiscal Year Start|✓|✓|✓|✓
+Fiscal Year Start|✓| | |✓
 Fiscal Year Start Month|✓|✓|✓|✓
 Full Application Name|✓|✓|✓|✓
 GUID|✓|✓|✓|✓
@@ -137,15 +137,15 @@ Work|✓|✓|✓|✓
 ### Baseline Fields
 Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
-Baseline1 Date| |✓|✓|✓
-Baseline2 Date| |✓| |✓
-Baseline3 Date| |✓| |✓
-Baseline4 Date| |✓| |✓
-Baseline5 Date| |✓| |✓
-Baseline6 Date| |✓| |✓
-Baseline7 Date| |✓| |✓
-Baseline8 Date| |✓| |✓
-Baseline9 Date| |✓| |✓
+Baseline1 Date| | | |✓
+Baseline2 Date| | | |✓
+Baseline3 Date| | | |✓
+Baseline4 Date| | | |✓
+Baseline5 Date| | | |✓
+Baseline6 Date| | | |✓
+Baseline7 Date| | | |✓
+Baseline8 Date| | | |✓
+Baseline9 Date| | | |✓
 Baseline10 Date| | |✓|✓
 Baseline Calendar Name|✓|✓|✓|✓
 Baseline Cost| |✓|✓|✓
@@ -173,7 +173,6 @@ Actual Regular Cost|✓|✓|✓|✓
 Actual Regular Work|✓|✓|✓|✓
 Actual Start|✓|✓|✓|✓
 Actual Work|✓|✓|✓|✓
-Actual Work Protected| | |✓| 
 Auto Compute Actuals|✓|✓|✓|✓
 Board Status ID| | | |✓
 Budget Cost| |✓|✓|✓
@@ -230,7 +229,7 @@ Outline Level|✓|✓|✓|✓
 Outline Number|✓|✓|✓|✓
 Overtime Cost|✓|✓|✓|✓
 Parent Task Unique ID| |✓|✓|✓
-Physical % Complete| |✓|✓|✓
+Physical % Complete| | |✓|✓
 Preleveled Finish|✓|✓|✓|✓
 Preleveled Start|✓|✓|✓|✓
 Priority|✓|✓|✓|✓
@@ -416,7 +415,6 @@ Baseline Budget Cost| |✓| |✓
 Baseline Budget Work| |✓| |✓
 Baseline Cost|✓|✓|✓|✓
 Baseline Deliverable Finish| | |✓|✓
-Baseline Deliverable Start| | |✓| 
 Baseline Duration|✓|✓|✓|✓
 Baseline Duration Units| |✓|✓|✓
 Baseline Estimated Duration| | | |✓
@@ -600,29 +598,20 @@ Enterprise Project Date1| | |✓| 
 Enterprise Project Date2| | |✓| 
 Enterprise Project Date3| | |✓| 
 Enterprise Project Date4| | |✓| 
-Enterprise Project Number2| | |✓| 
-Enterprise Project Number4| | |✓| 
-Enterprise Project Number5| | |✓| 
 Enterprise Project Number22| |✓| |✓
 Enterprise Project Text1| |✓|✓|✓
 Enterprise Project Text2| |✓|✓| 
 Enterprise Project Text3| |✓|✓|✓
 Enterprise Project Text4| |✓|✓| 
 Enterprise Project Text5| |✓| |✓
-Enterprise Project Text6| |✓|✓|✓
-Enterprise Project Text8| | |✓| 
+Enterprise Project Text6| |✓| |✓
 Enterprise Project Text9| | |✓| 
 Enterprise Project Text10| | |✓| 
-Enterprise Project Text11| | |✓| 
-Enterprise Project Text12| | |✓| 
 Enterprise Project Text13| | |✓| 
 Enterprise Project Text14| | |✓| 
-Enterprise Project Text15| | |✓| 
-Enterprise Project Text16| | |✓| 
 Enterprise Project Text17| | |✓| 
 Enterprise Project Text18| | |✓| 
 Enterprise Project Text19| | |✓| 
-Enterprise Project Text21| | |✓| 
 Enterprise Project Text40| |✓|✓|✓
 
 ## Resource
@@ -632,13 +621,12 @@ Field|MPP8|MPP9|MPP12|MPP14
 Accrue At|✓|✓|✓|✓
 Active|✓|✓|✓|✓
 Actual Cost| |✓|✓|✓
-Actual Material| | |✓|✓
+Actual Material| | |✓| 
 Actual Overtime Cost| |✓|✓|✓
 Actual Overtime Work| |✓|✓|✓
 Actual Regular Cost| |✓|✓|✓
 Actual Regular Work|✓|✓|✓|✓
 Actual Work|✓|✓|✓|✓
-Actual Work Protected| | |✓| 
 Availability Data| |✓|✓|✓
 Available From| |✓|✓|✓
 Available To| |✓|✓|✓
@@ -683,7 +671,6 @@ Overtime Rate| |✓|✓|✓
 Overtime Rate Units| |✓|✓|✓
 Overtime Work| |✓|✓|✓
 Peak|✓|✓|✓|✓
-Phonetics| | |✓| 
 Regular Work|✓|✓|✓|✓
 Remaining Cost|✓|✓|✓|✓
 Remaining Material| |✓|✓|✓
@@ -722,37 +709,30 @@ Baseline3 Work| |✓|✓|✓
 Baseline4 Budget Cost| | | |✓
 Baseline4 Budget Work| | | |✓
 Baseline4 Cost| |✓|✓|✓
-Baseline4 Material| | | |✓
 Baseline4 Work| |✓|✓|✓
 Baseline5 Budget Cost| | | |✓
 Baseline5 Budget Work| | | |✓
 Baseline5 Cost| |✓|✓|✓
-Baseline5 Material| | | |✓
 Baseline5 Work| |✓|✓|✓
 Baseline6 Budget Cost| | | |✓
 Baseline6 Budget Work| | | |✓
 Baseline6 Cost| |✓|✓|✓
-Baseline6 Material| | | |✓
 Baseline6 Work| |✓|✓|✓
 Baseline7 Budget Cost| | | |✓
 Baseline7 Budget Work| | | |✓
 Baseline7 Cost| |✓|✓|✓
-Baseline7 Material| | | |✓
 Baseline7 Work| |✓|✓|✓
 Baseline8 Budget Cost| | | |✓
 Baseline8 Budget Work| | | |✓
 Baseline8 Cost| |✓|✓|✓
-Baseline8 Material| | | |✓
 Baseline8 Work| |✓|✓|✓
 Baseline9 Budget Cost| | | |✓
 Baseline9 Budget Work| | | |✓
 Baseline9 Cost| |✓|✓|✓
-Baseline9 Material| | | |✓
 Baseline9 Work| |✓|✓|✓
 Baseline10 Budget Cost| | | |✓
 Baseline10 Budget Work| | | |✓
 Baseline10 Cost| |✓|✓|✓
-Baseline10 Material| | | |✓
 Baseline10 Work| |✓|✓|✓
 Baseline Budget Cost| | | |✓
 Baseline Budget Work| | | |✓
@@ -937,14 +917,12 @@ Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
 Actual Cost| |✓|✓|✓
 Actual Finish| |✓|✓|✓
-Actual Material| |✓|✓|✓
 Actual Overtime Cost| |✓|✓|✓
 Actual Overtime Work| |✓|✓|✓
 Actual Regular Cost| |✓|✓|✓
 Actual Regular Work|✓|✓|✓|✓
 Actual Start| |✓|✓|✓
 Actual Work|✓|✓|✓|✓
-Actual Work Protected| | |✓| 
 Assignment Delay| |✓|✓|✓
 Assignment GUID| | |✓|✓
 Assignment Resource GUID| | |✓|✓
@@ -965,10 +943,10 @@ Hyperlink Address| |✓|✓|✓
 Hyperlink Data| |✓|✓|✓
 Hyperlink Screen Tip| |✓|✓|✓
 Hyperlink Subaddress| |✓|✓|✓
-Leveling Delay| |✓|✓|✓
+Leveling Delay| |✓| |✓
 Leveling Delay Units| |✓| |✓
 Linked Fields| |✓|✓|✓
-Material| |✓|✓|✓
+Material| |✓| |✓
 Notes| |✓|✓|✓
 Overtime Cost| | | |✓
 Overtime Work| |✓|✓|✓
@@ -1030,49 +1008,42 @@ Baseline4 Budget Cost| | |✓|✓
 Baseline4 Budget Work| | |✓|✓
 Baseline4 Cost| |✓|✓|✓
 Baseline4 Finish| |✓|✓|✓
-Baseline4 Material| | | |✓
 Baseline4 Start| |✓|✓|✓
 Baseline4 Work| |✓|✓|✓
 Baseline5 Budget Cost| | |✓|✓
 Baseline5 Budget Work| | |✓|✓
 Baseline5 Cost| |✓|✓|✓
 Baseline5 Finish| |✓|✓|✓
-Baseline5 Material| | | |✓
 Baseline5 Start| |✓|✓|✓
 Baseline5 Work| |✓|✓|✓
 Baseline6 Budget Cost| | |✓|✓
 Baseline6 Budget Work| | |✓|✓
 Baseline6 Cost| |✓|✓|✓
 Baseline6 Finish| |✓|✓|✓
-Baseline6 Material| | | |✓
 Baseline6 Start| |✓|✓|✓
 Baseline6 Work| |✓|✓|✓
 Baseline7 Budget Cost| | |✓|✓
 Baseline7 Budget Work| | |✓|✓
 Baseline7 Cost| |✓|✓|✓
 Baseline7 Finish| |✓|✓|✓
-Baseline7 Material| | | |✓
 Baseline7 Start| |✓|✓|✓
 Baseline7 Work| |✓|✓|✓
 Baseline8 Budget Cost| | |✓|✓
 Baseline8 Budget Work| | |✓|✓
 Baseline8 Cost| |✓|✓|✓
 Baseline8 Finish| |✓|✓|✓
-Baseline8 Material| | | |✓
 Baseline8 Start| |✓|✓|✓
 Baseline8 Work| |✓|✓|✓
 Baseline9 Budget Cost| | |✓|✓
 Baseline9 Budget Work| | |✓|✓
 Baseline9 Cost| |✓|✓|✓
 Baseline9 Finish| |✓|✓|✓
-Baseline9 Material| | | |✓
 Baseline9 Start| |✓|✓|✓
 Baseline9 Work| |✓|✓|✓
 Baseline10 Budget Cost| | |✓|✓
 Baseline10 Budget Work| | |✓|✓
 Baseline10 Cost| |✓|✓|✓
 Baseline10 Finish| |✓|✓|✓
-Baseline10 Material| | | |✓
 Baseline10 Start| |✓|✓|✓
 Baseline10 Work| |✓|✓|✓
 Baseline Budget Cost| | |✓|✓
@@ -1085,43 +1056,43 @@ Baseline Work| |✓|✓|✓
 Raw Timephased Baseline1 Budget Cost| | | |✓
 Raw Timephased Baseline1 Budget Work| | | |✓
 Raw Timephased Baseline1 Cost| | | |✓
-Raw Timephased Baseline1 Work| |✓| |✓
+Raw Timephased Baseline1 Work| | | |✓
 Raw Timephased Baseline2 Budget Cost| | | |✓
 Raw Timephased Baseline2 Budget Work| | | |✓
 Raw Timephased Baseline2 Cost| | | |✓
-Raw Timephased Baseline2 Work| |✓| |✓
+Raw Timephased Baseline2 Work| | | |✓
 Raw Timephased Baseline3 Budget Cost| | | |✓
 Raw Timephased Baseline3 Budget Work| | | |✓
 Raw Timephased Baseline3 Cost| | | |✓
-Raw Timephased Baseline3 Work| |✓| |✓
+Raw Timephased Baseline3 Work| | | |✓
 Raw Timephased Baseline4 Budget Cost| | | |✓
 Raw Timephased Baseline4 Budget Work| | | |✓
 Raw Timephased Baseline4 Cost| | | |✓
-Raw Timephased Baseline4 Work| |✓| |✓
+Raw Timephased Baseline4 Work| | | |✓
 Raw Timephased Baseline5 Budget Cost| | | |✓
 Raw Timephased Baseline5 Budget Work| | | |✓
 Raw Timephased Baseline5 Cost| | | |✓
-Raw Timephased Baseline5 Work| |✓| |✓
+Raw Timephased Baseline5 Work| | | |✓
 Raw Timephased Baseline6 Budget Cost| | | |✓
 Raw Timephased Baseline6 Budget Work| | | |✓
 Raw Timephased Baseline6 Cost| | | |✓
-Raw Timephased Baseline6 Work| |✓| |✓
+Raw Timephased Baseline6 Work| | | |✓
 Raw Timephased Baseline7 Budget Cost| | | |✓
 Raw Timephased Baseline7 Budget Work| | | |✓
 Raw Timephased Baseline7 Cost| | | |✓
-Raw Timephased Baseline7 Work| |✓| |✓
+Raw Timephased Baseline7 Work| | | |✓
 Raw Timephased Baseline8 Budget Cost| | | |✓
 Raw Timephased Baseline8 Budget Work| | | |✓
 Raw Timephased Baseline8 Cost| | | |✓
-Raw Timephased Baseline8 Work| |✓| |✓
+Raw Timephased Baseline8 Work| | | |✓
 Raw Timephased Baseline9 Budget Cost| | | |✓
 Raw Timephased Baseline9 Budget Work| | | |✓
 Raw Timephased Baseline9 Cost| | | |✓
-Raw Timephased Baseline9 Work| |✓| |✓
+Raw Timephased Baseline9 Work| | | |✓
 Raw Timephased Baseline10 Budget Cost| | | |✓
 Raw Timephased Baseline10 Budget Work| | | |✓
 Raw Timephased Baseline10 Cost| | | |✓
-Raw Timephased Baseline10 Work| |✓| |✓
+Raw Timephased Baseline10 Work| | | |✓
 Raw Timephased Baseline Budget Cost| | | |✓
 Raw Timephased Baseline Budget Work| | | |✓
 Raw Timephased Baseline Cost| |✓|✓|✓
@@ -1151,25 +1122,25 @@ Date8| |✓|✓|✓
 Date9| |✓|✓|✓
 Date10| |✓|✓|✓
 Duration1| |✓|✓|✓
-Duration1 Units| |✓|✓|✓
+Duration1 Units| |✓| |✓
 Duration2| |✓|✓|✓
-Duration2 Units| |✓|✓|✓
+Duration2 Units| |✓| |✓
 Duration3| |✓|✓|✓
-Duration3 Units| |✓|✓|✓
+Duration3 Units| |✓| |✓
 Duration4| |✓|✓|✓
-Duration4 Units| |✓|✓|✓
+Duration4 Units| |✓| |✓
 Duration5| |✓|✓|✓
-Duration5 Units| |✓|✓|✓
+Duration5 Units| |✓| |✓
 Duration6| |✓|✓|✓
-Duration6 Units| |✓|✓|✓
+Duration6 Units| |✓| |✓
 Duration7| |✓|✓|✓
-Duration7 Units| |✓|✓|✓
+Duration7 Units| |✓| |✓
 Duration8| |✓|✓|✓
-Duration8 Units| |✓|✓|✓
+Duration8 Units| |✓| |✓
 Duration9| |✓|✓|✓
-Duration9 Units| |✓|✓|✓
+Duration9 Units| |✓| |✓
 Duration10| |✓|✓|✓
-Duration10 Units| |✓|✓|✓
+Duration10 Units| |✓| |✓
 Finish1| |✓|✓|✓
 Finish2| |✓|✓|✓
 Finish3| |✓|✓|✓

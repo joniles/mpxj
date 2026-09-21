@@ -370,8 +370,8 @@ final class TimephasedDataFactory
          long totalWorkInSeconds = Math.round(MPPUtility.getDouble(data, 16) * 60.0 / 1000.0);
          if (totalWorkInSeconds != 0.0)
          {
-            LocalDateTime start = roundToNearestMinute(timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume());
-            LocalDateTime end = roundToNearestMinute(assignment.getFinish());
+            LocalDateTime start = timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume();
+            LocalDateTime end = assignment.getFinish();
             Duration work = Duration.getInstance(totalWorkInSeconds / 60.0, TimeUnit.MINUTES);
             long assignmentElapsedSeconds = Math.round(calendar.getWork(start, end, TimeUnit.MINUTES).getDuration() * 60.0);
             double calculatedWorkPerHour = (totalWorkInSeconds * 60.0) / assignmentElapsedSeconds;
@@ -599,22 +599,5 @@ final class TimephasedDataFactory
    private double roundMinutesToSeconds(double minutes)
    {
       return Math.round(minutes * 60.0) / 60.0;
-   }
-
-   private LocalDateTime roundToNearestMinute(LocalDateTime value)
-   {
-      int seconds = value.getSecond();
-      if (seconds == 0)
-      {
-         return value;
-      }
-
-      value = value.minusSeconds(seconds);
-      if (seconds < 30)
-      {
-         return value;
-      }
-
-      return value.plusMinutes(1);
    }
 }
