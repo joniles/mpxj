@@ -30,6 +30,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -904,36 +905,53 @@ abstract class TableContextReader
     */
    protected void processResourceRates(List<Row> rows)
    {
+      rows.stream().collect(Collectors.groupingBy(r -> r.getInteger("rsrc_id"), Collectors.toList()))
+         .forEach(this::processResourceRates);
+   }
+
+   /**
+    * Process rates for a single resource.
+    *
+    * @param resourceID resource unique ID
+    * @param rows resource rate rows
+    */
+   private void processResourceRates(Integer resourceID, List<Row> rows)
+   {
+      Resource resource = m_state.getContext().getResources().getByUniqueID(resourceID);
+      if (resource == null)
+      {
+         return;
+      }
+
+      resource.getCostRateTable(0).clear();
+
+      // Handle each individual shift period separately to ensure
+      // the start and end dates are correct. Rates without a shift period
+      // are treated as belonging to a shift period with a unque ID of zero.
+      rows.stream().collect(Collectors.groupingBy(r -> r.getInteger("shift_period_id") == null ? Integer.valueOf(0) : r.getInteger("shift_period_id"), Collectors.toList()))
+         .forEach((k,v) -> processShiftPeriodResourceRates(resource, v));
+
+      resource.getCostRateTable(0).sort(Comparator.comparing(CostRateTableEntry::getStartDate));
+   }
+
+   /**
+    * Process resource rates for a shift period.
+    *
+    * @param resource target resource
+    * @param rows resource rate rows
+    */
+   private void processShiftPeriodResourceRates(Resource resource, List<Row> rows)
+   {
       // Primavera defines resource cost tables by start dates so sort and define end by next
       rows.sort((r1, r2) -> {
-         Integer id1 = r1.getInteger("rsrc_id");
-         Integer id2 = r2.getInteger("rsrc_id");
-         int cmp = NumberHelper.compare(id1, id2);
-         if (cmp != 0)
-         {
-            return cmp;
-         }
          LocalDateTime d1 = r1.getDate("start_date");
          LocalDateTime d2 = r2.getDate("start_date");
          return LocalDateTimeHelper.compare(d1, d2);
       });
 
-      Resource resource = null;
-
       for (int i = 0; i < rows.size(); ++i)
       {
          Row row = rows.get(i);
-
-         Integer resourceID = row.getInteger("rsrc_id");
-         if (resource == null || !resource.getUniqueID().equals(resourceID))
-         {
-            resource = m_state.getContext().getResources().getByUniqueID(resourceID);
-            if (resource == null)
-            {
-               continue;
-            }
-            resource.getCostRateTable(0).clear();
-         }
 
          Rate[] values = {
             Rate.valueOf(row.getDouble("cost_per_qty"), TimeUnit.HOURS),
@@ -954,10 +972,7 @@ abstract class TableContextReader
          {
             Row nextRow = rows.get(i + 1);
             int nextResourceID = nextRow.getInt("rsrc_id");
-            if (resourceID.intValue() == nextResourceID)
-            {
-               endDate = nextRow.getDate("start_date").minusMinutes(1);
-            }
+            endDate = nextRow.getDate("start_date").minusMinutes(1);
          }
 
          if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))

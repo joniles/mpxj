@@ -24,9 +24,11 @@ package org.mpxj.primavera;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.mpxj.Availability;
 import org.mpxj.CostAccount;
@@ -641,38 +643,53 @@ class XmlContextReader
     */
    private void processResourceRates()
    {
-      List<ResourceRateType> rates = new ArrayList<>(m_state.getApibo().getResourceRate());
+      m_state.getApibo().getResourceRate().stream().collect(Collectors.groupingBy(ResourceRateType::getResourceObjectId, Collectors.toList()))
+         .forEach(this::processResourceRates);
+   }
 
+   /**
+    * Process rates for a single resource.
+    *
+    * @param resourceID resource unique ID
+    * @param rates resource rates
+    */
+   private void processResourceRates(Integer resourceID, List<ResourceRateType> rates)
+   {
+      Resource resource = m_state.getContext().getResources().getByUniqueID(resourceID);
+      if (resource == null)
+      {
+         return;
+      }
+
+      resource.getCostRateTable(0).clear();
+
+      // Handle each individual shift period separately to ensure
+      // the start and end dates are correct. Rates without a shift period
+      // are treated as belonging to a shift period with a unque ID of zero.
+      rates.stream().collect(Collectors.groupingBy(r -> r.getShiftPeriodObjectId() == null ? Integer.valueOf(0) : r.getShiftPeriodObjectId(), Collectors.toList()))
+         .forEach((k, v) -> processShiftPeriodResourceRates(resource, v));
+
+      resource.getCostRateTable(0).sort(Comparator.comparing(CostRateTableEntry::getStartDate));
+   }
+
+   /**
+    * Process resource rates for a shift period.
+    *
+    * @param resource target resource
+    * @param rates resource rates
+    */
+   private void processShiftPeriodResourceRates(Resource resource, List<ResourceRateType> rates)
+   {
       // Primavera defines resource cost tables by start dates so sort and define end by next
       rates.sort((r1, r2) -> {
-         Integer id1 = r1.getResourceObjectId();
-         Integer id2 = r2.getResourceObjectId();
-         int cmp = NumberHelper.compare(id1, id2);
-         if (cmp != 0)
-         {
-            return cmp;
-         }
          LocalDateTime d1 = r1.getEffectiveDate();
          LocalDateTime d2 = r2.getEffectiveDate();
          return LocalDateTimeHelper.compare(d1, d2);
       });
 
-      Resource resource = null;
-
       for (int i = 0; i < rates.size(); ++i)
       {
          ResourceRateType row = rates.get(i);
-
-         Integer resourceID = row.getResourceObjectId();
-         if (resource == null || !resource.getUniqueID().equals(resourceID))
-         {
-            resource = m_state.getContext().getResources().getByUniqueID(resourceID);
-            if (resource == null)
-            {
-               continue;
-            }
-            resource.getCostRateTable(0).clear();
-         }
 
          Rate[] values = {
             Rate.valueOf(row.getPricePerUnit(), TimeUnit.HOURS),
@@ -691,10 +708,7 @@ class XmlContextReader
          if (i + 1 < rates.size())
          {
             ResourceRateType nextRow = rates.get(i + 1);
-            if (NumberHelper.equals(resourceID, nextRow.getResourceObjectId()))
-            {
-               endDate = nextRow.getEffectiveDate().minusMinutes(1);
-            }
+            endDate = nextRow.getEffectiveDate().minusMinutes(1);
          }
 
          if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
