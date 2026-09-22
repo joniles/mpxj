@@ -943,11 +943,7 @@ abstract class TableContextReader
    private void processShiftPeriodResourceRates(Resource resource, List<Row> rows)
    {
       // Primavera defines resource cost tables by start dates so sort and define end by next
-      rows.sort((r1, r2) -> {
-         LocalDateTime d1 = r1.getDate("start_date");
-         LocalDateTime d2 = r2.getDate("start_date");
-         return LocalDateTimeHelper.compare(d1, d2);
-      });
+      sortResourceOrRoleTableRows(rows);
 
       for (int i = 0; i < rows.size(); ++i)
       {
@@ -1067,24 +1063,32 @@ abstract class TableContextReader
     */
    protected void processRoleRates(List<Row> rows)
    {
-      sortRoleTableRows(rows);
+      rows.stream().collect(Collectors.groupingBy(r -> r.getInteger("role_id"), Collectors.toList()))
+         .forEach(this::processRoleRates);
+   }
 
-      Resource resource = null;
+   /**
+    * Process rates for a single role.
+    *
+    * @param roleID role unique ID
+    * @param rows role rate data
+    */
+   private void processRoleRates(Integer roleID, List<Row> rows)
+   {
+      Integer resourceID = m_state.getRoleClashMap().getID(roleID);
+      Resource resource = m_state.getContext().getResources().getByUniqueID(resourceID);
+      if (resource == null)
+      {
+         return;
+      }
+
+      resource.getCostRateTable(0).clear();
+
+      sortResourceOrRoleTableRows(rows);
 
       for (int i = 0; i < rows.size(); ++i)
       {
          Row row = rows.get(i);
-
-         Integer resourceID = m_state.getRoleClashMap().getID(row.getInteger("role_id"));
-         if (resource == null || !resource.getUniqueID().equals(resourceID))
-         {
-            resource = m_state.getContext().getResources().getByUniqueID(resourceID);
-            if (resource == null)
-            {
-               continue;
-            }
-            resource.getCostRateTable(0).clear();
-         }
 
          Rate[] values = {
             Rate.valueOf(row.getDouble("cost_per_qty"), TimeUnit.HOURS),
@@ -1101,10 +1105,7 @@ abstract class TableContextReader
          if (i + 1 < rows.size())
          {
             Row nextRow = rows.get(i + 1);
-            if (NumberHelper.equals(row.getInteger("role_id"), nextRow.getInteger("role_id")))
-            {
-               endDate = nextRow.getDate("start_date").minusMinutes(1);
-            }
+            endDate = nextRow.getDate("start_date").minusMinutes(1);
          }
 
          if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
@@ -1128,24 +1129,31 @@ abstract class TableContextReader
     */
    protected void processRoleAvailability(List<Row> rows)
    {
-      sortRoleTableRows(rows);
+      rows.stream().collect(Collectors.groupingBy(r -> r.getInteger("role_id"), Collectors.toList()))
+         .forEach(this::processRoleAvailability);
+   }
 
-      Resource resource = null;
+   /**
+    * Process availability for a single role.
+    *
+    * @param roleID role unique ID
+    * @param rows role availability data
+    */
+   private void processRoleAvailability(Integer roleID, List<Row> rows)
+   {
+      Integer resourceID = m_state.getRoleClashMap().getID(roleID);
+      Resource resource = m_state.getContext().getResources().getByUniqueID(resourceID);
+      if (resource == null)
+      {
+         return;
+      }
+      resource.getAvailability().clear();
+
+      sortResourceOrRoleTableRows(rows);
 
       for (int i = 0; i < rows.size(); ++i)
       {
          Row row = rows.get(i);
-
-         Integer resourceID = m_state.getRoleClashMap().getID(row.getInteger("role_id"));
-         if (resource == null || !resource.getUniqueID().equals(resourceID))
-         {
-            resource = m_state.getContext().getResources().getByUniqueID(resourceID);
-            if (resource == null)
-            {
-               continue;
-            }
-            resource.getAvailability().clear();
-         }
 
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
          LocalDateTime startDate = row.getDate("start_date");
@@ -1154,10 +1162,7 @@ abstract class TableContextReader
          if (i + 1 < rows.size())
          {
             Row nextRow = rows.get(i + 1);
-            if (NumberHelper.equals(row.getInteger("role_id"), nextRow.getInteger("role_id")))
-            {
-               endDate = nextRow.getDate("start_date").minusMinutes(1);
-            }
+            endDate = nextRow.getDate("start_date").minusMinutes(1);
          }
 
          if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
@@ -1175,22 +1180,14 @@ abstract class TableContextReader
    }
 
    /**
-    * Primavera defines role tables by role and start dates so sort by start date
+    * Primavera defines resource and role tables by role and start dates so sort by start date
     * to allow us to determine the end date of each entry.
     *
     * @param rows role table rows
     */
-   private void sortRoleTableRows(List<Row> rows)
+   private void sortResourceOrRoleTableRows(List<Row> rows)
    {
-      //
       rows.sort((r1, r2) -> {
-         Integer id1 = r1.getInteger("role_id");
-         Integer id2 = r2.getInteger("role_id");
-         int cmp = NumberHelper.compare(id1, id2);
-         if (cmp != 0)
-         {
-            return cmp;
-         }
          LocalDateTime d1 = r1.getDate("start_date");
          LocalDateTime d2 = r2.getDate("start_date");
          return LocalDateTimeHelper.compare(d1, d2);
