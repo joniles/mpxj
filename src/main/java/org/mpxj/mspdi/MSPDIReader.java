@@ -164,7 +164,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
       }
    }
 
-   void read(ProjectFile projectFile, Project project)
+   void read(ProjectFile projectFile, Project project) throws MPXJException
    {
       try
       {
@@ -265,11 +265,35 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
    }
 
    /**
+    * Convert an MSPDI project conversion parameter without integer overflow.
+    *
+    * @param value XML value
+    * @param fieldName field name for diagnostics
+    * @return integer value, or null
+    */
+   private static Integer projectConversionInteger(BigInteger value, String fieldName) throws MPXJException
+   {
+      if (value == null)
+      {
+         return null;
+      }
+
+      try
+      {
+         return Integer.valueOf(value.intValueExact());
+      }
+      catch (ArithmeticException ex)
+      {
+         throw new MPXJException(fieldName + " exceeds the signed 32-bit integer range", ex);
+      }
+   }
+
+   /**
     * This method extracts project properties from an MSPDI file.
     *
     * @param project Root node of the MSPDI file
     */
-   private void readProjectProperties(Project project)
+   private void readProjectProperties(Project project) throws MPXJException
    {
       ProjectProperties properties = m_projectFile.getProjectProperties();
 
@@ -289,7 +313,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
       properties.setCurrencyCode(project.getCurrencyCode());
       properties.setCurrencySymbol(project.getCurrencySymbol());
       properties.setCurrentDate(project.getCurrentDate());
-      properties.setDaysPerMonth(NumberHelper.getInteger(project.getDaysPerMonth()));
+      properties.setDaysPerMonth(projectConversionInteger(project.getDaysPerMonth(), "DaysPerMonth"));
       properties.setDefaultDurationUnits(DatatypeConverter.parseDurationTimeUnits(project.getDurationFormat()));
       properties.setDefaultEndTime(project.getDefaultFinishTime());
       properties.setDefaultFixedCostAccrual(project.getDefaultFixedCostAccrual());
@@ -311,8 +335,24 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
       properties.setLastSaved(project.getLastSaved());
       properties.setManager(project.getManager());
       properties.setMicrosoftProjectServerURL(BooleanHelper.getBoolean(project.isMicrosoftProjectServerURL()));
-      properties.setMinutesPerDay(NumberHelper.getInteger(project.getMinutesPerDay()));
-      properties.setMinutesPerWeek(NumberHelper.getInteger(project.getMinutesPerWeek()));
+      Integer minutesPerDay = projectConversionInteger(project.getMinutesPerDay(), "MinutesPerDay");
+      Integer minutesPerWeek = projectConversionInteger(project.getMinutesPerWeek(), "MinutesPerWeek");
+
+      properties.setMinutesPerDay(minutesPerDay);
+      properties.setMinutesPerWeek(minutesPerWeek);
+
+      if (minutesPerWeek == null)
+      {
+         try
+         {
+            // Match the default days per week used by TimeUnitDefaults.
+            Math.multiplyExact(5, properties.getMinutesPerDay().intValue());
+         }
+         catch (ArithmeticException ex)
+         {
+            throw new MPXJException("Derived MinutesPerWeek exceeds the signed 32-bit integer range", ex);
+         }
+      }
       properties.setMoveCompletedEndsBack(BooleanHelper.getBoolean(project.isMoveCompletedEndsBack()));
       properties.setMoveCompletedEndsForward(BooleanHelper.getBoolean(project.isMoveCompletedEndsForward()));
       properties.setMoveRemainingStartsBack(BooleanHelper.getBoolean(project.isMoveRemainingStartsBack()));
