@@ -3186,6 +3186,13 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          return Arrays.asList(result);
       }
 
+      // MPXJ doesn't currently support cost calculations
+      // using multiple shift periods.
+      if (rates.stream().map(CostRateTableEntry::getShiftPeriod).distinct().count() > 1)
+      {
+         return Arrays.asList(result);
+      }
+
       // We're assuming that the cost rate table entries are in order
       int costRateTableEntryIndex = 0;
       CostRateTableEntry currentRate = rates.get(costRateTableEntryIndex);
@@ -3240,7 +3247,14 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
                break;
             }
 
-            currentRate = rates.get(++costRateTableEntryIndex);
+            // The cost rate table entries end before our ranges end - just return what we have
+            ++costRateTableEntryIndex;
+            if (costRateTableEntryIndex == rates.size())
+            {
+               break;
+            }
+
+            currentRate = rates.get(costRateTableEntryIndex);
             LocalDateTime endDate = getNextRateStart(rates, costRateTableEntryIndex);
             subRange = new LocalDateTimeRange(currentRate.getStartDate(), endDate.isAfter(range.getEnd()) ? range.getEnd() : endDate);
          }
