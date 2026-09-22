@@ -757,7 +757,7 @@ Baseline10 Work| |✓|✓|✓
 Baseline Budget Cost| | | |✓
 Baseline Budget Work| | | |✓
 Baseline Cost| |✓|✓|✓
-Baseline Material| |✓|✓| 
+Baseline Material| |✓|✓|✓
 Baseline Work|✓|✓|✓|✓
 
 ### Custom Fields
