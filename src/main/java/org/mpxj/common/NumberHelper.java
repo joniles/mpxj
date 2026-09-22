@@ -108,6 +108,23 @@ public final class NumberHelper
    }
 
    /**
+    * Utility method used to convert a BigInteger into an Integer.
+    * Will raise an exception in the case of an overflow.
+    *
+    * @param value Number instance
+    * @return Integer instance
+    */
+   public static final Integer getInteger(BigInteger value)
+   {
+      Integer result = null;
+      if (value != null)
+      {
+         result = Integer.valueOf(value.intValueExact());
+      }
+      return result;
+   }
+
+   /**
     * Converts a string representation of an integer into an Integer object.
     * Silently ignores any parse exceptions and returns null.
     *
