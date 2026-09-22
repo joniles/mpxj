@@ -125,12 +125,12 @@ public final class Rate
 
    @Override public int hashCode()
    {
-      return ((int) m_amount + m_units.hashCode());
+      return (int) m_amount + m_units.hashCode();
    }
 
    @Override public String toString()
    {
-      return (m_amount + m_units.toString());
+      return m_amount + "/" + m_units.toString();
    }
 
    /**
