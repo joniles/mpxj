@@ -164,7 +164,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
       }
    }
 
-   void read(ProjectFile projectFile, Project project)
+   void read(ProjectFile projectFile, Project project) throws MPXJException
    {
       try
       {
@@ -1200,7 +1200,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
     *
     * @param project Root node of the MSPDI file
     */
-   private void readTasks(Project project)
+   private void readTasks(Project project) throws MPXJException
    {
       Project.Tasks tasks = project.getTasks();
       if (tasks != null)
@@ -1670,7 +1670,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
     *
     * @param task Task data
     */
-   private void readPredecessors(Project.Tasks.Task task)
+   private void readPredecessors(Project.Tasks.Task task) throws MPXJException
    {
       Integer uid = task.getUID();
       if (uid != null)
@@ -1692,7 +1692,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
     * @param currTask Current task object
     * @param link Predecessor data
     */
-   private void readPredecessor(Task currTask, Project.Tasks.Task.PredecessorLink link)
+   private void readPredecessor(Task currTask, Project.Tasks.Task.PredecessorLink link) throws MPXJException
    {
       BigInteger uid = link.getPredecessorUID();
       if (uid == null)
@@ -1728,7 +1728,18 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
       TimeUnit lagUnits = DatatypeConverter.parseDurationTimeUnits(link.getLagFormat());
 
       Duration lagDuration;
-      int lag = NumberHelper.getInt(link.getLinkLag());
+      BigInteger lagValue = link.getLinkLag();
+      int lag;
+
+      try
+      {
+         lag = lagValue == null ? 0 : lagValue.intValueExact();
+      }
+      catch (ArithmeticException ex)
+      {
+         throw new MPXJException("MSPDI predecessor LinkLag is outside the signed 32-bit range: " + lagValue, ex);
+      }
+
       if (lag == 0)
       {
          lagDuration = Duration.getInstance(0, lagUnits);
