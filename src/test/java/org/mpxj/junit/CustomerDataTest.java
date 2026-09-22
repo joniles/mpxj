@@ -852,6 +852,30 @@ public class CustomerDataTest
          List<LocalDateTimeRange> dates = new TimescaleHelper().createTimescale(start, finish, TimescaleUnits.DAYS);
          assignment.getTimephasedWork(dates, TimeUnit.HOURS);
          assignment.getTimephasedCost(dates);
+
+         dates = new TimescaleHelper().createTimescale(start, finish, TimescaleUnits.WEEKS);
+         assignment.getTimephasedWork(dates, TimeUnit.HOURS);
+         assignment.getTimephasedCost(dates);
+
+         dates = new TimescaleHelper().createTimescale(start, finish, TimescaleUnits.THIRDS_OF_MONTHS);
+         assignment.getTimephasedWork(dates, TimeUnit.HOURS);
+         assignment.getTimephasedCost(dates);
+
+         dates = new TimescaleHelper().createTimescale(start, finish, TimescaleUnits.MONTHS);
+         assignment.getTimephasedWork(dates, TimeUnit.HOURS);
+         assignment.getTimephasedCost(dates);
+
+         dates = new TimescaleHelper().createTimescale(start, finish, TimescaleUnits.QUARTERS);
+         assignment.getTimephasedWork(dates, TimeUnit.HOURS);
+         assignment.getTimephasedCost(dates);
+
+         dates = new TimescaleHelper().createTimescale(start, finish, TimescaleUnits.HALF_YEARS);
+         assignment.getTimephasedWork(dates, TimeUnit.HOURS);
+         assignment.getTimephasedCost(dates);
+
+         dates = new TimescaleHelper().createTimescale(start, finish, TimescaleUnits.YEARS);
+         assignment.getTimephasedWork(dates, TimeUnit.HOURS);
+         assignment.getTimephasedCost(dates);
       }
 
       catch (Exception ex)
