@@ -5,17 +5,17 @@
     <link>http://mpxj.org/changes-report.html</link>
     <description>These are the latest changes of this project.</description>
     <language>en</language>
-    <pubDate>Sat, 08 Aug 2026 10:53:35 GMT</pubDate>
+    <pubDate>Wed, 23 Sep 2026 15:04:32 GMT</pubDate>
     <dc:creator>Jon Iles</dc:creator>
-    <dc:date>2026-08-08T10:53:35Z</dc:date>
+    <dc:date>2026-09-23T15:04:32Z</dc:date>
     <dc:language>en</dc:language>
     <item>
-      <title>16.7.0</title>
-      <link>http://mpxj.org/changes-report.html#a16.7.0</link>
-      <description>&lt;p&gt;Version 16.7.0 is available with 3 fixed issues.&lt;/p&gt;</description>
-      <pubDate>Fri, 07 Aug 2026 23:00:00 GMT</pubDate>
-      <guid>http://mpxj.org/changes-report.html#a16.7.0</guid>
-      <dc:date>2026-08-07T23:00:00Z</dc:date>
+      <title>16.8.0</title>
+      <link>http://mpxj.org/changes-report.html#a16.8.0</link>
+      <description>&lt;p&gt;Version 16.8.0 is available with 11 fixed issues.&lt;/p&gt;</description>
+      <pubDate>Tue, 22 Sep 2026 23:00:00 GMT</pubDate>
+      <guid>http://mpxj.org/changes-report.html#a16.8.0</guid>
+      <dc:date>2026-09-22T23:00:00Z</dc:date>
     </item>
   </channel>
 </rss>

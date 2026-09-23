@@ -330,6 +330,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#1680-2026-09-23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.8.0 (2026-09-23)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#1670-2026-08-08" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5547,6 +5558,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#1680-2026-09-23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.8.0 (2026-09-23)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#1670-2026-08-08" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8768,6 +8790,20 @@
 <h2 id="note">NOTE</h2>
 <p>From version 14.0.0 onwards the <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code> and <code>net.sf.mpxj-for-vb</code> packages are
 no longer distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
+<h2 id="1680-2026-09-23">16.8.0 (2026-09-23)</h2>
+<ul>
+<li>Improve handling of the <code>Generic</code> flag on resources read from certain MPP files.</li>
+<li>Improve assignment of the Longest Path flag when using <code>PrimaveraScheduler</code>.</li>
+<li>Improve handling of timephased data representing completed work with irregular hours when reading certain MPP files.</li>
+<li>Improve handling of resource assignment custom field values when reading certain MPP files.</li>
+<li>Ensure consistent behaviour when reading and writing schedule files under differing default locales.</li>
+<li>When reading an XER file, ensure that the project properties Last Scheduled Date and Activity Default Price Per Unit are read correctly.</li>
+<li>Avoid an exception when reading certain BK3 files with recurring calendar exceptions.</li>
+<li>Improve organisation of Cost Rate Table entries when reading P6 schedules where resources are assigned to shifts.</li>
+<li>Fix an <code>IndexOutOfBoundsException</code> in some circumstances when retrieving timephased cost data.</li>
+<li>Ensure that out of range integer values read from MSPDI files cause an <code>ArithmeticException</code> to be thrown rather than overflowing silently. (Based on a contribution by Varmend)</li>
+<li>Updated to jsoup 1.23.1.</li>
+</ul>
 <h2 id="1670-2026-08-08">16.7.0 (2026-08-08)</h2>
 <ul>
 <li>When reading MPP files, improve handling of timephased data items with durations of less than one hour.</li>
