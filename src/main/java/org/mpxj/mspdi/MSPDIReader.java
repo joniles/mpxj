@@ -408,19 +408,47 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
     * @param baseCalendars list of calendars and base calendar IDs
     * @param map map of calendar ID values and calendar objects
     */
-   private static void updateBaseCalendarNames(List<Pair<ProjectCalendar, BigInteger>> baseCalendars, HashMap<BigInteger, ProjectCalendar> map)
+   private void updateBaseCalendarNames(List<Pair<ProjectCalendar, BigInteger>> baseCalendars, HashMap<BigInteger, ProjectCalendar> map)
    {
       for (Pair<ProjectCalendar, BigInteger> pair : baseCalendars)
       {
          ProjectCalendar cal = pair.getFirst();
          BigInteger baseCalendarID = pair.getSecond();
          ProjectCalendar baseCal = map.get(baseCalendarID);
-         if (baseCal != null)
+         if (baseCal != null && childIsNotParent(cal, baseCal))
          {
             cal.setParent(baseCal);
          }
       }
+   }
 
+   /**
+    * Ensure that we're not creating a cycle by creating a parent-child relationship.
+    *
+    * @param child child calendar
+    * @param parent potential parent calendar
+    * @return true if there is no cycle created
+    */
+   private boolean childIsNotParent(ProjectCalendar child, ProjectCalendar parent)
+   {
+      int calendarCount = m_projectFile.getCalendars().size();
+      while (parent != null)
+      {
+         parent = parent.getParent();
+         if (child == parent)
+         {
+            // The child is directly or indirectly a parent of parent
+            return false;
+         }
+
+         if (--calendarCount == 0)
+         {
+            // Avoid looping forever if there is some cycle we haven't detected
+            return false;
+         }
+      }
+
+      return true;
    }
 
    /**
