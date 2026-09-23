@@ -45,6 +45,19 @@ public final class NumberHelper
    }
 
    /**
+    * This method retrieves an int value from a BigINteger instance. It
+    * returns zero by default if a null value is supplied.
+    * Will raise an exception in the case of an overflow.
+    *
+    * @param value Number instance
+    * @return int value
+    */
+   public static final int getInt(BigInteger value)
+   {
+      return (value == null ? 0 : value.intValueExact());
+   }
+
+   /**
     * This method retrieves an int value from a String instance.
     * It returns zero by default if a null value or an empty string is supplied.
     *
