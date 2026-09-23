@@ -5,6 +5,19 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
+## 16.8.0 (2026-09-23)
+* Improve handling of the `Generic` flag on resources read from certain MPP files.
+* Improve assignment of the Longest Path flag when using `PrimaveraScheduler`.
+* Improve handling of timephased data representing completed work with irregular hours when reading certain MPP files.
+* Improve handling of resource assignment custom field values when reading certain MPP files.
+* Ensure consistent behaviour when reading and writing schedule files under differing default locales.
+* When reading an XER file, ensure that the project properties Last Scheduled Date and Activity Default Price Per Unit are read correctly.
+* Avoid an exception when reading certain BK3 files with recurring calendar exceptions.
+* Improve organisation of Cost Rate Table entries when reading P6 schedules where resources are assigned to shifts.
+* Fix an `IndexOutOfBoundsException` in some circumstances when retrieving timephased cost data.
+* Ensure that out of range integer values read from MSPDI files cause an `ArithmeticException` to be thrown rather than overflowing silently. (Based on a contribution by Varmend)
+* Updated to jsoup 1.23.1.
+
 ## 16.7.0 (2026-08-08)
 * When reading MPP files, improve handling of timephased data items with durations of less than one hour.
 * Read the `Task` attribute Longest Path from Asta PP files.
