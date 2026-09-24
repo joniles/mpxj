@@ -338,6 +338,41 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
       properties.setUpdatingTaskStatusUpdatesResourceStatus(BooleanHelper.getBoolean(project.isTaskUpdatesResource()));
       properties.setWeekStartDay(DatatypeConverter.parseDay(project.getWeekStartDay()));
       updateScheduleSource(properties);
+      validateProperties(properties);
+   }
+
+   /**
+    * Validate the project properties.
+    *
+    * @param properties project properties
+    */
+   private void validateProperties(ProjectProperties properties)
+   {
+      int minutesPerDay = NumberHelper.getInt(properties.getMinutesPerDay());
+      if (minutesPerDay < 0 || minutesPerDay > 1440)
+      {
+         IllegalArgumentException ex = new IllegalArgumentException(properties.getMinutesPerDay() + " Minutes Per Day is outside the range 0..1440");
+         if (!m_ignoreErrors)
+         {
+            throw ex;
+         }
+
+         m_projectFile.addIgnoredError(ex);
+         properties.setMinutesPerDay(Integer.valueOf(Math.max(0, Math.min(minutesPerDay, 1440))));
+      }
+
+      int daysPerMonth = NumberHelper.getInt(properties.getDaysPerMonth());
+      if (daysPerMonth < 0 || daysPerMonth > 31)
+      {
+         IllegalArgumentException ex = new IllegalArgumentException(properties.getDaysPerMonth() + " Days Per Month is outside the range 0..31");
+         if (!m_ignoreErrors)
+         {
+            throw ex;
+         }
+
+         m_projectFile.addIgnoredError(ex);
+         properties.setDaysPerMonth(Integer.valueOf(Math.max(0, Math.min(daysPerMonth, 31))));
+      }
    }
 
    /**
