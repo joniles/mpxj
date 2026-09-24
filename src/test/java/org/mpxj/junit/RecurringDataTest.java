@@ -32,6 +32,7 @@ import org.mpxj.RecurrenceType;
 import org.mpxj.RecurringData;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * Test recurring data functionality.
@@ -191,6 +192,28 @@ public class RecurringDataTest
       data.setMonthNumber(Integer.valueOf(6));
       data.setOccurrences(Integer.valueOf(3));
       testDates(data, "15/06/2018", "15/06/2019", "15/06/2020");
+   }
+
+   /**
+    * Ensure a weekly recurrence with no selected days is invalid.
+    */
+   @Test public void testWeeklyWithNoSelectedDays()
+   {
+      RecurringData data = createWeeklyRecurrenceWithNoSelectedDays();
+      assertFalse(data.isValid());
+
+      data = createWeeklyRecurrenceWithNoSelectedDays();
+      assertEquals(0, data.getDates().length);
+   }
+
+   private RecurringData createWeeklyRecurrenceWithNoSelectedDays()
+   {
+      RecurringData data = new RecurringData();
+      data.setRecurrenceType(RecurrenceType.WEEKLY);
+      data.setStartDate(LocalDate.of(2026, 1, 1));
+      data.setFrequency(Integer.valueOf(1));
+      data.setOccurrences(Integer.valueOf(2));
+      return data;
    }
 
    /**

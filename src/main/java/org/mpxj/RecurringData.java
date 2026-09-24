@@ -488,6 +488,11 @@ public class RecurringData
          currentDay = DayOfWeek.SUNDAY;
       }
 
+      if (m_days.isEmpty())
+      {
+         return;
+      }
+
       while (moreDates(date, dates))
       {
          int offset = 0;
