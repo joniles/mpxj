@@ -5,6 +5,13 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
+## 16.9.0 (2026-09-24)
+* Ensure invalid data in an MSPDI file cannot result in a cycle being created between parent and child calendars.
+* Improve handling of invalid data when reading project properties from MSPDI files.
+* Improve handling of timephased data representing completed work with irregular hours when reading certain MPP files.
+* Ensure that a weekly recurrence with no selected days does not cause an endless loop. (Contributed by Varmend)
+* Updated to Jackson 2.22.3.
+
 ## 16.8.0 (2026-09-23)
 * Improve handling of the `Generic` flag on resources read from certain MPP files.
 * Improve assignment of the Longest Path flag when using `PrimaveraScheduler`.
