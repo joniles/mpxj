@@ -2216,6 +2216,7 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RAW_TIMEPHASED_BASELINE8_BUDGET_COST.getValue()] = "Raw Timephased Baseline8 Budget Cost";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RAW_TIMEPHASED_BASELINE9_BUDGET_COST.getValue()] = "Raw Timephased Baseline9 Budget Cost";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RAW_TIMEPHASED_BASELINE10_BUDGET_COST.getValue()] = "Raw Timephased Baseline10 Budget Cost";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ASSIGNMENT_REMAINING_DELAY.getValue()] = "Assignment Remaining Delay";
 
       CONSTRAINT_COLUMNS_ARRAY[ConstraintField.UNIQUE_ID.getValue()] = "Unique ID";
       CONSTRAINT_COLUMNS_ARRAY[ConstraintField.TASK1.getValue()] = "Task 1";

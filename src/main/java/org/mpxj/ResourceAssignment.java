@@ -417,9 +417,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    }
 
    /**
-    * Returns the delay for this resource assignment.
+    * Returns the delay (lag) for this resource assignment.
     *
-    * @return delay
+    * @return delay (lag)
     */
    public Duration getDelay()
    {
@@ -427,13 +427,33 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    }
 
    /**
-    * Sets the delay for this resource assignment.
+    * Sets the delay (lag) for this resource assignment.
     *
-    * @param dur delay
+    * @param value delay
     */
-   public void setDelay(Duration dur)
+   public void setDelay(Duration value)
    {
-      set(AssignmentField.ASSIGNMENT_DELAY, dur);
+      set(AssignmentField.ASSIGNMENT_DELAY, value);
+   }
+
+   /**
+    * Returns the remaining delay (remaining lag) for this resource assignment.
+    *
+    * @return remaining delay (remaining lag)
+    */
+   public Duration getRemainingDelay()
+   {
+      return (Duration) get(AssignmentField.ASSIGNMENT_REMAINING_DELAY);
+   }
+
+   /**
+    * Sets the remaining delay (remaining lag) for this resource assignment.
+    *
+    * @param value remaining delay (remaining lag)
+    */
+   public void setRemainingDelay(Duration value)
+   {
+      set(AssignmentField.ASSIGNMENT_REMAINING_DELAY, value);
    }
 
    /**

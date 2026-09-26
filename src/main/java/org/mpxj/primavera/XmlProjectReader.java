@@ -807,6 +807,8 @@ class XmlProjectReader
             assignment.setCostAccount(m_projectFile.getCostAccounts().getByUniqueID(row.getCostAccountObjectId()));
             assignment.setRemainingEarlyStart(row.getRemainingStartDate());
             assignment.setRemainingEarlyFinish(row.getRemainingFinishDate());
+            assignment.setDelay(getDuration(row.getPlannedLag()));
+            assignment.setRemainingDelay(getDuration(row.getRemainingLag()));
 
             populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.REMAINING_EARLY_START, AssignmentField.PLANNED_START);
             populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.REMAINING_EARLY_FINISH, AssignmentField.PLANNED_FINISH);

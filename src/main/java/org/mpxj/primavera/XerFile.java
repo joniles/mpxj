@@ -732,6 +732,7 @@ class XerFile
       FIELD_TYPE_MAP.put("proj_catg_short_len", DataType.INTEGER);
       FIELD_TYPE_MAP.put("proj_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("reend_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("relag_drtn_hr_cnt", DataType.DURATION);
       FIELD_TYPE_MAP.put("rem_late_start_date", DataType.DATE);
       FIELD_TYPE_MAP.put("rem_late_end_date", DataType.DATE);
       FIELD_TYPE_MAP.put("remain_cost", DataType.NUMERIC);

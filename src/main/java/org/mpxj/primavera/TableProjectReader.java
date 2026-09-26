@@ -1083,6 +1083,7 @@ abstract class TableProjectReader
       map.put(AssignmentField.PLANNED_START, "target_start_date");
       map.put(AssignmentField.PLANNED_FINISH, "target_end_date");
       map.put(AssignmentField.ASSIGNMENT_DELAY, "target_lag_drtn_hr_cnt");
+      map.put(AssignmentField.ASSIGNMENT_REMAINING_DELAY, "relag_drtn_hr_cnt");
       map.put(AssignmentField.CALCULATE_COSTS_FROM_UNITS, "cost_qty_link_flag");
       map.put(AssignmentField.COST_ACCOUNT_UNIQUE_ID, "acct_id");
       map.put(AssignmentField.REMAINING_EARLY_START, "restart_date");

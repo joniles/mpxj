@@ -623,7 +623,6 @@ final class XmlProjectWriter extends XmlWriter
       xml.setPlannedStartDate(plannedStart);
       xml.setProjectObjectId(m_projectFile.getProjectProperties().getUniqueID());
       xml.setRemainingCost(getCurrency(mpxj.getRemainingCost()));
-
       xml.setStartDate(mpxj.getStart());
       xml.setWBSObjectId(task.getParentTaskUniqueID());
       xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.ASSIGNMENT, false, mpxj));
@@ -634,6 +633,8 @@ final class XmlProjectWriter extends XmlWriter
       xml.setRemainingStartDate(mpxj.getRemainingEarlyStart());
       xml.setRemainingFinishDate(mpxj.getRemainingEarlyFinish());
       xml.setResourceType(ResourceTypeHelper.getXmlFromInstance(mpxj.getResource().getType()));
+      xml.setPlannedLag(getDurationInHours(mpxj.getDelay()));
+      xml.setRemainingLag(getDurationInHours(mpxj.getRemainingDelay()));
 
       PmxmlUnitsHelper unitsHelper = new PmxmlUnitsHelper(mpxj);
       xml.setPlannedUnits(unitsHelper.getPlannedUnits());

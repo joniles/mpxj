@@ -1075,8 +1075,9 @@ Actual Regular Work|✓| | | | | | |✓| |✓|✓|✓| | |✓|✓|✓|�
 Actual Start| | | | | | | |✓|✓|✓| |✓| | | |✓|✓|✓| | | | | | | 
 Actual Work|✓| | | | | | |✓|✓|✓|✓|✓| | |✓|✓|✓|✓| | | | | | | 
 Actual Work Protected| | | | | | | | | |✓| | | | | | | | | | | | | | | 
-Assignment Delay|✓| | | | | | | |✓|✓|✓|✓| | | | |✓|✓| | | | | | | 
+Assignment Delay|✓| | | | | | | |✓|✓|✓|✓| | | |✓|✓|✓| | | | | | | 
 Assignment GUID| | | | | | | |✓| |✓| |✓| | | |✓|✓|✓| | | | | | | 
+Assignment Remaining Delay| | | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Assignment Resource GUID| | | | | | | | | |✓| | | | | | | | | | | | | | | 
 Assignment Task GUID| | | | | | | | | |✓| | | | | | | | | | | | | | | 
 Assignment Units|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓| | |✓|✓|✓
