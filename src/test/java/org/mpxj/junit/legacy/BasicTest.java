@@ -920,6 +920,56 @@ public class BasicTest
    }
 
    /**
+    * Ensure that a derived resource calendar remains associated with its resource
+    * when its unique ID is remapped for MSPDI output.
+    */
+   @Test public void testRemappedResourceCalendar() throws Exception
+   {
+      ProjectFile file = new ProjectFile();
+
+      ProjectCalendar base = file.addCalendar();
+      base.setUniqueID(Integer.valueOf(1));
+      base.setName("B");
+
+      Resource resource = file.addResource();
+      resource.setUniqueID(Integer.valueOf(1));
+      resource.setName("R");
+
+      ProjectCalendar derived = resource.addCalendar();
+      derived.setUniqueID(Integer.valueOf(2097151));
+      derived.setName("D");
+      resource.setCalendar(derived);
+      derived.setParent(base);
+
+      File out = Files.createTempFile("junit", ".xml").toFile();
+      new MSPDIWriter().write(file, out);
+
+      ProjectFile result = new MSPDIReader().read(out);
+
+      assertEquals(2, result.getCalendars().size());
+
+      ProjectCalendar resultBase = result.getCalendars().getByName("B");
+      ProjectCalendar resultDerived = result.getCalendars().getByName("D");
+      Resource resultResource = result.getResources().getByUniqueID(Integer.valueOf(1));
+
+      assertNotNull(resultBase);
+      assertNotNull(resultDerived);
+      assertNotNull(resultResource);
+
+      assertEquals(Integer.valueOf(1), resultBase.getUniqueID());
+      assertEquals(Integer.valueOf(2), resultDerived.getUniqueID());
+
+      assertTrue(resultDerived.isDerived());
+      assertNotNull(resultDerived.getParent());
+      assertEquals(Integer.valueOf(1), resultDerived.getParent().getUniqueID());
+
+      assertNotNull(resultResource.getCalendar());
+      assertEquals(Integer.valueOf(2), resultResource.getCalendar().getUniqueID());
+
+      out.deleteOnExit();
+   }
+
+   /**
     * Exercise field alias code for MSPDI files.
     */
    @Test public void testMSPDIAliases() throws Exception
