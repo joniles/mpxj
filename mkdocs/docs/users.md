@@ -87,6 +87,7 @@ like to be featured in this list.
 * Resixo [www.resixo.co](https://www.resixo.co/)
 * Safran [www.safran.com](https://www.safran.com/)
 * SAP Conversion Agent by Informatica [help.sap.com](https://help.sap.com/saphelp_nwpi711/helpdata/en/43/fc39c16bfb025ee10000000a1553f7/frameset.htm)
+* ScheduleLens [schedulelens.com](https://schedulelens.com/)
 * SharedPlan [www.sharedplan.com](http://www.sharedplan.com)
 * Siemens COMOS [www.siemens.com/global/en/products/automation/industry-software/plant-engineering-software-comos.html](https://www.siemens.com/global/en/products/automation/industry-software/plant-engineering-software-comos.html)
 * SmartWorks [www.smartworks.us/](http://www.smartworks.us)
