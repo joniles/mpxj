@@ -43,7 +43,6 @@ import org.mpxj.ProjectFile;
 import org.mpxj.Relation;
 import org.mpxj.RelationType;
 import org.mpxj.ResourceAssignment;
-import org.mpxj.ResourceType;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
@@ -167,57 +166,48 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
-      if (activity.getActualStart() == null)
-      {
-         assignment.setRemainingEarlyStart(assignment.getPlannedStart() != null && assignment.getPlannedStart().isAfter(activity.getRemainingEarlyStart()) ? assignment.getPlannedStart() : activity.getRemainingEarlyStart());
-      }
-      else
-      {
-         assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
-      }
-      assignment.setRemainingLateFinish(getEquivalentPreviousWorkFinish(getEffectiveCalendar(assignment), activity.getRemainingLateFinish()));
+      LocalDateTime earlyStart = activity.getRemainingEarlyStart();
+      LocalDateTime lateFinish = activity.getRemainingLateFinish();
+      LocalDateTime earlyFinish;
+      LocalDateTime lateStart;
 
-      if (activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT || assignment.getResource().getType() == ResourceType.MATERIAL)
+
+      if (assignment.getActualFinish() == null)
       {
-         assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
-         assignment.setRemainingLateStart(activity.getRemainingLateStart());
-      }
-      else
-      {
-         // The case where a resource has zero work on a resource assignment is the
-         // one case that we seem to have problems matching P6. Sometimes P6 will
-         // set the Remaining Early Start and Remaining Early Finish to match the
-         // activity. Sometimes it will set the Remaining Early Start to match the activity
-         // and the Remaining Early Finish the same as the Remaining Early Start.
-         // Can't get to the bottom of the logic it's using...
-         if (assignment.getRemainingWork().getDuration() == 0.0)
+         Duration remainingWork = assignment.getRemainingWork();
+         if (remainingWork.getDuration() == 0.0 || activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT)
          {
-            if (assignment.getActualFinish() == null)
-            {
-               assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
-               assignment.setRemainingLateStart(activity.getRemainingLateStart());
-            }
-            else
-            {
-               assignment.setRemainingEarlyFinish(assignment.getRemainingEarlyStart());
-               assignment.setRemainingLateStart(assignment.getRemainingLateFinish());
-            }
+            earlyFinish = activity.getRemainingEarlyFinish();
+            lateStart = activity.getRemainingLateStart();
          }
          else
          {
-            double remainingUnits = getUnitsValue(assignment.getRemainingUnits());
-            if (remainingUnits == 0.0)
+            ProjectCalendar governingCalendar = getEffectiveCalendar(assignment);
+
+            if (assignment.getActualStart() == null)
             {
-               assignment.setRemainingEarlyFinish(assignment.getRemainingEarlyStart());
-               assignment.setRemainingLateStart(assignment.getRemainingLateFinish());
+               Duration lag = assignment.getDelay();
+               Duration remainingLag = assignment.getRemainingDelay();
+               if (lag != null && lag.getDuration() != 0 && remainingLag != null && remainingLag.getDuration() != 0)
+               {
+                  earlyStart = governingCalendar.getNextWorkStart(governingCalendar.getDate(earlyStart, remainingLag));
+               }
             }
-            else
-            {
-               assignment.setRemainingEarlyFinish(getEquivalentPreviousWorkFinish(getEffectiveCalendar(assignment), getDateFromWork(getEffectiveCalendar(assignment), assignment.getRemainingUnits(), assignment.getRemainingEarlyStart(), assignment.getRemainingWork())));
-               assignment.setRemainingLateStart(getEquivalentNextWorkStart(getEffectiveCalendar(assignment), getDateFromWork(getEffectiveCalendar(assignment), assignment.getRemainingUnits(), assignment.getRemainingLateFinish(), assignment.getRemainingWork().negate())));
-            }
+
+            earlyFinish = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), earlyStart, remainingWork);
+            lateStart = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), lateFinish, remainingWork.negate());
          }
       }
+      else
+      {
+         earlyFinish = earlyStart;
+         lateStart = lateFinish;
+      }
+
+      assignment.setRemainingEarlyStart(earlyStart);
+      assignment.setRemainingEarlyFinish(earlyFinish);
+      assignment.setRemainingLateStart(lateStart);
+      assignment.setRemainingLateFinish(lateFinish);
 
       if (activity.getActualStart() == null && (assignment.getPlannedStart() == null || assignment.getRemainingEarlyStart().isAfter(assignment.getPlannedStart())))
       {
