@@ -43,6 +43,7 @@ import org.mpxj.ProjectFile;
 import org.mpxj.Relation;
 import org.mpxj.RelationType;
 import org.mpxj.ResourceAssignment;
+import org.mpxj.ResourceType;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
@@ -170,20 +171,16 @@ public class PrimaveraScheduler implements Scheduler
       LocalDateTime lateFinish = activity.getRemainingLateFinish();
       LocalDateTime earlyFinish;
       LocalDateTime lateStart;
-
-
+      
       if (assignment.getActualFinish() == null)
       {
-         Duration remainingWork = assignment.getRemainingWork();
-         if (remainingWork.getDuration() == 0.0 || activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT)
-         {
-            earlyFinish = activity.getRemainingEarlyFinish();
-            lateStart = activity.getRemainingLateStart();
-         }
-         else
-         {
-            ProjectCalendar governingCalendar = getEffectiveCalendar(assignment);
+         ProjectCalendar governingCalendar = getEffectiveCalendar(assignment);
+         Duration atCompletionWork = assignment.getWork();
+         Duration plannedWork = governingCalendar.getWork(assignment.getPlannedStart(), assignment.getPlannedFinish(), TimeUnit.HOURS);
 
+         if (assignment.getResource().getType() != ResourceType.NON_LABOR && assignment.getActualStart() == null && atCompletionWork.getDuration() == 0.0 && plannedWork.getDuration() != 0.0)
+         {
+            // No computable duration - fall back on planned duration
             if (assignment.getActualStart() == null)
             {
                Duration lag = assignment.getDelay();
@@ -194,8 +191,33 @@ public class PrimaveraScheduler implements Scheduler
                }
             }
 
-            earlyFinish = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), earlyStart, remainingWork);
-            lateStart = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), lateFinish, remainingWork.negate());
+            earlyFinish = governingCalendar.getDate(earlyStart, plannedWork);
+            lateStart = governingCalendar.getDate(lateFinish, plannedWork.negate());
+         }
+         else
+         {
+            Duration remainingWork = assignment.getRemainingWork();
+            if (remainingWork.getDuration() == 0.0 || activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT)
+            {
+               earlyFinish = activity.getRemainingEarlyFinish();
+               lateStart = activity.getRemainingLateStart();
+            }
+            else
+            {
+
+               if (assignment.getActualStart() == null)
+               {
+                  Duration lag = assignment.getDelay();
+                  Duration remainingLag = assignment.getRemainingDelay();
+                  if (lag != null && lag.getDuration() != 0 && remainingLag != null && remainingLag.getDuration() != 0)
+                  {
+                     earlyStart = governingCalendar.getNextWorkStart(governingCalendar.getDate(earlyStart, remainingLag));
+                  }
+               }
+
+               earlyFinish = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), earlyStart, remainingWork);
+               lateStart = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), lateFinish, remainingWork.negate());
+            }
          }
       }
       else
