@@ -252,25 +252,36 @@ public class PrimaveraScheduler implements Scheduler
       LocalDateTime lateStart;
 
 
-      Duration remainingWork = assignment.getRemainingWork();
-      if (remainingWork.getDuration() == 0.0 || activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT)
+      if (assignment.getActualFinish() == null)
       {
-         earlyFinish = activity.getRemainingEarlyFinish();
-         lateStart = activity.getRemainingLateStart();
+         Duration remainingWork = assignment.getRemainingWork();
+         if (remainingWork.getDuration() == 0.0 || activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT)
+         {
+            earlyFinish = activity.getRemainingEarlyFinish();
+            lateStart = activity.getRemainingLateStart();
+         }
+         else
+         {
+            ProjectCalendar governingCalendar = getEffectiveCalendar(assignment);
+
+            if (assignment.getActualStart() == null)
+            {
+               Duration lag = assignment.getDelay();
+               Duration remainingLag = assignment.getRemainingDelay();
+               if (lag != null && lag.getDuration() != 0 && remainingLag != null && remainingLag.getDuration() != 0)
+               {
+                  earlyStart = governingCalendar.getNextWorkStart(governingCalendar.getDate(earlyStart, remainingLag));
+               }
+            }
+            
+            earlyFinish = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), earlyStart, remainingWork);
+            lateStart = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), lateFinish, remainingWork.negate());
+         }
       }
       else
       {
-         ProjectCalendar governingCalendar = getEffectiveCalendar(assignment);
-
-         Duration lag = assignment.getDelay();
-         Duration remainingLag = assignment.getRemainingDelay();
-         if (lag != null && lag.getDuration() != 0 && remainingLag != null && remainingLag.getDuration() != 0)
-         {
-            earlyStart = governingCalendar.getNextWorkStart(governingCalendar.getDate(earlyStart, remainingLag));
-         }
-
-         earlyFinish = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), earlyStart, remainingWork);
-         lateStart = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), lateFinish, remainingWork.negate());
+         earlyFinish = earlyStart;
+         lateStart = lateFinish;
       }
 
       assignment.setRemainingEarlyStart(earlyStart);
