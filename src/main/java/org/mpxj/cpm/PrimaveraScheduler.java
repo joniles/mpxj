@@ -43,7 +43,6 @@ import org.mpxj.ProjectFile;
 import org.mpxj.Relation;
 import org.mpxj.RelationType;
 import org.mpxj.ResourceAssignment;
-import org.mpxj.ResourceType;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
