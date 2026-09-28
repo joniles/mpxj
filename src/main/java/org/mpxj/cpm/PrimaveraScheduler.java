@@ -157,6 +157,11 @@ public class PrimaveraScheduler implements Scheduler
     */
    private void updateDates(ResourceAssignment assignment)
    {
+      newUpdateDates(assignment);
+   }
+
+   private void oldUpdateDates(ResourceAssignment assignment)
+   {
       Task activity = assignment.getTask();
       if (activity.getActualFinish() != null)
       {
@@ -218,6 +223,52 @@ public class PrimaveraScheduler implements Scheduler
             }
          }
       }
+
+      if (activity.getActualStart() == null && (assignment.getPlannedStart() == null || assignment.getRemainingEarlyStart().isAfter(assignment.getPlannedStart())))
+      {
+         assignment.setPlannedStart(assignment.getRemainingEarlyStart());
+         assignment.setPlannedFinish(assignment.getRemainingEarlyFinish());
+      }
+
+      assignment.setStart(assignment.getActualStart() == null ? assignment.getRemainingEarlyStart() : assignment.getActualStart());
+      assignment.setFinish(assignment.getActualFinish() == null ? assignment.getRemainingEarlyFinish() : assignment.getActualFinish());
+   }
+
+   private void newUpdateDates(ResourceAssignment assignment)
+   {
+      Task activity = assignment.getTask();
+      if (activity.getActualFinish() != null)
+      {
+         assignment.setRemainingEarlyStart(null);
+         assignment.setRemainingEarlyFinish(null);
+         assignment.setRemainingLateStart(null);
+         assignment.setRemainingLateFinish(null);
+         return;
+      }
+
+      LocalDateTime earlyStart = activity.getRemainingEarlyStart();
+      LocalDateTime lateFinish = activity.getRemainingLateFinish();
+      LocalDateTime earlyFinish;
+      LocalDateTime lateStart;
+
+
+      Duration remainingWork = assignment.getRemainingWork();
+      if (remainingWork.getDuration() == 0.0)
+      {
+         earlyFinish = activity.getRemainingEarlyFinish();
+         lateStart = activity.getRemainingLateStart();
+      }
+      else
+      {
+         ProjectCalendar governingCalendar = getEffectiveCalendar(assignment);
+         earlyFinish = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), earlyStart, remainingWork);
+         lateStart = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), lateFinish, remainingWork.negate());
+      }
+
+      assignment.setRemainingEarlyStart(earlyStart);
+      assignment.setRemainingEarlyFinish(earlyFinish);
+      assignment.setRemainingLateStart(lateStart);
+      assignment.setRemainingLateFinish(lateFinish);
 
       if (activity.getActualStart() == null && (assignment.getPlannedStart() == null || assignment.getRemainingEarlyStart().isAfter(assignment.getPlannedStart())))
       {
