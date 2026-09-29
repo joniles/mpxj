@@ -975,7 +975,7 @@ Overtime Work| |✓|✓|✓
 Owner| | |✓|✓
 Percent Work Complete|✓|✓|✓|✓
 Rate Source|✓|✓|✓|✓
-Raw Timephased Actual Cost| | | |✓
+Raw Timephased Actual Cost| |✓| |✓
 Raw Timephased Actual Overtime Work| |✓|✓|✓
 Raw Timephased Actual Regular Work| |✓|✓|✓
 Raw Timephased Budget Cost| | |✓|✓

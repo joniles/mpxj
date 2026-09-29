@@ -1116,7 +1116,7 @@ Planned Start| | | | | | | | | | | | | | | |✓|✓|✓| | | |
 Planned Work| | | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Rate Index| | | | | | | | | | | | | | | |✓| |✓| | | | | | | 
 Rate Source|✓|✓|✓|✓|✓| |✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓| | |✓|✓|✓
-Raw Timephased Actual Cost| | | | | | | | | |✓| | | | | | | | | | | | | | | 
+Raw Timephased Actual Cost| | | | | | | | | |✓| |✓| | | | | | | | | | | | | 
 Raw Timephased Actual Overtime Work| | | | | | | | | |✓| | | | | | | | | | | | | | | 
 Raw Timephased Actual Regular Work| | | | | | | | | |✓| |✓| | | |✓|✓|✓| | | | | | | 
 Raw Timephased Budget Cost| | | | | | | | | |✓| | | | | | | | | | | | | | | 
