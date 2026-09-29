@@ -2026,102 +2026,111 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
    {
       BigInteger taskUID = assignment.getTaskUID();
       BigInteger resourceUID = assignment.getResourceUID();
-      if (taskUID != null && resourceUID != null)
+      if (taskUID == null || resourceUID == null)
       {
-         Task task = m_projectFile.getTaskByUniqueID(Integer.valueOf(taskUID.intValue()));
-         if (task != null)
+         return;
+      }
+
+      Task task = m_projectFile.getTaskByUniqueID(Integer.valueOf(taskUID.intValue()));
+      if (task == null)
+      {
+         return;
+      }
+
+      ResourceAssignment mpx = task.addResourceAssignment(m_projectFile.getResourceByUniqueID(Integer.valueOf(resourceUID.intValue())));
+      ProjectCalendar calendar = mpx.getEffectiveCalendar();
+
+      List<TimephasedWork> timephasedComplete = readTimephasedWork(calendar, assignment, 2);
+      List<TimephasedWork> timephasedPlanned = readTimephasedWork(calendar, assignment, 1);
+
+      mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));
+      mpx.setActualFinish(assignment.getActualFinish());
+      mpx.setActualOvertimeCost(DatatypeConverter.parseCurrency(assignment.getActualOvertimeCost()));
+      mpx.setActualOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getActualOvertimeWork()));
+      //assignment.getActualOvertimeWorkProtected()
+      mpx.setActualStart(assignment.getActualStart());
+      //assignment.getActualWorkProtected()
+      mpx.setACWP(DatatypeConverter.parseCurrency(assignment.getACWP()));
+      mpx.setBCWP(DatatypeConverter.parseCurrency(assignment.getBCWP()));
+      mpx.setBCWS(DatatypeConverter.parseCurrency(assignment.getBCWS()));
+      //assignment.getBookingType()
+      mpx.setBudgetCost(DatatypeConverter.parseCurrency(assignment.getBudgetCost()));
+      mpx.setBudgetWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getBudgetWork()));
+      mpx.setCost(DatatypeConverter.parseCurrency(assignment.getCost()));
+      mpx.setCostRateTableIndex(NumberHelper.getInt(assignment.getCostRateTable()));
+      mpx.setCreateDate(assignment.getCreationDate());
+      mpx.setCV(DatatypeConverter.parseCurrency(assignment.getCV()));
+      mpx.setDelay(DatatypeConverter.parseDurationInTenthsOfMinutes(assignment.getDelay()));
+      mpx.setFinish(assignment.getFinish());
+      mpx.setVariableRateUnits(BooleanHelper.getBoolean(assignment.isHasFixedRateUnits()) ? null : DatatypeConverter.parseTimeUnit(assignment.getRateScale()));
+      mpx.setGUID(assignment.getGUID());
+      mpx.setHyperlink(assignment.getHyperlink());
+      mpx.setHyperlinkAddress(assignment.getHyperlinkAddress());
+      mpx.setHyperlinkSubAddress(assignment.getHyperlinkSubAddress());
+      mpx.setLevelingDelay(DatatypeConverter.parseDurationInTenthsOfMinutes(m_projectFile.getProjectProperties(), assignment.getLevelingDelay(), DatatypeConverter.parseDurationTimeUnits(assignment.getLevelingDelayFormat())));
+      mpx.setNotes(assignment.getNotes());
+      mpx.setOvertimeCost(DatatypeConverter.parseCurrency(assignment.getOvertimeCost()));
+      mpx.setOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getOvertimeWork()));
+      //mpx.setPlannedCost();
+      //mpx.setPlannedWork();
+      mpx.setRegularWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRegularWork()));
+      mpx.setRemainingCost(DatatypeConverter.parseCurrency(assignment.getRemainingCost()));
+      mpx.setRemainingOvertimeCost(DatatypeConverter.parseCurrency(assignment.getRemainingOvertimeCost()));
+      mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRemainingOvertimeWork()));
+      mpx.setResume(assignment.getResume());
+      mpx.setStart(assignment.getStart());
+      mpx.setStop(assignment.getStop());
+      mpx.setSV(DatatypeConverter.parseCurrency(assignment.getSV()));
+      mpx.setUniqueID(NumberHelper.getInteger(assignment.getUID()));
+      mpx.setUnits(DatatypeConverter.parseUnits(assignment.getUnits()));
+      mpx.setVAC(DatatypeConverter.parseCurrency(assignment.getVAC()));
+      mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getWork()));
+      mpx.setWorkContour(assignment.getWorkContour());
+
+      mpx.getRawTimephasedActualRegularWork().addAll(timephasedComplete);
+      mpx.getRawTimephasedRemainingRegularWork().addAll(timephasedPlanned);
+
+      readAssignmentExtendedAttributes(assignment, mpx);
+
+      readAssignmentBaselines(assignment, mpx);
+
+      // Read last to ensure caching works as expected
+      mpx.setActualWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getActualWork()));
+      mpx.setRemainingWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRemainingWork()));
+      mpx.setPercentageWorkComplete(assignment.getPercentWorkComplete());
+
+      mpx.setCostVariance(DatatypeConverter.parseCurrency(assignment.getCostVariance()));
+      mpx.setWorkVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(m_projectFile.getProjectProperties(), assignment.getWorkVariance(), TimeUnit.HOURS));
+      mpx.setStartVariance(DatatypeConverter.parseDurationInTenthsOfMinutes(m_projectFile.getProjectProperties(), assignment.getStartVariance(), TimeUnit.DAYS));
+      mpx.setFinishVariance(DatatypeConverter.parseDurationInTenthsOfMinutes(m_projectFile.getProjectProperties(), assignment.getFinishVariance(), TimeUnit.DAYS));
+
+      // Process baseline timephased work
+      ProjectCalendar baselineCalendar = m_projectFile.getBaselineCalendar();
+      for (Map.Entry<Integer, TimephasedWorkAssignmentFunction> entry : TIMEPHASED_BASELINE_WORK_MAP.entrySet())
+      {
+         List<TimephasedWork> timephasedData = readTimephasedWork(baselineCalendar, assignment, entry.getKey().intValue());
+         if (!timephasedData.isEmpty())
          {
-            ResourceAssignment mpx = task.addResourceAssignment(m_projectFile.getResourceByUniqueID(Integer.valueOf(resourceUID.intValue())));
-            ProjectCalendar calendar = mpx.getEffectiveCalendar();
-
-            List<TimephasedWork> timephasedComplete = readTimephasedWork(calendar, assignment, 2);
-            List<TimephasedWork> timephasedPlanned = readTimephasedWork(calendar, assignment, 1);
-
-            mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));
-            mpx.setActualFinish(assignment.getActualFinish());
-            mpx.setActualOvertimeCost(DatatypeConverter.parseCurrency(assignment.getActualOvertimeCost()));
-            mpx.setActualOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getActualOvertimeWork()));
-            //assignment.getActualOvertimeWorkProtected()
-            mpx.setActualStart(assignment.getActualStart());
-            //assignment.getActualWorkProtected()
-            mpx.setACWP(DatatypeConverter.parseCurrency(assignment.getACWP()));
-            mpx.setBCWP(DatatypeConverter.parseCurrency(assignment.getBCWP()));
-            mpx.setBCWS(DatatypeConverter.parseCurrency(assignment.getBCWS()));
-            //assignment.getBookingType()
-            mpx.setBudgetCost(DatatypeConverter.parseCurrency(assignment.getBudgetCost()));
-            mpx.setBudgetWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getBudgetWork()));
-            mpx.setCost(DatatypeConverter.parseCurrency(assignment.getCost()));
-            mpx.setCostRateTableIndex(NumberHelper.getInt(assignment.getCostRateTable()));
-            mpx.setCreateDate(assignment.getCreationDate());
-            mpx.setCV(DatatypeConverter.parseCurrency(assignment.getCV()));
-            mpx.setDelay(DatatypeConverter.parseDurationInTenthsOfMinutes(assignment.getDelay()));
-            mpx.setFinish(assignment.getFinish());
-            mpx.setVariableRateUnits(BooleanHelper.getBoolean(assignment.isHasFixedRateUnits()) ? null : DatatypeConverter.parseTimeUnit(assignment.getRateScale()));
-            mpx.setGUID(assignment.getGUID());
-            mpx.setHyperlink(assignment.getHyperlink());
-            mpx.setHyperlinkAddress(assignment.getHyperlinkAddress());
-            mpx.setHyperlinkSubAddress(assignment.getHyperlinkSubAddress());
-            mpx.setLevelingDelay(DatatypeConverter.parseDurationInTenthsOfMinutes(m_projectFile.getProjectProperties(), assignment.getLevelingDelay(), DatatypeConverter.parseDurationTimeUnits(assignment.getLevelingDelayFormat())));
-            mpx.setNotes(assignment.getNotes());
-            mpx.setOvertimeCost(DatatypeConverter.parseCurrency(assignment.getOvertimeCost()));
-            mpx.setOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getOvertimeWork()));
-            //mpx.setPlannedCost();
-            //mpx.setPlannedWork();
-            mpx.setRegularWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRegularWork()));
-            mpx.setRemainingCost(DatatypeConverter.parseCurrency(assignment.getRemainingCost()));
-            mpx.setRemainingOvertimeCost(DatatypeConverter.parseCurrency(assignment.getRemainingOvertimeCost()));
-            mpx.setRemainingOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRemainingOvertimeWork()));
-            mpx.setResume(assignment.getResume());
-            mpx.setStart(assignment.getStart());
-            mpx.setStop(assignment.getStop());
-            mpx.setSV(DatatypeConverter.parseCurrency(assignment.getSV()));
-            mpx.setUniqueID(NumberHelper.getInteger(assignment.getUID()));
-            mpx.setUnits(DatatypeConverter.parseUnits(assignment.getUnits()));
-            mpx.setVAC(DatatypeConverter.parseCurrency(assignment.getVAC()));
-            mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getWork()));
-            mpx.setWorkContour(assignment.getWorkContour());
-
-            mpx.getRawTimephasedActualRegularWork().addAll(timephasedComplete);
-            mpx.getRawTimephasedRemainingRegularWork().addAll(timephasedPlanned);
-
-            readAssignmentExtendedAttributes(assignment, mpx);
-
-            readAssignmentBaselines(assignment, mpx);
-
-            // Read last to ensure caching works as expected
-            mpx.setActualWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getActualWork()));
-            mpx.setRemainingWork(DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, assignment.getRemainingWork()));
-            mpx.setPercentageWorkComplete(assignment.getPercentWorkComplete());
-
-            mpx.setCostVariance(DatatypeConverter.parseCurrency(assignment.getCostVariance()));
-            mpx.setWorkVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(m_projectFile.getProjectProperties(), assignment.getWorkVariance(), TimeUnit.HOURS));
-            mpx.setStartVariance(DatatypeConverter.parseDurationInTenthsOfMinutes(m_projectFile.getProjectProperties(), assignment.getStartVariance(), TimeUnit.DAYS));
-            mpx.setFinishVariance(DatatypeConverter.parseDurationInTenthsOfMinutes(m_projectFile.getProjectProperties(), assignment.getFinishVariance(), TimeUnit.DAYS));
-
-            // Process baseline timephased work
-            ProjectCalendar baselineCalendar = m_projectFile.getBaselineCalendar();
-            for (Map.Entry<Integer, TimephasedWorkAssignmentFunction> entry : TIMEPHASED_BASELINE_WORK_MAP.entrySet())
-            {
-               List<TimephasedWork> timephasedData = readTimephasedWork(baselineCalendar, assignment, entry.getKey().intValue());
-               if (!timephasedData.isEmpty())
-               {
-                  entry.getValue().apply(mpx, timephasedData);
-               }
-            }
-
-            // Process baseline timephased cost
-            for (Map.Entry<Integer, TimephasedCostAssignmentFunction> entry : TIMEPHASED_BASELINE_COST_MAP.entrySet())
-            {
-               List<TimephasedCost> timephasedData = readTimephasedCost(assignment, entry.getKey().intValue());
-               if (!timephasedData.isEmpty())
-               {
-                  entry.getValue().apply(mpx, timephasedData);
-               }
-            }
-
-            m_eventManager.fireAssignmentReadEvent(mpx);
+            entry.getValue().apply(mpx, timephasedData);
          }
       }
+
+      // Process baseline timephased cost
+      for (Map.Entry<Integer, TimephasedCostAssignmentFunction> entry : TIMEPHASED_BASELINE_COST_MAP.entrySet())
+      {
+         List<TimephasedCost> timephasedData = readTimephasedCost(assignment, entry.getKey().intValue());
+         if (!timephasedData.isEmpty())
+         {
+            entry.getValue().apply(mpx, timephasedData);
+         }
+      }
+
+      if (m_projectFile.getProjectProperties().getEditableActualCosts())
+      {
+         mpx.getRawTimephasedActualCost().addAll(readTimephasedCost(assignment, 6));
+      }
+
+      m_eventManager.fireAssignmentReadEvent(mpx);
    }
 
    /**
