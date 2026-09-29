@@ -77,6 +77,7 @@ class ResourceAssignmentFactory
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       TimephasedDataFactory timephasedFactory = new TimephasedDataFactory();
       HyperlinkReader hyperlinkReader = new HyperlinkReader();
+      boolean editableActualCosts = file.getProjectProperties().getEditableActualCosts();
 
       //      System.out.println(assnFixedMeta);
       //      System.out.println(assnFixedData);
@@ -263,6 +264,13 @@ class ResourceAssignmentFactory
                   assignment.setWorkContour(WorkContourHelper.getInstance(file, ByteArrayHelper.getShort(timephasedWorkData, 28)));
                }
             }
+         }
+
+         if (editableActualCosts)
+         {
+            byte[] timephasedActualCostData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.RAW_TIMEPHASED_ACTUAL_COST));
+            List<TimephasedCost> actualCosts = timephasedFactory.getCost(calendar, timephasedActualCostData);
+            assignment.getRawTimephasedActualCost().addAll(actualCosts);
          }
 
          file.getEventManager().fireAssignmentReadEvent(assignment);
