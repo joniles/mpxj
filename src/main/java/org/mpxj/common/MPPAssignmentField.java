@@ -227,6 +227,7 @@ public final class MPPAssignmentField
       FIELD_ARRAY[132] = AssignmentField.LINKED_FIELDS;
       FIELD_ARRAY[135] = AssignmentField.OVERALLOCATED;
       FIELD_ARRAY[142] = AssignmentField.TASK_SUMMARY_NAME;
+      FIELD_ARRAY[144] = AssignmentField.RAW_TIMEPHASED_ACTUAL_COST;
       FIELD_ARRAY[145] = AssignmentField.LEVELING_DELAY;
       FIELD_ARRAY[146] = AssignmentField.BASELINE_START;
       FIELD_ARRAY[147] = AssignmentField.BASELINE_FINISH;
