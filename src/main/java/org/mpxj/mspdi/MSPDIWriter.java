@@ -2312,6 +2312,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          writeAssignmentTimephasedCostData(assignmentID, list, mpx.getRawTimephasedBaselineCost(index), TIMEPHASED_BASELINE_COST_TYPES[index]);
       }
+
+      if (m_projectFile.getProjectProperties().getEditableActualCosts())
+      {
+         writeAssignmentTimephasedCostData(assignmentID, list, mpx.getRawTimephasedActualCost(), 6);
+      }
    }
 
    private List<TimephasedWork> generateTimephasedPlannedWork(ResourceAssignment assignment)
