@@ -1689,6 +1689,7 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RAW_TIMEPHASED_REMAINING_REGULAR_WORK.getValue()] = "Raw Timephased Remaining Regular Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RAW_TIMEPHASED_ACTUAL_REGULAR_WORK.getValue()] = "Raw Timephased Actual Regular Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RAW_TIMEPHASED_ACTUAL_OVERTIME_WORK.getValue()] = "Raw Timephased Actual Overtime Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RAW_TIMEPHASED_ACTUAL_COST.getValue()] = "Raw Timephased Actual Cost";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RAW_TIMEPHASED_BASELINE_WORK.getValue()] = "Raw Timephased Baseline Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RAW_TIMEPHASED_BASELINE1_WORK.getValue()] = "Raw Timephased Baseline1 Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RAW_TIMEPHASED_BASELINE2_WORK.getValue()] = "Raw Timephased Baseline2 Work";

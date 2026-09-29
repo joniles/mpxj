@@ -2641,6 +2641,18 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return (List<TimephasedWork>) get(AssignmentField.RAW_TIMEPHASED_BUDGET_WORK);
    }
 
+   /**
+    * Retrieve raw timephased actual cost for this resource assignment.
+    * Note: this will only be populated if the Editable Actual Costs
+    * option has been enabled in MS Project.
+    *
+    * @return raw timephased actual cost
+    */
+   @SuppressWarnings("unchecked") public List<TimephasedCost> getRawTimephasedActualCost()
+   {
+      return (List<TimephasedCost>) get(AssignmentField.RAW_TIMEPHASED_ACTUAL_COST);
+   }
+
    @Override public List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       TimephasedDurationFunction fn = TIMEPHASED_WORK_FUNCTIONS.get(field);
@@ -3055,6 +3067,11 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<Number> getTimephasedActualCost(List<LocalDateTimeRange> ranges)
    {
+      if (m_parentFile.getProjectProperties().getEditableActualCosts())
+      {
+         return TimephasedUtility.segmentCost(getEffectiveCalendar(), getRawTimephasedActualCost(), ranges);
+      }
+
       return TimephasedUtility.addTimephasedNumbers(getTimephasedActualRegularCost(ranges), getTimephasedActualOvertimeCost(ranges));
    }
 
@@ -4445,6 +4462,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE8_BUDGET_COST, ResourceAssignment::defaultTimephasedCost);
       CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE9_BUDGET_COST, ResourceAssignment::defaultTimephasedCost);
       CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_BASELINE10_BUDGET_COST, ResourceAssignment::defaultTimephasedCost);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RAW_TIMEPHASED_ACTUAL_COST, ResourceAssignment::defaultTimephasedCost);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
