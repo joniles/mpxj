@@ -167,20 +167,52 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
+      if (assignment.getActualFinish() != null)
+      {
+         assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
+         assignment.setRemainingEarlyFinish(activity.getRemainingEarlyStart());
+         assignment.setRemainingLateStart(activity.getRemainingLateFinish());
+         assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
+         assignment.setStart(assignment.getActualStart());
+         assignment.setFinish(assignment.getActualFinish());
+         return;
+      }
+
       LocalDateTime earlyStart = activity.getRemainingEarlyStart();
       LocalDateTime lateFinish = activity.getRemainingLateFinish();
       LocalDateTime earlyFinish;
       LocalDateTime lateStart;
-      
-      if (assignment.getActualFinish() == null)
-      {
-         ProjectCalendar governingCalendar = getEffectiveCalendar(assignment);
-         Duration atCompletionWork = assignment.getWork();
-         Duration plannedWork = governingCalendar.getWork(assignment.getPlannedStart(), assignment.getPlannedFinish(), TimeUnit.HOURS);
 
-         if (assignment.getResource().getType() != ResourceType.NON_LABOR && assignment.getActualStart() == null && atCompletionWork.getDuration() == 0.0 && plannedWork.getDuration() != 0.0)
+      ProjectCalendar governingCalendar = getEffectiveCalendar(assignment);
+      Duration atCompletionWork = assignment.getWork();
+      Duration plannedWork = governingCalendar.getWork(assignment.getPlannedStart(), assignment.getPlannedFinish(), TimeUnit.HOURS);
+
+      if (assignment.getResource().getType() != ResourceType.NON_LABOR && assignment.getActualStart() == null && atCompletionWork.getDuration() == 0.0 && plannedWork.getDuration() != 0.0)
+      {
+         // No computable duration - fall back on planned duration
+         if (assignment.getActualStart() == null)
          {
-            // No computable duration - fall back on planned duration
+            Duration lag = assignment.getDelay();
+            Duration remainingLag = assignment.getRemainingDelay();
+            if (lag != null && lag.getDuration() != 0 && remainingLag != null && remainingLag.getDuration() != 0)
+            {
+               earlyStart = governingCalendar.getNextWorkStart(governingCalendar.getDate(earlyStart, remainingLag));
+            }
+         }
+
+         earlyFinish = governingCalendar.getDate(earlyStart, plannedWork);
+         lateStart = governingCalendar.getDate(lateFinish, plannedWork.negate());
+      }
+      else
+      {
+         Duration remainingWork = assignment.getRemainingWork();
+         if (remainingWork.getDuration() == 0.0 || activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT)
+         {
+            earlyFinish = activity.getRemainingEarlyFinish();
+            lateStart = activity.getRemainingLateStart();
+         }
+         else
+         {
             if (assignment.getActualStart() == null)
             {
                Duration lag = assignment.getDelay();
@@ -191,39 +223,9 @@ public class PrimaveraScheduler implements Scheduler
                }
             }
 
-            earlyFinish = governingCalendar.getDate(earlyStart, plannedWork);
-            lateStart = governingCalendar.getDate(lateFinish, plannedWork.negate());
+            earlyFinish = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), earlyStart, remainingWork);
+            lateStart = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), lateFinish, remainingWork.negate());
          }
-         else
-         {
-            Duration remainingWork = assignment.getRemainingWork();
-            if (remainingWork.getDuration() == 0.0 || activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT)
-            {
-               earlyFinish = activity.getRemainingEarlyFinish();
-               lateStart = activity.getRemainingLateStart();
-            }
-            else
-            {
-
-               if (assignment.getActualStart() == null)
-               {
-                  Duration lag = assignment.getDelay();
-                  Duration remainingLag = assignment.getRemainingDelay();
-                  if (lag != null && lag.getDuration() != 0 && remainingLag != null && remainingLag.getDuration() != 0)
-                  {
-                     earlyStart = governingCalendar.getNextWorkStart(governingCalendar.getDate(earlyStart, remainingLag));
-                  }
-               }
-
-               earlyFinish = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), earlyStart, remainingWork);
-               lateStart = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), lateFinish, remainingWork.negate());
-            }
-         }
-      }
-      else
-      {
-         earlyFinish = earlyStart;
-         lateStart = lateFinish;
       }
 
       assignment.setRemainingEarlyStart(earlyStart);
@@ -238,7 +240,7 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       assignment.setStart(assignment.getActualStart() == null ? assignment.getRemainingEarlyStart() : assignment.getActualStart());
-      assignment.setFinish(assignment.getActualFinish() == null ? assignment.getRemainingEarlyFinish() : assignment.getActualFinish());
+      assignment.setFinish(assignment.getRemainingEarlyFinish());
    }
 
    /**
