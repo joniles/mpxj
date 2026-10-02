@@ -164,7 +164,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
       }
    }
 
-   void read(ProjectFile projectFile, Project project)
+   void read(ProjectFile projectFile, Project project) throws MPXJException
    {
       try
       {
@@ -943,14 +943,38 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
     * @param project Root node of the MSPDI file
     * @param calendarMap Map of calendar UIDs to names
     */
-   private void readResources(Project project, HashMap<BigInteger, ProjectCalendar> calendarMap)
+   private void readResources(Project project, HashMap<BigInteger, ProjectCalendar> calendarMap) throws MPXJException
    {
       Project.Resources resources = project.getResources();
-      if (resources != null)
+      if (resources == null)
       {
-         for (Project.Resources.Resource resource : resources.getResource())
+         return;
+      }
+
+      resources.getResource().forEach(r -> readResource(r, calendarMap));
+
+      validateResources();
+   }
+
+   /**
+    * Validate the resources.
+    */
+   private void validateResources() throws MPXJException
+   {
+      // Lack of a valid Unique ID may cause issues when project data is written.
+      List<Resource> nullUidResources = m_projectFile.getResources().stream().filter(r -> r.getUniqueID() == null).collect(Collectors.toList());
+      if (!nullUidResources.isEmpty())
+      {
+         if (m_ignoreErrors)
          {
-            readResource(resource, calendarMap);
+            // If we're ignoring errors, generate unique ID values
+            ObjectSequence sequence = m_projectFile.getProjectContext().getUniqueIdObjectSequence(Resource.class);
+            nullUidResources.forEach(r -> r.setUniqueID(sequence.getNext()));
+         }
+         else
+         {
+            // Raise an exception if we're not reporting errors
+            throw new MPXJException("Not all resources have a Unique ID value");
          }
       }
    }
