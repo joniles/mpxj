@@ -33,7 +33,7 @@
 
         <div id="breadcrumbs">
           <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2026-09-27</li>
+        <li id="publishDate">Last Published: 2026-10-02</li>
           </ul>
         </div>
       </header>
@@ -81,6 +81,22 @@
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>Ensure that Resource Assignment attributes Delay and Remaining Delay (also known as Lag and Remaining Lag) are read from and written to P6 schedules.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improvements to `PrimaveraScheduler` to ensure better alignment with P6.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add support for reading timephased actual costs from MPP files where the &quot;Actual costs are always calculate by Project&quot; option has been unchecked.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add support for reading and writing timephased actual costs from MSPDI files where the &quot;Actual costs are always calculate by Project&quot; option has been unchecked.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure that valid resource calendars remain attached to their resource when the unique ID is remapped when writing to an MSPDI file. (Contributed by Varmend)</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
 <h3 id="a16.9.0">Release 16.9.0 &#x2013; 2026-09-24</h3>
 <table border="0" class="table table-striped">
@@ -184,7 +200,7 @@
 <th>By</th></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>Fix an issue where MPXJ writes files to a world-readable temporary directory while reading P3 PRX files, Suretrak STX files, or any other schedule which has been compressed as a zip file. There is a brief window while the schedule file is being read where a local user could access the schedule file contents from this temporary directory (with thanks to Arpit Jain).</td>
+<td>Fix CVE-2026-103989: MPXJ writes files to a world-readable temporary directory while reading P3 PRX files, Suretrak STX files, or any other schedule which has been compressed as a zip file. There is a brief window while the schedule file is being read where a local user could access the schedule file contents from this temporary directory (with thanks to Arpit Jain).</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>

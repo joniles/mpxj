@@ -5,6 +5,14 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
+## 16.10.0 (Unreleased)
+* Add support for the Resource Assignment attribute Remaining Delay (also known as Remaining Lag).
+* Ensure that Resource Assignment attributes Delay and Remaining Delay (also known as Lag and Remaining Lag) are read from and written to P6 schedules.
+* Improvements to `PrimaveraScheduler` to ensure better alignment with P6.
+* Add support for reading timephased actual costs from MPP files where the "Actual costs are always calculate by Project" option has been unchecked.
+* Add support for reading and writing timephased actual costs from MSPDI files where the "Actual costs are always calculate by Project" option has been unchecked.
+* Ensure that valid resource calendars remain attached to their resource when the unique ID is remapped when writing to an MSPDI file. (Contributed by Varmend)
+
 ## 16.9.0 (2026-09-24)
 * Ensure invalid data in an MSPDI file cannot result in a cycle being created between parent and child calendars.
 * Improve handling of invalid data when reading project properties from MSPDI files.
@@ -31,7 +39,7 @@ no longer distributed. Please use the `MPXJ.Net` package instead.
 * Read the `Relation` attribute Driving from Asta PP files.
 
 ## 16.6.0 (2026-08-03)
-* Fix an issue where MPXJ writes files to a world-readable temporary directory while reading P3 PRX files, Suretrak STX files, or any other schedule which has been compressed as a zip file. There is a brief window while the schedule file is being read where a local user could access the schedule file contents from this temporary directory (with thanks to Arpit Jain).
+* Fix CVE-2026-103989: MPXJ writes files to a world-readable temporary directory while reading P3 PRX files, Suretrak STX files, or any other schedule which has been compressed as a zip file. There is a brief window while the schedule file is being read where a local user could access the schedule file contents from this temporary directory (with thanks to Arpit Jain).
 * Performance improvement when reading certain MPP files (Contributed by Petr Janeček).
 * Performance improvements and reduction in allocated memory when reading XER files.(Contributed by Petr Janeček).
 * Ensure Cost Account Name and ID attributes are correctly written to XER files.
