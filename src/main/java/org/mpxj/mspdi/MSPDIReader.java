@@ -1292,34 +1292,74 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
       Project.Tasks tasks = project.getTasks();
       if (tasks != null)
       {
-         int tasksWithoutIDCount = 0;
-
+         int nextID = determineInitialID(tasks);
          for (Project.Tasks.Task task : tasks.getTask())
          {
-            Task mpxjTask = readTask(task);
-            if (mpxjTask.getID() == null)
-            {
-               ++tasksWithoutIDCount;
-            }
+            nextID = updateTaskID(nextID, readTask(task));
          }
 
          for (Project.Tasks.Task task : tasks.getTask())
          {
             readPredecessors(task);
          }
-
-         //
-         // MS Project will happily read tasks from an MSPDI file without IDs,
-         // it will just generate ID values based on the task order in the file.
-         // If we find that there are no ID values present, we'll do the same.
-         //
-         if (tasksWithoutIDCount == tasks.getTask().size())
-         {
-            m_projectFile.getTasks().renumberIDs();
-         }
       }
 
       m_projectFile.updateStructure();
+   }
+
+   /**
+    * If the project ID values need to be renumbered, preserve
+    * the presence of a project summary task.
+    *
+    * @param tasks task list
+    * @return initial ID value
+    */
+   private int determineInitialID(Project.Tasks tasks)
+   {
+      int nextID;
+      if (tasks.getTask().stream().allMatch(t -> t.getID() == null))
+      {
+         // We have no ID values, if we have a UID of 0, assume that we have a project summary task
+         nextID = tasks.getTask().stream().map(Project.Tasks.Task::getUID).filter(Objects::nonNull).mapToInt(Integer::intValue).min().orElse(1);
+         if (nextID != 0)
+         {
+            nextID = 1;
+         }
+      }
+      else
+      {
+         // We have ID values, start at 1 unless we have a project summary task
+         nextID = tasks.getTask().stream().map(Project.Tasks.Task::getID).filter(Objects::nonNull).mapToInt(BigInteger::intValueExact).min().orElse(1);
+         if (nextID != 0)
+         {
+            nextID = 1;
+         }
+      }
+      return nextID;
+   }
+
+   /**
+    * Renumber missing or out-of-sequence ID values using
+    * the same logic as MS Project.
+    *
+    * @param nextID next ID to use
+    * @param mpxjTask Task instance
+    * @return updated ID
+    */
+   private int updateTaskID(int nextID, Task mpxjTask)
+   {
+      Integer id = mpxjTask.getID();
+
+      if (id == null || id.intValue() < nextID)
+      {
+         mpxjTask.setID(Integer.valueOf(nextID));
+      }
+      else
+      {
+         nextID = id.intValue();
+      }
+
+      return nextID + 1;
    }
 
    /**

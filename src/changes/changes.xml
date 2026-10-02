@@ -13,6 +13,7 @@
             <action dev="joniles" type="update">Add support for reading and writing timephased actual costs from MSPDI files where the "Actual costs are always calculate by Project" option has been unchecked.</action>
             <action dev="joniles" type="update">Ensure that valid resource calendars remain attached to their resource when the unique ID is remapped when writing to an MSPDI file. (Contributed by Varmend)</action>
             <action dev="joniles" type="update">When reading MSPDI files, improve handling of resources which do not have a Unique ID.</action>
+            <action dev="joniles" type="update">Improve handling of MSPDI files with missing or out of sequence Task ID values. (Based on a contribution by Varmend)</action>
         </release>
         <release date="2026-09-24" version="16.9.0">
             <action dev="joniles" type="update">Ensure invalid data in an MSPDI file cannot result in a cycle being created between parent and child calendars.</action>
