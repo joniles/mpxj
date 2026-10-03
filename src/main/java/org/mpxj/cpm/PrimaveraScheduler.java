@@ -178,6 +178,22 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
+
+      updateDatesForManuallyEnteredActuals(assignment);
+
+      if (activity.getActualStart() == null && (assignment.getPlannedStart() == null || assignment.getRemainingEarlyStart().isAfter(assignment.getPlannedStart())))
+      {
+         assignment.setPlannedStart(assignment.getRemainingEarlyStart());
+         assignment.setPlannedFinish(assignment.getRemainingEarlyFinish());
+      }
+
+      assignment.setStart(assignment.getActualStart() == null ? assignment.getRemainingEarlyStart() : assignment.getActualStart());
+      assignment.setFinish(assignment.getRemainingEarlyFinish());
+   }
+
+   private void updateDatesForManuallyEnteredActuals(ResourceAssignment assignment)
+   {
+      Task activity = assignment.getTask();;
       LocalDateTime earlyStart = activity.getRemainingEarlyStart();
       LocalDateTime lateFinish = activity.getRemainingLateFinish();
       LocalDateTime earlyFinish;
@@ -232,15 +248,6 @@ public class PrimaveraScheduler implements Scheduler
       assignment.setRemainingEarlyFinish(earlyFinish);
       assignment.setRemainingLateStart(lateStart);
       assignment.setRemainingLateFinish(lateFinish);
-
-      if (activity.getActualStart() == null && (assignment.getPlannedStart() == null || assignment.getRemainingEarlyStart().isAfter(assignment.getPlannedStart())))
-      {
-         assignment.setPlannedStart(assignment.getRemainingEarlyStart());
-         assignment.setPlannedFinish(assignment.getRemainingEarlyFinish());
-      }
-
-      assignment.setStart(assignment.getActualStart() == null ? assignment.getRemainingEarlyStart() : assignment.getActualStart());
-      assignment.setFinish(assignment.getRemainingEarlyFinish());
    }
 
    /**

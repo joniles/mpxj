@@ -2883,6 +2883,26 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       return (Number) get(selectField(ResourceFieldLists.BASELINE_MATERIALS, baselineNumber));
    }
 
+   /**
+    * Retrieve the Auto Compue Actuals flag.
+    *
+    * @return true if actuals are computed automatically for this resource
+    */
+   public boolean getAutoComputeActuals()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ResourceField.AUTO_COMPUTE_ACTUALS));
+   }
+
+   /**
+    * Set the Auto Compute Actuals Flag.
+    *
+    * @param value true if actuals are computed automatically for this resource
+    */
+   public void setAutoComputeActuals(boolean value)
+   {
+      set(ResourceField.AUTO_COMPUTE_ACTUALS, value);
+   }
+
    @Override public List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       TimephasedDurationFunction fn = TIMEPHASED_WORK_FUNCTIONS.get(field);
@@ -3715,6 +3735,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       CALCULATED_FIELD_MAP.put(ResourceField.DEFAULT_UNITS, Resource::defaultDefaultUnits);
       CALCULATED_FIELD_MAP.put(ResourceField.RESOURCE_CODE_VALUES, Resource::defaultResourceCodeValues);
       CALCULATED_FIELD_MAP.put(ResourceField.ROLE_CODE_VALUES, Resource::defaultRoleCodeValues);
+      CALCULATED_FIELD_MAP.put(ResourceField.AUTO_COMPUTE_ACTUALS, r -> Boolean.TRUE);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();

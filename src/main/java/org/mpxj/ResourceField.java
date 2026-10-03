@@ -628,7 +628,8 @@ public enum ResourceField implements FieldType
    BASELINE8_MATERIAL(DataType.NUMERIC),
    BASELINE9_MATERIAL(DataType.NUMERIC),
    BASELINE10_MATERIAL(DataType.NUMERIC),
-   PLANNED_COST(DataType.CURRENCY);
+   PLANNED_COST(DataType.CURRENCY),
+   AUTO_COMPUTE_ACTUALS(DataType.BOOLEAN);
 
    /**
     * Constructor.

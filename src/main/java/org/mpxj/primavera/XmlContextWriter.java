@@ -426,7 +426,7 @@ final class XmlContextWriter extends XmlWriter
       // Note: a default units per time value of zero represents an empty field in P6
       Double defaultUnitsPerTime = mpxj.getDefaultUnits() == null ? NumberHelper.DOUBLE_ZERO : Double.valueOf(mpxj.getDefaultUnits().doubleValue() / 100.0);
 
-      xml.setAutoComputeActuals(Boolean.TRUE);
+      xml.setAutoComputeActuals(Boolean.valueOf(mpxj.getAutoComputeActuals()));
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setCalendarObjectId(mpxj.getCalendarUniqueID());
       xml.setCurrencyObjectId(mpxj.getCurrencyUniqueID() == null ? DEFAULT_CURRENCY_ID : mpxj.getCurrencyUniqueID());

@@ -1225,6 +1225,7 @@ abstract class TableContextReader
       map.put(ResourceField.SHIFT_UNIQUE_ID, "shift_id");
       map.put(ResourceField.PRIMARY_ROLE_UNIQUE_ID, "role_id");
       map.put(ResourceField.CURRENCY_UNIQUE_ID, "curr_id");
+      map.put(ResourceField.AUTO_COMPUTE_ACTUALS, "auto_compute_act_flag");
 
       return map;
    }
