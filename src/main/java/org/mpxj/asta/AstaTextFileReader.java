@@ -106,6 +106,11 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
             while (tk.nextToken() == Tokenizer.TT_WORD)
             {
                String token = tk.getToken();
+               if (token == null || token.isEmpty())
+               {
+                  continue;
+               }
+
                if (columns.isEmpty())
                {
                   if (token.charAt(0) == '#')
