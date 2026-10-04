@@ -1428,7 +1428,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("cost_qty_type", r -> "QT_Hour");
       RESOURCE_COLUMNS.put("ot_factor", r -> "");
       RESOURCE_COLUMNS.put("active_flag", r -> Boolean.valueOf(r.getActive()));
-      RESOURCE_COLUMNS.put("auto_compute_act_flag", r -> Boolean.TRUE);
+      RESOURCE_COLUMNS.put("auto_compute_act_flag", r -> Boolean.valueOf(r.getAutoComputeActuals()));
       RESOURCE_COLUMNS.put("def_cost_qty_link_flag", r -> Boolean.valueOf(r.getCalculateCostsFromUnits()));
       RESOURCE_COLUMNS.put("ot_flag", r -> Boolean.FALSE);
       RESOURCE_COLUMNS.put("curr_id", r -> r.getCurrencyUniqueID() == null ? CurrencyContainer.DEFAULT_CURRENCY.getUniqueID() : r.getCurrencyUniqueID());

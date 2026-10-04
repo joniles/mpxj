@@ -745,6 +745,7 @@ Actual Regular Cost| | | | | | | | | |✓|✓|✓| | | | | | | |
 Actual Regular Work| | | | | | | | | |✓|✓|✓| | | | | | | | | | | | | 
 Actual Work| | | | | | | | |✓|✓|✓|✓| | | | | | | | | | | | | 
 Actual Work Protected| | | | | | | | | |✓| | | | | | | | | | | | | | | 
+Auto Compute Actuals|✓|✓|✓|✓|✓| |✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓| | |✓|✓|✓
 Availability Data| | | | | | | | | |✓| | | | | | | | | | | | | | | 
 Available From| | | | | | | | | |✓| | | | | | | | | | | | | | | 
 Available To| | | | | | | | | |✓| | | | | | | | | | | | | | | 

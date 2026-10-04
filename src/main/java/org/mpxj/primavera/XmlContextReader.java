@@ -581,6 +581,7 @@ class XmlContextReader
          resource.setShiftUniqueID(xml.getShiftObjectId());
          resource.setPrimaryRoleUniqueID(xml.getPrimaryRoleObjectId());
          resource.setCurrencyUniqueID(xml.getCurrencyObjectId());
+         resource.setAutoComputeActuals(BooleanHelper.getBoolean(xml.isAutoComputeActuals()));
 
          processResourceCodeAssignments(resource, xml.getCode());
 
