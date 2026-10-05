@@ -5,7 +5,7 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-        <release date="Unreleased" version="16.10.0">
+        <release date="2026-10-05" version="16.10.0">
             <action dev="joniles" type="update">Add support for the Resource Assignment attribute Remaining Delay (also known as Remaining Lag).</action>
             <action dev="joniles" type="update">Add support for the Resource attribute Auto Compute Actuals.</action>
             <action dev="joniles" type="update">Ensure that Resource Assignment attributes Delay and Remaining Delay (also known as Lag and Remaining Lag) are read from and written to P6 schedules.</action>

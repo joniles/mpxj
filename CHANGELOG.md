@@ -5,13 +5,18 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 16.10.0 (Unreleased)
+## 16.10.0 (2026-10-05)
 * Add support for the Resource Assignment attribute Remaining Delay (also known as Remaining Lag).
+* Add support for the Resource attribute Auto Compute Actuals.
 * Ensure that Resource Assignment attributes Delay and Remaining Delay (also known as Lag and Remaining Lag) are read from and written to P6 schedules.
 * Improvements to `PrimaveraScheduler` to ensure better alignment with P6.
 * Add support for reading timephased actual costs from MPP files where the "Actual costs are always calculate by Project" option has been unchecked.
 * Add support for reading and writing timephased actual costs from MSPDI files where the "Actual costs are always calculate by Project" option has been unchecked.
 * Ensure that valid resource calendars remain attached to their resource when the unique ID is remapped when writing to an MSPDI file. (Contributed by Varmend)
+* When reading MSPDI files, improve handling of resources which do not have a Unique ID.
+* Improve handling of MSPDI files with missing or out of sequence Task ID values. (Based on a contribution by Varmend)
+* Improve handling of older Powerproject files which contain potentially malformed records.
+* Implemented Powerproject-specific slack calculations.
 
 ## 16.9.0 (2026-09-24)
 * Ensure invalid data in an MSPDI file cannot result in a cycle being created between parent and child calendars.

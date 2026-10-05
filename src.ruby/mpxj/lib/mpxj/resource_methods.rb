@@ -130,6 +130,13 @@ module MPXJ
       get_float_value(attribute_values['assignment_units'])
     end
 
+    # Retrieve the Auto Compute Actuals value
+    #
+    # @return Auto Compute Actuals value
+    def auto_compute_actuals
+      get_boolean_value(attribute_values['auto_compute_actuals'])
+    end
+
     # Retrieve the Availability Data value
     #
     # @return Availability Data value
@@ -4090,6 +4097,7 @@ module MPXJ
       'assignment_delay' => :delay,
       'assignment_owner' => :string,
       'assignment_units' => :units,
+      'auto_compute_actuals' => :boolean,
       'availability_data' => :binary,
       'available_from' => :date,
       'available_to' => :date,

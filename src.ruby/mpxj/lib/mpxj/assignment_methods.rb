@@ -95,6 +95,13 @@ module MPXJ
       get_duration_value(attribute_values['assignment_delay'])
     end
 
+    # Retrieve the Assignment Remaining Delay value
+    #
+    # @return Assignment Remaining Delay value
+    def assignment_remaining_delay
+      get_duration_value(attribute_values['assignment_remaining_delay'])
+    end
+
     # Retrieve the Assignment Resource GUID value
     #
     # @return Assignment Resource GUID value
@@ -2923,6 +2930,13 @@ module MPXJ
       attribute_values['rate_source']
     end
 
+    # Retrieve the Raw Timephased Actual Cost value
+    #
+    # @return Raw Timephased Actual Cost value
+    def raw_timephased_actual_cost
+      attribute_values['raw_timephased_actual_cost']
+    end
+
     # Retrieve the Raw Timephased Actual Overtime Work value
     #
     # @return Raw Timephased Actual Overtime Work value
@@ -3875,6 +3889,7 @@ module MPXJ
       'actual_work_protected' => :work,
       'acwp' => :currency,
       'assignment_delay' => :delay,
+      'assignment_remaining_delay' => :duration,
       'assignment_resource_guid' => :guid,
       'assignment_task_guid' => :guid,
       'assignment_units' => :units,
@@ -4279,6 +4294,7 @@ module MPXJ
       'project' => :string,
       'rate_index' => :integer,
       'rate_source' => :rate_source,
+      'raw_timephased_actual_cost' => :timephased_cost_list,
       'raw_timephased_actual_overtime_work' => :timephased_work_list,
       'raw_timephased_actual_regular_work' => :timephased_work_list,
       'raw_timephased_baseline10_budget_cost' => :timephased_cost_list,
