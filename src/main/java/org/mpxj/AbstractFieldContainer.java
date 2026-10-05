@@ -93,7 +93,11 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
          return;
       }
 
-      dependencies.forEach(f -> set(f, null));
+      // Indexed: forEach would allocate a lambda on every call.
+      for (int index = 0; index < dependencies.size(); index++)
+      {
+         set(dependencies.get(index), null);
+      }
    }
 
    /**
