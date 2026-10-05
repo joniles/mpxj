@@ -57,7 +57,7 @@ class DepthFirstGraphSort
     *
     * @return sorted tasks
     */
-   public List<Task> sort() throws CycleException
+   public List<Task> sort()
    {
       try
       {
@@ -97,7 +97,7 @@ class DepthFirstGraphSort
     *
     * @param task current task
     */
-   private void visit(Task task) throws CycleException
+   private void visit(Task task)
    {
       if (m_permanentMark.contains(task))
       {
@@ -107,7 +107,7 @@ class DepthFirstGraphSort
       if (m_temporaryMark.contains(task))
       {
          // TODO: Can we break a cycle by ignoring relation where cycle detected?
-         throw new CycleException();
+         throw new UncheckedCpmException(new CycleException());
       }
 
       m_temporaryMark.add(task);

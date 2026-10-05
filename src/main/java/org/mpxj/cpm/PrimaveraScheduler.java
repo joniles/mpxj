@@ -60,11 +60,23 @@ public class PrimaveraScheduler implements Scheduler
 {
    @Override public void schedule(ProjectFile file, LocalDateTime startDate) throws CpmException
    {
+      try
+      {
+         scheduleInternal(file, startDate);
+      }
+
+      catch (UncheckedCpmException ex)
+      {
+         throw ex.getCause();
+      }
+   }
+
+   private void scheduleInternal(ProjectFile file, LocalDateTime startDate)
+   {
       m_file = file;
       m_dataDate = file.getProjectProperties().getStatusDate();
       m_dateCalculator = new PrimaveraDateCalculator(m_file, () -> m_dataDate);
       m_useExpectedFinish = file.getProjectProperties().getUseExpectedFinishDates();
-
       m_projectStartDate = startDate;
 
       List<Task> activities = new DepthFirstGraphSort(m_file, PrimaveraScheduler::isActivity).sort();
@@ -92,7 +104,7 @@ public class PrimaveraScheduler implements Scheduler
       forwardPass(activities);
 
       LocalDateTime mustFinishBy = m_file.getProjectProperties().getMustFinishBy();
-      LocalDateTime earlyFinish = activities.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
+      LocalDateTime earlyFinish = activities.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new UncheckedCpmException("Missing early finish date"));
 
       if (mustFinishBy == null || earlyFinish.isAfter(mustFinishBy))
       {
@@ -178,6 +190,31 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
+      if (assignment.getActualStart() != null &&
+         getAssignmentPercentComplete(assignment) > 0.3 &&
+         assignment.getPlannedWork() != null && assignment.getPlannedWork().getDuration() != 0.0 &&
+         assignment.getResource().getAutoComputeActuals())
+      {
+         updateDatesWithAutoComputedActuals(assignment);
+      }
+      else
+      {
+         updateDatesWithManuallyComputedActuals(assignment);
+      }
+
+      if (activity.getActualStart() == null && (assignment.getPlannedStart() == null || assignment.getRemainingEarlyStart().isAfter(assignment.getPlannedStart())))
+      {
+         assignment.setPlannedStart(assignment.getRemainingEarlyStart());
+         assignment.setPlannedFinish(assignment.getRemainingEarlyFinish());
+      }
+
+      assignment.setStart(assignment.getActualStart() == null ? assignment.getRemainingEarlyStart() : assignment.getActualStart());
+      assignment.setFinish(assignment.getRemainingEarlyFinish());
+   }
+
+   private void updateDatesWithManuallyComputedActuals(ResourceAssignment assignment)
+   {
+      Task activity = assignment.getTask();
       LocalDateTime earlyStart = activity.getRemainingEarlyStart();
       LocalDateTime lateFinish = activity.getRemainingLateFinish();
       LocalDateTime earlyFinish;
@@ -232,15 +269,87 @@ public class PrimaveraScheduler implements Scheduler
       assignment.setRemainingEarlyFinish(earlyFinish);
       assignment.setRemainingLateStart(lateStart);
       assignment.setRemainingLateFinish(lateFinish);
+   }
 
-      if (activity.getActualStart() == null && (assignment.getPlannedStart() == null || assignment.getRemainingEarlyStart().isAfter(assignment.getPlannedStart())))
+   private void updateDatesWithAutoComputedActuals(ResourceAssignment assignment)
+   {
+      Task activity = assignment.getTask();
+
+      double units = NumberHelper.getDouble(assignment.getRemainingUnits());
+      if (units < 0.001)
       {
-         assignment.setPlannedStart(assignment.getRemainingEarlyStart());
-         assignment.setPlannedFinish(assignment.getRemainingEarlyFinish());
+         //units = NumberHelper.getDouble(assignment.getUnits());
+
+         assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
+         assignment.setRemainingEarlyFinish(activity.getRemainingEarlyStart());
+         assignment.setRemainingLateStart(activity.getRemainingLateFinish());
+         assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
+         return;
       }
 
-      assignment.setStart(assignment.getActualStart() == null ? assignment.getRemainingEarlyStart() : assignment.getActualStart());
-      assignment.setFinish(assignment.getRemainingEarlyFinish());
+      if (units == 100.0)
+      {
+         assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
+         assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
+         assignment.setRemainingLateStart(activity.getRemainingLateStart());
+         assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
+         return;
+      }
+
+      Duration plannedWork = assignment.getPlannedWork();
+      double plannedWorkInHours = plannedWork == null ? 0 : plannedWork.convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+
+      double percentComplete = getAssignmentPercentComplete(assignment);
+      double actualWorkInHours = (percentComplete * plannedWorkInHours) / 100.0;
+      double remainingWorkInHours = plannedWorkInHours - actualWorkInHours;
+      Duration remainingWork = Duration.getInstance((remainingWorkInHours * 100.0) / units, TimeUnit.HOURS);
+
+      ProjectCalendar governingCalendar = getEffectiveCalendar(assignment);
+      assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
+      assignment.setRemainingEarlyFinish(governingCalendar.getDate(activity.getRemainingEarlyStart(), remainingWork));
+      assignment.setRemainingLateStart(governingCalendar.getDate(activity.getRemainingLateFinish(), remainingWork.negate()));
+      assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
+   }
+
+   private double getAssignmentPercentComplete(ResourceAssignment assignment)
+   {
+      Task activity = assignment.getTask();;
+      double percentComplete;
+
+      if (assignment.getResource().getType() == ResourceType.NON_LABOR)
+      {
+         percentComplete = NumberHelper.getDouble(activity.getPercentageComplete());
+      }
+      else
+      {
+         switch (activity.getPercentCompleteType())
+         {
+            case DURATION:
+            {
+               percentComplete = NumberHelper.getDouble(activity.getPercentageComplete());
+               break;
+            }
+
+            case PHYSICAL:
+            {
+               percentComplete = NumberHelper.getDouble(activity.getPhysicalPercentComplete());
+               break;
+            }
+
+            case UNITS:
+            {
+               percentComplete = NumberHelper.getDouble(activity.getPercentageWorkComplete());
+               break;
+            }
+
+            default:
+            {
+               throw new UncheckedCpmException("Unsupported percent complete type for auto computed actuals");
+            }
+         }
+      }
+
+      return percentComplete;
    }
 
    /**
@@ -259,37 +368,37 @@ public class PrimaveraScheduler implements Scheduler
     *
     * @param tasks activities from the project
     */
-   private void validateActivities(List<Task> tasks) throws CpmException
+   private void validateActivities(List<Task> tasks)
    {
       for (Task task : tasks)
       {
          if (task.getActivityType() == null)
          {
-            throw new CpmException("Task has no activity type: " + task);
+            throw new UncheckedCpmException("Task has no activity type: " + task);
          }
 
          if (task.getActivityType() == ActivityType.RESOURCE_DEPENDENT && getResourceAssignmentStream(task).findAny().isPresent())
          {
             if (getResourceAssignmentStream(task).anyMatch(r -> r.getWork() == null))
             {
-               throw new CpmException("Task has resource assignments without a work value: " + task);
+               throw new UncheckedCpmException("Task has resource assignments without a work value: " + task);
             }
 
             if (getResourceAssignmentStream(task).anyMatch(r -> r.getRemainingWork() == null))
             {
-               throw new CpmException("Task has resource assignments without a remaining work value: " + task);
+               throw new UncheckedCpmException("Task has resource assignments without a remaining work value: " + task);
             }
          }
          else
          {
             if (task.getDuration() == null)
             {
-               throw new CpmException("Task has no duration value: " + task);
+               throw new UncheckedCpmException("Task has no duration value: " + task);
             }
 
             if (task.getRemainingDuration() == null)
             {
-               throw new CpmException("Task has no remaining duration value: " + task);
+               throw new UncheckedCpmException("Task has no remaining duration value: " + task);
             }
          }
       }
@@ -300,7 +409,7 @@ public class PrimaveraScheduler implements Scheduler
     *
     * @param tasks tasks in order for forward pass
     */
-   private void forwardPass(List<Task> tasks) throws CpmException
+   private void forwardPass(List<Task> tasks)
    {
       for (Task task : tasks)
       {
@@ -313,7 +422,7 @@ public class PrimaveraScheduler implements Scheduler
     *
     * @param task task to schedule
     */
-   private void forwardPass(Task task) throws CpmException
+   private void forwardPass(Task task)
    {
       LocalDateTime earlyStart;
       List<DrivingRelation> drivingRelations = Collections.emptyList();
@@ -718,10 +827,10 @@ public class PrimaveraScheduler implements Scheduler
     * @param predecessors task predecessors
     * @return list of DrivingRelation instances
     */
-   private List<DrivingRelation> getForwardPassDrivingRelations(Task task, List<Relation> predecessors) throws CpmException
+   private List<DrivingRelation> getForwardPassDrivingRelations(Task task, List<Relation> predecessors)
    {
       List<DrivingRelation> relations = predecessors.stream().map(this::calculateEarlyStart).collect(Collectors.toList());
-      LocalDateTime earlyStart = relations.stream().map(d -> getNextWorkStart(task, d.getStartDate())).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+      LocalDateTime earlyStart = relations.stream().map(d -> getNextWorkStart(task, d.getStartDate())).max(Comparator.naturalOrder()).orElseThrow(() -> new UncheckedCpmException("Missing early start date"));
       relations.removeIf(r -> !getNextWorkStart(task, r.getStartDate()).isEqual(earlyStart));
       return relations;
    }
@@ -743,7 +852,7 @@ public class PrimaveraScheduler implements Scheduler
     *
     * @param forwardPassTasks tasks in order for forward pass
     */
-   private void backwardPass(List<Task> forwardPassTasks) throws CpmException
+   private void backwardPass(List<Task> forwardPassTasks)
    {
       List<Task> tasks = new ArrayList<>(forwardPassTasks);
       Collections.reverse(tasks);
@@ -759,7 +868,7 @@ public class PrimaveraScheduler implements Scheduler
     *
     * @param task task to schedule
     */
-   private void backwardPass(Task task) throws CpmException
+   private void backwardPass(Task task)
    {
       List<Relation> successors = m_file.getRelations().getSuccessors(task).stream().filter(r -> isActivity(r.getSuccessorTask())).collect(Collectors.toList());
       LocalDateTime lateFinish;
@@ -3155,7 +3264,7 @@ public class PrimaveraScheduler implements Scheduler
     *
     * @param task ALAP constrained task
     */
-   private void alapAdjust(Task task) throws CpmException
+   private void alapAdjust(Task task)
    {
       LocalDateTime earlyStart;
       LocalDateTime earlyFinish;
@@ -3168,7 +3277,7 @@ public class PrimaveraScheduler implements Scheduler
       }
       else
       {
-         Relation relation = successors.stream().min(Comparator.comparing(this::getAlapEarlyStart)).orElseThrow(() -> new CpmException("Missing early start date"));
+         Relation relation = successors.stream().min(Comparator.comparing(this::getAlapEarlyStart)).orElseThrow(() -> new UncheckedCpmException("Missing early start date"));
          earlyStart = getAlapEarlyStart(relation);
 
          if (task.getActualFinish() == null && task.getActivityType() == ActivityType.FINISH_MILESTONE)
@@ -3566,7 +3675,7 @@ public class PrimaveraScheduler implements Scheduler
       parentTask.setCritical(critical);
    }
 
-   private void levelOfEffortPass() throws CpmException
+   private void levelOfEffortPass()
    {
       List<Task> activities = new DepthFirstGraphSort(m_file, PrimaveraScheduler::isLevelOfEffortActivity).sort();
       if (activities.isEmpty())

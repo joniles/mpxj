@@ -55,6 +55,19 @@ public class MicrosoftScheduler implements Scheduler
 {
    @Override public void schedule(ProjectFile file, LocalDateTime startDate) throws CpmException
    {
+      try
+      {
+         scheduleInternal(file, startDate);
+      }
+
+      catch (UncheckedCpmException ex)
+      {
+         throw ex.getCause();
+      }
+   }
+
+   private void scheduleInternal(ProjectFile file, LocalDateTime startDate)
+   {
       m_file = file;
       m_projectStartDate = startDate;
       m_calculatedLateStart.clear();
@@ -98,7 +111,7 @@ public class MicrosoftScheduler implements Scheduler
          forwardPass(tasks);
       }
 
-      m_projectFinishDate = tasks.stream().map(Task::getEarlyFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
+      m_projectFinishDate = tasks.stream().map(Task::getEarlyFinish).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElseThrow(() -> new UncheckedCpmException("Missing early finish date"));
 
       backwardPass(tasks);
       m_backwardPass = true;
@@ -131,23 +144,23 @@ public class MicrosoftScheduler implements Scheduler
       m_file.getProjectProperties().setFinishDate(m_projectFinishDate);
    }
 
-   private void validateTasks(List<Task> tasks) throws CpmException
+   private void validateTasks(List<Task> tasks)
    {
       for (Task task : tasks)
       {
          if (task.getDuration() == null && (!getResourceAssignmentStream(task).findAny().isPresent() || getResourceAssignmentStream(task).noneMatch(r -> r.getWork() != null)))
          {
-            throw new CpmException("Task has no duration value and no resource assignments with a work value: " + task);
+            throw new UncheckedCpmException("Task has no duration value and no resource assignments with a work value: " + task);
          }
 
          if (task.getActualDuration() == null && (!getResourceAssignmentStream(task).findAny().isPresent() || getResourceAssignmentStream(task).noneMatch(r -> r.getActualWork() != null)))
          {
-            throw new CpmException("Task has no actual duration value and no resource assignments with an actual work value: " + task);
+            throw new UncheckedCpmException("Task has no actual duration value and no resource assignments with an actual work value: " + task);
          }
 
          if (task.getRemainingDuration() == null && (!getResourceAssignmentStream(task).findAny().isPresent() || getResourceAssignmentStream(task).noneMatch(r -> r.getRemainingWork() != null)))
          {
-            throw new CpmException("Task has no remaining duration value and no resource assignments with a remaining work value: " + task);
+            throw new UncheckedCpmException("Task has no remaining duration value and no resource assignments with a remaining work value: " + task);
          }
       }
    }
@@ -187,7 +200,7 @@ public class MicrosoftScheduler implements Scheduler
     *
     * @param tasks tasks in order for forward pass
     */
-   private void forwardPass(List<Task> tasks) throws CpmException
+   private void forwardPass(List<Task> tasks)
    {
       for (Task task : tasks)
       {
@@ -200,7 +213,7 @@ public class MicrosoftScheduler implements Scheduler
     *
     * @param task task to schedule
     */
-   private void forwardPass(Task task) throws CpmException
+   private void forwardPass(Task task)
    {
       if (task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
       {
@@ -255,7 +268,7 @@ public class MicrosoftScheduler implements Scheduler
          }
          else
          {
-            earlyStart = predecessors.stream().map(this::calculateEarlyStart).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+            earlyStart = predecessors.stream().map(this::calculateEarlyStart).max(Comparator.naturalOrder()).orElseThrow(() -> new UncheckedCpmException("Missing early start date"));
          }
          earlyStart = getNextWorkStart(task, earlyStart);
 
@@ -361,7 +374,7 @@ public class MicrosoftScheduler implements Scheduler
     *
     * @param forwardPassTasks tasks in order for forward pass
     */
-   private void backwardPass(List<Task> forwardPassTasks) throws CpmException
+   private void backwardPass(List<Task> forwardPassTasks)
    {
       List<Task> tasks = new ArrayList<>(forwardPassTasks);
       Collections.reverse(tasks);
@@ -377,7 +390,7 @@ public class MicrosoftScheduler implements Scheduler
     *
     * @param task task to schedule
     */
-   private void backwardPass(Task task) throws CpmException
+   private void backwardPass(Task task)
    {
       // We'll use external tasks as successors when scheduling, but we'll leave their late dates unchanged.
       if (task.getExternalTask() || task.getExternalProject())
@@ -409,7 +422,7 @@ public class MicrosoftScheduler implements Scheduler
             }
             else
             {
-               lateFinish = successors.stream().map(this::calculateLateFinish).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+               lateFinish = successors.stream().map(this::calculateLateFinish).min(Comparator.naturalOrder()).orElseThrow(() -> new UncheckedCpmException("Missing late start date"));
             }
          }
 
