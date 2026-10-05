@@ -86,6 +86,7 @@ import org.mpxj.common.NumberHelper;
 import org.mpxj.common.ObjectSequence;
 import org.mpxj.common.ReaderTokenizer;
 import org.mpxj.common.Tokenizer;
+import org.mpxj.cpm.AstaSlackCalculator;
 
 /**
  * This class provides a generic front end to read project data from
@@ -109,6 +110,7 @@ final class AstaReader
       config.setAutoCalendarUniqueID(false);
       config.setAutoRelationUniqueID(false);
       config.setBaselineStrategy(AstaBaselineStrategy.INSTANCE);
+      config.setSlackClaculator(new AstaSlackCalculator());
 
       m_project.getProjectProperties().setFileApplication("Asta");
       m_project.getProjectProperties().setFileType("PP");
