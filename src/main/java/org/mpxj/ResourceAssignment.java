@@ -59,6 +59,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    ResourceAssignment(ProjectFile file)
    {
+      super(file.getProjectContext().getAssignmentFieldSlots());
       m_parentFile = file;
       if (file.getProjectConfig().getAutoAssignmentUniqueID())
       {

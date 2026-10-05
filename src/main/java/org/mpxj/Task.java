@@ -57,6 +57,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    Task(ProjectFile file, Task parent)
    {
+      super(file.getProjectContext().getTaskFieldSlots());
       m_parentFile = file;
       m_parent = parent;
       ProjectConfig config = file.getProjectConfig();
