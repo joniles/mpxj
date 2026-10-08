@@ -24,7 +24,7 @@
 package org.mpxj;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -38,6 +38,16 @@ import org.mpxj.listener.FieldListener;
  */
 public abstract class AbstractFieldContainer<T> implements FieldContainer
 {
+   /**
+    * Constructor.
+    *
+    * @param slots slots for this kind of entity's own fields, shared with its siblings
+    */
+   AbstractFieldContainer(FieldSlots<?> slots)
+   {
+      m_slots = slots;
+   }
+
    /**
     * Allow the entity to take action in response to the changed field.
     *
@@ -83,7 +93,11 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
          return;
       }
 
-      dependencies.forEach(f -> set(f, null));
+      // Indexed: forEach would allocate a lambda on every call.
+      for (int index = 0; index < dependencies.size(); index++)
+      {
+         set(dependencies.get(index), null);
+      }
    }
 
    /**
@@ -109,7 +123,7 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
          return;
       }
 
-      Object oldValue = value == null ? m_fields.remove(field) : m_fields.put(field, value);
+      Object oldValue = store(field, value);
       if (oldValue == value)
       {
          return;
@@ -130,7 +144,7 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
       }
 
       boolean alwaysCalculatedField = getAlwaysCalculatedField(field);
-      Object result = alwaysCalculatedField ? null : m_fields.get(field);
+      Object result = alwaysCalculatedField ? null : lookup(field);
       if (result == null)
       {
          Function<T, Object> f = getCalculationMethod(field);
@@ -149,7 +163,7 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
 
    @Override public Object getCachedValue(FieldType field)
    {
-      return m_fields.get(field);
+      return field == null ? null : lookup(field);
    }
 
    @Override public void addFieldListener(FieldListener listener)
@@ -184,7 +198,110 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
       }
    }
 
+   /**
+    * Retrieve the value stored for a field.
+    *
+    * @param field field
+    * @return stored value, or null if none is stored
+    */
+   private Object lookup(FieldType field)
+   {
+      if (m_slots.owns(field))
+      {
+         int slot = m_slots.find(field);
+         return slot < 0 || slot >= m_values.length ? null : m_values[slot];
+      }
+
+      int index = indexOfOther(field);
+      return index < 0 ? null : m_otherValues[index + 1];
+   }
+
+   /**
+    * Store the value of a field, a null value removing it.
+    *
+    * @param field field
+    * @param value new value, or null
+    * @return the value previously stored, or null if none was
+    */
+   private Object store(FieldType field, Object value)
+   {
+      if (m_slots.owns(field))
+      {
+         int slot = m_slots.find(field);
+         if (slot < 0 || slot >= m_values.length)
+         {
+            if (value == null)
+            {
+               return null;
+            }
+            slot = m_slots.claim(field);
+            // Grown to every slot handed out so far, so the next new fields need no copy of their own.
+            m_values = Arrays.copyOf(m_values, m_slots.count());
+         }
+         Object oldValue = m_values[slot];
+         m_values[slot] = value;
+         return oldValue;
+      }
+
+      int index = indexOfOther(field);
+      if (index >= 0)
+      {
+         Object oldValue = m_otherValues[index + 1];
+         if (value == null)
+         {
+            Object[] remaining = new Object[m_otherValues.length - 2];
+            System.arraycopy(m_otherValues, 0, remaining, 0, index);
+            System.arraycopy(m_otherValues, index + 2, remaining, index, remaining.length - index);
+            m_otherValues = remaining;
+         }
+         else
+         {
+            m_otherValues[index + 1] = value;
+         }
+         return oldValue;
+      }
+
+      if (value != null)
+      {
+         m_otherValues = Arrays.copyOf(m_otherValues, m_otherValues.length + 2);
+         m_otherValues[m_otherValues.length - 2] = field;
+         m_otherValues[m_otherValues.length - 1] = value;
+      }
+      return null;
+   }
+
+   /**
+    * Find where a field other than this kind's own is stored.
+    *
+    * @param field field
+    * @return index of the field in m_otherValues, its value following it, or -1 if it is not stored
+    */
+   private int indexOfOther(FieldType field)
+   {
+      for (int index = 0; index < m_otherValues.length; index += 2)
+      {
+         if (field.equals(m_otherValues[index]))
+         {
+            return index;
+         }
+      }
+      return -1;
+   }
+
    private boolean m_clearDependentFieldsEnabled = true;
-   private final Map<FieldType, Object> m_fields = new HashMap<>();
+   private final FieldSlots<?> m_slots;
+
+   /**
+    * Values of this kind of entity's own fields, by slot - see FieldSlots.
+    */
+   private Object[] m_values = NO_VALUES;
+
+   /**
+    * Values of any other field, user defined fields for example: field and value in turn. An entity holds few of
+    * them, if any, so a search through them costs less than the memory a map would.
+    */
+   private Object[] m_otherValues = NO_VALUES;
    private List<FieldListener> m_listeners;
+
+   private static final Object[] NO_VALUES = new Object[0];
 }

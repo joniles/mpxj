@@ -56,6 +56,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    Resource(ProjectContext context)
    {
+      super(context.getResourceFieldSlots());
       m_context = context;
       ProjectConfig config = context.getProjectConfig();
 
