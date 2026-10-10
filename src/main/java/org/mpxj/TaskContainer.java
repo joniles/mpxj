@@ -65,7 +65,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task> implements
     */
    public Task add()
    {
-      Task task = new Task(m_projectFile, null);
+      Task task = new Task(m_slots, m_projectFile, null);
       add(task);
       m_projectFile.getChildTasks().add(task);
       return task;
@@ -274,4 +274,5 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task> implements
 
    private final ProjectFile m_projectFile;
    private final List<Task> m_childTasks = new ArrayList<>();
+   private final FieldSlots<TaskField> m_slots = new FieldSlots<>(TaskField.class);
 }

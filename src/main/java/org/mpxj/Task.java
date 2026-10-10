@@ -47,7 +47,7 @@ import org.mpxj.common.TaskFieldLists;
 /**
  * This class represents a task record from a project file.
  */
-public final class Task extends AbstractFieldContainer<Task> implements Comparable<Task>, ProjectEntityWithID, ChildTaskContainer
+public final class Task extends AbstractFieldContainer<Task, TaskField> implements Comparable<Task>, ProjectEntityWithID, ChildTaskContainer
 {
    /**
     * Default constructor.
@@ -55,9 +55,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param file Parent file to which this record belongs.
     * @param parent Parent task
     */
-   Task(ProjectFile file, Task parent)
+   Task(FieldSlots<TaskField> slots, ProjectFile file, Task parent)
    {
-      super(file.getProjectContext().getTaskFieldSlots());
+      super(slots);
       m_parentFile = file;
       m_parent = parent;
       ProjectConfig config = file.getProjectConfig();
@@ -231,7 +231,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    @Override public Task addTask()
    {
 
-      Task task = new Task(m_parentFile, this);
+      Task task = new Task(getSlots(), m_parentFile, this);
 
       m_children.add(task);
 
@@ -402,12 +402,13 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public ResourceAssignment addResourceAssignment(Resource resource)
    {
-      ResourceAssignment assignment = new ResourceAssignment(m_parentFile);
+      ResourceAssignmentContainer container = m_parentFile.getResourceAssignments();
+      ResourceAssignment assignment = container.createResourceAssignment(m_parentFile);
       assignment.setTaskUniqueID(getUniqueID());
       assignment.setResourceUniqueID(resource == null ? null : resource.getUniqueID());
       assignment.setWork(getDuration());
       assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
-      m_parentFile.getResourceAssignments().add(assignment);
+      container.add(assignment);
       return assignment;
    }
 

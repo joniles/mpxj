@@ -295,36 +295,6 @@ public class ProjectContext implements UniqueIdObjectSequenceProvider
       m_uniqueIdObjectSequences.remove(c.getName());
    }
 
-   /**
-    * Retrieve the slots shared by the fields of every task in this context.
-    *
-    * @return task field slots
-    */
-   FieldSlots<TaskField> getTaskFieldSlots()
-   {
-      return m_taskFieldSlots;
-   }
-
-   /**
-    * Retrieve the slots shared by the fields of every resource assignment in this context.
-    *
-    * @return resource assignment field slots
-    */
-   FieldSlots<AssignmentField> getAssignmentFieldSlots()
-   {
-      return m_assignmentFieldSlots;
-   }
-
-   /**
-    * Retrieve the slots shared by the fields of every resource in this context.
-    *
-    * @return resource field slots
-    */
-   FieldSlots<ResourceField> getResourceFieldSlots()
-   {
-      return m_resourceFieldSlots;
-   }
-
    private final LocationContainer m_locations = new LocationContainer(this);
    private final UnitOfMeasureContainer m_unitsOfMeasure = new UnitOfMeasureContainer(this);
    private final ExpenseCategoryContainer m_expenseCategories = new ExpenseCategoryContainer(this);
@@ -350,7 +320,4 @@ public class ProjectContext implements UniqueIdObjectSequenceProvider
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
    private final List<Exception> m_ignoredErrors = new ArrayList<>();
    private final EventManager m_eventManager = new EventManager();
-   private final FieldSlots<TaskField> m_taskFieldSlots = new FieldSlots<>(TaskField.class);
-   private final FieldSlots<AssignmentField> m_assignmentFieldSlots = new FieldSlots<>(AssignmentField.class);
-   private final FieldSlots<ResourceField> m_resourceFieldSlots = new FieldSlots<>(ResourceField.class);
 }

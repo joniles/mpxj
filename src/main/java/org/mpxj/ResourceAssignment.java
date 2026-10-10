@@ -50,16 +50,16 @@ import org.mpxj.common.RateHelper;
 /**
  * This class represents a resource assignment record from an MPX file.
  */
-public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignment> implements ProjectEntityWithMutableUniqueID, TimePeriodEntity
+public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignment, AssignmentField> implements ProjectEntityWithMutableUniqueID, TimePeriodEntity
 {
    /**
     * Constructor.
     *
     * @param file The parent file to which this record belongs.
     */
-   ResourceAssignment(ProjectFile file)
+   ResourceAssignment(FieldSlots<AssignmentField> slots, ProjectFile file)
    {
-      super(file.getProjectContext().getAssignmentFieldSlots());
+      super(slots);
       m_parentFile = file;
       if (file.getProjectConfig().getAutoAssignmentUniqueID())
       {
