@@ -47,7 +47,7 @@ import org.mpxj.common.TaskFieldLists;
 /**
  * This class represents a task record from a project file.
  */
-public final class Task extends AbstractFieldContainer<Task, TaskField> implements Comparable<Task>, ProjectEntityWithID, ChildTaskContainer
+public final class Task extends AbstractFieldContainer<Task> implements Comparable<Task>, ProjectEntityWithID, ChildTaskContainer
 {
    /**
     * Default constructor.
@@ -230,8 +230,7 @@ public final class Task extends AbstractFieldContainer<Task, TaskField> implemen
     */
    @Override public Task addTask()
    {
-
-      Task task = new Task(getSlots(), m_parentFile, this);
+      Task task = m_parentFile.getTasks().createTask(this);
 
       m_children.add(task);
 

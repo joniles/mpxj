@@ -44,7 +44,7 @@ import org.mpxj.common.ProjectFieldLists;
 /**
  * This class represents a collection of properties relevant to the whole project.
  */
-public final class ProjectProperties extends AbstractFieldContainer<ProjectProperties, ProjectField> implements TimeUnitDefaultsContainer
+public final class ProjectProperties extends AbstractFieldContainer<ProjectProperties> implements TimeUnitDefaultsContainer
 {
    /**
     * Default constructor.

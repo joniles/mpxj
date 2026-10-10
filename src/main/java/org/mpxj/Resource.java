@@ -47,7 +47,7 @@ import org.mpxj.common.ResourceFieldLists;
 /**
  * This class represents a resource used in a project.
  */
-public final class Resource extends AbstractFieldContainer<Resource, ResourceField> implements Comparable<Resource>, ProjectEntityWithID, ChildResourceContainer
+public final class Resource extends AbstractFieldContainer<Resource> implements Comparable<Resource>, ProjectEntityWithID, ChildResourceContainer
 {
    /**
     * Default constructor.

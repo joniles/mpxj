@@ -50,7 +50,7 @@ import org.mpxj.common.RateHelper;
 /**
  * This class represents a resource assignment record from an MPX file.
  */
-public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignment, AssignmentField> implements ProjectEntityWithMutableUniqueID, TimePeriodEntity
+public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignment> implements ProjectEntityWithMutableUniqueID, TimePeriodEntity
 {
    /**
     * Constructor.

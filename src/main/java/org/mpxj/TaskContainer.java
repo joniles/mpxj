@@ -53,6 +53,11 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task> implements
       return m_childTasks;
    }
 
+   public Task createTask(Task parent)
+   {
+      return new Task(m_slots, m_projectFile, parent);
+   }
+
    @Override public Task addTask()
    {
       return add();
@@ -65,7 +70,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task> implements
     */
    public Task add()
    {
-      Task task = new Task(m_slots, m_projectFile, null);
+      Task task = createTask(null);
       add(task);
       m_projectFile.getChildTasks().add(task);
       return task;

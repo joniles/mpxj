@@ -36,21 +36,16 @@ import org.mpxj.listener.FieldListener;
  *
  * @param <T> container type
  */
-public abstract class AbstractFieldContainer<T, E extends Enum<E> & FieldType> implements FieldContainer
+public abstract class AbstractFieldContainer<T> implements FieldContainer
 {
    /**
     * Constructor.
     *
     * @param slots slots for this kind of entity's own fields, shared with its siblings
     */
-   AbstractFieldContainer(FieldSlots<E> slots)
+   AbstractFieldContainer(FieldSlots<?> slots)
    {
       m_slots = slots;
-   }
-
-   FieldSlots<E> getSlots()
-   {
-      return m_slots;
    }
 
    /**
@@ -294,7 +289,7 @@ public abstract class AbstractFieldContainer<T, E extends Enum<E> & FieldType> i
    }
 
    private boolean m_clearDependentFieldsEnabled = true;
-   private final FieldSlots<E> m_slots;
+   private final FieldSlots<?> m_slots;
 
    /**
     * Values of this kind of entity's own fields, by slot - see FieldSlots.
