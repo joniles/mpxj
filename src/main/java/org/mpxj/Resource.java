@@ -54,8 +54,9 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     *
     * @param context parent context
     */
-   Resource(ProjectContext context)
+   Resource(FieldSlots<ResourceField> slots, ProjectContext context)
    {
+      super(slots);
       m_context = context;
       ProjectConfig config = context.getProjectConfig();
 
@@ -90,10 +91,11 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
 
    @Override public Resource addResource()
    {
-      Resource resource = new Resource(m_context);
+      ResourceContainer container = m_context.getResources();
+      Resource resource = container.createResource();
       resource.setParentResource(this);
       m_children.add(resource);
-      m_context.getResources().add(resource);
+      container.add(resource);
       return resource;
    }
 

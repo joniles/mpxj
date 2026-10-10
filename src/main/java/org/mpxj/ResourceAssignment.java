@@ -57,8 +57,9 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     *
     * @param file The parent file to which this record belongs.
     */
-   ResourceAssignment(ProjectFile file)
+   ResourceAssignment(FieldSlots<AssignmentField> slots, ProjectFile file)
    {
+      super(slots);
       m_parentFile = file;
       if (file.getProjectConfig().getAutoAssignmentUniqueID())
       {

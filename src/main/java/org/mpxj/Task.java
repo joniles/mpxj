@@ -55,8 +55,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param file Parent file to which this record belongs.
     * @param parent Parent task
     */
-   Task(ProjectFile file, Task parent)
+   Task(FieldSlots<TaskField> slots, ProjectFile file, Task parent)
    {
+      super(slots);
       m_parentFile = file;
       m_parent = parent;
       ProjectConfig config = file.getProjectConfig();
@@ -229,8 +230,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    @Override public Task addTask()
    {
-
-      Task task = new Task(m_parentFile, this);
+      Task task = m_parentFile.getTasks().createTask(this);
 
       m_children.add(task);
 
@@ -401,12 +401,13 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public ResourceAssignment addResourceAssignment(Resource resource)
    {
-      ResourceAssignment assignment = new ResourceAssignment(m_parentFile);
+      ResourceAssignmentContainer container = m_parentFile.getResourceAssignments();
+      ResourceAssignment assignment = container.createResourceAssignment(m_parentFile);
       assignment.setTaskUniqueID(getUniqueID());
       assignment.setResourceUniqueID(resource == null ? null : resource.getUniqueID());
       assignment.setWork(getDuration());
       assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
-      m_parentFile.getResourceAssignments().add(assignment);
+      container.add(assignment);
       return assignment;
    }
 

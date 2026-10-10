@@ -23,7 +23,7 @@
 package org.mpxj;
 
 /**
- * Represents a temporary resourc eassignment which does not form part f a schedule.
+ * Represents a temporary resource assignment which does not form part of a schedule.
  */
 public class TemporaryResourceAssignment extends ResourceAssignment
 {
@@ -34,6 +34,6 @@ public class TemporaryResourceAssignment extends ResourceAssignment
     */
    public TemporaryResourceAssignment(ProjectFile file)
    {
-      super(file);
+      super(new FieldSlots<>(AssignmentField.class), file);
    }
 }
