@@ -217,27 +217,40 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
    }
 
    /**
-    * Store the value of a field, a null value removing it.
+    * Store the value of a field.
     *
     * @param field field
     * @param value new value, or null
-    * @return the value previously stored, or null if none was
+    * @return the value previously stored
     */
    private Object store(FieldType field, Object value)
    {
+      // Is the supplied field an enum value?
       if (m_slots.owns(field))
       {
+         // Which slot have we allocated for this enum value
          int slot = m_slots.find(field);
+
+         // Is this a valid index for our existing array?
          if (slot < 0 || slot >= m_values.length)
          {
+            // Not a valid index, but if the value is null we can ignore it
             if (value == null)
             {
                return null;
             }
-            slot = m_slots.claim(field);
-            // Grown to every slot handed out so far, so the next new fields need no copy of their own.
+
+            // Do we need to claim a new slot for this field?
+            if (slot < 0)
+            {
+               slot = m_slots.claim(field);
+            }
+
+            // Extend the array to accommodate all fields claimed for this
+            // entity type. This reduces the need to resize the array later.
             m_values = Arrays.copyOf(m_values, m_slots.count());
          }
+
          Object oldValue = m_values[slot];
          m_values[slot] = value;
          return oldValue;
@@ -267,6 +280,7 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
          m_otherValues[m_otherValues.length - 2] = field;
          m_otherValues[m_otherValues.length - 1] = value;
       }
+
       return null;
    }
 
@@ -289,19 +303,26 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
    }
 
    private boolean m_clearDependentFieldsEnabled = true;
+
+   private List<FieldListener> m_listeners;
+
+   /**
+    * Maps an enumerated field type to an array index.
+    */
    private final FieldSlots<?> m_slots;
 
    /**
-    * Values of this kind of entity's own fields, by slot - see FieldSlots.
+    * Enumerated field values.
     */
    private Object[] m_values = NO_VALUES;
 
    /**
-    * Values of any other field, user defined fields for example: field and value in turn. An entity holds few of
-    * them, if any, so a search through them costs less than the memory a map would.
+    * Non-enumerated field type and value pairs.
+    * Each entity is likely to hold a small number of these
+    * values so a linear search through them costs less
+    * than the memory overhead required by a Map.
     */
    private Object[] m_otherValues = NO_VALUES;
-   private List<FieldListener> m_listeners;
 
    private static final Object[] NO_VALUES = new Object[0];
 }
