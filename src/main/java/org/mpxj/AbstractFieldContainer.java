@@ -24,7 +24,6 @@
 package org.mpxj;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -45,7 +44,7 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
     */
    AbstractFieldContainer(FieldSlots<?> slots)
    {
-      m_slots = new SlotStore(slots);
+      m_enumFields = new SlotStore(slots);
    }
 
    /**
@@ -206,13 +205,17 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
     */
    private Object lookup(FieldType field)
    {
-      if (m_slots.owns(field))
+      if (m_enumFields.owns(field))
       {
-         return m_slots.lookup(field);
+         return m_enumFields.lookup(field);
       }
 
-      int index = indexOfOther(field);
-      return index < 0 ? null : m_otherValues[index + 1];
+      if (m_otherFields == null)
+      {
+         return null;
+      }
+
+      return m_otherFields.lookup(field);
    }
 
    /**
@@ -225,70 +228,21 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
    private Object store(FieldType field, Object value)
    {
       // Is the supplied field an enum value?
-      if (m_slots.owns(field))
+      if (m_enumFields.owns(field))
       {
-         return m_slots.store(field, value);
+         return m_enumFields.store(field, value);
       }
 
-      int index = indexOfOther(field);
-      if (index >= 0)
+      if (m_otherFields == null)
       {
-         Object oldValue = m_otherValues[index + 1];
-         if (value == null)
-         {
-            Object[] remaining = new Object[m_otherValues.length - 2];
-            System.arraycopy(m_otherValues, 0, remaining, 0, index);
-            System.arraycopy(m_otherValues, index + 2, remaining, index, remaining.length - index);
-            m_otherValues = remaining;
-         }
-         else
-         {
-            m_otherValues[index + 1] = value;
-         }
-         return oldValue;
+         m_otherFields = new PairStore();
       }
 
-      if (value != null)
-      {
-         m_otherValues = Arrays.copyOf(m_otherValues, m_otherValues.length + 2);
-         m_otherValues[m_otherValues.length - 2] = field;
-         m_otherValues[m_otherValues.length - 1] = value;
-      }
-
-      return null;
-   }
-
-   /**
-    * Find where a field other than this kind's own is stored.
-    *
-    * @param field field
-    * @return index of the field in m_otherValues, its value following it, or -1 if it is not stored
-    */
-   private int indexOfOther(FieldType field)
-   {
-      for (int index = 0; index < m_otherValues.length; index += 2)
-      {
-         if (field.equals(m_otherValues[index]))
-         {
-            return index;
-         }
-      }
-      return -1;
+      return m_otherFields.store(field, value);
    }
 
    private boolean m_clearDependentFieldsEnabled = true;
-
    private List<FieldListener> m_listeners;
-
-   private final SlotStore m_slots;
-
-   /**
-    * Non-enumerated field type and value pairs.
-    * Each entity is likely to hold a small number of these
-    * values so a linear search through them costs less
-    * than the memory overhead required by a Map.
-    */
-   private Object[] m_otherValues = NO_VALUES;
-
-   private static final Object[] NO_VALUES = new Object[0];
+   private final SlotStore m_enumFields;
+   private PairStore m_otherFields;
 }
