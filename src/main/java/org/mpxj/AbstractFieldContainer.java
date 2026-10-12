@@ -45,7 +45,7 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
     */
    AbstractFieldContainer(FieldSlots<?> slots)
    {
-      m_slots = slots;
+      m_slots = new SlotStore(slots);
    }
 
    /**
@@ -208,8 +208,7 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
    {
       if (m_slots.owns(field))
       {
-         int slot = m_slots.find(field);
-         return slot < 0 || slot >= m_values.length ? null : m_values[slot];
+         return m_slots.lookup(field);
       }
 
       int index = indexOfOther(field);
@@ -228,32 +227,7 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
       // Is the supplied field an enum value?
       if (m_slots.owns(field))
       {
-         // Which slot have we allocated for this enum value
-         int slot = m_slots.find(field);
-
-         // Is this a valid index for our existing array?
-         if (slot < 0 || slot >= m_values.length)
-         {
-            // Not a valid index, but if the value is null we can ignore it
-            if (value == null)
-            {
-               return null;
-            }
-
-            // Do we need to claim a new slot for this field?
-            if (slot < 0)
-            {
-               slot = m_slots.claim(field);
-            }
-
-            // Extend the array to accommodate all fields claimed for this
-            // entity type. This reduces the need to resize the array later.
-            m_values = Arrays.copyOf(m_values, m_slots.count());
-         }
-
-         Object oldValue = m_values[slot];
-         m_values[slot] = value;
-         return oldValue;
+         return m_slots.store(field, value);
       }
 
       int index = indexOfOther(field);
@@ -306,15 +280,7 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
 
    private List<FieldListener> m_listeners;
 
-   /**
-    * Maps an enumerated field type to an array index.
-    */
-   private final FieldSlots<?> m_slots;
-
-   /**
-    * Enumerated field values.
-    */
-   private Object[] m_values = NO_VALUES;
+   private final SlotStore m_slots;
 
    /**
     * Non-enumerated field type and value pairs.
