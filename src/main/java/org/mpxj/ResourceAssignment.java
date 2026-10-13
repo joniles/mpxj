@@ -55,10 +55,12 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
    /**
     * Constructor.
     *
+    * @param slots FieldSlots instance representing the enum to array index mapping
     * @param file The parent file to which this record belongs.
     */
-   ResourceAssignment(ProjectFile file)
+   ResourceAssignment(FieldSlots<AssignmentField> slots, ProjectFile file)
    {
+      super(slots);
       m_parentFile = file;
       if (file.getProjectConfig().getAutoAssignmentUniqueID())
       {

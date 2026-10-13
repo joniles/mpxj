@@ -102,13 +102,23 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource> im
    }
 
    /**
+    * Create a new Resource, but don't add it to the container.
+    *
+    * @return Resource instance
+    */
+   public Resource createResource()
+   {
+      return new Resource(m_slots, m_context);
+   }
+
+   /**
     * Add a resource to the project.
     *
     * @return new resource instance
     */
    public Resource add()
    {
-      Resource resource = new Resource(m_context);
+      Resource resource = createResource();
       add(resource);
       m_childResources.add(resource);
       return resource;
@@ -172,4 +182,5 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource> im
 
    private final ProjectContext m_context;
    private final List<Resource> m_childResources = new ArrayList<>();
+   private final FieldSlots<ResourceField> m_slots = new FieldSlots<>(ResourceField.class);
 }

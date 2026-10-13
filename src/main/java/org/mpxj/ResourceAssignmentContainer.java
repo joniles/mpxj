@@ -47,6 +47,17 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
       m_projectFile = projectFile;
    }
 
+   /**
+    * Create a resource assignment, but don't add it to the container.
+    *
+    * @param parent parent project
+    * @return ResourceAssignment instance
+    */
+   public ResourceAssignment createResourceAssignment(ProjectFile parent)
+   {
+      return new ResourceAssignment(m_slots, parent);
+   }
+
    @Override protected void added(ResourceAssignment assignment)
    {
       super.added(assignment);
@@ -133,4 +144,5 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
    private final ProjectFile m_projectFile;
    private final HashMap<Integer, List<ResourceAssignment>> m_taskIndex = new HashMap<>();
    private final HashMap<Integer, List<ResourceAssignment>> m_resourceIndex = new HashMap<>();
+   private final FieldSlots<AssignmentField> m_slots = new FieldSlots<>(AssignmentField.class);
 }
