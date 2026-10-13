@@ -27,7 +27,7 @@ import java.util.Arrays;
 /**
  * Fields which are not represented by enum instances
  * (e.g. User Defined Fields, Enterprise fields, and so on)
- * are represneted in this store. As there are likely to be
+ * are represented in this store. As there are likely to be
  * a low number of fields represented in this store, the
  * field-value pairs are stored as adjacent array entries,
  * with a linear search used to locate the required field.
