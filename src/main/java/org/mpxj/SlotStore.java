@@ -28,7 +28,7 @@ import java.util.Arrays;
  * Fields represented by an enumerated value are stored in
  * an array. This store is initialized using a shared
  * FieldSlots instance which maps from an enumeration
- * reporesenting a field to an index in the array
+ * representing a field to an index in the array
  * where the field value is stored.
  */
 class SlotStore
