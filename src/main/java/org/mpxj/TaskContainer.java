@@ -53,6 +53,17 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task> implements
       return m_childTasks;
    }
 
+   /**
+    * Create a new Task, but don't add it to the container.
+    *
+    * @param parent parent task
+    * @return new Task
+    */
+   public Task createTask(Task parent)
+   {
+      return new Task(m_slots, m_projectFile, parent);
+   }
+
    @Override public Task addTask()
    {
       return add();
@@ -65,7 +76,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task> implements
     */
    public Task add()
    {
-      Task task = new Task(m_projectFile, null);
+      Task task = createTask(null);
       add(task);
       m_projectFile.getChildTasks().add(task);
       return task;
@@ -274,4 +285,5 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task> implements
 
    private final ProjectFile m_projectFile;
    private final List<Task> m_childTasks = new ArrayList<>();
+   private final FieldSlots<TaskField> m_slots = new FieldSlots<>(TaskField.class);
 }

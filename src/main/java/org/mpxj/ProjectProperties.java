@@ -53,6 +53,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    ProjectProperties(ProjectFile file)
    {
+      // Only one ProjectProperties instance per schedule so
+      // a shared FieldSlots instance is not required.
+      super(new FieldSlots<>(ProjectField.class));
       m_parentFile = file;
    }
 

@@ -24,7 +24,6 @@
 package org.mpxj;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -38,6 +37,16 @@ import org.mpxj.listener.FieldListener;
  */
 public abstract class AbstractFieldContainer<T> implements FieldContainer
 {
+   /**
+    * Constructor.
+    *
+    * @param slots slots for this kind of entity's own fields, shared with its siblings
+    */
+   AbstractFieldContainer(FieldSlots<?> slots)
+   {
+      m_enumFields = new SlotStore(slots);
+   }
+
    /**
     * Allow the entity to take action in response to the changed field.
     *
@@ -83,7 +92,11 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
          return;
       }
 
-      dependencies.forEach(f -> set(f, null));
+      // Indexed: forEach would allocate a lambda on every call.
+      for (int index = 0; index < dependencies.size(); index++)
+      {
+         set(dependencies.get(index), null);
+      }
    }
 
    /**
@@ -109,7 +122,7 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
          return;
       }
 
-      Object oldValue = value == null ? m_fields.remove(field) : m_fields.put(field, value);
+      Object oldValue = store(field, value);
       if (oldValue == value)
       {
          return;
@@ -130,7 +143,7 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
       }
 
       boolean alwaysCalculatedField = getAlwaysCalculatedField(field);
-      Object result = alwaysCalculatedField ? null : m_fields.get(field);
+      Object result = alwaysCalculatedField ? null : lookup(field);
       if (result == null)
       {
          Function<T, Object> f = getCalculationMethod(field);
@@ -149,7 +162,7 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
 
    @Override public Object getCachedValue(FieldType field)
    {
-      return m_fields.get(field);
+      return field == null ? null : lookup(field);
    }
 
    @Override public void addFieldListener(FieldListener listener)
@@ -184,7 +197,51 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
       }
    }
 
+   /**
+    * Retrieve the value stored for a field.
+    *
+    * @param field field
+    * @return stored value, or null if none is stored
+    */
+   private Object lookup(FieldType field)
+   {
+      if (m_enumFields.owns(field))
+      {
+         return m_enumFields.lookup(field);
+      }
+
+      if (m_otherFields == null)
+      {
+         return null;
+      }
+
+      return m_otherFields.lookup(field);
+   }
+
+   /**
+    * Store the value of a field.
+    *
+    * @param field field
+    * @param value new value, or null
+    * @return the value previously stored
+    */
+   private Object store(FieldType field, Object value)
+   {
+      if (m_enumFields.owns(field))
+      {
+         return m_enumFields.store(field, value);
+      }
+
+      if (m_otherFields == null)
+      {
+         m_otherFields = new PairStore();
+      }
+
+      return m_otherFields.store(field, value);
+   }
+
    private boolean m_clearDependentFieldsEnabled = true;
-   private final Map<FieldType, Object> m_fields = new HashMap<>();
    private List<FieldListener> m_listeners;
+   private final SlotStore m_enumFields;
+   private PairStore m_otherFields;
 }

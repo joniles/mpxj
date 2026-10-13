@@ -47,6 +47,24 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
       m_projectFile = projectFile;
    }
 
+   /**
+    * Create a new resource assignment, populate default attributes, and add it to the container.
+    *
+    * @param task Task instance
+    * @param resource Resource instance
+    * @return new ResourceAssignment instance
+    */
+   public ResourceAssignment add(Task task, Resource resource)
+   {
+      ResourceAssignment assignment = new ResourceAssignment(m_slots, m_projectFile);
+      assignment.setTaskUniqueID(task.getUniqueID());
+      assignment.setResourceUniqueID(resource == null ? null : resource.getUniqueID());
+      assignment.setWork(task.getDuration());
+      assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
+      add(assignment);
+      return assignment;
+   }
+
    @Override protected void added(ResourceAssignment assignment)
    {
       super.added(assignment);
@@ -133,4 +151,5 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
    private final ProjectFile m_projectFile;
    private final HashMap<Integer, List<ResourceAssignment>> m_taskIndex = new HashMap<>();
    private final HashMap<Integer, List<ResourceAssignment>> m_resourceIndex = new HashMap<>();
+   private final FieldSlots<AssignmentField> m_slots = new FieldSlots<>(AssignmentField.class);
 }
