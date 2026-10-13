@@ -47,6 +47,12 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
       m_projectFile = projectFile;
    }
 
+   /**
+    * Create a resource assignment, but don't add it to the container.
+    *
+    * @param parent parent project
+    * @return ResourceAssignment instance
+    */
    public ResourceAssignment createResourceAssignment(ProjectFile parent)
    {
       return new ResourceAssignment(m_slots, parent);

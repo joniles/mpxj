@@ -101,6 +101,11 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource> im
       }
    }
 
+   /**
+    * Create a new Resource, but don't add it to the container.
+    *
+    * @return Resource instance
+    */
    public Resource createResource()
    {
       return new Resource(m_slots, m_context);
