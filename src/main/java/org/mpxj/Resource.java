@@ -52,6 +52,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    /**
     * Default constructor.
     *
+    * @param slots FieldSlots instance representing the enum to array index mapping
     * @param context parent context
     */
    Resource(FieldSlots<ResourceField> slots, ProjectContext context)
