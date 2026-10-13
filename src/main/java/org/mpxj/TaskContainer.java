@@ -53,6 +53,12 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task> implements
       return m_childTasks;
    }
 
+   /**
+    * Create a new Task, but don't add it to the container.
+    *
+    * @param parent parent task
+    * @return new Task
+    */
    public Task createTask(Task parent)
    {
       return new Task(m_slots, m_projectFile, parent);
