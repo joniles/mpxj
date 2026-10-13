@@ -48,14 +48,21 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
    }
 
    /**
-    * Create a resource assignment, but don't add it to the container.
+    * Create a new resource assignment, populate default attributes, and add it to the container.
     *
-    * @param parent parent project
-    * @return ResourceAssignment instance
+    * @param task Task instance
+    * @param resource Resource instance
+    * @return new ResourceAssignment instance
     */
-   public ResourceAssignment createResourceAssignment(ProjectFile parent)
+   public ResourceAssignment add(Task task, Resource resource)
    {
-      return new ResourceAssignment(m_slots, parent);
+      ResourceAssignment assignment = new ResourceAssignment(m_slots, m_projectFile);
+      assignment.setTaskUniqueID(task.getUniqueID());
+      assignment.setResourceUniqueID(resource == null ? null : resource.getUniqueID());
+      assignment.setWork(task.getDuration());
+      assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
+      add(assignment);
+      return assignment;
    }
 
    @Override protected void added(ResourceAssignment assignment)

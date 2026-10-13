@@ -401,14 +401,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public ResourceAssignment addResourceAssignment(Resource resource)
    {
-      ResourceAssignmentContainer container = m_parentFile.getResourceAssignments();
-      ResourceAssignment assignment = container.createResourceAssignment(m_parentFile);
-      assignment.setTaskUniqueID(getUniqueID());
-      assignment.setResourceUniqueID(resource == null ? null : resource.getUniqueID());
-      assignment.setWork(getDuration());
-      assignment.setUnits(ResourceAssignment.DEFAULT_UNITS);
-      container.add(assignment);
-      return assignment;
+      return m_parentFile.getResourceAssignments().add(this, resource);
    }
 
    /**
