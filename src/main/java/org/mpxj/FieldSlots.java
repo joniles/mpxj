@@ -26,17 +26,16 @@ import java.util.Arrays;
 
 /**
  * Assigns each field of one kind of entity a slot in that entity's array of values, shared by every entity of that
- * kind which reads its fields through the same instance - typically every task, or every resource assignment, of a
- * ProjectContext.
+ * kind which reads its fields through the same instance - typically every task, or every resource assignment, etc.
  *
- * <p>A schedule file states only a small part of the fields an entity could hold - a P6 task around 70 of the 1,009
+ * <p>A schedule file typically includes only a small subset of the fields an entity could hold - a P6 task around 70 of the 1,009
  * task fields, the same 70 on nearly every task - so slots are handed out in the order fields are first set, rather
  * than one per enum constant. An entity's array then only needs to reach the highest slot it uses.</p>
  *
  * <p>Only the constants of the enum this instance was created for are given slots. Any other field type, a
  * user defined field for example, is stored by the entity itself.</p>
  *
- * <p>Like the rest of a ProjectContext, an instance is not thread safe.</p>
+ * <p>Note that an instance of FieldSlots is not thread safe.</p>
  *
  * @param <E> field enum whose constants are given slots
  */

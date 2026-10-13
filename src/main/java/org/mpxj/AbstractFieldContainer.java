@@ -227,7 +227,6 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
     */
    private Object store(FieldType field, Object value)
    {
-      // Is the supplied field an enum value?
       if (m_enumFields.owns(field))
       {
          return m_enumFields.store(field, value);
