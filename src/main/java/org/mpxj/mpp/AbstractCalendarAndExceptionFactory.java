@@ -313,14 +313,14 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
             week.setCalendarDayType(day, DayType.WORKING);
             for (int index = 0; index < rangeCount; index++)
             {
-               int duration = ByteArrayHelper.getInt(data, offset + 20 + (index * 4));
-               if (duration < 1 || duration > 14400)
+               int durationInTenthsOfMinutes = ByteArrayHelper.getInt(data, offset + 20 + (index * 4));
+               if (durationInTenthsOfMinutes < 1 || durationInTenthsOfMinutes > 14400)
                {
                   continue;
                }
 
                LocalTime startTime = MPPUtility.getTime(data, offset + 8 + (index * 2));
-               LocalTime finishTime = startTime.plusSeconds(duration * 6);
+               LocalTime finishTime = startTime.plusSeconds(durationInTenthsOfMinutes * 6);
                hours.add(new LocalTimeRange(startTime, finishTime));
             }
 
