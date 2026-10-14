@@ -255,9 +255,20 @@ final class TimephasedDataFactory
          offset += 20;
       }
 
-      if (!regularList.isEmpty() && regularList.get(regularList.size() - 1).getFinish().isAfter(resourceAssignment.getFinish()))
+      // Trim a reconstructed series which has run past the end of the assignment. The walk can
+      // overshoot by a little, and pulling the last item back to the assignment's finish tidies
+      // that up. It can also overshoot by more than the last item is long, and in that case
+      // clamping would move the item's finish to before its own start, producing an item which
+      // this class's own callers reject. Leave those alone: an item which ends slightly late is
+      // usable, one which ends before it begins is not.
+      if (!regularList.isEmpty())
       {
-         regularList.get(regularList.size() - 1).setFinish(resourceAssignment.getFinish());
+         TimephasedWork lastItem = regularList.get(regularList.size() - 1);
+         LocalDateTime assignmentFinish = resourceAssignment.getFinish();
+         if (lastItem.getFinish().isAfter(assignmentFinish) && assignmentFinish.isAfter(lastItem.getStart()))
+         {
+            lastItem.setFinish(assignmentFinish);
+         }
       }
 
       return removeEmptyItems(regularList);
