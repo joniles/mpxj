@@ -191,6 +191,18 @@ final class TimephasedDataFactory
                            long startItemDurationInSeconds = startItem.getStart().until(startItem.getFinish(), ChronoUnit.SECONDS);
                            long startItemAmountPerHourInSeconds = Math.round(startItem.getAmountPerHour().getDuration() * 60.0);
                            long startItemWorkInSeconds = (startItemDurationInSeconds * startItemAmountPerHourInSeconds) / 3600;
+
+                           // Never hand the leading piece more work than the item it came from.
+                           // Rounding in the line above can put it over by a second, which leaves
+                           // the remainder below negative, and a negative remainder gives the
+                           // following item a finish earlier than its own start. splitItem applies
+                           // the same cap for the same reason.
+                           long itemWorkInSeconds = Math.round(item.getTotalAmount().getDuration() * 60.0);
+                           if (startItemWorkInSeconds > itemWorkInSeconds)
+                           {
+                              startItemWorkInSeconds = itemWorkInSeconds;
+                           }
+
                            startItem.setTotalAmount(Duration.getInstance(startItemWorkInSeconds / 60.0, TimeUnit.MINUTES));
                            regularList.add(startItem);
 
