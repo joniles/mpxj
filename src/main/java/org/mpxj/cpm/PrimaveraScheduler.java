@@ -3282,10 +3282,14 @@ public class PrimaveraScheduler implements Scheduler
             return getDateFromFinishAndRemainingDuration(predecessorTask, earlyFinish);
          }
 
+         case START_FINISH:
+         {
+            return getEquivalentNextWorkStart(predecessorTask, m_dateCalculator.removeLag(relation, successorTask.getEarlyFinish()));
+         }
+
          default:
          {
-            // TODO: need example to determine correct behaviour here
-            return LocalDateTime.MAX;
+            throw new UnsupportedOperationException();
          }
       }
    }
