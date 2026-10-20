@@ -50,6 +50,7 @@ import org.mpxj.LocalTimeRange;
 import org.mpxj.Notes;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
+import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectContext;
 import org.mpxj.TaskField;
 import org.mpxj.UserDefinedField;
@@ -107,7 +108,8 @@ class XmlWriter
          xml.setProjectObjectId(code.getScopeProjectUniqueID());
       }
 
-      Comparator<ActivityCodeValue> comparator = Comparator.comparing(ActivityCodeValue::getSequenceNumber).thenComparing(ActivityCodeValue::getUniqueID);
+      // A value need not state a sequence number: those that don't follow those that do
+      Comparator<ActivityCodeValue> comparator = Comparator.comparing(ActivityCodeValue::getSequenceNumber, Comparator.nullsLast(Comparator.naturalOrder())).thenComparing(ActivityCodeValue::getUniqueID);
       code.getChildValues().stream().sorted(comparator).forEach(v -> writeActivityCodeValueDefinition(xml, null, values, v, comparator));
    }
 
@@ -315,7 +317,15 @@ class XmlWriter
          xmlHours.setDayOfWeek(getDayName(day));
 
          // Working days/hours are not inherited between calendars, just exceptions.
-         for (LocalTimeRange range : mpxj.getHours(day))
+         // A day with no hours at all, inherited from a base calendar the file
+         // doesn't have, is written as a day without working time.
+         ProjectCalendarHours hours = mpxj.getHours(day);
+         if (hours == null)
+         {
+            continue;
+         }
+
+         for (LocalTimeRange range : hours)
          {
             WorkTimeType xmlWorkTime = m_factory.createWorkTimeType();
             xmlHours.getWorkTime().add(xmlWorkTime);
