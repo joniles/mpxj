@@ -408,6 +408,8 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    static
    {
       EXCEPTION_NAME_MAP.put("EXCEPTIONNID", "ID");
+      EXCEPTION_NAME_MAP.put("TYPG", "EXCEPTION_TYPE");
+      EXCEPTION_NAME_MAP.put("NAML", "NAME");
    }
 
    private static final Map<String, String> COMPLETED_SECTION_NAME_MAP = new HashMap<>();

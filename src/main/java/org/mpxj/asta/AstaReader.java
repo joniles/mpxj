@@ -1493,29 +1493,7 @@ final class AstaReader
       for (Row row : rows)
       {
          Integer id = row.getInteger("ID");
-         DayType result;
-
-         switch (row.getInt("UNIQUE_BIT_FIELD"))
-         {
-            case 8: // Working
-            case 32: // Overtime
-            case 128: //Weekend Working
-            {
-               result = DayType.WORKING;
-               break;
-            }
-
-            case 4: // Non Working
-            case 16: // Holiday
-            case 64: // Weather
-            case -2147483648: // Weekend
-            default:
-            {
-               result = DayType.NON_WORKING;
-               break;
-            }
-         }
-
+         DayType result = row.getBoolean("EXCEPTION_TYPE") ? DayType.NON_WORKING : DayType.WORKING;
          map.put(id, result);
       }
       return map;
