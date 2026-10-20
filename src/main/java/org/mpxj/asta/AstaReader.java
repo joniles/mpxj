@@ -751,7 +751,7 @@ final class AstaReader
       ProjectCalendar calendar = m_project.getCalendarByUniqueID(calendarID);
 
       //PROJID
-      task.setUniqueID(row.getInteger("BARID"));
+      task.setUniqueID(row.getInteger("_ID"));
       task.setStart(row.getDate("BAR_START"));
       task.setFinish(row.getDate("BAR_FINISH"));
       //NATURAL_ORDER
