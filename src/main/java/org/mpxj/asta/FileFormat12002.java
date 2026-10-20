@@ -267,7 +267,7 @@ class FileFormat12002 extends AbstractFileFormat
       "EXCEPTION_ASSIGNMENTID",
       "START_DATE",
       "END_DATE",
-      "EXCEPTIOO",
+      "EXCEPTION",
    };
 
    private static final String[] EXPANDED_TASK_COLUMNS_ORDER = {

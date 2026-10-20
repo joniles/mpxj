@@ -26,6 +26,7 @@ package org.mpxj.asta;
 import java.io.IOException;
 import java.io.StringReader;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -39,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -63,6 +65,7 @@ import org.mpxj.LocalDateRange;
 import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarDays;
+import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectCalendarWeek;
 import org.mpxj.ProjectConfig;
@@ -1626,29 +1629,9 @@ final class AstaReader
       }
 
       //
-      // Add exceptions - not sure how exceptions which turn non-working days into working days are handled by Asta - if at all?
+      // Add exceptions
       //
-      rows = exceptionAssignmentMap.get(calendar.getUniqueID());
-      if (rows != null)
-      {
-         List<LocalDateRange> ranges = new ArrayList<>();
-
-         for (Row row : rows)
-         {
-            LocalDateTime startDate = row.getDate("START_DATE");
-            LocalDateTime endDate = row.getDate("END_DATE");
-
-            // special case - when the exception end time is midnight, it really finishes at the end of the previous day
-            if (endDate.equals(LocalDateTimeHelper.getDayStartDate(endDate)))
-            {
-               endDate = endDate.plusDays(-1);
-            }
-
-            ranges.add(new LocalDateRange(LocalDateHelper.getLocalDate(startDate), LocalDateHelper.getLocalDate(endDate)));
-         }
-
-         ranges.stream().distinct().forEach(r -> calendar.addCalendarException(r.getStart(), r.getEnd()));
-      }
+      processExceptions(calendar, exceptionAssignmentMap, exceptionTypeMap);
 
       //
       // Populate WORKING or NON_WORKING days with calendar hours if they are missing.
@@ -1673,6 +1656,81 @@ final class AstaReader
       calendar.setParent(m_project.getCalendarByUniqueID(calendarRow.getInteger("CALENDAR")));
 
       m_eventManager.fireCalendarReadEvent(calendar);
+   }
+
+   private void processExceptions(ProjectCalendar calendar, Map<Integer, List<Row>> exceptionAssignmentMap, Map<Integer, DayType> exceptionTypeMap)
+   {
+      List<Row> rows = exceptionAssignmentMap.get(calendar.getUniqueID());
+      if (rows == null || rows.isEmpty())
+      {
+         return;
+      }
+
+      List<CalendarExceptionHours> rawHours = rows.stream()
+         .map(r -> new CalendarExceptionHours(r.getDate("START_DATE"), r.getDate("END_DATE"), exceptionTypeMap.get(r.getInteger("EXCEPTION"))))
+         .sorted(Comparator.comparing(CalendarExceptionHours::getStart))
+         .collect(Collectors.toList());
+
+      List<CalendarExceptionHours> splitHours = splitExceptionDays(rawHours);
+      Map<LocalDate, List<CalendarExceptionHours>> map = splitHours.stream().collect(Collectors.groupingBy(r -> r.getStart().toLocalDate(), TreeMap::new, Collectors.toList()));
+      for (Entry<LocalDate, List<CalendarExceptionHours>> entry : map.entrySet())
+      {
+         LocalDate day = entry.getKey();
+         List<CalendarExceptionHours> hours = entry.getValue();
+         hours.sort(Comparator.comparing(CalendarExceptionHours::getStart));
+
+         ProjectCalendarException exception = calendar.addCalendarException(day, day);
+         hours.stream().filter(h -> h.getType() == DayType.WORKING).forEach(h -> exception.add(h.toLocalTimeRange()));
+      }
+
+      // TODO: merge adjacent non-working exceptions
+
+      // ORIGINAL CODE
+//      List<LocalDateRange> ranges = new ArrayList<>();
+//      for (Row row : rows)
+//      {
+//         LocalDateTime startDate = row.getDate("START_DATE");
+//         LocalDateTime endDate = row.getDate("END_DATE");
+//
+//         // special case - when the exception end time is midnight, it really finishes at the end of the previous day
+//         if (endDate.equals(LocalDateTimeHelper.getDayStartDate(endDate)))
+//         {
+//            endDate = endDate.plusDays(-1);
+//         }
+//
+//         ranges.add(new LocalDateRange(LocalDateHelper.getLocalDate(startDate), LocalDateHelper.getLocalDate(endDate)));
+//      }
+//
+//      ranges.stream().distinct().forEach(r -> calendar.addCalendarException(r.getStart(), r.getEnd()));
+   }
+
+   private List<CalendarExceptionHours> splitExceptionDays(List<CalendarExceptionHours> list)
+   {
+      int index = 0;
+      CalendarExceptionHours current = list.get(0);
+      List<CalendarExceptionHours> result = new ArrayList<>();
+
+      while (true)
+      {
+         if (current.isSameDay())
+         {
+            result.add(current);
+            ++index;
+            if (index == list.size())
+            {
+               break;
+            }
+            current = list.get(index);
+         }
+         else
+         {
+            LocalDateTime newBoundary = LocalDateTime.of(current.getStart().toLocalDate().plusDays(1), LocalTime.MIDNIGHT);
+            result.add(new CalendarExceptionHours(current.getStart(), newBoundary, current.getType()));
+            current = new CalendarExceptionHours(newBoundary, current.getFinish(), current.getType());
+         }
+      }
+
+      return result;
    }
 
    /**
