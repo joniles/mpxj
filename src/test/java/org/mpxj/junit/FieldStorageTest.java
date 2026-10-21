@@ -24,11 +24,13 @@ package org.mpxj.junit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.mpxj.AssignmentField;
 import org.mpxj.DataType;
 import org.mpxj.Duration;
+import org.mpxj.FieldType;
 import org.mpxj.FieldTypeClass;
 import org.mpxj.ProjectField;
 import org.mpxj.ProjectFile;
@@ -41,7 +43,9 @@ import org.mpxj.TimeUnit;
 import org.mpxj.UserDefinedField;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests how entities store their field values: each kind's own fields in slots shared across a ProjectContext, any
@@ -179,6 +183,69 @@ public class FieldStorageTest
       assertEquals("assignment", assignment.getCachedValue(AssignmentField.TEXT1));
       assertEquals("Project", file.getProjectProperties().getCachedValue(ProjectField.PROJECT_TITLE));
       assertNull(task.getCachedValue(TaskField.TEXT1));
+   }
+
+   /**
+    * A field counts as populated when any task holds a value for it, whichever task that is. A field
+    * a task once set but no longer holds, or holds only at its default, does not count.
+    */
+   @Test public void testPopulatedFields()
+   {
+      ProjectFile file = new ProjectFile();
+      UserDefinedField field = udf(file, "First");
+      file.addTask().set(TaskField.TEXT1, "first");
+      Task second = file.addTask();
+      second.set(TaskField.TEXT30, "second");
+      second.set(field, "udf");
+      second.set(TaskField.TEXT2, "cleared");
+      second.set(TaskField.TEXT2, null);
+      second.set(TaskField.FLAG1, Boolean.FALSE);
+
+      Set<FieldType> populated = file.getTasks().getPopulatedFields();
+      assertTrue(populated.contains(TaskField.TEXT1));
+      assertTrue(populated.contains(TaskField.TEXT30));
+      assertTrue(populated.contains(field));
+      assertFalse(populated.contains(TaskField.TEXT2));
+      assertFalse(populated.contains(TaskField.FLAG1));
+      assertFalse(populated.contains(TaskField.TEXT3));
+   }
+
+   /**
+    * Resources and resource assignments count their populated fields the same way.
+    */
+   @Test public void testPopulatedFieldsOfResourcesAndAssignments()
+   {
+      ProjectFile file = new ProjectFile();
+      Resource resource = file.addResource();
+      resource.set(ResourceField.TEXT1, "crew");
+      ResourceAssignment assignment = file.addTask().addResourceAssignment(resource);
+      assignment.set(AssignmentField.TEXT1, "assignment");
+
+      Set<FieldType> resourceFields = file.getResources().getPopulatedFields();
+      assertTrue(resourceFields.contains(ResourceField.TEXT1));
+      assertFalse(resourceFields.contains(ResourceField.TEXT2));
+
+      Set<FieldType> assignmentFields = file.getResourceAssignments().getPopulatedFields();
+      assertTrue(assignmentFields.contains(AssignmentField.TEXT1));
+      assertFalse(assignmentFields.contains(AssignmentField.TEXT2));
+   }
+
+   /**
+    * A task added from another file keeps its values in that file's slots, and they still count as populated here.
+    */
+   @Test public void testPopulatedFieldsOfTaskFromAnotherFile()
+   {
+      ProjectFile other = new ProjectFile();
+      Task foreign = other.addTask();
+      foreign.set(TaskField.TEXT5, "foreign");
+
+      ProjectFile file = new ProjectFile();
+      file.addTask().set(TaskField.TEXT1, "own");
+      file.getTasks().add(foreign);
+
+      Set<FieldType> populated = file.getTasks().getPopulatedFields();
+      assertTrue(populated.contains(TaskField.TEXT1));
+      assertTrue(populated.contains(TaskField.TEXT5));
    }
 
    private static UserDefinedField udf(ProjectFile file, String name)

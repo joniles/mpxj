@@ -23,6 +23,8 @@
 package org.mpxj;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.EnumSet;
 
 /**
  * Assigns each field of one kind of entity a slot in that entity's array of values, shared by every entity of that
@@ -100,6 +102,24 @@ final class FieldSlots<E extends Enum<E> & FieldType>
    int count()
    {
       return m_count;
+   }
+
+   /**
+    * Retrieve the fields of this kind which any of the supplied entities could hold a value for.
+    * Where every entity uses this instance that is only the fields given a slot so far,
+    * as no entity can hold a value for any other.
+    *
+    * @param entities entities holding fields of the kind this instance represents
+    * @return fields which may hold a value
+    */
+   Collection<E> candidateFields(Collection<? extends AbstractFieldContainer<?>> entities)
+   {
+      EnumSet<E> fields = EnumSet.allOf(m_fieldType);
+      if (entities.stream().allMatch(entity -> entity.usesFieldSlots(this)))
+      {
+         fields.removeIf(field -> m_slots[field.ordinal()] < 0);
+      }
+      return fields;
    }
 
    private final Class<E> m_fieldType;
