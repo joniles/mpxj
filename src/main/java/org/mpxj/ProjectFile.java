@@ -193,12 +193,14 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
 
    /**
     * Retrieve all global calendars plus any project-specific calendars related to this project.
+    * A project calendar naming no project at all is included, as nothing ties it to another
+    * project and tasks or resources may still use it.
     *
     * @return list of calendars
     */
    public List<ProjectCalendar> getCalendarsForProject()
    {
-      return m_context.getCalendars().stream().filter(c -> c.getType() != CalendarType.PROJECT || c.getProjectUniqueID().equals(m_properties.getUniqueID())).collect(Collectors.toList());
+      return m_context.getCalendars().stream().filter(c -> c.getType() != CalendarType.PROJECT || c.getProjectUniqueID() == null || c.getProjectUniqueID().equals(m_properties.getUniqueID())).collect(Collectors.toList());
    }
 
    /**

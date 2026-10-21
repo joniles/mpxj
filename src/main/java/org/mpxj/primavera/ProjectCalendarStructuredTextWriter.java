@@ -140,6 +140,13 @@ class ProjectCalendarStructuredTextWriter
     */
    private void writeHours(StructuredTextRecord parentRecord, ProjectCalendarHours hours)
    {
+      // A day with no hours at all, inherited from a base calendar the file
+      // doesn't have, is written as a day without working time.
+      if (hours == null)
+      {
+         return;
+      }
+
       int hoursIndex = 0;
       for (LocalTimeRange range : hours)
       {
