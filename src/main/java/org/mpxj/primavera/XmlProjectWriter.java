@@ -48,7 +48,6 @@ import org.mpxj.ResourceAssignment;
 import org.mpxj.Step;
 import org.mpxj.StructuredNotes;
 import org.mpxj.Task;
-import org.mpxj.TaskField;
 import org.mpxj.TaskType;
 import org.mpxj.TimeUnit;
 import org.mpxj.common.HtmlHelper;
@@ -392,7 +391,7 @@ final class XmlProjectWriter extends XmlWriter
       // Filter out WBS entries and generate a sequence number.
       // If it's a summary task... it's a WBS entry. If the task has come from P6, and the activity type is not set, it's a WBS entry
       ObjectSequence wbsSequence = new ObjectSequence(0);
-      boolean activityTypePopulated = m_projectFile.getTasks().getPopulatedFields().contains(TaskField.ACTIVITY_TYPE);
+      boolean activityTypePopulated = m_projectFile.getTasks().stream().anyMatch(t -> t.getActivityType() != null);
       Map<Task, Integer> wbsSequenceMap = m_projectFile.getTasks().stream().filter(t -> t.getSummary() || (activityTypePopulated && t.getActivityType() == null)).collect(Collectors.toMap(t -> t, t -> t.getSequenceNumber() == null ? wbsSequence.getNext() : t.getSequenceNumber()));
 
       // Sort the tasks into unique ID order
