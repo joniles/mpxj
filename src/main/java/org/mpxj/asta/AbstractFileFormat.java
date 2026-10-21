@@ -368,7 +368,7 @@ abstract class AbstractFileFormat
       //new ColumnDefinition("ORDF", Types.INTEGER),
       new ColumnDefinition("START_DATE", Types.TIMESTAMP),
       new ColumnDefinition("END_DATE", Types.TIMESTAMP),
-      new ColumnDefinition("EXCEPTIOO", Types.INTEGER)
+      new ColumnDefinition("EXCEPTION", Types.INTEGER)
    };
 
    private static final ColumnDefinition[] TIME_ENTRY_COLUMNS = {

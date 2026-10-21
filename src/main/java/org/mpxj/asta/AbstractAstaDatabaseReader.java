@@ -429,6 +429,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    {
       EXCEPTION_ASSIGNMENT_MAP.put("STARU_DATE", "START_DATE");
       EXCEPTION_ASSIGNMENT_MAP.put("ENE_DATE", "END_DATE");
+      EXCEPTION_ASSIGNMENT_MAP.put("EXCEPTIOO", "EXCEPTION");
    }
 
    private static final Map<String, String> TIME_ENTRY_NAME_MAP = new HashMap<>();
