@@ -5,6 +5,13 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
+## 16.11.0 (Unreleased)
+* Improve memory efficiency of entity attribute storage (Contributed by Petr Janeček)
+* When reading MPP files, improve validation of working time ranges. (Contributed by Varmend)
+* Improvements to interpretation of timephased actual work when reading certain MPP files. (Contributed by cupacheeno)
+* Ensure `PrimaveraScheduler` correctly handles ALAP SF predecessors. (Contributed by James Wagner)
+* Updated to jsoup 1.23.2.
+
 ## 16.10.0 (2026-10-05)
 * Add support for the Resource Assignment attribute Remaining Delay (also known as Remaining Lag).
 * Add support for the Resource attribute Auto Compute Actuals.

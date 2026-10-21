@@ -25,7 +25,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -228,42 +228,48 @@ implements <a href="../../org/mpxj/ChildTaskContainer.html" title="interface in 
 </td>
 </tr>
 <tr id="i2" class="altColor">
+<td class="colFirst"><code><a href="../../org/mpxj/Task.html" title="class in org.mpxj">Task</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/TaskContainer.html#createTask-org.mpxj.Task-">createTask</a></span>(<a href="../../org/mpxj/Task.html" title="class in org.mpxj">Task</a>&nbsp;parent)</code>
+<div class="block">Create a new Task, but don't add it to the container.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>protected int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/TaskContainer.html#firstUniqueID--">firstUniqueID</a></span>()</code>
 <div class="block">Returns the value of the first Unique ID to use when renumbering Unique IDs.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../org/mpxj/Task.html" title="class in org.mpxj">Task</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/TaskContainer.html#getChildTasks--">getChildTasks</a></span>()</code>
 <div class="block">Retrieve a list of child tasks held by this object.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../org/mpxj/CustomField.html" title="class in org.mpxj">CustomField</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/TaskContainer.html#getCustomFields--">getCustomFields</a></span>()</code>
 <div class="block">Retrieve a list of task custom fields.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="../../org/mpxj/FieldType.html" title="interface in org.mpxj">FieldType</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/TaskContainer.html#getFieldTypeByAlias-java.lang.String-">getFieldTypeByAlias</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;alias)</code>
 <div class="block">Retrieve the type of a field by its alias.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../org/mpxj/FieldType.html" title="interface in org.mpxj">FieldType</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/TaskContainer.html#getPopulatedFields--">getPopulatedFields</a></span>()</code>
 <div class="block">Retrieve the set of populated fields for this project.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/TaskContainer.html#removed-org.mpxj.Task-">removed</a></span>(<a href="../../org/mpxj/Task.html" title="class in org.mpxj">Task</a>&nbsp;task)</code>
 <div class="block">Called to notify subclasses of item removal.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/TaskContainer.html#synchronizeTaskIDToHierarchy--">synchronizeTaskIDToHierarchy</a></span>()</code>
 <div class="block">Microsoft Project bases the order of tasks displayed on their ID
@@ -384,6 +390,22 @@ implements <a href="../../org/mpxj/ChildTaskContainer.html" title="interface in 
 <dd><code><a href="../../org/mpxj/ChildTaskContainer.html#getChildTasks--">getChildTasks</a></code>&nbsp;in interface&nbsp;<code><a href="../../org/mpxj/ChildTaskContainer.html" title="interface in org.mpxj">ChildTaskContainer</a></code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>list of child tasks</dd>
+</dl>
+</li>
+</ul>
+<a name="createTask-org.mpxj.Task-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createTask</h4>
+<pre>public&nbsp;<a href="../../org/mpxj/Task.html" title="class in org.mpxj">Task</a>&nbsp;createTask(<a href="../../org/mpxj/Task.html" title="class in org.mpxj">Task</a>&nbsp;parent)</pre>
+<div class="block">Create a new Task, but don't add it to the container.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>parent</code> - parent task</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>new Task</dd>
 </dl>
 </li>
 </ul>

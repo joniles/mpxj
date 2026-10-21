@@ -25,7 +25,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -228,30 +228,36 @@ implements <a href="../../org/mpxj/ChildResourceContainer.html" title="interface
 </td>
 </tr>
 <tr id="i2" class="altColor">
+<td class="colFirst"><code><a href="../../org/mpxj/Resource.html" title="class in org.mpxj">Resource</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/ResourceContainer.html#createResource--">createResource</a></span>()</code>
+<div class="block">Create a new Resource, but don't add it to the container.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../org/mpxj/Resource.html" title="class in org.mpxj">Resource</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/ResourceContainer.html#getChildResources--">getChildResources</a></span>()</code>
 <div class="block">Retrieve a list of child resources held by this object.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../org/mpxj/CustomField.html" title="class in org.mpxj">CustomField</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/ResourceContainer.html#getCustomFields--">getCustomFields</a></span>()</code>
 <div class="block">Retrieve a list of resource custom fields.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="../../org/mpxj/FieldType.html" title="interface in org.mpxj">FieldType</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/ResourceContainer.html#getFieldTypeByAlias-java.lang.String-">getFieldTypeByAlias</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;alias)</code>
 <div class="block">Retrieve the type of a field by its alias.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../org/mpxj/FieldType.html" title="interface in org.mpxj">FieldType</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/ResourceContainer.html#getPopulatedFields--">getPopulatedFields</a></span>()</code>
 <div class="block">Retrieve the set of populated fields for this project.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/ResourceContainer.html#removed-org.mpxj.Resource-">removed</a></span>(<a href="../../org/mpxj/Resource.html" title="class in org.mpxj">Resource</a>&nbsp;resource)</code>
 <div class="block">Called to notify subclasses of item removal.</div>
@@ -405,6 +411,20 @@ implements <a href="../../org/mpxj/ChildResourceContainer.html" title="interface
 <dd><code><a href="../../org/mpxj/ProjectEntityContainer.html#removed-T-">removed</a></code>&nbsp;in class&nbsp;<code><a href="../../org/mpxj/ProjectEntityContainer.html" title="class in org.mpxj">ProjectEntityContainer</a>&lt;<a href="../../org/mpxj/Resource.html" title="class in org.mpxj">Resource</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>resource</code> - removed item</dd>
+</dl>
+</li>
+</ul>
+<a name="createResource--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createResource</h4>
+<pre>public&nbsp;<a href="../../org/mpxj/Resource.html" title="class in org.mpxj">Resource</a>&nbsp;createResource()</pre>
+<div class="block">Create a new Resource, but don't add it to the container.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>Resource instance</dd>
 </dl>
 </li>
 </ul>

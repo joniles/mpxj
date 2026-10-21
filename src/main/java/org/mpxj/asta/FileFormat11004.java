@@ -256,8 +256,8 @@ class FileFormat11004 extends AbstractFileFormat
       "APPANDBACKGROUND_FILL_COLOUR",
       "APPANDPATTERN",
       "UNIQUE_BIT_FIELD",
-      "NAML",
-      "TYPG",
+      "NAME",
+      "EXCEPTION_TYPE",
       "ALT_ID",
       "LAST_EDITED_DATE",
       "LAST_EDITED_BY"

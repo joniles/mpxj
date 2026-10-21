@@ -6,5 +6,6 @@ org.mpxj.junit.primavera
 org.mpxj.junit.project
 org.mpxj.junit.resource
 org.mpxj.junit.task
+org.mpxj.mpp
 org.mpxj.mspdi
 org.mpxj.primavera

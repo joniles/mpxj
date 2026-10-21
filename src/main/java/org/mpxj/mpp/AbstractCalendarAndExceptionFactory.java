@@ -68,82 +68,90 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
       //
       // Handle any exceptions
       //
-      if (data.length > 420)
+      if (data.length <= 420)
       {
-         int offset = 420; // The first 420 is for the working hours data
-
-         int exceptionCount = ByteArrayHelper.getShort(data, offset);
-
-         if (exceptionCount == 0)
-         {
-            // align with 8 byte boundary ready to read work weeks
-            offset += 4;
-         }
-         else
-         {
-            ProjectCalendarException exception;
-
-            //
-            // Move to the start of the first exception
-            //
-            offset += 4;
-
-            //
-            // Each exception is a 92 byte block, followed by a
-            // variable length text block
-            //
-            for (int index = 0; index < exceptionCount; index++)
-            {
-               if (offset + 92 > data.length)
-               {
-                  // Bail out if we don't have at least 92 bytes available
-                  break;
-               }
-
-               LocalDate fromDate = MPPUtility.getDate(data, offset);
-               LocalDate toDate = MPPUtility.getDate(data, offset + 2);
-               RecurringData rd = readRecurringData(data, offset, fromDate, toDate);
-               if (rd == null)
-               {
-                  exception = cal.addCalendarException(fromDate, toDate);
-               }
-               else
-               {
-                  exception = cal.addCalendarException(rd);
-               }
-
-               int periodCount = ByteArrayHelper.getShort(data, offset + 14);
-               if (periodCount != 0)
-               {
-                  for (int exceptionPeriodIndex = 0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
-                  {
-                     LocalTime start = MPPUtility.getTime(data, offset + 20 + (exceptionPeriodIndex * 2));
-                     long duration = MPPUtility.getDuration(data, offset + 32 + (exceptionPeriodIndex * 4));
-                     LocalTime end = start.plus(duration, ChronoUnit.MILLIS);
-                     exception.add(new LocalTimeRange(start, end));
-                  }
-               }
-
-               //
-               // Extract the name length - ensure that it is aligned to a 4 byte boundary
-               //
-               int exceptionNameLength = ByteArrayHelper.getInt(data, offset + 88);
-               if (exceptionNameLength % 4 != 0)
-               {
-                  exceptionNameLength = ((exceptionNameLength / 4) + 1) * 4;
-               }
-
-               if (exceptionNameLength != 0)
-               {
-                  exception.setName(MPPUtility.getUnicodeString(data, offset + 92));
-               }
-
-               offset += (92 + exceptionNameLength);
-            }
-         }
-
-         processWorkWeeks(data, offset, cal);
+         return;
       }
+
+      int offset = 420; // The first 420 is for the working hours data
+
+      int exceptionCount = ByteArrayHelper.getShort(data, offset);
+
+      if (exceptionCount == 0)
+      {
+         // align with 8 byte boundary ready to read work weeks
+         offset += 4;
+      }
+      else
+      {
+         ProjectCalendarException exception;
+
+         //
+         // Move to the start of the first exception
+         //
+         offset += 4;
+
+         //
+         // Each exception is a 92 byte block, followed by a
+         // variable length text block
+         //
+         for (int index = 0; index < exceptionCount; index++)
+         {
+            if (offset + 92 > data.length)
+            {
+               // Bail out if we don't have at least 92 bytes available
+               break;
+            }
+
+            LocalDate fromDate = MPPUtility.getDate(data, offset);
+            LocalDate toDate = MPPUtility.getDate(data, offset + 2);
+            RecurringData rd = readRecurringData(data, offset, fromDate, toDate);
+            if (rd == null)
+            {
+               exception = cal.addCalendarException(fromDate, toDate);
+            }
+            else
+            {
+               exception = cal.addCalendarException(rd);
+            }
+
+            int periodCount = ByteArrayHelper.getShort(data, offset + 14);
+            if (periodCount != 0)
+            {
+               for (int exceptionPeriodIndex = 0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
+               {
+                  LocalTime start = MPPUtility.getTime(data, offset + 20 + (exceptionPeriodIndex * 2));
+                  long duration = MPPUtility.getDuration(data, offset + 32 + (exceptionPeriodIndex * 4));
+                  LocalTime end = start.plus(duration, ChronoUnit.MILLIS);
+                  exception.add(new LocalTimeRange(start, end));
+               }
+            }
+
+            //
+            // Extract the name length - ensure that it is aligned to a 4 byte boundary
+            //
+            int exceptionNameLength = ByteArrayHelper.getInt(data, offset + 88);
+            if (exceptionNameLength < 0)
+            {
+               // Stop reading at this point if the name length doesn't make sense
+               return;
+            }
+
+            if (exceptionNameLength % 4 != 0)
+            {
+               exceptionNameLength = ((exceptionNameLength / 4) + 1) * 4;
+            }
+
+            if (exceptionNameLength != 0)
+            {
+               exception.setName(MPPUtility.getUnicodeString(data, offset + 92));
+            }
+
+            offset += (92 + exceptionNameLength);
+         }
+      }
+
+      processWorkWeeks(data, offset, cal);
    }
 
    private RecurringData readRecurringData(byte[] data, int offset, LocalDate fromDate, LocalDate toDate)
@@ -265,6 +273,12 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
          // Extract the name length - ensure that it is aligned to a 4 byte boundary
          //
          int nameLength = ByteArrayHelper.getInt(data, offset);
+         if (nameLength < 0)
+         {
+            // Stop reading at this point if the name length doesn't make sense
+            return;
+         }
+
          if (nameLength % 4 != 0)
          {
             nameLength = ((nameLength / 4) + 1) * 4;
