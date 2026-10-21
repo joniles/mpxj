@@ -414,7 +414,8 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public void removeCalendarException(ProjectCalendarException exception)
    {
-      m_exceptions.remove(exception);
+      // Remove this specific instance, not an object for which equals returns true
+      m_exceptions.removeIf(e -> e == exception);
       m_expandedExceptions.clear();
       clearWorkingDateCache();
    }

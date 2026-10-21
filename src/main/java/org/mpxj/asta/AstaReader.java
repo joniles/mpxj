@@ -1658,6 +1658,13 @@ final class AstaReader
       m_eventManager.fireCalendarReadEvent(calendar);
    }
 
+   /**
+    * Populate exceptions for the suppied calendar.
+    *
+    * @param calendar target calendar
+    * @param exceptionAssignmentMap exception assignments
+    * @param exceptionTypeMap exception types
+    */
    private void processExceptions(ProjectCalendar calendar, Map<Integer, List<Row>> exceptionAssignmentMap, Map<Integer, DayType> exceptionTypeMap)
    {
       List<Row> rows = exceptionAssignmentMap.get(calendar.getUniqueID());
@@ -1666,12 +1673,20 @@ final class AstaReader
          return;
       }
 
+      // Populate CalendarExceptionHours instances with the exception data
       List<CalendarExceptionHours> rawHours = rows.stream()
          .map(r -> new CalendarExceptionHours(r.getDate("START_DATE"), r.getDate("END_DATE"), exceptionTypeMap.get(r.getInteger("EXCEPTION"))))
          .sorted(Comparator.comparing(CalendarExceptionHours::getStart))
          .collect(Collectors.toList());
 
+      // Asta exceptions can span multiple days, and each day
+      // may have multiple exceptions. To handle this we'll
+      // split he raw exception data into ranges covering
+      // a single day.
       List<CalendarExceptionHours> splitHours = splitExceptionDays(rawHours);
+
+      // Now we can group the Asta exceptions together by day
+      // and add them to the calendar.
       Map<LocalDate, List<CalendarExceptionHours>> map = splitHours.stream().collect(Collectors.groupingBy(r -> r.getStart().toLocalDate(), TreeMap::new, Collectors.toList()));
       for (Entry<LocalDate, List<CalendarExceptionHours>> entry : map.entrySet())
       {
@@ -1683,27 +1698,20 @@ final class AstaReader
          hours.stream().filter(h -> h.getType() == DayType.WORKING).forEach(h -> exception.add(h.toLocalTimeRange()));
       }
 
-      // TODO: merge adjacent non-working exceptions
-
-      // ORIGINAL CODE
-//      List<LocalDateRange> ranges = new ArrayList<>();
-//      for (Row row : rows)
-//      {
-//         LocalDateTime startDate = row.getDate("START_DATE");
-//         LocalDateTime endDate = row.getDate("END_DATE");
-//
-//         // special case - when the exception end time is midnight, it really finishes at the end of the previous day
-//         if (endDate.equals(LocalDateTimeHelper.getDayStartDate(endDate)))
-//         {
-//            endDate = endDate.plusDays(-1);
-//         }
-//
-//         ranges.add(new LocalDateRange(LocalDateHelper.getLocalDate(startDate), LocalDateHelper.getLocalDate(endDate)));
-//      }
-//
-//      ranges.stream().distinct().forEach(r -> calendar.addCalendarException(r.getStart(), r.getEnd()));
+      // To tidy up after ourselves having split all the exceptions
+      // from Asta into individual days, we'll try and merge together
+      // adjacent non-working and working exceptions.
+      mergeNonWorkingExceptionDays(calendar);
+      mergeWorkingExceptionDays(calendar);
    }
 
+   /**
+    * Split exceptions which may span multiple days
+    * into individual days.
+    *
+    * @param list exception data
+    * @return exception data split into individual days
+    */
    private List<CalendarExceptionHours> splitExceptionDays(List<CalendarExceptionHours> list)
    {
       int index = 0;
@@ -1731,6 +1739,89 @@ final class AstaReader
       }
 
       return result;
+   }
+
+   /**
+    * Merge adjacent non-working exceptions together.
+    *
+    * @param calendar target calendar
+    */
+   private void mergeNonWorkingExceptionDays(ProjectCalendar calendar)
+   {
+      int index = 1;
+
+      while (true)
+      {
+         List<ProjectCalendarException> exceptions = calendar.getCalendarExceptions();
+         if (index >= exceptions.size())
+         {
+            break;
+         }
+
+         ProjectCalendarException previousException = exceptions.get(index-1);
+         ProjectCalendarException currentException = exceptions.get(index);
+
+         if (previousException.getWorking() || currentException.getWorking())
+         {
+            ++index;
+            continue;
+         }
+
+         if (!previousException.getToDate().plusDays(1).equals(currentException.getFromDate()))
+         {
+            ++index;
+            continue;
+         }
+
+         calendar.removeCalendarException(previousException);
+         calendar.removeCalendarException(currentException);
+         calendar.addCalendarException(previousException.getFromDate(), currentException.getToDate());
+      }
+   }
+
+   /**
+    * Mereg adjacent equivalent working day exceptions together.
+    *
+    * @param calendar target calendar
+    */
+   private void mergeWorkingExceptionDays(ProjectCalendar calendar)
+   {
+      int index = 1;
+
+      while (true)
+      {
+         List<ProjectCalendarException> exceptions = calendar.getCalendarExceptions();
+         if (index >= exceptions.size())
+         {
+            break;
+         }
+
+         ProjectCalendarException previousException = exceptions.get(index-1);
+         ProjectCalendarException currentException = exceptions.get(index);
+
+         if (!previousException.getWorking() || !currentException.getWorking())
+         {
+            ++index;
+            continue;
+         }
+
+         if (!previousException.getToDate().plusDays(1).equals(currentException.getFromDate()))
+         {
+            ++index;
+            continue;
+         }
+
+         if (!previousException.equals(currentException))
+         {
+            ++index;
+            continue;
+         }
+
+         calendar.removeCalendarException(previousException);
+         calendar.removeCalendarException(currentException);
+         ProjectCalendarException newException = calendar.addCalendarException(previousException.getFromDate(), currentException.getToDate());
+         newException.addAll(previousException);
+      }
    }
 
    /**
