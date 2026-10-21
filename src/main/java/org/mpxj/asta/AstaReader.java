@@ -397,7 +397,7 @@ final class AstaReader
 
       //
       // Remove the Displaced Items folder from the top level.
-      // TODO: keep looking for a way to identify this folder wihout using its name.
+      // TODO: keep looking for a way to identify this folder without using its name.
       //
       parentBars.removeIf(bar -> "Displaced Items".equals(bar.getString("NAME")));
 
@@ -1658,7 +1658,7 @@ final class AstaReader
    }
 
    /**
-    * Populate exceptions for the suppied calendar.
+    * Populate exceptions for the supplied calendar.
     *
     * @param calendar target calendar
     * @param exceptionAssignmentMap exception assignments
