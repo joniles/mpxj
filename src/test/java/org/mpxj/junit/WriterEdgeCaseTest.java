@@ -24,6 +24,7 @@ package org.mpxj.junit;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -52,7 +53,9 @@ import org.mpxj.reader.ProjectReader;
 import org.mpxj.writer.ProjectWriter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mpxj.junit.MpxjAssert.assumeJvm;
 
 /**
@@ -132,6 +135,25 @@ public class WriterEdgeCaseTest
 
       assertMondayOnly(writeAndRead(file, new PrimaveraPMFileWriter(), new PrimaveraPMFileReader()).getCalendarByName("Monday"));
       assertMondayOnly(writeAndRead(file, new PrimaveraXERFileWriter(), new PrimaveraXERFileReader()).getCalendarByName("Monday"));
+   }
+
+   /**
+    * Test that P6 XML leaves out the elements of unset values, as P6 itself does, rather than
+    * writing them as nil elements.
+    */
+   @Test public void pmxmlWithoutNilElements() throws Exception
+   {
+      ProjectFile file = createProject();
+      for (int index = 1; index <= 3; index++)
+      {
+         file.addTask().setName("Task " + index);
+      }
+
+      byte[] data = write(file, new PrimaveraPMFileWriter());
+      String xml = new String(data, StandardCharsets.UTF_8);
+      assertFalse(xml.contains("xsi:nil"));
+      assertTrue(xml.contains("<Name>Task 2</Name>"));
+      assertEquals(3, new PrimaveraPMFileReader().read(new ByteArrayInputStream(data)).getTasks().size());
    }
 
    /**
