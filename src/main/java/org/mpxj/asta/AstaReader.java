@@ -1,8 +1,7 @@
 /*
  * file:       AstaReader.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2011
- * date:       07/04/2011
+ * date:       2011-04-07
  */
 
 /*
