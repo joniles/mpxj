@@ -6,8 +6,11 @@
 	</properties>
 	<body>
         <release date="Unreleased" version="16.11.0">
-            <action dev="joniles" type="update">Improve memory efficiency of entity attribute storage (Contributed by Petr Janeček)</action>
-            <action dev="joniles" type="update">When reading MPP files, improve validation of working time ranges. (Contributed by Varmend)</action>
+            <action dev="janecekpetr" type="update">Improve memory efficiency of entity attribute storage (Contributed by Petr Janeček)</action>
+            <action dev="janecekpetr" type="update">Ensure XML files containing large numbers of predefined entities will continue to parse successfully with Java 24. (Contributed by Petr Janeček)</action>
+            <action dev="janecekpetr" type="update">When writing PMXML files, ensure that activity codes without sequence numbers are handled correctly. (Contributed by Petr Janeček)</action>
+            <action dev="janecekpetr" type="update">When writing PMXML and XER files, ensure that calendars derived from a parent calendar which is not present in the schedule are handled correctly. (Contributed by Petr Janeček)</action>
+            <action dev="varmend" type="update">When reading MPP files, improve validation of working time ranges. (Contributed by Varmend)</action>
             <action dev="cupacheeno" type="update">Improvements to interpretation of timephased actual work when reading certain MPP files. (Contributed by cupacheeno)</action>
             <action dev="james-wagner11" type="update">Ensure `PrimaveraScheduler` correctly handles ALAP SF predecessors. (Contributed by James Wagner)</action>
             <action dev="joniles" type="update">Improve identification of calendar exception types when reading Powerproject schedules.</action>
