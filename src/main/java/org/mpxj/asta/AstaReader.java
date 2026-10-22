@@ -754,6 +754,10 @@ final class AstaReader
 
       //PROJID
       task.setUniqueID(row.getInteger("_ID"));
+      if (task.getUniqueID() == null)
+      {
+         task.setUniqueID(row.getInteger("BARID"));
+      }
       task.setStart(row.getDate("BAR_START"));
       task.setFinish(row.getDate("BAR_FINISH"));
       //NATURAL_ORDER
