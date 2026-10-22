@@ -14,6 +14,7 @@
             <action dev="cupacheeno" type="update">Improvements to interpretation of timephased actual work when reading certain MPP files. (Contributed by cupacheeno)</action>
             <action dev="james-wagner11" type="update">Ensure `PrimaveraScheduler` correctly handles ALAP SF predecessors. (Contributed by James Wagner)</action>
             <action dev="joniles" type="update">Improve identification of calendar exception types when reading Powerproject schedules.</action>
+            <action dev="joniles" type="update">Improve the Free Slack calculation used when reading Powerproject schedules.</action>
             <action dev="joe-sharp" type="update">Updated to jsoup 2.23.2.</action>
             <action dev="joe-sharp" type="update">Updated to Jackson 2.22.4.</action>
         </release>

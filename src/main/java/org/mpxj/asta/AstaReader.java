@@ -720,6 +720,8 @@ final class AstaReader
          task.setLateFinish(task.getEffectiveCalendar().getDate(task.getLateStart(), task.getDuration()));
       }
 
+      setFreeSlack(task, row, "FREE_END_DATE_RS");
+
       processConstraints(row, task);
    }
 
@@ -787,12 +789,18 @@ final class AstaReader
       task.setCalendar(calendar);
       task.setLongestPath(row.getBoolean("_LONGEST_PATH"));
       task.setNotes(getNotes(row, "_NOTES"));
+      task.setEarlyStart(row.getDate("_EARLY_START_DATE"));
+      task.setLateStart(row.getDate("_LATE_START_DATE"));
+      task.setEarlyFinish(row.getDate("_EARLY_END_DATE_RS"));
+      task.setLateFinish(row.getDate("_LATE_END_DATE_RS"));
 
       // Causes issues with null/empty values when reading from SQLite databases
       //task.setActualDuration(row.getDuration("_ACTUAL_DURATION"));
 
       Duration durationAtCompletion = deriveEffectiveCalendar(task).getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);
       task.setDuration(durationAtCompletion);
+
+      setFreeSlack(task, row, "_FREE_END_DATE_RS");
    }
 
    /**
@@ -909,6 +917,8 @@ final class AstaReader
       {
          task.setLateFinish(task.getLateStart());
       }
+
+      setFreeSlack(task, row, "FREE_END_DATE_RS");
 
       processConstraints(row, task);
 
@@ -1104,6 +1114,12 @@ final class AstaReader
          LocalDateTime lateStartDate = parentTask.getLateStart();
          LocalDateTime lateFinishDate = parentTask.getLateFinish();
 
+         // Avoid overwriting these dates if we have read them from the schedule
+         boolean updateEarlyStart = earlyStartDate == null;
+         boolean updateEarlyFinish = earlyFinishDate == null;
+         boolean updateLateStart = lateStartDate == null;
+         boolean updateLateFinish = lateFinishDate == null;
+
          for (Task task : parentTask.getChildTasks())
          {
             updateDates(task);
@@ -1122,10 +1138,26 @@ final class AstaReader
          }
 
          parentTask.setActualStart(actualStartDate);
-         parentTask.setEarlyStart(earlyStartDate);
-         parentTask.setEarlyFinish(earlyFinishDate);
-         parentTask.setLateStart(lateStartDate);
-         parentTask.setLateFinish(lateFinishDate);
+
+         if (updateEarlyStart)
+         {
+            parentTask.setEarlyStart(earlyStartDate);
+         }
+
+         if (updateEarlyFinish)
+         {
+            parentTask.setEarlyFinish(earlyFinishDate);
+         }
+
+         if (updateLateStart)
+         {
+            parentTask.setLateStart(lateStartDate);
+         }
+
+         if (updateLateFinish)
+         {
+            parentTask.setLateFinish(lateFinishDate);
+         }
 
          //
          // Only if all child tasks have actual finish dates do we
@@ -2467,6 +2499,39 @@ final class AstaReader
          return Collections.emptyMap();
       }
    }
+
+   /**
+    * Calculate the free slack amount from the Early Finish date and the
+    * Free Finish date.
+    *
+    * @param task target task
+    * @param row task data
+    * @param field name of the field containing the Free Finish date
+    */
+   public void setFreeSlack(Task task, Row row, String field)
+   {
+      LocalDateTime freeEndDate = row.getDate(field);
+      if (freeEndDate == null)
+      {
+         return;
+      }
+
+      LocalDateTime earlyFinish = task.getEarlyFinish();
+      if (earlyFinish == null)
+      {
+         return;
+      }
+
+      if (freeEndDate.isAfter(earlyFinish))
+      {
+         task.setFreeSlack(LocalDateTimeHelper.getVariance(task.getEffectiveCalendar(), earlyFinish, freeEndDate, TimeUnit.HOURS));
+      }
+      else
+      {
+         task.setFreeSlack(Duration.getInstance(0, TimeUnit.HOURS));
+      }
+   }
+
 
    private final ProjectFile m_project;
    private final EventManager m_eventManager;
