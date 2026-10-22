@@ -609,7 +609,7 @@ final class AstaReader
       //USER_PERCENT_COMPLETE
       //OVERALL_PERCENT_COMPL_WEIGHT
       task.setName(row.getString("NAME"));
-      task.setNotes(getNotes(row));
+      task.setNotes(getNotes(row, "NOTES"));
       task.setActivityID(row.getString("UNIQUE_TASK_ID"));
       task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAR")));
       //EFFORT_TIMI_UNIT
@@ -750,14 +750,16 @@ final class AstaReader
          }
       }
 
+      Integer uniqueID = row.getInteger("_ID");
+      if (uniqueID == null)
+      {
+         uniqueID = row.getInteger("BARID");
+      }
+
       ProjectCalendar calendar = m_project.getCalendarByUniqueID(calendarID);
 
       //PROJID
-      task.setUniqueID(row.getInteger("_ID"));
-      if (task.getUniqueID() == null)
-      {
-         task.setUniqueID(row.getInteger("BARID"));
-      }
+      task.setUniqueID(uniqueID);
       task.setStart(row.getDate("BAR_START"));
       task.setFinish(row.getDate("BAR_FINISH"));
       //NATURAL_ORDER
@@ -783,6 +785,11 @@ final class AstaReader
       //QA Checked
       //Related_Documents
       task.setCalendar(calendar);
+      task.setLongestPath(row.getBoolean("_LONGEST_PATH"));
+      task.setNotes(getNotes(row, "_NOTES"));
+
+      // Causes issues with null/empty values when reading from SQLite databases
+      //task.setActualDuration(row.getDuration("_ACTUAL_DURATION"));
 
       Duration durationAtCompletion = deriveEffectiveCalendar(task).getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);
       task.setDuration(durationAtCompletion);
@@ -1896,9 +1903,9 @@ final class AstaReader
     * @param row task data
     * @return note text
     */
-   private String getNotes(Row row)
+   private String getNotes(Row row, String field)
    {
-      String notes = row.getString("NOTES");
+      String notes = row.getString(field);
       if (notes != null)
       {
          if (notes.isEmpty())
