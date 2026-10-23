@@ -53,6 +53,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * Default constructor.
     *
     * @param file Parent file to which this record belongs.
+    * @param slots shared index of field slots
     * @param parent Parent task
     */
    Task(FieldSlots<TaskField> slots, ProjectFile file, Task parent)

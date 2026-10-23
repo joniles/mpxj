@@ -967,7 +967,6 @@ abstract class TableContextReader
          if (i + 1 < rows.size())
          {
             Row nextRow = rows.get(i + 1);
-            int nextResourceID = nextRow.getInt("rsrc_id");
             endDate = nextRow.getDate("start_date").minusMinutes(1);
          }
 

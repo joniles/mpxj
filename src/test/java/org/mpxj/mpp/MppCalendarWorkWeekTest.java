@@ -32,8 +32,14 @@ import org.mpxj.ProjectFile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Test calendar work weeks.
+ */
 public class MppCalendarWorkWeekTest
 {
+   /**
+    * Ensure invalid durations are discarded.
+    */
    @Test public void testInvalidDurationsAreDiscarded()
    {
       int[] invalid = { Integer.MIN_VALUE, -1, 0, 14401, Integer.MAX_VALUE };
@@ -47,6 +53,9 @@ public class MppCalendarWorkWeekTest
       }
    }
 
+   /**
+    * Ensure valid ranges are not discarded.
+    */
    @Test public void testValidRangesSurviveInvalidRanges()
    {
       ProjectCalendarWeek week = readSunday(
@@ -63,6 +72,9 @@ public class MppCalendarWorkWeekTest
       assertEquals(LocalTime.of(17, 0), hours.get(1).getEnd());
    }
 
+   /**
+    * Ensure minimum range duration is read.
+    */
    @Test public void testMinimumValidDuration()
    {
       ProjectCalendarWeek week = readSunday(
@@ -75,6 +87,9 @@ public class MppCalendarWorkWeekTest
       assertEquals(LocalTime.of(8, 0, 6), range.getEnd());
    }
 
+   /**
+    * Ensure a full day duration is read.
+    */
    @Test public void testFullDayDuration()
    {
       ProjectCalendarWeek week = readSunday(
@@ -88,6 +103,9 @@ public class MppCalendarWorkWeekTest
       assertEquals(86400000L, range.getDurationAsMilliseconds());
    }
 
+   /**
+    * Ensure a day with no ranges is read.
+    */
    @Test public void testNoDeclaredRanges()
    {
       ProjectCalendarWeek week = readSunday(new int[0], new int[0]);
@@ -97,6 +115,13 @@ public class MppCalendarWorkWeekTest
       assertEquals(DayType.DEFAULT, week.getCalendarDayType(DayOfWeek.MONDAY));
    }
 
+   /**
+    * Create and parse sample test data.
+    * 
+    * @param starts start times
+    * @param durations durations
+    * @return ProjectCalendarWeek instance
+    */
    private ProjectCalendarWeek readSunday(int[] starts, int[] durations)
    {
       // 420 bytes of normal hours, 4 bytes of exception metadata,

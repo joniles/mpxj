@@ -627,15 +627,4 @@ final class TimephasedDataFactory
       work.removeIf(w -> w.getStart().isEqual(w.getFinish()));
       return work;
    }
-
-   /**
-    * Round a number of minutes expressed as a double to the nearest second.
-    *
-    * @param minutes number of minutes as a double
-    * @return number of minutes rounded to the nearest second
-    */
-   private double roundMinutesToSeconds(double minutes)
-   {
-      return Math.round(minutes * 60.0) / 60.0;
-   }
 }

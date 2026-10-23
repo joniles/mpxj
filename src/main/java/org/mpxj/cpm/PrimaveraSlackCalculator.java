@@ -287,25 +287,6 @@ public class PrimaveraSlackCalculator implements SlackCalculator
 
 
    /**
-    * Calculate the variance between two dates in the context of a Relation instance.
-    *
-    * @param relation Relation instance
-    * @param date1 first date
-    * @param date2 second date
-    * @return variance value
-    */
-   private Duration calculateFreeSlackVariance(Relation relation, LocalDateTime date1, LocalDateTime date2)
-   {
-      if (date1 == null || date2 == null)
-      {
-         return Duration.getInstance(0, TimeUnit.HOURS);
-      }
-
-      Duration variance = LocalDateTimeHelper.getVariance(relation.getPredecessorTask().getEffectiveCalendar(), date1, date2, TimeUnit.HOURS);
-      return removeLag(relation, variance);
-   }
-
-   /**
     * Calculate free slack for an activity without successors.
     *
     * @param task activity
@@ -320,32 +301,6 @@ public class PrimaveraSlackCalculator implements SlackCalculator
 
       LocalDateTime projectFinishDate = task.getParentFile().getProjectProperties().getScheduledFinish();
       return LocalDateTimeHelper.getVariance(task.getEffectiveCalendar(), task.getEarlyFinish(), projectFinishDate, TimeUnit.HOURS);
-   }
-
-   /**
-    * Remove lag from a duration.
-    *
-    * @param relation a Relation instance representing the lag to remove
-    * @param duration remve lag from this duration
-    * @return duration without lag
-    */
-   private Duration removeLag(Relation relation, Duration duration)
-   {
-      Duration lag = relation.getLag();
-      double lagDuration = lag.getDuration();
-      if (lagDuration == 0.0)
-      {
-         return duration;
-      }
-
-      TimeUnit lagUnits = lag.getUnits();
-      TimeUnit durationUnits = duration.getUnits();
-      if (lagUnits != durationUnits)
-      {
-         lag = lag.convertUnits(durationUnits, relation.getPredecessorTask().getEffectiveCalendar());
-      }
-
-      return Duration.getInstance(duration.getDuration() - lag.getDuration(), durationUnits);
    }
 
    /**

@@ -47,7 +47,6 @@ import org.mpxj.ResourceType;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
-import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 
@@ -4074,7 +4073,7 @@ public class PrimaveraScheduler implements Scheduler
     */
    private void applyLongestPath(Task task)
    {
-      if (BooleanHelper.getBoolean(task.getLongestPath()))
+      if (task.getLongestPath())
       {
          return;
       }
@@ -4192,7 +4191,7 @@ public class PrimaveraScheduler implements Scheduler
 
    private LocalDateTime getDateFromWork(ProjectCalendar calendar, Number units, LocalDateTime date, Duration work)
    {
-      double unitsValue = getUnitsValue(units.doubleValue());
+      double unitsValue = getUnitsValue(units);
 
       if (unitsValue == 0)
       {

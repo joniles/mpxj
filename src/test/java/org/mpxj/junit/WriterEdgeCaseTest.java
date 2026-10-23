@@ -157,7 +157,7 @@ public class WriterEdgeCaseTest
       assertNotNull(calendar);
       for (DayOfWeek day : DayOfWeek.values())
       {
-         assertEquals(day == DayOfWeek.MONDAY, calendar.isWorkingDay(day), day.toString());
+         assertEquals(Boolean.valueOf(day == DayOfWeek.MONDAY), Boolean.valueOf(calendar.isWorkingDay(day)), day.toString());
       }
       assertEquals(Collections.singletonList(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(17, 0))), new ArrayList<>(calendar.getHours(DayOfWeek.MONDAY)));
    }

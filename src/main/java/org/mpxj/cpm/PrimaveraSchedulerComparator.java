@@ -172,6 +172,12 @@ public class PrimaveraSchedulerComparator
       m_exclusions.setNoLongestPathTest(value);
    }
 
+   /**
+    * Tell the comparator to ignore files which PrimaveraScheduler doesn't
+    * currently process to match P6.
+    *
+    * @param value set of excluded files
+    */
    public void setNoPlannedTest(Set<String> value)
    {
       m_exclusions.setNoPlannedTest(value);
@@ -247,6 +253,7 @@ public class PrimaveraSchedulerComparator
     * Compare a single file.
     *
     * @param file file to compare
+    * @param excluded excluded test flags
     * @return true if compared successfully
     */
    private  boolean process(File file, Excluded excluded) throws Exception
@@ -384,7 +391,6 @@ public class PrimaveraSchedulerComparator
       String forwardEquivalentDateCount = m_forwardEquivalentDateCount == 0 ? "" : m_forwardEquivalentDateCount + " forward equivalent dates";
       String backwardEquivalentDateCount = m_backwardEquivalentDateCount == 0 ? "" : m_backwardEquivalentDateCount + " backward equivalent dates";
       String assignmentEquivalentDateCount = m_assignmentEquivalentDateCount == 0 ? "" : m_assignmentEquivalentDateCount + " assignment equivalent dates";
-      String equivalentDateCount;
 
       if (forwardEquivalentDateCount.isEmpty() && backwardEquivalentDateCount.isEmpty() && assignmentEquivalentDateCount.isEmpty())
       {
@@ -840,7 +846,7 @@ public class PrimaveraSchedulerComparator
       m_printStream.print(value);
    }
 
-   private static class Exclusions
+   private static final class Exclusions
    {
       private void configure(Set<String> value, Consumer<Excluded> consumer)
       {
@@ -934,83 +940,150 @@ public class PrimaveraSchedulerComparator
       private final Map<String, Excluded> m_excluded = new HashMap<>();
    }
 
+   /**
+    * Class holding flags to enable or disable tests.
+    */
    public static class Excluded
    {
+      /**
+       * Returns true if the test is disabled.
+       *  
+       * @return true if test is disabled.
+       */
       public boolean unreadable()
       {
          return m_unreadable;
       }
 
+      /**
+       * Disable a test.
+       */
       public void setUnreadable()
       {
          m_unreadable = true;
       }
 
+      /**
+       * Returns true if the test is disabled.
+       *  
+       * @return true if test is disabled.
+       */
       public boolean useScheduled()
       {
          return m_useScheduled;
       }
 
+      /**
+       * Disable a test.
+       */
       public void setUseScheduled()
       {
          m_useScheduled = true;
       }
 
+      /**
+       * Returns true if the test is disabled.
+       *  
+       * @return true if test is disabled.
+       */
       public boolean excluded()
       {
          return m_excluded;
       }
 
+      /**
+       * Disable a test.
+       */
       public void setExcluded()
       {
          m_excluded = true;
       }
 
+      /**
+       * Returns true if the test is disabled.
+       *  
+       * @return true if test is disabled.
+       */
       public boolean noWbsTest()
       {
          return m_noWbsTest;
       }
 
+      /**
+       * Disable a test.
+       */
       public void setNoWbsTest()
       {
          m_noWbsTest = true;
       }
 
+      /**
+       * Returns true if the test is disabled.
+       *  
+       * @return true if test is disabled.
+       */
       public boolean noResourceAssignmentTest()
       {
          return m_noResourceAssignmentTest;
       }
 
+      /**
+       * Disable a test.
+       */
       public void setNoResourceAssignmentTest()
       {
          m_noResourceAssignmentTest = true;
       }
 
+      /**
+       * Returns true if the test is disabled.
+       *  
+       * @return true if test is disabled.
+       */
       public boolean noFloatTest()
       {
          return m_noFloatTest;
       }
 
+      /**
+       * Disable a test.
+       */
       public void setNoFloatTest()
       {
          m_noFloatTest = true;
       }
 
+      /**
+       * Returns true if the test is disabled.
+       *  
+       * @return true if test is disabled.
+       */
       public boolean noLongestPathTest()
       {
          return m_noLongestPathTest;
       }
 
+      /**
+       * Disable a test.
+       */
       public void setNoLongestPathTest()
       {
          m_noLongestPathTest = true;
       }
 
+      /**
+       * Returns true if the test is disabled.
+       *  
+       * @return true if test is disabled.
+       */
       public boolean noPlannedTest()
       {
          return m_noPlannedTest;
       }
 
+      /**
+       * Disable a test.
+       */
       public void setNoPlannedTest()
       {
          m_noPlannedTest = true;

@@ -1933,6 +1933,7 @@ final class AstaReader
     * Extract note text.
     *
     * @param row task data
+    * @param field notes field name
     * @return note text
     */
    private String getNotes(Row row, String field)
