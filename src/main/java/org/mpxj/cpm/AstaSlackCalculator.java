@@ -32,7 +32,6 @@ import org.mpxj.Relation;
 import org.mpxj.SlackCalculator;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
-import org.mpxj.TotalSlackCalculationType;
 import org.mpxj.common.LocalDateTimeHelper;
 
 /**
