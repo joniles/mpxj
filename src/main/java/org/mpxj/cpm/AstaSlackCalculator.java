@@ -124,68 +124,7 @@ public class AstaSlackCalculator implements SlackCalculator
 
    @Override public Duration calculateTotalSlack(Task task)
    {
-      // Calculate these first to avoid clearing our total slack value
-      Duration duration = task.getDuration();
-      Duration startSlack = task.getStartSlack();
-      Duration finishSlack = task.getFinishSlack();
-
-      TotalSlackCalculationType calculationType = task.getParentFile().getProjectProperties().getTotalSlackCalculationType();
-
-      if (calculationType == TotalSlackCalculationType.START_SLACK)
-      {
-         return startSlack;
-      }
-
-      if (calculationType == TotalSlackCalculationType.FINISH_SLACK)
-      {
-         return finishSlack;
-      }
-
-      if (task.getActualStart() != null)
-      {
-         return finishSlack;
-      }
-
-      if (duration == null)
-      {
-         return null;
-      }
-
-      if (startSlack == null)
-      {
-         return null;
-      }
-
-      if (finishSlack == null)
-      {
-         return null;
-      }
-
-      TimeUnit units = duration.getUnits();
-      if (startSlack.getUnits() != units)
-      {
-         startSlack = startSlack.convertUnits(units, task.getParentFile().getProjectProperties());
-      }
-
-      if (finishSlack.getUnits() != units)
-      {
-         finishSlack = finishSlack.convertUnits(units, task.getParentFile().getProjectProperties());
-      }
-
-      Duration totalSlack;
-      double startSlackDuration = startSlack.getDuration();
-      double finishSlackDuration = finishSlack.getDuration();
-
-      if (startSlackDuration < finishSlackDuration)
-      {
-         totalSlack = startSlack;
-      }
-      else
-      {
-         totalSlack = finishSlack;
-      }
-
-      return totalSlack;
+      return task.getFinishSlack();
    }
 
    /**
