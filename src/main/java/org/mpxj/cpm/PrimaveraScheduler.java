@@ -259,57 +259,48 @@ public class PrimaveraScheduler implements Scheduler
 
    private void updateDatesWithAutoComputedActuals(ResourceAssignment assignment)
    {
+      Duration budgetWorkInHours = assignment.getBudgetWork().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties());
+      if (budgetWorkInHours == null || budgetWorkInHours.getDuration() == 0.0)
+      {
+         return;
+      }
+
       Task activity = assignment.getTask();
-      LocalDateTime earlyStart = activity.getRemainingEarlyStart();
-      LocalDateTime lateFinish = activity.getRemainingLateFinish();
-      LocalDateTime earlyFinish;
-      LocalDateTime lateStart;
+      double percentComplete;
+
+      switch(activity.getPercentCompleteType())
+      {
+         case PHYSICAL:
+         {
+            percentComplete = NumberHelper.getDouble(activity.getPhysicalPercentComplete());
+            break;
+         }
+
+         case UNITS:
+         {
+            percentComplete = NumberHelper.getDouble(activity.getPercentageWorkComplete());
+            break;
+         }
+
+         default:
+         {
+            percentComplete = NumberHelper.getDouble(activity.getPercentageComplete());
+            break;
+         }
+      }
+
+      Duration actualWorkInHours = Duration.getInstance((percentComplete * budgetWorkInHours.getDuration()) / 100.0, TimeUnit.HOURS);
+      Duration remainingWorkInHours = Duration.getInstance(budgetWorkInHours.getDuration() - actualWorkInHours.getDuration(), TimeUnit.HOURS);
 
       ProjectCalendar governingCalendar = getEffectiveCalendar(assignment);
-      Duration atCompletionWork = assignment.getWork();
-      Duration plannedWork = governingCalendar.getWork(assignment.getPlannedStart(), assignment.getPlannedFinish(), TimeUnit.HOURS);
 
-      if (assignment.getResource().getType() != ResourceType.NON_LABOR && assignment.getActualStart() == null && atCompletionWork.getDuration() == 0.0 && plannedWork.getDuration() != 0.0)
-      {
-         // No computable duration - fall back on planned duration
-         if (assignment.getActualStart() == null)
-         {
-            Duration lag = assignment.getDelay();
-            Duration remainingLag = assignment.getRemainingDelay();
-            if (lag != null && lag.getDuration() != 0 && remainingLag != null && remainingLag.getDuration() != 0)
-            {
-               earlyStart = governingCalendar.getNextWorkStart(governingCalendar.getDate(earlyStart, remainingLag));
-            }
-         }
+      LocalDateTime earlyStart = activity.getRemainingEarlyStart();
+      LocalDateTime lateFinish = activity.getRemainingLateFinish();
+      LocalDateTime earlyFinish = governingCalendar.getDate(earlyStart, remainingWorkInHours);
+      LocalDateTime lateStart = governingCalendar.getDate(lateFinish, remainingWorkInHours.negate());
 
-         earlyFinish = governingCalendar.getDate(earlyStart, plannedWork);
-         lateStart = governingCalendar.getDate(lateFinish, plannedWork.negate());
-      }
-      else
-      {
-         Duration remainingWork = assignment.getRemainingWork();
-         if (remainingWork.getDuration() == 0.0 || activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT)
-         {
-            earlyFinish = activity.getRemainingEarlyFinish();
-            lateStart = activity.getRemainingLateStart();
-         }
-         else
-         {
-            if (assignment.getActualStart() == null)
-            {
-               Duration lag = assignment.getDelay();
-               Duration remainingLag = assignment.getRemainingDelay();
-               if (lag != null && lag.getDuration() != 0 && remainingLag != null && remainingLag.getDuration() != 0)
-               {
-                  earlyStart = governingCalendar.getNextWorkStart(governingCalendar.getDate(earlyStart, remainingLag));
-               }
-            }
-
-            earlyFinish = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), earlyStart, remainingWork);
-            lateStart = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), lateFinish, remainingWork.negate());
-         }
-      }
-
+      assignment.setActualWork(actualWorkInHours);
+      assignment.setRemainingWork(remainingWorkInHours);
       assignment.setRemainingEarlyStart(earlyStart);
       assignment.setRemainingEarlyFinish(earlyFinish);
       assignment.setRemainingLateStart(lateStart);
