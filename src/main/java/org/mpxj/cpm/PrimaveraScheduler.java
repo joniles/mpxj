@@ -42,6 +42,7 @@ import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
 import org.mpxj.Relation;
 import org.mpxj.RelationType;
+import org.mpxj.Resource;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceType;
 import org.mpxj.Task;
@@ -177,6 +178,29 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
+      Resource resource = assignment.getResource();
+      if (resource != null && resource.getAutoComputeActuals())
+      {
+         updateDatesWithAutoComputedActuals(assignment);
+      }
+      else
+      {
+         updateDatesWithManuallyComputedActuals(assignment);
+      }
+
+      if (activity.getActualStart() == null && (assignment.getPlannedStart() == null || assignment.getRemainingEarlyStart().isAfter(assignment.getPlannedStart())))
+      {
+         assignment.setPlannedStart(assignment.getRemainingEarlyStart());
+         assignment.setPlannedFinish(assignment.getRemainingEarlyFinish());
+      }
+
+      assignment.setStart(assignment.getActualStart() == null ? assignment.getRemainingEarlyStart() : assignment.getActualStart());
+      assignment.setFinish(assignment.getRemainingEarlyFinish());
+   }
+
+   private void updateDatesWithManuallyComputedActuals(ResourceAssignment assignment)
+   {
+      Task activity = assignment.getTask();
       LocalDateTime earlyStart = activity.getRemainingEarlyStart();
       LocalDateTime lateFinish = activity.getRemainingLateFinish();
       LocalDateTime earlyFinish;
@@ -231,15 +255,65 @@ public class PrimaveraScheduler implements Scheduler
       assignment.setRemainingEarlyFinish(earlyFinish);
       assignment.setRemainingLateStart(lateStart);
       assignment.setRemainingLateFinish(lateFinish);
+   }
 
-      if (activity.getActualStart() == null && (assignment.getPlannedStart() == null || assignment.getRemainingEarlyStart().isAfter(assignment.getPlannedStart())))
+   private void updateDatesWithAutoComputedActuals(ResourceAssignment assignment)
+   {
+      Task activity = assignment.getTask();
+      LocalDateTime earlyStart = activity.getRemainingEarlyStart();
+      LocalDateTime lateFinish = activity.getRemainingLateFinish();
+      LocalDateTime earlyFinish;
+      LocalDateTime lateStart;
+
+      ProjectCalendar governingCalendar = getEffectiveCalendar(assignment);
+      Duration atCompletionWork = assignment.getWork();
+      Duration plannedWork = governingCalendar.getWork(assignment.getPlannedStart(), assignment.getPlannedFinish(), TimeUnit.HOURS);
+
+      if (assignment.getResource().getType() != ResourceType.NON_LABOR && assignment.getActualStart() == null && atCompletionWork.getDuration() == 0.0 && plannedWork.getDuration() != 0.0)
       {
-         assignment.setPlannedStart(assignment.getRemainingEarlyStart());
-         assignment.setPlannedFinish(assignment.getRemainingEarlyFinish());
+         // No computable duration - fall back on planned duration
+         if (assignment.getActualStart() == null)
+         {
+            Duration lag = assignment.getDelay();
+            Duration remainingLag = assignment.getRemainingDelay();
+            if (lag != null && lag.getDuration() != 0 && remainingLag != null && remainingLag.getDuration() != 0)
+            {
+               earlyStart = governingCalendar.getNextWorkStart(governingCalendar.getDate(earlyStart, remainingLag));
+            }
+         }
+
+         earlyFinish = governingCalendar.getDate(earlyStart, plannedWork);
+         lateStart = governingCalendar.getDate(lateFinish, plannedWork.negate());
+      }
+      else
+      {
+         Duration remainingWork = assignment.getRemainingWork();
+         if (remainingWork.getDuration() == 0.0 || activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT)
+         {
+            earlyFinish = activity.getRemainingEarlyFinish();
+            lateStart = activity.getRemainingLateStart();
+         }
+         else
+         {
+            if (assignment.getActualStart() == null)
+            {
+               Duration lag = assignment.getDelay();
+               Duration remainingLag = assignment.getRemainingDelay();
+               if (lag != null && lag.getDuration() != 0 && remainingLag != null && remainingLag.getDuration() != 0)
+               {
+                  earlyStart = governingCalendar.getNextWorkStart(governingCalendar.getDate(earlyStart, remainingLag));
+               }
+            }
+
+            earlyFinish = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), earlyStart, remainingWork);
+            lateStart = getDateFromWork(governingCalendar, assignment.getRemainingUnits(), lateFinish, remainingWork.negate());
+         }
       }
 
-      assignment.setStart(assignment.getActualStart() == null ? assignment.getRemainingEarlyStart() : assignment.getActualStart());
-      assignment.setFinish(assignment.getRemainingEarlyFinish());
+      assignment.setRemainingEarlyStart(earlyStart);
+      assignment.setRemainingEarlyFinish(earlyFinish);
+      assignment.setRemainingLateStart(lateStart);
+      assignment.setRemainingLateFinish(lateFinish);
    }
 
    /**
