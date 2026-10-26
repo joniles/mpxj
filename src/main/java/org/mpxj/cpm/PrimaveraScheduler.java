@@ -1570,7 +1570,9 @@ public class PrimaveraScheduler implements Scheduler
                // Successor not started
                if (relation.getLag().getDuration() == 0.0)
                {
-                  earlyStart = getDateFromFinishAndRemainingDuration(successorTask, predecessorTask.getActualFinish());
+                  // P6 carries an unfinished predecessor's dates through a completed activity (retained logic):
+                  // the predecessor's early finish holds them, its actual finish does not.
+                  earlyStart = getDateFromFinishAndRemainingDuration(successorTask, predecessorTask.getEarlyFinish());
                }
                else
                {
@@ -2957,7 +2959,8 @@ public class PrimaveraScheduler implements Scheduler
                         }
                         else
                         {
-                           lateFinish = successorTask.getLateStart();
+                           // P6 removes a lead whatever the successor's progress
+                           lateFinish = m_dateCalculator.removeLag(relation, successorTask.getLateStart());
                         }
                      }
                   }
@@ -2977,7 +2980,8 @@ public class PrimaveraScheduler implements Scheduler
                      }
                      else
                      {
-                        lateFinish = successorTask.getLateStart();
+                        // P6 removes the lead from a completed successor's late start, as it does for one not started
+                        lateFinish = m_dateCalculator.removeLag(relation, successorTask.getLateStart());
                      }
                   }
                }
