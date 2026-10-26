@@ -269,6 +269,17 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
+      if (m_useExpectedFinish && activity.getExpectedFinish() != null)
+      {
+         assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
+         assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
+         assignment.setRemainingLateStart(activity.getRemainingLateStart());
+         assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
+         assignment.setStart(activity.getRemainingEarlyStart());
+         assignment.setFinish(activity.getRemainingEarlyFinish());
+         return;
+      }
+
       double percentComplete;
       switch(activity.getPercentCompleteType())
       {
