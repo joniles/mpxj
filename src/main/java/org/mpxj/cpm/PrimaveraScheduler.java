@@ -266,6 +266,8 @@ public class PrimaveraScheduler implements Scheduler
          assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
          assignment.setRemainingLateStart(activity.getRemainingLateStart());
          assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
+         assignment.setStart(activity.getRemainingEarlyStart());
+         assignment.setFinish(activity.getRemainingEarlyFinish());
          return;
       }
 
