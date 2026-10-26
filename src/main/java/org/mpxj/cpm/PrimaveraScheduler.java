@@ -260,7 +260,14 @@ public class PrimaveraScheduler implements Scheduler
    private void updateDatesWithAutoComputedActuals(ResourceAssignment assignment)
    {
       Task activity = assignment.getTask();
-      ProjectCalendar governingCalendar = getEffectiveCalendar(assignment);
+      if (activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT)
+      {
+         assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
+         assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
+         assignment.setRemainingLateStart(activity.getRemainingLateStart());
+         assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
+         return;
+      }
 
       double percentComplete;
       switch(activity.getPercentCompleteType())
@@ -284,25 +291,32 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
+      ProjectCalendar governingCalendar = getEffectiveCalendar(assignment);
       Duration plannedWork = assignment.getPlannedWork();
       if (plannedWork == null || plannedWork.getDuration() == 0.0)
       {
          double plannedWorkFromAssignment = governingCalendar.getWork(assignment.getPlannedStart(), assignment.getPlannedFinish(), TimeUnit.HOURS).getDuration();
          double actualWorkFromAssignment = (plannedWorkFromAssignment * percentComplete) / 100.0;
-         Duration remainingWork = Duration.getInstance(plannedWorkFromAssignment - actualWorkFromAssignment, TimeUnit.HOURS);
+         Duration remainingWorkFromAssignment = Duration.getInstance(plannedWorkFromAssignment - actualWorkFromAssignment, TimeUnit.HOURS);
 
-         assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
-         assignment.setRemainingEarlyFinish(governingCalendar.getDate(activity.getRemainingEarlyStart(), remainingWork));
-         assignment.setRemainingLateStart(governingCalendar.getDate(activity.getRemainingLateFinish(), remainingWork.negate()));
-         assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
-         assignment.setStart(assignment.getRemainingEarlyStart());
-         assignment.setFinish(assignment.getRemainingEarlyFinish());
+         LocalDateTime earlyStart = activity.getRemainingEarlyStart();
+         LocalDateTime lateFinish = activity.getRemainingLateFinish();
+         LocalDateTime earlyFinish = m_dateCalculator.getDate(governingCalendar, earlyStart, remainingWorkFromAssignment);
+         LocalDateTime lateStart = m_dateCalculator.getDate(governingCalendar, lateFinish, remainingWorkFromAssignment.negate());
+
+         assignment.setRemainingEarlyStart(earlyStart);
+         assignment.setRemainingEarlyFinish(earlyFinish);
+         assignment.setRemainingLateStart(lateStart);
+         assignment.setRemainingLateFinish(lateFinish);
+         assignment.setStart(earlyStart);
+         assignment.setFinish(earlyFinish);
          return;
       }
 
       double remainingUnitsPerTime = NumberHelper.getDouble(assignment.getRemainingUnits());
       if (remainingUnitsPerTime < 0.001)
       {
+         // P6 treats remaining units/time as zero if the value is below a certain threshold
          assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
          assignment.setRemainingEarlyFinish(activity.getRemainingEarlyStart());
          assignment.setRemainingLateStart(activity.getRemainingLateFinish());
@@ -313,12 +327,10 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       double plannedUnits = plannedWork.convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
-
       double actualUnits = (percentComplete * plannedUnits) / 100.0;
       double remainingUnits = plannedUnits - actualUnits;
       Duration actualWork = Duration.getInstance((actualUnits * 100.0) / remainingUnitsPerTime, TimeUnit.HOURS);
       Duration remainingWork = Duration.getInstance((remainingUnits * 100.0) / remainingUnitsPerTime, TimeUnit.HOURS);
-
 
       LocalDateTime earlyStart = activity.getRemainingEarlyStart();
       LocalDateTime lateFinish = activity.getRemainingLateFinish();
