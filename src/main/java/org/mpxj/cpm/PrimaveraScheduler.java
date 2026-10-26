@@ -321,8 +321,8 @@ public class PrimaveraScheduler implements Scheduler
       {
          // P6 treats remaining units/time as zero if the value is below a certain threshold
          assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
-         assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
-         assignment.setRemainingLateStart(activity.getRemainingLateStart());
+         assignment.setRemainingEarlyFinish(activity.getRemainingEarlyStart());
+         assignment.setRemainingLateStart(activity.getRemainingLateFinish());
          assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
          assignment.setStart(activity.getStart());
          assignment.setFinish(activity.getRemainingEarlyStart());
