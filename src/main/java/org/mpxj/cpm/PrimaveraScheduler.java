@@ -259,13 +259,32 @@ public class PrimaveraScheduler implements Scheduler
 
    private void updateDatesWithAutoComputedActuals(ResourceAssignment assignment)
    {
-      Duration budgetWorkInHours = assignment.getBudgetWork().convertUnits(TimeUnit.HOURS, m_file.getProjectProperties());
-      if (budgetWorkInHours == null || budgetWorkInHours.getDuration() == 0.0)
+      Task activity = assignment.getTask();
+      Duration plannedWork = assignment.getPlannedWork();
+      if (plannedWork == null || plannedWork.getDuration() == 0.0)
       {
+         assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
+         assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
+         assignment.setRemainingLateStart(activity.getRemainingLateStart());
+         assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
+         assignment.setStart(activity.getRemainingEarlyStart());
+         assignment.setFinish(activity.getRemainingEarlyFinish());
          return;
       }
 
-      Task activity = assignment.getTask();
+      double remainingUnitsPerTime = NumberHelper.getDouble(assignment.getRemainingUnits());
+      if (remainingUnitsPerTime < 0.001)
+      {
+         assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
+         assignment.setRemainingEarlyFinish(activity.getRemainingEarlyStart());
+         assignment.setRemainingLateStart(activity.getRemainingLateFinish());
+         assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
+         assignment.setStart(activity.getStart());
+         assignment.setFinish(activity.getRemainingEarlyStart());
+         return;
+      }
+
+      double plannedUnits = plannedWork.convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
       double percentComplete;
 
       switch(activity.getPercentCompleteType())
@@ -289,18 +308,19 @@ public class PrimaveraScheduler implements Scheduler
          }
       }
 
-      Duration actualWorkInHours = Duration.getInstance((percentComplete * budgetWorkInHours.getDuration()) / 100.0, TimeUnit.HOURS);
-      Duration remainingWorkInHours = Duration.getInstance(budgetWorkInHours.getDuration() - actualWorkInHours.getDuration(), TimeUnit.HOURS);
+      double actualUnits = (percentComplete * plannedUnits) / 100.0;
+      double remainingUnits = plannedUnits - actualUnits;
+      Duration actualWork = Duration.getInstance((actualUnits * 100.0) / remainingUnitsPerTime, TimeUnit.HOURS);
+      Duration remainingWork = Duration.getInstance((remainingUnits * 100.0) / remainingUnitsPerTime, TimeUnit.HOURS);
 
       ProjectCalendar governingCalendar = getEffectiveCalendar(assignment);
-
       LocalDateTime earlyStart = activity.getRemainingEarlyStart();
       LocalDateTime lateFinish = activity.getRemainingLateFinish();
-      LocalDateTime earlyFinish = governingCalendar.getDate(earlyStart, remainingWorkInHours);
-      LocalDateTime lateStart = governingCalendar.getDate(lateFinish, remainingWorkInHours.negate());
+      LocalDateTime earlyFinish = m_dateCalculator.getDate(governingCalendar, earlyStart, remainingWork);
+      LocalDateTime lateStart = m_dateCalculator.getDate(governingCalendar, lateFinish, remainingWork.negate());
 
-      assignment.setActualWork(actualWorkInHours);
-      assignment.setRemainingWork(remainingWorkInHours);
+      assignment.setActualWork(actualWork);
+      assignment.setRemainingWork(remainingWork);
       assignment.setRemainingEarlyStart(earlyStart);
       assignment.setRemainingEarlyFinish(earlyFinish);
       assignment.setRemainingLateStart(lateStart);
