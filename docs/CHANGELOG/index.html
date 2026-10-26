@@ -8859,10 +8859,17 @@ no longer distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
 <h2 id="16110-unreleased">16.11.0 (Unreleased)</h2>
 <ul>
 <li>Improve memory efficiency of entity attribute storage (Contributed by Petr Janeček)</li>
+<li>Ensure XML files containing large numbers of predefined entities will continue to parse successfully with Java 24. (Contributed by Petr Janeček)</li>
+<li>When writing PMXML files, ensure that activity codes without sequence numbers are handled correctly. (Contributed by Petr Janeček)</li>
+<li>When writing PMXML and XER files, ensure that calendars derived from a parent calendar which is not present in the schedule are handled correctly. (Contributed by Petr Janeček)</li>
 <li>When reading MPP files, improve validation of working time ranges. (Contributed by Varmend)</li>
 <li>Improvements to interpretation of timephased actual work when reading certain MPP files. (Contributed by cupacheeno)</li>
 <li>Ensure <code>PrimaveraScheduler</code> correctly handles ALAP SF predecessors. (Contributed by James Wagner)</li>
-<li>Updated to jsoup 1.23.2.</li>
+<li>Improve handling of Out-Of-Sequence progress by <code>PrimaveraScheduler</code> (Contributed by James Wagner)</li>
+<li>Improve identification of calendar exception types when reading Powerproject schedules.</li>
+<li>Improve the Free Slack calculation used when reading Powerproject schedules.</li>
+<li>Updated to jsoup 2.23.2.</li>
+<li>Updated to Jackson 2.22.4.</li>
 </ul>
 <h2 id="16100-2026-10-05">16.10.0 (2026-10-05)</h2>
 <ul>

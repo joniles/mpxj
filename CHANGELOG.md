@@ -7,10 +7,17 @@ no longer distributed. Please use the `MPXJ.Net` package instead.
 
 ## 16.11.0 (Unreleased)
 * Improve memory efficiency of entity attribute storage (Contributed by Petr Janeček)
+* Ensure XML files containing large numbers of predefined entities will continue to parse successfully with Java 24. (Contributed by Petr Janeček)
+* When writing PMXML files, ensure that activity codes without sequence numbers are handled correctly. (Contributed by Petr Janeček)
+* When writing PMXML and XER files, ensure that calendars derived from a parent calendar which is not present in the schedule are handled correctly. (Contributed by Petr Janeček)
 * When reading MPP files, improve validation of working time ranges. (Contributed by Varmend)
 * Improvements to interpretation of timephased actual work when reading certain MPP files. (Contributed by cupacheeno)
 * Ensure `PrimaveraScheduler` correctly handles ALAP SF predecessors. (Contributed by James Wagner)
-* Updated to jsoup 1.23.2.
+* Improve handling of Out-Of-Sequence progress by `PrimaveraScheduler` (Contributed by James Wagner)
+* Improve identification of calendar exception types when reading Powerproject schedules.
+* Improve the Free Slack calculation used when reading Powerproject schedules.
+* Updated to jsoup 2.23.2.
+* Updated to Jackson 2.22.4.
 
 ## 16.10.0 (2026-10-05)
 * Add support for the Resource Assignment attribute Remaining Delay (also known as Remaining Lag).
