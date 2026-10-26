@@ -274,7 +274,10 @@ public class PrimaveraScheduler implements Scheduler
       {
          case PHYSICAL:
          {
-            percentComplete = NumberHelper.getDouble(activity.getPhysicalPercentComplete());
+            //percentComplete = NumberHelper.getDouble(activity.getPhysicalPercentComplete());
+
+            // always uses duration percent complete?
+            percentComplete = NumberHelper.getDouble(activity.getPercentageComplete());
             break;
          }
 
@@ -333,6 +336,14 @@ public class PrimaveraScheduler implements Scheduler
       Duration remainingWork = Duration.getInstance((remainingUnits * 100.0) / remainingUnitsPerTime, TimeUnit.HOURS);
 
       LocalDateTime earlyStart = activity.getRemainingEarlyStart();
+
+      Duration lag = assignment.getDelay();
+      Duration remainingLag = assignment.getRemainingDelay();
+      if (lag != null && lag.getDuration() != 0 && remainingLag != null && remainingLag.getDuration() != 0)
+      {
+         earlyStart = governingCalendar.getNextWorkStart(governingCalendar.getDate(earlyStart, remainingLag));
+      }
+
       LocalDateTime lateFinish = activity.getRemainingLateFinish();
       LocalDateTime earlyFinish = m_dateCalculator.getDate(governingCalendar, earlyStart, remainingWork);
       LocalDateTime lateStart = m_dateCalculator.getDate(governingCalendar, lateFinish, remainingWork.negate());
