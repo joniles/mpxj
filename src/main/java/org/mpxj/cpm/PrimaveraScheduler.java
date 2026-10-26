@@ -296,7 +296,10 @@ public class PrimaveraScheduler implements Scheduler
 
          case UNITS:
          {
-            percentComplete = NumberHelper.getDouble(activity.getPercentageWorkComplete());
+            //percentComplete = NumberHelper.getDouble(activity.getPercentageWorkComplete());
+
+            // always uses duration percent complete?
+            percentComplete = NumberHelper.getDouble(activity.getPercentageComplete());
             break;
          }
 
@@ -339,6 +342,17 @@ public class PrimaveraScheduler implements Scheduler
          assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
          assignment.setStart(activity.getStart());
          assignment.setFinish(activity.getRemainingEarlyStart());
+         return;
+      }
+
+      if (assignment.getActualStart() != null && percentComplete == 0.0)
+      {
+         assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
+         assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
+         assignment.setRemainingLateStart(activity.getRemainingLateStart());
+         assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
+         assignment.setStart(activity.getRemainingEarlyStart());
+         assignment.setFinish(activity.getRemainingEarlyFinish());
          return;
       }
 
