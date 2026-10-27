@@ -367,11 +367,11 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       {
          LocalDateTime startDate = DatatypeConverter.parseEpochTimestamp(exceptions[index]);
          LocalDateTime endDate = DatatypeConverter.parseEpochTimestamp(exceptions[index + 1]);
-         //Integer exceptionTypeID = Integer.valueOf(exceptions[index + 2]);
 
          Map<String, Object> map = new HashMap<>();
          map.put("START_DATE", startDate);
          map.put("END_DATE", endDate);
+         map.put("EXCEPTION", Integer.valueOf(exceptions[index + 2]));
 
          list.add(new MapRow(map));
 

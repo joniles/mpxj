@@ -832,7 +832,9 @@ implements <a href="../../org/mpxj/ChildTaskContainer.html" title="interface in 
 <li class="blockList">
 <h4>getCalendarsForProject</h4>
 <pre>public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../org/mpxj/ProjectCalendar.html" title="class in org.mpxj">ProjectCalendar</a>&gt;&nbsp;getCalendarsForProject()</pre>
-<div class="block">Retrieve all global calendars plus any project-specific calendars related to this project.</div>
+<div class="block">Retrieve all global calendars plus any project-specific calendars related to this project.
+ A project calendar naming no project at all is included, as nothing ties it to another
+ project and tasks or resources may still use it.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>list of calendars</dd>

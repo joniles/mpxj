@@ -25,7 +25,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -203,42 +203,49 @@ extends <a href="../../org/mpxj/ProjectEntityContainer.html" title="class in org
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code><a href="../../org/mpxj/ResourceAssignment.html" title="class in org.mpxj">ResourceAssignment</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/ResourceAssignmentContainer.html#add-org.mpxj.Task-org.mpxj.Resource-">add</a></span>(<a href="../../org/mpxj/Task.html" title="class in org.mpxj">Task</a>&nbsp;task,
+   <a href="../../org/mpxj/Resource.html" title="class in org.mpxj">Resource</a>&nbsp;resource)</code>
+<div class="block">Create a new resource assignment, populate default attributes, and add it to the container.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/ResourceAssignmentContainer.html#added-org.mpxj.ResourceAssignment-">added</a></span>(<a href="../../org/mpxj/ResourceAssignment.html" title="class in org.mpxj">ResourceAssignment</a>&nbsp;assignment)</code>
 <div class="block">Called to notify subclasses of item addition.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../org/mpxj/ResourceAssignment.html" title="class in org.mpxj">ResourceAssignment</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/ResourceAssignmentContainer.html#getByResourceUniqueID-java.lang.Integer-">getByResourceUniqueID</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;resourceUniqueID)</code>
 <div class="block">Retrieve resource assignments by resource unique ID.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../org/mpxj/ResourceAssignment.html" title="class in org.mpxj">ResourceAssignment</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/ResourceAssignmentContainer.html#getByTaskUniqueID-java.lang.Integer-">getByTaskUniqueID</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;taskUniqueID)</code>
 <div class="block">Retrieve resource assignments by task unique ID.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../org/mpxj/CustomField.html" title="class in org.mpxj">CustomField</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/ResourceAssignmentContainer.html#getCustomFields--">getCustomFields</a></span>()</code>
 <div class="block">Retrieve a list of resource assignment custom fields.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="../../org/mpxj/FieldType.html" title="interface in org.mpxj">FieldType</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/ResourceAssignmentContainer.html#getFieldTypeByAlias-java.lang.String-">getFieldTypeByAlias</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;alias)</code>
 <div class="block">Retrieve the type of a field by its alias.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html?is-external=true" title="class or interface in java.util">Set</a>&lt;<a href="../../org/mpxj/FieldType.html" title="interface in org.mpxj">FieldType</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/ResourceAssignmentContainer.html#getPopulatedFields--">getPopulatedFields</a></span>()</code>
 <div class="block">Retrieve the set of populated fields for this project.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../org/mpxj/ResourceAssignmentContainer.html#removed-org.mpxj.ResourceAssignment-">removed</a></span>(<a href="../../org/mpxj/ResourceAssignment.html" title="class in org.mpxj">ResourceAssignment</a>&nbsp;assignment)</code>
 <div class="block">Called to notify subclasses of item removal.</div>
@@ -337,6 +344,24 @@ extends <a href="../../org/mpxj/ProjectEntityContainer.html" title="class in org
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="add-org.mpxj.Task-org.mpxj.Resource-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>add</h4>
+<pre>public&nbsp;<a href="../../org/mpxj/ResourceAssignment.html" title="class in org.mpxj">ResourceAssignment</a>&nbsp;add(<a href="../../org/mpxj/Task.html" title="class in org.mpxj">Task</a>&nbsp;task,
+                              <a href="../../org/mpxj/Resource.html" title="class in org.mpxj">Resource</a>&nbsp;resource)</pre>
+<div class="block">Create a new resource assignment, populate default attributes, and add it to the container.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>task</code> - Task instance</dd>
+<dd><code>resource</code> - Resource instance</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>new ResourceAssignment instance</dd>
+</dl>
+</li>
+</ul>
 <a name="added-org.mpxj.ResourceAssignment-">
 <!--   -->
 </a>

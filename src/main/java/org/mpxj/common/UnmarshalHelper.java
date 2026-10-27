@@ -106,7 +106,26 @@ public final class UnmarshalHelper
       SAXParserFactory factory = SAXParserFactory.newInstance();
       factory.setFeature(DISALLOW_DOCTYPE_DECL, true);
       factory.setNamespaceAware(true);
-      return factory.newSAXParser().getXMLReader();
+      XMLReader reader = factory.newSAXParser().getXMLReader();
+
+      // Since Java 24 the JDK's parser counts every reference to a predefined entity
+      // such as &lt; in a document towards limits of 100,000, so a file with many
+      // notes stored as escaped HTML can no longer be read. With no DOCTYPE allowed
+      // no other entity can be declared, so these limits guard nothing here.
+      for (String limit : ENTITY_SIZE_LIMITS)
+      {
+         try
+         {
+            reader.setProperty(limit, "0");
+         }
+
+         catch (SAXException ex)
+         {
+            // A parser other than the JDK's does not know these limits
+         }
+      }
+
+      return reader;
    }
 
    /**
@@ -122,4 +141,9 @@ public final class UnmarshalHelper
    }
 
    private static final String DISALLOW_DOCTYPE_DECL = "http://apache.org/xml/features/disallow-doctype-decl";
+   private static final String[] ENTITY_SIZE_LIMITS =
+   {
+      "jdk.xml.maxGeneralEntitySizeLimit",
+      "jdk.xml.totalEntitySizeLimit"
+   };
 }

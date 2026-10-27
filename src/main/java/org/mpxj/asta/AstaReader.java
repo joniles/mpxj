@@ -1,8 +1,7 @@
 /*
  * file:       AstaReader.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2011
- * date:       07/04/2011
+ * date:       2011-04-07
  */
 
 /*
@@ -26,6 +25,7 @@ package org.mpxj.asta;
 import java.io.IOException;
 import java.io.StringReader;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -63,6 +64,7 @@ import org.mpxj.LocalDateRange;
 import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarDays;
+import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectCalendarWeek;
 import org.mpxj.ProjectConfig;
@@ -395,7 +397,7 @@ final class AstaReader
 
       //
       // Remove the Displaced Items folder from the top level.
-      // TODO: keep looking for a way to identify this folder wihout using its name.
+      // TODO: keep looking for a way to identify this folder without using its name.
       //
       parentBars.removeIf(bar -> "Displaced Items".equals(bar.getString("NAME")));
 
@@ -607,7 +609,7 @@ final class AstaReader
       //USER_PERCENT_COMPLETE
       //OVERALL_PERCENT_COMPL_WEIGHT
       task.setName(row.getString("NAME"));
-      task.setNotes(getNotes(row));
+      task.setNotes(getNotes(row, "NOTES"));
       task.setActivityID(row.getString("UNIQUE_TASK_ID"));
       task.setCalendar(m_project.getCalendarByUniqueID(row.getInteger("CALENDAR")));
       //EFFORT_TIMI_UNIT
@@ -718,6 +720,8 @@ final class AstaReader
          task.setLateFinish(task.getEffectiveCalendar().getDate(task.getLateStart(), task.getDuration()));
       }
 
+      setFreeSlack(task, row, "FREE_END_DATE_RS");
+
       processConstraints(row, task);
    }
 
@@ -748,10 +752,16 @@ final class AstaReader
          }
       }
 
+      Integer uniqueID = row.getInteger("_ID");
+      if (uniqueID == null)
+      {
+         uniqueID = row.getInteger("BARID");
+      }
+
       ProjectCalendar calendar = m_project.getCalendarByUniqueID(calendarID);
 
       //PROJID
-      task.setUniqueID(row.getInteger("BARID"));
+      task.setUniqueID(uniqueID);
       task.setStart(row.getDate("BAR_START"));
       task.setFinish(row.getDate("BAR_FINISH"));
       //NATURAL_ORDER
@@ -777,9 +787,20 @@ final class AstaReader
       //QA Checked
       //Related_Documents
       task.setCalendar(calendar);
+      task.setLongestPath(row.getBoolean("_LONGEST_PATH"));
+      task.setNotes(getNotes(row, "_NOTES"));
+      task.setEarlyStart(row.getDate("_EARLY_START_DATE"));
+      task.setLateStart(row.getDate("_LATE_START_DATE"));
+      task.setEarlyFinish(row.getDate("_EARLY_END_DATE_RS"));
+      task.setLateFinish(row.getDate("_LATE_END_DATE_RS"));
+
+      // Causes issues with null/empty values when reading from SQLite databases
+      //task.setActualDuration(row.getDuration("_ACTUAL_DURATION"));
 
       Duration durationAtCompletion = deriveEffectiveCalendar(task).getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);
       task.setDuration(durationAtCompletion);
+
+      setFreeSlack(task, row, "_FREE_END_DATE_RS");
    }
 
    /**
@@ -896,6 +917,8 @@ final class AstaReader
       {
          task.setLateFinish(task.getLateStart());
       }
+
+      setFreeSlack(task, row, "FREE_END_DATE_RS");
 
       processConstraints(row, task);
 
@@ -1091,6 +1114,12 @@ final class AstaReader
          LocalDateTime lateStartDate = parentTask.getLateStart();
          LocalDateTime lateFinishDate = parentTask.getLateFinish();
 
+         // Avoid overwriting these dates if we have read them from the schedule
+         boolean updateEarlyStart = earlyStartDate == null;
+         boolean updateEarlyFinish = earlyFinishDate == null;
+         boolean updateLateStart = lateStartDate == null;
+         boolean updateLateFinish = lateFinishDate == null;
+
          for (Task task : parentTask.getChildTasks())
          {
             updateDates(task);
@@ -1109,10 +1138,26 @@ final class AstaReader
          }
 
          parentTask.setActualStart(actualStartDate);
-         parentTask.setEarlyStart(earlyStartDate);
-         parentTask.setEarlyFinish(earlyFinishDate);
-         parentTask.setLateStart(lateStartDate);
-         parentTask.setLateFinish(lateFinishDate);
+
+         if (updateEarlyStart)
+         {
+            parentTask.setEarlyStart(earlyStartDate);
+         }
+
+         if (updateEarlyFinish)
+         {
+            parentTask.setEarlyFinish(earlyFinishDate);
+         }
+
+         if (updateLateStart)
+         {
+            parentTask.setLateStart(lateStartDate);
+         }
+
+         if (updateLateFinish)
+         {
+            parentTask.setLateFinish(lateFinishDate);
+         }
 
          //
          // Only if all child tasks have actual finish dates do we
@@ -1493,29 +1538,7 @@ final class AstaReader
       for (Row row : rows)
       {
          Integer id = row.getInteger("ID");
-         DayType result;
-
-         switch (row.getInt("UNIQUE_BIT_FIELD"))
-         {
-            case 8: // Working
-            case 32: // Overtime
-            case 128: //Weekend Working
-            {
-               result = DayType.WORKING;
-               break;
-            }
-
-            case 4: // Non Working
-            case 16: // Holiday
-            case 64: // Weather
-            case -2147483648: // Weekend
-            default:
-            {
-               result = DayType.NON_WORKING;
-               break;
-            }
-         }
-
+         DayType result = row.getBoolean("EXCEPTION_TYPE") ? DayType.NON_WORKING : DayType.WORKING;
          map.put(id, result);
       }
       return map;
@@ -1648,29 +1671,9 @@ final class AstaReader
       }
 
       //
-      // Add exceptions - not sure how exceptions which turn non-working days into working days are handled by Asta - if at all?
+      // Add exceptions
       //
-      rows = exceptionAssignmentMap.get(calendar.getUniqueID());
-      if (rows != null)
-      {
-         List<LocalDateRange> ranges = new ArrayList<>();
-
-         for (Row row : rows)
-         {
-            LocalDateTime startDate = row.getDate("START_DATE");
-            LocalDateTime endDate = row.getDate("END_DATE");
-
-            // special case - when the exception end time is midnight, it really finishes at the end of the previous day
-            if (endDate.equals(LocalDateTimeHelper.getDayStartDate(endDate)))
-            {
-               endDate = endDate.plusDays(-1);
-            }
-
-            ranges.add(new LocalDateRange(LocalDateHelper.getLocalDate(startDate), LocalDateHelper.getLocalDate(endDate)));
-         }
-
-         ranges.stream().distinct().forEach(r -> calendar.addCalendarException(r.getStart(), r.getEnd()));
-      }
+      processExceptions(calendar, exceptionAssignmentMap, exceptionTypeMap);
 
       //
       // Populate WORKING or NON_WORKING days with calendar hours if they are missing.
@@ -1695,6 +1698,172 @@ final class AstaReader
       calendar.setParent(m_project.getCalendarByUniqueID(calendarRow.getInteger("CALENDAR")));
 
       m_eventManager.fireCalendarReadEvent(calendar);
+   }
+
+   /**
+    * Populate exceptions for the supplied calendar.
+    *
+    * @param calendar target calendar
+    * @param exceptionAssignmentMap exception assignments
+    * @param exceptionTypeMap exception types
+    */
+   private void processExceptions(ProjectCalendar calendar, Map<Integer, List<Row>> exceptionAssignmentMap, Map<Integer, DayType> exceptionTypeMap)
+   {
+      List<Row> rows = exceptionAssignmentMap.get(calendar.getUniqueID());
+      if (rows == null || rows.isEmpty())
+      {
+         return;
+      }
+
+      // Populate CalendarExceptionHours instances with the exception data
+      List<CalendarExceptionHours> rawHours = rows.stream()
+         .map(r -> new CalendarExceptionHours(r.getDate("START_DATE"), r.getDate("END_DATE"), exceptionTypeMap.get(r.getInteger("EXCEPTION"))))
+         .sorted(Comparator.comparing(CalendarExceptionHours::getStart))
+         .collect(Collectors.toList());
+
+      // Asta exceptions can span multiple days, and each day
+      // may have multiple exceptions. To handle this we'll
+      // split he raw exception data into ranges covering
+      // a single day.
+      List<CalendarExceptionHours> splitHours = splitExceptionDays(rawHours);
+
+      // Now we can group the Asta exceptions together by day
+      // and add them to the calendar.
+      Map<LocalDate, List<CalendarExceptionHours>> map = splitHours.stream().collect(Collectors.groupingBy(r -> r.getStart().toLocalDate(), TreeMap::new, Collectors.toList()));
+      for (Entry<LocalDate, List<CalendarExceptionHours>> entry : map.entrySet())
+      {
+         LocalDate day = entry.getKey();
+         List<CalendarExceptionHours> hours = entry.getValue();
+         hours.sort(Comparator.comparing(CalendarExceptionHours::getStart));
+
+         ProjectCalendarException exception = calendar.addCalendarException(day, day);
+         hours.stream().filter(h -> h.getType() == DayType.WORKING).forEach(h -> exception.add(h.toLocalTimeRange()));
+      }
+
+      // To tidy up after ourselves having split all the exceptions
+      // from Asta into individual days, we'll try and merge together
+      // adjacent non-working and working exceptions.
+      mergeNonWorkingExceptionDays(calendar);
+      mergeWorkingExceptionDays(calendar);
+   }
+
+   /**
+    * Split exceptions which may span multiple days
+    * into individual days.
+    *
+    * @param list exception data
+    * @return exception data split into individual days
+    */
+   private List<CalendarExceptionHours> splitExceptionDays(List<CalendarExceptionHours> list)
+   {
+      int index = 0;
+      CalendarExceptionHours current = list.get(0);
+      List<CalendarExceptionHours> result = new ArrayList<>();
+
+      while (true)
+      {
+         if (current.isSameDay())
+         {
+            result.add(current);
+            ++index;
+            if (index == list.size())
+            {
+               break;
+            }
+            current = list.get(index);
+         }
+         else
+         {
+            LocalDateTime newBoundary = LocalDateTime.of(current.getStart().toLocalDate().plusDays(1), LocalTime.MIDNIGHT);
+            result.add(new CalendarExceptionHours(current.getStart(), newBoundary, current.getType()));
+            current = new CalendarExceptionHours(newBoundary, current.getFinish(), current.getType());
+         }
+      }
+
+      return result;
+   }
+
+   /**
+    * Merge adjacent non-working exceptions together.
+    *
+    * @param calendar target calendar
+    */
+   private void mergeNonWorkingExceptionDays(ProjectCalendar calendar)
+   {
+      int index = 1;
+
+      while (true)
+      {
+         List<ProjectCalendarException> exceptions = calendar.getCalendarExceptions();
+         if (index >= exceptions.size())
+         {
+            break;
+         }
+
+         ProjectCalendarException previousException = exceptions.get(index-1);
+         ProjectCalendarException currentException = exceptions.get(index);
+
+         if (previousException.getWorking() || currentException.getWorking())
+         {
+            ++index;
+            continue;
+         }
+
+         if (!previousException.getToDate().plusDays(1).equals(currentException.getFromDate()))
+         {
+            ++index;
+            continue;
+         }
+
+         calendar.removeCalendarException(previousException);
+         calendar.removeCalendarException(currentException);
+         calendar.addCalendarException(previousException.getFromDate(), currentException.getToDate());
+      }
+   }
+
+   /**
+    * Mereg adjacent equivalent working day exceptions together.
+    *
+    * @param calendar target calendar
+    */
+   private void mergeWorkingExceptionDays(ProjectCalendar calendar)
+   {
+      int index = 1;
+
+      while (true)
+      {
+         List<ProjectCalendarException> exceptions = calendar.getCalendarExceptions();
+         if (index >= exceptions.size())
+         {
+            break;
+         }
+
+         ProjectCalendarException previousException = exceptions.get(index-1);
+         ProjectCalendarException currentException = exceptions.get(index);
+
+         if (!previousException.getWorking() || !currentException.getWorking())
+         {
+            ++index;
+            continue;
+         }
+
+         if (!previousException.getToDate().plusDays(1).equals(currentException.getFromDate()))
+         {
+            ++index;
+            continue;
+         }
+
+         if (!previousException.equals(currentException))
+         {
+            ++index;
+            continue;
+         }
+
+         calendar.removeCalendarException(previousException);
+         calendar.removeCalendarException(currentException);
+         ProjectCalendarException newException = calendar.addCalendarException(previousException.getFromDate(), currentException.getToDate());
+         newException.addAll(previousException);
+      }
    }
 
    /**
@@ -1764,11 +1933,12 @@ final class AstaReader
     * Extract note text.
     *
     * @param row task data
+    * @param field notes field name
     * @return note text
     */
-   private String getNotes(Row row)
+   private String getNotes(Row row, String field)
    {
-      String notes = row.getString("NOTES");
+      String notes = row.getString(field);
       if (notes != null)
       {
          if (notes.isEmpty())
@@ -2330,6 +2500,39 @@ final class AstaReader
          return Collections.emptyMap();
       }
    }
+
+   /**
+    * Calculate the free slack amount from the Early Finish date and the
+    * Free Finish date.
+    *
+    * @param task target task
+    * @param row task data
+    * @param field name of the field containing the Free Finish date
+    */
+   public void setFreeSlack(Task task, Row row, String field)
+   {
+      LocalDateTime freeEndDate = row.getDate(field);
+      if (freeEndDate == null)
+      {
+         return;
+      }
+
+      LocalDateTime earlyFinish = task.getEarlyFinish();
+      if (earlyFinish == null)
+      {
+         return;
+      }
+
+      if (freeEndDate.isAfter(earlyFinish))
+      {
+         task.setFreeSlack(LocalDateTimeHelper.getVariance(task.getEffectiveCalendar(), earlyFinish, freeEndDate, TimeUnit.HOURS));
+      }
+      else
+      {
+         task.setFreeSlack(Duration.getInstance(0, TimeUnit.HOURS));
+      }
+   }
+
 
    private final ProjectFile m_project;
    private final EventManager m_eventManager;

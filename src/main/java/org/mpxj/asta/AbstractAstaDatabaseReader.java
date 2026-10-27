@@ -334,6 +334,9 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       EXPANDED_TASK_NAME_MAP.put("OVERALL_PERCENV_COMPLETE", "OVERALL_PERCENT_COMPLETE");
       EXPANDED_TASK_NAME_MAP.put("CONSTRAINU", "CONSTRAINT_FLAG");
       EXPANDED_TASK_NAME_MAP.put("CALENDAU", "CALENDAR");
+      EXPANDED_TASK_NAME_MAP.put("FREE_END_DATE_RT", "FREE_END_DATE_RS");
+      EXPANDED_TASK_NAME_MAP.put("EARLY_END_DATE_RT", "EARLY_END_DATE_RS");
+      EXPANDED_TASK_NAME_MAP.put("LATE_END_DATE_RT", "LATE_END_DATE_RS");
    }
 
    private static final Map<String, String> MILESTONE_NAME_MAP = new HashMap<>();
@@ -408,6 +411,8 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    static
    {
       EXCEPTION_NAME_MAP.put("EXCEPTIONNID", "ID");
+      EXCEPTION_NAME_MAP.put("TYPG", "EXCEPTION_TYPE");
+      EXCEPTION_NAME_MAP.put("NAML", "NAME");
    }
 
    private static final Map<String, String> COMPLETED_SECTION_NAME_MAP = new HashMap<>();
@@ -427,6 +432,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    {
       EXCEPTION_ASSIGNMENT_MAP.put("STARU_DATE", "START_DATE");
       EXCEPTION_ASSIGNMENT_MAP.put("ENE_DATE", "END_DATE");
+      EXCEPTION_ASSIGNMENT_MAP.put("EXCEPTIOO", "EXCEPTION");
    }
 
    private static final Map<String, String> TIME_ENTRY_NAME_MAP = new HashMap<>();

@@ -355,8 +355,8 @@ abstract class AbstractFileFormat
       new ColumnDefinition("APPANDBACKGROUND_FILL_COLOUR", Types.INTEGER),
       new ColumnDefinition("APPANDPATTERN", Types.INTEGER),
       new ColumnDefinition("UNIQUE_BIT_FIELD", Types.INTEGER),
-      new ColumnDefinition("NAML", Types.VARCHAR),
-      new ColumnDefinition("TYPG", Types.INTEGER),
+      new ColumnDefinition("NAME", Types.VARCHAR),
+      new ColumnDefinition("EXCEPTION_TYPE", Types.INTEGER),
       new ColumnDefinition("ALT_ID", Types.INTEGER),
       new ColumnDefinition("LAST_EDITED_DATE", Types.TIMESTAMP),
       new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER),
@@ -368,7 +368,7 @@ abstract class AbstractFileFormat
       //new ColumnDefinition("ORDF", Types.INTEGER),
       new ColumnDefinition("START_DATE", Types.TIMESTAMP),
       new ColumnDefinition("END_DATE", Types.TIMESTAMP),
-      new ColumnDefinition("EXCEPTIOO", Types.INTEGER)
+      new ColumnDefinition("EXCEPTION", Types.INTEGER)
    };
 
    private static final ColumnDefinition[] TIME_ENTRY_COLUMNS = {
@@ -569,9 +569,9 @@ abstract class AbstractFileFormat
       new ColumnDefinition("CALCULATED_PROGRESS_DATE", Types.TIMESTAMP),
       new ColumnDefinition("EARLIEST_PROGRESS_DATE", Types.TIMESTAMP),
       new ColumnDefinition("LATEST_PROGRESS_DATE", Types.TIMESTAMP),
-      new ColumnDefinition("EARLY_END_DATE_RT", Types.TIMESTAMP),
-      new ColumnDefinition("LATE_END_DATE_RT", Types.TIMESTAMP),
-      new ColumnDefinition("FREE_END_DATE_RT", Types.TIMESTAMP),
+      new ColumnDefinition("EARLY_END_DATE_RS", Types.TIMESTAMP),
+      new ColumnDefinition("LATE_END_DATE_RS", Types.TIMESTAMP),
+      new ColumnDefinition("FREE_END_DATE_RS", Types.TIMESTAMP),
       new ColumnDefinition("CUMULATIVE_DEMANE_EFFORT", Types.DOUBLE),
       new ColumnDefinition("CUMULATIVE_SCHEDULEE_EFFORT", Types.DOUBLE),
       new ColumnDefinition("ACTUAL_CUMULATIVF_EFFORT", Types.DOUBLE),
@@ -985,9 +985,9 @@ abstract class AbstractFileFormat
       new ColumnDefinition("CALCULATED_PROGRESS_DATE", Types.TIMESTAMP),
       new ColumnDefinition("EARLIEST_PROGRESS_DATE", Types.TIMESTAMP),
       new ColumnDefinition("LATEST_PROGRESS_DATE", Types.TIMESTAMP),
-      new ColumnDefinition("EARLY_END_DATE_RT", Types.TIMESTAMP),
-      new ColumnDefinition("LATE_END_DATE_RT", Types.TIMESTAMP),
-      new ColumnDefinition("FREE_END_DATE_RT", Types.TIMESTAMP),
+      new ColumnDefinition("EARLY_END_DATE_RS", Types.TIMESTAMP),
+      new ColumnDefinition("LATE_END_DATE_RS", Types.TIMESTAMP),
+      new ColumnDefinition("FREE_END_DATE_RS", Types.TIMESTAMP),
       new ColumnDefinition("CUMULATIVE_DEMANE_EFFORT", Types.DOUBLE),
       new ColumnDefinition("CUMULATIVE_SCHEDULEE_EFFORT", Types.DOUBLE),
       new ColumnDefinition("ACTUAL_CUMULATIVF_EFFORT", Types.DOUBLE),

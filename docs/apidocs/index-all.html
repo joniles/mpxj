@@ -105,8 +105,6 @@
 <dd>
 <div class="block">Implementation of common functionality for the FieldContainer interface.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="org/mpxj/AbstractFieldContainer.html#AbstractFieldContainer--">AbstractFieldContainer()</a></span> - Constructor for class org.mpxj.<a href="org/mpxj/AbstractFieldContainer.html" title="class in org.mpxj">AbstractFieldContainer</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="org/mpxj/primavera/common/AbstractIntColumn.html" title="class in org.mpxj.primavera.common"><span class="typeNameLink">AbstractIntColumn</span></a> - Class in <a href="org/mpxj/primavera/common/package-summary.html">org.mpxj.primavera.common</a></dt>
 <dd>
 <div class="block">Extract column data from a table.</div>
@@ -1188,6 +1186,10 @@
 </dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/ProjectCalendarHours.html#add-org.mpxj.LocalTimeRange-">add(LocalTimeRange)</a></span> - Method in class org.mpxj.<a href="org/mpxj/ProjectCalendarHours.html" title="class in org.mpxj">ProjectCalendarHours</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="org/mpxj/ResourceAssignmentContainer.html#add-org.mpxj.Task-org.mpxj.Resource-">add(Task, Resource)</a></span> - Method in class org.mpxj.<a href="org/mpxj/ResourceAssignmentContainer.html" title="class in org.mpxj">ResourceAssignmentContainer</a></dt>
+<dd>
+<div class="block">Create a new resource assignment, populate default attributes, and add it to the container.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/ResourceContainer.html#add--">add()</a></span> - Method in class org.mpxj.<a href="org/mpxj/ResourceContainer.html" title="class in org.mpxj">ResourceContainer</a></dt>
 <dd>
 <div class="block">Add a resource to the project.</div>
@@ -5450,6 +5452,10 @@
 <dd>
 <div class="block">Create an instance of <a href="org/mpxj/planner/schema/Resource.html" title="class in org.mpxj.planner.schema"><code>Resource</code></a></div>
 </dd>
+<dt><span class="memberNameLink"><a href="org/mpxj/ResourceContainer.html#createResource--">createResource()</a></span> - Method in class org.mpxj.<a href="org/mpxj/ResourceContainer.html" title="class in org.mpxj">ResourceContainer</a></dt>
+<dd>
+<div class="block">Create a new Resource, but don't add it to the container.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/primavera/schema/ObjectFactory.html#createResourceAccessType--">createResourceAccessType()</a></span> - Method in class org.mpxj.primavera.schema.<a href="org/mpxj/primavera/schema/ObjectFactory.html" title="class in org.mpxj.primavera.schema">ObjectFactory</a></dt>
 <dd>
 <div class="block">Create an instance of <a href="org/mpxj/primavera/schema/ResourceAccessType.html" title="class in org.mpxj.primavera.schema"><code>ResourceAccessType</code></a></div>
@@ -5669,6 +5675,10 @@
 <dt><span class="memberNameLink"><a href="org/mpxj/planner/schema/ObjectFactory.html#createTask--">createTask()</a></span> - Method in class org.mpxj.planner.schema.<a href="org/mpxj/planner/schema/ObjectFactory.html" title="class in org.mpxj.planner.schema">ObjectFactory</a></dt>
 <dd>
 <div class="block">Create an instance of <a href="org/mpxj/planner/schema/Task.html" title="class in org.mpxj.planner.schema"><code>Task</code></a></div>
+</dd>
+<dt><span class="memberNameLink"><a href="org/mpxj/TaskContainer.html#createTask-org.mpxj.Task-">createTask(Task)</a></span> - Method in class org.mpxj.<a href="org/mpxj/TaskContainer.html" title="class in org.mpxj">TaskContainer</a></dt>
+<dd>
+<div class="block">Create a new Task, but don't add it to the container.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/ganttproject/schema/ObjectFactory.html#createTaskproperties--">createTaskproperties()</a></span> - Method in class org.mpxj.ganttproject.schema.<a href="org/mpxj/ganttproject/schema/ObjectFactory.html" title="class in org.mpxj.ganttproject.schema">ObjectFactory</a></dt>
 <dd>
@@ -8664,7 +8674,9 @@
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html#Excluded--">Excluded()</a></span> - Constructor for class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator.Excluded</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html#excluded--">excluded()</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator.Excluded</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Returns true if the test is disabled.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/ganttproject/schema/Task.html#expand">expand</a></span> - Variable in class org.mpxj.ganttproject.schema.<a href="org/mpxj/ganttproject/schema/Task.html" title="class in org.mpxj.ganttproject.schema">Task</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/Task.html#expandSubproject--">expandSubproject()</a></span> - Method in class org.mpxj.<a href="org/mpxj/Task.html" title="class in org.mpxj">Task</a></dt>
@@ -45861,9 +45873,13 @@
 <dt><span class="memberNameLink"><a href="org/mpxj/mpx/LocaleData.html#NO">NO</a></span> - Static variable in class org.mpxj.mpx.<a href="org/mpxj/mpx/LocaleData.html" title="class in org.mpxj.mpx">LocaleData</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html#noFloatTest--">noFloatTest()</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator.Excluded</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Returns true if the test is disabled.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html#noLongestPathTest--">noLongestPathTest()</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator.Excluded</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Returns true if the test is disabled.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/primavera/schema/ActivityType.html#nonLaborCost1Variance">nonLaborCost1Variance</a></span> - Variable in class org.mpxj.primavera.schema.<a href="org/mpxj/primavera/schema/ActivityType.html" title="class in org.mpxj.primavera.schema">ActivityType</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/primavera/schema/ActivityType.html#nonLaborCost2Variance">nonLaborCost2Variance</a></span> - Variable in class org.mpxj.primavera.schema.<a href="org/mpxj/primavera/schema/ActivityType.html" title="class in org.mpxj.primavera.schema">ActivityType</a></dt>
@@ -45889,9 +45905,13 @@
 <div class="block">Class representing how non-working time is shown on a Gantt chart.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html#noPlannedTest--">noPlannedTest()</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator.Excluded</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Returns true if the test is disabled.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html#noResourceAssignmentTest--">noResourceAssignmentTest()</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator.Excluded</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Returns true if the test is disabled.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/conceptdraw/schema/Document.Projects.Project.html#note">note</a></span> - Variable in class org.mpxj.conceptdraw.schema.<a href="org/mpxj/conceptdraw/schema/Document.Projects.Project.html" title="class in org.mpxj.conceptdraw.schema">Document.Projects.Project</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/conceptdraw/schema/Document.Projects.Project.Task.html#note">note</a></span> - Variable in class org.mpxj.conceptdraw.schema.<a href="org/mpxj/conceptdraw/schema/Document.Projects.Project.Task.html" title="class in org.mpxj.conceptdraw.schema">Document.Projects.Project.Task</a></dt>
@@ -45989,7 +46009,9 @@
 <dt><span class="memberNameLink"><a href="org/mpxj/primavera/schema/ActivityType.html#notesToResources">notesToResources</a></span> - Variable in class org.mpxj.primavera.schema.<a href="org/mpxj/primavera/schema/ActivityType.html" title="class in org.mpxj.primavera.schema">ActivityType</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html#noWbsTest--">noWbsTest()</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator.Excluded</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Returns true if the test is disabled.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/mspdi/schema/Project.Resources.Resource.html#ntAccount">ntAccount</a></span> - Variable in class org.mpxj.mspdi.schema.<a href="org/mpxj/mspdi/schema/Project.Resources.Resource.html" title="class in org.mpxj.mspdi.schema">Project.Resources.Resource</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/mspdi/schema/Project.Assignments.Assignment.Baseline.html#number">number</a></span> - Variable in class org.mpxj.mspdi.schema.<a href="org/mpxj/mspdi/schema/Project.Assignments.Assignment.Baseline.html" title="class in org.mpxj.mspdi.schema">Project.Assignments.Assignment.Baseline</a></dt>
@@ -48043,7 +48065,9 @@
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.html#PrimaveraSchedulerComparator--">PrimaveraSchedulerComparator()</a></span> - Constructor for class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html" title="class in org.mpxj.cpm"><span class="typeNameLink">PrimaveraSchedulerComparator.Excluded</span></a> - Class in <a href="org/mpxj/cpm/package-summary.html">org.mpxj.cpm</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Class holding flags to enable or disable tests.</div>
+</dd>
 <dt><a href="org/mpxj/cpm/PrimaveraSlackCalculator.html" title="class in org.mpxj.cpm"><span class="typeNameLink">PrimaveraSlackCalculator</span></a> - Class in <a href="org/mpxj/cpm/package-summary.html">org.mpxj.cpm</a></dt>
 <dd>
 <div class="block">Perform slack calculations to align with Primavera P6.</div>
@@ -60504,7 +60528,9 @@
  currently process to match Microsoft Project.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html#setExcluded--">setExcluded()</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator.Excluded</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Disable a test.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.html#setExcluded-java.util.Set-">setExcluded(Set&lt;String&gt;)</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator</a></dt>
 <dd>
 <div class="block">Tell the comparator to ignore files which MicrosoftScheduler doesn't
@@ -66716,14 +66742,18 @@
  currently process to match Microsoft Project.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html#setNoFloatTest--">setNoFloatTest()</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator.Excluded</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Disable a test.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.html#setNoFloatTest-java.util.Set-">setNoFloatTest(Set&lt;String&gt;)</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator</a></dt>
 <dd>
 <div class="block">Tell the comparator to ignore files which PrimaveraScheduler doesn't
  currently process to match P6.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html#setNoLongestPathTest--">setNoLongestPathTest()</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator.Excluded</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Disable a test.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.html#setNoLongestPathTest-java.util.Set-">setNoLongestPathTest(Set&lt;String&gt;)</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator</a></dt>
 <dd>
 <div class="block">Tell the comparator to ignore files which PrimaveraScheduler doesn't
@@ -66770,11 +66800,18 @@
 <div class="block">Sets the value of the nonLaborUnitsVariance property.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html#setNoPlannedTest--">setNoPlannedTest()</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator.Excluded</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Disable a test.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.html#setNoPlannedTest-java.util.Set-">setNoPlannedTest(Set&lt;String&gt;)</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Tell the comparator to ignore files which PrimaveraScheduler doesn't
+ currently process to match P6.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html#setNoResourceAssignmentTest--">setNoResourceAssignmentTest()</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator.Excluded</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Disable a test.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.html#setNoResourceAssignmentTest-java.util.Set-">setNoResourceAssignmentTest(Set&lt;String&gt;)</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator</a></dt>
 <dd>
 <div class="block">Tell the comparator not to test resource assignments in these files.</div>
@@ -66916,7 +66953,9 @@
 <div class="block">Sets the value of the notesToResources property.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html#setNoWbsTest--">setNoWbsTest()</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator.Excluded</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Disable a test.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.html#setNoWbsTest-java.util.Set-">setNoWbsTest(Set&lt;String&gt;)</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator</a></dt>
 <dd>
 <div class="block">Tell the comparator not to test the WBS in these files.</div>
@@ -77032,7 +77071,9 @@
 <div class="block">Set an Unknown property for this item.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html#setUnreadable--">setUnreadable()</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator.Excluded</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Disable a test.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/MicrosoftSchedulerComparator.html#setUnreadableFiles-java.util.Set-">setUnreadableFiles(Set&lt;String&gt;)</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/MicrosoftSchedulerComparator.html" title="class in org.mpxj.cpm">MicrosoftSchedulerComparator</a></dt>
 <dd>
 <div class="block">Tell the comparator to ignore files which Microsoft Project can't read.</div>
@@ -77414,7 +77455,9 @@
  following "Calculate Project" and "Save As".</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html#setUseScheduled--">setUseScheduled()</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator.Excluded</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Disable a test.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.html#setUseScheduled-java.util.Set-">setUseScheduled(Set&lt;String&gt;)</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator</a></dt>
 <dd>
 <div class="block">Tell the comparator to ignore files which have had new copied created
@@ -80681,7 +80724,7 @@
 </dd>
 <dt><a href="org/mpxj/TemporaryResourceAssignment.html" title="class in org.mpxj"><span class="typeNameLink">TemporaryResourceAssignment</span></a> - Class in <a href="org/mpxj/package-summary.html">org.mpxj</a></dt>
 <dd>
-<div class="block">Represents a temporary resourc eassignment which does not form part f a schedule.</div>
+<div class="block">Represents a temporary resource assignment which does not form part of a schedule.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/TemporaryResourceAssignment.html#TemporaryResourceAssignment-org.mpxj.ProjectFile-">TemporaryResourceAssignment(ProjectFile)</a></span> - Constructor for class org.mpxj.<a href="org/mpxj/TemporaryResourceAssignment.html" title="class in org.mpxj">TemporaryResourceAssignment</a></dt>
 <dd>
@@ -81979,7 +82022,9 @@
 <dt><span class="memberNameLink"><a href="org/mpxj/common/UnmarshalHelper.html#UnmarshalHelper--">UnmarshalHelper()</a></span> - Constructor for class org.mpxj.common.<a href="org/mpxj/common/UnmarshalHelper.html" title="class in org.mpxj.common">UnmarshalHelper</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html#unreadable--">unreadable()</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator.Excluded</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Returns true if the test is disabled.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/primavera/schema/ActivityType.html#unreadCommentCount">unreadCommentCount</a></span> - Variable in class org.mpxj.primavera.schema.<a href="org/mpxj/primavera/schema/ActivityType.html" title="class in org.mpxj.primavera.schema">ActivityType</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/primavera/schema/ResourceAssignmentType.html#unreadCommentCount">unreadCommentCount</a></span> - Variable in class org.mpxj.primavera.schema.<a href="org/mpxj/primavera/schema/ResourceAssignmentType.html" title="class in org.mpxj.primavera.schema">ResourceAssignmentType</a></dt>
@@ -82245,7 +82290,9 @@
 <div class="block">Java class for anonymous complex type.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html#useScheduled--">useScheduled()</a></span> - Method in class org.mpxj.cpm.<a href="org/mpxj/cpm/PrimaveraSchedulerComparator.Excluded.html" title="class in org.mpxj.cpm">PrimaveraSchedulerComparator.Excluded</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Returns true if the test is disabled.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/primavera/schema/GlobalPreferencesType.html#useTimesheets">useTimesheets</a></span> - Variable in class org.mpxj.primavera.schema.<a href="org/mpxj/primavera/schema/GlobalPreferencesType.html" title="class in org.mpxj.primavera.schema">GlobalPreferencesType</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="org/mpxj/primavera/schema/ResourceType.html#useTimesheets">useTimesheets</a></span> - Variable in class org.mpxj.primavera.schema.<a href="org/mpxj/primavera/schema/ResourceType.html" title="class in org.mpxj.primavera.schema">ResourceType</a></dt>
