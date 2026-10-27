@@ -11,6 +11,7 @@
             <action dev="janecekpetr" type="update">When writing PMXML files, ensure that activity codes without sequence numbers are handled correctly. (Contributed by Petr Janeček)</action>
             <action dev="janecekpetr" type="update">When writing PMXML and XER files, ensure that calendars derived from a parent calendar which is not present in the schedule are handled correctly. (Contributed by Petr Janeček)</action>
             <action dev="varmend" type="update">When reading MPP files, improve validation of working time ranges. (Contributed by Varmend)</action>
+            <action dev="varmend" type="update">Fix issues with work weeks encountered when flattening calendar hierarchies. (Contributed by Varmend)</action>
             <action dev="cupacheeno" type="update">Improvements to interpretation of timephased actual work when reading certain MPP files. (Contributed by cupacheeno)</action>
             <action dev="james-wagner11" type="update">Ensure `PrimaveraScheduler` correctly handles ALAP SF predecessors. (Contributed by James Wagner)</action>
             <action dev="james-wagner11" type="update">Improve handling of Out-Of-Sequence progress by `PrimaveraScheduler` (Contributed by James Wagner)</action>
