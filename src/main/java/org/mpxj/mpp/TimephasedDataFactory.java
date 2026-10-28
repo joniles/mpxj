@@ -408,7 +408,8 @@ final class TimephasedDataFactory
          long totalWorkInSeconds = Math.round(MPPUtility.getDouble(data, 16) * 60.0 / 1000.0);
          if (totalWorkInSeconds != 0.0)
          {
-            LocalDateTime start = timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume();
+            // MS Project always populates Resume, even for unstarted tasks
+            LocalDateTime start = assignment.getResume();
             LocalDateTime end = assignment.getFinish();
             Duration work = Duration.getInstance(totalWorkInSeconds / 60.0, TimeUnit.MINUTES);
             long assignmentElapsedSeconds = Math.round(calendar.getWork(start, end, TimeUnit.MINUTES).getDuration() * 60.0);
@@ -429,7 +430,9 @@ final class TimephasedDataFactory
          int offset = 16 + 28; // skip the summary block
          long previousWorkSeconds = 0;
          long previousElapsedSeconds = 0;
-         LocalDateTime start = timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume();
+
+         // MS Project always populates Resume, even for unstarted tasks
+         LocalDateTime start = assignment.getResume();
 
          for (int count = 0; count < blockCount; count++)
          {

@@ -17,6 +17,7 @@
             <action dev="james-wagner11" type="update">Improve handling of Out-Of-Sequence progress by `PrimaveraScheduler` (Contributed by James Wagner)</action>
             <action dev="joniles" type="update">Improve identification of calendar exception types when reading Powerproject schedules.</action>
             <action dev="joniles" type="update">Improve the Free Slack calculation used when reading Powerproject schedules.</action>
+            <action dev="joniles" type="update">When reading timephased data from MPP files, use the Resume date as the starting point for planned work.</action>
             <action dev="joe-sharp" type="update">Updated to jsoup 2.23.2.</action>
             <action dev="joe-sharp" type="update">Updated to Jackson 2.22.4.</action>
         </release>
