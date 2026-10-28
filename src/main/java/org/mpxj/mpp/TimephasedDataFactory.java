@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.mpxj.Duration;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.ProjectCalendar;
@@ -94,7 +95,8 @@ final class TimephasedDataFactory
          }
       }
 
-      timephasedTest(resourceAssignment, irregularData, regularData);
+      return timephasedTest(resourceAssignment, irregularData, regularData);
+/*
       //dumpIrregularRanges(resourceAssignment, irregularRanges);
       //dumpRegularRanges(resourceAssignment, regularData);
 
@@ -288,6 +290,7 @@ final class TimephasedDataFactory
       }
 
       return removeEmptyItems(regularList);
+ */
    }
 
    /**
@@ -688,7 +691,7 @@ final class TimephasedDataFactory
    }
 
 
-   private void timephasedTest(ResourceAssignment assignment, byte[] irregularData, byte[] regularData)
+   private List<TimephasedWork> timephasedTest(ResourceAssignment assignment, byte[] irregularData, byte[] regularData)
    {
       List<LocalDateTimeRange> nonWorkingRanges = new ArrayList<>();
       if (irregularData != null)
@@ -745,38 +748,115 @@ final class TimephasedDataFactory
          LocalDateTime endDate1 = nextItemStart.plusSeconds((long)elapsedThisPeriodInSeconds);
 
          double minutesThisPeriod = totalAtPeriodEndInMinutes - previousTotalAtPeriodEndInMinutes;
+         previousTotalAtPeriodEndInMinutes = totalAtPeriodEndInMinutes;
+
+         double calculatedWorkPerHourInMinutes = (minutesThisPeriod * 3600.0) / elapsedThisPeriodInSeconds;
 
          //System.out.println(endDate1 + "\t" + minutesThisPeriod + "\t" + totalAtPeriodEndInMinutes + "\t" + workPerHourInMinutes + "\t" + elapsedAtPeriodEnd + "\t" + elapsedAtPeriodEndInMinutes + "\t" + totalAtPeriodEnd + "\t" + workPerHour + "\t" + elapsedAtPeriodEnd);
+
+         if (!list.isEmpty() && list.get(list.size()-1).getTotalAmount().getDuration() == 0.0 && minutesThisPeriod == 0.0)
+         {
+            offset += 20;
+            continue;
+         }
 
          TimephasedWork item = new TimephasedWork();
          item.setStart(nextItemStart);
          item.setFinish(endDate1);
          item.setTotalAmount(Duration.getInstance(minutesThisPeriod, TimeUnit.MINUTES));
          item.setAmountPerHour(Duration.getInstance(workPerHourInMinutes, TimeUnit.MINUTES));
+         //item.setAmountPerHour(Duration.getInstance(calculatedWorkPerHourInMinutes, TimeUnit.MINUTES));
          list.add(item);
 
          nextItemStart = endDate1;
-         previousTotalAtPeriodEndInMinutes = totalAtPeriodEndInMinutes;
 
-         if (endDate1.isEqual(nonWorkingRanges.get(0).getStart()))
+
+         if (!nonWorkingRanges.isEmpty())
          {
-            LocalDateTimeRange range = nonWorkingRanges.remove(0);
+            if (endDate1.isEqual(nonWorkingRanges.get(0).getStart()))
+            {
+               LocalDateTimeRange range = nonWorkingRanges.remove(0);
 
-            item = new TimephasedWork();
-            item.setStart(nextItemStart);
-            item.setFinish(range.getEnd());
-            item.setTotalAmount(Duration.getInstance(0, TimeUnit.MINUTES));
-            item.setAmountPerHour(Duration.getInstance(0, TimeUnit.MINUTES));
-            list.add(item);
+               item = new TimephasedWork();
+               item.setStart(nextItemStart);
+               item.setFinish(range.getEnd());
+               item.setTotalAmount(Duration.getInstance(0, TimeUnit.MINUTES));
+               item.setAmountPerHour(Duration.getInstance(0, TimeUnit.MINUTES));
+               list.add(item);
+               nextItemStart = range.getEnd();
 
-            nextItemStart = range.getEnd();
+               //System.out.println(range.getEnd());
+               //startDate = startDate.plusSeconds(range.getStart().until(range.getEnd(), ChronoUnit.SECONDS));
+            }
+            else
+            {
+               if (endDate1.isAfter(nonWorkingRanges.get(0).getStart()))
+               {
+                  TimephasedWork original = list.remove(list.size() - 1);
+                  LocalDateTimeRange range = nonWorkingRanges.remove(0);
 
-            //System.out.println(range.getEnd());
-            //startDate = startDate.plusSeconds(range.getStart().until(range.getEnd(), ChronoUnit.SECONDS));
+                  long newRangeInSeconds = original.getStart().until(range.getStart(), ChronoUnit.SECONDS);
+                  Duration newRangeTotalAmount = Duration.getInstance((newRangeInSeconds * original.getAmountPerHour().getDuration()) / 3600.0, TimeUnit.MINUTES);
+
+                  TimephasedWork newItem = new TimephasedWork();
+                  newItem.setStart(original.getStart());
+                  newItem.setFinish(range.getStart());
+                  newItem.setAmountPerHour(original.getAmountPerHour());
+                  newItem.setTotalAmount(newRangeTotalAmount);
+                  list.add(newItem);
+                  nextItemStart = newItem.getFinish();
+
+                  TimephasedWork newNonWorkingItem = new TimephasedWork();
+                  newNonWorkingItem.setStart(range.getStart());
+                  newNonWorkingItem.setFinish(range.getEnd());
+                  newNonWorkingItem.setAmountPerHour(Duration.getInstance(0, TimeUnit.MINUTES));
+                  newNonWorkingItem.setTotalAmount(Duration.getInstance(0, TimeUnit.MINUTES));
+                  list.add(newNonWorkingItem);
+                  nextItemStart = newNonWorkingItem.getFinish();
+
+
+                  double remainingTotalAmountInMinutes = original.getTotalAmount().getDuration() - newRangeTotalAmount.getDuration();
+                  if (remainingTotalAmountInMinutes > 0)
+                  {
+                     double durationInSeconds = (remainingTotalAmountInMinutes * 3600.0) / original.getAmountPerHour().getDuration();
+
+                     TimephasedWork newRemainingItem = new TimephasedWork();
+                     newRemainingItem.setStart(range.getEnd());
+                     newRemainingItem.setFinish(range.getEnd().plusSeconds((long) durationInSeconds));
+                     newRemainingItem.setAmountPerHour(original.getAmountPerHour());
+                     newRemainingItem.setTotalAmount(Duration.getInstance(remainingTotalAmountInMinutes, TimeUnit.MINUTES));
+                     list.add(newRemainingItem);
+                     nextItemStart = newRemainingItem.getFinish();
+                  }
+               }
+            }
          }
 
          offset += 20;
+
+
       }
 
+      trimNonWorkingItems(calendar, list);
+
+      return list;
+   }
+
+   private void trimNonWorkingItems(ProjectCalendar calendar, List<TimephasedWork> list)
+   {
+      int index = 0;
+
+      while (index < list.size())
+      {
+         TimephasedWork item = list.get(index);
+
+         if (item.getTotalAmount().getDuration() == 0.0 && calendar.getWork(item.getStart(), item.getFinish(), TimeUnit.MINUTES).getDuration() == 0.0)
+         {
+            list.remove(index);
+            continue;
+         }
+
+         ++index;
+      }
    }
 }
