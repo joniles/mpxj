@@ -23,17 +23,24 @@
 
 package org.mpxj.mpp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mpxj.Duration;
 import org.mpxj.LocalDateTimeRange;
+import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
+import org.mpxj.ProjectCalendarException;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceType;
+import org.mpxj.TemporaryCalendar;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedCost;
 import org.mpxj.TimephasedWork;
@@ -76,9 +83,10 @@ final class TimephasedDataFactory
       // correct start and end time for each period of work, whether they have been
       // performed inside or outside of normal working hours.
 
-      List<LocalDateTimeRange> irregularRanges = new ArrayList<>();
       if (irregularData != null)
       {
+         List<LocalDateTimeRange> irregularRanges = new ArrayList<>();
+
          // The irregular data block contains a 16 byte header, followed by 8 byte
          // records. The first two bytes of the header contain a count of the number of
          // records. Each Record contains two 8 byte timestamps representing the start
@@ -92,6 +100,8 @@ final class TimephasedDataFactory
             irregularRanges.add(new LocalDateTimeRange(start, end));
             offset += 8;
          }
+
+         calendar = populateCalendar(calendar, irregularRanges);
       }
 
       // The regular data block starts with a 16 byte header. The first
@@ -145,121 +155,6 @@ final class TimephasedDataFactory
          item.setAmountPerHour(Duration.getInstance(calculatedWorkPerHour, TimeUnit.MINUTES));
          regularList.add(item);
 
-         if (!irregularRanges.isEmpty())
-         {
-            while (item != null && !irregularRanges.isEmpty())
-            {
-               LocalDateTimeRange nextIrregularRange = irregularRanges.get(0);
-
-               if (item.getStart().equals(nextIrregularRange.getStart()) && item.getFinish().equals(nextIrregularRange.getEnd()))
-               {
-                  irregularRanges.remove(0);
-                  item = null;
-                  continue;
-               }
-
-               if (!item.getStart().isAfter(nextIrregularRange.getStart()) && !item.getFinish().isBefore(nextIrregularRange.getEnd()))
-               {
-                  item = splitItem(calendar, regularList, irregularRanges);
-               }
-               else
-               {
-                  if (!item.getStart().isBefore(nextIrregularRange.getEnd()))
-                  {
-                     long itemDurationInSeconds = item.getStart().until(item.getFinish(), ChronoUnit.SECONDS);
-                     long nextIregularRangeDurationInSeconds = nextIrregularRange.getStart().until(nextIrregularRange.getEnd(), ChronoUnit.SECONDS);
-                     if (itemDurationInSeconds == nextIregularRangeDurationInSeconds)
-                     {
-                        irregularRanges.remove(0);
-                        regularList.remove(regularList.size() - 1);
-                        item.setStart(nextIrregularRange.getStart());
-                        item.setFinish(nextIrregularRange.getEnd());
-                        regularList.add(item);
-                        item = null;
-                     }
-                     else
-                     {
-                        irregularRanges.remove(0);
-                        if (itemDurationInSeconds > nextIregularRangeDurationInSeconds)
-                        {
-                           regularList.remove(regularList.size() - 1);
-
-                           TimephasedWork startItem = new TimephasedWork();
-                           startItem.setStart(nextIrregularRange.getStart());
-                           startItem.setFinish(nextIrregularRange.getEnd());
-                           startItem.setAmountPerHour(item.getAmountPerHour());
-                           long startItemDurationInSeconds = startItem.getStart().until(startItem.getFinish(), ChronoUnit.SECONDS);
-                           long startItemAmountPerHourInSeconds = Math.round(startItem.getAmountPerHour().getDuration() * 60.0);
-                           long startItemWorkInSeconds = (startItemDurationInSeconds * startItemAmountPerHourInSeconds) / 3600;
-
-                           // Never hand the leading piece more work than the item it came from.
-                           // Rounding in the line above can put it over by a second, which leaves
-                           // the remainder below negative, and a negative remainder gives the
-                           // following item a finish earlier than its own start. splitItem applies
-                           // the same cap for the same reason.
-                           long itemWorkInSeconds = Math.round(item.getTotalAmount().getDuration() * 60.0);
-                           if (startItemWorkInSeconds > itemWorkInSeconds)
-                           {
-                              startItemWorkInSeconds = itemWorkInSeconds;
-                           }
-
-                           startItem.setTotalAmount(Duration.getInstance(startItemWorkInSeconds / 60.0, TimeUnit.MINUTES));
-                           regularList.add(startItem);
-
-                           long remainingWorkInSeconds = Math.round(item.getTotalAmount().getDuration() * 60.0) - startItemWorkInSeconds;
-                           long remainingAmountPerHourInSeconds = Math.round(item.getAmountPerHour().getDuration() * 60.0);
-                           long remainingDurationInSeconds = remainingAmountPerHourInSeconds == 0 ? 0 : (remainingWorkInSeconds * 3600) / remainingAmountPerHourInSeconds;
-
-                           item.setStart(startItem.getFinish());
-                           item.setFinish(startItem.getFinish().plusSeconds(remainingDurationInSeconds));
-                           item.setTotalAmount(Duration.getInstance(remainingWorkInSeconds / 60.0, TimeUnit.MINUTES));
-                           regularList.add(item);
-
-                           if (!irregularRanges.isEmpty())
-                           {
-                              nextIrregularRange = irregularRanges.get(0);
-
-                              // The logic here is slightly different to the block below,
-                              // which is why we're trying this immediately after the split
-                              // rather than looping and falling through to the block below.
-                              // We're looking for irregular blocks which start
-                              // at the end of our last regular block. I don't think we'd need to
-                              // apply more than one of these, so we're not looping through
-                              // the remaining irregular blocks.
-                              if (nextIrregularRange.getStart().equals(item.getFinish()))
-                              {
-                                 long itemTotalAmountInSeconds = Math.round(item.getTotalAmount().getDuration() * 60.0);
-                                 long itemAmountPerHourInSeconds = Math.round(item.getAmountPerHour().getDuration() * 60.0);
-                                 long secondsToAdd = itemAmountPerHourInSeconds == 0 ? 0 : (itemTotalAmountInSeconds * 3600) / itemAmountPerHourInSeconds;
-                                 LocalDateTime finish = nextIrregularRange.getStart().plusSeconds(secondsToAdd);
-                                 item.setStart(nextIrregularRange.getStart());
-                                 item.setFinish(finish);
-                                 irregularRanges.remove(0);
-                                 item = null;
-                              }
-                           }
-                        }
-                     }
-                  }
-                  else
-                  {
-                     if (nextIrregularRange.getStart().isBefore(item.getFinish()))
-                     {
-                        long itemTotalAmountInSeconds = Math.round(item.getTotalAmount().getDuration() * 60.0);
-                        long itemAmountPerHourInSeconds = Math.round(item.getAmountPerHour().getDuration() * 60.0);
-                        long secondsToAdd = itemAmountPerHourInSeconds == 0 ? 0 : (itemTotalAmountInSeconds * 3600) / itemAmountPerHourInSeconds;
-                        LocalDateTime finish = nextIrregularRange.getStart().plusSeconds(secondsToAdd);
-                        item.setStart(nextIrregularRange.getStart());
-                        item.setFinish(finish);
-                        irregularRanges.remove(0);
-                     }
-
-                     item = null;
-                  }
-               }
-            }
-         }
-
          totalWorkSeconds = totalWorkSecondsAtPeriodEnd;
          elapsedSeconds = elapsedSecondsAtPeriodEnd;
          calendarPeriodStart = calendar.getNextWorkStart(regularList.get(regularList.size() - 1).getFinish());
@@ -285,6 +180,65 @@ final class TimephasedDataFactory
 
       return removeEmptyItems(regularList);
    }
+
+   private Map<LocalDate, List<LocalTimeRange>> createHoursMap(List<LocalDateTimeRange> ranges)
+   {
+      Map<LocalDate, List<LocalTimeRange>> map = new HashMap<>();
+
+      for (LocalDateTimeRange range : ranges)
+      {
+         LocalDateTime startDate = range.getStart();
+         LocalDateTime endDate = range.getEnd();
+
+         while (true)
+         {
+            LocalTime startTime = startDate.toLocalTime();
+            LocalTime endTime;
+            if (endDate.toLocalDate().isEqual(startDate.toLocalDate()))
+            {
+               endTime = endDate.toLocalTime();
+            }
+            else
+            {
+               endTime = LocalTime.MIDNIGHT;
+            }
+
+            List<LocalTimeRange> hours = map.computeIfAbsent(startDate.toLocalDate(), k -> new ArrayList<>());
+            hours.add(new LocalTimeRange(startTime, endTime));
+
+            if (endDate.toLocalDate().isEqual(startDate.toLocalDate()))
+            {
+               break;
+            }
+
+            startDate = LocalDateTime.of(startDate.toLocalDate().plusDays(1), LocalTime.MIDNIGHT);
+         }
+      }
+
+      return map;
+   }
+
+   private ProjectCalendar populateCalendar(ProjectCalendar parent, List<LocalDateTimeRange> ranges)
+   {
+      ProjectCalendar calendar = new TemporaryCalendar(parent.getProjectContext());
+      calendar.setParent(parent);
+
+      Map<LocalDate, List<LocalTimeRange>> map = createHoursMap(ranges);
+      for (Map.Entry<LocalDate, List<LocalTimeRange>> entry : map.entrySet())
+      {
+         LocalDate date = entry.getKey();
+         List<LocalTimeRange> hours = entry.getValue();
+         hours.addAll(calendar.getHours(date));
+         Collections.sort(hours);
+
+         ProjectCalendarException exception = calendar.addCalendarException(date);
+         exception.addAll(hours);
+         int x = 1;
+      }
+
+      return calendar;
+   }
+
 
    /**
     * Split an existing regular item to apply an irregular item.
