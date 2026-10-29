@@ -29,6 +29,7 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,7 @@ import org.mpxj.LocalDateTimeRange;
 import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
+import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceType;
 import org.mpxj.TemporaryCalendar;
@@ -57,15 +59,15 @@ final class TimephasedDataFactory
     * retrieve a set of TimephasedWork instances which represent
     * the day by day work carried out for a specific resource assignment.
     *
-    * @param calendar calendar on which date calculations are based
+    * @param workingCalendar calendar on which date calculations are based
     * @param resourceAssignment resource assignment
     * @param regularData completed work data block
-    * @param irregularData actual work in non-working time data
+    * @param additionalWorkingHoursData actual work in non-working time data
     * @return list of TimephasedWork instances
     */
-   public List<TimephasedWork> getCompleteWork(ProjectCalendar calendar, ResourceAssignment resourceAssignment, byte[] regularData, byte[] irregularData)
+   public List<TimephasedWork> getCompleteWork(ProjectCalendar workingCalendar, ResourceAssignment resourceAssignment, byte[] regularData, byte[] additionalWorkingHoursData)
    {
-      if (calendar == null || regularData == null || regularData.length <= 26 || ByteArrayHelper.getShort(regularData, 0) == 0 || resourceAssignment.getTask().getDuration() == null || resourceAssignment.getTask().getDuration().getDuration() == 0)
+      if (workingCalendar == null || regularData == null || regularData.length <= 26 || ByteArrayHelper.getShort(regularData, 0) == 0 || resourceAssignment.getTask().getDuration() == null || resourceAssignment.getTask().getDuration().getDuration() == 0)
       {
          // Rather than Colection.emptyList() we're returning a mutable list.
          // For the moment this will allow changes to be applied to the timephased data.
@@ -74,34 +76,33 @@ final class TimephasedDataFactory
       }
 
       // Actual/Completed Work is represented by two blocks of data. The first block
-      // contains "regular" work, i.e. work which has been performed within normal
-      // working hours. It will also contain work carried out outside of normal working
-      // hours, however the presence of this type of "irregular" work will make the
-      // start/end time for each subsequent period of work incorrect. The second block
-      // of data records the correct start and end time for each of the periods of
-      // irregular work. Combining these two sets of data allows us to produce the
-      // correct start and end time for each period of work, whether they have been
-      // performed inside or outside of normal working hours.
-
-      if (irregularData != null)
+      // contains working time, the second block contains additions to the normal
+      // calendar to add working time for hours working during what would normally
+      // be non-working time. These additional allow the working time in the first
+      // block to be interpreted correcty.
+      ProjectCalendar originalCalendar = workingCalendar;
+      List<LocalDateTimeRange> additionalWorkingHours = new ArrayList<>();
+      if (additionalWorkingHoursData != null)
       {
-         List<LocalDateTimeRange> irregularRanges = new ArrayList<>();
-
-         // The irregular data block contains a 16 byte header, followed by 8 byte
+         // The additional working hours data block contains a 16 byte header, followed by 8 byte
          // records. The first two bytes of the header contain a count of the number of
          // records. Each Record contains two 8 byte timestamps representing the start
          // and end of a period of work carried out outside of standard working hours.
-         int irregularDataBlockCount = ByteArrayHelper.getShort(irregularData, 0);
+         int additionalWorkingHoursBlockCount = ByteArrayHelper.getShort(additionalWorkingHoursData, 0);
          int offset = 16;
-         for (int blockIndex = 0; blockIndex < irregularDataBlockCount; blockIndex++)
+         for (int blockIndex = 0; blockIndex < additionalWorkingHoursBlockCount; blockIndex++)
          {
-            LocalDateTime start = MPPUtility.getTimestamp(irregularData, offset);
-            LocalDateTime end = MPPUtility.getTimestamp(irregularData, offset + 4);
-            irregularRanges.add(new LocalDateTimeRange(start, end));
+            LocalDateTime start = MPPUtility.getTimestamp(additionalWorkingHoursData, offset);
+            LocalDateTime end = MPPUtility.getTimestamp(additionalWorkingHoursData, offset + 4);
+            additionalWorkingHours.add(new LocalDateTimeRange(start, end));
             offset += 8;
          }
 
-         calendar = populateCalendar(calendar, irregularRanges);
+         Collections.sort(additionalWorkingHours);
+
+         // Use the data we have just read to create a temporary calendar
+         // and add exceptions to extend the working hours.
+         workingCalendar = populateCalendar(workingCalendar, additionalWorkingHours);
       }
 
       // The regular data block starts with a 16 byte header. The first
@@ -143,7 +144,7 @@ final class TimephasedDataFactory
          }
          else
          {
-            calendarPeriodEnd = calendar.getDate(calendarPeriodStart, Duration.getInstance(elapsedSecondsThisPeriod / 60.0, TimeUnit.MINUTES));
+            calendarPeriodEnd = workingCalendar.getDate(calendarPeriodStart, Duration.getInstance(elapsedSecondsThisPeriod / 60.0, TimeUnit.MINUTES));
          }
 
          double calculatedWorkPerHour = (totalWorkSecondsThisPeriod * 60.0) / elapsedSecondsThisPeriod;
@@ -155,9 +156,19 @@ final class TimephasedDataFactory
          item.setAmountPerHour(Duration.getInstance(calculatedWorkPerHour, TimeUnit.MINUTES));
          regularList.add(item);
 
+         if (workingCalendar != originalCalendar)
+         {
+            double originalWork = originalCalendar.getWork(calendarPeriodStart, calendarPeriodEnd, TimeUnit.MINUTES).getDuration();
+            double currentWork = workingCalendar.getWork(calendarPeriodStart, calendarPeriodEnd, TimeUnit.MINUTES).getDuration();
+            if (originalWork != 0 && currentWork != 0 && originalWork != currentWork)
+            {
+               splitItem(originalCalendar, regularList, additionalWorkingHours);
+            }
+         }
+
          totalWorkSeconds = totalWorkSecondsAtPeriodEnd;
          elapsedSeconds = elapsedSecondsAtPeriodEnd;
-         calendarPeriodStart = calendar.getNextWorkStart(regularList.get(regularList.size() - 1).getFinish());
+         calendarPeriodStart = workingCalendar.getNextWorkStart(regularList.get(regularList.size() - 1).getFinish());
 
          offset += 20;
       }
@@ -178,8 +189,105 @@ final class TimephasedDataFactory
          }
       }
 
+      regularList.removeIf(w -> w.getTotalAmount().getDuration() == 0.0 && originalCalendar.getWork(w.getStart(), w.getFinish(), TimeUnit.MINUTES).getDuration() == 0.0);
+
       return removeEmptyItems(regularList);
    }
+
+   private void splitItem(ProjectCalendar originalCalendar, List<TimephasedWork> list, List<LocalDateTimeRange> additionalWorkingHours)
+   {
+      TimephasedWork item = list.remove(list.size()-1);
+
+      int index = 0;
+      while (index < additionalWorkingHours.size())
+      {
+         LocalDateTimeRange hours = additionalWorkingHours.get(index);
+         if (item.getFinish().isBefore(hours.getStart()))
+         {
+            // no more changes required
+            list.add(item);
+            break;
+         }
+
+         if (item.getStart().isAfter(hours.getEnd()))
+         {
+            // we haven't reached a relevant range yet
+            ++index;
+            continue;
+         }
+
+         // Do we have an overlap at the start?
+         if (item.getStart().isBefore(hours.getStart()) && item.getFinish().isAfter(hours.getStart()))
+         {
+            double newDurationInMinutes = originalCalendar.getWork(item.getStart(), hours.getStart(), TimeUnit.MINUTES).getDuration();
+            Duration newTotal = Duration.getInstance((newDurationInMinutes * item.getAmountPerHour().getDuration()) / 60.0, TimeUnit.MINUTES);
+
+            TimephasedWork newItem = new TimephasedWork();
+            newItem.setStart(item.getStart());
+            newItem.setFinish(hours.getStart());
+            newItem.setAmountPerHour(item.getAmountPerHour());
+            newItem.setTotalAmount(newTotal);
+            list.add(newItem);
+
+            double remainingDuration = item.getTotalAmount().getDuration() - newTotal.getDuration();
+            Duration itemTotal = Duration.getInstance(remainingDuration, TimeUnit.MINUTES);
+            item.setStart(hours.getStart());
+            item.setTotalAmount(newTotal);
+         }
+
+
+         if (!item.getStart().isBefore(hours.getStart()))
+         {
+            // The item is a subset of the additional hours
+            if (!item.getFinish().isAfter(hours.getEnd()))
+            {
+               list.add(item);
+               break;
+            }
+
+            // The item overlaps the additional hours
+            double newDurationInMinutes = item.getStart().until(hours.getEnd(), ChronoUnit.SECONDS) / 60.0;
+            Duration newTotal = Duration.getInstance((newDurationInMinutes * item.getAmountPerHour().getDuration()) / 60.0, TimeUnit.MINUTES);
+
+            TimephasedWork newItem = new TimephasedWork();
+            newItem.setStart(item.getStart());
+            newItem.setFinish(hours.getEnd());
+            newItem.setAmountPerHour(item.getAmountPerHour());
+            newItem.setTotalAmount(newTotal);
+            list.add(newItem);
+
+            double remainingDuration = item.getTotalAmount().getDuration() - newTotal.getDuration();
+            Duration itemTotal = Duration.getInstance(remainingDuration, TimeUnit.MINUTES);
+            item.setStart(hours.getEnd());
+            item.setTotalAmount(newTotal);
+
+            ++index;
+         }
+      }
+
+//      while (true)
+//      {
+//         LocalDateTime nextWorkStart = originalCalendar.getNextWorkStart(item.getStart());
+//         if (nextWorkStart.isAfter(item.getStart()))
+//         {
+//            Duration newTotal = Duration.getInstance(item.getStart().until(nextWorkStart, ChronoUnit.SECONDS) / 60.0, TimeUnit.MINUTES);
+//
+//            TimephasedWork newItem = new TimephasedWork();
+//            newItem.setStart(item.getStart());
+//            newItem.setFinish(nextWorkStart);
+//            newItem.setAmountPerHour(item.getAmountPerHour());
+//            newItem.setTotalAmount(newTotal);
+//            newItems.add(newItem);
+//
+//            Duration remainingDuration = Duration.getInstance(item.getTotalAmount().getDuration() - newTotal.getDuration(), TimeUnit.MINUTES);
+//            item.setStart(nextWorkStart);
+//            item.setTotalAmount(newTotal);
+//         }
+//
+//
+//      }
+   }
+
 
    private Map<LocalDate, List<LocalTimeRange>> createHoursMap(List<LocalDateTimeRange> ranges)
    {
@@ -228,100 +336,19 @@ final class TimephasedDataFactory
       {
          LocalDate date = entry.getKey();
          List<LocalTimeRange> hours = entry.getValue();
-         hours.addAll(calendar.getHours(date));
+
+         ProjectCalendarHours existingHours = calendar.getHours(date);
+         if (existingHours != null)
+         {
+            hours.addAll(existingHours);
+         }
          Collections.sort(hours);
 
          ProjectCalendarException exception = calendar.addCalendarException(date);
          exception.addAll(hours);
-         int x = 1;
       }
 
       return calendar;
-   }
-
-
-   /**
-    * Split an existing regular item to apply an irregular item.
-    *
-    * @param calendar effective calendar
-    * @param regularList regular item list
-    * @param irregularRanges irregular range list
-    * @return last timephased item after the split
-    */
-   private TimephasedWork splitItem(ProjectCalendar calendar, List<TimephasedWork> regularList, List<LocalDateTimeRange> irregularRanges)
-   {
-      TimephasedWork item = regularList.remove(regularList.size() - 1);
-      long itemAmountInSeconds = Math.round(item.getTotalAmount().getDuration() * 60.0);
-
-      long allocatedWorkInSeconds = 0;
-      LocalDateTimeRange range = irregularRanges.remove(0);
-      long itemAmountPerHourInSeconds = Math.round(item.getAmountPerHour().getDuration() * 60.0);
-
-      // Start Range
-      if (item.getStart().isBefore(range.getStart()))
-      {
-         LocalDateTime finish = range.getStart();
-
-         TimephasedWork startItem = new TimephasedWork();
-         startItem.setStart(item.getStart());
-         startItem.setFinish(finish);
-         startItem.setAmountPerHour(item.getAmountPerHour());
-         long workInSeconds = Math.round(calendar.getWork(startItem.getStart(), startItem.getFinish(), TimeUnit.MINUTES).getDuration() * 60.0);
-         long totalAmountInSeconds = (workInSeconds * itemAmountPerHourInSeconds) / 3600;
-         if (totalAmountInSeconds > itemAmountInSeconds)
-         {
-            totalAmountInSeconds = itemAmountInSeconds;
-         }
-         startItem.setTotalAmount(Duration.getInstance(totalAmountInSeconds / 60.0, TimeUnit.MINUTES));
-         allocatedWorkInSeconds += totalAmountInSeconds;
-         regularList.add(startItem);
-      }
-
-      // Inserted Range
-      long unallocatedWorkInSeconds = itemAmountInSeconds - allocatedWorkInSeconds;
-      long rangeSeconds = range.getStart().until(range.getEnd(), ChronoUnit.SECONDS);
-      long requiredSeconds = itemAmountPerHourInSeconds == 0 ? 0 : (unallocatedWorkInSeconds * 3600) / itemAmountPerHourInSeconds;
-      LocalDateTime finish = requiredSeconds >= rangeSeconds ? range.getEnd() : range.getStart().plusSeconds(requiredSeconds);
-
-      TimephasedWork insertedItem = new TimephasedWork();
-      insertedItem.setStart(range.getStart());
-      insertedItem.setFinish(finish);
-      insertedItem.setAmountPerHour(item.getAmountPerHour());
-      long insertedRangeLengthInSeconds = range.getStart().until(finish, ChronoUnit.SECONDS);
-      long totalAmountInSeconds = insertedRangeLengthInSeconds == 0 ? 0 : (insertedRangeLengthInSeconds * itemAmountPerHourInSeconds) / 3600;
-      insertedItem.setTotalAmount(Duration.getInstance(totalAmountInSeconds / 60.0, TimeUnit.MINUTES));
-      allocatedWorkInSeconds += totalAmountInSeconds;
-      regularList.add(insertedItem);
-
-      // If we haven't used all the time from the irregular
-      // range, add the remainder back to the irregular ranges list.
-      if (requiredSeconds < rangeSeconds)
-      {
-         irregularRanges.add(0, new LocalDateTimeRange(finish, range.getEnd()));
-      }
-
-      // End Range
-      if (item.getFinish().isAfter(finish))
-      {
-         long workSeconds = itemAmountInSeconds - allocatedWorkInSeconds;
-         if (workSeconds != 0.0)
-         {
-            TimephasedWork endItem = new TimephasedWork();
-            endItem.setStart(finish);
-            endItem.setAmountPerHour(item.getAmountPerHour());
-            endItem.setTotalAmount(Duration.getInstance(workSeconds / 60.0, TimeUnit.MINUTES));
-            long remainingSeconds = itemAmountPerHourInSeconds == 0 ? 0 : (workSeconds * 3600) / itemAmountPerHourInSeconds;
-            Duration remainingDuration = Duration.getInstance(remainingSeconds / 60.0, TimeUnit.MINUTES);
-            endItem.setFinish(calendar.getDate(endItem.getStart(), remainingDuration));
-            regularList.add(endItem);
-         }
-         else
-         {
-            return null;
-         }
-      }
-
-      return regularList.get(regularList.size() - 1);
    }
 
    /**
