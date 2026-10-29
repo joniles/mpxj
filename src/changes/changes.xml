@@ -15,6 +15,7 @@
             <action dev="cupacheeno" type="update">Improvements to interpretation of timephased actual work when reading certain MPP files. (Contributed by cupacheeno)</action>
             <action dev="james-wagner11" type="update">Ensure `PrimaveraScheduler` correctly handles ALAP SF predecessors. (Contributed by James Wagner)</action>
             <action dev="james-wagner11" type="update">Improve handling of Out-Of-Sequence progress by `PrimaveraScheduler` (Contributed by James Wagner)</action>
+            <action dev="james-wagner11" type="update">Improve Primavera Free Slack calculation for relations with lag. (Contributed by James Wagner)</action>
             <action dev="joniles" type="update">Improve identification of calendar exception types when reading Powerproject schedules.</action>
             <action dev="joniles" type="update">Improve the Free Slack calculation used when reading Powerproject schedules.</action>
             <action dev="joniles" type="update">When reading timephased data from MPP files, use the Resume date as the starting point for planned work.</action>

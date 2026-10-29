@@ -279,7 +279,10 @@ public class PrimaveraSlackCalculator implements SlackCalculator
 
       if (lagDurationInHours != 0)
       {
-         predecessorDate = m_dateCalculator.addLag(relation, predecessorDate, Duration.getInstance(lagDurationInHours, TimeUnit.HOURS));
+         // P6 takes the lag off the successor's date, on the lag calendar, and measures what is left on the
+         // predecessor's calendar. Adding it to the predecessor's date instead differs when the lag calendar
+         // is not the predecessor's, and addLag's floor at the data date shortens a lead.
+         successorDate = m_dateCalculator.removeLag(relation, successorDate, Duration.getInstance(lagDurationInHours, TimeUnit.HOURS));
       }
 
       return LocalDateTimeHelper.getVariance(predecessorTask.getEffectiveCalendar(), predecessorDate, successorDate, TimeUnit.HOURS);
