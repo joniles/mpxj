@@ -60,8 +60,23 @@ public class CombinedCalendar extends ProjectCalendar
       return getRanges(m_calendar1.getHours(day), m_calendar2.getHours(day));
    }
 
+   @Override public ProjectCalendarHours getCalendarHours(DayOfWeek day)
+   {
+      return getRanges(m_calendar1.getCalendarHours(day), m_calendar2.getCalendarHours(day));
+   }
+
    private ProjectCalendarHours getRanges(ProjectCalendarHours hours1, ProjectCalendarHours hours2)
    {
+      if (hours1 == null)
+      {
+         hours1 = EMPTY_DATE_RANGES;
+      }
+
+      if (hours2 == null)
+      {
+         hours2 = EMPTY_DATE_RANGES;
+      }
+
       ProjectCalendarHours result = new ProjectCalendarHours();
       for (LocalTimeRange range1 : hours1)
       {
