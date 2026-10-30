@@ -178,6 +178,13 @@ final class TimephasedDataFactory
          }
       }
 
+      double total = regularList.stream().mapToDouble(w -> w.getTotalAmount().getDuration()).sum();
+      if (total == 0.0)
+      {
+         regularList.clear();
+         return regularList;
+      }
+
       regularList = splitItems(originalCalendar, regularList, additionalWorkingHours);
 
       regularList.removeIf(w -> w.getTotalAmount().getDuration() == 0.0 && originalCalendar.getWork(w.getStart(), w.getFinish(), TimeUnit.MINUTES).getDuration() == 0.0);
