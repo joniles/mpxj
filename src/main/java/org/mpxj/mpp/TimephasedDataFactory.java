@@ -112,6 +112,8 @@ final class TimephasedDataFactory
       // Offset 16: int representing elapsed minutes at period end (80ths/minute)
       // The first block appears to contain totals for the resource assignment, and is skipped.
       LocalDateTime calendarPeriodStart = resourceAssignment.getStart();
+      LocalDateTime assignmentActualFinish = getAssignmentActualFinish(resourceAssignment);
+      LocalDateTime assignmnetLastActualDate = assignmentActualFinish == null ? resourceAssignment.getResume() : assignmentActualFinish;
 
       long totalWorkSeconds = 0;
       long elapsedSeconds = 0;
@@ -137,9 +139,9 @@ final class TimephasedDataFactory
          long elapsedSecondsThisPeriod = elapsedSecondsAtPeriodEnd - elapsedSeconds;
 
          LocalDateTime calendarPeriodEnd;
-         if (count + 1 == regularBlockCount && getAssignmentActualFinish(resourceAssignment) != null)
+         if (count + 1 == regularBlockCount && assignmentActualFinish != null)
          {
-            calendarPeriodEnd = getAssignmentActualFinish(resourceAssignment);
+            calendarPeriodEnd = assignmentActualFinish;
          }
          else
          {
@@ -158,6 +160,12 @@ final class TimephasedDataFactory
          totalWorkSeconds = totalWorkSecondsAtPeriodEnd;
          elapsedSeconds = elapsedSecondsAtPeriodEnd;
          calendarPeriodStart = workingCalendar.getNextWorkStart(regularList.get(regularList.size() - 1).getFinish());
+
+         // Stop reading if the timephased data runs past the end of the assignment.
+         if (calendarPeriodStart.isAfter(assignmnetLastActualDate))
+         {
+            break;
+         }
 
          offset += 20;
       }
