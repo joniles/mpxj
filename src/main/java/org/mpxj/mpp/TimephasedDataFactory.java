@@ -262,6 +262,12 @@ final class TimephasedDataFactory
             item.setTotalAmount(newTotal);
 
             ++index;
+
+            if (index == additionalWorkingHours.size())
+            {
+               list.add(item);
+               break;
+            }
          }
       }
 
