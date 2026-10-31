@@ -2172,7 +2172,7 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION8_UNITS.getValue()] = "Duration8 Units";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION9_UNITS.getValue()] = "Duration9 Units";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION10_UNITS.getValue()] = "Duration10 Units";
-      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_ACTUAL_IRREGULAR_WORK.getValue()] = "Timephased Actual Irregular Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_ADDITIONAL_WORKING_HOURS.getValue()] = "Timephased Additional Working Hours";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RAW_TIMEPHASED_PLANNED_WORK.getValue()] = "Raw Timephased Planned Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RAW_TIMEPHASED_REMAINING_OVERTIME_WORK.getValue()] = "Raw Timephased Remaining Overtime Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.REMAINING_REGULAR_COST.getValue()] = "Remaining Regular Cost";

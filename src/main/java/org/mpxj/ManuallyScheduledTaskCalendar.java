@@ -159,6 +159,11 @@ class ManuallyScheduledTaskCalendar extends ProjectCalendar
       return effectiveRanges;
    }
 
+   @Override public ProjectCalendarHours getHours(DayOfWeek day)
+   {
+      return m_calendar.getHours(day);
+   }
+
    private final ProjectCalendar m_calendar;
    private final ResourceAssignment m_assignment;
    private final LocalDate m_assignmentStartDate;

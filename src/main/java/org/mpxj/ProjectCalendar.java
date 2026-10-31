@@ -2149,7 +2149,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       RecurrenceType.DAILY
    };
 
-   private static final ProjectCalendarHours EMPTY_DATE_RANGES = new ProjectCalendarHours()
+   protected static final ProjectCalendarHours EMPTY_DATE_RANGES = new ProjectCalendarHours()
    {
       // No implementation
    };
