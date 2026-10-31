@@ -46,6 +46,7 @@ import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedCost;
 import org.mpxj.TimephasedWork;
 import org.mpxj.common.ByteArrayHelper;
+import org.mpxj.common.TimephasedHelper;
 
 /**
  * This class contains methods to create lists of TimephasedWork
@@ -65,7 +66,7 @@ final class TimephasedDataFactory
     */
    public List<TimephasedWork> getCompleteWork(ResourceAssignment resourceAssignment, byte[] regularData, byte[] additionalWorkingHoursData)
    {
-      ProjectCalendar workingCalendar = resourceAssignment.getEffectiveCalendarForActualTimephasedWork();
+      ProjectCalendar workingCalendar = TimephasedHelper.getEffectiveCalendarForActualTimephasedWork(resourceAssignment);
       if (workingCalendar == null || regularData == null || regularData.length <= 26 || ByteArrayHelper.getShort(regularData, 0) == 0 || resourceAssignment.getTask().getDuration() == null || resourceAssignment.getTask().getDuration().getDuration() == 0)
       {
          // Rather than Colection.emptyList() we're returning a mutable list.
