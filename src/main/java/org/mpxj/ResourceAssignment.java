@@ -745,6 +745,11 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
          workingCalendar = getTask().getCalendar();
       }
 
+      if (workingCalendar == null)
+      {
+         workingCalendar = getTask().getEffectiveCalendar();
+      }
+
       return workingCalendar;
    }
 
