@@ -174,6 +174,7 @@ final class TimephasedDataFactory
          offset += 20;
       }
 
+      // return an empty list if we have no actual work
       double total = regularList.stream().mapToDouble(w -> w.getTotalAmount().getDuration()).sum();
       if (total == 0.0)
       {
@@ -181,13 +182,31 @@ final class TimephasedDataFactory
          return regularList;
       }
 
+      // At this point our timephased items require the temporary calendar we have
+      // created which includes exceptional working hours to allow work in what
+      // would otherwise be non-working time. To avoid having to maintain a copy
+      // of this calendar, we'll split the data so that it works
+      // with the calendars we already have on the project. This also ensures that the code we use
+      // to segment this data will work correctly.
       regularList = splitItems(originalCalendar, regularList, additionalWorkingHours);
 
+      // Remove any items with show zero hours work in non-working time.
       regularList.removeIf(w -> w.getTotalAmount().getDuration() == 0.0 && originalCalendar.getWork(w.getStart(), w.getFinish(), TimeUnit.MINUTES).getDuration() == 0.0);
 
+      // Remove any items with the same start and end dates
       return removeEmptyItems(regularList);
    }
 
+   /**
+    * Retune the latest date we'd expect to find actual work
+    * for this resource assignment. Typically, this will be the
+    * Resume date for the assignment, but in some cases this is
+    * not present so we'll fall back on the actual finish and
+    * finish dates.
+    *
+    * @param assignment target resource assignment
+    * @return latest date for actual work
+    */
    private LocalDateTime getAssignmentLatestDate(ResourceAssignment assignment)
    {
       LocalDateTime result = assignment.getResume();
@@ -205,6 +224,15 @@ final class TimephasedDataFactory
       return assignment.getFinish();
    }
 
+   /**
+    * Given a list of date ranges representing non-working time
+    * on which actual work has been recorded for a resource assignment,
+    * create a Map which give a list of date ranges for each day on
+    * which these additional working time periods are present.
+    *
+    * @param ranges wotking time ranges
+    * @return map of working time ranges by day
+    */
    private Map<LocalDate, List<LocalTimeRange>> createHoursMap(List<LocalDateTimeRange> ranges)
    {
       Map<LocalDate, List<LocalTimeRange>> map = new HashMap<>();
@@ -242,6 +270,14 @@ final class TimephasedDataFactory
       return map;
    }
 
+   /**
+    * Create a temporary calendar derived from the supplied calendar,
+    * and add working time exceptions based on the supplied ranges.
+    *
+    * @param parent target calendar
+    * @param ranges new working time ranges
+    * @return new temporary calendar
+    */
    private ProjectCalendar populateCalendar(ProjectCalendar parent, List<LocalDateTimeRange> ranges)
    {
       ProjectCalendar calendar = new TemporaryCalendar(parent.getProjectContext());
@@ -289,6 +325,15 @@ final class TimephasedDataFactory
       return calendar;
    }
 
+   /**
+    * Split TimephasedWork items so that any work being carried out during time which is normally
+    * non-working is represented as separate TimephasedWork items.
+    *
+    * @param originalCalendar calendar which will be used when working with this timephased data
+    * @param items timewphased work items
+    * @param ranges non-working time ranges on which work may have been performed
+    * @return new list of TimephasedWork items, split to allow it to be used originalCalendar
+    */
    private List<TimephasedWork> splitItems(ProjectCalendar originalCalendar, List<TimephasedWork> items, List<LocalDateTimeRange> ranges)
    {
       if (ranges.isEmpty()
