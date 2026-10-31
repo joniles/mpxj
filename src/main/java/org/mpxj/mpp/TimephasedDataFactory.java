@@ -260,6 +260,28 @@ final class TimephasedDataFactory
          }
          Collections.sort(hours);
 
+         // Check for overlaps
+         if (hours.size() > 1)
+         {
+            int index = 0;
+            while(index + 1 < hours.size())
+            {
+               LocalTimeRange hours1 = hours.get(index);
+               LocalTimeRange hours2 = hours.get(index+1);
+
+               if (!hours2.getStart().isBefore(hours1.getEnd()))
+               {
+                  ++index;
+                  continue;
+               }
+
+               LocalTimeRange newHours = new LocalTimeRange(hours1.getStart(), hours2.getEnd());
+               hours.remove(index);
+               hours.remove(index);
+               hours.add(index, newHours);
+            }
+         }
+
          ProjectCalendarException exception = calendar.addCalendarException(date);
          exception.addAll(hours);
       }
