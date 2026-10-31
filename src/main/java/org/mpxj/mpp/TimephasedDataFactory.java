@@ -58,14 +58,14 @@ final class TimephasedDataFactory
     * retrieve a set of TimephasedWork instances which represent
     * the day by day work carried out for a specific resource assignment.
     *
-    * @param workingCalendar calendar on which date calculations are based
     * @param resourceAssignment resource assignment
     * @param regularData completed work data block
     * @param additionalWorkingHoursData actual work in non-working time data
     * @return list of TimephasedWork instances
     */
-   public List<TimephasedWork> getCompleteWork(ProjectCalendar workingCalendar, ResourceAssignment resourceAssignment, byte[] regularData, byte[] additionalWorkingHoursData)
+   public List<TimephasedWork> getCompleteWork(ResourceAssignment resourceAssignment, byte[] regularData, byte[] additionalWorkingHoursData)
    {
+      ProjectCalendar workingCalendar = resourceAssignment.getEffectiveCalendarForActualTimephasedWork();
       if (workingCalendar == null || regularData == null || regularData.length <= 26 || ByteArrayHelper.getShort(regularData, 0) == 0 || resourceAssignment.getTask().getDuration() == null || resourceAssignment.getTask().getDuration().getDuration() == 0)
       {
          // Rather than Colection.emptyList() we're returning a mutable list.
@@ -112,8 +112,8 @@ final class TimephasedDataFactory
       // Offset 16: int representing elapsed minutes at period end (80ths/minute)
       // The first block appears to contain totals for the resource assignment, and is skipped.
       LocalDateTime calendarPeriodStart = resourceAssignment.getStart();
-      LocalDateTime assignmentActualFinish = getAssignmentActualFinish(resourceAssignment);
-      LocalDateTime assignmnetLastActualDate = assignmentActualFinish == null ? resourceAssignment.getResume() : assignmentActualFinish;
+      //LocalDateTime assignmentActualFinish = getAssignmentActualFinish(resourceAssignment);
+
 
       long totalWorkSeconds = 0;
       long elapsedSeconds = 0;
@@ -127,7 +127,10 @@ final class TimephasedDataFactory
       for (int count = 0; count < regularBlockCount; count++)
       {
          double totalAtPeriodEnd = MPPUtility.getDouble(regularData, offset);
+         double workPerHour = MPPUtility.getDouble(regularData, offset + 8);
          double elapsedAtPeriodEnd = ByteArrayHelper.getInt(regularData, offset + 16);
+
+         double workPerHourInMinutes = (workPerHour * 60.0) / 1000.0;
          long totalWorkSecondsAtPeriodEnd = Math.round((totalAtPeriodEnd * 60.0)/ 1000.0);
          long elapsedSecondsAtPeriodEnd = Math.round((elapsedAtPeriodEnd * 60.0)/ 80.0);
          if (elapsedSecondsAtPeriodEnd < 0 || elapsedSecondsAtPeriodEnd > totalElapsedTimeInSeconds)
@@ -138,14 +141,10 @@ final class TimephasedDataFactory
          long totalWorkSecondsThisPeriod = totalWorkSecondsAtPeriodEnd - totalWorkSeconds;
          long elapsedSecondsThisPeriod = elapsedSecondsAtPeriodEnd - elapsedSeconds;
 
-         LocalDateTime calendarPeriodEnd;
-         if (count + 1 == regularBlockCount && assignmentActualFinish != null)
+         LocalDateTime calendarPeriodEnd = workingCalendar.getDate(calendarPeriodStart, Duration.getInstance(elapsedSecondsThisPeriod / 60.0, TimeUnit.MINUTES));
+         if (calendarPeriodEnd.isAfter(resourceAssignment.getResume()))
          {
-            calendarPeriodEnd = assignmentActualFinish;
-         }
-         else
-         {
-            calendarPeriodEnd = workingCalendar.getDate(calendarPeriodStart, Duration.getInstance(elapsedSecondsThisPeriod / 60.0, TimeUnit.MINUTES));
+            calendarPeriodEnd = resourceAssignment.getResume();
          }
 
          double calculatedWorkPerHour = (totalWorkSecondsThisPeriod * 60.0) / elapsedSecondsThisPeriod;
@@ -157,12 +156,17 @@ final class TimephasedDataFactory
          item.setAmountPerHour(Duration.getInstance(calculatedWorkPerHour, TimeUnit.MINUTES));
          regularList.add(item);
 
+         if (calendarPeriodEnd.isEqual(resourceAssignment.getResume()))
+         {
+            break;
+         }
+
          totalWorkSeconds = totalWorkSecondsAtPeriodEnd;
          elapsedSeconds = elapsedSecondsAtPeriodEnd;
          calendarPeriodStart = workingCalendar.getNextWorkStart(regularList.get(regularList.size() - 1).getFinish());
 
          // Stop reading if the timephased data runs past the end of the assignment.
-         if (calendarPeriodStart.isAfter(assignmnetLastActualDate))
+         if (calendarPeriodStart.isAfter(resourceAssignment.getResume()))
          {
             break;
          }
@@ -176,15 +180,15 @@ final class TimephasedDataFactory
       // clamping would move the item's finish to before its own start, producing an item which
       // this class's own callers reject. Leave those alone: an item which ends slightly late is
       // usable, one which ends before it begins is not.
-      if (!regularList.isEmpty())
-      {
-         TimephasedWork lastItem = regularList.get(regularList.size() - 1);
-         LocalDateTime assignmentFinish = resourceAssignment.getFinish();
-         if (lastItem.getFinish().isAfter(assignmentFinish) && assignmentFinish.isAfter(lastItem.getStart()))
-         {
-            lastItem.setFinish(assignmentFinish);
-         }
-      }
+//      if (!regularList.isEmpty())
+//      {
+//         TimephasedWork lastItem = regularList.get(regularList.size() - 1);
+//         LocalDateTime assignmentFinish = resourceAssignment.getFinish();
+//         if (lastItem.getFinish().isAfter(assignmentFinish) && assignmentFinish.isAfter(lastItem.getStart()))
+//         {
+//            lastItem.setFinish(assignmentFinish);
+//         }
+//      }
 
       double total = regularList.stream().mapToDouble(w -> w.getTotalAmount().getDuration()).sum();
       if (total == 0.0)

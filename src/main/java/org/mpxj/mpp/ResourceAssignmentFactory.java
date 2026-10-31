@@ -223,9 +223,9 @@ class ResourceAssignmentFactory
 
          ResourceType resourceType = resource == null ? ResourceType.WORK : resource.getType();
          ProjectCalendar calendar = assignment.getEffectiveCalendar();
-         List<TimephasedWork> timephasedActualWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualRegularWorkData, timephasedAdditionalWorkingHoursData);
+         List<TimephasedWork> timephasedActualWork = timephasedFactory.getCompleteWork(assignment, timephasedActualRegularWorkData, timephasedAdditionalWorkingHoursData);
          List<TimephasedWork> timephasedWork = timephasedFactory.getPlannedWork(calendar, assignment, timephasedWorkData, timephasedActualWork, resourceType);
-         List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualOvertimeWorkData, timephasedAdditionalWorkingHoursData);
+         List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(assignment, timephasedActualOvertimeWorkData, timephasedAdditionalWorkingHoursData);
          List<TimephasedCost> budgetCost = getOrDefaultBudgetCost(assignment, () -> timephasedFactory.getCost(file.getDefaultCalendar(), timephasedBudgetCostData));
          List<TimephasedWork> budgetWork = getOrDefaultBudgetWork(assignment, () -> timephasedFactory.getBaselineWork(calendar, timephasedBudgetWorkData));
 

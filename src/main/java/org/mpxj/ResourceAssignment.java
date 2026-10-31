@@ -726,6 +726,28 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
       return result;
    }
 
+   public ProjectCalendar getEffectiveCalendarForActualTimephasedWork()
+   {
+      ProjectCalendar workingCalendar;
+      if (getTask().getCalendar() == null)
+      {
+         if (getResource() == null)
+         {
+            workingCalendar = getTask().getEffectiveCalendar();
+         }
+         else
+         {
+            workingCalendar = getResource().getCalendar();
+         }
+      }
+      else
+      {
+         workingCalendar = getTask().getCalendar();
+      }
+
+      return workingCalendar;
+   }
+
    /**
     * Retrieve the variable rate time units, null if fixed rate.
     *
@@ -2688,7 +2710,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<Duration> getTimephasedActualRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getOrCreateRawTimephasedActualWork(getRawTimephasedActualRegularWork(), this::getActualRegularWork), ranges, units);
+      return TimephasedUtility.segmentWork(getEffectiveCalendarForActualTimephasedWork(), getOrCreateRawTimephasedActualWork(getRawTimephasedActualRegularWork(), this::getActualRegularWork), ranges, units);
    }
 
    /**
@@ -2700,7 +2722,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getOrCreateRawTimephasedActualWork(getRawTimephasedActualOvertimeWork(), this::getActualOvertimeWork), ranges, units);
+      return TimephasedUtility.segmentWork(getEffectiveCalendarForActualTimephasedWork(), getOrCreateRawTimephasedActualWork(getRawTimephasedActualOvertimeWork(), this::getActualOvertimeWork), ranges, units);
    }
 
    /**
