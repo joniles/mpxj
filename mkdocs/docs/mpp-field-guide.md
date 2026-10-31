@@ -173,7 +173,7 @@ Actual Regular Cost|✓|✓|✓|✓
 Actual Regular Work|✓|✓|✓|✓
 Actual Start|✓|✓|✓|✓
 Actual Work|✓|✓|✓|✓
-Actual Work Protected| | |✓| 
+Actual Work Protected| | |✓|✓
 Auto Compute Actuals|✓|✓|✓|✓
 Board Status ID| | | |✓
 Budget Cost| |✓|✓|✓
@@ -638,7 +638,7 @@ Actual Overtime Work| |✓|✓|✓
 Actual Regular Cost| |✓|✓|✓
 Actual Regular Work|✓|✓|✓|✓
 Actual Work|✓|✓|✓|✓
-Actual Work Protected| | |✓| 
+Actual Work Protected| | |✓|✓
 Auto Compute Actuals|✓|✓|✓|✓
 Availability Data| |✓|✓|✓
 Available From| |✓|✓|✓
@@ -945,7 +945,7 @@ Actual Regular Cost| |✓|✓|✓
 Actual Regular Work|✓|✓|✓|✓
 Actual Start| |✓|✓|✓
 Actual Work|✓|✓|✓|✓
-Actual Work Protected| | |✓| 
+Actual Work Protected| | |✓|✓
 Assignment Delay| |✓|✓|✓
 Assignment GUID| | |✓|✓
 Assignment Resource GUID| | |✓|✓

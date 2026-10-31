@@ -501,8 +501,14 @@ final class TimephasedDataFactory
          if (totalWorkInSeconds != 0.0)
          {
             // MS Project always populates Resume, even for unstarted tasks
-            LocalDateTime start = assignment.getResume();
             LocalDateTime end = assignment.getFinish();
+            LocalDateTime start = assignment.getResume();
+            if (end.isBefore(start))
+            {
+               // In some cases Resume doesn't make sense, so fall back on Start
+               start = assignment.getStart();
+            }
+
             Duration work = Duration.getInstance(totalWorkInSeconds / 60.0, TimeUnit.MINUTES);
             long assignmentElapsedSeconds = Math.round(calendar.getWork(start, end, TimeUnit.MINUTES).getDuration() * 60.0);
             double calculatedWorkPerHour = (totalWorkInSeconds * 60.0) / assignmentElapsedSeconds;
