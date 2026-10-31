@@ -112,7 +112,6 @@ final class TimephasedDataFactory
       // Offset 16: int representing elapsed minutes at period end (80ths/minute)
       // The first block appears to contain totals for the resource assignment, and is skipped.
       LocalDateTime calendarPeriodStart = resourceAssignment.getStart();
-      //LocalDateTime assignmentActualFinish = getAssignmentActualFinish(resourceAssignment);
 
 
       long totalWorkSeconds = 0;
@@ -173,22 +172,6 @@ final class TimephasedDataFactory
 
          offset += 20;
       }
-
-      // Trim a reconstructed series which has run past the end of the assignment. The walk can
-      // overshoot by a little, and pulling the last item back to the assignment's finish tidies
-      // that up. It can also overshoot by more than the last item is long, and in that case
-      // clamping would move the item's finish to before its own start, producing an item which
-      // this class's own callers reject. Leave those alone: an item which ends slightly late is
-      // usable, one which ends before it begins is not.
-//      if (!regularList.isEmpty())
-//      {
-//         TimephasedWork lastItem = regularList.get(regularList.size() - 1);
-//         LocalDateTime assignmentFinish = resourceAssignment.getFinish();
-//         if (lastItem.getFinish().isAfter(assignmentFinish) && assignmentFinish.isAfter(lastItem.getStart()))
-//         {
-//            lastItem.setFinish(assignmentFinish);
-//         }
-//      }
 
       double total = regularList.stream().mapToDouble(w -> w.getTotalAmount().getDuration()).sum();
       if (total == 0.0)
