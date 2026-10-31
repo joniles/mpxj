@@ -112,7 +112,7 @@ final class TimephasedDataFactory
       // Offset 16: int representing elapsed minutes at period end (80ths/minute)
       // The first block appears to contain totals for the resource assignment, and is skipped.
       LocalDateTime calendarPeriodStart = resourceAssignment.getStart();
-
+      LocalDateTime assignmentLatestDate = getAssignmentLatestDate(resourceAssignment);
 
       long totalWorkSeconds = 0;
       long elapsedSeconds = 0;
@@ -141,9 +141,9 @@ final class TimephasedDataFactory
          long elapsedSecondsThisPeriod = elapsedSecondsAtPeriodEnd - elapsedSeconds;
 
          LocalDateTime calendarPeriodEnd = workingCalendar.getDate(calendarPeriodStart, Duration.getInstance(elapsedSecondsThisPeriod / 60.0, TimeUnit.MINUTES));
-         if (calendarPeriodEnd.isAfter(resourceAssignment.getResume()))
+         if (calendarPeriodEnd.isAfter(assignmentLatestDate))
          {
-            calendarPeriodEnd = resourceAssignment.getResume();
+            calendarPeriodEnd = assignmentLatestDate;
          }
 
          double calculatedWorkPerHour = (totalWorkSecondsThisPeriod * 60.0) / elapsedSecondsThisPeriod;
@@ -155,7 +155,7 @@ final class TimephasedDataFactory
          item.setAmountPerHour(Duration.getInstance(calculatedWorkPerHour, TimeUnit.MINUTES));
          regularList.add(item);
 
-         if (calendarPeriodEnd.isEqual(resourceAssignment.getResume()))
+         if (calendarPeriodEnd.isEqual(assignmentLatestDate))
          {
             break;
          }
@@ -165,7 +165,7 @@ final class TimephasedDataFactory
          calendarPeriodStart = workingCalendar.getNextWorkStart(regularList.get(regularList.size() - 1).getFinish());
 
          // Stop reading if the timephased data runs past the end of the assignment.
-         if (calendarPeriodStart.isAfter(resourceAssignment.getResume()))
+         if (calendarPeriodStart.isAfter(assignmentLatestDate))
          {
             break;
          }
@@ -187,22 +187,21 @@ final class TimephasedDataFactory
       return removeEmptyItems(regularList);
    }
 
-   /**
-    * Retrieve a resource assignmet's actual finish.
-    * This method deals with an oddity where MPP files contain completed tasks
-    * which have resource assignmnets with null actual fiish dates.
-    *
-    * @param assignment targte resource assignmnet
-    * @return actual finish date
-    */
-   private LocalDateTime getAssignmentActualFinish(ResourceAssignment assignment)
+   private LocalDateTime getAssignmentLatestDate(ResourceAssignment assignment)
    {
-      LocalDateTime result = assignment.getActualFinish();
-      if (result == null)
+      LocalDateTime result = assignment.getResume();
+      if (result != null)
       {
-         result = assignment.getTask().getActualFinish();
+         return result;
       }
-      return result;
+
+      result = assignment.getActualFinish();
+      if (result != null)
+      {
+         return result;
+      }
+
+      return assignment.getFinish();
    }
 
    private Map<LocalDate, List<LocalTimeRange>> createHoursMap(List<LocalDateTimeRange> ranges)
