@@ -78,6 +78,7 @@ like to be featured in this list.
 * Predict! [www.riskdecisions.com](http://www.riskdecisions.com)
 * Primavera Unifier [www.oracle.com/industries/construction-engineering/unifier-facilities-asset-management/](http://www.oracle.com/industries/construction-engineering/unifier-facilities-asset-management/)
 * Procore [www.procore.com](http://www.procore.com)
+* ProjectEdge Tools [projectedgetools.com](https://projectedgetools.com/)
 * ProjectForge [www.projectforge.org](http://www.projectforge.org/)
 * PROJECT in a box [projectinabox.org.uk](http://projectinabox.org.uk)
 * Project Kit [www.methodpark.de](http://www.methodpark.de)
