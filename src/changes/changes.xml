@@ -5,7 +5,7 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-        <release date="Unreleased" version="16.11.0">
+        <release date="2026-11-01" version="16.11.0">
             <action dev="janecekpetr" type="update">Improve memory efficiency of entity attribute storage (Contributed by Petr Janeček)</action>
             <action dev="janecekpetr" type="update">Ensure XML files containing large numbers of predefined entities will continue to parse successfully with Java 24. (Contributed by Petr Janeček)</action>
             <action dev="janecekpetr" type="update">When writing PMXML files, ensure that activity codes without sequence numbers are handled correctly. (Contributed by Petr Janeček)</action>

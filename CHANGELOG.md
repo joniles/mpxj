@@ -5,17 +5,21 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 16.11.0 (Unreleased)
+## 16.11.0 (2026-11-01)
 * Improve memory efficiency of entity attribute storage (Contributed by Petr Janeček)
 * Ensure XML files containing large numbers of predefined entities will continue to parse successfully with Java 24. (Contributed by Petr Janeček)
 * When writing PMXML files, ensure that activity codes without sequence numbers are handled correctly. (Contributed by Petr Janeček)
 * When writing PMXML and XER files, ensure that calendars derived from a parent calendar which is not present in the schedule are handled correctly. (Contributed by Petr Janeček)
 * When reading MPP files, improve validation of working time ranges. (Contributed by Varmend)
+* Fix issues with work weeks encountered when flattening calendar hierarchies. (Contributed by Varmend)
 * Improvements to interpretation of timephased actual work when reading certain MPP files. (Contributed by cupacheeno)
 * Ensure `PrimaveraScheduler` correctly handles ALAP SF predecessors. (Contributed by James Wagner)
 * Improve handling of Out-Of-Sequence progress by `PrimaveraScheduler` (Contributed by James Wagner)
+* Improve Primavera Free Slack calculation for relations with lag. (Contributed by James Wagner)
 * Improve identification of calendar exception types when reading Powerproject schedules.
 * Improve the Free Slack calculation used when reading Powerproject schedules.
+* When reading timephased data from MPP files, use the Resume date as the starting point for planned work.
+* Improve handling of timephased data representing completed work in non working hours when reading MPP files.
 * Updated to jsoup 2.23.2.
 * Updated to Jackson 2.22.4.
 
