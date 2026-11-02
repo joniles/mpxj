@@ -330,10 +330,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#16110-unreleased" class="md-nav__link">
+  <a href="#16110-2026-11-01" class="md-nav__link">
     <span class="md-ellipsis">
       
-        16.11.0 (Unreleased)
+        16.11.0 (2026-11-01)
       
     </span>
   </a>
@@ -5591,10 +5591,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#16110-unreleased" class="md-nav__link">
+  <a href="#16110-2026-11-01" class="md-nav__link">
     <span class="md-ellipsis">
       
-        16.11.0 (Unreleased)
+        16.11.0 (2026-11-01)
       
     </span>
   </a>
@@ -8856,18 +8856,22 @@
 <h2 id="note">NOTE</h2>
 <p>From version 14.0.0 onwards the <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code> and <code>net.sf.mpxj-for-vb</code> packages are
 no longer distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
-<h2 id="16110-unreleased">16.11.0 (Unreleased)</h2>
+<h2 id="16110-2026-11-01">16.11.0 (2026-11-01)</h2>
 <ul>
 <li>Improve memory efficiency of entity attribute storage (Contributed by Petr Janeček)</li>
 <li>Ensure XML files containing large numbers of predefined entities will continue to parse successfully with Java 24. (Contributed by Petr Janeček)</li>
 <li>When writing PMXML files, ensure that activity codes without sequence numbers are handled correctly. (Contributed by Petr Janeček)</li>
 <li>When writing PMXML and XER files, ensure that calendars derived from a parent calendar which is not present in the schedule are handled correctly. (Contributed by Petr Janeček)</li>
 <li>When reading MPP files, improve validation of working time ranges. (Contributed by Varmend)</li>
+<li>Fix issues with work weeks encountered when flattening calendar hierarchies. (Contributed by Varmend)</li>
 <li>Improvements to interpretation of timephased actual work when reading certain MPP files. (Contributed by cupacheeno)</li>
 <li>Ensure <code>PrimaveraScheduler</code> correctly handles ALAP SF predecessors. (Contributed by James Wagner)</li>
 <li>Improve handling of Out-Of-Sequence progress by <code>PrimaveraScheduler</code> (Contributed by James Wagner)</li>
+<li>Improve Primavera Free Slack calculation for relations with lag. (Contributed by James Wagner)</li>
 <li>Improve identification of calendar exception types when reading Powerproject schedules.</li>
 <li>Improve the Free Slack calculation used when reading Powerproject schedules.</li>
+<li>When reading timephased data from MPP files, use the Resume date as the starting point for planned work.</li>
+<li>Improve handling of timephased data representing completed work in non working hours when reading MPP files.</li>
 <li>Updated to jsoup 2.23.2.</li>
 <li>Updated to Jackson 2.22.4.</li>
 </ul>
