@@ -21,6 +21,7 @@ import java.nio.ByteOrder;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mpxj.DayType;
 import org.mpxj.LocalTimeRange;
@@ -31,12 +32,21 @@ import org.mpxj.ProjectFile;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mpxj.junit.MpxjAssert.assumeJvm;
 
 /**
  * Test calendar work weeks.
  */
 public class MppCalendarWorkWeekTest
 {
+   /**
+    * Check that we're not in IKVM.
+    */
+   @BeforeEach public void beforeMethod()
+   {
+      assumeJvm();
+   }
+
    /**
     * Ensure invalid durations are discarded.
     */
