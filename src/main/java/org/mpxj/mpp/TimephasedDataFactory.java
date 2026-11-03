@@ -275,7 +275,7 @@ final class TimephasedDataFactory
       double workInMinutes = calendar.getWork(start, end, TimeUnit.MINUTES).getDuration();
       if (workInMinutes == 0.0)
       {
-         // This range is alreday just non-working time
+         // This range is already just non-working time
          list.add(new LocalDateTimeRange(start, end));
          return;
       }
@@ -283,7 +283,7 @@ final class TimephasedDataFactory
       double elapsedMinutes = start.until(end, ChronoUnit.SECONDS) / 60.0;
       if (workInMinutes == elapsedMinutes)
       {
-         // This range only covers working time.
+         // This range only covers working time so is not necessary
          return;
       }
 
