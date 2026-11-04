@@ -270,12 +270,25 @@ final class TimephasedDataFactory
       return map;
    }
 
+   /**
+    * Populates a list with time ranges representing additional working hours.
+    * The goal of this method is to ensure that any additional working hours we
+    * add to the list represent just non-working time during which work has been
+    * performed. MS Project does give us this, but it also gives us ranges which
+    * overlap working and non-working time, and ranges which are already working
+    * time in the calendar.
+    *
+    * @param calendar target calendar
+    * @param list list to populate
+    * @param start candidate time range start
+    * @param end candidate time range end
+    */
    private void populateAdditionalWorkingHours(ProjectCalendar calendar, List<LocalDateTimeRange> list, LocalDateTime start, LocalDateTime end)
    {
       double workInMinutes = calendar.getWork(start, end, TimeUnit.MINUTES).getDuration();
       if (workInMinutes == 0.0)
       {
-         // This range is already just non-working time
+         // This range is already just non-working time so we can add it immediately
          list.add(new LocalDateTimeRange(start, end));
          return;
       }
@@ -316,6 +329,9 @@ final class TimephasedDataFactory
          return;
       }
 
+      // We have a range which covers just one day.
+      // Split this up to avoid any overlaps with
+      // working hours.
       ProjectCalendarHours hours = calendar.getHours(start);
       int index = 0;
 
@@ -336,7 +352,7 @@ final class TimephasedDataFactory
 
          if (!start.toLocalTime().isBefore(range.getStart()) && !start.toLocalTime().isAfter(range.getEnd()))
          {
-            // start time is within a range, move it to the range end
+            // Start time is within a range, move it to the range end
             start = LocalDateTime.of(start.toLocalDate(), range.getEnd());
          }
 
