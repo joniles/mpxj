@@ -29,6 +29,7 @@ import java.time.LocalTime;
 
 import org.mpxj.DayType;
 import org.mpxj.LocalTimeRange;
+import org.mpxj.common.LocalDateTimeHelper;
 
 /**
  * Represents a calendar exception.
@@ -86,14 +87,7 @@ class CalendarExceptionHours
     */
    public boolean isSameDay()
    {
-      LocalDate startDay = m_start.toLocalDate();
-      LocalDate endDay = m_finish.toLocalDate();
-      if (m_finish.toLocalTime().equals(LocalTime.MIDNIGHT))
-      {
-         endDay = endDay.minusDays(1);
-      }
-
-      return startDay.equals(endDay);
+      return LocalDateTimeHelper.isSameDay(m_start, m_finish);
    }
 
    /**

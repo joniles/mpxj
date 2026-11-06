@@ -46,6 +46,7 @@ import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedCost;
 import org.mpxj.TimephasedWork;
 import org.mpxj.common.ByteArrayHelper;
+import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.TimephasedHelper;
 
 /**
@@ -94,7 +95,8 @@ final class TimephasedDataFactory
          {
             LocalDateTime start = MPPUtility.getTimestamp(additionalWorkingHoursData, offset);
             LocalDateTime end = MPPUtility.getTimestamp(additionalWorkingHoursData, offset + 4);
-            populateAdditionalWorkingHours(originalCalendar, additionalWorkingHours, start, end);
+            List<LocalDateTimeRange> ranges = splitIntoDayRanges(start, end);
+            ranges.forEach(r -> populateAdditionalWorkingHours(originalCalendar, additionalWorkingHours, r));
             offset += 8;
          }
 
@@ -197,8 +199,28 @@ final class TimephasedDataFactory
       return removeEmptyItems(regularList);
    }
 
+   List<LocalDateTimeRange> splitIntoDayRanges(LocalDateTime start, LocalDateTime end)
+   {
+      List<LocalDateTimeRange> result = new ArrayList<>();
+
+      LocalDateTime currentStart = start;
+      while (!LocalDateTimeHelper.isSameDay(currentStart, end))
+      {
+         LocalDateTime currentEnd = LocalDateTime.of(currentStart.toLocalDate().plusDays(1), LocalTime.MIDNIGHT);
+         result.add(new LocalDateTimeRange(currentStart, currentEnd));
+         currentStart = currentEnd;
+      }
+
+      if (!currentStart.isEqual(end))
+      {
+         result.add(new LocalDateTimeRange(currentStart, end));
+      }
+
+      return result;
+   }
+
    /**
-    * Retune the latest date we'd expect to find actual work
+    * Return the latest date we'd expect to find actual work
     * for this resource assignment. Typically, this will be the
     * Resume date for the assignment, but in some cases this is
     * not present so we'll fall back on the actual finish and
@@ -239,32 +261,16 @@ final class TimephasedDataFactory
 
       for (LocalDateTimeRange range : ranges)
       {
-         LocalDateTime startDate = range.getStart();
-         LocalDateTime endDate = range.getEnd();
-
-         while (true)
+         // Special case for midnight
+         LocalDate endDate = range.getEnd().toLocalTime().equals(LocalTime.MIDNIGHT) ? range.getEnd().minusDays(1).toLocalDate() : range.getEnd().toLocalDate();
+         if (!range.getStart().toLocalDate().isEqual(endDate))
          {
-            LocalTime startTime = startDate.toLocalTime();
-            LocalTime endTime;
-            if (endDate.toLocalDate().isEqual(startDate.toLocalDate()))
-            {
-               endTime = endDate.toLocalTime();
-            }
-            else
-            {
-               endTime = LocalTime.MIDNIGHT;
-            }
-
-            List<LocalTimeRange> hours = map.computeIfAbsent(startDate.toLocalDate(), k -> new ArrayList<>());
-            hours.add(new LocalTimeRange(startTime, endTime));
-
-            if (endDate.toLocalDate().isEqual(startDate.toLocalDate()))
-            {
-               break;
-            }
-
-            startDate = LocalDateTime.of(startDate.toLocalDate().plusDays(1), LocalTime.MIDNIGHT);
+            // We should not have ranges which cover multiple days
+            throw new IllegalArgumentException("Additional working hours range covers multiple days: " + range);
          }
+
+         List<LocalTimeRange> hours = map.computeIfAbsent(range.getStart().toLocalDate(), k -> new ArrayList<>());
+         hours.add(new LocalTimeRange(range.getStart().toLocalTime(), range.getEnd().toLocalTime()));
       }
 
       return map;
@@ -283,68 +289,45 @@ final class TimephasedDataFactory
     * @param start candidate time range start
     * @param end candidate time range end
     */
-   private void populateAdditionalWorkingHours(ProjectCalendar calendar, List<LocalDateTimeRange> list, LocalDateTime start, LocalDateTime end)
+   private void populateAdditionalWorkingHours(ProjectCalendar calendar, List<LocalDateTimeRange> list, LocalDateTimeRange newRange)
    {
-      double workInMinutes = calendar.getWork(start, end, TimeUnit.MINUTES).getDuration();
+      double workInMinutes = calendar.getWork(newRange.getStart(), newRange.getEnd(), TimeUnit.MINUTES).getDuration();
       if (workInMinutes == 0.0)
       {
-         // This range is already just non-working time so we can add it immediately
-         list.add(new LocalDateTimeRange(start, end));
+         // This range is already just non-working time,
+         // so it can't overlap any existing time ranges
+         // for this day so we can add it immediately.
+         list.add(newRange);
          return;
       }
 
-      double elapsedMinutes = start.until(end, ChronoUnit.SECONDS) / 60.0;
+      double elapsedMinutes = newRange.getStart().until(newRange.getEnd(), ChronoUnit.SECONDS) / 60.0;
       if (workInMinutes == elapsedMinutes)
       {
-         // This range only covers working time so is not necessary
+         // This range only covers an existing working time range
+         // so is not necessary to add it.
          return;
       }
 
-      // If our range spans more than one day, split into
-      // single day ranges and process each one individually.
-      if (!start.toLocalDate().isEqual(end.toLocalDate()))
-      {
-         while (true)
-         {
-            LocalTime startTime = start.toLocalTime();
-            LocalTime endTime;
-            if (end.toLocalDate().isEqual(start.toLocalDate()))
-            {
-               endTime = end.toLocalTime();
-            }
-            else
-            {
-               endTime = LocalTime.MIDNIGHT;
-            }
+      // There must be working time ranges for this day,
+      // so ensure that our target range does not overlap
+      // with any of these.
+      ProjectCalendarHours hours = calendar.getHours(newRange.getStart());
+      LocalTime start = newRange.getStart().toLocalTime();
+      LocalTime end = newRange.getEnd().toLocalTime();
 
-            populateAdditionalWorkingHours(calendar, list, start, LocalDateTime.of(start.toLocalDate(), endTime));
-            if (end.toLocalDate().isEqual(start.toLocalDate()))
-            {
-               break;
-            }
-
-            start = LocalDateTime.of(start.toLocalDate().plusDays(1), LocalTime.MIDNIGHT);
-         }
-
-         return;
-      }
-
-      // We have a range which covers just one day.
-      // Split this up to avoid any overlaps with
-      // working hours.
-      ProjectCalendarHours hours = calendar.getHours(start);
       int index = 0;
 
       while (index < hours.size())
       {
          LocalTimeRange range = hours.get(index);
-         if (!start.toLocalTime().isBefore(range.getEnd()))
+         if (!start.isBefore(range.getEnd()))
          {
             ++index;
             continue;
          }
 
-         if (!start.toLocalTime().isBefore(range.getStart()) && !end.toLocalTime().isAfter(range.getEnd()))
+         if (!start.isBefore(range.getStart()) && (range.getEnd().equals(LocalTime.MIDNIGHT) || !end.isAfter(range.getEnd())))
          {
             // These additional hours aren't required - they are already entirely working time
             break;
@@ -413,18 +396,13 @@ final class TimephasedDataFactory
             while(index + 1 < hours.size())
             {
                LocalTimeRange hours1 = hours.get(index);
-               LocalTimeRange hours2 = hours.get(index+1);
+               LocalTimeRange hours2 = hours.get(++index);
 
-               if (!hours2.getStart().isBefore(hours1.getEnd()))
+               if (hours2.getStart().isBefore(hours1.getEnd()))
                {
-                  ++index;
-                  continue;
+                  // We should not have overlapping ranges at this point
+                  throw new IllegalArgumentException("Additional working hours overlapping ranges: " + hours1 + " " + hours2);
                }
-
-               LocalTimeRange newHours = new LocalTimeRange(hours1.getStart(), hours2.getEnd());
-               hours.remove(index);
-               hours.remove(index);
-               hours.add(index, newHours);
             }
          }
 
