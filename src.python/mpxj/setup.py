@@ -20,7 +20,8 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     packages=setuptools.find_namespace_packages(),
-    python_requires=">=3.6",
+    install_requires=["JPype1>=1.2.0"],
+    python_requires=">=3.8",
     include_package_data=True,
     package_data={'': ['lib/*.jar']},
     license="LGPL-2.0-or-later"
