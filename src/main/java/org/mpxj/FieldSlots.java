@@ -112,13 +112,19 @@ final class FieldSlots<E extends Enum<E> & FieldType>
     * @param entities entities holding fields of the kind this instance represents
     * @return fields which may hold a value
     */
-   Collection<E> candidateFields(Collection<? extends AbstractFieldContainer<?>> entities)
+   Collection<E> potentiallyPopulatedFields(Collection<? extends AbstractFieldContainer<?>> entities)
    {
+      // Start with all possible field types
       EnumSet<E> fields = EnumSet.allOf(m_fieldType);
-      if (entities.stream().allMatch(entity -> entity.usesFieldSlots(this)))
+
+      // If we have no external entities (e.g. tasks from other projects)
+      // then we can safely return only the fields for which we have
+      // allocated a slot as we know these are the only populated fields.
+      if (entities.stream().allMatch(entity -> entity.usesTheseFieldSlots(this)))
       {
          fields.removeIf(field -> m_slots[field.ordinal()] < 0);
       }
+
       return fields;
    }
 

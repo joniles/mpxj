@@ -53,9 +53,9 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
     * @param slots FieldSlots instance
     * @return true if this entity uses the supplied FieldSlots instance
     */
-   boolean usesFieldSlots(FieldSlots<?> slots)
+   boolean usesTheseFieldSlots(FieldSlots<?> slots)
    {
-      return m_enumFields.uses(slots);
+      return m_enumFields.usesTheseFieldSlots(slots);
    }
 
    /**

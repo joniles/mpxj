@@ -69,7 +69,7 @@ public class PopulatedFields<E extends Enum<E> & FieldType, T extends FieldConta
     * Constructor.
     *
     * @param project parent project
-    * @param fields fields of the parent container's own enumeration which may be populated
+    * @param fields collection of FieldType enumeration values representing fields which could be populated
     * @param userDefinedFields collection of user defined fields for the parent container
     * @param collection collection of objects containing fields
     */

@@ -60,7 +60,7 @@ class SlotStore
     * @param slots FieldSlots instance
     * @return true if this store uses the supplied FieldSlots instance
     */
-   public boolean uses(FieldSlots<?> slots)
+   public boolean usesTheseFieldSlots(FieldSlots<?> slots)
    {
       return m_slots == slots;
    }
