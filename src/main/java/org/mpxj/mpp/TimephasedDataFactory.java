@@ -94,7 +94,7 @@ final class TimephasedDataFactory
          {
             LocalDateTime start = MPPUtility.getTimestamp(additionalWorkingHoursData, offset);
             LocalDateTime end = MPPUtility.getTimestamp(additionalWorkingHoursData, offset + 4);
-            additionalWorkingHours.add(new LocalDateTimeRange(start, end));
+            populateAdditionalWorkingHours(originalCalendar, additionalWorkingHours, start, end);
             offset += 8;
          }
 
@@ -102,7 +102,7 @@ final class TimephasedDataFactory
 
          // Use the data we have just read to create a temporary calendar
          // and add exceptions to extend the working hours.
-         workingCalendar = populateCalendar(workingCalendar, additionalWorkingHours);
+         workingCalendar = populateCalendar(originalCalendar, additionalWorkingHours);
       }
 
       // The regular data block starts with a 16 byte header. The first
@@ -130,7 +130,7 @@ final class TimephasedDataFactory
          double workPerHour = MPPUtility.getDouble(regularData, offset + 8);
          double elapsedAtPeriodEnd = ByteArrayHelper.getInt(regularData, offset + 16);
 
-         double workPerHourInMinutes = (workPerHour * 60.0) / 1000.0;
+         double workPerHourInMinutes = (workPerHour * 60.0) / 10000.0;
          long totalWorkSecondsAtPeriodEnd = Math.round((totalAtPeriodEnd * 60.0)/ 1000.0);
          long elapsedSecondsAtPeriodEnd = Math.round((elapsedAtPeriodEnd * 60.0)/ 80.0);
          if (elapsedSecondsAtPeriodEnd < 0 || elapsedSecondsAtPeriodEnd > totalElapsedTimeInSeconds)
@@ -268,6 +268,100 @@ final class TimephasedDataFactory
       }
 
       return map;
+   }
+
+   private void populateAdditionalWorkingHours(ProjectCalendar calendar, List<LocalDateTimeRange> list, LocalDateTime start, LocalDateTime end)
+   {
+      double workInMinutes = calendar.getWork(start, end, TimeUnit.MINUTES).getDuration();
+      if (workInMinutes == 0.0)
+      {
+         // This range is already just non-working time
+         list.add(new LocalDateTimeRange(start, end));
+         return;
+      }
+
+      double elapsedMinutes = start.until(end, ChronoUnit.SECONDS) / 60.0;
+      if (workInMinutes == elapsedMinutes)
+      {
+         // This range only covers working time so is not necessary
+         return;
+      }
+
+      // If our range spans more than one day, split into
+      // single day ranges and process each one individually.
+      if (!start.toLocalDate().isEqual(end.toLocalDate()))
+      {
+         while (true)
+         {
+            LocalTime startTime = start.toLocalTime();
+            LocalTime endTime;
+            if (end.toLocalDate().isEqual(start.toLocalDate()))
+            {
+               endTime = end.toLocalTime();
+            }
+            else
+            {
+               endTime = LocalTime.MIDNIGHT;
+            }
+
+            populateAdditionalWorkingHours(calendar, list, start, LocalDateTime.of(start.toLocalDate(), endTime));
+            if (end.toLocalDate().isEqual(start.toLocalDate()))
+            {
+               break;
+            }
+
+            start = LocalDateTime.of(start.toLocalDate().plusDays(1), LocalTime.MIDNIGHT);
+         }
+
+         return;
+      }
+
+      ProjectCalendarHours hours = calendar.getHours(start);
+      int index = 0;
+
+      while (index < hours.size())
+      {
+         LocalTimeRange range = hours.get(index);
+         if (!start.toLocalTime().isBefore(range.getEnd()))
+         {
+            ++index;
+            continue;
+         }
+
+         if (!start.toLocalTime().isBefore(range.getStart()) && !end.toLocalTime().isAfter(range.getEnd()))
+         {
+            // These additional hours aren't required - they are already entirely working time
+            break;
+         }
+
+         if (!start.toLocalTime().isBefore(range.getStart()) && !start.toLocalTime().isAfter(range.getEnd()))
+         {
+            // start time is within a range, move it to the range end
+            start = LocalDateTime.of(start.toLocalDate(), range.getEnd());
+         }
+
+         if (index+1 == hours.size())
+         {
+            // There are no more ranges, so the end time must be ok
+            list.add(new LocalDateTimeRange(start, end));
+            break;
+         }
+
+         LocalTimeRange nextRange = hours.get(index+1);
+         if (!end.toLocalTime().isAfter(nextRange.getStart()))
+         {
+            // End time is before the next range
+            list.add(new LocalDateTimeRange(start, end));
+            break;
+         }
+
+         // End time is after the next range start, so we need to split
+         LocalDateTime newEnd = LocalDateTime.of(end.toLocalDate(), nextRange.getStart());
+         list.add(new LocalDateTimeRange(start, newEnd));
+
+         start = newEnd;
+         ++index;
+      }
    }
 
    /**
