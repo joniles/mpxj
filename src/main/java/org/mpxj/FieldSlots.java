@@ -23,6 +23,8 @@
 package org.mpxj;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.EnumSet;
 
 /**
  * Assigns each field of one kind of entity a slot in that entity's array of values, shared by every entity of that
@@ -100,6 +102,30 @@ final class FieldSlots<E extends Enum<E> & FieldType>
    int count()
    {
       return m_count;
+   }
+
+   /**
+    * Retrieve the fields of this kind which any of the supplied entities could hold a value for.
+    * Where every entity uses this instance that is only the fields given a slot so far,
+    * as no entity can hold a value for any other.
+    *
+    * @param entities entities holding fields of the kind this instance represents
+    * @return fields which may hold a value
+    */
+   Collection<E> potentiallyPopulatedFields(Collection<? extends AbstractFieldContainer<?>> entities)
+   {
+      // Start with all possible field types
+      EnumSet<E> fields = EnumSet.allOf(m_fieldType);
+
+      // If we have no external entities (e.g. tasks from other projects)
+      // then we can safely return only the fields for which we have
+      // allocated a slot as we know these are the only populated fields.
+      if (entities.stream().allMatch(entity -> entity.usesTheseFieldSlots(this)))
+      {
+         fields.removeIf(field -> m_slots[field.ordinal()] < 0);
+      }
+
+      return fields;
    }
 
    private final Class<E> m_fieldType;

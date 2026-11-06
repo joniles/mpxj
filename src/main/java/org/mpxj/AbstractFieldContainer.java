@@ -48,6 +48,17 @@ public abstract class AbstractFieldContainer<T> implements FieldContainer
    }
 
    /**
+    * Determine if this entity stores its own fields in slots handed out by the supplied instance.
+    *
+    * @param slots FieldSlots instance
+    * @return true if this entity uses the supplied FieldSlots instance
+    */
+   boolean usesTheseFieldSlots(FieldSlots<?> slots)
+   {
+      return m_enumFields.usesTheseFieldSlots(slots);
+   }
+
+   /**
     * Allow the entity to take action in response to the changed field.
     *
     * @param field updated field
