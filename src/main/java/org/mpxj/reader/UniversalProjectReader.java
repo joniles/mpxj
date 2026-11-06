@@ -747,8 +747,8 @@ public final class UniversalProjectReader extends AbstractProjectReader
       FileInputStream fis = new FileInputStream(file);
       m_cleanup.push(() -> AutoCloseableHelper.closeQuietly(fis));
 
-      // POI can read the open file directly only if it can read it at any position, as it can a
-      // regular file but not a pipe, and the stream is read from the file's first byte
+      // POI can read the open file directly via a FileChannel only if it can read it at any position.
+      // It can do this from a regular file, but not a pipe, and only if we haven't skipped bytes.
       return getProjectReaderProxy(fis, m_skipBytes == 0 && file.isFile() ? fis.getChannel() : null);
    }
 
