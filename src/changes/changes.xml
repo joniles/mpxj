@@ -9,6 +9,7 @@
             <action dev="janecekpetr" type="update">Improve performance when determining the set of populated fields for an entity. (Contributed by Petr Janeček)</action>
             <action dev="janecekpetr" type="update">If possible use a FileChannel when reading MPP files to improve performance. (Contributed by Petr Janeček)</action>
             <action dev="janecekpetr" type="update">Improve performance when writing PMXML files. (Contributed by Petr Janeček)</action>
+            <action dev="bwingconda" type="update">Declare JPype as a dependency of the Python package. (Contributed by Brian Wing)</action>
         </release>
         <release date="2026-11-01" version="16.11.0">
             <action dev="janecekpetr" type="update">Improve memory efficiency of entity attribute storage (Contributed by Petr Janeček)</action>
