@@ -261,6 +261,7 @@ public class ProjectExplorer
       mntmWriteAll.addActionListener(e -> m_writeOptions.toggleWriteAll());
 
       m_frame.getContentPane().add(m_tabbedPane);
+      m_tabbedPane.addChangeListener(e -> updateMenusForSelectedTab());
 
       PropertyAdapter<FileChooserModel> openAdapter = new PropertyAdapter<>(m_fileChooserModel, "file", true);
       openAdapter.addValueChangeListener(evt -> openFile(m_fileChooserModel.getFile()));
@@ -304,9 +305,7 @@ public class ProjectExplorer
          }
 
          expandSubprojects(file, projectFile);
-         m_tabbedPane.add(file.getName(), new ProjectFilePanel(file, projectFile, m_writeOptions));
-         m_saveMenu.setEnabled(true);
-         m_cleanMenu.setEnabled(true);
+         addTab(file.getName(), new ProjectFilePanel(file, projectFile, m_writeOptions));
       }
 
       catch (Exception ex)
@@ -323,9 +322,7 @@ public class ProjectExplorer
          return;
       }
 
-      m_tabbedPane.add("Project File", new ProjectFilePanel(null, projectFile, m_writeOptions));
-      m_saveMenu.setEnabled(true);
-      m_cleanMenu.setEnabled(false);
+      addTab("Project File", new ProjectFilePanel(null, projectFile, m_writeOptions));
    }
 
    private void openAll(File file)
@@ -348,16 +345,38 @@ public class ProjectExplorer
          {
             String name = projectFiles.size() == 1 ? file.getName() : file.getName() + " (" + (index++) + ")";
             expandSubprojects(file, projectFile);
-            m_tabbedPane.add(name, new ProjectFilePanel(file, projectFile, m_writeOptions));
+            addTab(name, new ProjectFilePanel(file, projectFile, m_writeOptions));
          }
-         m_saveMenu.setEnabled(true);
-         m_cleanMenu.setEnabled(true);
       }
 
       catch (Exception ex)
       {
          throw new IllegalArgumentException("Failed to read file", ex);
       }
+   }
+
+   /**
+    * Add a closeable tab to the tabbed pane.
+    *
+    * @param title tab title
+    * @param panel tab content
+    */
+   private void addTab(String title, ProjectFilePanel panel)
+   {
+      m_tabbedPane.add(title, panel);
+      int index = m_tabbedPane.indexOfComponent(panel);
+      m_tabbedPane.setTabComponentAt(index, new CloseableTabComponent(m_tabbedPane, title));
+   }
+
+   /**
+    * Enable or disable the Save and Clean menu items to match the selected tab.
+    * Save requires an open project; Clean also requires the file it was read from.
+    */
+   private void updateMenusForSelectedTab()
+   {
+      ProjectFilePanel panel = (ProjectFilePanel) m_tabbedPane.getSelectedComponent();
+      m_saveMenu.setEnabled(panel != null);
+      m_cleanMenu.setEnabled(panel != null && panel.getFile() != null);
    }
 
    private void loadRecents()

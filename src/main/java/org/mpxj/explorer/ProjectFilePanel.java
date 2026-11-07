@@ -24,6 +24,8 @@
 package org.mpxj.explorer;
 
 import java.awt.GridLayout;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -71,8 +73,30 @@ class ProjectFilePanel extends JPanel
 
       m_openTabs = new HashMap<>();
 
+      // Forget a properties panel once its tab is closed, so it is recreated if selected again.
+      // If the closed tab belongs to the selected node, clear the tree selection so the node
+      // can be clicked again to reopen its tab.
+      tabbedPane.addContainerListener(new ContainerAdapter()
+      {
+         @Override public void componentRemoved(ContainerEvent e)
+         {
+            Object selectedNode = treeView.getLastSelectedPathComponent();
+            if (selectedNode != null && m_openTabs.get(selectedNode) == e.getChild())
+            {
+               treeView.clearSelection();
+            }
+            m_openTabs.values().remove(e.getChild());
+         }
+      });
+
       treeView.addTreeSelectionListener(e -> {
-         TreePath path = e.getPath();
+         TreePath path = e.getNewLeadSelectionPath();
+         if (path == null)
+         {
+            // Selection cleared
+            return;
+         }
+
          MpxjTreeNode component = (MpxjTreeNode) path.getLastPathComponent();
          if (!(component.getUserObject() instanceof String))
          {
@@ -80,7 +104,9 @@ class ProjectFilePanel extends JPanel
             if (panel == null)
             {
                panel = new ObjectPropertiesPanel(component.getUserObject(), component.getExcludedMethods());
-               tabbedPane.add(component.toString(), panel);
+               String title = component.toString();
+               tabbedPane.add(title, panel);
+               tabbedPane.setTabComponentAt(tabbedPane.indexOfComponent(panel), new CloseableTabComponent(tabbedPane, title));
                m_openTabs.put(component, panel);
             }
             tabbedPane.setSelectedComponent(panel);
@@ -88,6 +114,16 @@ class ProjectFilePanel extends JPanel
       });
 
       m_treeController.loadFile(file, projectFile);
+   }
+
+   /**
+    * Retrieve the file this panel's project was read from.
+    *
+    * @return source file, or null if the project was not read from a file
+    */
+   public File getFile()
+   {
+      return m_treeController.getFile();
    }
 
    /**
