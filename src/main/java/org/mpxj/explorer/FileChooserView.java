@@ -46,7 +46,7 @@ class FileChooserView
     */
    public FileChooserView(Component parent, FileChooserModel model)
    {
-      m_fileChooser = new JFileChooser();
+      m_fileChooser = new TypeAheadFileChooser();
       m_fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
       m_parent = parent;
       m_model = model;

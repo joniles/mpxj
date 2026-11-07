@@ -46,7 +46,7 @@ class FileSaverView
     */
    public FileSaverView(Component parent, FileSaverModel model)
    {
-      m_fileChooser = new JFileChooser();
+      m_fileChooser = new TypeAheadFileChooser();
       m_parent = parent;
       m_model = model;
 
