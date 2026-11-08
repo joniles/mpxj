@@ -98,7 +98,7 @@ class TimephasedAdditionalHoursHelper
          LocalTimeRange range = hours.get(index);
 
          // The start-end range is before the current working hours range, so we can add it and finish
-         if (!end.equals(LocalTime.MIDNIGHT) && end.isBefore(range.getStart()))
+         if (!end.equals(LocalTime.MIDNIGHT) && !end.isAfter(range.getStart()))
          {
             list.add(new LocalDateTimeRange(LocalDateTime.of(day, start), LocalDateTime.of(day, end)));
             break;
@@ -117,9 +117,9 @@ class TimephasedAdditionalHoursHelper
             continue;
          }
 
-         if (!start.isBefore(range.getStart()) && (end.equals(LocalTime.MIDNIGHT) || end.isAfter(range.getStart())))
+         if (start.isBefore(range.getStart()) && (end.equals(LocalTime.MIDNIGHT) || end.isAfter(range.getStart())))
          {
-            // The start-end range overlaps the start of a working hours range, ad a new range and update start.
+            // The start-end range overlaps the start of a working hours range, add a new range and update start.
             list.add(new LocalDateTimeRange(LocalDateTime.of(day, start), LocalDateTime.of(day, range.getStart())));
             start = range.getStart();
             continue;
@@ -130,6 +130,12 @@ class TimephasedAdditionalHoursHelper
             // The additional working hours overlap the end of the range
             start = range.getEnd();
             ++index;
+            if (index == hours.size())
+            {
+               // start-end range is after the last working hours range, so we can add it and finish
+               list.add(new LocalDateTimeRange(LocalDateTime.of(day, start), LocalDateTime.of(day, end)));
+               break;
+            }
             continue;
          }
 
