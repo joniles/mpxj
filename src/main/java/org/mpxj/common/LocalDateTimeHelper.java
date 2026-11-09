@@ -223,6 +223,18 @@ public final class LocalDateTimeHelper
       return Duration.getInstance(0, format);
    }
 
+   public static boolean isSameDay(LocalDateTime date1, LocalDateTime date2)
+   {
+      LocalDate startDay = date1.toLocalDate();
+      LocalDate endDay = date2.toLocalDate();
+      if (date2.toLocalTime().equals(LocalTime.MIDNIGHT))
+      {
+         endDay = endDay.minusDays(1);
+      }
+
+      return startDay.equals(endDay);
+   }
+
    /**
     * Date representing NA at the start of a date range: January 01 00:00:00 1984.
     */

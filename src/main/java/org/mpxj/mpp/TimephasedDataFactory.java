@@ -23,25 +23,17 @@
 
 package org.mpxj.mpp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.mpxj.Duration;
 import org.mpxj.LocalDateTimeRange;
-import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
-import org.mpxj.ProjectCalendarException;
-import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceType;
-import org.mpxj.TemporaryCalendar;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedCost;
 import org.mpxj.TimephasedWork;
@@ -84,25 +76,8 @@ final class TimephasedDataFactory
       List<LocalDateTimeRange> additionalWorkingHours = new ArrayList<>();
       if (additionalWorkingHoursData != null)
       {
-         // The additional working hours data block contains a 16 byte header, followed by 8 byte
-         // records. The first two bytes of the header contain a count of the number of
-         // records. Each Record contains two 8 byte timestamps representing the start
-         // and end of a period of work carried out outside of standard working hours.
-         int additionalWorkingHoursBlockCount = ByteArrayHelper.getShort(additionalWorkingHoursData, 0);
-         int offset = 16;
-         for (int blockIndex = 0; blockIndex < additionalWorkingHoursBlockCount; blockIndex++)
-         {
-            LocalDateTime start = MPPUtility.getTimestamp(additionalWorkingHoursData, offset);
-            LocalDateTime end = MPPUtility.getTimestamp(additionalWorkingHoursData, offset + 4);
-            additionalWorkingHours.add(new LocalDateTimeRange(start, end));
-            offset += 8;
-         }
-
-         Collections.sort(additionalWorkingHours);
-
-         // Use the data we have just read to create a temporary calendar
-         // and add exceptions to extend the working hours.
-         workingCalendar = populateCalendar(workingCalendar, additionalWorkingHours);
+         // Create a temporary calendar with exceptions used to represent the additional working hours
+         workingCalendar = TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalCalendar, additionalWorkingHoursData, additionalWorkingHours);
       }
 
       // The regular data block starts with a 16 byte header. The first
@@ -130,7 +105,7 @@ final class TimephasedDataFactory
          double workPerHour = MPPUtility.getDouble(regularData, offset + 8);
          double elapsedAtPeriodEnd = ByteArrayHelper.getInt(regularData, offset + 16);
 
-         double workPerHourInMinutes = (workPerHour * 60.0) / 1000.0;
+         double workPerHourInMinutes = (workPerHour * 60.0) / 10000.0;
          long totalWorkSecondsAtPeriodEnd = Math.round((totalAtPeriodEnd * 60.0)/ 1000.0);
          long elapsedSecondsAtPeriodEnd = Math.round((elapsedAtPeriodEnd * 60.0)/ 80.0);
          if (elapsedSecondsAtPeriodEnd < 0 || elapsedSecondsAtPeriodEnd > totalElapsedTimeInSeconds)
@@ -198,7 +173,7 @@ final class TimephasedDataFactory
    }
 
    /**
-    * Retune the latest date we'd expect to find actual work
+    * Return the latest date we'd expect to find actual work
     * for this resource assignment. Typically, this will be the
     * Resume date for the assignment, but in some cases this is
     * not present so we'll fall back on the actual finish and
@@ -222,107 +197,6 @@ final class TimephasedDataFactory
       }
 
       return assignment.getFinish();
-   }
-
-   /**
-    * Given a list of date ranges representing non-working time
-    * on which actual work has been recorded for a resource assignment,
-    * create a Map which give a list of date ranges for each day on
-    * which these additional working time periods are present.
-    *
-    * @param ranges wotking time ranges
-    * @return map of working time ranges by day
-    */
-   private Map<LocalDate, List<LocalTimeRange>> createHoursMap(List<LocalDateTimeRange> ranges)
-   {
-      Map<LocalDate, List<LocalTimeRange>> map = new HashMap<>();
-
-      for (LocalDateTimeRange range : ranges)
-      {
-         LocalDateTime startDate = range.getStart();
-         LocalDateTime endDate = range.getEnd();
-
-         while (true)
-         {
-            LocalTime startTime = startDate.toLocalTime();
-            LocalTime endTime;
-            if (endDate.toLocalDate().isEqual(startDate.toLocalDate()))
-            {
-               endTime = endDate.toLocalTime();
-            }
-            else
-            {
-               endTime = LocalTime.MIDNIGHT;
-            }
-
-            List<LocalTimeRange> hours = map.computeIfAbsent(startDate.toLocalDate(), k -> new ArrayList<>());
-            hours.add(new LocalTimeRange(startTime, endTime));
-
-            if (endDate.toLocalDate().isEqual(startDate.toLocalDate()))
-            {
-               break;
-            }
-
-            startDate = LocalDateTime.of(startDate.toLocalDate().plusDays(1), LocalTime.MIDNIGHT);
-         }
-      }
-
-      return map;
-   }
-
-   /**
-    * Create a temporary calendar derived from the supplied calendar,
-    * and add working time exceptions based on the supplied ranges.
-    *
-    * @param parent target calendar
-    * @param ranges new working time ranges
-    * @return new temporary calendar
-    */
-   private ProjectCalendar populateCalendar(ProjectCalendar parent, List<LocalDateTimeRange> ranges)
-   {
-      ProjectCalendar calendar = new TemporaryCalendar(parent.getProjectContext());
-      calendar.setParent(parent);
-
-      Map<LocalDate, List<LocalTimeRange>> map = createHoursMap(ranges);
-      for (Map.Entry<LocalDate, List<LocalTimeRange>> entry : map.entrySet())
-      {
-         LocalDate date = entry.getKey();
-         List<LocalTimeRange> hours = entry.getValue();
-
-         ProjectCalendarHours existingHours = calendar.getHours(date);
-         if (existingHours != null)
-         {
-            hours.addAll(existingHours);
-         }
-         Collections.sort(hours);
-
-         // Check for overlaps
-         if (hours.size() > 1)
-         {
-            int index = 0;
-            while(index + 1 < hours.size())
-            {
-               LocalTimeRange hours1 = hours.get(index);
-               LocalTimeRange hours2 = hours.get(index+1);
-
-               if (!hours2.getStart().isBefore(hours1.getEnd()))
-               {
-                  ++index;
-                  continue;
-               }
-
-               LocalTimeRange newHours = new LocalTimeRange(hours1.getStart(), hours2.getEnd());
-               hours.remove(index);
-               hours.remove(index);
-               hours.add(index, newHours);
-            }
-         }
-
-         ProjectCalendarException exception = calendar.addCalendarException(date);
-         exception.addAll(hours);
-      }
-
-      return calendar;
    }
 
    /**

@@ -73,6 +73,7 @@ import org.mpxj.primavera.PrimaveraXERFileWriter;
 import org.mpxj.reader.ProjectReader;
 import org.mpxj.reader.UniversalProjectReader;
 import org.mpxj.sdef.SDEFWriter;
+import org.mpxj.utility.TimephasedExportUtility;
 import org.mpxj.writer.ProjectWriter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -626,6 +627,12 @@ public class CustomerDataTest
          return false;
       }
 
+      if (!testTimephasedActuals(baselineName, projectFile, m_baselineDirectory))
+      {
+         System.err.println("Failed to validate timephased actuals " + fileName);
+         return false;
+      }
+
       if (!testBaseline(baselineName, projectFile, m_baselineDirectory))
       {
          System.err.println("Failed to validate baseline " + fileName);
@@ -800,7 +807,7 @@ public class CustomerDataTest
          }
          else
          {
-            debugFailure(baselineFile, subDir, out);
+            debugFailure(baselineFile, out, subDir);
          }
       }
       else
@@ -885,15 +892,40 @@ public class CustomerDataTest
       }
    }
 
+   private boolean  testTimephasedActuals(String name, ProjectFile project, File baselineDirectory) throws IOException
+   {
+      File target = new File(new File(baselineDirectory, "timephased-actuals"), new File(name).getName() + ".txt");
+      if (!target.exists())
+      {
+         return true;
+      }
+
+      File out = Files.createTempFile("junit", ".txt").toFile();
+      new TimephasedExportUtility().export(project, out, ResourceAssignment::getTimephasedActualWork);
+
+      boolean success = FileUtility.equals(target, out);
+      if (success)
+      {
+         FileHelper.deleteQuietly(out);
+      }
+      else
+      {
+         debugFailure(target, out, null);
+      }
+
+      return success;
+   }
+
+
    /**
     * Write a diagnostic message and populate directories to make
     * it easier to diff multiple files.
     *
     * @param baseline baseline file
-    * @param writerType identifies the writer type which failed the baseline comparison
     * @param test test file
+    * @param writerType identifies the writer type which failed the baseline comparison
     */
-   private void debugFailure(File baseline, String writerType, File test) throws IOException
+   private void debugFailure(File baseline, File test, String writerType) throws IOException
    {
       String copyCommand = OS_IS_WINDOWS ? "copy /y" : "cp";
 
@@ -914,7 +946,7 @@ public class CustomerDataTest
       int index = baseline.getName().lastIndexOf('.');
       String name = baseline.getName().substring(0, index);
       String extension = baseline.getName().substring(index);
-      String newName = name + "." + writerType + extension;
+      String newName = writerType == null ? name + extension : name + "." + writerType + extension;
 
       Files.copy(baseline.toPath(), new File(DIFF_BASELINE_DIR, newName).toPath(), StandardCopyOption.REPLACE_EXISTING);
       Files.copy(test.toPath(), new File(DIFF_TEST_DIR, newName).toPath(), StandardCopyOption.REPLACE_EXISTING);
