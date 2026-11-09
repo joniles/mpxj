@@ -162,6 +162,11 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
       {
          throw new MPXJException("Failed to parse file", ex);
       }
+
+      finally
+      {
+         DatatypeConverter.clearContext();
+      }
    }
 
    void read(ProjectFile projectFile, Project project) throws MPXJException
