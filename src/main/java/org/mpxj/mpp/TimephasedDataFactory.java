@@ -23,30 +23,21 @@
 
 package org.mpxj.mpp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.mpxj.Duration;
 import org.mpxj.LocalDateTimeRange;
-import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
-import org.mpxj.ProjectCalendarException;
-import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceType;
-import org.mpxj.TemporaryCalendar;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedCost;
 import org.mpxj.TimephasedWork;
 import org.mpxj.common.ByteArrayHelper;
-import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.TimephasedHelper;
 
 /**

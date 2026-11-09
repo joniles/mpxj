@@ -25,6 +25,7 @@ package org.mpxj.junit;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
@@ -40,7 +41,7 @@ public final class FileUtility
     * @param file2 File object
     * @return boolean flag
     */
-   public static boolean equals(File file1, File file2) throws Exception
+   public static boolean equals(File file1, File file2) throws IOException
    {
       boolean result;
 
@@ -84,5 +85,4 @@ public final class FileUtility
 
       return (result);
    }
-
 }

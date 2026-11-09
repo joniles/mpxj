@@ -164,6 +164,11 @@ class TimephasedAdditionalHoursHelper
     */
    public static ProjectCalendar populateCalendar(ProjectCalendar parent, List<LocalDateTimeRange> ranges)
    {
+      if (ranges.isEmpty())
+      {
+         return parent;
+      }
+
       ProjectCalendar calendar = new TemporaryCalendar(parent.getProjectContext());
       calendar.setParent(parent);
 
