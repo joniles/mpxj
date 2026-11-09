@@ -13,11 +13,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.LocalTimeRange;
+import org.mpxj.ProjectCalendar;
+import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
+import org.mpxj.ProjectFile;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mpxj.junit.MpxjAssert.assumeJvm;
 
 public class TimephasedAdditionalHoursHelperTest
@@ -282,5 +287,58 @@ public class TimephasedAdditionalHoursHelperTest
       range = new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(0, 0)), LocalDateTime.of(rangeDate.plusDays(1), LocalTime.of(0, 0)));
       TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalHours, list, range);
       assertEquals(0, list.size());
+   }
+
+   @Test public void testPopulateCalendar()
+   {
+      ProjectFile file = new ProjectFile();
+      ProjectCalendar calendar = file.addDefaultBaseCalendar();
+
+      // Additional hours on a non-working day
+      LocalDate day1 = LocalDate.of(2026,11,8);
+      LocalDateTimeRange range1 = new LocalDateTimeRange(LocalDateTime.of(day1, LocalTime.of(9,0)), LocalDateTime.of(day1,LocalTime.of(17,0)));
+      assertFalse(calendar.isWorkingDate(day1));
+      ProjectCalendar calendar1 = TimephasedAdditionalHoursHelper.populateCalendar(calendar, Collections.singletonList(range1));
+      assertTrue(calendar1.isWorkingDate(day1));
+      assertEquals(1, calendar1.getHours(day1).size());
+
+      // Additional hours on a working day
+      LocalDate day2 = LocalDate.of(2026,11,9);
+      LocalDateTimeRange range2 = new LocalDateTimeRange(LocalDateTime.of(day2, LocalTime.of(12,0)), LocalDateTime.of(day2,LocalTime.of(13,0)));
+      assertTrue(calendar.isWorkingDate(day2));
+      assertEquals(2, calendar.getHours(day2).size());
+      ProjectCalendar calendar2 = TimephasedAdditionalHoursHelper.populateCalendar(calendar, Collections.singletonList(range2));
+      assertTrue(calendar2.isWorkingDate(day2));
+      assertEquals(3, calendar2.getHours(day2).size());
+
+      // Overlap within an existing range
+      LocalDate overlapDay1 = LocalDate.of(2026,11,9);
+      LocalDateTimeRange overlapRange1 = new LocalDateTimeRange(LocalDateTime.of(overlapDay1, LocalTime.of(9,0)), LocalDateTime.of(overlapDay1,LocalTime.of(11,0)));
+      assertThrows(IllegalArgumentException.class, () -> TimephasedAdditionalHoursHelper.populateCalendar(calendar, Collections.singletonList(overlapRange1)));
+
+      // Overlap at start
+      LocalDateTimeRange overlapRange2 = new LocalDateTimeRange(LocalDateTime.of(overlapDay1, LocalTime.of(8,0)), LocalDateTime.of(overlapDay1,LocalTime.of(11,0)));
+      assertThrows(IllegalArgumentException.class, () -> TimephasedAdditionalHoursHelper.populateCalendar(calendar, Collections.singletonList(overlapRange2)));
+
+      // Overlap at end
+      LocalDateTimeRange overlapRange3 = new LocalDateTimeRange(LocalDateTime.of(overlapDay1, LocalTime.of(11,0)), LocalDateTime.of(overlapDay1,LocalTime.of(13,0)));
+      assertThrows(IllegalArgumentException.class, () -> TimephasedAdditionalHoursHelper.populateCalendar(calendar, Collections.singletonList(overlapRange3)));
+
+      // Overlap exactly at start
+      LocalDateTimeRange overlapRange4 = new LocalDateTimeRange(LocalDateTime.of(overlapDay1, LocalTime.of(8,0)), LocalDateTime.of(overlapDay1,LocalTime.of(9,0)));
+      assertThrows(IllegalArgumentException.class, () -> TimephasedAdditionalHoursHelper.populateCalendar(calendar, Collections.singletonList(overlapRange4)));
+
+      // Overlap exactly at end
+      LocalDateTimeRange overlapRange5 = new LocalDateTimeRange(LocalDateTime.of(overlapDay1, LocalTime.of(11,0)), LocalDateTime.of(overlapDay1,LocalTime.of(12,0)));
+      assertThrows(IllegalArgumentException.class, () -> TimephasedAdditionalHoursHelper.populateCalendar(calendar, Collections.singletonList(overlapRange5)));
+
+      LocalDate overlapDay2 = LocalDate.of(2026,11,8);
+      ProjectCalendarException exception = calendar.addCalendarException(overlapDay2);
+      exception.add(new LocalTimeRange(LocalTime.of(15,0), LocalTime.of(0,0)));
+      assertTrue(calendar.isWorkingDate(overlapDay2));
+
+      // Overlap before midnight range end
+      LocalDateTimeRange overlapRange6 = new LocalDateTimeRange(LocalDateTime.of(overlapDay2, LocalTime.of(16,0)), LocalDateTime.of(overlapDay2,LocalTime.of(17,0)));
+      assertThrows(IllegalArgumentException.class, () -> TimephasedAdditionalHoursHelper.populateCalendar(calendar, Collections.singletonList(overlapRange6)));
    }
 }

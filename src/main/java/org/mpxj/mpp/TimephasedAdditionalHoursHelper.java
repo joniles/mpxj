@@ -15,7 +15,7 @@ import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
 import org.mpxj.TemporaryCalendar;
-   import org.mpxj.common.ByteArrayHelper;
+import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 
 class TimephasedAdditionalHoursHelper
@@ -155,6 +155,8 @@ class TimephasedAdditionalHoursHelper
    /**
     * Create a temporary calendar derived from the supplied calendar,
     * and add working time exceptions based on the supplied ranges.
+    * NOTE: the supplied additional working hours ranges should not
+    * overlap with existing working hours.
     *
     * @param parent target calendar
     * @param ranges new working time ranges
@@ -187,7 +189,7 @@ class TimephasedAdditionalHoursHelper
                LocalTimeRange hours1 = hours.get(index);
                LocalTimeRange hours2 = hours.get(++index);
 
-               if (hours2.getStart().isBefore(hours1.getEnd()))
+               if (hours2.getStart().isBefore(hours1.getEnd()) || hours1.getEnd().equals(LocalTime.MIDNIGHT))
                {
                   // We should not have overlapping ranges at this point
                   throw new IllegalArgumentException("Additional working hours overlapping ranges: " + hours1 + " " + hours2);
