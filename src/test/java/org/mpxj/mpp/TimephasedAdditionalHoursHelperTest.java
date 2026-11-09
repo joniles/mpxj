@@ -158,6 +158,11 @@ public class TimephasedAdditionalHoursHelperTest
       assertEquals(1, list.size());
       assertEquals(new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(12,0)), LocalDateTime.of(rangeDate, LocalTime.of(13,0))), list.get(0));
       list.clear();
+      range = new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(0, 0)), LocalDateTime.of(rangeDate, LocalTime.of(10, 0)));
+      TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalHours, list, range);
+      assertEquals(1, list.size());
+      assertEquals(new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(0,0)), LocalDateTime.of(rangeDate, LocalTime.of(9,0))), list.get(0));
+      list.clear();
 
       // Range overlaps the end of an existing working range
       range = new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(11, 0)), LocalDateTime.of(rangeDate, LocalTime.of(13, 0)));
@@ -169,6 +174,11 @@ public class TimephasedAdditionalHoursHelperTest
       TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalHours, list, range);
       assertEquals(1, list.size());
       assertEquals(new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(17,0)), LocalDateTime.of(rangeDate, LocalTime.of(18,0))), list.get(0));
+      list.clear();
+      range = new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(16, 0)), LocalDateTime.of(rangeDate.plusDays(1), LocalTime.of(0, 0)));
+      TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalHours, list, range);
+      assertEquals(1, list.size());
+      assertEquals(new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(17,0)), LocalDateTime.of(rangeDate, LocalTime.of(0,0))), list.get(0));
       list.clear();
 
       // Range starts and ends within two consecutive working ranges
@@ -193,6 +203,13 @@ public class TimephasedAdditionalHoursHelperTest
       assertEquals(new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(12,0)), LocalDateTime.of(rangeDate, LocalTime.of(13,0))), list.get(1));
       assertEquals(new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(17,0)), LocalDateTime.of(rangeDate, LocalTime.of(18,0))), list.get(2));
       list.clear();
+      range = new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(0, 0)), LocalDateTime.of(rangeDate.plusDays(1), LocalTime.of(0, 0)));
+      TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalHours, list, range);
+      assertEquals(3, list.size());
+      assertEquals(new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(0,0)), LocalDateTime.of(rangeDate, LocalTime.of(9,0))), list.get(0));
+      assertEquals(new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(12,0)), LocalDateTime.of(rangeDate, LocalTime.of(13,0))), list.get(1));
+      assertEquals(new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(17,0)), LocalDateTime.of(rangeDate, LocalTime.of(0,0))), list.get(2));
+      list.clear();
 
       // Range is entirely before the first working range
       range = new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(7, 0)), LocalDateTime.of(rangeDate, LocalTime.of(8, 0)));
@@ -208,5 +225,62 @@ public class TimephasedAdditionalHoursHelperTest
       assertEquals(new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(19,0)), LocalDateTime.of(rangeDate, LocalTime.of(20,0))), list.get(0));
       list.clear();
 
+      // Original hours starts at midnight
+      originalHours.clear();
+      originalHours.add(new LocalTimeRange(LocalTime.of(0, 0), LocalTime.of(12, 0)));
+      originalHours.add(new LocalTimeRange(LocalTime.of(13, 0), LocalTime.of(17, 0)));
+
+      // Range overlaps end
+      range = new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(11, 0)), LocalDateTime.of(rangeDate, LocalTime.of(13, 0)));
+      TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalHours, list, range);
+      assertEquals(1, list.size());
+      assertEquals(new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(12,0)), LocalDateTime.of(rangeDate, LocalTime.of(13,0))), list.get(0));
+      list.clear();
+      range = new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(0, 0)), LocalDateTime.of(rangeDate, LocalTime.of(13, 0)));
+      TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalHours, list, range);
+      assertEquals(1, list.size());
+      assertEquals(new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(12,0)), LocalDateTime.of(rangeDate, LocalTime.of(13,0))), list.get(0));
+      list.clear();
+
+      // Original hours ends at midnight
+      originalHours.clear();
+      originalHours.add(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(12, 0)));
+      originalHours.add(new LocalTimeRange(LocalTime.of(13, 0), LocalTime.of(0, 0)));
+
+      // Range overlaps start
+      range = new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(12, 0)), LocalDateTime.of(rangeDate, LocalTime.of(14, 0)));
+      TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalHours, list, range);
+      assertEquals(1, list.size());
+      assertEquals(new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(12,0)), LocalDateTime.of(rangeDate, LocalTime.of(13,0))), list.get(0));
+      list.clear();
+      range = new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(12, 0)), LocalDateTime.of(rangeDate.plusDays(1), LocalTime.of(0, 0)));
+      TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalHours, list, range);
+      assertEquals(1, list.size());
+      assertEquals(new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(12,0)), LocalDateTime.of(rangeDate, LocalTime.of(13,0))), list.get(0));
+      list.clear();
+
+      // Original hours run from midnight to midnight
+      originalHours.clear();
+      originalHours.add(new LocalTimeRange(LocalTime.of(0, 0), LocalTime.of(0, 0)));
+
+      // Range is within the 24h range
+      range = new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(12, 0)), LocalDateTime.of(rangeDate, LocalTime.of(14, 0)));
+      TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalHours, list, range);
+      assertEquals(0, list.size());
+
+      // Range is at the start of the 24h range
+      range = new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(0, 0)), LocalDateTime.of(rangeDate, LocalTime.of(14, 0)));
+      TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalHours, list, range);
+      assertEquals(0, list.size());
+
+      // Range is at the end of the 24h range
+      range = new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(14, 0)), LocalDateTime.of(rangeDate.plusDays(1), LocalTime.of(0, 0)));
+      TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalHours, list, range);
+      assertEquals(0, list.size());
+
+      // Range covers the 24h range
+      range = new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(0, 0)), LocalDateTime.of(rangeDate.plusDays(1), LocalTime.of(0, 0)));
+      TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalHours, list, range);
+      assertEquals(0, list.size());
    }
 }
