@@ -66,7 +66,7 @@ class GanttBarStyleFactory14 implements GanttBarStyleFactory
          style.setInsideText(getTaskField(file, ByteArrayHelper.getInt(barStyleData, styleOffset + 83)));
 
          style.setStartShape(GanttBarStartEndShape.getInstance(barStyleData[styleOffset + 15] % 25));
-         style.setStartType(GanttBarStartEndType.getInstance(barStyleData[styleOffset + 15] / 25));
+         style.setStartType(GanttBarStartEndTypeHelper.getInstance(barStyleData[styleOffset + 15] / 25));
          style.setStartColor(MPPUtility.getColor(barStyleData, styleOffset + 16));
 
          style.setMiddleShape(GanttBarMiddleShape.getInstance(barStyleData[styleOffset]));
@@ -74,7 +74,7 @@ class GanttBarStyleFactory14 implements GanttBarStyleFactory
          style.setMiddleColor(MPPUtility.getColor(barStyleData, styleOffset + 2));
 
          style.setEndShape(GanttBarStartEndShape.getInstance(barStyleData[styleOffset + 28] % 25));
-         style.setEndType(GanttBarStartEndType.getInstance(barStyleData[styleOffset + 28] / 25));
+         style.setEndType(GanttBarStartEndTypeHelper.getInstance(barStyleData[styleOffset + 28] / 25));
          style.setEndColor(MPPUtility.getColor(barStyleData, styleOffset + 29));
 
          style.setFromField(getTaskField(file, ByteArrayHelper.getInt(barStyleData, styleOffset + 41)));
@@ -112,7 +112,7 @@ class GanttBarStyleFactory14 implements GanttBarStyleFactory
          style.setBarStyleIndex(ByteArrayHelper.getShort(barData, offset + 4) - 1);
 
          style.setStartShape(GanttBarStartEndShape.getInstance(barData[offset + 20] % 25));
-         style.setStartType(GanttBarStartEndType.getInstance(barData[offset + 20] / 25));
+         style.setStartType(GanttBarStartEndTypeHelper.getInstance(barData[offset + 20] / 25));
          style.setStartColor(MPPUtility.getColor(barData, offset + 21));
 
          style.setMiddleShape(GanttBarMiddleShape.getInstance(barData[offset + 6]));
@@ -120,7 +120,7 @@ class GanttBarStyleFactory14 implements GanttBarStyleFactory
          style.setMiddleColor(MPPUtility.getColor(barData, offset + 8));
 
          style.setEndShape(GanttBarStartEndShape.getInstance(barData[offset + 33] % 25));
-         style.setEndType(GanttBarStartEndType.getInstance(barData[offset + 33] / 25));
+         style.setEndType(GanttBarStartEndTypeHelper.getInstance(barData[offset + 33] / 25));
          style.setEndColor(MPPUtility.getColor(barData, offset + 34));
 
          style.setLeftText(getTaskField(file, ByteArrayHelper.getInt(barData, offset + 49)));
