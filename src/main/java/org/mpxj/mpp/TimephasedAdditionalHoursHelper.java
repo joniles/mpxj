@@ -84,6 +84,13 @@ class TimephasedAdditionalHoursHelper
          throw new IllegalArgumentException("Additional working hours range covers multiple days: " + newRange);
       }
 
+      if (hours.isEmpty())
+      {
+         // We have no hours, we can simply add the supplied range.
+         list.add(newRange);
+         return;
+      }
+
       // There must be working time ranges for this day,
       // so ensure that our target range does not overlap
       // with any of these.
@@ -133,7 +140,7 @@ class TimephasedAdditionalHoursHelper
 
          if (!start.isBefore(range.getStart())
             && ((end.equals(LocalTime.MIDNIGHT) && !range.getEnd().equals(LocalTime.MIDNIGHT))
-               || !end.equals(LocalTime.MIDNIGHT) && !range.getEnd().equals(LocalTime.MIDNIGHT) && !end.isBefore(range.getEnd())))
+               || !end.equals(LocalTime.MIDNIGHT) && !range.getEnd().equals(LocalTime.MIDNIGHT) && end.isAfter(range.getEnd())))
          {
             // The additional working hours overlap the end of the range
             start = range.getEnd();

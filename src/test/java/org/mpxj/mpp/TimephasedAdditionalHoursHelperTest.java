@@ -143,6 +143,9 @@ public class TimephasedAdditionalHoursHelperTest
       range = new LocalDateTimeRange(LocalDateTime.of(2026, 11, 9, 14, 0), LocalDateTime.of(2026, 11, 9, 16, 0));
       TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalHours, list, range);
       assertEquals(0, list.size());
+      range = new LocalDateTimeRange(LocalDateTime.of(2026, 11, 9, 14, 0), LocalDateTime.of(2026, 11, 9, 17, 0));
+      TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalHours, list, range);
+      assertEquals(0, list.size());
 
       // Range is exactly an existing working range
       range = new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(9, 0)), LocalDateTime.of(rangeDate, LocalTime.of(12, 0)));
@@ -287,6 +290,14 @@ public class TimephasedAdditionalHoursHelperTest
       range = new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(0, 0)), LocalDateTime.of(rangeDate.plusDays(1), LocalTime.of(0, 0)));
       TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalHours, list, range);
       assertEquals(0, list.size());
+
+      // There are no original hours
+      originalHours.clear();
+      range = new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(12, 0)), LocalDateTime.of(rangeDate, LocalTime.of(14, 0)));
+      TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalHours, list, range);
+      assertEquals(1, list.size());
+      assertEquals(new LocalDateTimeRange(LocalDateTime.of(rangeDate, LocalTime.of(12,0)), LocalDateTime.of(rangeDate, LocalTime.of(14,0))), list.get(0));
+      list.clear();
    }
 
    @Test public void testPopulateCalendar()

@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.BiFunction;
@@ -18,6 +19,7 @@ import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.Resource;
 import org.mpxj.ResourceAssignment;
+import org.mpxj.ResourceType;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimescaleUnits;
@@ -81,7 +83,7 @@ public class TimephasedExportUtility
             }
             else
             {
-               work.forEach(w -> buffer.add(formatDuration(w)));
+               work.forEach(w -> buffer.add(formatDuration(w, resource.getType() == ResourceType.MATERIAL)));
                trimList(buffer);
             }
 
@@ -96,17 +98,29 @@ public class TimephasedExportUtility
       {
          value = "";
       }
+
+      if (value.indexOf('"') != -1)
+      {
+         value = value.replace("\"", "\"\"");
+      }
+
       return "\"" + value + "\"";
    }
 
-   private String formatDuration(Duration duration)
+   private String formatDuration(Duration duration, boolean materialResource)
    {
       if (duration == null)
       {
          return "";
       }
 
-      return DECIMAL_FORMAT.format(Math.round(duration.getDuration()));
+      double value = duration.getDuration();;
+      if (materialResource)
+      {
+         value /= 60;
+      }
+
+      return DECIMAL_FORMAT.format(Math.round(value));
    }
 
    private void trimList(List<String> list)
