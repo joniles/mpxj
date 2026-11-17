@@ -72,19 +72,22 @@ public class TimephasedExportUtility
 
             buffer.add(DATE_FORMAT.format(assignment.getStart()));
 
-            List<LocalDateTimeRange> timescale = helper.createTimescale(assignment.getStart(), assignment.getFinish(), TimescaleUnits.DAYS);
-            List<Duration> work = fn.apply(assignment, timescale, TimeUnit.MINUTES);
-            if (assignment.getStart().toLocalDate().isEqual(assignment.getFinish().toLocalDate()) && assignment.getActualWork().getDuration() == 0.0)
+            if (resource.getType() != ResourceType.COST)
             {
-               if (assignment.getActualStart() != null)
+               List<LocalDateTimeRange> timescale = helper.createTimescale(assignment.getStart(), assignment.getFinish(), TimescaleUnits.DAYS);
+               List<Duration> work = fn.apply(assignment, timescale, TimeUnit.MINUTES);
+               if (assignment.getStart().toLocalDate().isEqual(assignment.getFinish().toLocalDate()) && assignment.getActualWork().getDuration() == 0.0)
                {
-                  buffer.add("0");
+                  if (assignment.getActualStart() != null)
+                  {
+                     buffer.add("0");
+                  }
                }
-            }
-            else
-            {
-               work.forEach(w -> buffer.add(formatDuration(w, resource.getType() == ResourceType.MATERIAL)));
-               trimList(buffer);
+               else
+               {
+                  work.forEach(w -> buffer.add(formatDuration(w, resource.getType() == ResourceType.MATERIAL)));
+                  trimList(buffer);
+               }
             }
 
             pw.println(String.join("\t", buffer));
