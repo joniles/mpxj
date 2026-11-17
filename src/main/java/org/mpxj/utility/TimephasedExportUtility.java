@@ -30,15 +30,16 @@ public class TimephasedExportUtility
 {
    public static void main(String[] argv) throws Exception
    {
-      if (argv.length != 2)
+      if (argv.length < 1 || argv.length > 2)
       {
-         System.out.println("Usage: <input project file> <outut text file>");
+         System.out.println("Usage: <input project file> [output text file]");
          return;
       }
 
       ProjectFile file = new UniversalProjectReader().read(argv[0]);
+      String outputFile = argv.length == 2 ? argv[1] : argv[0]+ ".txt";
 
-      new TimephasedExportUtility().export(file, new File(argv[1]), ResourceAssignment::getTimephasedActualWork);
+      new TimephasedExportUtility().export(file, new File(outputFile), ResourceAssignment::getTimephasedActualWork);
    }
 
    public void export(ProjectFile file, File output, TriFunction<ResourceAssignment, List<LocalDateTimeRange>, TimeUnit, List<Duration>> fn) throws IOException
