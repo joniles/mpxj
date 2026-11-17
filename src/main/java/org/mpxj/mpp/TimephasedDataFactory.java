@@ -138,7 +138,7 @@ final class TimephasedDataFactory
 
          totalWorkSeconds = totalWorkSecondsAtPeriodEnd;
          elapsedSeconds = elapsedSecondsAtPeriodEnd;
-         calendarPeriodStart = workingCalendar.getNextWorkStart(regularList.get(regularList.size() - 1).getFinish());
+         calendarPeriodStart = workingCalendar.getNextWorkStart(calendarPeriodEnd);
 
          // Stop reading if the timephased data runs past the end of the assignment.
          if (calendarPeriodStart.isAfter(assignmentLatestDate))
