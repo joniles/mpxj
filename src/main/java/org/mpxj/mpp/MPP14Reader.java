@@ -827,6 +827,39 @@ final class MPP14Reader implements MPPVariantReader
    }
 
    /**
+    * Where earlier slots are zero-length duplicates of this slot (same data offsets in both
+    * FixedMeta and Fixed2Meta), Project takes the bit flags from the earliest one (#989).
+    *
+    * @param meta1 task FixedMeta
+    * @param data1 task FixedData
+    * @param meta2 task Fixed2Meta
+    * @param data2 task Fixed2Data
+    * @param index slot selected by createTaskMap
+    * @return slot to read metadata from
+    */
+   private int resolveTaskDataMetaIndex(FixedMeta meta1, FixedData data1, FixedMeta meta2, FixedData data2, int index)
+   {
+      while (index > 3 && isZeroLengthDuplicate(meta1, data1, index) && isZeroLengthDuplicate(meta2, data2, index) && (ByteArrayHelper.getInt(meta1.getByteArrayValue(index - 1), 0) & 0x06) == 0)
+      {
+         --index;
+      }
+      return index;
+   }
+
+   /**
+    * Determine if the metadata at the supplied index is a zero length duplicate.
+    *
+    * @param meta fixed meta
+    * @param data fixed data
+    * @param index index to test
+    * @return true if the entry at this index is a zero length duplicate
+    */
+   private boolean isZeroLengthDuplicate(FixedMeta meta, FixedData data, int index)
+   {
+      return data.getByteArrayValue(index - 1) == null && ByteArrayHelper.getInt(meta.getByteArrayValue(index - 1), 4) == ByteArrayHelper.getInt(meta.getByteArrayValue(index), 4);
+   }
+
+   /**
     * This method maps the task unique identifiers to their index number
     * within the FixedData block.
     *
@@ -1057,7 +1090,8 @@ final class MPP14Reader implements MPPVariantReader
          }
 
          data = taskFixedData.getByteArrayValue(offset.intValue());
-         metaData = taskFixedMeta.getByteArrayValue(offset.intValue());
+         int metaIndex = resolveTaskDataMetaIndex(taskFixedMeta, taskFixedData, taskFixed2Meta, taskFixed2Data, offset.intValue());
+         metaData = taskFixedMeta.getByteArrayValue(metaIndex);
          Integer id = Integer.valueOf(ByteArrayHelper.getInt(data, fieldMap.getFixedDataOffset(TaskField.ID)));
 
          if (data.length == NULL_TASK_BLOCK_SIZE)
@@ -1088,7 +1122,7 @@ final class MPP14Reader implements MPPVariantReader
          //MPPUtility.dataDump(metaData, true, true, true, true, true, true, true);
          //MPPUtility.varDataDump(taskVarData, id, true, true, true, true, true, true);
 
-         metaData2 = taskFixed2Meta.getByteArrayValue(offset.intValue());
+         metaData2 = taskFixed2Meta.getByteArrayValue(metaIndex);
          byte[] data2 = taskFixed2Data.getByteArrayValue(offset.intValue());
          //System.out.println (ByteArrayHelper.hexdump(metaData2, false, 16, ""));
          //System.out.println(ByteArrayHelper.hexdump(data2, false, 16, ""));
