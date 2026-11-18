@@ -384,25 +384,12 @@ public final class SDEFWriter extends AbstractProjectWriter
             m_buffer.append(type).append(" ");
 
             Duration dd = pred.getLag();
-            double duration = dd.getDuration();
-
-            // Add 0.5 so half day rounds up upon truncation
-            if (duration < 0)
-            {
-               duration -= 0.5;
-            }
-            else
-            {
-               duration += 0.5;
-            }
-
             if (dd.getUnits() != TimeUnit.DAYS)
             {
-               dd = Duration.convertUnits(duration, dd.getUnits(), TimeUnit.DAYS, m_projectFile.getProjectProperties());
+               dd = dd.convertUnits(TimeUnit.DAYS, m_projectFile.getProjectProperties());
             }
-            Double days = Double.valueOf(dd.getDuration());
-            Integer est = Integer.valueOf(days.intValue());
-            m_buffer.append(SDEFmethods.rset(est.toString(), 4)); // task duration in days required by USACE
+
+            m_buffer.append(SDEFmethods.rset(String.valueOf(Math.round(dd.getDuration())), 4)); // task duration in days required by USACE
             m_buffer.append("\n");
             m_writer.write(m_buffer.toString());
          }
