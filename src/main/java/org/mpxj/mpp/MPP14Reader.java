@@ -1778,7 +1778,7 @@ final class MPP14Reader implements MPPVariantReader
       //System.out.println(assnVarData);
 
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
-      factory.process(m_file, fieldMap, enterpriseCustomFieldMap, alternateVarDataMap, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2, assnFixedMeta.getItemCount());
+      factory.process(m_file, fieldMap, enterpriseCustomFieldMap, alternateVarDataMap, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2, assnFixedMeta.getItemCount(), false);
    }
 
    /**

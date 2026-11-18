@@ -71,8 +71,9 @@ class ResourceAssignmentFactory
     * @param assnFixedData fixed data
     * @param assnFixedData2 fixed data
     * @param count expected number of assignments
+    * @param varDataMustBePopulated true if valid assignments need var data to be present
     */
-   public void process(ProjectFile file, FieldMap fieldMap, FieldMap enterpriseCustomFieldMap, FieldMap alternateVarDataMap, boolean useRawTimephasedData, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData, FixedData assnFixedData2, int count)
+   public void process(ProjectFile file, FieldMap fieldMap, FieldMap enterpriseCustomFieldMap, FieldMap alternateVarDataMap, boolean useRawTimephasedData, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData, FixedData assnFixedData2, int count, boolean varDataMustBePopulated)
    {
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       TimephasedDataFactory timephasedFactory = new TimephasedDataFactory();
@@ -126,7 +127,7 @@ class ResourceAssignmentFactory
 
          int id = ByteArrayHelper.getInt(data, fieldMap.getFixedDataOffset(AssignmentField.UNIQUE_ID));
          final Integer varDataId = Integer.valueOf(id);
-         if (!set.contains(varDataId))
+         if (varDataMustBePopulated && !set.contains(varDataId))
          {
             continue;
          }
