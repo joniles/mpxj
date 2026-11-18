@@ -253,7 +253,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task> implements
     */
    public Set<FieldType> getPopulatedFields()
    {
-      return new PopulatedFields<>(m_projectFile, TaskField.class, m_projectFile.getUserDefinedFields().getTaskFields(), this).getPopulatedFields();
+      return new PopulatedFields<>(m_projectFile, m_slots.potentiallyPopulatedFields(this), m_projectFile.getUserDefinedFields().getTaskFields(), this).getPopulatedFields();
    }
 
    /**

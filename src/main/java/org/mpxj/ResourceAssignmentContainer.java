@@ -102,7 +102,7 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
     */
    public Set<FieldType> getPopulatedFields()
    {
-      return new PopulatedFields<>(m_projectFile, AssignmentField.class, m_projectFile.getUserDefinedFields().getAssignmentFields(), this).getPopulatedFields();
+      return new PopulatedFields<>(m_projectFile, m_slots.potentiallyPopulatedFields(this), m_projectFile.getUserDefinedFields().getAssignmentFields(), this).getPopulatedFields();
    }
 
    /**

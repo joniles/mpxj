@@ -27,6 +27,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.sql.Connection;
@@ -360,6 +361,20 @@ public final class UniversalProjectReader extends AbstractProjectReader
     */
    public ProjectReaderProxy getProjectReaderProxy(InputStream inputStream) throws MPXJException
    {
+      return getProjectReaderProxy(inputStream, null);
+   }
+
+   /**
+    * Retrieve a {@code ProjectReaderProxy} instance which provides access to
+    * the {@code ProjectReader} required to read a schedule from the supplied
+    * {@code InputStream instance}.
+    *
+    * @param inputStream stream containing schedule data
+    * @param sourceChannel channel open on the regular file the stream reads from its start, or null
+    * @return {@code ProjectReaderProxy} instance or null if no suitable reader can be found
+    */
+   private ProjectReaderProxy getProjectReaderProxy(InputStream inputStream, FileChannel sourceChannel) throws MPXJException
+   {
       try
       {
          BufferedInputStream bis = new BufferedInputStream(inputStream);
@@ -406,7 +421,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
          if (matchesFingerprint(buffer, OLE_COMPOUND_DOC_FINGERPRINT))
          {
-            return handleOleCompoundDocument(bis);
+            return handleOleCompoundDocument(bis, sourceChannel);
          }
 
          if (matchesFingerprint(buffer, MSPDI_FINGERPRINT_1) || matchesFingerprint(buffer, MSPDI_FINGERPRINT_2) || matchesFingerprint(buffer, MSPDI_FINGERPRINT_3))
@@ -561,21 +576,29 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * We have an OLE compound document... but is it an MPP file?
     *
     * @param stream file input stream
+    * @param sourceChannel channel open on the regular file the stream reads from its start, or null
     * @return ProjectFile instance
     */
-   private ProjectReaderProxy handleOleCompoundDocument(InputStream stream) throws Exception
+   private ProjectReaderProxy handleOleCompoundDocument(InputStream stream, FileChannel sourceChannel) throws Exception
    {
       POIFSFileSystem fs;
-      File file;
 
       try
       {
-         // Reading from a File instance is more memory efficient than using an InputStream.
+         // Reading from a file is more memory efficient than using an InputStream.
          // This also avoids a hard limit imposed by POI when reading certain very large files.
-         file = InputStreamHelper.writeStreamToTempFile(stream, ".dat");
-         m_cleanup.push(() -> FileHelper.deleteQuietly(file));
+         if (sourceChannel == null)
+         {
+            File file = InputStreamHelper.writeStreamToTempFile(stream, ".dat");
+            m_cleanup.push(() -> FileHelper.deleteQuietly(file));
+            fs = new POIFSFileSystem(file);
+         }
+         else
+         {
+            // POI reads the header from the channel's current position, which the stream has moved on
+            fs = new POIFSFileSystem(sourceChannel.position(0), true, false);
+         }
 
-         fs = new POIFSFileSystem(file);
          m_cleanup.push(() -> AutoCloseableHelper.closeQuietly(fs));
       }
 
@@ -723,7 +746,10 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       FileInputStream fis = new FileInputStream(file);
       m_cleanup.push(() -> AutoCloseableHelper.closeQuietly(fis));
-      return getProjectReaderProxy(fis);
+
+      // POI can read the open file directly via a FileChannel only if it can read it at any position.
+      // It can do this from a regular file, but not a pipe, and only if we haven't skipped bytes.
+      return getProjectReaderProxy(fis, m_skipBytes == 0 && file.isFile() ? fis.getChannel() : null);
    }
 
    /**

@@ -62,7 +62,20 @@ public class PopulatedFields<E extends Enum<E> & FieldType, T extends FieldConta
     */
    public PopulatedFields(ProjectFile project, Class<E> fieldEnumType, Collection<UserDefinedField> userDefinedFields, Collection<T> collection)
    {
-      m_fields = new HashSet<>(EnumSet.allOf(fieldEnumType));
+      this(project, EnumSet.allOf(fieldEnumType), userDefinedFields, collection);
+   }
+
+   /**
+    * Constructor.
+    *
+    * @param project parent project
+    * @param fields collection of FieldType enumeration values representing fields which could be populated
+    * @param userDefinedFields collection of user defined fields for the parent container
+    * @param collection collection of objects containing fields
+    */
+   public PopulatedFields(ProjectFile project, Collection<E> fields, Collection<UserDefinedField> userDefinedFields, Collection<T> collection)
+   {
+      m_fields = new HashSet<>(fields);
       m_fields.addAll(userDefinedFields);
       m_collection = collection;
 
