@@ -52,15 +52,15 @@ final class TimephasedDataFactory
     * retrieve a set of TimephasedWork instances which represent
     * the day by day work carried out for a specific resource assignment.
     *
-    * @param resourceAssignment resource assignment
+    * @param assignment resource assignment
     * @param regularData completed work data block
     * @param additionalWorkingHoursData actual work in non-working time data
     * @return list of TimephasedWork instances
     */
-   public List<TimephasedWork> getCompleteWork(ResourceAssignment resourceAssignment, byte[] regularData, byte[] additionalWorkingHoursData)
+   public List<TimephasedWork> getCompleteWork(ResourceAssignment assignment, byte[] regularData, byte[] additionalWorkingHoursData)
    {
-      ProjectCalendar workingCalendar = TimephasedHelper.getEffectiveCalendarForActualTimephasedWork(resourceAssignment);
-      if (workingCalendar == null || regularData == null || regularData.length <= 26 || ByteArrayHelper.getShort(regularData, 0) == 0 || resourceAssignment.getTask().getDuration() == null || resourceAssignment.getTask().getDuration().getDuration() == 0)
+      ProjectCalendar workingCalendar = TimephasedHelper.getEffectiveCalendarForActualTimephasedWork(assignment);
+      if (workingCalendar == null || regularData == null || regularData.length <= 26 || ByteArrayHelper.getShort(regularData, 0) == 0 || assignment.getTask().getDuration() == null || assignment.getTask().getDuration().getDuration() == 0)
       {
          // Rather than Colection.emptyList() we're returning a mutable list.
          // For the moment this will allow changes to be applied to the timephased data.
@@ -81,8 +81,6 @@ final class TimephasedDataFactory
          workingCalendar = TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalCalendar, additionalWorkingHoursData, additionalWorkingHours);
       }
 
-      ProjectCalendarHours test = workingCalendar.getHours(resourceAssignment.getStart());
-
       // The regular data block starts with a 16 byte header. The first
       // two bytes of the header indicate the number of records. Following the
       // header are 20 byte records. Each record contains the following items.
@@ -90,8 +88,8 @@ final class TimephasedDataFactory
       // Offset 8: double representing work per hour this period (10000ths/hour)
       // Offset 16: int representing elapsed minutes at period end (80ths/minute)
       // The first block appears to contain totals for the resource assignment, and is skipped.
-      LocalDateTime calendarPeriodStart = resourceAssignment.getStart();
-      LocalDateTime assignmentLatestDate = getAssignmentLatestDate(resourceAssignment);
+      LocalDateTime calendarPeriodStart = assignment.getStart();
+      LocalDateTime assignmentLatestDate = getAssignmentLatestDate(assignment);
 
       long totalWorkSeconds = 0;
       long elapsedSeconds = 0;
