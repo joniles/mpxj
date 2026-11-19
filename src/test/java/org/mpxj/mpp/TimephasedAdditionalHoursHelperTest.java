@@ -1,3 +1,25 @@
+/*
+ * file:       TimephasedAdditionalHoursHelperTest
+ * author:     Jon Iles
+ * date:       2026-11-19
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 package org.mpxj.mpp;
 
 import java.time.LocalDate;
@@ -21,10 +43,14 @@ import org.mpxj.ProjectFile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mpxj.junit.MpxjAssert.assumeJvm;
 
+/**
+ * Tests to exercise TimephasedAdditionalHoursHelper methods.
+ */
 public class TimephasedAdditionalHoursHelperTest
 {
    /**
@@ -35,6 +61,9 @@ public class TimephasedAdditionalHoursHelperTest
       assumeJvm();
    }
 
+   /**
+    * Test splitDayIntoRanges.
+    */
    @Test public void testSplitIntoDayRanges()
    {
       LocalDateTime start = LocalDateTime.of(2026, 11, 8, 9, 0);
@@ -87,6 +116,9 @@ public class TimephasedAdditionalHoursHelperTest
       assertEquals(end, ranges.get(2).getEnd());
    }
 
+   /**
+    * Test createHoursMap.
+    */
    @Test public void testCreateHoursMap()
    {
       LocalDateTimeRange range1 = new LocalDateTimeRange(LocalDateTime.of(2026, 11, 8, 9, 0), LocalDateTime.of(2026, 11, 8, 12, 0));
@@ -123,108 +155,92 @@ public class TimephasedAdditionalHoursHelperTest
       LocalDateTimeRange range4 = new LocalDateTimeRange(LocalDateTime.of(2026, 11, 9, 9, 0), LocalDateTime.of(2026, 11, 10, 12, 0));
       assertThrows(IllegalArgumentException.class, () -> TimephasedAdditionalHoursHelper.createHoursMap(Arrays.asList(range1, range2, range3, range4)));
    }
-/*
-   @Test public void testCreateHoursMapWithOverlaps()
+
+   /**
+    * Test sortAndMergeOverlappingHours.
+    */
+   @Test public void testSortAndMergeOverlappingHours()
    {
       // Single range, no overlaps
-      LocalDate day1 = LocalDate.of(2026, 11, 1);
-      LocalDateTimeRange range1 = new LocalDateTimeRange(LocalDateTime.of(day1, LocalTime.of(9, 0)), LocalDateTime.of(day1, LocalTime.of(12, 0)));
+      LocalTimeRange range1 = new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(12, 0));
+      List<LocalTimeRange> times = Collections.singletonList(range1);
+      TimephasedAdditionalHoursHelper.sortAndMergeOverlappingHours(times);
+      assertEquals(1, times.size());
+      assertEquals(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(12, 0)), times.get(0));
 
       // Adjacent ranges
-      LocalDate day2 = LocalDate.of(2026, 11, 2);
-      LocalDateTimeRange range2 = new LocalDateTimeRange(LocalDateTime.of(day2, LocalTime.of(9, 0)), LocalDateTime.of(day2, LocalTime.of(11, 0)));
-      LocalDateTimeRange range3 = new LocalDateTimeRange(LocalDateTime.of(day2, LocalTime.of(11, 0)), LocalDateTime.of(day2, LocalTime.of(12, 0)));
+      LocalTimeRange range2 = new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(11, 0));
+      LocalTimeRange range3 = new LocalTimeRange(LocalTime.of(11, 0), LocalTime.of(12, 0));
+      times = new ArrayList<>(Arrays.asList(range2, range3));
+      TimephasedAdditionalHoursHelper.sortAndMergeOverlappingHours(times);
+      assertEquals(1, times.size());
+      assertEquals(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(12, 0)), times.get(0));
 
       // Overlapping ranges
-      LocalDate day3 = LocalDate.of(2026, 11, 3);
-      LocalDateTimeRange range4 = new LocalDateTimeRange(LocalDateTime.of(day3, LocalTime.of(9, 0)), LocalDateTime.of(day3, LocalTime.of(11, 0)));
-      LocalDateTimeRange range5 = new LocalDateTimeRange(LocalDateTime.of(day3, LocalTime.of(10, 0)), LocalDateTime.of(day3, LocalTime.of(12, 0)));
+      LocalTimeRange range4 = new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(11, 0));
+      LocalTimeRange range5 = new LocalTimeRange(LocalTime.of(10, 0), LocalTime.of(12, 0));
+      times = new ArrayList<>(Arrays.asList(range4, range5));
+      TimephasedAdditionalHoursHelper.sortAndMergeOverlappingHours(times);
+      assertEquals(1, times.size());
+      assertEquals(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(12, 0)), times.get(0));
 
       // Matching ranges
-      LocalDate day4 = LocalDate.of(2026, 11, 4);
-      LocalDateTimeRange range6 = new LocalDateTimeRange(LocalDateTime.of(day4, LocalTime.of(9, 0)), LocalDateTime.of(day4, LocalTime.of(11, 0)));
-      LocalDateTimeRange range7 = new LocalDateTimeRange(LocalDateTime.of(day4, LocalTime.of(9, 0)), LocalDateTime.of(day4, LocalTime.of(11, 0)));
-
-      // Subset ranges
-      LocalDate day5 = LocalDate.of(2026, 11, 5);
-      LocalDateTimeRange range8 = new LocalDateTimeRange(LocalDateTime.of(day5, LocalTime.of(9, 0)), LocalDateTime.of(day5, LocalTime.of(12, 0)));
-      LocalDateTimeRange range9 = new LocalDateTimeRange(LocalDateTime.of(day5, LocalTime.of(10, 0)), LocalDateTime.of(day5, LocalTime.of(11, 0)));
-
-      // Subset with midnight ranges
-      LocalDate day6 = LocalDate.of(2026, 11, 6);
-      LocalDateTimeRange range10 = new LocalDateTimeRange(LocalDateTime.of(day6, LocalTime.of(9, 0)), LocalDateTime.of(day6.plusDays(1), LocalTime.MIDNIGHT));
-      LocalDateTimeRange range11 = new LocalDateTimeRange(LocalDateTime.of(day6, LocalTime.of(10, 0)), LocalDateTime.of(day6, LocalTime.of(11, 0)));
-
-      // Subset with two midnight ranges
-      LocalDate day7 = LocalDate.of(2026, 11, 7);
-      LocalDateTimeRange range12 = new LocalDateTimeRange(LocalDateTime.of(day7, LocalTime.of(9, 0)), LocalDateTime.of(day7.plusDays(1), LocalTime.MIDNIGHT));
-      LocalDateTimeRange range13 = new LocalDateTimeRange(LocalDateTime.of(day7, LocalTime.of(10, 0)), LocalDateTime.of(day7.plusDays(1), LocalTime.MIDNIGHT));
-
-      // Multiple ranges, no overlaps
-      LocalDate day8 = LocalDate.of(2026, 11, 8);
-      LocalDateTimeRange range14 = new LocalDateTimeRange(LocalDateTime.of(day8, LocalTime.of(9, 0)), LocalDateTime.of(day8, LocalTime.of(10, 0)));
-      LocalDateTimeRange range15 = new LocalDateTimeRange(LocalDateTime.of(day8, LocalTime.of(11, 0)), LocalDateTime.of(day8, LocalTime.of(12, 0)));
-      LocalDateTimeRange range16 = new LocalDateTimeRange(LocalDateTime.of(day8, LocalTime.of(13, 0)), LocalDateTime.of(day8, LocalTime.of(14, 0)));
-
-      // Multiple ranges, with some overlaps
-      LocalDate day9 = LocalDate.of(2026, 11, 9);
-      LocalDateTimeRange range17 = new LocalDateTimeRange(LocalDateTime.of(day9, LocalTime.of(9, 0)), LocalDateTime.of(day9, LocalTime.of(11, 0)));
-      LocalDateTimeRange range18 = new LocalDateTimeRange(LocalDateTime.of(day9, LocalTime.of(10, 0)), LocalDateTime.of(day9, LocalTime.of(12, 0)));
-      LocalDateTimeRange range19 = new LocalDateTimeRange(LocalDateTime.of(day9, LocalTime.of(13, 0)), LocalDateTime.of(day9, LocalTime.of(14, 0)));
-
-
-      Map<LocalDate, List<LocalTimeRange>> map = TimephasedAdditionalHoursHelper.createHoursMap(Arrays.asList(range1, range2, range3, range4, range5, range6, range7, range8, range9, range10, range11, range12, range13, range14, range15, range16, range17, range18, range19));
-      assertEquals(9, map.size());
-
-      List<LocalTimeRange> times = map.get(day1);
-      assertNotNull(times);
-      assertEquals(1, times.size());
-      assertEquals(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(12, 0)), times.get(0));
-
-      times = map.get(day2);
-      assertNotNull(times);
-      assertEquals(1, times.size());
-      assertEquals(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(12, 0)), times.get(0));
-
-      times = map.get(day3);
-      assertNotNull(times);
-      assertEquals(1, times.size());
-      assertEquals(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(12, 0)), times.get(0));
-
-      times = map.get(day4);
-      assertNotNull(times);
+      LocalTimeRange range6 = new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(11, 0));
+      LocalTimeRange range7 = new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(11, 0));
+      times = new ArrayList<>(Arrays.asList(range6, range7));
+      TimephasedAdditionalHoursHelper.sortAndMergeOverlappingHours(times);
       assertEquals(1, times.size());
       assertEquals(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(11, 0)), times.get(0));
 
-      times = map.get(day5);
-      assertNotNull(times);
+      // Subset ranges
+      LocalTimeRange range8 = new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(12, 0));
+      LocalTimeRange range9 = new LocalTimeRange(LocalTime.of(10, 0), LocalTime.of(11, 0));
+      times = new ArrayList<>(Arrays.asList(range8, range9));
+      TimephasedAdditionalHoursHelper.sortAndMergeOverlappingHours(times);
       assertEquals(1, times.size());
       assertEquals(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(12, 0)), times.get(0));
 
-      times = map.get(day6);
-      assertNotNull(times);
+      // Subset with midnight ranges
+      LocalTimeRange range10 = new LocalTimeRange(LocalTime.of(9, 0), LocalTime.MIDNIGHT);
+      LocalTimeRange range11 = new LocalTimeRange(LocalTime.of(10, 0), LocalTime.of(11, 0));
+      times = new ArrayList<>(Arrays.asList(range10, range11));
+      TimephasedAdditionalHoursHelper.sortAndMergeOverlappingHours(times);
       assertEquals(1, times.size());
       assertEquals(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.MIDNIGHT), times.get(0));
 
-      times = map.get(day7);
-      assertNotNull(times);
+      // Subset with two midnight ranges
+      LocalTimeRange range12 = new LocalTimeRange(LocalTime.of(9, 0), LocalTime.MIDNIGHT);
+      LocalTimeRange range13 = new LocalTimeRange(LocalTime.of(10, 0), LocalTime.MIDNIGHT);
+      times = new ArrayList<>(Arrays.asList(range12, range13));
+      TimephasedAdditionalHoursHelper.sortAndMergeOverlappingHours(times);
       assertEquals(1, times.size());
       assertEquals(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.MIDNIGHT), times.get(0));
 
-      times = map.get(day8);
-      assertNotNull(times);
+      // Multiple ranges, no overlaps
+      LocalTimeRange range14 = new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(10, 0));
+      LocalTimeRange range15 = new LocalTimeRange(LocalTime.of(11, 0), LocalTime.of(12, 0));
+      LocalTimeRange range16 = new LocalTimeRange(LocalTime.of(13, 0), LocalTime.of(14, 0));
+      times = new ArrayList<>(Arrays.asList(range14, range15, range16));
+      TimephasedAdditionalHoursHelper.sortAndMergeOverlappingHours(times);
       assertEquals(3, times.size());
       assertEquals(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(10, 0)), times.get(0));
       assertEquals(new LocalTimeRange(LocalTime.of(11, 0), LocalTime.of(12, 0)), times.get(1));
       assertEquals(new LocalTimeRange(LocalTime.of(13, 0), LocalTime.of(14, 0)), times.get(2));
 
-      times = map.get(day9);
-      assertNotNull(times);
+      // Multiple ranges, with some overlaps
+      LocalTimeRange range17 = new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(11, 0));
+      LocalTimeRange range18 = new LocalTimeRange(LocalTime.of(10, 0), LocalTime.of(12, 0));
+      LocalTimeRange range19 = new LocalTimeRange(LocalTime.of(13, 0), LocalTime.of(14, 0));
+      times = new ArrayList<>(Arrays.asList(range17, range18, range19));
+      TimephasedAdditionalHoursHelper.sortAndMergeOverlappingHours(times);
       assertEquals(2, times.size());
       assertEquals(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(12, 0)), times.get(0));
       assertEquals(new LocalTimeRange(LocalTime.of(13, 0), LocalTime.of(14, 0)), times.get(1));
    }
-*/
+
+   /**
+    * Test populateAdditionalWorkingHours.
+    */
    @Test public void testPopulateAdditionalWorkingHours()
    {
       ProjectCalendarHours originalHours = new ProjectCalendarHours();
@@ -401,6 +417,9 @@ public class TimephasedAdditionalHoursHelperTest
       list.clear();
    }
 
+   /**
+    * Test populateCalendar.
+    */
    @Test public void testPopulateCalendar()
    {
       ProjectFile file = new ProjectFile();
@@ -416,41 +435,20 @@ public class TimephasedAdditionalHoursHelperTest
 
       // Additional hours on a working day
       LocalDate day2 = LocalDate.of(2026,11,9);
-      LocalDateTimeRange range2 = new LocalDateTimeRange(LocalDateTime.of(day2, LocalTime.of(12,0)), LocalDateTime.of(day2,LocalTime.of(13,0)));
+      LocalDateTimeRange range2 = new LocalDateTimeRange(LocalDateTime.of(day2, LocalTime.of(12,15)), LocalDateTime.of(day2,LocalTime.of(12,45)));
       assertTrue(calendar.isWorkingDate(day2));
       assertEquals(2, calendar.getHours(day2).size());
       ProjectCalendar calendar2 = TimephasedAdditionalHoursHelper.populateCalendar(calendar, Collections.singletonList(range2));
       assertTrue(calendar2.isWorkingDate(day2));
       assertEquals(3, calendar2.getHours(day2).size());
 
-      // Overlap within an existing range
-      LocalDate overlapDay1 = LocalDate.of(2026,11,9);
-      LocalDateTimeRange overlapRange1 = new LocalDateTimeRange(LocalDateTime.of(overlapDay1, LocalTime.of(9,0)), LocalDateTime.of(overlapDay1,LocalTime.of(11,0)));
-      assertThrows(IllegalArgumentException.class, () -> TimephasedAdditionalHoursHelper.populateCalendar(calendar, Collections.singletonList(overlapRange1)));
+      // No additional hours
+      ProjectCalendar calendar3 = TimephasedAdditionalHoursHelper.populateCalendar(calendar, Collections.emptyList());
+      assertSame(calendar3, calendar);
 
-      // Overlap at start
-      LocalDateTimeRange overlapRange2 = new LocalDateTimeRange(LocalDateTime.of(overlapDay1, LocalTime.of(8,0)), LocalDateTime.of(overlapDay1,LocalTime.of(11,0)));
-      assertThrows(IllegalArgumentException.class, () -> TimephasedAdditionalHoursHelper.populateCalendar(calendar, Collections.singletonList(overlapRange2)));
-
-      // Overlap at end
-      LocalDateTimeRange overlapRange3 = new LocalDateTimeRange(LocalDateTime.of(overlapDay1, LocalTime.of(11,0)), LocalDateTime.of(overlapDay1,LocalTime.of(13,0)));
-      assertThrows(IllegalArgumentException.class, () -> TimephasedAdditionalHoursHelper.populateCalendar(calendar, Collections.singletonList(overlapRange3)));
-
-      // Overlap exactly at start
-      LocalDateTimeRange overlapRange4 = new LocalDateTimeRange(LocalDateTime.of(overlapDay1, LocalTime.of(8,0)), LocalDateTime.of(overlapDay1,LocalTime.of(9,0)));
-      assertThrows(IllegalArgumentException.class, () -> TimephasedAdditionalHoursHelper.populateCalendar(calendar, Collections.singletonList(overlapRange4)));
-
-      // Overlap exactly at end
-      LocalDateTimeRange overlapRange5 = new LocalDateTimeRange(LocalDateTime.of(overlapDay1, LocalTime.of(11,0)), LocalDateTime.of(overlapDay1,LocalTime.of(12,0)));
-      assertThrows(IllegalArgumentException.class, () -> TimephasedAdditionalHoursHelper.populateCalendar(calendar, Collections.singletonList(overlapRange5)));
-
-      LocalDate overlapDay2 = LocalDate.of(2026,11,8);
-      ProjectCalendarException exception = calendar.addCalendarException(overlapDay2);
+      LocalDate overlapDay1 = LocalDate.of(2026,11,8);
+      ProjectCalendarException exception = calendar.addCalendarException(overlapDay1);
       exception.add(new LocalTimeRange(LocalTime.of(15,0), LocalTime.of(0,0)));
-      assertTrue(calendar.isWorkingDate(overlapDay2));
-
-      // Overlap before midnight range end
-      LocalDateTimeRange overlapRange6 = new LocalDateTimeRange(LocalDateTime.of(overlapDay2, LocalTime.of(16,0)), LocalDateTime.of(overlapDay2,LocalTime.of(17,0)));
-      assertThrows(IllegalArgumentException.class, () -> TimephasedAdditionalHoursHelper.populateCalendar(calendar, Collections.singletonList(overlapRange6)));
+      assertTrue(calendar.isWorkingDate(overlapDay1));
    }
 }

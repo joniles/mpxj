@@ -76,6 +76,13 @@ public class CombinedCalendar extends ProjectCalendar
       return getIntersection(m_calendar1.getCalendarHours(day), m_calendar2.getCalendarHours(day));
    }
 
+   /**
+    * Return the intersection between two sets of working hours.
+    *
+    * @param hours1 calendar1 working hours
+    * @param hours2 caendar2 working hours
+    * @return working hours intersection
+    */
    private ProjectCalendarHours getIntersection(ProjectCalendarHours hours1, ProjectCalendarHours hours2)
    {
       if (hours1 == null)
@@ -91,6 +98,13 @@ public class CombinedCalendar extends ProjectCalendar
       return intersect(hours1, hours2, new ProjectCalendarHours());
    }
 
+   /**
+    * Return the intersection between two calendar exceptions.
+    *
+    * @param hours1 calendar1 exception
+    * @param hours2 caendar2 exception
+    * @return exceptions intersection
+    */
    private ProjectCalendarException getIntersection(LocalDate date, ProjectCalendarException hours1, ProjectCalendarException hours2)
    {
       // Neither calendar has an exception
@@ -126,6 +140,15 @@ public class CombinedCalendar extends ProjectCalendar
       return intersect(hours1, hours2, addCalendarException(date));
    }
 
+   /**
+    * Return the intersection between two sets of working hours.
+    *
+    * @param hours1 calendar1 working hours
+    * @param hours2 calendar2 working hours
+    * @param result container to populate with the result
+    * @return container populated with the result
+    * @param <T> hours contsianer type
+    */
    private <T extends ProjectCalendarHours> T intersect(T hours1, T hours2, T result)
    {
       for (LocalTimeRange range1 : hours1)

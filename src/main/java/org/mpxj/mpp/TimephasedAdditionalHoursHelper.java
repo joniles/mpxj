@@ -1,3 +1,25 @@
+/*
+ * file:       TimephasedAdditionalHoursHelper
+ * author:     Jon Iles
+ * date:       2026-11-19
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 package org.mpxj.mpp;
 
 import java.time.LocalDate;
@@ -8,7 +30,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.LocalTimeRange;
@@ -19,6 +40,10 @@ import org.mpxj.TemporaryCalendar;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 
+/**
+ * Helper methods used when handling the additional working
+ * hours required to process actual timephased data.
+ */
 class TimephasedAdditionalHoursHelper
 {
    public static ProjectCalendar populateAdditionalWorkingHours(ProjectCalendar originalCalendar, byte[] additionalWorkingHoursData, List<LocalDateTimeRange> additionalWorkingHours)
@@ -45,6 +70,14 @@ class TimephasedAdditionalHoursHelper
       return populateCalendar(originalCalendar, additionalWorkingHours);
    }
 
+   /**
+    * Given a start and end timestamp which defines a range potentially spanning multiple days,
+    * split into a list of ranges each covering a single day.
+    *
+    * @param start start timestamp
+    * @param end end timestamp
+    * @return list of ranges
+    */
    public static List<LocalDateTimeRange> splitIntoDayRanges(LocalDateTime start, LocalDateTime end)
    {
       List<LocalDateTimeRange> result = new ArrayList<>();
@@ -194,23 +227,6 @@ class TimephasedAdditionalHoursHelper
 
          sortAndMergeOverlappingHours(hours);
 
-         // Check for overlaps
-         if (hours.size() > 1)
-         {
-            int index = 0;
-            while(index + 1 < hours.size())
-            {
-               LocalTimeRange hours1 = hours.get(index);
-               LocalTimeRange hours2 = hours.get(++index);
-
-               if (hours2.getStart().isBefore(hours1.getEnd()) || hours1.getEnd().equals(LocalTime.MIDNIGHT))
-               {
-                  // We should not have overlapping ranges at this point
-                  throw new IllegalArgumentException("Additional working hours overlapping ranges: " + hours1 + " " + hours2);
-               }
-            }
-         }
-
          ProjectCalendarException exception = calendar.addCalendarException(date);
          exception.addAll(hours);
       }
@@ -246,6 +262,12 @@ class TimephasedAdditionalHoursHelper
       return map;
    }
 
+   /**
+    * Takes a list of time ranges representing calendar working hours and additional working hours.
+    * Ensure that any overlapping ranges are merged.
+    *
+    * @param hours list of time ranges
+    */
    public static void sortAndMergeOverlappingHours(List<LocalTimeRange> hours)
    {
       if (hours.size() < 2)
