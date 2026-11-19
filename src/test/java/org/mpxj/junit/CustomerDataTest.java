@@ -892,6 +892,14 @@ public class CustomerDataTest
       }
    }
 
+   /**
+    * Compare MPXJ-exported timephased actual data with the equivalent MS Project VBA exported data.
+    *
+    * @param name file name
+    * @param project ProjectFile instance
+    * @param baselineDirectory baselien daat location
+    * @return true if the data compares correctly
+    */
    private boolean  testTimephasedActuals(String name, ProjectFile project, File baselineDirectory) throws IOException
    {
       File target = new File(new File(baselineDirectory, "timephased-actuals"), new File(name).getName() + ".txt");
