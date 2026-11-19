@@ -25,18 +25,22 @@ package org.mpxj.mpp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.mpxj.Duration;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
 import org.mpxj.TemporaryCalendar;
+import org.mpxj.TimeUnit;
+import org.mpxj.TimephasedWork;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.LocalDateTimeHelper;
 
@@ -46,6 +50,15 @@ import org.mpxj.common.LocalDateTimeHelper;
  */
 class TimephasedAdditionalHoursHelper
 {
+   /**
+    * Read additional working hours and if necessary create a new
+    * temporary calendar and add the additional hours as exceptions.
+    *
+    * @param originalCalendar original calendar
+    * @param additionalWorkingHoursData additional working hours data
+    * @param additionalWorkingHours list populated with additional working hours added to the calendar
+    * @return new calendar instance (or orignal calendar if no hours added)
+    */
    public static ProjectCalendar populateAdditionalWorkingHours(ProjectCalendar originalCalendar, byte[] additionalWorkingHoursData, List<LocalDateTimeRange> additionalWorkingHours)
    {
       // The additional working hours data block contains a 16 byte header, followed by 8 byte
@@ -295,5 +308,142 @@ class TimephasedAdditionalHoursHelper
          hours.remove(index);
          hours.add(index, new LocalTimeRange(start, end));
       }
+   }
+
+   /**
+    * Split TimephasedWork items so that any work being carried out during time which is normally
+    * non-working is represented as separate TimephasedWork items.
+    *
+    * @param originalCalendar calendar which will be used when working with this timephased data
+    * @param items timewphased work items
+    * @param ranges non-working time ranges on which work may have been performed
+    * @return new list of TimephasedWork items, split to allow it to be used originalCalendar
+    */
+   public static List<TimephasedWork> splitItems(ProjectCalendar originalCalendar, List<TimephasedWork> items, List<LocalDateTimeRange> ranges)
+   {
+      if (ranges.isEmpty()
+         || items.get(0).getStart().isAfter(ranges.get(ranges.size()-1).getEnd())
+         || items.get(items.size()-1).getFinish().isBefore(ranges.get(0).getStart()))
+      {
+         return items;
+      }
+
+      List<TimephasedWork> result = new ArrayList<>();
+
+      int currentItemIndex = 0;
+      int currentRangeIndex = 0;
+
+      LocalDateTimeRange range = ranges.get(currentRangeIndex);
+      TimephasedWork item = items.get(currentItemIndex);
+
+      while (currentItemIndex < items.size() && currentRangeIndex < ranges.size())
+      {
+         if (!item.getFinish().isAfter(range.getStart()))
+         {
+            // The current item finishes before the current range, move to the next item.
+            result.add(item);
+            ++currentItemIndex;
+            if (currentItemIndex < items.size())
+            {
+               item = items.get(currentItemIndex);
+            }
+            else
+            {
+               item = null;
+            }
+            continue;
+         }
+
+         if (!item.getStart().isBefore(range.getEnd()))
+         {
+            // The current item is after the current range, move to the next range.
+            ++currentRangeIndex;
+            if (currentRangeIndex < ranges.size())
+            {
+               range = ranges.get(currentRangeIndex);
+            }
+            continue;
+         }
+
+         if (item.getStart().isBefore(range.getStart()))
+         {
+            // We have an overlap at the start of the range.
+            // The work for the overlap is calculated using
+            // the original calendar is this is outside
+            // the additional hours.
+            double newDurationInMinutes = originalCalendar.getWork(item.getStart(), range.getStart(), TimeUnit.MINUTES).getDuration();
+            Duration newTotalAmount = Duration.getInstance((newDurationInMinutes * item.getAmountPerHour().getDuration()) / 60.0, TimeUnit.MINUTES);
+
+            TimephasedWork newItem = new TimephasedWork();
+            newItem.setStart(item.getStart());
+            newItem.setFinish(range.getStart());
+            newItem.setAmountPerHour(item.getAmountPerHour());
+            newItem.setTotalAmount(newTotalAmount);
+            result.add(newItem);
+
+            Duration remainingTotalAmount = Duration.getInstance(item.getTotalAmount().getDuration()-newTotalAmount.getDuration(), TimeUnit.MINUTES);
+            if (remainingTotalAmount.getDuration() < 0)
+            {
+               remainingTotalAmount = Duration.getInstance(0, TimeUnit.MINUTES);
+            }
+            item.setStart(range.getStart());
+            item.setTotalAmount(remainingTotalAmount);
+
+            continue;
+         }
+
+         if (item.getFinish().isAfter(range.getEnd()))
+         {
+            // We have an overlap at the end of the range.
+            // The work for the overlap is calculated using
+            // the elapsed time in the range as this is
+            // non-working time in the original calendar.
+            double newDurationInMinutes = item.getStart().until(range.getEnd(), ChronoUnit.SECONDS) / 60.0;
+            Duration newTotalAmount = Duration.getInstance((newDurationInMinutes * item.getAmountPerHour().getDuration()) / 60.0, TimeUnit.MINUTES);
+
+            TimephasedWork newItem = new TimephasedWork();
+            newItem.setStart(item.getStart());
+            newItem.setFinish(range.getEnd());
+            newItem.setAmountPerHour(item.getAmountPerHour());
+            newItem.setTotalAmount(newTotalAmount);
+            result.add(newItem);
+
+            Duration remainingTotalAmount = Duration.getInstance(item.getTotalAmount().getDuration()-newTotalAmount.getDuration(), TimeUnit.MINUTES);
+            if (remainingTotalAmount.getDuration() < 0)
+            {
+               remainingTotalAmount = Duration.getInstance(0, TimeUnit.MINUTES);
+            }
+
+            item.setStart(range.getEnd());
+            item.setTotalAmount(remainingTotalAmount);
+
+            continue;
+         }
+
+         // The current item must fall withing the range
+         result.add(item);
+         ++currentItemIndex;
+         if (currentItemIndex < items.size())
+         {
+            item = items.get(currentItemIndex);
+         }
+         else
+         {
+            item = null;
+         }
+      }
+
+      if (item != null)
+      {
+         result.add(item);
+         ++currentItemIndex;
+      }
+
+      while (currentItemIndex < items.size())
+      {
+         result.add(items.get(currentItemIndex++));
+      }
+
+      return result;
    }
 }
