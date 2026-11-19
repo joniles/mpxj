@@ -126,7 +126,6 @@ final class TimephasedUtility
             // Our range intersects with this work
             LocalDateTime workStart = currentRange.getStart().isAfter(currentItem.getStart()) ? currentRange.getStart() : currentItem.getStart();
             LocalDateTime workFinish = currentRange.getEnd().isAfter(currentItem.getFinish()) ? currentItem.getFinish() : currentRange.getEnd();
-            
             double actualWorkHours = calendar.getWork(workStart, workFinish, TimeUnit.HOURS).getDuration();
             double calculatedworkHours = currentItemIsNonWorking ? (workStart.until(workFinish, ChronoUnit.MINUTES) / 60.0) : actualWorkHours;
             if (calculatedworkHours != 0.0)
