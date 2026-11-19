@@ -1,3 +1,25 @@
+/*
+ * file:       TimephasedExportUtility
+ * author:     Jon Iles
+ * date:       2026-11-19
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 package org.mpxj.utility;
 
 import java.io.File;
@@ -7,15 +29,12 @@ import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.BiFunction;
 
 import org.apache.commons.lang3.function.TriFunction;
 import org.mpxj.Duration;
 import org.mpxj.LocalDateTimeRange;
-import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.Resource;
 import org.mpxj.ResourceAssignment;
@@ -26,8 +45,21 @@ import org.mpxj.TimescaleUnits;
 import org.mpxj.common.TimescaleHelper;
 import org.mpxj.reader.UniversalProjectReader;
 
+/**
+ * Allows export of timephased data to a file in a format which makes
+ * it straightforward to compare with the same set of data exported
+ * from Microsoft Project via a VBA macro.
+ */
 public class TimephasedExportUtility
 {
+   /**
+    * Expects the name of the input file, and optionally
+    * the name of the output file. If the output file is not
+    * supplied the input file name is used with an additional ".txt"
+    * suffix.
+    *
+    * @param argv command line arguments
+    */
    public static void main(String[] argv) throws Exception
    {
       if (argv.length < 1 || argv.length > 2)
@@ -42,6 +74,13 @@ public class TimephasedExportUtility
       new TimephasedExportUtility().export(file, new File(outputFile), ResourceAssignment::getTimephasedActualWork);
    }
 
+   /**
+    * Method used to export timephased data to a file.
+    *
+    * @param file input file
+    * @param output output file
+    * @param fn function used to generate timephased data for a resource assignment
+    */
    public void export(ProjectFile file, File output, TriFunction<ResourceAssignment, List<LocalDateTimeRange>, TimeUnit, List<Duration>> fn) throws IOException
    {
       List<ResourceAssignment> assignments = new ArrayList<>(file.getResourceAssignments());
@@ -96,6 +135,12 @@ public class TimephasedExportUtility
       }
    }
 
+   /**
+    * Format a string to match formatted output from MS Project VBA.
+    *
+    * @param value string value
+    * @return formatted value
+    */
    private static String formatString(String value)
    {
       if (value == null)
@@ -111,6 +156,13 @@ public class TimephasedExportUtility
       return "\"" + value + "\"";
    }
 
+   /**
+    * Format a duration value as an integer number of minutes.
+    *
+    * @param duration duration value
+    * @param materialResource true if this is a material resource
+    * @return formatted value
+    */
    private String formatDuration(Duration duration, boolean materialResource)
    {
       if (duration == null)
@@ -118,7 +170,7 @@ public class TimephasedExportUtility
          return "";
       }
 
-      double value = duration.getDuration();;
+      double value = duration.getDuration();
       if (materialResource)
       {
          value /= 60;
@@ -127,6 +179,11 @@ public class TimephasedExportUtility
       return DECIMAL_FORMAT.format(Math.round(value));
    }
 
+   /**
+    * Remove empty trailing empty values before writing to the outut file.
+    *
+    * @param list trimmed list
+    */
    private void trimList(List<String> list)
    {
       while (list.get(list.size()-1).isEmpty())
