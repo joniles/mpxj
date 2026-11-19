@@ -88,51 +88,7 @@ public class CombinedCalendar extends ProjectCalendar
          hours2 = EMPTY_DATE_RANGES;
       }
 
-      ProjectCalendarHours result = new ProjectCalendarHours();
-      for (LocalTimeRange range1 : hours1)
-      {
-         LocalTime range1Start = range1.getStart();
-         LocalTime range1End = range1.getEnd();
-
-         for (LocalTimeRange range2 : hours2)
-         {
-            LocalTime range2Start = range2.getStart();
-
-            if (range1End != LocalTime.MIDNIGHT && !range1End.isAfter(range2Start))
-            {
-               // range1 finishes before range2 starts so there is no overlap, get the next range1
-               break;
-            }
-
-            LocalTime range2End = range2.getEnd();
-            if (range2End != LocalTime.MIDNIGHT && !range1Start.isBefore(range2End))
-            {
-               // range1 starts after range2 so there is no overlap, get the next range2
-               continue;
-            }
-
-            LocalTime start = range1Start.isAfter(range2Start) ? range1Start : range2Start;
-            LocalTime end;
-            if (range1End == LocalTime.MIDNIGHT)
-            {
-               end = range2End;
-            }
-            else
-            {
-               if (range2End == LocalTime.MIDNIGHT)
-               {
-                  end = range1End;
-               }
-               else
-               {
-                  end = range1End.isBefore(range2End) ? range1End : range2End;
-               }
-            }
-            result.add(new LocalTimeRange(start, end));
-         }
-      }
-
-      return result;
+      return intersect(hours1, hours2, new ProjectCalendarHours());
    }
 
    private ProjectCalendarException getIntersection(LocalDate date, ProjectCalendarException hours1, ProjectCalendarException hours2)
@@ -167,7 +123,11 @@ public class CombinedCalendar extends ProjectCalendar
       }
 
       // We have two sets of working time exceptions, return the intersection
-      ProjectCalendarException result = addCalendarException(date);
+      return intersect(hours1, hours2, addCalendarException(date));
+   }
+
+   private <T extends ProjectCalendarHours> T intersect(T hours1, T hours2, T result)
+   {
       for (LocalTimeRange range1 : hours1)
       {
          LocalTime range1Start = range1.getStart();

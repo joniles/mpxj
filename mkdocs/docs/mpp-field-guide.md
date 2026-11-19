@@ -139,13 +139,13 @@ Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
 Baseline1 Date| |✓|✓|✓
 Baseline2 Date| |✓| |✓
-Baseline3 Date| | | |✓
-Baseline4 Date| | | |✓
-Baseline5 Date| | | |✓
-Baseline6 Date| | | |✓
-Baseline7 Date| | | |✓
-Baseline8 Date| | | |✓
-Baseline9 Date| | | |✓
+Baseline3 Date| |✓| |✓
+Baseline4 Date| |✓| |✓
+Baseline5 Date| |✓| |✓
+Baseline6 Date| |✓| |✓
+Baseline7 Date| |✓| |✓
+Baseline8 Date| |✓| |✓
+Baseline9 Date| |✓| |✓
 Baseline10 Date| | |✓|✓
 Baseline Calendar Name|✓|✓|✓|✓
 Baseline Cost| |✓|✓|✓
@@ -173,7 +173,7 @@ Actual Regular Cost|✓|✓|✓|✓
 Actual Regular Work|✓|✓|✓|✓
 Actual Start|✓|✓|✓|✓
 Actual Work|✓|✓|✓|✓
-Actual Work Protected| | |✓| 
+Actual Work Protected| | |✓|✓
 Auto Compute Actuals|✓|✓|✓|✓
 Board Status ID| | | |✓
 Budget Cost| |✓|✓|✓
@@ -638,7 +638,7 @@ Actual Overtime Work| |✓|✓|✓
 Actual Regular Cost| |✓|✓|✓
 Actual Regular Work|✓|✓|✓|✓
 Actual Work|✓|✓|✓|✓
-Actual Work Protected| | |✓| 
+Actual Work Protected| | |✓|✓
 Auto Compute Actuals|✓|✓|✓|✓
 Availability Data| |✓|✓|✓
 Available From| |✓|✓|✓
@@ -945,7 +945,7 @@ Actual Regular Cost| |✓|✓|✓
 Actual Regular Work|✓|✓|✓|✓
 Actual Start| |✓|✓|✓
 Actual Work|✓|✓|✓|✓
-Actual Work Protected| | |✓| 
+Actual Work Protected| | |✓|✓
 Assignment Delay| |✓|✓|✓
 Assignment GUID| | |✓|✓
 Assignment Resource GUID| | |✓|✓
@@ -1095,35 +1095,35 @@ Raw Timephased Baseline2 Work| |✓| |✓
 Raw Timephased Baseline3 Budget Cost| | | |✓
 Raw Timephased Baseline3 Budget Work| | | |✓
 Raw Timephased Baseline3 Cost| | | |✓
-Raw Timephased Baseline3 Work| | | |✓
+Raw Timephased Baseline3 Work| |✓| |✓
 Raw Timephased Baseline4 Budget Cost| | | |✓
 Raw Timephased Baseline4 Budget Work| | | |✓
 Raw Timephased Baseline4 Cost| | | |✓
-Raw Timephased Baseline4 Work| | | |✓
+Raw Timephased Baseline4 Work| |✓| |✓
 Raw Timephased Baseline5 Budget Cost| | | |✓
 Raw Timephased Baseline5 Budget Work| | | |✓
 Raw Timephased Baseline5 Cost| | | |✓
-Raw Timephased Baseline5 Work| | | |✓
+Raw Timephased Baseline5 Work| |✓| |✓
 Raw Timephased Baseline6 Budget Cost| | | |✓
 Raw Timephased Baseline6 Budget Work| | | |✓
 Raw Timephased Baseline6 Cost| | | |✓
-Raw Timephased Baseline6 Work| | | |✓
+Raw Timephased Baseline6 Work| |✓| |✓
 Raw Timephased Baseline7 Budget Cost| | | |✓
 Raw Timephased Baseline7 Budget Work| | | |✓
 Raw Timephased Baseline7 Cost| | | |✓
-Raw Timephased Baseline7 Work| | | |✓
+Raw Timephased Baseline7 Work| |✓| |✓
 Raw Timephased Baseline8 Budget Cost| | | |✓
 Raw Timephased Baseline8 Budget Work| | | |✓
 Raw Timephased Baseline8 Cost| | | |✓
-Raw Timephased Baseline8 Work| | | |✓
+Raw Timephased Baseline8 Work| |✓| |✓
 Raw Timephased Baseline9 Budget Cost| | | |✓
 Raw Timephased Baseline9 Budget Work| | | |✓
 Raw Timephased Baseline9 Cost| | | |✓
-Raw Timephased Baseline9 Work| | | |✓
+Raw Timephased Baseline9 Work| |✓| |✓
 Raw Timephased Baseline10 Budget Cost| | | |✓
 Raw Timephased Baseline10 Budget Work| | | |✓
 Raw Timephased Baseline10 Cost| | | |✓
-Raw Timephased Baseline10 Work| | | |✓
+Raw Timephased Baseline10 Work| |✓| |✓
 Raw Timephased Baseline Budget Cost| | | |✓
 Raw Timephased Baseline Budget Work| | | |✓
 Raw Timephased Baseline Cost| |✓|✓|✓
