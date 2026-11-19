@@ -32,14 +32,12 @@ import java.util.List;
 import org.mpxj.Duration;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.ProjectCalendar;
-import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceType;
 import org.mpxj.TimeUnit;
 import org.mpxj.TimephasedCost;
 import org.mpxj.TimephasedWork;
 import org.mpxj.common.ByteArrayHelper;
-import org.mpxj.common.TimephasedHelper;
 
 /**
  * This class contains methods to create lists of TimephasedWork
@@ -59,7 +57,7 @@ final class TimephasedDataFactory
     */
    public List<TimephasedWork> getCompleteWork(ResourceAssignment assignment, byte[] regularData, byte[] additionalWorkingHoursData)
    {
-      ProjectCalendar workingCalendar = TimephasedHelper.getEffectiveCalendarForActualTimephasedWork(assignment);
+      ProjectCalendar workingCalendar = assignment.getEffectiveCalendar();
       if (workingCalendar == null || regularData == null || regularData.length <= 26 || ByteArrayHelper.getShort(regularData, 0) == 0 || assignment.getTask().getDuration() == null || assignment.getTask().getDuration().getDuration() == 0)
       {
          // Rather than Colection.emptyList() we're returning a mutable list.
