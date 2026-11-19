@@ -2056,6 +2056,17 @@ public final class DatatypeConverter
    }
 
    /**
+    * This method is called once a parse or print operation is complete
+    * to clear the context, so the thread no longer keeps the parent file
+    * reachable.
+    */
+   public static final void clearContext()
+   {
+      PARENT_FILE.remove();
+      IGNORE_ERRORS.remove();
+   }
+
+   /**
     * Detect numbers using comma as a decimal separator and replace with period.
     *
     * @param value original numeric value

@@ -269,6 +269,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       finally
       {
+         DatatypeConverter.clearContext();
          m_projectFile = null;
          m_factory = null;
          m_customFieldValueItems = null;
