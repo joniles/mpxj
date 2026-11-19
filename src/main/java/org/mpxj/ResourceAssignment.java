@@ -46,7 +46,6 @@ import org.mpxj.common.CombinedCalendar;
 import org.mpxj.common.LocalDateTimeHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.RateHelper;
-import org.mpxj.common.TimephasedHelper;
 
 /**
  * This class represents a resource assignment record from an MPX file.
@@ -2689,7 +2688,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<Duration> getTimephasedActualRegularWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(TimephasedHelper.getEffectiveCalendarForActualTimephasedWork(this), getOrCreateRawTimephasedActualWork(getRawTimephasedActualRegularWork(), this::getActualRegularWork), ranges, units);
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getOrCreateRawTimephasedActualWork(getRawTimephasedActualRegularWork(), this::getActualRegularWork), ranges, units);
    }
 
    /**
@@ -2701,7 +2700,7 @@ public class ResourceAssignment extends AbstractFieldContainer<ResourceAssignmen
     */
    public List<Duration> getTimephasedActualOvertimeWork(List<LocalDateTimeRange> ranges, TimeUnit units)
    {
-      return TimephasedUtility.segmentWork(TimephasedHelper.getEffectiveCalendarForActualTimephasedWork(this), getOrCreateRawTimephasedActualWork(getRawTimephasedActualOvertimeWork(), this::getActualOvertimeWork), ranges, units);
+      return TimephasedUtility.segmentWork(getEffectiveCalendar(), getOrCreateRawTimephasedActualWork(getRawTimephasedActualOvertimeWork(), this::getActualOvertimeWork), ranges, units);
    }
 
    /**
