@@ -32,6 +32,7 @@ import java.util.List;
 import org.mpxj.Duration;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.ProjectCalendar;
+import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.ResourceType;
 import org.mpxj.TimeUnit;
@@ -79,6 +80,8 @@ final class TimephasedDataFactory
          // Create a temporary calendar with exceptions used to represent the additional working hours
          workingCalendar = TimephasedAdditionalHoursHelper.populateAdditionalWorkingHours(originalCalendar, additionalWorkingHoursData, additionalWorkingHours);
       }
+
+      ProjectCalendarHours test = workingCalendar.getHours(resourceAssignment.getStart());
 
       // The regular data block starts with a 16 byte header. The first
       // two bytes of the header indicate the number of records. Following the

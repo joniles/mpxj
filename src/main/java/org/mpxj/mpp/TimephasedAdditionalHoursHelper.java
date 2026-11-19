@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.LocalTimeRange;
@@ -190,7 +191,8 @@ class TimephasedAdditionalHoursHelper
          {
             hours.addAll(existingHours);
          }
-         Collections.sort(hours);
+
+         sortAndMergeOverlappingHours(hours);
 
          // Check for overlaps
          if (hours.size() > 1)
@@ -242,5 +244,34 @@ class TimephasedAdditionalHoursHelper
       }
 
       return map;
+   }
+
+   public static void sortAndMergeOverlappingHours(List<LocalTimeRange> hours)
+   {
+      if (hours.size() < 2)
+      {
+         return;
+      }
+
+      Collections.sort(hours);
+
+      int index = 0;
+      while (index < hours.size() -1)
+      {
+         LocalTimeRange range1 = hours.get(index);
+         LocalTimeRange range2 = hours.get(index+1);
+         if (range2.getStart().isAfter(range1.getEnd()) && !range1.getEnd().equals(LocalTime.MIDNIGHT))
+         {
+            ++index;
+            continue;
+         }
+
+         LocalTime start = range1.getStart().isBefore(range2.getStart()) ? range1.getStart() : range2.getStart();
+         LocalTime end = range1.getEnd().equals(LocalTime.MIDNIGHT) || range2.getEnd().equals(LocalTime.MIDNIGHT) ? LocalTime.MIDNIGHT : (range1.getEnd().isAfter(range2.getEnd()) ? range1.getEnd() : range2.getEnd());
+
+         hours.remove(index);
+         hours.remove(index);
+         hours.add(index, new LocalTimeRange(start, end));
+      }
    }
 }

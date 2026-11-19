@@ -52,7 +52,7 @@ public final class TimephasedHelper
       }
       else
       {
-         workingCalendar = assignment.getTask().getCalendar();
+         workingCalendar = assignment.getEffectiveCalendar();
       }
 
       if (workingCalendar == null)
