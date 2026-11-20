@@ -132,7 +132,7 @@ public final class PlannerWriter extends AbstractProjectWriter
          writeTasks();
          writeAssignments();
 
-         marshaller.marshal(m_plannerProject, stream);
+         MarshallerHelper.marshal(marshaller, m_plannerProject, stream);
       }
 
       catch (JAXBException ex)
