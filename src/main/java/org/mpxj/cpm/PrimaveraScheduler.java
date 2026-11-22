@@ -3190,7 +3190,7 @@ public class PrimaveraScheduler implements Scheduler
       task.setEarlyStart(earlyStart);
       task.setEarlyFinish(earlyFinish);
       setRemainingEarlyDates(task);
-      task.setDuration(calculateAtCompletionDuration(task));
+      updateDurationsAndPercentComplete(task);
    }
 
    /**
