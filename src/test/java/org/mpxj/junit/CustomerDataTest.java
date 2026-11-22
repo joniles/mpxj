@@ -900,7 +900,7 @@ public class CustomerDataTest
     * @param baselineDirectory baselien daat location
     * @return true if the data compares correctly
     */
-   private boolean  testTimephasedActuals(String name, ProjectFile project, File baselineDirectory) throws IOException
+   private boolean testTimephasedActuals(String name, ProjectFile project, File baselineDirectory) throws IOException
    {
       File target = new File(new File(baselineDirectory, "timephased-actuals"), new File(name).getName() + ".txt");
       if (!target.exists())
@@ -923,7 +923,6 @@ public class CustomerDataTest
 
       return success;
    }
-
 
    /**
     * Write a diagnostic message and populate directories to make

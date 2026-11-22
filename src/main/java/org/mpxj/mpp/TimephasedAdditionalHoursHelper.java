@@ -187,7 +187,7 @@ class TimephasedAdditionalHoursHelper
 
          if (!start.isBefore(range.getStart())
             && ((end.equals(LocalTime.MIDNIGHT) && !range.getEnd().equals(LocalTime.MIDNIGHT))
-               || !end.equals(LocalTime.MIDNIGHT) && !range.getEnd().equals(LocalTime.MIDNIGHT) && end.isAfter(range.getEnd())))
+            || !end.equals(LocalTime.MIDNIGHT) && !range.getEnd().equals(LocalTime.MIDNIGHT) && end.isAfter(range.getEnd())))
          {
             // The additional working hours overlap the end of the range
             start = range.getEnd();
@@ -291,10 +291,10 @@ class TimephasedAdditionalHoursHelper
       Collections.sort(hours);
 
       int index = 0;
-      while (index < hours.size() -1)
+      while (index < hours.size() - 1)
       {
          LocalTimeRange range1 = hours.get(index);
-         LocalTimeRange range2 = hours.get(index+1);
+         LocalTimeRange range2 = hours.get(index + 1);
          if (range2.getStart().isAfter(range1.getEnd()) && !range1.getEnd().equals(LocalTime.MIDNIGHT))
          {
             ++index;
@@ -322,8 +322,8 @@ class TimephasedAdditionalHoursHelper
    public static List<TimephasedWork> splitItems(ProjectCalendar originalCalendar, List<TimephasedWork> items, List<LocalDateTimeRange> ranges)
    {
       if (ranges.isEmpty()
-         || items.get(0).getStart().isAfter(ranges.get(ranges.size()-1).getEnd())
-         || items.get(items.size()-1).getFinish().isBefore(ranges.get(0).getStart()))
+         || items.get(0).getStart().isAfter(ranges.get(ranges.size() - 1).getEnd())
+         || items.get(items.size() - 1).getFinish().isBefore(ranges.get(0).getStart()))
       {
          return items;
       }
@@ -381,7 +381,7 @@ class TimephasedAdditionalHoursHelper
             newItem.setTotalAmount(newTotalAmount);
             result.add(newItem);
 
-            Duration remainingTotalAmount = Duration.getInstance(item.getTotalAmount().getDuration()-newTotalAmount.getDuration(), TimeUnit.MINUTES);
+            Duration remainingTotalAmount = Duration.getInstance(item.getTotalAmount().getDuration() - newTotalAmount.getDuration(), TimeUnit.MINUTES);
             if (remainingTotalAmount.getDuration() < 0)
             {
                remainingTotalAmount = Duration.getInstance(0, TimeUnit.MINUTES);
@@ -408,7 +408,7 @@ class TimephasedAdditionalHoursHelper
             newItem.setTotalAmount(newTotalAmount);
             result.add(newItem);
 
-            Duration remainingTotalAmount = Duration.getInstance(item.getTotalAmount().getDuration()-newTotalAmount.getDuration(), TimeUnit.MINUTES);
+            Duration remainingTotalAmount = Duration.getInstance(item.getTotalAmount().getDuration() - newTotalAmount.getDuration(), TimeUnit.MINUTES);
             if (remainingTotalAmount.getDuration() < 0)
             {
                remainingTotalAmount = Duration.getInstance(0, TimeUnit.MINUTES);

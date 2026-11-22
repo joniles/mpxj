@@ -69,7 +69,7 @@ public class TimephasedExportUtility
       }
 
       ProjectFile file = new UniversalProjectReader().read(argv[0]);
-      String outputFile = argv.length == 2 ? argv[1] : argv[0]+ ".txt";
+      String outputFile = argv.length == 2 ? argv[1] : argv[0] + ".txt";
 
       new TimephasedExportUtility().export(file, new File(outputFile), ResourceAssignment::getTimephasedActualWork);
    }
@@ -89,7 +89,7 @@ public class TimephasedExportUtility
       List<String> buffer = new ArrayList<>();
       TimescaleHelper helper = new TimescaleHelper();
 
-      try(PrintWriter pw = new PrintWriter(new FileWriter(output)))
+      try (PrintWriter pw = new PrintWriter(new FileWriter(output)))
       {
          pw.println("\uFEFFAssignment Unique ID\tTask Unique ID\tTask Name\tResource Unique ID\tResource Name\tStart Date");
 
@@ -186,9 +186,9 @@ public class TimephasedExportUtility
     */
    private void trimList(List<String> list)
    {
-      while (list.get(list.size()-1).isEmpty())
+      while (list.get(list.size() - 1).isEmpty())
       {
-         list.remove(list.size()-1);
+         list.remove(list.size() - 1);
       }
    }
 

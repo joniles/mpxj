@@ -154,7 +154,7 @@ class ResourceAssignmentFactory
 
          assignment.disableEvents();
 
-         byte[][] fixedDataArray = new byte[][] {data, data2};
+         byte[][] fixedDataArray = new byte[][]{data, data2};
          fieldMap.populateContainer(FieldTypeClass.ASSIGNMENT, assignment, varDataId, fixedDataArray, assnVarData);
 
          if (enterpriseCustomFieldMap != null)

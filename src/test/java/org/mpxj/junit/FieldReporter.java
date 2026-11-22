@@ -72,7 +72,7 @@ public class FieldReporter
     */
    public void process(ProjectFile project)
    {
-      synchronized(this)
+      synchronized (this)
       {
          ProjectProperties props = project.getProjectProperties();
          String fileType = props.getFileType();

@@ -95,7 +95,7 @@ final class TimephasedDataFactory
       List<TimephasedWork> regularList = new ArrayList<>();
       int regularBlockCount = ByteArrayHelper.getShort(regularData, 0);
       double totalElapsedTime = ByteArrayHelper.getInt(regularData, 24);
-      long totalElapsedTimeInSeconds = Math.round((totalElapsedTime * 60.0)/ 80.0);
+      long totalElapsedTimeInSeconds = Math.round((totalElapsedTime * 60.0) / 80.0);
       int offset = 36;
 
       for (int count = 0; count < regularBlockCount; count++)
@@ -105,8 +105,8 @@ final class TimephasedDataFactory
          double elapsedAtPeriodEnd = ByteArrayHelper.getInt(regularData, offset + 16);
 
          double workPerHourInMinutes = (workPerHour * 60.0) / 10000.0;
-         long totalWorkSecondsAtPeriodEnd = Math.round((totalAtPeriodEnd * 60.0)/ 1000.0);
-         long elapsedSecondsAtPeriodEnd = Math.round((elapsedAtPeriodEnd * 60.0)/ 80.0);
+         long totalWorkSecondsAtPeriodEnd = Math.round((totalAtPeriodEnd * 60.0) / 1000.0);
+         long elapsedSecondsAtPeriodEnd = Math.round((elapsedAtPeriodEnd * 60.0) / 80.0);
          if (elapsedSecondsAtPeriodEnd < 0 || elapsedSecondsAtPeriodEnd > totalElapsedTimeInSeconds)
          {
             elapsedSecondsAtPeriodEnd = 0;
@@ -249,9 +249,9 @@ final class TimephasedDataFactory
                break;
             }
 
-            long cumulativeWorkSeconds = Math.round((MPPUtility.getDouble(data, offset) * 60.0)/ 1000.0);
+            long cumulativeWorkSeconds = Math.round((MPPUtility.getDouble(data, offset) * 60.0) / 1000.0);
             long workSecondsThisPeriod = cumulativeWorkSeconds - previousWorkSeconds;
-            long cumulativeElapsedSeconds = Math.round((ByteArrayHelper.getInt(data, offset + 24) * 60.0)/ 80.0);
+            long cumulativeElapsedSeconds = Math.round((ByteArrayHelper.getInt(data, offset + 24) * 60.0) / 80.0);
             long elapsedSecondsThisPeriod = cumulativeElapsedSeconds - previousElapsedSeconds;
             Duration workPerHour = Duration.getInstance(workSecondsThisPeriod * 60.0 / elapsedSecondsThisPeriod, TimeUnit.MINUTES);
             LocalDateTime end = calendar.getDate(start, Duration.getInstance(elapsedSecondsThisPeriod / 60.0, TimeUnit.MINUTES));

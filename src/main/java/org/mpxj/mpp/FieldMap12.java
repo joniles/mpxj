@@ -47,7 +47,7 @@ class FieldMap12 extends FieldMap
    {
       return true;
    }
-   
+
    @Override protected FieldItem[] getDefaultTaskData()
    {
       return new FieldItem[]
