@@ -23,9 +23,7 @@
 
 package org.mpxj.asta;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 import org.mpxj.DayType;
 import org.mpxj.LocalTimeRange;

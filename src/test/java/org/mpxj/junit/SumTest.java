@@ -98,7 +98,7 @@ public class SumTest
     */
    @Test public void nullValuesCountAsZero()
    {
-      assertEquals(Double.valueOf(0), NumberHelper.sumAsDouble((Number) null, null));
+      assertEquals(Double.valueOf(0), NumberHelper.sumAsDouble(null, null));
       assertEquals(Double.valueOf(7.5), NumberHelper.sumAsDouble(Double.valueOf(7.5), null));
       assertEquals(Double.valueOf(0), NumberHelper.sumAsDouble(Double.valueOf(-0.0), Double.valueOf(-0.0)));
    }

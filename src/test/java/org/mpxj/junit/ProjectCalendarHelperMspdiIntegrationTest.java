@@ -46,6 +46,8 @@ import org.w3c.dom.NodeList;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -104,7 +106,7 @@ public class ProjectCalendarHelperMspdiIntegrationTest
 
       assertEquals(1, written.size());
       ProjectCalendar flattened = written.get(0);
-      assertTrue(flattened instanceof TemporaryCalendar);
+      assertInstanceOf(TemporaryCalendar.class, flattened);
       assertNotSame(derived, flattened);
       assertNull(flattened.getParent());
       assertSame(base, derived.getParent());
@@ -128,7 +130,7 @@ public class ProjectCalendarHelperMspdiIntegrationTest
             calendar = candidate;
          }
       }
-      assertTrue(calendar != null, "Derived calendar is missing from exported XML");
+      assertNotNull(calendar, "Derived calendar is missing from exported XML");
       assertEquals("1", child(calendar, "IsBaseCalendar").getTextContent());
       assertEquals("-1", child(calendar, "BaseCalendarUID").getTextContent());
 
