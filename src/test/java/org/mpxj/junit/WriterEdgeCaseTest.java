@@ -38,6 +38,7 @@ import org.junit.jupiter.api.Test;
 import org.mpxj.ActivityCode;
 import org.mpxj.ActivityCodeValue;
 import org.mpxj.CalendarType;
+import org.mpxj.HtmlNotes;
 import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
@@ -135,6 +136,34 @@ public class WriterEdgeCaseTest
 
       assertMondayOnly(writeAndRead(file, new PrimaveraPMFileWriter(), new PrimaveraPMFileReader()).getCalendarByName("Monday"));
       assertMondayOnly(writeAndRead(file, new PrimaveraXERFileWriter(), new PrimaveraXERFileReader()).getCalendarByName("Monday"));
+   }
+
+   /**
+    * Test that task notes with Windows line breaks survive an XER write and read.
+    * P6 stores notes as HTML with CRLF line breaks. The XER writer used to encode
+    * only the LF of each CRLF pair, leaving a raw CR in the row, which the reader
+    * then treated as the end of the row, so the note read back empty.
+    */
+   @Test public void taskNotesWithWindowsLineBreaksSurviveXerRoundTrip() throws Exception
+   {
+      ProjectFile file = createProject();
+      Task task = file.addTask();
+      task.setName("A1000");
+      task.setNotesObject(new HtmlNotes("<HTML><BODY>\r\n<P>Line one</P>\r\n<P>line two</P>\r\n</BODY></HTML>"));
+
+      ProjectFile result = writeAndRead(file, new PrimaveraXERFileWriter(), new PrimaveraXERFileReader());
+      Task resultTask = result.getTaskByUniqueID(task.getUniqueID());
+      assertNotNull(resultTask);
+
+      ProjectFile lfFile = createProject();
+      Task lfTask = lfFile.addTask();
+      lfTask.setName("A1000");
+      lfTask.setNotesObject(new HtmlNotes("<HTML><BODY>\n<P>Line one</P>\n<P>line two</P>\n</BODY></HTML>"));
+      String expected = writeAndRead(lfFile, new PrimaveraXERFileWriter(), new PrimaveraXERFileReader()).getTaskByUniqueID(lfTask.getUniqueID()).getNotes();
+
+      assertEquals(expected, resultTask.getNotes());
+      assertTrue(resultTask.getNotes().contains("Line one"));
+      assertTrue(resultTask.getNotes().contains("line two"));
    }
 
    /**
