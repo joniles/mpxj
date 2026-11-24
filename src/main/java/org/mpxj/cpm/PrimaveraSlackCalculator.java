@@ -288,7 +288,6 @@ public class PrimaveraSlackCalculator implements SlackCalculator
       return LocalDateTimeHelper.getVariance(predecessorTask.getEffectiveCalendar(), predecessorDate, successorDate, TimeUnit.HOURS);
    }
 
-
    /**
     * Calculate free slack for an activity without successors.
     *

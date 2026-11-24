@@ -112,6 +112,23 @@ public class DurationTest
    }
 
    /**
+    * Zero durations must preserve their requested time unit.
+    */
+   @Test public void testZeroDurationTimeUnits()
+   {
+      for (TimeUnit unit : TimeUnit.values())
+      {
+         Duration integerZero = Duration.getInstance(0, unit);
+         Duration doubleZero = Duration.getInstance(0.0, unit);
+
+         assertEquals(unit, integerZero.getUnits());
+         assertEquals(unit, doubleZero.getUnits());
+         assertEquals(0.0, integerZero.getDuration());
+         assertEquals(0.0, doubleZero.getDuration());
+      }
+   }
+
+   /**
     * Validates duration values.
     *
     * @param mpp project file

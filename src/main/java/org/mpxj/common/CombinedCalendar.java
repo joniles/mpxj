@@ -29,6 +29,7 @@ import java.time.LocalTime;
 
 import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
+import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
 
 /**
@@ -50,22 +51,39 @@ public class CombinedCalendar extends ProjectCalendar
       m_calendar2 = calendar2;
    }
 
+   @Override public ProjectCalendarException getException(LocalDate date)
+   {
+      return getIntersection(date, m_calendar1.getException(date), m_calendar2.getException(date));
+   }
+
+   @Override public ProjectCalendarHours getHours(DayOfWeek day)
+   {
+      return getIntersection(m_calendar1.getHours(day), m_calendar2.getHours(day));
+   }
+
    @Override protected ProjectCalendarHours getRanges(LocalDate date)
    {
-      return getRanges(m_calendar1.getHours(date), m_calendar2.getHours(date));
+      return getIntersection(m_calendar1.getHours(date), m_calendar2.getHours(date));
    }
 
    @Override protected ProjectCalendarHours getRanges(DayOfWeek day)
    {
-      return getRanges(m_calendar1.getHours(day), m_calendar2.getHours(day));
+      return getIntersection(m_calendar1.getHours(day), m_calendar2.getHours(day));
    }
 
    @Override public ProjectCalendarHours getCalendarHours(DayOfWeek day)
    {
-      return getRanges(m_calendar1.getCalendarHours(day), m_calendar2.getCalendarHours(day));
+      return getIntersection(m_calendar1.getCalendarHours(day), m_calendar2.getCalendarHours(day));
    }
 
-   private ProjectCalendarHours getRanges(ProjectCalendarHours hours1, ProjectCalendarHours hours2)
+   /**
+    * Return the intersection between two sets of working hours.
+    *
+    * @param hours1 calendar1 working hours
+    * @param hours2 caendar2 working hours
+    * @return working hours intersection
+    */
+   private ProjectCalendarHours getIntersection(ProjectCalendarHours hours1, ProjectCalendarHours hours2)
    {
       if (hours1 == null)
       {
@@ -77,7 +95,62 @@ public class CombinedCalendar extends ProjectCalendar
          hours2 = EMPTY_DATE_RANGES;
       }
 
-      ProjectCalendarHours result = new ProjectCalendarHours();
+      return intersect(hours1, hours2, new ProjectCalendarHours());
+   }
+
+   /**
+    * Return the intersection between two calendar exceptions.
+    *
+    * @param hours1 calendar1 exception
+    * @param hours2 caendar2 exception
+    * @return exceptions intersection
+    */
+   private ProjectCalendarException getIntersection(LocalDate date, ProjectCalendarException hours1, ProjectCalendarException hours2)
+   {
+      // Neither calendar has an exception
+      if (hours1 == null && hours2 == null)
+      {
+         return null;
+      }
+
+      // Only calendar 1 has an exception
+      if (hours1 != null && hours2 == null)
+      {
+         return hours1;
+      }
+
+      // Only calendar 2 has an exception
+      if (hours1 == null && hours2 != null)
+      {
+         return hours2;
+      }
+
+      // If either calendar has a non-working day exception, the day is non-working.
+      if (hours1.isEmpty())
+      {
+         return hours1;
+      }
+
+      if (hours2.isEmpty())
+      {
+         return hours1;
+      }
+
+      // We have two sets of working time exceptions, return the intersection
+      return intersect(hours1, hours2, addCalendarException(date));
+   }
+
+   /**
+    * Return the intersection between two sets of working hours.
+    *
+    * @param hours1 calendar1 working hours
+    * @param hours2 calendar2 working hours
+    * @param result container to populate with the result
+    * @return container populated with the result
+    * @param <T> hours contsianer type
+    */
+   private <T extends ProjectCalendarHours> T intersect(T hours1, T hours2, T result)
+   {
       for (LocalTimeRange range1 : hours1)
       {
          LocalTime range1Start = range1.getStart();

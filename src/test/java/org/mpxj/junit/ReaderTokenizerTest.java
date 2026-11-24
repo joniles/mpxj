@@ -76,13 +76,13 @@ public class ReaderTokenizerTest
    @Test public void inputSpanningTheReadBuffer() throws IOException
    {
       int[] lengths = new int[]
-      {
-         1,
-         8191,
-         8192,
-         8193,
-         24576
-      };
+         {
+            1,
+            8191,
+            8192,
+            8193,
+            24576
+         };
 
       for (int length : lengths)
       {
