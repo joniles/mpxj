@@ -9,6 +9,9 @@
             <action dev="janecekpetr" type="update">Improve performance when determining the set of populated fields for an entity. (Contributed by Petr Janeček)</action>
             <action dev="janecekpetr" type="update">If possible use a FileChannel when reading MPP files to improve performance. (Contributed by Petr Janeček)</action>
             <action dev="janecekpetr" type="update">Improve performance when writing PMXML files. (Contributed by Petr Janeček)</action>
+            <action dev="janecekpetr" type="update">Buffer JAXB output for improved performance when writing XML file formats. (Contributed by Petr Janeček)</action>
+            <action dev="janecekpetr" type="update">Avoid interning attribute names twice when reading XML file formats via JAXB. (Contributed by Petr Janeček)</action>
+            <action dev="janecekpetr" type="update">Unwrap underlying XML parser exceptions encountered when reading XML file formats via JAXB. (Contributed by Petr Janeček)</action>
             <action dev="bwingconda" type="update">Declare JPype as a dependency of the Python package. (Contributed by Brian Wing)</action>
             <action dev="joniles" type="update">Improve accuracy of Boolean task attributes when reading certain MPP files. (Contributed by lowee-c and Varmend)</action>
             <action dev="varmend" type="update">Fix incorrect zero duration constants for percent and years duration types. (Contributed by Varmend).</action>
