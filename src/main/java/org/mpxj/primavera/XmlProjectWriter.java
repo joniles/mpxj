@@ -201,7 +201,7 @@ final class XmlProjectWriter extends XmlWriter
       project.setLastUpdateDate(mpxj.getLastSaved());
       project.setLevelingPriority(Integer.valueOf(10));
       project.setLinkActualToActualThisPeriod(Boolean.TRUE);
-      project.setLinkPercentCompleteWithActual(Boolean.TRUE);
+      project.setLinkPercentCompleteWithActual(Boolean.valueOf(mpxj.getRecalculateActualUnitsAndCostWhenDurationPercentComlpleteChanges()));
       project.setLinkPlannedAndAtCompletionFlag(Boolean.TRUE);
       project.setMustFinishByDate(mpxj.getMustFinishBy());
       project.setName(mpxj.getName() == null ? mpxj.getProjectID() : mpxj.getName());

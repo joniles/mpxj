@@ -3667,6 +3667,26 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       return BooleanHelper.getBoolean((Boolean) get(ProjectField.UPDATE_UNITS_WHEN_COSTS_CHANGE_ON_RESOURCE_ASSIGNMENTS));
    }
 
+   /**
+    * Determine if actual units and cost are updated when duration percent complete changes.
+    *
+    * @param value true if actual units and cost are updated when duration percent complete changes
+    */
+   public void setRecalculateActualUnitsAndCostWhenDurationPercentComlpleteChanges(boolean value)
+   {
+      set(ProjectField.RECALCULATE_ACTUAL_UNITS_AND_COST_WHEN_DURATION_PERCENT_COMPLETE_CHANGES, value);
+   }
+
+   /**
+    * Determine if actual units and cost are updated when duration percent complete changes.
+    *
+    * @return true if actual units and cost are updated when duration percent complete changes
+    */
+   public boolean getRecalculateActualUnitsAndCostWhenDurationPercentComlpleteChanges()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.RECALCULATE_ACTUAL_UNITS_AND_COST_WHEN_DURATION_PERCENT_COMPLETE_CHANGES));
+   }
+
    @Override public List<Duration> getTimephasedDurationValues(FieldType field, List<LocalDateTimeRange> ranges, TimeUnit units)
    {
       return Arrays.asList(new Duration[ranges.size()]);
@@ -4003,5 +4023,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.PROJECT_IS_BASELINE, p -> Boolean.FALSE);
       CALCULATED_FIELD_MAP.put(ProjectField.PROJECT_CODE_VALUES, p -> new HashMap<>());
       CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_PERCENT_COMPLETE_BASED_ON_ACTIVITY_STEPS, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.RECALCULATE_ACTUAL_UNITS_AND_COST_WHEN_DURATION_PERCENT_COMPLETE_CHANGES, p -> Boolean.FALSE);
    }
 }

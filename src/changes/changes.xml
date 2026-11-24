@@ -21,6 +21,7 @@
             <action dev="joniles" type="update">Improve handling of timephased data representing completed work in non working hours when reading MPP files.</action>
             <action dev="joniles" type="update">Ensure duration of ALAP tasks is not set to `null` when scheduling with `PrimaveraScheduler`.</action>
             <action dev="joniles" type="update">Improve handling of note text with non-standard line-end characters when writing to an XER file.</action>
+            <action dev="joniles" type="update">Add support for the "Recalculate Actual Units and Cost when Duration % Complete Changes" project attribute when reading and writing P6 schedules.</action>
         </release>
         <release date="2026-11-01" version="16.11.0">
             <action dev="janecekpetr" type="update">Improve memory efficiency of entity attribute storage (Contributed by Petr Janeček)</action>
