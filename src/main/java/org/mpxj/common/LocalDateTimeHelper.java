@@ -224,6 +224,27 @@ public final class LocalDateTimeHelper
    }
 
    /**
+    * Determines if the two supplied timestamps are in the same day.
+    * This code handles the case where date2 is midnight on the day
+    * following date1: this represents the end of the day on day1.
+    *
+    * @param date1 timestamp to test
+    * @param date2 timestamp to test
+    * @return true if both timestamps are on the same day
+    */
+   public static boolean isSameDay(LocalDateTime date1, LocalDateTime date2)
+   {
+      LocalDate startDay = date1.toLocalDate();
+      LocalDate endDay = date2.toLocalDate();
+      if (date2.toLocalTime().equals(LocalTime.MIDNIGHT))
+      {
+         endDay = endDay.minusDays(1);
+      }
+
+      return startDay.equals(endDay);
+   }
+
+   /**
     * Date representing NA at the start of a date range: January 01 00:00:00 1984.
     */
    public static final LocalDateTime START_DATE_NA = LocalDateTime.of(1984, 1, 1, 0, 0);

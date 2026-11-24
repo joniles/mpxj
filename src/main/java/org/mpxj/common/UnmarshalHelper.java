@@ -216,8 +216,8 @@ public final class UnmarshalHelper
 
    private static final String DISALLOW_DOCTYPE_DECL = "http://apache.org/xml/features/disallow-doctype-decl";
    private static final String[] ENTITY_SIZE_LIMITS =
-   {
-      "jdk.xml.maxGeneralEntitySizeLimit",
-      "jdk.xml.totalEntitySizeLimit"
-   };
+      {
+         "jdk.xml.maxGeneralEntitySizeLimit",
+         "jdk.xml.totalEntitySizeLimit"
+      };
 }

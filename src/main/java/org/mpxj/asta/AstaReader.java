@@ -1800,7 +1800,7 @@ final class AstaReader
             break;
          }
 
-         ProjectCalendarException previousException = exceptions.get(index-1);
+         ProjectCalendarException previousException = exceptions.get(index - 1);
          ProjectCalendarException currentException = exceptions.get(index);
 
          if (previousException.getWorking() || currentException.getWorking())
@@ -1838,7 +1838,7 @@ final class AstaReader
             break;
          }
 
-         ProjectCalendarException previousException = exceptions.get(index-1);
+         ProjectCalendarException previousException = exceptions.get(index - 1);
          ProjectCalendarException currentException = exceptions.get(index);
 
          if (!previousException.getWorking() || !currentException.getWorking())
@@ -2532,7 +2532,6 @@ final class AstaReader
          task.setFreeSlack(Duration.getInstance(0, TimeUnit.HOURS));
       }
    }
-
 
    private final ProjectFile m_project;
    private final EventManager m_eventManager;

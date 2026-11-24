@@ -117,6 +117,16 @@ class ProjectTreeController
    }
 
    /**
+    * Retrieve the file the project was read from.
+    *
+    * @return source file, or null if the project was not read from a file
+    */
+   public File getFile()
+   {
+      return m_file;
+   }
+
+   /**
     * Command to load a file.
     *
     * @param file original file

@@ -929,7 +929,7 @@ abstract class TableContextReader
       // the start and end dates are correct. Rates without a shift period
       // are treated as belonging to a shift period with a unque ID of zero.
       rows.stream().collect(Collectors.groupingBy(r -> r.getInteger("shift_period_id") == null ? Integer.valueOf(0) : r.getInteger("shift_period_id"), Collectors.toList()))
-         .forEach((k,v) -> processShiftPeriodResourceRates(resource, v));
+         .forEach((k, v) -> processShiftPeriodResourceRates(resource, v));
 
       resource.getCostRateTable(0).sort(Comparator.comparing(CostRateTableEntry::getStartDate));
    }

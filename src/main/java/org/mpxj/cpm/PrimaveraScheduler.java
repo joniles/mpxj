@@ -1704,7 +1704,7 @@ public class PrimaveraScheduler implements Scheduler
             }
          }
       }
-      
+
       return new DrivingRelation(relation, earlyStart, appliedEarlyFinish);
    }
 
@@ -2991,7 +2991,7 @@ public class PrimaveraScheduler implements Scheduler
 
       return new DrivingRelation(relation, null, lateFinish);
    }
-   
+
    /**
     * Determine if the task's effective calendar should be used when scheduling.
     *
@@ -3190,7 +3190,7 @@ public class PrimaveraScheduler implements Scheduler
       task.setEarlyStart(earlyStart);
       task.setEarlyFinish(earlyFinish);
       setRemainingEarlyDates(task);
-      task.setDuration(calculateAtCompletionDuration(task));
+      updateDurationsAndPercentComplete(task);
    }
 
    /**
@@ -3927,7 +3927,7 @@ public class PrimaveraScheduler implements Scheduler
          task.setActualDuration(task.getEffectiveCalendar().getWork(task.getActualStart(), finish, TimeUnit.HOURS));
          task.setPercentageComplete(calculateDurationPercentComplete(task));
       }
-      
+
       task.getResourceAssignments().forEach(this::updateDates);
 
       if (earlyStart.getRelation() != null)
@@ -4322,7 +4322,7 @@ public class PrimaveraScheduler implements Scheduler
       long followingDistance = date.until(followingDate, ChronoUnit.MINUTES);
       return previousDistance < followingDistance ? previousDate : followingDate;
    }
-   
+
    private ProjectFile m_file;
    private PrimaveraDateCalculator m_dateCalculator;
    private LocalDateTime m_dataDate;
