@@ -64,8 +64,7 @@ public final class UnmarshalHelper
     *
     * @param context JAXB context
     * @param stream input stream
-    * @param filter XMLFilter instance; any name it substitutes must be interned,
-    * as a string constant is, because JAXB matches names by identity
+    * @param filter XMLFilter instance. NOTE: any name it substitutes must be interned, as a string constant is, because JAXB matches names by identity
     * @return Unmarshalled root node
     */
    public static final Object unmarshal(JAXBContext context, InputStream stream, XMLFilter filter) throws JAXBException, SAXException, ParserConfigurationException, IOException
@@ -78,8 +77,7 @@ public final class UnmarshalHelper
     *
     * @param context JAXB context
     * @param source input source
-    * @param filter XMLFilter instance; any name it substitutes must be interned,
-    * as a string constant is, because JAXB matches names by identity
+    * @param filter XMLFilter instance. NOTE: any name it substitutes must be interned, as a string constant is, because JAXB matches names by identity
     * @param ignoreValidationErrors true if validation errors are ignored
     * @return Unmarshalled root node
     */
