@@ -125,7 +125,7 @@ abstract class TableProjectReader
          properties.setProjectWebsiteUrl(row.getString("proj_url"));
          properties.setActivityDefaultPricePerUnit(row.getDouble("def_cost_per_qty"));
          properties.setUpdateUnitsWhenCostsChangeOnResourceAssignments(row.getBoolean("cost_qty_recalc_flag"));
-         properties.setRecalculateActualUnitsAndCostWhenDurationPercentComlpleteChanges(row.getBoolean("act_pct_link_flag"));
+         properties.setRecalculateActualUnitsAndCostWhenDurationPercentCompleteChanges(row.getBoolean("act_pct_link_flag"));
 
          if (properties.getDefaultCalendar() == null)
          {

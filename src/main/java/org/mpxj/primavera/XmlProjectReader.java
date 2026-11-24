@@ -229,7 +229,7 @@ class XmlProjectReader
       properties.setEnableSummarization(BooleanHelper.getBoolean(project.isEnableSummarization()));
       properties.setActivityDefaultPricePerUnit(project.getActivityDefaultPricePerUnit());
       properties.setUpdateUnitsWhenCostsChangeOnResourceAssignments(BooleanHelper.getBoolean(project.isCostQuantityRecalculateFlag()));
-      properties.setRecalculateActualUnitsAndCostWhenDurationPercentComlpleteChanges(BooleanHelper.getBoolean(project.isLinkPercentCompleteWithActual()));
+      properties.setRecalculateActualUnitsAndCostWhenDurationPercentCompleteChanges(BooleanHelper.getBoolean(project.isLinkPercentCompleteWithActual()));
       if (properties.getDefaultCalendar() == null)
       {
          m_projectFile.getProjectProperties().setDefaultCalendarUniqueID(properties.getActivityDefaultCalendarUniqueID());

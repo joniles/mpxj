@@ -3672,7 +3672,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param value true if actual units and cost are updated when duration percent complete changes
     */
-   public void setRecalculateActualUnitsAndCostWhenDurationPercentComlpleteChanges(boolean value)
+   public void setRecalculateActualUnitsAndCostWhenDurationPercentCompleteChanges(boolean value)
    {
       set(ProjectField.RECALCULATE_ACTUAL_UNITS_AND_COST_WHEN_DURATION_PERCENT_COMPLETE_CHANGES, value);
    }
@@ -3682,7 +3682,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return true if actual units and cost are updated when duration percent complete changes
     */
-   public boolean getRecalculateActualUnitsAndCostWhenDurationPercentComlpleteChanges()
+   public boolean getRecalculateActualUnitsAndCostWhenDurationPercentCompleteChanges()
    {
       return BooleanHelper.getBoolean((Boolean) get(ProjectField.RECALCULATE_ACTUAL_UNITS_AND_COST_WHEN_DURATION_PERCENT_COMPLETE_CHANGES));
    }
