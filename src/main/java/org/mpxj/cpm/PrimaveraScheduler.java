@@ -180,6 +180,8 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
+      // Only update actuals if Recalculate Actual Units And Cost When Duration Percent Complete Changes
+      // is set, and the parent activity's remaining duration has changed.
       if (m_remainingDurationUpdated.contains(assignment.getTaskUniqueID()) && m_file.getProjectProperties().getRecalculateActualUnitsAndCostWhenDurationPercentCompleteChanges())
       {
          updateDatesAndActuals(assignment);
