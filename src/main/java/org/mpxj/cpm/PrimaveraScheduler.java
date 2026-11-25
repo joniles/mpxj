@@ -28,8 +28,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -64,6 +66,7 @@ public class PrimaveraScheduler implements Scheduler
       m_dataDate = file.getProjectProperties().getStatusDate();
       m_dateCalculator = new PrimaveraDateCalculator(m_file, () -> m_dataDate);
       m_useExpectedFinish = file.getProjectProperties().getUseExpectedFinishDates();
+      m_remainingDurationUpdated = new HashSet<>();
 
       m_projectStartDate = startDate;
 
@@ -178,8 +181,7 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
-      Resource resource = assignment.getResource();
-      if (resource != null && resource.getAutoComputeActuals())
+      if (m_remainingDurationUpdated.contains(assignment.getTaskUniqueID()) && m_file.getProjectProperties().getRecalculateActualUnitsAndCostWhenDurationPercentCompleteChanges())
       {
          updateDatesWithAutoComputedActuals(assignment);
       }
@@ -707,7 +709,7 @@ public class PrimaveraScheduler implements Scheduler
       {
          task.setEarlyFinish(task.getExpectedFinish());
          task.setRemainingEarlyFinish(task.getExpectedFinish());
-         task.setRemainingDuration(task.getEffectiveCalendar().getWork(task.getRemainingEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS));
+         setRemainingDuration(task, task.getEffectiveCalendar().getWork(task.getRemainingEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS));
       }
 
       updateDurationsAndPercentComplete(task);
@@ -791,7 +793,7 @@ public class PrimaveraScheduler implements Scheduler
       Duration remainingDuration = task.getEffectiveCalendar().getWork(task.getRemainingEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS);
 
       task.setActualDuration(actualDuration);
-      task.setRemainingDuration(remainingDuration);
+      setRemainingDuration(task, remainingDuration);
       task.setDuration(calculateAtCompletionDuration(task));
       task.setPercentageComplete(calculateDurationPercentComplete(task));
    }
@@ -3688,7 +3690,7 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       parentTask.setActualDuration(actualDuration);
-      parentTask.setRemainingDuration(remainingDuration);
+      setRemainingDuration(parentTask, remainingDuration);
       parentTask.setDuration(Duration.add(actualDuration, remainingDuration, parentTask.getEffectiveCalendar()));
 
       if (plannedDuration != null && remainingDuration != null && plannedDuration.getDuration() != 0)
@@ -4061,7 +4063,7 @@ public class PrimaveraScheduler implements Scheduler
          task.setRemainingLateFinish(lateFinish.getValue());
       }
 
-      task.setRemainingDuration(task.getEffectiveCalendar().getWork(task.getRemainingEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS));
+      setRemainingDuration(task, task.getEffectiveCalendar().getWork(task.getRemainingEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS));
       if (task.getActualStart() != null)
       {
          LocalDateTime finish = task.getActualFinish() == null ? task.getRemainingEarlyStart() : task.getActualFinish();
@@ -4464,6 +4466,20 @@ public class PrimaveraScheduler implements Scheduler
       return previousDistance < followingDistance ? previousDate : followingDate;
    }
 
+   private void setRemainingDuration(Task task, Duration newDuration)
+   {
+      Duration originalDuration = task.getRemainingDuration();
+      if (newDuration != null)
+      {
+         if (originalDuration == null || originalDuration.getDuration() != newDuration.getDuration())
+         {
+            m_remainingDurationUpdated.add(task.getUniqueID());
+         }
+      }
+
+      task.setRemainingDuration(newDuration);
+   }
+
    private ProjectFile m_file;
    private PrimaveraDateCalculator m_dateCalculator;
    private LocalDateTime m_dataDate;
@@ -4471,4 +4487,5 @@ public class PrimaveraScheduler implements Scheduler
    private LocalDateTime m_forwardPassFinishDate;
    private LocalDateTime m_backwardPassFinishDate;
    private boolean m_useExpectedFinish;
+   private Set<Integer> m_remainingDurationUpdated;
 }
