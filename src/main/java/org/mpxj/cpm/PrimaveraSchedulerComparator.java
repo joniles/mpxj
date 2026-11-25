@@ -725,6 +725,8 @@ public class PrimaveraSchedulerComparator
       DateEquality remainingEarlyFinishFail = compareDates(baseline, working, AssignmentField.REMAINING_EARLY_FINISH);
       DateEquality remainingLateStartFail = compareDates(baseline, working, AssignmentField.REMAINING_LATE_START);
       DateEquality remainingLateFinishFail = compareDates(baseline, working, AssignmentField.REMAINING_LATE_FINISH);
+      DateEquality plannedStartFail = compareDates(baseline, working, AssignmentField.PLANNED_START);
+      DateEquality plannedFinishFail = compareDates(baseline, working, AssignmentField.PLANNED_FINISH);
 
       println(working.getUniqueID() + " " + working.getTask().getActivityID() + " " + working.getResource().getResourceID() + "." + working.getResource().getName() + " " + working);
       println("Start: " + baseline.getStart() + " " + working.getStart() + startFail.getStatus());
@@ -735,6 +737,8 @@ public class PrimaveraSchedulerComparator
       println("Remaining Early Finish: " + baseline.getRemainingEarlyFinish() + " " + working.getRemainingEarlyFinish() + remainingEarlyFinishFail.getStatus());
       println("Remaining Late Start: " + baseline.getRemainingLateStart() + " " + working.getRemainingLateStart() + remainingLateStartFail.getStatus());
       println("Remaining Late Finish: " + baseline.getRemainingLateFinish() + " " + working.getRemainingLateFinish() + remainingLateFinishFail.getStatus());
+      println("Planned Start: " + baseline.getPlannedStart() + " " + working.getPlannedStart() + plannedStartFail.getStatus());
+      println("Planned Finish: " + baseline.getPlannedFinish() + " " + working.getPlannedFinish() + plannedFinishFail.getStatus());
 
       println();
    }
@@ -771,7 +775,9 @@ public class PrimaveraSchedulerComparator
          compareDates(baseline, working, AssignmentField.REMAINING_EARLY_START),
          compareDates(baseline, working, AssignmentField.REMAINING_EARLY_FINISH),
          compareDates(baseline, working, AssignmentField.REMAINING_LATE_START),
-         compareDates(baseline, working, AssignmentField.REMAINING_LATE_FINISH)
+         compareDates(baseline, working, AssignmentField.REMAINING_LATE_FINISH),
+         compareDates(baseline, working, AssignmentField.PLANNED_START),
+         compareDates(baseline, working, AssignmentField.PLANNED_FINISH)
       );
 
       if (result.stream().anyMatch(d -> d == DateEquality.MISMATCH))

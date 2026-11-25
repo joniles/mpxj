@@ -191,7 +191,7 @@ public class PrimaveraScheduler implements Scheduler
          updateDatesOnly(assignment);
       }
 
-      if (activity.getActualStart() == null && (assignment.getPlannedStart() == null || assignment.getRemainingEarlyStart().isAfter(assignment.getPlannedStart())))
+      if (activity.getActualStart() == null)
       {
          assignment.setPlannedStart(assignment.getRemainingEarlyStart());
          assignment.setPlannedFinish(assignment.getRemainingEarlyFinish());
