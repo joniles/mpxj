@@ -28,8 +28,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -63,6 +65,7 @@ public class PrimaveraScheduler implements Scheduler
       m_dataDate = file.getProjectProperties().getStatusDate();
       m_dateCalculator = new PrimaveraDateCalculator(m_file, () -> m_dataDate);
       m_useExpectedFinish = file.getProjectProperties().getUseExpectedFinishDates();
+      m_remainingDurationUpdated = new HashSet<>();
 
       m_projectStartDate = startDate;
 
@@ -177,6 +180,35 @@ public class PrimaveraScheduler implements Scheduler
          return;
       }
 
+      // Only update actuals if Recalculate Actual Units And Cost When Duration Percent Complete Changes
+      // is set, and the parent activity's remaining duration has changed.
+      if (m_remainingDurationUpdated.contains(assignment.getTaskUniqueID()) && m_file.getProjectProperties().getRecalculateActualUnitsAndCostWhenDurationPercentCompleteChanges())
+      {
+         updateDatesAndActuals(assignment);
+      }
+      else
+      {
+         updateDatesOnly(assignment);
+      }
+
+      if (activity.getActualStart() == null && (assignment.getPlannedStart() == null || assignment.getRemainingEarlyStart().isAfter(assignment.getPlannedStart())))
+      {
+         assignment.setPlannedStart(assignment.getRemainingEarlyStart());
+         assignment.setPlannedFinish(assignment.getRemainingEarlyFinish());
+      }
+
+      assignment.setStart(assignment.getActualStart() == null ? assignment.getRemainingEarlyStart() : assignment.getActualStart());
+      assignment.setFinish(assignment.getRemainingEarlyFinish());
+   }
+
+   /**
+    * Updates an assignment's remaining early/late start/finish dates.
+    *
+    * @param assignment target assignment
+    */
+   private void updateDatesOnly(ResourceAssignment assignment)
+   {
+      Task activity = assignment.getTask();
       LocalDateTime earlyStart = activity.getRemainingEarlyStart();
       LocalDateTime lateFinish = activity.getRemainingLateFinish();
       LocalDateTime earlyFinish;
@@ -231,15 +263,101 @@ public class PrimaveraScheduler implements Scheduler
       assignment.setRemainingEarlyFinish(earlyFinish);
       assignment.setRemainingLateStart(lateStart);
       assignment.setRemainingLateFinish(lateFinish);
+   }
 
-      if (activity.getActualStart() == null && (assignment.getPlannedStart() == null || assignment.getRemainingEarlyStart().isAfter(assignment.getPlannedStart())))
+   /**
+    * Updates an assignment's remaining early/late start/finish dates
+    * and updates actual and remaining work.
+    *
+    * @param assignment target assignment
+    */
+   private void updateDatesAndActuals(ResourceAssignment assignment)
+   {
+      Task activity = assignment.getTask();
+      if (activity.getActivityType() == ActivityType.LEVEL_OF_EFFORT)
       {
-         assignment.setPlannedStart(assignment.getRemainingEarlyStart());
-         assignment.setPlannedFinish(assignment.getRemainingEarlyFinish());
+         assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
+         assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
+         assignment.setRemainingLateStart(activity.getRemainingLateStart());
+         assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
+         return;
       }
 
-      assignment.setStart(assignment.getActualStart() == null ? assignment.getRemainingEarlyStart() : assignment.getActualStart());
-      assignment.setFinish(assignment.getRemainingEarlyFinish());
+      if (m_useExpectedFinish && activity.getExpectedFinish() != null)
+      {
+         assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
+         assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
+         assignment.setRemainingLateStart(activity.getRemainingLateStart());
+         assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
+         return;
+      }
+
+      double durationPercentComplete = NumberHelper.getDouble(activity.getPercentageComplete());
+      ProjectCalendar governingCalendar = getEffectiveCalendar(assignment);
+      Duration plannedWork = assignment.getPlannedWork();
+      if (plannedWork == null || plannedWork.getDuration() == 0.0)
+      {
+         double plannedWorkFromAssignment = governingCalendar.getWork(assignment.getPlannedStart(), assignment.getPlannedFinish(), TimeUnit.HOURS).getDuration();
+         double actualWorkFromAssignment = (plannedWorkFromAssignment * durationPercentComplete) / 100.0;
+         Duration remainingWorkFromAssignment = Duration.getInstance(plannedWorkFromAssignment - actualWorkFromAssignment, TimeUnit.HOURS);
+
+         LocalDateTime earlyStart = activity.getRemainingEarlyStart();
+         LocalDateTime lateFinish = activity.getRemainingLateFinish();
+         LocalDateTime earlyFinish = m_dateCalculator.getDate(governingCalendar, earlyStart, remainingWorkFromAssignment);
+         LocalDateTime lateStart = m_dateCalculator.getDate(governingCalendar, lateFinish, remainingWorkFromAssignment.negate());
+
+         assignment.setRemainingEarlyStart(earlyStart);
+         assignment.setRemainingEarlyFinish(earlyFinish);
+         assignment.setRemainingLateStart(lateStart);
+         assignment.setRemainingLateFinish(lateFinish);
+         return;
+      }
+
+      double remainingUnitsPerTime = NumberHelper.getDouble(assignment.getRemainingUnits());
+      if (remainingUnitsPerTime < 0.001)
+      {
+         // P6 treats remaining units/time as zero if the value is below a certain threshold
+         assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
+         assignment.setRemainingEarlyFinish(activity.getRemainingEarlyStart());
+         assignment.setRemainingLateStart(activity.getRemainingLateFinish());
+         assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
+         return;
+      }
+
+      if (assignment.getActualStart() != null && durationPercentComplete == 0.0)
+      {
+         assignment.setRemainingEarlyStart(activity.getRemainingEarlyStart());
+         assignment.setRemainingEarlyFinish(activity.getRemainingEarlyFinish());
+         assignment.setRemainingLateStart(activity.getRemainingLateStart());
+         assignment.setRemainingLateFinish(activity.getRemainingLateFinish());
+         return;
+      }
+
+      double plannedUnits = plannedWork.convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration();
+      double actualUnits = (durationPercentComplete * plannedUnits) / 100.0;
+      double remainingUnits = plannedUnits - actualUnits;
+      Duration actualWork = Duration.getInstance((actualUnits * 100.0) / remainingUnitsPerTime, TimeUnit.HOURS);
+      Duration remainingWork = Duration.getInstance((remainingUnits * 100.0) / remainingUnitsPerTime, TimeUnit.HOURS);
+
+      LocalDateTime earlyStart = activity.getRemainingEarlyStart();
+
+      Duration lag = assignment.getDelay();
+      Duration remainingLag = assignment.getRemainingDelay();
+      if (lag != null && lag.getDuration() != 0 && remainingLag != null && remainingLag.getDuration() != 0)
+      {
+         earlyStart = governingCalendar.getNextWorkStart(governingCalendar.getDate(earlyStart, remainingLag));
+      }
+
+      LocalDateTime lateFinish = activity.getRemainingLateFinish();
+      LocalDateTime earlyFinish = m_dateCalculator.getDate(governingCalendar, earlyStart, remainingWork);
+      LocalDateTime lateStart = m_dateCalculator.getDate(governingCalendar, lateFinish, remainingWork.negate());
+
+      assignment.setActualWork(actualWork);
+      assignment.setRemainingWork(remainingWork);
+      assignment.setRemainingEarlyStart(earlyStart);
+      assignment.setRemainingEarlyFinish(earlyFinish);
+      assignment.setRemainingLateStart(lateStart);
+      assignment.setRemainingLateFinish(lateFinish);
    }
 
    /**
@@ -566,7 +684,7 @@ public class PrimaveraScheduler implements Scheduler
       {
          task.setEarlyFinish(task.getExpectedFinish());
          task.setRemainingEarlyFinish(task.getExpectedFinish());
-         task.setRemainingDuration(task.getEffectiveCalendar().getWork(task.getRemainingEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS));
+         setRemainingDuration(task, task.getEffectiveCalendar().getWork(task.getRemainingEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS));
       }
 
       updateDurationsAndPercentComplete(task);
@@ -650,7 +768,7 @@ public class PrimaveraScheduler implements Scheduler
       Duration remainingDuration = task.getEffectiveCalendar().getWork(task.getRemainingEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS);
 
       task.setActualDuration(actualDuration);
-      task.setRemainingDuration(remainingDuration);
+      setRemainingDuration(task, remainingDuration);
       task.setDuration(calculateAtCompletionDuration(task));
       task.setPercentageComplete(calculateDurationPercentComplete(task));
    }
@@ -3547,7 +3665,7 @@ public class PrimaveraScheduler implements Scheduler
       }
 
       parentTask.setActualDuration(actualDuration);
-      parentTask.setRemainingDuration(remainingDuration);
+      setRemainingDuration(parentTask, remainingDuration);
       parentTask.setDuration(Duration.add(actualDuration, remainingDuration, parentTask.getEffectiveCalendar()));
 
       if (plannedDuration != null && remainingDuration != null && plannedDuration.getDuration() != 0)
@@ -3920,7 +4038,7 @@ public class PrimaveraScheduler implements Scheduler
          task.setRemainingLateFinish(lateFinish.getValue());
       }
 
-      task.setRemainingDuration(task.getEffectiveCalendar().getWork(task.getRemainingEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS));
+      setRemainingDuration(task, task.getEffectiveCalendar().getWork(task.getRemainingEarlyStart(), task.getEarlyFinish(), TimeUnit.HOURS));
       if (task.getActualStart() != null)
       {
          LocalDateTime finish = task.getActualFinish() == null ? task.getRemainingEarlyStart() : task.getActualFinish();
@@ -4314,13 +4432,41 @@ public class PrimaveraScheduler implements Scheduler
       return false;
    }
 
-   private LocalDateTime getNearestEquivalentDate(Task predecessorTask, LocalDateTime date)
+   /**
+    * Give a timestamp, this method determines if the previous work finish or
+    * next work start is the closest to that timestamp and returns it.
+    *
+    * @param task target task
+    * @param date target timestamp
+    * @return previous work finish or next work start
+    */
+   private LocalDateTime getNearestEquivalentDate(Task task, LocalDateTime date)
    {
-      LocalDateTime previousDate = predecessorTask.getEffectiveCalendar().getPreviousWorkFinish(date);
-      LocalDateTime followingDate = getNextWorkStart(predecessorTask, date);
+      LocalDateTime previousDate = task.getEffectiveCalendar().getPreviousWorkFinish(date);
+      LocalDateTime followingDate = getNextWorkStart(task, date);
       long previousDistance = previousDate.until(date, ChronoUnit.MINUTES);
       long followingDistance = date.until(followingDate, ChronoUnit.MINUTES);
       return previousDistance < followingDistance ? previousDate : followingDate;
+   }
+
+   /**
+    * Used to set a task's remaining duration, and record if this has changed.
+    *
+    * @param task target task
+    * @param newDuration new remaining duration
+    */
+   private void setRemainingDuration(Task task, Duration newDuration)
+   {
+      Duration originalDuration = task.getRemainingDuration();
+      if (newDuration != null)
+      {
+         if (originalDuration == null || originalDuration.getDuration() != newDuration.getDuration())
+         {
+            m_remainingDurationUpdated.add(task.getUniqueID());
+         }
+      }
+
+      task.setRemainingDuration(newDuration);
    }
 
    private ProjectFile m_file;
@@ -4330,4 +4476,5 @@ public class PrimaveraScheduler implements Scheduler
    private LocalDateTime m_forwardPassFinishDate;
    private LocalDateTime m_backwardPassFinishDate;
    private boolean m_useExpectedFinish;
+   private Set<Integer> m_remainingDurationUpdated;
 }
