@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.mpxj.cfb.CfbFile;
 
 /**
  * Read a dependencies table and extract any
@@ -38,11 +38,12 @@ class DependenciesReader extends AbstractReader
    /**
     * Constructor.
     *
-    * @param dir parent directory
+    * @param file CFB file
+    * @param path directory path
     */
-   public DependenciesReader(DirectoryEntry dir)
+   public DependenciesReader(CfbFile file, String path)
    {
-      super(dir, "Dependencies");
+      super(file, path + "/Dependencies");
    }
 
    /**

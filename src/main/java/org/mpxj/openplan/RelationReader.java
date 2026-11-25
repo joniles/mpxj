@@ -27,11 +27,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.ProjectFile;
 import org.mpxj.Relation;
 import org.mpxj.RelationType;
 import org.mpxj.Task;
+import org.mpxj.cfb.CfbFile;
 
 /**
  * Read activity relationships.
@@ -41,12 +41,14 @@ class RelationReader
    /**
     * Constructor.
     *
-    * @param root parent directory
+    * @param cfb parent file
+    * @param path parent path
     * @param file project file
     */
-   public RelationReader(DirectoryEntry root, ProjectFile file)
+   public RelationReader(CfbFile cfb, String path, ProjectFile file)
    {
-      m_root = root;
+      m_cfb = cfb;
+      m_path = path;
       m_file = file;
    }
 
@@ -57,7 +59,7 @@ class RelationReader
    {
       Map<UUID, Task> map = m_file.getTasks().stream().collect(Collectors.toMap(Task::getGUID, t -> t));
 
-      for (Row row : new TableReader(m_root, "REL").read())
+      for (Row row : new TableReader(m_cfb, m_path, "REL").read())
       {
          // CLH_UID: Calendar Header Unique ID
          // DIR_ID: Project Object Directory Name
@@ -85,7 +87,8 @@ class RelationReader
    }
 
    private final ProjectFile m_file;
-   private final DirectoryEntry m_root;
+   private final CfbFile m_cfb;
+   private final String m_path;
 
    private static final Map<String, RelationType> TYPE_MAP = new HashMap<>();
    static

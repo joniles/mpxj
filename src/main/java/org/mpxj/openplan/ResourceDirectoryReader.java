@@ -28,11 +28,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.Availability;
 import org.mpxj.ProjectFile;
 import org.mpxj.Resource;
 import org.mpxj.UnitOfMeasureContainer;
+import org.mpxj.cfb.CfbFile;
 import org.mpxj.common.HierarchyHelper;
 
 /**
@@ -43,12 +43,12 @@ class ResourceDirectoryReader extends DirectoryReader
    /**
     * Constructor.
     *
-    * @param root parent directory
+    * @param cfb parent file
     * @param file project file
     */
-   public ResourceDirectoryReader(DirectoryEntry root, ProjectFile file)
+   public ResourceDirectoryReader(CfbFile cfb, ProjectFile file)
    {
-      m_root = root;
+      m_cfb = cfb;
       m_file = file;
    }
 
@@ -59,10 +59,9 @@ class ResourceDirectoryReader extends DirectoryReader
     */
    public void read(String name)
    {
-      DirectoryEntry dir = getDirectoryEntry(m_root, name);
       Map<String, Resource> map = new HashMap<>();
 
-      List<Row> rows = new TableReader(dir, "RES").read();
+      List<Row> rows = new TableReader(m_cfb, "/" + name, "RES").read();
       HierarchyHelper.sortHierarchy(rows, r -> r.getString("RES_ID"), r -> OpenPlanHierarchyHelper.getParentID(r.getString("RES_ID")), Comparator.comparing(o -> o.getString("RES_ID")));
       UnitOfMeasureContainer uom = m_file.getUnitsOfMeasure();
 
@@ -118,7 +117,7 @@ class ResourceDirectoryReader extends DirectoryReader
          map.put(resource.getResourceID(), resource);
       }
 
-      readAvailability(dir, map);
+      readAvailability(name, map);
 
       /*
       // Resource Structure
@@ -155,12 +154,11 @@ class ResourceDirectoryReader extends DirectoryReader
    /**
     * Read resource availability.
     *
-    * @param dir parent directory
-    * @param map resource to to Resource instance map
+    * @param map resource ID to Resource instance map
     */
-   private void readAvailability(DirectoryEntry dir, Map<String, Resource> map)
+   private void readAvailability(String name, Map<String, Resource> map)
    {
-      List<Row> rows = new TableReader(dir, "AVL").read();
+      List<Row> rows = new TableReader(m_cfb, "/" + name, "AVL").read();
       for (Row row : rows)
       {
          Resource resource = map.get(row.getString("RES_ID"));
@@ -193,5 +191,5 @@ class ResourceDirectoryReader extends DirectoryReader
    }
 
    private final ProjectFile m_file;
-   private final DirectoryEntry m_root;
+   private final CfbFile m_cfb;
 }

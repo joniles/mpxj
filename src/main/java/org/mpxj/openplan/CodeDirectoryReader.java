@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.mpxj.cfb.CfbFile;
 
 /**
  * Read a set of code definitions from a code directory
@@ -38,11 +38,11 @@ class CodeDirectoryReader extends DirectoryReader
    /**
     * Constructor.
     *
-    * @param root parent directory
+    * @param file CFB file
     */
-   public CodeDirectoryReader(DirectoryEntry root)
+   public CodeDirectoryReader(CfbFile file)
    {
-      m_root = root;
+      m_file = file;
    }
 
    /**
@@ -61,9 +61,8 @@ class CodeDirectoryReader extends DirectoryReader
          Dependencies
          Key
        */
-      DirectoryEntry dir = getDirectoryEntry(m_root, name);
 
-      List<Row> codeRows = new TableReader(dir, "COD").read();
+      List<Row> codeRows = new TableReader(m_file, "/" + name, "COD").read();
       if (codeRows.isEmpty())
       {
          return;
@@ -75,7 +74,7 @@ class CodeDirectoryReader extends DirectoryReader
          throw new OpenPlanException("Expecting 1 code row, found " + codeRows.size());
       }
 
-      List<Row> valueRows = new TableReader(dir, "CDR").read();
+      List<Row> valueRows = new TableReader(m_file, "/" + name , "CDR").read();
 
       m_map.put(codeRow.getString("DIR_ID"), new Code(codeRow.getString("DIR_ID"), codeRow.getString("PROMPT_TEXT"), codeRow.getString("DESCRIPTION"), valueRows.stream().map(r -> new CodeValue(r.getString("CDR_ID"), r.getString("CDR_UID"), r.getString("DESCRIPTION"))).collect(Collectors.toList())));
    }
@@ -90,6 +89,6 @@ class CodeDirectoryReader extends DirectoryReader
       return m_map;
    }
 
-   private final DirectoryEntry m_root;
+   private final CfbFile m_file;
    private final Map<String, Code> m_map = new HashMap<>();
 }

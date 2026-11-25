@@ -33,11 +33,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.DataType;
 import org.mpxj.Duration;
 import org.mpxj.ResourceType;
 import org.mpxj.TimeUnit;
+import org.mpxj.cfb.CfbFile;
 import org.mpxj.common.DebugLogPrintWriter;
 import org.mpxj.common.LocalDateTimeHelper;
 
@@ -49,12 +49,13 @@ class TableReader extends AbstractReader
    /**
     * Constructor.
     *
-    * @param dir parent directory
+    * @param file CFB file
+    * @param path project directory path
     * @param tableName table file name
     */
-   public TableReader(DirectoryEntry dir, String tableName)
+   public TableReader(CfbFile file, String path, String tableName)
    {
-      super(dir, tableName);
+      super(file, path + "/" + tableName);
       m_name = tableName;
    }
 

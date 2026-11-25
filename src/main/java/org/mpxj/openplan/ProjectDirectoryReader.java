@@ -25,10 +25,10 @@ package org.mpxj.openplan;
 import java.time.LocalTime;
 import java.util.List;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
+import org.mpxj.cfb.CfbFile;
 
 /**
  * Read project properties from a project directory.
@@ -38,21 +38,22 @@ class ProjectDirectoryReader extends DirectoryReader
    /**
     * Constructor.
     *
-    * @param root parent directory
+    * @param cfb parent file
+    * @param path parent path
     */
-   public ProjectDirectoryReader(DirectoryEntry root)
+   public ProjectDirectoryReader(CfbFile cfb, String path)
    {
-      m_root = root;
+      m_cfb = cfb;
+      m_path = path;
       m_file = new ProjectFile();
    }
 
    /**
     * Read project properties from the name directory.
     *
-    * @param name project directory name
     * @return ProjectFile instance
     */
-   public ProjectFile read(String name)
+   public ProjectFile read()
    {
       /*
          Project Directory Contents
@@ -74,8 +75,7 @@ class ProjectDirectoryReader extends DirectoryReader
          CDR - Code Data
        */
 
-      DirectoryEntry dir = getDirectoryEntry(m_root, name);
-      List<Row> rows = new TableReader(dir, "PRJ").read();
+      List<Row> rows = new TableReader(m_cfb, m_path, "PRJ").read();
       if (rows.size() != 1)
       {
          throw new OpenPlanException("Expecting 1 project row, found " + rows.size());
@@ -83,15 +83,15 @@ class ProjectDirectoryReader extends DirectoryReader
 
       readProjectProperties(rows.get(0));
 
-      DependenciesReader dependencies = new DependenciesReader(dir).read();
+      DependenciesReader dependencies = new DependenciesReader(m_cfb, m_path).read();
 
-      CodeDirectoryReader codeReader = new CodeDirectoryReader(m_root);
+      CodeDirectoryReader codeReader = new CodeDirectoryReader(m_cfb);
       dependencies.getCodes().forEach(codeReader::read);
 
-      ActivityCodeReader activityCodeReader = new ActivityCodeReader(dir, m_file);
+      ActivityCodeReader activityCodeReader = new ActivityCodeReader(m_cfb, m_path, m_file);
       activityCodeReader.read(codeReader.getCodes());
 
-      CalendarDirectoryReader calendarReader = new CalendarDirectoryReader(m_root, m_file);
+      CalendarDirectoryReader calendarReader = new CalendarDirectoryReader(m_cfb, m_file);
       dependencies.getCalendars().forEach(calendarReader::read);
 
       ProjectCalendar defaultCalendar = calendarReader.getMap().get("< Default >");
@@ -104,16 +104,16 @@ class ProjectDirectoryReader extends DirectoryReader
          m_file.addDefaultBaseCalendar();
       }
 
-      ResourceDirectoryReader resourceReader = new ResourceDirectoryReader(m_root, m_file);
+      ResourceDirectoryReader resourceReader = new ResourceDirectoryReader(m_cfb, m_file);
       dependencies.getResources().forEach(resourceReader::read);
 
-      ActivityReader activityReader = new ActivityReader(dir, m_file);
+      ActivityReader activityReader = new ActivityReader(m_cfb, m_path, m_file);
       activityReader.read(activityCodeReader.getCodeMap(), calendarReader.getMap());
 
-      RelationReader relationReader = new RelationReader(dir, m_file);
+      RelationReader relationReader = new RelationReader(m_cfb, m_path, m_file);
       relationReader.read();
 
-      AssignmentReader assignmentReader = new AssignmentReader(dir, m_file);
+      AssignmentReader assignmentReader = new AssignmentReader(m_cfb, m_path, m_file);
       assignmentReader.read();
 
       m_file.readComplete();
@@ -271,6 +271,7 @@ class ProjectDirectoryReader extends DirectoryReader
       // USR_ID
    }
 
-   private final DirectoryEntry m_root;
+   private final CfbFile m_cfb;
+   private final String m_path;
    private final ProjectFile m_file;
 }

@@ -26,10 +26,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.ActivityCode;
 import org.mpxj.ActivityCodeValue;
 import org.mpxj.ProjectFile;
+import org.mpxj.cfb.CfbFile;
 
 /**
  * Given a map of codes, determine which of these are mapped to activities, populate
@@ -41,12 +41,14 @@ class ActivityCodeReader
    /**
     * Constructor.
     *
-    * @param root parent directory
+    * @param cfb parent file
+    * @param path parent directory
     * @param file project file
     */
-   public ActivityCodeReader(DirectoryEntry root, ProjectFile file)
+   public ActivityCodeReader(CfbFile cfb, String path, ProjectFile file)
    {
-      m_root = root;
+      m_cfb = cfb;
+      m_path = path;
       m_file = file;
    }
 
@@ -59,7 +61,7 @@ class ActivityCodeReader
    public void read(Map<String, Code> map)
    {
       int codeSequence = 1;
-      List<Row> rows = new TableReader(m_root, "SCA").read();
+      List<Row> rows = new TableReader(m_cfb, m_path, "SCA").read();
       for (Row row : rows)
       {
          if (!"ACT".equals(row.getString("TABLE_TYPE")))
@@ -103,6 +105,7 @@ class ActivityCodeReader
    }
 
    private final ProjectFile m_file;
-   private final DirectoryEntry m_root;
+   private final CfbFile m_cfb;
+   private final String m_path;
    private final Map<String, Map<String, ActivityCodeValue>> m_codeMap = new HashMap<>();
 }

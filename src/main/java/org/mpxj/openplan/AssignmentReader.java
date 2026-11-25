@@ -26,13 +26,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.Duration;
 import org.mpxj.ProjectFile;
 import org.mpxj.Resource;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
+import org.mpxj.cfb.CfbFile;
 
 /**
  * Populate the parent project with resource assignments.
@@ -43,12 +43,14 @@ class AssignmentReader
    /**
     * Constructor.
     *
-    * @param root parent directory
+    * @param cfb parent file
+    * param path parent path
     * @param file project file
     */
-   public AssignmentReader(DirectoryEntry root, ProjectFile file)
+   public AssignmentReader(CfbFile cfb, String path, ProjectFile file)
    {
-      m_root = root;
+      m_cfb = cfb;
+      m_path = path;
       m_file = file;
    }
 
@@ -60,7 +62,7 @@ class AssignmentReader
       Map<UUID, Task> taskMap = m_file.getTasks().stream().collect(Collectors.toMap(Task::getGUID, t -> t));
       Map<UUID, Resource> resourceMap = m_file.getResources().stream().collect(Collectors.toMap(Resource::getGUID, r -> r));
 
-      for (Row row : new TableReader(m_root, "ASG").read())
+      for (Row row : new TableReader(m_cfb, m_path, "ASG").read())
       {
          Task task = taskMap.get(row.getUuid("ACT_UID"));
          if (task == null)
@@ -129,5 +131,6 @@ class AssignmentReader
    }
 
    private final ProjectFile m_file;
-   private final DirectoryEntry m_root;
+   private final CfbFile m_cfb;
+   private final String m_path;
 }

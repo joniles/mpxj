@@ -49,6 +49,7 @@ import org.mpxj.ProjectFile;
 import org.mpxj.asta.AstaMdbReader;
 import org.mpxj.asta.AstaSqliteReader;
 import org.mpxj.asta.AstaTextFileReader;
+import org.mpxj.cfb.CfbFile;
 import org.mpxj.common.AutoCloseableHelper;
 import org.mpxj.common.CharsetHelper;
 import org.mpxj.common.ConnectionHelper;
@@ -613,12 +614,12 @@ public final class UniversalProjectReader extends AbstractProjectReader
          {
             @Override public ProjectFile read() throws MPXJException
             {
-               return m_reader.read(m_source);
+               return m_reader.read(new CfbFile(m_source));
             }
 
             @Override public List<ProjectFile> readAll() throws MPXJException
             {
-               return Collections.singletonList(m_reader.read(m_source));
+               return Collections.singletonList(m_reader.read(new CfbFile(m_source)));
             }
          };
       }

@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.DayType;
 import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
@@ -41,6 +40,7 @@ import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectFile;
 import org.mpxj.RecurrenceType;
 import org.mpxj.RecurringData;
+import org.mpxj.cfb.CfbFile;
 import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.LocalDateHelper;
 
@@ -53,12 +53,12 @@ class CalendarDirectoryReader extends DirectoryReader
    /**
     * Constructor.
     *
-    * @param root parent directory
+    * @param cfb parent file
     * @param file parent project
     */
-   public CalendarDirectoryReader(DirectoryEntry root, ProjectFile file)
+   public CalendarDirectoryReader(CfbFile cfb,  ProjectFile file)
    {
-      m_root = root;
+      m_cfb = cfb;
       m_file = file;
    }
 
@@ -77,12 +77,11 @@ class CalendarDirectoryReader extends DirectoryReader
          ACL - Access Control
        */
 
-      DirectoryEntry dir = getDirectoryEntry(m_root, name);
 
       //
       // Read headers
       //
-      List<Row> rows = new TableReader(dir, "CLH").read();
+      List<Row> rows = new TableReader(m_cfb, "/" + name, "CLH").read();
       HierarchyHelper.sortHierarchy(rows, r -> r.getString("CLH_ID"), r -> OpenPlanHierarchyHelper.getParentID(r.getString("CLH_ID")), Comparator.comparing(o -> o.getString("CLH_ID")));
 
       for (Row row : rows)
@@ -122,7 +121,7 @@ class CalendarDirectoryReader extends DirectoryReader
       //
       // Read detail records
       //
-      rows = new TableReader(dir, "CLR").read();
+      rows = new TableReader(m_cfb, "/"+ name, "CLR").read();
       for (Row row : rows)
       {
          // CLH_ID: Calendar Header ID
@@ -347,7 +346,7 @@ class CalendarDirectoryReader extends DirectoryReader
    }
 
    private final ProjectFile m_file;
-   private final DirectoryEntry m_root;
+   private final CfbFile m_cfb;
 
    private final Map<String, ProjectCalendar> m_map = new HashMap<>();
 

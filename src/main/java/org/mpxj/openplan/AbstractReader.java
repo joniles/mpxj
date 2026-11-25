@@ -25,9 +25,7 @@ package org.mpxj.openplan;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
+import org.mpxj.cfb.CfbFile;
 
 /**
  * Base class for working with data stored within a BK3 file.
@@ -37,14 +35,14 @@ abstract class AbstractReader
    /**
     * Constructor.
     *
-    * @param dir parent directory
-    * @param name file name
+    * @param file CFB file
+    * @param path file path
     */
-   public AbstractReader(DirectoryEntry dir, String name)
+   public AbstractReader(CfbFile file, String path)
    {
       try
       {
-         m_is = new DocumentInputStream((DocumentEntry) dir.getEntry(name));
+         m_is = file.getInputStream(path);
       }
 
       catch (IOException e)

@@ -28,10 +28,9 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
+import org.mpxj.cfb.CfbFile;
 import org.mpxj.common.AutoCloseableHelper;
 import org.mpxj.reader.AbstractProjectStreamReader;
 
@@ -44,7 +43,7 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
    {
       try
       {
-         return read(new POIFSFileSystem(is));
+         return read(new CfbFile(is));
       }
 
       catch (IOException ex)
@@ -61,16 +60,16 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
 
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
-      POIFSFileSystem fs = null;
+      CfbFile cfb = null;
 
       try
       {
          // Note we provide this version of the read method rather than using
          // the AbstractProjectStreamReader version as we can work with the File
          // instance directly for reduced memory consumption and the ability
-         // to open larger MPP files.
-         fs = new POIFSFileSystem(file);
-         return readAll(fs);
+         // to open larger files.
+         cfb = new CfbFile(file);
+         return readAll(cfb);
       }
 
       catch (IOException ex)
@@ -80,36 +79,36 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
 
       finally
       {
-         AutoCloseableHelper.closeQuietly(fs);
+         AutoCloseableHelper.closeQuietly(cfb);
       }
    }
 
    /**
     * Read a single project from the BK3 file represented by the POIFSFileSystem instance.
     *
-    * @param fs POIFSFileSystem instance
+    * @param file parent file
     * @return ProjectFile instance or null
     */
-   public ProjectFile read(POIFSFileSystem fs) throws MPXJException
+   public ProjectFile read(CfbFile file) throws MPXJException
    {
-      List<ProjectFile> projects = readAll(fs);
+      List<ProjectFile> projects = readAll(file);
       return projects.isEmpty() ? null : projects.get(0);
    }
 
    /**
     * Read all projects from the BK3 file represented by the POIFSFileSystem instance.
     *
-    * @param fs POIFSFileSystem instance
+    * @param file parent file
     * @return list of ProjectFile instances
     */
-   public List<ProjectFile> readAll(POIFSFileSystem fs) throws MPXJException
+   public List<ProjectFile> readAll(CfbFile file) throws MPXJException
    {
       try
       {
-         return processProjects(fs.getRoot());
+         return processProjects(file);
       }
 
-      catch (OpenPlanException ex)
+      catch (IOException | OpenPlanException ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
@@ -118,23 +117,23 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
    /**
     * Read a schedules from each of the PRJ directories present in the file.
     *
-    * @param root root directory
+    * @param file parent file
     * @return list of ProjectFile instances
     */
-   private List<ProjectFile> processProjects(DirectoryEntry root)
+   private List<ProjectFile> processProjects(CfbFile file) throws IOException
    {
-      return root.getEntryNames().stream().filter(s -> s.toUpperCase().endsWith("_PRJ")).map(s -> processProject(root, s)).collect(Collectors.toList());
+      return file.listFiles("/").stream().filter(s -> s.toUpperCase().endsWith("_PRJ")).map(s -> processProject(file, s)).collect(Collectors.toList());
    }
 
    /**
     * Read a single schedule from a PRJ directory.
     *
-    * @param root root directory
-    * @param name PRJ directory name
+    * @param file parent file
+    * @param path project path
     * @return ProjectFile instance
     */
-   private ProjectFile processProject(DirectoryEntry root, String name)
+   private ProjectFile processProject(CfbFile file, String path)
    {
-      return new ProjectDirectoryReader(root).read(name);
+      return new ProjectDirectoryReader(file, path).read();
    }
 }

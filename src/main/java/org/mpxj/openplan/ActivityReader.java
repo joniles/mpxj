@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.ActivityCodeValue;
 import org.mpxj.ActivityStatus;
 import org.mpxj.ActivityType;
@@ -39,6 +38,7 @@ import org.mpxj.Priority;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
+import org.mpxj.cfb.CfbFile;
 import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.SlackHelper;
@@ -51,12 +51,14 @@ class ActivityReader
    /**
     * Constructor.
     *
-    * @param root parent directory
+    * @param cfb parent file
+    * @param path parent path
     * @param file project file
     */
-   public ActivityReader(DirectoryEntry root, ProjectFile file)
+   public ActivityReader(CfbFile cfb, String path, ProjectFile file)
    {
-      m_root = root;
+      m_cfb = cfb;
+      m_path = path;
       m_file = file;
    }
 
@@ -69,7 +71,7 @@ class ActivityReader
    public void read(Map<String, Map<String, ActivityCodeValue>> codeMap, Map<String, ProjectCalendar> calendarMap)
    {
       Map<String, Task> map = new HashMap<>();
-      List<Row> rows = new TableReader(m_root, "ACT").read();
+      List<Row> rows = new TableReader(m_cfb, m_path, "ACT").read();
       HierarchyHelper.sortHierarchy(rows, r -> r.getString("ACT_ID"), r -> OpenPlanHierarchyHelper.getParentID(r.getString("ACT_ID")), Comparator.comparing(o -> o.getString("ACT_ID")));
 
       for (Row row : rows)
@@ -357,7 +359,8 @@ class ActivityReader
    }
 
    private final ProjectFile m_file;
-   private final DirectoryEntry m_root;
+   private final CfbFile m_cfb;
+   private final String m_path;
 
    private static final Map<String, ConstraintType> TARGET_FINISH_TYPE_MAP = new HashMap<>();
    static
