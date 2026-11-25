@@ -2172,7 +2172,7 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION8_UNITS.getValue()] = "Duration8 Units";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION9_UNITS.getValue()] = "Duration9 Units";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.DURATION10_UNITS.getValue()] = "Duration10 Units";
-      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_ACTUAL_IRREGULAR_WORK.getValue()] = "Timephased Actual Irregular Work";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_ADDITIONAL_WORKING_HOURS.getValue()] = "Timephased Additional Working Hours";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RAW_TIMEPHASED_PLANNED_WORK.getValue()] = "Raw Timephased Planned Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RAW_TIMEPHASED_REMAINING_OVERTIME_WORK.getValue()] = "Raw Timephased Remaining Overtime Work";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.REMAINING_REGULAR_COST.getValue()] = "Remaining Regular Cost";
@@ -2406,6 +2406,7 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.ACTIVITY_PERCENT_COMPLETE_BASED_ON_ACTIVITY_STEPS.getValue()] = "Activity Percent Complete Based On Activity Steps";
       PROJECT_COLUMNS_ARRAY[ProjectField.ACTIVITY_DEFAULT_PRICE_PER_UNIT.getValue()] = "Activity Default Price Per Unit";
       PROJECT_COLUMNS_ARRAY[ProjectField.UPDATE_UNITS_WHEN_COSTS_CHANGE_ON_RESOURCE_ASSIGNMENTS.getValue()] = "Update Units When Costs Change On Resource Assignments";
+      PROJECT_COLUMNS_ARRAY[ProjectField.RECALCULATE_ACTUAL_UNITS_AND_COST_WHEN_DURATION_PERCENT_COMPLETE_CHANGES.getValue()] = "Recalculate Actual Units and Cost when Duration % Complete Changes";
    }
 
    private static final Object[][] RESOURCES = {

@@ -45,30 +45,30 @@ public class SumTest
    @Test public void matchesDoubleStreamSum()
    {
       double[][] cases = new double[][]
-      {
          {
-            52873.71,
-            82254.83
-         },
-         {
-            12892.19,
-            56542.29
-         },
-         {
-            44290.35,
-            5978.17,
-            69428.46
-         },
-         {
-            0.1,
-            0.2
-         },
-         {
-            1e16,
-            1.0,
-            -1e16
-         }
-      };
+            {
+               52873.71,
+               82254.83
+            },
+            {
+               12892.19,
+               56542.29
+            },
+            {
+               44290.35,
+               5978.17,
+               69428.46
+            },
+            {
+               0.1,
+               0.2
+            },
+            {
+               1e16,
+               1.0,
+               -1e16
+            }
+         };
 
       for (double[] values : cases)
       {
@@ -98,7 +98,7 @@ public class SumTest
     */
    @Test public void nullValuesCountAsZero()
    {
-      assertEquals(Double.valueOf(0), NumberHelper.sumAsDouble((Number) null, null));
+      assertEquals(Double.valueOf(0), NumberHelper.sumAsDouble(null, null));
       assertEquals(Double.valueOf(7.5), NumberHelper.sumAsDouble(Double.valueOf(7.5), null));
       assertEquals(Double.valueOf(0), NumberHelper.sumAsDouble(Double.valueOf(-0.0), Double.valueOf(-0.0)));
    }

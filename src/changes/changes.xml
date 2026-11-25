@@ -5,16 +5,39 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-        <release date="Unreleased" version="16.11.0">
+        <release date="Unreleased" version="16.12.0">
+            <action dev="janecekpetr" type="update">Improve performance when determining the set of populated fields for an entity. (Contributed by Petr Janeček)</action>
+            <action dev="janecekpetr" type="update">If possible use a FileChannel when reading MPP files to improve performance. (Contributed by Petr Janeček)</action>
+            <action dev="janecekpetr" type="update">Improve performance when writing PMXML files. (Contributed by Petr Janeček)</action>
+            <action dev="janecekpetr" type="update">Buffer JAXB output for improved performance when writing XML file formats. (Contributed by Petr Janeček)</action>
+            <action dev="janecekpetr" type="update">Avoid interning attribute names twice when reading XML file formats via JAXB. (Contributed by Petr Janeček)</action>
+            <action dev="janecekpetr" type="update">Reduce potential memory consumption by clearing object references in thread locals after reading or writing MSPDI files. (Contributed by Petr Janeček)</action>
+            <action dev="janecekpetr" type="update">Unwrap underlying XML parser exceptions encountered when reading XML file formats via JAXB. (Contributed by Petr Janeček)</action>
+            <action dev="bwingconda" type="update">Declare JPype as a dependency of the Python package. (Contributed by Brian Wing)</action>
+            <action dev="joniles" type="update">Improve accuracy of Boolean task attributes when reading certain MPP files. (Contributed by lowee-c and Varmend)</action>
+            <action dev="varmend" type="update">Fix incorrect zero duration constants for percent and years duration types. (Contributed by Varmend).</action>
+            <action dev="joniles" type="update">Fix a rounding issue converting lag values days when writing SDEF files.</action>
+            <action dev="joniles" type="update">Improve identification of valid resource assignments when reading MPP files.</action>
+            <action dev="joniles" type="update">Improve handling of timephased data representing completed work in non working hours when reading MPP files.</action>
+            <action dev="joniles" type="update">Ensure duration of ALAP tasks is not set to `null` when scheduling with `PrimaveraScheduler`.</action>
+            <action dev="joniles" type="update">Improve handling of note text with non-standard line-end characters when writing to an XER file.</action>
+            <action dev="joniles" type="update">Add support for the "Recalculate Actual Units and Cost when Duration % Complete Changes" project attribute when reading and writing P6 schedules.</action>
+        </release>
+        <release date="2026-11-01" version="16.11.0">
             <action dev="janecekpetr" type="update">Improve memory efficiency of entity attribute storage (Contributed by Petr Janeček)</action>
             <action dev="janecekpetr" type="update">Ensure XML files containing large numbers of predefined entities will continue to parse successfully with Java 24. (Contributed by Petr Janeček)</action>
             <action dev="janecekpetr" type="update">When writing PMXML files, ensure that activity codes without sequence numbers are handled correctly. (Contributed by Petr Janeček)</action>
             <action dev="janecekpetr" type="update">When writing PMXML and XER files, ensure that calendars derived from a parent calendar which is not present in the schedule are handled correctly. (Contributed by Petr Janeček)</action>
             <action dev="varmend" type="update">When reading MPP files, improve validation of working time ranges. (Contributed by Varmend)</action>
+            <action dev="varmend" type="update">Fix issues with work weeks encountered when flattening calendar hierarchies. (Contributed by Varmend)</action>
             <action dev="cupacheeno" type="update">Improvements to interpretation of timephased actual work when reading certain MPP files. (Contributed by cupacheeno)</action>
             <action dev="james-wagner11" type="update">Ensure `PrimaveraScheduler` correctly handles ALAP SF predecessors. (Contributed by James Wagner)</action>
+            <action dev="james-wagner11" type="update">Improve handling of Out-Of-Sequence progress by `PrimaveraScheduler` (Contributed by James Wagner)</action>
+            <action dev="james-wagner11" type="update">Improve Primavera Free Slack calculation for relations with lag. (Contributed by James Wagner)</action>
             <action dev="joniles" type="update">Improve identification of calendar exception types when reading Powerproject schedules.</action>
             <action dev="joniles" type="update">Improve the Free Slack calculation used when reading Powerproject schedules.</action>
+            <action dev="joniles" type="update">When reading timephased data from MPP files, use the Resume date as the starting point for planned work.</action>
+            <action dev="joniles" type="update">Improve handling of timephased data representing completed work in non working hours when reading MPP files.</action>
             <action dev="joe-sharp" type="update">Updated to jsoup 2.23.2.</action>
             <action dev="joe-sharp" type="update">Updated to Jackson 2.22.4.</action>
         </release>

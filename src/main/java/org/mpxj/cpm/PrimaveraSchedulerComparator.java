@@ -256,7 +256,7 @@ public class PrimaveraSchedulerComparator
     * @param excluded excluded test flags
     * @return true if compared successfully
     */
-   private  boolean process(File file, Excluded excluded) throws Exception
+   private boolean process(File file, Excluded excluded) throws Exception
    {
       if (m_debug)
       {
@@ -303,7 +303,14 @@ public class PrimaveraSchedulerComparator
    public boolean process(ProjectFile baselineFile, ProjectFile workingFile, Excluded excluded) throws Exception
    {
       // Validate the assigned project start date
-      LocalDateTime baselineStart = baselineFile.getProjectProperties().getStartDate();
+      LocalDateTime baselineStart = workingFile.getProjectProperties().getStartDate();
+      if (baselineStart == null)
+      {
+         // following the same logic used by the scheduler
+         baselineStart = workingFile.getProjectProperties().getPlannedStart();
+      }
+
+      // The scheduled file will already have a start date set
       LocalDateTime workingStart = workingFile.getProjectProperties().getStartDate();
       if (!baselineStart.isEqual(workingStart))
       {
@@ -342,11 +349,10 @@ public class PrimaveraSchedulerComparator
       //         m_forwardErrorCount = -1;
       //      }
 
-//      if (m_backwardErrorCount == 0)
-//      {
-//         m_backwardErrorCount = -1;
-//      }
-
+      //      if (m_backwardErrorCount == 0)
+      //      {
+      //         m_backwardErrorCount = -1;
+      //      }
 
       //      if (m_assignmentErrorCount == 0)
       //      {
@@ -947,7 +953,7 @@ public class PrimaveraSchedulerComparator
    {
       /**
        * Returns true if the test is disabled.
-       *  
+       *
        * @return true if test is disabled.
        */
       public boolean unreadable()
@@ -965,7 +971,7 @@ public class PrimaveraSchedulerComparator
 
       /**
        * Returns true if the test is disabled.
-       *  
+       *
        * @return true if test is disabled.
        */
       public boolean useScheduled()
@@ -983,7 +989,7 @@ public class PrimaveraSchedulerComparator
 
       /**
        * Returns true if the test is disabled.
-       *  
+       *
        * @return true if test is disabled.
        */
       public boolean excluded()
@@ -1001,7 +1007,7 @@ public class PrimaveraSchedulerComparator
 
       /**
        * Returns true if the test is disabled.
-       *  
+       *
        * @return true if test is disabled.
        */
       public boolean noWbsTest()
@@ -1019,7 +1025,7 @@ public class PrimaveraSchedulerComparator
 
       /**
        * Returns true if the test is disabled.
-       *  
+       *
        * @return true if test is disabled.
        */
       public boolean noResourceAssignmentTest()
@@ -1037,7 +1043,7 @@ public class PrimaveraSchedulerComparator
 
       /**
        * Returns true if the test is disabled.
-       *  
+       *
        * @return true if test is disabled.
        */
       public boolean noFloatTest()
@@ -1055,7 +1061,7 @@ public class PrimaveraSchedulerComparator
 
       /**
        * Returns true if the test is disabled.
-       *  
+       *
        * @return true if test is disabled.
        */
       public boolean noLongestPathTest()
@@ -1073,7 +1079,7 @@ public class PrimaveraSchedulerComparator
 
       /**
        * Returns true if the test is disabled.
-       *  
+       *
        * @return true if test is disabled.
        */
       public boolean noPlannedTest()

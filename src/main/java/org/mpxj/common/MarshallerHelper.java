@@ -23,7 +23,9 @@
 
 package org.mpxj.common;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -54,5 +56,20 @@ public final class MarshallerHelper
       }
 
       return marshaller;
+   }
+
+   /**
+    * Marshal an object to a stream. JAXB writes UTF-8 output to the stream
+    * in pieces of up to 1 KB, so they are gathered into larger writes.
+    *
+    * @param marshaller Marshaller instance
+    * @param object object to marshal
+    * @param stream output stream
+    */
+   public static void marshal(Marshaller marshaller, Object object, OutputStream stream) throws JAXBException, IOException
+   {
+      BufferedOutputStream buffer = new BufferedOutputStream(stream);
+      marshaller.marshal(object, buffer);
+      buffer.flush();
    }
 }

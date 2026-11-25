@@ -623,6 +623,7 @@ class XerFile
       FIELD_TYPE_MAP.put("act_equip_qty", DataType.DURATION);
       FIELD_TYPE_MAP.put("act_ot_cost", DataType.CURRENCY);
       FIELD_TYPE_MAP.put("act_ot_qty", DataType.DURATION);
+      FIELD_TYPE_MAP.put("act_pct_link_flag", DataType.BOOLEAN);
       FIELD_TYPE_MAP.put("act_reg_cost", DataType.CURRENCY);
       FIELD_TYPE_MAP.put("act_reg_qty", DataType.DURATION);
       FIELD_TYPE_MAP.put("act_start_date", DataType.DATE);

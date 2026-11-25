@@ -3805,11 +3805,11 @@ module MPXJ
       attribute_values['text9']
     end
 
-    # Retrieve the Timephased Actual Irregular Work value
+    # Retrieve the Timephased Additional Working Hours value
     #
-    # @return Timephased Actual Irregular Work value
-    def timephased_actual_irregular_work
-      attribute_values['timephased_actual_irregular_work']
+    # @return Timephased Additional Working Hours value
+    def timephased_additional_working_hours
+      attribute_values['timephased_additional_working_hours']
     end
 
     # Retrieve the <Unavailable> value
@@ -4419,7 +4419,7 @@ module MPXJ
       'text7' => :string,
       'text8' => :string,
       'text9' => :string,
-      'timephased_actual_irregular_work' => :timephased_work_list,
+      'timephased_additional_working_hours' => :timephased_work_list,
       'unavailable' => :string,
       'unique_id' => :integer,
       'update_needed' => :boolean,

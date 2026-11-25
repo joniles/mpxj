@@ -139,6 +139,7 @@ Project File Path| | | | | | | | | |✓| | | | | | | | | | |�
 Project ID| | | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Project Title| | | | | | | | |✓|✓|✓|✓| | | | | | | |✓|✓| | | | 
 Project Website URL| | | | | | | | | | | | | | | | |✓| | | | | | | | 
+Recalculate Actual Units and Cost when Duration % Complete Changes| | | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Relationship Lag Calendar|✓|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Resource Pool File| | | | | | | | | |✓| | | | | | | | | | | | | | | 
 Revision| | | | | | | | | |✓| |✓| | | | | | | | | | | | | 

@@ -256,7 +256,7 @@ final class XerWriter
       else
       {
          result = notes instanceof HtmlNotes ? ((HtmlNotes) notes).getHtml() : HtmlHelper.getHtmlFromPlainText(notes.toString());
-         result = result.replace("\n", "\u007F\u007F");
+         result = result.replaceAll("(\r\n|\r|\n)", "\u007F\u007F");
       }
 
       return formatString(result);

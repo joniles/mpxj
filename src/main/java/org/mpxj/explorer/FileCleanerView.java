@@ -45,7 +45,7 @@ class FileCleanerView
     */
    public FileCleanerView(Component parent, FileCleanerModel model)
    {
-      m_fileChooser = new JFileChooser();
+      m_fileChooser = new TypeAheadFileChooser();
       m_parent = parent;
       m_model = model;
 

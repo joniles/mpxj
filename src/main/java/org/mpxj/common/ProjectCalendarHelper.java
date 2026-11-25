@@ -24,10 +24,13 @@
 package org.mpxj.common;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 import org.mpxj.DayType;
+import org.mpxj.LocalDateRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectCalendarHours;
@@ -207,26 +210,89 @@ public final class ProjectCalendarHelper
    }
 
    /**
-    * Copies working weeks from one calendar to another.
+    * Copies effective working weeks into a calendar without a parent.
+    * The native selector makes the same choice throughout an interval between
+    * consecutive starts and inclusive ends of all weeks in the hierarchy:
+    * none of its date comparisons can change within such an interval.
     *
     * @param target target calendar
     * @param source source calendar
     */
    private static void populateWorkingWeeks(ProjectCalendar target, ProjectCalendar source)
    {
-      for (ProjectCalendarWeek sourceWeek : source.getWorkWeeks())
+      TreeSet<LocalDate> boundaries = new TreeSet<>();
+      for (ProjectCalendar calendar = source; calendar != null; calendar = calendar.getParent())
       {
-         ProjectCalendarWeek targetWeek = target.addWorkWeek();
-         for (DayOfWeek day : DayOfWeek.values())
+         for (ProjectCalendarWeek week : calendar.getWorkWeeks())
          {
-            targetWeek.setCalendarDayType(day, sourceWeek.getCalendarDayType(day));
-            ProjectCalendarHours sourceHours = sourceWeek.getCalendarHours(day);
-            if (sourceHours != null)
+            LocalDateRange range = week.getDateRange();
+            if (range == null || range.getStart() == null || range.getEnd() == null || range.getStart().isAfter(range.getEnd()))
             {
-               ProjectCalendarHours targetHours = targetWeek.addCalendarHours(day);
-               targetHours.addAll(sourceHours);
+               throw new IllegalArgumentException("Cannot flatten work week without an ordered date range: " + week.getName());
+            }
+            boundaries.add(range.getStart());
+            if (!range.getEnd().equals(LocalDate.MAX))
+            {
+               boundaries.add(range.getEnd().plusDays(1));
             }
          }
       }
+
+      List<LocalDate> dates = new ArrayList<>(boundaries);
+      ProjectCalendarWeek previousWeek = null;
+      ProjectCalendarWeek targetWeek = null;
+      for (int index = 0; index < dates.size(); ++index)
+      {
+         LocalDate start = dates.get(index);
+         LocalDate end = index + 1 == dates.size() ? LocalDate.MAX : dates.get(index + 1).minusDays(1);
+         ProjectCalendarWeek sourceWeek = source.getWorkWeek(start);
+         if (sourceWeek != null)
+         {
+            if (sourceWeek == previousWeek)
+            {
+               targetWeek.setDateRange(new LocalDateRange(targetWeek.getDateRange().getStart(), end));
+            }
+            else
+            {
+               targetWeek = copyWorkingWeek(target, source, sourceWeek, new LocalDateRange(start, end));
+            }
+         }
+         previousWeek = sourceWeek;
+      }
+   }
+
+   /**
+    * Copy a selected week for its effective period. DEFAULT uses the ordinary
+    * hours of the source calendar's immediate parent, just as getRanges does,
+    * even when the selected week belongs to a more distant ancestor.
+    * Exceptions remain separate and are handled by mergeExceptions.
+    *
+    * @param target target calendar
+    * @param source source calendar
+    * @param sourceWeek selected week
+    * @param range effective period
+    * @return independent week with no dependency on a parent calendar
+    */
+   private static ProjectCalendarWeek copyWorkingWeek(ProjectCalendar target, ProjectCalendar source, ProjectCalendarWeek sourceWeek, LocalDateRange range)
+   {
+      ProjectCalendarWeek targetWeek = target.addWorkWeek();
+      targetWeek.setName(sourceWeek.getName());
+      targetWeek.setDateRange(range);
+      for (DayOfWeek day : DayOfWeek.values())
+      {
+         DayType dayType = sourceWeek.getCalendarDayType(day);
+         ProjectCalendarHours hours = sourceWeek.getCalendarHours(day);
+         if (dayType == DayType.DEFAULT)
+         {
+            hours = source.getParent().getHours(day);
+            dayType = hours == null || hours.isEmpty() ? DayType.NON_WORKING : DayType.WORKING;
+         }
+         targetWeek.setCalendarDayType(day, dayType);
+         if (hours != null)
+         {
+            targetWeek.addCalendarHours(day).addAll(hours);
+         }
+      }
+      return targetWeek;
    }
 }

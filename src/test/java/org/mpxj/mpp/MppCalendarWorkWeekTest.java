@@ -21,6 +21,7 @@ import java.nio.ByteOrder;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mpxj.DayType;
 import org.mpxj.LocalTimeRange;
@@ -31,6 +32,7 @@ import org.mpxj.ProjectFile;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mpxj.junit.MpxjAssert.assumeJvm;
 
 /**
  * Test calendar work weeks.
@@ -38,15 +40,23 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MppCalendarWorkWeekTest
 {
    /**
+    * Check that we're not in IKVM.
+    */
+   @BeforeEach public void beforeMethod()
+   {
+      assumeJvm();
+   }
+
+   /**
     * Ensure invalid durations are discarded.
     */
    @Test public void testInvalidDurationsAreDiscarded()
    {
-      int[] invalid = { Integer.MIN_VALUE, -1, 0, 14401, Integer.MAX_VALUE };
+      int[] invalid = {Integer.MIN_VALUE, -1, 0, 14401, Integer.MAX_VALUE};
 
       for (int duration : invalid)
       {
-         ProjectCalendarWeek week = readSunday(new int[] { 0 }, new int[] { duration });
+         ProjectCalendarWeek week = readSunday(new int[]{0}, new int[]{duration});
 
          assertEquals(DayType.NON_WORKING, week.getCalendarDayType(DayOfWeek.SUNDAY));
          assertTrue(week.getCalendarHours(DayOfWeek.SUNDAY).isEmpty());
@@ -59,8 +69,8 @@ public class MppCalendarWorkWeekTest
    @Test public void testValidRangesSurviveInvalidRanges()
    {
       ProjectCalendarWeek week = readSunday(
-         new int[] { 0, 4800, 0, 7800 },
-         new int[] { 0, 2400, Integer.MAX_VALUE, 2400 });
+         new int[]{0, 4800, 0, 7800},
+         new int[]{0, 2400, Integer.MAX_VALUE, 2400});
 
       assertEquals(DayType.WORKING, week.getCalendarDayType(DayOfWeek.SUNDAY));
 
@@ -78,7 +88,7 @@ public class MppCalendarWorkWeekTest
    @Test public void testMinimumValidDuration()
    {
       ProjectCalendarWeek week = readSunday(
-         new int[] { 4800 }, new int[] { 1 });
+         new int[]{4800}, new int[]{1});
 
       assertEquals(DayType.WORKING, week.getCalendarDayType(DayOfWeek.SUNDAY));
 
@@ -93,7 +103,7 @@ public class MppCalendarWorkWeekTest
    @Test public void testFullDayDuration()
    {
       ProjectCalendarWeek week = readSunday(
-         new int[] { 0 }, new int[] { 14400 });
+         new int[]{0}, new int[]{14400});
 
       assertEquals(DayType.WORKING, week.getCalendarDayType(DayOfWeek.SUNDAY));
 
@@ -117,7 +127,7 @@ public class MppCalendarWorkWeekTest
 
    /**
     * Create and parse sample test data.
-    * 
+    *
     * @param starts start times
     * @param durations durations
     * @return ProjectCalendarWeek instance

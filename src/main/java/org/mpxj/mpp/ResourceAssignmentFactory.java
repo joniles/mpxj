@@ -71,8 +71,9 @@ class ResourceAssignmentFactory
     * @param assnFixedData fixed data
     * @param assnFixedData2 fixed data
     * @param count expected number of assignments
+    * @param varDataMustBePopulated true if valid assignments need var data to be present
     */
-   public void process(ProjectFile file, FieldMap fieldMap, FieldMap enterpriseCustomFieldMap, FieldMap alternateVarDataMap, boolean useRawTimephasedData, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData, FixedData assnFixedData2, int count)
+   public void process(ProjectFile file, FieldMap fieldMap, FieldMap enterpriseCustomFieldMap, FieldMap alternateVarDataMap, boolean useRawTimephasedData, VarMeta assnVarMeta, Var2Data assnVarData, FixedMeta assnFixedMeta, FixedData assnFixedData, FixedData assnFixedData2, int count, boolean varDataMustBePopulated)
    {
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       TimephasedDataFactory timephasedFactory = new TimephasedDataFactory();
@@ -126,7 +127,7 @@ class ResourceAssignmentFactory
 
          int id = ByteArrayHelper.getInt(data, fieldMap.getFixedDataOffset(AssignmentField.UNIQUE_ID));
          final Integer varDataId = Integer.valueOf(id);
-         if (!set.contains(varDataId))
+         if (varDataMustBePopulated && !set.contains(varDataId))
          {
             continue;
          }
@@ -153,7 +154,7 @@ class ResourceAssignmentFactory
 
          assignment.disableEvents();
 
-         byte[][] fixedDataArray = new byte[][] {data, data2};
+         byte[][] fixedDataArray = new byte[][]{data, data2};
          fieldMap.populateContainer(FieldTypeClass.ASSIGNMENT, assignment, varDataId, fixedDataArray, assnVarData);
 
          if (enterpriseCustomFieldMap != null)
@@ -215,7 +216,7 @@ class ResourceAssignmentFactory
          }
 
          byte[] timephasedActualRegularWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.RAW_TIMEPHASED_ACTUAL_REGULAR_WORK));
-         byte[] timephasedActualIrregularWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_IRREGULAR_WORK));
+         byte[] timephasedAdditionalWorkingHoursData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ADDITIONAL_WORKING_HOURS));
          byte[] timephasedActualOvertimeWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.RAW_TIMEPHASED_ACTUAL_OVERTIME_WORK));
          byte[] timephasedWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.RAW_TIMEPHASED_REMAINING_REGULAR_WORK));
          byte[] timephasedBudgetCostData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.RAW_TIMEPHASED_BUDGET_COST));
@@ -223,9 +224,9 @@ class ResourceAssignmentFactory
 
          ResourceType resourceType = resource == null ? ResourceType.WORK : resource.getType();
          ProjectCalendar calendar = assignment.getEffectiveCalendar();
-         List<TimephasedWork> timephasedActualWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualRegularWorkData, timephasedActualIrregularWorkData);
+         List<TimephasedWork> timephasedActualWork = timephasedFactory.getCompleteWork(assignment, timephasedActualRegularWorkData, timephasedAdditionalWorkingHoursData);
          List<TimephasedWork> timephasedWork = timephasedFactory.getPlannedWork(calendar, assignment, timephasedWorkData, timephasedActualWork, resourceType);
-         List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualOvertimeWorkData, timephasedActualIrregularWorkData);
+         List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(assignment, timephasedActualOvertimeWorkData, timephasedAdditionalWorkingHoursData);
          List<TimephasedCost> budgetCost = getOrDefaultBudgetCost(assignment, () -> timephasedFactory.getCost(file.getDefaultCalendar(), timephasedBudgetCostData));
          List<TimephasedWork> budgetWork = getOrDefaultBudgetWork(assignment, () -> timephasedFactory.getBaselineWork(calendar, timephasedBudgetWorkData));
 
