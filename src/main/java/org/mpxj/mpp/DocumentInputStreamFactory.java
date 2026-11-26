@@ -57,17 +57,11 @@ class DocumentInputStreamFactory
     */
    public InputStream getInstance(DirectoryEntry directory, String name) throws IOException
    {
-      DocumentEntry entry = (DocumentEntry) directory.getEntry(name);
-      InputStream stream;
+      InputStream stream = new DocumentInputStream((DocumentEntry) directory.getEntry(name));
       if (m_encrypted)
       {
-         stream = new EncryptedDocumentInputStream(entry, m_encryptionCode);
+         stream = new EncryptedDocumentInputStream(stream, m_encryptionCode);
       }
-      else
-      {
-         stream = new DocumentInputStream(entry);
-      }
-
       return stream;
    }
 

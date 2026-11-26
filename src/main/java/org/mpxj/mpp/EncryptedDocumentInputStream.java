@@ -39,13 +39,13 @@ final class EncryptedDocumentInputStream extends InputStream
    /**
     * Constructor.
     *
-    * @param entry file entry
+    * @param dis document inout stream
     * @param mask the mask used to decrypt the stream.
     */
-   public EncryptedDocumentInputStream(DocumentEntry entry, int mask)
+   public EncryptedDocumentInputStream(InputStream dis, int mask)
       throws IOException
    {
-      m_dis = new DocumentInputStream(entry);
+      m_dis = dis;
       m_mask = mask;
    }
 
@@ -66,12 +66,12 @@ final class EncryptedDocumentInputStream extends InputStream
       return result;
    }
 
-   @Override public int available()
+   @Override public int available() throws IOException
    {
       return m_dis.available();
    }
 
-   @Override public void close()
+   @Override public void close() throws IOException
    {
       m_dis.close();
    }
@@ -86,7 +86,7 @@ final class EncryptedDocumentInputStream extends InputStream
       return m_dis.markSupported();
    }
 
-   @Override public synchronized void reset()
+   @Override public synchronized void reset() throws IOException
    {
       m_dis.reset();
    }
@@ -96,6 +96,6 @@ final class EncryptedDocumentInputStream extends InputStream
       return m_dis.skip(n);
    }
 
-   private final DocumentInputStream m_dis;
+   private final InputStream m_dis;
    private final int m_mask;
 }
