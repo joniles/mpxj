@@ -84,11 +84,6 @@ class MPP9CalendarFactory extends AbstractCalendarFactory
       return CALENDAR_DATA;
    }
 
-   @Override protected VarMeta getCalendarVarMeta(DirectoryEntry directory) throws IOException
-   {
-      return new VarMeta9(new DocumentInputStream(((DocumentEntry) directory.getEntry("VarMeta"))));
-   }
-
    @Override protected VarMeta getCalendarVarMeta(InputStream is) throws IOException
    {
       return new VarMeta9(is);

@@ -35,7 +35,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
 
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.mpxj.EventManager;
 import org.mpxj.FieldType;
 import org.mpxj.FieldTypeClass;
@@ -67,19 +66,11 @@ import org.mpxj.common.NumberHelper;
  */
 final class MPP12Reader implements MPPVariantReader
 {
-   /**
-    * This method is used to process an MPP12 file. This is the file format
-    * used by Project 12.
-    *
-    * @param reader parent file reader
-    * @param file parent MPP file
-    * @param fs POI filesystem
-    */
-   @Override public void process(MPPReader reader, ProjectFile file, POIFSFileSystem fs) throws MPXJException, IOException
+   @Override public void process(MPPReader reader, ProjectFile file, CfbFile cfb) throws MPXJException, IOException
    {
       try
       {
-         m_cfb = new CfbFile(fs);
+         m_cfb = cfb;
          populateMemberData(reader, file);
          processProjectProperties();
 

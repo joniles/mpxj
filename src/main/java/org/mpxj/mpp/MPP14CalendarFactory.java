@@ -26,11 +26,7 @@ package org.mpxj.mpp;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.mpxj.ProjectFile;
-import org.mpxj.cfb.CfbFile;
 import org.mpxj.common.NumberHelper;
 
 /**
@@ -89,11 +85,6 @@ class MPP14CalendarFactory extends AbstractCalendarAndExceptionFactory
    @Override protected Integer getCalendarDataVarDataType()
    {
       return CALENDAR_DATA;
-   }
-
-   @Override protected VarMeta getCalendarVarMeta(DirectoryEntry directory) throws IOException
-   {
-      return new VarMeta12(new DocumentInputStream(((DocumentEntry) directory.getEntry("VarMeta"))));
    }
 
    @Override protected VarMeta getCalendarVarMeta(InputStream is) throws IOException

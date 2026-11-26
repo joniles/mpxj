@@ -49,6 +49,7 @@ import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.UnitOfMeasure;
 import org.mpxj.UnitOfMeasureContainer;
+import org.mpxj.cfb.CfbFile;
 import org.mpxj.common.AutoCloseableHelper;
 import org.mpxj.reader.AbstractProjectStreamReader;
 
@@ -61,7 +62,7 @@ public final class MPPReader extends AbstractProjectStreamReader
    {
       try
       {
-         return read(new POIFSFileSystem(is));
+         return read(new CfbFile(is));
       }
 
       catch (IOException ex)
@@ -72,7 +73,7 @@ public final class MPPReader extends AbstractProjectStreamReader
 
    @Override public ProjectFile read(File file) throws MPXJException
    {
-      POIFSFileSystem fs = null;
+      CfbFile cfb = null;
 
       try
       {
@@ -80,8 +81,8 @@ public final class MPPReader extends AbstractProjectStreamReader
          // the AbstractProjectStreamReader version as we can work with the File
          // instance directly for reduced memory consumption and the ability
          // to open larger MPP files.
-         fs = new POIFSFileSystem(file);
-         return read(fs);
+         cfb = new CfbFile(file);
+         return read(cfb);
       }
 
       catch (IOException ex)
@@ -91,7 +92,7 @@ public final class MPPReader extends AbstractProjectStreamReader
 
       finally
       {
-         AutoCloseableHelper.closeQuietly(fs);
+         AutoCloseableHelper.closeQuietly(cfb);
       }
    }
 
@@ -100,16 +101,15 @@ public final class MPPReader extends AbstractProjectStreamReader
     * This allows the UniversalProjectReader to determine if this is an MPP file, or if
     * it is another type of OLE compound document.
     *
-    * @param fs POIFSFileSystem instance
+    * @param cfb parent file
     * @return file format name
     */
-   public static String getFileFormat(POIFSFileSystem fs) throws IOException
+   public static String getFileFormat(CfbFile cfb) throws IOException
    {
       String fileFormat = "";
-      DirectoryEntry root = fs.getRoot();
-      if (root.getEntryNames().contains("\1CompObj"))
+      if (cfb.listFiles("/").contains("/\1CompObj"))
       {
-         CompObj compObj = new CompObj(new DocumentInputStream((DocumentEntry) root.getEntry("\1CompObj")));
+         CompObj compObj = new CompObj(cfb.getInputStream("/\1CompObj"));
          fileFormat = compObj.getFileFormat();
       }
       return fileFormat;
@@ -119,10 +119,10 @@ public final class MPPReader extends AbstractProjectStreamReader
     * Alternative entry point allowing an MPP file to be read from
     * a user-supplied POI file stream.
     *
-    * @param fs POI file stream
+    * @param cfb parent file
     * @return ProjectFile instance
     */
-   public ProjectFile read(POIFSFileSystem fs) throws MPXJException
+   public ProjectFile read(CfbFile cfb) throws MPXJException
    {
       try
       {
@@ -145,7 +145,7 @@ public final class MPPReader extends AbstractProjectStreamReader
          //
          // Retrieve the CompObj data, validate the file format and process
          //
-         CompObj compObj = new CompObj(new DocumentInputStream((DocumentEntry) fs.getRoot().getEntry("\1CompObj")));
+         CompObj compObj = new CompObj(cfb.getInputStream("/\1CompObj"));
          ProjectProperties projectProperties = projectFile.getProjectProperties();
          projectProperties.setFullApplicationName(compObj.getApplicationName());
          projectProperties.setApplicationVersion(compObj.getApplicationVersion());
@@ -156,7 +156,7 @@ public final class MPPReader extends AbstractProjectStreamReader
             throw new MPXJException(MPXJException.INVALID_FILE + ": " + format);
          }
          MPPVariantReader reader = readerClass.newInstance();
-         reader.process(this, projectFile, fs);
+         reader.process(this, projectFile, cfb);
 
          //
          // Update the internal structure. We'll take this opportunity to

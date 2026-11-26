@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.mpxj.AccrueType;
 import org.mpxj.Availability;
 import org.mpxj.Column;
@@ -76,19 +75,11 @@ import org.mpxj.common.Pair;
  */
 final class MPP8Reader implements MPPVariantReader
 {
-   /**
-    * This method is used to process an MPP8 file. This is the file format
-    * used by Project 98.
-    *
-    * @param reader parent file reader
-    * @param file Parent MPX file
-    * @param fs POI filesystem
-    */
-   @Override public void process(MPPReader reader, ProjectFile file, POIFSFileSystem fs) throws MPXJException, IOException
+   @Override public void process(MPPReader reader, ProjectFile file, CfbFile cfb) throws MPXJException, IOException
    {
       try
       {
-         m_cfb = new CfbFile(fs);
+         m_cfb = cfb;
          populateMemberData(file);
          processProjectProperties();
 

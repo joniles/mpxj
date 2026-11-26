@@ -26,7 +26,6 @@ package org.mpxj.mpp;
 import java.io.IOException;
 import java.util.HashMap;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.cfb.CfbFile;
 
@@ -35,19 +34,17 @@ import org.mpxj.cfb.CfbFile;
  */
 interface CalendarFactory
 {
-
    /**
     * The format of the calendar data is a 4 byte header followed
     * by 7x 60 byte blocks, one for each day of the week. Optionally
     * following this is a set of 64 byte blocks representing exceptions
     * to the calendar.
     *
-    * @param projectDir project data directory in the MPP file
+    * @param cfb parent file
+    * @param projectDirPath project directory path
     * @param projectProps project properties
     * @param inputStreamFactory input stream factory
     * @param resourceMap map of resources to calendars
     */
-   void processCalendarData(DirectoryEntry projectDir, Props projectProps, DocumentInputStreamFactory inputStreamFactory, HashMap<Integer, ProjectCalendar> resourceMap) throws IOException;
-
    void processCalendarData(CfbFile cfb, String projectDirPath, Props projectProps, DocumentInputStreamFactory inputStreamFactory, HashMap<Integer, ProjectCalendar> resourceMap) throws IOException;
 }

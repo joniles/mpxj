@@ -29,6 +29,7 @@ import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
+import org.mpxj.cfb.CfbFile;
 
 /**
  * This interface is implemented by classes which understand how
@@ -41,7 +42,7 @@ interface MPPVariantReader
     *
     * @param reader parent file reader
     * @param file data structure to be populated
-    * @param fs POI filesystem
+    * @param cfb parent file
     */
-   void process(MPPReader reader, ProjectFile file, POIFSFileSystem fs) throws MPXJException, IOException;
+   void process(MPPReader reader, ProjectFile file, CfbFile cfb) throws MPXJException, IOException;
 }

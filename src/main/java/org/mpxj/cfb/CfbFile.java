@@ -4,6 +4,7 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.channels.FileChannel;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
@@ -44,6 +45,11 @@ public class CfbFile implements Closeable
    public CfbFile(File file) throws IOException
    {
       m_fs = new POIFSFileSystem(file);
+   }
+
+   public CfbFile(FileChannel channel) throws IOException
+   {
+      m_fs = new POIFSFileSystem(channel, true, false);
    }
 
    public List<String> listFiles(String path) throws IOException

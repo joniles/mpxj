@@ -42,7 +42,6 @@ import java.util.regex.Pattern;
 
 import com.healthmarketscience.jackcess.Database;
 import com.healthmarketscience.jackcess.DatabaseBuilder;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.mpxj.HasCharset;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
@@ -582,7 +581,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     */
    private ProjectReaderProxy handleOleCompoundDocument(InputStream stream, FileChannel sourceChannel) throws Exception
    {
-      POIFSFileSystem fs;
+      CfbFile cfb;
 
       try
       {
@@ -592,15 +591,15 @@ public final class UniversalProjectReader extends AbstractProjectReader
          {
             File file = InputStreamHelper.writeStreamToTempFile(stream, ".dat");
             m_cleanup.push(() -> FileHelper.deleteQuietly(file));
-            fs = new POIFSFileSystem(file);
+            cfb = new CfbFile(file);
          }
          else
          {
             // POI reads the header from the channel's current position, which the stream has moved on
-            fs = new POIFSFileSystem(sourceChannel.position(0), true, false);
+            cfb = new CfbFile(sourceChannel.position(0));
          }
 
-         m_cleanup.push(() -> AutoCloseableHelper.closeQuietly(fs));
+         m_cleanup.push(() -> AutoCloseableHelper.closeQuietly(cfb));
       }
 
       catch (Exception ex)
@@ -608,29 +607,29 @@ public final class UniversalProjectReader extends AbstractProjectReader
          return null;
       }
 
-      if (fs.getRoot().getEntryNames().contains("SourceInfo"))
+      if (cfb.listFiles("/").contains("/SourceInfo"))
       {
-         return new GenericReaderProxy<OpenPlanReader, POIFSFileSystem>(configure(new OpenPlanReader()), fs)
+         return new GenericReaderProxy<OpenPlanReader, CfbFile>(configure(new OpenPlanReader()), cfb)
          {
             @Override public ProjectFile read() throws MPXJException
             {
-               return m_reader.read(new CfbFile(m_source));
+               return m_reader.read(m_source);
             }
 
             @Override public List<ProjectFile> readAll() throws MPXJException
             {
-               return Collections.singletonList(m_reader.read(new CfbFile(m_source)));
+               return Collections.singletonList(m_reader.read(m_source));
             }
          };
       }
 
-      String fileFormat = MPPReader.getFileFormat(fs);
+      String fileFormat = MPPReader.getFileFormat(cfb);
       if (fileFormat == null || !fileFormat.startsWith("MSProject"))
       {
          return null;
       }
 
-      return new GenericReaderProxy<MPPReader, POIFSFileSystem>(configure(new MPPReader()), fs)
+      return new GenericReaderProxy<MPPReader, CfbFile>(configure(new MPPReader()), cfb)
       {
          @Override public ProjectFile read() throws MPXJException
          {
