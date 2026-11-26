@@ -137,7 +137,6 @@ final class MPP14Reader implements MPPVariantReader
       m_reader = reader;
       m_file = file;
       m_eventManager = file.getEventManager();
-      m_root = root;
 
       //
       // Retrieve the high level document properties
@@ -175,15 +174,14 @@ final class MPP14Reader implements MPPVariantReader
 
       m_resourceMap = new HashMap<>();
       m_projectDir = (DirectoryEntry) root.getEntry("   114");
-      m_viewDir = (DirectoryEntry) root.getEntry("   214");
-      DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
-      m_outlineCodeVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
-      m_outlineCodeVarData = new Var2Data(file, m_outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
-      FixedMeta outlineCodeFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedMeta"))), 10);
-      m_outlineCodeFixedData = new FixedData(outlineCodeFixedMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedData"))));
-      FixedMeta outlineCodeFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Meta"))), 10);
-      m_outlineCodeFixedData2 = new FixedData(outlineCodeFixedMeta2, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Fixed2Data"))));
-      m_projectProps = new Props14(m_file, m_inputStreamFactory.getInstance(m_projectDir, "Props"));
+
+      m_outlineCodeVarMeta = new VarMeta12(m_cfb.getInputStream("/   114/TBkndOutlCode/VarMeta"));
+      m_outlineCodeVarData = new Var2Data(file, m_outlineCodeVarMeta, m_cfb.getInputStream("/   114/TBkndOutlCode/Var2Data"));
+      FixedMeta outlineCodeFixedMeta = new FixedMeta(m_cfb.getInputStream("/   114/TBkndOutlCode/FixedMeta"), 10);
+      m_outlineCodeFixedData = new FixedData(outlineCodeFixedMeta, m_cfb.getInputStream("/   114/TBkndOutlCode/FixedData"));
+      FixedMeta outlineCodeFixedMeta2 = new FixedMeta(m_cfb.getInputStream("/   114/TBkndOutlCode/Fixed2Meta"), 10);
+      m_outlineCodeFixedData2 = new FixedData(outlineCodeFixedMeta2, m_cfb.getInputStream("/   114/TBkndOutlCode/Fixed2Data"));
+      m_projectProps = new Props14(m_file, m_inputStreamFactory.getInstance(m_cfb, "/   114/Props"));
       //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
 
       m_fontBases = new HashMap<>();
@@ -205,10 +203,8 @@ final class MPP14Reader implements MPPVariantReader
       m_reader = null;
       m_file = null;
       m_eventManager = null;
-      m_root = null;
       m_resourceMap = null;
       m_projectDir = null;
-      m_viewDir = null;
       m_outlineCodeVarData = null;
       m_fontBases = null;
       m_taskOrder = null;
@@ -781,9 +777,9 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processViewPropertyData() throws IOException
    {
-      if (m_viewDir.hasEntry("Props"))
+      if (m_cfb.hasEntry("/   214/Props"))
       {
-         Props props = new Props14(m_file, m_inputStreamFactory.getInstance(m_viewDir, "Props"));
+         Props props = new Props14(m_file, m_inputStreamFactory.getInstance(m_cfb, "/   214/Props"));
          byte[] data = props.getByteArray(PropsKey.FONT_BASES);
          if (data != null)
          {
@@ -1800,13 +1796,12 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processViewData() throws IOException
    {
-      if (m_viewDir.hasEntry("CV_iew"))
+      if (m_cfb.hasEntry("/   214/CV_iew"))
       {
-         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CV_iew");
-         VarMeta viewVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-         Var2Data viewVarData = new Var2Data(m_file, viewVarMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
-         FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-         FixedData fixedData = new FixedData(138, m_inputStreamFactory.getInstance(dir, "FixedData"));
+         VarMeta viewVarMeta = new VarMeta12(m_cfb.getInputStream("/   214/CV_iew/VarMeta"));
+         Var2Data viewVarData = new Var2Data(m_file, viewVarMeta, m_cfb.getInputStream("/   214/CV_iew/Var2Data"));
+         FixedMeta fixedMeta = new FixedMeta(m_cfb.getInputStream("/   214/CV_iew/FixedMeta"), 10);
+         FixedData fixedData = new FixedData(138, m_inputStreamFactory.getInstance(m_cfb, "/   214/CV_iew/FixedData"));
 
          int items = fixedMeta.getAdjustedItemCount();
          View view;
@@ -1836,13 +1831,11 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processTableData() throws IOException
    {
-      if (m_viewDir.hasEntry("CTable"))
+      if (m_cfb.hasEntry("/   214/CTable"))
       {
-         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CTable");
-
-         VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-         Var2Data varData = new Var2Data(m_file, varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
-         FixedData fixedData = new FixedData(230, new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedData"))));
+         VarMeta varMeta = new VarMeta12(m_cfb.getInputStream("/   214/CTable/VarMeta"));
+         Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.getInputStream("/   214/CTable/Var2Data"));
+         FixedData fixedData = new FixedData(230, m_cfb.getInputStream("/   214/CTable/FixedData"));
          //System.out.println(varMeta);
          //System.out.println(varData);
          //System.out.println(fixedData);
@@ -1865,10 +1858,8 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processFilterData() throws IOException
    {
-      if (m_viewDir.hasEntry("CFilter"))
+      if (m_cfb.hasEntry("/   214/CFilter"))
       {
-         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CFilter");
-
          FixedMeta fixedMeta;
          FixedData fixedData;
          VarMeta varMeta;
@@ -1876,10 +1867,10 @@ final class MPP14Reader implements MPPVariantReader
 
          try
          {
-            fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-            fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
-            varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-            varData = new Var2Data(m_file, varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+            fixedMeta = new FixedMeta(m_cfb.getInputStream("/   214/CFilter/FixedMeta"), 10);
+            fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(m_cfb, "/   214/CFilter/FixedData"));
+            varMeta = new VarMeta12(m_cfb.getInputStream("/   214/CFilter/VarMeta"));
+            varData = new Var2Data(m_file, varMeta, m_cfb.getInputStream("/   214/CFilter/Var2Data"));
          }
 
          // NoSuchElementException, IndexOutOfBoundsException: From a sample files where the stream reports an available number of bytes,
@@ -1907,15 +1898,14 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processSavedViewState() throws IOException
    {
-      if (m_viewDir.hasEntry("CEdl"))
+      if (m_cfb.hasEntry("/   214/CEdl"))
       {
-         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CEdl");
-         VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-         Var2Data varData = new Var2Data(m_file, varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+         VarMeta varMeta = new VarMeta12(m_cfb.getInputStream("/   214/CEdl/VarMeta"));
+         Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.getInputStream("/   214/CEdl/Var2Data"));
          //System.out.println(varMeta);
          //System.out.println(varData);
 
-         InputStream is = new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedData")));
+         InputStream is = m_cfb.getInputStream("/   214/CEdl/FixedData");
          byte[] fixedData = InputStreamHelper.readAvailable(is);
          is.close();
          //System.out.println(ByteArrayHelper.hexdump(fixedData, false, 16, ""));
@@ -1930,13 +1920,12 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processGroupData() throws IOException
    {
-      if (m_viewDir.hasEntry("CGrouping"))
+      if (m_cfb.hasEntry("/   214/CGrouping"))
       {
-         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CGrouping");
-         FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 10);
-         FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
-         VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-         Var2Data varData = new Var2Data(m_file, varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+         FixedMeta fixedMeta = new FixedMeta(m_cfb.getInputStream("/   214/CGrouping/FixedMeta"), 10);
+         FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(m_cfb, "/   214/CGrouping/FixedData"));
+         VarMeta varMeta = new VarMeta12(m_cfb.getInputStream("/   214/CGrouping/VarMeta"));
+         Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.getInputStream("/   214/CGrouping/Var2Data"));
 
          //System.out.println(fixedMeta);
          //System.out.println(fixedData);
@@ -1953,13 +1942,12 @@ final class MPP14Reader implements MPPVariantReader
     */
    private void processDataLinks() throws IOException
    {
-      if (m_viewDir.hasEntry("CEdl"))
+      if (m_cfb.hasEntry("/   214/CEdl"))
       {
-         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CEdl");
-         FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 11);
-         FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(dir, "FixedData"));
-         VarMeta varMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) dir.getEntry("VarMeta"))));
-         Var2Data varData = new Var2Data(m_file, varMeta, new DocumentInputStream(((DocumentEntry) dir.getEntry("Var2Data"))));
+         FixedMeta fixedMeta = new FixedMeta(m_cfb.getInputStream("/   214/CEdl/FixedMeta"), 11);
+         FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(m_cfb, "/   214/CEdl/FixedData"));
+         VarMeta varMeta = new VarMeta12(m_cfb.getInputStream("/   214/CEdl/VarMeta"));
+         Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.getInputStream("/   214/CEdl/Var2Data"));
 
          DataLinkFactory factory = new DataLinkFactory(m_file, fixedData, varData);
          factory.process();
@@ -2065,7 +2053,6 @@ final class MPP14Reader implements MPPVariantReader
    private MPPReader m_reader;
    private ProjectFile m_file;
    private EventManager m_eventManager;
-   private DirectoryEntry m_root;
    private CfbFile m_cfb;
    private HashMap<Integer, ProjectCalendar> m_resourceMap;
    private Var2Data m_outlineCodeVarData;
@@ -2077,7 +2064,6 @@ final class MPP14Reader implements MPPVariantReader
    private Map<Integer, String> m_taskSubProjects;
    private Set<Integer> m_externalTasks;
    private DirectoryEntry m_projectDir;
-   private DirectoryEntry m_viewDir;
    private Map<Long, Integer> m_taskOrder;
    private Map<Integer, Integer> m_nullTaskOrder;
    private DocumentInputStreamFactory m_inputStreamFactory;
