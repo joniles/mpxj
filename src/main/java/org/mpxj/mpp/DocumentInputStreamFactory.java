@@ -29,6 +29,7 @@ import java.io.InputStream;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
+import org.mpxj.cfb.CfbFile;
 
 /**
  * Factory used to create document input streams. Can switch between normal and encrypted streams as required.
@@ -58,6 +59,16 @@ class DocumentInputStreamFactory
    public InputStream getInstance(DirectoryEntry directory, String name) throws IOException
    {
       InputStream stream = new DocumentInputStream((DocumentEntry) directory.getEntry(name));
+      if (m_encrypted)
+      {
+         stream = new EncryptedDocumentInputStream(stream, m_encryptionCode);
+      }
+      return stream;
+   }
+
+   public InputStream getInstance(CfbFile cfb, String name) throws IOException
+   {
+      InputStream stream = cfb.getInputStream(name);
       if (m_encrypted)
       {
          stream = new EncryptedDocumentInputStream(stream, m_encryptionCode);
