@@ -66,6 +66,7 @@ class DocumentInputStreamFactory
       return stream;
    }
 
+   // TODO add CFB to constructor
    public InputStream getInstance(CfbFile cfb, String name) throws IOException
    {
       InputStream stream = cfb.getInputStream(name);

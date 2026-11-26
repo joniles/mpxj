@@ -35,8 +35,6 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.mpxj.CustomFieldContainer;
 import org.mpxj.Duration;
@@ -176,10 +174,9 @@ final class MPP9Reader implements MPPVariantReader
 
       m_resourceMap = new HashMap<>();
       m_projectDir = (DirectoryEntry) root.getEntry("   19");
-      DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
-      VarMeta outlineCodeVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
-      m_outlineCodeVarData = new Var2Data(m_file, outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
-      m_projectProps = new Props9(m_inputStreamFactory.getInstance(m_projectDir, "Props"));
+      VarMeta outlineCodeVarMeta = new VarMeta9(m_cfb.getInputStream("/   19/TBkndOutlCode/VarMeta"));
+      m_outlineCodeVarData = new Var2Data(m_file, outlineCodeVarMeta, m_cfb.getInputStream("/   19/TBkndOutlCode/Var2Data"));
+      m_projectProps = new Props9(m_inputStreamFactory.getInstance(m_cfb, "/   19/Props"));
       //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
 
       m_fontBases = new HashMap<>();
@@ -881,11 +878,10 @@ final class MPP9Reader implements MPPVariantReader
       FieldMap fieldMap = new FieldMap9(m_file);
       fieldMap.createTaskFieldMap(m_projectProps);
 
-      DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
-      VarMeta taskVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("VarMeta"))));
-      Var2Data taskVarData = new Var2Data(m_file, taskVarMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Var2Data"))));
-      FixedMeta taskFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedMeta"))), 47);
-      FixedData taskFixedData = new FixedData(taskFixedMeta, m_inputStreamFactory.getInstance(taskDir, "FixedData"), 768, fieldMap.getMaxFixedDataSize(0));
+      VarMeta taskVarMeta = new VarMeta9(m_cfb.getInputStream("/   19/TBkndTask/VarMeta"));
+      Var2Data taskVarData = new Var2Data(m_file, taskVarMeta, m_cfb.getInputStream("/   19/TBkndTask/Var2Data"));
+      FixedMeta taskFixedMeta = new FixedMeta(m_cfb.getInputStream("/   19/TBkndTask/FixedMeta"), 47);
+      FixedData taskFixedData = new FixedData(taskFixedMeta, m_inputStreamFactory.getInstance(m_cfb, "/   19/TBkndTask/FixedData"), 768, fieldMap.getMaxFixedDataSize(0));
       //System.out.println(taskFixedData);
       //System.out.println(taskFixedMeta);
       //System.out.println(taskVarMeta);
@@ -1494,11 +1490,10 @@ final class MPP9Reader implements MPPVariantReader
       FieldMap fieldMap = new FieldMap9(m_file);
       fieldMap.createResourceFieldMap(m_projectProps);
 
-      DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
-      VarMeta rscVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("VarMeta"))));
-      Var2Data rscVarData = new Var2Data(m_file, rscVarMeta, new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Var2Data"))));
-      FixedMeta rscFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("FixedMeta"))), 37);
-      FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance(rscDir, "FixedData"));
+      VarMeta rscVarMeta = new VarMeta9(m_cfb.getInputStream("/   19/TBkndRsc/VarMeta"));
+      Var2Data rscVarData = new Var2Data(m_file, rscVarMeta, m_cfb.getInputStream("/   19/TBkndRsc/Var2Data"));
+      FixedMeta rscFixedMeta = new FixedMeta(m_cfb.getInputStream("/   19/TBkndRsc/FixedMeta"), 37);
+      FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance(m_cfb, "/   19/TBkndRsc/FixedData"));
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
       //System.out.println(rscFixedMeta);
@@ -1629,15 +1624,14 @@ final class MPP9Reader implements MPPVariantReader
       FieldMap fieldMap = new FieldMap9(m_file);
       fieldMap.createAssignmentFieldMap(m_projectProps);
 
-      DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
-      VarMeta assnVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("VarMeta"))));
-      Var2Data assnVarData = new Var2Data(m_file, assnVarMeta, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Var2Data"))));
+      VarMeta assnVarMeta = new VarMeta9(m_cfb.getInputStream("/   19/TBkndAssn/VarMeta"));
+      Var2Data assnVarData = new Var2Data(m_file, assnVarMeta, m_cfb.getInputStream("/   19/TBkndAssn/Var2Data"));
 
-      FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
-      FixedData assnFixedData = new FixedData(142, m_inputStreamFactory.getInstance(assnDir, "FixedData"));
+      FixedMeta assnFixedMeta = new FixedMeta(m_cfb.getInputStream("/   19/TBkndAssn/FixedMeta"), 34);
+      FixedData assnFixedData = new FixedData(142, m_inputStreamFactory.getInstance(m_cfb, "/   19/TBkndAssn/FixedData"));
       if (assnFixedData.getItemCount() != assnFixedMeta.getAdjustedItemCount())
       {
-         assnFixedData = new FixedData(assnFixedMeta, m_inputStreamFactory.getInstance(assnDir, "FixedData"));
+         assnFixedData = new FixedData(assnFixedMeta, m_inputStreamFactory.getInstance(m_cfb, "/   19/TBkndAssn/FixedData"));
       }
 
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
