@@ -124,7 +124,7 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(props);
 
       file.getProjectProperties().setProjectFilePath(props.getUnicodeString(PropsKey.PROJECT_FILE_PATH));
-      m_inputStreamFactory = new DocumentInputStreamFactory(props);
+      m_inputStreamFactory = new DocumentInputStreamFactory(m_cfb, props);
 
       //
       // Test for password protection. In the single byte retrieved here:
@@ -152,7 +152,7 @@ final class MPP12Reader implements MPPVariantReader
       m_outlineCodeFixedData = new FixedData(outlineCodeFixedMeta, m_cfb.getInputStream("/   112/TBkndOutlCode/FixedData"));
       FixedMeta outlineCodeFixedMeta2 = new FixedMeta(m_cfb.getInputStream("/   112/TBkndOutlCode/Fixed2Meta"), 10);
       m_outlineCodeFixedData2 = new FixedData(outlineCodeFixedMeta2, m_cfb.getInputStream("/   112/TBkndOutlCode/Fixed2Data"));
-      m_projectProps = new Props12(m_inputStreamFactory.getInstance(m_cfb, "/   112/Props"));
+      m_projectProps = new Props12(m_inputStreamFactory.getInstance("/   112/Props"));
       //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
 
       m_fontBases = new HashMap<>();
@@ -193,13 +193,13 @@ final class MPP12Reader implements MPPVariantReader
       // Ensure we have read the custom field definitions ...
       if (m_cfb.hasEntry("/   112/TBkndTask/Props"))
       {
-         Props12 props = new Props12(m_inputStreamFactory.getInstance(m_cfb, "/   112/TBkndTask/Props"));
+         Props12 props = new Props12(m_inputStreamFactory.getInstance("/   112/TBkndTask/Props"));
          new CustomFieldReader12(m_file, props.getByteArray(PropsKey.CUSTOM_FIELDS)).process();
       }
 
       if (m_cfb.hasEntry("/   112/TBkndRsc/Props"))
       {
-         Props12 props = new Props12(m_inputStreamFactory.getInstance(m_cfb, "/   112/TBkndRsc/Props"));
+         Props12 props = new Props12(m_inputStreamFactory.getInstance("/   112/TBkndRsc/Props"));
          new CustomFieldReader12(m_file, props.getByteArray(PropsKey.CUSTOM_FIELDS)).process();
       }
 
@@ -225,7 +225,7 @@ final class MPP12Reader implements MPPVariantReader
          return;
       }
 
-      Props props = new Props14(m_file, m_inputStreamFactory.getInstance(m_cfb, dir + "/Props"));
+      Props props = new Props14(m_file, m_inputStreamFactory.getInstance(dir + "/Props"));
       byte[] data = props.getByteArray(PropsKey.CUSTOM_FIELDS);
       if (data == null)
       {
@@ -748,7 +748,7 @@ final class MPP12Reader implements MPPVariantReader
    {
       if (m_cfb.hasEntry("/   212/Props"))
       {
-         Props props = new Props12(m_inputStreamFactory.getInstance(m_cfb, "/   212/Props"));
+         Props props = new Props12(m_inputStreamFactory.getInstance("/   212/Props"));
          byte[] data = props.getByteArray(PropsKey.FONT_BASES);
          if (data != null)
          {
@@ -1490,9 +1490,9 @@ final class MPP12Reader implements MPPVariantReader
       VarMeta rscVarMeta = new VarMeta12(m_cfb.getInputStream("/   112/TBkndRsc/VarMeta"));
       Var2Data rscVarData = new Var2Data(m_file, rscVarMeta, m_cfb.getInputStream("/   112/TBkndRsc/Var2Data"));
       FixedMeta rscFixedMeta = new FixedMeta(m_cfb.getInputStream("/   112/TBkndRsc/FixedMeta"), 37);
-      FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance(m_cfb, "/   112/TBkndRsc/FixedData"));
+      FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance("/   112/TBkndRsc/FixedData"));
       FixedMeta rscFixed2Meta = new FixedMeta(m_cfb.getInputStream("/   112/TBkndRsc/Fixed2Meta"), 49);
-      FixedData rscFixed2Data = new FixedData(rscFixed2Meta, m_inputStreamFactory.getInstance(m_cfb, "/   112/TBkndRsc/Fixed2Data"));
+      FixedData rscFixed2Data = new FixedData(rscFixed2Meta, m_inputStreamFactory.getInstance("/   112/TBkndRsc/Fixed2Data"));
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
       //System.out.println(rscFixedMeta);
@@ -1652,8 +1652,8 @@ final class MPP12Reader implements MPPVariantReader
       FixedMeta assnFixedMeta = new FixedMeta(m_cfb.getInputStream("/   112/TBkndAssn/FixedMeta"), 34);
       // MSP 2007 seems to write 142 byte blocks, MSP 2010 writes 110 byte blocks
       // We need to identify any cases where the metadata count does not correctly identify the block size
-      FixedData assnFixedData = new FixedData(assnFixedMeta, m_inputStreamFactory.getInstance(m_cfb, "/   112/TBkndAssn/FixedData"));
-      FixedData assnFixedData2 = new FixedData(48, m_inputStreamFactory.getInstance(m_cfb, "/   112/TBkndAssn/Fixed2Data"));
+      FixedData assnFixedData = new FixedData(assnFixedMeta, m_inputStreamFactory.getInstance("/   112/TBkndAssn/FixedData"));
+      FixedData assnFixedData2 = new FixedData(48, m_inputStreamFactory.getInstance("/   112/TBkndAssn/Fixed2Data"));
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
       factory.process(m_file, fieldMap, enterpriseCustomFieldMap, null, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2, assnFixedMeta.getAdjustedItemCount(), true);
    }
@@ -1679,7 +1679,7 @@ final class MPP12Reader implements MPPVariantReader
          VarMeta viewVarMeta = new VarMeta12(m_cfb.getInputStream("/   212/CV_iew/VarMeta"));
          Var2Data viewVarData = new Var2Data(m_file, viewVarMeta, m_cfb.getInputStream("/   212/CV_iew/Var2Data"));
          FixedMeta fixedMeta = new FixedMeta(m_cfb.getInputStream("/   212/CV_iew/FixedMeta"), 10);
-         FixedData fixedData = new FixedData(138, m_inputStreamFactory.getInstance(m_cfb, "/   212/CV_iew/FixedData"));
+         FixedData fixedData = new FixedData(138, m_inputStreamFactory.getInstance("/   212/CV_iew/FixedData"));
 
          int items = fixedMeta.getAdjustedItemCount();
          View view;
@@ -1739,7 +1739,7 @@ final class MPP12Reader implements MPPVariantReader
       if (m_cfb.hasEntry("/   212/CFilter"))
       {
          FixedMeta fixedMeta = new FixedMeta(m_cfb.getInputStream("/   212/CFilter/FixedMeta"), 10);
-         FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(m_cfb, "/   212/CFilter/FixedData"));
+         FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance("/   212/CFilter/FixedData"));
          VarMeta varMeta = new VarMeta12(m_cfb.getInputStream("/   212/CFilter/VarMeta"));
          Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.getInputStream("/   212/CFilter/Var2Data"));
 
@@ -1785,7 +1785,7 @@ final class MPP12Reader implements MPPVariantReader
       if (m_cfb.hasEntry("/   212/CGrouping") && m_cfb.hasEntry("/   212/CGrouping/FixedMeta"))
       {
          FixedMeta fixedMeta = new FixedMeta(m_cfb.getInputStream("/   212/CGrouping/FixedMeta"), 10);
-         FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(m_cfb, "/   212/CGrouping/FixedData"));
+         FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance("/   212/CGrouping/FixedData"));
          VarMeta varMeta = new VarMeta12(m_cfb.getInputStream("/   212/CGrouping/VarMeta"));
          Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.getInputStream("/   212/CGrouping/Var2Data"));
 
@@ -1807,7 +1807,7 @@ final class MPP12Reader implements MPPVariantReader
       if (m_cfb.hasEntry("/   212/CEdl"))
       {
          FixedMeta fixedMeta = new FixedMeta(m_cfb.getInputStream("/   212/CEdl/FixedMeta"), 11);
-         FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(m_cfb, "/   212/CEdl/FixedData"));
+         FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance("/   212/CEdl/FixedData"));
          VarMeta varMeta = new VarMeta12(m_cfb.getInputStream("/   212/CEdl/VarMeta"));
          Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.getInputStream("/   212/CEdl/Var2Data"));
 

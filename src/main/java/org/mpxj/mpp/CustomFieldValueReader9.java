@@ -32,9 +32,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.mpxj.CustomField;
 import org.mpxj.CustomFieldContainer;
 import org.mpxj.CustomFieldLookupTable;

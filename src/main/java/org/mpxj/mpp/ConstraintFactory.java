@@ -34,7 +34,7 @@ class ConstraintFactory
       }
 
       FixedMeta consFixedMeta = new FixedMeta(cfb.getInputStream(projectDirPath + "/TBkndCons/FixedMeta"), 10);
-      FixedData consFixedData = new FixedData(consFixedMeta, 20, inputStreamFactory.getInstance(cfb, projectDirPath + "/TBkndCons/FixedData"));
+      FixedData consFixedData = new FixedData(consFixedMeta, 20, inputStreamFactory.getInstance(projectDirPath + "/TBkndCons/FixedData"));
       //         FixedMeta consFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) consDir.getEntry("Fixed2Meta"))), 9);
       //         FixedData consFixed2Data = new FixedData(consFixed2Meta, 48, getEncryptableInputStream(consDir, "Fixed2Data"));
 

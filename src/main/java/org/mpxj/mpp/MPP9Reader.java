@@ -126,7 +126,7 @@ final class MPP9Reader implements MPPVariantReader
       //System.out.println(props);
 
       file.getProjectProperties().setProjectFilePath(props.getUnicodeString(PropsKey.PROJECT_FILE_PATH));
-      m_inputStreamFactory = new DocumentInputStreamFactory(props);
+      m_inputStreamFactory = new DocumentInputStreamFactory(m_cfb, props);
 
       //
       // Test for password protection. In the single byte retrieved here:
@@ -163,7 +163,7 @@ final class MPP9Reader implements MPPVariantReader
       m_resourceMap = new HashMap<>();
       VarMeta outlineCodeVarMeta = new VarMeta9(m_cfb.getInputStream("/   19/TBkndOutlCode/VarMeta"));
       m_outlineCodeVarData = new Var2Data(m_file, outlineCodeVarMeta, m_cfb.getInputStream("/   19/TBkndOutlCode/Var2Data"));
-      m_projectProps = new Props9(m_inputStreamFactory.getInstance(m_cfb, "/   19/Props"));
+      m_projectProps = new Props9(m_inputStreamFactory.getInstance("/   19/Props"));
       //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
 
       m_fontBases = new HashMap<>();
@@ -621,7 +621,7 @@ final class MPP9Reader implements MPPVariantReader
    {
       if (m_cfb.hasEntry("/   29/Props"))
       {
-         Props props = new Props9(m_inputStreamFactory.getInstance(m_cfb, "/   29/Props"));
+         Props props = new Props9(m_inputStreamFactory.getInstance("/   29/Props"));
          byte[] data = props.getByteArray(PropsKey.FONT_BASES);
          if (data != null)
          {
@@ -866,7 +866,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta taskVarMeta = new VarMeta9(m_cfb.getInputStream("/   19/TBkndTask/VarMeta"));
       Var2Data taskVarData = new Var2Data(m_file, taskVarMeta, m_cfb.getInputStream("/   19/TBkndTask/Var2Data"));
       FixedMeta taskFixedMeta = new FixedMeta(m_cfb.getInputStream("/   19/TBkndTask/FixedMeta"), 47);
-      FixedData taskFixedData = new FixedData(taskFixedMeta, m_inputStreamFactory.getInstance(m_cfb, "/   19/TBkndTask/FixedData"), 768, fieldMap.getMaxFixedDataSize(0));
+      FixedData taskFixedData = new FixedData(taskFixedMeta, m_inputStreamFactory.getInstance("/   19/TBkndTask/FixedData"), 768, fieldMap.getMaxFixedDataSize(0));
       //System.out.println(taskFixedData);
       //System.out.println(taskFixedMeta);
       //System.out.println(taskVarMeta);
@@ -1478,7 +1478,7 @@ final class MPP9Reader implements MPPVariantReader
       VarMeta rscVarMeta = new VarMeta9(m_cfb.getInputStream("/   19/TBkndRsc/VarMeta"));
       Var2Data rscVarData = new Var2Data(m_file, rscVarMeta, m_cfb.getInputStream("/   19/TBkndRsc/Var2Data"));
       FixedMeta rscFixedMeta = new FixedMeta(m_cfb.getInputStream("/   19/TBkndRsc/FixedMeta"), 37);
-      FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance(m_cfb, "/   19/TBkndRsc/FixedData"));
+      FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance("/   19/TBkndRsc/FixedData"));
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
       //System.out.println(rscFixedMeta);
@@ -1613,10 +1613,10 @@ final class MPP9Reader implements MPPVariantReader
       Var2Data assnVarData = new Var2Data(m_file, assnVarMeta, m_cfb.getInputStream("/   19/TBkndAssn/Var2Data"));
 
       FixedMeta assnFixedMeta = new FixedMeta(m_cfb.getInputStream("/   19/TBkndAssn/FixedMeta"), 34);
-      FixedData assnFixedData = new FixedData(142, m_inputStreamFactory.getInstance(m_cfb, "/   19/TBkndAssn/FixedData"));
+      FixedData assnFixedData = new FixedData(142, m_inputStreamFactory.getInstance("/   19/TBkndAssn/FixedData"));
       if (assnFixedData.getItemCount() != assnFixedMeta.getAdjustedItemCount())
       {
-         assnFixedData = new FixedData(assnFixedMeta, m_inputStreamFactory.getInstance(m_cfb, "/   19/TBkndAssn/FixedData"));
+         assnFixedData = new FixedData(assnFixedMeta, m_inputStreamFactory.getInstance("/   19/TBkndAssn/FixedData"));
       }
 
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
@@ -1644,7 +1644,7 @@ final class MPP9Reader implements MPPVariantReader
          VarMeta viewVarMeta = new VarMeta9(m_cfb.getInputStream("/   29/CV_iew/VarMeta"));
          Var2Data viewVarData = new Var2Data(m_file, viewVarMeta, m_cfb.getInputStream("/   29/CV_iew/Var2Data"));
          FixedMeta fixedMeta = new FixedMeta(m_cfb.getInputStream("/   29/CV_iew/FixedMeta"), 10);
-         FixedData fixedData = new FixedData(122, m_inputStreamFactory.getInstance(m_cfb, "/   29/CV_iew/FixedData"));
+         FixedData fixedData = new FixedData(122, m_inputStreamFactory.getInstance("/   29/CV_iew/FixedData"));
 
          int items = fixedMeta.getAdjustedItemCount();
          View view;
@@ -1680,7 +1680,7 @@ final class MPP9Reader implements MPPVariantReader
       if (m_cfb.hasEntry("/   29/CTable"))
       {
          //FixedMeta fixedMeta = new FixedMeta(getEncryptableInputStream(dir, "FixedMeta"), 9);
-         InputStream stream = m_inputStreamFactory.getInstance(m_cfb, "/   29/CTable/FixedData");
+         InputStream stream = m_inputStreamFactory.getInstance("/   29/CTable/FixedData");
          int blockSize = stream.available() % 115 == 0 ? 115 : 110;
          FixedData fixedData = new FixedData(blockSize, stream);
          VarMeta varMeta = new VarMeta9(m_cfb.getInputStream("/   29/CTable/VarMeta"));
@@ -1710,7 +1710,7 @@ final class MPP9Reader implements MPPVariantReader
       {
          //FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 9);
          //FixedData fixedData = new FixedData(fixedMeta, getEncryptableInputStream(dir, "FixedData"));
-         InputStream stream = m_inputStreamFactory.getInstance(m_cfb, "/   29/CFilter/FixedData");
+         InputStream stream = m_inputStreamFactory.getInstance("/   29/CFilter/FixedData");
          int blockSize = stream.available() % 115 == 0 ? 115 : 110;
          FixedData fixedData = new FixedData(blockSize, stream, true);
          VarMeta varMeta = new VarMeta9(m_cfb.getInputStream("/   29/CFilter/VarMeta"));
@@ -1736,7 +1736,7 @@ final class MPP9Reader implements MPPVariantReader
       if (m_cfb.hasEntry("/   29/CGrouping"))
       {
          //FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 9);
-         FixedData fixedData = new FixedData(110, m_inputStreamFactory.getInstance(m_cfb, "/   29/CGrouping/FixedData"));
+         FixedData fixedData = new FixedData(110, m_inputStreamFactory.getInstance("/   29/CGrouping/FixedData"));
          VarMeta varMeta = new VarMeta9(m_cfb.getInputStream("/   29/CGrouping/VarMeta"));
          Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.getInputStream("/   29/CGrouping/Var2Data"));
 
@@ -1762,7 +1762,7 @@ final class MPP9Reader implements MPPVariantReader
          //System.out.println(varMeta);
          //System.out.println(varData);
 
-         InputStream is = m_inputStreamFactory.getInstance(m_cfb, "/   29/CEdl/FixedData");
+         InputStream is = m_inputStreamFactory.getInstance("/   29/CEdl/FixedData");
          byte[] fixedData = InputStreamHelper.readAvailable(is);
          //System.out.println(ByteArrayHelper.hexdump(fixedData, false, 16, ""));
 
@@ -1779,7 +1779,7 @@ final class MPP9Reader implements MPPVariantReader
       if (m_cfb.hasEntry("/   29/CEdl"))
       {
          FixedMeta fixedMeta = new FixedMeta(m_cfb.getInputStream("/   29/CEdl/FixedMeta"), 10);
-         FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance(m_cfb, "/   29/CEdl/FixedData"));
+         FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance("/   29/CEdl/FixedData"));
          VarMeta varMeta = new VarMeta9(m_cfb.getInputStream("/   29/CEdl/VarMeta"));
          Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.getInputStream("/   29/CEdl/Var2Data"));
 

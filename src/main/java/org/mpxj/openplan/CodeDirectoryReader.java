@@ -33,7 +33,7 @@ import org.mpxj.cfb.CfbFile;
  * Read a set of code definitions from a code directory
  * and create a map between the code ID and its definition.
  */
-class CodeDirectoryReader extends DirectoryReader
+class CodeDirectoryReader
 {
    /**
     * Constructor.

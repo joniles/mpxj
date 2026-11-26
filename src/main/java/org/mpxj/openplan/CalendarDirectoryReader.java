@@ -48,7 +48,7 @@ import org.mpxj.common.LocalDateHelper;
  * Populate the project with calendars
  * and create a map of calendar IDs to ProjectCalendar instances.
  */
-class CalendarDirectoryReader extends DirectoryReader
+class CalendarDirectoryReader
 {
    /**
     * Constructor.

@@ -33,7 +33,7 @@ import org.mpxj.cfb.CfbFile;
 /**
  * Read project properties from a project directory.
  */
-class ProjectDirectoryReader extends DirectoryReader
+class ProjectDirectoryReader
 {
    /**
     * Constructor.

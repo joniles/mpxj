@@ -26,9 +26,6 @@ package org.mpxj.mpp;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.mpxj.cfb.CfbFile;
 
 /**
@@ -41,8 +38,9 @@ class DocumentInputStreamFactory
     *
     * @param props document properties
     */
-   public DocumentInputStreamFactory(Props props)
+   public DocumentInputStreamFactory(CfbFile cfb, Props props)
    {
+      m_cfb = cfb;
       m_encrypted = props.getByte(PropsKey.PASSWORD_FLAG) != 0;
       byte code = props.getByte(PropsKey.ENCRYPTION_CODE);
       m_encryptionCode = (byte) (code == 0x00 ? 0x00 : (0xFF - code));
@@ -52,24 +50,13 @@ class DocumentInputStreamFactory
     * Method used to instantiate the appropriate input stream reader,
     * a standard one, or one which can deal with "encrypted" data.
     *
-    * @param directory directory entry
-    * @param name file name
+    * @param path file path
     * @return new input stream
     */
-   public InputStream getInstance(DirectoryEntry directory, String name) throws IOException
+   public InputStream getInstance(String path) throws IOException
    {
-      InputStream stream = new DocumentInputStream((DocumentEntry) directory.getEntry(name));
-      if (m_encrypted)
-      {
-         stream = new EncryptedDocumentInputStream(stream, m_encryptionCode);
-      }
-      return stream;
-   }
-
-   // TODO add CFB to constructor
-   public InputStream getInstance(CfbFile cfb, String name) throws IOException
-   {
-      InputStream stream = cfb.getInputStream(name);
+      // TODO add CFB to constructor
+      InputStream stream = m_cfb.getInputStream(path);
       if (m_encrypted)
       {
          stream = new EncryptedDocumentInputStream(stream, m_encryptionCode);
@@ -87,6 +74,7 @@ class DocumentInputStreamFactory
       return m_encryptionCode;
    }
 
+   private final CfbFile m_cfb;
    private final boolean m_encrypted;
    private final byte m_encryptionCode;
 }

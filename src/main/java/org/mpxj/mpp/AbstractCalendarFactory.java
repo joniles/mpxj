@@ -82,7 +82,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       //      System.out.println(calVarData);
 
       FixedMeta calFixedMeta = new FixedMeta(cfb.getInputStream(calDirPath + "/FixedMeta"), 10);
-      FixedData calFixedData = new FixedData(calFixedMeta, inputStreamFactory.getInstance(cfb, calDirPath + "/FixedData"), 12);
+      FixedData calFixedData = new FixedData(calFixedMeta, inputStreamFactory.getInstance(calDirPath + "/FixedData"), 12);
 
       //      System.out.println(calFixedMeta);
       //      System.out.println(calFixedData);
@@ -92,7 +92,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       if (cfb.hasEntry(calDirPath + "/Fixed2Meta"))
       {
          FixedMeta calFixed2Meta = new FixedMeta(cfb.getInputStream(calDirPath + "/Fixed2Meta"), 9);
-         calFixed2Data = new FixedData(calFixed2Meta, inputStreamFactory.getInstance(cfb, calDirPath + "/Fixed2Data"), 48);
+         calFixed2Data = new FixedData(calFixed2Meta, inputStreamFactory.getInstance(calDirPath + "/Fixed2Data"), 48);
       }
 
       //      System.out.println(calFixed2Meta);

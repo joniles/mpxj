@@ -38,7 +38,7 @@ import org.mpxj.common.HierarchyHelper;
 /**
  * Populate a project with resources.
  */
-class ResourceDirectoryReader extends DirectoryReader
+class ResourceDirectoryReader
 {
    /**
     * Constructor.
