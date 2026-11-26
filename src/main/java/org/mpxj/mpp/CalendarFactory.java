@@ -28,6 +28,7 @@ import java.util.HashMap;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.mpxj.ProjectCalendar;
+import org.mpxj.cfb.CfbFile;
 
 /**
  * Read calendar data from MPP files.
@@ -47,4 +48,6 @@ interface CalendarFactory
     * @param resourceMap map of resources to calendars
     */
    void processCalendarData(DirectoryEntry projectDir, Props projectProps, DocumentInputStreamFactory inputStreamFactory, HashMap<Integer, ProjectCalendar> resourceMap) throws IOException;
+
+   void processCalendarData(CfbFile cfb, String projectDirPath, Props projectProps, DocumentInputStreamFactory inputStreamFactory, HashMap<Integer, ProjectCalendar> resourceMap) throws IOException;
 }

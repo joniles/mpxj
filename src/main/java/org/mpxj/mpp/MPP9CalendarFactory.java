@@ -24,6 +24,7 @@
 package org.mpxj.mpp;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -35,6 +36,7 @@ import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectFile;
+import org.mpxj.cfb.CfbFile;
 import org.mpxj.common.ByteArrayHelper;
 
 /**
@@ -85,6 +87,11 @@ class MPP9CalendarFactory extends AbstractCalendarFactory
    @Override protected VarMeta getCalendarVarMeta(DirectoryEntry directory) throws IOException
    {
       return new VarMeta9(new DocumentInputStream(((DocumentEntry) directory.getEntry("VarMeta"))));
+   }
+
+   @Override protected VarMeta getCalendarVarMeta(InputStream is) throws IOException
+   {
+      return new VarMeta9(is);
    }
 
    /**

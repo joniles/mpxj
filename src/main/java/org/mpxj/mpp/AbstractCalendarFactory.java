@@ -24,6 +24,7 @@
 package org.mpxj.mpp;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -42,6 +43,7 @@ import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarDays;
 import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectFile;
+import org.mpxj.cfb.CfbFile;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.Pair;
@@ -96,6 +98,153 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       {
          FixedMeta calFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("Fixed2Meta"))), 9);
          calFixed2Data = new FixedData(calFixed2Meta, inputStreamFactory.getInstance(calDir, "Fixed2Data"), 48);
+      }
+
+      //      System.out.println(calFixed2Meta);
+      //      System.out.println(calFixed2Data);
+
+      HashMap<Integer, ProjectCalendar> calendarMap = new HashMap<>();
+      int items = calFixedData.getItemCount();
+      List<Pair<ProjectCalendar, Integer>> baseCalendars = new ArrayList<>();
+      byte[] defaultCalendarData = projectProps.getByteArray(PropsKey.DEFAULT_CALENDAR_HOURS);
+      ProjectCalendar defaultCalendar = new ProjectCalendar(m_file);
+      processCalendarHours(defaultCalendarData, null, defaultCalendar, true);
+
+      EventManager eventManager = m_file.getEventManager();
+
+      for (int loop = 0; loop < items; loop++)
+      {
+         byte[] fixedData = calFixedData.getByteArrayValue(loop);
+         byte[] fixedData2 = calFixed2Data == null ? null : calFixed2Data.getByteArrayValue(loop);
+
+         if (fixedData != null && fixedData.length >= 8)
+         {
+            int offset = 0;
+
+            //
+            // Bug 890909, here we ensure that we have a complete 12 byte
+            // block before attempting to process the data.
+            //
+            while (offset + 12 <= fixedData.length)
+            {
+               Integer calendarID = Integer.valueOf(ByteArrayHelper.getInt(fixedData, offset + getCalendarIDOffset()));
+               int baseCalendarID = ByteArrayHelper.getInt(fixedData, offset + getBaseIDOffset());
+
+               if (calendarID.intValue() > 0 && !calendarMap.containsKey(calendarID))
+               {
+                  byte[] varData = calVarData.getByteArray(calendarID, getCalendarDataVarDataType());
+                  ProjectCalendar cal;
+
+                  if (baseCalendarID <= 0 || baseCalendarID == calendarID.intValue())
+                  {
+                     if (varData != null || defaultCalendarData != null)
+                     {
+                        cal = m_file.addCalendar();
+                        if (varData == null)
+                        {
+                           varData = defaultCalendarData;
+                        }
+                     }
+                     else
+                     {
+                        cal = m_file.addDefaultBaseCalendar();
+                     }
+
+                     cal.setName(calVarData.getUnicodeString(calendarID, getCalendarNameVarDataType()));
+
+                     // In theory, base calendars should not have a resource ID attached to them.
+                     // In practice, I've seen a few sample files where this is the case.
+                     // As long as the resource ID isn't already linked to a calendar, we'll
+                     // use the resource ID.
+                     Integer resourceID = Integer.valueOf(ByteArrayHelper.getInt(fixedData, offset + getResourceIDOffset()));
+                     if (resourceID.intValue() > 0 && !resourceMap.containsKey(resourceID))
+                     {
+                        resourceMap.put(resourceID, cal);
+                     }
+                  }
+                  else
+                  {
+                     if (varData != null)
+                     {
+                        cal = m_file.addCalendar();
+                     }
+                     else
+                     {
+                        cal = m_file.addDefaultDerivedCalendar();
+                     }
+
+                     baseCalendars.add(new Pair<>(cal, Integer.valueOf(baseCalendarID)));
+                     Integer resourceID = Integer.valueOf(ByteArrayHelper.getInt(fixedData, offset + getResourceIDOffset()));
+                     resourceMap.put(resourceID, cal);
+                  }
+
+                  cal.setUniqueID(calendarID);
+                  cal.setGUID(MPPUtility.getGUID(fixedData2, 0));
+
+                  if (varData == null)
+                  {
+                     if (baseCalendarID <= 0)
+                     {
+                        Stream.of(DayOfWeek.values()).forEach(cal::addCalendarHours);
+                     }
+                  }
+                  else
+                  {
+                     processCalendarHours(varData, defaultCalendar, cal, baseCalendarID <= 0);
+                     processCalendarExceptions(varData, cal);
+                  }
+
+                  calendarMap.put(calendarID, cal);
+                  eventManager.fireCalendarReadEvent(cal);
+               }
+
+               offset += 12;
+            }
+         }
+      }
+
+      updateBaseCalendarNames(baseCalendars, calendarMap);
+      ProjectCalendar projectDefaultCalendar = m_file.getCalendars().getByName(projectProps.getUnicodeString(PropsKey.DEFAULT_CALENDAR_NAME));
+      if (projectDefaultCalendar == null)
+      {
+         projectDefaultCalendar = m_file.getCalendars().findOrCreateDefaultCalendar();
+      }
+      m_file.getProjectProperties().setDefaultCalendar(projectDefaultCalendar);
+   }
+
+   /**
+    * The format of the calendar data is a 4 byte header followed
+    * by 7x 60 byte blocks, one for each day of the week. Optionally
+    * following this is a set of 64 byte blocks representing exceptions
+    * to the calendar.
+    *
+    * @param cfb parent file
+    * @param projectDirPath project data directory path
+    * @param projectProps project properties
+    * @param inputStreamFactory input stream factory
+    * @param resourceMap map of resources to calendars
+    */
+   @Override public void processCalendarData(CfbFile cfb, String projectDirPath, Props projectProps, DocumentInputStreamFactory inputStreamFactory, HashMap<Integer, ProjectCalendar> resourceMap) throws IOException
+   {
+      String calDirPath = projectDirPath + "/TBkndCal";
+      VarMeta calVarMeta = getCalendarVarMeta(cfb.getInputStream(calDirPath + "/VarMeta"));
+      Var2Data calVarData = new Var2Data(m_file, calVarMeta, cfb.getInputStream(calDirPath + "/Var2Data"));
+
+      //      System.out.println(calVarMeta);
+      //      System.out.println(calVarData);
+
+      FixedMeta calFixedMeta = new FixedMeta(cfb.getInputStream(calDirPath + "/FixedMeta"), 10);
+      FixedData calFixedData = new FixedData(calFixedMeta, inputStreamFactory.getInstance(cfb, calDirPath + "/FixedData"), 12);
+
+      //      System.out.println(calFixedMeta);
+      //      System.out.println(calFixedData);
+
+      FixedData calFixed2Data = null;
+
+      if (cfb.hasEntry(calDirPath + "/Fixed2Meta"))
+      {
+         FixedMeta calFixed2Meta = new FixedMeta(cfb.getInputStream(calDirPath + "/Fixed2Meta"), 9);
+         calFixed2Data = new FixedData(calFixed2Meta, inputStreamFactory.getInstance(cfb, calDirPath + "/Fixed2Data"), 48);
       }
 
       //      System.out.println(calFixed2Meta);
@@ -367,6 +516,8 @@ abstract class AbstractCalendarFactory implements CalendarFactory
     * @return VarMeta instance
     */
    protected abstract VarMeta getCalendarVarMeta(DirectoryEntry directory) throws IOException;
+
+   protected abstract VarMeta getCalendarVarMeta(InputStream is) throws IOException;
 
    /**
     * Retrieve the offset to the start of each calendar hours block.
