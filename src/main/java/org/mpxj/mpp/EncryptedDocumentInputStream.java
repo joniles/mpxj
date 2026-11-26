@@ -26,11 +26,8 @@ package org.mpxj.mpp;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
-
 /**
- * This class wraps the POI {@link DocumentInputStream} class
+ * This class wraps an InputStream
  * to allow data to be decrypted before passing
  * it back to the caller.
  */

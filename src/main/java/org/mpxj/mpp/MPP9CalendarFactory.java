@@ -29,9 +29,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
