@@ -34,7 +34,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.mpxj.CustomFieldContainer;
 import org.mpxj.Duration;
@@ -83,7 +82,7 @@ final class MPP9Reader implements MPPVariantReader
       try
       {
          m_cfb = new CfbFile(fs);
-         populateMemberData(reader, file, fs.getRoot());
+         populateMemberData(reader, file);
          processProjectProperties();
 
          if (!reader.getReadPropertiesOnly())
@@ -122,14 +121,12 @@ final class MPP9Reader implements MPPVariantReader
     *
     * @param reader parent file reader
     * @param file parent MPP file
-    * @param root Root of the POI file system.
     */
-   private void populateMemberData(MPPReader reader, ProjectFile file, DirectoryEntry root) throws MPXJException, IOException
+   private void populateMemberData(MPPReader reader, ProjectFile file) throws MPXJException, IOException
    {
       m_reader = reader;
       m_file = file;
       m_eventManager = file.getEventManager();
-      m_root = root;
 
       //
       // Retrieve the high level document properties (never encoded)
@@ -173,7 +170,6 @@ final class MPP9Reader implements MPPVariantReader
       }
 
       m_resourceMap = new HashMap<>();
-      m_projectDir = (DirectoryEntry) root.getEntry("   19");
       VarMeta outlineCodeVarMeta = new VarMeta9(m_cfb.getInputStream("/   19/TBkndOutlCode/VarMeta"));
       m_outlineCodeVarData = new Var2Data(m_file, outlineCodeVarMeta, m_cfb.getInputStream("/   19/TBkndOutlCode/Var2Data"));
       m_projectProps = new Props9(m_inputStreamFactory.getInstance(m_cfb, "/   19/Props"));
@@ -197,9 +193,7 @@ final class MPP9Reader implements MPPVariantReader
       m_reader = null;
       m_file = null;
       m_eventManager = null;
-      m_root = null;
       m_resourceMap = null;
-      m_projectDir = null;
       m_outlineCodeVarData = null;
       m_fontBases = null;
       m_taskOrder = null;
@@ -1926,7 +1920,6 @@ final class MPP9Reader implements MPPVariantReader
    private MPPReader m_reader;
    private ProjectFile m_file;
    private EventManager m_eventManager;
-   private DirectoryEntry m_root;
    private CfbFile m_cfb;
    private HashMap<Integer, ProjectCalendar> m_resourceMap;
    private Var2Data m_outlineCodeVarData;
@@ -1934,7 +1927,6 @@ final class MPP9Reader implements MPPVariantReader
    private Map<Integer, FontBase> m_fontBases;
    private Map<Integer, String> m_taskSubProjects;
    private Set<Integer> m_externalTasks;
-   private DirectoryEntry m_projectDir;
    private Map<Integer, Integer> m_taskOrder;
    private Map<Integer, Integer> m_nullTaskOrder;
    private DocumentInputStreamFactory m_inputStreamFactory;
