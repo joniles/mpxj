@@ -143,14 +143,9 @@ public final class MPPReader extends AbstractProjectStreamReader
          addListenersToProject(projectFile);
 
          //
-         // Open the file system and retrieve the root directory
-         //
-         DirectoryEntry root = fs.getRoot();
-
-         //
          // Retrieve the CompObj data, validate the file format and process
          //
-         CompObj compObj = new CompObj(new DocumentInputStream((DocumentEntry) root.getEntry("\1CompObj")));
+         CompObj compObj = new CompObj(new DocumentInputStream((DocumentEntry) fs.getRoot().getEntry("\1CompObj")));
          ProjectProperties projectProperties = projectFile.getProjectProperties();
          projectProperties.setFullApplicationName(compObj.getApplicationName());
          projectProperties.setApplicationVersion(compObj.getApplicationVersion());
@@ -161,7 +156,7 @@ public final class MPPReader extends AbstractProjectStreamReader
             throw new MPXJException(MPXJException.INVALID_FILE + ": " + format);
          }
          MPPVariantReader reader = readerClass.newInstance();
-         reader.process(this, projectFile, root);
+         reader.process(this, projectFile, fs);
 
          //
          // Update the internal structure. We'll take this opportunity to

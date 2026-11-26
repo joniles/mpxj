@@ -26,6 +26,7 @@ package org.mpxj.mpp;
 import java.io.IOException;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 
@@ -36,11 +37,11 @@ import org.mpxj.ProjectFile;
 interface MPPVariantReader
 {
    /**
-    * Reads an MPP file an populates the file data structure.
+    * Reads an MPP file and populates the file data structure.
     *
     * @param reader parent file reader
     * @param file data structure to be populated
-    * @param root Root of the POI file system.
+    * @param fs POI filesystem
     */
-   void process(MPPReader reader, ProjectFile file, DirectoryEntry root) throws MPXJException, IOException;
+   void process(MPPReader reader, ProjectFile file, POIFSFileSystem fs) throws MPXJException, IOException;
 }

@@ -52,6 +52,20 @@ public class CfbFile implements Closeable
       return new DocumentInputStream((DocumentEntry) getNode(dir).getEntry(file));
    }
 
+   public boolean hasEntry(String path) throws IOException
+   {
+      if (!path.startsWith("/"))
+      {
+         throw new IOException("Path must be absolute");
+      }
+
+      int index = path.lastIndexOf("/");
+      String dir = path.substring(0, index);
+      String file = path.substring(index+1);
+
+      return getNode(dir).hasEntry(file);
+   }
+
    private DirectoryNode getNode(String path) throws IOException
    {
       if (!path.startsWith("/"))

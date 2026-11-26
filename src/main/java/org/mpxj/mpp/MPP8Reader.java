@@ -23,7 +23,6 @@
 
 package org.mpxj.mpp;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -35,8 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.mpxj.AccrueType;
 import org.mpxj.Availability;
 import org.mpxj.Column;
@@ -63,6 +61,7 @@ import org.mpxj.TableContainer;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.View;
+import org.mpxj.cfb.CfbFile;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.FieldTypeHelper;
@@ -84,13 +83,14 @@ final class MPP8Reader implements MPPVariantReader
     *
     * @param reader parent file reader
     * @param file Parent MPX file
-    * @param root Root of the POI file system.
+    * @param fs POI filesystem
     */
-   @Override public void process(MPPReader reader, ProjectFile file, DirectoryEntry root) throws MPXJException, IOException
+   @Override public void process(MPPReader reader, ProjectFile file, POIFSFileSystem fs) throws MPXJException, IOException
    {
       try
       {
-         populateMemberData(file, root);
+         m_cfb = new CfbFile(fs);
+         populateMemberData(file, fs.getRoot());
          processProjectProperties();
 
          if (!reader.getReadPropertiesOnly())
@@ -129,9 +129,7 @@ final class MPP8Reader implements MPPVariantReader
       m_eventManager = file.getEventManager();
 
       m_calendarMap = new HashMap<>();
-      m_projectDir = (DirectoryEntry) root.getEntry("   1");
-      m_viewDir = (DirectoryEntry) root.getEntry("   2");
-      m_projectProps = new Props8(m_file, new DocumentInputStream(((DocumentEntry) m_projectDir.getEntry("Props"))));
+      m_projectProps = new Props8(m_file, m_cfb.getInputStream("/   1/Props"));
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(8));
    }
@@ -145,8 +143,6 @@ final class MPP8Reader implements MPPVariantReader
       m_eventManager = null;
       m_file = null;
       m_calendarMap = null;
-      m_projectDir = null;
-      m_viewDir = null;
       m_projectProps = null;
    }
 
@@ -165,9 +161,9 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void processViewPropertyData() throws IOException
    {
-      if (m_viewDir.hasEntry("Props"))
+      if (m_cfb.hasEntry("/   2/Props"))
       {
-         Props8 props = new Props8(m_file, new DocumentInputStream(((DocumentEntry) m_viewDir.getEntry("Props"))));
+         Props8 props = new Props8(m_file, m_cfb.getInputStream("/   2/Props"));
          ProjectProperties properties = m_file.getProjectProperties();
          properties.setShowProjectSummaryTask(props.getBoolean(PropsKey.SHOW_PROJECT_SUMMARY_TASK));
       }
@@ -178,9 +174,8 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void processCalendarData() throws IOException
    {
-      DirectoryEntry calDir = (DirectoryEntry) m_projectDir.getEntry("TBkndCal");
-      FixFix calendarFixedData = new FixFix(36, new DocumentInputStream(((DocumentEntry) calDir.getEntry("FixFix   0"))));
-      FixDeferFix calendarVarData = new FixDeferFix(new DocumentInputStream(((DocumentEntry) calDir.getEntry("FixDeferFix   0"))));
+      FixFix calendarFixedData = new FixFix(36, m_cfb.getInputStream("/   1/TBkndCal/FixFix   0"));
+      FixDeferFix calendarVarData = new FixDeferFix(m_cfb.getInputStream("/   1/TBkndCal/FixDeferFix   0"));
 
       ProjectCalendar cal;
       ProjectCalendarHours hours;
@@ -384,11 +379,10 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void processTaskData() throws IOException
    {
-      DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
-      FixFix taskFixedData = new FixFix(316, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixFix   0"))));
+      FixFix taskFixedData = new FixFix(316, m_cfb.getInputStream("/   1/TBkndTask/FixFix   0"));
       if (taskFixedData.getDiff() != 0)
       {
-         taskFixedData = new FixFix(366, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixFix   0"))));
+         taskFixedData = new FixFix(366, m_cfb.getInputStream("/   1/TBkndTask/FixFix   0"));
       }
 
       FixDeferFix taskVarData = null;
@@ -439,7 +433,7 @@ final class MPP8Reader implements MPPVariantReader
          //
          if (taskVarData == null)
          {
-            taskVarData = new FixDeferFix(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixDeferFix   0"))));
+            taskVarData = new FixDeferFix(m_cfb.getInputStream("/   1/TBkndTask/FixDeferFix   0"));
          }
 
          //
@@ -765,53 +759,39 @@ final class MPP8Reader implements MPPVariantReader
    private void processConstraintData() throws IOException
    {
       //
-      // Locate the directory containing the constraints
-      //
-      DirectoryEntry consDir;
-
-      try
-      {
-         consDir = (DirectoryEntry) m_projectDir.getEntry("TBkndCons");
-      }
-
-      catch (FileNotFoundException ex)
-      {
-         m_file.addIgnoredError(ex);
-         consDir = null;
-      }
-
-      //
       // It appears possible that valid MPP8 files can be generated without
       // this directory, so only process constraints if the directory
       // exists.
       //
-      if (consDir != null)
+      if (!m_cfb.hasEntry("/   1/TBkndCons"))
       {
-         FixFix consFixedData = new FixFix(36, new DocumentInputStream(((DocumentEntry) consDir.getEntry("FixFix   0"))));
-         int count = consFixedData.getItemCount();
+         return;
+      }
 
-         for (int loop = 0; loop < count; loop++)
+      FixFix consFixedData = new FixFix(36, m_cfb.getInputStream("/   1/TBkndCons/FixFix   0"));
+      int count = consFixedData.getItemCount();
+
+      for (int loop = 0; loop < count; loop++)
+      {
+         byte[] data = consFixedData.getByteArrayValue(loop);
+
+         if (ByteArrayHelper.getInt(data, 28) == 0)
          {
-            byte[] data = consFixedData.getByteArrayValue(loop);
+            int taskID1 = ByteArrayHelper.getInt(data, 12);
+            int taskID2 = ByteArrayHelper.getInt(data, 16);
 
-            if (ByteArrayHelper.getInt(data, 28) == 0)
+            if (taskID1 != taskID2)
             {
-               int taskID1 = ByteArrayHelper.getInt(data, 12);
-               int taskID2 = ByteArrayHelper.getInt(data, 16);
-
-               if (taskID1 != taskID2)
+               Task task1 = m_file.getTaskByUniqueID(Integer.valueOf(taskID1));
+               Task task2 = m_file.getTaskByUniqueID(Integer.valueOf(taskID2));
+               if (task1 != null && task2 != null)
                {
-                  Task task1 = m_file.getTaskByUniqueID(Integer.valueOf(taskID1));
-                  Task task2 = m_file.getTaskByUniqueID(Integer.valueOf(taskID2));
-                  if (task1 != null && task2 != null)
-                  {
-                     Relation relation = task2.addPredecessor(new Relation.Builder()
-                        .predecessorTask(task1)
-                        .type(RelationType.getInstance(ByteArrayHelper.getShort(data, 20)))
-                        .lag(MPPUtility.getDuration(ByteArrayHelper.getInt(data, 24), MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(data, 22))))
-                        .uniqueID(Integer.valueOf(ByteArrayHelper.getInt(data, 0))));
-                     m_eventManager.fireRelationReadEvent(relation);
-                  }
+                  Relation relation = task2.addPredecessor(new Relation.Builder()
+                     .predecessorTask(task1)
+                     .type(RelationType.getInstance(ByteArrayHelper.getShort(data, 20)))
+                     .lag(MPPUtility.getDuration(ByteArrayHelper.getInt(data, 24), MPPUtility.getDurationTimeUnits(ByteArrayHelper.getShort(data, 22))))
+                     .uniqueID(Integer.valueOf(ByteArrayHelper.getInt(data, 0))));
+                  m_eventManager.fireRelationReadEvent(relation);
                }
             }
          }
@@ -823,8 +803,7 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void processResourceData() throws IOException
    {
-      DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
-      FixFix rscFixedData = new FixFix(196, new DocumentInputStream(((DocumentEntry) rscDir.getEntry("FixFix   0"))));
+      FixFix rscFixedData = new FixFix(196, m_cfb.getInputStream("/   1/TBkndRsc/FixFix   0"));
       FixDeferFix rscVarData = null;
       ExtendedData rscExtData;
 
@@ -874,7 +853,7 @@ final class MPP8Reader implements MPPVariantReader
          //
          if (rscVarData == null)
          {
-            rscVarData = new FixDeferFix(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("FixDeferFix   0"))));
+            rscVarData = new FixDeferFix(m_cfb.getInputStream("/   1/TBkndRsc/FixDeferFix   0"));
          }
 
          rscExtData = new ExtendedData(rscVarData, getOffset(data, 192));
@@ -1047,11 +1026,10 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void processAssignmentData() throws IOException
    {
-      DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
-      FixFix assnFixedData = new FixFix(204, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixFix   0"))));
+      FixFix assnFixedData = new FixFix(204, m_cfb.getInputStream("/   1/TBkndAssn/FixFix   0"));
       if (assnFixedData.getDiff() != 0 || (assnFixedData.getSize() % 238 == 0 && !testAssignmentTasks(assnFixedData)))
       {
-         assnFixedData = new FixFix(238, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixFix   0"))));
+         assnFixedData = new FixFix(238, m_cfb.getInputStream("/   1/TBkndAssn/FixFix   0"));
       }
 
       int count = assnFixedData.getItemCount();
@@ -1061,7 +1039,7 @@ final class MPP8Reader implements MPPVariantReader
       {
          if (assnVarData == null)
          {
-            assnVarData = new FixDeferFix(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixDeferFix   0"))));
+            assnVarData = new FixDeferFix(m_cfb.getInputStream("/   1/TBkndAssn/FixDeferFix   0"));
          }
 
          byte[] data = assnFixedData.getByteArrayValue(loop);
@@ -1153,10 +1131,9 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void processViewData() throws IOException
    {
-      if (m_viewDir.hasEntry("CV_iew"))
+      if (m_cfb.hasEntry("/   2/CV_iew"))
       {
-         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CV_iew");
-         FixFix ff = new FixFix(138, new DocumentInputStream(((DocumentEntry) dir.getEntry("FixFix   0"))));
+         FixFix ff = new FixFix(138, m_cfb.getInputStream("/   2/CV_iew/FixFix   0"));
          int items = ff.getItemCount();
          byte[] data;
          View view;
@@ -1175,11 +1152,10 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void processTableData() throws IOException
    {
-      if (m_viewDir.hasEntry("CTable"))
+      if (m_cfb.hasEntry("/   2/CTable"))
       {
-         DirectoryEntry dir = (DirectoryEntry) m_viewDir.getEntry("CTable");
-         FixFix ff = new FixFix(126, new DocumentInputStream(((DocumentEntry) dir.getEntry("FixFix   0"))));
-         FixDeferFix fdf = new FixDeferFix(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixDeferFix   0"))));
+         FixFix ff = new FixFix(126, m_cfb.getInputStream("/   2/CTable/FixFix   0"));
+         FixDeferFix fdf = new FixDeferFix(m_cfb.getInputStream("/   2/CTable/FixDeferFix   0"));
          int items = ff.getItemCount();
          StringBuilder sb = new StringBuilder();
          TableContainer container = m_file.getTables();
@@ -1361,9 +1337,8 @@ final class MPP8Reader implements MPPVariantReader
    private EventManager m_eventManager;
    private HashMap<Integer, ProjectCalendar> m_calendarMap;
    private DirectoryEntry m_root;
-   private DirectoryEntry m_projectDir;
-   private DirectoryEntry m_viewDir;
    private Props8 m_projectProps;
+   private CfbFile m_cfb;
 
    /**
     * Task data types.

@@ -116,7 +116,7 @@ final class ProjectPropertiesReader
             // We'll do the same here.
             file.addIgnoredError(ex);
          }
-
+         
          SummaryInformation summaryInformation = ps == null ? new SummaryInformation() : new SummaryInformation(ps);
          ph.setProjectTitle(getPopulatedValue(summaryInformation.getTitle(), () -> props.getUnicodeString(PropsKey.TITLE)));
          ph.setSubject(getPopulatedValue(summaryInformation.getSubject(), () -> props.getUnicodeString(PropsKey.SUBJECT)));

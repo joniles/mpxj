@@ -38,6 +38,7 @@ import java.util.UUID;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.mpxj.EventManager;
 import org.mpxj.FieldType;
 import org.mpxj.FieldTypeClass;
@@ -74,13 +75,13 @@ final class MPP12Reader implements MPPVariantReader
     *
     * @param reader parent file reader
     * @param file parent MPP file
-    * @param root Root of the POI file system.
+    * @param fs POI filesystem
     */
-   @Override public void process(MPPReader reader, ProjectFile file, DirectoryEntry root) throws MPXJException, IOException
+   @Override public void process(MPPReader reader, ProjectFile file, POIFSFileSystem fs) throws MPXJException, IOException
    {
       try
       {
-         populateMemberData(reader, file, root);
+         populateMemberData(reader, file, fs.getRoot());
          processProjectProperties();
 
          if (!reader.getReadPropertiesOnly())
