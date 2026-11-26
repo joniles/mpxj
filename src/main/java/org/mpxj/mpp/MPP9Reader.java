@@ -687,7 +687,7 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processCustomValueLists() throws IOException
    {
-      CustomFieldValueReader9 reader = new CustomFieldValueReader9(m_projectDir, m_file, m_projectProps);
+      CustomFieldValueReader9 reader = new CustomFieldValueReader9(m_cfb, m_file, m_projectProps);
       reader.process();
    }
 
@@ -1479,7 +1479,7 @@ final class MPP9Reader implements MPPVariantReader
    private void processConstraintData() throws IOException
    {
       ConstraintFactory factory = new ConstraintFactory();
-      factory.process(m_projectDir, m_file, m_inputStreamFactory);
+      factory.process(m_cfb, "/   19", m_file, m_inputStreamFactory);
    }
 
    /**

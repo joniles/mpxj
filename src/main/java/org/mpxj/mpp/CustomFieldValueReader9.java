@@ -46,6 +46,7 @@ import org.mpxj.FieldTypeClass;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.TimeUnit;
+import org.mpxj.cfb.CfbFile;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
 import org.mpxj.common.Pair;
@@ -58,13 +59,13 @@ class CustomFieldValueReader9
    /**
     * Constructor.
     *
-    * @param projectDir project directory
+    * @param cfb parent file
     * @param file project file
     * @param projectProps MPP project properties
     */
-   public CustomFieldValueReader9(DirectoryEntry projectDir, ProjectFile file, Props projectProps)
+   public CustomFieldValueReader9(CfbFile cfb, ProjectFile file, Props projectProps)
    {
-      m_projectDir = projectDir;
+      m_cfb = cfb;
       m_file = file;
       m_properties = file.getProjectProperties();
       m_projectProps = projectProps;
@@ -147,9 +148,8 @@ class CustomFieldValueReader9
     */
    private void processOutlineCodeValues() throws IOException
    {
-      DirectoryEntry outlineCodeDir = (DirectoryEntry) m_projectDir.getEntry("TBkndOutlCode");
-      FixedMeta fm = new FixedMeta(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedMeta"))), 10);
-      FixedData fd = new FixedData(fm, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("FixedData"))));
+      FixedMeta fm = new FixedMeta(m_cfb.getInputStream("/   19/TBkndOutlCode/FixedMeta"), 10);
+      FixedData fd = new FixedData(fm, m_cfb.getInputStream("/   19/TBkndOutlCode/FixedData"));
 
       Map<Integer, FieldType> map = new HashMap<>();
 
@@ -171,8 +171,8 @@ class CustomFieldValueReader9
          }
       }
 
-      VarMeta outlineCodeVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
-      Var2Data outlineCodeVarData = new Var2Data(m_file, outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
+      VarMeta outlineCodeVarMeta = new VarMeta9(m_cfb.getInputStream("/   19/TBkndOutlCode/VarMeta"));
+      Var2Data outlineCodeVarData = new Var2Data(m_file, outlineCodeVarMeta, m_cfb.getInputStream("/   19/TBkndOutlCode/Var2Data"));
 
       Map<FieldType, List<Pair<String, String>>> valueMap = new HashMap<>();
 
@@ -347,7 +347,7 @@ class CustomFieldValueReader9
       return result;
    }
 
-   private final DirectoryEntry m_projectDir;
+   private final CfbFile m_cfb;
    private final ProjectFile m_file;
    private final ProjectProperties m_properties;
    private final Props m_projectProps;
