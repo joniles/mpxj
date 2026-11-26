@@ -37,9 +37,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.mpxj.AssignmentField;
 import org.mpxj.Duration;
@@ -91,7 +88,7 @@ final class MPP14Reader implements MPPVariantReader
       try
       {
          m_cfb = new CfbFile(fs);
-         populateMemberData(reader, file, fs.getRoot());
+         populateMemberData(reader, file);
          processProjectProperties();
 
          if (!reader.getReadPropertiesOnly())
@@ -130,9 +127,8 @@ final class MPP14Reader implements MPPVariantReader
     *
     * @param reader parent file reader
     * @param file parent MPP file
-    * @param root Root of the POI file system.
     */
-   private void populateMemberData(MPPReader reader, ProjectFile file, DirectoryEntry root) throws IOException, MPXJException
+   private void populateMemberData(MPPReader reader, ProjectFile file) throws IOException, MPXJException
    {
       m_reader = reader;
       m_file = file;
@@ -141,7 +137,7 @@ final class MPP14Reader implements MPPVariantReader
       //
       // Retrieve the high level document properties
       //
-      Props props = new Props14(m_file, new DocumentInputStream(((DocumentEntry) root.getEntry("Props14"))));
+      Props props = new Props14(m_file, m_cfb.getInputStream("/Props14"));
       //System.out.println(props);
 
       file.getProjectProperties().setProjectFilePath(props.getUnicodeString(PropsKey.PROJECT_FILE_PATH));
@@ -173,8 +169,6 @@ final class MPP14Reader implements MPPVariantReader
       }
 
       m_resourceMap = new HashMap<>();
-      m_projectDir = (DirectoryEntry) root.getEntry("   114");
-
       m_outlineCodeVarMeta = new VarMeta12(m_cfb.getInputStream("/   114/TBkndOutlCode/VarMeta"));
       m_outlineCodeVarData = new Var2Data(file, m_outlineCodeVarMeta, m_cfb.getInputStream("/   114/TBkndOutlCode/Var2Data"));
       FixedMeta outlineCodeFixedMeta = new FixedMeta(m_cfb.getInputStream("/   114/TBkndOutlCode/FixedMeta"), 10);
@@ -204,7 +198,6 @@ final class MPP14Reader implements MPPVariantReader
       m_file = null;
       m_eventManager = null;
       m_resourceMap = null;
-      m_projectDir = null;
       m_outlineCodeVarData = null;
       m_fontBases = null;
       m_taskOrder = null;
@@ -223,31 +216,28 @@ final class MPP14Reader implements MPPVariantReader
    private void processCustomFields() throws IOException
    {
       // Ensure we have read the custom field definitions ...
-      DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
-      if (taskDir.hasEntry("Props"))
+      if (m_cfb.hasEntry("/   114/TBkndTask/Props"))
       {
-         Props14 props = new Props14(m_file, m_inputStreamFactory.getInstance(taskDir, "Props"));
+         Props14 props = new Props14(m_file, m_inputStreamFactory.getInstance(m_cfb, "/   114/TBkndTask/Props"));
          new CustomFieldReader14(m_file, props.getByteArray(PropsKey.CUSTOM_FIELDS)).process();
       }
 
-      DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
-      if (rscDir.hasEntry("Props"))
+      if (m_cfb.hasEntry("/   114/TBkndRsc/Props"))
       {
-         Props14 props = new Props14(m_file, m_inputStreamFactory.getInstance(rscDir, "Props"));
+         Props14 props = new Props14(m_file, m_inputStreamFactory.getInstance(m_cfb, "/   114/TBkndRsc/Props"));
          new CustomFieldReader14(m_file, props.getByteArray(PropsKey.CUSTOM_FIELDS)).process();
       }
 
-      DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
-      if (assnDir.hasEntry("Props"))
+      if (m_cfb.hasEntry("/   114/TBkndAssn/Props"))
       {
-         Props props = new Props14(m_file, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Props"))));
+         Props props = new Props14(m_file, m_cfb.getInputStream("/   114/TBkndAssn/Props"));
          new CustomFieldReader14(m_file, props.getByteArray(PropsKey.CUSTOM_FIELDS)).process();
       }
 
       // ... before we add values lists
       Map<UUID, FieldType> lookupTableMap = new HashMap<>();
-      populateLookupTableMap(lookupTableMap, (DirectoryEntry) m_projectDir.getEntry("TBkndTask"));
-      populateLookupTableMap(lookupTableMap, (DirectoryEntry) m_projectDir.getEntry("TBkndRsc"));
+      populateLookupTableMap(lookupTableMap, "/   114/TBkndTask");
+      populateLookupTableMap(lookupTableMap, "/   114/TBkndRsc");
 
       CustomFieldValueReader14 reader = new CustomFieldValueReader14(m_file, lookupTableMap, m_outlineCodeVarMeta, m_outlineCodeVarData, m_outlineCodeFixedData, m_outlineCodeFixedData2);
       reader.process();
@@ -259,14 +249,14 @@ final class MPP14Reader implements MPPVariantReader
     * @param map map to populate
     * @param dir parent dir of Props
     */
-   private void populateLookupTableMap(Map<UUID, FieldType> map, DirectoryEntry dir) throws IOException
+   private void populateLookupTableMap(Map<UUID, FieldType> map, String dir) throws IOException
    {
-      if (!dir.hasEntry("Props"))
+      if (!m_cfb.hasEntry(dir + "/Props"))
       {
          return;
       }
 
-      Props props = new Props14(m_file, m_inputStreamFactory.getInstance(dir, "Props"));
+      Props props = new Props14(m_file, m_inputStreamFactory.getInstance(m_cfb, dir + "/Props"));
       byte[] data = props.getByteArray(PropsKey.CUSTOM_FIELDS);
       if (data == null)
       {
@@ -1000,7 +990,7 @@ final class MPP14Reader implements MPPVariantReader
    private void processCalendarData() throws IOException
    {
       CalendarFactory factory = new MPP14CalendarFactory(m_file);
-      factory.processCalendarData(m_projectDir, m_projectProps, m_inputStreamFactory, m_resourceMap);
+      factory.processCalendarData(m_cfb, "/   114", m_projectProps, m_inputStreamFactory, m_resourceMap);
    }
 
    /**
@@ -1021,13 +1011,12 @@ final class MPP14Reader implements MPPVariantReader
       FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file);
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, FieldTypeClass.TASK);
 
-      DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
-      VarMeta taskVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("VarMeta"))));
-      Var2Data taskVarData = new Var2Data(m_file, taskVarMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Var2Data"))));
-      FixedMeta taskFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedMeta"))), 47);
-      FixedData taskFixedData = new FixedData(taskFixedMeta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("FixedData"))), fieldMap.getMaxFixedDataSize(0));
-      FixedMeta taskFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Meta"))), taskFixedData, 92, 93, 94, 95, 96);
-      FixedData taskFixed2Data = new FixedData(taskFixed2Meta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Data"))));
+      VarMeta taskVarMeta = new VarMeta12(m_cfb.getInputStream("/   114/TBkndTask/VarMeta"));
+      Var2Data taskVarData = new Var2Data(m_file, taskVarMeta, m_cfb.getInputStream("/   114/TBkndTask/Var2Data"));
+      FixedMeta taskFixedMeta = new FixedMeta(m_cfb.getInputStream("/   114/TBkndTask/FixedMeta"), 47);
+      FixedData taskFixedData = new FixedData(taskFixedMeta, m_cfb.getInputStream("/   114/TBkndTask/FixedData"), fieldMap.getMaxFixedDataSize(0));
+      FixedMeta taskFixed2Meta = new FixedMeta(m_cfb.getInputStream("/   114/TBkndTask/Fixed2Meta"), taskFixedData, 92, 93, 94, 95, 96);
+      FixedData taskFixed2Data = new FixedData(taskFixed2Meta, m_cfb.getInputStream("/   114/TBkndTask/Fixed2Data"));
 
       //      System.out.println(taskFixedMeta);
       //      System.out.println(taskFixedData);
@@ -1576,7 +1565,7 @@ final class MPP14Reader implements MPPVariantReader
    private void processConstraintData() throws IOException
    {
       ConstraintFactory factory = new ConstraintFactory();
-      factory.process(m_projectDir, m_file, m_inputStreamFactory);
+      factory.process(m_cfb, "/   114", m_file, m_inputStreamFactory);
    }
 
    /**
@@ -1590,13 +1579,12 @@ final class MPP14Reader implements MPPVariantReader
       FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file);
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, FieldTypeClass.RESOURCE);
 
-      DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
-      VarMeta rscVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("VarMeta"))));
-      Var2Data rscVarData = new Var2Data(m_file, rscVarMeta, new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Var2Data"))));
-      FixedMeta rscFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("FixedMeta"))), 37);
-      FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance(rscDir, "FixedData"));
-      FixedMeta rscFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Fixed2Meta"))), rscFixedData, 50, 51);
-      FixedData rscFixed2Data = new FixedData(rscFixed2Meta, m_inputStreamFactory.getInstance(rscDir, "Fixed2Data"));
+      VarMeta rscVarMeta = new VarMeta12(m_cfb.getInputStream("/   114/TBkndRsc/VarMeta"));
+      Var2Data rscVarData = new Var2Data(m_file, rscVarMeta, m_cfb.getInputStream("/   114/TBkndRsc/Var2Data"));
+      FixedMeta rscFixedMeta = new FixedMeta(m_cfb.getInputStream("/   114/TBkndRsc/FixedMeta"), 37);
+      FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance(m_cfb, "/   114/TBkndRsc/FixedData"));
+      FixedMeta rscFixed2Meta = new FixedMeta(m_cfb.getInputStream("/   114/TBkndRsc/Fixed2Meta"), rscFixedData, 50, 51);
+      FixedData rscFixed2Data = new FixedData(rscFixed2Meta, m_inputStreamFactory.getInstance(m_cfb, "/   114/TBkndRsc/Fixed2Data"));
 
       //System.out.println(rscVarMeta.toString(fieldMap));
       //System.out.println(rscVarData);
@@ -1765,12 +1753,11 @@ final class MPP14Reader implements MPPVariantReader
       FieldMap alternateVarDataMap = new FieldMap14(m_file);
       alternateVarDataMap.createVarDataFieldMap(ALTERNATE_VAR_DATA);
 
-      DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
-      VarMeta assnVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("VarMeta"))));
-      Var2Data assnVarData = new Var2Data(m_file, assnVarMeta, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Var2Data"))));
-      FixedMeta assnFixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("FixedMeta"))), 34);
-      FixedData assnFixedData = new FixedData(110, m_inputStreamFactory.getInstance(assnDir, "FixedData"));
-      FixedData assnFixedData2 = new FixedData(48, m_inputStreamFactory.getInstance(assnDir, "Fixed2Data"));
+      VarMeta assnVarMeta = new VarMeta12(m_cfb.getInputStream("/   114/TBkndAssn/VarMeta"));
+      Var2Data assnVarData = new Var2Data(m_file, assnVarMeta, m_cfb.getInputStream("/   114/TBkndAssn/Var2Data"));
+      FixedMeta assnFixedMeta = new FixedMeta(m_cfb.getInputStream("/   114/TBkndAssn/FixedMeta"), 34);
+      FixedData assnFixedData = new FixedData(110, m_inputStreamFactory.getInstance(m_cfb, "/   114/TBkndAssn/FixedData"));
+      FixedData assnFixedData2 = new FixedData(48, m_inputStreamFactory.getInstance(m_cfb, "/   114/TBkndAssn/Fixed2Data"));
       //FixedMeta assnFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Fixed2Meta"))), 53);
 
       //System.out.println(assnVarMeta.toString(fieldMap));
@@ -2063,7 +2050,6 @@ final class MPP14Reader implements MPPVariantReader
    private Map<Integer, FontBase> m_fontBases;
    private Map<Integer, String> m_taskSubProjects;
    private Set<Integer> m_externalTasks;
-   private DirectoryEntry m_projectDir;
    private Map<Long, Integer> m_taskOrder;
    private Map<Integer, Integer> m_nullTaskOrder;
    private DocumentInputStreamFactory m_inputStreamFactory;
