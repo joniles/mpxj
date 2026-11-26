@@ -2308,9 +2308,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return property value
     */
-   public Integer getEditingTime()
+   public Long getEditingTime()
    {
-      return (Integer) get(ProjectField.EDITING_TIME);
+      return (Long) get(ProjectField.EDITING_TIME);
    }
 
    /**
@@ -2318,7 +2318,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param editingTime editing time property
     */
-   public void setEditingTime(Integer editingTime)
+   public void setEditingTime(Long editingTime)
    {
       set(ProjectField.EDITING_TIME, editingTime);
    }

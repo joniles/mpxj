@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.mpxj.AccrueType;
 import org.mpxj.Availability;
@@ -90,7 +89,7 @@ final class MPP8Reader implements MPPVariantReader
       try
       {
          m_cfb = new CfbFile(fs);
-         populateMemberData(file, fs.getRoot());
+         populateMemberData(file);
          processProjectProperties();
 
          if (!reader.getReadPropertiesOnly())
@@ -120,11 +119,9 @@ final class MPP8Reader implements MPPVariantReader
     * Populate member data used by the rest of the reader.
     *
     * @param file parent MPP file
-    * @param root Root of the POI file system.
     */
-   private void populateMemberData(ProjectFile file, DirectoryEntry root) throws IOException
+   private void populateMemberData(ProjectFile file) throws IOException
    {
-      m_root = root;
       m_file = file;
       m_eventManager = file.getEventManager();
 
@@ -139,7 +136,6 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void clearMemberData()
    {
-      m_root = null;
       m_eventManager = null;
       m_file = null;
       m_calendarMap = null;
@@ -152,7 +148,7 @@ final class MPP8Reader implements MPPVariantReader
    private void processProjectProperties() throws MPXJException
    {
       ProjectPropertiesReader reader = new ProjectPropertiesReader();
-      reader.process(m_file, m_projectProps, m_root);
+      reader.process(m_file, m_projectProps, m_cfb);
    }
 
    /**
@@ -1336,7 +1332,6 @@ final class MPP8Reader implements MPPVariantReader
    private ProjectFile m_file;
    private EventManager m_eventManager;
    private HashMap<Integer, ProjectCalendar> m_calendarMap;
-   private DirectoryEntry m_root;
    private Props8 m_projectProps;
    private CfbFile m_cfb;
 

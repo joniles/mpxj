@@ -56,6 +56,7 @@ import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.TimeUnit;
 import org.mpxj.View;
+import org.mpxj.cfb.CfbFile;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
 import org.mpxj.common.InputStreamHelper;
@@ -83,6 +84,7 @@ final class MPP9Reader implements MPPVariantReader
    {
       try
       {
+         m_cfb = new CfbFile(fs);
          populateMemberData(reader, file, fs.getRoot());
          processProjectProperties();
 
@@ -217,7 +219,7 @@ final class MPP9Reader implements MPPVariantReader
    private void processProjectProperties() throws MPXJException
    {
       ProjectPropertiesReader reader = new ProjectPropertiesReader();
-      reader.process(m_file, m_projectProps, m_root);
+      reader.process(m_file, m_projectProps, m_cfb);
    }
 
    /**
@@ -1939,6 +1941,7 @@ final class MPP9Reader implements MPPVariantReader
    private ProjectFile m_file;
    private EventManager m_eventManager;
    private DirectoryEntry m_root;
+   private CfbFile m_cfb;
    private HashMap<Integer, ProjectCalendar> m_resourceMap;
    private Var2Data m_outlineCodeVarData;
    private Props9 m_projectProps;
@@ -2248,5 +2251,4 @@ final class MPP9Reader implements MPPVariantReader
       TASK_FIELD_ALIASES.put(Integer.valueOf(286), TaskField.COST9);
       TASK_FIELD_ALIASES.put(Integer.valueOf(287), TaskField.COST10);
    }
-
 }

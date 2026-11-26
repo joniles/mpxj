@@ -54,6 +54,7 @@ import org.mpxj.TableContainer;
 import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.View;
+import org.mpxj.cfb.CfbFile;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
 import org.mpxj.common.InputStreamHelper;
@@ -81,6 +82,7 @@ final class MPP12Reader implements MPPVariantReader
    {
       try
       {
+         m_cfb = new CfbFile(fs);
          populateMemberData(reader, file, fs.getRoot());
          processProjectProperties();
 
@@ -286,7 +288,7 @@ final class MPP12Reader implements MPPVariantReader
    private void processProjectProperties() throws MPXJException
    {
       ProjectPropertiesReader reader = new ProjectPropertiesReader();
-      reader.process(m_file, m_projectProps, m_root);
+      reader.process(m_file, m_projectProps, m_cfb);
    }
 
    /**
@@ -1932,6 +1934,7 @@ final class MPP12Reader implements MPPVariantReader
    private ProjectFile m_file;
    private EventManager m_eventManager;
    private DirectoryEntry m_root;
+   private CfbFile m_cfb;
    private HashMap<Integer, ProjectCalendar> m_resourceMap;
    private Var2Data m_outlineCodeVarData;
    private VarMeta m_outlineCodeVarMeta;

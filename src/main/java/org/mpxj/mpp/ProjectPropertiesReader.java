@@ -23,22 +23,11 @@
 
 package org.mpxj.mpp;
 
-import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
-import java.util.TimeZone;
-import java.util.TreeMap;
 import java.util.function.Supplier;
 
-import org.apache.poi.hpsf.CustomProperties;
-import org.apache.poi.hpsf.CustomProperty;
-import org.apache.poi.hpsf.DocumentSummaryInformation;
-import org.apache.poi.hpsf.PropertySet;
-import org.apache.poi.hpsf.SummaryInformation;
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.mpxj.Duration;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
@@ -46,6 +35,7 @@ import org.mpxj.ProjectProperties;
 import org.mpxj.Rate;
 import org.mpxj.ScheduleFrom;
 import org.mpxj.TimeUnit;
+import org.mpxj.cfb.CfbFile;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.NumberHelper;
@@ -60,9 +50,9 @@ final class ProjectPropertiesReader
     *
     * @param file parent project file
     * @param props properties data
-    * @param rootDir Root of the POI file system.
+    * @param cfb parent file
     */
-   public void process(ProjectFile file, Props props, DirectoryEntry rootDir) throws MPXJException
+   public void process(ProjectFile file, Props props, CfbFile cfb) throws MPXJException
    {
       try
       {
@@ -103,82 +93,32 @@ final class ProjectPropertiesReader
          ph.setHonorConstraints(!props.getBoolean(PropsKey.HONOR_CONSTRAINTS));
          ph.setBaselineCalendarName(props.getUnicodeString(PropsKey.BASELINE_CALENDAR_NAME));
 
-         PropertySet ps = null;
+         Map<String, String> summaryInformation = cfb.getSummaryInformation();
+         ph.setProjectTitle(getPopulatedValue(summaryInformation.get("TITLE"), () -> props.getUnicodeString(PropsKey.TITLE)));
+         ph.setSubject(getPopulatedValue(summaryInformation.get("SUBJECT"), () -> props.getUnicodeString(PropsKey.SUBJECT)));
+         ph.setAuthor(getPopulatedValue(summaryInformation.get("AUTHOR"), () -> props.getUnicodeString(PropsKey.AUTHOR)));
+         ph.setKeywords(getPopulatedValue(summaryInformation.get("KEYWORDS"), () -> props.getUnicodeString(PropsKey.KEYWORDS)));
+         ph.setComments(getPopulatedValue(summaryInformation.get("COMMENTS"), () -> props.getUnicodeString(PropsKey.COMMENTS)));
+         ph.setTemplate(summaryInformation.get("TEMPLATE"));
+         ph.setLastAuthor(summaryInformation.get("LAST_AUTHOR"));
+         ph.setRevision(NumberHelper.parseInteger(summaryInformation.get("REVISION_NUMBER")));
+         ph.setCreationDate(getLocalDateTime(summaryInformation.get("CREATED")));
+         ph.setLastSaved(getLocalDateTime(summaryInformation.get("LAST_SAVED")));
+         ph.setShortApplicationName(summaryInformation.get("APPLICATION_NAME"));
+         ph.setEditingTime(getLong(summaryInformation.get("EDIT_TIME")));
+         ph.setLastPrinted(getLocalDateTime(summaryInformation.get("LAST_PRINTED")));
 
-         try
-         {
-            ps = new PropertySet(new DocumentInputStream(((DocumentEntry) rootDir.getEntry(SummaryInformation.DEFAULT_STREAM_NAME))));
-         }
+         Map<String, String> documentSummaryInformation = cfb.getDocumentSummaryInformation();
+         ph.setCategory(getPopulatedValue(documentSummaryInformation.get("CATEGORY"), () -> props.getUnicodeString(PropsKey.CATEGORY)));
+         ph.setPresentationFormat(documentSummaryInformation.get("PRESENTATION_FORMAT"));
+         ph.setManager(getPopulatedValue(documentSummaryInformation.get("MANAGER"), () -> props.getUnicodeString(PropsKey.MANAGER)));
+         ph.setCompany(getPopulatedValue(documentSummaryInformation.get("COMPANY"), () -> props.getUnicodeString(PropsKey.COMPANY)));
+         ph.setContentType(documentSummaryInformation.get("CONTENT_TYPE"));
+         ph.setContentStatus(documentSummaryInformation.get("CONTENT_STATUS"));
+         ph.setLanguage(documentSummaryInformation.get("LANGUAGE"));
+         ph.setDocumentVersion(documentSummaryInformation.get("DOCUMENT_VERSION"));
 
-         catch (FileNotFoundException ex)
-         {
-            // Microsoft Project opens a file successfully with missing summary property set.
-            // We'll do the same here.
-            file.addIgnoredError(ex);
-         }
-         
-         SummaryInformation summaryInformation = ps == null ? new SummaryInformation() : new SummaryInformation(ps);
-         ph.setProjectTitle(getPopulatedValue(summaryInformation.getTitle(), () -> props.getUnicodeString(PropsKey.TITLE)));
-         ph.setSubject(getPopulatedValue(summaryInformation.getSubject(), () -> props.getUnicodeString(PropsKey.SUBJECT)));
-         ph.setAuthor(getPopulatedValue(summaryInformation.getAuthor(), () -> props.getUnicodeString(PropsKey.AUTHOR)));
-         ph.setKeywords(getPopulatedValue(summaryInformation.getKeywords(), () -> props.getUnicodeString(PropsKey.KEYWORDS)));
-         ph.setComments(getPopulatedValue(summaryInformation.getComments(), () -> props.getUnicodeString(PropsKey.COMMENTS)));
-         ph.setTemplate(summaryInformation.getTemplate());
-         ph.setLastAuthor(summaryInformation.getLastAuthor());
-         ph.setRevision(NumberHelper.parseInteger(summaryInformation.getRevNumber()));
-         ph.setCreationDate(getLocalDateTime(summaryInformation.getCreateDateTime()));
-         ph.setLastSaved(getLocalDateTime(summaryInformation.getLastSaveDateTime()));
-         ph.setShortApplicationName(summaryInformation.getApplicationName());
-         ph.setEditingTime(Integer.valueOf((int) summaryInformation.getEditTime()));
-         ph.setLastPrinted(getLocalDateTime(summaryInformation.getLastPrinted()));
-
-         try
-         {
-            ps = new PropertySet(new DocumentInputStream(((DocumentEntry) rootDir.getEntry(DocumentSummaryInformation.DEFAULT_STREAM_NAME))));
-         }
-
-         catch (RuntimeException | FileNotFoundException ex)
-         {
-            // RuntimeException:
-            // I have one example MPP file which has a corrupt document summary property set.
-            // Microsoft Project opens the file successfully, apparently by just ignoring
-            // the corrupt data. We'll do the same here. I have raised a bug with POI
-            // to see if they want to make the library more robust in the face of bad data.
-            // https://bz.apache.org/bugzilla/show_bug.cgi?id=61550
-
-            // FileNotFoundException:
-            // Microsoft Project opens a file successfully with missing document summary property set.
-            // We'll do the same here.
-
-            file.addIgnoredError(ex);
-            ps = null;
-         }
-
-         DocumentSummaryInformation documentSummaryInformation = ps == null ? new DocumentSummaryInformation() : new DocumentSummaryInformation(ps);
-         ph.setCategory(getPopulatedValue(documentSummaryInformation.getCategory(), () -> props.getUnicodeString(PropsKey.CATEGORY)));
-         ph.setPresentationFormat(documentSummaryInformation.getPresentationFormat());
-         ph.setManager(getPopulatedValue(documentSummaryInformation.getManager(), () -> props.getUnicodeString(PropsKey.MANAGER)));
-         ph.setCompany(getPopulatedValue(documentSummaryInformation.getCompany(), () -> props.getUnicodeString(PropsKey.COMPANY)));
-         ph.setContentType(documentSummaryInformation.getContentType());
-         ph.setContentStatus(documentSummaryInformation.getContentStatus());
-         ph.setLanguage(documentSummaryInformation.getLanguage());
-         ph.setDocumentVersion(documentSummaryInformation.getDocumentVersion());
-
-         Map<String, Object> customPropertiesMap = new TreeMap<>();
-         CustomProperties customProperties = documentSummaryInformation.getCustomProperties();
-         if (customProperties != null)
-         {
-            for (CustomProperty property : customProperties.properties())
-            {
-               Object value = property.getValue();
-               if (value instanceof Date)
-               {
-                  value = getLocalDateTime((Date) value);
-               }
-               customPropertiesMap.put(property.getName(), value);
-            }
-         }
-         ph.setCustomProperties(customPropertiesMap);
+         ph.setCustomProperties(cfb.getCustomProperties());
 
          ph.setMultipleCriticalPaths(props.getBoolean(PropsKey.MULTIPLE_CRITICAL_PATHS));
 
@@ -236,14 +176,14 @@ final class ProjectPropertiesReader
       return MPPUtility.getUnicodeString(data, offset);
    }
 
-   private LocalDateTime getLocalDateTime(Date date)
+   private LocalDateTime getLocalDateTime(String date)
    {
-      if (date == null)
-      {
-         return null;
-      }
+      return date == null ? null : LocalDateTime.parse(date, DATE_TIME_FORMAT);
+   }
 
-      return LocalDateTime.ofInstant(date.toInstant(), TimeZone.getDefault().toZoneId());
+   private Long getLong(String value)
+   {
+      return value == null ? null : Long.valueOf(value);
    }
 
    /**
@@ -265,4 +205,6 @@ final class ProjectPropertiesReader
       }
       return value;
    }
+
+   private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 }
