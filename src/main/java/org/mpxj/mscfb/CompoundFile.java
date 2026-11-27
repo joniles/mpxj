@@ -4,6 +4,7 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -176,6 +177,11 @@ public class CompoundFile implements Closeable
       String file = path.substring(index+1);
 
       getNode(dir).createDocument(file, is);
+   }
+
+   public void writeFilesystem(OutputStream os) throws IOException
+   {
+      m_fs.writeFilesystem(os);
    }
 
    public void delete(String path) throws IOException

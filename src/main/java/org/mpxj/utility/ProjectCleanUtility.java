@@ -1,8 +1,7 @@
 /*
  * file:       ProjectCleanUtility.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2008
- * date:       07/02/2008
+ * date:       2008-02-07
  */
 
 /*
@@ -27,6 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -36,10 +36,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.mpxj.FieldContainer;
 import org.mpxj.FieldType;
 import org.mpxj.MPXJException;
@@ -51,6 +47,7 @@ import org.mpxj.TaskField;
 import org.mpxj.common.CharsetHelper;
 import org.mpxj.common.InputStreamHelper;
 import org.mpxj.common.NumberHelper;
+import org.mpxj.mscfb.CompoundFile;
 import org.mpxj.reader.UniversalProjectReader;
 import org.mpxj.utility.clean.CleanByRedactStrategy;
 import org.mpxj.utility.clean.CleanByReplacementStrategy;
@@ -197,28 +194,28 @@ public class ProjectCleanUtility
       {
          case 8:
          {
-            projectDirName = "   1";
+            projectDirName = "/   1";
             varDataFileName = "FixDeferFix   0";
             break;
          }
 
          case 9:
          {
-            projectDirName = "   19";
+            projectDirName = "/   19";
             varDataFileName = "Var2Data";
             break;
          }
 
          case 12:
          {
-            projectDirName = "   112";
+            projectDirName = "/   112";
             varDataFileName = "Var2Data";
             break;
          }
 
          case 14:
          {
-            projectDirName = "   114";
+            projectDirName = "/   114";
             varDataFileName = "Var2Data";
             break;
          }
@@ -233,42 +230,37 @@ public class ProjectCleanUtility
       // Load the raw file
       //
       FileInputStream is = new FileInputStream(input);
-      POIFSFileSystem fs = new POIFSFileSystem(is);
+      CompoundFile cf =  new CompoundFile(is);
       is.close();
 
-      //
-      // Locate the root of the project file system
-      //
-      DirectoryEntry root = fs.getRoot();
-      DirectoryEntry projectDir = (DirectoryEntry) root.getEntry(projectDirName);
 
       //
       // Process Tasks
       //
-      processFile((DirectoryEntry) projectDir.getEntry("TBkndTask"), varDataFileName, m_project.getTasks(), true, TaskField.NAME);
+      processFile(cf, projectDirName + "/TBkndTask/" + varDataFileName, m_project.getTasks(), true, TaskField.NAME);
 
       //
       // Process Resources
       //
-      processFile((DirectoryEntry) projectDir.getEntry("TBkndRsc"), varDataFileName, m_project.getResources(), true, ResourceField.NAME, ResourceField.INITIALS);
+      processFile(cf, projectDirName + "/TBkndRsc/" + varDataFileName, m_project.getResources(), true, ResourceField.NAME, ResourceField.INITIALS);
 
       //
       // Process project properties
       //
       List<ProjectProperties> projectProperties = Collections.singletonList(m_project.getProjectProperties());
 
-      processFile(projectDir, "Props", projectProperties, true, PROJECT_FIELDS);
-      processFile(root, "\005SummaryInformation", projectProperties, false, PROJECT_FIELDS);
-      processFile(root, "\005DocumentSummaryInformation", projectProperties, false, PROJECT_FIELDS);
+      processFile(cf, projectDirName +"/Props", projectProperties, true, PROJECT_FIELDS);
+      processFile(cf, "/\005SummaryInformation", projectProperties, false, PROJECT_FIELDS);
+      processFile(cf, "/\005DocumentSummaryInformation", projectProperties, false, PROJECT_FIELDS);
 
       //
       // Write the replacement raw file
       //
       FileOutputStream os = new FileOutputStream(output);
-      fs.writeFilesystem(os);
+      cf.writeFilesystem(os);
       os.flush();
       os.close();
-      fs.close();
+      cf.close();
    }
 
    /**
@@ -337,35 +329,34 @@ public class ProjectCleanUtility
    /**
     * Extract a file from within an MPP file.
     *
-    * @param parentDirectory parent directory
-    * @param fileName file name
+    * @param file parent file
+    * @param path file path
     * @return file data
     */
-   private byte[] extractFile(DirectoryEntry parentDirectory, String fileName) throws IOException
+   private byte[] extractFile(CompoundFile file, String path) throws IOException
    {
-      DocumentEntry targetFile = (DocumentEntry) parentDirectory.getEntry(fileName);
-      DocumentInputStream dis = new DocumentInputStream(targetFile);
+      InputStream dis = file.getInputStream(path);
       int dataSize = dis.available();
       byte[] data = InputStreamHelper.read(dis, dataSize);
       dis.close();
-      targetFile.delete();
+      file.delete(path);
       return data;
    }
 
    /**
     * Perform the replacement on a file within an MPP file.
     *
-    * @param parentDirectory parent directory
-    * @param fileName target file name
+    * @param file parent file
+    * @param path target file path
     * @param items items to extract field values from
-    * @param unicode true if replacing unicode text
+    * @param unicode true if replacing Unicode text
     * @param fields list of fields to extract
     */
-   private void processFile(DirectoryEntry parentDirectory, String fileName, List<? extends FieldContainer> items, boolean unicode, FieldType... fields) throws IOException
+   private void processFile(CompoundFile file, String path, List<? extends FieldContainer> items, boolean unicode, FieldType... fields) throws IOException
    {
-      byte[] data = extractFile(parentDirectory, fileName);
+      byte[] data = extractFile(file, path);
       processReplacements(data, items, unicode, true, false, fields);
-      parentDirectory.createDocument(fileName, new ByteArrayInputStream(data));
+      file.createDocument(path, new ByteArrayInputStream(data));
    }
 
    /**
