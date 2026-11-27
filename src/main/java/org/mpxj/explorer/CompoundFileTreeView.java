@@ -1,8 +1,7 @@
 /*
- * file:       PoiTreeView.java
+ * file:       CompoundFileTreeView.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2014
- * date:       06/07/2014
+ * date:       2014-07-06
  */
 
 /*
@@ -24,30 +23,41 @@
 package org.mpxj.explorer;
 
 import javax.swing.JTree;
-import org.apache.poi.poifs.filesystem.Entry;
 
 /**
  * Implements the view component of the PoiTree MVC.
  */
-class PoiTreeView extends JTree
+class CompoundFileTreeView extends JTree
 {
    /**
     * Constructor.
     *
     * @param model tree model to display
     */
-   public PoiTreeView(final PoiTreeModel model)
+   public CompoundFileTreeView(final CompoundFileTreeModel model)
    {
       setModel(model);
    }
 
    @Override public String convertValueToText(Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus)
    {
-      String result = "";
-      if (value instanceof Entry)
+      if (!(value instanceof  String))
       {
-         result = ((Entry) value).getName();
+         return "";
       }
-      return result;
+
+      String path = (String)value;
+      if (!path.startsWith("/"))
+      {
+         return "";
+      }
+
+      if (path.equals("/"))
+      {
+         return path;
+      }
+
+      int index = path.lastIndexOf('/');
+      return path.substring(index+1);
    }
 }

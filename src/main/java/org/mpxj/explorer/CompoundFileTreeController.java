@@ -1,8 +1,7 @@
 /*
- * file:       PoiTreeController.java
- * author:     Jon Iles
- * copyright:  (c) Packwood Software 2014
- * date:       06/07/2014
+ * file:    CompoundFileTreeController.java
+ * author:  Jon Iles
+ * date:    2014-07-06
  */
 
 /*
@@ -28,22 +27,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.mpxj.common.AutoCloseableHelper;
+import org.mpxj.mscfb.CompoundFile;
 
 /**
  * Implements the controller component of the PoiTree MVC.
  */
-class PoiTreeController
+class CompoundFileTreeController
 {
-   private final PoiTreeModel m_model;
+   private final CompoundFileTreeModel m_model;
 
    /**
     * Constructor.
     *
     * @param model PoiTree model
     */
-   public PoiTreeController(PoiTreeModel model)
+   public CompoundFileTreeController(CompoundFileTreeModel model)
    {
       m_model = model;
    }
@@ -60,8 +59,7 @@ class PoiTreeController
       try
       {
          is = Files.newInputStream(file.toPath());
-         POIFSFileSystem fs = new POIFSFileSystem(is);
-         m_model.setFile(fs);
+         m_model.setFile(new CompoundFile(is));
       }
 
       catch (IOException ex)

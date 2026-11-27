@@ -32,7 +32,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.tree.TreePath;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
 
 /**
  * Component representing the main view of an MPP file.
@@ -49,9 +48,9 @@ class MppFilePanel extends JPanel
     */
    public MppFilePanel(File file)
    {
-      PoiTreeModel treeModel = new PoiTreeModel();
-      PoiTreeController treeController = new PoiTreeController(treeModel);
-      PoiTreeView treeView = new PoiTreeView(treeModel);
+      CompoundFileTreeModel treeModel = new CompoundFileTreeModel();
+      CompoundFileTreeController treeController = new CompoundFileTreeController(treeModel);
+      CompoundFileTreeView treeView = new CompoundFileTreeView(treeModel);
       treeView.setShowsRootHandles(true);
 
       HexDumpModel hexDumpModel = new HexDumpModel();
@@ -73,9 +72,9 @@ class MppFilePanel extends JPanel
       treeView.addTreeSelectionListener(e -> {
          TreePath path = e.getPath();
          Object component = path.getLastPathComponent();
-         if (component instanceof DocumentEntry)
+         if (component instanceof String)
          {
-            m_hexDumpController.viewDocument((DocumentEntry) component);
+            m_hexDumpController.viewDocument(treeModel.getFile(), (String)component);
          }
       });
 

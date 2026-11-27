@@ -113,7 +113,7 @@ public final class MPPReader extends AbstractProjectStreamReader
 
    /**
     * Alternative entry point allowing an MPP file to be read from
-    * a user-supplied POI file stream.
+    * a user-supplied compound file.
     *
     * @param cfb parent file
     * @return ProjectFile instance

@@ -585,17 +585,21 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       try
       {
-         // Reading from a file is more memory efficient than using an InputStream.
-         // This also avoids a hard limit imposed by POI when reading certain very large files.
          if (sourceChannel == null)
          {
+            // Reading from a file is more memory efficient than using an InputStream.
+            // This also avoids a hard limit imposed by the underlying CompoundFile
+            // implementation when reading certain very large files.
             File file = InputStreamHelper.writeStreamToTempFile(stream, ".dat");
             m_cleanup.push(() -> FileHelper.deleteQuietly(file));
             cfb = new CompoundFile(file);
          }
          else
          {
-            // POI reads the header from the channel's current position, which the stream has moved on
+            // Prefer reading from a channel if we have one.
+            // Reset the channel to the start as the position
+            // will have been mved forward as part of identifying
+            // the file type.
             cfb = new CompoundFile(sourceChannel.position(0));
          }
 
@@ -747,7 +751,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       FileInputStream fis = new FileInputStream(file);
       m_cleanup.push(() -> AutoCloseableHelper.closeQuietly(fis));
 
-      // POI can read the open file directly via a FileChannel only if it can read it at any position.
+      // The CompoundFile implementation can read the open file directly via a FileChannel only if it can read it at any position.
       // It can do this from a regular file, but not a pipe, and only if we haven't skipped bytes.
       return getProjectReaderProxy(fis, m_skipBytes == 0 && file.isFile() ? fis.getChannel() : null);
    }

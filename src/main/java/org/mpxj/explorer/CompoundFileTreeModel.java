@@ -1,8 +1,7 @@
 /*
- * file:       PoiTreeModel.java
+ * file:       CompoundFileTreeModel.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2014
- * date:       06/07/2014
+ * date:       2014-07-06
  */
 
 /*
@@ -23,8 +22,8 @@
 
 package org.mpxj.explorer;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.List;
 
 import javax.swing.event.EventListenerList;
@@ -32,71 +31,95 @@ import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.Entry;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.mpxj.mscfb.CompoundFile;
 
 /**
  * Implements the model component of the PoiTree MVC.
  */
-class PoiTreeModel implements TreeModel
+class CompoundFileTreeModel implements TreeModel
 {
    private final EventListenerList m_listenerList = new EventListenerList();
-   private POIFSFileSystem m_file;
+   private CompoundFile m_file;
 
    /**
     * Point the model to a file.
     *
-    * @param file POIFS file
+    * @param file target file
     */
-   public void setFile(POIFSFileSystem file)
+   public void setFile(CompoundFile file)
    {
       m_file = file;
       fireTreeStructureChanged();
    }
 
+   /**
+    * Retrieve the model's file.
+    *
+    * @return target file
+    */
+   public CompoundFile getFile()
+   {
+      return m_file;
+   }
+
    @Override public Object getRoot()
    {
-      Object result = null;
-      if (m_file != null)
-      {
-         result = m_file.getRoot();
-      }
-      return result;
+      return "/";
    }
 
    @Override public Object getChild(Object parent, int index)
    {
-      Object result = null;
-      if (parent instanceof DirectoryEntry)
+      try
       {
-         List<Entry> entries = getChildNodes((DirectoryEntry) parent);
-         if (entries.size() > index)
+         Object result = null;
+         String path = (String) parent;
+         if (m_file.isDirectory(path))
          {
-            result = entries.get(index);
+            List<String> entries = m_file.listFiles(path);
+            if (entries.size() > index)
+            {
+               result = entries.get(index);
+            }
          }
+         return result;
       }
-      return result;
+
+      catch (IOException ex)
+      {
+         throw new UncheckedIOException(ex);
+      }
    }
 
    @Override public int getChildCount(Object parent)
    {
-      int result;
-      if (parent instanceof DirectoryEntry)
+      try
       {
-         DirectoryEntry node = (DirectoryEntry) parent;
-         result = node.getEntryCount();
+         String path = (String) parent;
+         if (m_file != null && m_file.isDirectory(path))
+         {
+            return m_file.listFiles(path).size();
+         }
+
+         return 0;
       }
-      else
+
+      catch (IOException ex)
       {
-         result = 0;
+         throw new UncheckedIOException(ex);
       }
-      return result;
    }
 
    @Override public boolean isLeaf(Object node)
    {
-      return !(node instanceof DirectoryEntry);
+      try
+      {
+         return m_file != null && !m_file.isDirectory((String) node);
+      }
+
+      catch (IOException ex)
+      {
+         throw new UncheckedIOException(ex);
+      }
    }
 
    @Override public void valueForPathChanged(TreePath path, Object newValue)
@@ -106,15 +129,23 @@ class PoiTreeModel implements TreeModel
 
    @Override public int getIndexOfChild(Object parent, Object child)
    {
-      int result = -1;
-      if (parent instanceof DirectoryEntry)
+      try
       {
-         List<Entry> entries = getChildNodes((DirectoryEntry) parent);
-         //noinspection SuspiciousMethodCalls
-         result = entries.indexOf(child);
+         int result = -1;
+         String path = (String) parent;
+         if (m_file != null && m_file.isDirectory(path))
+         {
+            List<String> entries = m_file.listFiles(path);
+            result = entries.indexOf((String) child);
+         }
+
+         return result;
       }
 
-      return result;
+      catch (IOException ex)
+      {
+         throw new UncheckedIOException(ex);
+      }
    }
 
    @Override public void addTreeModelListener(TreeModelListener l)
@@ -125,23 +156,6 @@ class PoiTreeModel implements TreeModel
    @Override public void removeTreeModelListener(TreeModelListener l)
    {
       m_listenerList.remove(TreeModelListener.class, l);
-   }
-
-   /**
-    * Retrieves child nodes from a directory entry.
-    *
-    * @param parent parent directory entry
-    * @return list of child nodes
-    */
-   private List<Entry> getChildNodes(DirectoryEntry parent)
-   {
-      List<Entry> result = new ArrayList<>();
-      Iterator<Entry> entries = parent.getEntries();
-      while (entries.hasNext())
-      {
-         result.add(entries.next());
-      }
-      return result;
    }
 
    /**

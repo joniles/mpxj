@@ -69,7 +69,7 @@ final class FixedMeta extends MPPComponent
    {
 
       //
-      // The POI file system guarantees that this is accurate
+      // The compound file system guarantees that this is accurate
       //
       int fileSize = is.available();
 

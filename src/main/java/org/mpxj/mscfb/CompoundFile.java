@@ -173,6 +173,11 @@ public class CompoundFile implements Closeable
          throw new IOException("Path must be absolute");
       }
 
+      if (path.equals("/"))
+      {
+         return true;
+      }
+
       int index = path.lastIndexOf("/");
       String dir = index == 0 ? "/" : path.substring(0, index);
       String file = path.substring(index+1);

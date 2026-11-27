@@ -949,7 +949,7 @@ final class MPPUtility
    }
 
    /**
-    * Writes a hex dump to a file from a POI input stream.
+    * Writes a hex dump to a file from an input stream.
     * Note that this assumes that the complete size of the data in
     * the stream is returned by the available() method.
     *

@@ -33,11 +33,10 @@ import java.time.format.DateTimeFormatter;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.mpxj.common.AutoCloseableHelper;
 import org.mpxj.common.InputStreamHelper;
 import org.mpxj.mpp.DataAtOffset;
+import org.mpxj.mscfb.CompoundFile;
 
 /**
  * Implements the controller component of the HexDump MVC.
@@ -84,15 +83,16 @@ class HexDumpController
    /**
     * Command to select a document from the POIFS for viewing.
     *
-    * @param entry document to view
+    * @param file parent file
+    * @param path target path
     */
-   public void viewDocument(DocumentEntry entry)
+   public void viewDocument(CompoundFile file, String path)
    {
       InputStream is = null;
 
       try
       {
-         is = new DocumentInputStream(entry);
+         is = file.getInputStream(path);
          byte[] data = InputStreamHelper.readAvailable(is);
          m_model.setData(data);
          updateTables();
