@@ -97,16 +97,8 @@ final class PoiCompoundFile implements CompoundFile
 
    @Override public InputStream read(String path) throws IOException
    {
-      if (!path.startsWith("/"))
-      {
-         throw new IOException("Path must be absolute");
-      }
-
-      int index = path.lastIndexOf("/");
-      String dir = index == 0 ? "/" : path.substring(0, index);
-      String file = path.substring(index+1);
-
-      return new DocumentInputStream((DocumentEntry) getNode(dir).getEntry(file));
+      String[] names = getDirAndFileNames(path);
+      return new DocumentInputStream((DocumentEntry) getNode(names[0]).getEntry(names[1]));
    }
 
    @Override public Map<String, String> getSummaryInformation() throws IOException
@@ -194,63 +186,41 @@ final class PoiCompoundFile implements CompoundFile
 
    @Override public boolean exists(String path) throws IOException
    {
-      if (!path.startsWith("/"))
-      {
-         throw new IOException("Path must be absolute");
-      }
-
-      int index = path.lastIndexOf("/");
-      String dir = index == 0 ? "/" : path.substring(0, index);
-      String file = path.substring(index+1);
-
-      return getNode(dir).hasEntry(file);
+      String[] names = getDirAndFileNames(path);
+      return getNode(names[0]).hasEntry(names[1]);
    }
 
    @Override public boolean isDirectory(String path) throws IOException
    {
-      if (!path.startsWith("/"))
-      {
-         throw new IOException("Path must be absolute");
-      }
-
       if (path.equals("/"))
       {
          return true;
       }
 
-      int index = path.lastIndexOf("/");
-      String dir = index == 0 ? "/" : path.substring(0, index);
-      String file = path.substring(index+1);
-
-      return getNode(dir).getEntry(file) instanceof DirectoryEntry;
+      String[] names = getDirAndFileNames(path);
+      return getNode(names[0]).getEntry(names[1]) instanceof DirectoryEntry;
    }
 
    @Override public boolean isFile(String path) throws IOException
    {
+      if (path.equals("/"))
+      {
+         return false;
+      }
+
       if (!path.startsWith("/"))
       {
          throw new IOException("Path must be absolute");
       }
 
-      int index = path.lastIndexOf("/");
-      String dir = index == 0 ? "/" : path.substring(0, index);
-      String file = path.substring(index+1);
-
-      return getNode(dir).getEntry(file) instanceof DocumentEntry;
+      String[] names = getDirAndFileNames(path);
+      return getNode(names[0]).getEntry(names[1]) instanceof DocumentEntry;
    }
 
    @Override public void create(String path, InputStream stream) throws IOException
    {
-      if (!path.startsWith("/"))
-      {
-         throw new IOException("Path must be absolute");
-      }
-
-      int index = path.lastIndexOf("/");
-      String dir = index == 0 ? "/" : path.substring(0, index);
-      String file = path.substring(index+1);
-
-      getNode(dir).createDocument(file, stream);
+      String[] names = getDirAndFileNames(path);
+      getNode(names[0]).createDocument(names[1], stream);
    }
 
    @Override public void write(OutputStream stream) throws IOException
@@ -260,16 +230,8 @@ final class PoiCompoundFile implements CompoundFile
 
    @Override public void delete(String path) throws IOException
    {
-      if (!path.startsWith("/"))
-      {
-         throw new IOException("Path must be absolute");
-      }
-
-      int index = path.lastIndexOf("/");
-      String dir = index == 0 ? "/" : path.substring(0, index);
-      String file = path.substring(index+1);
-
-      getNode(dir).getEntry(file).delete();
+      String[] names = getDirAndFileNames(path);
+      getNode(names[0]).getEntry(names[1]).delete();
    }
 
    @Override public void close() throws IOException
@@ -367,6 +329,23 @@ final class PoiCompoundFile implements CompoundFile
       }
 
       return DATE_TIME_FORMAT.format(getLocalDateTime(date));
+   }
+
+   /**
+    * Given a path of a file, break it down into the parent directory name and the child file name.
+    *
+    * @param path target path
+    * @return array containing the parent directory name and the child file name
+    */
+   private String[] getDirAndFileNames(String path) throws IOException
+   {
+      if (!path.startsWith("/"))
+      {
+         throw new IOException("Path must be absolute");
+      }
+
+      int index = path.lastIndexOf("/");
+      return new String[] {index == 0 ? "/" : path.substring(0, index), path.substring(index+1)};
    }
 
    private final POIFSFileSystem m_fs;
