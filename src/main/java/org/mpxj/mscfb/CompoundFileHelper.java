@@ -41,7 +41,7 @@ public final class CompoundFileHelper
     */
    public static CompoundFile open(InputStream is) throws IOException
    {
-      return new PoiCompoundFile(is);
+      return PROVIDER.open(is);
    }
 
    /**
@@ -52,7 +52,7 @@ public final class CompoundFileHelper
     */
    public static CompoundFile open(File file) throws IOException
    {
-      return new PoiCompoundFile(file);
+      return PROVIDER.open(file);
    }
 
    /**
@@ -63,6 +63,21 @@ public final class CompoundFileHelper
     */
    public static CompoundFile open(FileChannel channel) throws IOException
    {
-      return new PoiCompoundFile(channel);
+      return PROVIDER.open(channel);
+   }
+
+   private static final CompoundFileProvider PROVIDER;
+   static
+   {
+      try
+      {
+         String name = System.getenv("MPXJ_COMPOUND_FILE_PROVIDER");
+         PROVIDER = name == null ? new PoiCompoundFileProvider() : (CompoundFileProvider) Class.forName(name).newInstance();
+      }
+
+      catch (Exception ex)
+      {
+         throw new RuntimeException("Failed to instantiate a CompoundFileProvider", ex);
+      }
    }
 }
