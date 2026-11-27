@@ -33,7 +33,6 @@ import org.mpxj.LocalTimeRange;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarException;
 import org.mpxj.ProjectFile;
-import org.mpxj.cfb.CfbFile;
 import org.mpxj.common.ByteArrayHelper;
 
 /**

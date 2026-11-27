@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 
 /**
  * Read a set of code definitions from a code directory
@@ -40,7 +40,7 @@ class CodeDirectoryReader
     *
     * @param file CFB file
     */
-   public CodeDirectoryReader(CfbFile file)
+   public CodeDirectoryReader(CompoundFile file)
    {
       m_file = file;
    }
@@ -89,6 +89,6 @@ class CodeDirectoryReader
       return m_map;
    }
 
-   private final CfbFile m_file;
+   private final CompoundFile m_file;
    private final Map<String, Code> m_map = new HashMap<>();
 }

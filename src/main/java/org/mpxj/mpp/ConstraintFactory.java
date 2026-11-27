@@ -8,7 +8,7 @@ import org.mpxj.ProjectProperties;
 import org.mpxj.Relation;
 import org.mpxj.RelationType;
 import org.mpxj.Task;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.NumberHelper;
 
@@ -26,7 +26,7 @@ class ConstraintFactory
     * @param file parent project file
     * @param inputStreamFactory factory to create input stream
     */
-   public void process(CfbFile cfb, String projectDirPath, ProjectFile file, DocumentInputStreamFactory inputStreamFactory) throws IOException
+   public void process(CompoundFile cfb, String projectDirPath, ProjectFile file, DocumentInputStreamFactory inputStreamFactory) throws IOException
    {
       if (!cfb.hasEntry(projectDirPath + "/TBkndCons"))
       {

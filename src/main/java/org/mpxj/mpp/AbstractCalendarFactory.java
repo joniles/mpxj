@@ -40,7 +40,7 @@ import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectCalendarDays;
 import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectFile;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.Pair;
@@ -72,7 +72,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
     * @param inputStreamFactory input stream factory
     * @param resourceMap map of resources to calendars
     */
-   @Override public void processCalendarData(CfbFile cfb, String projectDirPath, Props projectProps, DocumentInputStreamFactory inputStreamFactory, HashMap<Integer, ProjectCalendar> resourceMap) throws IOException
+   @Override public void processCalendarData(CompoundFile cfb, String projectDirPath, Props projectProps, DocumentInputStreamFactory inputStreamFactory, HashMap<Integer, ProjectCalendar> resourceMap) throws IOException
    {
       String calDirPath = projectDirPath + "/TBkndCal";
       VarMeta calVarMeta = getCalendarVarMeta(cfb.getInputStream(calDirPath + "/VarMeta"));

@@ -25,7 +25,7 @@ package org.mpxj.openplan;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 
 /**
  * Base class for working with data stored within a BK3 file.
@@ -38,7 +38,7 @@ abstract class AbstractReader
     * @param file CFB file
     * @param path file path
     */
-   public AbstractReader(CfbFile file, String path)
+   public AbstractReader(CompoundFile file, String path)
    {
       try
       {

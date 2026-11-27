@@ -29,7 +29,7 @@ import java.util.Map;
 import org.mpxj.ActivityCode;
 import org.mpxj.ActivityCodeValue;
 import org.mpxj.ProjectFile;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 
 /**
  * Given a map of codes, determine which of these are mapped to activities, populate
@@ -45,7 +45,7 @@ class ActivityCodeReader
     * @param path parent directory
     * @param file project file
     */
-   public ActivityCodeReader(CfbFile cfb, String path, ProjectFile file)
+   public ActivityCodeReader(CompoundFile cfb, String path, ProjectFile file)
    {
       m_cfb = cfb;
       m_path = path;
@@ -105,7 +105,7 @@ class ActivityCodeReader
    }
 
    private final ProjectFile m_file;
-   private final CfbFile m_cfb;
+   private final CompoundFile m_cfb;
    private final String m_path;
    private final Map<String, Map<String, ActivityCodeValue>> m_codeMap = new HashMap<>();
 }

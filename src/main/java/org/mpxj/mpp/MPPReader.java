@@ -33,10 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.mpxj.CalendarType;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectCalendar;
@@ -49,7 +45,7 @@ import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.UnitOfMeasure;
 import org.mpxj.UnitOfMeasureContainer;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 import org.mpxj.common.AutoCloseableHelper;
 import org.mpxj.reader.AbstractProjectStreamReader;
 
@@ -62,7 +58,7 @@ public final class MPPReader extends AbstractProjectStreamReader
    {
       try
       {
-         return read(new CfbFile(is));
+         return read(new CompoundFile(is));
       }
 
       catch (IOException ex)
@@ -73,7 +69,7 @@ public final class MPPReader extends AbstractProjectStreamReader
 
    @Override public ProjectFile read(File file) throws MPXJException
    {
-      CfbFile cfb = null;
+      CompoundFile cfb = null;
 
       try
       {
@@ -81,7 +77,7 @@ public final class MPPReader extends AbstractProjectStreamReader
          // the AbstractProjectStreamReader version as we can work with the File
          // instance directly for reduced memory consumption and the ability
          // to open larger MPP files.
-         cfb = new CfbFile(file);
+         cfb = new CompoundFile(file);
          return read(cfb);
       }
 
@@ -104,7 +100,7 @@ public final class MPPReader extends AbstractProjectStreamReader
     * @param cfb parent file
     * @return file format name
     */
-   public static String getFileFormat(CfbFile cfb) throws IOException
+   public static String getFileFormat(CompoundFile cfb) throws IOException
    {
       String fileFormat = "";
       if (cfb.listFiles("/").contains("/\1CompObj"))
@@ -122,7 +118,7 @@ public final class MPPReader extends AbstractProjectStreamReader
     * @param cfb parent file
     * @return ProjectFile instance
     */
-   public ProjectFile read(CfbFile cfb) throws MPXJException
+   public ProjectFile read(CompoundFile cfb) throws MPXJException
    {
       try
       {

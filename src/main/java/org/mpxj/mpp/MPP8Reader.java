@@ -59,7 +59,7 @@ import org.mpxj.TableContainer;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.View;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.FieldTypeHelper;
@@ -75,7 +75,7 @@ import org.mpxj.common.Pair;
  */
 final class MPP8Reader implements MPPVariantReader
 {
-   @Override public void process(MPPReader reader, ProjectFile file, CfbFile cfb) throws MPXJException, IOException
+   @Override public void process(MPPReader reader, ProjectFile file, CompoundFile cfb) throws MPXJException, IOException
    {
       try
       {
@@ -1324,7 +1324,7 @@ final class MPP8Reader implements MPPVariantReader
    private EventManager m_eventManager;
    private HashMap<Integer, ProjectCalendar> m_calendarMap;
    private Props8 m_projectProps;
-   private CfbFile m_cfb;
+   private CompoundFile m_cfb;
 
    /**
     * Task data types.

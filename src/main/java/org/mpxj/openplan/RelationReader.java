@@ -31,7 +31,7 @@ import org.mpxj.ProjectFile;
 import org.mpxj.Relation;
 import org.mpxj.RelationType;
 import org.mpxj.Task;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 
 /**
  * Read activity relationships.
@@ -45,7 +45,7 @@ class RelationReader
     * @param path parent path
     * @param file project file
     */
-   public RelationReader(CfbFile cfb, String path, ProjectFile file)
+   public RelationReader(CompoundFile cfb, String path, ProjectFile file)
    {
       m_cfb = cfb;
       m_path = path;
@@ -87,7 +87,7 @@ class RelationReader
    }
 
    private final ProjectFile m_file;
-   private final CfbFile m_cfb;
+   private final CompoundFile m_cfb;
    private final String m_path;
 
    private static final Map<String, RelationType> TYPE_MAP = new HashMap<>();

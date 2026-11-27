@@ -28,7 +28,7 @@ import java.util.List;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 
 /**
  * Read project properties from a project directory.
@@ -41,7 +41,7 @@ class ProjectDirectoryReader
     * @param cfb parent file
     * @param path parent path
     */
-   public ProjectDirectoryReader(CfbFile cfb, String path)
+   public ProjectDirectoryReader(CompoundFile cfb, String path)
    {
       m_cfb = cfb;
       m_path = path;
@@ -271,7 +271,7 @@ class ProjectDirectoryReader
       // USR_ID
    }
 
-   private final CfbFile m_cfb;
+   private final CompoundFile m_cfb;
    private final String m_path;
    private final ProjectFile m_file;
 }

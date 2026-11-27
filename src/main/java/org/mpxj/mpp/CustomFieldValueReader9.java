@@ -43,7 +43,7 @@ import org.mpxj.FieldTypeClass;
 import org.mpxj.ProjectFile;
 import org.mpxj.ProjectProperties;
 import org.mpxj.TimeUnit;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
 import org.mpxj.common.Pair;
@@ -60,7 +60,7 @@ class CustomFieldValueReader9
     * @param file project file
     * @param projectProps MPP project properties
     */
-   public CustomFieldValueReader9(CfbFile cfb, ProjectFile file, Props projectProps)
+   public CustomFieldValueReader9(CompoundFile cfb, ProjectFile file, Props projectProps)
    {
       m_cfb = cfb;
       m_file = file;
@@ -344,7 +344,7 @@ class CustomFieldValueReader9
       return result;
    }
 
-   private final CfbFile m_cfb;
+   private final CompoundFile m_cfb;
    private final ProjectFile m_file;
    private final ProjectProperties m_properties;
    private final Props m_projectProps;

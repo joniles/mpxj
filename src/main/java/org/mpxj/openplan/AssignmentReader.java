@@ -32,7 +32,7 @@ import org.mpxj.Resource;
 import org.mpxj.ResourceAssignment;
 import org.mpxj.Task;
 import org.mpxj.TimeUnit;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 
 /**
  * Populate the parent project with resource assignments.
@@ -47,7 +47,7 @@ class AssignmentReader
     * param path parent path
     * @param file project file
     */
-   public AssignmentReader(CfbFile cfb, String path, ProjectFile file)
+   public AssignmentReader(CompoundFile cfb, String path, ProjectFile file)
    {
       m_cfb = cfb;
       m_path = path;
@@ -131,6 +131,6 @@ class AssignmentReader
    }
 
    private final ProjectFile m_file;
-   private final CfbFile m_cfb;
+   private final CompoundFile m_cfb;
    private final String m_path;
 }

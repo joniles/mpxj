@@ -25,11 +25,9 @@ package org.mpxj.mpp;
 
 import java.io.IOException;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 
 /**
  * This interface is implemented by classes which understand how
@@ -44,5 +42,5 @@ interface MPPVariantReader
     * @param file data structure to be populated
     * @param cfb parent file
     */
-   void process(MPPReader reader, ProjectFile file, CfbFile cfb) throws MPXJException, IOException;
+   void process(MPPReader reader, ProjectFile file, CompoundFile cfb) throws MPXJException, IOException;
 }

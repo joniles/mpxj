@@ -40,7 +40,7 @@ import org.mpxj.ProjectCalendarHours;
 import org.mpxj.ProjectFile;
 import org.mpxj.RecurrenceType;
 import org.mpxj.RecurringData;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.LocalDateHelper;
 
@@ -56,7 +56,7 @@ class CalendarDirectoryReader
     * @param cfb parent file
     * @param file parent project
     */
-   public CalendarDirectoryReader(CfbFile cfb,  ProjectFile file)
+   public CalendarDirectoryReader(CompoundFile cfb,  ProjectFile file)
    {
       m_cfb = cfb;
       m_file = file;
@@ -346,7 +346,7 @@ class CalendarDirectoryReader
    }
 
    private final ProjectFile m_file;
-   private final CfbFile m_cfb;
+   private final CompoundFile m_cfb;
 
    private final Map<String, ProjectCalendar> m_map = new HashMap<>();
 

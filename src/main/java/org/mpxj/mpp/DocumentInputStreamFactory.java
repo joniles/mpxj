@@ -26,7 +26,7 @@ package org.mpxj.mpp;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 
 /**
  * Factory used to create document input streams. Can switch between normal and encrypted streams as required.
@@ -38,7 +38,7 @@ class DocumentInputStreamFactory
     *
     * @param props document properties
     */
-   public DocumentInputStreamFactory(CfbFile cfb, Props props)
+   public DocumentInputStreamFactory(CompoundFile cfb, Props props)
    {
       m_cfb = cfb;
       m_encrypted = props.getByte(PropsKey.PASSWORD_FLAG) != 0;
@@ -74,7 +74,7 @@ class DocumentInputStreamFactory
       return m_encryptionCode;
    }
 
-   private final CfbFile m_cfb;
+   private final CompoundFile m_cfb;
    private final boolean m_encrypted;
    private final byte m_encryptionCode;
 }

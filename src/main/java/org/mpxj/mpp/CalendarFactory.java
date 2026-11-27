@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import org.mpxj.ProjectCalendar;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 
 /**
  * Read calendar data from MPP files.
@@ -46,5 +46,5 @@ interface CalendarFactory
     * @param inputStreamFactory input stream factory
     * @param resourceMap map of resources to calendars
     */
-   void processCalendarData(CfbFile cfb, String projectDirPath, Props projectProps, DocumentInputStreamFactory inputStreamFactory, HashMap<Integer, ProjectCalendar> resourceMap) throws IOException;
+   void processCalendarData(CompoundFile cfb, String projectDirPath, Props projectProps, DocumentInputStreamFactory inputStreamFactory, HashMap<Integer, ProjectCalendar> resourceMap) throws IOException;
 }

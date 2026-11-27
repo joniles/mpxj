@@ -48,7 +48,7 @@ import org.mpxj.ProjectFile;
 import org.mpxj.asta.AstaMdbReader;
 import org.mpxj.asta.AstaSqliteReader;
 import org.mpxj.asta.AstaTextFileReader;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 import org.mpxj.common.AutoCloseableHelper;
 import org.mpxj.common.CharsetHelper;
 import org.mpxj.common.ConnectionHelper;
@@ -581,7 +581,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     */
    private ProjectReaderProxy handleOleCompoundDocument(InputStream stream, FileChannel sourceChannel) throws Exception
    {
-      CfbFile cfb;
+      CompoundFile cfb;
 
       try
       {
@@ -591,12 +591,12 @@ public final class UniversalProjectReader extends AbstractProjectReader
          {
             File file = InputStreamHelper.writeStreamToTempFile(stream, ".dat");
             m_cleanup.push(() -> FileHelper.deleteQuietly(file));
-            cfb = new CfbFile(file);
+            cfb = new CompoundFile(file);
          }
          else
          {
             // POI reads the header from the channel's current position, which the stream has moved on
-            cfb = new CfbFile(sourceChannel.position(0));
+            cfb = new CompoundFile(sourceChannel.position(0));
          }
 
          m_cleanup.push(() -> AutoCloseableHelper.closeQuietly(cfb));
@@ -609,7 +609,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       if (cfb.listFiles("/").contains("/SourceInfo"))
       {
-         return new GenericReaderProxy<OpenPlanReader, CfbFile>(configure(new OpenPlanReader()), cfb)
+         return new GenericReaderProxy<OpenPlanReader, CompoundFile>(configure(new OpenPlanReader()), cfb)
          {
             @Override public ProjectFile read() throws MPXJException
             {
@@ -629,7 +629,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
          return null;
       }
 
-      return new GenericReaderProxy<MPPReader, CfbFile>(configure(new MPPReader()), cfb)
+      return new GenericReaderProxy<MPPReader, CompoundFile>(configure(new MPPReader()), cfb)
       {
          @Override public ProjectFile read() throws MPXJException
          {

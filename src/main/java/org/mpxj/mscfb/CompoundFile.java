@@ -1,4 +1,4 @@
-package org.mpxj.cfb;
+package org.mpxj.mscfb;
 
 import java.io.Closeable;
 import java.io.File;
@@ -29,25 +29,19 @@ import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.apache.poi.poifs.filesystem.Entry;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
-public class CfbFile implements Closeable
+public class CompoundFile implements Closeable
 {
-   // TEMP
-   public CfbFile(POIFSFileSystem fs)
-   {
-      m_fs = fs;
-   }
-
-   public CfbFile(InputStream is) throws IOException
+   public CompoundFile(InputStream is) throws IOException
    {
       m_fs = new POIFSFileSystem(is);
    }
 
-   public CfbFile(File file) throws IOException
+   public CompoundFile(File file) throws IOException
    {
       m_fs = new POIFSFileSystem(file);
    }
 
-   public CfbFile(FileChannel channel) throws IOException
+   public CompoundFile(FileChannel channel) throws IOException
    {
       m_fs = new POIFSFileSystem(channel, true, false);
    }
@@ -168,6 +162,34 @@ public class CfbFile implements Closeable
       String file = path.substring(index+1);
 
       return getNode(dir).hasEntry(file);
+   }
+
+   public void createDocument(String path, InputStream is) throws IOException
+   {
+      if (!path.startsWith("/"))
+      {
+         throw new IOException("Path must be absolute");
+      }
+
+      int index = path.lastIndexOf("/");
+      String dir = index == 0 ? "/" : path.substring(0, index);
+      String file = path.substring(index+1);
+
+      getNode(dir).createDocument(file, is);
+   }
+
+   public void delete(String path) throws IOException
+   {
+      if (!path.startsWith("/"))
+      {
+         throw new IOException("Path must be absolute");
+      }
+
+      int index = path.lastIndexOf("/");
+      String dir = index == 0 ? "/" : path.substring(0, index);
+      String file = path.substring(index+1);
+
+      getNode(dir).getEntry(file).delete();
    }
 
    @Override public void close() throws IOException

@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 import org.mpxj.common.AutoCloseableHelper;
 import org.mpxj.reader.AbstractProjectStreamReader;
 
@@ -43,7 +43,7 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
    {
       try
       {
-         return read(new CfbFile(is));
+         return read(new CompoundFile(is));
       }
 
       catch (IOException ex)
@@ -60,7 +60,7 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
 
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
-      CfbFile cfb = null;
+      CompoundFile cfb = null;
 
       try
       {
@@ -68,7 +68,7 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
          // the AbstractProjectStreamReader version as we can work with the File
          // instance directly for reduced memory consumption and the ability
          // to open larger files.
-         cfb = new CfbFile(file);
+         cfb = new CompoundFile(file);
          return readAll(cfb);
       }
 
@@ -89,7 +89,7 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
     * @param file parent file
     * @return ProjectFile instance or null
     */
-   public ProjectFile read(CfbFile file) throws MPXJException
+   public ProjectFile read(CompoundFile file) throws MPXJException
    {
       List<ProjectFile> projects = readAll(file);
       return projects.isEmpty() ? null : projects.get(0);
@@ -101,7 +101,7 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
     * @param file parent file
     * @return list of ProjectFile instances
     */
-   public List<ProjectFile> readAll(CfbFile file) throws MPXJException
+   public List<ProjectFile> readAll(CompoundFile file) throws MPXJException
    {
       try
       {
@@ -120,7 +120,7 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
     * @param file parent file
     * @return list of ProjectFile instances
     */
-   private List<ProjectFile> processProjects(CfbFile file) throws IOException
+   private List<ProjectFile> processProjects(CompoundFile file) throws IOException
    {
       return file.listFiles("/").stream().filter(s -> s.toUpperCase().endsWith("_PRJ")).map(s -> processProject(file, s)).collect(Collectors.toList());
    }
@@ -132,7 +132,7 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
     * @param path project path
     * @return ProjectFile instance
     */
-   private ProjectFile processProject(CfbFile file, String path)
+   private ProjectFile processProject(CompoundFile file, String path)
    {
       return new ProjectDirectoryReader(file, path).read();
    }

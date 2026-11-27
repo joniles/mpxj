@@ -35,7 +35,7 @@ import org.mpxj.ProjectProperties;
 import org.mpxj.Rate;
 import org.mpxj.ScheduleFrom;
 import org.mpxj.TimeUnit;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.DayOfWeekHelper;
 import org.mpxj.common.NumberHelper;
@@ -52,7 +52,7 @@ final class ProjectPropertiesReader
     * @param props properties data
     * @param cfb parent file
     */
-   public void process(ProjectFile file, Props props, CfbFile cfb) throws MPXJException
+   public void process(ProjectFile file, Props props, CompoundFile cfb) throws MPXJException
    {
       try
       {

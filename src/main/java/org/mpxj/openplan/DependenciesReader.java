@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 
 /**
  * Read a dependencies table and extract any
@@ -41,7 +41,7 @@ class DependenciesReader extends AbstractReader
     * @param file CFB file
     * @param path directory path
     */
-   public DependenciesReader(CfbFile file, String path)
+   public DependenciesReader(CompoundFile file, String path)
    {
       super(file, path + "/Dependencies");
    }

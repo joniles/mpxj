@@ -37,7 +37,7 @@ import org.mpxj.DataType;
 import org.mpxj.Duration;
 import org.mpxj.ResourceType;
 import org.mpxj.TimeUnit;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 import org.mpxj.common.DebugLogPrintWriter;
 import org.mpxj.common.LocalDateTimeHelper;
 
@@ -53,7 +53,7 @@ class TableReader extends AbstractReader
     * @param path project directory path
     * @param tableName table file name
     */
-   public TableReader(CfbFile file, String path, String tableName)
+   public TableReader(CompoundFile file, String path, String tableName)
    {
       super(file, path + "/" + tableName);
       m_name = tableName;

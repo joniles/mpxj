@@ -32,7 +32,7 @@ import org.mpxj.Availability;
 import org.mpxj.ProjectFile;
 import org.mpxj.Resource;
 import org.mpxj.UnitOfMeasureContainer;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 import org.mpxj.common.HierarchyHelper;
 
 /**
@@ -46,7 +46,7 @@ class ResourceDirectoryReader
     * @param cfb parent file
     * @param file project file
     */
-   public ResourceDirectoryReader(CfbFile cfb, ProjectFile file)
+   public ResourceDirectoryReader(CompoundFile cfb, ProjectFile file)
    {
       m_cfb = cfb;
       m_file = file;
@@ -191,5 +191,5 @@ class ResourceDirectoryReader
    }
 
    private final ProjectFile m_file;
-   private final CfbFile m_cfb;
+   private final CompoundFile m_cfb;
 }

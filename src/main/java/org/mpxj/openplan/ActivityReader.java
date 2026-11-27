@@ -38,7 +38,7 @@ import org.mpxj.Priority;
 import org.mpxj.ProjectCalendar;
 import org.mpxj.ProjectFile;
 import org.mpxj.Task;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 import org.mpxj.common.HierarchyHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.common.SlackHelper;
@@ -55,7 +55,7 @@ class ActivityReader
     * @param path parent path
     * @param file project file
     */
-   public ActivityReader(CfbFile cfb, String path, ProjectFile file)
+   public ActivityReader(CompoundFile cfb, String path, ProjectFile file)
    {
       m_cfb = cfb;
       m_path = path;
@@ -359,7 +359,7 @@ class ActivityReader
    }
 
    private final ProjectFile m_file;
-   private final CfbFile m_cfb;
+   private final CompoundFile m_cfb;
    private final String m_path;
 
    private static final Map<String, ConstraintType> TARGET_FINISH_TYPE_MAP = new HashMap<>();

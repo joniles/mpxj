@@ -56,7 +56,7 @@ import org.mpxj.Task;
 import org.mpxj.TaskField;
 import org.mpxj.TaskMode;
 import org.mpxj.View;
-import org.mpxj.cfb.CfbFile;
+import org.mpxj.mscfb.CompoundFile;
 import org.mpxj.common.BooleanHelper;
 import org.mpxj.common.ByteArrayHelper;
 import org.mpxj.common.FieldTypeHelper;
@@ -74,7 +74,7 @@ import org.mpxj.common.NumberHelper;
  */
 final class MPP14Reader implements MPPVariantReader
 {
-   @Override public void process(MPPReader reader, ProjectFile file, CfbFile cfb) throws MPXJException, IOException
+   @Override public void process(MPPReader reader, ProjectFile file, CompoundFile cfb) throws MPXJException, IOException
    {
       try
       {
@@ -2031,7 +2031,7 @@ final class MPP14Reader implements MPPVariantReader
    private MPPReader m_reader;
    private ProjectFile m_file;
    private EventManager m_eventManager;
-   private CfbFile m_cfb;
+   private CompoundFile m_cfb;
    private HashMap<Integer, ProjectCalendar> m_resourceMap;
    private Var2Data m_outlineCodeVarData;
    private VarMeta m_outlineCodeVarMeta;
