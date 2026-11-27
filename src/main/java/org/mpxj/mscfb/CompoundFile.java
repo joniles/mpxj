@@ -24,6 +24,7 @@ import org.apache.poi.hpsf.NoPropertySetStreamException;
 import org.apache.poi.hpsf.PropertySet;
 import org.apache.poi.hpsf.SummaryInformation;
 import org.apache.poi.hpsf.UnexpectedPropertySetTypeException;
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DirectoryNode;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -163,6 +164,34 @@ public class CompoundFile implements Closeable
       String file = path.substring(index+1);
 
       return getNode(dir).hasEntry(file);
+   }
+
+   public boolean isDirectory(String path) throws IOException
+   {
+      if (!path.startsWith("/"))
+      {
+         throw new IOException("Path must be absolute");
+      }
+
+      int index = path.lastIndexOf("/");
+      String dir = index == 0 ? "/" : path.substring(0, index);
+      String file = path.substring(index+1);
+
+      return getNode(dir).getEntry(file) instanceof DirectoryEntry;
+   }
+
+   public boolean isFile(String path) throws IOException
+   {
+      if (!path.startsWith("/"))
+      {
+         throw new IOException("Path must be absolute");
+      }
+
+      int index = path.lastIndexOf("/");
+      String dir = index == 0 ? "/" : path.substring(0, index);
+      String file = path.substring(index+1);
+
+      return getNode(dir).getEntry(file) instanceof DocumentEntry;
    }
 
    public void createDocument(String path, InputStream is) throws IOException

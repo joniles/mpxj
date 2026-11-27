@@ -27,13 +27,8 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.Iterator;
 
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
-import org.apache.poi.poifs.filesystem.Entry;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.mpxj.mscfb.CompoundFile;
 
 /**
  * This is a trivial class used to dump the contents of an MPP file
@@ -85,13 +80,13 @@ public class MppDump
       FileInputStream is = new FileInputStream(input);
       PrintWriter pw = new PrintWriter(new FileWriter(output));
 
-      POIFSFileSystem fs = new POIFSFileSystem(is);
-      dumpTree(pw, fs.getRoot(), "", true, true, null);
+      CompoundFile file = new CompoundFile(is);
+      dumpTree(pw, file, "/", true, true, null);
 
       is.close();
       pw.flush();
       pw.close();
-      fs.close();
+      file.close();
    }
 
    /**
@@ -99,21 +94,18 @@ public class MppDump
     * details of any files it finds to the output file.
     *
     * @param pw Output PrintWriter
-    * @param dir DirectoryEntry to dump
-    * @param prefix prefix used to identify path to this object
+    * @param file parent file
+    * @param path current path within file
     * @param showData flag indicating if data is dumped, or just structure
     * @param hex set to true if hex output is required
     * @param indent indent used if displaying structure only
     * @throws Exception Thrown on file read errors
     */
-   private static void dumpTree(PrintWriter pw, DirectoryEntry dir, String prefix, boolean showData, boolean hex, String indent) throws Exception
+   private static void dumpTree(PrintWriter pw, CompoundFile file, String path, boolean showData, boolean hex, String indent) throws Exception
    {
-      long byteCount;
-
-      for (Iterator<Entry> iter = dir.getEntries(); iter.hasNext(); )
+      for (String entry : file.listFiles(path))
       {
-         Entry entry = iter.next();
-         if (entry instanceof DirectoryEntry)
+         if (file.isDirectory(entry))
          {
             String childIndent = indent;
             if (childIndent != null)
@@ -121,27 +113,19 @@ public class MppDump
                childIndent += " ";
             }
 
-            String childPrefix = prefix + "[" + entry.getName() + "].";
-            pw.println("start dir: " + prefix + entry.getName());
-            dumpTree(pw, (DirectoryEntry) entry, childPrefix, showData, hex, childIndent);
-            pw.println("end dir: " + prefix + entry.getName());
+            pw.println("start dir: " + entry);
+            dumpTree(pw, file, entry, showData, hex, childIndent);
+            pw.println("end dir: " + entry);
          }
          else
          {
-            if (entry instanceof DocumentEntry)
+            if (file.isFile(entry))
             {
                if (showData)
                {
-                  pw.println("start doc: " + prefix + entry.getName());
-                  if (hex)
-                  {
-                     byteCount = hexdump(new DocumentInputStream((DocumentEntry) entry), pw);
-                  }
-                  else
-                  {
-                     byteCount = asciidump(new DocumentInputStream((DocumentEntry) entry), pw);
-                  }
-                  pw.println("end doc: " + prefix + entry.getName() + " (" + byteCount + " bytes read)");
+                  pw.println("start doc: " + entry);
+                  long byteCount = hex ? hexdump(file.getInputStream(entry), pw) : asciidump(file.getInputStream(entry), pw);
+                  pw.println("end doc: " + entry + " (" + byteCount + " bytes read)");
                }
                else
                {
@@ -149,12 +133,12 @@ public class MppDump
                   {
                      pw.print(indent);
                   }
-                  pw.println("doc: " + prefix + entry.getName());
+                  pw.println("doc: " + entry);
                }
             }
             else
             {
-               pw.println("found unknown: " + prefix + entry.getName());
+               pw.println("found unknown: " + entry);
             }
          }
       }
