@@ -47,6 +47,7 @@ import org.mpxj.UnitOfMeasure;
 import org.mpxj.UnitOfMeasureContainer;
 import org.mpxj.mscfb.CompoundFile;
 import org.mpxj.common.AutoCloseableHelper;
+import org.mpxj.mscfb.CompoundFileHelper;
 import org.mpxj.reader.AbstractProjectStreamReader;
 
 /**
@@ -58,7 +59,7 @@ public final class MPPReader extends AbstractProjectStreamReader
    {
       try
       {
-         return read(new CompoundFile(is));
+         return read(CompoundFileHelper.open(is));
       }
 
       catch (IOException ex)
@@ -77,7 +78,7 @@ public final class MPPReader extends AbstractProjectStreamReader
          // the AbstractProjectStreamReader version as we can work with the File
          // instance directly for reduced memory consumption and the ability
          // to open larger MPP files.
-         cfb = new CompoundFile(file);
+         cfb = CompoundFileHelper.open(file);
          return read(cfb);
       }
 
@@ -103,9 +104,9 @@ public final class MPPReader extends AbstractProjectStreamReader
    public static String getFileFormat(CompoundFile cfb) throws IOException
    {
       String fileFormat = "";
-      if (cfb.listFiles("/").contains("/\1CompObj"))
+      if (cfb.list("/").contains("/\1CompObj"))
       {
-         CompObj compObj = new CompObj(cfb.getInputStream("/\1CompObj"));
+         CompObj compObj = new CompObj(cfb.read("/\1CompObj"));
          fileFormat = compObj.getFileFormat();
       }
       return fileFormat;
@@ -141,7 +142,7 @@ public final class MPPReader extends AbstractProjectStreamReader
          //
          // Retrieve the CompObj data, validate the file format and process
          //
-         CompObj compObj = new CompObj(cfb.getInputStream("/\1CompObj"));
+         CompObj compObj = new CompObj(cfb.read("/\1CompObj"));
          ProjectProperties projectProperties = projectFile.getProjectProperties();
          projectProperties.setFullApplicationName(compObj.getApplicationName());
          projectProperties.setApplicationVersion(compObj.getApplicationVersion());

@@ -32,6 +32,7 @@ import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
 import org.mpxj.mscfb.CompoundFile;
 import org.mpxj.common.AutoCloseableHelper;
+import org.mpxj.mscfb.CompoundFileHelper;
 import org.mpxj.reader.AbstractProjectStreamReader;
 
 /**
@@ -43,7 +44,7 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
    {
       try
       {
-         return read(new CompoundFile(is));
+         return read(CompoundFileHelper.open(is));
       }
 
       catch (IOException ex)
@@ -68,7 +69,7 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
          // the AbstractProjectStreamReader version as we can work with the File
          // instance directly for reduced memory consumption and the ability
          // to open larger files.
-         cfb = new CompoundFile(file);
+         cfb = CompoundFileHelper.open(file);
          return readAll(cfb);
       }
 
@@ -122,7 +123,7 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
     */
    private List<ProjectFile> processProjects(CompoundFile file) throws IOException
    {
-      return file.listFiles("/").stream().filter(s -> s.toUpperCase().endsWith("_PRJ")).map(s -> processProject(file, s)).collect(Collectors.toList());
+      return file.list("/").stream().filter(s -> s.toUpperCase().endsWith("_PRJ")).map(s -> processProject(file, s)).collect(Collectors.toList());
    }
 
    /**

@@ -145,8 +145,8 @@ class CustomFieldValueReader9
     */
    private void processOutlineCodeValues() throws IOException
    {
-      FixedMeta fm = new FixedMeta(m_cfb.getInputStream("/   19/TBkndOutlCode/FixedMeta"), 10);
-      FixedData fd = new FixedData(fm, m_cfb.getInputStream("/   19/TBkndOutlCode/FixedData"));
+      FixedMeta fm = new FixedMeta(m_cfb.read("/   19/TBkndOutlCode/FixedMeta"), 10);
+      FixedData fd = new FixedData(fm, m_cfb.read("/   19/TBkndOutlCode/FixedData"));
 
       Map<Integer, FieldType> map = new HashMap<>();
 
@@ -168,8 +168,8 @@ class CustomFieldValueReader9
          }
       }
 
-      VarMeta outlineCodeVarMeta = new VarMeta9(m_cfb.getInputStream("/   19/TBkndOutlCode/VarMeta"));
-      Var2Data outlineCodeVarData = new Var2Data(m_file, outlineCodeVarMeta, m_cfb.getInputStream("/   19/TBkndOutlCode/Var2Data"));
+      VarMeta outlineCodeVarMeta = new VarMeta9(m_cfb.read("/   19/TBkndOutlCode/VarMeta"));
+      Var2Data outlineCodeVarData = new Var2Data(m_file, outlineCodeVarMeta, m_cfb.read("/   19/TBkndOutlCode/Var2Data"));
 
       Map<FieldType, List<Pair<String, String>>> valueMap = new HashMap<>();
 

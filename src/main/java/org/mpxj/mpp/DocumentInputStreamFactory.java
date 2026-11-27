@@ -56,7 +56,7 @@ class DocumentInputStreamFactory
    public InputStream getInstance(String path) throws IOException
    {
       // TODO add CFB to constructor
-      InputStream stream = m_cfb.getInputStream(path);
+      InputStream stream = m_cfb.read(path);
       if (m_encrypted)
       {
          stream = new EncryptedDocumentInputStream(stream, m_encryptionCode);

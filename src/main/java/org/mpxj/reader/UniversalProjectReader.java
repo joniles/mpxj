@@ -64,6 +64,7 @@ import org.mpxj.merlin.MerlinReader;
 import org.mpxj.mpd.MPDFileReader;
 import org.mpxj.mpp.MPPReader;
 import org.mpxj.mpx.MPXReader;
+import org.mpxj.mscfb.CompoundFileHelper;
 import org.mpxj.mspdi.MSPDIReader;
 import org.mpxj.openplan.OpenPlanReader;
 import org.mpxj.phoenix.PhoenixInputStream;
@@ -592,7 +593,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
             // implementation when reading certain very large files.
             File file = InputStreamHelper.writeStreamToTempFile(stream, ".dat");
             m_cleanup.push(() -> FileHelper.deleteQuietly(file));
-            cfb = new CompoundFile(file);
+            cfb = CompoundFileHelper.open(file);
          }
          else
          {
@@ -600,7 +601,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
             // Reset the channel to the start as the position
             // will have been mved forward as part of identifying
             // the file type.
-            cfb = new CompoundFile(sourceChannel.position(0));
+            cfb = CompoundFileHelper.open(sourceChannel.position(0));
          }
 
          m_cleanup.push(() -> AutoCloseableHelper.closeQuietly(cfb));
@@ -611,7 +612,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
          return null;
       }
 
-      if (cfb.listFiles("/").contains("/SourceInfo"))
+      if (cfb.list("/").contains("/SourceInfo"))
       {
          return new GenericReaderProxy<OpenPlanReader, CompoundFile>(configure(new OpenPlanReader()), cfb)
          {

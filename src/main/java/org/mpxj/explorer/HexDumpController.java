@@ -92,7 +92,7 @@ class HexDumpController
 
       try
       {
-         is = file.getInputStream(path);
+         is = file.read(path);
          byte[] data = InputStreamHelper.readAvailable(is);
          m_model.setData(data);
          updateTables();

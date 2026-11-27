@@ -48,6 +48,7 @@ import org.mpxj.common.CharsetHelper;
 import org.mpxj.common.InputStreamHelper;
 import org.mpxj.common.NumberHelper;
 import org.mpxj.mscfb.CompoundFile;
+import org.mpxj.mscfb.CompoundFileHelper;
 import org.mpxj.reader.UniversalProjectReader;
 import org.mpxj.utility.clean.CleanByRedactStrategy;
 import org.mpxj.utility.clean.CleanByReplacementStrategy;
@@ -230,7 +231,7 @@ public class ProjectCleanUtility
       // Load the raw file
       //
       FileInputStream is = new FileInputStream(input);
-      CompoundFile cf =  new CompoundFile(is);
+      CompoundFile cf =  CompoundFileHelper.open(is);
       is.close();
 
 
@@ -257,7 +258,7 @@ public class ProjectCleanUtility
       // Write the replacement raw file
       //
       FileOutputStream os = new FileOutputStream(output);
-      cf.writeFilesystem(os);
+      cf.write(os);
       os.flush();
       os.close();
       cf.close();
@@ -335,7 +336,7 @@ public class ProjectCleanUtility
     */
    private byte[] extractFile(CompoundFile file, String path) throws IOException
    {
-      InputStream dis = file.getInputStream(path);
+      InputStream dis = file.read(path);
       int dataSize = dis.available();
       byte[] data = InputStreamHelper.read(dis, dataSize);
       dis.close();
@@ -356,7 +357,7 @@ public class ProjectCleanUtility
    {
       byte[] data = extractFile(file, path);
       processReplacements(data, items, unicode, true, false, fields);
-      file.createDocument(path, new ByteArrayInputStream(data));
+      file.create(path, new ByteArrayInputStream(data));
    }
 
    /**

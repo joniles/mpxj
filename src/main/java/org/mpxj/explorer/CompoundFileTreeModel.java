@@ -75,7 +75,7 @@ class CompoundFileTreeModel implements TreeModel
          String path = (String) parent;
          if (m_file.isDirectory(path))
          {
-            List<String> entries = m_file.listFiles(path);
+            List<String> entries = m_file.list(path);
             if (entries.size() > index)
             {
                result = entries.get(index);
@@ -97,7 +97,7 @@ class CompoundFileTreeModel implements TreeModel
          String path = (String) parent;
          if (m_file != null && m_file.isDirectory(path))
          {
-            return m_file.listFiles(path).size();
+            return m_file.list(path).size();
          }
 
          return 0;
@@ -135,7 +135,7 @@ class CompoundFileTreeModel implements TreeModel
          String path = (String) parent;
          if (m_file != null && m_file.isDirectory(path))
          {
-            List<String> entries = m_file.listFiles(path);
+            List<String> entries = m_file.list(path);
             result = entries.indexOf((String) child);
          }
 

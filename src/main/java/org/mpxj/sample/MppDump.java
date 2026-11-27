@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 
 import org.mpxj.mscfb.CompoundFile;
+import org.mpxj.mscfb.CompoundFileHelper;
 
 /**
  * This is a trivial class used to dump the contents of an MPP file
@@ -80,7 +81,7 @@ public class MppDump
       FileInputStream is = new FileInputStream(input);
       PrintWriter pw = new PrintWriter(new FileWriter(output));
 
-      CompoundFile file = new CompoundFile(is);
+      CompoundFile file = CompoundFileHelper.open(is);
       dumpTree(pw, file, "/", true, true, null);
 
       is.close();
@@ -103,7 +104,7 @@ public class MppDump
     */
    private static void dumpTree(PrintWriter pw, CompoundFile file, String path, boolean showData, boolean hex, String indent) throws Exception
    {
-      for (String entry : file.listFiles(path))
+      for (String entry : file.list(path))
       {
          if (file.isDirectory(entry))
          {
@@ -124,7 +125,7 @@ public class MppDump
                if (showData)
                {
                   pw.println("start doc: " + entry);
-                  long byteCount = hex ? hexdump(file.getInputStream(entry), pw) : asciidump(file.getInputStream(entry), pw);
+                  long byteCount = hex ? hexdump(file.read(entry), pw) : asciidump(file.read(entry), pw);
                   pw.println("end doc: " + entry + " (" + byteCount + " bytes read)");
                }
                else

@@ -117,7 +117,7 @@ final class MPP8Reader implements MPPVariantReader
       m_eventManager = file.getEventManager();
 
       m_calendarMap = new HashMap<>();
-      m_projectProps = new Props8(m_file, m_cfb.getInputStream("/   1/Props"));
+      m_projectProps = new Props8(m_file, m_cfb.read("/   1/Props"));
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(8));
    }
@@ -148,9 +148,9 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void processViewPropertyData() throws IOException
    {
-      if (m_cfb.hasEntry("/   2/Props"))
+      if (m_cfb.exists("/   2/Props"))
       {
-         Props8 props = new Props8(m_file, m_cfb.getInputStream("/   2/Props"));
+         Props8 props = new Props8(m_file, m_cfb.read("/   2/Props"));
          ProjectProperties properties = m_file.getProjectProperties();
          properties.setShowProjectSummaryTask(props.getBoolean(PropsKey.SHOW_PROJECT_SUMMARY_TASK));
       }
@@ -161,8 +161,8 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void processCalendarData() throws IOException
    {
-      FixFix calendarFixedData = new FixFix(36, m_cfb.getInputStream("/   1/TBkndCal/FixFix   0"));
-      FixDeferFix calendarVarData = new FixDeferFix(m_cfb.getInputStream("/   1/TBkndCal/FixDeferFix   0"));
+      FixFix calendarFixedData = new FixFix(36, m_cfb.read("/   1/TBkndCal/FixFix   0"));
+      FixDeferFix calendarVarData = new FixDeferFix(m_cfb.read("/   1/TBkndCal/FixDeferFix   0"));
 
       ProjectCalendar cal;
       ProjectCalendarHours hours;
@@ -366,10 +366,10 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void processTaskData() throws IOException
    {
-      FixFix taskFixedData = new FixFix(316, m_cfb.getInputStream("/   1/TBkndTask/FixFix   0"));
+      FixFix taskFixedData = new FixFix(316, m_cfb.read("/   1/TBkndTask/FixFix   0"));
       if (taskFixedData.getDiff() != 0)
       {
-         taskFixedData = new FixFix(366, m_cfb.getInputStream("/   1/TBkndTask/FixFix   0"));
+         taskFixedData = new FixFix(366, m_cfb.read("/   1/TBkndTask/FixFix   0"));
       }
 
       FixDeferFix taskVarData = null;
@@ -420,7 +420,7 @@ final class MPP8Reader implements MPPVariantReader
          //
          if (taskVarData == null)
          {
-            taskVarData = new FixDeferFix(m_cfb.getInputStream("/   1/TBkndTask/FixDeferFix   0"));
+            taskVarData = new FixDeferFix(m_cfb.read("/   1/TBkndTask/FixDeferFix   0"));
          }
 
          //
@@ -750,12 +750,12 @@ final class MPP8Reader implements MPPVariantReader
       // this directory, so only process constraints if the directory
       // exists.
       //
-      if (!m_cfb.hasEntry("/   1/TBkndCons"))
+      if (!m_cfb.exists("/   1/TBkndCons"))
       {
          return;
       }
 
-      FixFix consFixedData = new FixFix(36, m_cfb.getInputStream("/   1/TBkndCons/FixFix   0"));
+      FixFix consFixedData = new FixFix(36, m_cfb.read("/   1/TBkndCons/FixFix   0"));
       int count = consFixedData.getItemCount();
 
       for (int loop = 0; loop < count; loop++)
@@ -790,7 +790,7 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void processResourceData() throws IOException
    {
-      FixFix rscFixedData = new FixFix(196, m_cfb.getInputStream("/   1/TBkndRsc/FixFix   0"));
+      FixFix rscFixedData = new FixFix(196, m_cfb.read("/   1/TBkndRsc/FixFix   0"));
       FixDeferFix rscVarData = null;
       ExtendedData rscExtData;
 
@@ -840,7 +840,7 @@ final class MPP8Reader implements MPPVariantReader
          //
          if (rscVarData == null)
          {
-            rscVarData = new FixDeferFix(m_cfb.getInputStream("/   1/TBkndRsc/FixDeferFix   0"));
+            rscVarData = new FixDeferFix(m_cfb.read("/   1/TBkndRsc/FixDeferFix   0"));
          }
 
          rscExtData = new ExtendedData(rscVarData, getOffset(data, 192));
@@ -1013,10 +1013,10 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void processAssignmentData() throws IOException
    {
-      FixFix assnFixedData = new FixFix(204, m_cfb.getInputStream("/   1/TBkndAssn/FixFix   0"));
+      FixFix assnFixedData = new FixFix(204, m_cfb.read("/   1/TBkndAssn/FixFix   0"));
       if (assnFixedData.getDiff() != 0 || (assnFixedData.getSize() % 238 == 0 && !testAssignmentTasks(assnFixedData)))
       {
-         assnFixedData = new FixFix(238, m_cfb.getInputStream("/   1/TBkndAssn/FixFix   0"));
+         assnFixedData = new FixFix(238, m_cfb.read("/   1/TBkndAssn/FixFix   0"));
       }
 
       int count = assnFixedData.getItemCount();
@@ -1026,7 +1026,7 @@ final class MPP8Reader implements MPPVariantReader
       {
          if (assnVarData == null)
          {
-            assnVarData = new FixDeferFix(m_cfb.getInputStream("/   1/TBkndAssn/FixDeferFix   0"));
+            assnVarData = new FixDeferFix(m_cfb.read("/   1/TBkndAssn/FixDeferFix   0"));
          }
 
          byte[] data = assnFixedData.getByteArrayValue(loop);
@@ -1118,9 +1118,9 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void processViewData() throws IOException
    {
-      if (m_cfb.hasEntry("/   2/CV_iew"))
+      if (m_cfb.exists("/   2/CV_iew"))
       {
-         FixFix ff = new FixFix(138, m_cfb.getInputStream("/   2/CV_iew/FixFix   0"));
+         FixFix ff = new FixFix(138, m_cfb.read("/   2/CV_iew/FixFix   0"));
          int items = ff.getItemCount();
          byte[] data;
          View view;
@@ -1139,10 +1139,10 @@ final class MPP8Reader implements MPPVariantReader
     */
    private void processTableData() throws IOException
    {
-      if (m_cfb.hasEntry("/   2/CTable"))
+      if (m_cfb.exists("/   2/CTable"))
       {
-         FixFix ff = new FixFix(126, m_cfb.getInputStream("/   2/CTable/FixFix   0"));
-         FixDeferFix fdf = new FixDeferFix(m_cfb.getInputStream("/   2/CTable/FixDeferFix   0"));
+         FixFix ff = new FixFix(126, m_cfb.read("/   2/CTable/FixFix   0"));
+         FixDeferFix fdf = new FixDeferFix(m_cfb.read("/   2/CTable/FixDeferFix   0"));
          int items = ff.getItemCount();
          StringBuilder sb = new StringBuilder();
          TableContainer container = m_file.getTables();

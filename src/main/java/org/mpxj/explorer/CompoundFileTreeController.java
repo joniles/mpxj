@@ -28,7 +28,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 
 import org.mpxj.common.AutoCloseableHelper;
-import org.mpxj.mscfb.CompoundFile;
+import org.mpxj.mscfb.CompoundFileHelper;
 
 /**
  * Implements the controller component of the PoiTree MVC.
@@ -59,7 +59,7 @@ class CompoundFileTreeController
       try
       {
          is = Files.newInputStream(file.toPath());
-         m_model.setFile(new CompoundFile(is));
+         m_model.setFile(CompoundFileHelper.open(is));
       }
 
       catch (IOException ex)

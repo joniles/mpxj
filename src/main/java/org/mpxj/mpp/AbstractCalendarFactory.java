@@ -75,13 +75,13 @@ abstract class AbstractCalendarFactory implements CalendarFactory
    @Override public void processCalendarData(CompoundFile cfb, String projectDirPath, Props projectProps, DocumentInputStreamFactory inputStreamFactory, HashMap<Integer, ProjectCalendar> resourceMap) throws IOException
    {
       String calDirPath = projectDirPath + "/TBkndCal";
-      VarMeta calVarMeta = getCalendarVarMeta(cfb.getInputStream(calDirPath + "/VarMeta"));
-      Var2Data calVarData = new Var2Data(m_file, calVarMeta, cfb.getInputStream(calDirPath + "/Var2Data"));
+      VarMeta calVarMeta = getCalendarVarMeta(cfb.read(calDirPath + "/VarMeta"));
+      Var2Data calVarData = new Var2Data(m_file, calVarMeta, cfb.read(calDirPath + "/Var2Data"));
 
       //      System.out.println(calVarMeta);
       //      System.out.println(calVarData);
 
-      FixedMeta calFixedMeta = new FixedMeta(cfb.getInputStream(calDirPath + "/FixedMeta"), 10);
+      FixedMeta calFixedMeta = new FixedMeta(cfb.read(calDirPath + "/FixedMeta"), 10);
       FixedData calFixedData = new FixedData(calFixedMeta, inputStreamFactory.getInstance(calDirPath + "/FixedData"), 12);
 
       //      System.out.println(calFixedMeta);
@@ -89,9 +89,9 @@ abstract class AbstractCalendarFactory implements CalendarFactory
 
       FixedData calFixed2Data = null;
 
-      if (cfb.hasEntry(calDirPath + "/Fixed2Meta"))
+      if (cfb.exists(calDirPath + "/Fixed2Meta"))
       {
-         FixedMeta calFixed2Meta = new FixedMeta(cfb.getInputStream(calDirPath + "/Fixed2Meta"), 9);
+         FixedMeta calFixed2Meta = new FixedMeta(cfb.read(calDirPath + "/Fixed2Meta"), 9);
          calFixed2Data = new FixedData(calFixed2Meta, inputStreamFactory.getInstance(calDirPath + "/Fixed2Data"), 48);
       }
 

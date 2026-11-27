@@ -122,7 +122,7 @@ final class MPP9Reader implements MPPVariantReader
       //
       // Retrieve the high level document properties (never encoded)
       //
-      Props props = new Props9(m_cfb.getInputStream("/Props9"));
+      Props props = new Props9(m_cfb.read("/Props9"));
       //System.out.println(props);
 
       file.getProjectProperties().setProjectFilePath(props.getUnicodeString(PropsKey.PROJECT_FILE_PATH));
@@ -161,8 +161,8 @@ final class MPP9Reader implements MPPVariantReader
       }
 
       m_resourceMap = new HashMap<>();
-      VarMeta outlineCodeVarMeta = new VarMeta9(m_cfb.getInputStream("/   19/TBkndOutlCode/VarMeta"));
-      m_outlineCodeVarData = new Var2Data(m_file, outlineCodeVarMeta, m_cfb.getInputStream("/   19/TBkndOutlCode/Var2Data"));
+      VarMeta outlineCodeVarMeta = new VarMeta9(m_cfb.read("/   19/TBkndOutlCode/VarMeta"));
+      m_outlineCodeVarData = new Var2Data(m_file, outlineCodeVarMeta, m_cfb.read("/   19/TBkndOutlCode/Var2Data"));
       m_projectProps = new Props9(m_inputStreamFactory.getInstance("/   19/Props"));
       //MPPUtility.fileDump("c:\\temp\\props.txt", m_projectProps.toString().getBytes());
 
@@ -619,7 +619,7 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processViewPropertyData() throws IOException
    {
-      if (m_cfb.hasEntry("/   29/Props"))
+      if (m_cfb.exists("/   29/Props"))
       {
          Props props = new Props9(m_inputStreamFactory.getInstance("/   29/Props"));
          byte[] data = props.getByteArray(PropsKey.FONT_BASES);
@@ -863,9 +863,9 @@ final class MPP9Reader implements MPPVariantReader
       FieldMap fieldMap = new FieldMap9(m_file);
       fieldMap.createTaskFieldMap(m_projectProps);
 
-      VarMeta taskVarMeta = new VarMeta9(m_cfb.getInputStream("/   19/TBkndTask/VarMeta"));
-      Var2Data taskVarData = new Var2Data(m_file, taskVarMeta, m_cfb.getInputStream("/   19/TBkndTask/Var2Data"));
-      FixedMeta taskFixedMeta = new FixedMeta(m_cfb.getInputStream("/   19/TBkndTask/FixedMeta"), 47);
+      VarMeta taskVarMeta = new VarMeta9(m_cfb.read("/   19/TBkndTask/VarMeta"));
+      Var2Data taskVarData = new Var2Data(m_file, taskVarMeta, m_cfb.read("/   19/TBkndTask/Var2Data"));
+      FixedMeta taskFixedMeta = new FixedMeta(m_cfb.read("/   19/TBkndTask/FixedMeta"), 47);
       FixedData taskFixedData = new FixedData(taskFixedMeta, m_inputStreamFactory.getInstance("/   19/TBkndTask/FixedData"), 768, fieldMap.getMaxFixedDataSize(0));
       //System.out.println(taskFixedData);
       //System.out.println(taskFixedMeta);
@@ -1475,9 +1475,9 @@ final class MPP9Reader implements MPPVariantReader
       FieldMap fieldMap = new FieldMap9(m_file);
       fieldMap.createResourceFieldMap(m_projectProps);
 
-      VarMeta rscVarMeta = new VarMeta9(m_cfb.getInputStream("/   19/TBkndRsc/VarMeta"));
-      Var2Data rscVarData = new Var2Data(m_file, rscVarMeta, m_cfb.getInputStream("/   19/TBkndRsc/Var2Data"));
-      FixedMeta rscFixedMeta = new FixedMeta(m_cfb.getInputStream("/   19/TBkndRsc/FixedMeta"), 37);
+      VarMeta rscVarMeta = new VarMeta9(m_cfb.read("/   19/TBkndRsc/VarMeta"));
+      Var2Data rscVarData = new Var2Data(m_file, rscVarMeta, m_cfb.read("/   19/TBkndRsc/Var2Data"));
+      FixedMeta rscFixedMeta = new FixedMeta(m_cfb.read("/   19/TBkndRsc/FixedMeta"), 37);
       FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance("/   19/TBkndRsc/FixedData"));
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
@@ -1609,10 +1609,10 @@ final class MPP9Reader implements MPPVariantReader
       FieldMap fieldMap = new FieldMap9(m_file);
       fieldMap.createAssignmentFieldMap(m_projectProps);
 
-      VarMeta assnVarMeta = new VarMeta9(m_cfb.getInputStream("/   19/TBkndAssn/VarMeta"));
-      Var2Data assnVarData = new Var2Data(m_file, assnVarMeta, m_cfb.getInputStream("/   19/TBkndAssn/Var2Data"));
+      VarMeta assnVarMeta = new VarMeta9(m_cfb.read("/   19/TBkndAssn/VarMeta"));
+      Var2Data assnVarData = new Var2Data(m_file, assnVarMeta, m_cfb.read("/   19/TBkndAssn/Var2Data"));
 
-      FixedMeta assnFixedMeta = new FixedMeta(m_cfb.getInputStream("/   19/TBkndAssn/FixedMeta"), 34);
+      FixedMeta assnFixedMeta = new FixedMeta(m_cfb.read("/   19/TBkndAssn/FixedMeta"), 34);
       FixedData assnFixedData = new FixedData(142, m_inputStreamFactory.getInstance("/   19/TBkndAssn/FixedData"));
       if (assnFixedData.getItemCount() != assnFixedMeta.getAdjustedItemCount())
       {
@@ -1639,11 +1639,11 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processViewData() throws IOException
    {
-      if (m_cfb.hasEntry("/   29/CV_iew"))
+      if (m_cfb.exists("/   29/CV_iew"))
       {
-         VarMeta viewVarMeta = new VarMeta9(m_cfb.getInputStream("/   29/CV_iew/VarMeta"));
-         Var2Data viewVarData = new Var2Data(m_file, viewVarMeta, m_cfb.getInputStream("/   29/CV_iew/Var2Data"));
-         FixedMeta fixedMeta = new FixedMeta(m_cfb.getInputStream("/   29/CV_iew/FixedMeta"), 10);
+         VarMeta viewVarMeta = new VarMeta9(m_cfb.read("/   29/CV_iew/VarMeta"));
+         Var2Data viewVarData = new Var2Data(m_file, viewVarMeta, m_cfb.read("/   29/CV_iew/Var2Data"));
+         FixedMeta fixedMeta = new FixedMeta(m_cfb.read("/   29/CV_iew/FixedMeta"), 10);
          FixedData fixedData = new FixedData(122, m_inputStreamFactory.getInstance("/   29/CV_iew/FixedData"));
 
          int items = fixedMeta.getAdjustedItemCount();
@@ -1677,14 +1677,14 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processTableData() throws IOException
    {
-      if (m_cfb.hasEntry("/   29/CTable"))
+      if (m_cfb.exists("/   29/CTable"))
       {
          //FixedMeta fixedMeta = new FixedMeta(getEncryptableInputStream(dir, "FixedMeta"), 9);
          InputStream stream = m_inputStreamFactory.getInstance("/   29/CTable/FixedData");
          int blockSize = stream.available() % 115 == 0 ? 115 : 110;
          FixedData fixedData = new FixedData(blockSize, stream);
-         VarMeta varMeta = new VarMeta9(m_cfb.getInputStream("/   29/CTable/VarMeta"));
-         Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.getInputStream("/   29/CTable/Var2Data"));
+         VarMeta varMeta = new VarMeta9(m_cfb.read("/   29/CTable/VarMeta"));
+         Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.read("/   29/CTable/Var2Data"));
 
          TableContainer container = m_file.getTables();
          TableFactory factory = new TableFactory(TABLE_COLUMN_DATA_STANDARD, TABLE_COLUMN_DATA_ENTERPRISE, TABLE_COLUMN_DATA_BASELINE);
@@ -1706,15 +1706,15 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processFilterData() throws IOException
    {
-      if (m_cfb.hasEntry("/   29/CFilter"))
+      if (m_cfb.exists("/   29/CFilter"))
       {
          //FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 9);
          //FixedData fixedData = new FixedData(fixedMeta, getEncryptableInputStream(dir, "FixedData"));
          InputStream stream = m_inputStreamFactory.getInstance("/   29/CFilter/FixedData");
          int blockSize = stream.available() % 115 == 0 ? 115 : 110;
          FixedData fixedData = new FixedData(blockSize, stream, true);
-         VarMeta varMeta = new VarMeta9(m_cfb.getInputStream("/   29/CFilter/VarMeta"));
-         Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.getInputStream("/   29/CFilter/Var2Data"));
+         VarMeta varMeta = new VarMeta9(m_cfb.read("/   29/CFilter/VarMeta"));
+         Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.read("/   29/CFilter/Var2Data"));
 
          //System.out.println(fixedMeta);
          //System.out.println(fixedData);
@@ -1733,12 +1733,12 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processGroupData() throws IOException
    {
-      if (m_cfb.hasEntry("/   29/CGrouping"))
+      if (m_cfb.exists("/   29/CGrouping"))
       {
          //FixedMeta fixedMeta = new FixedMeta(new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedMeta"))), 9);
          FixedData fixedData = new FixedData(110, m_inputStreamFactory.getInstance("/   29/CGrouping/FixedData"));
-         VarMeta varMeta = new VarMeta9(m_cfb.getInputStream("/   29/CGrouping/VarMeta"));
-         Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.getInputStream("/   29/CGrouping/Var2Data"));
+         VarMeta varMeta = new VarMeta9(m_cfb.read("/   29/CGrouping/VarMeta"));
+         Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.read("/   29/CGrouping/Var2Data"));
 
          //      System.out.println(fixedMeta);
          //      System.out.println(fixedData);
@@ -1755,10 +1755,10 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processSavedViewState() throws IOException
    {
-      if (m_cfb.hasEntry("/   29/CEdl"))
+      if (m_cfb.exists("/   29/CEdl"))
       {
-         VarMeta varMeta = new VarMeta9(m_cfb.getInputStream("/   29/CEdl/VarMeta"));
-         Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.getInputStream("/   29/CEdl/Var2Data"));
+         VarMeta varMeta = new VarMeta9(m_cfb.read("/   29/CEdl/VarMeta"));
+         Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.read("/   29/CEdl/Var2Data"));
          //System.out.println(varMeta);
          //System.out.println(varData);
 
@@ -1776,12 +1776,12 @@ final class MPP9Reader implements MPPVariantReader
     */
    private void processDataLinks() throws IOException
    {
-      if (m_cfb.hasEntry("/   29/CEdl"))
+      if (m_cfb.exists("/   29/CEdl"))
       {
-         FixedMeta fixedMeta = new FixedMeta(m_cfb.getInputStream("/   29/CEdl/FixedMeta"), 10);
+         FixedMeta fixedMeta = new FixedMeta(m_cfb.read("/   29/CEdl/FixedMeta"), 10);
          FixedData fixedData = new FixedData(fixedMeta, m_inputStreamFactory.getInstance("/   29/CEdl/FixedData"));
-         VarMeta varMeta = new VarMeta9(m_cfb.getInputStream("/   29/CEdl/VarMeta"));
-         Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.getInputStream("/   29/CEdl/Var2Data"));
+         VarMeta varMeta = new VarMeta9(m_cfb.read("/   29/CEdl/VarMeta"));
+         Var2Data varData = new Var2Data(m_file, varMeta, m_cfb.read("/   29/CEdl/Var2Data"));
 
          DataLinkFactory factory = new DataLinkFactory(m_file, fixedData, varData);
          factory.process();

@@ -42,7 +42,7 @@ abstract class AbstractReader
    {
       try
       {
-         m_is = file.getInputStream(path);
+         m_is = file.read(path);
       }
 
       catch (IOException e)
