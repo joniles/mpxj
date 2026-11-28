@@ -40,7 +40,6 @@ final class EncryptedDocumentInputStream extends InputStream
     * @param mask the mask used to decrypt the stream.
     */
    public EncryptedDocumentInputStream(InputStream dis, int mask)
-      throws IOException
    {
       m_dis = dis;
       m_mask = mask;
